@@ -3,14 +3,14 @@ var CouchHubs = Backbone.couch.Collection.extend({
   // Define the CouchDB View that this Collection gets its data from
   couch: function() {
     return {
-      view: 'couch-hub/couchhubs?include_docs=true',
+      view: 'couch-hub/CouchHubs?include_docs=true',
     }
   },
    
   model: CouchHub,
 
-  comparator: function(resource) {
-    var title = resource.get('name')
+  comparator: function(model) {
+    var title = model.get('name')
     if (title) return title.toLowerCase()
   },
 
