@@ -14,7 +14,7 @@ ddoc =
 
 ddoc.views = {
     
-  couch-hubs: {
+  couchhubs: {
     map: function(doc) {
       if (doc.kind == 'CouchHub') {
         emit(doc._id, true)

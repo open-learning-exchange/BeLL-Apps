@@ -7,7 +7,7 @@ var CouchHubsTableView = Backbone.View.extend({
   initialize: function(){
     this.collection.on('add', this.addOne, this)
     this.collection.on('reset', this.addAll, this)
-    this.$el.append("<a href='add-couchHub.html'><i class='icon-plus-sign'></i>create couchHub</a>")
+    this.$el.append("<a href='add-couch-hub.html'><i class='icon-plus-sign'></i>Create  new Couch Hub</a>")
   },
 
   addOne: function(model){

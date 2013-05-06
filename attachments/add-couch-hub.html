@@ -134,7 +134,7 @@
   $(document).ready(function() {
 
     window.couchHub = new window.CouchHub()
-    window.couchHubFormView = new window.CouchHubForm({model: window.couchHub})
+    window.couchHubFormView = new window.CouchHubFormView({model: window.couchHub})
     window.couchHubFormView.render()
     $("#app").html(window.couchHubFormView.el)
 

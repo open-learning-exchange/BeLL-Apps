@@ -7,7 +7,7 @@ var CouchHubs = Backbone.couch.Collection.extend({
     }
   },
    
-  model: CouchHubs,
+  model: CouchHub,
 
   comparator: function(resource) {
     var title = resource.get('name')

@@ -104,9 +104,6 @@
 
 
 
-  <script src="app/views/CouchHubsView.js"> </script>
-  <script src="app/views/CouchHubView.js"> </script>
-  <script src="app/views/CouchHubFormView.js"> </script>
   <script src="app/views/CouchHubsTableView.js"> </script>
   <script src="app/views/CouchHubRowView.js"> </script>
 
@@ -122,13 +119,13 @@
 
   $(document).ready(function() {
 
-    window.couchCouchHubs = new window.CouchHubs()
-    window.couchCouchHubs.fetch()
+    window.couchHubs = new window.CouchHubs()
+    window.couchHubs.fetch()
 
-    window.couchCouchHubsView = new window.CouchHubsTableView({collection: window.couchCouchHubs})
+    window.couchHubsTableView = new window.CouchHubsTableView({collection: window.couchHubs})
 
-    window.couchCouchHubsView.render()
-    $('#app').append(window.couchCouchHubsView.el)
+    window.couchHubsTableView.render()
+    $('#app').append(window.couchHubsTableView.el)
 
   })
 
