@@ -13,7 +13,7 @@ var CouchHubResourceRowView = Backbone.View.extend({
   },
 
   render: function () {
-    var template = "<td><%= name %></td><td><a href='edit-couch-hub.html?id=<%= id %>'><i class='icon-pencil'></i>edit</a></td><td><a class='destroy' href='#'><i class='icon-remove'></i>delete</a></td>"
+    var template = "<td><%= name %></td><td><a href='edit-couch-hub-resource.html?id=<%= id %>'><i class='icon-pencil'></i>edit</a></td><td><a class='destroy' href='#'><i class='icon-remove'></i>delete</a></td>"
     this.$el.append(_.template(template, this.model.toJSON()))
   }
 

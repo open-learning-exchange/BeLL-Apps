@@ -36,7 +36,7 @@ $(function() {
           // Send the updated model to the server
           var that = this
           this.model.save(null, {success: function() {
-            window.location = 'couch-hubs.html'
+            window.location = 'couch-hub-resources.html'
           }})
 
       },

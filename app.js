@@ -21,6 +21,14 @@ ddoc.views = {
       }
     }
   },
+  CouchHubResources: {
+    map: function(doc) {
+      if (doc.kind == 'CouchHubResource') {
+        emit(doc._id, true)
+      }
+    }
+  },
+  
 
 }
 
