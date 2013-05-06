@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>BeLL LCMS</title>
+  <title>Couch Hub</title>
 </head>
 
 
@@ -14,8 +14,8 @@
 
 
 
-  <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
-  <link href="js/vendor/jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.css" type="text/css" rel="stylesheet">
+  <link href="../vendor/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
+  <link href="../vendor/jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.css" type="text/css" rel="stylesheet">
   <style type="text/css">
 
     #app {
@@ -70,19 +70,19 @@
 
 
 
-  <script src="js/vendor/jquery-1.7.2.js"></script>
-  <script src="js/vendor/underscore-1.4.4.js"></script>
-  <script src="js/vendor/backbone-1.0.0.js"></script>
-  <script src="js/vendor/backbone-forms.js"></script>
-  <script src="js/vendor/jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.js"></script>
+  <script src="../vendor/jquery-1.7.2.js"></script>
+  <script src="../vendor/underscore-1.4.4.js"></script>
+  <script src="../vendor/backbone-1.0.0.js"></script>
+  <script src="../vendor/backbone-forms.js"></script>
+  <script src="../vendor/jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.js"></script>
   <script src="/_utils/script/json2.js"></script>
   <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
   <script src="/_utils/script/jquery.form.js?0.9.0"></script>
-  <script src="js/vendor/sha1.js"></script>
-  <script src="js/vendor/jquery.couch.js"></script>
-  <script src="js/vendor/backbone.couchdb.js"></script>
-  <script src="js/vendor/html-encode.js"></script>
-  <script src="js/vendor/jquery.url.js"></script>
+  <script src="../vendor/sha1.js"></script>
+  <script src="../vendor/jquery.couch.js"></script>
+  <script src="../vendor/backbone.couchdb.js"></script>
+  <script src="../vendor/html-encode.js"></script>
+  <script src="../vendor/jquery.url.js"></script>
 
 
 
@@ -109,7 +109,7 @@
 
 
 
-  <script src="app/models/CouchHub.js"></script>
+  <script src="../app/models/CouchHubResource.js"></script>
 
 
 
@@ -119,7 +119,7 @@
 
 
 
-  <script src="app/views/CouchHubFormView.js"> </script>
+  <script src="../app/views/CouchHubResourceFormView.js"> </script>
 
 
 
@@ -133,10 +133,10 @@
 
   $(document).ready(function() {
 
-    window.couchHub = new window.CouchHub()
-    window.couchHubFormView = new window.CouchHubFormView({model: window.couchHub})
-    window.couchHubFormView.render()
-    $("#app").html(window.couchHubFormView.el)
+    window.couchHubResource = new window.CouchHubResource()
+    window.couchHubResourceFormView = new window.CouchHubResourceFormView({model: window.couchHubResource})
+    window.couchHubResourceFormView.render()
+    $("#app").html(window.couchHubResourceFormView.el)
 
   })
 

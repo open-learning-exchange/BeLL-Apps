@@ -4,7 +4,7 @@
 ddoc = 
   { _id:'_design/couch-hub'
   , rewrites : 
-    [ {from:"/", to:'index.html'}
+    [ {from:"/", to:'pages/couch-hubs.html'}
     , {from:"/api", to:'../../'}
     , {from:"/api/*", to:'../../*'}
     , {from:"/*", to:'*'}
