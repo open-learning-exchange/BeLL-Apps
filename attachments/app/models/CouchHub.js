@@ -36,6 +36,14 @@ var CouchHub = Backbone.couch.Model.extend({
           success: function(data) {
             that.set("database", databaseName)
             that.save()
+            // @todo set the whoami record for this database
+            console.log("setting whoami")
+            var whoami = that.toJSON()
+            whoami.guid = whoami._id
+            whoami._id = "whoami"
+            whoami.id = "whoami"
+            delete(whoami._rev)
+            $.couch.db(databaseName).saveDoc(whoami)
           },
           error: function(status) {
             console.log(status)
