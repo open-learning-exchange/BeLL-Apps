@@ -76,6 +76,33 @@
   </script>
 
 
+  <!--
+    TEMPLATES
+  -->
+
+  <script type="text/html" id="template-CouchHubResourceRowView">
+
+    <td>
+      <%= name %>
+    </td> 
+    <td>
+      <a class='btn' href='" + this.openWith() + "'>
+        <i class='icon-eye-open'></i> Open
+      </a>
+    </td> 
+    <td>
+      <a class='btn' href='edit-couch-hub-resource.html?id=<%= id %>'>
+        <i class='icon-pencil'></i> Edit
+      </a>
+    </td>
+    <td>
+      <a class='destroy btn' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    </td>
+
+  </script>
+
 
   <!-- 
     BACKBONE MODELS 
