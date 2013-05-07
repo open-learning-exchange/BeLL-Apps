@@ -15,6 +15,7 @@ var CouchHubResource = Backbone.couch.Model.extend({
   schema: {
     name: 'Text',
     description: 'Text',
+    openWith: { type: 'Select', options: ['PDFjs', 'Download Only'] },
   },
   
 })
