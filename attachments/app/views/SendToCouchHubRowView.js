@@ -10,10 +10,10 @@ var SendToCouchHubRowView = Backbone.View.extend({
         this.model.get('database'), 
         {
           success: function() {
-
+            alert('Sent successfully')
           },
           error: function(err) {
-
+            alert('Woops, had a problem sending that.')
           }
         },
         {
