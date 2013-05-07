@@ -10,8 +10,7 @@ var CouchHubResourcesTableView = Backbone.View.extend({
     var that = this
     $.couch.db(thisDb).openDoc("whoami", {
       success: function(doc) {
-        that.$el.append("<h2>" + doc.name + "</h2>")
-        that.$el.append("<a href='add-couch-hub-resource.html'><i class='icon-plus-sign'></i>Create new Resource</a>")
+        that.$el.append("<div style='padding: 15px'><h2 style='float:left;'>Resources in " + doc.name + "</h2><a style='float: left; margin: 16px;' class='btn' href='add-couch-hub-resource.html'> <i class='icon-plus-sign'></i> Create a new Resource</a></div>")
       }
     })
   },
