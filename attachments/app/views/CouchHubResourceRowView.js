@@ -5,6 +5,9 @@ var CouchHubResourceRowView = Backbone.View.extend({
   events: {
     "click .destroy" : function() {
       this.model.destroy()
+    },
+    "click .trigger-modal" : function() {
+      $('#myModal').modal({show:true})
     }
   },
 
@@ -15,7 +18,13 @@ var CouchHubResourceRowView = Backbone.View.extend({
   },
   
   render: function () {
-    this.$el.append(this.template(this.model.toJSON()))
+    var vars = {
+      name: this.model.get('name'),
+      openWith: this.openWith(),
+      id: this.model.id,
+      sendTo: "/couch-hub/_design/couch-hub/pages/send-to.html?source=" + thisDb + "&doc=" + this.model.id
+    }
+    this.$el.append(this.template(vars))
   },
 
   openWith: function() {

@@ -120,8 +120,8 @@
 
 
 
-  <script src="../app/views/CouchHubsTableView.js"> </script>
-  <script src="../app/views/CouchHubRowView.js"> </script>
+  <script src="../app/views/SendToCouchHubTableView.js"> </script>
+  <script src="../app/views/SendToCouchHubRowView.js"> </script>
 
 
 
@@ -138,7 +138,7 @@
     window.couchHubs = new window.CouchHubs()
     window.couchHubs.fetch()
 
-    window.couchHubsTableView = new window.CouchHubsTableView({collection: window.couchHubs})
+    window.couchHubsTableView = new window.SendToCouchHubTableView({collection: window.couchHubs})
 
     window.couchHubsTableView.render()
     $('#app').append(window.couchHubsTableView.el)
