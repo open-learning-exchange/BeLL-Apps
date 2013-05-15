@@ -48,7 +48,7 @@ $(function() {
         $('form#fileAttachment').ajaxSubmit({
           url: "/"+ that.model._db.name +"/"+ that.model.get('_id'),
           success: function(response) {
-            window.location = 'couch-hub-resources.html'
+            window.location = 'couch-hub-resources.html#' + thisDb
           }
         })        
       }

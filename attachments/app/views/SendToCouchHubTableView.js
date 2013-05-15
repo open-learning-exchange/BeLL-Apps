@@ -7,7 +7,7 @@ var SendToCouchHubTableView = Backbone.View.extend({
   initialize: function(){
     this.collection.on('add', this.addOne, this)
     this.collection.on('reset', this.addAll, this)
-    this.$el.append("<div style='padding: 15px'><h2 style='float:left;'>Send to Hub...</h2></div>")
+    this.$el.append("<div style='padding: 15px'><h2 style='float:left;'>Send to Database...</h2></div>")
   },
 
   addOne: function(model){

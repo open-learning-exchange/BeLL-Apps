@@ -50,7 +50,8 @@ var CouchHub = Backbone.couch.Model.extend({
           }
         },
         { 
-          create_target: true 
+          create_target: true,
+          doc_ids: ["_design/hubbell-api"]
         }
       )
 

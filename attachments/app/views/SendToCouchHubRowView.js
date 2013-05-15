@@ -29,7 +29,7 @@ var SendToCouchHubRowView = Backbone.View.extend({
   },
 
   render: function () {
-    var template = "<td><%= name %></td> <td><a class='btn send' href='<%= name %>'><i class='icon-share'></i>Send to this Hub</a></td>"
+    var template = "<td><%= name %></td> <td><a class='btn send' href='<%= name %>'><i class='icon-share'></i>Send to this Database</a></td>"
     this.$el.append(_.template(template, this.model.toJSON()))
   }
 

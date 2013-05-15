@@ -3,7 +3,7 @@ var CouchHubs = Backbone.couch.Collection.extend({
   // Define the CouchDB View that this Collection gets its data from
   couch: function() {
     return {
-      view: 'couch-hub/CouchHubs?include_docs=true',
+      view: 'hubbell-api/CouchHubs?include_docs=true',
     }
   },
    

@@ -78,7 +78,9 @@
 
 
   <script>
-    window.thisDb = document.URL.split("/")[3]
+    window.thisDb = ($.url().attr('fragment'))
+      ? $.url().attr('fragment')
+      : document.URL.split("/")[3]
 
     Backbone.couch.options = {
       database: thisDb,
@@ -103,7 +105,7 @@
     </td>
     <td>
       <a class='btn' href='<%= sendTo %>'>
-        <i class="icon-share"></i> Send to a Hub
+        <i class="icon-share"></i> Send to a Database
       </a>
     </td> 
     <td>
