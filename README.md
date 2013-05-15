@@ -1,6 +1,6 @@
 
 ![](docs/hubs.png)
 ![](docs/resources.png)
-![](send-to-hub.png)
-![](view-a-resource.png)
+![](docs/send-to-hub.png)
+![](docs/view-a-resource.png)
 
