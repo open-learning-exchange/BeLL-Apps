@@ -33,8 +33,11 @@ var ResourceRowView = Backbone.View.extend({
     var openWith
     switch(this.model.get('openWith')){ 
       case "PDFjs": 
-        var attachments = _.keys(this.model.get('_attachments'))
-        openWith = "../apps/PDFjs/web/viewer.html?url=/"+ thisDb + "/" + this.model.get('_id') + "/" + attachments[0]
+        var _attachments = this.model.get('_attachments')
+        if(_.isObject(_attachments)) {
+          var attachments = _.keys(this.model.get('_attachments'))
+          openWith = "../apps/PDFjs/web/viewer.html?url=/"+ thisDb + "/" + this.model.get('_id') + "/" + attachments[0]
+        }
         break
     } 
 

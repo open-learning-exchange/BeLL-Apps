@@ -37,21 +37,12 @@ $(function() {
           // Send the updated model to the server
           var that = this
           this.model.save(null, {success: function() {
-            that.saveFileAttachment()
+            that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
           }})
 
       },
 
-      saveFileAttachment: function() {
-        $("form#fileAttachment .rev").attr('value', this.model.get('_rev'))
-        var that = this
-        $('form#fileAttachment').ajaxSubmit({
-          url: "/"+ that.model._db.name +"/"+ that.model.get('_id'),
-          success: function(response) {
-            window.location = 'couch-documents.html#' + thisDb
-          }
-        })        
-      }
+
 
 
     });
