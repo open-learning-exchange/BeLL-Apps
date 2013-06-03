@@ -1,0 +1,15 @@
+#app {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 40px;
+  padding: 20px;
+}
+
+body {
+    background: none repeat scroll 0 0 #EEEEEE;
+    color: #333333;
+    font: 14px/1.4em "Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin: 10px auto;
+    width: 720px;
+}

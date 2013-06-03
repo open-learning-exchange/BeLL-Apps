@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" manifest="appcache.manifest">
+
+<head>
+  <meta charset="utf-8">
+  <title>Backbone.js PouchDB Resources</title>
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+  <link rel="stylesheet" href="app.css"/>
+  <script>
+  </script>
+
+  <script src="jquery-2.0.1.js"></script>
+  <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
+  <script src="purl.js"></script>
+  <script src="underscore.js"></script>
+  <script src="backbone.js"></script>
+  <script src="pouchdb-nightly.js"></script>
+  <script src="backbone-pouch.js"></script>
+  <script src="purl.js"></script>
+  <script src="App.js"></script>
+  <script src="Router.js"></script>
+
+  <script src="app/models/Resource.js"></script>
+  <script src="app/models/Collection.js"></script>
+  <script src="app/collections/Collections.js"></script>
+  <script src="app/collections/Resources.js"></script>
+  <script src="app/views/Resources.js"></script>
+  <script src="app/views/Resource.js"></script>
+  <script src="app/views/Collections.js"></script>
+  <script src="app/views/Collection.js"></script>
+
+  
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+
+  <!-- Templates -->
+
+  <script type="text/template" id="collections-nav-template">
+    <ul class="nav nav-tabs">
+      <li>
+        <a href="/hubble/_design/hubble-remote/pages/databases.html">BeLL Collections</a>
+      </li>
+      <li class="active">
+        <a href="/hubble/_design/hubble-local/index.html">My Collections</a>
+      </li>
+    </ul>
+  </script>
+
+  <script type="text/template" id="collection-item-template">
+    <div class="view">
+    <label><a href="#collection/<%= url %>"><%= name %></a><a class="destroy"> <i class="icon-remove"></i></a></label>
+    </div>
+  </script>
+
+  <script type="text/template" id="resource-item-template">
+    
+      <td style="padding: 20px">
+        <%= name %>
+      </td>
+      <td>
+        <a class="btn" href="/hubble/_design/hubble-remote/apps/PDFjs2/web/viewer.html#pouch=<%= pouch %>&pouchAttachment=<%= pouchAttachment %>"><i class="icon-eye-open"></i> view</a>
+      </td>
+      <td>
+        <a class="btn download" href="#"><i class="icon-circle-arrow-down"></i> download</a>
+      </td>
+      <td>
+        <a class="btn destroy"> <i class="icon-remove"></i> delete</a></label>
+      </td>
+    
+  </script>
+  </body>
+
+  <script>
+    $(document).ready(function() {
+      App.start()
+    })
+  </script>
+
+</html>

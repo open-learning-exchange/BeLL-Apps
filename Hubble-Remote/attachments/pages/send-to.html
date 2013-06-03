@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Couch Hub</title>
+</head>
+
+
+
+  <!-- 
+    STYLES
+  -->
+
+
+
+  <link href="../vendor/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
+  <style type="text/css">
+
+
+  </style>
+
+
+
+  <!-- 
+    SCAFFOLDING
+  -->
+
+
+
+<body style="background-color:#FFF">
+  <div id="wrapper">
+
+    <!-- App -->
+    <div id="app">
+      
+    </div>
+     
+    <!-- Modal -->
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Hub</h3>
+      </div>
+      <div class="modal-body">
+        <iframe style="border: none; width: 100%; height: 400px;" name="frame"></iframe>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+
+
+  <!-- 
+    SCRIPTS
+  -->
+
+
+
+  <script src="../vendor/jquery-1.7.2.js"></script>
+  <script src="../vendor/underscore-1.4.4.js"></script>
+  <script src="../vendor/backbone-1.0.0.js"></script>
+  <script src="../vendor/backbone-forms.js"></script>
+  <script src="../vendor/jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.js"></script>
+  <script src="/_utils/script/json2.js"></script>
+  <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
+  <script src="/_utils/script/jquery.form.js?0.9.0"></script>
+  <script src="../vendor/sha1.js"></script>
+  <script src="../vendor/jquery.couch.js"></script>
+  <script src="../vendor/backbone.couchdb.js"></script>
+  <script src="../vendor/html-encode.js"></script>
+  <script src="../vendor/jquery.url.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.js"></script>
+
+
+
+  <!--
+    SETTINGS
+  -->
+
+
+
+  <script>
+    window.thisDb = document.URL.split("/")[3]
+
+    Backbone.couch.options = {
+      database: thisDb,
+      design: 'couch-hub'
+    };
+
+  </script>
+
+
+
+  <!-- 
+    BACKBONE MODELS 
+  -->
+
+
+
+  <script src="../app/models/Collection.js"></script>
+
+
+
+  <!-- 
+    BACKBONE COLLECTIONS 
+  -->
+
+
+
+  <script src="../app/collections/Collections.js"></script>
+
+
+
+
+  <!-- 
+    BACKBONE VIEWS
+  -->
+
+
+
+  <script src="../app/views/SendToCollectionTableView.js"> </script>
+  <script src="../app/views/SendToCollectionRowView.js"> </script>
+
+
+
+  <!-- 
+    App
+  -->
+
+
+
+  <script>
+
+  $(document).ready(function() {
+
+    window.collections = new window.Collections()
+    window.collections.fetch()
+
+    window.collectionsTableView = new window.SendToCollectionTableView({collection: window.collections})
+
+    window.collectionsTableView.render()
+    $('#app').append(window.collectionsTableView.el)
+
+  })
+
+ </script>
+
+
+</html> 
+
