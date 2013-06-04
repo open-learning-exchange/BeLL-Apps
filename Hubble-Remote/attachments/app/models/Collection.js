@@ -1,62 +1,68 @@
-var Collection = Backbone.couch.Model.extend({
+$(function() {
 
-  defaults: {
-    kind: "Collection"
-  },
+  App.Models.Collection = Backbone.Model.extend({
 
-  // @todo This event thing ain't working so well 
-  events: {
-    "all": "createDatabase"
-  },
+    idAttribute: "_id",
 
-  initialize: function(){
-    this.on('all', this.createDatabase(), this)
-  },
+    defaults: {
+      kind: "Collection"
+    },
 
-  schema: {
-    name: 'Text',
-    description: 'Text',
-    // @todo Have this disabled by default on form?
-    database: 'Text'
-  },
+    // @todo This event thing ain't working so well 
+    events: {
+      "all": "createDatabase"
+    },
 
-  createDatabase: function() {
+    initialize: function(){
+      // this.on('all', this.createDatabase(), this)
+    },
 
-    // create a database for the Group if there isn't one already
-    if(this.get('database') == "" && this.get('_id')) {
+    schema: {
+      name: 'Text',
+      description: 'Text',
+      // @todo Have this disabled by default on form?
+      database: 'Text'
+    },
 
-      console.log('Attempting to create a database for hub ' + this.get("_id"))
-      var databaseName = "hub-" + this.get('_id')
-      var that = this
+    createDatabase: function() {
 
-      $.couch.replicate(
-        thisDb, 
-        databaseName, 
-        {
-          success: function(data) {
-            that.set("database", databaseName)
-            that.save()
-            // @todo set the whoami record for this database
-            console.log("setting whoami")
-            var whoami = that.toJSON()
-            whoami.guid = whoami._id
-            whoami._id = "whoami"
-            whoami.id = "whoami"
-            delete(whoami._rev)
-            $.couch.db(databaseName).saveDoc(whoami)
+      // create a database for the Group if there isn't one already
+      if(this.get('database') == "" && this.get('_id')) {
+
+        console.log('Attempting to create a database for hub ' + this.get("_id"))
+        var databaseName = "hub-" + this.get('_id')
+        var that = this
+
+        $.couch.replicate(
+          thisDb, 
+          databaseName, 
+          {
+            success: function(data) {
+              that.set("database", databaseName)
+              that.save()
+              // @todo set the whoami record for this database
+              console.log("setting whoami")
+              var whoami = that.toJSON()
+              whoami.guid = whoami._id
+              whoami._id = "whoami"
+              whoami.id = "whoami"
+              delete(whoami._rev)
+              $.couch.db(databaseName).saveDoc(whoami)
+            },
+            error: function(status) {
+              console.log(status)
+            }
           },
-          error: function(status) {
-            console.log(status)
+          { 
+            create_target: true,
+            doc_ids: ["_design/hubbell-api"]
           }
-        },
-        { 
-          create_target: true,
-          doc_ids: ["_design/hubbell-api"]
-        }
-      )
+        )
 
-    }
+      }
 
-  },
-  
+    },
+    
+  })
+
 })

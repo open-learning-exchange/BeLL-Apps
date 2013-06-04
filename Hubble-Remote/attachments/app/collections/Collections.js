@@ -1,20 +1,24 @@
-var Collections = Backbone.couch.Collection.extend({
+$(function() {
 
-  // Define the CouchDB View that this Collection gets its data from
-  couch: function() {
-    return {
-      view: 'hubble-remote/Collections?include_docs=true',
-    }
-  },
-   
-  model: Collection,
+  App.Collections.Collections = Backbone.Collection.extend({
 
-  comparator: function(model) {
-    var title = model.get('name')
-    if (title) return title.toLowerCase()
-  },
+    url: "/hubble/_design/hubble-remote/_view/Collections?include_docs=true",
 
-  _db: Backbone.couch.db(window.thisDb)
+    parse: function(response) {
+      var docs = _.map(response.rows, function(row) {
+        return row.doc
+      })
+      return docs
+    },
+     
+    model: App.Models.Collection,
 
+    comparator: function(model) {
+      var title = model.get('name')
+      if (title) return title.toLowerCase()
+    },
+
+
+  })
 
 })
