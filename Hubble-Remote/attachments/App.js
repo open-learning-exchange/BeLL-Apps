@@ -12,7 +12,7 @@ $(function() {
       window.thisDb = document.URL.split("/")[3]
       // Start the Router
       Backbone.history.start({pushState: false})
-      $("#app").append((_.template($("#template-nav").html()))())
+      $("#header").append((_.template($("#template-nav").html()))())
     },
 
   }))

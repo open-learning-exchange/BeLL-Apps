@@ -11,7 +11,7 @@ $(function() {
       this.form = new Backbone.Form({ model: this.model })
       this.$el.append(this.form.render().el)
       // give the form a submit button
-      var $button = $('<button type="button" name="save" id="formButton">save</button>')
+      var $button = $('<a class="btn" id="formButton">save</button>')
       this.$el.append($button)
     },
 

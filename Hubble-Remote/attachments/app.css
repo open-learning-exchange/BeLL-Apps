@@ -6,6 +6,12 @@
   padding: 20px;
 }
 
+#header {
+  position: relative;
+  bottom: -20px;
+  left: -1px;
+}
+
 body {
     background: none repeat scroll 0 0 #EEEEEE;
     color: #333333;

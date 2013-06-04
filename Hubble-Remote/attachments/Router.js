@@ -2,11 +2,19 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      '': 'pageCollections',
-      'collections': 'pageCollections',
-      'collection/:collectionName': 'pageCollection',
-      'add/resource/:db': 'pageResourceForm',
-      'edit/resource/:db/:resourceId': 'pageResourceForm',
+      '' : 'pageCollections',
+      'collections' : 'pageCollections',
+      'collection/:collectionName' : 'pageCollection',
+      'add/collection' : 'pageAddCollection',
+      'add/resource/:db' : 'pageResourceForm',
+      'edit/resource/:db/:resourceId' : 'pageResourceForm',
+    },
+
+    pageAddCollection : function() {
+      var collection = new App.Models.Collection()
+      var collectionForm = new App.Views.CollectionForm({model: collection})
+      collectionForm.render()
+      $("#app").html(collectionForm.el)
     },
 
     pageResourceForm : function(db, resourceId) {
