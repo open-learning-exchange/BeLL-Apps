@@ -14,7 +14,8 @@ $(function() {
       var collection = new App.Models.Collection()
       var collectionForm = new App.Views.CollectionForm({model: collection})
       collectionForm.render()
-      $("#app").html(collectionForm.el)
+      $('#modal').modal('show')
+      $("#modal .content").html(collectionForm.el)
     },
 
     pageResourceForm : function(db, resourceId) {
@@ -29,11 +30,13 @@ $(function() {
     },
 
     pageCollections: function() {
+      // in case the modal is up, hide it
+      $("#modal").modal("hide")
       collections = new App.Collections.Collections()
       collections.fetch({success: function() {
         collectionsTable = new App.Views.CollectionsTable({collection: collections})
         collectionsTable.render()
-        $('#app').append(collectionsTable.el)
+        App.$el.children('#body').html(collectionsTable.el)
       }})
     },
 

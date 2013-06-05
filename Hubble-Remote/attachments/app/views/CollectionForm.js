@@ -1,9 +1,12 @@
 $(function() {
 
   App.Views.CollectionForm = Backbone.View.extend({
+    
+    className: "form",
 
     events: {
-      "click button#formButton": "saveForm"
+      "click #formButton": "saveForm",
+      "submit form" : "saveFormFromEnterKey"
     },
 
     render: function() {
@@ -13,6 +16,11 @@ $(function() {
       // give the form a submit button
       var $button = $('<a class="btn" id="formButton">save</button>')
       this.$el.append($button)
+    },
+
+    saveFormFromEnterKey: function(event) {
+      event.preventDefault()
+      this.saveForm()
     },
 
     saveForm: function() {

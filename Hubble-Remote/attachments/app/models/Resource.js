@@ -1,17 +1,19 @@
 $(function() {
 
-  App.Models.Resource = Backbone.couch.Model.extend({
+  App.Models.Resource = Backbone.Model.extend({
+
+    idAttribute: "_id",
+
+    url: function() {
+      var url = (this.get('id'))
+        ? '/' + window.thidDb + '/' + this.get('id') + "?rev=" + this.get('rev')
+        : '/' + window.thisDb
+
+      return "/" + window.thisDb
+    },
 
     defaults: {
       kind: "Resource"
-    },
-
-    events: {
-
-    },
-
-    initialize: function(){
-
     },
 
     schema: {

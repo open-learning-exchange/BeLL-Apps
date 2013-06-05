@@ -24,6 +24,7 @@
   <script src="vendor/backbone.couchdb.js"></script>
   <script src="vendor/html-encode.js"></script>
   <script src="vendor/jquery.url.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
 
   <!--
     App
@@ -52,43 +53,46 @@
 
 <body>
 
-  <div id="header">
-    <!-- Content -->
-  </div>
-
-  <!-- App -->
-  <div id="app">
-    <!-- Content -->
-  </div>
-   
-  <!-- Modal -->
-  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    </div>
-    <div id="modal">
-      <!-- Content -->
-    </div>
-  </div>
 
 </body>
 
   <!-- 
     Templates 
   -->
+  <script type="text/template" id="template-app">
+
+    <div id="header">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#collections">BeLL Collections</a>
+        </li>
+        <li>
+          <a href="/hubble/_design/hubble-local/index.html">My Collections</a>
+        </li>
+      </ul>
+      <a style='position: relative; bottom: 60px; float: right;' class='btn' href='#add/collection'> 
+        <i class='icon-plus-sign'></i> Create a new Collection
+      </a>
+    </div>
+
+    <!-- Body -->
+    <div id="body">
+      <!-- Content -->
+    </div>
+     
+    <!-- Modal -->
+    <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true">×</button>
+      </div>
+      <div class='content'>
+        <!-- Content -->
+      </div>
+    </div>
+  </script>
 
   <script type="text/template" id="template-nav">
-    <ul class="nav nav-tabs">
-      <li class="active">
-        <a href="#collections">BeLL Collections</a>
-      </li>
-      <li>
-        <a href="/hubble/_design/hubble-local/index.html">My Collections</a>
-      </li>
-    </ul>
-    <a style='position: relative; bottom: 60px; float: right;' class='btn' href='#add/collection'> 
-      <i class='icon-plus-sign'></i> Create a new Collection
-    </a>
+
   </script>
 
   <script type="text/template" id="collection-item-template">
