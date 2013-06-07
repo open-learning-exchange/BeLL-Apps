@@ -1,23 +1,30 @@
 $(function() {
+
   App.Views.ResourcesTable = Backbone.View.extend({
 
     tagName: "table",
 
     className: "table table-striped",
 
+    template: $('#template-ResourcesTable').html(),
+
+    templateHeader: $('#template-ResourcesTableHeader').html(),
+
     initialize: function(){
-      this.collection.on('add', this.addOne, this)
-      this.collection.on('reset', this.addAll, this)
+      this.$el.append(_.template(this.template))
+      // @todo The better way to approach this would be to attach a Collection model to this view. The whoami doc may
+      // be pointless...
       var that = this
-      $.couch.db(thisDb).openDoc("whoami", {
+      $.couch.db(App.thisDb).openDoc("whoami", {
         success: function(doc) {
-          that.$('tr.header').append("<td colspan=99 style='padding: 15px'><h3 style='float:left;'>Resources in " + doc.name + "</h3><a style='float: left; margin: 16px;' class='btn' href='add-couch-document.html#"+thisDb+"'> <i class='icon-plus-sign'></i> Create a new Resource</a></td>")
+          doc.db = App.thisDb
+          that.$el.children('.header').append(_.template(that.templateHeader, doc))
         }
       })
     },
 
     addOne: function(model){
-      var resourceRowView = new window.ResourceRowView({model: model})
+      var resourceRowView = new App.Views.ResourceRow({model: model})
       resourceRowView.render()  
       this.$el.append(resourceRowView.el)
     },
@@ -27,7 +34,6 @@ $(function() {
     },
 
     render: function() {
-      this.$el.append("<tr class='header'></tr>")
       this.addAll()
     }
 

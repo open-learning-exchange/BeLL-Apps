@@ -1,6 +1,6 @@
 $(function() {
 
-  App.Views.SendToCollectionRow = Backbone.View.extend({
+  App.Views.ResourceSendRow = Backbone.View.extend({
 
     tagName: "tr",
 
@@ -8,7 +8,7 @@ $(function() {
       "click .send" : function(event) {
         event.preventDefault();
         $.couch.replicate(
-          $.url().param('source'), 
+          $.url().fsegment(4), 
           this.model.get('database'), 
           {
             success: function() {
@@ -19,7 +19,7 @@ $(function() {
             }
           },
           {
-            doc_ids: [ $.url().param('doc') ]
+            doc_ids: [ $.url().fsegment(5) ]
           }
 
         )

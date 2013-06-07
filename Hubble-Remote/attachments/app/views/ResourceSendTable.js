@@ -1,6 +1,6 @@
 $(function() {
 
-  App.Views.SendToCollectionTableView = Backbone.View.extend({
+  App.Views.ResourceSendTable = Backbone.View.extend({
 
     tagName: "table",
 
@@ -13,7 +13,7 @@ $(function() {
     },
 
     addOne: function(model){
-      var rowView = new SendToCollectionRowView({model: model})
+      var rowView = new App.Views.ResourceSendRow({model: model})
       rowView.render()  
       this.$el.append(rowView.el)
     },

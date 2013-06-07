@@ -18,7 +18,7 @@ $(function() {
       return url
     },
 
-    // Get the current CouchDB is there is one
+    // Get the current CouchDB database if there is one
     db : function() {
       // @todo this doesn't actually check to see if what we find is actually a CouchDB
       // but maybe we'll never actually want to bother with the performance hit :-P

@@ -2,20 +2,16 @@ $(function() {
 
   App.Views.ResourceForm = Backbone.View.extend({
 
+    className: "form",
+
     events: {
-      "click button#formButton": "saveForm"
+      "click .save": "saveForm"
     },
 
     render: function() {
 
-      this.buildForm()
-
-    },
-
-    buildForm: function() {
-
       // Extra elements not covered in the schema
-      var $button = $('<button type="button" name="save" id="formButton">save</button>')
+      var $button = $('<div class="btn save" name="save">save</div>')
       var $file = $('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
 
       this.form = new Backbone.Form({ model: this.model })
@@ -25,8 +21,6 @@ $(function() {
       $(this.el).append($button)
 
       return this
-
-
 
     },
 
@@ -38,6 +32,7 @@ $(function() {
         var that = this
         this.model.save(null, {success: function() {
           that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+          Backbone.history.navigate('#collection/resources/' + App.thisDb, {trigger: true})
         }})
 
     },

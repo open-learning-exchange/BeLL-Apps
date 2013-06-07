@@ -6,8 +6,8 @@ $(function() {
 
     url: function() {
       var url = (this.get('id'))
-        ? '/' + window.thidDb + '/' + this.get('id') + "?rev=" + this.get('rev')
-        : '/' + window.thisDb
+        ? '/' + App.thisDb + '/' + this.get('id') + "?rev=" + this.get('rev')
+        : '/' + App.thisDb
 
       return "/" + window.thisDb
     },
@@ -25,8 +25,10 @@ $(function() {
     saveAttachment: function(formEl, fileEl, revEl) {
 
             // Work with this doc in the files database
-            var input_db = "files"
-            var input_id = this.get("_id")
+            var input_db = 'files'
+            var input_id = (this.get('_id'))
+              ? this.get('_id')
+              : this.get('id')
             //var input_rev = $('.documentForm input#_rev').val()
            
             // Start by trying to open a Couch Doc at the _id and _db specified

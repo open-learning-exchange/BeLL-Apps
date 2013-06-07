@@ -24,7 +24,7 @@ $(function() {
         name: this.model.get('name'),
         openWith: this.openWith(),
         id: this.model.id,
-        sendTo: "/hubble/_design/hubble-remote/pages/send-to.html?source=" + thisDb + "&doc=" + this.model.id
+        sendTo: "#collection/resource/send/" + App.thisDb + "/" + this.model.id
         // @todo This hardcoded db is asking for trouble...
       }
       this.$el.append(this.template(vars))

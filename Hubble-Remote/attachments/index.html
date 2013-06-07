@@ -45,8 +45,8 @@
   <script src="app/views/ResourceForm.js"></script>
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ResourcesTable.js"></script>
-  <script src="app/views/SendToCollectionRow.js"></script>
-  <script src="app/views/SendToCollectionTable.js"></script>
+  <script src="app/views/ResourceSendTable.js"></script>
+  <script src="app/views/ResourceSendRow.js"></script>
 
   
 </head>
@@ -59,6 +59,30 @@
   <!-- 
     Templates 
   -->
+
+  <script type="text/template" id="template-ResourcesTable">
+
+    <tr class='header'>
+
+    </tr>
+
+  </script>
+
+
+  <script type="text/template" id="template-ResourcesTableHeader">
+
+      <td colspan=99 style='padding: 15px'>
+        <h3 style='float:left;'>
+          Resources in <%= name %>
+        </h3>
+        <a style='float: left; margin: 16px;' class='btn' href='#collection/resource/add/<%= db %>'> 
+          <i class='icon-plus-sign'></i> Create a new Resource
+        </a>
+      </td>
+
+  </script>
+
+
   <script type="text/template" id="template-app">
 
     <div id="header">
@@ -70,7 +94,7 @@
           <a href="/hubble/_design/hubble-local/index.html">My Collections</a>
         </li>
       </ul>
-      <a style='position: relative; bottom: 60px; float: right;' class='btn' href='#add/collection'> 
+      <a style='position: relative; bottom: 60px; float: right;' class='btn' href='#collection/add'> 
         <i class='icon-plus-sign'></i> Create a new Collection
       </a>
     </div>
@@ -91,15 +115,18 @@
     </div>
   </script>
 
+
   <script type="text/template" id="template-nav">
 
   </script>
+
 
   <script type="text/template" id="collection-item-template">
     <div class="view">
     <label><a href="#collection/<%= url %>"><%= name %></a><a class="destroy"> <i class="icon-remove"></i></a></label>
     </div>
   </script>
+
 
   <script type="text/template" id="resource-item-template">
     
@@ -118,6 +145,7 @@
     
   </script>
 
+
   <script type="text/html" id="template-CollectionRow">
     <td>
       <%= name %>
@@ -128,13 +156,13 @@
       </a>
     </td>  
     <td>
-      <a role='button' class='btn' href='#collection/<%= database %>'>
-        <i class='icon-list'></i> Browse 
+      <a role='button' class='btn' href='#collection/resources/<%= database %>'>
+        <i class='icon-list'></i> Resources 
       </a>
     </td> 
     <td>
-      <a class='btn' href='#edit/collection/<%= _id %>'><i class='icon-pencil'>
-        </i> Edit
+      <a class='btn' href='#info/collection/<%= _id %>'><i class='icon-pencil'>
+        </i> Info
       </a>
     </td> 
     <td>
@@ -143,8 +171,8 @@
       </a>
     </td>
 
-
   </script>
+
 
   <script type="text/html" id="template-ResourceRow">
 

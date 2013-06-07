@@ -18,12 +18,8 @@ $(function() {
     start: function(){
       // Default database
       window.thisDb = document.URL.split("/")[3]
-      // Start the Router
-      Backbone.history.start({pushState: false})
-      // Since the App may start on a URL that fills the modal, put something in the background for
-      // good measure.
       this.$el.html(_.template(this.template))
-      App.Router.pageCollections()
+      Backbone.history.start({pushState: false})
     },
 
     closeModal: function() {
