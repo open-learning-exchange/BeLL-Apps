@@ -32,7 +32,7 @@ $(function() {
 
     replicatePull: function () {
       var local = this.get('local')
-      var remote = this.get('remote')
+      var remote = window.location.origin + this.get('remote')
       this.trigger('pulling')
       console.log('pull replication started started for ' + local + ' <- ' + remote)
       // Pull

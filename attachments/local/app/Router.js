@@ -37,11 +37,14 @@ $(function() {
 
     replicate: function() {
       var cxs = new App.Collections.Cxs()
-      cxs.fetch()
-      cxs.replicate()
+      cxs.on('sync', function() {
+        cxs.replicate()
+      })
       cxs.on('replicateDone', function() {
         App.Router.navigate("collections", {trigger:true})
       })
+      // Kick off the replication process
+      cxs.fetch()
     },
 
     cxs: function() {
