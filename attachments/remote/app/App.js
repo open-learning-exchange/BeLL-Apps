@@ -4,7 +4,7 @@ $(function() {
   App = new (Backbone.View.extend({
 
     // Settings
-    Server: 'http://192.168.0.111:5984',
+    Server: '',
     CollectionsDb: 'hubble',
     ResourcesDb: '', // to be set dynamically depending on which Collection is being viewed
     FilesDb: 'files',

@@ -11,11 +11,11 @@ $(function() {
 
     cxAdd: function(url) {
       console.log("Adding collection : " + url)
-      var whoamiUrl = "http://" + url + "/whoami"
+      var whoamiUrl = url + "/whoami"
       console.log("Looking for whoami: " + whoamiUrl)
       $.getJSON(whoamiUrl, function(data) {
         console.log("whoami data: " + JSON.stringify(data))
-        var remote = 'http://' + url
+        var remote = url
         var local = url.replace(new RegExp('/', 'g'), '_')
         // Create the Hubble Collection
         var cxData = {

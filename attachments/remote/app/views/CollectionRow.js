@@ -25,7 +25,7 @@ $(function() {
     render: function () {
       
       var vars = this.model.toJSON()
-      vars.sendToDevice = '../local/index.html#collections/add/192.168.0.111:5984/' +
+      vars.sendToDevice = '../local/index.html#collections/add//' +
           this.model.get('database') 
       this.$el.append(_.template(this.template, vars))
     }

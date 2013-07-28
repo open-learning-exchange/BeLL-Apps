@@ -2,7 +2,7 @@ $(function() {
 
   App.Collections.Collections = Backbone.Collection.extend({
 
-    url: App.Server + '/' + App.CollectionsDb + '/_design/hubble-server/_view/Collections?include_docs=true',
+    url: App.Server + '/' + App.CollectionsDb + '/_design/app/_view/Collections?include_docs=true',
 
     parse: function(response) {
       var docs = _.map(response.rows, function(row) {
