@@ -60,13 +60,14 @@ $(function() {
               // Doc so that it gets passed along in the form submit.
               $(revEl).val(couchDoc.rev);
               // @todo This file submit stopped working. Couch setting coming from different origin? 
-              //$(formEl).ajaxSubmit({
+              $(formEl).ajaxSubmit({
                 // Submit the form with the attachment
-                // url: server + "/"+ input_db +"/"+ input_id,
-                // success: function(response) {
-                  model.trigger('savedAttachment')                        
-                // }
-              //})
+                 url: "/"+ input_db +"/"+ input_id,
+                 success: function(response) {
+                   console.log('file submitted successfully')
+                   model.trigger('savedAttachment')                        
+                 }
+              })
             }
           })
         } // End error, no Doc
