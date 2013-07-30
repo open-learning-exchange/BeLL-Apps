@@ -32,13 +32,19 @@ $(function() {
 
       console.log(this.model.toJSON())
       */
-      var model = this.model.toJSON()
-      var vars = {
-        pouchAttachment: _.has(model, "_attachments") ? model._id + "/" + _.keys(model._attachments)[0] : '',
-        name: model.name,
-        pouch: App.currentPouch
-      }
-      this.$el.html(this.template(vars))
+      var that = this
+      this.model.getAttachment()
+      this.model.on('getAttachmentDone', function(){
+        var model = that.model.toJSON()
+        var vars = {
+          docId: model._id,
+          file: _.keys(model._attachments)[0],
+          name: model.name,
+          db: 'files'
+        }
+        that.$el.html(that.template(vars))
+      })
+
       return this
     },
 
@@ -50,7 +56,6 @@ $(function() {
             window.location = window.URL.createObjectURL(res)
           }) 
         })
- 
       })
 
     }

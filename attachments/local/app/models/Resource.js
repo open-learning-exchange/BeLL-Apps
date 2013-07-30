@@ -2,13 +2,15 @@ $(function() {
 
   App.Models.Resource = Backbone.Model.extend({
 
-    // Default attributes for the Resource item.
-    defaults: function() {
-      return {
-        kind: 'Resource',
-        name: "empty resource...",
-      }
-    },
+    getAttachment: function() {
+      var model = this
+      Pouch('files', function(err, db) {
+        db.get(model.id, function(err, doc) {
+            model.set('_attachments', doc._attachments)
+            model.trigger('getAttachmentDone')
+        })
+      })
+    }
 
   })
 
