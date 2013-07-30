@@ -50,30 +50,21 @@ $(function() {
 
       // Pull
       Pouch.replicate(remote, local, function(err, doc) {
-        // If there were some docs written then we have some files to pull down
-        // if (doc.docs_written > 0) {
-          Pouch(local, function(err, db) {
-            db.allDocs({}, function(err, res) {
-              var doc_ids = []
-              _.each(res.rows, function(doc) {
-                doc_ids.push(doc.id)
-              })
-              Pouch('files', function(err, files_db) {
-                files_db.replicate.from(window.location.origin + '/files', { 
-                  doc_ids: doc_ids 
-                }, function(err, doc) {
-                  cx.trigger('replicatePullDone')
-                  console.log('pull replication complete for ' + local + " <- " + remote)    
-                })
-              })
-
+        // Replicate the matching files
+        // @todo We should only have to replicate the matching docs in the files databases 
+        // but I'm not sure how to get a list of docs that were created/updated in this last
+        // replication. We're currently replicating ALL the files over again, PouchDB should
+        // be smart enough to know it doesn't have anything to do anything for docs that 
+        // already exist.
+        Pouch(local, function(err, db) {
+          db.allDocs({}, function(err, res) {
+            var doc_ids = []
+            _.each(res.rows, function(doc) {
+              doc_ids.push(doc.id)
             })
+            cx.syncFiles(doc_ids)
           })
-        //}
-        //else {
-        //  console.log('pull replication complete for ' + local + " <- " + remote)    
-        //  cx.trigger('replicatePullDone')
-        //}
+        })
       })
 
     },
@@ -93,6 +84,31 @@ $(function() {
         cx.trigger('replicatePushDone')
       // }) 
 
+    },
+
+
+    syncFiles: function(include_doc_ids) {
+      var all_doc_ids = []
+      var exclude_doc_ids = []
+      Pouch(window.location.origin + '/files', function(err, remote_files) {
+        remote_files.allDocs({}, function(err, res) {
+          console.log(res)
+          // Get all_doc_ids
+          _.each(res.rows, function(row) { 
+            all_doc_ids.push(row.id) 
+          })
+          // Build exclude_doc_ids
+          _.each(all_doc_ids, function(id) {
+            if(!_.contains(include_doc_ids, id)) {
+              exclude_doc_ids.push(id)
+            }
+          })
+          console.log(exclude_doc_ids)
+          remote_files.replicate.to('files', { doc_ids:exclude_doc_ids }, function(err, res) {
+            console.log(res)
+          })
+        })
+      })
     }
 
 
