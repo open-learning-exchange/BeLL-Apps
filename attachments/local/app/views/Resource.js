@@ -43,10 +43,16 @@ $(function() {
     },
 
     downloadAttachment: function() {
-      Pouch(App.currentPouch).getAttachment(this.model.get('_id') + "/" + _.keys(this.model.get('_attachments'))[0], function(err, res) {
-        //alert("opening pdf nowt")
-        window.location = window.URL.createObjectURL(res)
+      var view = this
+      Pouch('files', function(err,db) {
+        db.get(view.model.get('_id'), function(err,doc) {
+          db.getAttachment(view.model.get('_id'),  _.keys(doc['_attachments'])[0], function(err, res) {
+            window.location = window.URL.createObjectURL(res)
+          }) 
+        })
+ 
       })
+
     }
 
   })
