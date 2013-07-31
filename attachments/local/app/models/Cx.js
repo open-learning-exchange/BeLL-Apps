@@ -35,11 +35,15 @@ $(function() {
 
     },
 
-    /*
-     * replicatePull()
-     *
-     * Triggers on Cx: replicatePullDone
-     */
+
+    replicate: function() {
+      this.trigger('start:CxReplicate')
+      this.on('done:CxReplicatePull', function() {
+        this.trigger('done:CxReplicate')
+      }, this)
+      this.replicatePull()
+    },
+
 
     replicatePull: function () {
 
@@ -62,8 +66,8 @@ $(function() {
             _.each(res.rows, function(doc) {
               doc_ids.push(doc.id)
             })
-            cx.on('done:syncFiles', function() {
-              cx.trigger('done:replication')
+            cx.on('done:CxSyncFiles', function() {
+              cx.trigger('done:CxReplicatePull')
             })
             cx.syncFiles(doc_ids)
           })
@@ -91,7 +95,7 @@ $(function() {
 
 
     syncFiles: function(include_doc_ids) {
-      this.trigger('start:syncFiles')
+      this.trigger('start:CxSyncFiles')
       var cx = this
       var all_doc_ids = []
       var exclude_doc_ids = []
@@ -111,7 +115,7 @@ $(function() {
           console.log(exclude_doc_ids)
           remote_files.replicate.to('files', { doc_ids:exclude_doc_ids }, function(err, res) {
             console.log(res)
-            cx.trigger('done:syncFiles')
+            cx.trigger('done:CxSyncFiles')
           })
         })
       })

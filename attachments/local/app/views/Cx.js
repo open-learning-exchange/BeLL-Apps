@@ -19,9 +19,9 @@ $(function() {
     initialize: function() {
       this.model.bind('change', this.render, this)
       this.model.bind('destroy', this.remove, this)
-      this.model.bind('start:replication', this.replicationStarted, this)
-      this.model.bind('start:syncFiles', this.startFileSync, this)
-      this.model.bind('done:replication', this.replicationDone, this)
+      this.model.bind('start:CxReplicate', this.replicationStarted, this)
+      this.model.bind('start:CxSyncFiles', this.startFileSync, this)
+      this.model.bind('done:CxReplicate', this.replicationDone, this)
     },
 
     // Re-render the names of the collection item.

@@ -19,19 +19,37 @@ $(function() {
       this.trigger('sync')
     },
 
+    replicateNext: function() {
+      if(this.models.length >= this.replicationIndex) {
+        this.models[this.replicationIndex].on('done:CxReplicate', function() {
+          this.replicationIndex++
+          this.replicateNext()
+        }, this)
+        this.models[this.replicationIndex].replicate()
+      }
+      else {
+        this.trigger('done:CxsReplicate')
+      }
+    },
+
     // Perform both push and pull replication on each Cx model in this collection.
     replicate: function() {
+      this.trigger('start:CxsReplicate') // the Cx view is listening for this
       // We're going to track the number of collections we've processed so we know
       // when to fire the replicateDone event.
       var numberOfCollections  = this.models.length
       var processedCollections = 0
       // We might have zero collections to process, in that case we're done.
-      if (numberOfCollections === 0) {
-        App.trigger('replicateDone')
+      if (numberOfCollections > 0) {
+        this.replicationIndex = 0
+        this.replicateNext()
       }
+
+
+
+
       var cxs = this
       _.each(this.models, function(cx) {
-        cx.trigger('start:replication') // the Cx view is listening for this
         // Pull first, listen for the replicatePullDone event before pushing.
         cx.replicatePull()
         cx.on('replicatePullDone', function() {
