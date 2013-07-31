@@ -44,27 +44,8 @@ $(function() {
         this.replicationIndex = 0
         this.replicateNext()
       }
-
-
-
-
-      var cxs = this
-      _.each(this.models, function(cx) {
-        // Pull first, listen for the replicatePullDone event before pushing.
-        cx.replicatePull()
-        cx.on('replicatePullDone', function() {
-          cx.trigger('done:replication')
-          //cx.replicatePush()
-        })
-        cx.on('replicatePushDone', function(key, cx) {
-          processedCollections++
-          if(processedCollections === numberOfCollections) {
-            // we're all done! Let those who are listening know.
-            cxs.trigger('replicateDone')
-          }
-        })
-      }) 
     }
+
 
   })
 
