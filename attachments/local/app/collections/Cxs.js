@@ -31,10 +31,12 @@ $(function() {
       }
       var cxs = this
       _.each(this.models, function(cx) {
+        cx.trigger('start:replication') // the Cx view is listening for this
         // Pull first, listen for the replicatePullDone event before pushing.
         cx.replicatePull()
         cx.on('replicatePullDone', function() {
-          cx.replicatePush()
+          cx.trigger('done:replication')
+          //cx.replicatePush()
         })
         cx.on('replicatePushDone', function(key, cx) {
           processedCollections++

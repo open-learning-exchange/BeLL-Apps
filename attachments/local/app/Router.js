@@ -31,7 +31,7 @@ $(function() {
         console.log("Cx saved:")
         console.log(JSON.stringify(cx))
         App.trigger('collectionAdded')
-        App.Router.navigate("sync", {trigger:true})
+        App.Router.navigate("collections", {trigger:true})
       })
     },
 

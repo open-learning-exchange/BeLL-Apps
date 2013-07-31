@@ -62,6 +62,9 @@ $(function() {
             _.each(res.rows, function(doc) {
               doc_ids.push(doc.id)
             })
+            cx.on('done:syncFiles', function() {
+              cx.trigger('done:replication')
+            })
             cx.syncFiles(doc_ids)
           })
         })
@@ -88,6 +91,8 @@ $(function() {
 
 
     syncFiles: function(include_doc_ids) {
+      this.trigger('start:syncFiles')
+      var cx = this
       var all_doc_ids = []
       var exclude_doc_ids = []
       Pouch(window.location.origin + '/files', function(err, remote_files) {
@@ -106,6 +111,7 @@ $(function() {
           console.log(exclude_doc_ids)
           remote_files.replicate.to('files', { doc_ids:exclude_doc_ids }, function(err, res) {
             console.log(res)
+            cx.trigger('done:syncFiles')
           })
         })
       })

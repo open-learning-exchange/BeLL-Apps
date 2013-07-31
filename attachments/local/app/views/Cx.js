@@ -19,6 +19,9 @@ $(function() {
     initialize: function() {
       this.model.bind('change', this.render, this)
       this.model.bind('destroy', this.remove, this)
+      this.model.bind('start:replication', this.replicationStarted, this)
+      this.model.bind('start:syncFiles', this.startFileSync, this)
+      this.model.bind('done:replication', this.replicationDone, this)
     },
 
     // Re-render the names of the collection item.
@@ -31,7 +34,20 @@ $(function() {
     destroy: function() {
       this.model.destroy()
       // @todo REMOVE ASSOCIATED POUCH!!
+    },
+
+    startFileSync: function() {
+      this.$el.children('.sync-status').text('Files syncing...')
+    },
+
+    replicationStarted: function() {
+      this.$el.children('.sync-status').text('Replication started')
+    },
+
+    replicationDone: function() {
+      this.$el.children('.sync-status').text('Replication done')
     }
+
 
   })
 
