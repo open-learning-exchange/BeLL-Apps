@@ -20,7 +20,7 @@ $(function() {
     },
 
     replicateNext: function() {
-      if(this.models.length >= this.replicationIndex) {
+      if(this.models.length > this.replicationIndex) {
         this.models[this.replicationIndex].on('done:CxReplicate', function() {
           this.replicationIndex++
           this.replicateNext()
