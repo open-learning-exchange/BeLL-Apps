@@ -54,6 +54,9 @@ $(function() {
 
       // Pull
       Pouch.replicate(remote, local, function(err, doc) {
+        console.log("Replicate pull:")
+        console.log(err)
+        console.log(doc)
         // Replicate the matching files
         // @todo We should only have to replicate the matching docs in the files databases 
         // but I'm not sure how to get a list of docs that were created/updated in this last
@@ -64,7 +67,9 @@ $(function() {
           db.allDocs({}, function(err, res) {
             var doc_ids = []
             _.each(res.rows, function(doc) {
-              doc_ids.push(doc.id)
+              if(doc.id !== 'whoami'){
+                doc_ids.push(doc.id)
+              }
             })
             cx.on('done:CxSyncFiles', function() {
               cx.trigger('done:CxReplicatePull')
@@ -101,7 +106,8 @@ $(function() {
       var exclude_doc_ids = []
       Pouch(window.location.origin + '/files', function(err, remote_files) {
         remote_files.allDocs({}, function(err, res) {
-          console.log(res)
+          //console.log(res)
+          console.log(err)
           // Get all_doc_ids
           _.each(res.rows, function(row) { 
             all_doc_ids.push(row.id) 
@@ -112,9 +118,10 @@ $(function() {
               exclude_doc_ids.push(id)
             }
           })
-          console.log(exclude_doc_ids)
           remote_files.replicate.to('files', { doc_ids:exclude_doc_ids }, function(err, res) {
+            console.log("File sync:")
             console.log(res)
+            console.log(err)
             cx.trigger('done:CxSyncFiles')
           })
         })
