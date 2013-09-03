@@ -19,6 +19,7 @@ $(function() {
       $(this.el).append(this.form.render().el)
       $(this.el).append($file)
       $(this.el).append($button)
+      $(this.el).append('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
 
       return this
 
@@ -26,6 +27,7 @@ $(function() {
 
     saveForm: function() {
 
+        this.$el.children('.progress').show()
         // Put the form's input into the model in memory
         this.form.commit()
         // Send the updated model to the server

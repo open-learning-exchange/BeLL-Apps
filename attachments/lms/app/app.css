@@ -1,5 +1,5 @@
 .body {
-  margin-top: 0px;
+  margin-top: 40px;
   padding: 0px;
 }
 
@@ -28,4 +28,17 @@
   
 .form .btn {
   margin: 5px 0px 20px 20px;
+  float: left;
+}
+
+.form .progress {
+  float:left;
+  margin-top: 9px;
+  margin-left: 10px;
+  width: 50px;
+  height: 25px;
+}
+
+.form input[type="file"] {
+  margin: 0 0 0 30px;
 }
