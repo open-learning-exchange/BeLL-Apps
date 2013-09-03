@@ -25,8 +25,6 @@ $(function() {
     render: function () {
       
       var vars = this.model.toJSON()
-      vars.sendToDevice = '../local/index.html#collections/add//' +
-          this.model.get('database') 
       this.$el.append(_.template(this.template, vars))
     }
 

@@ -6,6 +6,7 @@ $(function() {
     //  ''                            : 'FacilityDashboard', 
     //  'dashboard'                   : 'FacilityDashboard', 
       'resources'                   : 'Resources',
+      'resource/add'                : 'ResourceForm',
       'resource/edit/:resourceId'   : 'ResourceForm',
       'groups'                      : 'Groups',
       'group/edit/:groupId'         : 'GroupForm',
@@ -19,30 +20,28 @@ $(function() {
         ? new App.Models.Resource({id: resourceId})
         : new App.Models.Resource()
       resource.on('processed', function() {
-        Backbone.history.navigate('collection/resources/' + db, {trigger: true})
+        Backbone.history.navigate('resources', {trigger: true})
       })
       var resourceFormView = new App.Views.ResourceForm({model: resource})
       resourceFormView.render()
-      App.$el.children('#body').html(resourceFormView.el)
+      App.$el.children('.body').html(resourceFormView.el)
     },
 
     Resources: function(database) {
-      App.ResourcesDb = database
       var resources = new App.Collections.Resources()
       resources.fetch({success: function() {
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
         resourcesTableView.render()
-        $('#body').html(resourcesTableView.el)
+        App.$el.children('.body').html(resourcesTableView.el)
       }})
     },
 
     Groups: function() {
-      $("#modal").modal("hide")
       groups = new App.Collections.Groups()
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('#body').html(GroupsTable.el)
+        App.$el.children('.body').html(groupsTable.el)
       }})
     },
 

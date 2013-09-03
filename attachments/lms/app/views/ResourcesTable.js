@@ -6,21 +6,10 @@ $(function() {
 
     className: "table table-striped",
 
-    template: $('#template-ResourcesTable').html(),
-
-    templateHeader: $('#template-ResourcesTableHeader').html(),
+    //template: $('#template-ResourcesTable').html(),
 
     initialize: function(){
-      this.$el.append(_.template(this.template))
-      // @todo The better way to approach this would be to attach a Collection model to this view. The whoami doc may
-      // be pointless...
-      var that = this
-      $.couch.db(App.ResourcesDb).openDoc("whoami", {
-        success: function(doc) {
-          console.log(doc)
-          that.$el.children('.header').append(_.template(that.templateHeader, doc))
-        }
-      })
+      //this.$el.append(_.template(this.template))
     },
 
     addOne: function(model){

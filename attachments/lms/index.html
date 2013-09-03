@@ -45,8 +45,6 @@
   <script src="app/views/ResourceForm.js"></script>
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ResourcesTable.js"></script>
-  <script src="app/views/SendToGroupTable.js"></script>
-  <script src="app/views/SendToGroupRow.js"></script>
 
   
 </head>
@@ -97,8 +95,10 @@
           <a class="brand" href="#">Bell LMS</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="#">Groups</a></li>
-              <li><a href="#settings">Resources</a></li>
+              <li><a href="#groups">Groups</a></li>
+              <li><a href="#group/add">Add Group</a></li>
+              <li><a href="#resources">Resources</a></li>
+              <li><a href="#resource/add">Add Resource</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -134,7 +134,7 @@
 
   <script type="text/html" id="template-GroupRow">
     <td>
-      <a role='button' class='btn' href='#group/<%= groupId %>'>
+      <a role='button' class='btn' href='#group/<%= _id %>'>
         <%= name %>
       </a>
     </td> 
@@ -148,23 +148,18 @@
 
   <script type="text/html" id="template-ResourceRow">
     <td>
-      <%= name %>
+      <%= title %>
     </td> 
     <td>
-      <a class='btn' href='<%= openWith %>'>
+      <a class='btn' href=resource/'<%= _id %>'>
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
     <td>
-      <a class='btn' href='<%= sendTo %>'>
-        <i class="icon-share"></i> Send to a Group
-      </a>
-    </td> 
-    <!-- td>
-      <a class='btn' href='edit-couch-document.html?id=<%= id %>'>
+      <a class='btn' href=resource/edit/'<%= _id %>'>
         <i class='icon-pencil'></i> Edit
       </a>
-    </td-->
+    </td>
     <td>
       <a class='destroy btn' href='#'>
         <i class='icon-remove'></i> Delete

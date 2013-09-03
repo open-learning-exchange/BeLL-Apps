@@ -25,7 +25,7 @@ $(function() {
 
       // Work with this doc in the files database
       var server = App.Server
-      var input_db = App.FilesDb
+      var input_db = "resources"
       var input_id = (this.get('_id'))
         ? this.get('_id')
         : this.get('id')
