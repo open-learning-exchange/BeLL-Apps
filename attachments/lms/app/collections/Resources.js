@@ -7,25 +7,22 @@ $(function() {
     model: App.Models.Resource,
 
     url: function() {
-      return App.Server + '/' + App.ResourcesDb + '/_all_docs?include_docs=true'
+      return App.Server + '/resources/_all_docs?include_docs=true'
     },
     
     parse: function(response) {
-      // @todo Using _.map() here doesn't work :-/... Race condition??
-      var map = []
+      var models = []
       _.each(response.rows, function(row) {
-        if(_.has(row.doc, "kind") && row.doc.kind == "Resource") {
-          map.push(row.doc)
-        }
+        models.push(row.doc)
       });
-      return map
+      return models
     },
-
+    
     comparator: function(model) {
       var title = model.get('name')
       if (title) return title.toLowerCase()
     }
-
+  
   })
 
 })

@@ -6,21 +6,19 @@ $(function() {
 
     url: function() {
       var url = (_.has(this, 'id'))
-        ? App.Server + '/' + App.ResourcesDb + '/' + this.id + "?rev=" + this.get('_rev') // For READ, UPDATE, and DELETE
-        : App.Server + '/' + App.ResourcesDb // for CREATE
+        ? App.Server + '/resources/' + this.id + "?rev=" + this.get('_rev') // For READ, UPDATE, and DELETE
+        : App.Server + '/resources' // for CREATE
 
       return url
     },
 
     defaults: {
-      kind: "Resource",
-      openWith: "pdf-js-viewer"
+      kind: "Resource"
     },
 
     schema: {
-      name: 'Text',
-      description: 'Text',
-      openWith: { type: 'Select', options: ['pdf-js-viewer', 'Download Only'] },
+      title: 'Text',
+      description: 'Text'
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {
