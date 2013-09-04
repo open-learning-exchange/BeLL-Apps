@@ -1,9 +1,9 @@
 $(function() {
 
   App.Models.Resource = Backbone.Model.extend({
-    
+
     idAttribute: "_id",
-    
+
     url: function() {
       if (_.has(this, 'id')) {
         var url = (_.has(this.toJSON(), '_rev'))
@@ -15,18 +15,18 @@ $(function() {
       }
       return url
     },
-    
+
     defaults: {
       kind: 'Resource'
     },
-    
+
     schema: {
       title: 'Text',
       description: 'TextArea'
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {
-      
+
       // Work with this doc in the files database
       var server = App.Server
       var input_db = "resources"
@@ -39,18 +39,39 @@ $(function() {
       $.couch.db(input_db).openDoc(input_id, {
         // If found, then set the revision in the form and save
         success: function(couchDoc) {
-          // Defining a revision on saving over a Couch Doc that exists is required.
-          // This puts the last revision of the Couch Doc into the input#rev field
-          // so that it will be submitted using ajaxSubmit.
-          $(revEl).val(couchDoc._rev);
-           
-          // Submit the form with the attachment
-          $(formEl).ajaxSubmit({
-            url: server + "/"+ input_db +"/"+ input_id,
-            success: function(response) {
-              model.trigger('savedAttachment')
-            }
-          })
+          // If the current doc has an attachment we need to clear it for the new attachment
+          if (_.has(couchDoc, '_attachments')) {
+            $.ajax({
+              url: '/resources/' + couchDoc._id + '/' + _.keys(couchDoc._attachments)[0] + '?rev=' + couchDoc._rev,
+              type: 'DELETE',
+              success: function(response, status, jqXHR) {
+                // Defining a revision on saving over a Couch Doc that exists is required.
+                // This puts the last revision of the Couch Doc into the input#rev field
+                // so that it will be submitted using ajaxSubmit.
+                response = JSON.parse(response)
+                $(revEl).val(response.rev);
+                // Submit the form with the attachment
+                $(formEl).ajaxSubmit({
+                  url: server + "/"+ input_db +"/"+ input_id,
+                  success: function(response) {
+                    model.trigger('savedAttachment')
+                  }
+                })                
+              }
+            })
+          }
+          // The doc does not already have attachment, ready to go
+          else {
+            $(revEl).val(model.get('rev'));
+            // Submit the form with the attachment
+            $(formEl).ajaxSubmit({
+              url: server + "/"+ input_db +"/"+ input_id,
+              success: function(response) {
+                model.trigger('savedAttachment')
+              }
+            })
+          }
+
         }, // End success, we have a Doc
         
         // If there is no CouchDB document with that ID then we'll need to create it before we can attach a file to it.
