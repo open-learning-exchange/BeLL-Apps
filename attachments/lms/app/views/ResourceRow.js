@@ -23,7 +23,10 @@ $(function() {
     },
     
     render: function () {
-      this.$el.append(this.template(this.model.toJSON()))
+      var vars = this.model.toJSON()
+      vars.fileName = _.keys(vars._attachments)[0]
+
+      this.$el.append(this.template(vars))
     },
 
 
