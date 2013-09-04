@@ -5,8 +5,9 @@ $(function() {
     tagName: "tr",
 
     events: {
-      "click .destroy" : function() {
+      "click .destroy" : function(event) {
         this.model.destroy()
+        event.preventDefault()
       },
       "click .trigger-modal" : function() {
         $('#myModal').modal({show:true})

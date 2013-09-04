@@ -1,13 +1,13 @@
 $(function() {
 
   App.Models.Resource = Backbone.Model.extend({
-
+    
     idAttribute: "_id",
-
+    
     url: function() {
       if (_.has(this, 'id')) {
-        var url = (_.has(this, '_rev'))
-          ? App.Server + '/resources/' + this.id + "?rev=" + this.get('_rev') // For UPDATE and DELETE
+        var url = (_.has(this.toJSON(), '_rev'))
+          ? App.Server + '/resources/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
           : App.Server + '/resources/' + this.id // For READ
       }
       else {
@@ -15,18 +15,18 @@ $(function() {
       }
       return url
     },
-
+    
     defaults: {
-      kind: "Resource"
+      kind: 'Resource'
     },
-
+    
     schema: {
       title: 'Text',
       description: 'TextArea'
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {
-
+      
       // Work with this doc in the files database
       var server = App.Server
       var input_db = "resources"
@@ -34,7 +34,7 @@ $(function() {
         ? this.get('_id')
         : this.get('id')
       var model = this
-     
+      
       // Start by trying to open a Couch Doc at the _id and _db specified
       $.couch.db(input_db).openDoc(input_id, {
         // If found, then set the revision in the form and save

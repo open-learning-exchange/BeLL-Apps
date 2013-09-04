@@ -5,9 +5,14 @@ $(function() {
     idAttribute: "_id",
 
     url: function() {
-      var url = (_.has(this, 'id'))
-        ? App.Server + '/groups/' + this.id + "?rev=" + this.get('_rev')
-        : App.Server + '/groups'
+      if (_.has(this, 'id')) {
+        var url = (_.has(this.toJSON(), '_rev'))
+          ? App.Server + '/groups/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
+          : App.Server + '/groups/' + this.id // For READ
+      }
+      else {
+        var url = App.Server + '/groups' // for CREATE
+      }
       return url
     },
 
