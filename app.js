@@ -3,7 +3,7 @@
   ;
 
 ddoc = 
-  { _id:'_design/app'
+  { _id:'_design/bell'
   , rewrites : 
     [ {from:"/", to:'index.html'}
     , {from:"/api", to:'../../'}

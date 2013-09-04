@@ -8,22 +8,30 @@ $(function() {
       'resources'                   : 'Resources',
       'resource/add'                : 'ResourceForm',
       'resource/edit/:resourceId'   : 'ResourceForm',
-      'groups'                      : 'Groups',
-      'group/edit/:groupId'         : 'GroupForm',
-      'group/assign/:groupId'       : 'GroupAssign',
-      'group/add'                   : 'GroupAdd',
-      'group/:groupId'              : 'Group',
+      'teams'                      : 'Groups',
+      'team/edit/:groupId'         : 'GroupForm',
+      'team/assign/:groupId'       : 'GroupAssign',
+      'team/add'                   : 'GroupAdd',
+      'team/:groupId'              : 'Group',
     },
 
-    ResourceForm : function(db, resourceId) {
+    ResourceForm : function(resourceId) {
       var resource = (resourceId)
-        ? new App.Models.Resource({id: resourceId})
+        ? new App.Models.Resource({_id: resourceId})
         : new App.Models.Resource()
       resource.on('processed', function() {
         Backbone.history.navigate('resources', {trigger: true})
       })
       var resourceFormView = new App.Views.ResourceForm({model: resource})
-      resourceFormView.render()
+      if(resource.id) {
+        App.listenToOnce(resource, 'sync', function() {
+          resourceFormView.render()
+        })
+        resource.fetch()
+      }
+      else {
+        resourceFormView.render()
+      }
       App.$el.children('.body').html(resourceFormView.el)
     },
 
@@ -65,7 +73,7 @@ $(function() {
       })
       // after this group is saved move on to the groups page
       group.on('sync', function() {
-        Backbone.history.navigate('groups', {trigger: true})
+        Backbone.history.navigate('teams', {trigger: true})
       })
       // Set up the form
       var groupForm = new App.Views.GroupForm({model: group})

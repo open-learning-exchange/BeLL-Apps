@@ -95,10 +95,20 @@
           <a class="brand" href="#">Bell LMS</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="#groups">Groups</a></li>
-              <li><a href="#group/add">Add Group</a></li>
-              <li><a href="#resources">Resources</a></li>
-              <li><a href="#resource/add">Add Resource</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Teams <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#teams"><i class="icon-list"></i> List Teams</a></li>
+                  <li><a href="#team/add"><i class="icon-plus"></i> Add a new Team</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
+                  <li><a href="#resource/add"><i class="icon-plus"></i> Add a new Resource</a></li>
+                </ul>
+              </li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -151,12 +161,12 @@
       <%= title %>
     </td> 
     <td>
-      <a class='btn' href=resource/'<%= _id %>'>
+      <a class='btn' href=#resource/'<%= _id %>'>
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
     <td>
-      <a class='btn' href=resource/edit/'<%= _id %>'>
+      <a class='btn' href='#resource/edit/<%= _id %>'>
         <i class='icon-pencil'></i> Edit
       </a>
     </td>

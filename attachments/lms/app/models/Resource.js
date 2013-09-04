@@ -5,10 +5,14 @@ $(function() {
     idAttribute: "_id",
 
     url: function() {
-      var url = (_.has(this, 'id'))
-        ? App.Server + '/resources/' + this.id + "?rev=" + this.get('_rev') // For READ, UPDATE, and DELETE
-        : App.Server + '/resources' // for CREATE
-
+      if (_.has(this, 'id')) {
+        var url = (_.has(this, '_rev'))
+          ? App.Server + '/resources/' + this.id + "?rev=" + this.get('_rev') // For UPDATE and DELETE
+          : App.Server + '/resources/' + this.id // For READ
+      }
+      else {
+        var url = App.Server + '/resources' // for CREATE
+      }
       return url
     },
 
@@ -18,7 +22,7 @@ $(function() {
 
     schema: {
       title: 'Text',
-      description: 'Text'
+      description: 'TextArea'
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {
