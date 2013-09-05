@@ -33,7 +33,12 @@ $(function() {
       var that = this
       this.model.save(null, {success: function() {
         that.model.unset('_attachments')
-        that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+        if($('input[type="file"]').val()) {
+          that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+        }
+        else {
+          that.model.trigger('processed')
+        }
         that.model.on('savedAttachment', function() {
           this.trigger('processed')
         }, that.model)
