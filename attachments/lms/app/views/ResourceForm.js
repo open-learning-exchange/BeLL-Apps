@@ -5,49 +5,69 @@ $(function() {
     className: "form",
 
     events: {
-      "click .save": "saveForm"
+      "click .save": "saveForm",
+      //@todo This causes save to not happen 
+      // "click .save": "statusLoading"
     },
 
+    template: _.template($('#template-form-file').html()),
+
     render: function() {
-
-      // Extra elements not covered in the schema
-      var $button = $('<div class="btn save" name="save">save</div>')
-      var $file = $('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
-
+      var vars = {}
+      
+      // prepare the header
+      if(_.has(this.model, 'id')) {
+        vars.header = 'Edit "' + this.model.get('title') + '"'
+      }
+      else {
+        vars.header = 'New resource'
+      }
+      
+      // prepare the form
       this.form = new Backbone.Form({ model: this.model })
-
-      $(this.el).append(this.form.render().el)
-      $(this.el).append($file)
-      $(this.el).append($button)
-      $(this.el).append('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
+      this.form.render()
+      // @todo Why won't this work?
+      vars.form = "" //$(this.form.el).html()
+      
+      // render the template
+      this.$el.html(this.template(vars))
+      // @todo this is hackey, should be the following line or assigned to vars.form
+      $('.fields').html(this.form.el) 
+      //$this.$el.children('.fields').html(this.form.el) // also not working
 
       return this
-
     },
 
     saveForm: function() {
-      this.$el.children('.progress').show()
-      // Put the form's input into the model in memory
-      this.form.commit()
-      // Send the updated model to the server
-      var that = this
-      this.model.save(null, {success: function() {
-        that.model.unset('_attachments')
-        if($('input[type="file"]').val()) {
-          that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
-        }
-        else {
-          that.model.trigger('processed')
-        }
-        that.model.on('savedAttachment', function() {
-          this.trigger('processed')
-        }, that.model)
-      }})
+      // @todo validate 
+      //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
+        // Put the form's input into the model in memory
+        this.form.commit()
+        // Send the updated model to the server
+        var that = this
+        this.model.save(null, {success: function() {
+          that.model.unset('_attachments')
+          if($('input[type="file"]').val()) {
+            that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+          }
+          else {
+            that.model.trigger('processed')
+          }
+          that.model.on('savedAttachment', function() {
+            this.trigger('processed')
+          }, that.model)
+        }})
+      //}
+      //else {
+        //alert("You missed a field.")
+      //}
     },
 
-
-
+    statusLoading : function() {
+      this.$el.children('.status').html('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
+    }      
 
   })
 
 })
+ 

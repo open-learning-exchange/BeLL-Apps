@@ -122,9 +122,39 @@
      
   </script>
 
+  <script type="text/template" id="template-form-file">
+    <table class="table table-striped">
+      <th> 
+        <h2>
+          <%= header %>
+        </h2> 
+      </th>
+      <tr>
+        <td colspan="2" class="fields">
+          <!-- The first form that will be submitted without the file -->
+          <%= form %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- The Second form that will be submitted containing the file -->
+          <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="btn save" name="save">
+            save
+          </div>
+        </td>
+        <td class="status">
+          <!-- status goes here -->
+        </td>
+      </tr>
+    </table>
+  </script>
 
   <script type="text/template" id="template-nav"> </script>
-
 
   <script type="text/template" id="resource-item-template">
       <td style="padding: 20px">

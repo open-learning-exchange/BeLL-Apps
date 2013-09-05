@@ -23,6 +23,7 @@ $(function() {
         Backbone.history.navigate('resources', {trigger: true})
       })
       var resourceFormView = new App.Views.ResourceForm({model: resource})
+      App.$el.children('.body').html(resourceFormView.el)
       if(resource.id) {
         App.listenToOnce(resource, 'sync', function() {
           resourceFormView.render()
@@ -32,7 +33,6 @@ $(function() {
       else {
         resourceFormView.render()
       }
-      App.$el.children('.body').html(resourceFormView.el)
     },
 
     Resources: function(database) {
