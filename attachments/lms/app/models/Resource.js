@@ -74,6 +74,7 @@ $(function() {
 
         }, // End success, we have a Doc
         
+        // @todo I don't think this code will ever be run.
         // If there is no CouchDB document with that ID then we'll need to create it before we can attach a file to it.
         error: function(status) {
           $.couch.db(input_db).saveDoc({"_id":input_id}, {
