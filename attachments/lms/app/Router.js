@@ -3,16 +3,14 @@ $(function() {
 
     routes: {
       ''                            : 'Groups', 
-    //  ''                            : 'FacilityDashboard', 
-    //  'dashboard'                   : 'FacilityDashboard', 
       'resources'                   : 'Resources',
       'resource/add'                : 'ResourceForm',
       'resource/edit/:resourceId'   : 'ResourceForm',
       'teams'                      : 'Groups',
       'team/edit/:groupId'         : 'GroupForm',
       'team/assign/:groupId'       : 'GroupAssign',
+      'team/assignments/:groupId'  : 'GroupAssignments',
       'team/add'                   : 'GroupAdd',
-      'team/:groupId'              : 'Group',
     },
 
     ResourceForm : function(resourceId) {
@@ -53,17 +51,6 @@ $(function() {
       }})
     },
 
-    Group: function(collectionId) {
-      // @todo Shouldn't I be feeding collectionId into this?
-      App.resources = new App.Collections.Resources()
-      App.resources.fetch({success: function() {
-        console.log(App.resources)
-        App.resourcesView = new App.Views.Resources({collection: App.resources})
-        App.resourcesView.render()
-        $("#app").html(App.resourcesView.el)
-      }})
-    },
-
     GroupAdd : function() {
       // Set up the model
       var group = new App.Models.Group()
@@ -82,17 +69,15 @@ $(function() {
     },
 
 
-    GroupAssign: function(database) {
-      window.CollectionDb = db
-      var resource = (resourceId)
-        ? new App.Models.Resource({id: resourceId})
-        : new App.Models.Resource()
-      resource.on('processed', function() {
-        Backbone.history.navigate('collection/resources/' + db, {trigger: true})
-      })
-      var resourceFormView = new App.Views.ResourceForm({model: resource})
-      resourceFormView.render()
-      App.$el.children('#body').html(resourceFormView.el)
+    GroupAssign: function(groupId) {
+      var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
+      assignResourcesToGroupTable.groupId = groupId
+      assignResourcesToGroupTable.render()
+      App.$el.children('.body').html(assignResourcesToGroupTable.el)
+    },
+
+    GroupAssignments: function(groupId) {
+
     }
 
   }))
