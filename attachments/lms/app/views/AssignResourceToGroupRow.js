@@ -5,7 +5,7 @@ $(function() {
     tagName: "tr",
 
     events: {
-      
+
       'click .assign' : function(e) {
         e.preventDefault()
         var assignment = new App.Models.Assignment()
@@ -13,7 +13,7 @@ $(function() {
         var that = this
         assignment.on('sync', function() {
           // rerender this view
-          that.vars.assignmentId = assignment.id
+          that.vars.assignmentId = assignment.get('id')
           that.render()
         })
         assignment.set('context', {groupId: groupId})
