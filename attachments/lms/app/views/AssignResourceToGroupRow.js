@@ -5,6 +5,7 @@ $(function() {
     tagName: "tr",
 
     events: {
+      
       'click .assign' : function(e) {
         e.preventDefault()
         var assignment = new App.Models.Assignment()
@@ -19,6 +20,31 @@ $(function() {
         assignment.set('resourceId', this.model.id)
         assignment.save()
       },
+
+      'click .unassign' : function(e) {
+        e.preventDefault()
+        // setup
+        var assignment = new App.Models.Assignment()
+        var groupId = $(e.currentTarget).attr('data-group-id')
+        var assignmentId = $(e.currentTarget).attr('data-assignment-id')
+        assignment.id = assignmentId
+        var that = this
+        //
+        // Sequence of events
+        //
+        // Fetch the assignment and then delete it
+        App.listenToOnce(assignment, 'sync', function() {
+          assignment.destroy()
+        })
+        // When the assignment is deleted, tell the view and rerender
+        assignment.on('destroy', function() {
+          that.vars.assignmentId = false
+          that.render()
+        })
+        // start the sequence
+        assignment.fetch()
+      },
+
       // Do a preview in a modal
       'click .trigger-modal' : function() {
         $('#myModal').modal({show:true})
