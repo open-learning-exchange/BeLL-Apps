@@ -38,7 +38,8 @@ $(function() {
       resources.fetch({success: function() {
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
         resourcesTableView.render()
-        App.$el.children('.body').html(resourcesTableView.el)
+        App.$el.children('.body').html('<h1>Resources</h1>')
+        App.$el.children('.body').append(resourcesTableView.el)
       }})
     },
 
@@ -47,7 +48,8 @@ $(function() {
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html(groupsTable.el)
+        App.$el.children('.body').html('<h1>Teams</h1>')
+        App.$el.children('.body').append(groupsTable.el)
       }})
     },
 
@@ -65,7 +67,8 @@ $(function() {
       // Set up the form
       var groupForm = new App.Views.GroupForm({model: group})
       groupForm.render()
-      App.$el.children('.body').html(groupForm.el)
+      App.$el.children('.body').html('<h1>Add a Team</h1>')
+      App.$el.children('.body').append(groupForm.el)
     },
 
 
