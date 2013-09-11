@@ -47,9 +47,6 @@
   <script src="app/views/ResourceForm.js"></script>
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ResourcesTable.js"></script>
-  <script src="app/views/AssignmentForm.js"></script>
-  <script src="app/views/AssignResourcesForm.js"></script>
-  <script src="app/views/AssignResourcesToGroupForm.js"></script>
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
 
@@ -188,15 +185,19 @@
 
   <script type="text/html" id="template-AssignResourceToGroupRow">
     <td>
-      <div class="assignment-status <%= assignmentStatus %>"> </div>
-    </td>
-    <td>
       <%= title %>
     </td>
     <td>
       <a class='btn' href='/apps/_design/pdf.js/web/viewer.html?url=/resources/<%= _id %>/<%= fileName %>' target="_blank">
         <i class='icon-eye-open'></i> Preview
       </a>
+    </td>
+    <td class='assignment-status'>
+      <% if(assignmentId != false) { %>
+        <a class='btn btn-danger unassign' data-group-id='<%= groupId %>' data-assignment-id="<%= assignmentId %>" href='#'>unassign</a>
+      <% } else { %>
+        <a class='btn btn-success assign' data-group-id='<%= groupId %>' href='#'>assign</a>
+      <% } %>       
     </td>
   </script>
 
