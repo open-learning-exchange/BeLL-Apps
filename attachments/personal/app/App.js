@@ -1,56 +1,36 @@
 $(function() {
 
-  /*
-   *
-   * Note: "cx" refers to a Hubble Collection. Anywhere "collection" is used, it refers to Backbone Collections.
-   */
 
   App = new (Backbone.View.extend({
 
+    // Settings
+    Server: '',
+
+    // Backbone structure
     Models: {},
     Views: {},
     Collections: {},
+    Vars: {}, // A place to persist variables in the session
 
-    el: '#app',
+    el: "body",
 
-    template: _.template($("#app-template").html()),
+    template: $("#template-app").html(),
 
-    render: function(){
-      this.$el.html(this.template());
+    events: {
+      // For the x button on the modal
+      "click .close" : "closeModal"
     },
 
     start: function(){
-      // App.syncCxs()
-      // App.on('syncDone', function() {
-      //   App.setPouch('hubble')
-        this.render()
-        Backbone.history.start({pushState: false})
-      // })
+      this.$el.html(_.template(this.template))
+      Backbone.history.start({pushState: false})
     },
 
-    setPouch: function(name) {
-      Backbone.Model.prototype.idAttribute = '_id'
-      Backbone.sync = BackbonePouch.sync({
-        db: Pouch(name),
-        fetch: 'query'
-      })
-      App.currentPouch = name
+    closeModal: function() {
+      $("#modal").modal("hide")
     },
-
-    CxsStore: {
-
-      get: function() {
-        return (!localStorage.CxsStore) 
-          ? {} 
-          : JSON.parse(localStorage.CxsStore)
-      },
-
-      set:  function(cxsStore) {
-        localStorage.CxsStore = JSON.stringify(cxsStore)
-      }
-    }
-
 
   }))
-  
+
+
 })

@@ -3,84 +3,158 @@
 
 <head>
   <meta charset="utf-8">
-  <title>My Library</title>
-  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+  <title>Personal BeLL</title>
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+  <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
-  <script>
-  </script>
-  
-  <script src="vendor/jquery-2.0.1.js"></script>
-  <script src="vendor/purl.js"></script>
-  <script src="vendor/underscore.js"></script>
-  <script src="vendor/backbone.js"></script>
+
+  <!--
+    DEPENDENCIES
+  -->
+
+  <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
+  <script src="vendor/underscore-1.4.4.js"></script>
+  <script src="vendor/backbone-1.0.0.js"></script>
+  <script src="vendor/backbone-forms.js"></script>
   <script src="vendor/backbone-pouch.js"></script>
-  <script src="vendor/purl.js"></script>
+  <script src="/_utils/script/json2.js"></script>
+  <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
+  <script src="/_utils/script/jquery.form.js?0.9.0"></script>
+  <script src="vendor/sha1.js"></script>
+  <script src="vendor/jquery.couch.js"></script>
+  <script src="vendor/backbone.couchdb.js"></script>
+  <script src="vendor/html-encode.js"></script>
+  <script src="vendor/jquery.url.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
+
+  <!--
+    App
+  -->
+
   <script src="app/App.js"></script>
   <script src="app/Router.js"></script>
-  
+
   <script src="app/models/Resource.js"></script>
-  <script src="app/models/Cx.js"></script>
-  <script src="app/collections/Cxs.js"></script>
+  <script src="app/models/Group.js"></script>
+  <script src="app/models/Assignment.js"></script>
+
+  <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Resources.js"></script>
-  <script src="app/views/Resources.js"></script>
-  <script src="app/views/Resource.js"></script>
-  <script src="app/views/Cxs.js"></script>
-  <script src="app/views/Cx.js"></script>
-  
-  
-  </head>
-  
-  <body>
-  
-    <div id="app"> </div>
-  
-  </body>
-  
-  <!-- Templates -->
-  
-  <script type="text/template" id="app-template">
+  <script src="app/collections/GroupAssignments.js"></script>
 
-    <div class="header">
-      <ul class="nav nav-tabs">
-        <li>
-          <a href="../remote/index.html">BeLL Collections</a>
-        </li>
-        <li class="active">
-          <a href="../local/index.html">My Collections</a>
-        </li>
-      </ul>
-      <!--a class="btn" href="#sync" style="position: relative; bottom: 60px; float: right;"><i class="icon-retweet"></i> Sync</a-->
-    </div> 
+  <script src="app/views/GroupForm.js"></script>
+  <script src="app/views/GroupRow.js"></script>
+  <script src="app/views/GroupsTable.js"></script>
+  <script src="app/views/ResourceForm.js"></script>
+  <script src="app/views/ResourceRow.js"></script>
+  <script src="app/views/ResourcesTable.js"></script>
+  <script src="app/views/AssignResourcesToGroupTable.js"></script>
+  <script src="app/views/AssignResourceToGroupRow.js"></script>
 
-    <div class="body"> 
+  
+</head>
 
+<body>
+
+
+</body>
+
+  <!-- 
+    Templates 
+  -->
+
+  <script type="text/template" id="template-ResourcesTable">
+
+    <tr class='header'>
+
+    </tr>
+
+  </script>
+
+
+  <script type="text/template" id="template-ResourcesTableHeader">
+
+      <td colspan=99 style='padding: 15px'>
+        <h3 style='float:left;'>
+          Resources in <%= name %>
+        </h3>
+        <a style='float: left; margin: 16px;' class='btn' href='#collection/resource/add/<%= database %>'> 
+          <i class='icon-plus-sign'></i> Create a new Resource
+        </a>
+      </td>
+
+  </script>
+
+
+  <script type="text/template" id="template-app">
+    <div id="debug"></div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Personal BeLL</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li> <a href="../lms/index.html#resources">Explore the BeLL</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
     </div>
 
+    <!-- Body -->
+    <div class="container body">
+      <!-- Content -->
+    </div>
+     
   </script>
 
-  <script type="text/template" id="collections-nav-template">
-
+  <script type="text/template" id="template-form-file">
+    <table class="table table-striped">
+      <th> 
+        <h2>
+          <%= header %>
+        </h2> 
+      </th>
+      <tr>
+        <td colspan="2" class="fields">
+          <!-- The first form that will be submitted without the file -->
+          <%= form %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- The Second form that will be submitted containing the file -->
+          <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="btn save" name="save">
+            save
+          </div>
+        </td>
+        <td class="status">
+          <!-- status goes here -->
+        </td>
+      </tr>
+    </table>
   </script>
 
-  <script type="text/template" id="collection-item-template">
-      <td>
-        <a href="#collection/<%= id %>"><%= name %></a>
-      </td>
-      <td>
-        <a class="destroy"> <i class="icon-remove"></i></a>
-      </td>
-      <td class='sync-status'>
-      </td>
-  </script>
+  <script type="text/template" id="template-nav"> </script>
 
   <script type="text/template" id="resource-item-template">
-    
     <td style="padding: 20px">
       <%= name %>
     </td>
     <td>
-      <a class="btn" href="/hubble/_design/PDFjs/viewer.html?db=<%= db %>&docId=<%= docId %>&file=<%= file %>"><i class="icon-eye-open"></i> view</a>
+      <a class="btn" href="/hubble/_design/hubble-server/apps/PDFjs2/web/viewer.html#pouch=<%= pouch %>&pouchAttachment=<%= pouchAttachment %>"><i class="icon-eye-open"></i> view</a>
     </td>
     <td>
       <a class="btn download" href="#"><i class="icon-circle-arrow-down"></i> download</a>
@@ -88,13 +162,89 @@
     <td>
       <a class="btn destroy"> <i class="icon-remove"></i> delete</a></label>
     </td>
-    
   </script>
 
+  <script type="text/html" id="template-AssignResourcesToGroupTable">
+    <h1> 
+      Resources assigned to <%= groupName %>
+    </h1>
+    <table class="table table-striped">
+    </table>
+  </script>
+
+  <script type="text/html" id="template-AssignResourceToGroupRow">
+    <td>
+      <%= title %>
+    </td>
+    <td>
+      <a class='btn' href='/apps/_design/pdf.js/web/viewer.html?url=/resources/<%= _id %>/<%= fileName %>' target="_blank">
+        <i class='icon-eye-open'></i> Open
+      </a>
+    </td>
+  </script>
+
+  <script type="text/html" id="template-GroupRow">
+    <td>
+      <%= name %>
+    </td> 
+
+    <td>
+      <a role='button' class='btn' href='#team/assign/<%= _id %>'> 
+        <i class='icon-list'></i> Assignments
+      </a>
+    </td>
+
+    <!-- td>
+      <a role='button' class='btn' href='#team/assignments/<%= _id %>'> 
+        Review assigned resources
+      </a>
+    </td -->
+
+    <td>
+      <a class='destroy btn' href='#'>
+        <i class='icon-remove'></i> Remove
+      </a>
+    </td>
+
+  </script>
+
+
+  <script type="text/html" id="template-ResourceRow">
+    <td>
+      <%= title %>
+    </td> 
+    <td>
+      <a class='btn' href='/apps/_design/pdf.js/web/viewer.html?url=/resources/<%= _id %>/<%= fileName %>'>
+        <i class='icon-eye-open'></i> Open
+      </a>
+    </td>
+    <td>
+      <a class='btn' href='/resources/<%= _id %>/<%= fileName %>'>
+        <i class='icon-download'></i> Download
+      </a>
+    </td>
+    <td>
+      <a class='btn' href='#resource/edit/<%= _id %>'>
+        <i class='icon-pencil'></i> Edit
+      </a>
+    </td>
+    <td>
+      <a class='destroy btn' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    </td>
+  </script>
+
+
+
+  <!-- 
+    START THE APP
+  -->
+
   <script>
-    $(document).ready(function() { 
+    $(document).ready(function() {
       App.start()
-    }) 
+    })
   </script>
 
 </html>

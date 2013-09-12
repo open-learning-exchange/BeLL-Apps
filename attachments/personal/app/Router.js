@@ -2,84 +2,86 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      '': 'cxs',
-      'collections': 'cxs',
-      'collections/add/*url': 'cxAdd', // @todo should be collection/add
-      'collection/*collectionId': 'cx',
-      'sync': 'replicate'
+      ''                            : 'Groups', 
+      'resources'                   : 'Resources',
+      'resource/add'                : 'ResourceForm',
+      'resource/edit/:resourceId'   : 'ResourceForm',
+      'teams'                      : 'Groups',
+      'team/edit/:groupId'         : 'GroupForm',
+      'team/assign/:groupId'       : 'GroupAssign',
+      'team/assignments/:groupId'  : 'GroupAssignments',
+      'team/add'                   : 'GroupAdd',
     },
 
-    cxAdd: function(url) {
-      console.log("Adding collection : " + url)
-      var whoamiUrl = url + "/whoami"
-      console.log("Looking for whoami: " + whoamiUrl)
-      $.getJSON(whoamiUrl, function(data) {
-        console.log("whoami data: " + JSON.stringify(data))
-        var remote = url
-        var local = url.replace(new RegExp('/', 'g'), '_')
-        // Create the Hubble Collection
-        var cxData = {
-          remote: remote,
-          local: local,
-          database: data.database,
-          name: data.name,
-          id: remote
-        }
-        var cx = new App.Models.Cx()
-        cx.set(cxData)
-        cx.save()
-        console.log("Cx saved:")
-        console.log(JSON.stringify(cx))
-        App.trigger('collectionAdded')
-        App.Router.navigate("collections", {trigger:true})
+    ResourceForm : function(resourceId) {
+      var resource = (resourceId)
+        ? new App.Models.Resource({_id: resourceId})
+        : new App.Models.Resource()
+      resource.on('processed', function() {
+        Backbone.history.navigate('resources', {trigger: true})
       })
-    },
-
-    replicate: function() {
-      var cxs = new App.Collections.Cxs()
-      cxs.on('sync', function() {
-        cxs.replicate()
-      })
-      cxs.on('replicateDone', function() {
-        App.Router.navigate("collections", {trigger:true})
-      })
-      // Kick off the replication process
-      cxs.fetch()
-    },
-
-    cxs: function() {
-      var cxs = new App.Collections.Cxs()
-      cxs.on('sync', function() {
-        App.cxsView = new App.Views.Cxs({collection: this}) 
-        App.cxsView.render()
-        App.$el.children('.body').html(App.cxsView.el)        
-      })
-      cxs.fetch()
-
-    },
-
-    cx: function(collectionId) {
-      // Interesting, the first line will work ONCE, thus the second line...
-      var cx = new App.Models.Cx({id: collectionId})
-      cx.id = collectionId
-      cx.on('sync', function() {
-        App.setPouch(cx.get('local'))
-        console.log("Pouch set to " + cx.get('local'))
-        var db = Pouch(cx.get('local'))
-        db.allDocs({include_docs: true}, function(err, response) {
-          console.log(response)
+      var resourceFormView = new App.Views.ResourceForm({model: resource})
+      App.$el.children('.body').html(resourceFormView.el)
+      if(resource.id) {
+        App.listenToOnce(resource, 'sync', function() {
+          resourceFormView.render()
         })
-        App.resources = new App.Collections.Resources()
-        App.resources.fetch({success: function() {
-          console.log(JSON.stringify(App.resources.models))
-          App.resourcesView = new App.Views.Resources({collection: App.resources})
-          App.resourcesView.render()
-          App.$el.children('.body').html(App.resourcesView.el)
-        }})
-      })
-      cx.fetch()      
-    }
+        resource.fetch()
+      }
+      else {
+        resourceFormView.render()
+      }
+    },
 
+    Resources: function(database) {
+      var resources = new App.Collections.Resources()
+      resources.fetch({success: function() {
+        var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
+        resourcesTableView.render()
+        App.$el.children('.body').html('<h1>Resources</h1>')
+        App.$el.children('.body').append(resourcesTableView.el)
+      }})
+    },
+
+    Groups: function() {
+      groups = new App.Collections.Groups()
+      groups.fetch({success: function() {
+        groupsTable = new App.Views.GroupsTable({collection: groups})
+        groupsTable.render()
+        App.$el.children('.body').html('<h1>My Teams</h1>')
+        App.$el.children('.body').append(groupsTable.el)
+      }})
+    },
+
+    GroupAdd : function() {
+      // Set up the model
+      var group = new App.Models.Group()
+      // when the users submits the form, the group will be processed
+      group.on('processed', function() {
+        this.save()
+      })
+      // after this group is saved move on to the groups page
+      group.on('sync', function() {
+        Backbone.history.navigate('teams', {trigger: true})
+      })
+      // Set up the form
+      var groupForm = new App.Views.GroupForm({model: group})
+      groupForm.render()
+      App.$el.children('.body').html('<h1>Add a Team</h1>')
+      App.$el.children('.body').append(groupForm.el)
+    },
+
+
+    GroupAssign: function(groupId) {
+      var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
+      assignResourcesToGroupTable.groupId = groupId
+      assignResourcesToGroupTable.render()
+      App.$el.children('.body').html(assignResourcesToGroupTable.el)
+    },
+
+    GroupAssignments: function(groupId) {
+
+    }
 
   }))
 
