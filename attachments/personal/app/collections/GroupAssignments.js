@@ -2,25 +2,20 @@ $(function() {
 
   App.Collections.GroupAssignments = Backbone.Collection.extend({
 
-    url: function() {
-      var url = App.Server + '/assignments/_design/bell/_view/GroupAssignments?key="' + this.groupId + '"&include_docs=true'
-      return url
-    },
+    model: App.Models.Assignments,
 
-    parse: function(response) {
-      var docs = _.map(response.rows, function(row) {
-        return row.doc
-      })
-      return docs
-    },
-     
-    model: App.Models.Group,
-
-    comparator: function(model) {
-      var title = model.get('name')
-      if (title) return title.toLowerCase()
-    },
-
+    pouch: {
+      query: {
+        fun: {
+          map: function(doc) {
+            // key by groupId so you can grab assignments with a specific groupId
+            if(doc.context && doc.context.groupId) {
+              emit(doc.context.groupId, null)
+            }
+          }
+        }
+      }
+    }
 
   })
 
