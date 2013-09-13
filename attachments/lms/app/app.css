@@ -1,5 +1,5 @@
 .body {
-  margin-top: 40px;
+  margin-top: 50px;
   padding: 0px;
 }
 
@@ -41,4 +41,10 @@
 
 .form input[type="file"] {
   margin: 0 0 0 30px;
+}
+
+@media (max-width: 979px) {
+  .body {
+    margin-top: 0px;
+  }
 }
