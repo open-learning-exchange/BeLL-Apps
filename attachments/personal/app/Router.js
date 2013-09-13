@@ -11,6 +11,7 @@ $(function() {
       'team/assign/:groupId'       : 'GroupAssign',
       'team/assignments/:groupId'  : 'GroupAssignments',
       'team/add'                   : 'GroupAdd',
+      'team/link/:groupId'                  : 'GroupLink'
     },
 
     ResourceForm : function(resourceId) {
@@ -71,12 +72,18 @@ $(function() {
       App.$el.children('.body').append(groupForm.el)
     },
 
-
     GroupAssign: function(groupId) {
       var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
       assignResourcesToGroupTable.groupId = groupId
       assignResourcesToGroupTable.render()
       App.$el.children('.body').html(assignResourcesToGroupTable.el)
+    },
+
+    GroupLink: function(groupId) {
+      App.once('done:pull_doc_ids', function(){
+        Backbone.history.navigate('teams', {trigger: true})
+      })
+      App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
     },
 
     GroupAssignments: function(groupId) {
