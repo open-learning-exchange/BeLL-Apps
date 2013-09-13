@@ -11,7 +11,8 @@ $(function() {
       'team/assign/:groupId'       : 'GroupAssign',
       'team/assignments/:groupId'  : 'GroupAssignments',
       'team/add'                   : 'GroupAdd',
-      'team/link/:groupId'                  : 'GroupLink'
+      'team/link/:groupId'                  : 'GroupLink',
+      'update-assignments'                  : 'UpdateAssignments'
     },
 
     ResourceForm : function(resourceId) {
@@ -79,6 +80,10 @@ $(function() {
       App.$el.children('.body').html(assignResourcesToGroupTable.el)
     },
 
+    GroupAssignments: function(groupId) {
+
+    },
+
     GroupLink: function(groupId) {
       App.once('done:pull_doc_ids', function(){
         Backbone.history.navigate('teams', {trigger: true})
@@ -86,9 +91,19 @@ $(function() {
       App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
     },
 
-    GroupAssignments: function(groupId) {
-
+    UpdateAssignments: function() {
+      App.$el.children('.body').html('<div class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div><h2>Updating Assignments. One moment please.</h2>')
+      PouchDB.replicate(window.location.origin + '/assignments', 'assignments', {
+        complete: function(){
+          PouchDB.replicate(window.location.origin + '/resources', 'resources', {
+            complete: function(){
+              Backbone.history.navigate('teams', {trigger: true})
+            }
+          })
+        }
+      }) 
     }
+
 
   }))
 

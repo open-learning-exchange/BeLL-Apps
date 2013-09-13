@@ -8,4 +8,6 @@ $(function() {
       db: PouchDB('resources')
     })
 
+  })
+  
 })
