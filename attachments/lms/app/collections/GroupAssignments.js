@@ -14,7 +14,7 @@ $(function() {
       return docs
     },
      
-    model: App.Models.Group,
+    model: App.Models.Assignments,
 
     comparator: function(model) {
       var title = model.get('name')
