@@ -74,15 +74,18 @@ $(function() {
     },
 
     GroupAssignments: function(groupId) {
-      var groupAssignments = new App.Collections.GroupAssignments()
-      var groupAssignmentsTable = new App.Views.GroupAssignmentsTable({collection: groupAssignments})
-      App.$el.children('.body').html(groupAssignmentsTable.el)
 
-      groupAssignments.groupId = groupId
-      groupAssignments.fetch()
-      groupAssignments.on('sync', function() {
-
+      var group = new App.Models.Group()
+      group.id = groupId
+      group.once('sync', function() {
+        var groupAssignments = new App.Collections.GroupAssignments({group: group})
+        var groupAssignmentsTable = new App.Views.GroupAssignmentsTable({collection: groupAssignments})
+        App.$el.children('.body').html(groupAssignmentsTable.el)
+        groupAssignmentsTable.vars.groupName = group.get('name')
+        groupAssignmentsTable.render()
+        groupAssignments.fetch()
       })
+      group.fetch()
     },
 
     GroupLink: function(groupId) {
