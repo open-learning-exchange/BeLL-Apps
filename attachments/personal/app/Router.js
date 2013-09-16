@@ -8,7 +8,7 @@ $(function() {
       'resource/edit/:resourceId'   : 'ResourceForm',
       'teams'                      : 'Groups',
       'team/edit/:groupId'         : 'GroupForm',
-      'team/assign/:groupId'       : 'GroupAssign',
+      'team/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
       'team/assignments/:groupId'  : 'GroupAssignments',
       'team/add'                   : 'GroupAdd',
       'team/link/:groupId'                  : 'GroupLink',
@@ -73,15 +73,16 @@ $(function() {
       App.$el.children('.body').append(groupForm.el)
     },
 
-    GroupAssign: function(groupId) {
-      var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
-      assignResourcesToGroupTable.groupId = groupId
-      assignResourcesToGroupTable.render()
-      App.$el.children('.body').html(assignResourcesToGroupTable.el)
-    },
-
     GroupAssignments: function(groupId) {
+      var groupAssignments = new App.Collections.GroupAssignments()
+      var groupAssignmentsTable = new App.Views.GroupAssignmentsTable({collection: groupAssignments})
+      App.$el.children('.body').html(groupAssignmentsTable.el)
 
+      groupAssignments.groupId = groupId
+      groupAssignments.fetch()
+      groupAssignments.on('sync', function() {
+
+      })
     },
 
     GroupLink: function(groupId) {
