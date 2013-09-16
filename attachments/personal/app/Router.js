@@ -79,6 +79,7 @@ $(function() {
       group.id = groupId
       group.once('sync', function() {
         var groupAssignments = new App.Collections.GroupAssignments({group: group})
+        groupAssignments.groupId = groupId
         var groupAssignmentsTable = new App.Views.GroupAssignmentsTable({collection: groupAssignments})
         App.$el.children('.body').html(groupAssignmentsTable.el)
         groupAssignmentsTable.vars.groupName = group.get('name')
