@@ -2929,6 +2929,11 @@ document.addEventListener('DOMContentLoaded', function webViewerLoad(evt) {
     });
 
   // We may need to look in PouchDB for a file
+  params = { 
+    db: $.url().fparam('db'), 
+    docId: $.url().fparam('docId'),
+    file: $.url().fparam('file')
+  }
   if(params.db && params.docId && params.file) {
     console.log(params.db + '/' + params.docId + '/' + params.file)
     Pouch(params.db, function(err, db) {
