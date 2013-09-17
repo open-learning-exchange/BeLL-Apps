@@ -1,13 +1,53 @@
 CACHE MANIFEST
-# 2013-07-19:v1
+# 2013-09-17:v3
 
 # Explicitly cached entries
 index.html
-../local/index.html
+vendor/bootstrap/css/bootstrap.css
+vendor/bootstrap/css/bootstrap-responsive.css
+app/app.css
+
+vendor/jquery-1.7.2.js
+vendor/pouchdb-nightly.js
+vendor/underscore-1.4.4.js
+vendor/backbone-1.0.0.js
+vendor/backbone-forms.js
+vendor/backbone-pouch.js
+/_utils/script/json2.js
+/_utils/script/jquery.couch.js?0.8.0
+/_utils/script/jquery.form.js?0.9.0
+vendor/sha1.js
+vendor/jquery.couch.js
+vendor/backbone.couchdb.js
+vendor/html-encode.js
+vendor/jquery.url.js
+vendor/bootstrap/js/bootstrap.js
+
+app/App.js
+app/Router.js
+
+app/models/Resource.js
+app/models/Group.js
+app/models/Assignment.js
+
+app/collections/Groups.js
+app/collections/Resources.js
+app/collections/GroupAssignments.js
+
+app/views/GroupForm.js
+app/views/GroupRow.js
+app/views/GroupsTable.js
+app/views/ResourceForm.js
+app/views/ResourceRow.js
+app/views/ResourcesTable.js
+app/views/AssignResourcesToGroupTable.js
+app/views/AssignResourceToGroupRow.js
+app/views/GroupAssignmentsTable.js
+app/views/AssignmentRow.js
 
 # offline.html will be displayed if the user is offline
 FALLBACK:
-../local/index.html
+index.html
 # / /offline.html
 
 
