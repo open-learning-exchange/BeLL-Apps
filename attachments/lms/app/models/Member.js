@@ -1,6 +1,6 @@
 $(function() {
 
-  App.Models.Members = Backbone.Model.extend({
+  App.Models.Member = Backbone.Model.extend({
 
     idAttribute: "_id",
 
