@@ -33,6 +33,9 @@ couchapp push app.js http://127.0.0.1:5984/apps
 
 
 # Installing on clients
+
+The target browser at the moment is Firefox for Android and has been tested using the current Firefox for Android Beta. At the moment the PDF.js viewer doesn't work in Chrome.
+
 Navigate to {your servers url}/apps/_design/bell/install.html. This will use your browser's AppCache to save the files necessary for browsing without a connection to the server.  When you have that installed you can now disconnect from the server and see that /apps/_design/bell/personal/index.html loads without the connection.  Connect back to the server and in the Personal BeLL app, click "Update my assignments" which will load the Resources, Teams (Groups), and Assignments from CouchDB into the PouchDB databases in your browser. Disconnect from the server again and you'll see that the Personal BeLL App still has everything. 
 
 
