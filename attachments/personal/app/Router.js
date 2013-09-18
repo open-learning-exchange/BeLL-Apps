@@ -61,7 +61,11 @@ $(function() {
             complete: function(){
               PouchDB.replicate(window.location.origin + '/groups', 'groups', {
                 complete: function(){
-                  Backbone.history.navigate('teams', {trigger: true})
+                  PouchDB.replicate(window.location.origin + '/members', 'members', {
+                    complete: function(){
+                      Backbone.history.navigate('teams', {trigger: true})
+                    }
+                  })
                 }
               })
             }
