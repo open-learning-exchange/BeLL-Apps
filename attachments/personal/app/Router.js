@@ -3,12 +3,22 @@ $(function() {
 
     routes: {
       ''                           : 'Groups', 
+      'login'                      : 'MemberLogin',
       'teams'                      : 'Groups',
       'team/edit/:groupId'         : 'GroupForm',
       'team/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
       'team/assignments/:groupId'  : 'GroupAssignments',
       'team/link/:groupId'         : 'GroupLink',
       'update-assignments'         : 'UpdateAssignments'
+    },
+
+    MemberLogin: function() {
+      var memberLogin = new App.Models.MemberLogin()
+      var memberLoginForm = new App.Views.MemberLoginForm({model: memberLogin})
+      memberLoginForm.render()
+      App.$el.children('.body').html('<h1>Member login</h1>')
+      App.$el.children('.body').append(memberLoginForm.el)
+
     },
 
     Groups: function() {
