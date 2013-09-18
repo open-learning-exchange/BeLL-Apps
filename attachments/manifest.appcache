@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2013-09-17:v10
+# 2013-09-18:v2
 
 # Explicitly cached entries
 lcms/app/app.css
@@ -9,9 +9,6 @@ lcms/app/collections/Resources.js
 lcms/app/models/Collection.js
 lcms/app/models/Resource.js
 lcms/app/Router.js
-lcms/app/views/CollectionForm.js
-lcms/app/views/CollectionRow.js
-lcms/app/views/CollectionsTable.js
 lcms/app/views/GroupRow.js
 lcms/app/views/ResourceForm.js
 lcms/app/views/ResourceRow.js
@@ -19,7 +16,6 @@ lcms/app/views/ResourcesTable.js
 lcms/app/views/SendToCollectionRow.js
 lcms/app/views/SendToCollectionTable.js
 lcms/index.html
-lcms/manifest.appcache
 lcms/vendor/backbone-0.9.2.js
 lcms/vendor/backbone-1.0.0.js
 lcms/vendor/backbone-forms.js
@@ -56,19 +52,13 @@ lms/app/models/Resource.js
 lms/app/Router.js
 lms/app/views/AssignResourcesToGroupTable.js
 lms/app/views/AssignResourceToGroupRow.js
-lms/app/views/CollectionForm.js
-lms/app/views/CollectionRow.js
-lms/app/views/CollectionsTable.js
 lms/app/views/GroupForm.js
 lms/app/views/GroupRow.js
 lms/app/views/GroupsTable.js
 lms/app/views/ResourceForm.js
 lms/app/views/ResourceRow.js
 lms/app/views/ResourcesTable.js
-lms/app/views/SendToCollectionRow.js
-lms/app/views/SendToCollectionTable.js
 lms/index.html
-lms/manifest.appcache
 lms/vendor/backbone-0.9.2.js
 lms/vendor/backbone-1.0.0.js
 lms/vendor/backbone-forms.js
@@ -195,26 +185,14 @@ personal/app/app.css
 personal/app/App.js
 personal/app/collections/GroupAssignments.js
 personal/app/collections/Groups.js
-personal/app/collections/Resources.js
 personal/app/models/Assignment.js
 personal/app/models/Group.js
 personal/app/models/Resource.js
 personal/app/Router.js
 personal/app/views/AssignmentRow.js
-personal/app/views/AssignResourcesToGroupTable.js
-personal/app/views/AssignResourceToGroupRow.js
-personal/app/views/CollectionForm.js
-personal/app/views/CollectionRow.js
-personal/app/views/CollectionsTable.js
 personal/app/views/GroupAssignmentsTable.js
-personal/app/views/GroupForm.js
 personal/app/views/GroupRow.js
 personal/app/views/GroupsTable.js
-personal/app/views/ResourceForm.js
-personal/app/views/ResourceRow.js
-personal/app/views/ResourcesTable.js
-personal/app/views/SendToCollectionRow.js
-personal/app/views/SendToCollectionTable.js
 personal/index.html
 personal/manifest.appcache
 personal/vendor/backbone-0.9.2.js
