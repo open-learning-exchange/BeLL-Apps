@@ -24,8 +24,28 @@ $(function() {
     },
 
     setForm: function() {
-      alert('')
-      // @todo Check login and pass
+      var that = this
+      this.form.commit()
+      var credentials = this.form.model
+      var db = PouchDB('members')
+      function map(doc) {
+        if(doc.login) {
+          emit(doc.login, null);
+        }
+      }
+      db.query({map: map}, {
+        reduce: false, 
+        key: credentials.get('login'), 
+        include_docs: true
+      }, function(err, response) {
+        console.log(response)
+        if(response.total_rows > 0 && response.rows[0].doc.pass == credentials.get('pass')) {
+          $.cookie('Member.login', response.rows[0].doc.login)
+          $.cookie('Member._id', response.rows[0].doc._id)
+          console.log('Login successful')
+          that.trigger('success:login')
+        }
+      });
     },
 
 

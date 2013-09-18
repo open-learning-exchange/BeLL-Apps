@@ -13,6 +13,7 @@
   -->
 
   <script src="vendor/jquery-1.7.2.js"></script>
+  <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
   <script src="vendor/backbone-1.0.0.js"></script>
@@ -77,9 +78,7 @@
           <a class="brand" href="#">Personal BeLL</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li>
-              <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li>
-              <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update my assignments</a></li>
+              
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -93,7 +92,12 @@
      
   </script>
 
- <script type="text/template" id="template-nav"> </script>
+  <script type="text/html" id="template-nav"> 
+    <li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li>
+    <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li>
+    <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update my assignments</a></li>
+    <li> <a href="#logout"><i class="icon-plane icon-white"></i> Log out</a></li>
+  </script>
 
   <script type="text/html" id="template-GroupAssignmentsTable">
     <h1> 
