@@ -2967,7 +2967,7 @@ document.addEventListener('DOMContentLoaded', function webViewerLoad(evt) {
     //#endif
 
     //#if !B2G
-      PDFView.open(file, 0);
+      PDFView.open(params.file, 0);
     //#endif
   }
 }, true);
