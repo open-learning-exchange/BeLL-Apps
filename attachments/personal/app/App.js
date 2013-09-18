@@ -38,7 +38,6 @@ $(function() {
       var exclude_doc_ids = []
       Pouch(from, function(err, remote) {
         remote.allDocs({}, function(err, res) {
-          console.log(res)
           // Get all_doc_ids
           _.each(res.rows, function(row) { 
             all_doc_ids.push(row.id) 
@@ -51,7 +50,6 @@ $(function() {
           })
           console.log(exclude_doc_ids)
           remote.replicate.to(to, { doc_ids:exclude_doc_ids }, function(err, res) {
-            console.log(res)
             App.trigger('done:pull_doc_ids')
           })
         })
