@@ -35,15 +35,20 @@
 
   <script src="app/models/Resource.js"></script>
   <script src="app/models/Group.js"></script>
+  <script src="app/models/Member.js"></script>
   <script src="app/models/Assignment.js"></script>
 
   <script src="app/collections/Groups.js"></script>
+  <script src="app/collections/Members.js"></script>
   <script src="app/collections/Resources.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
 
   <script src="app/views/GroupForm.js"></script>
+  <script src="app/views/MemberForm.js"></script>
   <script src="app/views/GroupRow.js"></script>
+  <script src="app/views/MemberRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
+  <script src="app/views/MembersTable.js"></script>
   <script src="app/views/ResourceForm.js"></script>
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ResourcesTable.js"></script>
@@ -215,6 +220,19 @@
         <i class="icon-list"></i> Assignments
       </a>
     </td>
+
+    <td>
+      <a class='destroy btn' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    </td>
+
+  </script>
+
+  <script type="text/html" id="template-MemberRow">
+    <td>
+      <%= login %>
+    </td> 
 
     <td>
       <a class='destroy btn' href='#'>
