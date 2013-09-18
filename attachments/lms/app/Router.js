@@ -11,6 +11,9 @@ $(function() {
       'team/assign/:groupId'       : 'GroupAssign',
       'team/assignments/:groupId'  : 'GroupAssignments',
       'team/add'                   : 'GroupAdd',
+      'members'                      : 'Members',
+      'member/add'                   : 'MemberAdd',
+      'member/edit/:memberId'        : 'MemberForm',
     },
 
     ResourceForm : function(resourceId) {
@@ -53,6 +56,16 @@ $(function() {
       }})
     },
 
+    Members: function() {
+      members = new App.Collections.Members()
+      members.fetch({success: function() {
+        membersTable = new App.Views.MembersTable({collection: members})
+        membersTable.render()
+        App.$el.children('.body').html('<h1>Members</h1>')
+        App.$el.children('.body').append(membersTable.el)
+      }})
+    },
+
     GroupAdd : function() {
       // Set up the model
       var group = new App.Models.Group()
@@ -71,6 +84,23 @@ $(function() {
       App.$el.children('.body').append(groupForm.el)
     },
 
+    MemberAdd : function() {
+      // Set up the model
+      var member = new App.Models.Member()
+      // when the users submits the form, the group will be processed
+      member.on('processed', function() {
+        this.save()
+      })
+      // after this group is saved move on to the groups page
+      member.on('sync', function() {
+        Backbone.history.navigate('members', {trigger: true})
+      })
+      // Set up the form
+      var memberForm = new App.Views.MemberForm({model: member})
+      memberForm.render()
+      App.$el.children('.body').html('<h1>Add a Member</h1>')
+      App.$el.children('.body').append(memberForm.el)
+    },
 
     GroupAssign: function(groupId) {
       var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
