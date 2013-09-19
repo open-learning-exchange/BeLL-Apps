@@ -14,8 +14,8 @@ $(function() {
     },
 
     MemberLogin: function() {
-      var memberLogin = new App.Models.MemberLogin()
-      var memberLoginForm = new App.Views.MemberLoginForm({model: memberLogin})
+      var credentials = new App.Models.Credentials()
+      var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
         $('ul.nav').html('<li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li> <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li> <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update device</a></li><li> <a href="#logout"><i class="icon-plane icon-white"></i> Log out</a></li>')
         Backbone.history.navigate('teams', {trigger: true})

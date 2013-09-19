@@ -1,6 +1,6 @@
 $(function() {
 
-  App.Models.MemberLogin = Backbone.Model.extend({
+  App.Models.Credentials = Backbone.Model.extend({
 
     idAttribute: "_id",
 

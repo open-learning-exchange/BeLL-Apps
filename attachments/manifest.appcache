@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2013-09-18:v9
+# 2013-09-19:v1
 
 # Explicitly cached entries
 pdf.js/compatibility.js
@@ -107,7 +107,7 @@ personal/app/models/Assignment.js
 personal/app/models/Group.js
 personal/app/models/Resource.js
 personal/app/models/Member.js
-personal/app/models/MemberLogin.js
+personal/app/models/Credentials.js
 personal/app/Router.js
 personal/app/views/AssignmentRow.js
 personal/app/views/GroupAssignmentsTable.js
