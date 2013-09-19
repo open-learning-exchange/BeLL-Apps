@@ -17,14 +17,14 @@ $(function() {
       var memberLogin = new App.Models.MemberLogin()
       var memberLoginForm = new App.Views.MemberLoginForm({model: memberLogin})
       memberLoginForm.once('success:login', function() {
-        $('ul.nav').html('<li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li> <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li> <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update my assignments</a></li><li> <a href="#logout"><i class="icon-plane icon-white"></i> Log out</a></li>')
+        $('ul.nav').html('<li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li> <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li> <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update device</a></li><li> <a href="#logout"><i class="icon-plane icon-white"></i> Log out</a></li>')
         Backbone.history.navigate('teams', {trigger: true})
       })
       memberLoginForm.render()
       App.$el.children('.body').html('<h1>Member login</h1>')
       App.$el.children('.body').append(memberLoginForm.el)
       // Override the menu
-      $('ul.nav').html('<li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li>')
+      $('ul.nav').html('<li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li><li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update device</a></li>')
     },
 
     MemberLogout: function() {
@@ -85,7 +85,15 @@ $(function() {
                 complete: function(){
                   PouchDB.replicate(window.location.origin + '/members', 'members', {
                     complete: function(){
-                      Backbone.history.navigate('teams', {trigger: true})
+                      var loggedIn = ($.cookie('Member._id'))
+                        ? true
+                        : false
+                      if(loggedIn) {
+                        Backbone.history.navigate('teams', {trigger: true})
+                      }
+                      else {
+                        Backbone.history.navigate('login', {trigger: true})
+                      }
                     }
                   })
                 }
