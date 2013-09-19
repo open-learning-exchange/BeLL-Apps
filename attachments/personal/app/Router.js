@@ -14,6 +14,11 @@ $(function() {
     },
 
     MemberLogin: function() {
+      // Prevent this Route from completing if Member is logged in.
+      if($.cookie('Member._id')) {
+        Backbone.history.navigate('teams', {trigger: true})
+        return
+      }
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {

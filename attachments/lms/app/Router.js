@@ -21,6 +21,11 @@ $(function() {
     },
 
     MemberLogin: function() {
+      // Prevent this Route from completing if Member is logged in.
+      if($.cookie('Member._id')) {
+        Backbone.history.navigate('teams', {trigger: true})
+        return
+      }
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
@@ -71,16 +76,21 @@ $(function() {
     },
 
     ResourceFeedback: function(resourceId) {
-      var resourceFeedback = new App.Collections.ResourceFeedback()
-      resourceFeedback.resourceId = resourceId
-      var feedbackTable = new App.Views.FeedbackTable({collection: resourceFeedback})
-      resourceFeedback.on('sync', function() {
-        feedbackTable.render()
-        App.$el.children('.body').html('<h1>Feedback</h1>')
-        App.$el.children('.body').append('<a class="btn" href="#resource/feedback/add/' + resourceId + '"><i class="icon-plus"></i> Add your feedback</a>')
-        App.$el.children('.body').append(feedbackTable.el)
+      var resource = new App.Models.Resource()
+      resource.id = resourceId
+      resource.on('sync', function() {
+        var resourceFeedback = new App.Collections.ResourceFeedback()
+        resourceFeedback.resourceId = resourceId
+        var feedbackTable = new App.Views.FeedbackTable({collection: resourceFeedback})
+        resourceFeedback.on('sync', function() {
+          feedbackTable.render()
+          App.$el.children('.body').html('<h1>Feedback for "' + resource.get('title') + '"</h1>')
+          App.$el.children('.body').append('<a class="btn" href="#resource/feedback/add/' + resourceId + '"><i class="icon-plus"></i> Add your feedback</a>')
+          App.$el.children('.body').append(feedbackTable.el)
+        })
+        resourceFeedback.fetch()
       })
-      resourceFeedback.fetch()
+      resource.fetch()
     },
 
     FeedbackForm: function(resourceId) {

@@ -36,7 +36,7 @@ $(function() {
         Backbone.history.start({pushState: false})
         Backbone.history.navigate('login', {trigger: true})
       }
-      else if (loggedIn && !$.url().attr('fragment')) {
+      else if (loggedIn && (!$.url().attr('fragment') || $.url().attr('fragment') == 'login')) {
         // We're logged in but have no where to go, default to the teams page.        
         $('ul.nav').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
