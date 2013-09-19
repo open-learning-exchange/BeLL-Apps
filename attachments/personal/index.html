@@ -51,18 +51,9 @@
   <script src="app/views/AssignmentRow.js"></script>
   <script src="app/views/MemberLoginForm.js"></script>
 
-  
-</head>
-
-<body>
-
-
-</body>
-
   <!-- 
     Templates 
   -->
-
 
   <script type="text/template" id="template-app">
     <div id="debug"></div>
@@ -92,11 +83,47 @@
      
   </script>
 
-  <script type="text/html" id="template-nav-logged-in"> 
-        <li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li> i
-        <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li> 
-        <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update device</a></li>
-        <li> <a href="#logout"><i class="icon-plane icon-white"></i> Log out</a></li>
+
+  <script type="text/template" id="template-nav-logged-in"> 
+    <li> 
+      <a href="#teams">
+        <i class="icon-flag icon-white"></i> My Teams
+      </a>
+    </li> 
+
+    <li> 
+      <a href="../lms/index.html#resources">
+        <i class="icon-search icon-white"></i> Explore the BeLL
+      </a>
+    </li> 
+
+    <li> 
+      <a href="#update-assignments">
+        <i class="icon-retweet icon-white"></i> Update device
+      </a>
+    </li>
+
+    <li> 
+      <a href="#logout">
+        <i class="icon-plane icon-white"></i> Log out
+      </a>
+    </li>
+  </script>
+
+    <script type="text/template" id="template-nav-log-in"> 
+
+    <li> 
+      <a href="../lms/index.html#resources">
+        <i class="icon-search icon-white"></i> Explore the BeLL
+      </a>
+    </li> 
+
+    <li> 
+      <a href="#update-assignments">
+        <i class="icon-retweet icon-white"></i> Update device
+      </a>
+    </li>
+
   </script>
 
   <script type="text/html" id="template-GroupAssignmentsTable">
@@ -129,6 +156,12 @@
       </a>
     </td>
   </script>
+
+</head>
+
+<body>
+
+</body>
 
   <!-- 
     START THE APP

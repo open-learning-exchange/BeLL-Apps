@@ -25,7 +25,6 @@ $(function() {
       // App body
       this.$el.html(_.template(this.template))
       // App nav
-      $('ul.nav').html('<li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li> <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li> <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update device</a></li><li> <a href="#logout"><i class="icon-plane icon-white"></i> Log out</a></li>')
       var loggedIn = ($.cookie('Member._id'))
         ? true
         : false
@@ -41,11 +40,13 @@ $(function() {
       }
       else if (loggedIn && !$.url().attr('fragment')) {
         // We're logged in but have no where to go, default to the teams page.        
+        $('ul.nav').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
         Backbone.history.navigate('teams', {trigger: true})
       }
       else {
         // We're logged in and have a route, start the history.
+        $('ul.nav').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
       }
     },

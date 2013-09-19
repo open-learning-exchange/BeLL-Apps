@@ -4,7 +4,7 @@ $(function() {
     routes: {
       ''                           : '', 
       'login'                      : 'MemberLogin',
-      'logout'                      : 'MemberLogout',
+      'logout'                     : 'MemberLogout',
       'teams'                      : 'Groups',
       'team/edit/:groupId'         : 'GroupForm',
       'team/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
@@ -17,14 +17,14 @@ $(function() {
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
-        $('ul.nav').html('<li> <a href="#teams"><i class="icon-flag icon-white"></i> My Teams</a></li> <li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li> <li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update device</a></li><li> <a href="#logout"><i class="icon-plane icon-white"></i> Log out</a></li>')
+        $('ul.nav').html($("#template-nav-logged-in").html())
         Backbone.history.navigate('teams', {trigger: true})
       })
       memberLoginForm.render()
       App.$el.children('.body').html('<h1>Member login</h1>')
       App.$el.children('.body').append(memberLoginForm.el)
       // Override the menu
-      $('ul.nav').html('<li> <a href="../lms/index.html#resources"><i class="icon-search icon-white"></i> Explore the BeLL</a></li><li> <a href="#update-assignments"><i class="icon-retweet icon-white"></i> Update device</a></li>')
+      $('ul.nav').html($('#template-nav-log-in').html())
     },
 
     MemberLogout: function() {
