@@ -82,17 +82,27 @@ $(function() {
     },
 
     UpdateAssignments: function() {
-      App.$el.children('.body').html('<div class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div><h2>Updating Assignments. One moment please.</h2>')
+      App.$el.children('.body').html('<div class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
+      App.$el.children('.body').append('<h3 class="assignments">Checking for new assignments... </h3>')
       PouchDB.replicate(window.location.origin + '/assignments', 'assignments', {
         complete: function(){
+          $('.assignments').append(' Done.')
+          App.$el.children('.body').append('<h3 class="resources">Checking for new resources... </h3>')
           PouchDB.replicate(window.location.origin + '/resources', 'resources', {
             complete: function(){
+              $('.resources').append(' Done.')
+              App.$el.children('.body').append('<h3 class="teams">Checking for new teams... </h3>')
               PouchDB.replicate(window.location.origin + '/groups', 'groups', {
                 complete: function(){
+                  $('.teams').append(' Done.')
+                  App.$el.children('.body').append('<h3 class="members">Checking for new members... </h3>')
                   PouchDB.replicate(window.location.origin + '/members', 'members', {
                     complete: function(){
+                      $('.members').append(' Done.')
+                      App.$el.children('.body').append('<h3 class="feedback">Sending feedback... </h3>')
                       PouchDB.replicate('feedback', window.location.origin + '/feedback', {
                         complete: function(){
+                          $('.feedback').append(' Done.')
                           var loggedIn = ($.cookie('Member._id'))
                             ? true
                             : false

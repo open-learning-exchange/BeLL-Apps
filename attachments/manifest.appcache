@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2013-09-19:v1
+# 2013-09-19:v3
 
 # Explicitly cached entries
 pdf.js/compatibility.js
@@ -106,16 +106,17 @@ personal/app/collections/Groups.js
 personal/app/models/Assignment.js
 personal/app/models/Group.js
 personal/app/models/Resource.js
+personal/app/models/Feedback.js
 personal/app/models/Member.js
 personal/app/models/Credentials.js
 personal/app/Router.js
 personal/app/views/AssignmentRow.js
+personal/app/views/FeedbackForm.js
 personal/app/views/GroupAssignmentsTable.js
 personal/app/views/GroupRow.js
 personal/app/views/GroupsTable.js
 personal/app/views/MemberLoginForm.js
 personal/index.html
-personal/manifest.appcache
 personal/vendor/backbone-0.9.2.js
 personal/vendor/backbone-1.0.0.js
 personal/vendor/backbone-forms.js
