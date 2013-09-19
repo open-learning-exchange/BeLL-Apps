@@ -10,7 +10,8 @@ $(function() {
       'team/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
       'team/assignments/:groupId'  : 'GroupAssignments',
       'team/link/:groupId'         : 'GroupLink',
-      'update-assignments'         : 'UpdateAssignments'
+      'update-assignments'         : 'UpdateAssignments',
+      'resource/feedback/add/:resourceId'  : 'FeedbackForm',
     },
 
     MemberLogin: function() {
@@ -90,15 +91,19 @@ $(function() {
                 complete: function(){
                   PouchDB.replicate(window.location.origin + '/members', 'members', {
                     complete: function(){
-                      var loggedIn = ($.cookie('Member._id'))
-                        ? true
-                        : false
-                      if(loggedIn) {
-                        Backbone.history.navigate('teams', {trigger: true})
-                      }
-                      else {
-                        Backbone.history.navigate('login', {trigger: true})
-                      }
+                      PouchDB.replicate('feedback', window.location.origin + '/feedback', {
+                        complete: function(){
+                          var loggedIn = ($.cookie('Member._id'))
+                            ? true
+                            : false
+                          if(loggedIn) {
+                            Backbone.history.navigate('teams', {trigger: true})
+                          }
+                          else {
+                            Backbone.history.navigate('login', {trigger: true})
+                          }
+                        }
+                      })
                     }
                   })
                 }
@@ -107,8 +112,18 @@ $(function() {
           })
         }
       }) 
-    }
+    },
 
+    FeedbackForm: function(resourceId) {
+      var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
+      feedbackModel.on('sync', function() {
+        Backbone.history.navigate('teams', {trigger: true})
+      })
+      var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
+      feedbackForm.render()
+      App.$el.children('.body').html('<h1>Add Feedback</h1>')
+      App.$el.children('.body').append(feedbackForm.el)
+    }
 
   }))
 

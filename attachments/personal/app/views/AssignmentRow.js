@@ -6,6 +6,9 @@ $(function() {
     tagName: "tr",
 
     events: {
+      'click .open': function() {
+        Backbone.history.navigate('resource/feedback/add/' + this.model.get('resourceId'), {trigger: true})
+      },
 
       // Do a preview in a modal
       'click .trigger-modal' : function() {
