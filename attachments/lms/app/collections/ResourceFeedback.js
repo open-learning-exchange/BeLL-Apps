@@ -1,0 +1,26 @@
+$(function() {
+
+  App.Collections.ResourceFeedback = Backbone.Collection.extend({
+
+    url: function() {
+      var url = App.Server + '/feedback/_design/bell/_view/FeedbackByResourceId?key="' + this.resourceId + '"&include_docs=true'
+      return url
+    },
+
+    parse: function(response) {
+      var docs = _.map(response.rows, function(row) {
+        return row.doc
+      })
+      return docs
+    },
+     
+    model: App.Models.Feedback,
+
+    comparator: function(model) {
+      return model.get('rating')
+    },
+
+
+  })
+
+})

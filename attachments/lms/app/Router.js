@@ -8,6 +8,8 @@ $(function() {
       'resources'                   : 'Resources',
       'resource/add'                : 'ResourceForm',
       'resource/edit/:resourceId'   : 'ResourceForm',
+      'resource/feedback/:resourceId'      : 'ResourceFeedback',
+      'resource/feedback/add/:resourceId'  : 'FeedbackForm',
       'teams'                       : 'Groups',
       'team/edit/:groupId'          : 'GroupForm',
       'team/assign/:groupId'        : 'GroupAssign',
@@ -66,6 +68,30 @@ $(function() {
         App.$el.children('.body').html('<h1>Resources</h1>')
         App.$el.children('.body').append(resourcesTableView.el)
       }})
+    },
+
+    ResourceFeedback: function(resourceId) {
+      var resourceFeedback = new App.Collections.ResourceFeedback()
+      resourceFeedback.resourceId = resourceId
+      var feedbackTable = new App.Views.FeedbackTable({collection: resourceFeedback})
+      resourceFeedback.on('sync', function() {
+        feedbackTable.render()
+        App.$el.children('.body').html('<h1>Feedback</h1>')
+        App.$el.children('.body').append('<a class="btn" href="#resource/feedback/add/' + resourceId + '"><i class="icon-plus"></i> Add your feedback</a>')
+        App.$el.children('.body').append(feedbackTable.el)
+      })
+      resourceFeedback.fetch()
+    },
+
+    FeedbackForm: function(resourceId) {
+      var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
+      feedbackModel.on('sync', function() {
+        Backbone.history.navigate('resource/feedback/' + resourceId, {trigger: true})
+      })
+      var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
+      feedbackForm.render()
+      App.$el.children('.body').html('<h1>Add Feedback</h1>')
+      App.$el.children('.body').append(feedbackForm.el)
     },
 
     Groups: function() {

@@ -22,8 +22,16 @@
 }
 
 .form li {
-  float: left;
   margin: 10px 5px 10px 3px;
+}
+
+.form .bbf-radio li, .form .bbf-checkboxes li {
+  float: left;
+}
+
+.form .bbf-field {
+  float: left;
+  clear: both;
 }
   
 .form .btn {

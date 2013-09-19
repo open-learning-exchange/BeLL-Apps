@@ -39,11 +39,13 @@
   <script src="app/models/Member.js"></script>
   <script src="app/models/Credentials.js"></script>
   <script src="app/models/Assignment.js"></script>
+  <script src="app/models/Feedback.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/Resources.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
+  <script src="app/collections/ResourceFeedback.js"></script>
 
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -55,6 +57,9 @@
   <script src="app/views/ResourceForm.js"></script>
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ResourcesTable.js"></script>
+  <script src="app/views/FeedbackTable.js"></script>
+  <script src="app/views/FeedbackRow.js"></script>
+  <script src="app/views/FeedbackForm.js"></script>
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
 
@@ -240,6 +245,21 @@
     </td>
   </script>
 
+  <script type="text/html" id="template-FeedbackRow">
+    <td>
+      <%= comment %>
+    </td> 
+
+    <td>
+      <%= rating %>
+    </td>
+
+    <td>
+      <%= memberName %>
+    </td>
+
+  </script>
+
   <script type="text/html" id="template-GroupRow">
     <td>
       <%= name %>
@@ -290,6 +310,11 @@
     <td>
       <a class='btn' href='#resource/edit/<%= _id %>'>
         <i class='icon-pencil'></i> Edit
+      </a>
+    </td>
+    <td>
+      <a class='btn' href='#resource/feedback/<%= _id %>'>
+        <i class='icon-comment'></i> Feedback
       </a>
     </td>
     <td>
