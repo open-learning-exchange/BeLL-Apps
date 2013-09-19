@@ -2,18 +2,40 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      ''                            : 'Groups', 
+      ''                            : '', 
+      'login'                       : 'MemberLogin',
+      'logout'                      : 'MemberLogout',
       'resources'                   : 'Resources',
       'resource/add'                : 'ResourceForm',
       'resource/edit/:resourceId'   : 'ResourceForm',
-      'teams'                      : 'Groups',
-      'team/edit/:groupId'         : 'GroupForm',
-      'team/assign/:groupId'       : 'GroupAssign',
-      'team/assignments/:groupId'  : 'GroupAssignments',
-      'team/add'                   : 'GroupAdd',
-      'members'                      : 'Members',
-      'member/add'                   : 'MemberAdd',
-      'member/edit/:memberId'        : 'MemberForm',
+      'teams'                       : 'Groups',
+      'team/edit/:groupId'          : 'GroupForm',
+      'team/assign/:groupId'        : 'GroupAssign',
+      'team/assignments/:groupId'   : 'GroupAssignments',
+      'team/add'                    : 'GroupAdd',
+      'members'                     : 'Members',
+      'member/add'                  : 'MemberAdd',
+      'member/edit/:memberId'       : 'MemberForm',
+    },
+
+    MemberLogin: function() {
+      var credentials = new App.Models.Credentials()
+      var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
+      memberLoginForm.once('success:login', function() {
+        $('ul.nav').html($("#template-nav-logged-in").html())
+        Backbone.history.navigate('teams', {trigger: true})
+      })
+      memberLoginForm.render()
+      App.$el.children('.body').html('<h1>Member login</h1>')
+      App.$el.children('.body').append(memberLoginForm.el)
+      // Override the menu
+      $('ul.nav').html($('#template-nav-log-in').html())
+    },
+
+    MemberLogout: function() {
+      $.removeCookie('Member.login')
+      $.removeCookie('Member._id')
+      Backbone.history.navigate('login', {trigger: true})
     },
 
     ResourceForm : function(resourceId) {
