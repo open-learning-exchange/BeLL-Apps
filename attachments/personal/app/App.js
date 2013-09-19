@@ -24,7 +24,6 @@ $(function() {
     start: function(){
       // App body
       this.$el.html(_.template(this.template))
-      // App nav
       var loggedIn = ($.cookie('Member._id'))
         ? true
         : false
