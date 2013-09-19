@@ -19,7 +19,9 @@ var databases = [
 ]
 
 _.each(databases, function(database) {
+  // Install databases
   request.put(couchUrl + '/' + database)
+  // Install views in corresponding databases
   exec('couchapp push views/' + database + '.js ' + couchUrl + '/' + database, puts);
 })
 
