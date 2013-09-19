@@ -15,14 +15,6 @@ ddoc =
 
 ddoc.views = {
 
-  Collections: {
-    map: function(doc) {
-      if (doc.kind == 'Collection') {
-        emit(doc._id, true)
-      }
-    }
-  }
-
 }
 
 ddoc.validate_doc_update = function (newDoc, oldDoc, userCtx) {   
