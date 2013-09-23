@@ -6,9 +6,10 @@ var sys = require('sys')
 var exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
   
-var couchUrl = 'http://127.0.0.1:5984'
+var couchUrl = 'http://127.0.0.1:5984' 
 
 var databases = [
+  'apps',
 	'assignments', 
 	'feedback', 
 	'groups', 
@@ -25,3 +26,4 @@ _.each(databases, function(database) {
   exec('couchapp push views/' + database + '.js ' + couchUrl + '/' + database, puts);
 })
 
+exec('couchapp push app.js ' + couchUrl + '/apps', puts);
