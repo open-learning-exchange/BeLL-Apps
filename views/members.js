@@ -12,7 +12,16 @@ ddoc.views = {
         emit(doc.login, true)
       }
     }
+  },
+
+  Members: {
+    map: function(doc) {
+      if (doc.kind == 'Member') {
+        emit(doc._id, true)
+      }
+    }
   }
+
   
 }
 
