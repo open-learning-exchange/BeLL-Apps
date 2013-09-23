@@ -3,6 +3,8 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 
 [Check out this short screencast showing the Beta 1 features](http://www.youtube.com/watch?v=NeGSljQMQ1M).
 
+![docs/screenshot.png](Screenshot of BeLL LMS, one of many BeLL Apps)
+
 
 # The Apps
 ## BeLL LMS
