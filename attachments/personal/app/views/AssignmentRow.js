@@ -27,7 +27,7 @@ $(function() {
         this.vars.resource = resource.toJSON()
         // If there is a openURL, that overrides what we use to open, else we build the URL according to openWith
         if(resource.get('openURL')) {
-          this.vars.openURL = resource.get('openURL')
+          this.vars.openURL = '/resources/' + resource.id + '/' + resource.get('openURL')
         }
         else {
           if(_.isObject(this.vars.resource._attachments)) {
