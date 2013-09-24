@@ -175,6 +175,8 @@ $(function() {
     CompileManifest: function() {
       // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()
+      var apps = new App.Collections.Apps()
+
       // The URL of the device where we'll store transformed files
       var deviceURL = '/devices/_design/all'
       // The location of the default files we'll tranform
@@ -197,6 +199,23 @@ $(function() {
             })
           }
         })
+        App.trigger('compile:resourceListReady')
+      })
+
+      App.once('compile:resourceListReady', function() {
+        apps.once('sync', function() {
+          _.each(apps.models, function(app) {
+            replace += encodeURI('/apps/' + app.id) + '\n'
+            _.each(app.get('_attachments'), function(value, key, list) {
+              replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
+            })
+          })
+          App.trigger('compile:appsListReady')
+        })
+        apps.fetch()
+      })
+
+      App.once('compile:appsListReady', function() {
         $.get(defaultManifestURL, function(defaultManifest) {
           var transformedManifest = defaultManifest.replace(find, replace)
           $.getJSON(deviceURL, function(deviceDoc){
