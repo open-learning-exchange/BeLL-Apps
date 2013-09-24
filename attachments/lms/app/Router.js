@@ -190,6 +190,7 @@ $(function() {
       // Compile the new manifest file and save it to devices/all
       resources.on('sync', function() {
         _.each(resources.models, function(resource) {
+          replace += encodeURI('/resources/' + resource.id) + '\n'
           if(resource.get('kind') == 'Resource' && resource.get('_attachments')) {
             _.each(resource.get('_attachments'), function(value, key, list) {
               replace += encodeURI('/resources/' + resource.id + '/' + key) + '\n'
