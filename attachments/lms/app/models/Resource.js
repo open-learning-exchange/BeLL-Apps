@@ -114,7 +114,12 @@ $(function() {
 
     schema: {
       title: 'Text',
-      description: 'TextArea'
+      description: 'Text',
+      openWith: {
+        type: 'Select',
+        options: [ 'HTML', 'PDF.js', 'Video Player' ]
+      },
+      openURL: 'Text'
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {

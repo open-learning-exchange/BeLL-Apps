@@ -24,16 +24,19 @@ $(function() {
       this.vars = this.model.toJSON()
       var resource = new App.Models.Resource({_id: this.model.get('resourceId')})
       resource.on('sync', function() {
-        // @todo We might add the actual fields of the Assignment model to vars later
-        // if/when there is interesting data in the model like when it was assigned.
         this.vars.resource = resource.toJSON()
-        if(_.isObject(this.vars.resource._attachments)) {
-          this.vars.resource.fileName = (_.keys(this.vars.resource._attachments)[0])
-            ? _.keys(this.vars.resource._attachments)[0]
-            : ''
-
-          this.$el.html(this.template(this.vars))
+        // If there is a openURL, that overrides what we use to open, else we build the URL according to openWith
+        if(resource.get('openURL')) {
+          this.vars.openURL = resource.get('openURL')
         }
+        else {
+          if(_.isObject(this.vars.resource._attachments)) {
+            this.vars.openURL = (_.keys(this.vars.resource._attachments)[0])
+              ? resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + _.keys(this.vars.resource._attachments)[0]
+              : ''
+          }
+        }
+        this.$el.html(this.template(this.vars))
       }, this)
       resource.fetch()
       

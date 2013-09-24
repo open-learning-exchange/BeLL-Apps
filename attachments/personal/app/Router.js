@@ -87,33 +87,19 @@ $(function() {
       PouchDB.replicate(window.location.origin + '/assignments', 'assignments', {
         complete: function(){
           $('.assignments').append(' Done.')
-          App.$el.children('.body').append('<h3 class="resources">Checking for new resources... </h3>')
-          PouchDB.replicate(window.location.origin + '/resources', 'resources', {
+          App.$el.children('.body').append('<h3 class="teams">Checking for new teams... </h3>')
+          PouchDB.replicate(window.location.origin + '/groups', 'groups', {
             complete: function(){
-              $('.resources').append(' Done.')
-              App.$el.children('.body').append('<h3 class="teams">Checking for new teams... </h3>')
-              PouchDB.replicate(window.location.origin + '/groups', 'groups', {
+              $('.teams').append(' Done.')
+              App.$el.children('.body').append('<h3 class="members">Checking for new members... </h3>')
+              PouchDB.replicate(window.location.origin + '/members', 'members', {
                 complete: function(){
-                  $('.teams').append(' Done.')
-                  App.$el.children('.body').append('<h3 class="members">Checking for new members... </h3>')
-                  PouchDB.replicate(window.location.origin + '/members', 'members', {
+                  $('.members').append(' Done.')
+                  App.$el.children('.body').append('<h3 class="feedback">Sending feedback... </h3>')
+                  PouchDB.replicate('feedback', window.location.origin + '/feedback', {
                     complete: function(){
-                      $('.members').append(' Done.')
-                      App.$el.children('.body').append('<h3 class="feedback">Sending feedback... </h3>')
-                      PouchDB.replicate('feedback', window.location.origin + '/feedback', {
-                        complete: function(){
-                          $('.feedback').append(' Done.')
-                          var loggedIn = ($.cookie('Member._id'))
-                            ? true
-                            : false
-                          if(loggedIn) {
-                            Backbone.history.navigate('teams', {trigger: true})
-                          }
-                          else {
-                            Backbone.history.navigate('login', {trigger: true})
-                          }
-                        }
-                      })
+                      $('.feedback').append(' Done.')
+                      window.location = '/devices/_design/all/update.html'
                     }
                   })
                 }
