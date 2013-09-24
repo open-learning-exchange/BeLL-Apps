@@ -31,4 +31,4 @@ _.each(databases, function(database) {
 exec('couchapp push app.js ' + couchUrl + '/apps', puts);
 
 // Create the "all" device for when devices want to get an App Cache file with all Resources
-exec('curl -XPUT http://127.0.0.1:5984/devices/all -d "{}"', puts);
+exec('curl -XPUT http://127.0.0.1:5984/devices/_design/all -d "{}"', puts);

@@ -173,11 +173,22 @@ $(function() {
     },
 
     CompileManifest: function() {
+      // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()
+      // The URL of the device where we'll store transformed files
+      var deviceURL = '/devices/_design/all'
+      // The location of the default files we'll tranform
+      var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
+      var defaultUpdateURL = '/apps/_design/bell/update.default.html'
+      // URLs to save transformed files to      
+      var transformedManifestURL = deviceURL + '/manifest.appcache'
+      var transformedUpdateURL = deviceURL + '/update.html'
+      // The string to find in the default manifest file that we'll replace with Resources
+      var find = '{replace me}'
+      var replace = ''
 
+      // Compile the new manifest file and save it to devices/all
       resources.on('sync', function() {
-        var find = '{replace me}'
-        var replace = ''
         _.each(resources.models, function(resource) {
           if(resource.get('kind') == 'Resource' && resource.get('_attachments')) {
             _.each(resource.get('_attachments'), function(value, key, list) {
@@ -185,22 +196,47 @@ $(function() {
             })
           }
         })
-        var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
-        var deviceURL = '/devices/all'
-        var transformedManifestURL = deviceURL + '/manifest.appcache'
         $.get(defaultManifestURL, function(defaultManifest) {
           var transformedManifest = defaultManifest.replace(find, replace)
           $.getJSON(deviceURL, function(deviceDoc){
             $.ajax({
               type: 'PUT',
               url: transformedManifestURL + '?rev=' + deviceDoc._rev, 
-              data: transformedManifest
-            }).done(function() {
-              App.$el.children('.body').html('<a href="' + transformedManifestURL + '">Check out the tranformed file</a>')
+              data: transformedManifest,
+              processData: false,
+              beforeSend: function( xhr ) {
+                // Setting dataType in jQuery is not working. Doing this manually.
+                xhr.setRequestHeader( "Content-type", "text/cache-manifest" );
+              },
+              dataType: "text/cache-manifest",
+              complete: function() {
+                App.trigger('compile:done')
+                // App.$el.children('.body').html('<a href="' + transformedManifestURL + '">Check out the tranformed file</a>')
+              })
             })
           })
         })
       })
+      
+      // Save the update.html file to devices/all
+      App.once('compile:done', function() {
+        $.get(defaultUpdateURL, function(defaultUpdateHTML) {
+          // We're not transforming the default yet
+          transformedUpdateHTML = defaultUpdateHTML
+          $.getJSON(deviceURL, function(deviceDoc){
+            $.ajax({
+              type: 'PUT',
+              url: transformedUpdateURL + '?rev=' + deviceDoc._rev, 
+              data: transformedUpdateHTML,
+              dataType: "html"
+            }).done(function() {
+              App.$el.children('.body').html('<a href="' + transformedUpdateURL + '">Check out the tranformed file</a>')
+            })
+          })
+        })
+      })
+
+
       resources.fetch()
     }
 
