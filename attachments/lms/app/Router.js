@@ -216,7 +216,6 @@ $(function() {
           // We're not transforming the default yet
           transformedUpdateHTML = defaultUpdateHTML
           $.getJSON(deviceURL, function(deviceDoc){
-
             var xhr = new XMLHttpRequest()
             xhr.open('PUT',transformedUpdateURL + '?rev=' + deviceDoc._rev, true)
             xhr.onload = function(response) { 
@@ -224,12 +223,11 @@ $(function() {
             }
             xhr.setRequestHeader("Content-type", "text/html" );
             xhr.send(new Blob([transformedUpdateHTML], {type: 'text/plain'}))
-
           })
         })
       })
 
-
+      // Start the process
       resources.fetch()
     }
 
