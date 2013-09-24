@@ -16,7 +16,8 @@ var databases = [
 	'members', 
 	'actions',
 	'resources', 
-	'facilities'
+	'facilities',
+  'devices'
 ]
 
 _.each(databases, function(database) {
@@ -26,4 +27,8 @@ _.each(databases, function(database) {
   exec('couchapp push views/' + database + '.js ' + couchUrl + '/' + database, puts);
 })
 
+// Push the Apps up to CouchDB
 exec('couchapp push app.js ' + couchUrl + '/apps', puts);
+
+// Create the "all" device for when devices want to get an App Cache file with all Resources
+exec('curl -XPUT http://127.0.0.1:5984/devices/all -d "{}"', puts);

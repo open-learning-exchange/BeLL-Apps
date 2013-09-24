@@ -18,6 +18,7 @@ $(function() {
       'members'                     : 'Members',
       'member/add'                  : 'MemberAdd',
       'member/edit/:memberId'       : 'MemberForm',
+      'compile'                     : 'CompileManifest',
     },
 
     MemberLogin: function() {
@@ -169,6 +170,38 @@ $(function() {
 
     GroupAssignments: function(groupId) {
 
+    },
+
+    CompileManifest: function() {
+      var resources = new App.Collections.Resources()
+
+      resources.on('sync', function() {
+        var find = '{replace me}'
+        var replace = ''
+        _.each(resources.models, function(resource) {
+          if(resource.get('kind') == 'Resource' && resource.get('_attachments')) {
+            _.each(resource.get('_attachments'), function(value, key, list) {
+              replace += 'resources/' + resource.id + '/' + key + '\n'
+            })
+          }
+        })
+        var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
+        var deviceURL = '/devices/all'
+        var transformedManifestURL = deviceURL + '/manifest.appcache'
+        $.get(defaultManifestURL, function(defaultManifest) {
+          var transformedManifest = defaultManifest.replace(find, replace)
+          $.getJSON(deviceURL, function(deviceDoc){
+            $.ajax({
+              type: 'PUT',
+              url: transformedManifestURL + '?rev=' + deviceDoc._rev, 
+              data: transformedManifest
+            }).done(function() {
+              App.$el.children('.body').html('<a href="' + transformedManifestURL + '">Check out the tranformed file</a>')
+            })
+          })
+        })
+      })
+      resources.fetch()
     }
 
   }))
