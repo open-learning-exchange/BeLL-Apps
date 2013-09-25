@@ -117,7 +117,7 @@ $(function() {
       description: 'Text',
       openWith: {
         type: 'Select',
-        options: [ 'HTML', 'PDF.js', 'Video Player' ]
+        options: [ 'HTML', 'PDF.js', 'Flow Video Player' ]
       },
       openURL: 'Text'
     },

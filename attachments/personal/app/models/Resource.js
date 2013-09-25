@@ -19,7 +19,7 @@ $(function() {
     openWithMap: {
       'HTML': '',
       'PDF.js': '/apps/_design/bell/pdf.js/viewer.html#file=',
-      'Video Player': ''
+      'Flow Video Player': '/apps/_design/bell/FlowPlayer/index.html#url='
     }
 
   })
