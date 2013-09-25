@@ -7,12 +7,13 @@ $(function() {
     // Because we can't get queries to work correctly on BackbonePouch, do our mapreduce here.
     parse: function(response, options) {
       var that = this
-      response = _.map(response, function(doc) {
+      var models = []
+      _.each(response, function(doc) {
         if(doc.context && doc.context.groupId == that.groupId) {
-          return doc
+          models.push(doc)
         }
       })
-      return response
+      return models
     },
 
     sync: BackbonePouch.sync({
