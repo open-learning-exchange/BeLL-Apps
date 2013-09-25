@@ -1,7 +1,8 @@
 # About
 This is the third iteration of the BeLL software. It's a Backbone.js app that caches itself in the browser that is backed by CouchDB when a server is available and PouchDB in the browser when a server is not available. Initial support for PDFs is currently implemented, support for Videos and single HTML5 Apps coming next.  We're tracking bugs and new features on the [GitHub Wiki](https://github.com/open-learning-exchange/BeLL-Apps/wiki/@todo's) at the moment.
 
-[Check out this short screencast showing the Beta 1 features](http://www.youtube.com/watch?v=NeGSljQMQ1M).
+[Screencast of Beta1](http://www.youtube.com/watch?v=NeGSljQMQ1M).
+[Screencast of Beta2](http://youtu.be/czPf-nZ5A_M)
 
 ![Screenshot of BeLL LMS, one of many BeLL Apps](docs/screenshot.png)
 
