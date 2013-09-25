@@ -205,7 +205,6 @@ $(function() {
       App.once('compile:resourceListReady', function() {
         apps.once('sync', function() {
           _.each(apps.models, function(app) {
-            replace += encodeURI('/apps/' + app.id) + '\n'
             _.each(app.get('_attachments'), function(value, key, list) {
               replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
             })
