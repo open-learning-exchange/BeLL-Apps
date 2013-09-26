@@ -1,95 +1,3 @@
-/*
-
-@todo Implement vocabularies on this Model
-
-Controlled Vocabulary:
-
-Subject
-AGR (Agriculture)
-BUS (Business and Finance)
-FAS (Fine Arts)
-FNU (Food and Nutrition)
-GEO (Geography)
-HMD (Health & Medicine)
-HIS (History)
-HDV (Human Development)
-LAN (Languages)
-LAW (Law)
-LEA (Learning)
-LIT (Literature)
-MAT (Math)
-MUS (Music)
-POL (Politics & Government)
-REF (Reference)
-REL (Religion)
-SCI (Science)
-SOC (Social Sciences)
-SPO (Sports)
-TEC (Technology)
-
-Level:
-EE (Early Education)
-LP (Lower Primary)
-UP (Upper Primary)
-LS (Lower Secondary)
-US (Upper Secondary)
-UG (Undergraduate)
-GR (Graduate)
-PR (Professional)
-
-Subject.Level (All Possible)
-AGR.EE, AGR.LP, AGR.UP, AGR.LS, AGR.US, AGR.UG, AGR.GR, AGR.PR
-BUS.EE, BUS.LP, BUS.UP, BUS.LS, BUS.US, BUS.UG, BUS.GR, BUS.PR
-FAS.EE, FAS.LP, FAS.UP, FAS.LS, FAS.US, FAS.UG, FAS.GR, FAS.PR
-FNU.EE, FNU.LP, FNU.UP, FNU.LS, FNU.US, FNU,UG, FNU.GR, FNU.PR
-GEO.EE, GEO.LP, GEO.UP, GEO.LS, GEO.US, GEO.UG, GEO.GR, GEO.PR
-HMD.EE, HMD.LP. HMD.UP, HMD.LS, HMD.US, HMD.UG, HMD.GR, HMD.PR
-HIS.EE, HIS.LP, HIS.UP, HIS.LS, HIS.US, HIS.UG, HIS.GR, HIS.PR
-HDV.EE, HDV.LP, HDV.UP, HDV.LS, HDV.US, HDV.UG, HDV.GR, HDV.PR
-LAN.EE, LAN.LP, LAN.UP, LAN.LS, LAN.US, LAN.UG, LAN.GR, LAN.PR
-LAW.EE, LAW.LP, LAW.UP, LAW.LS, LAW.US, LAW.UG, LAW.GR, LAW.PR
-LEA.EE, LEA.LP, LEA.UP, LEA.LS, LEA.US, LEA.UG, LEA.GR, LEA.PR
-LIT.EE, LIT.LP, LIT.UP, LIT.LS, LIT.US, LIT.UG, LIT.GR, LIT.PR
-MAT.EE, MAT.LP, MAT.UP, MAT.LS, MAT.US, MAT.UG, MAT.GR, MAT.PR
-MUS.EE, MUS.LP, MUS.UP, MUS.LS, MUS.US, MUS.UG, MUS.GR, MUS.PR
-POL.EE, POL.LP, POL.UP, POL.LS, POL.US, POL.UG, POL.GR, POL.PR
-REF.EE, REF.LP, REF.UP, REF.LS, REF.US, REF.UG, REF.GR, REF.PR
-REL.EE, REL.LP, REL.UP, REL.LS, REL.US, REL.UG, REL.GR, REL.PR
-SCI.EE, SCI.LP, SCI.UP, SCI.LS, SCI.US, SCI.UG, SCI.GR, SCI.PR
-SOC.EE, SOC.LP, SOC.UP, SOC.LS, SOC.US, SOC.UG, SOC.GR, SOC.PR
-SPO.EE, SPO.LP, SPO.UP, SPO.LS, SPO.US, SPO.UG, SPO.GR, SPO.PR
-TEC.EE, TEC.LP, TEC.UP, TEC.LS, TEC.US, TEC.UG, TEC.GR, TEC.PR
-
-C3
-C3
-
-Fiction/Non-Fiction
--Instead of tagging all 800 resources as fiction or non-fiction, I am only tagging the outliers in certain fields (i.e. a comic book in the science section I tagged as fiction) although if necessary, I can tag them all. 
-
-Length OR Classification
-Picture Books (Short) - 15 pages or under
-Picture Books (Long) - 15 pages or over
-Chapter Books (Short) - Under 100 pages
-Chapter Books (Long) - Over 100 pages
-Drama (Short) - 2 acts or under
-Drama (Long)- Over 2 acts
-Short Stories
-Fables
-Fairy Tales
-Nursery Rhymes
-
-AND/OR
-
-Audiobook
-Mp3s
-Video
-
-
-Specific Tags
--I have been using LCSH (Library of Congress Subject Headings) as it is the current industry standard. However, if we are just going to initiate free tags, I can and probably should stop. 
-
-*/
-
 $(function() {
 
   App.Models.Resource = Backbone.Model.extend({
@@ -119,7 +27,7 @@ $(function() {
         type: 'Select',
         options: [ 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player' ]
       },
-      openURL: 'Text'
+      openWhichFile: 'Text'
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {

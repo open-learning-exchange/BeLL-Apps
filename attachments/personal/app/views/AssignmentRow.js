@@ -26,17 +26,14 @@ $(function() {
       resource.on('sync', function() {
         this.vars.resource = resource.toJSON()
         // If there is a openURL, that overrides what we use to open, else we build the URL according to openWith
-        if(resource.get('openURL').length > 0) {
-          this.vars.openURL = '/resources/' + resource.id + '/' + resource.get('openURL')
+        if(resource.get('openWhichFile') && resource.get('openWhichFile').length > 0) {
+          this.vars.openURL = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + resource.get('openWhichFile')
         }
         else {
-          if(_.isObject(this.vars.resource._attachments)) {
-            console.log(resource.get('openWith'))
-            this.vars.openURL = (_.keys(this.vars.resource._attachments)[0])
-              ? resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + _.keys(this.vars.resource._attachments)[0]
-              : ''
-          }
+          this.vars.openURL = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + _.keys(this.vars.resource._attachments)[0]
+
         }
+
         console.log(this.vars.openURL)
         this.$el.html(this.template(this.vars))
       }, this)
