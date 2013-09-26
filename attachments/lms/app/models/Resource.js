@@ -25,7 +25,7 @@ $(function() {
       description: 'Text',
       openWith: {
         type: 'Select',
-        options: [ 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player' ]
+        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player' ]
       },
       openWhichFile: 'Text'
     },
