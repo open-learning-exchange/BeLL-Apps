@@ -1,31 +1,11 @@
 # About
 This is the third iteration of the BeLL software. It's a Backbone.js app that caches itself in the browser that is backed by CouchDB when a server is available and PouchDB in the browser when a server is not available. Initial support for PDFs is currently implemented, support for Videos and single HTML5 Apps coming next.  We're tracking bugs and new features on the [GitHub Wiki](https://github.com/open-learning-exchange/BeLL-Apps/wiki/@todo's) at the moment.
 
-[Screencast of Beta1](http://www.youtube.com/watch?v=NeGSljQMQ1M).
-[Screencast of Beta2](http://youtu.be/czPf-nZ5A_M)
-
 ![Screenshot of BeLL LMS, one of many BeLL Apps](docs/screenshot.png)
 
-
-# The Apps
-## BeLL LMS
-This app is for 
-- Browse Resources on the server's "resources" CouchDB database.
-- Create, edit, and remove Teams.  Teams are referred to as the Group entity on the code level.
-- Create, edit, and remove Members. 
-- Manage Assignments for Teams.
-
-## Personal BeLL
-- View Teams and Teams Assignments
-- "Update device" syncs databases between the CouchDB databases on the server and the PouchDB datbases in your browser. This includes the associated files for Resources.
-- Links to open an Assignment's associated PDF in the PDF.js Viewer for PouchDB.
-
-## PDF.js Viewer for PouchDB
-- A fork of the PDF.js Viewer app that will read PDFs in your browser's PouchDB databases. 
-
-## BeLL LCMS
-- Manage Collections of Resources that are CouchDB databases.
-Warning: This App has a lot of loose ends, it was actually an earlier version of the LMS where we considered having Group Assignments as databases.
+## Screencasts
+- [Beta1](http://www.youtube.com/watch?v=NeGSljQMQ1M).
+- [Beta2](http://youtu.be/czPf-nZ5A_M)
 
 
 # Installing on server
@@ -40,7 +20,5 @@ couchapp push app.js http://127.0.0.1:5984/apps
 
 # Installing on clients
 
-The target browser at the moment is Firefox for Android and has been tested using the current Firefox for Android Beta. At the moment the PDF.js viewer doesn't work in Chrome.
-
-Navigate to {your servers url}/apps/_design/bell/install.html. This will use your browser's AppCache to save the files necessary for browsing without a connection to the server.  When you have that installed you can now disconnect from the server and see that /apps/_design/bell/personal/index.html loads without the connection.  Connect back to the server and in the Personal BeLL app, click "Update my assignments" which will load the Resources, Teams (Groups), and Assignments from CouchDB into the PouchDB databases in your browser. Disconnect from the server again and you'll see that the Personal BeLL App still has everything. 
+The target browser at the moment is Firefox for Android and has been tested using a beta build of Firefox for Android. The APK for that is in the root directory of this repository. At the moment the PDF.js viewer doesn't work in Chrome, other things may not as well. Check out the Screencasts to get an idea of how the clients interact with the server.
 
