@@ -1,7 +1,7 @@
 
 
 $(function() {
- var resource_url = $.url().param("url")
+ var resource_url = $.url().fparam("url")
 
  // Get the cuepoints JSON file for this video file @todo If the metadata doesn't exist, set up
  // some sensible defaults to fall back on.
