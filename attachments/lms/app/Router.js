@@ -14,9 +14,9 @@ $(function() {
       'team/edit/:groupId'          : 'GroupForm',
       'team/assign/:groupId'        : 'GroupAssign',
       'team/assignments/:groupId'   : 'GroupAssignments',
-      'team/add'                    : 'GroupAdd',
+      'team/add'                    : 'GroupForm',
       'members'                     : 'Members',
-      'member/add'                  : 'MemberAdd',
+      'member/add'                  : 'MemberForm',
       'member/edit/:memberId'       : 'MemberForm',
       'compile'                     : 'CompileManifest',
     },
@@ -125,40 +125,49 @@ $(function() {
       }})
     },
 
-    GroupAdd : function() {
-      // Set up the model
-      var group = new App.Models.Group()
-      // when the users submits the form, the group will be processed
-      group.on('processed', function() {
-        this.save()
-      })
-      // after this group is saved move on to the groups page
-      group.on('sync', function() {
-        Backbone.history.navigate('teams', {trigger: true})
-      })
-      // Set up the form
-      var groupForm = new App.Views.GroupForm({model: group})
-      groupForm.render()
-      App.$el.children('.body').html('<h1>Add a Team</h1>')
-      App.$el.children('.body').append(groupForm.el)
+    GroupForm : function(groupId) {
+      this.modelForm('Group', 'Team', groupId, 'teams')
     },
 
-    MemberAdd : function() {
-      // Set up the model
-      var member = new App.Models.Member()
-      // when the users submits the form, the group will be processed
-      member.on('processed', function() {
-        this.save()
+    MemberForm: function(memberId) {
+      this.modelForm('Member', 'Member', memberId, 'members')
+    },
+
+    modelForm : function(className, label, modelId, reroute) {
+      // Set up
+      var model = new App.Models[className]()
+      var modelForm = new App.Views[className + 'Form']({model: model})
+
+      // Bind form to the DOM
+      if (modelId) {
+        App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
+      }
+      else {
+        App.$el.children('.body').html('<h1>Add a ' + className + '</h1>')
+      }
+      App.$el.children('.body').append(modelForm.el)
+
+      // Bind form events for when Group is ready
+      model.once('Model:ready', function() {
+        // when the users submits the form, the group will be processed
+        modelForm.on(className + 'Form:done', function() {
+          Backbone.history.navigate(reroute, {trigger: true})
+        }) 
+        // Set up the form
+        modelForm.render()
       })
-      // after this group is saved move on to the groups page
-      member.on('sync', function() {
-        Backbone.history.navigate('members', {trigger: true})
-      })
-      // Set up the form
-      var memberForm = new App.Views.MemberForm({model: member})
-      memberForm.render()
-      App.$el.children('.body').html('<h1>Add a Member</h1>')
-      App.$el.children('.body').append(memberForm.el)
+
+      // Set up the model for the form
+      if (modelId) {
+        model.id = modelId
+        model.once('sync', function() {
+          model.trigger('Model:ready')
+        }) 
+        model.fetch()
+      }
+      else {
+        model.trigger('Model:ready')
+      }
     },
 
     GroupAssign: function(groupId) {

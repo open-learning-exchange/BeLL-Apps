@@ -20,6 +20,10 @@ $(function() {
       kind: "Member"
     },
 
+    toString: function() {
+      return this.get('login') + ': ' + this.get('firstName') + ' ' + this.get('lastName')
+    },
+
     schema: {
       login: 'Text',
       pass: 'Text',

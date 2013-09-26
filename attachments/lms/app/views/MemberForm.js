@@ -24,6 +24,10 @@ $(function() {
     },
 
     setForm: function() {
+      var that = this
+      this.model.once('sync', function() {
+        that.trigger('MemberForm:done')
+      })
       // Put the form's input into the model in memory
       this.form.commit()
       // Send the updated model to the server
