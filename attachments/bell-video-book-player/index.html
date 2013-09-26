@@ -1,0 +1,43 @@
+<!doctype html>
+
+<head>
+
+   <!-- player skin -->
+   <link rel="stylesheet" type="text/css" href="skin/minimalist.css" />
+
+   <link rel="stylesheet" type="text/css" href="bell-video-book-player.css" />
+
+   <!-- site specific styling -->
+   <style>
+   body { font: 12px "Myriad Pro", "Lucida Grande", sans-serif; text-align: center; padding-top: 0%; }
+   .flowplayer { width: 100%; height: 100%; }
+   </style>
+
+
+   <!-- flowplayer depends on jQuery 1.7.1+ (for now) -->
+   <script src="lib/jquery-1.7.1.js"></script>`
+   <script src="lib/jquery.url.js"></script>
+
+   <!-- helper functions --> 
+   <script src="bell-video-book-player.util.js"></script>
+
+   <!-- Get in the document ready line to set HTML and other variables before flowplayer gobbles .flowplayer -->
+   <script src="bell-video-book-player.init.js"></script>
+
+   <!-- include flowplayer -->
+   <script src="lib/flowplayer.js"></script>
+
+   <!-- video-reader script using the flowplayer API -->
+   <script src="bell-video-book-player.flowplayer.js"></script>
+
+</head>
+
+<body>
+
+   <!-- the player -->
+   <div class="player" data-swf="lib/flowplayer.swf" data-ratio="1">
+      <video>
+      </video>
+   </div>
+   <div class="fp-timeline video-reader-pager"></div>
+</body>
