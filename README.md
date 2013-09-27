@@ -9,14 +9,8 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 
 
 # Installing on server
-- Make sure you have CouchDB running at http://127.0.0.1:5984 on the system you are installing on.
-- Run /install.js using node, `node install.js`.  This will install the databases the BeLL Apps use.
-- Install the BeLL Apps using the node CouchApp utility.  If you have npm installed you can...
-
-```
-npm install couchapp
-couchapp push app.js http://127.0.0.1:5984/apps
-```
+- Define the location of your CouchDB server in install.js. Default is http://127.0.0.1:5984.
+- On the command line from the repository's root, run `npm install; node install.js;`.  This will install the databases the BeLL Apps use.
 
 
 # Installing on clients
