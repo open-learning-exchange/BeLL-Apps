@@ -6,6 +6,7 @@ $(function() {
       'login'                      : 'MemberLogin',
       'logout'                     : 'MemberLogout',
       'teams'                      : 'Groups',
+      'my-teams'                      : 'MemberGroups',
       'team/edit/:groupId'         : 'GroupForm',
       'team/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
       'team/assignments/:groupId'  : 'GroupAssignments',
@@ -17,14 +18,14 @@ $(function() {
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('my-teams', {trigger: true})
         return
       }
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
         $('ul.nav').html($("#template-nav-logged-in").html())
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('my-teams', {trigger: true})
       })
       memberLoginForm.render()
       App.$el.children('.body').html('<h1>Member login</h1>')
@@ -41,6 +42,17 @@ $(function() {
 
     Groups: function() {
       groups = new App.Collections.Groups()
+      groups.fetch({success: function() {
+        groupsTable = new App.Views.GroupsTable({collection: groups})
+        groupsTable.render()
+        App.$el.children('.body').html('<h1>All Teams</h1>')
+        App.$el.children('.body').append(groupsTable.el)
+      }})
+    },
+
+    MemberGroups: function() {
+      groups = new App.Collections.MemberGroups()
+      groups.memberId = $.cookie('Member._id')
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
@@ -76,7 +88,7 @@ $(function() {
 
     GroupLink: function(groupId) {
       App.once('done:pull_doc_ids', function(){
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('my-teams', {trigger: true})
       })
       App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
     },
