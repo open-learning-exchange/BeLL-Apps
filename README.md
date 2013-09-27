@@ -15,6 +15,7 @@ Warning: Max files open on Mac OS is 256, this app surpasses that during install
 
 - Define the location of your CouchDB server in install.js. Default is http://127.0.0.1:5984.
 - On the command line from the repository's root, run `npm install; node install.js;`
+- There's a race condition with the creating fo a database and the creating of a document, run `node install.js` twice just to be certain.
 
 
 # Installing on clients
