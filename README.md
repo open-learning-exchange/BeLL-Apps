@@ -9,7 +9,7 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 
 
 # Installing on server
-These Apps are entirely Couch Apps but there are a number of things to push to CouchDB (databases, views, apps, default docs) so we use node.js to push all of the dependencies to the CouchDB that you specify. If you don't have node.js installed, check out the instructions for your system at [nodejs.org](http://nodejs.org).
+These Apps are entirely Couch Apps but there are a number of things to push to CouchDB (databases, views, apps, default docs, default admin user with login of admin and password of password) so we use node.js to push all of the dependencies to the CouchDB that you specify. If you don't have node.js installed, check out the instructions for your system at [nodejs.org](http://nodejs.org).
 
 Warning: Max files open on Mac OS is 256, this app surpasses that during installation. Increase your limit by doing `launchctl limit maxfiles 1024 1024` and `ulimit -n 1024`. If you're still seeing issues with getting all the files uploaded, see [this issue in the node.couchapp.js issue queue](https://github.com/mikeal/node.couchapp.js/issues/59).
 
