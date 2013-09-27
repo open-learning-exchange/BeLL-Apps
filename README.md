@@ -9,8 +9,10 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 
 
 # Installing on server
+These Apps are entirely Couch Apps but there are a number of things to push to CouchDB (databases, views, apps, default docs) so we use node.js to push all of the dependencies to the CouchDB that you specify. If you don't have node.js installed, check out the instructions for your system at [nodejs.org](http://nodejs.org).
+
 - Define the location of your CouchDB server in install.js. Default is http://127.0.0.1:5984.
-- On the command line from the repository's root, run `npm install; node install.js;`.  This will install the databases the BeLL Apps use.
+- On the command line from the repository's root, run `npm install; node install.js;`
 
 
 # Installing on clients
