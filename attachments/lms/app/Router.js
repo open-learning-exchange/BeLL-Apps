@@ -10,11 +10,11 @@ $(function() {
       'resource/edit/:resourceId'   : 'ResourceForm',
       'resource/feedback/:resourceId'      : 'ResourceFeedback',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
-      'teams'                       : 'Groups',
-      'team/edit/:groupId'          : 'GroupForm',
-      'team/assign/:groupId'        : 'GroupAssign',
-      'team/assignments/:groupId'   : 'GroupAssignments',
-      'team/add'                    : 'GroupForm',
+      'courses'                       : 'Groups',
+      'course/edit/:groupId'          : 'GroupForm',
+      'course/assign/:groupId'        : 'GroupAssign',
+      'course/assignments/:groupId'   : 'GroupAssignments',
+      'course/add'                    : 'GroupForm',
       'members'                     : 'Members',
       'member/add'                  : 'MemberForm',
       'member/edit/:memberId'       : 'MemberForm',
@@ -24,14 +24,14 @@ $(function() {
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('courses', {trigger: true})
         return
       }
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
         $('ul.nav').html($("#template-nav-logged-in").html())
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('courses', {trigger: true})
       })
       memberLoginForm.render()
       App.$el.children('.body').html('<h1>Member login</h1>')
@@ -110,7 +110,7 @@ $(function() {
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html('<h1>Teams</h1>')
+        App.$el.children('.body').html('<h1>Courses</h1>')
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
@@ -126,7 +126,7 @@ $(function() {
     },
 
     GroupForm : function(groupId) {
-      this.modelForm('Group', 'Team', groupId, 'teams')
+      this.modelForm('Group', 'Course', groupId, 'courses')
     },
 
     MemberForm: function(memberId) {
