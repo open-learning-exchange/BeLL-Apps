@@ -15,7 +15,12 @@
  */
 
 #dashboard {
-  
+
+}
+
+.groups .group a {
+  border: #CCC 3px solid;
+  margin: 0 5px 0 0;
 }
 
 #dashboard .inner-table{

@@ -49,6 +49,8 @@
 
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
+  <script src="app/views/GroupsSpans.js"></script>
+  <script src="app/views/GroupSpan.js"></script>
   <script src="app/views/GroupAssignmentsTable.js"></script>
   <script src="app/views/AssignmentRow.js"></script>
   <script src="app/views/MemberLoginForm.js"></script>
@@ -161,6 +163,12 @@
     </td>
   </script>
 
+  <script type="text/html" id="template-GroupSpan">
+      <a href='#team/assign/<%= _id %>' style="padding: 40px 15px; background:<%= backgroundColor %>; color:<%= foregroundColor %>;"> 
+        <%= name %>
+      </a>
+  </script>
+
   <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
       <div id="page-header">
@@ -182,46 +190,10 @@
         <table class="stu-nav-table">
           <tr class="stu-nav-tube">
             <td class="stu-nav-title">
-              My Courses
+              My Teams
             </td>
-            <td>      
-              <!-- SCROLLABLE DIV-->
-              <div class="inner">
-                <table class="inner-table">
-                  <tr>
-                    <td style="background-color:#0066CC; color: white;">
-                      English
-                    </td>
-                    <td style="background-color:#33CCCC; color: rgb(16, 99, 99);">
-                      Math
-                    </td>
-                    <td style="background-color:#FF9933; color:rgb(255, 242, 192);">
-                      Gh Language
-                    </td>
-                    <td style="background-color:rgb(233, 248, 200); color: #999966;">
-                      Science
-                    </td>
-                    <td style="background-color:#FFCCCC; color: rgb(223, 99, 99);">
-                      Creative Arts
-                    </td>
-                    <td style="background-color:#66FFCC; color:rgb(55, 143, 125);">
-                      Creative Arts
-                    </td>
-                    <td style="background-color:rgb(233, 248, 200); color: #999966;">
-                      Science
-                    </td>
-                    <td style="background-color:#FF9933; color:rgb(255, 242, 192);">
-                      Gh Language
-                    </td>
-                    <td style="background-color:rgb(233, 248, 200); color: #999966;">
-                      Economics
-                    </td>
-                    <td style="background-color:#FFCCCC; color: rgb(223, 99, 99);">
-                      Stats
-                    </td>
-                  </tr>
-                </table>
-              </div>
+            <td class='groups'>      
+              <!-- Groups -->
             </td>
             <td class="stu-nav-option">Add More</td>
           </tr>
