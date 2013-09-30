@@ -11,6 +11,186 @@
 }
 
 /*
+ * Dashboard
+ */
+
+#dashboard {
+  
+}
+
+#dashboard .inner-table{
+  table-layout: fixed; 
+  width: 100%;
+  height: 100%;
+}
+
+#dashboard .inner-table td{
+  font-weight:bold;
+  text-align:center;
+  vertical-align: top;
+  padding:10px;
+  width:90px;
+  font:verdana;
+  border: 3px solid #e6e3e3;
+}
+
+#dashboard .inner {
+  overflow-x:scroll;
+  overflow-y:visible;
+  width:796px;
+  height: 104%;
+}
+
+
+#page-header
+{
+  height: 135px;
+  float: bottom;
+}
+
+
+#page-body
+{
+  height: 280px;
+  float: bottom;
+}
+
+
+.stu-nav-table
+{
+padding:5 5 0 5;  
+width:100%; 
+height:280px;
+padding-top:5px;
+}
+
+
+.page-bottom-navtable 
+{
+float: right; 
+padding-top: 2px;
+}
+
+.btn-green {
+  -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+  -webkit-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+  box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+  background-color:#9dce2c;
+  -webkit-border-top-left-radius:9px;
+  -moz-border-radius-topleft:9px;
+  border-top-left-radius:9px;
+  -webkit-border-top-right-radius:9px;
+  -moz-border-radius-topright:9px;
+  border-top-right-radius:9px;
+  -webkit-border-bottom-right-radius:9px;
+  -moz-border-radius-bottomright:9px;
+  border-bottom-right-radius:9px;
+  -webkit-border-bottom-left-radius:9px;
+  -moz-border-radius-bottomleft:9px;
+  border-bottom-left-radius:9px;
+  text-indent:0;
+  border:2px solid #F91421;
+  display:inline-block;
+  color:#000000;
+  font-family:verdana;
+  font-size:13px;
+  font-weight:bold;
+  font-style:normal;
+  height:35px;
+  line-height:20px;
+  width:120px;
+  text-decoration:none;
+  text-align:center;
+  text-shadow:0px 0px 0px #689324;
+}
+
+.btn-red {
+  -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+  -webkit-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+  box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+  background-color:#c24c4c;
+  -webkit-border-top-left-radius:9px;
+  -moz-border-radius-topleft:9px;
+  border-top-left-radius:9px;
+  -webkit-border-top-right-radius:9px;
+  -moz-border-radius-topright:9px;
+  border-top-right-radius:9px;
+  -webkit-border-bottom-right-radius:9px;
+  -moz-border-radius-bottomright:9px;
+  border-bottom-right-radius:9px;
+  -webkit-border-bottom-left-radius:9px;
+  -moz-border-radius-bottomleft:9px;
+  border-bottom-left-radius:9px;
+  text-indent:0;
+  border:2px solid #F91421;
+  display:inline-block;
+  color:#000000;
+  font-family: verdana;
+  font-size:13px;
+  font-weight:bold;
+  font-style:normal;
+  height:35px;
+  line-height:20px;
+  width:120px;
+  text-decoration:none;
+  text-align:center;
+  
+  text-shadow:1px 1px 12px #689324;
+}
+
+.btn-green, .btn-red
+{
+margin-left: 5px;
+margin-right: 5px;
+line-height: 15px
+}
+
+
+.stu-nav-title
+{
+  font-weight:bolder;
+  text-align:center;  
+  font-family: verdana;
+  font-size: large;
+  background-color: #e6e3e3;
+  width:50px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  color:darkorange;
+}
+#page-bottom-navbuttons
+{
+height: 50px;
+}
+
+.stu-nav-option
+{
+
+  font:arial;
+  text-align:center;
+  font-family: verdana;
+  width:50px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #bee065;
+  color: #35690f;
+  font-weight: bolder;
+  font-size: larger;
+}
+.stu-nav-option-empty
+{
+  visibility:hidden;
+  font:arial;
+  background-color: green;
+  width:30px;
+  border-top-right-radius:15px;
+  border-bottom-right-radius:15px;
+}
+
+
+
+
+/*
  * Form Views
  */
 

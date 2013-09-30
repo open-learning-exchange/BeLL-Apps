@@ -53,6 +53,7 @@
   <script src="app/views/AssignmentRow.js"></script>
   <script src="app/views/MemberLoginForm.js"></script>
   <script src="app/views/FeedbackForm.js"></script>
+  <script src="app/views/Dashboard.js"></script>
 
   <!-- 
     Templates 
@@ -158,6 +159,142 @@
         <i class='icon-list'></i> Assignments
       </a>
     </td>
+  </script>
+
+  <script type="text/html" id="template-Dashboard">
+    <div id="dashboard">
+      <div id="page-header">
+        <img src="img/OLE_Home_Resized_Header.png" style="box-shadow: 0px 2px 2px #888888; width:100%" />
+        <div style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
+          <img src="img/agnes.jpeg" width="108px" height="108px" />
+        </div>
+        <div style="margin-left:141px ; margin-top:-130px;font-size:25px;">
+          Welcome,
+          <br>
+          <span style="font-size:33px;">AGNES MENSAH</span>
+          <div style="font-size:19px;margin-top:14px;margin-left:3px;">Monday | 13 October, 2013</div>
+          <div style="margin-top:-109px;margin-left:605px;position:absolute;"> 07 </div>
+          <div style="margin-top:-109px;margin-left:742px;position:absolute;"> 15 </div>
+        </div>
+      </div>
+
+      <div id="page-body">
+        <table class="stu-nav-table">
+          <tr class="stu-nav-tube">
+            <td class="stu-nav-title">
+              My Courses
+            </td>
+            <td>      
+              <!-- SCROLLABLE DIV-->
+              <div class="inner">
+                <table class="inner-table">
+                  <tr>
+                    <td style="background-color:#0066CC; color: white;">
+                      English
+                    </td>
+                    <td style="background-color:#33CCCC; color: rgb(16, 99, 99);">
+                      Math
+                    </td>
+                    <td style="background-color:#FF9933; color:rgb(255, 242, 192);">
+                      Gh Language
+                    </td>
+                    <td style="background-color:rgb(233, 248, 200); color: #999966;">
+                      Science
+                    </td>
+                    <td style="background-color:#FFCCCC; color: rgb(223, 99, 99);">
+                      Creative Arts
+                    </td>
+                    <td style="background-color:#66FFCC; color:rgb(55, 143, 125);">
+                      Creative Arts
+                    </td>
+                    <td style="background-color:rgb(233, 248, 200); color: #999966;">
+                      Science
+                    </td>
+                    <td style="background-color:#FF9933; color:rgb(255, 242, 192);">
+                      Gh Language
+                    </td>
+                    <td style="background-color:rgb(233, 248, 200); color: #999966;">
+                      Economics
+                    </td>
+                    <td style="background-color:#FFCCCC; color: rgb(223, 99, 99);">
+                      Stats
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+            <td class="stu-nav-option">Add More</td>
+          </tr>
+          <tr class="stu-nav-tube">
+            <td class="stu-nav-title">
+              My Shelf
+            </td>
+            <td>      
+              <!-- SCROLLABLE DIV-->
+              <div class="inner">
+                <table class="inner-table">
+                  <tr>
+                    <td style="background-color:rgb(143, 38, 126); color: white;">
+                      Cat in Hat
+                    </td>
+                    <td style="background-color:#0066CC; color: white;">
+                      Winne the Pooh
+                    </td>
+                    <td style="background-color:#FF9933; color: white;">
+                      KA-Substraction
+                    </td>
+                    <td style="background-color:#0066CC; color: white;">
+                      History of ghanna
+                    </td>
+                    <td style="background-color:rgb(143, 38, 126); color: white;">
+                      Ghana Culture
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+            <td class="stu-nav-option">
+              Add More
+            </td>
+          </tr>
+          <tr class="stu-nav-tube">
+            <td class="stu-nav-title">
+              My Badges
+            </td>
+            <td>      
+              <!-- SCROLLABLE DIV-->
+              <div class="inner">
+                <table class="inner-table">
+                  <tr>
+                    <td style="background-color:rgb(143, 38, 126); color: white;">
+                      Match Achievement
+                    </td>
+                    <td style="background-color:#33CCCC; color: white;">
+                      Community Project
+                    </td>  
+                  </tr>
+                </table>
+              </div>
+            </td>
+            <td class="stu-nav-option-empty">
+              +
+            </td>
+          </tr>
+        </table>    
+      </div>
+    
+      <div id="page-bottom-navbuttons"> 
+        <table class="page-bottom-navtable">
+          <tr>
+            <td class="btn-green">Learning Goals</td>
+            <td class="btn-green">Calendar</td>
+            <td class="btn-green">Search Bell</td>
+            <td class="btn-green">Email</td>
+            <td class="btn-red">Exit</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </script>
 
 </head>

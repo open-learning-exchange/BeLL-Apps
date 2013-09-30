@@ -2,7 +2,8 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      ''                           : '', 
+      ''                           : 'Dashboard', 
+      'dashboard'                  : 'Dashboard',
       'login'                      : 'MemberLogin',
       'logout'                     : 'MemberLogout',
       'teams'                      : 'Groups',
@@ -15,17 +16,23 @@ $(function() {
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
     },
 
+    Dashboard: function() {
+      var dashboard = new App.Views.Dashboard()
+      App.$el.children('.body').html(dashboard.el)
+      dashboard.render()
+    },
+
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
-        Backbone.history.navigate('my-teams', {trigger: true})
+        Backbone.history.navigate('dashboard', {trigger: true})
         return
       }
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
         $('ul.nav').html($("#template-nav-logged-in").html())
-        Backbone.history.navigate('my-teams', {trigger: true})
+        Backbone.history.navigate('dashboard', {trigger: true})
       })
       memberLoginForm.render()
       App.$el.children('.body').html('<h1>Member login</h1>')
@@ -88,7 +95,7 @@ $(function() {
 
     GroupLink: function(groupId) {
       App.once('done:pull_doc_ids', function(){
-        Backbone.history.navigate('my-teams', {trigger: true})
+        Backbone.history.navigate('dashboard', {trigger: true})
       })
       App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
     },
