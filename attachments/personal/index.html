@@ -27,6 +27,7 @@
   <script src="vendor/backbone.couchdb.js"></script>
   <script src="vendor/html-encode.js"></script>
   <script src="vendor/jquery.url.js"></script>
+  <script src="vendor/moment.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
 
   <!--
@@ -173,14 +174,14 @@
     <div id="dashboard">
       <div id="page-header">
         <img src="img/OLE_Home_Resized_Header.png" style="box-shadow: 0px 2px 2px #888888; width:100%" />
-        <div style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
-          <img src="img/agnes.jpeg" width="108px" height="108px" />
+        <div class="member-photo" style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
+          <!-- Member photo -->
         </div>
         <div style="margin-left:141px ; margin-top:-130px;font-size:25px;">
           Welcome,
           <br>
-          <span style="font-size:33px;">AGNES MENSAH</span>
-          <div style="font-size:19px;margin-top:14px;margin-left:3px;">Monday | 13 October, 2013</div>
+          <span class='name' style="font-size:33px;"></span>
+          <div class='now' style="font-size:19px;margin-top:14px;margin-left:3px;"></div>
           <div style="margin-top:-109px;margin-left:605px;position:absolute;"> 07 </div>
           <div style="margin-top:-109px;margin-left:742px;position:absolute;"> 15 </div>
         </div>
@@ -190,12 +191,12 @@
         <table class="stu-nav-table">
           <tr class="stu-nav-tube">
             <td class="stu-nav-title">
-              My Teams
+              My Courses
             </td>
             <td class='groups'>      
               <!-- Groups -->
             </td>
-            <td class="stu-nav-option">Add More</td>
+            <!-- td class="stu-nav-option">Add More</td -->
           </tr>
           <tr class="stu-nav-tube">
             <td class="stu-nav-title">

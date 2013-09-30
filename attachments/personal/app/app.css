@@ -49,7 +49,7 @@
 
 #page-header
 {
-  height: 135px;
+  height: 180px;
   float: bottom;
 }
 
@@ -67,6 +67,11 @@ padding:5 5 0 5;
 width:100%; 
 height:280px;
 padding-top:5px;
+}
+
+
+.stu-nav-table tr {
+  
 }
 
 
