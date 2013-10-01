@@ -12,6 +12,13 @@ ddoc.views = {
         emit(doc.context.groupId, true)
       }
     }
+  },
+  GroupAssignmentsByDate: {
+    map: function(doc) {
+      if (doc.kind == 'Assignment' && doc.context.groupId && doc.startDate && doc.endDate) {
+        emit([doc.context.groupId, doc.startDate, doc.endDate], true)
+      }
+    }
   }
   
 }

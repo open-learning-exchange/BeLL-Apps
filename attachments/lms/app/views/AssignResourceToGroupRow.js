@@ -8,41 +8,32 @@ $(function() {
 
       'click .assign' : function(e) {
         e.preventDefault()
-        var assignment = new App.Models.Assignment()
-        var groupId = $(e.currentTarget).attr('data-group-id')
         var that = this
-        assignment.on('sync', function() {
+        this.assignment.on('sync', function() {
           // rerender this view
-          that.vars.assignmentId = assignment.get('id')
           that.render()
         })
-        assignment.set('context', {groupId: groupId})
-        assignment.set('resourceId', this.model.id)
-        assignment.save()
+        this.assignment.save()
       },
 
       'click .unassign' : function(e) {
         e.preventDefault()
         // setup
-        var assignment = new App.Models.Assignment()
-        var groupId = $(e.currentTarget).attr('data-group-id')
-        var assignmentId = $(e.currentTarget).attr('data-assignment-id')
-        assignment.id = assignmentId
         var that = this
-        //
-        // Sequence of events
-        //
-        // Fetch the assignment and then delete it
-        App.listenToOnce(assignment, 'sync', function() {
-          assignment.destroy()
+        // We're getting rid of the current assignment but user might assign it back so we'll
+        // create a new potential assignment.
+        var newPotentialAssignment = new App.Models.Assignment({
+          startDate: this.assignment.get('startDate'),
+          endDate: this.assignment.get('endDate'),
+          resourceId: this.assignment.get('resourceId'), 
+          context: this.assignment.get('context')
         })
         // When the assignment is deleted, tell the view and rerender
-        assignment.on('destroy', function() {
-          that.vars.assignmentId = false
+        this.assignment.on('destroy', function() {
+          that.assignment = newPotentialAssignment
           that.render()
         })
-        // start the sequence
-        assignment.fetch()
+        this.assignment.destroy()
       },
 
       // Do a preview in a modal
@@ -56,8 +47,9 @@ $(function() {
     template : _.template($("#template-AssignResourceToGroupRow").html()),
     
     render: function () {
-      this.vars = _.extend(this.vars, this.model.toJSON())
-      this.vars.fileName = _.keys(this.vars._attachments)[0]
+      this.vars.resource   = this.resource.toJSON()
+      this.vars.assignment = this.assignment.toJSON()
+      this.vars.fileName   = _.keys(this.vars.resource._attachments)[0]
       this.$el.html(this.template(this.vars))
     },
 

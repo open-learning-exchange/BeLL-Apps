@@ -13,6 +13,8 @@ $(function() {
       'courses'                       : 'Groups',
       'course/edit/:groupId'          : 'GroupForm',
       'course/assign/:groupId'        : 'GroupAssign',
+      'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
+      'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/add'                    : 'GroupForm',
       'members'                     : 'Members',
@@ -177,8 +179,40 @@ $(function() {
       App.$el.children('.body').html(assignResourcesToGroupTable.el)
     },
 
-    GroupAssignments: function(groupId) {
+    GroupWeekOfAssignments: function(groupId, weekOf) {
 
+      // Figure out our week range
+      if(!weekOf) {
+        // Last Sunday
+        weekOf = moment().subtract('days', (moment().format('d'))).format("YYYY-MM-DD")
+      }
+      var startDate = weekOf
+      var endDate = moment(weekOf).add('days', 7).format('YYYY-MM-DD')
+            
+      var table = new App.Views.AssignWeekOfResourcesToGroupTable()
+      table.group = new App.Models.Group()
+      table.group.id = groupId
+      table.resources = new App.Collections.Resources()
+      table.assignments = new App.Collections.GroupAssignmentsByDate()
+      table.assignments.groupId = groupId,
+      table.assignments.startDate = startDate
+      table.assignments.endDate = endDate
+      table.weekOf = weekOf
+      
+      // Bind this view to the App's body
+      App.$el.children('.body').html(table.el)
+      
+      // Fetch the collections and model, render when ready
+      table.resources.on('sync', function() {
+        table.assignments.fetch()
+      })
+      table.assignments.on('sync', function() {
+        table.group.fetch()
+      })    
+      table.group.on('sync', function() {
+        table.render()
+      })
+      table.resources.fetch()
     },
 
     CompileManifest: function() {
