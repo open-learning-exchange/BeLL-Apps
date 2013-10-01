@@ -50,11 +50,6 @@ $(function() {
       }
     },
 
-    closeModal: function() {
-      $("#modal").modal("hide")
-    },
-
-
     pull_doc_ids: function(include_doc_ids, from, to) {
       this.trigger('start:pull_doc_ids')
       var App = this

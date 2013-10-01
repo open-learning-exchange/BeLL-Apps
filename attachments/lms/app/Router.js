@@ -20,6 +20,7 @@ $(function() {
       'members'                     : 'Members',
       'member/add'                  : 'MemberForm',
       'member/edit/:memberId'       : 'MemberForm',
+      'compile/week'                : 'CompileManifestForWeeksAssignments',
       'compile'                     : 'CompileManifest',
     },
 
@@ -190,6 +191,9 @@ $(function() {
       var endDate = moment(weekOf).add('days', 7).format('YYYY-MM-DD')
             
       var table = new App.Views.AssignWeekOfResourcesToGroupTable()
+      // Bind this view to the App's body
+      App.$el.children('.body').html(table.el)
+      // Set variables on this View
       table.group = new App.Models.Group()
       table.group.id = groupId
       table.resources = new App.Collections.Resources()
@@ -198,9 +202,6 @@ $(function() {
       table.assignments.startDate = startDate
       table.assignments.endDate = endDate
       table.weekOf = weekOf
-      
-      // Bind this view to the App's body
-      App.$el.children('.body').html(table.el)
       
       // Fetch the collections and model, render when ready
       table.resources.on('sync', function() {
@@ -213,6 +214,144 @@ $(function() {
         table.render()
       })
       table.resources.fetch()
+    },
+
+
+    CompileManifestForWeeksAssignments: function(weekOf) {
+
+      // 
+      // Setup
+      // 
+
+      // We're going to get the Assigned Resources docs and App docs into this bundles object to 
+      // to feed to App.compileManifest
+      bundles = {
+        "apps" : {},
+        "resources" : {}
+      }
+      // Target Doc URL to attach our manifest.appcache to, fed to App.compileManifest
+      targetDocURL = '/devices/_design/all'
+
+      var assignments = new App.Collections.AssignmentsByDate()
+      var resources = new App.Collections.Resources()
+      var apps = new App.Collections.Apps()
+
+
+      //
+      // Step 1
+      //
+      // Fetch the assignments 
+
+      App.once('CompileManifestForWeeksAssignments:go', function() {
+        // Figure out our week range
+        if(!weekOf) {
+          // Last Sunday
+          weekOf = moment().subtract('days', (moment().format('d'))).format("YYYY-MM-DD")
+        }
+        assignments.startDate = weekOf
+        assignments.endDate = moment(weekOf).add('days', 7).format('YYYY-MM-DD')
+        assignments.fetch({success: function() {
+          App.trigger('CompileManifestForWeeksAssignments:assignmentsReady')
+        }})
+      })
+
+
+      //
+      // Step 2
+      //
+      // Look at the Assignments and create Resource models from the resourceIds, 
+      // then add those Resource Models to Resources Collection
+
+      App.once('CompileManifestForWeeksAssignments:assignmentsReady', function() {
+        assignments.each(function(assignment) {
+          var resource = new App.Models.Resource()
+          resource.id = assignment.get('resourceId')
+          resources.add(resource)
+        })
+        App.trigger('CompileManifestForWeeksAssignments:readyToFetchResources')
+      })
+
+
+      //
+      // Step 3
+      //
+      // We now have a bunch of empty Resource Models in resources Collection but they have IDs.
+      // Fetch each of those models, count our progress, and when finished trigger that we are done.
+
+      App.on('CompileManifestForWeeksAssignments:readyToFetchResources', function() {
+        var count = 0
+        resources.on('CompileManifestForWeeksAssignments:fetchedResource', function() {
+          count++
+          if(count == resources.models.length) {
+            App.trigger('CompileManifestForWeeksAssignments:readyToBundleResources')
+          }
+        })
+        resources.each(function(resource) {
+          resource.fetch({success: function() {
+            resources.trigger('CompileManifestForWeeksAssignments:fetchedResource')
+          }})
+        })
+      })
+
+
+      //
+      // Step 4
+      //
+      // Now that resources has fetched Models, we can bundle them
+
+      App.on('CompileManifestForWeeksAssignments:readyToBundleResources', function() {
+        resources.each(function(resource) {
+          bundles.resources[resource.get('_id')] = resource.toJSON()
+        })
+        App.trigger('CompileManifestForWeeksAssignments:readyToCompileApps')
+      })
+
+
+      //
+      // Step 5
+      //
+      // Now that resources is bundled, fetch and bundle apps
+
+      App.once('CompileManifestForWeeksAssignments:readyToCompileApps', function() {
+        apps.fetch({success: function() {
+          apps.each(function(app) {
+            bundles.apps[app.get('_id')] = app.toJSON()
+          })
+          App.trigger('CompileManifestForWeeksAssignments:readyToCompileBundle')
+        }})
+        
+      })
+
+
+      //
+      // Step 6
+      //
+      // Our bundles are ready, send to the compiler
+
+      App.once('CompileManifestForWeeksAssignments:readyToCompileBundle', function() {
+        // Listen for when compiling the manifest has finished
+        App.once('compileManifest:done', function() {
+          App.trigger('CompileManifestForWeeksAssignments:done')
+        })
+        App.compileManifest(bundles, targetDocURL)
+      })
+
+
+      //
+      // Step 7
+      //
+      // Our compiler is now done, navigate to another page
+
+      App.once('CompileManifestForWeeksAssignments:done', function() {
+        Backbone.history.navigate('courses', {trigger: true})
+      })
+
+
+      //
+      // All events have been binded. Go!
+      //
+      App.trigger('CompileManifestForWeeksAssignments:go')
+
     },
 
     CompileManifest: function() {

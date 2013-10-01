@@ -4,13 +4,13 @@
 
 $(function() {
 
-  App.Collections.GroupAssignmentsByDate = Backbone.Collection.extend({
+  App.Collections.AssignmentsByDate = Backbone.Collection.extend({
 
     url: function() {
       // There is some way to have nicer range queries in CouchDB as hinted here -> http://stackoverflow.com/questions/3216868/querying-couchdb-documents-between-a-start-date-and-an-end-date
       // var url = App.Server + '/assignments/_design/bell/_view/GroupAssignmentsByDate?startkey=["' + this.groupId + '","' + this.startDate + '",""]&endkey=["' + this.groupId + '","\ufff0","' + this.endDate + '"]&include_docs=true'
       // Since we know the startDate and endDate days we can expect Assignments, we don't actually have to do a range for now.
-      var url = App.Server + '/assignments/_design/bell/_view/GroupAssignmentsByDate?key=["' + this.groupId + '","' + this.startDate + '","' + this.endDate + '"]&include_docs=true'
+      var url = App.Server + '/assignments/_design/bell/_view/AssignmentsByDate?key=["' + this.startDate + '","' + this.endDate + '"]&include_docs=true'
       return url
     },
 
@@ -21,7 +21,7 @@ $(function() {
       return docs
     },
      
-    model: App.Models.Assignment,
+    model: App.Models.Assignment
 
   })
 

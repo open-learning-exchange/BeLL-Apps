@@ -14,7 +14,7 @@ $(function() {
     model: App.Models.Member,
 
     comparator: function(model) {
-      var title = model.get('name')
+      var title = model.get('login')
       if (title) return title.toLowerCase()
     }
 

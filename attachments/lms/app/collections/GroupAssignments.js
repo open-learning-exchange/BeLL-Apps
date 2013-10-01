@@ -16,12 +16,6 @@ $(function() {
      
     model: App.Models.Assignment,
 
-    comparator: function(model) {
-      var title = model.get('name')
-      if (title) return title.toLowerCase()
-    },
-
-
   })
 
 })

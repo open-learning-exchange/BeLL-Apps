@@ -13,10 +13,19 @@ ddoc.views = {
       }
     }
   },
+
   GroupAssignmentsByDate: {
     map: function(doc) {
       if (doc.kind == 'Assignment' && doc.context.groupId && doc.startDate && doc.endDate) {
         emit([doc.context.groupId, doc.startDate, doc.endDate], true)
+      }
+    }
+  },
+
+  AssignmentsByDate: {
+    map: function(doc) {
+      if (doc.kind == 'Assignment' && doc.startDate && doc.endDate) {
+        emit([doc.startDate, doc.endDate], true)
       }
     }
   }
