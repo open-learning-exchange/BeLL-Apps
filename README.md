@@ -4,8 +4,9 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 ![Screenshot of BeLL LMS, one of many BeLL Apps](docs/screenshot.png)
 
 ## Screencasts
-- [Beta1](http://www.youtube.com/watch?v=NeGSljQMQ1M)
-- [Beta2](http://youtu.be/czPf-nZ5A_M)
+- [Beta1 walk through](http://www.youtube.com/watch?v=NeGSljQMQ1M)
+- [Beta2 walk through](http://youtu.be/czPf-nZ5A_M)
+- [Installation](http://www.youtube.com/watch?v=ZFAnAmv48BQ)
 
 
 # Installing on server
