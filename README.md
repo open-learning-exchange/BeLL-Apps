@@ -6,7 +6,7 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 ## Screencasts
 - [Beta1 walk through](http://www.youtube.com/watch?v=NeGSljQMQ1M)
 - [Beta2 walk through](http://youtu.be/czPf-nZ5A_M)
-- [Installation](http://www.youtube.com/watch?v=ZFAnAmv48BQ)
+- [BeLL Apps 3.0 Sandbox Set Up from Command Line](http://youtu.be/_Yy3TOe3cps)
 
 
 # Installing on server
