@@ -146,10 +146,16 @@
       <%= resource.title %>
     </td>
     <td>
-      <a class='btn open' href='<%= openURL %>' target="_blank">
+      <a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resource._id %>' target="_blank">
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
+    <td>
+      <a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= resource._id %>' target="_blank">
+        <i class='icon-download'></i> Download
+      </a>
+    </td>
+
   </script>
 
   <script type="text/html" id="template-GroupRow">
