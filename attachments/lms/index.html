@@ -264,11 +264,11 @@
     <td>
       <%= resource.title %>
     </td>
-    <!-- td>
-      <a class='btn' href='/apps/_design/bell/pdf.js/viewer.html#file=/resources/<%= resource._id %>/<%= fileName %>' target="_blank">
+    <td>
+      <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resource._id %>' target="_blank">
         <i class='icon-eye-open'></i> Preview
       </a>
-    </td -->
+    </td>
     <td>
       <a class="btn" href="#resource/feedback/<%= resource._id %>" target="_blank">
         <i class="icon-comment"></i> Feedback
@@ -347,13 +347,13 @@
     <td>
       <%= title %>
     </td> 
-    <!-- td>
-      <a class='btn' href='/apps/_design/bell/pdf.js/viewer.html#file=/resources/<%= _id %>/<%= fileName %>' target='_blank'>
+    <td>
+      <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resource._id %>' target="_blank">
         <i class='icon-eye-open'></i> Preview
       </a>
-    </td-->
+    </td>
     <td>
-      <a class='btn' href='/resources/<%= _id %>/<%= fileName %>'>
+      <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= resource._id %>' target="_blank">
         <i class='icon-download'></i> Download
       </a>
     </td>
