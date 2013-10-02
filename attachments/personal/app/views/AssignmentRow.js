@@ -8,7 +8,8 @@ $(function() {
     events: {
       'click .open': function() {
         Backbone.history.navigate('resource/feedback/add/' + this.model.get('resourceId'), {trigger: true})
-      },
+      }
+    },
 
     vars: {},
 

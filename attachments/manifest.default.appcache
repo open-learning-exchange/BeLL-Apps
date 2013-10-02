@@ -4,7 +4,7 @@ CACHE MANIFEST
 # Explicitly cached entries
 
 # for KA Exercises
-#/resources/481c3fb882bbbc38e5014c8bb1000b2f/utils/MathJax/1.1a/MathJax.js?config=KAthJax-8a6b08f6f5c97d7c3c310cc909a7a140
+/apps/_design/bell/ka-exercises/utils/MathJax/1.1a/MathJax.js?config=KAthJax-8a6b08f6f5c97d7c3c310cc909a7a140
 
 # Apps and Resources
 
