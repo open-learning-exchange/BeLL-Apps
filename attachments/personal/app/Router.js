@@ -6,12 +6,12 @@ $(function() {
       'dashboard'                  : 'Dashboard',
       'login'                      : 'MemberLogin',
       'logout'                     : 'MemberLogout',
-      'teams'                      : 'Groups',
-      'my-teams'                      : 'MemberGroups',
-      'team/edit/:groupId'         : 'GroupForm',
-      'team/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
-      'team/assignments/:groupId'  : 'GroupAssignments',
-      'team/link/:groupId'         : 'GroupLink',
+      'courses'                      : 'Groups',
+      'my-courses'                      : 'MemberGroups',
+      'course/edit/:groupId'         : 'GroupForm',
+      'course/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
+      'course/assignments/:groupId'  : 'GroupAssignments',
+      'course/link/:groupId'         : 'GroupLink',
       'update-assignments'         : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
     },
@@ -52,7 +52,7 @@ $(function() {
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html('<h1>All Teams</h1>')
+        App.$el.children('.body').html('<h1>All Courses</h1>')
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
@@ -63,7 +63,7 @@ $(function() {
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html('<h1>My Teams</h1>')
+        App.$el.children('.body').html('<h1>My Courses</h1>')
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
@@ -106,10 +106,10 @@ $(function() {
       PouchDB.replicate(window.location.origin + '/assignments', 'assignments', {
         complete: function(){
           $('.assignments').append(' Done.')
-          App.$el.children('.body').append('<h3 class="teams">Checking for new teams... </h3>')
+          App.$el.children('.body').append('<h3 class="courses">Checking for new courses... </h3>')
           PouchDB.replicate(window.location.origin + '/groups', 'groups', {
             complete: function(){
-              $('.teams').append(' Done.')
+              $('.courses').append(' Done.')
               App.$el.children('.body').append('<h3 class="members">Checking for new members... </h3>')
               PouchDB.replicate(window.location.origin + '/members', 'members', {
                 complete: function(){
@@ -132,7 +132,7 @@ $(function() {
     FeedbackForm: function(resourceId) {
       var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
       feedbackModel.on('sync', function() {
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('courses', {trigger: true})
       })
       var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
       feedbackForm.render()

@@ -4,8 +4,6 @@ $(function() {
     
     idAttribute: '_id',
 
-    url:'silly',
-    
     sync: BackbonePouch.sync({
       db: PouchDB('assignments')
     })

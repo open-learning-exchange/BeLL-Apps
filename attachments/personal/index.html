@@ -93,14 +93,20 @@
 
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
-      <a href="#teams">
-        <i class="icon-flag icon-white"></i> My Teams
+      <a href="#dashboard">
+        <i class="icon-home icon-white"></i> Dashboard
+      </a>
+    </li> 
+
+    <li> 
+      <a href="#courses">
+        <i class="icon-flag icon-white"></i> My Courses
       </a>
     </li> 
 
     <li> 
       <a href="../lms/index.html#resources">
-        <i class="icon-search icon-white"></i> Explore the BeLL
+        <i class="icon-search icon-white"></i> Explore 
       </a>
     </li> 
 
@@ -158,14 +164,14 @@
     </td> 
 
     <td>
-      <a role='button' class='btn' href='#team/assign/<%= _id %>'> 
+      <a role='button' class='btn' href='#course/assign/<%= _id %>'> 
         <i class='icon-list'></i> Assignments
       </a>
     </td>
   </script>
 
   <script type="text/html" id="template-GroupSpan">
-      <a href='#team/assign/<%= _id %>' style="padding: 40px 15px; background:<%= backgroundColor %>; color:<%= foregroundColor %>;"> 
+      <a href='#course/assign/<%= _id %>' style="padding: 40px 15px; background:<%= backgroundColor %>; color:<%= foregroundColor %>;"> 
         <%= name %>
       </a>
   </script>

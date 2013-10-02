@@ -148,8 +148,8 @@ $(function() {
 
       App.once('compileManifest:compiled', function() {
         $.get(defaults.updateFileURL, function(defaultUpdateHTML) {
-          // We're not transforming the default yet
-          transformedUpdateHTML = defaultUpdateHTML
+          // Modify the manifest URL to trigger a reload
+          transformedUpdateHTML = defaultUpdateHTML.replace('{time}', new Date().getTime()) 
           // Get the targetDoc to get the current revision, then save it with 
           // our transformedUpdateHTML
           $.getJSON(targetDocURL, function(targetDoc){

@@ -146,7 +146,7 @@ $(function() {
         App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
       }
       else {
-        App.$el.children('.body').html('<h1>Add a ' + className + '</h1>')
+        App.$el.children('.body').html('<h1>Add a ' + label + '</h1>')
       }
       App.$el.children('.body').append(modelForm.el)
 
