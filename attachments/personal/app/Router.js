@@ -118,6 +118,7 @@ $(function() {
                   PouchDB.replicate('feedback', window.location.origin + '/feedback', {
                     complete: function(){
                       $('.feedback').append(' Done.')
+                      window.location = '/devices/_design/all/update.html'
                     }
                   })
                 }
