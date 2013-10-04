@@ -100,6 +100,9 @@ $(function() {
       App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
     },
 
+    // This route may no longer be needed so long as we are running the replication on
+    // an interval from App.start()
+
     UpdateAssignments: function() {
       App.$el.children('.body').html('<div class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
       App.$el.children('.body').append('<h3 class="assignments">Checking for new assignments... </h3>')
@@ -132,7 +135,7 @@ $(function() {
     FeedbackForm: function(resourceId) {
       var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
       feedbackModel.on('sync', function() {
-        Backbone.history.navigate('courses', {trigger: true})
+        Backbone.history.navigate('dashboard', {trigger: true})
       })
       var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
       feedbackForm.render()

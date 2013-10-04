@@ -25,7 +25,7 @@ $(function() {
       description: 'Text',
       openWith: {
         type: 'Select',
-        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Khan Academy Exercise' ]
+        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
       },
       // For Resources with more than one and where one open file must be specified
       openWhichFile: 'Text',

@@ -22,6 +22,7 @@ $(function() {
       'PDF.js': '/apps/_design/bell/pdf.js/viewer.html#file=',
       'Flow Video Player': '/apps/_design/bell/FlowPlayer/index.html#url=',
       'BeLL Video Book Player': '/apps/_design/bell/bell-video-book-player/index.html#url=',
+      'Native Video':''
     }
 
   })
