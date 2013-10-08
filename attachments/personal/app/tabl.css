@@ -1,0 +1,150 @@
+.table-striped{
+	
+	text-align:center;
+	 width:550px;
+  	font:verdana;
+  		margin-left: 20%;
+	width: 60%;
+	margin-right: 20%;
+	border-collapse: collapse;
+	table-layout: fixed; 
+	border:1px solid black;
+	color:#345474;
+	font-family:verdana;
+	
+	
+}
+
+.table-striped td{
+	font-size:21px;
+	color : 00235E;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+	word-wrap: break-word;
+}
+.table-striped tr{
+	line-height: 52px;
+}
+.table-striped a{
+	background: #1ABC9C;
+	font-weight: 800;
+}
+.inner-table{
+	table-layout: fixed; 
+	width: 100%;
+	height: 100%;
+	overflow-y: hidden;
+	border-collapse:collapse;
+}
+
+
+.table-striped h6
+ {background-color: #34495E;
+ line-height: 60px;
+ margin: 0px;
+ color:white;
+ text-align: center;
+ text-decoration: none;
+ font-weight: bold;
+ }
+ .table-striped th
+ {
+	padding: 0px;
+	
+ }
+.table-striped tr:nth-child(even) td {
+    background-color: white;
+}
+.table-striped tr:nth-child(odd) td{
+    background-color: #EDEFF1;
+}
+
+.inner-table td{
+font-family: verdana;
+  font-weight:bold;
+  text-align:center;
+  vertical-align: middle;
+  width:112px;
+  font:verdana;
+  color:white;
+
+}
+.inner-table td a{
+    color: #FFFFFF;
+    font-family: verdana;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    padding-top: 34px;
+    height: 54px;
+    display: block;
+    word-wrap: inherit;
+}
+
+.inner {
+  overflow-x:scroll;
+  overflow-y:visible;
+  width:811px;
+  height: 89px;
+}
+
+.shelf-box
+{
+background-color: #7d609e;
+border-right: 2px solid white;
+font-family: verdana;
+word-wrap:break-word;
+}
+.course-box
+{
+background-color: #3f75a3;
+border-right: 2px solid white;
+font-family: verdana;
+word-wrap:break-word;
+}
+
+.badge-box
+{
+background-color: #2f816f;
+border-right: 2px solid white;
+word-wrap:break-word;
+}
+.displayCourse{
+	height:100%;
+}
+
+.login-form-button, .btn.btn-success
+{
+	display: block;
+    font-size: 27px;
+    font-weight: bold;
+    padding-left: 35%;
+    margin-top: 9px;
+    background-color: #1ABC9C;
+}
+
+.bbf-form > fieldset
+{
+	border: none;
+	 border: medium none;
+    height: 182px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 346px;
+    color:white;
+    background-color: #34495E;
+}
+bbf-form ul{border: 5px solid dotted;}
+
+
+.bbf-field.field-login , .bbf-field.field-pass{
+    font-size: 25px;
+}
+
+#c4_pass , #c4_login
+{
+ height: 30px;
+    width: 243px;
+}
+ 
+ 

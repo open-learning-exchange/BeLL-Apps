@@ -10,11 +10,12 @@ $(function() {
       var dashboard = this
       this.$el.html(_.template(this.template, this.vars))
       groups = new App.Collections.Groups()
+      
       groups.fetch({success: function() {
         groupsSpans = new App.Views.GroupsSpans({collection: groups})
         groupsSpans.render()
         // dashboard.$el.children('.groups').append(groupsDiv.el)
-        $('.groups').append(groupsSpans.el)
+        $('#cc').append(groupsSpans.el)
       }})
       //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
       // Time

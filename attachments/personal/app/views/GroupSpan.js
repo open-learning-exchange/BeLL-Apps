@@ -2,13 +2,14 @@ $(function() {
 
   App.Views.GroupSpan = Backbone.View.extend({
 
-    tagName: "span",
+    tagName: "td",
 
-    className: 'group',
+    className: 'course-box',
 
     template : $("#template-GroupSpan").html(),
 
     render: function () {
+     
       var vars = this.model.toJSON()
       this.$el.append(_.template(this.template, vars))
     }

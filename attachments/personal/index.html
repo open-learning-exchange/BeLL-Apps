@@ -4,11 +4,10 @@
 <head>
   <meta charset="utf-8">
   <title>Personal BeLL</title>
-  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
-  <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
-  <link rel="stylesheet" href="app/app.css"/>
-
-  <!--
+  <link rel="stylesheet" href="app/flat-ui.css"/>
+  <link rel="stylesheet" href="app/Home.css"/>
+  <link rel="stylesheet" href="app/tabl.css"/>
+<!--
     DEPENDENCIES
   -->
 
@@ -64,70 +63,67 @@
 
   <script type="text/template" id="template-app">
     <div id="debug"></div>
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Personal BeLL</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
+    
+  <div class="navbar navbar-inverse">
+  <div class="navbar-header">
+    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
+  </div>    
+  <div class="navbar-collapse collapse" id="nav-collapse-01">
+    <ul class="nav" id="itemsinnavbar">
+    
+    </ul>     
+  </div>      
+</div>
+    <div id="logo">
     </div>
-
     <!-- Body -->
     <div class="container body">
       <!-- Content -->
     </div>
      
   </script>
-
-
+   <script type="text/template" id="template-logoimg">
+   <img id="olelogo" src="img/ole.png">
+   
+   </script>
+  
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#teams">
-        <i class="icon-flag icon-white"></i> My Teams
+         My Teams
       </a>
     </li> 
 
     <li> 
       <a href="../lms/index.html#resources">
-        <i class="icon-search icon-white"></i> Explore the BeLL
+        Explore the BeLL
       </a>
     </li> 
 
     <li> 
       <a href="#update-assignments">
-        <i class="icon-retweet icon-white"></i> Update device
+        Update device
       </a>
     </li>
 
     <li> 
-      <a href="#logout">
-        <i class="icon-plane icon-white"></i> Log out
+     <i class="fui-lock"></i> <a href="#logout">
+        Log out
       </a>
     </li>
   </script>
-
+ 
     <script type="text/template" id="template-nav-log-in"> 
 
     <li> 
       <a href="../lms/index.html#resources">
-        <i class="icon-search icon-white"></i> Explore the BeLL
+         Explore the BeLL
       </a>
     </li> 
 
     <li> 
       <a href="#update-assignments">
-        <i class="icon-retweet icon-white"></i> Update device
+         Update device
       </a>
     </li>
 
@@ -165,27 +161,30 @@
   </script>
 
   <script type="text/html" id="template-GroupSpan">
-      <a href='#team/assign/<%= _id %>' style="padding: 40px 15px; background:<%= backgroundColor %>; color:<%= foregroundColor %>;"> 
-        <%= name %>
-      </a>
+      
+        <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
+        <a href='#team/assign/<%= _id %>' style=' color:<%= foregroundColor %>; '> 
+            <%= name %>
+        </a>
+     </div>
   </script>
 
   <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
-      <div id="page-header">
-        <img src="img/OLE_Home_Resized_Header.png" style="box-shadow: 0px 2px 2px #888888; width:100%" />
-        <div class="member-photo" style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
-          <!-- Member photo -->
-        </div>
-        <div style="margin-left:141px ; margin-top:-130px;font-size:25px;">
-          Welcome,
-          <br>
-          <span class='name' style="font-size:33px;"></span>
-          <div class='now' style="font-size:19px;margin-top:14px;margin-left:3px;"></div>
-          <div style="margin-top:-109px;margin-left:605px;position:absolute;"> 07 </div>
-          <div style="margin-top:-109px;margin-left:742px;position:absolute;"> 15 </div>
-        </div>
-      </div>
+       <div id="page-header">
+		<img id="header-image" src="img/OLE_Home_Resized_Header.png" />
+	<div style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
+		 <img src="img/agnes.jpeg" width="108px" height="108px" />
+	</div>
+	<div style="width:100%;height:100%;margin-left:145px;margin-top:-122px;font-size:25px;">
+		Welcome,
+		<br>
+		<span class="name" style="font-size:33px;font-famity:verdana;"></span>
+		<div class="now" style="font-size:16px;margin-top:-2px;margin-left:590px;"></div>
+		<div style="margin-top:-76px;margin-left:605px;position:absolute;font-size:17px;"> 07 </div>
+		<div style="margin-top:-76px;margin-left:742px;position:absolute;font-size:17px;"> 15 </div>
+	</div>
+    </div>	
 
       <div id="page-body">
         <table class="stu-nav-table">
@@ -193,81 +192,108 @@
             <td class="stu-nav-title">
               My Courses
             </td>
-            <td class='groups'>      
-              <!-- Groups -->
-            </td>
-            <!-- td class="stu-nav-option">Add More</td -->
+            <td class="scrollable-courses">      
+		<div class="inner">
+		    <table id="cc" class="inner-table">
+                    </table>
+                  </div>
+             </td>     
+          <td class="stu-nav-option-empty"></td>
           </tr>
           <tr class="stu-nav-tube">
-            <td class="stu-nav-title">
-              My Shelf
-            </td>
-            <td>      
-              <!-- SCROLLABLE DIV-->
-              <div class="inner">
-                <table class="inner-table">
-                  <tr>
-                    <td style="background-color:rgb(143, 38, 126); color: white;">
-                      Cat in Hat
-                    </td>
-                    <td style="background-color:#0066CC; color: white;">
-                      Winne the Pooh
-                    </td>
-                    <td style="background-color:#FF9933; color: white;">
-                      KA-Substraction
-                    </td>
-                    <td style="background-color:#0066CC; color: white;">
-                      History of ghanna
-                    </td>
-                    <td style="background-color:rgb(143, 38, 126); color: white;">
-                      Ghana Culture
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </td>
-            <td class="stu-nav-option">
-              Add More
-            </td>
-          </tr>
-          <tr class="stu-nav-tube">
-            <td class="stu-nav-title">
-              My Badges
-            </td>
-            <td>      
-              <!-- SCROLLABLE DIV-->
-              <div class="inner">
-                <table class="inner-table">
-                  <tr>
-                    <td style="background-color:rgb(143, 38, 126); color: white;">
-                      Match Achievement
-                    </td>
-                    <td style="background-color:#33CCCC; color: white;">
-                      Community Project
-                    </td>  
-                  </tr>
-                </table>
-              </div>
-            </td>
-            <td class="stu-nav-option-empty">
-              +
-            </td>
-          </tr>
-        </table>    
-      </div>
-    
-      <div id="page-bottom-navbuttons"> 
-        <table class="page-bottom-navtable">
-          <tr>
-            <td class="btn-green">Learning Goals</td>
-            <td class="btn-green">Calendar</td>
-            <td class="btn-green">Search Bell</td>
-            <td class="btn-green">Email</td>
-            <td class="btn-red">Exit</td>
-          </tr>
-        </table>
-      </div>
-    </div>
+					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>
+					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+					<div class="inner">
+						<table class="inner-table" >
+							<tr>
+								<td class="shelf-box">
+									Cat in Hat
+								</td>
+								<td class="shelf-box">
+									Winne the Pooh
+								</td>
+								<td class="shelf-box">
+									KA-Substraction
+								</td>
+								<td class="shelf-box">
+									History of ghanna
+								</td>
+								<td class="shelf-box">
+									Ghana Culture
+								</td>
+								<td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td><td class="shelf-box">
+									Ghana Culture
+								</td>
+								
+							</tr>
+						</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+			</tr>
+			<tr class="stu-nav-tube">
+					<td class="stu-nav-title-badges stu-nav-title">My Badges</td>
+					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
+					<div class="inner">
+						<table class="inner-table">
+							<tr>
+								<td class="badge-box">
+									Match Achievement
+								</td>
+								<td class="badge-box">
+									Community Project
+								</td>
+								
+								
+								
+							</tr>
+						</table>
+					</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+			</tr>
+			</table>
+			
+				
+		</div>
+	
+	
+	
+	<div id="page-bottom-navbuttons">	
+	<button class="btn btn-hg btn-primary" style="width:224px;">Learning Goals</button>
+	<button class="btn btn-hg btn-primary" style="width:187px;">Calender </button>
+	<button class="btn btn-hg btn-primary" style="width:195px;">Search Bell</button>
+	<button class="btn btn-hg btn-primary" style="width:160px;">Email</button>
+	<button class="btn btn-hg btn-primary1" style="width:152px;">Exit</button>
+		
+	<!--	<table class="page-bottom-navtable">
+			<tr>
+			
+				<td><button class="btn btn-hg btn-primary">Learning Goals</button></td>
+				<td><button class="btn btn-hg btn-primary">Calender</button></td>
+				<td><button class="btn btn-hg btn-primary">Search Bell</button></td>
+				<td><button class="btn btn-hg btn-primary">Email</button></td>
+				<td><button class="btn btn-hg btn-primary1">Exit</button></td>
+			</tr>
+			</table> -->
+		</div>
+            </div>
   </script>
 
 </head>

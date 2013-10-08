@@ -39,13 +39,13 @@ $(function() {
       }
       else if (loggedIn && !$.url().attr('fragment')) {
         // We're logged in but have no where to go, default to the teams page.        
-        $('ul.nav').html($('#template-nav-logged-in').html())
+        $('ul.nav1').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
         Backbone.history.navigate('teams', {trigger: true})
       }
       else {
         // We're logged in and have a route, start the history.
-        $('ul.nav').html($('#template-nav-logged-in').html())
+        $('ul.nav1').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
       }
     },
