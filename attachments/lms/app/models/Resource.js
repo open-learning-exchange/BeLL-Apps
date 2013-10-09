@@ -25,9 +25,12 @@ $(function() {
       description: 'Text',
       openWith: {
         type: 'Select',
-        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player' ]
+        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
       },
-      openWhichFile: 'Text'
+      // For Resources with more than one and where one open file must be specified
+      openWhichFile: 'Text',
+      // override everything, just open a specific URL
+      openUrl: 'Text'
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {

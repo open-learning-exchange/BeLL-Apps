@@ -39,17 +39,44 @@ $(function() {
       }
       else if (loggedIn && !$.url().attr('fragment')) {
         // We're logged in but have no where to go, default to the teams page.        
-        $('ul.nav1').html($('#template-nav-logged-in').html())
+        $('ul.nav').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('dashboard', {trigger: true})
       }
       else {
         // We're logged in and have a route, start the history.
-        $('ul.nav1').html($('#template-nav-logged-in').html())
+        $('ul.nav').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
       }
+
+      // Start the constant syncing of data
+      App.syncDatabases()
+      setInterval(App.syncDatabases, 10000)
+
     },
 
+    syncDatabases: function () {
+      console.log('Replicating databases.')
+      PouchDB.replicate(window.location.origin + '/assignments', 'assignments', {
+        complete: function(){
+          PouchDB.replicate(window.location.origin + '/groups', 'groups', {
+            complete: function(){
+              PouchDB.replicate(window.location.origin + '/members', 'members', {
+                complete: function(){
+                  PouchDB.replicate('feedback', window.location.origin + '/feedback', {
+                    complete: function(){
+                      console.log('Replication complete')
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+      }) 
+    },
+
+    // A special function for pulling specific documents from CouchDb to PouchDB
     pull_doc_ids: function(include_doc_ids, from, to) {
       this.trigger('start:pull_doc_ids')
       var App = this

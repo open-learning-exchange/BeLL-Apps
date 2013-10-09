@@ -107,9 +107,9 @@
     </li>
 
     <li> 
-     <i class="fui-lock"></i> <a href="#logout">
+    <a href="#logout">
         Log out
-      </a>
+    </a>
     </li>
   </script>
  
@@ -142,10 +142,16 @@
       <%= resource.title %>
     </td>
     <td>
-      <a class='btn open' href='<%= openURL %>' target="_blank">
+      <a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resource._id %>' target="_blank">
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
+    <td>
+      <a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= resource._id %>' target="_blank">
+        <i class='icon-download'></i> Download
+      </a>
+    </td>
+
   </script>
 
   <script type="text/html" id="template-GroupRow">
@@ -154,7 +160,7 @@
     </td> 
 
     <td>
-      <a role='button' class='btn' href='#team/assign/<%= _id %>'> 
+      <a role='button' class='btn' href='#course/assign/<%= _id %>'> 
         <i class='icon-list'></i> Assignments
       </a>
     </td>
@@ -162,7 +168,7 @@
 
   <script type="text/html" id="template-GroupSpan">
       
-        <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
+    <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
         <a href='#team/assign/<%= _id %>' style=' color:<%= foregroundColor %>; '> 
             <%= name %>
         </a>

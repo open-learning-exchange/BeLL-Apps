@@ -49,7 +49,6 @@ $(function() {
     render: function () {
       this.vars.resource   = this.resource.toJSON()
       this.vars.assignment = this.assignment.toJSON()
-      this.vars.fileName   = _.keys(this.vars.resource._attachments)[0]
       this.$el.html(this.template(this.vars))
     },
 

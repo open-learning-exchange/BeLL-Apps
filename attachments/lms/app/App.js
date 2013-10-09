@@ -134,7 +134,7 @@ $(function() {
               App.trigger('compileManifest:compiled')
             }
             xhr.setRequestHeader("Content-type", "text/cache-manifest" );
-            xhr.send(new Blob(['yar'], {type: 'text/plain'}))
+            xhr.send(new Blob([transformedManifestEntries], {type: 'text/plain'}))
             // xhr.send(new Blob([transformedManifestEntries], {type: 'text/plain'}))
           })
         })
@@ -147,9 +147,9 @@ $(function() {
       // When the manifest file is compiled and saved, save the update.html file 
 
       App.once('compileManifest:compiled', function() {
-        $.get(defaults.updateFileUrl, function(defaultUpdateHTML) {
-          // We're not transforming the default yet
-          transformedUpdateHTML = defaultUpdateHTML
+        $.get(defaults.updateFileURL, function(defaultUpdateHTML) {
+          // Modify the manifest URL to trigger a reload
+          transformedUpdateHTML = defaultUpdateHTML.replace('{time}', new Date().getTime()) 
           // Get the targetDoc to get the current revision, then save it with 
           // our transformedUpdateHTML
           $.getJSON(targetDocURL, function(targetDoc){

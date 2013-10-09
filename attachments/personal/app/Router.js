@@ -7,12 +7,12 @@ $(function() {
       'dashboard'                  : 'Dashboard',
       'login'                      : 'MemberLogin',
       'logout'                     : 'MemberLogout',
-      'teams'                      : 'Groups',
-      'my-teams'                      : 'MemberGroups',
-      'team/edit/:groupId'         : 'GroupForm',
-      'team/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
-      'team/assignments/:groupId'  : 'GroupAssignments',
-      'team/link/:groupId'         : 'GroupLink',
+      'courses'                      : 'Groups',
+      'my-courses'                      : 'MemberGroups',
+      'course/edit/:groupId'         : 'GroupForm',
+      'course/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
+      'course/assignments/:groupId'  : 'GroupAssignments',
+      'course/link/:groupId'         : 'GroupLink',
       'update-assignments'         : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
     },
@@ -59,8 +59,11 @@ $(function() {
         $('#olelogo').remove();
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
+
         App.$el.children('.body').html('<h1 class="teams_table_heading"></h1>')
         App.$el.children('.body').append('<table class=table-striped><tr><th><h6>Team Names</h6></th><th><h6>Assignments</h6></th></tr></table>')
+
+
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
@@ -72,7 +75,7 @@ $(function() {
         $('#olelogo').remove();
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html('<h1>My Teams</h1>')
+        App.$el.children('.body').html('<h1>My Courses</h1>')
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
@@ -109,6 +112,9 @@ $(function() {
       App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
     },
 
+    // This route may no longer be needed so long as we are running the replication on
+    // an interval from App.start()
+
     UpdateAssignments: function() {
      $('#olelogo').remove();
       App.$el.children('.body').html('<div class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
@@ -116,10 +122,10 @@ $(function() {
       PouchDB.replicate(window.location.origin + '/assignments', 'assignments', {
         complete: function(){
           $('.assignments').append(' Done.')
-          App.$el.children('.body').append('<h3 class="teams">Checking for new teams... </h3>')
+          App.$el.children('.body').append('<h3 class="courses">Checking for new courses... </h3>')
           PouchDB.replicate(window.location.origin + '/groups', 'groups', {
             complete: function(){
-              $('.teams').append(' Done.')
+              $('.courses').append(' Done.')
               App.$el.children('.body').append('<h3 class="members">Checking for new members... </h3>')
               PouchDB.replicate(window.location.origin + '/members', 'members', {
                 complete: function(){
@@ -128,6 +134,7 @@ $(function() {
                   PouchDB.replicate('feedback', window.location.origin + '/feedback', {
                     complete: function(){
                       $('.feedback').append(' Done.')
+                      window.location = '/devices/_design/all/update.html'
                     }
                   })
                 }
@@ -141,7 +148,7 @@ $(function() {
     FeedbackForm: function(resourceId) {
       var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
       feedbackModel.on('sync', function() {
-        Backbone.history.navigate('teams', {trigger: true})
+        Backbone.history.navigate('dashboard', {trigger: true})
       })
       var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
       feedbackForm.render()
