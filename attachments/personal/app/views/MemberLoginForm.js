@@ -2,7 +2,7 @@ $(function() {
 
   App.Views.MemberLoginForm = Backbone.View.extend({
     
-    className: "form",
+    className: "form login-form",
 
     events: {
       "click #formButton": "setForm",
@@ -14,7 +14,7 @@ $(function() {
       this.form = new Backbone.Form({model:this.model})
       this.$el.append(this.form.render().el)
       // give the form a submit button
-      var $button = $('<a class="btn" id="formButton">go</button>')
+      var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" id="formButton">Submit</button>')
       this.$el.append($button)
     },
 
@@ -27,7 +27,9 @@ $(function() {
       var that = this
       this.form.commit()
       var credentials = this.form.model
-      var db = PouchDB('members')
+      var db = null;
+      db = PouchDB('members')
+     
       function map(doc) {
         if(doc.login) {
           emit(doc.login, null);
@@ -38,7 +40,6 @@ $(function() {
         key: credentials.get('login'), 
         include_docs: true
       }, function(err, response) {
-        console.log(response)
         if(response.total_rows > 0 && response.rows[0].doc.pass == credentials.get('pass')) {
           $.cookie('Member.login', response.rows[0].doc.login)
           $.cookie('Member._id', response.rows[0].doc._id)

@@ -15,7 +15,7 @@ $(function() {
         groupsSpans = new App.Views.GroupsSpans({collection: groups})
         groupsSpans.render()
         // dashboard.$el.children('.groups').append(groupsDiv.el)
-        $('.groups').append(groupsSpans.el)
+        $('#cc').append(groupsSpans.el)
       }})
       //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
       // Time

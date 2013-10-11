@@ -38,14 +38,14 @@ $(function() {
         Backbone.history.navigate('login', {trigger: true})
       }
       else if (loggedIn && !$.url().attr('fragment')) {
-        // We're logged in but have no where to go, default to the dashboard.        
-        $('ul.nav').html($('#template-nav-logged-in').html())
+        // We're logged in but have no where to go, default to the teams page.        
+        $('ul.nav1').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
         Backbone.history.navigate('dashboard', {trigger: true})
       }
       else {
         // We're logged in and have a route, start the history.
-        $('ul.nav').html($('#template-nav-logged-in').html())
+        $('ul.nav1').html($('#template-nav-logged-in').html())
         Backbone.history.start({pushState: false})
       }
 

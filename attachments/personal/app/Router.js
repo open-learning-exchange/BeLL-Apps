@@ -1,4 +1,5 @@
 $(function() {
+
   App.Router = new (Backbone.Router.extend({
 
     routes: {
@@ -17,9 +18,12 @@ $(function() {
     },
 
     Dashboard: function() {
+      
+      $('ul.nav').html($("#template-nav-logged-in").html())
       var dashboard = new App.Views.Dashboard()
       App.$el.children('.body').html(dashboard.el)
       dashboard.render()
+      $('#olelogo').remove()
     },
 
     MemberLogin: function() {
@@ -32,13 +36,15 @@ $(function() {
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
         $('ul.nav').html($("#template-nav-logged-in").html())
+        $('#logo').html($("#template-logoimg").html())
         Backbone.history.navigate('dashboard', {trigger: true})
       })
       memberLoginForm.render()
-      App.$el.children('.body').html('<h1>Member login</h1>')
+      App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>')
       App.$el.children('.body').append(memberLoginForm.el)
       // Override the menu
       $('ul.nav').html($('#template-nav-log-in').html())
+       $('#logo').html($("#template-logoimg").html())
     },
 
     MemberLogout: function() {
@@ -50,9 +56,11 @@ $(function() {
     Groups: function() {
       groups = new App.Collections.Groups()
       groups.fetch({success: function() {
+        $('#olelogo').remove();
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html('<h1>All Courses</h1>')
+        App.$el.children('.body').html('<h1 class="teams_table_heading"></h1>')
+        App.$el.children('.body').append('<table class=table-striped><tr><th><h6>Team Names</h6></th><th><h6>Assignments</h6></th></tr></table>')
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
@@ -61,6 +69,7 @@ $(function() {
       groups = new App.Collections.MemberGroups()
       groups.memberId = $.cookie('Member._id')
       groups.fetch({success: function() {
+        $('#olelogo').remove();
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
         App.$el.children('.body').html('<h1>My Courses</h1>')
@@ -104,6 +113,7 @@ $(function() {
     // an interval from App.start()
 
     UpdateAssignments: function() {
+     $('#olelogo').remove();
       App.$el.children('.body').html('<div class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
       App.$el.children('.body').append('<h3 class="assignments">Checking for new assignments... </h3>')
       PouchDB.replicate(window.location.origin + '/assignments', 'assignments', {

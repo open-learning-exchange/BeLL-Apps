@@ -33,14 +33,14 @@ $(function() {
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
-        $('ul.nav').html($("#template-nav-logged-in").html())
+        $('#itemsinnavbar').html($("#template-nav-logged-in").html())
         Backbone.history.navigate('courses', {trigger: true})
       })
       memberLoginForm.render()
       App.$el.children('.body').html('<h1>Member login</h1>')
       App.$el.children('.body').append(memberLoginForm.el)
       // Override the menu
-      $('ul.nav').html($('#template-nav-log-in').html())
+      $('#itemsinnavbar').html($('#template-nav-log-in').html())
     },
 
     MemberLogout: function() {
