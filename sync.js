@@ -25,18 +25,11 @@ var databases = [
   'devices'
 ]
 
-
 _.each(databases, function(database) {
-  // Install databases
-  // @todo These might not complete before other requests happen...
-  request.put(couchUrl + '/' + database)
   // Install views in corresponding databases
-  exec('couchapp push views/' + database + '.js ' + couchUrl + '/' + database, puts);
+  exec('couchapp sync views/' + database + '.js ' + couchUrl + '/' + database, puts);
 })
 
 // Push the Apps up to CouchDB
 exec('couchapp push app.js ' + couchUrl + '/apps', puts);
 
-// Create the "all" device for when devices want to get an App Cache file with all Resources
-exec('curl -XPUT ' + couchUrl + '/devices/_design/all -d "{}"', puts);
-exec('curl -XPUT ' + couchUrl + '/members/ce82280dc54a3e4beffd2d1efa00c4e6 -d \'{"login":"admin","kind":"Member", "roles": ["admin"], "firstName": "Default", "lastName": "Admin", "pass":"password"}\'') 
