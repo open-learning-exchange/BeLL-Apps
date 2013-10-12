@@ -1,4 +1,4 @@
-// pouchdb.nightly - 2013-08-25T17:29:48
+// pouchdb.nightly - 2013-09-19T10:26:58
 
 (function() {
  // BEGIN Math.uuid.js
@@ -40,8 +40,10 @@ var uuid;
 
 (function() {
 
-  var CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
-    'abcdefghijklmnopqrstuvwxyz'.split('');
+  var CHARS = (
+    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+    'abcdefghijklmnopqrstuvwxyz'
+    ).split('');
 
   uuid = function uuid_inner(len, radix) {
     var chars = CHARS;
@@ -93,6 +95,7 @@ if (typeof module !== 'undefined' && module.exports) {
 **/
 
 var Crypto = {};
+
 (function() {
   Crypto.MD5 = function(string) {
 
@@ -269,6 +272,10 @@ var Crypto = {};
     return temp.toLowerCase();
   }
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = Crypto;
+}
 //----------------------------------------------------------------------
 //
 // ECMAScript 5 Polyfills
@@ -1137,11 +1144,10 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = Pouch;
   Pouch.replicate = require('./pouch.replicate.js').replicate;
   var PouchAdapter = require('./pouch.adapter.js');
-  //load adapters known to work under node
-  var adapters = ['leveldb', 'http'];
-  adapters.map(function(adapter) {
-    require('./adapters/pouch.' + adapter + '.js');
-  });
+  require('./adapters/pouch.http.js');
+  require('./adapters/pouch.idb.js');
+  require('./adapters/pouch.websql.js');
+  require('./adapters/pouch.leveldb.js');
   require('./plugins/pouchdb.mapreduce.js');
 } else {
   window.Pouch = Pouch;
@@ -1618,7 +1624,7 @@ function replicate(src, target, opts, promise) {
   var repId = genReplicationId(src, target, opts);
   var results = [];
   var completed = false;
-  var pending = 0;
+  var pendingRevs = 0;
   var last_seq = 0;
   var continuous = opts.continuous || false;
   var doc_ids = opts.doc_ids;
@@ -1636,7 +1642,7 @@ function replicate(src, target, opts, promise) {
         opts.onChange.apply(this, [result]);
       }
     }
-    pending -= len;
+    pendingRevs -= len;
     result.docs_written += len;
 
     writeCheckpoint(src, target, repId, last_seq, function(err, res) {
@@ -1658,50 +1664,58 @@ function replicate(src, target, opts, promise) {
 
   function eachRev(id, rev) {
     src.get(id, {revs: true, rev: rev, attachments: true}, function(err, doc) {
+      result.docs_read++;
       requests.notifyRequestComplete();
       writeQueue.push(doc);
       requests.enqueue(writeDocs);
     });
   }
 
-  function onRevsDiff(err, diffs) {
-    requests.notifyRequestComplete();
-    if (err) {
-      if (continuous) {
-        promise.cancel();
+  function onRevsDiff(diffCounts) {
+    return function (err, diffs) {
+      requests.notifyRequestComplete();
+      if (err) {
+        if (continuous) {
+          promise.cancel();
+        }
+        PouchUtils.call(opts.complete, err, null);
+        return;
       }
-      PouchUtils.call(opts.complete, err, null);
-      return;
-    }
 
-    // We already have the full document stored
-    if (Object.keys(diffs).length === 0) {
-      pending--;
-      isCompleted();
-      return;
-    }
+      // We already have all diffs passed in `diffCounts`
+      if (Object.keys(diffs).length === 0) {
+        for (var docid in diffCounts) {
+          pendingRevs -= diffCounts[docid];
+        }
+        isCompleted();
+        return;
+      }
 
-    var _enqueuer = function (rev) {
+      var _enqueuer = function (rev) {
         requests.enqueue(eachRev, [id, rev]);
-    };
+      };
 
-    for (var id in diffs) {
-      diffs[id].missing.forEach(_enqueuer);
-    }
+      for (var id in diffs) {
+        var diffsAlreadyHere = diffCounts[id] - diffs[id].missing.length;
+        pendingRevs -= diffsAlreadyHere;
+        diffs[id].missing.forEach(_enqueuer);
+      }
+    };
   }
 
-  function fetchRevsDiff(diff) {
-    target.revsDiff(diff, onRevsDiff);
+  function fetchRevsDiff(diff, diffCounts) {
+    target.revsDiff(diff, onRevsDiff(diffCounts));
   }
 
   function onChange(change) {
     last_seq = change.seq;
     results.push(change);
-    result.docs_read++;
-    pending++;
     var diff = {};
     diff[change.id] = change.changes.map(function(x) { return x.rev; });
-    requests.enqueue(fetchRevsDiff, [diff]);
+    var counts = {};
+    counts[change.id] = change.changes.length;
+    pendingRevs += change.changes.length;
+    requests.enqueue(fetchRevsDiff, [diff, counts]);
   }
 
   function complete() {
@@ -1710,7 +1724,7 @@ function replicate(src, target, opts, promise) {
   }
 
   function isCompleted() {
-    if (completed && pending === 0) {
+    if (completed && pendingRevs === 0) {
       result.end_time = new Date();
       PouchUtils.call(opts.complete, null, result);
     }
@@ -1790,13 +1804,22 @@ Pouch.replicate = function(src, target, opts, callback) {
 };
 
 /*jshint strict: false */
-/*global request: true, Buffer: true, escape: true, PouchMerge: true */
-/*global extend: true, Crypto: true, chrome, ajax, btoa, atob, uuid */
+/*global Buffer: true, escape: true, module, window, Crypto */
+/*global chrome, extend, ajax, btoa, atob, uuid, require, PouchMerge: true */
 
 var PouchUtils = {};
 
 if (typeof module !== 'undefined' && module.exports) {
   PouchMerge = require('./pouch.merge.js');
+  PouchUtils.extend = require('./deps/extend');
+  PouchUtils.ajax = require('./deps/ajax');
+  PouchUtils.uuid = require('./deps/uuid');
+  PouchUtils.Crypto = require('./deps/md5.js');
+} else {
+  PouchUtils.Crypto = Crypto;
+  PouchUtils.extend = extend;
+  PouchUtils.ajax = ajax;
+  PouchUtils.uuid = uuid;
 }
 
 // List of top level reserved words for doc
@@ -1971,7 +1994,7 @@ PouchUtils.parseDoc = function(doc, newEdits) {
 
   for (var key in doc) {
     if (doc.hasOwnProperty(key) && key[0] === '_' && reservedWords.indexOf(key) === -1) {
-      error = extend({}, Pouch.Errors.DOC_VALIDATION);
+      error = PouchUtils.extend({}, Pouch.Errors.DOC_VALIDATION);
       error.reason += ': ' + key;
     }
   }
@@ -2006,10 +2029,12 @@ PouchUtils.Changes = function() {
 
   if (isChromeApp()){
     chrome.storage.onChanged.addListener(function(e){
-      api.notify(e.db_name.newValue);//object only has oldValue, newValue members
+      // make sure it's event addressed to us
+      if (e.db_name != null) {
+        api.notify(e.db_name.newValue);//object only has oldValue, newValue members
+      }
     });
-  }
-  else {
+  } else if (typeof window !== 'undefined') {
     window.addEventListener("storage", function(e) {
       api.notify(e.key);
     });
@@ -2069,16 +2094,7 @@ PouchUtils.Changes = function() {
   return api;
 };
 
-if (typeof module !== 'undefined' && module.exports) {
-
-  var crypto = require('crypto');
-
-  PouchUtils.Crypto = {
-    MD5: function(str) {
-      return crypto.createHash('md5').update(str).digest('hex');
-    }
-  };
-
+if (typeof window === 'undefined' || !('atob' in window)) {
   PouchUtils.atob = function(str) {
     var base64 = new Buffer(str, 'base64');
     // Node.js will just skip the characters it can't encode instead of
@@ -2088,25 +2104,20 @@ if (typeof module !== 'undefined' && module.exports) {
     }
     return base64.toString('binary');
   };
+} else {
+  PouchUtils.atob = atob.bind(null);
+}
 
+if (typeof window === 'undefined' || !('btoa' in window)) {
   PouchUtils.btoa = function(str) {
     return new Buffer(str, 'binary').toString('base64');
   };
-
-  PouchUtils.extend = require('./deps/extend');
-  PouchUtils.ajax = require('./deps/ajax');
-  PouchUtils.uuid = require('./deps/uuid');
-
-  module.exports = PouchUtils;
-
 } else {
-  PouchUtils.Crypto = Crypto;
-  PouchUtils.extend = extend;
-  PouchUtils.ajax = ajax;
-  PouchUtils.uuid = uuid;
-
-  PouchUtils.atob = atob.bind(null);
   PouchUtils.btoa = btoa.bind(null);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = PouchUtils;
 }
 
 /*globals Pouch: true, cordova, PouchUtils: true, PouchMerge */
@@ -2618,6 +2629,9 @@ PouchAdapter = function(opts, callback) {
         return;
       }
     }
+    if (typeof opts.skip === 'undefined') {
+      opts.skip = 0;
+    }
 
     return customApi._allDocs(opts, callback);
   };
@@ -2914,9 +2928,10 @@ var HttpPouch = function(opts, callback) {
   var host = getHost(opts.name);
 
   host.headers = opts.headers || {};
-  if (opts.auth) {
-    var token = PouchUtils.btoa(opts.auth.username + ':' + opts.auth.password);
-    host.headers.Authorization = 'Basic ' + token;
+  if (opts.auth || host.auth) { 
+    var nAuth = opts.auth || host.auth;
+    var token = PouchUtils.btoa(nAuth.username + ':' + nAuth.password);
+    host.headers.Authorization = 'Basic ' + token; 
   }
 
   if (opts.headers) {
@@ -3431,6 +3446,10 @@ var HttpPouch = function(opts, callback) {
       params.push('limit=' + opts.limit);
     }
 
+    if (typeof opts.skip !== 'undefined') {
+      params.push('skip=' + opts.skip);
+    }
+
     // Format the list of parameters into a valid URI query string
     params = params.join('&');
     if (params !== '') {
@@ -3694,9 +3713,15 @@ HttpPouch.valid = function() {
 Pouch.adapter('http', HttpPouch);
 Pouch.adapter('https', HttpPouch);
 
-/*globals PouchUtils, PouchMerge */
+/*globals PouchUtils: true, PouchMerge */
 
 'use strict';
+
+var PouchUtils;
+
+if (typeof module !== 'undefined' && module.exports) {
+  PouchUtils = require('../pouch.utils.js');
+}
 
 var idbError = function(callback) {
   return function(event) {
@@ -4222,7 +4247,9 @@ var IdbPouch = function(opts, callback) {
       }
       PouchUtils.call(callback, null, {
         total_rows: results.length,
-        rows: ('limit' in opts) ? results.slice(0, opts.limit) : results
+        offset: opts.skip,
+        rows: ('limit' in opts) ? results.slice(opts.skip, opts.limit + opts.skip) :
+          (opts.skip > 0) ? results.slice(opts.skip) : results
       });
     };
 
@@ -4532,7 +4559,7 @@ var IdbPouch = function(opts, callback) {
 };
 
 IdbPouch.valid = function idb_valid() {
-  return !!window.indexedDB;
+  return typeof window !== 'undefined' && !!window.indexedDB;
 };
 
 IdbPouch.destroy = function idb_destroy(name, callback) {
@@ -4562,9 +4589,15 @@ IdbPouch.Changes = new PouchUtils.Changes();
 
 Pouch.adapter('idb', IdbPouch);
 
-/*globals PouchUtils, PouchMerge */
+/*globals PouchUtils: true, PouchMerge */
 
 'use strict';
+
+var PouchUtils;
+
+if (typeof module !== 'undefined' && module.exports) {
+  PouchUtils = require('../pouch.utils.js');
+}
 
 function quote(str) {
   return "'" + str + "'";
@@ -4645,7 +4678,7 @@ var webSqlPouch = function(opts, callback) {
       });
     }, unknownError(callback), dbCreated);
   }
-  if (PouchUtils.isCordova()) {
+  if (PouchUtils.isCordova() && typeof window !== 'undefined') {
     //to wait until custom api is made in pouch.adapters before doing setup
     window.addEventListener(name + '_pouch', function cordova_init() {
       window.removeEventListener(name + '_pouch', cordova_init, false);
@@ -5100,7 +5133,9 @@ var webSqlPouch = function(opts, callback) {
       }
       PouchUtils.call(callback, null, {
         total_rows: results.length,
-        rows: ('limit' in opts) ? results.slice(0, opts.limit) : results
+        offset: opts.skip,
+        rows: ('limit' in opts) ? results.slice(opts.skip, opts.limit + opts.skip) :
+          (opts.skip > 0) ? results.slice(opts.skip) : results
       });
     });
   };
@@ -5256,7 +5291,7 @@ var webSqlPouch = function(opts, callback) {
 };
 
 webSqlPouch.valid = function() {
-  return !!window.openDatabase;
+  return typeof window !== 'undefined' && !!window.openDatabase;
 };
 
 webSqlPouch.destroy = function(name, callback) {
@@ -5301,6 +5336,10 @@ var MapReduce = function(db) {
   function viewQuery(fun, options) {
     if (!options.complete) {
       return;
+    }
+
+    if (!options.skip) {
+      options.skip = 0;
     }
 
     if (!fun.reduce) {
@@ -5401,10 +5440,10 @@ var MapReduce = function(db) {
         }
         if (options.reduce === false) {
           return options.complete(null, {
-            rows: ('limit' in options)
-              ? results.slice(0, options.limit)
-              : results,
-            total_rows: results.length
+            total_rows: results.length,
+            offset: options.skip,
+            rows: ('limit' in options) ? results.slice(options.skip, options.limit + options.skip) :
+              (options.skip > 0) ? results.slice(options.skip) : results
           });
         }
 
@@ -5425,10 +5464,10 @@ var MapReduce = function(db) {
         });
 
         options.complete(null, {
-          rows: ('limit' in options)
-            ? groups.slice(0, options.limit)
-            : groups,
-          total_rows: groups.length
+          total_rows: groups.length,
+          offset: options.skip,
+          rows: ('limit' in options) ? groups.slice(options.skip, options.limit + options.skip) :
+            (options.skip > 0) ? groups.slice(options.skip) : groups
         });
       }
     };
@@ -5486,6 +5525,9 @@ var MapReduce = function(db) {
     }
     if (typeof opts.group_level !== 'undefined') {
       params.push('group_level=' + opts.group_level);
+    }
+    if (typeof opts.skip !== 'undefined') {
+      params.push('skip=' + opts.skip);
     }
 
     // If keys are supplied, issue a POST request to circumvent GET query string limits

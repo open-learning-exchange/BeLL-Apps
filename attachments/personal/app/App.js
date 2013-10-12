@@ -51,8 +51,19 @@ $(function() {
 
       // Start the constant syncing of data
       App.syncDatabases()
+      App.updateAppCacheStatus()
       setInterval(App.syncDatabases, 10000)
+      setInterval(App.updateAppCacheStatus, 10000)
 
+    },
+
+    updateAppCacheStatus: function() {
+      if (applicationCache.status == applicationCache.DOWNLOADING) {
+        $("#application-cache-status").show()
+      }
+      else {
+        $("#application-cache-status").hide()
+      }
     },
 
     syncDatabases: function () {

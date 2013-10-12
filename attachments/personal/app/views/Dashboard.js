@@ -9,7 +9,6 @@ $(function() {
     render: function() {
       var dashboard = this
       this.$el.html(_.template(this.template, this.vars))
-
       groups = new App.Collections.MemberGroups()
       groups.memberId = $.cookie('Member._id')
       groups.fetch({success: function() {

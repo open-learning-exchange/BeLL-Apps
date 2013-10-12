@@ -38,7 +38,7 @@ $(function() {
       },
       roles: {
         type: 'Checkboxes',
-        options: ['student', 'teacher', 'head', 'coach', 'lead']
+        options: ['admin', 'student', 'teacher', 'head', 'coach', 'lead']
       }
 
     },

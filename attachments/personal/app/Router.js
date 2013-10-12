@@ -62,8 +62,6 @@ $(function() {
 
         App.$el.children('.body').html('<h1 class="teams_table_heading"></h1>')
         App.$el.children('.body').append('<table class=table-striped><tr><th><h6>Team Names</h6></th><th><h6>Assignments</h6></th></tr></table>')
-
-
         App.$el.children('.body').append(groupsTable.el)
       }})
     },

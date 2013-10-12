@@ -89,44 +89,35 @@
   
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
-      <a href="#teams">
-         My Teams
+      <a href="#dashboard">
+        <i class="icon-home icon-white"></i> Dashboard
       </a>
     </li> 
 
     <li> 
-      <a href="../lms/index.html#resources">
-        Explore the BeLL
-      </a>
-    </li> 
-
-    <li> 
-      <a href="#update-assignments">
-        Update device
+      <a class="fui-lock" href="#logout">
+        <i class="icon-plane icon-white"></i> Exit
       </a>
     </li>
 
-    <li> 
-    <a href="#logout">
-        Log out
-    </a>
+    <li id="application-cache-status" style="display:none;"> 
+      <a href="#"  style="color:red">
+        <i class="icon-download icon-white"></i> Resources are downloading...
+      </a>
     </li>
   </script>
- 
-    <script type="text/template" id="template-nav-log-in"> 
 
-    <li> 
-      <a href="../lms/index.html#resources">
-         Explore the BeLL
-      </a>
-    </li> 
-
+  <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#update-assignments">
-         Update device
+        <i class="icon-download-alt icon-white"></i> Install BeLL Apps on this device
       </a>
     </li>
-
+    <li id="application-cache-status" style="display:none"> 
+      <a href="#"  style="color:red">
+        <i class="icon-download icon-white"></i> Resources are downloading...
+      </a>
+    </li>
   </script>
 
   <script type="text/html" id="template-GroupAssignmentsTable">
@@ -167,10 +158,9 @@
   </script>
 
   <script type="text/html" id="template-GroupSpan">
-      
-    <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
-        <a href='#team/assign/<%= _id %>' style=' color:<%= foregroundColor %>; '> 
-            <%= name %>
+      <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
+        <a href='#course/assign/<%= _id %>' style=' color:<%= foregroundColor %>; '> 
+          <%= name %>
         </a>
      </div>
   </script>
