@@ -15,10 +15,10 @@ $(function() {
       'course/link/:groupId'         : 'GroupLink',
       'update-assignments'         : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
+      'newsfeed'                      : 'NewsFeed',
     },
 
     Dashboard: function() {
-      
       $('ul.nav').html($("#template-nav-logged-in").html())
       var dashboard = new App.Views.Dashboard()
       App.$el.children('.body').html(dashboard.el)
@@ -93,7 +93,16 @@ $(function() {
       })
       group.fetch()
     },
-
+    
+    NewsFeed : function(){
+     var resources = new App.Collections.NewsResources()
+     resources.fetch({success: function() {
+         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
+         resourcesTableView.render()
+         App.$el.children('.body').html('<h3>News Authors</h3>')
+         App.$el.children('.body').append(resourcesTableView.el)
+      }}) 
+    },
     /*
      * Syncing pages
      * 

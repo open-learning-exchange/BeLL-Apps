@@ -46,7 +46,8 @@
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
-
+  <script src="app/collections/NewsResources.js"></script>
+  
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/GroupsSpans.js"></script>
@@ -56,6 +57,8 @@
   <script src="app/views/MemberLoginForm.js"></script>
   <script src="app/views/FeedbackForm.js"></script>
   <script src="app/views/Dashboard.js"></script>
+  <script src="app/views/ResourcesTable.js"></script>
+  <script src="app/views/ResourceRow.js"></script>
 
   <!-- 
     Templates 
@@ -86,6 +89,19 @@
    <img id="olelogo" src="img/ole.png">
    
    </script>
+   
+   
+   <script type="text/html" id="template-ResourceRow">
+    <td>
+      <%= title %>
+    </td> 
+
+    <td>
+      <a role='button' class='btn' href='#course/assign/<%= _id %>'> 
+        <i class='icon-list'></i> View Articles
+      </a>
+    </td>
+  </script>
   
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
@@ -274,6 +290,7 @@
 	<div id="page-bottom-navbuttons">	
 	<button class="btn btn-hg btn-primary" style="width:224px;">Learning Goals</button>
 	<button class="btn btn-hg btn-primary" style="width:187px;">Calender </button>
+        <a href="#newsfeed">News Feed</a>
 	<button class="btn btn-hg btn-primary" style="width:195px;">Search Bell</button>
 	<button class="btn btn-hg btn-primary" style="width:160px;">Email</button>
 	<button class="btn btn-hg btn-primary1" style="width:152px;">Exit</button>
@@ -283,6 +300,7 @@
 			
 				<td><button class="btn btn-hg btn-primary">Learning Goals</button></td>
 				<td><button class="btn btn-hg btn-primary">Calender</button></td>
+				<td><button class="btn btn-hg btn-primary"><a href="#NewsFeed">News Feed</a></button></td>
 				<td><button class="btn btn-hg btn-primary">Search Bell</button></td>
 				<td><button class="btn btn-hg btn-primary">Email</button></td>
 				<td><button class="btn btn-hg btn-primary1">Exit</button></td>
