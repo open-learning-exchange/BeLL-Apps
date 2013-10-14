@@ -65,6 +65,7 @@ font-family: verdana;
   text-align:center;
   vertical-align: middle;
   width:112px;
+  height:100%;
   font:verdana;
   color:white;
 
@@ -74,20 +75,18 @@ font-family: verdana;
     font-family: verdana;
     font-weight: bold;
     text-align: center;
-    text-decoration: none;
-    padding-top: 34px;
-    height: 54px;
+    text-decoration: none;;
+	height: 27%;
+	padding-top: 19%;
     display: block;
     word-wrap: inherit;
 }
 
 .inner {
-  overflow-x:scroll;
-  overflow-y:visible;
+  overflow-x:auto;
   width:811px;
   height: 89px;
 }
-
 .shelf-box
 {
 background-color: #7d609e;
@@ -147,4 +146,8 @@ bbf-form ul{border: 5px solid dotted;}
     width: 243px;
 }
  
- 
+.page-bottom-navtable td
+{
+	width: 40px;
+	border 2px solid red;
+}

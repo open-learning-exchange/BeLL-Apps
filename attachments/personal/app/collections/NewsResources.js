@@ -6,20 +6,13 @@ $(function() {
     
     model: App.Models.Resource,
 
-    url: function() {
-      return App.Server + '/resources/_all_docs?include_docs=true'
-    },
-    
-    parse: function(response) {
-      var models = []
-      _.each(response.rows, function(row) {
-        models.push(row.doc)
-      });
-      return models
-    },
-    
-    comparator: function(model) {
-       return model.get('title').toUpperCase()
+    sync: BackbonePouch.sync({
+      db: PouchDB('resources')
+    }),
+  
+  comparator: function(model) {
+       var d  = new Date(model.get('date'))
+       return -d.getTime()
    }
     
   })

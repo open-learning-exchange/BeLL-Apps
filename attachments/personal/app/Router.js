@@ -16,6 +16,7 @@ $(function() {
       'update-assignments'         : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
       'newsfeed'                      : 'NewsFeed',
+      'newsfeed/:authorTitle'         : 'Article_List'
     },
 
     Dashboard: function() {
@@ -95,6 +96,7 @@ $(function() {
     },
     
     NewsFeed : function(){
+     
      var resources = new App.Collections.NewsResources()
      resources.fetch({success: function() {
          var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
@@ -103,6 +105,22 @@ $(function() {
          App.$el.children('.body').append(resourcesTableView.el)
       }}) 
     },
+    
+    /*
+     * Article_List fetches the Article againt AuthorTitle and Displays
+     */
+    
+    Article_List : function(authorTitle){
+         var resources = new App.Collections.NewsResources()
+         resources.fetch({success: function() {
+                   var articleTableView = new App.Views.ArticleTable({collection: resources})
+                   articleTableView.setAuthorName(authorTitle)
+                   articleTableView.render()
+                   App.$el.children('.body').html('<h3>Article List</h3>')
+                   App.$el.children('.body').append(articleTableView.el)
+         }})
+    },
+    
     /*
      * Syncing pages
      * 

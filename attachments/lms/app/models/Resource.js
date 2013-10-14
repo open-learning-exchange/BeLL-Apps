@@ -23,6 +23,7 @@ $(function() {
     schema: {
       title: 'Text',
       description: 'Text',
+      date: 'Date',
       openWith: {
         type: 'Select',
         options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
