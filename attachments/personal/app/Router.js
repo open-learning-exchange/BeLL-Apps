@@ -15,10 +15,11 @@ $(function() {
       'course/link/:groupId'         : 'GroupLink',
       'update-assignments'         : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
+      'newsfeed'                      : 'NewsFeed',
+      'newsfeed/:authorTitle'         : 'Article_List'
     },
 
     Dashboard: function() {
-      
       $('ul.nav').html($("#template-nav-logged-in").html())
       var dashboard = new App.Views.Dashboard()
       App.$el.children('.body').html(dashboard.el)
@@ -59,6 +60,7 @@ $(function() {
         $('#olelogo').remove();
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
+
         App.$el.children('.body').html('<h1 class="teams_table_heading"></h1>')
         App.$el.children('.body').append('<table class=table-striped><tr><th><h6>Team Names</h6></th><th><h6>Assignments</h6></th></tr></table>')
         App.$el.children('.body').append(groupsTable.el)
@@ -92,7 +94,33 @@ $(function() {
       })
       group.fetch()
     },
-
+    
+    NewsFeed : function(){
+     
+     var resources = new App.Collections.NewsResources()
+     resources.fetch({success: function() {
+         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
+         resourcesTableView.render()
+         App.$el.children('.body').html('<h3>News Authors</h3>')
+         App.$el.children('.body').append(resourcesTableView.el)
+      }}) 
+    },
+    
+    /*
+     * Article_List fetches the Article againt AuthorTitle and Displays
+     */
+    
+    Article_List : function(authorTitle){
+         var resources = new App.Collections.NewsResources()
+         resources.fetch({success: function() {
+                   var articleTableView = new App.Views.ArticleTable({collection: resources})
+                   articleTableView.setAuthorName(authorTitle)
+                   articleTableView.render()
+                   App.$el.children('.body').html('<h3>Article List</h3>')
+                   App.$el.children('.body').append(articleTableView.el)
+         }})
+    },
+    
     /*
      * Syncing pages
      * 

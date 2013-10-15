@@ -46,7 +46,8 @@
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
-
+  <script src="app/collections/NewsResources.js"></script>
+  
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/GroupsSpans.js"></script>
@@ -56,6 +57,11 @@
   <script src="app/views/MemberLoginForm.js"></script>
   <script src="app/views/FeedbackForm.js"></script>
   <script src="app/views/Dashboard.js"></script>
+  <script src="app/views/ResourcesTable.js"></script>
+  <script src="app/views/ResourceRow.js"></script>
+  <script src="app/views/ArticleTableRow.js"></script>              
+  <script src="app/views/ArticleTable.js"></script>
+  
 
   <!-- 
     Templates 
@@ -86,7 +92,37 @@
    <img id="olelogo" src="img/ole.png">
    
    </script>
+   
+   
+   <script type="text/html" id="template-ResourceRow">
+    <td>
+      <%= title %>
+    </td> 
+
+    <td>
+      <a role='button' class='btn' href='#newsfeed/<%= title %>'> 
+        <i class='icon-list'></i> View Articles
+      </a>
+    </td>
+  </script>
   
+  <script type="text/html" id="template-ArticleRow">
+    <td>
+      <%
+          newdate = new Date(date)
+        
+      %>
+      <%= newdate.toDateString() %>
+    </td> 
+
+    <td>
+      <a role='button' class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank"> 
+         View
+      </a>
+    </td>
+    
+  </script>
+ 
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#dashboard">
@@ -176,7 +212,7 @@
 		Welcome,
 		<br>
 		<span class="name" style="font-size:33px;font-famity:verdana;"></span>
-		<div class="now" style="font-size:16px;margin-top:-2px;margin-left:590px;"></div>
+		<div class="now" style="font-size:16px;margin-top:-2px;margin-left:565px;"></div>
 		<div style="margin-top:-76px;margin-left:605px;position:absolute;font-size:17px;"> 07 </div>
 		<div style="margin-top:-76px;margin-left:742px;position:absolute;font-size:17px;"> 15 </div>
 	</div>
@@ -269,25 +305,18 @@
 				
 		</div>
 	
-	
-	
-	<div id="page-bottom-navbuttons">	
-	<button class="btn btn-hg btn-primary" style="width:224px;">Learning Goals</button>
-	<button class="btn btn-hg btn-primary" style="width:187px;">Calender </button>
-	<button class="btn btn-hg btn-primary" style="width:195px;">Search Bell</button>
-	<button class="btn btn-hg btn-primary" style="width:160px;">Email</button>
-	<button class="btn btn-hg btn-primary1" style="width:152px;">Exit</button>
-		
-	<!--	<table class="page-bottom-navtable">
+      
+		<table class="page-bottom-navtable">
 			<tr>
 			
 				<td><button class="btn btn-hg btn-primary">Learning Goals</button></td>
 				<td><button class="btn btn-hg btn-primary">Calender</button></td>
+				<td><button class="btn btn-hg btn-primary"><a href="#newsfeed">News Feed</a></button></td>
 				<td><button class="btn btn-hg btn-primary">Search Bell</button></td>
 				<td><button class="btn btn-hg btn-primary">Email</button></td>
 				<td><button class="btn btn-hg btn-primary1">Exit</button></td>
 			</tr>
-			</table> -->
+			</table> 
 		</div>
             </div>
   </script>

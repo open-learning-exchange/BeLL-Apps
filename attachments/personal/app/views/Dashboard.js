@@ -12,7 +12,7 @@ $(function() {
       groups = new App.Collections.MemberGroups()
       groups.memberId = $.cookie('Member._id')
       groups.fetch({success: function() {
-        groupsSpans = new App.Views.GroupsSpans({collection: groups})
+       groupsSpans = new App.Views.GroupsSpans({collection: groups})
         groupsSpans.render()
         // dashboard.$el.children('.groups').append(groupsDiv.el)
         $('#cc').append(groupsSpans.el)
