@@ -40,6 +40,7 @@ $(function() {
             type:'Select',
             options:['News','Fiction','Non Fiction']
       },
+      author:'Text',  // Author Field is required when adding the resource with tag news else no need for that.
       // For Resources with more than one and where one open file must be specified
       openWhichFile: 'Text',
       // override everything, just open a specific URL

@@ -12,11 +12,11 @@ $(function() {
     addOne: function(model){
   
     if(model.get("Tag") == "News"){
-        if($.inArray( model.get('title'),this.authorName) == -1){
+        if($.inArray( model.get('author').toLowerCase(),this.authorName) == -1){
             var resourceRowView = new App.Views.ResourceRow({model: model})
             resourceRowView.render()  
             this.$el.append(resourceRowView.el)
-            this.authorName.push(model.get('title'))  
+            this.authorName.push(model.get('author').toLowerCase())  
        }
     }
     

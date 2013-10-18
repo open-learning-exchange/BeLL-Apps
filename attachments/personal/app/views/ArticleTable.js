@@ -17,7 +17,7 @@ $(function() {
     addOne: function(model){
       
       if(model.get("Tag") == "News"){
-         if(model.get("title") == this.authorName){   
+         if(model.get("author").toLowerCase() == this.authorName){   
             art = new App.Views.ArticleTableRow({model: model})
             art.render()  
             this.$el.append(art.el)
