@@ -4,12 +4,19 @@ $(function() {
   // views in Collection databases. We'll mapreduce client side.
   App.Collections.NewsResources = Backbone.Collection.extend({
     
-    model: App.Models.Resource,
+  model: App.Models.Resource,
 
-    sync: BackbonePouch.sync({
-      db: PouchDB('resources')
-    }),
-  
+   url: function() {
+      return App.Server + '/resources/_all_docs?include_docs=true'
+    },
+   
+   parse: function(response) {
+      var models = []
+      _.each(response.rows, function(row) {
+        models.push(row.doc)
+      });
+      return models
+    },
   comparator: function(model) {
        var d  = new Date(model.get('date'))
        return -d.getTime()

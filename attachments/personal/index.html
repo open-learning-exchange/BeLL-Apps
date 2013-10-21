@@ -96,11 +96,11 @@
    
    <script type="text/html" id="template-ResourceRow">
     <td>
-      <%= title %>
+      <%= author.toLowerCase() %>
     </td> 
 
     <td>
-      <a role='button' class='btn' href='#newsfeed/<%= title %>'> 
+      <a role='button' class='btn' href='#newsfeed/<%= author.toLowerCase() %>'> 
         <i class='icon-list'></i> View Articles
       </a>
     </td>
@@ -311,7 +311,7 @@
 			
 				<td><button class="btn btn-hg btn-primary">Learning Goals</button></td>
 				<td><button class="btn btn-hg btn-primary">Calender</button></td>
-				<td><button class="btn btn-hg btn-primary"><a href="#newsfeed">News Feed</a></button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
 				<td><button class="btn btn-hg btn-primary">Search Bell</button></td>
 				<td><button class="btn btn-hg btn-primary">Email</button></td>
 				<td><button class="btn btn-hg btn-primary1">Exit</button></td>
