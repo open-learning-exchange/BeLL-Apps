@@ -45,6 +45,12 @@ $(function() {
         this.form.commit()
         // Send the updated model to the server
         var that = this
+        var savemodel = false
+        if((this.model.get("Tag") == "News") && !this.model.get("author")){
+            alert("Please Specify Author For This News Resource")          
+        }
+        else{
+        this.model.set(' uploadDate',new Date().getTime())
         this.model.save(null, {success: function() {
           that.model.unset('_attachments')
           if($('input[type="file"]').val()) {
@@ -57,6 +63,7 @@ $(function() {
             this.trigger('processed')
           }, that.model)
         }})
+        }
       //}
       //else {
         //alert("You missed a field.")

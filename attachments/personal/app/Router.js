@@ -16,9 +16,26 @@ $(function() {
       'update-assignments'         : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
       'newsfeed'                      : 'NewsFeed',
-      'newsfeed/:authorTitle'         : 'Article_List'
+      'newsfeed/:authorTitle'         : 'Article_List',
+      'search-bell'					  : 'SearchBell',
+      'search-result'				:'SearchResult'
     },
-
+    SearchResult : function(){
+		searchText = $("#searchText").val()
+	$('ul.nav').html($("#template-nav-logged-in").html())
+      var search = new App.Views.Search()
+      App.$el.children('.body').html(search.el)
+      search.render()
+      $("#searchText").val(searchText)
+      $('#olelogo').remove()
+	},
+	SearchBell: function() {
+      $('ul.nav').html($("#template-nav-logged-in").html())
+      var search = new App.Views.Search()
+      App.$el.children('.body').html(search.el)
+      search.render()
+      $('#olelogo').remove()
+    },
     Dashboard: function() {
       $('ul.nav').html($("#template-nav-logged-in").html())
       var dashboard = new App.Views.Dashboard()
@@ -101,8 +118,7 @@ $(function() {
      resources.fetch({success: function() {
          var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
          resourcesTableView.render()
-         App.$el.children('.body').html('<h3>News Authors</h3>')
-         App.$el.children('.body').append(resourcesTableView.el)
+         App.$el.children('.body').html(resourcesTableView.el)
       }}) 
     },
     
@@ -115,9 +131,8 @@ $(function() {
          resources.fetch({success: function() {
                    var articleTableView = new App.Views.ArticleTable({collection: resources})
                    articleTableView.setAuthorName(authorTitle)
-                   articleTableView.render()
-                   App.$el.children('.body').html('<h3>Article List</h3>')
-                   App.$el.children('.body').append(articleTableView.el)
+                   articleTableView.render()  
+                   App.$el.children('.body').html(articleTableView.el)
          }})
     },
     

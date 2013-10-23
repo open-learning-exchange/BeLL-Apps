@@ -7,7 +7,6 @@ $(function() {
     template : _.template($("#template-ArticleRow").html()),
     initialize : function()
     {
-        console.log("Best Ha")
     },
     render: function () {
       var vars = this.model.toJSON()

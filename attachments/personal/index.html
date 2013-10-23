@@ -47,6 +47,8 @@
   <script src="app/collections/MemberGroups.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
   <script src="app/collections/NewsResources.js"></script>
+  <script src="app/collections/SearchResource.js"></script>
+  
   
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
@@ -61,12 +63,38 @@
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ArticleTableRow.js"></script>              
   <script src="app/views/ArticleTable.js"></script>
-  
+  <script src="app/views/Search.js"></script>
+  <script src="app/views/SearchSpan.js"></script>
+  <script src="app/views/SearchSpans.js"></script>
 
   <!-- 
     Templates 
   -->
-
+<script>
+var searchText = "";
+var skip = 0;    //Variable used to skip the number of records been fetched before.
+var searchRecordsPerPage = 2;
+var limitofRecords = 5;
+function searchResources()
+{
+	skip = 0;
+	App.Router.SearchResult();
+	$('#searchText').focus();
+	$("#searchText").val(searchText)
+	//window.location.assign("#search-result");
+}
+function nextPageButtonPressed()
+{
+	App.Router.SearchResult();
+	$('#searchText').focus();
+	$("#searchText").val(searchText)
+}
+function onFocus(obj) { 
+var end = obj.value.length; 
+if(obj.setSelectionRange) 
+obj.setSelectionRange(end, end); 
+}
+</script>
   <script type="text/template" id="template-app">
     <div id="debug"></div>
     
@@ -94,18 +122,27 @@
    </script>
    
    
+
+
    <script type="text/html" id="template-ResourceRow">
     <td>
-      <%= author.toLowerCase() %>
-    </td> 
-
-    <td>
+      <% if(author){ %>
+            <%= author.toLowerCase() %>
+      <% }
+      else { %>
+           No Author Defined
+    <%}%>
+</td>
+<td>
       <a role='button' class='btn' href='#newsfeed/<%= author.toLowerCase() %>'> 
-        <i class='icon-list'></i> View Articles
+        <i class='icon-list'></i>  >
       </a>
     </td>
   </script>
   
+
+
+
   <script type="text/html" id="template-ArticleRow">
     <td>
       <%
@@ -117,7 +154,7 @@
 
     <td>
       <a role='button' class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank"> 
-         View
+       <i class='icon-list'></i>  >
       </a>
     </td>
     
@@ -200,7 +237,38 @@
         </a>
      </div>
   </script>
+<script type="text/html" id="template-Search">
+<div id="search">
+<h1>Search</h1>
+<div class="row">
+    <div class="col-lg-5">
+        <div class="form-group search-Box">
+            <input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText" onkeyup="searchResources()" onfocus="javascript:onFocus(this)"></input><br/>
+            <div style="margin-left:252px;margin-top:-37px; positioin:fixed;"> <img src="img/search.png" width="22px" height="22px"> </div>
+        </div>
+    </div>
+</div>
+</div>
+<br><br><br>
+<table id="srch" class="table table-striped">
+	<tr>
+		<th><h6>Title</h6></th>
+		<th><h6>Subject</h6></th>
+		<th><h6>Author</h6></th>
+		<th><h6>Tag</h6></th>
+	</tr>
+</table>
+		    <button class="btn btn-hg btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next</button>
 
+</script>
+ <script type="text/html" id="template-Search-box">
+    <!--  <td> 
+        <a href='#team/assign/<%= _id %>' style="color=black; "> 
+       <%= title %>
+        </a>
+     </td> -->
+     <td><%= title %></td><td><%= subject %></td><td><%= author %></td><td><%= Tag %></td>
+  </script>
   <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
        <div id="page-header">
@@ -312,7 +380,7 @@
 				<td><button class="btn btn-hg btn-primary">Learning Goals</button></td>
 				<td><button class="btn btn-hg btn-primary">Calender</button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
-				<td><button class="btn btn-hg btn-primary">Search Bell</button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>
 				<td><button class="btn btn-hg btn-primary">Email</button></td>
 				<td><button class="btn btn-hg btn-primary1">Exit</button></td>
 			</tr>

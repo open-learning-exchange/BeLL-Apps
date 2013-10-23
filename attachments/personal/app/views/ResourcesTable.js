@@ -6,11 +6,12 @@ $(function() {
     authorName : null,  
     tagName: "table",
 
-    className: "table table-striped",
-    initialize: function(){
+    className: "news-table",
+    initialize: function(){ 
+	 this.$el.append('<th colspan="2">Vendor list</th>')  
     },
+
     addOne: function(model){
-  
     if(model.get("Tag") == "News"){
         if($.inArray( model.get('author').toLowerCase(),this.authorName) == -1){
             var resourceRowView = new App.Views.ResourceRow({model: model})
@@ -22,10 +23,13 @@ $(function() {
     
     },
 
+
     addAll: function(){
       this.authorName = []
       this.collection.forEach(this.addOne, this)
     },
+
+
     render: function() {
       this.addAll()
     }

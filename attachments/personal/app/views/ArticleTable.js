@@ -3,10 +3,11 @@ $(function() {
   App.Views.ArticleTable = Backbone.View.extend({
     
     tagName: "table",
-    className: "table table-striped",
+    className: "news-table",
     authorName : null,
     
     initialize: function(){
+	 this.$el.append('<th colspan="2">Article List</th>')
     },
     
     setAuthorName : function(author){
