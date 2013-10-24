@@ -25,17 +25,29 @@ $(function() {
     {
        var obj = this
        this.groupresult.fetch({success: function() {
+       
        obj.resultArray.push.apply(obj.resultArray,obj.searchInArray(obj.groupresult.models,searchText))
        if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
 		  obj.fetchRecords()
-       }else{
+       }
+       else if(obj.groupresult.models.length == 0 ){
+		      previousPageButtonPressed()
+		      $('#next_button').remove()
+       }
+       else if(obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1){
+	     $('#not-found').html("No Such Record Exist");
+	     $('#previous_button').remove()
+	     $('#next_button').remove()
+	     
+       }
+      else{
 	    var ResultCollection = new Backbone.Collection();
 	    if(obj.resultArray.length > 0){
 	        ResultCollection.set(obj.resultArray)
 		var SearchSpans = new App.Views.SearchSpans({collection: ResultCollection})
 	        SearchSpans.render()
 		$('#srch').append(SearchSpans.el)
-	     }
+		}
 	          
        }
       }})
