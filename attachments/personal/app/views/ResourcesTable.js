@@ -8,7 +8,7 @@ $(function() {
 
     className: "news-table",
     initialize: function(){ 
-	 this.$el.append('<th colspan="2">Vendor list</th>')  
+	 this.$el.append('<th colspan="2">Author list</th>')  
     },
 
     addOne: function(model){

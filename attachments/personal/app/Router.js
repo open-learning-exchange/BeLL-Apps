@@ -21,15 +21,18 @@ $(function() {
       'search-result'				:'SearchResult'
     },
     SearchResult : function(){
-		searchText = $("#searchText").val()
-	$('ul.nav').html($("#template-nav-logged-in").html())
+      
+      skipStack.push(skip)
+      searchText = $("#searchText").val()
+      $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
       search.render()
       $("#searchText").val(searchText)
       $('#olelogo').remove()
-	},
-	SearchBell: function() {
+  },
+  
+  SearchBell: function() {
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)

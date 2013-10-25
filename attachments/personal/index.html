@@ -73,22 +73,48 @@
 <script>
 var searchText = "";
 var skip = 0;    //Variable used to skip the number of records been fetched before.
+var enablenext=0;
 var searchRecordsPerPage = 2;
 var limitofRecords = 5;
+var skipStack = new Array()
+var lastpage = false
 function searchResources()
 {
 	skip = 0;
-	App.Router.SearchResult();
+        popAll();
+	lastpage = false;
+        App.Router.SearchResult();
+         $('#previous_button').remove()
 	$('#searchText').focus();
 	$("#searchText").val(searchText)
-	//window.location.assign("#search-result");
+}
+function popAll()
+{
+      while(skipStack.length > 0 )
+      {
+            skipStack.pop();        
+      }
 }
 function nextPageButtonPressed()
 {
-	App.Router.SearchResult();
-	$('#searchText').focus();
-	$("#searchText").val(searchText)
+    App.Router.SearchResult();
+    $("#searchText").val(searchText);
 }
+function previousPageButtonPressed(){
+      
+        if(skipStack.length > 1)
+        {
+          skipStack.pop();
+          skip = skipStack.pop();
+          App.Router.SearchResult();
+          $("#searchText").val(searchText);
+        }
+        else
+        {
+             $('#previous_button').remove()
+        }
+}
+
 function onFocus(obj) { 
 var end = obj.value.length; 
 if(obj.setSelectionRange) 
@@ -125,7 +151,7 @@ obj.setSelectionRange(end, end);
 
 
    <script type="text/html" id="template-ResourceRow">
-    <td>
+    <td class="news-table-td-title">
       <% if(author){ %>
             <%= author.toLowerCase() %>
       <% }
@@ -133,9 +159,9 @@ obj.setSelectionRange(end, end);
            No Author Defined
     <%}%>
 </td>
-<td>
-      <a role='button' class='btn' href='#newsfeed/<%= author.toLowerCase() %>'> 
-        <i class='icon-list'></i>  >
+<td class="news-table-td-link">
+      <a role='button' class='btn clickable' href='#newsfeed/<%= author.toLowerCase() %>'> 
+          >
       </a>
     </td>
   </script>
@@ -144,17 +170,17 @@ obj.setSelectionRange(end, end);
 
 
   <script type="text/html" id="template-ArticleRow">
-    <td>
+    <td class="news-table-td-title">
       <%
-          newdate = new Date(date)
+          newdate = new Date(articleDate)
         
       %>
       <%= newdate.toDateString() %>
     </td> 
 
-    <td>
-      <a role='button' class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank"> 
-       <i class='icon-list'></i>  >
+    <td class="news-table-td-link">
+      <a role='button' class='btn clickable' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank"> 
+        >
       </a>
     </td>
     
@@ -239,15 +265,15 @@ obj.setSelectionRange(end, end);
   </script>
 <script type="text/html" id="template-Search">
 <div id="search">
-<h1>Search</h1>
 <div class="row">
     <div class="col-lg-5">
         <div class="form-group search-Box">
-            <input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText" onkeyup="searchResources()" onfocus="javascript:onFocus(this)"></input><br/>
-            <div style="margin-left:252px;margin-top:-37px; positioin:fixed;"> <img src="img/search.png" width="22px" height="22px"> </div>
+            <input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText" style="height:24px;"></input>
+            <span><button class="btn btn-info" onclick = "searchResources()">Search</button></span>
         </div>
     </div>
 </div>
+<div id="not-found" style="color:red; margin-left:34%; font-size:20px;"></div>
 </div>
 <br><br><br>
 <table id="srch" class="table table-striped">
@@ -258,17 +284,46 @@ obj.setSelectionRange(end, end);
 		<th><h6>Tag</h6></th>
 	</tr>
 </table>
-		    <button class="btn btn-hg btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next</button>
 
+		    <div class="search-bottom-nav">
+                    <table class="search-bottom-nav-table">
+                       <tr>
+                          <td class="previous-button-container">
+                               <button class="btn btn-hg btn-primary" id="previous_button" onclick = "previousPageButtonPressed()"><  Previous</button>
+                          </td>  
+                          <td class="next-button-container">
+                               <button class="btn btn-hg btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next  ></button>
+ 
+                          </td>
+                        </tr>
+                    </table>
+                    </div>
 </script>
+
+
+
  <script type="text/html" id="template-Search-box">
-    <!--  <td> 
-        <a href='#team/assign/<%= _id %>' style="color=black; "> 
-       <%= title %>
-        </a>
-     </td> -->
+  <!--
+if(<%=Tag%>=='News')	
+  	{
+		<td>
+			<a  href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank"> 
+     	<i class='icon-list'></i>  <%= title %>
+		</a>
+
+		</td>
+	}
+else
+	{
+		<td><%= title %></td>
+	}
+-->
      <td><%= title %></td><td><%= subject %></td><td><%= author %></td><td><%= Tag %></td>
   </script>
+
+
+
+
   <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
        <div id="page-header">

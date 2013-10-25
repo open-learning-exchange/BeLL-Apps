@@ -30,10 +30,6 @@ $(function() {
       $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + credentials.get('login') + '"', function(response) {
         console.log(response);
         if(response.total_rows > 0 && response.rows[0].doc.pass == credentials.get('pass')) {
-         
-          alert(response.rows[0].doc.pass)
-          alert(credentials.get('pass'))
-          
           $.cookie('Member.login', response.rows[0].doc.login)
           $.cookie('Member._id', response.rows[0].doc._id)
           if ($.inArray('student', response.rows[0].doc.roles) == -1) {

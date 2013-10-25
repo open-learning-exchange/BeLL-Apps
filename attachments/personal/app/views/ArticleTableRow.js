@@ -4,6 +4,7 @@ $(function() {
 
     tagName: "tr",
     vars: {},
+class: "news-table-tr",
     template : _.template($("#template-ArticleRow").html()),
     initialize : function()
     {

@@ -12,6 +12,7 @@ $(function() {
     initialize : function(){
       this.groupresult = new App.Collections.SearchResource()  
       this.resultArray  = []
+      enablenext=0
     },
     render: function() {
 	var obj = this
@@ -26,16 +27,34 @@ $(function() {
        var obj = this
        this.groupresult.fetch({success: function() {
        obj.resultArray.push.apply(obj.resultArray,obj.searchInArray(obj.groupresult.models,searchText))
-       if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
+       if(enablenext==0)
+	{
+	  $('#next_button').remove()
+	}
+       if(skipStack.length==1)
+	{
+	    $('#previous_button').remove()
+	}
+      if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
 		  obj.fetchRecords()
-       }else{
+       }
+       else if(obj.groupresult.models.length == 0 ){
+		      previousPageButtonPressed()
+	
+       }
+       else if(obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1){
+	     $('#not-found').html("No Such Record Exist");
+	   
+	     
+       }
+      else{
 	    var ResultCollection = new Backbone.Collection();
 	    if(obj.resultArray.length > 0){
 	        ResultCollection.set(obj.resultArray)
 		var SearchSpans = new App.Views.SearchSpans({collection: ResultCollection})
 	        SearchSpans.render()
 		$('#srch').append(SearchSpans.el)
-	     }
+		}
 	          
        }
       }})
@@ -48,16 +67,22 @@ $(function() {
 	   _.each(resourceArray, function(result) {
 		 skip++
 		 console.log( skip+' '+result.get("title"))
-		if(result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >=0 ){
-			  if(resultArray.length < searchRecordsPerPage){
+		if(result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >=0 )
+		{
+			  if(resultArray.length < searchRecordsPerPage)
+				{
 				     resultArray.push(result)
-			   }else{
+			   }
+			else{
+				enablenext=1
 			    skip--
 			   }
         	    }
-		 else if(resultArray.length >=  searchRecordsPerPage){
+		 else if(resultArray.length >=  searchRecordsPerPage)
+		{
 			    skip--
-		    }
+			
+	 	}
 	     })
 	 }
 	 return resultArray
