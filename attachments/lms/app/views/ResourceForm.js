@@ -7,7 +7,7 @@ $(function() {
     events: {
       "click .save": "saveForm",
       //@todo This causes save to not happen 
-      // "click .save": "statusLoading"
+      //"click .save": "statusLoading"
     },
 
     template: _.template($('#template-form-file').html()),
@@ -26,13 +26,15 @@ $(function() {
       // prepare the form
       this.form = new Backbone.Form({ model: this.model })
       this.form.render()
+      this.form.fields['uploadDate'].$el.hide()
       // @todo Why won't this work?
       vars.form = "" //$(this.form.el).html()
       
       // render the template
       this.$el.html(this.template(vars))
       // @todo this is hackey, should be the following line or assigned to vars.form
-      $('.fields').html(this.form.el) 
+      $('.fields').html(this.form.el)
+      $('#progressImage').hide();
       //$this.$el.children('.fields').html(this.form.el) // also not working
 
       return this
@@ -50,8 +52,9 @@ $(function() {
             alert("Please Specify Author For This News Resource")          
         }
         else{
-        this.model.set(' uploadDate',new Date().getTime())
-        this.model.save(null, {success: function() {
+          $('#progressImage').show();
+          this.model.set(' uploadDate',new Date().getTime())
+          this.model.save(null, {success: function() {
           that.model.unset('_attachments')
           if($('input[type="file"]').val()) {
             that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
@@ -59,8 +62,9 @@ $(function() {
           else {
             that.model.trigger('processed')
           }
-          that.model.on('savedAttachment', function() {
+            that.model.on('savedAttachment', function() {
             this.trigger('processed')
+            $('#progressImage').hide();
           }, that.model)
         }})
         }
@@ -71,10 +75,10 @@ $(function() {
     },
 
     statusLoading : function() {
+      alert("asdf")
       this.$el.children('.status').html('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
     }      
 
   })
 
 })
- 

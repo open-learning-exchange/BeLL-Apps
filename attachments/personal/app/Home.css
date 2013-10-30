@@ -255,7 +255,7 @@ overflow:auto;
 line-height:1px;
 }
 
-.bbf-form{
+.login-form > .bbf-form{
  
     height: 191px;
     width: 50%;
@@ -272,7 +272,7 @@ line-height:1px;
 
 .login-form
 {
-	height: 245px;
+	height: 300px;
         margin-left: 35%;
         width: 370px;	
 }
@@ -349,9 +349,6 @@ a{color:white;}
 }
 
 
-
-
-
 .search-Box
 {
 margin-left: 30%;
@@ -391,3 +388,18 @@ margin-left: 30%;
 color: #1ABC9C;
 background:none;
 }
+
+.signup-div {
+    margin-top: 26px;
+}
+.signup-form-button.btn.btn-block.btn-lg.btn-info {
+ font-size: 22px;
+    font-weight: bold;
+    line-height: inherit;
+    padding-left: 36%;
+    padding-right: 40%;
+}
+
+.signup-heading
+{margin-left: 30%;
+    text-decoration: underline;}

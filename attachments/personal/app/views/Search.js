@@ -12,7 +12,7 @@ $(function() {
     initialize : function(){
       this.groupresult = new App.Collections.SearchResource()  
       this.resultArray  = []
-      enablenext=0
+enablenext=0
     },
     render: function() {
 	var obj = this
@@ -27,15 +27,14 @@ $(function() {
        var obj = this
        this.groupresult.fetch({success: function() {
        obj.resultArray.push.apply(obj.resultArray,obj.searchInArray(obj.groupresult.models,searchText))
+      
        if(enablenext==0)
-	{
-	  $('#next_button').remove()
-	}
-       if(skipStack.length==1)
-	{
-	    $('#previous_button').remove()
-	}
-      if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
+		{$('#next_button').remove()}
+		if(skipStack.length==1)
+		{  $('#previous_button').remove()}
+
+
+ if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
 		  obj.fetchRecords()
        }
        else if(obj.groupresult.models.length == 0 ){

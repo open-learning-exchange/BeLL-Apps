@@ -50,10 +50,10 @@ $(function() {
       }
 
       // Start the constant syncing of data
-      App.syncDatabases()
-      App.updateAppCacheStatus()
-      setInterval(App.syncDatabases, 10000)
-      setInterval(App.updateAppCacheStatus, 10000)
+      //App.syncDatabases()
+      //App.updateAppCacheStatus()
+      //setInterval(App.syncDatabases, 10000)
+      //setInterval(App.updateAppCacheStatus, 10000)
 
     },
 
