@@ -50,10 +50,10 @@ $(function() {
       }
 
       // Start the constant syncing of data
-      App.syncDatabases()
-      App.updateAppCacheStatus()
-      setInterval(App.syncDatabases, 10000)
-      setInterval(App.updateAppCacheStatus, 10000)
+      //App.syncDatabases()
+      //App.updateAppCacheStatus()
+      //setInterval(App.syncDatabases, 10000)
+      //setInterval(App.updateAppCacheStatus, 10000)
 
     },
 
@@ -74,9 +74,7 @@ $(function() {
             complete: function(){
               PouchDB.replicate(window.location.origin + '/members', 'members', {
                 complete: function(){
-                  PouchDB.replicate(window.location.origin + '/resources', 'resources', {
-                      complete: function(){
-                    PouchDB.replicate('feedback', window.location.origin + '/feedback', {
+                  PouchDB.replicate('feedback', window.location.origin + '/feedback', {
                     complete: function(){
                       console.log('Replication complete')
                     }
@@ -87,9 +85,7 @@ $(function() {
           })
         }
       }) 
-     }
-   }) 
-  },
+     },
 
     // A special function for pulling specific documents from CouchDb to PouchDB
     pull_doc_ids: function(include_doc_ids, from, to) {

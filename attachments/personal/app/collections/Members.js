@@ -1,8 +1,8 @@
 $(function() {
 
-  App.Collections.Groups = Backbone.Collection.extend({
+  App.Collections.Members = Backbone.Collection.extend({
 
-    url: App.Server + '/groups/_all_docs?include_docs=true',
+    url: App.Server + '/members/_design/bell/_view/Members?include_docs=true',
 
     parse: function(response) {
       var docs = _.map(response.rows, function(row) {
@@ -11,12 +11,12 @@ $(function() {
       return docs
     },
      
-    model: App.Models.Group,
+    model: App.Models.Member,
 
     comparator: function(model) {
-      var title = model.get('name')
+      var title = model.get('login')
       if (title) return title.toLowerCase()
-    },
+    }
 
 
   })

@@ -3,10 +3,11 @@ $(function() {
   App.Views.ArticleTable = Backbone.View.extend({
     
     tagName: "table",
-    className: "table table-striped",
+    className: "news-table",
     authorName : null,
     
     initialize: function(){
+	 this.$el.append('<th colspan="2">Article List</th>')
     },
     
     setAuthorName : function(author){
@@ -17,7 +18,7 @@ $(function() {
     addOne: function(model){
       
       if(model.get("Tag") == "News"){
-         if(model.get("title") == this.authorName){   
+         if(model.get("author").toLowerCase() == this.authorName){   
             art = new App.Views.ArticleTableRow({model: model})
             art.render()  
             this.$el.append(art.el)

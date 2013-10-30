@@ -255,7 +255,7 @@ overflow:auto;
 line-height:1px;
 }
 
-.bbf-form{
+.login-form > .bbf-form{
  
     height: 191px;
     width: 50%;
@@ -272,7 +272,7 @@ line-height:1px;
 
 .login-form
 {
-	height: 245px;
+	height: 300px;
         margin-left: 35%;
         width: 370px;	
 }
@@ -301,3 +301,105 @@ line-height:1px;
 	
 }
 a{color:white;}
+
+.news-table
+{
+   border: 2px solid #000000;
+    margin-left: 30%;
+    margin-right: 30%;
+    overflow: hidden;
+    width: 40%;
+	color:white;
+	background-color:#1ABC9C;
+	border-collapse:collapse;
+}
+.news-table th
+{background-color:#34495E;
+	font-weight: bolder;
+	    height: 40px;
+	font-size: 30px;
+	}
+.news-table tr
+{
+ border-top: 2px dashed #000000;	
+	font-size: 17px;
+  font-weight: 900;
+  height: 47px;
+  overflow: hidden;	
+}
+.news-table tr
+{background-color:#1ABC9C;}
+
+.news-table-td-title
+{
+	width:50%;
+	padding-left: 5%;
+}
+
+.news-table-td-link
+{
+	width:50%;
+}
+
+.btn.clickable {
+    background-color: #1ABC9C;
+    font-size: 19px;
+    font-weight: bolder;
+    padding-left: 80%;
+}
+
+
+.search-Box
+{
+margin-left: 30%;
+	margin-top: 3%;
+}
+
+.search-bottom-nav
+{
+	margin-left: 5%;
+    overflow: hidden;
+    width: 90%;
+	margin-right: 5%;	
+}
+
+.previous-button-container {
+    width: 50%;
+}
+.next-button-container {
+    width: 50%;
+}
+#next_button
+{
+	width:45%;
+	float: right;
+
+}
+#previous_button
+{
+	width:45%;
+}
+.search-bottom-nav-table {
+    width: 100%;
+}
+
+.search-box .search-href {
+    text-decoration: none;
+color: #1ABC9C;
+background:none;
+}
+
+.signup-div {
+    margin-top: 26px;
+}
+.signup-form-button.btn.btn-block.btn-lg.btn-info {
+ font-size: 22px;
+    font-weight: bold;
+    line-height: inherit;
+    padding-left: 36%;
+    padding-right: 40%;
+}
+
+.signup-heading
+{margin-left: 30%;
+    text-decoration: underline;}

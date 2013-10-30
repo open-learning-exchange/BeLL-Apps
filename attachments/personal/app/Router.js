@@ -16,9 +16,73 @@ $(function() {
       'update-assignments'         : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
       'newsfeed'                      : 'NewsFeed',
-      'newsfeed/:authorTitle'         : 'Article_List'
+      'newsfeed/:authorTitle'         : 'Article_List',
+      'search-bell'					  : 'SearchBell',
+      'search-result'				:'SearchResult',
+'member/add'                  : 'MemberForm'
+    },
+ MemberForm: function(memberId) {
+      this.modelForm('Member', 'Member', memberId, 'members')
     },
 
+    modelForm : function(className, label, modelId, reroute) {
+      // Set up
+      var model = new App.Models[className]()
+      var modelForm = new App.Views[className + 'Form']({model: model})
+
+      // Bind form to the DOM
+      if (modelId) {
+        App.$el.children('.body').html('<h3>Edit this ' + label + '</h3>')
+      }
+      else {
+        App.$el.children('.body').html('<h3 class="signup-heading">Add a ' + label + '</h3>')
+      }
+      App.$el.children('.body').append(modelForm.el)
+
+      // Bind form events for when Group is ready
+      model.once('Model:ready', function() {
+        // when the users submits the form, the group will be processed
+        modelForm.on(className + 'Form:done', function() {
+          Backbone.history.navigate(reroute, {trigger: true})
+        }) 
+        // Set up the form
+        modelForm.render()
+ $('#olelogo').remove()
+      })
+
+      // Set up the model for the form
+      if (modelId) {
+        model.id = modelId
+        model.once('sync', function() {
+          model.trigger('Model:ready')
+        }) 
+        model.fetch()
+      }
+      else {
+        model.trigger('Model:ready')
+      }
+    },
+
+
+    SearchResult : function(){
+      
+      skipStack.push(skip)
+      searchText = $("#searchText").val()
+      $('ul.nav').html($("#template-nav-logged-in").html())
+      var search = new App.Views.Search()
+      App.$el.children('.body').html(search.el)
+      search.render()
+      $("#searchText").val(searchText)
+      $('#olelogo').remove()
+  },
+  
+  SearchBell: function() {
+      $('ul.nav').html($("#template-nav-logged-in").html())
+      var search = new App.Views.Search()
+      App.$el.children('.body').html(search.el)
+      search.render()
+      $('#olelogo').remove()
+    },
     Dashboard: function() {
       $('ul.nav').html($("#template-nav-logged-in").html())
       var dashboard = new App.Views.Dashboard()
@@ -101,8 +165,7 @@ $(function() {
      resources.fetch({success: function() {
          var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
          resourcesTableView.render()
-         App.$el.children('.body').html('<h3>News Authors</h3>')
-         App.$el.children('.body').append(resourcesTableView.el)
+         App.$el.children('.body').html(resourcesTableView.el)
       }}) 
     },
     
@@ -115,9 +178,8 @@ $(function() {
          resources.fetch({success: function() {
                    var articleTableView = new App.Views.ArticleTable({collection: resources})
                    articleTableView.setAuthorName(authorTitle)
-                   articleTableView.render()
-                   App.$el.children('.body').html('<h3>Article List</h3>')
-                   App.$el.children('.body').append(articleTableView.el)
+                   articleTableView.render()  
+                   App.$el.children('.body').html(articleTableView.el)
          }})
     },
     

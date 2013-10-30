@@ -9,7 +9,6 @@
   left: -1px;
 }
 
-
 /*
  * Form Views
  */
@@ -59,4 +58,21 @@
 
 .AssignWeekOfResourcesToGroupTable-header {
   text-align: center;
+}
+
+.container.body {
+
+    color: #000000;
+    font-family: verdana;
+    margin-left: 10%;
+    padding-left: 10%;
+    width: 60%;
+border-radius: 20px 20px 20px 20px;
+}
+
+#star
+{
+width: 500px !important;	
+padding-left: 22px;
+	
 }

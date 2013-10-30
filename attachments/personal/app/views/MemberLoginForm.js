@@ -6,7 +6,8 @@ $(function() {
 
     events: {
       "click #formButton": "setForm",
-      "submit form" : "setFormFromEnterKey"
+      "submit form" : "setFormFromEnterKey",
+		"click #formButton2": "signup"
     },
 
     render: function() {
@@ -14,8 +15,10 @@ $(function() {
       this.form = new Backbone.Form({model:this.model})
       this.$el.append(this.form.render().el)
       // give the form a submit button
-      var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" id="formButton">Submit</button>')
-      this.$el.append($button)
+      var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" id="formButton">Login</button>')
+var $button2 = $('<div class="signup-div"><a class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">SignUp</button></div>')
+      this.$el.append($button) 
+this.$el.append($button2)
     },
 
     setFormFromEnterKey: function(event) {
@@ -23,28 +26,22 @@ $(function() {
       this.setForm()
     },
 
+ signup: function() {
+	 Backbone.history.navigate('member/add', {trigger: true})
+	},
+
     setForm: function() {
-      var that = this
+      var memberLoginForm = this
       this.form.commit()
       var credentials = this.form.model
-      var db = null;
-      db = PouchDB('members')
-     
-      function map(doc) {
-        if(doc.login) {
-          emit(doc.login, null);
-        }
-      }
-      db.query({map: map}, {
-        reduce: false, 
-        key: credentials.get('login'), 
-        include_docs: true
-      }, function(err, response) {
-        if(response.total_rows > 0 && response.rows[0].doc.pass == credentials.get('pass')) {
+      $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + credentials.get('login') + '"', function(response) {
+      if(response.total_rows > 0 && response.rows[0].doc.pass == credentials.get('pass')) {
           $.cookie('Member.login', response.rows[0].doc.login)
           $.cookie('Member._id', response.rows[0].doc._id)
-          console.log('Login successful')
-          that.trigger('success:login')
+          memberLoginForm.trigger('success:login')
+        }
+        else {
+          alert('Login or Pass incorrect.')
         }
       });
     },
