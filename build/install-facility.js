@@ -10,7 +10,9 @@ function puts(error, stdout, stderr) { sys.puts(stdout) }
 exec('launchctl limit maxfiles 4056 4056', puts)
 exec('ulimit -n 4056')
 
-var couchUrl = 'http://127.0.0.1:5984' 
+var couchUrl = 'http://pi:raspberry@127.0.0.1:5984' 
+var path = '/home/pi/BeLL-Apps'
+//var couchUrl = 'http://northbay-bell.iriscouch.com' 
 //var couchUrl = 'http://pi:raspberry@raspberrypi.local:5984' 
 
 var databases = [
@@ -29,13 +31,20 @@ var databases = [
 _.each(databases, function(database) {
   // Install databases
   // @todo These might not complete before other requests happen...
-  request.put(couchUrl + '/' + database)
+  // request.put(couchUrl + '/' + database)
+  var cmd = 'curl -XPUT ' + couchUrl + '/' + database
+  console.log(cmd)
+  exec(cmd, puts)
   // Install views in corresponding databases
-  exec('couchapp push views/' + database + '.js ' + couchUrl + '/' + database, puts);
+  var cmd = 'couchapp push ' + path + '/views/' + database + '.js ' + couchUrl + '/' + database
+  console.log(cmd)
+  exec(cmd, puts)
 })
 
 // Push the Apps up to CouchDB
-exec('couchapp push app.js ' + couchUrl + '/apps', puts);
+var cmd = 'couchapp push ' + path + '/app.js ' + couchUrl + '/apps'
+console.log(cmd)
+exec(cmd, puts)
 
 // Create the "all" device for when devices want to get an App Cache file with all Resources
 exec('curl -XPUT ' + couchUrl + '/devices/_design/all -d "{}"', puts);
