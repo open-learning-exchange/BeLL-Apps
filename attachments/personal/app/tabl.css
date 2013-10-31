@@ -185,3 +185,9 @@ width: 60%;
     padding-left: 40%;
     padding-right: 40%;
 }
+
+.signup-form .bbf-field.field-login,.signup-form  .bbf-field.field-pass 
+{
+	
+	font-size: 15px;
+}

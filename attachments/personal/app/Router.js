@@ -35,7 +35,7 @@ $(function() {
         App.$el.children('.body').html('<h3>Edit this ' + label + '</h3>')
       }
       else {
-        App.$el.children('.body').html('<h3 class="signup-heading">Add a ' + label + '</h3>')
+        App.$el.children('.body').html('<h3 class="signup-heading">Become a ' + label + '</h3>')
       }
       App.$el.children('.body').append(modelForm.el)
 

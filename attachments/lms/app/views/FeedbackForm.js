@@ -10,6 +10,7 @@ $(function() {
     },
 
     render: function() {
+      this.user_rating = 0
       this.form = new Backbone.Form({ model: this.model })
       this.$el.append(this.form.render().el)
       this.form.fields['rating'].$el.hide()
@@ -30,18 +31,19 @@ $(function() {
     },
     setForm: function() {
       // Put the form's input into the model in memory
-       if(this.user_rating != null){
-          this.form.setValue('rating',this.user_rating)
-          if(this.form.getValue("comment").length  == 0){
-            this.form.setValue("comment","No Comment")
-           }
-          this.form.commit()
-          //Send the updated model to the server
-          this.model.save()
-        }
-        else{
-          alert("Please rate this resource")
-        }
+      if(this.user_rating==0){
+	alert("Please rate the resource first")
+	}
+	else{
+	 // Put the form's input into the model in memory
+		if(this.form.getValue('comment').length==0){
+			this.form.setValue('comment','No Comment')
+		}
+       this.form.setValue('rating',this.user_rating)
+       this.form.commit()
+      //Send the updated model to the server
+       this.model.save()
+    }
        
     },
 

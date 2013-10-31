@@ -25,17 +25,17 @@ $(function() {
     },
 
     schema: {
-	  firstName: {validators: ['required', 'text']},
-      lastName: {validators: ['required', 'text']},
-      middleNames:{validators: ['required', 'text']},
-      username: {validators: ['required', 'text']},
-      password: {validators: ['required', 'text']},
+	  firstName: {validators: ['required']},
+      lastName: {validators: ['required']},
+      middleNames:{validators: ['required']},
+      login: {validators: ['required']},
+      pass: {validators: ['required']},
       phone: 'Text',
-      email:  {validators: ['required', 'email']},
+      email:  {validators: ['required']},
 	BirthDate:  'Date',
 	 Gender: {
         type: 'Select',
-        options: ['Male', 'Female', 'Unspecified']
+        options: ['Male', 'Female']
       },
       levels: {
         type: 'Select',

@@ -76,3 +76,9 @@ width: 500px !important;
 padding-left: 22px;
 	
 }
+
+.rating{
+	background-image: url("/star-off.png");
+	
+	
+}

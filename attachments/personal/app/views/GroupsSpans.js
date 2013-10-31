@@ -10,7 +10,14 @@ $(function() {
     },
 
     addAll: function(){
-      this.collection.each(this.addOne, this)
+      
+		if(this.collection.length!=0){
+			this.collection.each(this.addOne, this)
+		}
+		else{
+			
+			 $('#cc').append("<td class='course-box'>No Courses Assigned Yet</td>")
+		}
     },
 
     render: function() {
