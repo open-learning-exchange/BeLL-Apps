@@ -8,7 +8,7 @@ function puts(error, stdout, stderr) { sys.puts(stdout) }
 exec('launchctl limit maxfiles 4056 4056', puts)
 exec('ulimit -n 4056')
 
-var couchUrl = 'http://zone.local:5984' 
+var couchUrl = 'http://pi:raspberry@zone.local:5984' 
 
 var databases = [
   'apps',
@@ -87,7 +87,7 @@ replicatorInstaller.location = 'http://pi:raspberry@zone.local:5984/_replicator'
 replicatorInstaller.directions = [
   {
     label: 'zone-mirror',
-    server: 'http://ole:oleole@zone-mirror.iriscouch.com',
+    server: 'http://ole:oleole@ole-kenya.iriscouch.com',
     push: [
       //'apps',
       'assignments', 

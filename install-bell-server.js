@@ -10,9 +10,9 @@ function puts(error, stdout, stderr) { sys.puts(stdout) }
 exec('launchctl limit maxfiles 4056 4056', puts)
 exec('ulimit -n 4056')
 
-var couchUrl = 'http://pi:raspberry@bell.local:5984' 
+//var couchUrl = 'http://pi:raspberry@bell.local:5984' 
 var path = '.'
-//var couchUrl = 'http://northbay-bell.iriscouch.com' 
+var couchUrl = 'http://ole-kenya.iriscouch.com' 
 //var couchUrl = 'http://pi:raspberry@raspberrypi.local:5984' 
 
 var databases = [
