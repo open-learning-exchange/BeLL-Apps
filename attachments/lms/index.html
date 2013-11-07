@@ -7,7 +7,7 @@
   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
-  <link rel="stylesheet" href="vendor/spectrum.css"/>
+  
 
   <!--
     DEPENDENCIES
@@ -28,7 +28,6 @@
   <script src="vendor/html-encode.js"></script>
   <script src="vendor/jquery.url.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
-  <script src="vendor/spectrum.js"></script>
   <script src="vendor/jquery.raty.js"></script>
 
   <!--
@@ -264,7 +263,9 @@
 
   <script type="text/html" id="template-AssignResourceToGroupRow">
     <td>
+    <%if(resource.title){ %>
       <%= resource.title %>
+    <%}%>
     </td>
     <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resource._id %>' target="_blank">
@@ -342,8 +343,9 @@
 
 
   <script type="text/html" id="template-ResourceRow">
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
     <td>
-      <%= title %>
+        <%= title %>
     </td> 
     <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
@@ -370,6 +372,7 @@
         <i class='icon-remove'></i> Delete
       </a>
     </td>
+  <% } %>
   </script>
   
   <script type="text/html" id="template-rateResource">

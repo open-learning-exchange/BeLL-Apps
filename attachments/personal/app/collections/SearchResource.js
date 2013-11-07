@@ -17,10 +17,7 @@ $(function() {
       });
       return models
     },
-  comparator: function(model) {
-       var d  = new Date(model.get('date'))
-       return -d.getTime()
-   }
+
     
   })
 })

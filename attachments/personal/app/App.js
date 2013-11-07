@@ -11,9 +11,10 @@ $(function() {
     Views: {},
     Collections: {},
     Vars: {}, // A place to persist variables in the session
-
+    ShelfItems: {},
+    globalUrl:{},
     el: "body",
-
+    
     template: $("#template-app").html(),
 
     events: {
@@ -23,6 +24,7 @@ $(function() {
 
     start: function(){
       // App body
+      this.ShelfItems = {}
       this.$el.html(_.template(this.template))
       var loggedIn = ($.cookie('Member._id'))
         ? true

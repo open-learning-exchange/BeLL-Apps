@@ -19,9 +19,9 @@ $(function() {
       this.vars = this.model.toJSON()
       var resource = new App.Models.Resource({_id: this.model.get('resourceId')})
       resource.on('sync', function() {
-        this.vars.resource = resource.toJSON()
-        this.$el.html(this.template(this.vars))
-      }, this)
+           this.vars.resource = resource.toJSON()
+           this.$el.html(this.template(this.vars))
+       }, this)
       resource.fetch()
     },
 

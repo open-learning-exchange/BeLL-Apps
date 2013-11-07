@@ -2,19 +2,21 @@ $(function() {
 
   App.Views.FeedbackForm = Backbone.View.extend({
     
-    className: "form",
-
+    tagName : "form",
+    user_rating  : 'null',
     events: {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey"
     },
 
     render: function() {
-      // create the form
+      this.user_rating = 0
       this.form = new Backbone.Form({ model: this.model })
       this.$el.append(this.form.render().el)
-      // give the form a submit button
-      var $button = $('<a class="btn" id="formButton">save</button>')
+      this.form.fields['rating'].$el.hide()
+      this.form.fields['memberId'].$el.hide()
+      this.form.fields['resourceId'].$el.hide()
+      var $button = $('<a class="btn btn-danger" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="formButton">Save</button>')
       this.$el.append($button)
     },
 
@@ -23,11 +25,26 @@ $(function() {
       this.setForm()
     },
 
+    setUserRating : function (ur)
+    {
+        this.user_rating  = ur
+    },
     setForm: function() {
       // Put the form's input into the model in memory
-      this.form.commit()
-      // Send the updated model to the server
-      this.model.save()
+      if(this.user_rating==0){
+	alert("Please rate the resource first")
+	}
+	else{
+	 // Put the form's input into the model in memory
+	   if(this.form.getValue('comment').length==0){
+	      this.form.setValue('comment','No Comment')
+           }
+       this.form.setValue('rating',this.user_rating)
+       this.form.commit()
+      //Send the updated model to the server
+       this.model.save()
+    }
+       
     },
 
 

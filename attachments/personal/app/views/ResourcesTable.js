@@ -12,15 +12,13 @@ $(function() {
     },
 
     addOne: function(model){
-    if(model.get("Tag") == "News"){
+        //Single Author Should not be displayed multiple times on The Screen
         if($.inArray( model.get('author').toLowerCase(),this.authorName) == -1){
             var resourceRowView = new App.Views.ResourceRow({model: model})
             resourceRowView.render()  
             this.$el.append(resourceRowView.el)
             this.authorName.push(model.get('author').toLowerCase())  
        }
-    }
-    
     },
 
 

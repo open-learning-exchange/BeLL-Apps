@@ -17,6 +17,10 @@ $(function() {
         // dashboard.$el.children('.groups').append(groupsDiv.el)
         $('#cc').append(groupsSpans.el)
       }})
+       
+        shelfSpans= new App.Views.ShelfSpans()
+        shelfSpans.render()
+        
       //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
       // Time
       $('.now').html(moment().format('dddd | DD MMMM, YYYY'))

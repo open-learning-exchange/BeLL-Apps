@@ -16,6 +16,7 @@ $(function() {
       var vars = {}
       
       // prepare the header
+      
       if(_.has(this.model, 'id')) {
         vars.header = 'Edit "' + this.model.get('title') + '"'
       }
