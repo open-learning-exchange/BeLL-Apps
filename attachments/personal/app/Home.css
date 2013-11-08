@@ -418,4 +418,8 @@ background:none;
 {
 	font-weight:900;
 }
+.name > a {
+    color: #16A085;
+    font-size: 25px;
+}
 

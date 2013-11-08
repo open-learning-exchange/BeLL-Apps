@@ -23,7 +23,7 @@ $(function() {
 	btnClass="btn-success addtoshelf' "
 	link=	"onclick =\"document.location.href='#addResource/"+vars._id+"/"+vars.title+"/"+vars._rev+"'\""
       }
-      var addToShelfLink="<td><button class='btn btn-hg "+btnClass+link+">"+text+"</button></td>"
+      var addToShelfLink="<td><button class='btn btn-open "+btnClass+link+">"+text+"</button></td>"
       if(vars.Tag=="News"){
 	    if(this.model.get("_attachments")){ 
 	    vars.title='<a  class="search-href" href="/apps/_design/bell/bell-resource-router/index.html#open/'+vars._id+'" target="_blank"><i class="icon-list"></i>'+vars.title;

@@ -32,8 +32,9 @@ $(function() {
        password: {validators: ['required']},
        phone: 'Text',
        email:'Text',
+       birthLanguage :'Text',
 	BirthDate:  'Date',
-	 Gender: {
+       Gender: {
         type: 'Select',
         options: ['Male', 'Female']
       },

@@ -28,7 +28,7 @@ $(function() {
       var member = new App.Models.Member()
       member.id = $.cookie('Member._id')
       member.on('sync', function() {
-        $('.name').html('<a href="#member/edit/'+$.cookie('Member._id')+'">'+member.get('firstName') + ' ' + member.get('lastName')+'</a>')
+        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'">[Edit]</a>')
       })
       member.fetch()
 

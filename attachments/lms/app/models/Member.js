@@ -32,7 +32,8 @@ $(function() {
        password: {validators: ['required']},
        phone: 'Text',
        email:'Text',
-	BirthDate:  'Date',
+       birthLanguage :'Text',
+       BirthDate:  'Date',
 	  Gender: {
           type: 'Select',
           options: ['Male', 'Female']
@@ -42,6 +43,7 @@ $(function() {
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       },
       status:'Text',
+      
       roles: {
         type: 'Checkboxes',
         options: ['admin', 'student', 'teacher', 'head', 'coach', 'lead']

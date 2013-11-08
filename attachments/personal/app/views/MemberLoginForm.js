@@ -35,6 +35,7 @@ $(function() {
       this.form.commit()
       var credentials = this.form.model
       $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + credentials.get('login') + '"', function(response) {
+      if(response.rows[0]){
       if(response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
           if(response.rows[0].doc.status == "active"){
           $.cookie('Member.login', response.rows[0].doc.login)
@@ -57,6 +58,10 @@ $(function() {
           alert("Your Account Is Deactivated")
         }
         }
+        else {
+          alert('Login or Pass incorrect.')
+        }
+      }
         else {
           alert('Login or Pass incorrect.')
         }

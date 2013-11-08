@@ -3,7 +3,6 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-<<<<<<< HEAD
       ''                              : 'Dashboard', 
       'dashboard'                     : 'Dashboard',
       'login'                         : 'MemberLogin',
@@ -27,6 +26,7 @@ $(function() {
       'calendar'                      : 'CalendarFunction',
       'calendar/:eid'                 : 'calendaar',
       'addEvent'		      : 'addEvent',
+      'member/edit/:mid'              : 'MemberForm',
       '*nomatch'                      : 'errornotfound',  
     },
     
@@ -35,7 +35,7 @@ $(function() {
         alert("no route matching")
     },
     
- MemberForm: function(memberId) {
+    MemberForm: function(memberId) {
       this.modelForm('Member', 'Member', memberId, 'login')
     },
 
