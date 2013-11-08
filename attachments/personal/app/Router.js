@@ -3,26 +3,89 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      ''                           : 'Dashboard', 
-      'dashboard'                  : 'Dashboard',
-      'login'                      : 'MemberLogin',
-      'logout'                     : 'MemberLogout',
-      'courses'                      : 'Groups',
-      'my-courses'                      : 'MemberGroups',
-      'course/edit/:groupId'         : 'GroupForm',
-      'course/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
-      'course/assignments/:groupId'  : 'GroupAssignments',
-      'course/link/:groupId'         : 'GroupLink',
-      'update-assignments'         : 'UpdateAssignments',
+      ''                            	   : 'Dashboard', 
+      'dashboard'                   	   : 'Dashboard',
+      'login'                       	   : 'MemberLogin',
+      'logout'                      	   : 'MemberLogout',
+      'courses'                     	   : 'Groups',
+      'my-courses'                  	   : 'MemberGroups',
+      'course/edit/:groupId'        	   : 'GroupForm',
+      'course/assign/:groupId'       	   : 'GroupAssignments', // @todo delete and change refs to it
+      'course/assignments/:groupId' 	   : 'GroupAssignments',
+      'course/link/:groupId'         	   : 'GroupLink',
+      'update-assignments'                 : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
-      'newsfeed'                      : 'NewsFeed',
-      'newsfeed/:authorTitle'         : 'Article_List',
-      'search-bell'					  : 'SearchBell',
-      'search-result'				:'SearchResult',
-'member/add'                  : 'MemberForm'
+      'newsfeed'                   	       : 'NewsFeed',
+      'newsfeed/:authorTitle'       	   : 'Article_List',
+      'search-bell'					 	   : 'SearchBell',
+      'search-result'				   	   :'SearchResult',
+      'member/add'                  	   : 'MemberForm',
+	  'member/edit/:mid'                   : 'MemberForm',
+	  'calendar'                  	       : 'calendar',
+	  'calendar/:eid'                  	   : 'calendaar',
+	  'addEvent'						   : 'addEvent',
+      'addResource/:rid/:title'            : 'AddResourceToShelf',
+      '*nomatch'  						   : 'errornotfound'
     },
+
+
+errornotfound: function(){
+      alert("no route matching")
+    },
+addEvent: function(){
+	 var model = new App.Models.Calendar()
+      var modelForm = new App.Views.CalendarForm({model: model})
+	App.$el.children('.body').html('<h3 class="signup-heading">Add Event</h3>')
+	App.$el.children('.body').append(modelForm.el)
+	    modelForm.render()
+},
+calendaar: function(eventId){
+	App.$el.children('.body').html('<h5>Event Details</h5>')
+	var cmodel = new App.Models.Calendar({_id : eventId})
+	cmodel.fetch({async:false})
+	console.log(cmodel)
+	App.$el.children('.body').append('<br/><b>Title: </b>'+cmodel.attributes.title)
+	App.$el.children('.body').append('<br/><b>Description: </b>'+cmodel.attributes.description)
+	App.$el.children('.body').append('<br/><b>Starting from: </b>'+new Date(cmodel.attributes.start))
+	App.$el.children('.body').append('<br/><b>Ending at: </b>'+new Date(cmodel.attributes.end))
+},
+calendar: function(){
+	App.$el.children('.body').html("<div id='calendar'><div id='addEvent' class='btn btn-bg btn-success' onclick =\"document.location.href='#addEvent'\">Add Event</div></div>")
+
+	$(document).ready(function() {
+
+		 
+		 var temp2 = []
+		 var allEvents=new App.Collections.Calendars()
+		 allEvents.fetch({async:false})
+		 allEvents.each(function(evnt){
+			var temp=new Object()
+			temp.title=evnt.attributes.title
+			temp.start=evnt.attributes.start
+			temp.end=evnt.attributes.end
+			temp.url="calendar/"+evnt.id
+			temp.allDay=false
+			console.log(evnt)
+			temp2.push(temp)	
+			});
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+		selectable: true,
+		eventClick: function(evnt) {
+			Backbone.history.navigate(evnt.url,{trigger :true})
+			return false  
+		 },	
+		events: temp2,
+		});
+
+	});
+},
  MemberForm: function(memberId) {
-      this.modelForm('Member', 'Member', memberId, 'members')
+      this.modelForm('Member', 'Member', memberId, 'login')
     },
 
     modelForm : function(className, label, modelId, reroute) {
@@ -32,7 +95,7 @@ $(function() {
 
       // Bind form to the DOM
       if (modelId) {
-        App.$el.children('.body').html('<h3>Edit this ' + label + '</h3>')
+        App.$el.children('.body').html('<h3>Update Profile </h3>')
       }
       else {
         App.$el.children('.body').html('<h3 class="signup-heading">Add a ' + label + '</h3>')
@@ -56,18 +119,22 @@ $(function() {
         model.once('sync', function() {
           model.trigger('Model:ready')
         }) 
-        model.fetch()
-      }
+        model.fetch({async:false})
+    }
       else {
         model.trigger('Model:ready')
       }
     },
 
 
-    SearchResult : function(){
-      
+    SearchResult : function(text){
       skipStack.push(skip)
-      searchText = $("#searchText").val()
+      if(text){
+          searchText = text
+      }
+      else{
+        searchText = $("#searchText").val()
+      }
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
@@ -181,6 +248,16 @@ $(function() {
                    articleTableView.render()  
                    App.$el.children('.body').html(articleTableView.el)
          }})
+    },
+    AddResourceToShelf : function (rid,title){
+            var shelfItem=new App.Models.Shelf()
+            shelfItem.set('memberId',$.cookie('Member._id'))
+            shelfItem.set('resourceId',rid)
+            shelfItem.set('resourceTitle',title)
+            App.ShelfItems[rid] = [title]
+            shelfItem.save()
+            skip = skipStack.pop()
+            App.Router.SearchResult(searchText)
     },
     
     /*

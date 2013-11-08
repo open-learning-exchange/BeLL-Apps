@@ -7,10 +7,14 @@
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
+  <link rel="stylesheet" href="vendor/osx.css"/>
+  <link rel="stylesheet" href="vendor/demo.css"/>
+  <link rel="stylesheet" href="app/fullcalendar.css"/>
+  <link rel="stylesheet" href="vendor/spectrum.css"/>
 <!--
     DEPENDENCIES
   -->
-
+ 
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
@@ -28,7 +32,12 @@
   <script src="vendor/jquery.url.js"></script>
   <script src="vendor/moment.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
-
+	<script src="vendor/jquery-ui.custom.min.js"></script>
+	<script src="vendor/fullcalendar.min.js"></script>
+	<script src="vendor/gcal.js"></script>
+	<script src="vendor/spectrum.js"></script>
+	<script src="vendor/simplemodal-1.4.4.min.js"></script>
+	  <script src="vendor/osx.js"></script>
   <!--
     App
   -->
@@ -42,6 +51,8 @@
   <script src="app/models/Member.js"></script>
   <script src="app/models/Credentials.js"></script>
   <script src="app/models/Feedback.js"></script>
+  <script src="app/models/Shelf.js"></script>
+	<script src="app/models/Calendar.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
@@ -49,6 +60,7 @@
   <script src="app/collections/NewsResources.js"></script>
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/SearchResource.js"></script>
+  <script src="app/collections/Calendars.js"></script>
   
   
   <script src="app/views/GroupRow.js"></script>
@@ -58,7 +70,7 @@
   <script src="app/views/GroupSpan.js"></script>
   <script src="app/views/GroupAssignmentsTable.js"></script>
   <script src="app/views/AssignmentRow.js"></script>
-<script src="app/views/MemberForm.js"></script>
+  <script src="app/views/MemberForm.js"></script>
   <script src="app/views/MemberLoginForm.js"></script>
   <script src="app/views/FeedbackForm.js"></script>
   <script src="app/views/Dashboard.js"></script>
@@ -69,6 +81,7 @@
   <script src="app/views/Search.js"></script>
   <script src="app/views/SearchSpan.js"></script>
   <script src="app/views/SearchSpans.js"></script>
+	<script src="app/views/CalendarForm.js"></script>
 
   <!-- 
     Templates 
@@ -124,6 +137,8 @@ if(obj.setSelectionRange)
 obj.setSelectionRange(end, end); 
 }
 </script>
+
+
   <script type="text/template" id="template-app">
     <div id="debug"></div>
     
@@ -189,6 +204,27 @@ obj.setSelectionRange(end, end);
     
   </script>
  
+<script type="text/html" id="calendar-Template">
+		<style>
+			body {
+				margin-top: 40px;
+				text-align: center;
+				font-size: 14px;
+				font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+				}
+
+			#calendar {
+				width: 900px;
+				margin: 0 auto;
+				}
+
+		</style>
+	<div id='calendar'></div>
+		
+	
+</script>
+
+
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#dashboard">
@@ -266,6 +302,15 @@ obj.setSelectionRange(end, end);
         </a>
      </div>
   </script>
+
+<script type="text/html" id="template-ShelfSpan">
+      <div class="displayCourse"> 
+        <a href='#resources/detail/<%= _id %>'> 
+           <%= title %>
+        </a>
+     </div>
+</script>
+
 <script type="text/html" id="template-Search">
 <div id="search">
 <div class="row">
@@ -285,7 +330,8 @@ obj.setSelectionRange(end, end);
 		<th><h6>Subject</h6></th>
 		<th><h6>Author</h6></th>
 		<th><h6>Tag</h6></th>
-	</tr>
+                <th><h6>Shelf</h6></th>
+        </tr>
 </table>
 
 		    <div class="search-bottom-nav">
@@ -306,21 +352,8 @@ obj.setSelectionRange(end, end);
 
 
  <script type="text/html" id="template-Search-box">
-  <!--
-if(<%=Tag%>=='News')	
-  	{
-		<td>
-			<a  href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank"> 
-     	<i class='icon-list'></i>  <%= title %>
-		</a>
-
-		</td>
-	}
-else
-	{
-		<td><%= title %></td>
-	}
--->
+  
+     
      <td><%= title %></td><td><%= subject %></td><td><%= author %></td><td><%= Tag %></td>
   </script>
 
@@ -362,49 +395,13 @@ else
 					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>
 					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
 					<div class="inner">
-						<table class="inner-table" >
-							<tr>
-								<td class="shelf-box">
-									Cat in Hat
-								</td>
-								<td class="shelf-box">
-									Winne the Pooh
-								</td>
-								<td class="shelf-box">
-									KA-Substraction
-								</td>
-								<td class="shelf-box">
-									History of ghanna
-								</td>
-								<td class="shelf-box">
-									Ghana Culture
-								</td>
-								<td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td><td class="shelf-box">
-									Ghana Culture
-								</td>
-								
-							</tr>
+						<table id="ur" class="inner-table" >
+							
 						</table>
 						</div>
 					</td>
 					<td class="stu-nav-option-empty"></td>
-			</tr>
+	  </tr>
 			<tr class="stu-nav-tube">
 					<td class="stu-nav-title-badges stu-nav-title">My Badges</td>
 					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
@@ -436,7 +433,7 @@ else
 			<tr>
 			
 				<td><button class="btn btn-hg btn-primary">Learning Goals</button></td>
-				<td><button class="btn btn-hg btn-primary">Calender</button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>
 				<td><button class="btn btn-hg btn-primary">Email</button></td>

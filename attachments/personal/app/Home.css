@@ -403,3 +403,19 @@ background:none;
 .signup-heading
 {margin-left: 30%;
     text-decoration: underline;}
+
+.fc-header-title h2 {
+	   font-size: 32px;
+}
+.fc-header-left {
+    margin-left: 0px;
+	padding-left: 0px;
+}
+.fc-state-default.fc-corner-left,.fc-state-default.fc-corner-right, .fc-button.fc-button-agendaWeek.fc-state-default  {
+    padding: 10px 20px;
+}
+.fc-event-time, .fc-event-title
+{
+	font-weight:900;
+}
+

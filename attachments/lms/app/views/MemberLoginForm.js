@@ -43,6 +43,8 @@ $(function() {
                 alert("You've been logged in but your admin  granted by a CouchDB user with username and password of pi:raspberry is not correctly configured.")
               }
             });
+          
+          
           }
           else {
             memberLoginForm.trigger('success:login')
@@ -56,5 +58,4 @@ $(function() {
 
 
   })
-
 })

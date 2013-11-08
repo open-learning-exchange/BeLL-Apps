@@ -1,5 +1,5 @@
 $(function() {
-
+//ce82280dc54a3e4beffd2d1efa00c4e6
   App.Views.MemberLoginForm = Backbone.View.extend({
     
     className: "form login-form",
@@ -38,6 +38,12 @@ this.$el.append($button2)
       if(response.total_rows > 0 && response.rows[0].doc.pass == credentials.get('pass')) {
           $.cookie('Member.login', response.rows[0].doc.login)
           $.cookie('Member._id', response.rows[0].doc._id)
+          $.getJSON('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',function(response) {
+             for(var i=0;i<response.rows.length;i++)
+              {
+                App.ShelfItems[response.rows[i].doc.resourceId] = [response.rows[i].doc.resourceTitle] 
+              }
+          });
           memberLoginForm.trigger('success:login')
         }
         else {
