@@ -3,6 +3,7 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
+<<<<<<< HEAD
       ''                              : 'Dashboard', 
       'dashboard'                     : 'Dashboard',
       'login'                         : 'MemberLogin',
@@ -35,7 +36,7 @@ $(function() {
     },
     
  MemberForm: function(memberId) {
-      this.modelForm('Member', 'Member', memberId, 'members')
+      this.modelForm('Member', 'Member', memberId, 'login')
     },
 
     modelForm : function(className, label, modelId, reroute) {
@@ -45,7 +46,7 @@ $(function() {
 
       // Bind form to the DOM
       if (modelId) {
-        App.$el.children('.body').html('<h3>Edit this ' + label + '</h3>')
+        App.$el.children('.body').html('<h3>Update Profile </h3>')
       }
       else {
         App.$el.children('.body').html('<h3 class="signup-heading">Become a ' + label + '</h3>')
@@ -69,8 +70,8 @@ $(function() {
         model.once('sync', function() {
           model.trigger('Model:ready')
         }) 
-        model.fetch()
-      }
+        model.fetch({async:false})
+    }
       else {
         model.trigger('Model:ready')
       }

@@ -8,10 +8,11 @@
   <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
+
 <!--
     DEPENDENCIES
   -->
-
+ 
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
@@ -135,6 +136,8 @@ if(obj.setSelectionRange)
 obj.setSelectionRange(end, end); 
 }
 </script>
+
+
   <script type="text/template" id="template-app">
     <div id="debug"></div>
     
@@ -200,6 +203,27 @@ obj.setSelectionRange(end, end);
     
   </script>
  
+<script type="text/html" id="calendar-Template">
+		<style>
+			body {
+				margin-top: 40px;
+				text-align: center;
+				font-size: 14px;
+				font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+				}
+
+			#calendar {
+				width: 900px;
+				margin: 0 auto;
+				}
+
+		</style>
+	<div id='calendar'></div>
+		
+	
+</script>
+
+
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#dashboard">

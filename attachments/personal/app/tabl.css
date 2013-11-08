@@ -94,9 +94,6 @@ border-right: 2px solid white;
 font-family: verdana;
 word-wrap:break-word;
 }
-.inner-table > .shelf-box > a{
-   padding-top: 4%;
-}
 .course-box
 {
 background-color: #3f75a3;
@@ -117,19 +114,12 @@ word-wrap:break-word;
 
 .login-form-button, .btn.btn-success
 {
-    display: block;
+	display: block;
     font-size: 27px;
     font-weight: bold;
     padding-left: 35%;
     margin-top: 9px;
     background-color: #1ABC9C;
-}
-
-.btn.btn-success.addtoshelf{
-    font-size: 17px;
-    padding-left: 12%;
-    margin-top: 9px;
-    display: inline;
 }
 
 .login-form > .bbf-form > fieldset
@@ -150,12 +140,11 @@ bbf-form ul{border: 5px solid dotted;}
     font-size: 25px;
 }
 
-#c4_pass , #c4_login
+.login-form .field-login .bbf-editor input[name="login"],.login-form .field-pass .bbf-editor input[name="pass"] 
 {
  height: 30px;
     width: 243px;
 }
- 
 .page-bottom-navtable td
 {
 	width: 40px;
@@ -195,30 +184,27 @@ width: 60%;
     padding-left: 40%;
     padding-right: 40%;
 }
+<<<<<<< Updated upstream
+=======
 
 .signup-form .bbf-field.field-login,.signup-form  .bbf-field.field-pass 
 {
 	
 	font-size: 15px;
 }
-.resourceDetail{
-	width: 50%;
-}
-.table > .table-striped > .assignmenttable{
-	height: 4%; 
-}
 
 .fc-header{
-    float:left;	
+	float:left;	
 }
 
 #addEvent{
-    padding-bottom: 20px;
+	padding-bottom: 20px;
     padding-top: 20px;
 }
 
 .addEvent-btn.btn.btn-success{
-    padding-bottom: 15px;
-    padding-top: 15px;	
-    margin-top:-10px;
+	padding-bottom: 15px;
+    padding-top: 15px;
+margin-top:-10px;
 }
+>>>>>>> Stashed changes

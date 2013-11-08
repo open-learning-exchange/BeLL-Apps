@@ -6,7 +6,7 @@ $(function() {
 
     events: {
 
-      'click .assign' : function(e) {
+      'click .assign' : function(e) {console.log("assigning")
         e.preventDefault()
         var that = this
         this.assignment.on('sync', function() {
@@ -34,6 +34,7 @@ $(function() {
           that.render()
         })
         this.assignment.destroy()
+		console.log("Unassigning")
       },
 
       // Do a preview in a modal
