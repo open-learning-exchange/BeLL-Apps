@@ -25,13 +25,13 @@ $(function() {
     },
 
     schema: {
-	  firstName: {validators: ['required']},
-      lastName: {validators: ['required']},
-      middleNames:{validators: ['required']},
-      login: {validators: ['required']},
-      pass: {validators: ['required']},
-      phone: 'Text',
-      email:  {validators: ['required']},
+       firstName: {validators: ['required']},
+       lastName: {validators: ['required']},
+       middleNames:'Text',
+       login: {validators: ['required']},
+       password: {validators: ['required']},
+       phone: 'Text',
+       email:'Text',
 	BirthDate:  'Date',
 	 Gender: {
         type: 'Select',
@@ -41,6 +41,7 @@ $(function() {
         type: 'Select',
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       },
+      status:'Text', 
       roles: {
         type: 'Checkboxes',
         options: ['admin', 'student', 'teacher', 'head', 'coach', 'lead']

@@ -10,6 +10,30 @@ $(function() {
         this.model.destroy()
         this.remove()
       },
+      "click #deactive" : function(e){
+          e.preventDefault()
+         
+          var that = this
+          this.model.on('sync', function() {
+          // rerender this view
+          that.render()
+        })
+        
+          this.model.save( {status : "deactive"}, {success :function(){/*this.model.fetch({async:false})*/}});
+          
+        //  this.model.fetch({async:false})
+       },
+      "click #active" : function(e){
+          e.preventDefault()
+          var that = this
+          this.model.on('sync', function() {
+          // rerender this view
+            
+            that.render()
+        })
+        this.model.save( {status : "active"}, {success :function(){/*this.model.fetch({async:false})*/}});
+         
+       },
       "click .browse" : function(e) {
         e.preventDefault()
         $('#modal').modal({show:true})
@@ -23,9 +47,9 @@ $(function() {
     },
 
     render: function () {
-      
       var vars = this.model.toJSON()
-      this.$el.append(_.template(this.template, vars))
+      console.log(vars)
+      this.$el.html(_.template(this.template, vars))
     }
 
   })

@@ -338,7 +338,15 @@
         <i class='icon-remove'></i> Delete
       </a>
     </td>
-
+   <% if(status == "active"){%>
+    <td>
+      <a class='btn btn-success' id="deactive" href='#'>Active</a>
+    </td>
+   <%} else {%>
+    <td>
+      <a class='btn btn-danger' id="active" href='#'>Reinstate</a>
+    </td>
+   <% } %>
   </script>
 
 

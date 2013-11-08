@@ -120,6 +120,7 @@ $(function() {
 },
 
     Groups: function() {
+      $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       groups = new App.Collections.Groups()
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})

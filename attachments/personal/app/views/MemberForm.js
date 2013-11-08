@@ -12,6 +12,7 @@ $(function() {
     render: function() {
       // create the form
       this.form = new Backbone.Form({ model: this.model })
+      this.form.fields['status'].$el.hide()
       this.$el.append(this.form.render().el)
       // give the form a submit button
       var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">Register</button></div>')

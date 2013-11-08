@@ -24,24 +24,30 @@ $(function() {
       return this.get('login') + ': ' + this.get('firstName') + ' ' + this.get('lastName')
     },
 
-    schema: {
-      login: 'Text',
-      pass: 'Text',
-      firstName: 'Text',
-      lastName: 'Text',
-      middleNames: 'Text',
-      phone: 'Text',
-      email: 'Text',
+  schema: {
+       firstName: {validators: ['required']},
+       lastName: {validators: ['required']},
+       middleNames:'Text',
+       login: {validators: ['required']},
+       password: {validators: ['required']},
+       phone: 'Text',
+       email:'Text',
+	BirthDate:  'Date',
+	  Gender: {
+          type: 'Select',
+          options: ['Male', 'Female']
+      },
       levels: {
-        type: 'Checkboxes',
+        type: 'Select',
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       },
+      status:'Text',
       roles: {
         type: 'Checkboxes',
         options: ['admin', 'student', 'teacher', 'head', 'coach', 'lead']
       }
-
     },
+
 
   }) 
 
