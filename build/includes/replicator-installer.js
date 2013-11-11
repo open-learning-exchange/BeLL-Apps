@@ -1,3 +1,12 @@
+var sys = require('sys')
+var exec = require('child_process').exec;
+var _ = require('underscore')
+var request = require('request')
+var program = require('commander');
+function puts(error, stdout, stderr) { sys.puts(stdout) }
+
+
+
 module.exports = {
   docs: [],
   getDocsFromDirection: function(direction) {
@@ -31,6 +40,7 @@ module.exports = {
   },
   start: function(settings) {
     this.settings = settings
+    var that = this
     _.each(this.settings.replicator.directions, function(direction) {
       that.getDocsFromDirection(direction)
     })

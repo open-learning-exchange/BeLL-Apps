@@ -4,8 +4,13 @@
  * Module dependencies.
  */
 
+var sys = require('sys')
+var exec = require('child_process').exec;
+var _ = require('underscore')
+var request = require('request')
 var program = require('commander');
-var replicatorInstaller = require('includes/replicator-installer')
+var replicatorInstaller = require('./includes/replicator-installer')
+function puts(error, stdout, stderr) { sys.puts(stdout) }
 
 program
   .version('0.0.1')
