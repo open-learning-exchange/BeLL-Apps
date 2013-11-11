@@ -9,17 +9,27 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 - [BeLL Apps 3.0 Sandbox Set Up from Command Line](http://youtu.be/_Yy3TOe3cps)
 
 
-# Installing on server
-These Apps are entirely Couch Apps but there are a number of things to push to CouchDB (databases, views, apps, default docs, default admin user with login of admin and password of password) so we use node.js to push all of the dependencies to the CouchDB that you specify. If you don't have node.js installed, check out the instructions for your system at [nodejs.org](http://nodejs.org).
+# Installing on a server
 
-Warning: Max files open on Mac OS is 256, this app surpasses that during installation. Increase your limit by doing `launchctl limit maxfiles 2048 2048` and `ulimit -n 2048`. If you're still seeing issues with getting all the files uploaded, see [this issue in the node.couchapp.js issue queue](https://github.com/mikeal/node.couchapp.js/issues/59).
+The following recipe is for Raspbian on Raspberry Pi.
 
-- Define the location of your CouchDB server in install.js. Default is http://127.0.0.1:5984.
-- On the command line from the repository's root, run `npm install; node install.js;`
-- There's a race condition with the creating fo a database and the creating of a document, run `node install.js` twice just to be certain.
+```
+# download, install, and ssh into Raspbian -> http://www.raspbian.org/
+sudo apt-get update
+sudo apt-get upgrade
+sudo raspi-config
+# run expand_fs in raspi-config
+sudo apt-get install couchdb
+# open /etc/couchdb/local.ini and change bind_address to 0.0.0.0 and add an admin, probably pi:raspberry
+sudo dpkg-reconfigure tzdata
+# set time to RasClock -> https://www.modmypi.com/blog/installing-the-rasclock-raspberry-pi-real-time-clock
+wget https://github.com/open-learning-exchange/BeLL-Apps/archive/master.zip
+unzip BeLL-Apps-master.zip
+cd BeLL-Apps-master/build
+./install.js --mapfile ./settings/settings.bell --hostname bell --ipaddress 127.0.0.1 --couchurl http://pi:raspberry@127.0.0.1:5984
+```
 
 
 # Installing on clients
 
-The target browser at the moment is Firefox for Android and has been tested using a beta build of Firefox for Android. The APK for that is in the root directory of this repository. At the moment the PDF.js viewer doesn't work in Chrome, other things may not as well. Check out the Screencasts to get an idea of how the clients interact with the server.
-
+The recommended client is the Firefox Beta for Android included in this repository.

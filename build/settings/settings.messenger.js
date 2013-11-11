@@ -1,6 +1,4 @@
 module.exports = {
-  hostname: "messenger.local",
-  couchUrl: "http://pi:raspberry@messenger.local:5984",
   databases: [
     'apps',
   	'assignments', 

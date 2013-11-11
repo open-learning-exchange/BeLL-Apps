@@ -1,9 +1,5 @@
 #!/usr/bin/env node
 
-
-// Example...
-// ./install.js --host-name [hostname] --ip-address [ipAddress] --map-file [mapFile]
-
 /**
  * Module dependencies.
  */

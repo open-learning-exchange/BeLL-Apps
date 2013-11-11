@@ -1,6 +1,4 @@
 module.exports = {
-  hostname: "zone.local",
-  couchUrl: 'http://pi:raspberry@zone.local:5984',
   databases: [
     'apps',
     'assignments', 
