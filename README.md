@@ -31,11 +31,14 @@ sudo cp /boot/vmlinuz-3.6.11-atsw-rtc+ /boot/kernel.img
 # echo pcf2127a 0x51 > /sys/class/i2c-adapter/i2c-1/new_device
 # ( sleep 2; hwclock -s ) &
 sudo reboot
-
+# install node.js according to instructions here -> http://www.raspberrypi.org/phpBB3/viewtopic.php?f=66&t=54817
+# there is also a special arm pi build at http://nodejs.org/dist/v0.10.5/ but I think below is the same thing
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+sudo dpkg -i node_latest_armhf.deb
+# install couchdb and git
 sudo apt-get install couchdb git
 # open /etc/couchdb/local.ini and change bind_address to 0.0.0.0 and add an admin, probably pi:raspberry
-wget https://github.com/open-learning-exchange/BeLL-Apps/archive/master.zip
-unzip BeLL-Apps-master.zip
+git clone https://github.com/open-learning-exchange/BeLL-Apps.git
 
 
 # --- Everything here on out can't make it into a distro
@@ -45,7 +48,7 @@ sudo raspi-config
 sudo dpkg-reconfigure tzdata
 hwclock -w
 sudo reboot
-cd BeLL-Apps-master/build
+cd BeLL-Apps/build
 git pull
 ./install.js --mapfile ./settings/settings.bell --hostname bell --ipaddress 127.0.0.1 --couchurl http://pi:raspberry@127.0.0.1:5984
 
