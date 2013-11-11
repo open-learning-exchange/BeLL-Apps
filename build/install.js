@@ -9,6 +9,7 @@ var exec = require('child_process').exec;
 var _ = require('underscore')
 var request = require('request')
 var program = require('commander');
+var fs = require('fs')
 var replicatorInstaller = require('./includes/replicator-installer')
 function puts(error, stdout, stderr) { sys.puts(stdout) } 
 
@@ -19,11 +20,41 @@ exec('ulimit -n 4056')
 program
   .version('0.0.1')
   .option('-f, --file [filepath]', '', './settings/bell.settings')
+  .option('-m, --me', '', '')
   .parse(process.argv);
 
 console.log('installing using %s', program.file);
-
 var settings = require(program.file)
+
+if(program.me) {
+  settings.couchUrl = "http://pi:raspberry@127.0.0.1:5984/"
+  // Set settings.hostname in /etc/hosts and etc/hostname
+  var fileName = '/etc/hosts'
+  fs.readFile(someFile, 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+    var result = data.replace(/raspberrypi/g, settings.hostname);
+
+    fs.writeFile(someFile, result, 'utf8', function (err) {
+      if (err) return console.log(err);
+      // Set settings.hostname in /etc/hosts and etc/hostname
+      var fileName = '/etc/hostname'
+      fs.readFile(someFile, 'utf8', function (err,data) {
+        if (err) {
+          return console.log(err);
+        }
+        var result = data.replace(/raspberrypi/g, settings.hostname);
+
+        fs.writeFile(someFile, result, 'utf8', function (err) {
+          if (err) return console.log(err);
+          exec('sudo /etc/init.d/hostname.sh', puts)
+          console.log("Restart for hostname change to take effect.")
+        });
+      });
+    });
+  });
+
 
 _.each(settings.databases, function(database) {
   // Install databases
