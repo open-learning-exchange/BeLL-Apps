@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+
+// Example...
+// ./install.js --host-name [hostname] --ip-address [ipAddress] --map-file [mapFile]
+
 /**
  * Module dependencies.
  */
@@ -19,15 +23,22 @@ exec('ulimit -n 4056')
 
 program
   .version('0.0.1')
-  .option('-f, --file [filepath]', '', './settings/bell.settings')
-  .option('-m, --me', '', '')
+  .option('-m, --mapfile [mapFile]', '', './settings/bell.settings')
+  .option('-h, --hostname [hostname]', '', 'bell')
+  .option('-i, --ipaddress [ipAddress]', '', '127.0.0.1')
+  .option('-c, --couchUrl [couchUrl]', '', 'http://pi:raspberry@127.0.0.1:5984')
+  .option('-d, --dontchangehostname','','')
   .parse(process.argv);
 
-console.log('installing using %s', program.file);
-var settings = require(program.file)
+var settings = require(program.mapFile)
+console.log('installing using the map at %s', program.mapFile);
+// @todo Process the mapFile to get the map for this hostname
+// For now, the mapFiles are preprocessed
+settings.couchUrl = program.couchUrl
+settings.hostname = program.hostname
 
-if(program.me) {
-  settings.couchUrl = "http://pi:raspberry@127.0.0.1:5984/"
+
+if(!program.dontchangehostname) {
   // Set settings.hostname in /etc/hosts and etc/hostname
   var fileName = '/etc/hosts'
   fs.readFile(someFile, 'utf8', function (err,data) {
@@ -54,7 +65,7 @@ if(program.me) {
       });
     });
   });
-
+}
 
 _.each(settings.databases, function(database) {
   // Install databases

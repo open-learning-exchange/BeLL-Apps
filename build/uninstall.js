@@ -1,4 +1,8 @@
-#!/usr/bin/env node
+#!usr/bin/env node
+
+
+// Example...
+// ./install.js --couchurl
 
 /**
  * Module dependencies.
@@ -9,6 +13,7 @@ var exec = require('child_process').exec;
 var _ = require('underscore')
 var request = require('request')
 var program = require('commander');
+var fs = require('fs')
 var replicatorInstaller = require('./includes/replicator-installer')
 function puts(error, stdout, stderr) { sys.puts(stdout) } 
 
@@ -18,15 +23,17 @@ exec('ulimit -n 4056')
 
 program
   .version('0.0.1')
-  .option('-f, --file [filepath]', '', './settings/bell.settings')
+  .option('-c, --couchurl [couchUrl]', '', 'http://pi:raspberry@127.0.0.1:5984')
   .parse(process.argv);
 
-console.log('uninstalling using %s', program.file);
-
-var settings = require(program.file)
+var settings = require(program.mapFile)
+console.log('installing using the map at %s', program.mapFile);
+// @todo Process the mapFile to get the map for this hostname
+// For now, the mapFiles are preprocessed
+var settings = {couchUrl: program.couchUrl}
 
 _.each(settings.databases, function(database) {
-  exec('curl -XDELETE ' + settings.couchUrl + '/' + database, puts)
+  exec('curl -XDELETE ' + setting.couchUrl + '/' + database, puts)
 })
 
 request.get({uri: settings.couchUrl + '/_replicator/_all_docs', json: true}, function(error, response, body) {
