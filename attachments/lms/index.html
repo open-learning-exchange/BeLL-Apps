@@ -29,6 +29,7 @@
   <script src="vendor/jquery.url.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
   <script src="vendor/spectrum.js"></script>
+  <script src="vendor/jquery.raty.js"></script>
 
   <!--
     App
@@ -146,6 +147,7 @@
         <td colspan="2">
           <!-- The Second form that will be submitted containing the file -->
           <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
         </td>
       </tr>
       <tr>
@@ -289,12 +291,8 @@
     </td> 
 
     <td>
-      <%= rating %>
-    </td>
-
-    <td>
-      <%= memberName %>
-    </td>
+	<%=rating%>
+  </td>
 
   </script>
 
@@ -373,15 +371,15 @@
       </a>
     </td>
   </script>
-
-
-
   
+  <script type="text/html" id="template-rateResource">
+        <div id="star" >
+        </div>
+  </script>
+
 </head>
 
 <body>
-
-
 </body>
 
   <!-- 

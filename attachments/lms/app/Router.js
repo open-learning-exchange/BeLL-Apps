@@ -103,10 +103,21 @@ $(function() {
         Backbone.history.navigate('resource/feedback/' + resourceId, {trigger: true})
       })
       var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
+      var user_rating 
       feedbackForm.render()
-      App.$el.children('.body').html('<h1>Add Feedback</h1>')
+	  App.$el.children('.body').html('<div class="asd">')
+	  App.$el.children('.body').append('<h1>Add Feedback</h1>')
+      App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
+      App.$el.children('.body').append('<div id="star" data-score="0"></div>')
+      $('#star').raty()
+       $("#star > img").click(function(){
+          feedbackForm.setUserRating($(this).attr("alt"))
+      });
+
       App.$el.children('.body').append(feedbackForm.el)
-    },
+    
+	
+},
 
     Groups: function() {
       groups = new App.Collections.Groups()
