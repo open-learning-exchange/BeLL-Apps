@@ -17,16 +17,38 @@ The following recipe is for Raspbian on Raspberry Pi.
 # download, install, and ssh into Raspbian -> http://www.raspbian.org/
 sudo apt-get update
 sudo apt-get upgrade
-sudo raspi-config
-# run expand_fs in raspi-config
-sudo apt-get install couchdb
+sudo apt-get autoremove
+
+# now following directions from https://www.modmypi.com/blog/installing-the-rasclock-raspberry-pi-real-time-clock
+wget http://afterthoughtsoftware.com/files/linux-image-3.6.11-atsw-rtc_1.0_armhf.deb
+sudo dpkg -i linux-image-3.6.11-atsw-rtc_1.0_armhf.deb
+sudo cp /boot/vmlinuz-3.6.11-atsw-rtc+ /boot/kernel.img
+# edit /etc/modules, add the following two lines, no pound signs
+# i2c-bcm2708
+# rtc-pcf2127a
+
+# Edit /etc/rc.local, add the following lines before exit 0
+# echo pcf2127a 0x51 > /sys/class/i2c-adapter/i2c-1/new_device
+# ( sleep 2; hwclock -s ) &
+sudo reboot
+
+sudo apt-get install couchdb git
 # open /etc/couchdb/local.ini and change bind_address to 0.0.0.0 and add an admin, probably pi:raspberry
-sudo dpkg-reconfigure tzdata
-# set time to RasClock -> https://www.modmypi.com/blog/installing-the-rasclock-raspberry-pi-real-time-clock
 wget https://github.com/open-learning-exchange/BeLL-Apps/archive/master.zip
 unzip BeLL-Apps-master.zip
+
+
+# --- Everything here on out can't make it into a distro
+
+sudo raspi-config
+# run expand_fs in raspi-config
+sudo dpkg-reconfigure tzdata
+hwclock -w
+sudo reboot
 cd BeLL-Apps-master/build
+git pull
 ./install.js --mapfile ./settings/settings.bell --hostname bell --ipaddress 127.0.0.1 --couchurl http://pi:raspberry@127.0.0.1:5984
+
 ```
 
 
