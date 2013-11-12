@@ -8,7 +8,6 @@ $(function() {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey"
     },
-
   render: function() {
       // create the form
       this.form = new Backbone.Form({ model: this.model })
@@ -22,6 +21,8 @@ $(function() {
       // give the form a submit button
       this.form.fields['status'].$el.hide()
       var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">'+buttonText+'</button></div>')
+      var $upload=$(' <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" /> <input class="rev" type="hidden" name="_rev"></form>')
+      this.$el.append($upload)
       this.$el.append($button)
     },
 
@@ -62,6 +63,20 @@ getValidOptions: function(userChoice,existing){
 	alert("Username \""+userChoice+"\" invalid or already taken \n" + validChoices)
 },
 
+validImageTypeCheck: function(name){
+	if(name.val()==""){
+		alert("ERROR: No image selected \n\nPlease Select an Image File")
+		return 0
+	}
+	var extension=name.val().split('.')
+	console.log(extension[1])
+	if(extension[1]=='jpeg'||extension[1]=='jpg'){
+		return 1
+	}
+	alert("ERROR: Not a valid image file \n\n Valid Extensions are  [.jpg, .jpeg ]")
+	return 0
+},
+
 setForm: function() {
     var that = this
     this.model.once('sync', function() {
@@ -70,7 +85,7 @@ setForm: function() {
 	var userChoice=this.form.getValue("login")
 	var existing=new App.Collections.Members();
 	existing.fetch({async:false})
-	if(this.form.validate()==null){
+	if(this.form.validate()==null&&this.validImageTypeCheck($('input[type="file"]'))){
 		if(this.serverSideValidityCheck(userChoice,existing,this.model.id)){
 			    this.form.setValue({status:"active"})
 			    this.form.commit()				// Put the form's input into the model in memory
@@ -88,6 +103,7 @@ setForm: function() {
 				this.getValidOptions(userChoice,existing)
 		}
 	}
+
 	
 },
 	
