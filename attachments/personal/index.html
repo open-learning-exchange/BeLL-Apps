@@ -14,6 +14,7 @@
   -->
  
   <script src="vendor/jquery-1.7.2.js"></script>
+	<script src="vendor/spectrum.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
@@ -265,27 +266,27 @@ obj.setSelectionRange(end, end);
   </script>
 
   <script type="text/html" id="template-GroupAssignmentsTable">
-    <h1> 
-      Assignments for <%= groupName %>
-    </h1>
-    <table class="table table-striped assignmenttable">
-    </table>
+    <th colspan="3"> 
+       <h4>Assignments for <%= groupName %><h4> 
+    </th>
+
   </script>
 
   <script type="text/html" id="template-AssignmentRow">
     <td>
-      <%= resource.title %>
+      <%= title %>
     </td>
     <td>
-      <a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resource._id %>' target="_blank">
-        <i class='icon-eye-open'></i> Open
+      <a class='btn open btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%=_id %>' target="_blank">
+        <i class='icon-eye-open'></i> Download
       </a>
     </td>
     <td>
-      <a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= resource._id %>' target="_blank">
-        <i class='icon-download'></i> Download
+      <a class='btn open btn-success' href='#resource/feedback/add/<%=_id %>'>
+        <i class='icon-eye-open'></i> Feedback
       </a>
     </td>
+
 
   </script>
 

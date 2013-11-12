@@ -17,7 +17,7 @@ $(function() {
       this.form.fields['rating'].$el.hide()
       this.form.fields['memberId'].$el.hide()
       this.form.fields['resourceId'].$el.hide()
-      var $button = $('<a class="btn btn-danger" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="formButton">Save</button>')
+      var $button = $('<a class="btn btn-info" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="formButton">Save</button>')
       this.$el.append($button)
     },
 

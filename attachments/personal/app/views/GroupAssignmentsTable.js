@@ -1,7 +1,8 @@
 $(function() {
 
   App.Views.GroupAssignmentsTable = Backbone.View.extend({
-
+tagName: "table",
+className:"table table-striped assignmenttable",
     template: $('#template-GroupAssignmentsTable').html(),
 
     vars: {},
@@ -22,25 +23,11 @@ $(function() {
     },
 
     addOne: function(model){
-      var resource = new App.Models.Resource()
-      var that = this
-      resource.SetRid(model.get('resourceId'))
-      resource.fetch({success: function() {
-      var vals = resource.attributes.rows[0].doc
-      console.log(vals)
-      that.$el.children('table').append("<tr>")
-      that.$el.children('table').append("<td>"+vals.title+"</td>")
-      if(vals._attachments){
-        that.$el.children('table').append("<td><a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#open/"+vals._id+"' target='_blank'>Open</a><td>")
-        that.$el.children('table').append("<td><a class='btn open' href='/apps/_design/bell/bell-resource-router/index.html#download/"+vals._id+"' target='_blank'>Download</a><td>")
-       } else {
-            that.$el.children('table').append("<td>No Attachment</td>")
-            that.$el.children('table').append("<td>No Attachment</td>")
-       }
-       that.$el.children('table').append("<td><a class='btn open' href='#resource/feedback/add/"+model.get('resourceId')+"'>FeedBack </a></td>")
-       that.$el.children('table').append("</tr>")
-      }})
-    },
+	  	console.log(model)
+		var assrow = new App.Views.AssignmentRow({model:model})
+		assrow.render()
+		this.$el.append(assrow.el)
+	},
 
     render: function() {
       this.$el.html(_.template(this.template, this.vars))

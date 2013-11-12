@@ -118,7 +118,7 @@ $(function() {
               type: 'GET',
               url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',
               dataType: 'json',
-              success: function(response) {
+              success: function(response) {console.log(response)
                   for(var i=0;i<response.rows.length;i++){
                          App.ShelfItems[response.rows[i].doc.resourceId] = [response.rows[i].doc.resourceTitle+"+"+response.rows[i].doc._id] 
                   } 
@@ -291,7 +291,6 @@ $(function() {
 
       });
 },
-
     /*
      * Syncing pages
      * 
