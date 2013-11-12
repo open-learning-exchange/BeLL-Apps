@@ -44,12 +44,39 @@ $(function() {
 
     setForm: function() {
       var that = this
+      var memberlist
       this.model.once('sync', function() {
-        that.trigger('GroupForm:done')
+        that.model.fetch({async:false})
+        var vars = that.model.toJSON()
+        console.log(vars)
+        for(var i=0 ; i < memberlist.length ; i++ )
+        {
+              var tempModel = new App.Models.Invitation()
+              tempModel.schema.title = vars.name
+              tempModel.schema.type = "group"
+              tempModel.schema.senderId = $.cookie('Member._id')
+              tempModel.schema.entityId = vars.id
+              tempModel.schema.memberId = memberlist[i]
+              tempModel.save({},{
+                 success:function(){
+                    console.log("Added TO database")
+                 }
+              })
+        }
+       if(_.has(this.model, 'id')) {
+          alert("Changes made successfully")
+       }else{
+            alert("Invite has been sent to the selected members")
+       }
+       that.trigger('GroupForm:done')
       })
+      
       // Put the form's input into the model in memory
       this.form.commit()
       // Send the updated model to the server
+      memberlist = this.model.get("members")
+      console.log(memberlist.length + memberlist)
+      this.model.set("members",null)
       this.model.save()
     },
 
