@@ -5,15 +5,17 @@
   <meta charset="utf-8">
   <title>Personal BeLL</title>
   <link rel="stylesheet" href="app/flat-ui.css"/>
-  <link rel="stylesheet" href="app/Home.css"/>
-  <link rel="stylesheet" href="app/tabl.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
+  <link rel="stylesheet" href="vendor/badger.css"/>
+    <link rel="stylesheet" href="app/Home.css"/>
+  <link rel="stylesheet" href="app/tabl.css"/>
 
 <!--
     DEPENDENCIES
   -->
  
   <script src="vendor/jquery-1.7.2.js"></script>
+   <script src="vendor/badger.js"></script>
 	<script src="vendor/spectrum.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
@@ -45,6 +47,7 @@
   <script src="app/models/Resource.js"></script>
   <script src="app/models/Group.js"></script>
   <script src="app/models/Assignment.js"></script>
+  <script src="app/models/Invitation.js"></script>
   <script src="app/models/Member.js"></script>
   <script src="app/models/Credentials.js"></script>
   <script src="app/models/Feedback.js"></script>
@@ -54,6 +57,7 @@
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
+  <script src="app/collections/Invitations.js"></script>
   <script src="app/collections/NewsResources.js"></script>
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/SearchResource.js"></script>
@@ -61,6 +65,8 @@
   
   
   <script src="app/views/GroupRow.js"></script>
+  <script src="app/views/NotificationTable.js"></script>
+  <script src="app/views/NotificationRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/MemberForm.js"></script>
   <script src="app/views/GroupsSpans.js"></script>
@@ -93,7 +99,9 @@ var enablenext=0;
 var searchRecordsPerPage = 2;
 var limitofRecords = 5;
 var skipStack = new Array()
+var numberOfNotificattions="."
 var lastpage = false
+
 function searchResources()
 {
 	skip = 0;
@@ -136,6 +144,7 @@ var end = obj.value.length;
 if(obj.setSelectionRange) 
 obj.setSelectionRange(end, end); 
 }
+
 </script>
 
 
@@ -203,6 +212,26 @@ obj.setSelectionRange(end, end);
     </td>
     
   </script>
+  
+    <script type="text/html" id="template-Notification-Row">
+    
+    <td class="not-table-td-title">
+<%= senderName%>
+    </td> 
+
+    <td class="not-table-td-link">
+  <%= title %>
+    </td>
+    
+        <td class="not-table-td-link">
+   <%= type %>
+    </td>
+    <td class="not-table-td-link">
+   		<button class="btn btn-info" id="acceptNotification"> Accept </button>
+   		<button class="btn btn-danger" id="rejectNotification"> Reject </button>
+   	</td>
+ 	
+  </script>
  
 <script type="text/html" id="calendar-Template">
 		<style>
@@ -232,6 +261,14 @@ obj.setSelectionRange(end, end);
       </a>
     </li> 
 
+	<li> 
+	<div id="badge" style="position:relative;padding:10px; ">
+      <a href="#notifications">
+        <i class="icon-plane icon-white"></i> <b>Notifications&nbsp&nbsp&nbsp</b>
+      </a>
+      </div>
+    </li>
+
     <li> 
       <a class="fui-lock" href="#logout">
         <i class="icon-plane icon-white"></i> Exit
@@ -245,6 +282,7 @@ obj.setSelectionRange(end, end);
       </a>
     </li>
   </script>
+
 
   <script type="text/template" id="template-nav-log-in"> 
     <li> 

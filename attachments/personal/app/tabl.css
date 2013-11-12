@@ -215,9 +215,9 @@ margin-top:-10px;
     padding-left: 0;
     width: 70%;
 }
-.table.assignmenttable
-{width:50%;
-	
+.table.assignmenttable {
+    margin-left: 5%;
+    width: 80%;
 }
 .table.assignmenttable th
 {background-color: #34495E;
@@ -241,3 +241,8 @@ margin-top:-10px;
 }
 .feedback_form .bbf-editor > input
 { width: 20%;}
+
+.badger-badge {
+    margin: 3px;
+    padding: 0 5px;
+}

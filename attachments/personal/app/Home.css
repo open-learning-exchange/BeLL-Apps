@@ -417,4 +417,9 @@ background:none;
     color: #16A085;
     font-size: 25px;
 }
+.notification-table th {
+    background-color: #34495E;
+    color: #FFFFFF;
+}
+
 

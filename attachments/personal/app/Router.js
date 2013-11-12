@@ -22,17 +22,32 @@ $(function() {
       'member/add'                    : 'MemberForm',
       'addResource/:rid/:title/:revid'                  : 'AddResourceToShelf',
       'resource/detail/:rsrcid/:shelfid/:revid'         :  'Resource_Detail', //When Item is Selected from the shelf 
-      
       'calendar'                      : 'CalendarFunction',
       'calendar/:eid'                 : 'calendaar',
       'addEvent'		      : 'addEvent',
       'member/edit/:mid'              : 'MemberForm',
+      'notifications'                     : 'notifications',
       '*nomatch'                      : 'errornotfound',  
     },
-    
     errornotfound: function()
     {
         alert("no route matching")
+    },
+    
+    
+    
+    
+    notifications: function(){
+    	App.$el.children('.body').html('&nbsp')
+    	App.$el.children('.body').html('<h3>Notifications<h3>')
+			invits = new App.Collections.Invitations()
+      invits.fetch({success: function() {
+      	console.log(invits.length.toString())
+      	$('#olelogo').remove();
+        invitsTable = new App.Views.NotificationTable({collection: invits})
+        invitsTable.render()
+        App.$el.children('.body').append(invitsTable.el) 
+	}})
     },
     
     MemberForm: function(memberId) {
@@ -92,6 +107,7 @@ $(function() {
       search.render()
       $("#searchText").val(searchText)
       $('#olelogo').remove()
+       App.badge()
   },
   
   SearchBell: function() {
@@ -100,14 +116,16 @@ $(function() {
       App.$el.children('.body').html(search.el)
       search.render()
       $('#olelogo').remove()
+       App.badge()
     },
     Dashboard: function() {
-      
-      $('ul.nav').html($("#template-nav-logged-in").html())
+    App.badge()
+      $('ul.nav').html($("#template-nav-logged-in").html())       
       var dashboard = new App.Views.Dashboard()
       App.$el.children('.body').html(dashboard.el)
       dashboard.render()
       $('#olelogo').remove()
+
     },
 
     MemberLogin: function() {
@@ -118,7 +136,7 @@ $(function() {
               type: 'GET',
               url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',
               dataType: 'json',
-              success: function(response) {console.log(response)
+              success: function(response) {
                   for(var i=0;i<response.rows.length;i++){
                          App.ShelfItems[response.rows[i].doc.resourceId] = [response.rows[i].doc.resourceTitle+"+"+response.rows[i].doc._id] 
                   } 
@@ -184,7 +202,8 @@ $(function() {
         var groupAssignments = new App.Collections.GroupAssignments({group: group})
         groupAssignments.groupId = groupId
         var groupAssignmentsTable = new App.Views.GroupAssignmentsTable({collection: groupAssignments})
-        App.$el.children('.body').html(groupAssignmentsTable.el)
+        App.$el.children('.body').html('&nbsp')
+        App.$el.children('.body').append(groupAssignmentsTable.el)
         groupAssignmentsTable.vars.groupName = group.get('name')
         groupAssignmentsTable.render()
         groupAssignments.fetch()

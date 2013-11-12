@@ -15,7 +15,6 @@ $(function() {
     globalUrl:{},
     bellLocation : "Pakistan", 
     el: "body",
-    
     template: $("#template-app").html(),
 
     events: {
@@ -23,8 +22,11 @@ $(function() {
       "click .close" : "closeModal"
     },
 
+
+
+
     start: function(){
-      // App body
+      // App body      
       this.ShelfItems = {}
       this.$el.html(_.template(this.template))
       var loggedIn = ($.cookie('Member._id'))
@@ -89,6 +91,23 @@ $(function() {
         }
       }) 
      },
+
+badge: function() {
+    if($.cookie('Member._id')!=undefined){
+          	invits = new App.Collections.Invitations()
+          	invits.fetch({success: function() {
+          	if(invits.length!=0){
+      			numberOfNotificattions=invits.length.toString()
+      			$('#badge').badger(numberOfNotificattions)
+      			}
+      		else{
+      			$('#badge').badger("")
+      		}		
+      			
+      	  	}})
+          }
+    },
+
 
     // A special function for pulling specific documents from CouchDb to PouchDB
     pull_doc_ids: function(include_doc_ids, from, to) {
