@@ -100,7 +100,7 @@
   }
   function showSearchView()
   {
-      App.Router.SearchBell();
+      App.Router.SearchBell(grpId);
   }
   function searchResources()
   {
@@ -140,6 +140,21 @@
     var end = obj.value.length; 
     if(obj.setSelectionRange) 
     obj.setSelectionRange(end, end); 
+  }
+  function showSubjectCheckBoxes()
+  {
+
+  	var subjects = ['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)'];
+  	var length = subjects.length;
+  	var htmlString = "<h4>Subject</h4>" ; 
+  	for(var i=0 ; i<length ; i++)
+  	{
+  		htmlString = htmlString + '<input id="subject' + (i+1) + '" type="checkbox" name="subject" value="' + subjects[i] +'">' ;   
+        htmlString = htmlString + '<label for="subject' + (i+1) + '">' + subjects[i] + '</label>' ;  
+        htmlString = htmlString + '<br>' ; 
+  	}
+  	$("#SubjectCheckboxes").html(htmlString);
+ 
   }
 </script>
   
@@ -486,19 +501,20 @@
         <input id="check3" type="checkbox" name="tag" value="Non-Fiction">  
         <label for="check3">Non Fiction</label>  
     </div>
-    <div class="checkbox-subject">  
-        <h4>Subject</h4>
-        <input id="subject1" type="checkbox" name="subject" value="News">  
+    <div class="checkbox-subject" id="SubjectCheckboxes">  
+     <!--   <script>
+        	//showSubjectCheckBoxes();
+        </script> -->
+    <!--    <input id="subject1" type="checkbox" name="subject" value="News">  
         <label for="subject1">News</label>  
         <br>  
         <input id="subject2" type="checkbox" name="subject" value="Fiction">  
         <label for="subject2">Fiction</label> 
          <br>  
         <input id="subject3" type="checkbox" name="subject" value="Non-Fiction">  
-        <label for="subject3">Non Fiction</label>  
+        <label for="subject3">Non Fiction</label> -->
     </div>
-    <br/>
-    <div class="checkbox-length">  
+  <!--<div class="checkbox-length">  
         <h4>Length</h4>
         <input id="pbook" type="checkbox" name="length" value="Picture-Book">  
         <label for="pbook">Picture Books</label>  
@@ -508,7 +524,7 @@
          <br>  
         <input id="cbook2" type="checkbox" name="length" value="Chapter-Book-Long">  
         <label for="cbook2">Chapter Books (Long)</label>  
-    </div>  
+    </div>  -->
     </div>
 </div>
 <div class="search-result-header">
@@ -516,13 +532,14 @@
     <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
 </div>
 <br>
-    <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()">Select All</button>
+    <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
 <br/><br/>
     <table id="srch"> 
     </table>
 <div id="not-found" style="color:red; margin-left:34%; font-size:20px;"></div>
 </div>
 		    <div class="search-bottom-nav">
+		    <br/>
                     <table class="search-bottom-nav-table">
                        <tr>
                           <td class="previous-button-container">

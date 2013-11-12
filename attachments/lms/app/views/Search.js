@@ -43,6 +43,7 @@ enablenext=0
        }
        else if(obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1){
 	     $('#not-found').html("No Such Record Exist");
+	     $("#selectAllButton").hide()
 	   
 	     
        }
@@ -61,11 +62,11 @@ enablenext=0
     },
     checkFilters: function(result)
     {
-    	if(this.tagFilter.length==0)
+    	if(this.tagFilter.length==0 && this.subjectFilter.length==0)
     	{
     		return true
     	}
-    	else if($.inArray(result.get("Tag"), this.tagFilter) > -1)
+    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) )
     	{
     		return true
     	}
