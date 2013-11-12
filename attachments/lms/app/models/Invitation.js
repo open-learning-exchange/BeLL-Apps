@@ -3,7 +3,13 @@ $(function() {
   App.Models.Invitation = Backbone.Model.extend({
 
     idAttribute: "_id",
-
+    title:null,
+    type:null,
+    senderId:null,
+    senderName:null,
+    entityId:null,
+    memberId:null,
+    
     url: function() {
       if (_.has(this, 'id')) {
         var url = (_.has(this.toJSON(), '_rev'))
@@ -19,14 +25,6 @@ $(function() {
     defaults: {
       kind: "invitation"
     },
-
-    schema: {
-      title: 'Text',
-      type: 'Text',
-      senderId: 'Text',
-      entityId: 'Text',
-      memberId: 'Text'
-    }
 
   }) 
 

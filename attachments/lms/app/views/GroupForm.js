@@ -45,6 +45,8 @@ $(function() {
     setForm: function() {
       var that = this
       var memberlist
+      var member = new App.Models.Member({_id : $.cookie('Member._id')})
+      member.fetch({async:false})
       this.model.once('sync', function() {
         that.model.fetch({async:false})
         var vars = that.model.toJSON()
@@ -52,18 +54,19 @@ $(function() {
         for(var i=0 ; i < memberlist.length ; i++ )
         {
               var tempModel = new App.Models.Invitation()
-              tempModel.schema.title = vars.name
-              tempModel.schema.type = "group"
-              tempModel.schema.senderId = $.cookie('Member._id')
-              tempModel.schema.entityId = vars.id
-              tempModel.schema.memberId = memberlist[i]
+              tempModel.set({title : vars.name})
+              tempModel.set({type : "group"})
+              tempModel.set({senderId  : $.cookie('Member._id')})
+              tempModel.set({senderName : member.get("firstName")+" "+member.get("lastName")})
+              tempModel.set({entityId : vars.id})
+              tempModel.set({memberId : memberlist[i]})
               tempModel.save({},{
                  success:function(){
                     console.log("Added TO database")
                  }
               })
         }
-       if(_.has(this.model, 'id')) {
+       if(that.model.get("_id")){
           alert("Changes made successfully")
        }else{
             alert("Invite has been sent to the selected members")
