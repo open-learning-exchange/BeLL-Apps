@@ -3,6 +3,7 @@ $(function() {
   App.Views.FeedbackForm = Backbone.View.extend({
     
     tagName : "form",
+    className : "feedback_form",
     user_rating  : 'null',
     events: {
       "click #formButton": "setForm",

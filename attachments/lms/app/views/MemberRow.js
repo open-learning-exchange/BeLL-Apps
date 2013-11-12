@@ -11,25 +11,30 @@ $(function() {
         this.remove()
       },
       "click #deactive" : function(e){
+          
           e.preventDefault()
          
           var that = this
           this.model.on('sync', function() {
           // rerender this view
-          that.render()
+
+          //that.render()
+           location.reload(); 
         })
         
-          this.model.save( {status : "deactive"}, {success :function(){/*this.model.fetch({async:false})*/}});
+          this.model.save( {status : "deactive"}, {success :function(){}});
           
         //  this.model.fetch({async:false})
        },
       "click #active" : function(e){
+        
           e.preventDefault()
           var that = this
           this.model.on('sync', function() {
           // rerender this view
             
-            that.render()
+             //that.render()
+              location.reload(); 
         })
         this.model.save( {status : "active"}, {success :function(){/*this.model.fetch({async:false})*/}});
          

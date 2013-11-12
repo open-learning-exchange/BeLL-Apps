@@ -33,8 +33,16 @@ $(function() {
         options:['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)']
       },
       Level:{
-          type:'Select',
-          options:['EE (Early Education)','LP (Lower Primary)','UP (Upper Primary)','LS (Lower Secondary)','US (Upper Secondary)','UG (Undergraduate)','GR (Graduate)','PR (Professional)']
+        type:'Select',
+        options: ['Range','All']
+      },
+      fromLevel:{
+          type :'Select',
+          options:['1','2','3','4','5','6','7','8','9','10','11','12']
+      },
+      toLevel:{
+          type :'Select',
+          options:['1','2','3','4','5','6','7','8','9','10','11','12']
       },
       Tag:{
             type:'Select',
@@ -47,6 +55,9 @@ $(function() {
      // override everything, just open a specific URL
       openUrl: 'Text'
     },
+ 
+    
+    
     
     saveAttachment: function(formEl, fileEl, revEl) {
 

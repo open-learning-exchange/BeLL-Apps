@@ -30,7 +30,7 @@ $(function() {
       if(row.assignment) {
         row.trigger('resourceRowView:assignmentReady')
       }
-      else {
+      /*else {
         row.assignment = new App.Models.Assignment({
           startDate: this.assignments.startDate,
           endDate: this.assignments.endDate,
@@ -41,7 +41,7 @@ $(function() {
           }
         })
         row.trigger('resourceRowView:assignmentReady')
-      }
+      }*/
 
     },
 

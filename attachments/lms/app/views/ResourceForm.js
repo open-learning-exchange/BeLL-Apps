@@ -3,7 +3,7 @@ $(function() {
   App.Views.ResourceForm = Backbone.View.extend({
 
     className: "form",
-
+    hide : false,
     events: {
       "click .save": "saveForm",
       //@todo This causes save to not happen 
@@ -28,6 +28,27 @@ $(function() {
       this.form = new Backbone.Form({ model: this.model })
       this.form.render()
       this.form.fields['uploadDate'].$el.hide()
+      var that = this
+      if(_.has(this.model, 'id')) {
+          if(this.model.get("Level") == "All"){
+             that.form.fields['toLevel'].$el.hide();
+             that.form.fields['fromLevel'].$el.hide();
+             that.hide = true
+          }
+      }
+      that.form.fields['Level'].$el.change(function(){
+         if(!that.hide){
+           that.form.fields['toLevel'].$el.hide();
+           that.form.fields['fromLevel'].$el.hide();
+           that.hide = true
+         }
+         else{
+           that.form.fields['toLevel'].$el.show();
+           that.form.fields['fromLevel'].$el.show();
+           that.hide = false
+         }
+      })
+      
       // @todo Why won't this work?
       vars.form = "" //$(this.form.el).html()
       
@@ -45,6 +66,7 @@ $(function() {
       // @todo validate 
       //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
         // Put the form's input into the model in memory
+        var addtoDb = true
         this.form.commit()
         // Send the updated model to the server
         var that = this
@@ -55,19 +77,31 @@ $(function() {
         else{
           $('#progressImage').show();
           this.model.set(' uploadDate',new Date().getTime())
-          this.model.save(null, {success: function() {
-          that.model.unset('_attachments')
-          if($('input[type="file"]').val()) {
-            that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+          if(this.model.get("Level") == "All"){
+                this.model.set('toLevel',0)
+                this.model.set('fromLevel',0)
           }
-          else {
-            that.model.trigger('processed')
+          else{
+              if(this.model.get("fromLevel") > this.model.get("toLevel")){
+                  alert("Invalid range specified ")
+                  addtoDb = false
+              }
           }
-            that.model.on('savedAttachment', function() {
-            this.trigger('processed')
-            $('#progressImage').hide();
-          }, that.model)
-        }})
+          if(addtoDb){
+                this.model.save(null, {success: function() {
+                that.model.unset('_attachments')
+                if($('input[type="file"]').val()) {
+                  that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+                }
+                else {
+                  that.model.trigger('processed')
+                }
+                  that.model.on('savedAttachment', function() {
+                  this.trigger('processed')
+                  $('#progressImage').hide();
+                }, that.model)
+              }})
+         } 
         }
       //}
       //else {

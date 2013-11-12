@@ -22,6 +22,11 @@ $(function() {
       'member/edit/:memberId'       : 'MemberForm',
       'compile/week'                : 'CompileManifestForWeeksAssignments',
       'compile'                     : 'CompileManifest',
+      'search-bell'		    : 'SearchBell',
+      'search-bell/:groupId'	    : 'SearchBell',
+      'search-result'		    :'SearchResult',
+      'assign-to-course'	    :'AssignResourcetoCourse',
+      'assign-to-shelf'		    :'AssignResourcetoShelf'
     },
 
     MemberLogin: function() {
@@ -228,7 +233,93 @@ $(function() {
       table.resources.fetch()
     },
 
-
+    // Search Module Router Version 1.0.0
+    
+    AssignResourcetoShelf : function()
+    {
+    	// Interating through all the selected courses
+        $("input[name='result']").each( function () {
+	  if ($(this).is(":checked"))
+	    {
+  	      var rId = $(this).val();
+  	      var title = $(this).attr('rTitle')
+  	      var shelfItem=new App.Models.Shelf()
+              shelfItem.set('memberId',$.cookie('Member._id'))
+              shelfItem.set('resourceId',rId)
+              shelfItem.set('resourceTitle',title)
+              //Adding the Selected Resource to the Shelf Hash(Dictionary)
+              shelfItem.save(null, {
+            	  success: function(model,response,options) {}
+              });
+	    }
+	});
+    	document.location.href='#course/assignments/week-of/' + grpId 
+    },
+    
+    
+    AssignResourcetoCourse : function()
+    {
+    	var sDate = moment().subtract('days', (moment().format('d'))).format("YYYY-MM-DD")
+    	var eDate = moment(sDate).add('days', 7).format('YYYY-MM-DD')
+    	$("input[name='result']").each( function () {
+          if ($(this).is(":checked"))
+	      {
+  		var rId = $(this).val();
+  		var assignment = new App.Models.Assignment({
+          	startDate: sDate,
+          	endDate: eDate,
+          	resourceId: rId,
+          	kind: "Assignment",
+          	context: {
+            	    groupId: grpId
+          	  }
+       		})
+       		assignment.save()
+	      }
+	});
+    	document.location.href='#course/assignments/week-of/' + grpId 
+    },
+      
+  SearchResult : function(text){
+        
+        skipStack.push(skip)
+        if(text){
+            searchText = text
+        }
+        else{
+            searchText = $("#searchText").val()
+         }
+         var tagFilter = new Array();
+         var k = 0;
+         $("input[name='tag']").each( function () {
+	 if ($(this).is(":checked")){
+	     tagFilter[k] = $(this).val();
+   	     k++;
+	 }
+      })
+        $('ul.nav').html($("#template-nav-logged-in").html())
+        var search = new App.Views.Search()
+        search.tagFilter = tagFilter
+        App.$el.children('.body').html(search.el)
+        search.render()
+        $("#searchText2").val(searchText)
+        $( "#srch" ).show()
+        $( ".row" ).hide()
+        $( ".search-bottom-nav" ).show()
+        $(".search-result-header").show()
+   },
+  
+  SearchBell: function(groupId) {
+  	
+      grpId = groupId
+      $('ul.nav').html($("#template-nav-logged-in").html())
+      var search = new App.Views.Search()
+      App.$el.children('.body').html(search.el)
+      search.render()
+      $( "#srch" ).hide()
+      $( ".search-bottom-nav" ).hide()
+      $(".search-result-header").hide()
+  },
     CompileManifestForWeeksAssignments: function(weekOf) {
 
       // 
