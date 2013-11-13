@@ -11,13 +11,12 @@ $(function() {
     		var gmodel = new App.Models.Group({_id : groupId})
     		gmodel.fetch({async:false})
     		var that = this
-    		console.log(gmodel)
     		if(gmodel.get("_id")){
     				var memberlist = []
     				if(gmodel.get("members") != null){
     					memberlist = gmodel.get("members")
     				}
-    			    memberlist.push(this.model.get("memberId"))
+    			        memberlist.push($.cookie('Member._id'))
     				gmodel.set("members",memberlist)
     				gmodel.save({},{
     					success: function(){
@@ -42,7 +41,8 @@ $(function() {
     },
     render: function () {
       var vars = this.model.toJSON()
-      this.$el.append(this.template(vars))
+     this.$el.append(this.template(vars))
+     
     },
 })
 

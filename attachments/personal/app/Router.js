@@ -40,13 +40,13 @@ $(function() {
     notifications: function(){
     	App.$el.children('.body').html('&nbsp')
     	App.$el.children('.body').html('<h3>Notifications<h3>')
-			invits = new App.Collections.Invitations()
-      invits.fetch({success: function() {
+	invits = new App.Collections.Invitations()
+        invits.fetch({success: function() {
       	console.log(invits.length.toString())
-      	$('#olelogo').remove();
-        invitsTable = new App.Views.NotificationTable({collection: invits})
-        invitsTable.render()
-        App.$el.children('.body').append(invitsTable.el) 
+          $('#olelogo').remove();
+          invitsTable = new App.Views.NotificationTable({collection: invits})
+          invitsTable.render()
+          App.$el.children('.body').append(invitsTable.el) 
 	}})
     },
     

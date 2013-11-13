@@ -15,19 +15,6 @@ $(function() {
       }
       return url
     },
-
-    defaults: {
-      kind: "invitation"
-    },
-
-    schema: {
-      title: 'Text',
-      type: 'Text',
-      senderId: 'Text',
-      entityId: 'Text',
-      memberId: 'Text'
-    }
-
-  }) 
+}) 
 
 })
