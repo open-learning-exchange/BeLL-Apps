@@ -62,12 +62,14 @@ enablenext=0
     },
     checkFilters: function(result)
     {
+       
     	if(this.tagFilter.length==0 && this.subjectFilter.length==0)
     	{
     		return true
     	}
-    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) )
+    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1))
     	{
+		
     		return true
     	}
     	return false
@@ -81,7 +83,7 @@ enablenext=0
 		if(result.get("title") != null ){
 		 	skip++
 		 	//console.log( skip+' '+result.get("title"))
-			if(result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >=0 && that.checkFilters(result))
+			if(that.checkFilters(result) && result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >=0 )
 			{	  
 				if(resultArray.length < searchRecordsPerPage)
 				{
@@ -92,7 +94,7 @@ enablenext=0
 					enablenext=1
 			    	skip--
 			 	}
-         	}
+			}
 		 	else if(resultArray.length >=  searchRecordsPerPage)
 		 	{
 				 skip--	

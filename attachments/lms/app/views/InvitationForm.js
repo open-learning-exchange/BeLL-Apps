@@ -8,7 +8,19 @@ $(function() {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey"
     },
-
+     
+    title:null,
+    entityId:null,
+    type:null,
+    senderId:null,
+    
+    SetParams:function(ti,e,t,s){
+      this.title = ti
+      this.entityId = e
+      this.type = t
+      this.senderId = s
+      
+    },
     render: function() {
 
       // members is required for the form's members field
@@ -21,11 +33,6 @@ $(function() {
         // create the form
         this.form = new Backbone.Form({ model: inviteForm.model })
         this.$el.append(this.form.render().el)
-        this.form.fields['senderId'].$el.hide()
-        this.form.fields['entityId'].$el.hide()
-        this.form.fields['senderName'].$el.hide()
-        this.form.fields['title'].$el.hide()
-        this.form.fields['type'].$el.hide()
         this.form.fields['members'].$el.hide()
         this.form.fields['levels'].$el.hide()
         
@@ -66,26 +73,63 @@ $(function() {
     setForm: function() {
       var member = new App.Models.Member({_id : $.cookie('Member._id')})
       member.fetch({async:false})
-      this.model.once('sync', function() {
-        alert("Invitation sent successfully")
-        Backbone.history.navigate('courses', {trigger: true})
-      })
       // Put the form's input into the model in memory
       this.form.commit()
-      // Send the updated model to the server
+      var memberList = new App.Collections.Members()
+      memberList.fetch({async:false})
+      
+      var temp
+      var that = this
+     
       if(this.model.get("invitationType") == "All")
       {
-          this.model.set("members",null)
-          this.model.set("levels",null)
-      }else if(this.model.get("invitationType") == "Members")
-      {
-          this.model.set("levels",null)
-      }else{
-          this.model.set("members",null)
+           memberList.each(function(m) {
+            temp = new App.Models.Invitation()   
+            temp.set("title",that.title)
+            temp.set("senderId",that.senderId)
+            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
+            temp.set("memberId",m.get("_id"))
+            temp.set("entityId",that.entityId)
+            temp.set("type",that.type)
+            temp.save()
+          })
+      
       }
-      this.model.set("senderName",member.get("firstName")+" "+member.get("lastName"))
-      console.log(this.model)
-      this.model.save()
+      else if(this.model.get("invitationType") == "Members") {
+         memberList.each(function(m) {
+          if(that.model.get("members").indexOf(m.get("_id")) > -1){
+            temp = new App.Models.Invitation()  
+            temp.set("title",that.title)
+            temp.set("senderId",that.senderId)
+            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
+            temp.set("memberId",m.get("_id"))
+            temp.set("entityId",that.entityId)
+            temp.set("type",that.type)
+            temp.save()
+          }
+        })
+      }
+      
+      else{
+           //Fetching The Members and then checking each levels whether they have the same level then incrementing the counnt and save
+           
+           memberList.each(function(m) {
+                var member_level = m.get("levels")
+                if(that.model.get("levels").indexOf(member_level[0]) > -1){
+                  temp = new App.Models.Invitation()  
+                  temp.set("title",that.title)
+                  temp.set("senderId",that.senderId)
+                  temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
+                  temp.set("memberId",m.get("_id"))
+                  temp.set("entityId",that.entityId)
+                  temp.set("type",that.type)
+                  temp.save()
+                }
+           });
+           
+      }
+     alert("Invitation sent successfully")
+     Backbone.history.navigate('courses', {trigger: true})
     },
 
 

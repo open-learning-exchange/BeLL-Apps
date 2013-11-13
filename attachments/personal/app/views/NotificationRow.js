@@ -41,6 +41,7 @@ $(function() {
     },
     render: function () {
       var vars = this.model.toJSON()
+      console.log(vars)
      this.$el.append(this.template(vars))
      
     },
