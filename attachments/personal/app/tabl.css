@@ -157,7 +157,7 @@ bbf-form ul{border: 5px solid dotted;}
 }
 .signup-form > .bbf-form{
     background-color: #34495E;
-    border-radius: 20px 20px 20px 20px;
+     border-radius: 20px 20px 0 0;
 }
 .signup-form {
 	margin-left: 20%;
@@ -180,6 +180,7 @@ bbf-form ul{border: 5px solid dotted;}
 
 .signup-submit {
     margin-top: 12px;
+     margin-bottom: 50px;
 }
 .signup-btn.btn {
     background-color: #1ABC9C;
@@ -245,4 +246,15 @@ margin-top:-10px;
 .badger-badge {
     margin: 3px;
     padding: 0 5px;
+}
+.signup-form #fileAttachment
+{
+ background-color: #34495E;
+    border-radius: 0 0 20px 20px;
+    color: #FFFFFF;
+}
+#fileAttachment > input {
+    height: 40px;
+    margin-left: 42px;
+    padding-bottom: 30px;
 }
