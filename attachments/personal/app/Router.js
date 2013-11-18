@@ -119,19 +119,8 @@ $(function() {
        App.badge()
     },
     Dashboard: function() {
-    App.badge()
-      $('ul.nav').html($("#template-nav-logged-in").html())       
-      var dashboard = new App.Views.Dashboard()
-      App.$el.children('.body').html(dashboard.el)
-      dashboard.render()
-      $('#olelogo').remove()
-
-    },
-
-    MemberLogin: function() {
-      // Prevent this Route from completing if Member is logged in.
-      if($.cookie('Member._id')) {
-        App.ShelfItems = {} // Resetting the Array Here http://stackoverflow.com/questions/1999781/javascript-remove-all-object-elements-of-an-associative-array
+      App.badge()
+      App.ShelfItems = {} // Resetting the Array Here http://stackoverflow.com/questions/1999781/javascript-remove-all-object-elements-of-an-associative-array
         $.ajax({
               type: 'GET',
               url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',
@@ -143,7 +132,18 @@ $(function() {
               },
               data: {},
               async: false
-        });
+      }); 
+      $('ul.nav').html($("#template-nav-logged-in").html())       
+      var dashboard = new App.Views.Dashboard()
+      App.$el.children('.body').html(dashboard.el)
+      dashboard.render()
+      $('#olelogo').remove()
+
+    },
+
+    MemberLogin: function() {
+      // Prevent this Route from completing if Member is logged in.
+      if($.cookie('Member._id')) {
         Backbone.history.navigate('dashboard', {trigger: true})
         return
       }
