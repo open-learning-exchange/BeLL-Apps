@@ -1,8 +1,4 @@
-#!usr/bin/env node
-
-
-// Example...
-// ./install.js --couchurl
+#!/usr/bin/env node
 
 /**
  * Module dependencies.
@@ -18,29 +14,33 @@ var replicatorInstaller = require('./includes/replicator-installer')
 function puts(error, stdout, stderr) { sys.puts(stdout) } 
 
 // Increase the ulimit so the entire directory of attachments can be uploaded
-exec('launchctl limit maxfiles 4056 4056', puts)
-exec('ulimit -n 4056')
+exec('launchctl limit maxfiles 10056 10056', puts)
+exec('ulimit -n 10056', puts)
 
 program
   .version('0.0.1')
-  .option('-c, --couchurl [couchUrl]', '', 'http://pi:raspberry@127.0.0.1:5984')
+  .option('-c, --couchurl [couchurl]', '', 'http://pi:raspberry@127.0.0.1:5984')
+  .option('-m, --mapfile [mapfile]', '', null)
+  .option('-h, --hostname [hostname]', '', null)
   .parse(process.argv);
 
-var settings = require(program.mapFile)
-console.log('installing using the map at %s', program.mapFile);
-// @todo Process the mapFile to get the map for this hostname
-// For now, the mapFiles are preprocessed
-var settings = {couchUrl: program.couchUrl}
+var settings = {
+  databases: require('./config/databases'),
+  couchurl: program.couchurl
+}
+console.log(settings)
 
-_.each(settings.databases, function(database) {
-  exec('curl -XDELETE ' + setting.couchUrl + '/' + database, puts)
+settings.databases.forEach(function(database) {
+  exec('curl -XDELETE ' + settings.couchurl + '/' + database, puts)
 })
 
-request.get({uri: settings.couchUrl + '/_replicator/_all_docs', json: true}, function(error, response, body) {
-  _.each(body.rows, function(row) {
+var uri = settings.couchurl + '/_replicator/_all_docs'
+request.get({uri: uri, json: true}, function(error, response, body) {
+  body.rows.forEach(function(row) {
     if(row.id != "_design/_replicator") {
-      exec('curl -XDELETE ' + settings.couchUrl + '/_replicator/' + row.id + '?rev=' + row.value.rev)
+      exec('curl -XDELETE ' + settings.couchurl + '/_replicator/' + row.id + '?rev=' + row.value.rev, puts)
     }
   })
 })
+
 
