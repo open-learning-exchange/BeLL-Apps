@@ -76,9 +76,8 @@ _.each(settings.databases, function(database) {
 // Push the Apps up to CouchDB
 exec('couchapp push ../app.js ' + settings.couchurl + '/apps', puts);
 
-// Create the "all" device for when devices want to get an App Cache file with all Resources
-exec('curl -XPUT ' + settings.couchurl + '/devices/_design/all -d "{}"', puts);
-exec('curl -XPUT ' + settings.couchurl + '/members/ce82280dc54a3e4beffd2d1efa00c4e6 -d \'{"login":"admin","kind":"Member", "roles": ["admin"], "firstName": "Default", "lastName": "Admin", "pass":"password", "status": "active"}\'', puts) 
+// Create default admin member
+exec('curl -XPUT ' + settings.couchurl + '/members/ce82280dc54a3e4beffd2d1efa00c4e6 -d \'{"login":"admin","kind":"Member", "roles": ["admin"], "firstName": "Default", "lastName": "Admin", "password":"password", "status": "active"}\'', puts) 
 
 if(program.mapfile) {
   console.log('installing using the map at %s', program.mapFile);
