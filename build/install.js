@@ -14,34 +14,37 @@ var replicatorInstaller = require('./includes/replicator-installer')
 function puts(error, stdout, stderr) { sys.puts(stdout) } 
 
 // Increase the ulimit so the entire directory of attachments can be uploaded
-exec('launchctl limit maxfiles 4056 4056', puts)
-exec('ulimit -n 4056')
+exec('launchctl limit maxfiles 10056 10056', puts)
+exec('ulimit -n 10056', puts)
 
 program
   .version('0.0.1')
-  .option('-m, --mapfile [mapFile]', '', './settings/bell.settings')
-  .option('-h, --hostname [hostname]', '', 'bell')
-  .option('-i, --ipaddress [ipAddress]', '', '127.0.0.1')
-  .option('-c, --couchUrl [couchUrl]', '', 'http://pi:raspberry@127.0.0.1:5984')
-  .option('-d, --dontchangehostname','','')
+  .option('-c, --couchurl [couchurl]', '', 'http://pi:raspberry@127.0.0.1:5984')
+  .option('-m, --mapfile [mapfile]', '', null)
+  .option('-h, --hostname [hostname]', '', null)
   .parse(process.argv);
 
-var settings = require(program.mapFile)
-console.log('installing using the map at %s', program.mapFile);
+var settings = {
+  databases: require('./config/databases')
+}
+
+if (program.mapfile) {
+  settings = require(program.mapfile)
+}
+
 // @todo Process the mapFile to get the map for this hostname
 // For now, the mapFiles are preprocessed
-settings.couchUrl = program.couchUrl
-settings.hostname = program.hostname
+settings.couchurl = program.couchurl
 
 
-if(!program.dontchangehostname) {
+if(program.hostname) {
   // Set settings.hostname in /etc/hosts and etc/hostname
   var fileName = '/etc/hosts'
-  fs.readFile(someFile, 'utf8', function (err,data) {
+  fs.readFile(fileName, 'utf8', function (err,data) {
     if (err) {
       return console.log(err);
     }
-    var result = data.replace(/raspberrypi/g, settings.hostname);
+    var result = data.replace(/raspberrypi/g, program.hostname);
 
     fs.writeFile(someFile, result, 'utf8', function (err) {
       if (err) return console.log(err);
@@ -51,7 +54,7 @@ if(!program.dontchangehostname) {
         if (err) {
           return console.log(err);
         }
-        var result = data.replace(/raspberrypi/g, settings.hostname);
+        var result = data.replace(/raspberrypi/g, program.hostname);
 
         fs.writeFile(someFile, result, 'utf8', function (err) {
           if (err) return console.log(err);
@@ -65,16 +68,19 @@ if(!program.dontchangehostname) {
 
 _.each(settings.databases, function(database) {
   // Install databases
-  request.put(settings.couchUrl + '/' + database)
+  request.put(settings.couchurl + '/' + database)
   // Install views in corresponding databases
-  exec('couchapp push ../views/' + database + '.js ' + settings.couchUrl + '/' + database, puts);
+  exec('couchapp push ../views/' + database + '.js ' + settings.couchurl + '/' + database, puts);
 })
 
 // Push the Apps up to CouchDB
-exec('couchapp push ../app.js ' + settings.couchUrl + '/apps', puts);
+exec('couchapp push ../app.js ' + settings.couchurl + '/apps', puts);
 
 // Create the "all" device for when devices want to get an App Cache file with all Resources
-exec('curl -XPUT ' + settings.couchUrl + '/devices/_design/all -d "{}"', puts);
-exec('curl -XPUT ' + settings.couchUrl + '/members/ce82280dc54a3e4beffd2d1efa00c4e6 -d \'{"login":"admin","kind":"Member", "roles": ["admin"], "firstName": "Default", "lastName": "Admin", "pass":"password"}\'') 
+exec('curl -XPUT ' + settings.couchurl + '/devices/_design/all -d "{}"', puts);
+exec('curl -XPUT ' + settings.couchurl + '/members/ce82280dc54a3e4beffd2d1efa00c4e6 -d \'{"login":"admin","kind":"Member", "roles": ["admin"], "firstName": "Default", "lastName": "Admin", "pass":"password", "status": "active"}\'', puts) 
 
-replicatorInstaller.start(settings)
+if(program.mapfile) {
+  console.log('installing using the map at %s', program.mapFile);
+  replicatorInstaller.start(settings)
+}

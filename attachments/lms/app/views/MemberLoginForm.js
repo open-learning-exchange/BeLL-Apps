@@ -29,35 +29,35 @@ $(function() {
       var credentials = this.form.model
       $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + credentials.get('login') + '"', function(response) {
       if(response.rows[0]){
-        if(response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
+        if(response.total_rows > 0 && response.rows[0].doc.pass == credentials.get('password')) {
           if(response.rows[0].doc.status == "active"){
-          $.cookie('Member.login', response.rows[0].doc.login)
-          $.cookie('Member._id', response.rows[0].doc._id)
-          
-          if ($.inArray('student', response.rows[0].doc.roles) != -1) {
-                  if(response.rows[0].doc.roles.length < 2){
-                        alert("You are not authorize to SignIn")
-                  }
-                  else{
-                     memberLoginForm.trigger('success:login')
-                  }
+            $.cookie('Member.login', response.rows[0].doc.login)
+            $.cookie('Member._id', response.rows[0].doc._id)
+            
+            if ($.inArray('student', response.rows[0].doc.roles) != -1) {
+              if(response.rows[0].doc.roles.length < 2){
+                    alert("You are not authorized to sign in")
+              }
+              else{
+                 memberLoginForm.trigger('success:login')
+              }
+            }
+            else {
+              memberLoginForm.trigger('success:login')
+            }
           }
-          else {
-            memberLoginForm.trigger('success:login')
+          else{
+            alert("Your account is deactivated")
           }
         }
-        else{
-          alert("Your account is deactivated")
-        }
-      }
         else {
           alert('Login or Pass incorrect.')
         }
       }
-        else {
-          alert('Login or Pass incorrect.')
-        }
-      });
+      else {
+        alert('Login or Pass incorrect.')
+      }
+    });
     },
 
 
