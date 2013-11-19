@@ -33,7 +33,7 @@ module.exports = {
   uploadDocs: function() {
     var that = this
     _.each(that.docs, function(doc) {
-      var cmd = 'curl -XPUT ' + that.settings.replicator.location + '/' + doc._id + ' -d \'' + JSON.stringify(doc) + '\'' 
+      var cmd = 'curl -XPUT ' + that.settings.couchurl + '/_replicator/' + doc._id + ' -d \'' + JSON.stringify(doc) + '\'' 
       console.log(cmd + ' \n')
       exec(cmd, puts) 
     })
@@ -41,7 +41,8 @@ module.exports = {
   start: function(settings) {
     this.settings = settings
     var that = this
-    _.each(this.settings.replicator.directions, function(direction) {
+    console.log(this.settings.directions)
+    _.each(this.settings.map, function(direction) {
       that.getDocsFromDirection(direction)
     })
     that.uploadDocs()

@@ -29,7 +29,7 @@ var settings = {
 }
 
 if (program.mapfile) {
-  settings = require(program.mapfile)
+  settings.map = require(program.mapfile)
 }
 
 // @todo Process the mapFile to get the map for this hostname
