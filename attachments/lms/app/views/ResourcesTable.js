@@ -11,8 +11,7 @@ $(function() {
     initialize: function(){
       //this.$el.append(_.template(this.template))
     },
-  
-   addOne: function(model){
+  addOne: function(model){
       var resourceRowView = new App.Views.ResourceRow({model: model})
       resourceRowView.render()  
       this.$el.append(resourceRowView.el)

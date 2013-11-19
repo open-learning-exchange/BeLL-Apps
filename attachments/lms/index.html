@@ -6,14 +6,16 @@
   <title>Bell LMS</title>
   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
+  <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
-  <link rel="stylesheet" href="vendor/spectrum.css"/>
+  
 
   <!--
     DEPENDENCIES
   -->
 
   <script src="vendor/jquery-1.7.2.js"></script>
+  <script src="vendor/spectrum.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
   <script src="vendor/backbone-1.0.0.js"></script>
   <script src="vendor/backbone-forms.js"></script>
@@ -28,7 +30,6 @@
   <script src="vendor/html-encode.js"></script>
   <script src="vendor/jquery.url.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
-  <script src="vendor/spectrum.js"></script>
   <script src="vendor/jquery.raty.js"></script>
 
   <!--
@@ -45,6 +46,9 @@
   <script src="app/models/Assignment.js"></script>
   <script src="app/models/Feedback.js"></script>
   <script src="app/models/App.js"></script>
+  <script src="app/models/Shelf.js"></script>
+  <script src="app/models/Invitation.js"></script>
+  <script src="app/models/InviFormModel.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
@@ -54,6 +58,8 @@
   <script src="app/collections/GroupAssignmentsByDate.js"></script>
   <script src="app/collections/AssignmentsByDate.js"></script>
   <script src="app/collections/ResourceFeedback.js"></script>
+  <script src="app/collections/SearchResource.js"></script>
+  
 
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -63,6 +69,7 @@
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/MembersTable.js"></script>
   <script src="app/views/ResourceForm.js"></script>
+  <script src="app/views/InvitationForm.js"></script>
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ResourcesTable.js"></script>
   <script src="app/views/FeedbackTable.js"></script>
@@ -71,7 +78,92 @@
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
+  
+  <!-- LMS SEARCH -->
+  <script src="app/views/Search.js"></script>
+  <script src="app/views/SearchSpan.js"></script>
+  <script src="app/views/SearchSpans.js"></script>
 
+  
+  <!-- ALL Code Regarding the Search Function -->
+  <script>
+  var searchText = "";
+  var skip = 0;    //Variable used to skip the number of records been fetched before.
+  var enablenext=0;
+  var searchRecordsPerPage = 2;
+  var limitofRecords = 5;
+  var skipStack = new Array()
+  var lastpage = false
+  var grpId;
+  function selectAllSearchResult()
+  {
+      $("input[name='result']").each( function () {
+		$(this).prop('checked', true);
+      })
+  }
+  function showSearchView()
+  {
+     App.Router.SearchBell(grpId);
+  }
+  function searchResources()
+  {
+      skip = 0;
+      popAll();
+      lastpage = false;
+      App.Router.SearchResult();
+      $('#previous_button').remove()
+      $('#searchText').focus();
+      $("#searchText").val(searchText)
+  }
+  function popAll()
+  {
+      while(skipStack.length > 0 )
+      {
+            skipStack.pop();        
+      }
+  }
+  function nextPageButtonPressed()
+  {
+      App.Router.SearchResult();
+      $("#searchText").val(searchText);
+  }
+  function previousPageButtonPressed(){
+      if(skipStack.length > 1){
+          skipStack.pop();
+          skip = skipStack.pop();
+          App.Router.SearchResult();
+          $("#searchText").val(searchText);
+        }
+        else{
+             $('#previous_button').remove()
+        }
+  }
+
+  function onFocus(obj) { 
+    var end = obj.value.length; 
+    if(obj.setSelectionRange) 
+    obj.setSelectionRange(end, end); 
+  }
+    function showSubjectCheckBoxes()
+  {
+        var subjects = ['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)'];
+  	var length = subjects.length;
+  	var htmlString = "<h4>Subject</h4>" ; 
+  	for(var i=0 ; i<length ; i++)
+  	{
+  		htmlString = htmlString + '<input id="subject' + (i+1) + '" type="checkbox" name="subject" value="' + subjects[i] +'">' ;   
+        htmlString = htmlString + '<label for="subject' + (i+1) + '">' + subjects[i] + '</label>' ;  
+        htmlString = htmlString + '<br>' ; 
+  	}
+  	$("#SubjectCheckboxes").html(htmlString);
+ 
+  }
+
+</script>
+  
+  
+  
+  
   <!-- 
     Templates 
   -->
@@ -243,15 +335,17 @@
   <script type="text/html" id="template-AssignWeekOfResourcesToGroupTable">
     <div class="AssignWeekOfResourcesToGroupTable-header">
       <h1> 
-        Select resources to assign to <%= groupName %>
+      Resources assign to <%= groupName %>
+     <!--   Select resources to assign to <%= groupName %> -->
       </h1>
-      <h3>
-         <a href="#course/assignments/week-of/<%= groupId %>/<%= priorWeekOf %>"><-- Prior week</a> | Week of <%= weekOf %> | <a href="#course/assignments/week-of/<%= groupId %>/<%= nextWeekOf %>"> Next week --></a>
-      </h3> 
+    <!--  <h3>
+         <a href="#course/assignments/week-of/<%= groupId %>/<%= priorWeekOf %>"><-- Prior week</a> | Week of <%= weekOf %> | <a href="#course/assignments/week-of/<%= groupId %>/<%= nextWeekOf %>"> Next week -></a>
+      </h3> -->
     </div>
     <table class="table table-striped">
       <!-- Resources -->
     </table>
+    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell/<%= groupId %>'">Add new resources</button>
   </script>
 
   <script type="text/html" id="template-AssignResourcesToGroupTable">
@@ -264,7 +358,9 @@
 
   <script type="text/html" id="template-AssignResourceToGroupRow">
     <td>
+    <%if(resource.title){ %>
       <%= resource.title %>
+    <%}%>
     </td>
     <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resource._id %>' target="_blank">
@@ -312,7 +408,11 @@
         <i class="icon-edit"></i> Edit
       </a>
     </td>    
-
+    <td>
+      <a class="btn" href="#resource/invite/<%= _id %>/<%= name %>/<%= kind %>">
+        <i class="icon-comment"></i> Invite
+      </a>
+    </td>
     <td>
       <a class='destroy btn' href='#'>
         <i class='icon-remove'></i> Delete
@@ -337,13 +437,22 @@
         <i class='icon-remove'></i> Delete
       </a>
     </td>
-
+   <% if(status == "active"){%>
+    <td>
+      <a class='btn btn-danger' id="deactive" href='#'>Resign</a>
+    </td>
+   <%} else {%>
+    <td>
+      <a class='btn btn-success' id="active" href='#'>Reinstate</a>
+    </td>
+   <% } %>
   </script>
 
 
   <script type="text/html" id="template-ResourceRow">
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
     <td>
-      <%= title %>
+        <%= title %>
     </td> 
     <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
@@ -370,12 +479,103 @@
         <i class='icon-remove'></i> Delete
       </a>
     </td>
+  <% } %>
   </script>
   
   <script type="text/html" id="template-rateResource">
         <div id="star" >
         </div>
   </script>
+
+<!--LMS SEARCH APP-->
+<script type="text/html" id="template-Search">
+<div id="search">
+<div class="row">
+    <div class="col-lg-5">
+        <div class="form-group search-Box">
+           <h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>
+            <span><button class="btn btn-info" onclick = "searchResources()">Search</button></span></h4>
+        </div>
+        <br/>
+     <div class="checkbox">  
+        <h4>Tag</h4>
+        <input id="check1" type="checkbox" name="tag" value="News">  
+        <label for="check1">News</label>  
+        <br>  
+        <input id="check2" type="checkbox" name="tag" value="Fiction">  
+        <label for="check2">Fiction</label> 
+         <br>  
+        <input id="check3" type="checkbox" name="tag" value="Non Fiction">  
+        <label for="check3">Non Fiction</label>  
+    </div>
+       <div class="checkbox-subject" id="SubjectCheckboxes">  
+     <!--   <script>
+        	//showSubjectCheckBoxes();
+        </script> -->
+    <!--    <input id="subject1" type="checkbox" name="subject" value="News">  
+
+        <label for="subject1">News</label>  
+        <br>  
+        <input id="subject2" type="checkbox" name="subject" value="Fiction">  
+        <label for="subject2">Fiction</label> 
+         <br>  
+        <input id="subject3" type="checkbox" name="subject" value="Non-Fiction">  
+        <label for="subject3">Non Fiction</label>  -->
+    </div>
+    <br/>
+   <!-- <div class="checkbox-length">  
+        <h4>Length</h4>
+        <input id="pbook" type="checkbox" name="length" value="Picture-Book">  
+        <label for="pbook">Picture Books</label>  
+        <br>  
+        <input id="cbook1" type="checkbox" name="length" value="Chapter-Book-Short">  
+        <label for="cbook1">Chapter Books (Short)</label> 
+         <br>  
+        <input id="cbook2" type="checkbox" name="length" value="Chapter-Book-Long">  
+        <label for="cbook2">Chapter Books (Long)</label>  
+    </div>  -->
+    </div>
+</div>
+<div class="search-result-header">
+    <h3 class="search-result-h3">Search Results</h3>
+    <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
+</div>
+<br>
+       <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+<br/><br/>
+    <table id="srch"> 
+    </table>
+<div id="not-found" style="color:red; margin-left:34%; font-size:20px;"></div>
+</div>
+		    <div class="search-bottom-nav">
+                    <br/>
+                    <table class="search-bottom-nav-table">
+                       <tr>
+                          <td class="previous-button-container">
+                               <button class="btn btn-hg btn-primary" id="previous_button" onclick = "previousPageButtonPressed()"><  Previous</button>
+                          </td>  
+                          <td class="next-button-container">
+                               <button class="btn btn-hg btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next  ></button>
+ 
+                          </td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                    <button class="btn btn-hg btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>
+                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-course'">Send to My Course List</button>
+                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#courses'">Home</button>
+                    </div>
+</script>
+
+<script type="text/html" id="template-Search-box">
+    <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
+    	<label for="<%= _id %>">
+    		<font class="search-result-title" ><%= title %></font>
+    		-<%= description %>&nbsp;by&nbsp;<%= author %>
+    	</label></td><td><%= Tag %></td>
+</script>
+
 
 </head>
 

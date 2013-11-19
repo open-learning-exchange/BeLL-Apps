@@ -3,26 +3,55 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      ''                           : 'Dashboard', 
-      'dashboard'                  : 'Dashboard',
-      'login'                      : 'MemberLogin',
-      'logout'                     : 'MemberLogout',
-      'courses'                      : 'Groups',
-      'my-courses'                      : 'MemberGroups',
-      'course/edit/:groupId'         : 'GroupForm',
-      'course/assign/:groupId'       : 'GroupAssignments', // @todo delete and change refs to it
-      'course/assignments/:groupId'  : 'GroupAssignments',
-      'course/link/:groupId'         : 'GroupLink',
-      'update-assignments'         : 'UpdateAssignments',
+      ''                              : 'Dashboard', 
+      'dashboard'                     : 'Dashboard',
+      'login'                         : 'MemberLogin',
+      'logout'                        : 'MemberLogout',
+      'courses'                       : 'Groups',
+      'my-courses'                    : 'MemberGroups',
+      'course/edit/:groupId'          : 'GroupForm',
+      'course/assign/:groupId'        : 'GroupAssignments', // @todo delete and change refs to it
+      'course/assignments/:groupId'   : 'GroupAssignments',
+      'course/link/:groupId'          : 'GroupLink',
+      'update-assignments'            : 'UpdateAssignments',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
       'newsfeed'                      : 'NewsFeed',
       'newsfeed/:authorTitle'         : 'Article_List',
-      'search-bell'					  : 'SearchBell',
-      'search-result'				:'SearchResult',
-'member/add'                  : 'MemberForm'
+      'search-bell'		      : 'SearchBell',
+      'search-result'		      :'SearchResult',
+      'member/add'                    : 'MemberForm',
+      'addResource/:rid/:title/:revid'                  : 'AddResourceToShelf',
+      'resource/detail/:rsrcid/:shelfid/:revid'         :  'Resource_Detail', //When Item is Selected from the shelf 
+      'calendar'                      : 'CalendarFunction',
+      'calendar/:eid'                 : 'calendaar',
+      'addEvent'		      : 'addEvent',
+      'member/edit/:mid'              : 'MemberForm',
+      'notifications'                     : 'notifications',
+      '*nomatch'                      : 'errornotfound',  
     },
- MemberForm: function(memberId) {
-      this.modelForm('Member', 'Member', memberId, 'members')
+    errornotfound: function()
+    {
+        alert("no route matching")
+    },
+    
+    
+    
+    
+    notifications: function(){
+    	App.$el.children('.body').html('&nbsp')
+    	App.$el.children('.body').html('<h3>Notifications<h3>')
+	invits = new App.Collections.Invitations()
+        invits.fetch({success: function() {
+      	console.log(invits.length.toString())
+          $('#olelogo').remove();
+          invitsTable = new App.Views.NotificationTable({collection: invits})
+          invitsTable.render()
+          App.$el.children('.body').append(invitsTable.el) 
+	}})
+    },
+    
+    MemberForm: function(memberId) {
+      this.modelForm('Member', 'Member', memberId, 'login')
     },
 
     modelForm : function(className, label, modelId, reroute) {
@@ -32,7 +61,7 @@ $(function() {
 
       // Bind form to the DOM
       if (modelId) {
-        App.$el.children('.body').html('<h3>Edit this ' + label + '</h3>')
+        App.$el.children('.body').html('<h3>Update Profile </h3>')
       }
       else {
         App.$el.children('.body').html('<h3 class="signup-heading">Become a ' + label + '</h3>')
@@ -47,7 +76,7 @@ $(function() {
         }) 
         // Set up the form
         modelForm.render()
- $('#olelogo').remove()
+        $('#olelogo').remove()
       })
 
       // Set up the model for the form
@@ -56,24 +85,29 @@ $(function() {
         model.once('sync', function() {
           model.trigger('Model:ready')
         }) 
-        model.fetch()
-      }
+        model.fetch({async:false})
+    }
       else {
         model.trigger('Model:ready')
       }
     },
 
 
-    SearchResult : function(){
-      
+    SearchResult : function(text){
       skipStack.push(skip)
-      searchText = $("#searchText").val()
+      if(text){
+          searchText = text
+      }
+      else{
+        searchText = $("#searchText").val()
+      }
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
       search.render()
       $("#searchText").val(searchText)
       $('#olelogo').remove()
+       App.badge()
   },
   
   SearchBell: function() {
@@ -82,18 +116,34 @@ $(function() {
       App.$el.children('.body').html(search.el)
       search.render()
       $('#olelogo').remove()
+       App.badge()
     },
     Dashboard: function() {
-      $('ul.nav').html($("#template-nav-logged-in").html())
+    App.badge()
+      $('ul.nav').html($("#template-nav-logged-in").html())       
       var dashboard = new App.Views.Dashboard()
       App.$el.children('.body').html(dashboard.el)
       dashboard.render()
       $('#olelogo').remove()
+
     },
 
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
+        App.ShelfItems = {} // Resetting the Array Here http://stackoverflow.com/questions/1999781/javascript-remove-all-object-elements-of-an-associative-array
+        $.ajax({
+              type: 'GET',
+              url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',
+              dataType: 'json',
+              success: function(response) {
+                  for(var i=0;i<response.rows.length;i++){
+                         App.ShelfItems[response.rows[i].doc.resourceId] = [response.rows[i].doc.resourceTitle+"+"+response.rows[i].doc._id] 
+                  } 
+              },
+              data: {},
+              async: false
+        });
         Backbone.history.navigate('dashboard', {trigger: true})
         return
       }
@@ -113,6 +163,7 @@ $(function() {
     },
 
     MemberLogout: function() {
+      App.ShelfItems = {}
       $.removeCookie('Member.login')
       $.removeCookie('Member._id')
       Backbone.history.navigate('login', {trigger: true})
@@ -151,7 +202,8 @@ $(function() {
         var groupAssignments = new App.Collections.GroupAssignments({group: group})
         groupAssignments.groupId = groupId
         var groupAssignmentsTable = new App.Views.GroupAssignmentsTable({collection: groupAssignments})
-        App.$el.children('.body').html(groupAssignmentsTable.el)
+        App.$el.children('.body').html('&nbsp')
+        App.$el.children('.body').append(groupAssignmentsTable.el)
         groupAssignmentsTable.vars.groupName = group.get('name')
         groupAssignmentsTable.render()
         groupAssignments.fetch()
@@ -182,7 +234,82 @@ $(function() {
                    App.$el.children('.body').html(articleTableView.el)
          }})
     },
+    AddResourceToShelf : function (rid,title,revid){
+            var shelfItem=new App.Models.Shelf()
+            shelfItem.set('memberId',$.cookie('Member._id'))
+            shelfItem.set('resourceId',rid)
+            shelfItem.set('resourceTitle',title)
+             //Adding the Selected Resource to the Shelf Hash(Dictionary)
+            shelfItem.save(null, {
+            success: function(model,response,options) {
+                 App.ShelfItems[rid] = [title+"+"+response.id+"+"+response.rev]
+             }
+          });
+            //App.ShelfItems[rid] = [title]
+            skip = skipStack.pop()    // To Render on the same page poping the staring index of  current page values to display
+            App.Router.SearchResult(searchText)
+    },
+    Resource_Detail : function(rsrcid,sid,revid){
+        var resource = new App.Models.Resource()
+        resource.SetRid(rsrcid)
+        resource.fetch({success: function() {
+                var resourceDetail = new App.Views.ResourcesDetail({model:resource})
+                resourceDetail.SetShelfId(sid,revid)
+                resourceDetail.render()
+                App.$el.children('.body').html(resourceDetail.el)
+        }})
     
+    },
+  //Calendar Methods  
+  addEvent: function(){
+	var model = new App.Models.Calendar()
+        var modelForm = new App.Views.CalendarForm({model: model})
+	App.$el.children('.body').html('<h3 class="signup-heading">Add Event</h3>')
+	App.$el.children('.body').append(modelForm.el)
+	    modelForm.render()
+  },
+  calendaar: function(eventId){
+	App.$el.children('.body').html('<h5>Event Details</h5>')
+	var cmodel = new App.Models.Calendar({_id : eventId})
+	cmodel.fetch({async:false})
+	console.log(cmodel)
+	App.$el.children('.body').append('<br/><b>Title: </b>'+cmodel.attributes.title)
+	App.$el.children('.body').append('<br/><b>Description: </b>'+cmodel.attributes.description)
+	App.$el.children('.body').append('<br/><b>Starting from: </b>'+new Date(cmodel.attributes.start))
+	App.$el.children('.body').append('<br/><b>Ending at: </b>'+new Date(cmodel.attributes.end))
+  },
+  CalendarFunction: function(){
+       App.$el.children('.body').html("<div id='calendar'><div id='addEvent' class='btn btn-bg btn-success' onclick =\"document.location.href='#addEvent'\">Add Event</div></div>")
+        $(document).ready(function() {
+                 var temp2 = []
+		 var allEvents=new App.Collections.Calendars()
+		 allEvents.fetch({async:false})
+		 allEvents.each(function(evnt){
+			var temp=new Object()
+			temp.title=evnt.attributes.title
+			temp.start=evnt.attributes.start
+			temp.end=evnt.attributes.end
+			temp.url="calendar/"+evnt.id
+			temp.allDay=false
+			console.log(evnt)
+			temp2.push(temp)	
+			});
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+		selectable: true,
+		eventClick: function(event) {
+			Backbone.history.navigate(event.url,{trigger :true})
+			return false
+		 },	
+		events: temp2,
+		});
+
+      });
+},
     /*
      * Syncing pages
      * 
@@ -238,8 +365,15 @@ $(function() {
         Backbone.history.navigate('dashboard', {trigger: true})
       })
       var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
+      var user_rating 
       feedbackForm.render()
       App.$el.children('.body').html('<h1>Add Feedback</h1>')
+      App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
+      App.$el.children('.body').append('<div id="star" data-score="0"></div>')
+      $('#star').raty()
+       $("#star > img").click(function(){
+          feedbackForm.setUserRating($(this).attr("alt"))
+      });
       App.$el.children('.body').append(feedbackForm.el)
     }
 

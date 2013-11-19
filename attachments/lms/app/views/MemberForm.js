@@ -13,6 +13,7 @@ $(function() {
       // create the form
       this.form = new Backbone.Form({ model: this.model })
       this.$el.append(this.form.render().el)
+      this.form.fields['status'].$el.hide()
       // give the form a submit button
       var $button = $('<a class="btn" id="formButton">save</button>')
       this.$el.append($button)
@@ -29,6 +30,7 @@ $(function() {
         that.trigger('MemberForm:done')
       })
       // Put the form's input into the model in memory
+      this.form.setValue({status:"active"})
       this.form.commit()
       // Send the updated model to the server
       this.model.save()

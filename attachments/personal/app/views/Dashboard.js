@@ -17,6 +17,10 @@ $(function() {
         // dashboard.$el.children('.groups').append(groupsDiv.el)
         $('#cc').append(groupsSpans.el)
       }})
+       
+        shelfSpans= new App.Views.ShelfSpans()
+        shelfSpans.render()
+        
       //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
       // Time
       $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
@@ -24,7 +28,7 @@ $(function() {
       var member = new App.Models.Member()
       member.id = $.cookie('Member._id')
       member.on('sync', function() {
-        $('.name').html(member.get('firstName') + ' ' + member.get('lastName'))
+        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'">[Edit]</a>')
       })
       member.fetch()
 

@@ -11,9 +11,11 @@ $(function() {
       var i 
       for(i = 0 ; i< results.rows.length ; i++)
       {   
-        if(results.rows[i].doc.members.indexOf(memberId) != -1) {
+         if(results.rows[i].doc.members){
+         if(results.rows[i].doc.members.indexOf(memberId) != -1) {
           m.push(results.rows[i].doc)
         }
+      }
       }
       return m
     },

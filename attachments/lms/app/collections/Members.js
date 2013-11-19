@@ -5,6 +5,7 @@ $(function() {
     url: App.Server + '/members/_design/bell/_view/Members?include_docs=true',
 
     parse: function(response) {
+      console.log(response)
       var docs = _.map(response.rows, function(row) {
         return row.doc
       })

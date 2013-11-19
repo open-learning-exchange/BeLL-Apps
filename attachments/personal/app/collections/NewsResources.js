@@ -7,7 +7,7 @@ $(function() {
   model: App.Models.Resource,
 
    url: function() {
-      return App.Server + '/resources/_all_docs?include_docs=true'
+      return App.Server + '/resources/_design/bell/_view/NewsResources?include_docs=true&key="News"'
     },
    
    parse: function(response) {

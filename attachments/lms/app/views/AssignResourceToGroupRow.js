@@ -29,10 +29,7 @@ $(function() {
           context: this.assignment.get('context')
         })
         // When the assignment is deleted, tell the view and rerender
-        this.assignment.on('destroy', function() {
-          that.assignment = newPotentialAssignment
-          that.render()
-        })
+        this.assignment.on('destroy', this.remove, this)
         this.assignment.destroy()
       },
 

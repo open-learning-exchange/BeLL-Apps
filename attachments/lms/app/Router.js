@@ -9,6 +9,7 @@ $(function() {
       'resource/add'                : 'ResourceForm',
       'resource/edit/:resourceId'   : 'ResourceForm',
       'resource/feedback/:resourceId'      : 'ResourceFeedback',
+      'resource/invite/:resourceId/:name/:kind'      : 'ResourceInvitation',
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
       'courses'                       : 'Groups',
       'course/edit/:groupId'          : 'GroupForm',
@@ -22,6 +23,11 @@ $(function() {
       'member/edit/:memberId'       : 'MemberForm',
       'compile/week'                : 'CompileManifestForWeeksAssignments',
       'compile'                     : 'CompileManifest',
+      'search-bell'		    : 'SearchBell',
+      'search-bell/:groupId'	    : 'SearchBell',
+      'search-result'		    :'SearchResult',
+      'assign-to-course'	    :'AssignResourcetoCourse',
+      'assign-to-shelf'		    :'AssignResourcetoShelf'
     },
 
     MemberLogin: function() {
@@ -33,14 +39,14 @@ $(function() {
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
-        $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        $('ul.nav').html($("#template-nav-logged-in").html())
         Backbone.history.navigate('courses', {trigger: true})
       })
       memberLoginForm.render()
       App.$el.children('.body').html('<h1>Member login</h1>')
       App.$el.children('.body').append(memberLoginForm.el)
-      // Override the menu
-      $('#itemsinnavbar').html($('#template-nav-log-in').html())
+      //Override the menu
+      $('ul.nav').html($('#template-nav-log-in').html())
     },
 
     MemberLogout: function() {
@@ -105,8 +111,8 @@ $(function() {
       var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
       var user_rating 
       feedbackForm.render()
-	  App.$el.children('.body').html('<div class="asd">')
-	  App.$el.children('.body').append('<h1>Add Feedback</h1>')
+     
+      App.$el.children('.body').html('<h1>Add Feedback</h1>')
       App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
       App.$el.children('.body').append('<div id="star" data-score="0"></div>')
       $('#star').raty()
@@ -115,11 +121,20 @@ $(function() {
       });
 
       App.$el.children('.body').append(feedbackForm.el)
-    
-	
-},
+   },
+  
+    ResourceInvitation: function(resourceId,name,kind) {
+      var inviteModel = new App.Models.InviFormModel()
+      var inviteForm = new App.Views.InvitationForm({model: inviteModel})
+      inviteForm.SetParams(name,resourceId,kind, $.cookie('Member._id') )
+      console.log(inviteForm)
+      inviteForm.render()
+      App.$el.children('.body').html('<h1>Send Invitation</h1>')
+      App.$el.children('.body').append(inviteForm.el)
+    },
 
     Groups: function() {
+      $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       groups = new App.Collections.Groups()
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
@@ -227,7 +242,123 @@ $(function() {
       table.resources.fetch()
     },
 
+    // Search Module Router Version 1.0.0
+    
+    AssignResourcetoShelf : function()
+    {
+       if(typeof grpId === 'undefined'){
+          document.location.href='#courses'
+          return
+         }
 
+        // Interating through all the selected courses
+        $("input[name='result']").each( function () {
+	  if ($(this).is(":checked"))
+	    {
+  	      var rId = $(this).val();
+  	      var title = $(this).attr('rTitle')
+  	      var shelfItem=new App.Models.Shelf()
+              shelfItem.set('memberId',$.cookie('Member._id'))
+              shelfItem.set('resourceId',rId)
+              shelfItem.set('resourceTitle',title)
+              //Adding the Selected Resource to the Shelf Hash(Dictionary)
+              shelfItem.save(null, {
+            	  success: function(model,response,options) {}
+              });
+	    }
+	});
+    	document.location.href='#course/assignments/week-of/' + grpId 
+    },
+    
+    
+    AssignResourcetoCourse : function()
+    {
+       if(typeof grpId === 'undefined'){
+            document.location.href='#courses'
+        }
+        var sDate = moment().subtract('days', (moment().format('d'))).format("YYYY-MM-DD")
+    	var eDate = moment(sDate).add('days', 7).format('YYYY-MM-DD')
+    	$("input[name='result']").each( function () {
+          if ($(this).is(":checked"))
+	      {
+  		var rId = $(this).val();
+  		var assignment = new App.Models.Assignment({
+          	startDate: sDate,
+          	endDate: eDate,
+          	resourceId: rId,
+          	kind: "Assignment",
+          	context: {
+            	    groupId: grpId
+          	  }
+       		})
+       		assignment.save()
+	      }
+	});
+    	document.location.href='#course/assignments/week-of/' + grpId 
+    },
+      
+  SearchResult : function(text){
+        if(typeof grpId === 'undefined'){
+   	   document.location.href='#courses'
+ 	}
+
+        skipStack.push(skip)
+        if(text){
+            searchText = text
+        }
+        else{
+            searchText = $("#searchText").val()
+         }
+         var tagFilter = new Array()
+         var subjectFilter = new Array()
+         var k = 0
+
+         $("input[name='tag']").each( function () {
+	  if ($(this).is(":checked")){
+	      tagFilter[k] = $(this).val();
+   	      k++;
+	   }
+     	 })
+     	 k = 0
+     	 $("input[name='subject']").each( function () {
+	 if ($(this).is(":checked")){
+	        subjectFilter[k] = $(this).val();
+   	        k++;
+	     }
+     	 })
+
+        $('ul.nav').html($("#template-nav-logged-in").html())
+        var search = new App.Views.Search()
+        search.tagFilter = tagFilter
+        search.subjectFilter = subjectFilter
+        App.$el.children('.body').html(search.el)
+        search.render()
+        $("#searchText2").val(searchText)
+        $( "#srch" ).show()
+        $( ".row" ).hide()
+        $( ".search-bottom-nav" ).show()
+        $(".search-result-header").show()
+        $("#selectAllButton").show()
+
+   },
+  
+  SearchBell: function(groupId) {
+  	
+       if(typeof groupId === 'undefined'){
+   		document.location.href='#courses'
+ 	}
+      grpId = groupId
+      $('ul.nav').html($("#template-nav-logged-in").html())
+      var search = new App.Views.Search()
+      App.$el.children('.body').html(search.el)
+      search.render()
+      $( "#srch" ).hide()
+      $( ".search-bottom-nav" ).hide()
+      $(".search-result-header").hide()
+      $("#selectAllButton").hide()
+      showSubjectCheckBoxes()
+
+  },
     CompileManifestForWeeksAssignments: function(weekOf) {
 
       // 

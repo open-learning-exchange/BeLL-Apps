@@ -64,12 +64,15 @@ enablenext=0
       var foundCount 
 	 if(searchText!=""){
 	   _.each(resourceArray, function(result) {
+		if(result.get("title") != null ){
 		 skip++
 		 console.log( skip+' '+result.get("title"))
 		if(result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >=0 )
 		{
+			  
 			  if(resultArray.length < searchRecordsPerPage)
 				{
+				
 				     resultArray.push(result)
 			   }
 			else{
@@ -82,7 +85,9 @@ enablenext=0
 			    skip--
 			
 	 	}
-	     })
+	     }
+	 })
+	   
 	 }
 	 return resultArray
      }
