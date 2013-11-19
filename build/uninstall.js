@@ -20,8 +20,7 @@ exec('ulimit -n 10056', puts)
 program
   .version('0.0.1')
   .option('-c, --couchurl [couchurl]', '', 'http://pi:raspberry@127.0.0.1:5984')
-  .option('-m, --mapfile [mapfile]', '', null)
-  .option('-h, --hostname [hostname]', '', null)
+  .option('-a, --deletealldatabases', '', null)
   .parse(process.argv);
 
 var settings = {
@@ -30,9 +29,20 @@ var settings = {
 }
 console.log(settings)
 
-settings.databases.forEach(function(database) {
-  exec('curl -XDELETE ' + settings.couchurl + '/' + database, puts)
-})
+if (!program.deletealldatabases) {
+  settings.databases.forEach(function(database) {
+    exec('curl -XDELETE ' + settings.couchurl + '/' + database, puts)
+  })
+}
+else {
+  request.get({uri: settings.couchurl + '/_all_dbs', json: true}, function(error, response, body) {
+    body.forEach(function(db) {
+      if(db != "_replicator" && db != "_users") {
+        exec('curl -XDELETE ' + settings.couchurl + '/' + db, puts)
+      }
+    })
+  })
+}
 
 var uri = settings.couchurl + '/_replicator/_all_docs'
 request.get({uri: uri, json: true}, function(error, response, body) {
