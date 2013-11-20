@@ -27,9 +27,14 @@ $(function() {
       'search-bell/:groupId'	    : 'SearchBell',
       'search-result'		    :'SearchResult',
       'assign-to-course'	    :'AssignResourcetoCourse',
-      'assign-to-shelf'		    :'AssignResourcetoShelf'
+      'assign-to-shelf'		    :'AssignResourcetoShelf',
+      'create-quiz'				:'CreateQuiz'
     },
-
+	CreateQuiz: function(){
+		 var quiz = new App.Views.QuizView()
+      	App.$el.children('.body').html(quiz.el)
+      	quiz.render()
+	},
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
