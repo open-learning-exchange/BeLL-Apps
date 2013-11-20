@@ -10,6 +10,15 @@ $(function() {
     },
   render: function() {
       // create the form
+      console.log(this.model)
+      var member = this.model
+ 
+      var attchmentURL = '/members/' + member.id + '/' 
+      if(typeof member.get('_attachments') !== 'undefined'){
+   			attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
+ 	}
+       
+     // alert(attchmentURL)
       this.form = new Backbone.Form({ model: this.model })
       var buttonText=""
       if(this.model.id!=undefined){
@@ -21,9 +30,11 @@ $(function() {
       // give the form a submit button
       this.form.fields['status'].$el.hide()
       var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">'+buttonText+'</button></div>')
+     // var $memberImage = $('<img src="attchmentURL" /> ')
       var $upload=$(' <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" /> <input class="rev" type="hidden" name="_rev"></form>')
       this.$el.append($upload)
       this.$el.append($button)
+    //  this.$el.append($memberImage)
     },
 
 
@@ -88,8 +99,28 @@ setForm: function() {
 	if(this.form.validate()==null&&this.validImageTypeCheck($('input[type="file"]'))){
 		if(this.serverSideValidityCheck(userChoice,existing,this.model.id)){
 			    this.form.setValue({status:"active"})
-			    this.form.commit()				// Put the form's input into the model in memory
-			    this.model.save()				// Send the updated model to the server
+			   // this.form.commit()				// Put the form's input into the model in memory
+			    
+			    // Send the updated model to the server
+			    this.model.save(null, {success: function() {
+			    	
+                that.model.unset('_attachments')
+                if($('input[type="file"]').val()) 
+                {
+                	alert($('input[type="file"]').val())
+                  	that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+                }
+                else 
+                {
+                  that.model.trigger('processed')
+                }
+                	that.model.on('savedAttachment', function() {
+                    	this.trigger('processed')
+                    	$('#progressImage').hide();
+                	}, that.model)
+			    }})
+                
+                				
 			    if(this.model.attributes._rev==undefined){
 					alert("Successfully Registered!!!")
 					 Backbone.history.navigate('login', {trigger: true})

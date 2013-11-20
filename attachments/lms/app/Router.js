@@ -244,6 +244,11 @@ $(function() {
     
     AssignResourcetoShelf : function()
     {
+    	if(typeof grpId === 'undefined'){
+ 
+   			document.location.href='#courses'
+   			return
+ 		}
     	// Interating through all the selected courses
         $("input[name='result']").each( function () {
 	  if ($(this).is(":checked"))
@@ -260,12 +265,15 @@ $(function() {
               });
 	    }
 	});
-    	document.location.href='#course/assignments/week-of/' + grpId 
+    	document.location.href='#course/assignments/week-of/' + grpId
     },
     
     
     AssignResourcetoCourse : function()
     {
+    	if(typeof grpId === 'undefined'){
+   			document.location.href='#courses'
+ 		}
     	var sDate = moment().subtract('days', (moment().format('d'))).format("YYYY-MM-DD")
     	var eDate = moment(sDate).add('days', 7).format('YYYY-MM-DD')
     	$("input[name='result']").each( function () {
@@ -289,6 +297,9 @@ $(function() {
       
   SearchResult : function(text){
         
+        if(typeof grpId === 'undefined'){
+   			document.location.href='#courses'
+ 		}
         skipStack.push(skip)
         if(text){
             searchText = text
@@ -296,17 +307,26 @@ $(function() {
         else{
             searchText = $("#searchText").val()
          }
-         var tagFilter = new Array();
-         var k = 0;
+         var tagFilter = new Array()
+         var subjectFilter = new Array()
+         var k = 0
          $("input[name='tag']").each( function () {
-	 if ($(this).is(":checked")){
-	     tagFilter[k] = $(this).val();
-   	     k++;
-	 }
-      })
+	 		if ($(this).is(":checked")){
+	     		tagFilter[k] = $(this).val();
+   	     		k++;
+	 		}
+     	 })
+     	 k = 0
+     	 $("input[name='subject']").each( function () {
+	 		if ($(this).is(":checked")){
+	     		subjectFilter[k] = $(this).val();
+   	     		k++;
+	 		}
+     	 })
         $('ul.nav').html($("#template-nav-logged-in").html())
         var search = new App.Views.Search()
         search.tagFilter = tagFilter
+        search.subjectFilter = subjectFilter
         App.$el.children('.body').html(search.el)
         search.render()
         $("#searchText2").val(searchText)
@@ -314,11 +334,15 @@ $(function() {
         $( ".row" ).hide()
         $( ".search-bottom-nav" ).show()
         $(".search-result-header").show()
+        $("#selectAllButton").show()
    },
   
   SearchBell: function(groupId) {
   	
-      grpId = groupId
+      if(typeof groupId === 'undefined'){
+   		document.location.href='#courses'
+ 	}
+  	  grpId = groupId
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
@@ -326,6 +350,8 @@ $(function() {
       $( "#srch" ).hide()
       $( ".search-bottom-nav" ).hide()
       $(".search-result-header").hide()
+      $("#selectAllButton").hide()
+      showSubjectCheckBoxes()
   },
     CompileManifestForWeeksAssignments: function(weekOf) {
 
