@@ -77,10 +77,14 @@
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
+<<<<<<< HEAD
   <!-- Level Views -->
   <script src="app/views/LevelsTable.js"></script>
   <script src="app/views/LevelRow.js"></script>
   
+=======
+  <script src="app/views/QuizView.js"></script>
+>>>>>>> 90c3fde06339d96b463a5c98064013e6e8336252
   <!-- LMS SEARCH -->
   <script src="app/views/Search.js"></script>
   <script src="app/views/SearchSpan.js"></script>
@@ -94,8 +98,8 @@
   var enablenext=0;
   var searchRecordsPerPage = 2;
   var limitofRecords = 5;
-  var skipStack = new Array()
-  var lastpage = false
+  var skipStack = new Array();
+  var lastpage = false;
   var grpId;
   function selectAllSearchResult()
   {
@@ -161,7 +165,7 @@
   	$("#SubjectCheckboxes").html(htmlString);
  
   }
-</script>
+  </script>
   
   
   
@@ -348,6 +352,7 @@
       <!-- Resources -->
     </table>
     <button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell/<%= groupId %>'">Add new resources</button>
+    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#create-quiz'">Create Quiz</button>
   </script>
 
   <script type="text/html" id="template-AssignResourcesToGroupTable">
@@ -589,7 +594,20 @@
     		-<%= description %>&nbsp;by&nbsp;<%= author %>
     	</label></td><td><%= Tag %></td>
 </script>
-
+<script type="text/template" id="make-Quiz">
+<h4 id="question-no">Question No. 1</h4>
+<br/>
+Question : <textarea rows="3" cols="80" style="width:515px;" id="quizQuestion">
+</textarea><br/>
+<input type="radio" name="options" value="option1" /><input type="text" id="option1" placeholder="Option A" /><br/>
+<input type="radio" name="options" value="option2" /><input type="text" id="option2" placeholder="Option B" /><br/>
+<input type="radio" name="options" value="option3" /><input type="text" id="option3" placeholder="Option C" /><br/>
+<input type="radio" name="options" value="option4" /><input type="text" id="option4" placeholder="Option D" /><br/>
+<input type="radio" name="options" value="option5" /><input type="text" id="option5" placeholder="Option E" /><br/>
+<br/><br/>
+<button class="btn btn-hg btn-primary" id="next-question" >Next Question</button>
+<button class="btn btn-hg btn-primary" id="save-quiz" >Save Quiz</button>
+</script>
 
 </head>
 
