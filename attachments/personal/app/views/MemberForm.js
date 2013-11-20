@@ -6,7 +6,12 @@ $(function() {
 
     events: {
       "click #formButton": "setForm",
-      "submit form" : "setFormFromEnterKey"
+      "submit form" : "setFormFromEnterKey",
+      "change #fileAttachment" : "fun" 
+    },
+    
+    fun: function(e){
+   		 console.log("Event change fileAttachment called")
     },
   render: function() {
       // create the form
@@ -74,14 +79,16 @@ getValidOptions: function(userChoice,existing){
 	alert("Username \""+userChoice+"\" invalid or already taken \n" + validChoices)
 },
 
-validImageTypeCheck: function(name){
-	if(name.val()==""){
+validImageTypeCheck: function(img){
+	console.log(img)
+	if(img.val()==""){
 		alert("ERROR: No image selected \n\nPlease Select an Image File")
 		return 0
 	}
-	var extension=name.val().split('.')
-	console.log(extension[1])
-	if(extension[1]=='jpeg'||extension[1]=='jpg'){
+
+	var extension=img.val().split('.')
+		console.log(extension[(extension.length-1)])
+	if(extension[(extension.length-1)]=='jpeg'||extension[(extension.length-1)]=='jpg'){
 		return 1
 	}
 	alert("ERROR: Not a valid image file \n\n Valid Extensions are  [.jpg, .jpeg ]")
