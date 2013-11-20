@@ -15,6 +15,8 @@ $(function() {
       'course/edit/:groupId'          : 'GroupForm',
       'course/assign/:groupId'        : 'GroupAssign',
       'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
+      'course/manage/:groupId'   : 'ManageCourse',
+      'level/add/:groupId'       : 'AddLevel',
       'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/add'                    : 'GroupForm',
@@ -239,7 +241,28 @@ $(function() {
       })
       table.resources.fetch()
     },
-
+     
+    //New Requirement of Managing the course Level
+    
+    
+    
+    ManageCourse : function(groupId){
+      $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+      levels = new App.Collections.CourseLevels()
+      levels.groupId = groupId
+      levels.fetch({success: function() {
+        lTable = new App.Views.LevelsTable({collection: levels})
+        lTable.render()
+        App.$el.children('.body').html('<h1>Course Levels</h1>')
+        App.$el.children('.body').append('<button class="btn btn-info"  onclick = "document.location.href=\'#level/add/'+groupId+'\'">Add Level</button>')
+        App.$el.children('.body').append(lTable.el)
+      }})
+    },
+    
+    AddLevel : function(groupId){
+      alert(groupId)
+    },
+    
     // Search Module Router Version 1.0.0
     
     AssignResourcetoShelf : function()

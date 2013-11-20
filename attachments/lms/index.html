@@ -48,6 +48,7 @@
   <script src="app/models/App.js"></script>
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Invitation.js"></script>
+  <script src="app/models/CourseStep.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
@@ -58,7 +59,7 @@
   <script src="app/collections/AssignmentsByDate.js"></script>
   <script src="app/collections/ResourceFeedback.js"></script>
   <script src="app/collections/SearchResource.js"></script>
-  
+  <script src="app/collections/CourseLevels.js"></script>
 
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -76,6 +77,10 @@
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
+  <!-- Level Views -->
+  <script src="app/views/LevelsTable.js"></script>
+  <script src="app/views/LevelRow.js"></script>
+  
   <!-- LMS SEARCH -->
   <script src="app/views/Search.js"></script>
   <script src="app/views/SearchSpan.js"></script>
@@ -395,13 +400,31 @@
     </td> 
 
     <td>
-      <a role='button' class='btn' href='#course/assignments/week-of/<%= _id %>'> 
-        <i class="icon-list"></i> Assignments
+      <a role='button' class='btn' href='#course/manage/<%= _id %>'> 
+        <i class="icon-list"></i> Manage
       </a>
     </td>
 
     <td>
       <a role='button' class='btn' href='#course/edit/<%= _id %>'> 
+        <i class="icon-edit"></i> Edit
+      </a>
+    </td>    
+
+    <td>
+      <a class='destroy btn' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    </td>
+
+  </script>
+  
+  <script type="text/html" id="template-LevelRow">
+    <td>
+      <%= title %> : Level <%= level %>
+    </td> 
+   <td>
+      <a role='button' class='btn' href='#level/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
     </td>    
