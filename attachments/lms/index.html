@@ -77,14 +77,12 @@
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
-<<<<<<< HEAD
   <!-- Level Views -->
   <script src="app/views/LevelsTable.js"></script>
   <script src="app/views/LevelRow.js"></script>
-  
-=======
+  <script src="app/views/LevelForm.js"></script>
   <script src="app/views/QuizView.js"></script>
->>>>>>> 90c3fde06339d96b463a5c98064013e6e8336252
+
   <!-- LMS SEARCH -->
   <script src="app/views/Search.js"></script>
   <script src="app/views/SearchSpan.js"></script>
@@ -101,6 +99,7 @@
   var skipStack = new Array();
   var lastpage = false;
   var grpId;
+  var levelrevid;
   function selectAllSearchResult()
   {
       $("input[name='result']").each( function () {
@@ -581,9 +580,9 @@
                     </table>
                     <br/><br/>
                     <button class="btn btn-hg btn-primary" onclick = "showSearchView()">Return to Search</button>
-                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>
-                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-course'">Send to My Course List</button>
-                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#courses'">Home</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
+                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Home</button>
                     </div>
 </script>
 

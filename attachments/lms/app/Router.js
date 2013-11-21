@@ -16,7 +16,9 @@ $(function() {
       'course/assign/:groupId'        : 'GroupAssign',
       'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
       'course/manage/:groupId'   : 'ManageCourse',
+       'addItemstoLevel/:lid/:rid/:title'    :  'AddItemsToLevel', 
       'level/add/:groupId'       : 'AddLevel',
+      
       'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/add'                    : 'GroupForm',
@@ -26,17 +28,13 @@ $(function() {
       'compile/week'                : 'CompileManifestForWeeksAssignments',
       'compile'                     : 'CompileManifest',
       'search-bell'		    : 'SearchBell',
-      'search-bell/:groupId'	    : 'SearchBell',
+      'search-bell/:levelId/:rId'    : 'SearchBell',
       'search-result'		    :'SearchResult',
-      'assign-to-course'	    :'AssignResourcetoCourse',
+      'assign-to-level'	    :'AssignResourcetoLevel',
       'assign-to-shelf'		    :'AssignResourcetoShelf',
-      'create-quiz'				:'CreateQuiz'
+      'create-quiz/:lid/:rid/:title'				:'CreateQuiz'
     },
-	CreateQuiz: function(){
-		 var quiz = new App.Views.QuizView()
-      	App.$el.children('.body').html(quiz.el)
-      	quiz.render()
-	},
+	
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
@@ -256,6 +254,7 @@ $(function() {
       levels = new App.Collections.CourseLevels()
       levels.groupId = groupId
       levels.fetch({success: function() {
+        console.log(levels)
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.render()
         App.$el.children('.body').html('<h1>Course Levels</h1>')
@@ -265,9 +264,31 @@ $(function() {
     },
     
     AddLevel : function(groupId){
-      alert(groupId)
+      $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+       var Cstep = new App.Models.CourseStep()
+       Cstep.set({courseId : groupId})
+       var lForm = new App.Views.LevelForm({model: Cstep})
+       lForm.render()
+       App.$el.children('.body').html('<h1>New Level</h1>')
+       App.$el.children('.body').append(lForm.el)
+       
+      
     },
-    
+    AddItemsToLevel : function(lid,rid,title){
+           $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+           App.$el.children('.body').html('<h1>Mange | '+title+'</h1>')
+           App.$el.children('.body').append('<button class="btn btn-info"  onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'\'">Add Resources</button>')
+           App.$el.children('.body').append('<button class="btn btn-info"  onclick = "document.location.href=\'#create-quiz/'+lid+'/'+rid+'\'">Create Quiz</button>')
+    },
+     CreateQuiz: function(lid,rid,title){
+         var quiz = new App.Views.QuizView()
+         quiz.levelId = lid
+         quiz.revId = rid
+         App.$el.children('.body').html('<h3>Add Quiz |'+title+'</h3>')
+         App.$el.children('.body').append(quiz.el)
+         quiz.render()
+         
+     },
     // Search Module Router Version 1.0.0
     
     AssignResourcetoShelf : function()
@@ -297,30 +318,28 @@ $(function() {
     },
     
     
-    AssignResourcetoCourse : function()
+    AssignResourcetoLevel : function()
     {
     	if(typeof grpId === 'undefined'){
-   			document.location.href='#courses'
- 		}
-    	var sDate = moment().subtract('days', (moment().format('d'))).format("YYYY-MM-DD")
-    	var eDate = moment(sDate).add('days', 7).format('YYYY-MM-DD')
-    	$("input[name='result']").each( function () {
+   			document.location.href='#courses'}
+ 	var rids = new Array()
+        $("input[name='result']").each( function () {
           if ($(this).is(":checked"))
 	      {
   		var rId = $(this).val();
-  		var assignment = new App.Models.Assignment({
-          	startDate: sDate,
-          	endDate: eDate,
-          	resourceId: rId,
-          	kind: "Assignment",
-          	context: {
-            	    groupId: grpId
-          	  }
-       		})
-       		assignment.save()
+  		rids.push(rId)
 	      }
 	});
-    	document.location.href='#course/assignments/week-of/' + grpId 
+         var cstep = new App.Models.CourseStep({"_id":grpId,"_rev":levelrevId})
+	 cstep.fetch({async:false})
+         cstep.set("resourceId",rids)
+	 console.log(cstep)
+	 cstep.save()
+	 cstep.on('sync',function(){
+	      alert("Your Quiz have been saved successfully")
+	      document.location.href='#course'
+         })
+    	 
     },
       
   SearchResult : function(text){
@@ -365,12 +384,13 @@ $(function() {
         $("#selectAllButton").show()
    },
   
-  SearchBell: function(groupId) {
+  SearchBell: function(levelId,rid) {
   	
-      if(typeof groupId === 'undefined'){
+      if(typeof levelId === 'undefined'){
    		document.location.href='#courses'
  	}
-  	  grpId = groupId
+  	  grpId = levelId
+          levelrevId = rid
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)

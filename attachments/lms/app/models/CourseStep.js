@@ -25,19 +25,19 @@ $(function() {
       courseId : 'Text',
       resourceId:{
           type:'Select',
-          options: null,
+          options: [],
       },
       questions:{
           type:'Select',
-          options: null,
+          options: [],
       },
-      options:{
+      qoptions:{
           type:'Select',
-          options: null,
+          options: [],
       },
       answers:{
           type:'Select',
-          options: null,
+          options: [],
       },
       allowedErrors:'Text',
       passingMarks:'Text',
