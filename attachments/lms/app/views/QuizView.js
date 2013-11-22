@@ -62,14 +62,24 @@ $(function() {
       },
        "click #save-quiz" : function(e) {
 	        
-	        var err = this.validateAllQuestions()
-  			if(err!='none')
+	        
+      		if(!this.validQuestionAndOptions())
+     		{
+      			alert('invalid inputs')
+			return
+     		}
+      		else
+      		{
+			this.completeQuestions[this.currentQuestion] = true
+      			this.saveQuestionAndOptions()
+		}
+		var err = this.validateAllQuestions()
+  	      	if(err!='none')
       		{
       			alert(err)
       		}
-      		else
-      		{
-      			this.saveQuestionAndOptions()
+		else
+		{
   				console.log(this.questionOptions)
 				var cstep = new App.Models.CourseStep({"_id":this.levelId,"_rev":this.revId})
 				cstep.fetch({async:false})
@@ -80,8 +90,8 @@ $(function() {
 				cstep.save()
 				var that = this
 				cstep.on('sync',function(){
-			  		alert("Your Quiz have been saved successfully")
-					Backbone.history.navigate('level/view/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
+			  		alert("Your Quiz has been saved successfully")
+			                Backbone.history.navigate('level/view/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
 				})
       		}
 	},

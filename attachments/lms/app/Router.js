@@ -373,7 +373,7 @@ $(function() {
 	 cstep.save()
 	 cstep.on('sync',function(){
 	      alert("Your Resources have been updated successfully")
-	      document.location.href='#course'
+	      Backbone.history.navigate('course/manage/'+cstep.get("courseId"), {trigger: true})
          })
     	 
     },
