@@ -7,16 +7,18 @@
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
   <link rel="stylesheet" href="vendor/badger.css"/>
+  <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
+   
 
 <!--
     DEPENDENCIES
   -->
  
   <script src="vendor/jquery-1.7.2.js"></script>
+  <script src="vendor/jquery-ui.js"></script>
    <script src="vendor/badger.js"></script>
-	<script src="vendor/spectrum.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
@@ -53,8 +55,10 @@
   <script src="app/models/Feedback.js"></script>
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Calendar.js"></script>
+  <script src="app/models/CourseStep.js"></script>
 
   <script src="app/collections/Groups.js"></script>
+  <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
   <script src="app/collections/Invitations.js"></script>
@@ -87,8 +91,13 @@
   <script src="app/views/ShelfSpans.js"></script>
   <script src="app/views/ResourcesDetail.js"></script>
   <script src="app/views/CalendarForm.js"></script>
+  <script src="app/views/CourseLevelsTable.js"></script>
   
-
+ <script>
+$(function() {
+$( "#accordion" ).accordion()
+});
+</script>
   <!-- 
     Templates 
   -->
@@ -144,6 +153,7 @@ var end = obj.value.length;
 if(obj.setSelectionRange) 
 obj.setSelectionRange(end, end); 
 }
+
 
 </script>
 
@@ -284,16 +294,20 @@ obj.setSelectionRange(end, end);
 
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
-      <a href="#">
+      <a href="#login">
       Personal BeLL - v1.0.0
       </a>
     </li>
     <li> 
-      <a href="#">
+      <a href="#login">
           Pakistan
       </a>
     </li>
-    
+     <li> 
+      <a href="../lms/index.html#login">
+          LMS
+      </a>
+    </li>
     <li id="application-cache-status" style="display:none"> 
       <a href="#"  style="color:red">
         <i class="icon-download icon-white"></i> Resources are downloading...
@@ -303,10 +317,43 @@ obj.setSelectionRange(end, end);
 
   <script type="text/html" id="template-GroupAssignmentsTable">
     <th colspan="3"> 
-       <h4>Assignments for <%= groupName %><h4> 
+       <h4> <%= groupName %><h4> 
     </th>
+  </script>
+  
+  
+  <script type="text/html" id="template-courseLevelsTable">
+	<h3 class="bigheader">Step-<%=level%>: <b>&nbsp&nbsp <%=title%></b> <a class='btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#quiz %>' target="_blank">Take Quiz</a></h3>
+  	<div>
+		<table class="Course-table">
+			<tr>
+				<td>	
+					<table class="Course-inner-resources-table">
+						<%for (var i=0; i<resourceId.length; i++){%>
+							<tr>
+								<td>
+									<%= resourceTitles[i] %> &nbsp&nbsp
+								</td>
+								<td>
+									<a class='btn btn-primary' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+								</td>
+							</tr>
+						<%}%>
+      				</table>
+      			</td>
+				<td>
+					<table class="Course-inner-details-table">
+						<tr><td class="cidt-pp">	Passing Percentage:</td><td><%=passingPercentage%>%</td></tr>
+						<tr><td class="cidt-pp">Allowed Errors:</td><td> <%=allowedErrors%></td></tr>
+					</table>
+				</td>
+				
+      		</tr>
+      	</table>
+	</div>
 
   </script>
+  
 
   <script type="text/html" id="template-AssignmentRow">
     <td>
@@ -322,8 +369,6 @@ obj.setSelectionRange(end, end);
         <i class='icon-eye-open'></i> Feedback
       </a>
     </td>
-
-
   </script>
 
   <script type="text/html" id="template-GroupRow">
@@ -340,7 +385,7 @@ obj.setSelectionRange(end, end);
 
   <script type="text/html" id="template-GroupSpan">
       <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
-        <a href='#course/assign/<%= _id %>' style=' color:<%= foregroundColor %>; '> 
+        <a href='#course/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '> 
           <%= name %>
         </a>
      </div>
@@ -497,5 +542,6 @@ obj.setSelectionRange(end, end);
       App.start()
     })
   </script>
+
 
 </html>

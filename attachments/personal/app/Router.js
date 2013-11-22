@@ -10,7 +10,7 @@ $(function() {
       'courses'                       : 'Groups',
       'my-courses'                    : 'MemberGroups',
       'course/edit/:groupId'          : 'GroupForm',
-      'course/assign/:groupId'        : 'GroupAssignments', // @todo delete and change refs to it
+      'course/details/:courseId/:name'        : 'CourseDetails', // @todo delete and change refs to it
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/link/:groupId'          : 'GroupLink',
       'update-assignments'            : 'UpdateAssignments',
@@ -20,12 +20,12 @@ $(function() {
       'search-bell'		      : 'SearchBell',
       'search-result'		      :'SearchResult',
       'member/add'                    : 'MemberForm',
+       'member/edit/:mid'              : 'MemberForm',
       'addResource/:rid/:title/:revid'                  : 'AddResourceToShelf',
       'resource/detail/:rsrcid/:shelfid/:revid'         :  'Resource_Detail', //When Item is Selected from the shelf 
       'calendar'                      : 'CalendarFunction',
-      'calendar/:eid'                 : 'calendaar',
+      'calendar/event/:eid'                 : 'calendaar',
       'addEvent'		      : 'addEvent',
-      'member/edit/:mid'              : 'MemberForm',
       'notifications'                     : 'notifications',
       '*nomatch'                      : 'errornotfound',  
     },
@@ -211,8 +211,26 @@ $(function() {
       group.fetch()
     },
     
-    NewsFeed : function(){
-     
+    
+    CourseDetails: function(courseId,name) {
+		var ccSteps = new App.Collections.coursesteps()
+		ccSteps.courseId=courseId
+		ccSteps.fetch({success: function(){	
+			App.$el.children('.body').html('&nbsp')
+			App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>'+name+'</p>')
+			var levelsTable = new App.Views.CourseLevelsTable({collection: ccSteps})
+			levelsTable.render()
+			App.$el.children('.body').append(levelsTable.el)
+			    
+$( "#accordion" ).accordion()
+			    
+			    
+			    
+		}}) 
+    },
+    
+
+    NewsFeed : function(){ 
      var resources = new App.Collections.NewsResources()
      resources.fetch({success: function() {
          var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
@@ -269,7 +287,8 @@ $(function() {
 	    modelForm.render()
   },
   calendaar: function(eventId){
-	App.$el.children('.body').html('<h5>Event Details</h5>')
+  	App.$el.children('.body').html('&nbsp')
+	App.$el.children('.body').append('<h5>Event Details</h5>')
 	var cmodel = new App.Models.Calendar({_id : eventId})
 	cmodel.fetch({async:false})
 	console.log(cmodel)
@@ -289,7 +308,7 @@ $(function() {
 			temp.title=evnt.attributes.title
 			temp.start=evnt.attributes.start
 			temp.end=evnt.attributes.end
-			temp.url="calendar/"+evnt.id
+			temp.url="calendar/event/"+evnt.id
 			temp.allDay=false
 			console.log(evnt)
 			temp2.push(temp)	
