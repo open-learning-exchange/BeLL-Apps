@@ -421,5 +421,25 @@ background:none;
     background-color: #34495E;
     color: #FFFFFF;
 }
-
-
+.Course-heading{
+font-size: 24px;
+    margin-left: 4%;
+    color: #666666;
+}
+.ui-accordion-header.ui-helper-reset.ui-state-default.ui-accordion-header-active.ui-state-active.ui-corner-top.ui-accordion-icons {
+      background-color: #34495E;
+    color: #FFFFFF;
+}
+.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+    background-color: #D3D3D3;
+}
+.ui-accordion .ui-accordion-content {
+    padding: 0;
+    border-radius: 0 0 10px 10px;
+}
+.bigheader{
+font-size: 23px;
+}
+.cidt-pp{
+text-align:right;
+}

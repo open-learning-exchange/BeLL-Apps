@@ -258,3 +258,48 @@ margin-top:-10px;
     margin-left: 42px;
     padding-bottom: 30px;
 }
+
+.Course-table{
+    margin-left: 5%;
+    width: 95%;
+     border-collapse: collapse;
+}
+
+.Course-table tr{
+
+    height: 50px;
+}
+.Course-table td{
+	font-size: large;
+    padding:0px;
+}
+.btn.btn-info {
+    font-weight: bolder;
+}
+h3 a{
+float:right;
+color:white;
+}
+.Course-inner-resources-table {
+    width: 100%;
+}
+.Course-inner-details-table {
+    background-color: #34495E;
+    color: #FFFFFF;
+    float: right;
+    font-size: large;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+.Course-inner-resources-table  .btn-primary{
+ font-weight: bold;
+    padding: 7px 19px;
+}
+
+#accordion .btn-success {
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 900;
+       padding: 7px 10px 6px;
+    margin-top: 0; !important
+}
