@@ -141,3 +141,46 @@ input[type=checkbox]:checked + label:before {
 {
 	margin-left:18%;
 }
+#question-box
+{
+	margin-left: 7%;
+	margin-top: 1%;
+	position: absolute;
+}
+#new-quiz
+{
+	color:rgb(66,119,161);
+}
+#question-area
+{
+	background-color:rgb(221,221,221);
+	margin-top: 2%;
+	height: 140px;
+	width: 75%
+	
+}
+#question-no
+{
+	margin-top: 1%;
+	position: absolute;
+	margin-left: 1%;
+}
+#option-area
+{
+	background-color:rgb(231,231,231);
+	margin-top: 5px;
+	width: 75%;
+}
+#quiz-body
+{
+	margin-left:-14%;
+}
+#options-table
+{
+	margin-top: -6%;
+	margin-left: 25%;
+}
+#Radio-margin
+{
+	margin-top: -5%;
+}

@@ -284,8 +284,9 @@ $(function() {
          var quiz = new App.Views.QuizView()
          quiz.levelId = lid
          quiz.revId = rid
-         App.$el.children('.body').html('<h3>Add Quiz |'+title+'</h3>')
-         App.$el.children('.body').append(quiz.el)
+         quiz.ltitle = title
+         //App.$el.children('.body').html('<h3>Add Quiz |'+title+'</h3>')
+         App.$el.children('.body').html(quiz.el)
          quiz.render()
          
      },

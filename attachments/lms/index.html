@@ -594,18 +594,33 @@
     	</label></td><td><%= Tag %></td>
 </script>
 <script type="text/template" id="make-Quiz">
-<h4 id="question-no">Question No. 1</h4>
+<div id="quiz-body">
 <br/>
-Question : <textarea rows="3" cols="80" style="width:515px;" id="quizQuestion">
-</textarea><br/>
-<input type="radio" name="options" value="option1" /><input type="text" id="option1" placeholder="Option A" /><br/>
-<input type="radio" name="options" value="option2" /><input type="text" id="option2" placeholder="Option B" /><br/>
-<input type="radio" name="options" value="option3" /><input type="text" id="option3" placeholder="Option C" /><br/>
-<input type="radio" name="options" value="option4" /><input type="text" id="option4" placeholder="Option D" /><br/>
-<input type="radio" name="options" value="option5" /><input type="text" id="option5" placeholder="Option E" /><br/>
-<br/><br/>
+Courses | <%= courseTitle %>
+<h4 id="new-quiz">New Quiz</h4>
+<div id="question-area">
+	<div id="question-no">Question 1: </div>
+	<div id="question-box"><textarea rows="3"  style="width:415%;height:100px" id="quizQuestion" placeholder="Enter your question here" ></textarea><br/></div>
+</div>
+<div id="option-area">
+<br/>
+&nbsp;&nbsp;Response Options:<br/>
+&nbsp;&nbsp;(Identify the right response)
+<div id="options-table">
+<table style="border-spacing: 36px 0px;border-collapse:separate;">
+<tr><td><input type="radio" name="options" value="option1" id="Radio-margin"/>&nbsp;<input type="text" id="option1" placeholder="Option A" /></td>
+<td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2" placeholder="Option B" /></td></tr>
+<tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3" placeholder="Option C" /></td>
+<td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4" placeholder="Option D" /></td></tr>
+<tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5" placeholder="Option E" /></td></tr></table>
+</div>
+</div>
+<br/>
+<button class="btn btn-hg btn-primary" id="prev-question" >Previous Question</button>
 <button class="btn btn-hg btn-primary" id="next-question" >Next Question</button>
-<button class="btn btn-hg btn-primary" id="save-quiz" >Save Quiz</button>
+<button class="btn btn-hg btn-success" id="save-quiz" >Save Quiz</button>
+
+</div>
 </script>
 
 </head>
