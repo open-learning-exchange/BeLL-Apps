@@ -41,7 +41,7 @@ $(function() {
        var title = that.model.get("title")
        console.log(that.model)
        //Backbone.history.navigate('create-quiz/'+id+'/'+rid+'/'+title, {trigger: true})
-       Backbone.history.navigate('course/manage/'+id, {trigger: true})
+       Backbone.history.navigate('course/manage/'+that.model.get("courseId"), {trigger: true})
       
       })
       // Put the form's input into the model in memory
@@ -50,8 +50,8 @@ $(function() {
       this.model.set("questions",null)
       this.model.set("answers",null)
       this.model.set("qoptions",null)
-      this.model.set("resourceId",null)
-      this.model.set("resourceTitles",null)
+      this.model.set("resourceId",[])
+      this.model.set("resourceTitles",[])
       this.model.save()
     },
 

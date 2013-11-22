@@ -36,6 +36,7 @@ $(function() {
 	var i=0
 	var rtitle = this.model.get("resourceTitles")
 	var rid = this.model.get("resourceId")
+	if(this.model.get("resourceTitles")){
 	for(i=0;i<this.model.get("resourceTitles").length;i++){
 	  var r = new App.Models.Resource({"_id":rid[i]})
 	  r.fetch({async:false})
@@ -46,6 +47,7 @@ $(function() {
 	  this.$el.append("<tr><td>"+rtitle[i]+"</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='"+rid[i]+"'>Remove </button><input type='hidden' id='"+rid[i]+"' value='"+rtitle[i]+"'/>")
 	}
       }
+    }
   }
 
   })

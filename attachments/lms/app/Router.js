@@ -20,15 +20,15 @@ $(function() {
       'level/add/:groupId'       : 'AddLevel',
       'level/view/:levelId/:rid'       : 'ViewLevel',
       'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
-      'course/assignments/:groupId'   : 'GroupAssignments',
-      'course/add'                    : 'GroupForm',
+      'course/assignments/:groupId' : 'GroupAssignments',
+      'course/add'                  : 'GroupForm',
       'members'                     : 'Members',
       'member/add'                  : 'MemberForm',
       'member/edit/:memberId'       : 'MemberForm',
       'compile/week'                : 'CompileManifestForWeeksAssignments',
       'compile'                     : 'CompileManifest',
       'search-bell'		    : 'SearchBell',
-      'search-bell/:levelId/:rId/:resourceIds'    : 'SearchBell',
+      'search-bell/:levelId/:rId'   : 'SearchBell',
       'search-result'		    :'SearchResult',
       'assign-to-level'	    :'AssignResourcetoLevel',
       'assign-to-shelf'		    :'AssignResourcetoShelf',
@@ -245,14 +245,13 @@ $(function() {
       table.resources.fetch()
     },
      
-    //New Requirement of Managing the course Level
-    
-    
+    //New Requirement of Managing the course Level 
     
     ManageCourse : function(groupId){
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       levels = new App.Collections.CourseLevels()
       levels.groupId = groupId
+      
       levels.fetch({success: function() {
         console.log(levels)
         lTable = new App.Views.LevelsTable({collection: levels})
@@ -279,13 +278,25 @@ $(function() {
            App.$el.children('.body').append('<button class="btn btn-info"  onclick = "document.location.href=\'#create-quiz/'+lid+'/'+rid+'\'">Create Quiz</button>')
     },
      CreateQuiz: function(lid,rid,title){
+         var levelInfo = new App.Models.CourseStep({"_id":lid})
+         levelInfo.fetch({success: function() {
          var quiz = new App.Views.QuizView()
          quiz.levelId = lid
          quiz.revId = rid
-         App.$el.children('.body').html('<h3>Add Quiz |'+title+'</h3>')
-         App.$el.children('.body').append(quiz.el)
+         quiz.ltitle = title
+         if(levelInfo.get("questions")){
+           App.$el.children('.body').html('<h3>Edit Quiz for |'+title+'</h3>')
+            quiz.quizQuestions = levelInfo.get("questions")
+            quiz.questionOptions = levelInfo.get("qoptions")
+            quiz.answers = levelInfo.get("answers")
+            
+         }
+         App.$el.children('.body').html(quiz.el)
          quiz.render()
-         
+         if(levelInfo.get("questions")){
+           quiz.displayQuestionInView(0)
+         }
+     }})
      },
      ViewLevel: function(lid,rid){
          var levelInfo = new App.Models.CourseStep({"_id":lid})
@@ -294,13 +305,13 @@ $(function() {
              levelDetails.render()
              App.$el.children('.body').html('<h3>Step Details |'+levelInfo.get("title")+'</h3>')
              if(levelInfo.get("questions") == null){
-                App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("_title")+'\'">Create Quiz</button>')
+                App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Create Quiz</button>&nbsp;&nbsp;')
                 //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
              }
-             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'/'+levelInfo.get("resourceId")+'\'">Add Resources</button>')
+             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'\'">Add Resources</button>')
              App.$el.children('.body').append(levelDetails.el)
              if(levelInfo.get("questions")!=null){
-               App.$el.children('.body').append('<button class="btn btn-primary" align="right" onclick = "document.location.href=\'#edit-quiz/'+lid+'\'">Edit Quiz</button>')
+              App.$el.children('.body').append('<button class="btn btn-primary"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Edit Quiz</button>')
              }
          }})
      },
@@ -337,8 +348,10 @@ $(function() {
     
     AssignResourcetoLevel : function()
     {
-    	if(typeof grpId === 'undefined'){
-   			document.location.href='#courses'}
+    	
+        if(typeof grpId === 'undefined'){
+   	    document.location.href='#courses'
+        }
  	var rids = new Array()
         var rtitle = new Array()
         $("input[name='result']").each( function () {
@@ -349,14 +362,17 @@ $(function() {
                 rids.push(rId)
 	      }
 	});
+        
          var cstep = new App.Models.CourseStep({"_id":grpId,"_rev":levelrevId})
 	 cstep.fetch({async:false})
-         cstep.set("resourceId",rids)
-	 cstep.set("resourceTitles",rtitle)
+         var oldIds =  cstep.get("resourceId")
+         var oldTitles = cstep.get("resourceTitles")
+         cstep.set("resourceId",oldIds.concat(rids))
+         cstep.set("resourceTitles",oldTitles.concat(rtitle))
 	 console.log(cstep)
 	 cstep.save()
 	 cstep.on('sync',function(){
-	      alert("Your Quiz have been saved successfully")
+	      alert("Your Resources have been updated successfully")
 	      document.location.href='#course'
          })
     	 
@@ -406,6 +422,8 @@ $(function() {
   
   SearchBell: function(levelId,rid,resourceIds) {
   	
+      var levelInfo = new App.Models.CourseStep({"_id":levelId})
+      levelInfo.fetch({success: function() {
       if(typeof levelId === 'undefined'){
    		document.location.href='#courses'
        }
@@ -418,7 +436,7 @@ $(function() {
       
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
-      search.resourceids = resourceIds
+      search.resourceids = levelInfo.get("resourceId")
       App.$el.children('.body').html(search.el)
       search.render()
       $( "#srch" ).hide()
@@ -426,6 +444,7 @@ $(function() {
       $(".search-result-header").hide()
       $("#selectAllButton").hide()
       showSubjectCheckBoxes()
+      }})
   },
     CompileManifestForWeeksAssignments: function(weekOf) {
 
