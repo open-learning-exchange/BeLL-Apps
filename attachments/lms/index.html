@@ -48,11 +48,8 @@
   <script src="app/models/App.js"></script>
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Invitation.js"></script>
-<<<<<<< HEAD
   <script src="app/models/CourseStep.js"></script>
-=======
   <script src="app/models/InviFormModel.js"></script>
->>>>>>> 95340db1376b4af6477cbc588b7c971b82acf371
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
@@ -81,6 +78,7 @@
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
+  <script src="app/views/InvitationForm.js"></script>
   <!-- Level Views -->
   <script src="app/views/LevelsTable.js"></script>
   <script src="app/views/LevelRow.js"></script>
@@ -421,7 +419,13 @@
       <a role='button' class='btn' href='#course/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
-    </td>    
+    </td>
+    
+    <td>
+      <a role='button' class='btn' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
+        <i class="icon-edit"></i> Invite
+      </a>
+    </td>
 
     <td>
       <a class='destroy btn' href='#'>

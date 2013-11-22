@@ -29,6 +29,8 @@ $(function() {
       var that = this
       var inviteForm = this
       inviteForm.on('InvitationForm:MembersReady', function() {
+        
+        console.log(that.model.schema)
         this.model.schema.members.options = members
         // create the form
         this.form = new Backbone.Form({ model: inviteForm.model })
@@ -58,7 +60,8 @@ $(function() {
 
       // Get the group ready to process the form
         members.once('sync', function() {
-        inviteForm.trigger('InvitationForm:MembersReady')  
+        inviteForm.trigger('InvitationForm:MembersReady')
+        
       })
 
       members.fetch()

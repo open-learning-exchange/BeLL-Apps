@@ -28,7 +28,7 @@ $(function() {
       },
       members: {
         type: 'Checkboxes',
-        options: [ ] // Populate this when instantiating
+        options: null // Populate this when instantiating
       },
       backgroundColor: 'Text',
       foregroundColor: 'Text'
