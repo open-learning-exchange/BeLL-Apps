@@ -48,7 +48,11 @@
   <script src="app/models/App.js"></script>
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Invitation.js"></script>
+<<<<<<< HEAD
   <script src="app/models/CourseStep.js"></script>
+=======
+  <script src="app/models/InviFormModel.js"></script>
+>>>>>>> 95340db1376b4af6477cbc588b7c971b82acf371
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
@@ -110,6 +114,7 @@
   function showSearchView()
   {
       App.Router.SearchBell(grpId);
+
   }
   function searchResources()
   {
@@ -150,10 +155,10 @@
     if(obj.setSelectionRange) 
     obj.setSelectionRange(end, end); 
   }
-  function showSubjectCheckBoxes()
-  {
 
-  	var subjects = ['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)'];
+    function showSubjectCheckBoxes()
+  {
+        var subjects = ['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)'];
   	var length = subjects.length;
   	var htmlString = "<h4>Subject</h4>" ; 
   	for(var i=0 ; i<length ; i++)
@@ -165,7 +170,9 @@
   	$("#SubjectCheckboxes").html(htmlString);
  
   }
+
   </script>
+
   
   
   
@@ -529,20 +536,32 @@
         <input id="check3" type="checkbox" name="tag" value="Non Fiction">  
         <label for="check3">Non Fiction</label>  
     </div>
-    <div class="checkbox-subject" id="SubjectCheckboxes">  
+
+       <div class="checkbox-subject" id="SubjectCheckboxes">  
      <!--   <script>
         	//showSubjectCheckBoxes();
         </script> -->
     <!--    <input id="subject1" type="checkbox" name="subject" value="News">  
+<<<<<<< HEAD
+=======
+
+>>>>>>> 95340db1376b4af6477cbc588b7c971b82acf371
         <label for="subject1">News</label>  
         <br>  
         <input id="subject2" type="checkbox" name="subject" value="Fiction">  
         <label for="subject2">Fiction</label> 
          <br>  
         <input id="subject3" type="checkbox" name="subject" value="Non-Fiction">  
+<<<<<<< HEAD
         <label for="subject3">Non Fiction</label> -->
     </div>
   <!--<div class="checkbox-length">  
+=======
+        <label for="subject3">Non Fiction</label>  -->
+    </div>
+    <br/>
+   <!-- <div class="checkbox-length">  
+>>>>>>> 95340db1376b4af6477cbc588b7c971b82acf371
         <h4>Length</h4>
         <input id="pbook" type="checkbox" name="length" value="Picture-Book">  
         <label for="pbook">Picture Books</label>  
@@ -561,6 +580,7 @@
 </div>
 <br>
     <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+
 <br/><br/>
     <table id="srch"> 
     </table>
@@ -568,6 +588,7 @@
 </div>
 		    <div class="search-bottom-nav">
 		    <br/>
+
                     <table class="search-bottom-nav-table">
                        <tr>
                           <td class="previous-button-container">
