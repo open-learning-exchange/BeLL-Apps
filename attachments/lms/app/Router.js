@@ -18,7 +18,7 @@ $(function() {
       'course/manage/:groupId'   : 'ManageCourse',
        'addItemstoLevel/:lid/:rid/:title'    :  'AddItemsToLevel', 
       'level/add/:groupId'       : 'AddLevel',
-      
+      'level/view/:levelId/:rid'       : 'ViewLevel',
       'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/add'                    : 'GroupForm',
@@ -28,7 +28,7 @@ $(function() {
       'compile/week'                : 'CompileManifestForWeeksAssignments',
       'compile'                     : 'CompileManifest',
       'search-bell'		    : 'SearchBell',
-      'search-bell/:levelId/:rId'    : 'SearchBell',
+      'search-bell/:levelId/:rId/:resourceIds'    : 'SearchBell',
       'search-result'		    :'SearchResult',
       'assign-to-level'	    :'AssignResourcetoLevel',
       'assign-to-shelf'		    :'AssignResourcetoShelf',
@@ -257,8 +257,8 @@ $(function() {
         console.log(levels)
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.render()
-        App.$el.children('.body').html('<h1>Course Levels</h1>')
-        App.$el.children('.body').append('<button class="btn btn-info"  onclick = "document.location.href=\'#level/add/'+groupId+'\'">Add Level</button>')
+        App.$el.children('.body').html('<h1>Course Steps</h1>')
+        App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+groupId+'\'">Add Step</button>')
         App.$el.children('.body').append(lTable.el)
       }})
     },
@@ -269,10 +269,8 @@ $(function() {
        Cstep.set({courseId : groupId})
        var lForm = new App.Views.LevelForm({model: Cstep})
        lForm.render()
-       App.$el.children('.body').html('<h1>New Level</h1>')
+       App.$el.children('.body').html('<h1>New Step</h1>')
        App.$el.children('.body').append(lForm.el)
-       
-      
     },
     AddItemsToLevel : function(lid,rid,title){
            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
@@ -289,6 +287,25 @@ $(function() {
          quiz.render()
          
      },
+     ViewLevel: function(lid,rid){
+         var levelInfo = new App.Models.CourseStep({"_id":lid})
+         levelInfo.fetch({success: function() {
+            var levelDetails = new App.Views.LevelDetail({model : levelInfo})
+             levelDetails.render()
+             App.$el.children('.body').html('<h3>Step Details |'+levelInfo.get("title")+'</h3>')
+             if(levelInfo.get("questions") == null){
+                App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("_title")+'\'">Create Quiz</button>')
+                //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
+             }
+             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'/'+levelInfo.get("resourceId")+'\'">Add Resources</button>')
+             App.$el.children('.body').append(levelDetails.el)
+             if(levelInfo.get("questions")!=null){
+               App.$el.children('.body').append('<button class="btn btn-primary" align="right" onclick = "document.location.href=\'#edit-quiz/'+lid+'\'">Edit Quiz</button>')
+             }
+         }})
+     },
+      
+    
     // Search Module Router Version 1.0.0
     
     AssignResourcetoShelf : function()
@@ -323,16 +340,19 @@ $(function() {
     	if(typeof grpId === 'undefined'){
    			document.location.href='#courses'}
  	var rids = new Array()
+        var rtitle = new Array()
         $("input[name='result']").each( function () {
           if ($(this).is(":checked"))
 	      {
   		var rId = $(this).val();
-  		rids.push(rId)
+  	        rtitle.push($(this).attr('rTitle'))
+                rids.push(rId)
 	      }
 	});
          var cstep = new App.Models.CourseStep({"_id":grpId,"_rev":levelrevId})
 	 cstep.fetch({async:false})
          cstep.set("resourceId",rids)
+	 cstep.set("resourceTitles",rtitle)
 	 console.log(cstep)
 	 cstep.save()
 	 cstep.on('sync',function(){
@@ -384,15 +404,21 @@ $(function() {
         $("#selectAllButton").show()
    },
   
-  SearchBell: function(levelId,rid) {
+  SearchBell: function(levelId,rid,resourceIds) {
   	
       if(typeof levelId === 'undefined'){
    		document.location.href='#courses'
- 	}
-  	  grpId = levelId
-          levelrevId = rid
+       }
+       
+       if(typeof rid === 'undefined'){
+   		document.location.href='#courses'
+       }
+      grpId = levelId
+      levelrevId = rid
+      
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
+      search.resourceids = resourceIds
       App.$el.children('.body').html(search.el)
       search.render()
       $( "#srch" ).hide()

@@ -12,7 +12,7 @@ $(function() {
     initialize : function(){
       this.groupresult = new App.Collections.SearchResource()  
       this.resultArray  = []
-enablenext=0
+      enablenext=0
     },
     render: function() {
 	var obj = this
@@ -52,6 +52,7 @@ enablenext=0
 	    if(obj.resultArray.length > 0){
 	        ResultCollection.set(obj.resultArray)
 		var SearchSpans = new App.Views.SearchSpans({collection: ResultCollection})
+		SearchSpans.resourceids = obj.resourceids
 	        SearchSpans.render()
 		$('#srch').append(SearchSpans.el)
 		}

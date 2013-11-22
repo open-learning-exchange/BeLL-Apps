@@ -5,7 +5,7 @@ $(function() {
     tagName: "tr",
 
     events: {
-      "click .destroy" : function(e) {
+      "click #destroyItem" : function(e) {
         e.preventDefault()
         this.model.destroy()
         this.remove()

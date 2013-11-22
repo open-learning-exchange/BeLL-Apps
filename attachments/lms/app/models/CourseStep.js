@@ -39,8 +39,16 @@ $(function() {
           type:'Select',
           options: [],
       },
+      resourceTitles:{
+          type:'Select',
+          options: [],
+      },
       allowedErrors:'Text',
-      passingMarks:'Text',
+      
+      passingPercentage:{
+          type:'Select',
+          options: [10,20,30,40,50,60,70,80,90,100],
+      },
     }  
   
   }) 

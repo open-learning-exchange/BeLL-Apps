@@ -40,8 +40,7 @@ $(function() {
 			var that = this
 			cstep.on('sync',function(){
 			  alert("Your Quiz have been saved successfully")
-			  
-			  Backbone.history.navigate('search-bell/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
+			  Backbone.history.navigate('level/view/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
 			})
 	},
      },

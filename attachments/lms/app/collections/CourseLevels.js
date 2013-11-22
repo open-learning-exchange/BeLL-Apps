@@ -3,7 +3,7 @@ $(function() {
   App.Collections.CourseLevels = Backbone.Collection.extend({
 
     url: function() {
-      var url = App.Server + '/coursestep/_design/bell/_view/GroupData?key="' + this.groupId + '"&include_docs=true'
+      var url = App.Server + '/coursestep/_design/bell/_view/StepsData?key="' + this.groupId + '"&include_docs=true'
       return url
     },
 

@@ -21,6 +21,7 @@ $(function() {
         this.form.fields['qoptions'].$el.hide()
         this.form.fields['answers'].$el.hide()
         this.form.fields['resourceId'].$el.hide()
+        this.form.fields['resourceTitles'].$el.hide()
         // give the form a submit button
         var $button = $('<a class="btn btn-success" id="formButton">save</button>')
         this.$el.append($button)
@@ -39,7 +40,9 @@ $(function() {
        var rid = that.model.get("rev")
        var title = that.model.get("title")
        console.log(that.model)
-       Backbone.history.navigate('create-quiz/'+id+'/'+rid+'/'+title, {trigger: true})
+       //Backbone.history.navigate('create-quiz/'+id+'/'+rid+'/'+title, {trigger: true})
+       Backbone.history.navigate('course/manage/'+id, {trigger: true})
+      
       })
       // Put the form's input into the model in memory
       this.form.commit()
@@ -48,6 +51,7 @@ $(function() {
       this.model.set("answers",null)
       this.model.set("qoptions",null)
       this.model.set("resourceId",null)
+      this.model.set("resourceTitles",null)
       this.model.save()
     },
 

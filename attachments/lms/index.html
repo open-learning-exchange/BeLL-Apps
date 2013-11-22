@@ -81,6 +81,7 @@
   <script src="app/views/LevelsTable.js"></script>
   <script src="app/views/LevelRow.js"></script>
   <script src="app/views/LevelForm.js"></script>
+  <script src="app/views/LevelDetail.js"></script>
   <script src="app/views/QuizView.js"></script>
 
   <!-- LMS SEARCH -->
@@ -425,16 +426,16 @@
   
   <script type="text/html" id="template-LevelRow">
     <td>
-      <%= title %> : Level <%= level %>
+      <%= title %> : Step <%= level %>
     </td> 
    <td>
-      <a role='button' class='btn' href='#level/edit/<%= _id %>'> 
-        <i class="icon-edit"></i> Edit
+      <a role='button' class='btn btn-info' href='#level/view/<%= _id %>/<%= _rev %>'> 
+        <i class="icon-edit"></i> View Details
       </a>
     </td>    
 
     <td>
-      <a class='destroy btn' href='#'>
+      <a class='btn btn-danger' id="#destroyItem" href='#'>
         <i class='icon-remove'></i> Delete
       </a>
     </td>
