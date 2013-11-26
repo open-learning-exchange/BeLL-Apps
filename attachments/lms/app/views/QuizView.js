@@ -70,16 +70,16 @@ $(function() {
      		}
       		else
       		{
-			this.completeQuestions[this.currentQuestion] = true
+				this.completeQuestions[this.currentQuestion] = true
       			this.saveQuestionAndOptions()
-		}
-		var err = this.validateAllQuestions()
+			}
+			var err = this.validateAllQuestions()
   	      	if(err!='none')
       		{
       			alert(err)
       		}
-		else
-		{
+			else
+			{
   				console.log(this.questionOptions)
 				var cstep = new App.Models.CourseStep({"_id":this.levelId,"_rev":this.revId})
 				cstep.fetch({async:false})
@@ -94,7 +94,7 @@ $(function() {
 			                Backbone.history.navigate('level/view/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
 				})
       		}
-	},
+		},
      },
      displayQuestionInView: function(questionNo)
      {
