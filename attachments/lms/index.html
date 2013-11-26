@@ -102,7 +102,11 @@
   var skipStack = new Array();
   var lastpage = false;
   var grpId;
-  var levelrevid;
+  var levelrevId;
+  var tagFilter = new Array() ; 
+  var subjectFilter = new Array() ;
+  var rids = new Array() ; 
+  var rtitle = new Array() ;
   function selectAllSearchResult()
   {
       $("input[name='result']").each( function () {
@@ -111,7 +115,7 @@
   }
   function showSearchView()
   {
-      App.Router.SearchBell(grpId);
+      App.Router.SearchBell(grpId,levelrevId,0);
 
   }
   function searchResources()

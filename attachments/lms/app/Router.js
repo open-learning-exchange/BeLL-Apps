@@ -369,16 +369,16 @@ $(function() {
         if(typeof grpId === 'undefined'){
    	    document.location.href='#courses'
         }
- 	var rids = new Array()
-        var rtitle = new Array()
+ 		//var rids = new Array()
+        //var rtitle = new Array()
         $("input[name='result']").each( function () {
           if ($(this).is(":checked"))
 	      {
-  		var rId = $(this).val();
+  			var rId = $(this).val();
   	        rtitle.push($(this).attr('rTitle'))
-                rids.push(rId)
+            rids.push(rId)
 	      }
-	});
+	    });
         
          var cstep = new App.Models.CourseStep({"_id":grpId,"_rev":levelrevId})
 	 cstep.fetch({async:false})
@@ -407,20 +407,23 @@ $(function() {
         else{
             searchText = $("#searchText").val()
          }
-         var tagFilter = new Array()
-         var subjectFilter = new Array()
-         var k = 0
+		
+		$("input[name='result']").each( function () {
+          if ($(this).is(":checked"))
+	      {
+  			var rId = $(this).val();
+  	        rtitle.push($(this).attr('rTitle'))
+            rids.push(rId)
+	      }
+	    });
          $("input[name='tag']").each( function () {
 	 		if ($(this).is(":checked")){
-	     		tagFilter[k] = $(this).val();
-   	     		k++;
+	     		tagFilter.push($(this).val());
 	 		}
      	 })
-     	 k = 0
      	 $("input[name='subject']").each( function () {
 	 		if ($(this).is(":checked")){
-	     		subjectFilter[k] = $(this).val();
-   	     		k++;
+	     		subjectFilter.push($(this).val());
 	 		}
      	 })
         $('ul.nav').html($("#template-nav-logged-in").html())
@@ -438,6 +441,7 @@ $(function() {
    },
   
   SearchBell: function(levelId,rid,resourceIds) {
+  
   	
       var levelInfo = new App.Models.CourseStep({"_id":levelId})
       levelInfo.fetch({success: function() {
@@ -450,6 +454,11 @@ $(function() {
        }
       grpId = levelId
       levelrevId = rid
+      
+      tagFilter.length = 0
+       subjectFilter.length = 0
+       rtitle.length = 0
+       rids.length = 0
       
       $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
