@@ -56,6 +56,7 @@
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Calendar.js"></script>
   <script src="app/models/CourseStep.js"></script>
+<script src="app/models/report.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -66,6 +67,7 @@
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/SearchResource.js"></script>
   <script src="app/collections/Calendars.js"></script>
+  <script src="app/collections/siteFeedbacks.js"></script>
   
   
   <script src="app/views/GroupRow.js"></script>
@@ -92,8 +94,10 @@
   <script src="app/views/ResourcesDetail.js"></script>
   <script src="app/views/CalendarForm.js"></script>
   <script src="app/views/CourseLevelsTable.js"></script>
+  <script src="app/views/navBarView.js"></script>
+  <script src="app/views/siteFeedback.js"></script>
+  <script src="app/views/siteFeedbackPage.js"></script>
   
- 
   <!-- 
     Templates 
   -->
@@ -106,6 +110,17 @@ var limitofRecords = 5;
 var skipStack = new Array()
 var numberOfNotificattions="."
 var lastpage = false
+
+function showFeedbackForm(){
+	  App.renderFeedback()
+		if(document.getElementById('site-feedback').style.visibility!='visible'){
+		$('#site-feedback').animate({height:'243px'})
+		document.getElementById('site-feedback').style.visibility='visible'
+		}
+		else{
+		$('#site-feedback').animate({height:'toggle'})
+		}
+}
 
 function searchResources()
 {
@@ -154,35 +169,26 @@ obj.setSelectionRange(end, end);
 </script>
 
 
-  <script type="text/template" id="template-app">
-    <div id="debug"></div>
-    
+  <script type="text/template" id="template-app">  
   <div class="navbar navbar-inverse">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
   </div>    
-  <div class="navbar-collapse collapse" id="nav-collapse-01">
-    <ul class="nav" id="itemsinnavbar">
-    
-    </ul>     
+  <div class="navbar-collapse collapse" id="nav-collapse-01">   
   </div>      
 </div>
-    <div id="logo">
-    </div>
+	
     <!-- Body -->
-    <div class="container body">
+    <div class="container body" id="main-body">
       <!-- Content -->
     </div>
      
   </script>
+  
    <script type="text/template" id="template-logoimg">
    <img id="olelogo" src="img/ole.png">
-   
    </script>
    
-   
-
-
    <script type="text/html" id="template-ResourceRow">
     <td class="news-table-td-title">
       <% if(author){ %>
@@ -261,30 +267,25 @@ obj.setSelectionRange(end, end);
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#dashboard">
-        <i class="icon-home icon-white"></i> Dashboard
+        <i class="fui-list"></i> Dashboard
       </a>
     </li> 
 
 	<li> 
 	<div id="badge" style="position:relative;padding:10px; ">
       <a href="#notifications">
-        <i class="icon-plane icon-white"></i> <b>Notifications&nbsp&nbsp&nbsp</b>
+        <i class="fui-chat"></i> <b>Invitations&nbsp&nbsp&nbsp</b>
       </a>
       </div>
     </li>
-
-    <li> 
-      <a class="fui-lock" href="#logout">
-        <i class="icon-plane icon-white"></i> Exit
+    
+     <li  style="float:right;"> 
+      <a onclick = "showFeedbackForm()">
+        <i class="fui-cmd"></i> Feedback
       </a>
     </li>
-  
-
-    <li id="application-cache-status" style="display:none;"> 
-      <a href="#"  style="color:red">
-        <i class="icon-download icon-white"></i> Resources are downloading...
-      </a>
-    </li>
+    
+    
   </script>
 
 
@@ -304,11 +305,13 @@ obj.setSelectionRange(end, end);
           LMS
       </a>
     </li>
-    <li id="application-cache-status" style="display:none"> 
-      <a href="#"  style="color:red">
-        <i class="icon-download icon-white"></i> Resources are downloading...
+    
+    <li  style="float:right;"> 
+      <a  href="#report/<%= uRL %>">
+        <i class="fui-cmd"></i> Feedback
       </a>
     </li>
+    
   </script>
 
   <script type="text/html" id="template-GroupAssignmentsTable">
