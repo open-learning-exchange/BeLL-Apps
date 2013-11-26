@@ -477,6 +477,7 @@ height:100%;
 #f-formButton button{
 float:left;
 margin-left: 1px;
+width: 33%;
 }
 
  textarea[name="comment"]
