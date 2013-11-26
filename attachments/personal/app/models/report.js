@@ -20,7 +20,8 @@ $(function() {
       PageUrl: 'Text',
       comment: 'TextArea',
       Resolved: 'Text',
-      memberId: 'Text'
+      memberLogin: 'Text',
+      time: 'Text'
     }
 
 

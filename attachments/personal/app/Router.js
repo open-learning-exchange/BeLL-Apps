@@ -26,15 +26,26 @@ $(function() {
       'calendar/event/:eid'                 : 'calendaar',
       'addEvent'		      : 'addEvent',
       'report/:Url'                     : 'report',
-      'notifications'                     : 'notifications',
+      'notifications'                     : 'invitations',
+      'siteFeedback'	: 'viewAllFeedback',
       '*nomatch'                      : 'errornotfound',  
     },
     
     initialize: function() {
     this.bind( "all", this.renderNav )
-     this.bind( "all", this.renderFeedback )
-},
 
+	},
+
+	viewAllFeedback: function(){
+		feed = new App.Collections.siteFeedbacks()
+       feed.fetch({success: function() {
+          feedul = new App.Views.siteFeedbackPage({collection:feed})
+          feedul.render()
+          App.$el.children('.body').html('&nbsp')	
+          App.$el.children('.body').append(feedul.el) 
+			}})
+	},
+	
     renderNav: function(){
    		if($.cookie('Member._id')){
         var na=new App.Views.navBarView({isLoggedIn:'1'})
@@ -48,25 +59,14 @@ $(function() {
 
 
 
-renderFeedback: function(){
-var mymodels=new App.Models.report()
-	 var na=new App.Views.siteFeedback({model: mymodels})
-	 na.render()
-      App.$el.children('.body').append(na.el)
-},
-    errornotfound: function()
-    {
-        alert("no route matching")
-    },
+
     
- 	report: function(Url){
- 	alert("In report =>"+Url)
- 
- 	},   
     
-    notifications: function(){
+    
+    
+    invitations: function(){
     	App.$el.children('.body').html('&nbsp')
-    	App.$el.children('.body').append('<h3>Notifications<h3>')
+    	App.$el.children('.body').append('<h3 class="hh3">Invitations<h3>')
 	invits = new App.Collections.Invitations()
         invits.fetch({success: function() {
 
@@ -121,6 +121,7 @@ var mymodels=new App.Models.report()
 
 
     SearchResult : function(text){
+    this.renderFeedback
       skipStack.push(skip)
       if(text){
           searchText = text

@@ -61,6 +61,23 @@ $(function() {
 
     },
 
+	renderFeedback: function(){
+var mymodels=new App.Models.report()
+	 var na=new App.Views.siteFeedback({model: mymodels})
+	 na.render()
+      App.$el.children('.body').append(na.el)
+},
+    errornotfound: function()
+    {
+        alert("no route matching")
+    },
+    
+ 	report: function(Url){
+ 	alert("In report =>"+Url)
+ 
+ 	},   
+    
+
     updateAppCacheStatus: function() {
       if (applicationCache.status == applicationCache.DOWNLOADING) {
         $("#application-cache-status").show()

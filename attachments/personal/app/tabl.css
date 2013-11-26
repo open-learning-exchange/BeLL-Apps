@@ -303,3 +303,16 @@ color:white;
        padding: 7px 10px 6px;
     margin-top: 0; !important
 }
+.table-feedback{
+text-align:left;
+}
+.table-feedback th{
+text-align:center;
+}
+.table-feedback tr{
+line-height: 34px;
+border-bottom:1px solid black;
+}
+.table-feedback td{
+  font-size: 19px;
+}

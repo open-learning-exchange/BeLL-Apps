@@ -12,38 +12,37 @@ $(function() {
    
    events: {
       "click #formButton": "setForm",
-		"click #CancelButton":"cancelform" 
+		"click #CancelButton":"cancelform" ,
+		"click #ViewAllButton":"gotoRoute"
     },
-
+gotoRoute: function(){
+ Backbone.history.navigate('siteFeedback', {trigger: true})
+},
  cancelform: function() {
   $('#site-feedback').animate({height:'toggle'})
   this.form.setValue({comment:""})	
  },
-	 setForm: function() {
-    
-   	var temp=Backbone.history.location.href
-    temp=temp.split('#')
-  	this.form.setValue({PageUrl:temp[1]})
-  	this.form.setValue({Resolved:'0'})
-  	this.form.setValue({memberId:$.cookie('Member._id')})	
-  	console.log(this.form.getValue("PageUrl"))
-  	console.log(this.form.getValue("Resolved"))
-  	console.log(this.form.getValue("memberId"))
-    this.form.commit()
-     this.model.save()  
-    alert("Feedback Successfully Sent")
-      $('#site-feedback').animate({height:'toggle'})
-   this.form.setValue({comment:""})	
-    },
+ setForm: function() {
+	if(this.form.getValue("comment").length!=0){
+   		var temp=Backbone.history.location.href
+   		var now = new Date();
+		now.getDate()
+    	temp=temp.split('#')
+  		this.form.setValue({PageUrl:temp[1]})
+  		this.form.setValue({Resolved:'0'})
+  		this.form.setValue({memberLogin:$.cookie('Member.login')})	
+  		this.form.setValue({time: now.toString()})
+    	this.form.commit()
+    	this.model.save()  
+    	alert("Feedback Successfully Sent")
+   	 	this.form.setValue({comment:""})	
+     }
+    $('#site-feedback').animate({height:'toggle'})
+  },
 
 
 
     render: function() {
-    
-    	  var temp=document.getElementById('site-feedback')
-   	if(temp!=null){
-    	 temp.parentNode.removechild(temp)
-     }
     
      // members is required for the form's members field
         var siteFeedbackForm = this
@@ -52,12 +51,9 @@ $(function() {
         this.$el.append(this.form.render().el)
        this.form.fields['PageUrl'].$el.hide()
         this.form.fields['Resolved'].$el.hide()
-        this.form.fields['memberId'].$el.hide()
-      //  $('.field-backgroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
-      //  $('.field-foregroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
-        // give the form a submit button
-       // var $button = $('<a class="btn" id="formButton">Submit</button>')
-         var $button = $('<div id="f-formButton"><button class="btn btn-hg btn-primary" id="formButton">Submit</button><button class="btn btn-hg btn-danger" id="CancelButton">Cancel</button></div>')
+        this.form.fields['memberLogin'].$el.hide()
+        this.form.fields['time'].$el.hide()
+         var $button = $('<div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">Cancel</button><button class="btn btn-hg btn-info" id="ViewAllButton">View All</button><button class="btn btn-hg btn-primary" id="formButton">Submit</button></div>')
         this.$el.append($button)
 
     }
