@@ -81,7 +81,7 @@ $(function() {
     	var that  = this
       var resultArray = []
       var foundCount 
-	 //if(searchText!="")
+	 if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0))
 	 {
 	   _.each(resourceArray, function(result) {
 		if(result.get("title") != null ){

@@ -34,7 +34,8 @@ $(function() {
        email:'Text',
        birthLanguage :'Text',
        BirthDate:  'Date',
-	  Gender: {
+	   visits : 'Text',
+	   Gender: {
           type: 'Select',
           options: ['Male', 'Female']
       },

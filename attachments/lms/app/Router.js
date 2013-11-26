@@ -32,9 +32,23 @@ $(function() {
       'search-result'		    :'SearchResult',
       'assign-to-level'	    :'AssignResourcetoLevel',
       'assign-to-shelf'		    :'AssignResourcetoShelf',
-      'create-quiz/:lid/:rid/:title'				:'CreateQuiz'
+      'create-quiz/:lid/:rid/:title'				:'CreateQuiz',
+      'demo-version'				:'DemoVersion',
     },
-	
+	 DemoScreen: function(){
+    	$('ul.nav').html($("#template-nav-logged-in").html())       
+      var demo = new App.Views.Demo()
+      App.$el.children('.body').html(demo.el)
+      demo.render()
+    },
+    DemoVersion : function()
+    {
+    	$('ul.nav').html($("#template-nav-logged-in").html()).show()
+    	 var demo = new App.Views.Demo()
+	     App.$el.children('.body').html(demo.el)
+	     demo.render()
+
+    },
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
@@ -44,14 +58,15 @@ $(function() {
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
-        $('ul.nav').html($("#template-nav-logged-in").html())
-        Backbone.history.navigate('courses', {trigger: true})
+       // $('ul.nav').html($("#template-nav-logged-in").html())
+       // Backbone.history.navigate('courses', {trigger: true})
+          Backbone.history.navigate('demo-version', {trigger: true})
       })
       memberLoginForm.render()
-      App.$el.children('.body').html('<h1>Member login</h1>')
-      App.$el.children('.body').append(memberLoginForm.el)
+      //App.$el.children('.body').html('<h1>Member login</h1>')
+      App.$el.children('.body').html(memberLoginForm.el)
       //Override the menu
-      $('ul.nav').html($('#template-nav-log-in').html())
+     $('ul.nav').html($('#template-nav-log-in').html()).hide()
     },
 
     MemberLogout: function() {
@@ -426,18 +441,22 @@ $(function() {
 	     		subjectFilter.push($(this).val());
 	 		}
      	 })
-        $('ul.nav').html($("#template-nav-logged-in").html())
-        var search = new App.Views.Search()
-        search.tagFilter = tagFilter
-        search.subjectFilter = subjectFilter
-        App.$el.children('.body').html(search.el)
-        search.render()
-        $("#searchText2").val(searchText)
-        $( "#srch" ).show()
-        $( ".row" ).hide()
-        $( ".search-bottom-nav" ).show()
-        $(".search-result-header").show()
-        $("#selectAllButton").show()
+     	
+     	if(searchText != "" || (tagFilter && tagFilter.length>0) || (subjectFilter && subjectFilter.length>0))
+	 	{
+	        $('ul.nav').html($("#template-nav-logged-in").html())
+	        var search = new App.Views.Search()
+	        search.tagFilter = tagFilter
+	        search.subjectFilter = subjectFilter
+	        App.$el.children('.body').html(search.el)
+	        search.render()
+	        $("#searchText2").val(searchText)
+	        $( "#srch" ).show()
+	        $( ".row" ).hide()
+	        $( ".search-bottom-nav" ).show()
+	        $(".search-result-header").show()
+	        $("#selectAllButton").show()
+	 	}
    },
   
   SearchBell: function(levelId,rid,resourceIds) {

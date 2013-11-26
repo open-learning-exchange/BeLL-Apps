@@ -91,6 +91,7 @@
   <script src="app/views/Search.js"></script>
   <script src="app/views/SearchSpan.js"></script>
   <script src="app/views/SearchSpans.js"></script>
+    <script src="app/views/Demo.js"></script>
 
   
   <!-- ALL Code Regarding the Search Function -->
@@ -654,6 +655,40 @@ Courses | <%= courseTitle %>
 </div>
 </script>
 
+<script type="text/template" id="template-demo">
+<h1>Demo Community Bell</h1>
+<span style="margin-left:13%;font-size:18px">Pre-release version 1.0.3</span><br/>
+<span style="margin-left:10%;font-size:20px;"> <b> You have now visited <%= visits %> times </b></span>
+<div style="width: 70%;font-size:16px;margin-left: -2%;">
+Thank you for becoming a Member of OLE’s Demo Community
+You can help us in our continuing development of the  BeLL 
+Learning Management System (LMS.) <br/>
+Use the Task Bar at the top of the screen to see and add:
+<div style="margin-left:20%">
+<ol>
+  <li>Member</li>
+  <li>Courses</li>
+  <li>Resources</li>
+</ol>
+</div>
+You can also open your Personal BeLL and see and:
+<div style="margin-left:20%"><ol>
+  <li>accept admission to a Course</li>
+  <li>Take a Step in a course and its quiz</li>
+  <li>Add resources to your Shelf</li>
+</ol></div>
+</div>
+<br/>
+ <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Continue >></button>
+
+</script>
+<script type="text/template" id="template-login">
+<div style="position:absolute;margin-top:-1%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
+<span style="margin-left:5%;font-size:31px;">Welcome to the</span><br/><br/>
+<span style="margin-left:-5%;font-size:37px;">Demo Community BeLL</span><br/><br/>
+<span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.3)</span><br/>
+<span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
+</script>
 </head>
 
 <body>

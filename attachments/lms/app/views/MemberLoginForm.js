@@ -1,7 +1,8 @@
 $(function() {
 
   App.Views.MemberLoginForm = Backbone.View.extend({
-    
+    template: $('#template-login').html(),
+    vars: {},
     className: "form",
 
     events: {
@@ -11,6 +12,7 @@ $(function() {
 
     render: function() {
       // create the form
+      this.$el.html(_.template(this.template, this.vars))
       this.form = new Backbone.Form({model:this.model})
       this.$el.append(this.form.render().el)
       // give the form a submit button
