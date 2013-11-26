@@ -443,3 +443,56 @@ font-size: 23px;
 .cidt-pp{
 text-align:right;
 }
+.navbar .nav {
+    width: 94%;
+}
+
+#site-feedback{
+     background-color: #34495E;
+    border-radius: 20px;
+    color: #FFFFFF;
+    height: 0px;
+    margin-left: 20%;
+    position: absolute;
+    top: 30%;
+    width: 60%;
+    visibility: hidden;;
+}
+#site-feedback fieldset{
+border:none;
+height:100%;
+}
+#f-formButton{
+ margin-left: 10%;
+    width: 80%;
+}
+
+#f-formButton #formButton{
+float:left;
+}
+
+#f-formButton #CancelButton{
+float:right;
+}
+
+ textarea[name="comment"]
+ {
+  border-radius: 20px;
+    height: 100%;
+    width: 87%;
+ }
+#site-feedback .bbf-form{
+height: 72%;
+}
+#site-feedback .bbf-form .bbf-editor{
+height: 72%;
+}
+#site-feedback ul{
+height:80%;
+}
+#site-feedback li{
+height:100%;
+}
+#main-body{
+background-color='rgba(64,64,64,0.5)';
+}

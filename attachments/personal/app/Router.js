@@ -1,7 +1,6 @@
 $(function() {
-
   App.Router = new (Backbone.Router.extend({
-
+	
     routes: {
       ''                              : 'Dashboard', 
       'dashboard'                     : 'Dashboard',
@@ -26,23 +25,51 @@ $(function() {
       'calendar'                      : 'CalendarFunction',
       'calendar/event/:eid'                 : 'calendaar',
       'addEvent'		      : 'addEvent',
+      'report/:Url'                     : 'report',
       'notifications'                     : 'notifications',
       '*nomatch'                      : 'errornotfound',  
     },
+    
+    initialize: function() {
+    this.bind( "all", this.renderNav )
+     this.bind( "all", this.renderFeedback )
+},
+
+    renderNav: function(){
+   		if($.cookie('Member._id')){
+        var na=new App.Views.navBarView({isLoggedIn:'1'})
+     	}   
+     	else{
+     		var na=new App.Views.navBarView({isLoggedIn:'0'})
+     	}
+     	 $('div.navbar-collapse').html(na.el)
+     	       App.badge()
+    },
+
+
+
+renderFeedback: function(){
+var mymodels=new App.Models.report()
+	 var na=new App.Views.siteFeedback({model: mymodels})
+	 na.render()
+      App.$el.children('.body').append(na.el)
+},
     errornotfound: function()
     {
         alert("no route matching")
     },
     
-    
-    
+ 	report: function(Url){
+ 	alert("In report =>"+Url)
+ 
+ 	},   
     
     notifications: function(){
     	App.$el.children('.body').html('&nbsp')
-    	App.$el.children('.body').html('<h3>Notifications<h3>')
+    	App.$el.children('.body').append('<h3>Notifications<h3>')
 	invits = new App.Collections.Invitations()
         invits.fetch({success: function() {
-      	console.log(invits.length.toString())
+
           $('#olelogo').remove();
           invitsTable = new App.Views.NotificationTable({collection: invits})
           invitsTable.render()
@@ -101,25 +128,21 @@ $(function() {
       else{
         searchText = $("#searchText").val()
       }
-      $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
       search.render()
       $("#searchText").val(searchText)
       $('#olelogo').remove()
-       App.badge()
   },
   
   SearchBell: function() {
-      $('ul.nav').html($("#template-nav-logged-in").html())
+      
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
       search.render()
       $('#olelogo').remove()
-       App.badge()
     },
     Dashboard: function() {
-      App.badge()
       App.ShelfItems = {} // Resetting the Array Here http://stackoverflow.com/questions/1999781/javascript-remove-all-object-elements-of-an-associative-array
         $.ajax({
               type: 'GET',
@@ -132,13 +155,11 @@ $(function() {
               },
               data: {},
               async: false
-      }); 
-      $('ul.nav').html($("#template-nav-logged-in").html())       
+      });       		 
       var dashboard = new App.Views.Dashboard()
       App.$el.children('.body').html(dashboard.el)
       dashboard.render()
       $('#olelogo').remove()
-
     },
 
     MemberLogin: function() {
@@ -150,7 +171,6 @@ $(function() {
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
-        $('ul.nav').html($("#template-nav-logged-in").html())
         $('#logo').html($("#template-logoimg").html())
         Backbone.history.navigate('dashboard', {trigger: true})
       })
@@ -158,7 +178,6 @@ $(function() {
       App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>')
       App.$el.children('.body').append(memberLoginForm.el)
       // Override the menu
-      $('ul.nav').html($('#template-nav-log-in').html())
        $('#logo').html($("#template-logoimg").html())
     },
 
@@ -220,12 +239,8 @@ $(function() {
 			App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>'+name+'</p>')
 			var levelsTable = new App.Views.CourseLevelsTable({collection: ccSteps})
 			levelsTable.render()
-			App.$el.children('.body').append(levelsTable.el)
-			    
-$( "#accordion" ).accordion()
-			    
-			    
-			    
+			App.$el.children('.body').append(levelsTable.el)		    
+			$( "#accordion" ).accordion()
 		}}) 
     },
     
@@ -235,7 +250,8 @@ $( "#accordion" ).accordion()
      resources.fetch({success: function() {
          var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
          resourcesTableView.render()
-         App.$el.children('.body').html(resourcesTableView.el)
+         App.$el.children('.body').html("&nbsp")
+         App.$el.children('.body').append(resourcesTableView.el)
       }}) 
     },
     
@@ -249,9 +265,11 @@ $( "#accordion" ).accordion()
                    var articleTableView = new App.Views.ArticleTable({collection: resources})
                    articleTableView.setAuthorName(authorTitle)
                    articleTableView.render()  
-                   App.$el.children('.body').html(articleTableView.el)
+                    App.$el.children('.body').html("&nbsp")
+                   App.$el.children('.body').append(articleTableView.el)
          }})
     },
+    
     AddResourceToShelf : function (rid,title,revid){
             var shelfItem=new App.Models.Shelf()
             shelfItem.set('memberId',$.cookie('Member._id'))
@@ -267,6 +285,7 @@ $( "#accordion" ).accordion()
             skip = skipStack.pop()    // To Render on the same page poping the staring index of  current page values to display
             App.Router.SearchResult(searchText)
     },
+    
     Resource_Detail : function(rsrcid,sid,revid){
         var resource = new App.Models.Resource()
         resource.SetRid(rsrcid)
@@ -278,6 +297,7 @@ $( "#accordion" ).accordion()
         }})
     
     },
+    
   //Calendar Methods  
   addEvent: function(){
 	var model = new App.Models.Calendar()
@@ -291,7 +311,6 @@ $( "#accordion" ).accordion()
 	App.$el.children('.body').append('<h5>Event Details</h5>')
 	var cmodel = new App.Models.Calendar({_id : eventId})
 	cmodel.fetch({async:false})
-	console.log(cmodel)
 	App.$el.children('.body').append('<br/><b>Title: </b>'+cmodel.attributes.title)
 	App.$el.children('.body').append('<br/><b>Description: </b>'+cmodel.attributes.description)
 	App.$el.children('.body').append('<br/><b>Starting from: </b>'+new Date(cmodel.attributes.start))
@@ -299,7 +318,7 @@ $( "#accordion" ).accordion()
   },
   CalendarFunction: function(){
        App.$el.children('.body').html("<div id='calendar'><div id='addEvent' class='btn btn-bg btn-success' onclick =\"document.location.href='#addEvent'\">Add Event</div></div>")
-        $(document).ready(function() {
+
                  var temp2 = []
 		 var allEvents=new App.Collections.Calendars()
 		 allEvents.fetch({async:false})
@@ -310,7 +329,6 @@ $( "#accordion" ).accordion()
 			temp.end=evnt.attributes.end
 			temp.url="calendar/event/"+evnt.id
 			temp.allDay=false
-			console.log(evnt)
 			temp2.push(temp)	
 			});
 		var calendar = $('#calendar').fullCalendar({
@@ -327,7 +345,7 @@ $( "#accordion" ).accordion()
 		events: temp2,
 		});
 
-      });
+
 },
     /*
      * Syncing pages
@@ -377,7 +395,7 @@ $( "#accordion" ).accordion()
         }
       }) 
     },
-
+    
     FeedbackForm: function(resourceId) {
       var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
       feedbackModel.on('sync', function() {
