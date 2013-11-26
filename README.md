@@ -20,16 +20,16 @@ ulimit -n 10056
 git clone https://github.com/open-learning-exchange/BeLL-Apps.git;
 cd BeLL-Apps/build/;
 npm install;
-./install.js --couchurl http://pi:raspberry@mycouch.iriscouch.com;
-./install.js --couchurl http://pi:raspberry@mycouch.iriscouch.com;
+./install --couchurl http://pi:raspberry@mycouch.iriscouch.com;
+./install --couchurl http://pi:raspberry@mycouch.iriscouch.com;
 ```
 Yes, we are running that install script twice because it is prone to race conditions on the first run.
 
 
 ## 
 ulimit -n 10056
-./install.js --couchurl http://pi:raspberry@bell.local:5984;
-./install.js --couchurl http://pi:raspberry@bell.local:5984;
+./install --couchurl http://pi:raspberry@bell.local:5984;
+./install --couchurl http://pi:raspberry@bell.local:5984;
 
 
 ## The following recipe is for Raspbian on Raspberry Pi.
@@ -79,7 +79,7 @@ cd BeLL-Apps/build
 git pull
 # install prompt for a messenger bell
 # edit ./config/messenger.replicator beforehand if you need to.
-./install.js --mapfile ./config/messenger.replicator --hostname messenger --couchurl http://pi:raspberry@127.0.0.1:5984
+./install --mapfile ./config/messenger.replicator --hostname messenger --couchurl http://pi:raspberry@127.0.0.1:5984
 ```
 
 
