@@ -101,8 +101,12 @@ $(function() {
             $(formEl).ajaxSubmit({
               url: server + "/"+ input_db +"/"+ input_id,
               success: function(response) {
+                
                 model.trigger('savedAttachment')
-              }
+              },
+              error : function(response){
+                  alert("Error")
+              },
             })
           }
 
@@ -123,6 +127,7 @@ $(function() {
         error: function(status) {
           $.couch.db(input_db).saveDoc({"_id":input_id}, {
             success: function(couchDoc) {
+              alert('error success')
               // Now that the Couch Doc exists, we can submit the attachment,
               // but before submitting we have to define the revision of the Couch
               // Doc so that it gets passed along in the form submit.
