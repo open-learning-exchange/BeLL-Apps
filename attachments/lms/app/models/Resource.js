@@ -107,7 +107,17 @@ $(function() {
           }
 
         }, // End success, we have a Doc
-        
+    handleError: function( s, xhr, status, e ) {
+    // If a local callback was specified, fire it
+       if ( s.error ) {
+              s.error.call( s.context || window, xhr, status, e );
+       }
+
+    // Fire the global callback
+         if ( s.global ) {
+               (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );
+          }
+      },
         // @todo I don't think this code will ever be run.
         // If there is no CouchDB document with that ID then we'll need to create it before we can attach a file to it.
         error: function(status) {

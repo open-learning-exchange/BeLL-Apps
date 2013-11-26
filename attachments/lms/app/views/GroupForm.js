@@ -13,7 +13,9 @@ $(function() {
 
       // members is required for the form's members field
         var groupForm = this
-        // create the form
+        this.model.schema.members.options = []
+        //create the form
+        
         this.form = new Backbone.Form({ model: groupForm.model })
         this.$el.append(this.form.render().el)
         this.form.fields['members'].$el.hide()

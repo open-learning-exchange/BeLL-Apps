@@ -5,7 +5,7 @@ $(function() {
     tagName: "tr",
 
     events: {
-      "click #destroyItem" : function(e) {
+      "click .destroyStep" : function(e) {
         e.preventDefault()
         this.model.destroy()
         this.remove()
@@ -23,7 +23,6 @@ $(function() {
     },
 
     render: function () {
-      
       var vars = this.model.toJSON()
       this.$el.append(_.template(this.template, vars))
     }

@@ -43,11 +43,28 @@ $(function() {
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       },
       status:'Text',
-      
       roles: {
         type: 'Checkboxes',
         options: ['admin', 'student', 'teacher', 'head', 'coach', 'lead']
-      }
+      },
+      yearsOfTeaching:{
+          type: 'Select',
+          options: ['None', '1 to 20', 'More than 20']
+      },
+      teachingCredentials:{
+        type:'Select',
+        options:['Yes','No']
+      },
+      subjectSpecialization: 'Text',
+      forGrades:{
+        type:'Checkboxes',
+        options:['Pre-k','Grades','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
+      },
+      selectGrades:{
+        type:'Checkboxes',
+        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+      },
+      
     },
 
 

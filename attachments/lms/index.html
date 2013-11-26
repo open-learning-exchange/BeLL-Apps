@@ -437,7 +437,7 @@
   
   <script type="text/html" id="template-LevelRow">
     <td>
-      <%= title %> : Step <%= level %>
+     Step <%= step %> : <%= title %>  
     </td> 
    <td>
       <a role='button' class='btn btn-info' href='#level/view/<%= _id %>/<%= _rev %>'> 
@@ -446,7 +446,7 @@
     </td>    
 
     <td>
-      <a class='btn btn-danger' id="#destroyItem" href='#'>
+      <a class='destroyStep btn btn-danger' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
     </td>

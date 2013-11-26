@@ -17,7 +17,7 @@ $(function() {
       'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
       'course/manage/:groupId'   : 'ManageCourse',
        'addItemstoLevel/:lid/:rid/:title'    :  'AddItemsToLevel', 
-      'level/add/:groupId'       : 'AddLevel',
+      'level/add/:groupId/:levelId'       : 'AddLevel',
       'level/view/:levelId/:rid'       : 'ViewLevel',
       'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
       'course/assignments/:groupId' : 'GroupAssignments',
@@ -252,24 +252,40 @@ $(function() {
       levels = new App.Collections.CourseLevels()
       levels.groupId = groupId
       
+      
       levels.fetch({success: function() {
-        console.log(levels)
+        levels.sort()
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.render()
         App.$el.children('.body').html('<h1>Course Steps</h1>')
-        App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+groupId+'\'">Add Step</button>')
+        App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+groupId+'/nolevel\'">Add Step</button>')
         App.$el.children('.body').append(lTable.el)
       }})
     },
     
-    AddLevel : function(groupId){
+    AddLevel : function(groupId,levelId){
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
        var Cstep = new App.Models.CourseStep()
-       Cstep.set({courseId : groupId})
        var lForm = new App.Views.LevelForm({model: Cstep})
-       lForm.render()
-       App.$el.children('.body').html('<h1>New Step</h1>')
-       App.$el.children('.body').append(lForm.el)
+       Cstep.set({courseId : groupId})
+       if (levelId == "nolevel") {
+     
+          App.$el.children('.body').html('<h1>New Step</h1>')
+          lForm.render()
+          App.$el.children('.body').append(lForm.el)
+      }
+      else{
+        Cstep.set({"_id":levelId})
+        Cstep.once('sync', function() {
+          App.$el.children('.body').html('<h1>Edit Step</h1>')
+          lForm.edit = true
+          lForm.previousStep = Cstep.get("step")
+          lForm.render()
+          App.$el.children('.body').append(lForm.el)
+        }) 
+        Cstep.fetch()
+      }
+      
     },
     AddItemsToLevel : function(lid,rid,title){
            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
@@ -307,12 +323,13 @@ $(function() {
              if(levelInfo.get("questions") == null){
                 App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Create Quiz</button>&nbsp;&nbsp;')
                 //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
+             }else{
+               App.$el.children('.body').append('<button class="btn btn-primary"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Edit Quiz</button>&nbsp;&nbsp;')
              }
-             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'\'">Add Resources</button>')
+             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'\'">Add Resources</button>&nbsp;&nbsp;')
+             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'\'">Edit Step</button>&nbsp;&nbsp;')
              App.$el.children('.body').append(levelDetails.el)
-             if(levelInfo.get("questions")!=null){
-              App.$el.children('.body').append('<button class="btn btn-primary"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Edit Quiz</button>')
-             }
+            
          }})
      },
       

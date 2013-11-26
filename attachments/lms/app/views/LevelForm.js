@@ -6,9 +6,9 @@ $(function() {
 
     events: {
       "click #formButton": "setForm",
-      "submit form" : "setFormFromEnterKey"
+      "submit form" : "setFormFromEnterKey",
     },
-
+    
     render: function() {
 
       // members is required for the form's members field
@@ -52,7 +52,27 @@ $(function() {
       this.model.set("qoptions",null)
       this.model.set("resourceId",[])
       this.model.set("resourceTitles",[])
-      this.model.save()
+      //Checking that level added to the user may not already exist in the data base
+      levels = new App.Collections.CourseLevels()
+      levels.groupId = this.model.get("courseId")
+      levels.fetch({success: function() {
+      levels.sort()
+      var done = true
+      
+      if(this.edit){
+      if(this.previousStep != this.model.get("step")){
+          levels.each(function(step){
+                    if(step.get("step") == that.model.get("step"))
+                         done=false
+          })
+      }
+      }
+      if(done)
+       that.model.save()
+      else
+       alert("Step already exists")
+      
+      }})
     },
 
 

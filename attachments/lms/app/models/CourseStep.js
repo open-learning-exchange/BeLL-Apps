@@ -21,7 +21,8 @@ $(function() {
     
   schema: {
       title: 'Text',
-      level:'Text',
+      description: 'TextArea',
+      step :'Text',
       courseId : 'Text',
       resourceId:{
           type:'Select',

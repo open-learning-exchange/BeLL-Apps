@@ -11,21 +11,13 @@ $(function() {
 	    var rid = e.currentTarget.value
 	    var rtitle = this.model.get("resourceTitles")
 	    var rids = this.model.get("resourceId") 
-	    var newTitles = new Array()
-	    var newIds = new Array()
-	    var i
-	    for(i=0;i < rids.length ; i++ ){
-	      if(rids[i]!=rid)
-	       {
-		  newIds.push(rids[i])
-		  newTitles.push(rtitle[i])
-	       }
-	       else
-	          break;
-	    }
-	    this.model.set("resourceId",newIds)
-	    this.model.set("resourceTitles",newTitles)
+	    var index = rids.indexOf(rid)
+	    rids.splice(index,1)
+	    rtitle.splice(index,1)
+	    this.model.set("resourceId",rids)
+	    this.model.set("resourceTitles",rtitle)
 	    this.model.save()
+	    
 	    this.model.on('sync',function(){
 		location.reload()
 	    })
