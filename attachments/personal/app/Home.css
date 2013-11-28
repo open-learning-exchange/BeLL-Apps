@@ -1,26 +1,31 @@
 
 #dashboard
 {
-	width:950px;
-	height: 460px;
-
+    height: 471px;
+    width: 950px;
+	overflow: hidden;
 }
 #page-header
 {
-	height: 135px;
-	box-shadow: 0px 2px 2px #888888;
-	float: bottom;
-	width:100%;
+	box-shadow: 0 2px 2px #888888;
+    height: 128px;
+    width: 100%;
+}
+
+#itemsinnavbar{
+ font-size: 17px;
+    margin: 0;
+    padding-top: 8px;
 }
 
 #header-image
 {
+	 height: inherit;
 	width:100%;
 }
 #page-body
 {
-	height: 280px;
-	float: bottom;
+	height: 290px;
 }
 .stu-nav-tube
 {
@@ -38,7 +43,8 @@ padding-top:5px;
 {
 width: 943px;
 height:50px;	
-padding-top: 9px;
+padding-top:0px;
+margin-bottom: 50px;
 }
 
 .stu-nav-title
@@ -219,6 +225,7 @@ body{
     line-height: none;
     margin: none;
 overflow:auto;
+width:100%;
 }
 
 
@@ -229,11 +236,10 @@ overflow:auto;
 
 .navbar-inverse
 {
- height: 57px;
-    margin-bottom: 5px;
-    width: 100%;
-	font-size: 15px;
-	font-family: verdana;
+  font-family: verdana;
+    font-size: 20px;
+    height: 56px;
+    width: 99%;
 }
 
 .btn.btn-hg, .input-group-hg .btn 
@@ -241,7 +247,7 @@ overflow:auto;
 	line-height:13px;
 	color: white;
 	    font-size: 15px;
-	    height: 46px;
+	    height: 51px;
 	    width: 152px;
 	    font-weight: 900;
 }
@@ -443,6 +449,7 @@ font-size: 23px;
 .cidt-pp{
 text-align:right;
 }
+
 .field-firstName
 {
 }
@@ -500,4 +507,63 @@ margin-left: 68%;
 {
 	margin-left: 68%;
 	margin-top: -7%;
+
+.navbar .nav {
+    width: 94%;
+}
+
+#site-feedback{
+     background-color: #34495E;
+    border-radius: 0px 0px 20px 20px;
+    color: #FFFFFF;
+    height: 0px;
+    margin-left: 20%;
+    position: absolute;
+    top: -1%;
+    width: 60%;
+    visibility: hidden;
+    z-index:10;
+}
+#site-feedback fieldset{
+border:none;
+height:100%;
+}
+#f-formButton{
+ margin-left: 10%;
+    width: 80%;
+}
+
+#f-formButton button{
+float:left;
+margin-left: 1px;
+width: 33%;
+}
+
+ textarea[name="comment"]
+ {
+  border-radius: 20px;
+    height: 100%;
+    width: 87%;
+ }
+#site-feedback .bbf-form{
+height: 72%;
+}
+#site-feedback .bbf-form .bbf-editor{
+height: 72%;
+}
+#site-feedback ul{
+height:80%;
+}
+#site-feedback li{
+height:100%;
+}
+#main-body{
+ position: absolute;
+    top: 65px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+.hh3{
+margin-left:35%;
+
 }

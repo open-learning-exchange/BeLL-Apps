@@ -16,7 +16,6 @@ $(function() {
     bellLocation : "Pakistan", 
     el: "body",
     template: $("#template-app").html(),
-
     events: {
       // For the x button on the modal
       "click .close" : "closeModal"
@@ -43,14 +42,14 @@ $(function() {
         Backbone.history.navigate('login', {trigger: true})
       }
       else if (loggedIn && !$.url().attr('fragment')) {
-        // We're logged in but have no where to go, default to the teams page.        
-        $('ul.nav').html($('#template-nav-logged-in').html())
+        // We're logged in but have no where to go, default to the teams page.             
+		App.Router.renderNav()
         Backbone.history.start({pushState: false})
         Backbone.history.navigate('dashboard', {trigger: true})
       }
       else {
         // We're logged in and have a route, start the history.
-        $('ul.nav').html($('#template-nav-logged-in').html())
+     	App.Router.renderNav()
         Backbone.history.start({pushState: false})
       }
 
@@ -61,6 +60,23 @@ $(function() {
       //setInterval(App.updateAppCacheStatus, 10000)
 
     },
+
+	renderFeedback: function(){
+var mymodels=new App.Models.report()
+	 var na=new App.Views.siteFeedback({model: mymodels})
+	 na.render()
+      App.$el.children('.body').append(na.el)
+},
+    errornotfound: function()
+    {
+        alert("no route matching")
+    },
+    
+ 	report: function(Url){
+ 	alert("In report =>"+Url)
+ 
+ 	},   
+    
 
     updateAppCacheStatus: function() {
       if (applicationCache.status == applicationCache.DOWNLOADING) {
@@ -97,8 +113,7 @@ badge: function() {
           	invits = new App.Collections.Invitations()
           	invits.fetch({success: function() {
           	if(invits.length!=0){
-      			numberOfNotificattions=invits.length.toString()
-      			$('#badge').badger(numberOfNotificattions)
+      			$('#badge').badger(invits.length.toString())
       			}
       		else{
       			$('#badge').badger("")
