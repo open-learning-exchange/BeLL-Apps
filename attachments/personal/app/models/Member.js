@@ -66,11 +66,14 @@ $(function() {
         // If found, then set the revision in the form and save
         success: function(couchDoc) {
           // If the current doc has an attachment we need to clear it for the new attachment
-          if (_.has(couchDoc, '_attachments')) {
+          if (_.has(couchDoc, '_attachments'))
+           {
+           //	alert('asdfasd')
             $.ajax({
               url: '/members/' + couchDoc._id + '/' + _.keys(couchDoc._attachments)[0] + '?rev=' + couchDoc._rev,
               type: 'DELETE',
               success: function(response, status, jqXHR) {
+              //	alert('success')
                 // Defining a revision on saving over a Couch Doc that exists is required.
                 // This puts the last revision of the Couch Doc into the input#rev field
                 // so that it will be submitted using ajaxSubmit.

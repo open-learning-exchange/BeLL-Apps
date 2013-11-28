@@ -8,6 +8,7 @@ $(function() {
 
     render: function() {
       var dashboard = this
+      this.vars.imgURL = "img/OLE_Home_Resized_Header.png"
       this.$el.html(_.template(this.template, this.vars))
       groups = new App.Collections.MemberGroups()
       groups.memberId = $.cookie('Member._id')
@@ -27,7 +28,14 @@ $(function() {
       // Member Name
       var member = new App.Models.Member()
       member.id = $.cookie('Member._id')
+      
       member.on('sync', function() {
+      	var attchmentURL = '/members/' + member.id + '/' 
+      if(typeof member.get('_attachments') !== 'undefined'){
+   			attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
+   			document.getElementById("imgurl").src=attchmentURL
+ 		}
+
         $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'">[Edit]</a>')
       })
       member.fetch()
