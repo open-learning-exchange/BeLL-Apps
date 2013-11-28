@@ -103,7 +103,7 @@ setForm: function() {
 	var userChoice=this.form.getValue("login")
 	var existing=new App.Collections.Members();
 	existing.fetch({async:false})
-	if(this.form.validate()==null&&this.validImageTypeCheck($('input[type="file"]'))){
+	if(this.form.validate()==null){ /*&&this.validImageTypeCheck($('input[type="file"]'))*/
 		if(this.serverSideValidityCheck(userChoice,existing,this.model.id)){
 			    this.form.setValue({status:"active"})
 			   // this.form.commit()				// Put the form's input into the model in memory

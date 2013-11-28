@@ -47,34 +47,63 @@ $(function() {
       // Put the form's input into the model in memory
       this.form.commit()
       // Send the updated model to the server
-      this.model.set("questions",null)
-      this.model.set("answers",null)
-      this.model.set("qoptions",null)
-      this.model.set("resourceId",[])
-      this.model.set("resourceTitles",[])
+     if(isNaN(this.model.get("allowedErrors")))
+        {
+          alert("Not a valid Allowed Errors")
+        }
+      else if(isNaN(this.model.get("step"))){
+          alert("Not a valid Step Number")
+      }
+      else{
+      if(!this.edit){
+        this.model.set("questions",null)
+        this.model.set("answers",null)
+        this.model.set("qoptions",null)
+        this.model.set("resourceId",[])
+        this.model.set("resourceTitles",[])
       //Checking that level added to the user may not already exist in the data base
+      }
+      else
+      {
+        this.model.set("questions",this.ques)
+        this.model.set("answers",this.ans)
+        this.model.set("qoptions",this.opt)
+        this.model.set("resourceId",this.res)
+        this.model.set("resourceTitles",this.rest)
+      }
       levels = new App.Collections.CourseLevels()
       levels.groupId = this.model.get("courseId")
-      levels.fetch({success: function() {
+       levels.fetch({success: function() {
       levels.sort()
       var done = true
       
-      if(this.edit){
-      if(this.previousStep != this.model.get("step")){
+      if(that.edit){
+       if(that.previousStep != that.model.get("step")){
           levels.each(function(step){
                     if(step.get("step") == that.model.get("step"))
                          done=false
           })
+        }
       }
+      else{
+        levels.each(function(step){
+            if(step.get("step") == that.model.get("step"))
+                       {
+                          done=false
+                       }
+          })
       }
+      
       if(done)
-       that.model.save()
+         that.model.save()
       else
-       alert("Step already exists")
+         alert("Step already exists")
       
       }})
+    }
+    
     },
-
+  
 
   })
 

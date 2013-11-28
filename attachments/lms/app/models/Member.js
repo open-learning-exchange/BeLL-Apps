@@ -38,7 +38,7 @@ $(function() {
 	   Gender: {
           type: 'Select',
           options: ['Male', 'Female']
-      },
+      }, 
       levels: {
         type: 'Select',
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
@@ -59,13 +59,8 @@ $(function() {
       subjectSpecialization: 'Text',
       forGrades:{
         type:'Checkboxes',
-        options:['Pre-k','Grades','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
+        options:['Pre-k','Grades(1-12)','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
       },
-      selectGrades:{
-        type:'Checkboxes',
-        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
-      },
-      
     },
 
 

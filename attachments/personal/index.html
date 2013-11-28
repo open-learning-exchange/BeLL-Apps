@@ -177,7 +177,8 @@ obj.setSelectionRange(end, end);
   <div class="navbar-collapse collapse" id="nav-collapse-01">   
   </div>      
 </div>
-	
+	<div id="logo">
+        </div>
     <!-- Body -->
     <div class="container body" id="main-body">
       <!-- Content -->
@@ -278,7 +279,11 @@ obj.setSelectionRange(end, end);
       </a>
       </div>
     </li>
-    
+      <li> 
+      <a href="../lms/index.html#login">
+          LMS
+      </a>
+    </li>
      <li  style="float:right;"> 
       <a onclick = "showFeedbackForm()">
         <i class="fui-cmd"></i> Feedback
@@ -292,7 +297,7 @@ obj.setSelectionRange(end, end);
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#login">
-      Personal BeLL - v1.0.0
+      Personal BeLL - v1.0.3
       </a>
     </li>
     <li> 
@@ -322,7 +327,7 @@ obj.setSelectionRange(end, end);
   
   
   <script type="text/html" id="template-courseLevelsTable">
-	<h3 class="bigheader">Step-<%=level%>: <b>&nbsp&nbsp <%=title%></b> <a class='btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#quiz %>' target="_blank">Take Quiz</a></h3>
+	<h3 class="bigheader">Step-<%=step%>: <b>&nbsp&nbsp <%=title%></b> <a class='btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#quiz %>' target="_blank">Take Quiz</a></h3>
   	<div>
 		<table class="Course-table">
 			<tr>

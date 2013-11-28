@@ -68,13 +68,13 @@ $(function() {
     	App.$el.children('.body').html('&nbsp')
     	App.$el.children('.body').append('<h3 class="hh3">Invitations<h3>')
 	invits = new App.Collections.Invitations()
-        invits.fetch({success: function() {
+        invits.fetch({async:false})
 
           $('#olelogo').remove();
           invitsTable = new App.Views.NotificationTable({collection: invits})
           invitsTable.render()
           App.$el.children('.body').append(invitsTable.el) 
-	}})
+	
     },
     
     MemberForm: function(memberId) {

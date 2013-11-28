@@ -17,6 +17,7 @@ $(function() {
       member.fetch({success: function() {
       	that.vars.visits = member.get("visits")+1
       	that.$el.html(_.template(that.template, that.vars))
+	console.log(member.get("visits"));
       	var vis = member.get('visits')
       	member.set({"visits": vis + 1 })
       	member.save({success:function(){

@@ -34,6 +34,8 @@ $(function() {
       'assign-to-shelf'		    :'AssignResourcetoShelf',
       'create-quiz/:lid/:rid/:title'				:'CreateQuiz',
       'demo-version'				:'DemoVersion',
+      'savedesc/:lid'                : 'saveDescprition',
+      
     },
 	 DemoScreen: function(){
     	$('ul.nav').html($("#template-nav-logged-in").html())       
@@ -144,7 +146,12 @@ $(function() {
    },
   
     ResourceInvitation: function(resourceId,name,kind) {
-      var inviteModel = new App.Models.Invitation({entityId: resourceId, senderId: $.cookie('Member._id') , type : kind, title : name })
+      var inviteModel = new App.Models.InviFormModel()
+      inviteModel.entityId = resourceId
+      inviteModel.senderId =  $.cookie('Member._id')
+      inviteModel.type = kind
+      inviteModel.title = name
+      console.log(inviteModel);
       var inviteForm = new App.Views.InvitationForm({model: inviteModel})
       inviteForm.render()
       App.$el.children('.body').html('<h1>Send Invitation</h1>')
@@ -286,14 +293,21 @@ $(function() {
        if (levelId == "nolevel") {
      
           App.$el.children('.body').html('<h1>New Step</h1>')
+          lForm.edit = false
+          lForm.previousStep = 0
           lForm.render()
           App.$el.children('.body').append(lForm.el)
       }
       else{
-        Cstep.set({"_id":levelId})
-        Cstep.once('sync', function() {
+          Cstep.set({"_id":levelId})
+          Cstep.once('sync', function() {
           App.$el.children('.body').html('<h1>Edit Step</h1>')
           lForm.edit = true
+          lForm.ques = Cstep.get("questions")
+          lForm.ans = Cstep.get("answers")
+          lForm.opt = Cstep.get("qoptions")
+          lForm.res = Cstep.get("resourceId")
+          lForm.rest= Cstep.get("resourceTitles")
           lForm.previousStep = Cstep.get("step")
           lForm.render()
           App.$el.children('.body').append(lForm.el)
@@ -329,22 +343,37 @@ $(function() {
          }
      }})
      },
+     saveDescprition : function(lid){
+       var level= new App.Models.CourseStep({"_id":lid})
+       var that = this
+       level.fetch({success: function() {
+       level.set("description",$('#LevelDescription').val())
+        var that=this
+        level.save()
+        level.on('sync',function(){
+            document.location.href='#level/view/'+lid+'/'+level.get("rev");
+        })
+       }})
+     },
      ViewLevel: function(lid,rid){
-         var levelInfo = new App.Models.CourseStep({"_id":lid})
+         var levelInfo = new App.Models.CourseStep({"_id":lid,"_rev":rid})
+         var that = this
          levelInfo.fetch({success: function() {
             var levelDetails = new App.Views.LevelDetail({model : levelInfo})
              levelDetails.render()
              App.$el.children('.body').html('<h3>Step Details |'+levelInfo.get("title")+'</h3>')
+             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'\'">Edit Step</button>&nbsp;&nbsp;')
+             App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>"+levelInfo.get("description")+"</TextArea></BR>")
+	     App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/"+lid+"\"'>Save</button></BR></BR>")
+             App.$el.children('.body').append('<B>Resources</B><button class="btn btn-success"  style="float:right;" onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'\'">Add</button>')
+             App.$el.children('.body').append(levelDetails.el)
+             App.$el.children('.body').append('</BR>')
              if(levelInfo.get("questions") == null){
-                App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Create Quiz</button>&nbsp;&nbsp;')
+                App.$el.children('.body').append('<button class="btn btn-success"  style="float:right;" onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Create Quiz</button>&nbsp;&nbsp;')
                 //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
              }else{
-               App.$el.children('.body').append('<button class="btn btn-primary"  onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Edit Quiz</button>&nbsp;&nbsp;')
+               App.$el.children('.body').append('<B>'+levelInfo.get("title")+' - Quiz</B><button class="btn btn-primary"  style="float:right;" onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Edit Quiz</button>&nbsp;&nbsp;')
              }
-             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'\'">Add Resources</button>&nbsp;&nbsp;')
-             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'\'">Edit Step</button>&nbsp;&nbsp;')
-             App.$el.children('.body').append(levelDetails.el)
-            
          }})
      },
       
@@ -386,19 +415,22 @@ $(function() {
         }
  		//var rids = new Array()
         //var rtitle = new Array()
-        $("input[name='result']").each( function () {
-          if ($(this).is(":checked"))
-	      {
-  			var rId = $(this).val();
-  	        rtitle.push($(this).attr('rTitle'))
-            rids.push(rId)
-	      }
-	    });
-        
          var cstep = new App.Models.CourseStep({"_id":grpId,"_rev":levelrevId})
 	 cstep.fetch({async:false})
          var oldIds =  cstep.get("resourceId")
          var oldTitles = cstep.get("resourceTitles")
+         
+        $("input[name='result']").each( function () {
+          if ($(this).is(":checked"))
+	      {
+  			var rId = $(this).val();
+  	                if(oldIds.indexOf(rId) == -1){
+                          rtitle.push($(this).attr('rTitle'))
+                          rids.push(rId)
+                        }
+              }
+	    });
+        
          cstep.set("resourceId",oldIds.concat(rids))
          cstep.set("resourceTitles",oldTitles.concat(rtitle))
 	 console.log(cstep)

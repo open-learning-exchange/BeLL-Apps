@@ -17,17 +17,21 @@ $(function() {
 	    this.model.set("resourceId",rids)
 	    this.model.set("resourceTitles",rtitle)
 	    this.model.save()
-	    
+	    var that = this
 	    this.model.on('sync',function(){
-		location.reload()
+	        console.log(that.model.get('rev'))
+		document.location.href='#course/manage/'+ that.model.get("courseId")
+	    
 	    })
 	    
-	}
+	},
     },
   render: function() {
 	var i=0
 	var rtitle = this.model.get("resourceTitles")
 	var rid = this.model.get("resourceId")
+	this.$el.append("</BR>")
+	
 	if(this.model.get("resourceTitles")){
 	for(i=0;i<this.model.get("resourceTitles").length;i++){
 	  var r = new App.Models.Resource({"_id":rid[i]})

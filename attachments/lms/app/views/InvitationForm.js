@@ -23,20 +23,20 @@ $(function() {
     },
     render: function() {
 
-      // members is required for the form's members field
+      //members is required for the form's members field
       console.log(this.model)
       var members = new App.Collections.Members()
       var that = this
       var inviteForm = this
       inviteForm.on('InvitationForm:MembersReady', function() {
-        
         console.log(that.model.schema)
         this.model.schema.members.options = members
         // create the form
-        this.form = new Backbone.Form({ model: inviteForm.model })
+        this.form = new Backbone.Form({ model: inviteForm.model})
         this.$el.append(this.form.render().el)
         this.form.fields['members'].$el.hide()
         this.form.fields['levels'].$el.hide()
+        
         
         this.form.fields['invitationType'].$el.change(function(){
             var val =  that.form.fields['invitationType'].$el.find('option:selected').text()
@@ -83,7 +83,6 @@ $(function() {
       
       var temp
       var that = this
-     
       if(this.model.get("invitationType") == "All")
       {
            memberList.each(function(m) {
@@ -100,15 +99,18 @@ $(function() {
       }
       else if(this.model.get("invitationType") == "Members") {
          memberList.each(function(m) {
+          var that2 = that;
+          console.log(that2.model);
           if(that.model.get("members").indexOf(m.get("_id")) > -1){
-            temp = new App.Models.Invitation()  
-            temp.set("title",that.title)
-            temp.set("senderId",that.senderId)
+            temp = new App.Models.Invitation()
+            temp.set("title",that2.model.title)
+            temp.set("senderId",that2.model.senderId)
             temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
             temp.set("memberId",m.get("_id"))
-            temp.set("entityId",that.entityId)
-            temp.set("type",that.type)
+            temp.set("entityId",that2.model.entityId)
+            temp.set("type",that2.model.type)
             temp.save()
+            console.log(temp);
           }
         })
       }

@@ -93,7 +93,7 @@ label {
     display: inline-block;
     cursor: pointer;
     position: relative;
-    padding-left: 25px;
+    padding-left: 3px;
     margin-right: 15px;
     font-size: 13px;
     //margin-bottom: 10px;
@@ -107,15 +107,11 @@ label:before {
     position: absolute;
     left: 0;
     bottom: 1px;
-    background-color: #aaa;
-    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
-    border-radius: 3px;
-}
+} 
 input[type=checkbox] {
-    display: none;
+    margin: 0 2px 3px;
 }
 input[type=checkbox]:checked + label:before {
-    content:"\2713";
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     font-size: 15px;
     color: #f3f3f3;
@@ -141,11 +137,12 @@ input[type=checkbox]:checked + label:before {
 {
 	margin-left:18%;
 }
-#question-box
-{
-	margin-left: 7%;
-	margin-top: 1%;
-	position: absolute;
+#question-box {
+    height: 60%;
+    margin-left: 1%;
+    margin-top: 3%;
+    position: relative;
+    width: 90% !important;
 }
 #new-quiz
 {
@@ -159,11 +156,10 @@ input[type=checkbox]:checked + label:before {
 	width: 75%
 	
 }
-#question-no
-{
-	margin-top: 1%;
-	position: absolute;
-	margin-left: 1%;
+#question-no {
+    margin-left: 3%;
+    margin-top: 3%;
+    position: relative;
 }
 #option-area
 {
@@ -177,10 +173,15 @@ input[type=checkbox]:checked + label:before {
 }
 #options-table
 {
-	margin-top: -6%;
-	margin-left: 25%;
+	margin-top: 5%;
+	margin-left: 3%;
 }
+
+#options-table input {
+    width: 179px;
+}
+
 #Radio-margin
 {
-	margin-top: -5%;
+	margin: 15px -79px;
 }
