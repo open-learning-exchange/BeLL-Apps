@@ -1,7 +1,7 @@
 $(function() {
 
   App.Views.NotificationRow = Backbone.View.extend({
-
+ template : _.template($("#template-Notification-Row").html()),
     tagName: "tr",
     vars: {},
 	class: "notification-table-tr",
@@ -35,13 +35,11 @@ $(function() {
     			this.remove()
     	 }
     	    },
-    template : _.template($("#template-Notification-Row").html()),
     initialize : function()
     {
     },
     render: function () {
       var vars = this.model.toJSON()
-      console.log(vars)
      this.$el.append(this.template(vars))
      
     },

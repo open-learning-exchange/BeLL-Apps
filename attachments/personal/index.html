@@ -158,7 +158,21 @@ function previousPageButtonPressed(){
              $('#previous_button').remove()
         }
 }
-
+$(window).scroll(function () {
+  var $menu = $('#addEvent'),
+      scrollpos = $(window).scrollTop();
+  if (scrollpos >= 118) {
+      $menu.css( {
+        "top" : "0",
+        "position": "fixed",
+      });
+  } else {
+      $menu.css( {
+        "position": "fixed",
+        "top" : "68px",
+      });
+  }
+});
 function onFocus(obj) { 
 var end = obj.value.length; 
 if(obj.setSelectionRange) 
@@ -450,9 +464,9 @@ obj.setSelectionRange(end, end);
  <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
        <div id="page-header">
-		<img id="header-image" src="img/OLE_Home_Resized_Header.png" />
+		<img id="header-image" src="<%= imgURL %>"  />
 	<div style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
-		 <img src="img/agnes.jpeg" width="108px" height="108px" />
+		 <img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" />
 	</div>
 	<div style="width:100%;height:100%;margin-left:145px;margin-top:-122px;font-size:25px;">
 		Welcome,
@@ -530,7 +544,8 @@ obj.setSelectionRange(end, end);
 		</div>
             </div>
   </script>
-
+<script id="form-attch" >
+</script>
 </head>
 
 <body>

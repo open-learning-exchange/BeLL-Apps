@@ -17,7 +17,6 @@ $(function() {
       // create the form
       console.log(this.model)
       var member = this.model
- 
       var attchmentURL = '/members/' + member.id + '/' 
       if(typeof member.get('_attachments') !== 'undefined'){
    			attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
@@ -36,7 +35,7 @@ $(function() {
       this.form.fields['status'].$el.hide()
       var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">'+buttonText+'</button></div>')
      // var $memberImage = $('<img src="attchmentURL" /> ')
-      var $upload=$(' <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" /> <input class="rev" type="hidden" name="_rev"></form>')
+      var $upload=$('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
       this.$el.append($upload)
       this.$el.append($button)
     //  this.$el.append($memberImage)
@@ -97,24 +96,23 @@ validImageTypeCheck: function(img){
 
 setForm: function() {
     var that = this
-    this.model.once('sync', function() {
-     	that.trigger('MemberForm:done')
-    })
 	var userChoice=this.form.getValue("login")
 	var existing=new App.Collections.Members();
 	existing.fetch({async:false})
 	if(this.form.validate()==null){ /*&&this.validImageTypeCheck($('input[type="file"]'))*/
 		if(this.serverSideValidityCheck(userChoice,existing,this.model.id)){
 			    this.form.setValue({status:"active"})
-			   // this.form.commit()				// Put the form's input into the model in memory
+			    this.form.commit()				// Put the form's input into the model in memory
 			    
 			    // Send the updated model to the server
+			   // console.log(this.model)
+			   // alert("check")
 			    this.model.save(null, {success: function() {
 			    	
                 that.model.unset('_attachments')
                 if($('input[type="file"]').val()) 
                 {
-                	alert($('input[type="file"]').val())
+                	//alert($('input[type="file"]').val())
                   	that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
                 }
                 else 

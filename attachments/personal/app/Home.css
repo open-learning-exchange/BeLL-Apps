@@ -449,6 +449,65 @@ font-size: 23px;
 .cidt-pp{
 text-align:right;
 }
+
+.field-firstName
+{
+}
+.field-lastName
+{
+	margin-top: -10%;
+margin-left: 68%;
+}
+.field-middleNames
+{
+	margin-top: -9%;
+	margin-left: 34%;
+
+}
+.field-login
+{
+	margin-left: 0%;
+	margin-top: 5%;
+}
+.field-password
+{
+	margin-left: 34%;
+	margin-top: -10%;
+}
+.field-phone
+{
+	margin-left : 0%;
+	margin-top: 3%;
+}
+.field-email
+{
+	margin-left: 68%;
+	margin-top: -22%;
+}
+.field-birthLanguage
+{
+	margin-left: 34%;
+	margin-top: 3%;
+}
+.field-BirthDate
+{
+	margin-left: 68%;
+	margin-top: -10%;
+}
+.field-Gender
+{
+	margin-top: 5%;
+}
+.field-levels
+{
+	margin-left: 34%;
+	margin-top: -7%;
+}
+.field-roles
+{
+	margin-left: 68%;
+	margin-top: -7%;
+
 .navbar .nav {
     width: 94%;
 }
@@ -477,6 +536,7 @@ height:100%;
 #f-formButton button{
 float:left;
 margin-left: 1px;
+width: 33%;
 }
 
  textarea[name="comment"]
@@ -505,4 +565,5 @@ height:100%;
 }
 .hh3{
 margin-left:35%;
+
 }

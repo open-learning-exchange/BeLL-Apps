@@ -24,6 +24,8 @@ $(function() {
       'resource/detail/:rsrcid/:shelfid/:revid'         :  'Resource_Detail', //When Item is Selected from the shelf 
       'calendar'                      : 'CalendarFunction',
       'calendar/event/:eid'                 : 'calendaar',
+      'calendar-event/edit/:eid'			: 'EditEvent',
+      'calendar-event/delete/:eid'			: 'DeleteEvent',
       'addEvent'		      : 'addEvent',
       'report/:Url'                     : 'report',
       'notifications'                     : 'invitations',
@@ -69,12 +71,10 @@ $(function() {
     	App.$el.children('.body').append('<h3 class="hh3">Invitations<h3>')
 	invits = new App.Collections.Invitations()
         invits.fetch({async:false})
-
-          $('#olelogo').remove();
-          invitsTable = new App.Views.NotificationTable({collection: invits})
-          invitsTable.render()
-          App.$el.children('.body').append(invitsTable.el) 
-	
+          $('#olelogo').remove()
+         var inv= new App.Views.NotificationTable({collection: invits})
+          inv.render()
+          App.$el.children('.body').append(inv.el) 
     },
     
     MemberForm: function(memberId) {
@@ -307,6 +307,26 @@ $(function() {
 	App.$el.children('.body').append(modelForm.el)
 	    modelForm.render()
   },
+  DeleteEvent: function (eventId)
+  {
+  	var cmodel = new App.Models.Calendar({_id : eventId})
+	cmodel.fetch({async:false})
+	cmodel.destroy({success:function()
+	{
+		alert("Event Successfully Deleted!!!" )
+		Backbone.history.navigate('calendar',{trigger :true})
+	}})
+  },
+  EditEvent: function(eventId){
+  	var cmodel = new App.Models.Calendar({_id : eventId})
+	cmodel.fetch({async:false})
+	
+	var modelForm = new App.Views.CalendarForm({model: cmodel})
+	modelForm.update = true
+	App.$el.children('.body').html('<h3 class="signup-heading">Update Event</h3>')
+	App.$el.children('.body').append(modelForm.el)
+	modelForm.render()
+  },
   calendaar: function(eventId){
   	App.$el.children('.body').html('&nbsp')
 	App.$el.children('.body').append('<h5>Event Details</h5>')
@@ -316,9 +336,14 @@ $(function() {
 	App.$el.children('.body').append('<br/><b>Description: </b>'+cmodel.attributes.description)
 	App.$el.children('.body').append('<br/><b>Starting from: </b>'+new Date(cmodel.attributes.start))
 	App.$el.children('.body').append('<br/><b>Ending at: </b>'+new Date(cmodel.attributes.end))
+	App.$el.children('.body').append('<br/><br/><a class="btn btn-primary" href="#calendar-event/edit/' + eventId +'">Edit</a>')
+	App.$el.children('.body').append('&nbsp;&nbsp;<a class="btn btn-primary" href="#calendar-event/delete/' + eventId +'">Delete</a>')
   },
   CalendarFunction: function(){
-       App.$el.children('.body').html("<div id='calendar'><div id='addEvent' class='btn btn-bg btn-success' onclick =\"document.location.href='#addEvent'\">Add Event</div></div>")
+
+       App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">Add Event</div><br/><br/>")
+       App.$el.children('.body').append("<br/><br/><div id='calendar'></div>")
+        $(document).ready(function() {
 
                  var temp2 = []
 		 var allEvents=new App.Collections.Calendars()
