@@ -3,17 +3,27 @@ $(function() {
   App.Views.CourseLevelsTable = Backbone.View.extend({
 id: "accordion",
     vars: {},
-  template: _.template($("#template-courseLevelsTable").html()),
-    initialize: function() {
+  template : _.template($("#template-courseLevelsTable").html()),
+    events: {
+      "click #takequiz": "quiz"
     },
-	initialize: function(){
-	},
+    
+    quiz: function(e){
+    var temp=new App.Views.takeQuizView({questions:e.target.attributes.questions,answers:e.target.attributes.answers,options:e.target.attributes.options})
+    temp.render()
+    $('div.takeQuizDiv').html(temp.el)
+    },
+    
+    initialize: function() {
+    $('div.takeQuizDiv').hide()
+    },
     addAll: function() {
       this.collection.each(this.addOne, this)
     },
 
     addOne: function(model){
 	 this.vars = model.toJSON() 
+	 console.log(this.vars)
      this.$el.append(this.template(this.vars))
 	},
     render: function() {

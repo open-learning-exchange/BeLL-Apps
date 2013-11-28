@@ -10,9 +10,7 @@ $(function() {
    	this.$el.append('<th ><h4>Feedback</h4></th>')
    },
    
-   events: {
-      "click #formButton": "setForm"
-    },
+
 	addAll: function(){
 	this.collection.forEach(this.addOne,this)
 	},

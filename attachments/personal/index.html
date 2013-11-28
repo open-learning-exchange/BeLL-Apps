@@ -97,6 +97,7 @@
   <script src="app/views/navBarView.js"></script>
   <script src="app/views/siteFeedback.js"></script>
   <script src="app/views/siteFeedbackPage.js"></script>
+  <script src="app/views/takeQuizView.js"></script>
   
   <!-- 
     Templates 
@@ -168,9 +169,10 @@ obj.setSelectionRange(end, end);
 
 </script>
 
-
+	
   <script type="text/template" id="template-app">  
-  <div class="navbar navbar-inverse">
+  <div class="takeQuizDiv" id="tQuizDiv"></div>
+  <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
   </div>    
@@ -204,7 +206,6 @@ obj.setSelectionRange(end, end);
       </a>
     </td>
   </script>
-
 
   <script type="text/html" id="template-ArticleRow">
     <td class="news-table-td-title">
@@ -263,7 +264,6 @@ obj.setSelectionRange(end, end);
 	
 </script>
 
-
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#dashboard">
@@ -287,7 +287,6 @@ obj.setSelectionRange(end, end);
     
     
   </script>
-
 
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
@@ -320,9 +319,12 @@ obj.setSelectionRange(end, end);
     </th>
   </script>
   
-  
   <script type="text/html" id="template-courseLevelsTable">
-	<h3 class="bigheader">Step-<%=level%>: <b>&nbsp&nbsp <%=title%></b> <a class='btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#quiz %>' target="_blank">Take Quiz</a></h3>
+  <%if (questions!=null){%>
+	<h3 class="bigheader">Step-<%=level%>: <b>&nbsp&nbsp <%=title%></b> <button iid=<%=_id%> questions=<%=questions%> options=<%=qoptions%> answers=<%=answers%> title:<%=title%> level:<%=level%> class='btn btn-success' id="takequiz" >Take Quiz</button></h3>
+  	<%}else{%>
+  	<h3 class="bigheader">Step-<%=level%>: <b>&nbsp&nbsp <%=title%></b><button class='btn btn-disabled'" >Take Quiz</button></h3>
+  	<%}%>
   	<div>
 		<table class="Course-table">
 			<tr>
@@ -352,7 +354,6 @@ obj.setSelectionRange(end, end);
 	</div>
 
   </script>
-  
 
   <script type="text/html" id="template-AssignmentRow">
     <td>
@@ -435,8 +436,6 @@ obj.setSelectionRange(end, end);
                     </table>
                     </div>
 </script>
-
-
 
  <script type="text/html" id="template-Search-box">
     <td><%= title %></td><td><%= subject %></td><td><%= author %></td><td><%= Tag %></td>
@@ -525,6 +524,10 @@ obj.setSelectionRange(end, end);
 		</div>
             </div>
   </script>
+  
+   <script type="text/html" id="template-takeQuiz">
+   <p>dfjhbldfgildfhgi</p>
+   </script>
 
 </head>
 

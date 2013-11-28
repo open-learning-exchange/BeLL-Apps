@@ -33,7 +33,7 @@ $(function() {
        phone: 'Text',
        email:'Text',
        birthLanguage :'Text',
-	BirthDate:  'Date',
+	   BirthDate:  'Date',
        Gender: {
         type: 'Select',
         options: ['Male', 'Female']

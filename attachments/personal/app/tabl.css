@@ -246,6 +246,7 @@ margin-top:-10px;
 .badger-badge {
     margin: 3px;
     padding: 0 5px;
+    z-index: 3;
 }
 .signup-form #fileAttachment
 {
@@ -296,11 +297,12 @@ color:white;
     padding: 7px 19px;
 }
 
-#accordion .btn-success {
+#accordion .btn-success, #accordion .btn-disabled {
     color: #FFFFFF;
     font-size: 15px;
     font-weight: 900;
        padding: 7px 10px 6px;
+       float:right;
     margin-top: 0; !important
 }
 .table-feedback{
@@ -315,4 +317,44 @@ border-bottom:1px solid black;
 }
 .table-feedback td{
   font-size: 19px;
+}
+.takeQuizDiv {
+  background-color: #34495E;
+    border-radius: 20px;
+    color: #FFFFFF;
+    margin-left: 10%;
+    padding-left: 5%;
+    position: absolute;
+    top: 15%;
+    width: 75%;
+    z-index: 1;
+    padding-right: 5%;
+    padding-bottom: 2%;
+}
+.takeQuizDiv .btn-danger{
+ width: 25%;
+ float:left;
+}
+.takeQuizDiv .btn-primary{
+ width: 25%;
+  float:right;
+}
+
+.quizText textarea{
+   border-radius: 14px;
+    width: 100%;
+}
+.Progress{
+position:relative;
+}
+.quizText{
+position:relative;
+}
+.quizOptions{
+position:relative;
+ margin-bottom: 22px;
+}
+.quizActions{
+position:relative;
+ margin-bottom: 76px;
 }
