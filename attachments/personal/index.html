@@ -27,7 +27,7 @@
   <script src="vendor/backbone-pouch.js"></script>
   <script src="/_utils/script/json2.js"></script>
   <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
-  <script src="/_utils/script/jquery.form.js?0.9.0"></script>
+  <script src="vendor/jquery.form.js"></script>
   <script src="vendor/sha1.js"></script>
   <script src="vendor/jquery.couch.js"></script>
   <script src="vendor/backbone.couchdb.js"></script>
@@ -38,6 +38,7 @@
   <script src="vendor/jquery.raty.js"></script>
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
+  
 
   <!--
     App
@@ -56,7 +57,8 @@
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Calendar.js"></script>
   <script src="app/models/CourseStep.js"></script>
-<script src="app/models/report.js"></script>
+  <script src="app/models/report.js"></script>
+  <script src="app/models/StepResult.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -68,7 +70,8 @@
   <script src="app/collections/SearchResource.js"></script>
   <script src="app/collections/Calendars.js"></script>
   <script src="app/collections/siteFeedbacks.js"></script>
-  
+  <script src="app/collections/StepResults.js"></script>
+    
   
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/NotificationTable.js"></script>
@@ -97,6 +100,7 @@
   <script src="app/views/navBarView.js"></script>
   <script src="app/views/siteFeedback.js"></script>
   <script src="app/views/siteFeedbackPage.js"></script>
+  <script src="app/views/takeQuizView.js"></script>
   
   <!-- 
     Templates 
@@ -158,6 +162,12 @@ function previousPageButtonPressed(){
              $('#previous_button').remove()
         }
 }
+
+function onFocus(obj) { 
+      var end = obj.value.length; 
+      if(obj.setSelectionRange) 
+      obj.setSelectionRange(end, end); 
+}
 $(window).scroll(function () {
   var $menu = $('#addEvent'),
       scrollpos = $(window).scrollTop();
@@ -173,26 +183,20 @@ $(window).scroll(function () {
       });
   }
 });
-function onFocus(obj) { 
-var end = obj.value.length; 
-if(obj.setSelectionRange) 
-obj.setSelectionRange(end, end); 
-}
-
 
 </script>
 
-
+	
   <script type="text/template" id="template-app">  
-  <div class="navbar navbar-inverse">
+  <div class="takeQuizDiv" id="tQuizDiv"></div>
+  <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
   </div>    
   <div class="navbar-collapse collapse" id="nav-collapse-01">   
   </div>      
 </div>
-	<div id="logo">
-        </div>
+	
     <!-- Body -->
     <div class="container body" id="main-body">
       <!-- Content -->
@@ -219,7 +223,6 @@ obj.setSelectionRange(end, end);
       </a>
     </td>
   </script>
-
 
   <script type="text/html" id="template-ArticleRow">
     <td class="news-table-td-title">
@@ -278,7 +281,6 @@ obj.setSelectionRange(end, end);
 	
 </script>
 
-
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#dashboard">
@@ -293,11 +295,7 @@ obj.setSelectionRange(end, end);
       </a>
       </div>
     </li>
-      <li> 
-      <a href="../lms/index.html#login">
-          LMS
-      </a>
-    </li>
+    
      <li  style="float:right;"> 
       <a onclick = "showFeedbackForm()">
         <i class="fui-cmd"></i> Feedback
@@ -307,11 +305,10 @@ obj.setSelectionRange(end, end);
     
   </script>
 
-
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#login">
-      Personal BeLL - v1.0.3
+      Personal BeLL - v1.0.0
       </a>
     </li>
     <li> 
@@ -326,7 +323,7 @@ obj.setSelectionRange(end, end);
     </li>
     
     <li  style="float:right;"> 
-      <a  href="#report/<%= uRL %>">
+      <a onclick = "showFeedbackForm()">
         <i class="fui-cmd"></i> Feedback
       </a>
     </li>
@@ -339,39 +336,55 @@ obj.setSelectionRange(end, end);
     </th>
   </script>
   
-  
   <script type="text/html" id="template-courseLevelsTable">
-	<h3 class="bigheader">Step-<%=step%>: <b>&nbsp&nbsp <%=title%></b> <a class='btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#quiz %>' target="_blank">Take Quiz</a></h3>
+  
+	<h3 class="bigheader">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b> </h3>
+
   	<div>
 		<table class="Course-table">
-			<tr>
-				<td>	
-					<table class="Course-inner-resources-table">
-						<%for (var i=0; i<resourceId.length; i++){%>
-							<tr>
-								<td>
-									<%= resourceTitles[i] %> &nbsp&nbsp
-								</td>
-								<td>
-									<a class='btn btn-primary' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
-								</td>
-							</tr>
-						<%}%>
-      				</table>
-      			</td>
+                        <tr class="level-title"><td colspan="2">
+                        <u><b>Description</b></u></br>
+                        
+                        <%=description%>
+                        </td><td></td></tr>
+                       
+			<%for (var i=0; i<resourceId.length; i++){%>
+			<tr class="level-resources">
 				<td>
-					<table class="Course-inner-details-table">
-						<tr><td class="cidt-pp">	Passing Percentage:</td><td><%=passingPercentage%>%</td></tr>
-						<tr><td class="cidt-pp">Allowed Errors:</td><td> <%=allowedErrors%></td></tr>
-					</table>
+                                <u><b>Resource</b></u> &nbsp;<%=i+1%>
+                                </td>
+                                <td>
+						<%= resourceTitles[i] %> &nbsp&nbsp
 				</td>
+				<td>
+						<a class='btn btn-primary' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+				</td>
+			</tr>
+			<%}%>
+
+                        <tr class="level-quiz">
+				<td>
+					
+						<b>Passing Percentage:</b><%=passingPercentage%>%<br>
+						<b>Allowed Errors:</b><%=allowedErrors%>
+                                                
+                                </td>
+                                <td>
+                                                <%if (questions!=null){%>
+                                                  <button value = <%=_id%> courseId=<%=courseId%> pp=<%=passingPercentage%> questions=<%=questions%> options=<%=qoptions%> answers=<%=answers%> title:<%=title%> level:<%=step%>  class='btn btn-primary' id="takequiz" >Take Quiz</button>
+                                                <%}else{%>
+                                                  <button class='btn btn-disabled'>Take Quiz</button>
+                                                <%}%>
+					
+				</td>
+                                <td>
+                                </td>
 				
-      		</tr>
-      	</table>
+                      </tr>
+              </table>
 	</div>
 
   </script>
-  
 
   <script type="text/html" id="template-AssignmentRow">
     <td>
@@ -455,8 +468,6 @@ obj.setSelectionRange(end, end);
                     </div>
 </script>
 
-
-
  <script type="text/html" id="template-Search-box">
     <td><%= title %></td><td><%= subject %></td><td><%= author %></td><td><%= Tag %></td>
   </script>
@@ -464,7 +475,7 @@ obj.setSelectionRange(end, end);
  <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
        <div id="page-header">
-		<img id="header-image" src="<%= imgURL %>"  />
+		<img id="header-image" src="img/OLE_Home_Resized_Header.png" />
 	<div style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
 		 <img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" />
 	</div>
@@ -544,8 +555,11 @@ obj.setSelectionRange(end, end);
 		</div>
             </div>
   </script>
-<script id="form-attch" >
-</script>
+  
+   <script type="text/html" id="template-takeQuiz">
+   <p>dfjhbldfgildfhgi</p>
+   </script>
+
 </head>
 
 <body>

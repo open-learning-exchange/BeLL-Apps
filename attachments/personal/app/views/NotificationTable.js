@@ -6,7 +6,7 @@ $(function() {
     className: "notification-table table-striped",
     authorName : null,
     
-    initialize: function(){console.log("calling init")
+    initialize: function(){
 	 this.$el.append('<th><h5>Sender<h5></th><th><h5>Title<h5></th><th><h5>Type<h5></th><th><h5>Actions<h5></th>')
     },
     addOne: function(model){

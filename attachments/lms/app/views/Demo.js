@@ -15,11 +15,11 @@ $(function() {
       this.vars = member.toJSON()
       member.id = $.cookie('Member._id')
       member.fetch({success: function() {
-      	that.vars.visits = member.get("visits")+1
+	var vis = parseInt(member.get("visits"))
+      	that.vars.visits = ( vis + 1)
       	that.$el.html(_.template(that.template, that.vars))
 	console.log(member.get("visits"));
-      	var vis = member.get('visits')
-      	member.set({"visits": vis + 1 })
+      	member.set({"visits": (vis + 1) })
       	member.save({success:function(){
                         
         }})

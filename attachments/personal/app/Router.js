@@ -9,7 +9,7 @@ $(function() {
       'courses'                       : 'Groups',
       'my-courses'                    : 'MemberGroups',
       'course/edit/:groupId'          : 'GroupForm',
-      'course/details/:courseId/:name'        : 'CourseDetails', // @todo delete and change refs to it
+      'course/details/:courseId/:name': 'CourseDetails', // @todo delete and change refs to it
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/link/:groupId'          : 'GroupLink',
       'update-assignments'            : 'UpdateAssignments',
@@ -215,7 +215,6 @@ $(function() {
     },
 
     GroupAssignments: function(groupId) {
-
       var group = new App.Models.Group()
       group.id = groupId
       group.once('sync', function() {
@@ -241,8 +240,20 @@ $(function() {
 			var levelsTable = new App.Views.CourseLevelsTable({collection: ccSteps})
 			levelsTable.render()
 			App.$el.children('.body').append(levelsTable.el)		    
-			$( "#accordion" ).accordion()
-		}}) 
+			 $( "#accordion" )
+				.accordion({
+					header: "h3"
+				})
+				.sortable({
+					axis: "y",
+					handle: "h3",
+					stop: function( event, ui ) {
+						// IE doesn't register the blur when sorting
+						// so trigger focusout handlers to remove .ui-state-focus
+						ui.item.children( "h3" ).triggerHandler( "focusout" );
+					}
+				});
+			}}) 
     },
     
 
@@ -372,6 +383,7 @@ $(function() {
 		});
 
 
+		})
 },
     /*
      * Syncing pages
@@ -387,7 +399,7 @@ $(function() {
         Backbone.history.navigate('dashboard', {trigger: true})
       })
       App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
-    },
+    	},
 
     // This route may no longer be needed so long as we are running the replication on
     // an interval from App.start()

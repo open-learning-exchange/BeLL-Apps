@@ -35,6 +35,7 @@ $(function() {
       'create-quiz/:lid/:rid/:title'				:'CreateQuiz',
       'demo-version'				:'DemoVersion',
       'savedesc/:lid'                : 'saveDescprition',
+      'resource/atlevel/feedback/:rid/:levelid/:revid': 'LevelResourceFeedback',
       
     },
 	 DemoScreen: function(){
@@ -124,7 +125,7 @@ $(function() {
       })
       resource.fetch()
     },
-
+    
     FeedbackForm: function(resourceId) {
       var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
       feedbackModel.on('sync', function() {
@@ -144,6 +145,7 @@ $(function() {
 
       App.$el.children('.body').append(feedbackForm.el)
    },
+
   
     ResourceInvitation: function(resourceId,name,kind) {
       var inviteModel = new App.Models.InviFormModel()
@@ -362,21 +364,40 @@ $(function() {
             var levelDetails = new App.Views.LevelDetail({model : levelInfo})
              levelDetails.render()
              App.$el.children('.body').html('<h3>Step Details |'+levelInfo.get("title")+'</h3>')
-             App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'\'">Edit Step</button>&nbsp;&nbsp;')
+             App.$el.children('.body').append('<a class="btn btn-success"  target="_blank" href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'\'">Edit Step</a>&nbsp;&nbsp;')
              App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>"+levelInfo.get("description")+"</TextArea></BR>")
 	     App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/"+lid+"\"'>Save</button></BR></BR>")
-             App.$el.children('.body').append('<B>Resources</B><button class="btn btn-success"  style="float:right;" onclick = "document.location.href=\'#search-bell/'+lid+'/'+rid+'\'">Add</button>')
+             App.$el.children('.body').append('<B>Resources</B><a class="btn btn-success"  style="float:right;" target="_blank" href=\'#search-bell/'+lid+'/'+rid+'\'">Add</a>')
              App.$el.children('.body').append(levelDetails.el)
              App.$el.children('.body').append('</BR>')
              if(levelInfo.get("questions") == null){
-                App.$el.children('.body').append('<button class="btn btn-success"  style="float:right;" onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Create Quiz</button>&nbsp;&nbsp;')
+                App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;" target="_blank" href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Create Quiz</a>&nbsp;&nbsp;')
                 //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
              }else{
-               App.$el.children('.body').append('<B>'+levelInfo.get("title")+' - Quiz</B><button class="btn btn-primary"  style="float:right;" onclick = "document.location.href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Edit Quiz</button>&nbsp;&nbsp;')
+               App.$el.children('.body').append('<B>'+levelInfo.get("title")+' - Quiz</B><a class="btn btn-primary"  style="float:right;" target="_blank" href=\'#create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title")+'\'">Edit Quiz</a>&nbsp;&nbsp;')
              }
          }})
      },
-      
+     LevelResourceFeedback: function(rid,levelid,revid) {
+      var feedbackModel = new App.Models.Feedback({resourceId: rid, memberId: $.cookie('Member._id')})
+      feedbackModel.on('sync', function() {
+        Backbone.history.navigate('level/view/'+levelid+'/'+revid, {trigger: true})
+      })
+      var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
+      var user_rating 
+      feedbackForm.render()
+     
+      App.$el.children('.body').html('<h1>Add Feedback</h1>')
+      App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
+      App.$el.children('.body').append('<div id="star" data-score="0"></div>')
+      $('#star').raty()
+       $("#star > img").click(function(){
+          feedbackForm.setUserRating($(this).attr("alt"))
+      });
+
+      App.$el.children('.body').append(feedbackForm.el)
+   },
+
     
     // Search Module Router Version 1.0.0
     

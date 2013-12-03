@@ -23,7 +23,13 @@ $(function() {
 		document.location.href='#course/manage/'+ that.model.get("courseId")
 	    
 	    })
-	    
+	},
+     "click .levelResView" : function(e) {
+	  var rid = e.currentTarget.attributes[0].value
+	  var levelId = this.model.get("_id")
+	  var revid = this.model.get("_rev")
+	  Backbone.history.navigate('resource/atlevel/feedback/'+rid+'/'+levelId+'/'+revid, {trigger: true})
+	
 	},
     },
   render: function() {
@@ -37,7 +43,7 @@ $(function() {
 	  var r = new App.Models.Resource({"_id":rid[i]})
 	  r.fetch({async:false})
 	  if(r.get("_attachments")){
-	  this.$el.append("<tr><td>"+rtitle[i]+"</td><td><a class='btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/"+rid[i]+"' target='_blank'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='"+rid[i]+"'>Remove </button><input type='hidden' id='"+rid[i]+"' value='"+rtitle[i]+"'/>")    
+	  this.$el.append("<tr><td>"+rtitle[i]+"</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/"+rid[i]+"'  target='_blank' value='"+rid[i]+"'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='"+rid[i]+"'>Remove </button><input type='hidden' id='"+rid[i]+"' value='"+rtitle[i]+"'/>")    
 	}
 	else{
 	  this.$el.append("<tr><td>"+rtitle[i]+"</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='"+rid[i]+"'>Remove </button><input type='hidden' id='"+rid[i]+"' value='"+rtitle[i]+"'/>")

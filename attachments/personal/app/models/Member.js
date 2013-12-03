@@ -24,7 +24,7 @@ $(function() {
       return this.get('login') + ': ' + this.get('firstName') + ' ' + this.get('lastName')
     },
 
-  schema: {
+    schema: {
        firstName: {validators: ['required']},
        lastName: {validators: ['required']},
        middleNames:'Text',
@@ -62,7 +62,6 @@ $(function() {
         options:['Pre-k','Grades(1-12)','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
       },
     },
-
 
     
     
@@ -142,7 +141,6 @@ $(function() {
 
       }) // End openDoc()
     }
-
 
   }) 
 

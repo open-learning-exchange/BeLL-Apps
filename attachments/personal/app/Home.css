@@ -437,7 +437,8 @@ font-size: 24px;
     color: #FFFFFF;
 }
 .ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
-    background-color: #D3D3D3;
+   background-color: #404040;
+    color: #FFFFFF;
 }
 .ui-accordion .ui-accordion-content {
     padding: 0;
@@ -450,64 +451,75 @@ font-size: 23px;
 text-align:right;
 }
 
-.field-firstName
+.signup-form .field-firstName
 {
 }
-.field-lastName
+.signup-form .field-lastName
 {
-	margin-top: -10%;
-margin-left: 68%;
+	margin-top: -51px;
+	margin-left: 400px;
 }
-.field-middleNames
+.signup-form .field-middleNames
 {
-	margin-top: -9%;
-	margin-left: 34%;
+	position: absolute;
+	margin-left: 196px;
+	margin-top: -54px;
 
 }
-.field-login
+.signup-form .field-login
 {
 	margin-left: 0%;
 	margin-top: 5%;
 }
-.field-password
+.signup-form .field-password
 {
-	margin-left: 34%;
-	margin-top: -10%;
+        position: absolute;
+	margin-left: 196px;
+	margin-top: -53px;
 }
-.field-phone
+.signup-form .field-phone
 {
 	margin-left : 0%;
-	margin-top: 3%;
+	margin-top: 40px;
 }
-.field-email
+.signup-form .field-email
+{
+	margin-left: 400px;
+	margin-top: -145px;
+}
+.signup-form .field-birthLanguage
+{
+	margin-left: 195px;
+	margin-top: 40px;
+}
+.signup-form .field-BirthDate
+{
+	margin-left: 400px;
+    margin-top: -54px;
+}
+.signup-form .field-Gender
+{
+	margin-top: 50px;
+}
+.signup-form .field-levels
+{
+	margin-left: 195px;
+    margin-top: -41px;
+}
+.signup-form .field-roles
 {
 	margin-left: 68%;
-	margin-top: -22%;
-}
-.field-birthLanguage
-{
-	margin-left: 34%;
-	margin-top: 3%;
-}
-.field-BirthDate
-{
-	margin-left: 68%;
-	margin-top: -10%;
-}
-.field-Gender
-{
-	margin-top: 5%;
-}
-.field-levels
-{
-	margin-left: 34%;
 	margin-top: -7%;
 }
-.field-roles
+.field-teachingCredentials{
+    margin-left: 195px;
+    margin-top: -41px;
+}
+.field-subjectSpecialization
 {
 	margin-left: 68%;
 	margin-top: -7%;
-
+}
 .navbar .nav {
     width: 94%;
 }
@@ -566,4 +578,8 @@ height:100%;
 .hh3{
 margin-left:35%;
 
+}
+#browseImage{
+    margin-left: 42px;
+    position: absolute;
 }
