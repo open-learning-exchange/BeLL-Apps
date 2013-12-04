@@ -99,8 +99,10 @@
   <script src="app/views/CourseLevelsTable.js"></script>
   <script src="app/views/navBarView.js"></script>
   <script src="app/views/siteFeedback.js"></script>
-  <script src="app/views/siteFeedbackPage.js"></script>
+  
   <script src="app/views/takeQuizView.js"></script>
+   <script src="app/views/siteFeedbackPage.js"></script>
+    <script src="app/views/siteFeedbackPageRow.js"></script>
   
   <!-- 
     Templates 
@@ -336,37 +338,64 @@ $(window).scroll(function () {
     </th>
   </script>
   
+  
+  
+  
+  
+  
   <script type="text/html" id="template-courseLevelsTable">
   
-	<h3 class="bigheader">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b> </h3>
+	<h3 class="bigheader">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <% if(status == "passed") { %>
+            <span  style="margin-left: 45%;" class="fui-check"></span>
+        <% } %>
+        </h3>
 
   	<div>
 		<table class="Course-table">
-                        <tr class="level-title"><td colspan="2">
-                        <u><b>Description</b></u></br>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Description</br>
+                          </td>
+                        </tr>
+                        <tr class="level-section-data"> 
+                          <td colspan="3">
+                            <%=description%>
+                          </td>
+                        </tr>
+                       <tr class="level-section-title">
+                          <td colspan="3">
+                            Resources</br>
+                          </td>
+                        </tr>
                         
-                        <%=description%>
-                        </td><td></td></tr>
-                       
-			<%for (var i=0; i<resourceId.length; i++){%>
-			<tr class="level-resources">
+                        
+                        
+                          <%for (var i=0; i<resourceId.length; i++){%>
+                         <tr class="level-section-data">  
 				<td>
-                                <u><b>Resource</b></u> &nbsp;<%=i+1%>
+                                      <b><%=i+1%></b>
                                 </td>
                                 <td>
 						<%= resourceTitles[i] %> &nbsp&nbsp
 				</td>
 				<td>
-						<a class='btn btn-primary' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+						<button style="width:106px;" class='btn btn-primary btn-resource-open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</button>
 				</td>
 			</tr>
-			<%}%>
-
-                        <tr class="level-quiz">
-				<td>
+                          <%}%>
+                      
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Quiz</br>
+                          </td>
+                        </tr>
+                      
+                         <tr class="level-section-data"> 
+				<td colspan="2">
 					
-						<b>Passing Percentage:</b><%=passingPercentage%>%<br>
-						<b>Allowed Errors:</b><%=allowedErrors%>
+						Passing Percentage:<b><%=passingPercentage%>%<br></b>
+						Allowed Errors:<b><%=allowedErrors%></b>
                                                 
                                 </td>
                                 <td>
@@ -377,15 +406,39 @@ $(window).scroll(function () {
                                                 <%}%>
 					
 				</td>
-                                <td>
-                                </td>
 				
                       </tr>
               </table>
 	</div>
 
   </script>
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <script type="text/html" id="template-siteReviewRownoAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved</td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+		<%}%>
+  </script>
+  
+    
+   <script type="text/html" id="template-siteReviewRowAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+		<%}%>
+  </script>
   <script type="text/html" id="template-AssignmentRow">
     <td>
       <%= title %>

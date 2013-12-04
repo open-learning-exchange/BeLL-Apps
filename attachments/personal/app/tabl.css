@@ -261,12 +261,6 @@ margin-top:-10px;
     margin-top: 2%;
 }
 
-.Course-table{
-      border-collapse: collapse;
-    padding-left: 5%;
-    width: 100%;
-    height:100%;
-}
 .btn.btn-info {
     font-weight: bolder;
 }
@@ -280,11 +274,11 @@ color:white;
     font-size: 15px;
     font-weight: 900;
        padding: 7px 10px 6px;
-       float:right;
     margin-top: 0; !important
 }
 .table-feedback{
 text-align:left;
+display: block;
 }
 .table-feedback th{
 text-align:center;
@@ -345,7 +339,7 @@ position:relative;
     height: 0px;
     margin-left: 20%;
     position: absolute;
-    top: 55px;
+    top: -1px;
     width: 60%;
     visibility: hidden;
     z-index:10;
@@ -387,19 +381,21 @@ textarea[name="comment"]
 .quizOptions input
 {height: 22px;
     width: 32px;
-    margin-top:3%}
+    margin-top:3%
+}
     
-    .level-title {
-	   background-color: #E2E2CD;
-    height: auto;
+.ui-accordion.ui-widget.ui-helper-reset.ui-sortable {
+    width: 99%;
 }
-
-.level-resources {
-	background-color: #9EE5F0;
-    height: 50px;
+.Course-table{
+	width:100%;
+	 border-collapse: collapse;
 }
-
-.level-quiz {
-	 background-color: #A6BBD0;
-    height: 70px;
+.level-section-data{
+	height: 47px;
+}
+.level-section-title{
+	  background-color: #C4EFFD;
+    height: 60px;
+    font-size: 19px;
 }
