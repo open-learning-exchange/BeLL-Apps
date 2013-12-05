@@ -2,7 +2,9 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      ''                            : '', 
+      ''                            : '',
+      'landingPage'                 : 'LandingScreen',
+      'becomemember'                :  'BecomeMemberForm',
       'login'                       : 'MemberLogin',
       'logout'                      : 'MemberLogout',
       'resources'                   : 'Resources',
@@ -13,6 +15,7 @@ $(function() {
       'resource/feedback/add/:resourceId'  : 'FeedbackForm',
       'courses'                       : 'Groups',
       'course/edit/:groupId'          : 'GroupForm',
+      'course/default'                : 'Explore_Bell_Courses',
       'course/assign/:groupId'        : 'GroupAssign',
       'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
       'course/manage/:groupId'   : 'ManageCourse',
@@ -36,10 +39,27 @@ $(function() {
       'demo-version'				:'DemoVersion',
       'savedesc/:lid'                : 'saveDescprition',
       'resource/atlevel/feedback/:rid/:levelid/:revid': 'LevelResourceFeedback',
+      'search/courses' : 'SearchCourses',
+      'assign-to-default-courses'	    :'AssignCoursestoExplore',
+      
       
     },
-	 DemoScreen: function(){
-    	$('ul.nav').html($("#template-nav-logged-in").html())       
+    LandingScreen : function(){
+      $('ul.nav').html($('#template-nav-log-in').html()).hide()
+      App.$el.children('.body').html($('#template-LandingPage').html())
+    },
+    BecomeMemberForm : function() {
+      var m = new App.Models.Member()
+      var bform = new App.Views.BecomeMemberForm({model:m})
+      bform.on('BecomeMemberForm:done', function() {
+        Backbone.history.navigate('courses', {trigger: true})
+      })
+      bform.render()
+      App.$el.children('.body').html('<h1>Become A Member</h1>')
+      App.$el.children('.body').append (bform.el)
+    },
+    DemoScreen: function(){
+      $('ul.nav').html($("#template-nav-logged-in").html())       
       var demo = new App.Views.Demo()
       App.$el.children('.body').html(demo.el)
       demo.render()
@@ -63,7 +83,7 @@ $(function() {
       memberLoginForm.once('success:login', function() {
        // $('ul.nav').html($("#template-nav-logged-in").html())
        // Backbone.history.navigate('courses', {trigger: true})
-          Backbone.history.navigate('demo-version', {trigger: true})
+          Backbone.history.navigate('courses', {trigger: true})
       })
       memberLoginForm.render()
       //App.$el.children('.body').html('<h1>Member login</h1>')
@@ -75,7 +95,7 @@ $(function() {
     MemberLogout: function() {
       $.removeCookie('Member.login')
       $.removeCookie('Member._id')
-      Backbone.history.navigate('login', {trigger: true})
+      Backbone.history.navigate('landingPage', {trigger: true})
     },
 
     ResourceForm : function(resourceId) {
@@ -161,6 +181,7 @@ $(function() {
     },
 
     Groups: function() {
+      $('ul.nav').html($("#template-nav-logged-in").html()).show()
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       groups = new App.Collections.Groups()
       groups.fetch({success: function() {
@@ -378,6 +399,8 @@ $(function() {
              }
          }})
      },
+     
+    
      LevelResourceFeedback: function(rid,levelid,revid) {
       var feedbackModel = new App.Models.Feedback({resourceId: rid, memberId: $.cookie('Member._id')})
       feedbackModel.on('sync', function() {
@@ -398,7 +421,50 @@ $(function() {
       App.$el.children('.body').append(feedbackForm.el)
    },
 
-    
+     //***************************************Explore Bell Setup***********************************************************
+     
+     Explore_Bell_Courses : function(){
+         var dfcourses = new App.Models.ExploreBell({"_id":"set_up"})
+         var that = this
+         dfcourses.fetch({success: function() {
+              var clist = new App.Views.ListDefaultCourses({model : dfcourses})
+              clist.render()
+              App.$el.children('.body').html('<h3>Explore Bell | Default Courses</h3>')
+              App.$el.children('.body').append("<a class='btn btn-success'  href='#search/courses'>Add Courses</a>")
+              App.$el.children('.body').append(clist.el)
+              
+         }})
+     },
+    AssignCoursestoExplore : function(){
+     
+ 	 var clist = new App.Models.ExploreBell({"_id":"set_up"})
+	 clist.fetch({async:false})
+         console.log(clist)
+         var that = this
+         oldIds =  clist.get("courseIds")
+         oldTitles = clist.get("courseTitles")
+         console.log(oldIds)
+         
+        $("input[name='result']").each( function () {
+          if ($(this).is(":checked"))
+	      {
+  			var rId = $(this).val();
+  	                if(oldIds.indexOf(rId) == -1){
+                          rtitle.push($(this).attr('rTitle'))
+                          rids.push(rId)
+                        }
+              }
+	    });
+        
+         clist.set("courseIds",oldIds.concat(rids))
+         clist.set("courseTitles",oldTitles.concat(rtitle))
+	clist.save()
+	 clist.on('sync',function(){
+	      alert("Selected Courses are set as default")
+	      Backbone.history.navigate('course/default', {trigger: true})
+         })
+      
+    },
     // Search Module Router Version 1.0.0
     
     AssignResourcetoShelf : function()
@@ -511,6 +577,32 @@ $(function() {
 	        $("#selectAllButton").show()
 	 	}
    },
+    SearchCoursesInDb : function(text){
+       
+        skipStack.push(skip)
+        if(text){
+            searchText = text
+        }
+        else{
+            searchText = $("#searchText").val()
+         }
+       rtitle.length = 0
+       rids.length = 0
+        if(searchText != "")
+	 	{
+                    $('ul.nav').html($("#template-nav-logged-in").html())
+                    var search = new App.Views.SearchCourses()
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                    $("#searchText2").val(searchText)
+                    $( "#srch" ).show()
+                    $( ".row" ).hide()
+                    $( ".search-bottom-nav" ).show()
+                    $(".search-result-header").show()
+                    $("#selectAllButton").show()
+	 	}
+   },
+  
   
   SearchBell: function(levelId,rid,resourceIds) {
   
@@ -542,6 +634,20 @@ $(function() {
       $(".search-result-header").hide()
       $("#selectAllButton").hide()
       showSubjectCheckBoxes()
+      }})
+  },
+ SearchCourses: function() {
+      var levelInfo = new App.Models.ExploreBell({"_id":"set_up"})
+      levelInfo.fetch({success: function() {
+      $('ul.nav').html($("#template-nav-logged-in").html())
+      var search = new App.Views.SearchCourses()
+      App.$el.children('.body').html(search.el)
+      search.render()
+      $( "#srch" ).hide()
+      $( ".search-bottom-nav" ).hide()
+      $(".search-result-header").hide()
+      $("#selectAllButton").hide()
+      
       }})
   },
     CompileManifestForWeeksAssignments: function(weekOf) {

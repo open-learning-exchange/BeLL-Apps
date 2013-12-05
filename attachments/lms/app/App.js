@@ -35,7 +35,7 @@ $(function() {
         // No Routes are being triggered, it's safe to start history and move to login route.
          $('ul.nav').html($('#template-nav-log-in').html())
 		Backbone.history.start({pushState: false})
-        Backbone.history.navigate('login', {trigger: true})
+        Backbone.history.navigate('landingPage', {trigger: true})
       }
       else if (loggedIn && (!$.url().attr('fragment') || $.url().attr('fragment') == 'login')) {
         // We're logged in but have no where to go, default to the teams page.        
