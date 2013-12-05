@@ -185,3 +185,80 @@ input[type=checkbox]:checked + label:before {
 {
       
 }
+#site-feedback{
+     background-color: #34495E;
+    border-radius: 0px 0px 20px 20px;
+    color: #FFFFFF;
+    height: 0px;
+    margin-left: 0%;
+    position: absolute;
+    top: 8%;
+    width: 60%;
+    visibility: hidden;
+    z-index:10;
+}
+#site-feedback fieldset{
+border:none;
+height:100%;
+}
+#site-feedback .bbf-form{
+height: 72%;
+}
+#site-feedback .bbf-form .bbf-editor{
+height: 72%;
+}
+#site-feedback ul{
+height:80%;
+}
+#site-feedback li{
+height:100%;
+}
+#main-body{
+ position: absolute;
+    top: 65px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+.hh3{
+margin-left:35%;
+
+}
+#browseImage{
+    margin-left: 42px;
+    position: absolute;
+}
+#f-formButton{
+ margin-left: 10%;
+    width: 80%;
+}
+
+#f-formButton button{
+float:left;
+margin-left: 1px;
+width: 33%;
+}
+
+ textarea[name="comment"]
+ {
+  border-radius: 20px;
+    height: 100%;
+    width: 87%;
+ }
+ .table-feedback{
+text-align:left;
+display: block;
+}
+.table-feedback th{
+text-align:center;
+}
+.table-feedback tr{
+line-height: 34px;
+border-bottom:1px solid black;
+}
+.table-feedback td{
+  font-size: 19px;
+}
+.notification-table th {
+    background-color: #34495E;
+    color: #FFFFFF;
+}

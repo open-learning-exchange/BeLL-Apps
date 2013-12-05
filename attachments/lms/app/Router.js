@@ -41,9 +41,19 @@ $(function() {
       'resource/atlevel/feedback/:rid/:levelid/:revid': 'LevelResourceFeedback',
       'search/courses' : 'SearchCourses',
       'assign-to-default-courses'	    :'AssignCoursestoExplore',
+      'siteFeedback'					: 'viewAllFeedback',
       
       
     },
+    viewAllFeedback: function(){
+		var feed = new App.Collections.siteFeedbacks()
+       feed.fetch({success: function() {
+          feedul = new App.Views.siteFeedbackPage({collection:feed})
+          feedul.render()
+          App.$el.children('.body').html('&nbsp')	
+          App.$el.children('.body').append(feedul.el) 
+			}})
+	},
     LandingScreen : function(){
       $('ul.nav').html($('#template-nav-log-in').html()).hide()
       App.$el.children('.body').html($('#template-LandingPage').html())
