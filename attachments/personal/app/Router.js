@@ -231,7 +231,7 @@ $(function() {
     },
     
     
-    CourseDetails: function(courseId,name) {
+      CourseDetails: function(courseId,name) {
 		var ccSteps = new App.Collections.coursesteps()
 		ccSteps.courseId=courseId
 		ccSteps.fetch({success: function(){	
@@ -255,8 +255,6 @@ $(function() {
 				});
 			}}) 
     },
-    
-
     NewsFeed : function(){ 
      var resources = new App.Collections.NewsResources()
      resources.fetch({success: function() {

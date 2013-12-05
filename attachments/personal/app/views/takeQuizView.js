@@ -44,9 +44,6 @@ $(function() {
    
    
    initialize: function() {
-	console.log(this.options)
-       
-        
 	this.Correctanswers=this.options.answers.nodeValue.split(',')
 	this.Questions=this.options.questions.nodeValue.split(',')
 	this.Optns=this.options.options.nodeValue.split(',')
@@ -75,14 +72,6 @@ $(function() {
             this.myModel.set("memberId",$.cookie('Member._id'))
         
         }
-        console.log(this.stepId)
-        console.log(this.pp)
-        console.log(this.stepResult)
-        console.log(this.courseId)
-	console.log(this.Questions)
-	console.log(this.Correctanswers)
-	console.log(this.Optns)
-	console.log(this.TotalCount)
     },
     animateIn:function(){console.log("in animatein")
       document.getElementById("tQuizDiv").style.left="-512%"

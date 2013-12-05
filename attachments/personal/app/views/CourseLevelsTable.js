@@ -14,7 +14,6 @@ id: "accordion",
     sr.stepId = e.currentTarget.value
     console.log(e.currentTarget.value)
     sr.fetch({async:false})
-  
     var stepResultId = null
     var exist = false
     var status = "in-progress"
@@ -43,10 +42,22 @@ id: "accordion",
     },
 
     addOne: function(model){
-	 this.vars = model.toJSON() 
-	 console.log(this.vars)
-     this.$el.append(this.template(this.vars))
-	},
+	 this.vars = model.toJSON()
+	 console.log(model)
+	 var that = this
+         var stepResult = new App.Collections.StepResults()
+	 stepResult.courseId = model.get("courseId")
+	 stepResult.stepId = model.get("_id")
+	 stepResult.fetch({async:false})
+	 this.vars.status = "notpassed"
+	 if(stepResult.length > 0){
+	  if(stepResult.models[0].attributes.status == "passed"){
+	    this.vars.status = "passed"
+	  }
+	 }
+	 this.$el.append(this.template(this.vars))
+	
+     },
     render: function() {
     if(this.collection.length<1){
     	this.$el.append('<p style="font-weight:900;">No data related to selected course found</p>')
