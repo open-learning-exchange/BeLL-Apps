@@ -20,7 +20,7 @@ $(function() {
       'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
       'course/manage/:groupId'   : 'ManageCourse',
        'addItemstoLevel/:lid/:rid/:title'    :  'AddItemsToLevel', 
-      'level/add/:groupId/:levelId'       : 'AddLevel',
+      'level/add/:groupId/:levelId/:totalLevels'       : 'AddLevel',
       'level/view/:levelId/:rid'       : 'ViewLevel',
       'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
       'course/assignments/:groupId' : 'GroupAssignments',
@@ -297,29 +297,62 @@ $(function() {
       levels = new App.Collections.CourseLevels()
       levels.groupId = groupId
       
+      var className = "Group"
+      var model = new App.Models[className]()
+      var modelForm = new App.Views[className + 'Form']({model: model})
+      App.$el.children('.body').html('<h1>Course</h1>')
+ 	  App.$el.children('.body').append(modelForm.el)      
+      
+      
+      model.once('Model:ready', function() {
+        // when the users submits the form, the group will be processed
+        modelForm.on(className + 'Form:done', function() {
+          Backbone.history.navigate(reroute, {trigger: true})
+        }) 
+        // Set up the form
+        modelForm.render()
+      })
+
+      // Set up the model for the form
+      if (groupId) {
+        model.id = groupId
+        model.once('sync', function() {
+          model.trigger('Model:ready')
+        }) 
+        model.fetch()
+      }
+      else {
+        model.trigger('Model:ready')
+      }
       
       levels.fetch({success: function() {
         levels.sort()
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.render()
-        App.$el.children('.body').html('<h1>Course Steps</h1>')
-        App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+groupId+'/nolevel\'">Add Step</button>')
+        	App.$el.children('.body').append('<br/><br/><br/><br/><button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+groupId+'/nolevel/' + levels.length + '\' ">Add Step</button>')
+        
         App.$el.children('.body').append(lTable.el)
+        
+        $("#moveup").hide()
+        $("#movedown").hide()
+        $("input[type='radio']").hide();
       }})
     },
     
-    AddLevel : function(groupId,levelId){
+    AddLevel : function(groupId,levelId,totalLevels){
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
        var Cstep = new App.Models.CourseStep()
        var lForm = new App.Views.LevelForm({model: Cstep})
        Cstep.set({courseId : groupId})
+       
        if (levelId == "nolevel") {
-     
+     		
           App.$el.children('.body').html('<h1>New Step</h1>')
           lForm.edit = false
           lForm.previousStep = 0
           lForm.render()
           App.$el.children('.body').append(lForm.el)
+          $("input[name='step']").attr("disabled",true);
       }
       else{
           Cstep.set({"_id":levelId})
@@ -334,10 +367,16 @@ $(function() {
           lForm.previousStep = Cstep.get("step")
           lForm.render()
           App.$el.children('.body').append(lForm.el)
+          $("input[name='step']").attr("disabled",true);
         }) 
         Cstep.fetch()
       }
-      
+      if(totalLevels!=-1)
+      {
+      	var tl = parseInt(totalLevels) +1 
+       	$("input[name='step']").val(tl)
+      }
+    //  $('#bbf-form input[name=step]').attr("disabled",true);
     },
     AddItemsToLevel : function(lid,rid,title){
            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
@@ -384,8 +423,9 @@ $(function() {
          levelInfo.fetch({success: function() {
             var levelDetails = new App.Views.LevelDetail({model : levelInfo})
              levelDetails.render()
+             console.log(levelInfo)
              App.$el.children('.body').html('<h3>Step Details |'+levelInfo.get("title")+'</h3>')
-             App.$el.children('.body').append('<a class="btn btn-success"  target="_blank" href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'\'">Edit Step</a>&nbsp;&nbsp;')
+             App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'/-1\'">Edit Step</a>&nbsp;&nbsp;')
              App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>"+levelInfo.get("description")+"</TextArea></BR>")
 	     App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/"+lid+"\"'>Save</button></BR></BR>")
              App.$el.children('.body').append('<B>Resources</B><a class="btn btn-success"  style="float:right;" target="_blank" href=\'#search-bell/'+lid+'/'+rid+'\'">Add</a>')

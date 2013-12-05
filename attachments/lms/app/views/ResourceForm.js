@@ -75,7 +75,7 @@ $(function() {
             alert("Please Specify Author For This News Resource")          
         }
         else{
-          $('#progressImage').show();
+          $('#gressImage').show();
           this.model.set(' uploadDate',new Date().getTime())
           if(this.model.get("Level") == "All"){
                 this.model.set('toLevel',0)
