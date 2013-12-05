@@ -174,7 +174,7 @@
   	$("#SubjectCheckboxes").html(htmlString);
  
   }
-
+	
   </script>
 
   
@@ -421,11 +421,11 @@
       </a>
     </td>
 
-    <td>
+<!--   <td>
       <a role='button' class='btn' href='#course/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
-    </td>
+    </td> -->
     
     <td>
       <a role='button' class='btn' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
@@ -433,17 +433,16 @@
       </a>
     </td>
 
-    <td>
+ <!--   <td>
       <a class='destroy btn' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
-    </td>
-
+    </td> -->
   </script>
   
   <script type="text/html" id="template-LevelRow">
     <td>
-     Step <%= step %> : <%= title %>  
+     <input type="radio" name="stepRow" />&nbsp;&nbsp;Step <%= step %> : <%= title %>  
     </td> 
    <td>
       <a role='button' class='btn btn-info' href='#level/view/<%= _id %>/<%= _rev %>'> 

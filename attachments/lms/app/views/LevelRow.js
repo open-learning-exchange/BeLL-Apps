@@ -6,9 +6,11 @@ $(function() {
 
     events: {
       "click .destroyStep" : function(e) {
+      	this.trigger('levelDeleted')
         e.preventDefault()
         this.model.destroy()
         this.remove()
+      	
       },
       "click .browse" : function(e) {
         e.preventDefault()
