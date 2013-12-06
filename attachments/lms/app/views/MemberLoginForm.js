@@ -33,8 +33,8 @@ $(function() {
       if(response.rows[0]){
         if(response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
           if(response.rows[0].doc.status == "active"){
-            $.cookie('Member.login', response.rows[0].doc.login)
-            $.cookie('Member._id', response.rows[0].doc._id)
+            $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell"})
+            $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell"})
             
             if ($.inArray('student', response.rows[0].doc.roles) != -1) {
               if(response.rows[0].doc.roles.length < 2){

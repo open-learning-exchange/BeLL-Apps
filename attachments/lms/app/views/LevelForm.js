@@ -42,6 +42,28 @@ $(function() {
        console.log(that.model)
        //Backbone.history.navigate('create-quiz/'+id+'/'+rid+'/'+title, {trigger: true})
        Backbone.history.navigate('course/manage/'+that.model.get("courseId"), {trigger: true})
+       // Adding a Step to all the member progress course
+       var allcrs = new App.Collections.StepResultsbyCourse()
+       allcrs.courseId = that.model.get("courseId")
+       allcrs.fetch({success:function(){
+          console.log(allcrs.length)
+          allcrs.each(function(m){
+                
+                var sids = m.get("stepsIds")
+                var sresults = m.get("stepsResult")
+                var sstatus = m.get("stepsStatus")
+                  sids.push(that.model.get("id"))
+                  sresults.push("0")
+                  sstatus.push("0")
+               m.set("stepsIds",sids)
+               m.set("stepsResult",sresults)
+               m.set("stepsStatus",sstatus)
+               m.save({success:function(){
+                    console.log("model Saved")
+               }})
+          })    
+         
+       }})
       
       })
       // Put the form's input into the model in memory

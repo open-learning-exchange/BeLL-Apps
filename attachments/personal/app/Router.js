@@ -29,8 +29,10 @@ $(function() {
       'addEvent'		      : 'addEvent',
       'report/:Url'                     : 'report',
       'notifications'                     : 'invitations',
-      'siteFeedback'	: 'viewAllFeedback',
-      '*nomatch'                      : 'errornotfound',  
+      'siteFeedback'	              : 'viewAllFeedback',
+       'courses/barchart'	      : 'CoursesBarChart',
+      '*nomatch'                      : 'errornotfound',
+      
     },
     
     initialize: function() {
@@ -60,12 +62,17 @@ $(function() {
     },
 
 
+      CoursesBarChart: function(){
+		App.$el.children('.body').html('&nbsp')
+		App.$el.children('.body').append('<div id="graph"></div>')
+		var coursesResults=new App.Collections.memberprogressallcourses()
+		coursesResults.memberId=$.cookie('Member._id')
+		coursesResults.fetch({async:false})
+		var chart=new App.Views.CoursesChartProgress({collection: coursesResults})
+		chart.render()
+		App.$el.children('.body').append(chart.el) 
+	},
 
-
-    
-    
-    
-    
     invitations: function(){
     	App.$el.children('.body').html('&nbsp')
     	App.$el.children('.body').append('<h3 class="hh3">Invitations<h3>')
@@ -184,8 +191,8 @@ $(function() {
 
     MemberLogout: function() {
       App.ShelfItems = {}
-      $.removeCookie('Member.login')
-      $.removeCookie('Member._id')
+      $.removeCookie('Member.login',{path:"/apps/_design/bell"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell"})
       Backbone.history.navigate('login', {trigger: true})
     },
 

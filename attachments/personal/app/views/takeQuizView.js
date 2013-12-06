@@ -48,30 +48,10 @@ $(function() {
 	this.Questions=this.options.questions.nodeValue.split(',')
 	this.Optns=this.options.options.nodeValue.split(',')
 	this.stepId = this.options.stepId
-        this.courseId = this.options.courseId.nodeValue
         this.TotalCount=this.Questions.length
-        this.modelExist = this.options.modelExist
         this.pp = parseInt(this.options.passP.nodeValue)
-        this.stepResult = this.options.stepResult
-        this.myModel = null
-        
-        if(this.stepResult != null)
-        {
-           
-           var that = this
-            var Model = new App.Models.StepResult({"_id":this.stepResult})
-             Model.fetch({success:function(){
-               that.myModel = Model      
-           }})
-        }
-        else
-        {
-            this.myModel = new App.Models.StepResult()
-            this.myModel.set("stepId",this.stepId)
-            this.myModel.set("courseId",this.courseId)
-            this.myModel.set("memberId",$.cookie('Member._id'))
-        
-        }
+        this.myModel = this.options.resultModel
+        this.stepindex = this.options.stepIndex
     },
     animateIn:function(){console.log("in animatein")
       document.getElementById("tQuizDiv").style.left="-512%"
@@ -109,13 +89,17 @@ $(function() {
    		 	this.$el.append('<div class="quizText"><h4>You Scored '+Math.round((this.Score/this.TotalCount)*100)+'%<h4></div>')
 	 		this.$el.append('<div class="quizActions" ><button class="btn btn-info" id="finishPressed">Finish</button></div>')
                         if(this.pp >= quizScore){
-                              this.myModel.set("status","passed")
+                              var sstatus = this.myModel.get("stepsStatus")
+                              var sp = this.myModel.get("stepsResult")
+                              sstatus[this.stepindex] = "1"
+                              var prcent = quizScore * 100
+                              sp[this.stepindex] = prcent.toString()
+                              this.myModel.set("stepsStatus",sstatus)
+                              this.myModel.set("stepsResult",sp)
                               this.myModel.save()
                               this.$el.append('</BR><p>You have Passed this Level</p>')
                         }
                         else{
-                              this.myModel.set("status","in-progress")
-                              this.myModel.save()
                               this.$el.append('</BR><p>You are unable to pass this Level. Read carefully and try again</p>')
                         }
    		 }

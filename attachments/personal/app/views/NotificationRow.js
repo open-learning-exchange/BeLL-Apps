@@ -20,8 +20,29 @@ $(function() {
     				gmodel.set("members",memberlist)
     				gmodel.save({},{
     					success: function(){
-    						alert("Course added to Dashboard")
-    						that.model.destroy()
+    						
+    						var memprogress = new App.Models.membercourseprogress()
+						var csteps = new App.Collections.coursesteps();
+						var stepsids = new Array()
+						var stepsres = new Array()
+						var stepsstatus = new Array()
+						csteps.courseId = gmodel.get("_id")
+						csteps.fetch({success:function(){
+						    csteps.each(function(m){
+						    stepsids.push(m.get("_id"))
+						    stepsres.push("0")
+						    stepsstatus.push("0")
+						  })
+						    memprogress.set("stepsIds",stepsids)
+						    memprogress.set("memberId",$.cookie("Member._id"))
+						    memprogress.set("stepsResult",stepsres)
+						    memprogress.set("stepsStatus",stepsstatus)
+						    memprogress.set("courseId",csteps.courseId)
+						    memprogress.save({success:function(){
+							alert("Course added to Dashboard")
+						   }})
+				}})
+						that.model.destroy()
     						that.remove()	
     					}
     				})

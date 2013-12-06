@@ -93,8 +93,8 @@ $(function() {
     },
 
     MemberLogout: function() {
-      $.removeCookie('Member.login')
-      $.removeCookie('Member._id')
+      $.removeCookie("Member.login", {path: "/apps/_design/bell"}) 
+      $.removeCookie("Member._id", {path: "/apps/_design/bell"})
       Backbone.history.navigate('landingPage', {trigger: true})
     },
 
@@ -342,8 +342,9 @@ $(function() {
     AddLevel : function(groupId,levelId,totalLevels){
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
        var Cstep = new App.Models.CourseStep()
-       var lForm = new App.Views.LevelForm({model: Cstep})
        Cstep.set({courseId : groupId})
+       var lForm = new App.Views.LevelForm({model: Cstep})
+       
        
        if (levelId == "nolevel") {
      		
@@ -424,8 +425,9 @@ $(function() {
             var levelDetails = new App.Views.LevelDetail({model : levelInfo})
              levelDetails.render()
              console.log(levelInfo)
-             App.$el.children('.body').html('<h3>Step Details |'+levelInfo.get("title")+'</h3>')
+             App.$el.children('.body').html('<h3> Step '+levelInfo.get("step")+' | '+levelInfo.get("title")+'</h3>')
              App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'/-1\'">Edit Step</a>&nbsp;&nbsp;')
+             App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/"+levelInfo.get('courseId')+"'>Back To Course </a>&nbsp;&nbsp;")
              App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>"+levelInfo.get("description")+"</TextArea></BR>")
 	     App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/"+lid+"\"'>Save</button></BR></BR>")
              App.$el.children('.body').append('<B>Resources</B><a class="btn btn-success"  style="float:right;" target="_blank" href=\'#search-bell/'+lid+'/'+rid+'\'">Add</a>')

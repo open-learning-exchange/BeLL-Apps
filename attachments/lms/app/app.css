@@ -185,3 +185,9 @@ input[type=checkbox]:checked + label:before {
 {
       
 }
+#browseImage{
+   border: 1px solid;
+    margin-left: 25%;
+    margin-top: -2%;
+    position: absolute;
+}
