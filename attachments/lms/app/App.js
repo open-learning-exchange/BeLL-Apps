@@ -20,7 +20,13 @@ $(function() {
       // For the x button on the modal
       "click .close" : "closeModal"
     },
-
+	renderFeedback: function(){
+	  var mymodels=new App.Models.report()
+	  var na=new App.Views.siteFeedback({model: mymodels})
+	  na.render()
+	  App.$el.children('.body').append('<br/>')
+      App.$el.children('.body').append(na.el)
+	},
     start: function(){
       this.$el.html(_.template(this.template))
       var loggedIn = ($.cookie('Member._id'))

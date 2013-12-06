@@ -53,6 +53,7 @@
   <script src="app/models/InviFormModel.js"></script>
   <script src="app/models/ExploreBell.js"></script>
   <script src="app/models/membercourseprogress.js"></script>
+  <script src="app/models/report.js"></script>
     
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
@@ -66,7 +67,7 @@
   <script src="app/collections/CourseLevels.js"></script>
   <script src="app/collections/SearchCourses.js"></script>
   <script src="app/collections/StepResultsbyCourse.js"></script>
-  
+  <script src="app/collections/siteFeedbacks.js"></script>
   
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -103,6 +104,11 @@
   <script src="app/views/ListDefaultCourses.js"></script>
   <script src="app/views/SearchCourses.js"></script>
   
+  <!-- LMS Feedback view -->
+  <script src="app/views/siteFeedback.js"></script>
+  <script src="app/views/siteFeedbackPage.js"></script>
+  <script src="app/views/siteFeedbackPageRow.js"></script>
+  
   <!-- ALL Code Regarding the Search Function -->
   <script>
   var searchText = "";
@@ -118,6 +124,23 @@
   var subjectFilter = new Array() ;
   var rids = new Array() ; 
   var rtitle = new Array() ;
+  
+  function showFeedbackForm()
+  {
+	  App.renderFeedback()
+	  
+	  if(document.getElementById('site-feedback').style.visibility!='visible')
+	  {
+	  
+		$('#site-feedback').animate({height:'243px'})
+		document.getElementById('site-feedback').style.visibility='visible'
+	  }
+	else
+	{
+		$('#site-feedback').animate({height:'toggle'})
+	}
+  }
+  
   function selectAllSearchResult()
   {
       $("input[name='result']").each( function () {
@@ -356,6 +379,11 @@
         <i class="icon-plane icon-white"></i> Log out
       </a>
     </li>
+    <li  style="float:right;"> 
+      <a onclick = "showFeedbackForm()">
+        <i class="fui-cmd"></i> Feedback
+      </a>
+    </li>
   </script>
 
   <script type="text/template" id="template-nav-log-in"> 
@@ -365,6 +393,11 @@
 
     <li> 
       <a href="/devices/_design/all/update.html"><i class="icon-download-alt icon-white"></i> Install BeLL Apps on this device</a>
+    </li>
+    <li  style="float:right;"> 
+      <a onclick = "showFeedbackForm()">
+        <i class="fui-cmd"></i> Feedback
+      </a>
     </li>
   </script>
 
@@ -783,6 +816,24 @@ Please become a Member and explore both the Community Learning Management System
 <span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.4)</span><br/>
 <span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
 </script>
+<script type="text/html" id="template-siteReviewRownoAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved</td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+		<%}%>
+  </script>
+  
+    
+   <script type="text/html" id="template-siteReviewRowAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+		<%}%>
+  </script>
 </head>
 
 <body>
