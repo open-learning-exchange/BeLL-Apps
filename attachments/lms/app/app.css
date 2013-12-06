@@ -190,6 +190,7 @@ input[type=checkbox]:checked + label:before {
     margin-left: 25%;
     margin-top: -2%;
     position: absolute;
+}
 
 #site-feedback{
      background-color: #34495E;
