@@ -137,6 +137,16 @@ $(function() {
       		that.collection.models[i].set('step' , i)
       		that.collection.models[i].save()
       	}
+      	that.collection.models.splice(stepNo-1,1)
+      	if(that.collection.models.length==0)
+      	{
+      		$('#moveup').hide()
+      		$('#movedown').hide()
+      		$('#Rearrange').hide()
+      		
+      	}
+      	$("#addstep").attr("onClick","document.location.href=\'#level/add/" +that.groupId+"/nolevel/" + that.collection.models.length + "\' ");
+      	location.reload()
       })
       lrow.render()  
       this.$el.append(lrow.el)
@@ -152,9 +162,10 @@ $(function() {
 		this.changedSteps = new Array()
 	},
     render: function() {
+     this.$el.append('<br/><br/><br/><br/><button class="btn btn-success" id="addstep"  onclick = "document.location.href=\'#level/add/'+this.groupId+'/nolevel/' + this.collection.models.length + '\' ">Add Step</button>')
      if(this.collection.models.length>0)
      {
-       	this.$el.append('<br/><br/><button class="btn btn-success" id="Rearrange" >Rearrange</button>&nbsp;&nbsp;&nbsp;')
+       	this.$el.append('&nbsp;&nbsp;&nbsp;<button class="btn btn-success" id="Rearrange" >Rearrange</button><br/><br/>')
      }
      this.$el.append('<button class="btn btn-success" id="moveup" >Up</button>&nbsp;&nbsp;&nbsp;')
      this.$el.append('<button class="btn btn-success" id="movedown" >Down</button>')

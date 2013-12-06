@@ -338,9 +338,8 @@ $(function() {
       levels.fetch({success: function() {
         levels.sort()
         lTable = new App.Views.LevelsTable({collection: levels})
+        lTable.groupId = groupId
         lTable.render()
-        	App.$el.children('.body').append('<br/><br/><br/><br/><button class="btn btn-success"  onclick = "document.location.href=\'#level/add/'+groupId+'/nolevel/' + levels.length + '\' ">Add Step</button>')
-        
         App.$el.children('.body').append(lTable.el)
         
         $("#moveup").hide()
