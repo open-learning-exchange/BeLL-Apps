@@ -191,8 +191,10 @@ $(function() {
 
     MemberLogout: function() {
       App.ShelfItems = {}
-      $.removeCookie('Member.login',{path:"/apps/_design/bell"})
-      $.removeCookie('Member._id',{path:"/apps/_design/bell"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
       Backbone.history.navigate('login', {trigger: true})
     },
 

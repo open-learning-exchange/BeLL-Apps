@@ -45,6 +45,7 @@ $(function() {
       
       
     },
+    
     viewAllFeedback: function(){
 		var feed = new App.Collections.siteFeedbacks()
        feed.fetch({success: function() {
@@ -103,8 +104,10 @@ $(function() {
     },
 
     MemberLogout: function() {
-      $.removeCookie("Member.login", {path: "/apps/_design/bell"}) 
-      $.removeCookie("Member._id", {path: "/apps/_design/bell"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
       Backbone.history.navigate('landingPage', {trigger: true})
     },
 

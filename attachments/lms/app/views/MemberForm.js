@@ -101,19 +101,17 @@ $(function() {
            }
             this.model.set("visits",0)
             this.model.save(null,{success:function(){
-                 alert("SUCCESS")
                 that.model.unset('_attachments')
                 if($('input[type="file"]').val()) 
                 {
-                	alert($('input[type="file"]').val())
-                  	that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
+                      that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
                 }
                 else 
                 {
                   Backbone.history.navigate('members', {trigger: true})
                 }
                 that.model.on('savedAttachment', function() {
-                if(this.model.attributes._rev==undefined){
+                if(that.model.attributes._rev == undefined){
                       alert("Successfully Registered!!!")
 		      Backbone.history.navigate('members', {trigger: true})
 		 }

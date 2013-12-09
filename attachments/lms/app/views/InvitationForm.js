@@ -85,14 +85,14 @@ $(function() {
       var that = this
       if(this.model.get("invitationType") == "All")
       {
-           memberList.each(function(m) {
-            temp = new App.Models.Invitation()   
-            temp.set("title",that.title)
-            temp.set("senderId",that.senderId)
+           memberList.each(function(m) { 
+            temp = new App.Models.Invitation()
+            temp.set("title",that.model.title)
+            temp.set("senderId",that.model.senderId)
             temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
             temp.set("memberId",m.get("_id"))
-            temp.set("entityId",that.entityId)
-            temp.set("type",that.type)
+            temp.set("entityId",that.model.entityId)
+            temp.set("type",that.model.type)
             temp.save()
           })
       
