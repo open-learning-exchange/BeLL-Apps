@@ -24,7 +24,8 @@ $(function() {
       title: 'Text',
       description: 'Text',
       articleDate: 'Date',
-      openWith: {
+      addedBy:'Text',
+      openWith:{
         type: 'Select',
         options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
       },

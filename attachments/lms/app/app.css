@@ -35,7 +35,6 @@
   
 .form .btn {
   margin: 5px 0px 20px 20px;
-  float: left;
 }
 
 .form .progress {
@@ -64,8 +63,6 @@
 
     color: #000000;
     font-family: verdana;
-    margin-left: 10%;
-    padding-left: 10%;
     width: 60%;
 border-radius: 20px 20px 20px 20px;
 }
@@ -268,5 +265,48 @@ border-bottom:1px solid black;
 .notification-table th {
     background-color: #34495E;
     color: #FFFFFF;
+}
 
+#groupform {
+  background-color: #F3F3F3;
+  border-radius: 37px;
+  margin-bottom: -1%;
+  margin-left: -1%;
+  width: 800px;
+}
+#groupform [name="description"]{
+  height: 103px;
+    width: 702px;
+}
+
+#groupform .bbf-field.field-leaderEmail{
+    margin-left: 250px;
+     margin-top: -77px;
+     position: relative;
+    
+}
+#groupform .bbf-field.field-leaderPhone{
+    margin-left: 500px;
+    margin-top: -77px;
+    position: relative;
+    
+}
+#groupform .bbf-field.field-foregroundColor{
+    margin-left: 147px;
+    margin-top: -67px;
+    position: relative;
+}
+#invitationForm{
+  color:white;
+  padding: 21px;
+}
+#invitationdiv{
+    background-color: #B1B1B1;
+    border-radius: 20px;
+    position: fixed;
+    top: 20%;
+    width: 65%;
+    z-index: 2;
+    margin-left:10%;
+  
 }

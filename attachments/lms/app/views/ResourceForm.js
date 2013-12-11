@@ -28,6 +28,12 @@ $(function() {
       this.form = new Backbone.Form({ model: this.model })
       this.form.render()
       this.form.fields['uploadDate'].$el.hide()
+      if(this.edit == false){
+        alert("here")
+        this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
+      }  
+        this.form.fields['addedBy'].$el.attr("disabled",true)
+      
       var that = this
       if(_.has(this.model, 'id')) {
           if(this.model.get("Level") == "All"){
@@ -71,7 +77,10 @@ $(function() {
         // Send the updated model to the server
         var that = this
         var savemodel = false
-        if((this.model.get("Tag") == "News") && !this.model.get("author")){
+        if(this.model.get("title").length == 0){
+          alert("Resource Title is missing")
+        }
+        else if((this.model.get("Tag") == "News") && !this.model.get("author")){
             alert("Please Specify Author For This News Resource")          
         }
         else{
@@ -82,7 +91,7 @@ $(function() {
                 this.model.set('fromLevel',0)
           }
           else{
-              if(this.model.get("fromLevel") > this.model.get("toLevel")){
+              if(parseInt(this.model.get("fromLevel")) > parseInt(this.model.get("toLevel"))){
                   alert("Invalid range specified ")
                   addtoDb = false
               }

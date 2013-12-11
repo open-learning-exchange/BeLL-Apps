@@ -2,18 +2,25 @@ $(function() {
 
   App.Views.InvitationForm = Backbone.View.extend({
     
-    className: "form",
+    id: "invitationForm",
 
     events: {
       "click #formButton": "setForm",
-      "submit form" : "setFormFromEnterKey"
+      "submit form" : "setFormFromEnterKey",
+      "click #cancelButton": "hidediv",
+      
     },
      
     title:null,
     entityId:null,
     type:null,
     senderId:null,
-    
+    hidediv : function(){
+       $('#invitationdiv').fadeOut(1000)
+       document.getElementById('cont').style.opacity=1.0
+       document.getElementById('nav').style.opacity=1.0
+       setTimeout(function(){$('#invitationdiv').hide()},1000);
+    },
     SetParams:function(ti,e,t,s){
       this.title = ti
       this.entityId = e
@@ -54,8 +61,10 @@ $(function() {
             }
         })
         // give the form a submit button
-        var $button = $('<a class="btn" id="formButton">save</button>')
+        var $button = $('<a class="btn btn-success" id="formButton">Invite</button>')
         this.$el.append($button)
+        this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
+        this.$el.append('<a class="btn btn-danger" id="cancelButton">Cancel</button>')
       })
 
       // Get the group ready to process the form
@@ -91,7 +100,7 @@ $(function() {
             temp.set("senderId",that.model.senderId)
             temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
             temp.set("memberId",m.get("_id"))
-            temp.set("entityId",that.model.entityId)
+			temp.set("entityId",that.model.resId)
             temp.set("type",that.model.type)
             temp.save()
           })
@@ -107,7 +116,7 @@ $(function() {
             temp.set("senderId",that2.model.senderId)
             temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
             temp.set("memberId",m.get("_id"))
-            temp.set("entityId",that2.model.entityId)
+            temp.set("entityId",that2.model.resId)
             temp.set("type",that2.model.type)
             temp.save()
             console.log(temp);
@@ -126,15 +135,19 @@ $(function() {
                   temp.set("senderId",that.senderId)
                   temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
                   temp.set("memberId",m.get("_id"))
-                  temp.set("entityId",that.entityId)
+                  temp.set("entityId",that.resId)
                   temp.set("type",that.type)
                   temp.save()
                 }
            });
            
       }
-     alert("Invitation sent successfully")
-     Backbone.history.navigate('courses', {trigger: true})
+        $('#invitationdiv').fadeOut(1000)
+        alert("Invitation sent successfully")
+         document.getElementById('cont').style.opacity=1.0
+       document.getElementById('nav').style.opacity=1.0
+        setTimeout(function(){$('#invitationdiv').hide()},1000);
+     
     },
 
 

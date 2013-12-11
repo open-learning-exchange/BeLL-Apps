@@ -1,8 +1,10 @@
 $(function() {
 
   App.Collections.siteFeedbacks = Backbone.Collection.extend({
-
-   url: App.Server + '/report/_all_docs?include_docs=true',
+   
+   url: function() {
+      return App.Server + '/report/_all_docs?include_docs=true&limit='+limitofRecords+'&skip='+skip
+    },
 
     parse: function(response) {
       var docs = _.map(response.rows, function(row) {

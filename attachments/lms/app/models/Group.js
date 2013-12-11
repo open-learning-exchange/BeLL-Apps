@@ -26,6 +26,13 @@ $(function() {
         type: 'Checkboxes',
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       },
+      description:'TextArea',
+      courseLeader:{
+            type:'Select',
+            options:null,
+      },
+      leaderEmail:'Text',
+      leaderPhone:'Text',
       members: {
         type: 'Checkboxes',
         options: null // Populate this when instantiating

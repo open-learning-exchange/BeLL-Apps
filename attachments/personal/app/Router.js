@@ -18,6 +18,7 @@ $(function() {
       'newsfeed/:authorTitle'         : 'Article_List',
       'search-bell'		      : 'SearchBell',
       'search-result'		      :'SearchResult',
+		'cloudant'		:'cloudant',
       'member/add'                    : 'MemberForm',
        'member/edit/:mid'              : 'MemberForm',
       'addResource/:rid/:title/:revid'                  : 'AddResourceToShelf',
@@ -36,7 +37,7 @@ $(function() {
     },
     
     initialize: function() {
-    this.bind("all",this.startUpStuff)
+	this.bind("all",this.startUpStuff)
 	},
 	startUpStuff: function(){
 		this.checkLoggedIn
@@ -44,6 +45,51 @@ $(function() {
 		   $('div.takeQuizDiv').hide()
 		 $('#externalDiv').hide()
 	},
+    this.bind( "all", this.checkLoggedIn)
+    this.bind( "all", this.renderNav )
+
+	},
+	cloudant: function(){
+		var a=new App.Collections.Groups()
+		a.fetch({async:false})
+
+		a.each(function(b){
+			if(b.toJSON().members!=null){	
+					var courseid=b.toJSON()._id
+					var mmbrs=b.toJSON().members
+					for(var index=0;index<(mmbrs.length);index++)
+						{
+							var stepIds=new Array()
+							var stepst=new Array()
+							var stepr=new Array()
+							var steps=new App.Collections.coursesteps()
+							steps.courseId=courseid
+							steps.fetch({async:false})
+							steps.each(function(s){
+								stepIds.push(s.toJSON()._id)
+								stepst.push('0')
+								stepr.push('0')
+							})
+							console.log(mmbrs[index])
+							console.log(courseid)
+							console.log(stepIds)
+							var mcp=new App.Models.membercourseprogress()
+							mcp.set('memberId',mmbrs[index])
+							mcp.set('courseId',courseid)
+							mcp.set('stepsIds',stepIds)
+							mcp.set('stepsStatus',stepst)
+							mcp.set('stepsResult',stepr)
+							mcp.save()
+							mcp.fetch({async:false})
+							console.log(mcp.toJSON())
+							
+						}
+					
+			}
+
+		})
+	},
+
 	
 	   checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){

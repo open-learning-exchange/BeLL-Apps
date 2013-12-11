@@ -20,6 +20,7 @@ $(function() {
 		var totalSteps=0
 		if(res.length!=0){
 			modl=res.first().toJSON()
+			console.log(modl)
 			PassedSteps=0
 			temp=0
 			totalSteps=modl.stepsStatus.length

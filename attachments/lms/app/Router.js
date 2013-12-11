@@ -60,13 +60,22 @@ $(function() {
    		}
    	}
    },
+
+    
     viewAllFeedback: function(){
 		var feed = new App.Collections.siteFeedbacks()
-       feed.fetch({success: function() {
+           feed.fetch({success: function() {
           feedul = new App.Views.siteFeedbackPage({collection:feed})
+//          console.log(feed)
+//          alert('check')
+//          skip = 0
+//          skipStack.push(skip)
+//          skip = feed.length
           feedul.render()
+          $('#see-all', feedul.$el).trigger("click");
           App.$el.children('.body').html('&nbsp')	
           App.$el.children('.body').append(feedul.el) 
+         $("#previousButton").hide()
 			}})
 	},
     LandingScreen : function(){
@@ -134,14 +143,18 @@ $(function() {
       })
       var resourceFormView = new App.Views.ResourceForm({model: resource})
       App.$el.children('.body').html(resourceFormView.el)
+      
       if(resource.id) {
         App.listenToOnce(resource, 'sync', function() {
-          resourceFormView.render()
+        resourceFormView.render()
+        $("input[name='addedBy']").attr("disabled",true);
         })
         resource.fetch()
       }
       else {
         resourceFormView.render()
+        $("input[name='addedBy']").val($.cookie("Member.login"));
+        $("input[name='addedBy']").attr("disabled",true);
       }
     },
 
@@ -238,7 +251,7 @@ $(function() {
     },
 
     modelForm : function(className, label, modelId, reroute) {
-      // Set up
+      //cv Set up
       var model = new App.Models[className]()
       var modelForm = new App.Views[className + 'Form']({model: model})
 
@@ -327,9 +340,9 @@ $(function() {
       var className = "Group"
       var model = new App.Models[className]()
       var modelForm = new App.Views[className + 'Form']({model: model})
-      App.$el.children('.body').html('<h1>Course</h1>')
- 	  App.$el.children('.body').append(modelForm.el)      
-      
+      App.$el.children('.body').html('<br/>')
+      App.$el.children('.body').append('<h1>Course</h1>')
+      App.$el.children('.body').append(modelForm.el)
       
       model.once('Model:ready', function() {
         // when the users submits the form, the group will be processed
@@ -357,6 +370,7 @@ $(function() {
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.groupId = groupId
         lTable.render()
+        App.$el.children('.body').append("</BR><h2> Course Steps </h2>")
         App.$el.children('.body').append(lTable.el)
         
         $("#moveup").hide()
@@ -883,7 +897,7 @@ $(function() {
           }
         })
         App.trigger('compile:resourceListReady')
-      })
+      })//????????
 
       App.once('compile:resourceListReady', function() {
         apps.once('sync', function() {
