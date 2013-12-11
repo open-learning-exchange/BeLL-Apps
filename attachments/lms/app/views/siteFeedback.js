@@ -28,7 +28,7 @@ gotoRoute: function(){
    		var now = new Date();
 		now.getDate()
     	temp=temp.split('#')
-  		this.form.setValue({PageUrl:temp[1]})
+  		this.form.setValue({PageUrl:"LMS:"+temp[1]})
   		this.form.setValue({Resolved:'0'})
   		this.form.setValue({memberLogin:$.cookie('Member.login')})	
   		this.form.setValue({time: now.toString()})

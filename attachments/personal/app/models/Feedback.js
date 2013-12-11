@@ -21,11 +21,8 @@ $(function() {
     },
 
     schema: {
-      rating: {
-        type: 'Radio',
-        options: [1, 2, 3, 4, 5]
-      },
-      comment: 'Text',
+      rating: 'Text',
+      comment: 'TextArea',
       resourceId: 'Text',
       memberId: 'Text'
     }

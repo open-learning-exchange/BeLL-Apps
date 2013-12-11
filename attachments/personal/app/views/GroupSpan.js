@@ -31,8 +31,6 @@ $(function() {
 					temp++
 			}
 		}
-		console.log(totalSteps)
-		console.log(PassedSteps)
 		if(totalSteps!=0){
 		vars.yes='<br>('+PassedSteps+'/'+totalSteps+')'
 		}

@@ -37,9 +37,17 @@ $(function() {
     },
     
     initialize: function() {
-    this.bind( "all", this.checkLoggedIn)
-    this.bind( "all", this.renderNav )
+	this.bind("all",this.startUpStuff)
+	},
+	startUpStuff: function(){
+		this.checkLoggedIn
+		this.renderNav
+		   $('div.takeQuizDiv').hide()
+		 $('#externalDiv').hide()
+          this.bind( "all", this.checkLoggedIn)
+          this.bind( "all", this.renderNav )
 
+        
 	},
 	cloudant: function(){
 		var a=new App.Collections.Groups()
@@ -81,11 +89,12 @@ $(function() {
 
 		})
 	},
+
 	
 	   checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
    		console.log($.url().attr('fragment'))
-   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage')
+   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='member/add')
    		{	
    			Backbone.history.stop()
    			App.start()

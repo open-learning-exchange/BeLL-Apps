@@ -203,6 +203,7 @@ $(window).scroll(function () {
 	
   <script type="text/template" id="template-app">  
   <div class="takeQuizDiv" id="tQuizDiv"></div>
+  <div id="externalDiv"></div>
   <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
@@ -329,11 +330,7 @@ $(window).scroll(function () {
       Personal BeLL - v1.0.0
       </a>
     </li>
-    <li> 
-      <a href="#login">
-          Pakistan
-      </a>
-    </li>
+ 
      <li> 
       <a href="../lms/index.html#login">
           LMS
@@ -397,7 +394,7 @@ $(window).scroll(function () {
 						<%= resourceTitles[i] %> &nbsp&nbsp
 				</td>
 				<td>
-						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
 				</td>
 			</tr>
                           <%}%>

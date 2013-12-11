@@ -100,7 +100,7 @@ $(function() {
             temp.set("senderId",that.model.senderId)
             temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
             temp.set("memberId",m.get("_id"))
-            temp.set("entityId",that.model.resId)
+			temp.set("entityId",that.model.resId)
             temp.set("type",that.model.type)
             temp.save()
           })

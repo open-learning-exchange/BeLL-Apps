@@ -45,6 +45,22 @@ $(function() {
       
       
     },
+    initialize: function() {
+    this.bind( "all", this.checkLoggedIn )
+
+	},
+
+   checkLoggedIn: function(){
+   	if(!$.cookie('Member._id')){
+   		console.log($.url().attr('fragment'))
+   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage')
+   		{	
+   			Backbone.history.stop()
+   			App.start()
+   		}
+   	}
+   },
+
     
     viewAllFeedback: function(){
 		var feed = new App.Collections.siteFeedbacks()
@@ -264,7 +280,8 @@ $(function() {
         model.once('sync', function() {
           model.trigger('Model:ready')
         }) 
-        model.fetch()
+        model.fetch({async:false})
+console.log(modeltoJSON())
       }
       else {
         model.trigger('Model:ready')
@@ -354,6 +371,7 @@ $(function() {
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.groupId = groupId
         lTable.render()
+        App.$el.children('.body').append("</BR><h2> Course Steps </h2>")
         App.$el.children('.body').append(lTable.el)
         
         $("#moveup").hide()

@@ -229,8 +229,10 @@ margin-top:-10px;
 	font-size: 21px;
 }
 #star {
-    padding-left: 22px;
+ color: #FFFFFF;
+    padding-left: 44px;
     width: 500px !important;
+    padding-top: 10px;
 }
 
 .feedback_form label{
@@ -432,4 +434,27 @@ textarea[name="comment"]
     float: left;
     margin-top: 20px;
     position: relative;
+}
+#externalDiv {
+    background-color: #34495E;
+    border: 2px solid #000000;
+    border-radius: 20px;
+    font-weight: 900px;
+    height: 243px;
+    left: 10%;
+    overflow: hidden;
+    padding: 10px;
+    position: fixed;
+    top: 40%;
+    width: 80%;
+    z-index: 2;
+}
+
+#externalDiv fieldset{
+border:none;
+font-weight: 900px;
+}
+#externalDiv > form {
+    margin-bottom: 48px;
+
 }

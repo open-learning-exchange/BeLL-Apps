@@ -31,7 +31,7 @@ $(function() {
             type:'Select',
             options:null,
       },
-      leaderEmail:{validators: ['required']},
+      leaderEmail:'Text',
       leaderPhone:'Text',
       members: {
         type: 'Checkboxes',
