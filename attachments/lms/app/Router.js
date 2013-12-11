@@ -264,7 +264,8 @@ $(function() {
         model.once('sync', function() {
           model.trigger('Model:ready')
         }) 
-        model.fetch()
+        model.fetch({async:false})
+console.log(modeltoJSON())
       }
       else {
         model.trigger('Model:ready')

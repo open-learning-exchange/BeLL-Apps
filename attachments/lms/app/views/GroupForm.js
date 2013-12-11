@@ -65,7 +65,9 @@ $(function() {
       // Put the form's input into the model in memory
       this.form.commit()
       // Send the updated model to the server
-      if(!this.model.get("_id")){
+	console.log(this.model.toJSON())
+      if(this.model.get("_id")==undefined){
+		alert("Setting members to null")
         this.model.set("members",null)
       } 
       if(this.model.get("name") == null){
@@ -79,6 +81,7 @@ $(function() {
       }
       else{
         this.model.save()
+			console.log(this.model.toJSON())
       }
     },
 
