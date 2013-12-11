@@ -6,6 +6,7 @@
   <title>Personal BeLL</title>
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
+    <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="vendor/badger.css"/>
   <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
@@ -15,7 +16,7 @@
 <!--
     DEPENDENCIES
   -->
- 
+ <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery-ui.js"></script>
    <script src="vendor/badger.js"></script>
@@ -38,7 +39,7 @@
   <script src="vendor/jquery.raty.js"></script>
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
-  <script src="vendor/jqBarGraph.js"></script>
+  <script src="app/morris.js"></script>
   
 
   <!--
@@ -73,6 +74,8 @@
   <script src="app/collections/siteFeedbacks.js"></script>
   <script src="app/collections/membercourseprogresses.js"></script>
   <script src="app/collections/memberprogressallcourses.js"></script>
+  <script src="app/collections/AllInviteMember.js"></script>
+  
     
   
   <script src="app/views/GroupRow.js"></script>
@@ -406,7 +409,7 @@ $(window).scroll(function () {
                                 </td>
                                 <td>
                                                 <%if (questions!=null){%>
-                                                  <button value = <%=_id%> courseId=<%=courseId%> pp=<%=passingPercentage%> questions=<%=questions%> options=<%=qoptions%> answers=<%=answers%> title:<%=title%> level:<%=step%>  class='btn btn-primary' id="takequiz" >Take Quiz</button>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take Quiz</button>
                                                 <%}else{%>
                                                   <button class='btn btn-disabled'>Take Quiz</button>
                                                 <%}%>

@@ -2,45 +2,81 @@ $(function() {
   App.Views.CoursesChartProgress = Backbone.View.extend({
 
     tagName: "div",
+    className: "Graphbutton",
 	arrayOfData: new Array,
-	temp:new Array,
+    grandpassed: null,
+    grandremaining: null,
+    events:{
+      "click #Donut": function(){
+      					$('#graph').html(' ')
+      					document.getElementById('horizontallabel').style.visibility='hidden'
+      					document.getElementById('veticallable').style.visibility='hidden'
+      					this.$el.html('<a class="btn btn-info" id="Bar">Detailed View</a>')
+      					Morris.Donut({
+  							element: 'graph',
+   							data: [
+   							{label:"Passed Steps",value:this.grandpassed},
+   							{label:"Remaining Steps",value:this.grandremaining}
+   							],
+   							colors:['#0B62A4','#7A92A3']
+    						
+  						});
+      				},
+       "click #Bar": function(){
+      					$('#graph').html(' ')
+      					document.getElementById('horizontallabel').style.visibility='visible'
+      					document.getElementById('veticallable').style.visibility='visible'
+
+      					this.$el.html('<a class="btn btn-info" id="Donut">Birdeye View</a>')
+      					   	Morris.Bar({
+      					   	element: 'graph',
+      					   	data: this.arrayOfData,
+      					   	xkey: 'subject',
+      					   	ykeys: ['passed','remaining'],
+      					   	labels: ['passed','remaining'],
+      					   	gridTextWeight: 900,
+     					   	 gridTextSize: 16,
+     					   	 axes:true,
+     					   	 grid:true,
+      					   	stacked:true
+    					   	});
+      				}				
+      				
+
+    },
+    
+    
     addOne: function(model){
-    this.temp=[]
-      console.log(model.toJSON())
-	  var data=model.toJSON().stepsStatus
+      temp=new Object
+	  data=model.toJSON().stepsStatus
 	  total=model.toJSON().stepsStatus.length
 	  passed=0
+	  remaining=0
 	  for(var i=0;i<total;i++){
-		if(data[i]=="1"){
-		  passed++
+		if(data[i]!="1"){
+		 remaining++
+		 this.grandremaining++
 		}
-	  }
-	  
+		else{
+		passed++
+		 this.grandpassed++
+		}
+	  } 
 	  course=new App.Models.Group({_id:model.toJSON().courseId})
-		course.fetch({async:false})
-		console.log(course.toJSON())
-		this.temp.push(Math.round((passed/total)*100))
-		this.temp.push(course.toJSON().name)
-		this.temp.push(course.toJSON().backgroundColor)
-		this.arrayOfData.push(this.temp)
-		
-/*		
-		arrayOfData = new Array(
-   [10.3,'Jan','#222222'],
-   [15.2,'Feb','#7D252B'],
-   [13.1,'Mar','#EB9781'],
-   [16.3,'Apr','#FFD2B5'],
-   [14.5,'May','#4A4147']
-);
-
-*/
-		
- 
-      //this.$el.append(modelView.el)
+	  course.fetch({async:false})
+	  if(total==0)
+	  {
+	  temp.subject=(course.toJSON().name+" (No Steps)")
+	  }
+	  else{
+	   temp.subject=(course.toJSON().name)
+	  }
+	  temp.passed=passed
+	  temp.remaining=remaining
+	  this.arrayOfData.push(temp)
     },
 
     BuildString: function(){
-      
 		if(this.collection.length!=0){
 			this.collection.each(this.addOne, this)
 		}
@@ -50,12 +86,24 @@ $(function() {
     },
 
     render: function() {
-    this.arrayOfData=[]
-      this.BuildString()
-      $('#graph').jqbargraph({
-   data: this.arrayOfData,
-   postfix: '%',
-}); 
+     this.arrayOfData=[]
+     this.grandpassed=0
+     this.grandremaining=0
+     this.BuildString()
+
+   	Morris.Bar({
+  element: 'graph',
+  data: this.arrayOfData,
+  xkey: 'subject',
+  ykeys: ['passed','remaining'],
+  labels: ['passed','remaining'],
+  gridTextWeight: 900,
+  gridTextSize: 16,
+  axes:true,
+  grid:true,
+  stacked:true
+});
+this.$el.append('<a class="btn btn-info" id="Donut">Birdeye View</a>')
     }
 
   })

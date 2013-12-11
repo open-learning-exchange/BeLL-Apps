@@ -13,7 +13,9 @@ $(function() {
       })
       return docs
     },
-     
+     comparator: function(m){
+     	return m.get('step')
+     },
     model: App.Models.CourseStep,
 
   })

@@ -120,14 +120,18 @@ $(function() {
       })
       var resourceFormView = new App.Views.ResourceForm({model: resource})
       App.$el.children('.body').html(resourceFormView.el)
+      
       if(resource.id) {
         App.listenToOnce(resource, 'sync', function() {
-          resourceFormView.render()
+        resourceFormView.render()
+        $("input[name='addedBy']").attr("disabled",true);
         })
         resource.fetch()
       }
       else {
         resourceFormView.render()
+        $("input[name='addedBy']").val($.cookie("Member.login"));
+        $("input[name='addedBy']").attr("disabled",true);
       }
     },
 
@@ -224,7 +228,7 @@ $(function() {
     },
 
     modelForm : function(className, label, modelId, reroute) {
-      // Set up
+      //cv Set up
       var model = new App.Models[className]()
       var modelForm = new App.Views[className + 'Form']({model: model})
 
@@ -313,9 +317,9 @@ $(function() {
       var className = "Group"
       var model = new App.Models[className]()
       var modelForm = new App.Views[className + 'Form']({model: model})
-      App.$el.children('.body').html('<h1>Course</h1>')
- 	  App.$el.children('.body').append(modelForm.el)      
-      
+      App.$el.children('.body').html('<br/>')
+      App.$el.children('.body').append('<h1>Course</h1>')
+      App.$el.children('.body').append(modelForm.el)
       
       model.once('Model:ready', function() {
         // when the users submits the form, the group will be processed

@@ -68,6 +68,8 @@
   <script src="app/collections/SearchCourses.js"></script>
   <script src="app/collections/StepResultsbyCourse.js"></script>
   <script src="app/collections/siteFeedbacks.js"></script>
+  <script src="app/collections/leadermembers.js"></script>
+  
   
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -249,6 +251,7 @@
     </tr>
 
   </script>
+   
 
 
   <script type="text/template" id="template-ResourcesTableHeader">
@@ -267,8 +270,8 @@
 
   <script type="text/template" id="template-app">
     <div id="debug"></div>
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<div id="invitationdiv"></div>
+    <div class="navbar navbar-inverse navbar-fixed-top" id="nav">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -287,7 +290,7 @@
     </div>
 
     <!-- Body -->
-    <div class="container body">
+    <div class="container body" id="cont">
       <!-- Content -->
     </div>
      
@@ -495,11 +498,11 @@
       </a>
     </td> -->
     
-    <td>
+   <!-- <td>
       <a role='button' class='btn' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
         <i class="icon-edit"></i> Invite
       </a>
-    </td>
+    </td> -->
 
  <!--   <td>
       <a class='destroy btn' href='#'>

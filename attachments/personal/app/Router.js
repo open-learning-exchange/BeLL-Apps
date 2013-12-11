@@ -36,9 +36,23 @@ $(function() {
     },
     
     initialize: function() {
+    this.bind( "all", this.checkLoggedIn)
     this.bind( "all", this.renderNav )
 
 	},
+	
+	   checkLoggedIn: function(){
+   	if(!$.cookie('Member._id')){
+   		console.log($.url().attr('fragment'))
+   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage')
+   		{	
+   			Backbone.history.stop()
+   			App.start()
+   		}
+   	}
+   },
+	
+	
 
 	viewAllFeedback: function(){
 		feed = new App.Collections.siteFeedbacks()
@@ -64,7 +78,9 @@ $(function() {
 
       CoursesBarChart: function(){
 		App.$el.children('.body').html('&nbsp')
+		App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
 		App.$el.children('.body').append('<div id="graph"></div>')
+		App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
 		var coursesResults=new App.Collections.memberprogressallcourses()
 		coursesResults.memberId=$.cookie('Member._id')
 		coursesResults.fetch({async:false})

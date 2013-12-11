@@ -10,6 +10,7 @@ $(function() {
 
     render: function () {
     	var vars = this.model.toJSON()
+    	
 		var res = new App.Collections.membercourseprogresses()
 		res.courseId=vars._id
 		res.memberId=$.cookie('Member._id')
@@ -19,10 +20,15 @@ $(function() {
 		var totalSteps=0
 		if(res.length!=0){
 			modl=res.first().toJSON()
+			console.log(modl)
 			PassedSteps=0
+			temp=0
 			totalSteps=modl.stepsStatus.length
-			while(PassedSteps<totalSteps&&modl.stepsStatus[PassedSteps]!='0'){
-				PassedSteps++
+			while(temp<totalSteps){
+				if(modl.stepsStatus[temp]=='1'){
+					PassedSteps++
+				}	
+					temp++
 			}
 		}
 		console.log(totalSteps)
