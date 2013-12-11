@@ -64,8 +64,6 @@
 
     color: #000000;
     font-family: verdana;
-    margin-left: 10%;
-    padding-left: 10%;
     width: 60%;
 border-radius: 20px 20px 20px 20px;
 }
@@ -185,6 +183,13 @@ input[type=checkbox]:checked + label:before {
 {
       
 }
+#browseImage{
+   border: 1px solid;
+    margin-left: 25%;
+    margin-top: -2%;
+    position: absolute;
+}
+
 #site-feedback{
      background-color: #34495E;
     border-radius: 0px 0px 20px 20px;
@@ -261,4 +266,46 @@ border-bottom:1px solid black;
 .notification-table th {
     background-color: #34495E;
     color: #FFFFFF;
+}
+
+
+#groupform [name="description"]{
+  height: 100px;
+  width:400%;
+}
+
+#groupform .bbf-field.field-leaderEmail{
+    margin-left: 250px;
+   margin-top: -77px;
+    position: relative;
+}
+#groupform .bbf-field.field-leaderPhone{
+    margin-left: 500px;
+   margin-top: -77px;
+    position: relative;
+}
+#groupform .bbf-field.field-foregroundColor{
+    margin-left: 147px;
+    margin-top: -67px;
+    position: relative;
+}
+#groupform #formButton{
+    float: left;
+    margin: -61px 0 10px 688px;
+}
+#invitationForm{
+  color:white;
+     padding: 21px;
+}
+#invitationdiv{
+    background-color: #B1B1B1;
+    border: 3px solid #141414;
+    border-radius: 20px;
+
+    position: absolute;
+    width: 65%;
+    z-index: 2;
+    top:80%;
+    margin-left:10%;
+  
 }

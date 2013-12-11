@@ -38,8 +38,10 @@ $(function() {
       if(response.rows[0]){
       if(response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
           if(response.rows[0].doc.status == "active"){
-          $.cookie('Member.login', response.rows[0].doc.login)
-          $.cookie('Member._id', response.rows[0].doc._id)
+          $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
+          $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
+          $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
+          $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/personal"})
           $.ajax({
               type: 'GET',
               url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',

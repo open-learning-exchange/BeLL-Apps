@@ -28,6 +28,12 @@ $(function() {
       this.form = new Backbone.Form({ model: this.model })
       this.form.render()
       this.form.fields['uploadDate'].$el.hide()
+      if(this.edit == false){
+        alert("here")
+        this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
+      }  
+        this.form.fields['addedBy'].$el.attr("disabled",true)
+      
       var that = this
       if(_.has(this.model, 'id')) {
           if(this.model.get("Level") == "All"){

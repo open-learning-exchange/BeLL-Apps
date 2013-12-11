@@ -6,6 +6,7 @@
   <title>Personal BeLL</title>
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
+    <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="vendor/badger.css"/>
   <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
@@ -15,7 +16,7 @@
 <!--
     DEPENDENCIES
   -->
- 
+ <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery-ui.js"></script>
    <script src="vendor/badger.js"></script>
@@ -38,6 +39,7 @@
   <script src="vendor/jquery.raty.js"></script>
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
+  <script src="app/morris.js"></script>
   
 
   <!--
@@ -58,8 +60,12 @@
   <script src="app/models/Calendar.js"></script>
   <script src="app/models/CourseStep.js"></script>
   <script src="app/models/report.js"></script>
+
   <script src="app/models/StepResult.js"></script>
 	<script src="app/models/membercourseprogress.js"></script>
+
+  <script src="app/models/membercourseprogress.js"></script>
+
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -72,8 +78,11 @@
   <script src="app/collections/Calendars.js"></script>
   <script src="app/collections/siteFeedbacks.js"></script>
   <script src="app/collections/StepResults.js"></script>
-	<script src="app/collections/membercourseprogresses.js"></script>
-    <script src="app/collections/memberprogressallcourses.js"></script>
+  <script src="app/collections/membercourseprogresses.js"></script>
+  <script src="app/collections/memberprogressallcourses.js"></script>
+  <script src="app/collections/AllInviteMember.js"></script>
+  
+
     
   
   <script src="app/views/GroupRow.js"></script>
@@ -102,10 +111,10 @@
   <script src="app/views/CourseLevelsTable.js"></script>
   <script src="app/views/navBarView.js"></script>
   <script src="app/views/siteFeedback.js"></script>
-  
+   <script src="app/views/CoursesChartProgress.js"></script>
   <script src="app/views/takeQuizView.js"></script>
-   <script src="app/views/siteFeedbackPage.js"></script>
-    <script src="app/views/siteFeedbackPageRow.js"></script>
+  <script src="app/views/siteFeedbackPage.js"></script>
+  <script src="app/views/siteFeedbackPageRow.js"></script>
   
   <!-- 
     Templates 
@@ -300,17 +309,17 @@ $(window).scroll(function () {
       </a>
       </div>
     </li>
-    <li> 
-      <a href="#cloudant">
-        <i class="fui-list"></i> YabaDabaDo
-      </a>
-    </li>
+
      <li  style="float:right;"> 
       <a onclick = "showFeedbackForm()">
         <i class="fui-cmd"></i> Feedback
       </a>
     </li>
-    
+    <li> 
+      <a href="../lms/index.html#login">
+          LMS
+      </a>
+    </li>
     
   </script>
 
@@ -352,10 +361,11 @@ $(window).scroll(function () {
   
   <script type="text/html" id="template-courseLevelsTable">
   
-	<h3 class="bigheader">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
-        <% if(status == "passed") { %>
-            <span  style="margin-left: 45%;" class="fui-check"></span>
+	<h3 class="bigheader"><div style="width:95%">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <% if(status == "1") { %>
+            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
         <% } %>
+        </div>
         </h3>
 
   	<div>
@@ -407,7 +417,7 @@ $(window).scroll(function () {
                                 </td>
                                 <td>
                                                 <%if (questions!=null){%>
-                                                  <button value = <%=_id%> courseId=<%=courseId%> pp=<%=passingPercentage%> questions=<%=questions%> options=<%=qoptions%> answers=<%=answers%> title:<%=title%> level:<%=step%>  class='btn btn-primary' id="takequiz" >Take Quiz</button>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take Quiz</button>
                                                 <%}else{%>
                                                   <button class='btn btn-disabled'>Take Quiz</button>
                                                 <%}%>
@@ -477,7 +487,7 @@ $(window).scroll(function () {
   <script type="text/html" id="template-GroupSpan">
       <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
         <a href='#course/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '> 
-          <%= name %>
+          <%= name %><%=yes%>
         </a>
      </div>
   </script>
@@ -485,7 +495,7 @@ $(window).scroll(function () {
 <script type="text/html" id="template-ShelfSpan">
       <div class="displayCourse"> 
         <a href='#resources/detail/<%= _id %>'> 
-           <%= title %>
+            <%= title %>
         </a>
      </div>
 </script>
@@ -561,7 +571,7 @@ $(window).scroll(function () {
                     </table>
                   </div>
              </td>     
-          <td class="stu-nav-option-empty"></td>
+         <td class="stu-nav-option-empty"><a href="#courses/barchart">*</a></td>
           </tr>
           <tr class="stu-nav-tube">
 					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>

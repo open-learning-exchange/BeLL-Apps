@@ -135,23 +135,30 @@ $(function() {
       	for(var i=stepNo ; i<that.collection.models.length ; i++)
       	{
       		that.collection.models[i].set('step' , i)
-      		that.collection.models[i].save()
+                that.updateModel(that.collection.models[i])
+      		//that.collection.models[i].save({ async: false })
+                //alert(that.collection.models[i].get('step'))
       	}
+        alert("Step successfully deleted.")
       	that.collection.models.splice(stepNo-1,1)
       	if(that.collection.models.length==0)
       	{
       		$('#moveup').hide()
       		$('#movedown').hide()
       		$('#Rearrange').hide()
+                alert('asdf')
       		
       	}
       	$("#addstep").attr("onClick","document.location.href=\'#level/add/" +that.groupId+"/nolevel/" + that.collection.models.length + "\' ");
       	location.reload()
-      })
+      }) 
       lrow.render()  
       this.$el.append(lrow.el)
     },
-
+    updateModel : function(model){
+      model.save({success : function(){
+      }})
+    },
     addAll: function(){
       // @todo this does not work as expected, either of the lines
       // _.each(this.collection.models, this.addOne())

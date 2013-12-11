@@ -45,6 +45,7 @@ $(function() {
       
       
     },
+    
     viewAllFeedback: function(){
 		var feed = new App.Collections.siteFeedbacks()
            feed.fetch({success: function() {
@@ -110,8 +111,10 @@ $(function() {
     },
 
     MemberLogout: function() {
-      $.removeCookie('Member.login')
-      $.removeCookie('Member._id')
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
       Backbone.history.navigate('landingPage', {trigger: true})
     },
 
@@ -124,14 +127,18 @@ $(function() {
       })
       var resourceFormView = new App.Views.ResourceForm({model: resource})
       App.$el.children('.body').html(resourceFormView.el)
+      
       if(resource.id) {
         App.listenToOnce(resource, 'sync', function() {
-          resourceFormView.render()
+        resourceFormView.render()
+        $("input[name='addedBy']").attr("disabled",true);
         })
         resource.fetch()
       }
       else {
         resourceFormView.render()
+        $("input[name='addedBy']").val($.cookie("Member.login"));
+        $("input[name='addedBy']").attr("disabled",true);
       }
     },
 
@@ -228,7 +235,7 @@ $(function() {
     },
 
     modelForm : function(className, label, modelId, reroute) {
-      // Set up
+      //cv Set up
       var model = new App.Models[className]()
       var modelForm = new App.Views[className + 'Form']({model: model})
 
@@ -317,9 +324,9 @@ $(function() {
       var className = "Group"
       var model = new App.Models[className]()
       var modelForm = new App.Views[className + 'Form']({model: model})
-      App.$el.children('.body').html('<h1>Course</h1>')
- 	  App.$el.children('.body').append(modelForm.el)      
-      
+      App.$el.children('.body').html('<br/>')
+      App.$el.children('.body').append('<h1>Course</h1>')
+      App.$el.children('.body').append(modelForm.el)
       
       model.once('Model:ready', function() {
         // when the users submits the form, the group will be processed
@@ -358,8 +365,9 @@ $(function() {
     AddLevel : function(groupId,levelId,totalLevels){
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
        var Cstep = new App.Models.CourseStep()
-       var lForm = new App.Views.LevelForm({model: Cstep})
        Cstep.set({courseId : groupId})
+       var lForm = new App.Views.LevelForm({model: Cstep})
+       
        
        if (levelId == "nolevel") {
      		
@@ -440,8 +448,9 @@ $(function() {
             var levelDetails = new App.Views.LevelDetail({model : levelInfo})
              levelDetails.render()
              console.log(levelInfo)
-             App.$el.children('.body').html('<h3>Step Details |'+levelInfo.get("title")+'</h3>')
+             App.$el.children('.body').html('<h3> Step '+levelInfo.get("step")+' | '+levelInfo.get("title")+'</h3>')
              App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/'+levelInfo.get("courseId")+'/'+lid+'/-1\'">Edit Step</a>&nbsp;&nbsp;')
+             App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/"+levelInfo.get('courseId')+"'>Back To Course </a>&nbsp;&nbsp;")
              App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>"+levelInfo.get("description")+"</TextArea></BR>")
 	     App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/"+lid+"\"'>Save</button></BR></BR>")
              App.$el.children('.body').append('<B>Resources</B><a class="btn btn-success"  style="float:right;" target="_blank" href=\'#search-bell/'+lid+'/'+rid+'\'">Add</a>')

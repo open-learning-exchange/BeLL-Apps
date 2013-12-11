@@ -399,3 +399,37 @@ textarea[name="comment"]
     height: 60px;
     font-size: 19px;
 }
+.stu-nav-option-empty > a {
+    color: #FF0000;
+    font-size: 30px;
+    font-weight: 900;
+}
+.graphLabelgraph {
+    height: 39px;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+#veticallable{
+ float: left;
+    height: 45%;
+    padding-top: 10%;
+    position: relative;
+    width: 14px;
+}
+#graph{
+  float: left;
+    width: 98%;
+}
+#horizontallabel{
+    float: left;
+    padding-left: 48%;
+    position: relative;
+    width: 100%;
+}
+}
+.Graphbutton{
+    float: left;
+    margin-top: 20px;
+    position: relative;
+}
