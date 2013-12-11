@@ -54,6 +54,12 @@ $(function() {
     },
 
     setForm: function() {
+  		if(this.form.validate()!=null)
+  		{
+			return
+  		}
+  
+    	
       var that = this
       this.model.once('sync', function() {
         alert("Thank you for becoming a member")

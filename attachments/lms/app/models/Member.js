@@ -62,7 +62,6 @@ $(function() {
         options:['Pre-k','Grades(1-12)','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
       },
     },
-      
   saveAttachment: function(formEl, fileEl, revEl) {
       // Work with this doc in the files database
       var server = App.Server

@@ -299,8 +299,8 @@ border-bottom:1px solid black;
 }
 #invitationdiv{
     background-color: #B1B1B1;
-    border: 3px solid #141414;
-    border-radius: 20px;
+   // border: 3px solid #141414;
+  //  border-radius: 20px;
 
     position: absolute;
     width: 65%;
