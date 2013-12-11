@@ -42,7 +42,7 @@ $(function() {
 						    memprogress.set("courseId",csteps.courseId)
 						    memprogress.save({success:function(){
 						}})
-							var allinvites = new App.Models.AllInviteMember()
+							var allinvites = new App.Collections.AllInviteMember()
 							allinvites.entityId = gmodel.get("_id")
 							allinvites.memberId = $.cookie('Member._id')
 							allinvites.fetch({success:function(){

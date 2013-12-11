@@ -581,5 +581,8 @@ margin-left:35%;
 }
 #browseImage{
     margin-left: 42px;
+     overflow: hidden;
     position: absolute;
+    border-radius: 84px;
+    border: 2px solid #000000;
 }

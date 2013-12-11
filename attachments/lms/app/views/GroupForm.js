@@ -4,6 +4,7 @@ $(function() {
     
     className: "form",
     id:'groupform',
+    prevmemlist : null,
     events: {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey",
@@ -35,6 +36,9 @@ $(function() {
         $('#invitationdiv').hide()
       // members is required for the form's members field
         var groupForm = this
+        if(this.model.get("_id") != undefined){
+            this.prevmemlist = this.model.get("members")
+        }
         this.model.schema.members.options = []
         var memberList = new App.Collections.leadermembers()
         memberList.fetch({success:function(){
@@ -65,11 +69,13 @@ $(function() {
       // Put the form's input into the model in memory
       this.form.commit()
       // Send the updated model to the server
-	console.log(this.model.toJSON())
-      if(this.model.get("_id")==undefined){
-		alert("Setting members to null")
-        this.model.set("members",null)
-      } 
+	
+      if(this.model.get("_id") == undefined){
+         this.model.set("members",null)
+      }
+      else{
+         this.model.set("members",this.prevmemlist)
+      }
       if(this.model.get("name") == null){
             alert("Course name is missing")
       }
@@ -82,7 +88,7 @@ $(function() {
       else{
         this.model.save()
 			console.log(this.model.toJSON())
-      }
+      } 
     },
 
 
