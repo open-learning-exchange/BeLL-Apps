@@ -354,6 +354,7 @@ $(function() {
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.groupId = groupId
         lTable.render()
+        App.$el.children('.body').append("</BR><h2> Course Steps </h2>")
         App.$el.children('.body').append(lTable.el)
         
         $("#moveup").hide()

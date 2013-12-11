@@ -77,7 +77,10 @@ $(function() {
         // Send the updated model to the server
         var that = this
         var savemodel = false
-        if((this.model.get("Tag") == "News") && !this.model.get("author")){
+        if(this.model.get("title").length == 0){
+          alert("Resource Title is missing")
+        }
+        else if((this.model.get("Tag") == "News") && !this.model.get("author")){
             alert("Please Specify Author For This News Resource")          
         }
         else{
@@ -88,7 +91,7 @@ $(function() {
                 this.model.set('fromLevel',0)
           }
           else{
-              if(this.model.get("fromLevel") > this.model.get("toLevel")){
+              if(parseInt(this.model.get("fromLevel")) > parseInt(this.model.get("toLevel"))){
                   alert("Invalid range specified ")
                   addtoDb = false
               }
