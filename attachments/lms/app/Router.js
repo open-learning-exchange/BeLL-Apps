@@ -45,6 +45,21 @@ $(function() {
       
       
     },
+    initialize: function() {
+    this.bind( "all", this.checkLoggedIn )
+
+	},
+
+   checkLoggedIn: function(){
+   	if(!$.cookie('Member._id')){
+   		console.log($.url().attr('fragment'))
+   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage')
+   		{	
+   			Backbone.history.stop()
+   			App.start()
+   		}
+   	}
+   },
     viewAllFeedback: function(){
 		var feed = new App.Collections.siteFeedbacks()
        feed.fetch({success: function() {
@@ -103,8 +118,10 @@ $(function() {
     },
 
     MemberLogout: function() {
-      $.removeCookie("Member.login", {path: "/apps/_design/bell"}) 
-      $.removeCookie("Member._id", {path: "/apps/_design/bell"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
       Backbone.history.navigate('landingPage', {trigger: true})
     },
 

@@ -6,6 +6,7 @@
   <title>Personal BeLL</title>
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
+    <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="vendor/badger.css"/>
   <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
@@ -15,7 +16,7 @@
 <!--
     DEPENDENCIES
   -->
- 
+ <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery-ui.js"></script>
    <script src="vendor/badger.js"></script>
@@ -38,7 +39,7 @@
   <script src="vendor/jquery.raty.js"></script>
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
-  <script src="vendor/jqBarGraph.js"></script>
+  <script src="app/morris.js"></script>
   
 
   <!--
@@ -193,6 +194,7 @@ $(window).scroll(function () {
 	
   <script type="text/template" id="template-app">  
   <div class="takeQuizDiv" id="tQuizDiv"></div>
+  <div id="externalDiv"></div>
   <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
@@ -386,7 +388,7 @@ $(window).scroll(function () {
 						<%= resourceTitles[i] %> &nbsp&nbsp
 				</td>
 				<td>
-						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
 				</td>
 			</tr>
                           <%}%>
@@ -406,7 +408,7 @@ $(window).scroll(function () {
                                 </td>
                                 <td>
                                                 <%if (questions!=null){%>
-                                                  <button value = <%=_id%> courseId=<%=courseId%> pp=<%=passingPercentage%> questions=<%=questions%> options=<%=qoptions%> answers=<%=answers%> title:<%=title%> level:<%=step%>  class='btn btn-primary' id="takequiz" >Take Quiz</button>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take Quiz</button>
                                                 <%}else{%>
                                                   <button class='btn btn-disabled'>Take Quiz</button>
                                                 <%}%>
@@ -560,7 +562,7 @@ $(window).scroll(function () {
                     </table>
                   </div>
              </td>     
-         <td class="stu-nav-option-empty"><a href="#courses/barchart">+</a></td>
+         <td class="stu-nav-option-empty"><a href="#courses/barchart">*</a></td>
           </tr>
           <tr class="stu-nav-tube">
 					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>

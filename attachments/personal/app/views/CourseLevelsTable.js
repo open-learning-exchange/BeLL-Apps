@@ -6,25 +6,41 @@ id: "accordion",
     modl: null,
   template : _.template($("#template-courseLevelsTable").html()),
     events: {
-      "click #takequiz": "quiz"
+      "click #takequiz": "quiz",
+      "click #resourseOpened":function(e){
+      							resid=e.target.attributes.rid.nodeValue
+      							console.log(resid)
+      							console.log($.cookie('Member._id'))
+      							ratingModel=new App.Models.Feedback()
+      							ratingModel.set('resourceId',resid)
+      							ratingModel.set('memberId',$.cookie('Member._id'))
+      							ratingView=new App.Views.FeedbackForm({model:ratingModel})
+      							$('#externalDiv').html('<div id="star"></div>')
+      							$('#star').append("Rating<br/>")
+      							$('#star').raty()
+      						    $("#star > img").click(function(){
+          							ratingView.setUserRating($(this).attr("alt"))
+     							});
+      							ratingView.render()
+      							$('#externalDiv').append(ratingView.el)
+      						   $('#externalDiv').show()
+      	
+      						  }
     },
     
     quiz: function(e){
-      
+    
+    step=new App.Models.CourseStep({_id:e.currentTarget.value})
+    step.fetch({async:false})
+    console.log(step.toJSON())
+    
       var ssids = this.modl.get("stepsIds")
       var index = ssids.indexOf(e.currentTarget.value)
       var statusArray = this.modl.get("stepsStatus")
-      
-      var status = statusArray[index]
-      if(status == "1")
-       {
-	      alert("You have passed this level")
-       }
-    else{
-	 var temp=new App.Views.takeQuizView({questions:e.target.attributes.questions,answers:e.target.attributes.answers,options:e.target.attributes.options,passP:e.target.attributes.pp,resultModel:this.modl,stepIndex:index})
+     var temp=new App.Views.takeQuizView({questions:step.toJSON().questions,answers:step.toJSON().answers,options:step.toJSON().qoptions,passP:step.toJSON().passingPercentage,resultModel:this.modl,stepIndex:index})
 	 temp.render()
 	 $('div.takeQuizDiv').html(temp.el)
-    } 
+     
 },
     
     initialize: function() {
@@ -36,9 +52,6 @@ id: "accordion",
 
     addOne: function(model){
 	 this.vars = model.toJSON()
-	 console.log("Here")
-	 console.log(this.vars)
-	
 	 var index=0
 	 var sstatus = this.modl.get("stepsStatus")
 	 var ssids   = this.modl.get("stepsIds")
@@ -58,7 +71,6 @@ id: "accordion",
 		 this.vars.index = index
 	 }
 	 this.$el.append(this.template(this.vars))
-	
      },
      
     setAllResults: function(){
@@ -84,7 +96,6 @@ id: "accordion",
     }
     else{
     	this.setAllResults()
-    		console.log(this.modl)
     	this.addAll()
     }
 
