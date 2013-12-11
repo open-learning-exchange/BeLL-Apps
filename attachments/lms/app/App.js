@@ -32,6 +32,7 @@ $(function() {
       var loggedIn = ($.cookie('Member._id'))
         ? true
         : false
+        
       if(!loggedIn && $.url().attr('fragment')) {
         // We want to abort this page load so there isn't a race condition with whatever 
         // url is being requested and the loading of the login page.

@@ -37,6 +37,14 @@ $(function() {
     },
     
     initialize: function() {
+	this.bind("all",this.startUpStuff)
+	},
+	startUpStuff: function(){
+		this.checkLoggedIn
+		this.renderNav
+		   $('div.takeQuizDiv').hide()
+		 $('#externalDiv').hide()
+	},
     this.bind( "all", this.checkLoggedIn)
     this.bind( "all", this.renderNav )
 
@@ -81,6 +89,7 @@ $(function() {
 
 		})
 	},
+
 	
 	   checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){

@@ -45,6 +45,22 @@ $(function() {
       
       
     },
+    initialize: function() {
+    this.bind( "all", this.checkLoggedIn )
+
+	},
+
+   checkLoggedIn: function(){
+   	if(!$.cookie('Member._id')){
+   		console.log($.url().attr('fragment'))
+   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage')
+   		{	
+   			Backbone.history.stop()
+   			App.start()
+   		}
+   	}
+   },
+
     
     viewAllFeedback: function(){
 		var feed = new App.Collections.siteFeedbacks()

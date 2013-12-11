@@ -6,7 +6,26 @@ id: "accordion",
     modl: null,
   template : _.template($("#template-courseLevelsTable").html()),
     events: {
-      "click #takequiz": "quiz"
+      "click #takequiz": "quiz",
+      "click #resourseOpened":function(e){
+      							resid=e.target.attributes.rid.nodeValue
+      							console.log(resid)
+      							console.log($.cookie('Member._id'))
+      							ratingModel=new App.Models.Feedback()
+      							ratingModel.set('resourceId',resid)
+      							ratingModel.set('memberId',$.cookie('Member._id'))
+      							ratingView=new App.Views.FeedbackForm({model:ratingModel})
+      							$('#externalDiv').html('<div id="star"></div>')
+      							$('#star').append("Rating<br/>")
+      							$('#star').raty()
+      						    $("#star > img").click(function(){
+          							ratingView.setUserRating($(this).attr("alt"))
+     							});
+      							ratingView.render()
+      							$('#externalDiv').append(ratingView.el)
+      						   $('#externalDiv').show()
+      	
+      						  }
     },
     
     quiz: function(e){
