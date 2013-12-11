@@ -47,11 +47,18 @@ $(function() {
     },
     viewAllFeedback: function(){
 		var feed = new App.Collections.siteFeedbacks()
-       feed.fetch({success: function() {
+           feed.fetch({success: function() {
           feedul = new App.Views.siteFeedbackPage({collection:feed})
+//          console.log(feed)
+//          alert('check')
+//          skip = 0
+//          skipStack.push(skip)
+//          skip = feed.length
           feedul.render()
+          $('#see-all', feedul.$el).trigger("click");
           App.$el.children('.body').html('&nbsp')	
           App.$el.children('.body').append(feedul.el) 
+         $("#previousButton").hide()
 			}})
 	},
     LandingScreen : function(){
@@ -864,7 +871,7 @@ $(function() {
           }
         })
         App.trigger('compile:resourceListReady')
-      })
+      })//????????
 
       App.once('compile:resourceListReady', function() {
         apps.once('sync', function() {
