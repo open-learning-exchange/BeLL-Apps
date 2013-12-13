@@ -107,10 +107,10 @@ getValidOptions: function(userChoice,existing){
 },
 
 validImageTypeCheck: function(img){
-	console.log(img)
+	console.log(img.val())
 	if(img.val()==""){
-		alert("ERROR: No image selected \n\nPlease Select an Image File")
-		return 0
+		//alert("ERROR: No image selected \n\nPlease Select an Image File")
+		return 1
 	}
 
 	var extension=img.val().split('.')

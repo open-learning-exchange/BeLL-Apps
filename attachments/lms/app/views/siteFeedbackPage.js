@@ -6,10 +6,39 @@ $(function() {
     className: " table-feedback notification-table table-striped",
     authorName : null, 
     searchText : null,
+    resolved : null,
     stack : null,
+    category : null,
+    applyFilters : null,
      resultArray : null,
  	 events: {
+ 	 //"change #select_category" : function(e){
+ 	 	//console.log(e)
+ 	 	//console.log(e.currentTarget.value)
+ 	 //},
  	 "click #see-all" : function(e) {
+ 	 	this.applyFilters = "0"
+ 	 	while(skipStack.length > 0 )
+      	{	
+            skipStack.pop();        
+     	}
+   		searchText = ""
+   		this.resultArray  = []
+ 	 	skip = 0
+ 	 	skipStack.push(skip)
+ 	 	this.fetchRecords()
+ 	 },
+ 	 "click #switch" : function(e) {
+ 	 	this.applyFilters = "1"
+ 	 	this.category = $('#select_category').val()
+ 	 	if($('#select_status').val()=="Resolved")
+ 	 	{
+ 	 		this.resolved = "1"
+ 	 	}
+ 	 	else
+ 	 	{
+ 	 		this.resolved = "0"
+ 	 	}
  	 	while(skipStack.length > 0 )
       	{	
             skipStack.pop();        
@@ -21,6 +50,7 @@ $(function() {
  	 	this.fetchRecords()
  	 },
  	 "click #search_feedback" : function(e) {
+ 	 	this.applyFilters = "0"
  	 	searchText = $("#searchText").val()
  	 	if(searchText!="")
  	 	{
@@ -57,12 +87,18 @@ $(function() {
  	
    initialize: function(){
    	this.resultArray  = []
-   	searchText = ""
+   	this.category = "Urgent"
+   	this.resolved = "1"
+   	this.applyFilters = "0"
+   	this.searchText = ""
    	
    },
    
 	addAll: function(){
-		this.$el.append('<h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search in comment" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>&nbsp;<span><button class="btn btn-info" id="search_feedback">Search</button>&nbsp;<button class="btn btn-info" id="see-all">See All</button></span></h4><br/>')
+		this.$el.html('<h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search in comment" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>&nbsp;<span><button class="btn btn-info" id="search_feedback">Search</button>&nbsp;<button class="btn btn-info" id="see-all">See All</button></span></h4><br/>')
+		
+		this.$el.append('<Select id="select_category"><option>Urgent</option><option>Bug</option><option>Request</option><option>Comment</option><option>Help</option></select>&nbsp;&nbsp<select id="select_status"><option>Unresolve</option><option>Resolved</option></select>&nbsp;&nbsp<button class="btn btn-info" id="switch">Apply Filters</button><br/><br/>')
+		
 		this.$el.append('<th ><h4>Feedback</h4></th><th ><h4>Status</h4></th>')
 		this.collection.forEach(this.addOne,this)
 		this.$el.append('<br/><br/><input type="button" class="btn btn-hg btn-primary" id="previousButton" value="< Previous"> &nbsp;&nbsp;&nbsp;<button class="btn btn-hg btn-primary" id="next_button" >Next  ></button>')
@@ -70,7 +106,11 @@ $(function() {
 	},
 	
 	addOne: function(model){
-
+		//model.set('category','urgent')
+                
+                if(!model.get("category")){
+                                  model.set("category","Urgent")
+                        }
 	  var revRow = new App.Views.siteFeedbackPageRow({model: model})
       revRow.render()
       this.$el.append(revRow.el)
@@ -117,7 +157,8 @@ $(function() {
 	   //  $("#selectAllButton").hide() 
        }	
 	   var ResultCollection = new App.Collections.siteFeedbacks()
-	   if(obj.resultArray.length > 0){
+	   //if(obj.resultArray.length > 0)
+	   {
 	    	ResultCollection.set(obj.resultArray)
 	    	obj.collection = ResultCollection
 	    	obj.$el.html('')
@@ -126,14 +167,33 @@ $(function() {
       }})
       
     },
+    checkFilters: function(result)
+    {
+    	if(this.applyFilters=="0")
+    	{
+    		return true
+    	}
+    	else if(this.resolved == result.get("Resolved") && this.category== result.get("category"))
+    	{
+    		return true
+    	}
+    	else
+    	{
+    		return false
+    	}
+    },
     searchInArray: function(resourceArray,searchText){
+   
     	var that  = this
       var resultArray = []
       var foundCount 
 	   _.each(resourceArray, function(result) {
 		if(result.get("comment") != null ){
 		 	skip++
-			if(result.get("comment").toLowerCase().indexOf(searchText.toLowerCase()) >=0 )
+                        console.log(result)
+		 	
+                        //alert(that.resolved+' '+result.get("Resolved") + ' ' + that.category + ' ' +  result.get("category"))
+			if(result.get("comment").toLowerCase().indexOf(searchText.toLowerCase()) >=0 && that.checkFilters(result))
 			{	  
 				if(resultArray.length < limitofRecords)
 				{
@@ -149,6 +209,8 @@ $(function() {
 		 	{
 				 skip--	
 	 	 	}
+                    
+                    
 	    }
 	 })
 	   
