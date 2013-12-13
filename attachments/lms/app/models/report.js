@@ -20,6 +20,7 @@ $(function() {
       PageUrl: 'Text',
       comment: 'TextArea',
       Resolved: 'Text',
+      category: { type: 'Select', options: ['Urgent', 'Bug' , 'Request' , 'Comment' , 'Help'] },
       memberLogin: 'Text',
       time: 'Text'
     }
