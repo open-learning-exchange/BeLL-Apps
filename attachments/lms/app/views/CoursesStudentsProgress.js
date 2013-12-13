@@ -1,5 +1,5 @@
 $(function() {
-  App.Views.CoursesChartProgress = Backbone.View.extend({
+  App.Views.CoursesStudentsProgress = Backbone.View.extend({
 
     tagName: "div",
     className: "Graphbutton",
@@ -45,9 +45,10 @@ $(function() {
 
     },
     
-    
+   
     addOne: function(model){
       temp=new Object
+     
 	  data=model.toJSON().stepsStatus
 	  total=model.toJSON().stepsStatus.length
 	  passed=0
@@ -62,16 +63,10 @@ $(function() {
 		 this.grandpassed++
 		}
 	  } 
-	  course=new App.Models.Group({_id:model.toJSON().courseId})
-	  course.fetch({async:false})
-	  if(total==0)
-	  {
-	  temp.subject=(course.toJSON().name+" (No Steps)")
-	  }
-	  else{
-	   temp.subject=(course.toJSON().name)
-	  }
-	  
+	  student=new App.Models.Member({_id:model.toJSON().memberId})
+	 student.fetch({async:false})
+	  console.log(student.toJSON())
+	temp.name=student.toJSON().firstName
 	  temp.passed=passed
 	  temp.remaining=remaining
 	  this.arrayOfData.push(temp)
@@ -85,29 +80,27 @@ $(function() {
 		alert("No Data Found on Server")
 		}
     },
-
     render: function() {
      this.arrayOfData=[]
      this.grandpassed=0
      this.grandremaining=0
      this.BuildString()
 
-   	Morris.Bar({
-  element: 'graph',
-  data: this.arrayOfData,
-  xkey: 'subject',
-  ykeys: ['passed','remaining'],
-  labels: ['passed','remaining'],
-  gridTextWeight: 900,
-  gridTextSize:12,
-  axes:true,
-  grid:true,
-  stacked:true,
-  xLabelMargin:5
-  
-  
-});
-this.$el.append('<a class="btn btn-info" id="Donut">Birdeye View</a>')
+     	Morris.Bar({
+        element: 'graph',
+        data: this.arrayOfData,
+        xkey: 'name',
+        ykeys: ['passed','remaining'],
+        labels: ['passed','remaining'],
+        gridTextWeight: 900,
+        gridTextSize:12,
+        axes:true,
+        grid:true,
+        stacked:true,
+        xLabelMargin:5
+	    });
+//this.$el.append('<a class="btn btn-info" id="Donut">Birdeye View</a>')
+   
     }
 
   })

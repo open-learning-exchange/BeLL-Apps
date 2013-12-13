@@ -21,7 +21,7 @@
 }
 
 .form li {
-  margin: 10px 5px 10px 3px;
+  margin:10px -1px 17px;
 }
 
 .form .bbf-radio li, .form .bbf-checkboxes li {
@@ -63,7 +63,7 @@
 
     color: #000000;
     font-family: verdana;
-    width: 60%;
+    width: 75%;
 border-radius: 20px 20px 20px 20px;
 }
 
@@ -76,7 +76,6 @@ padding-left: 22px;
 
 .rating{
 	background-image: url("/star-off.png");
-	
 	
 }
 
@@ -275,26 +274,32 @@ border-bottom:1px solid black;
   width: 800px;
 }
 #groupform [name="description"]{
-  height: 103px;
+  height: 80px;
     width: 702px;
 }
 
 #groupform .bbf-field.field-leaderEmail{
     margin-left: 250px;
-     margin-top: -77px;
+     margin-top: -82px;
      position: relative;
     
 }
+#groupform .bbf-field.field-courseLeader{
+     margin-top: -18px;
+}
 #groupform .bbf-field.field-leaderPhone{
     margin-left: 500px;
-    margin-top: -77px;
+    margin-top: -84px;
     position: relative;
     
 }
 #groupform .bbf-field.field-foregroundColor{
     margin-left: 147px;
-    margin-top: -67px;
+    margin-top: -73px;
     position: relative;
+}
+#groupform .bbf-field.field-backgroundColor{
+    margin-top: -17px;
 }
 #invitationForm{
   color:white;
@@ -308,5 +313,22 @@ border-bottom:1px solid black;
     width: 65%;
     z-index: 2;
     margin-left:10%;
+    overflow: scroll;
+    height: 40%;
+}
+#groupform .bbf-field.field-levels{
+    margin-left: 236px;
+    margin-top: -85px;
+    width: 550px;
+}
+#groupform .bbf-field.field-description{
+   margin-top:-21px; 
+}
+#groupform .bbf-field.field-levels.bbf-editor > ul > li{
+   margin-left:-16px; 
+}
+#inviteMemberButton{
   
+  margin-left: 660px;
+    margin-top: -850px;
 }

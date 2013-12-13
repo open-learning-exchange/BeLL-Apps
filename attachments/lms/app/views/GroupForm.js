@@ -8,7 +8,7 @@ $(function() {
     events: {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey",
-      "click #inviteMembers": "MemberInvite",
+      "click #inviteMemberButton": "MemberInvite",
       
     },
     MemberInvite: function(){
@@ -43,16 +43,36 @@ $(function() {
         var memberList = new App.Collections.leadermembers()
         memberList.fetch({success:function(){
         //create the form
-        groupForm.model.schema.courseLeader.options = memberList
-        groupForm.form = new Backbone.Form({ model: groupForm.model})
+		var optns=[]
+		optns.push({label:"Select....",val:"0000"})	
+		memberList.each(function(modl){
+							var temp={label:modl.toJSON().firstName+" "+modl.toJSON().lastName,
+							val:modl.toJSON()._id
+							}
+							optns.push(temp)
+						})
+	
+		console.log(optns)
+        groupForm.model.schema.courseLeader.options =optns  
+///	groupForm.model.schema.courseLeader.options=memberList
+  groupForm.form = new Backbone.Form({ model: groupForm.model})
         groupForm.$el.append(groupForm.form.render().el)
         groupForm.form.fields['members'].$el.hide()
         $('.field-backgroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
         $('.field-foregroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
         // give the form a submit button
-        var $button = $('<a class="btn btn-success" id="formButton">Save</button>')
-        groupForm.$el.append($button)
-        groupForm.$el.append('<button class="btn btn-success" id="inviteMembers">Invite Members</button>')
+        var $sbutton = $('<a class="btn btn-success" id="formButton">Save</button>')
+        var $ubutton = $('<a class="btn btn-success" id="formButton">Update</button>')
+        
+        var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button>')
+        if(groupForm.model.get("_id") != undefined){
+            groupForm.$el.append($button)
+            groupForm.$el.append($ubutton)
+        }
+        else{
+          groupForm.$el.append($sbutton)
+        }
+        
       }}) 
  
  },
@@ -63,13 +83,14 @@ $(function() {
     },
 
     setForm: function() {
+      var that = this
       this.model.once('sync', function() {
-       Backbone.history.navigate('courses', {trigger: true})
+       console.log(that.model)
+       Backbone.history.navigate('course/manage/'+that.model.get("id"), {trigger: true})
       })
       // Put the form's input into the model in memory
       this.form.commit()
       // Send the updated model to the server
-	
       if(this.model.get("_id") == undefined){
          this.model.set("members",null)
       }
@@ -79,6 +100,9 @@ $(function() {
       if(this.model.get("name") == null){
             alert("Course name is missing")
       }
+	  else if(this.model.get("courseLeader") == 0000){
+        alert("Select Course Leader")
+      }
       else if(this.model.get("leaderEmail").length == 0){
         alert("Leader email address is missing")
       }
@@ -87,7 +111,6 @@ $(function() {
       }
       else{
         this.model.save()
-			console.log(this.model.toJSON())
       } 
     },
 

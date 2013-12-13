@@ -47,6 +47,11 @@ padding-top:0px;
 margin-bottom: 50px;
 }
 
+.stu-nav-title > a{
+	color: #FFA500;
+	
+}
+
 .stu-nav-title
 {
 border: 1.5px solid darkgrey;

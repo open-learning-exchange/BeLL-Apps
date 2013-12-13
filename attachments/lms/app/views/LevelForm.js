@@ -23,7 +23,7 @@ $(function() {
         this.form.fields['resourceId'].$el.hide()
         this.form.fields['resourceTitles'].$el.hide()
         // give the form a submit button
-        var $button = $('<a class="btn btn-success" id="formButton">save</button>')
+        var $button = $('<a class="btn btn-success" id="formButton">Save</button>')
         this.$el.append($button)
   
  },

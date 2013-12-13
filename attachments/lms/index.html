@@ -7,6 +7,7 @@
   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
+  <link href="vendor/morris.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
   
 
@@ -32,6 +33,9 @@
   <script src="vendor/jquery.url.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
   <script src="vendor/jquery.raty.js"></script>
+  <script src="vendor/raphael.js"></script>
+  <script src="vendor/morris.js"></script>
+  
 
   <!--
     App
@@ -110,6 +114,9 @@
   <script src="app/views/siteFeedback.js"></script>
   <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
+  
+  <!-- Course Reporting -->
+   <script src="app/views/CoursesStudentsProgress.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   <script>
@@ -270,7 +277,7 @@
 
   <script type="text/template" id="template-app">
     <div id="debug"></div>
-<div id="invitationdiv"></div>
+<div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
     <div class="navbar navbar-inverse navbar-fixed-top" id="nav">
       <div class="navbar-inner">
         <div class="container">
@@ -324,6 +331,7 @@
           <div class="btn save" name="save">
             save
           </div>
+		<a class="btn btn-danger" id="cancel">Cancel</button>
         </td>
         <td class="status">
           <!-- status goes here -->
@@ -331,6 +339,18 @@
       </tr>
     </table>
   </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
   <script type="text/template" id="template-nav-logged-in"> 
     <li class="dropdown">
@@ -362,7 +382,7 @@
       <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
     </li>
 
-    <li class="dropdown">
+   <!-- <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
       <ul class="dropdown-menu">
 
@@ -373,7 +393,7 @@
           <a href="#compile/week">Compile Apps and this week's Assigned Resources for Syncing</a>
         </li>
 
-      </ul>
+      </ul> -->
     </li>
 
 
@@ -384,7 +404,7 @@
     </li>
     <li  style="float:right;"> 
       <a onclick = "showFeedbackForm()">
-        <i class="fui-cmd"></i> Feedback
+        <i class="icon-pencil icon-white"></i> Feedback
       </a>
     </li>
   </script>
@@ -481,7 +501,7 @@
 
   </script>
 
-  <script type="text/html" id="template-GroupRow">
+ <script type="text/html" id="template-GroupRow">
     <td>
       <%= name %>
     </td> 
@@ -489,6 +509,11 @@
     <td>
       <a role='button' class='btn' href='#course/manage/<%= _id %>'> 
         <i class="icon-list"></i> Manage
+      </a>
+    </td>
+    <td>
+      <a role='button' class='btn' href='#course/report/<%= _id %>/<%= name %>'> 
+        <i class="icon-signal"></i> Report
       </a>
     </td>
 
@@ -752,6 +777,7 @@ Courses | <%= courseTitle %>
 <button class="btn btn-hg btn-primary" id="prev-question" >Previous Question</button>
 <button class="btn btn-hg btn-primary" id="next-question" >Next Question</button>
 <button class="btn btn-hg btn-success" id="save-quiz" >Save Quiz</button>
+<button class="btn btn-hg btn-danger" id="cancel-quiz" >Cancel</button>
 
 </div>
 </script>

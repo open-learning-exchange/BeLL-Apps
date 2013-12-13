@@ -29,6 +29,10 @@ $(function() {
    		}
    		this.displayQuestionInView(this.currentQuestion)
    	},
+	"click #cancel-quiz" : function() {
+	window.close()	
+	//Backbone.history.navigate('courses', {trigger: true})
+	},
       "click #next-question" : function(e) {
       		
       		if(!this.validQuestionAndOptions())
@@ -91,7 +95,8 @@ $(function() {
 				var that = this
 				cstep.on('sync',function(){
 			  		alert("Your Quiz has been saved successfully")
-			                Backbone.history.navigate('level/view/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
+			               window.close()
+			// Backbone.history.navigate('level/view/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
 				})
       		}
 		},

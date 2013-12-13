@@ -6,8 +6,9 @@ $(function() {
     hide : false,
     events: {
       "click .save": "saveForm",
-      //@todo This causes save to not happen 
-      //"click .save": "statusLoading"
+	  "click #cancel":function(){
+			window.history.back()
+	   }
     },
 
     template: _.template($('#template-form-file').html()),

@@ -70,6 +70,17 @@ $(function() {
       // Put the form's input into the model in memory
       this.form.setValue({status:"active"})
       this.form.commit()
+      var addMem = true
+            var existing = new App.Collections.Members()
+            existing.fetch({async:false})
+            existing.each(function(m){
+                    if(m.get("login") == that.model.get("login")){
+                      alert("Login already exist")
+                      addMem = false  
+                    }
+             })
+            
+            
       // Send the updated model to the server
       if($.inArray("lead",this.model.get("roles")) == -1){
               that.model.set("yearsOfTeaching",null)
@@ -78,7 +89,9 @@ $(function() {
               that.model.set("forGrades",null)
       }
       this.model.set("visits",0)
-      this.model.save()
+      if(addMem){
+          this.model.save()
+      }
     },
 
 

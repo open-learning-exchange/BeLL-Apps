@@ -7,8 +7,14 @@ $(function() {
     events: {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey",
+"click #formButtonCancel": function(){
+	window.history.back()
+	
+}
     },
     
+	
+
     render: function() {
       // create the form
       this.form = new Backbone.Form({ model: this.model })
@@ -50,8 +56,8 @@ $(function() {
         
       })
       // give the form a submit button
-      var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">'+buttonText+'</button></div>')
-      this.$el.append($button)
+      var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">'+buttonText+'</button><a class="btn btn-info" id="formButtonCancel">Cancel</button></div>')
+		this.$el.append($button)
       
         var $upload=$('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
         var $img=$('<div id="browseImage"><img width="100px" height="90px" id="memberImage"></div>')
@@ -66,11 +72,6 @@ $(function() {
     },
     
     validImageTypeCheck: function(img){
-	if(img.val()==""){
-		alert("ERROR: No image selected \n\nPlease Select an Image File")
-		return 0
-	}
-
 	var extension=img.val().split('.')
         console.log(extension[(extension.length-1)])
 	if(extension[(extension.length-1)]=='jpeg'||extension[(extension.length-1)]=='jpg'||extension[(extension.length-1)]=='png'){
@@ -87,8 +88,11 @@ $(function() {
 
     setForm: function() {
       var that = this
-      
-      // Put the form's input into the model in memory
+      if(this.form.validate()!=null)
+  		{
+			return
+  		}
+      // Put the form's input into the model in memory 
       if(this.validImageTypeCheck($('input[type="file"]'))){
                this.form.setValue({status:"active"})
                this.form.commit()
@@ -100,6 +104,17 @@ $(function() {
               that.model.set("forGrades",null)
            }
             this.model.set("visits",0)
+            var addMem = true
+            var existing = new App.Collections.Members()
+            existing.fetch({async:false})
+            existing.each(function(m){
+                    if(m.get("login") == that.model.get("login")){
+                      alert("Login already exist")
+                      addMem = false  
+                    }
+             })
+            
+            if(addMem){
             this.model.save(null,{success:function(){
                 that.model.unset('_attachments')
                 if($('input[type="file"]').val()) 
@@ -123,7 +138,9 @@ $(function() {
                       Backbone.history.navigate('members', {trigger: true})
                 }, that.model)
 	  }})
+        }
                 
+        
        }
     },
 

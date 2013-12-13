@@ -42,18 +42,21 @@ $(function() {
       'search/courses' : 'SearchCourses',
       'assign-to-default-courses'	    :'AssignCoursestoExplore',
       'siteFeedback'					: 'viewAllFeedback',
+      'course/report/:groupId/:groupName'          : 'CourseReport',
       
       
     },
     initialize: function() {
-    this.bind( "all", this.checkLoggedIn )
-
-	},
-
+        this.bind( "all", this.checkLoggedIn )
+	this.bind( "all",this.routeStartupTasks)
+    },
+    routeStartupTasks: function(){
+	$('#invitationdiv').hide()
+    },
    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
    		console.log($.url().attr('fragment'))
-   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage')
+   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage' &&$.url().attr('fragment')!='becomemember')
    		{	
    			Backbone.history.stop()
    			App.start()
@@ -61,23 +64,28 @@ $(function() {
    	}
    },
 
-    
+    CourseReport: function(cId,cname){
+          App.$el.children('.body').html("<h2> "+cname+"</h2>")
+          App.$el.children('.body').append("<div id='graph'></div>")
+          var allResults=new App.Collections.StepResultsbyCourse()
+          allResults.courseId=cId
+          allResults.fetch({async:false})
+          var vi=new App.Views.CoursesStudentsProgress({collection: allResults})
+          vi.render()
+          console.log(allResults.length)
+    },
+
     viewAllFeedback: function(){
-		var feed = new App.Collections.siteFeedbacks()
-           feed.fetch({success: function() {
+	  var feed = new App.Collections.siteFeedbacks()
+          feed.fetch({success: function() {
           feedul = new App.Views.siteFeedbackPage({collection:feed})
-//          console.log(feed)
-//          alert('check')
-//          skip = 0
-//          skipStack.push(skip)
-//          skip = feed.length
           feedul.render()
-          $('#see-all', feedul.$el).trigger("click");
-          App.$el.children('.body').html('&nbsp')	
-          App.$el.children('.body').append(feedul.el) 
-         $("#previousButton").hide()
-			}})
-	},
+            $('#see-all', feedul.$el).trigger("click");
+            App.$el.children('.body').html('&nbsp')	
+            App.$el.children('.body').append(feedul.el) 
+            $("#previousButton").hide()
+      }})
+    },
     LandingScreen : function(){
       $('ul.nav').html($('#template-nav-log-in').html()).hide()
       App.$el.children('.body').html($('#template-LandingPage').html())
@@ -86,7 +94,7 @@ $(function() {
       var m = new App.Models.Member()
       var bform = new App.Views.BecomeMemberForm({model:m})
       bform.on('BecomeMemberForm:done', function() {
-        Backbone.history.navigate('courses', {trigger: true})
+        Backbone.history.navigate('resources', {trigger: true})
       })
       bform.render()
       App.$el.children('.body').html('<h1>Become A Member</h1>')
@@ -109,7 +117,7 @@ $(function() {
     MemberLogin: function() {
       // Prevent this Route from completing if Member is logged in.
       if($.cookie('Member._id')) {
-        Backbone.history.navigate('courses', {trigger: true})
+        Backbone.history.navigate('resources', {trigger: true})
         return
       }
       var credentials = new App.Models.Credentials()
@@ -117,7 +125,7 @@ $(function() {
       memberLoginForm.once('success:login', function() {
        // $('ul.nav').html($("#template-nav-logged-in").html())
        // Backbone.history.navigate('courses', {trigger: true})
-          Backbone.history.navigate('courses', {trigger: true})
+          Backbone.history.navigate('resources', {trigger: true})
       })
       memberLoginForm.render()
       //App.$el.children('.body').html('<h1>Member login</h1>')
@@ -159,6 +167,8 @@ $(function() {
     },
 
     Resources: function(database) {
+      $('ul.nav').html($("#template-nav-logged-in").html()).show()
+      $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       var resources = new App.Collections.Resources()
       resources.fetch({success: function() {
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
@@ -281,7 +291,7 @@ $(function() {
           model.trigger('Model:ready')
         }) 
         model.fetch({async:false})
-console.log(modeltoJSON())
+          
       }
       else {
         model.trigger('Model:ready')
@@ -333,6 +343,7 @@ console.log(modeltoJSON())
      
     //New Requirement of Managing the course Level 
     
+    
     ManageCourse : function(groupId){
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       levels = new App.Collections.CourseLevels()
@@ -342,9 +353,8 @@ console.log(modeltoJSON())
       var model = new App.Models[className]()
       var modelForm = new App.Views[className + 'Form']({model: model})
       App.$el.children('.body').html('<br/>')
-      App.$el.children('.body').append('<h1>Course</h1>')
+      App.$el.children('.body').append('<h3>Course Details</h3>')
       App.$el.children('.body').append(modelForm.el)
-      
       model.once('Model:ready', function() {
         // when the users submits the form, the group will be processed
         modelForm.on(className + 'Form:done', function() {
@@ -371,7 +381,7 @@ console.log(modeltoJSON())
         lTable = new App.Views.LevelsTable({collection: levels})
         lTable.groupId = groupId
         lTable.render()
-        App.$el.children('.body').append("</BR><h2> Course Steps </h2>")
+        App.$el.children('.body').append("</BR><h3> Course Steps </h3>")
         App.$el.children('.body').append(lTable.el)
         
         $("#moveup").hide()
@@ -518,6 +528,7 @@ console.log(modeltoJSON())
               
          }})
      },
+     
     AssignCoursestoExplore : function(){
      
  	 var clist = new App.Models.ExploreBell({"_id":"set_up"})
