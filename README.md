@@ -70,7 +70,7 @@ git clone https://github.com/open-learning-exchange/BeLL-Apps.git
 
 
 # --- Everything here on out can't make it into a distro
-
+```
 sudo raspi-config
 # run expand_fs in raspi-config
 # set the timezone
