@@ -18,11 +18,14 @@ program
   .version('0.0.1')
   .option('-t, --to [to]', '', '')
   .option('-m, --mapfile [mapfile]', '', null)
+  .option('-c, --continuous', 'make continuous')
+  .option('-n, --create_target', 'create the target')
   .parse(process.argv);
 
 var mapfile = program.mapfile 
 var to = program.to
-
+var continuous = program.continuous
+var create_target = program.create_target
 var replicationMap
 
 csv()
@@ -50,8 +53,8 @@ replicationMap.forEach(function(row) {
         //_id: hosts[1] + '/' + db + '__to__' + hosts[0] + '/' + db, 
         source: 'http://' + hosts[1] + '/' + db, 
         target: 'http://' + hosts[0] + '/' + db,
-        create_target: true,
-        continuous: true
+        create_target: create_target,
+        continuous: continuous
       })
     }
     if (row[1].search('>') != -1) {
@@ -60,15 +63,14 @@ replicationMap.forEach(function(row) {
         //_id: hosts[0] + '/' + db + '__to__' + hosts[1] + '/' + db, 
         source: 'http://' + hosts[0] + '/' + db, 
         target: 'http://' + hosts[1] + '/' + db,
-        create_target: true,
-        continuous: true
+        create_target: create_target,
+        continuous: continuous
       })
     }
   }
 })
 
 replicatorDocs.forEach(function(doc) {
-  //cmd += 'curl -XPOST ' + to + '/' + doc._id + ' -d \'' + JSON.stringify(doc) + '\' ; \n' 
   cmd += 'curl -XPOST ' + to + ' -H "Content-Type: application/json" -d \'' + JSON.stringify(doc) + '\' ; \n' 
 }) 
 
