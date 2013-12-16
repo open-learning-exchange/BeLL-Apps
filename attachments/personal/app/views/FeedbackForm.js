@@ -7,9 +7,9 @@ $(function() {
     events: {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey",
-       "click #exit": function(){
-       	 $('#externalDiv').hide()
-       }
+//       "click #exit": function(){
+//       	 $('#externalDiv').hide()
+//       }
     },
 
     render: function() {
@@ -23,8 +23,8 @@ $(function() {
       this.form.fields['resourceId'].$el.hide()
       var $button = $('<a class="btn btn-info" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="formButton">Save</button>')
    	 this.$el.append($button)
-     $button = $('<a class="btn btn-danger" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="exit">Exit</button>')	
-      this.$el.append($button)
+    // $button = $('<a class="btn btn-danger" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="exit">Exit</button>')	
+   //   this.$el.append($button)
     },
 
     setFormFromEnterKey: function(event) {

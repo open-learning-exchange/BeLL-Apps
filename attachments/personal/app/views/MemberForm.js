@@ -115,7 +115,7 @@ validImageTypeCheck: function(img){
 
 	var extension=img.val().split('.')
 		console.log(extension[(extension.length-1)])
-	if(extension[(extension.length-1)]=='jpeg'||extension[(extension.length-1)]=='jpg'||extension[(extension.length-1)]=='png'){
+	if(extension[(extension.length-1)]=='jpeg'||extension[(extension.length-1)]=='jpg'||extension[(extension.length-1)]=='png' || extension[(extension.length-1)]=='JPG'){
 		return 1
 	}
 	alert("ERROR: Not a valid image file \n\n Valid Extensions are  [.jpg, .jpeg ]")

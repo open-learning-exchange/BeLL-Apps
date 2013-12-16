@@ -310,3 +310,12 @@ border-bottom:1px solid black;
     margin-left:10%;
   
 }
+#rating_checkboxes
+{
+	margin-left:0px;
+	margin-top:-422px;
+}
+.filter_star_img
+{
+	width: 20px;
+}
