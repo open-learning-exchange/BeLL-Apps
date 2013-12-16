@@ -24,6 +24,7 @@ $(function() {
     
     render: function () {
       var vars = this.model.toJSON()
+      vars.avgRating = Math.round(parseFloat(vars.averageRating))
       this.$el.append(this.template(vars))
     },
 

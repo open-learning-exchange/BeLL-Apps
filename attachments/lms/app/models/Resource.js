@@ -54,7 +54,8 @@ $(function() {
      openWhichFile: 'Text',
      uploadDate:'Date',
      // override everything, just open a specific URL
-      openUrl: 'Text'
+      openUrl: 'Text',
+      averageRating :'Text',
     },
  
     

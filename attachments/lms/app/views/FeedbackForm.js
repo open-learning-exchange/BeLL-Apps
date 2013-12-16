@@ -16,7 +16,7 @@ $(function() {
       this.form.fields['rating'].$el.hide()
       this.form.fields['memberId'].$el.hide()
       this.form.fields['resourceId'].$el.hide()
-      var $button = $('<a class="btn btn-danger" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="formButton">Save</button>')
+      var $button = $('<a class="btn btn-success" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="formButton">Save</button>')
       this.$el.append($button)
     },
 
@@ -42,7 +42,22 @@ $(function() {
        this.form.setValue('rating',this.user_rating)
        this.form.commit()
       //Send the updated model to the server
+       var that = this
+       var flength = new App.Collections.ResourceFeedback()
+       flength.resourceId = that.model.get("resourceId")
+       flength.fetch({async:false})
+       var lengthoffeedbacks = flength.length
+       console.log(lengthoffeedbacks)
        this.model.save()
+       this.model.on('sync',function(){
+        var rmodel = new App.Models.Resource({"_id":that.model.get("resourceId")})
+          rmodel.fetch({success:function(){
+                var avgr = rmodel.get("averageRating")
+                avgr = (parseInt(avgr) + parseInt(that.user_rating)) /(lengthoffeedbacks + 1)
+                rmodel.set("averageRating",parseFloat(Math.round(avgr)))
+                rmodel.save()
+            }})
+       })
     }
        
     },

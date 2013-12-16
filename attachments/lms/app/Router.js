@@ -66,6 +66,7 @@ $(function() {
 
     CourseReport: function(cId,cname){
           App.$el.children('.body').html("<h2> "+cname+"</h2>")
+          App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/'+cId+'\'">Manage</button>')
           App.$el.children('.body').append("<div id='graph'></div>")
           var allResults=new App.Collections.StepResultsbyCourse()
           allResults.courseId=cId
@@ -80,10 +81,10 @@ $(function() {
           feed.fetch({success: function() {
           feedul = new App.Views.siteFeedbackPage({collection:feed})
           feedul.render()
-            $('#see-all', feedul.$el).trigger("click");
-            App.$el.children('.body').html('&nbsp')	
-            App.$el.children('.body').append(feedul.el) 
-            $("#previousButton").hide()
+          $('#see-all', feedul.$el).trigger("click");
+          App.$el.children('.body').html('&nbsp')	
+          App.$el.children('.body').append(feedul.el) 
+          $("#previousButton").hide()
       }})
     },
     LandingScreen : function(){
@@ -231,6 +232,16 @@ $(function() {
     },
 
     Groups: function() {
+      /****** Amendment script *****/
+      var allcrs = new App.Collections.Groups();
+      allcrs.fetch({async:false})
+      allcrs.each(function(m){
+            if(m.get("name") == null){
+                m.set("name","not defined")
+                m.save()
+            }
+      })
+      /***********/
       $('ul.nav').html($("#template-nav-logged-in").html()).show()
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       groups = new App.Collections.Groups()

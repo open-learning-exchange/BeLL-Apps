@@ -16,10 +16,6 @@ $(function() {
      
     model: App.Models.Feedback,
 
-    comparator: function(model) {
-      return model.get('rating')
-    },
-
 
   })
 

@@ -19,11 +19,7 @@ $(function() {
       // create the form
       this.form = new Backbone.Form({ model: this.model })
       var buttonText=""
-      if(this.model.id!=undefined){
-	  buttonText="Update"
-       }else{
-	   buttonText="Register"
-       }
+      
       this.$el.append(this.form.render().el)
       this.form.fields['status'].$el.hide()
       this.form.fields['yearsOfTeaching'].$el.hide()
@@ -31,7 +27,13 @@ $(function() {
       this.form.fields['subjectSpecialization'].$el.hide()
       this.form.fields['forGrades'].$el.hide()
       this.form.fields['visits'].$el.hide()
-      
+      if(this.model.id!=undefined){
+	  buttonText="Update"
+           $("input[name='login']").attr("disabled",true);
+       }else{
+	   buttonText="Register"
+           
+       }
       
       
       var that = this
@@ -55,8 +57,9 @@ $(function() {
             }
         
       })
+      
       // give the form a submit button
-      var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">'+buttonText+'</button><a class="btn btn-info" id="formButtonCancel">Cancel</button></div>')
+      var $button = $('<div class="signup-submit"><a class="signup-btn btn btn-success" id="formButton">'+buttonText+'</button><a class="btn btn-danger" id="formButtonCancel">Cancel</button></div>')
 		this.$el.append($button)
       
         var $upload=$('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
@@ -71,9 +74,14 @@ $(function() {
  	 }
     },
     
-    validImageTypeCheck: function(img){
-	var extension=img.val().split('.')
-        console.log(extension[(extension.length-1)])
+  validImageTypeCheck: function(img){
+	console.log(img.val())
+	if(img.val()==""){
+		//alert("ERROR: No image selected \n\nPlease Select an Image File")
+		return 1
+	}
+        var extension=img.val().split('.')
+		console.log(extension[(extension.length-1)])
 	if(extension[(extension.length-1)]=='jpeg'||extension[(extension.length-1)]=='jpg'||extension[(extension.length-1)]=='png'){
 		return 1
 	}
@@ -105,6 +113,7 @@ $(function() {
            }
             this.model.set("visits",0)
             var addMem = true
+            if(this.model.get("_id") == undefined){
             var existing = new App.Collections.Members()
             existing.fetch({async:false})
             existing.each(function(m){
@@ -113,7 +122,7 @@ $(function() {
                       addMem = false  
                     }
              })
-            
+      }
             if(addMem){
             this.model.save(null,{success:function(){
                 that.model.unset('_attachments')

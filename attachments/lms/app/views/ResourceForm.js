@@ -98,6 +98,7 @@ $(function() {
               }
           }
           if(addtoDb){
+                this.model.set("averageRating",0)
                 this.model.save(null, {success: function() {
                 that.model.unset('_attachments')
                 if($('input[type="file"]').val()) {

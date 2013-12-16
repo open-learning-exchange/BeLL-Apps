@@ -9,6 +9,9 @@ $(function() {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey",
       "click #inviteMemberButton": "MemberInvite",
+      "click #cancel":function(){
+			window.history.back()
+      }
       
     },
     MemberInvite: function(){
@@ -64,7 +67,7 @@ $(function() {
         var $sbutton = $('<a class="btn btn-success" id="formButton">Save</button>')
         var $ubutton = $('<a class="btn btn-success" id="formButton">Update</button>')
         
-        var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button>')
+         var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/'+groupForm.model.get("_id")+'/'+groupForm.model.get("name")+'"> <i class="icon-signal"></i> Progress</a>')
         if(groupForm.model.get("_id") != undefined){
             groupForm.$el.append($button)
             groupForm.$el.append($ubutton)
@@ -72,6 +75,7 @@ $(function() {
         else{
           groupForm.$el.append($sbutton)
         }
+        groupForm.$el.append("<a class='btn btn-danger' id='cancel'>Cancel</a>")
         
       }}) 
  
@@ -97,10 +101,10 @@ $(function() {
       else{
          this.model.set("members",this.prevmemlist)
       }
-      if(this.model.get("name") == null){
+      if(this.model.get("name").length == 0){
             alert("Course name is missing")
       }
-	  else if(this.model.get("courseLeader") == 0000){
+     else if(this.model.get("courseLeader") == 0000){
         alert("Select Course Leader")
       }
       else if(this.model.get("leaderEmail").length == 0){

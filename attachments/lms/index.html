@@ -328,8 +328,8 @@
       </tr>
       <tr>
         <td>
-          <div class="btn save" name="save">
-            save
+          <div class="save btn btn-success" name="save">
+            Save
           </div>
 		<a class="btn btn-danger" id="cancel">Cancel</button>
         </td>
@@ -513,7 +513,7 @@
     </td>
     <td>
       <a role='button' class='btn' href='#course/report/<%= _id %>/<%= name %>'> 
-        <i class="icon-signal"></i> Report
+        <i class="icon-signal"></i> Progress
       </a>
     </td>
 
@@ -586,7 +586,9 @@
     <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
     <td>
         <%= title %>
-    </td> 
+    </td>
+    
+    
     <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
         <i class='icon-eye-open'></i> Open
@@ -612,6 +614,9 @@
         <i class='icon-remove'></i> Delete
       </a>
     </td>
+    
+    </td>
+    
   <% } %>
   </script>
   

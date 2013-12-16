@@ -56,7 +56,7 @@ $(function() {
 						that.model.destroy()
     						that.remove()
 						alert("Course added to your dashboard")
-						Backbone.history.navigate('dashboard', {trigger: true})
+						window.location.reload()
 					}
     				})
 			}
@@ -72,8 +72,9 @@ $(function() {
 						    model.destroy();
 						}
 					    }})
-				   alert("Course already exist in your dashboard") 
-				   Backbone.history.navigate('dashboard', {trigger: true})
+				   alert("Course already exist in your dashboard")
+		    
+				  window.location.reload()
 			}
 		}
     		else{
