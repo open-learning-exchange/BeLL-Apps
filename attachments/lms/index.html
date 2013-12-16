@@ -131,6 +131,7 @@
   var levelrevId;
   var tagFilter = new Array() ; 
   var subjectFilter = new Array() ;
+  var ratingFilter = new Array();
   var rids = new Array() ; 
   var rtitle = new Array() ;
   
@@ -240,7 +241,23 @@
   	$("#SubjectCheckboxes").html(htmlString);
  
   }
-	
+	function changeRatingImage(checkID,count)
+	{
+		//alert($('#' + checkID + 1).attr('src'));
+		var imgName = "";
+		if($('#' + checkID + 1).attr('src')=="star-on.png")
+		{
+			imgName = "star-off.png";
+		}
+		else
+		{
+			imgName = "star-on.png";
+		}
+		for(var i=1 ; i<=5 ; i++)
+		{
+			$('#' + checkID + i).attr('src', imgName);
+		}
+	}
   </script>
 
   
@@ -649,7 +666,23 @@
 
        <div class="checkbox-subject" id="SubjectCheckboxes">  
        </div>
-  
+       <div id="rating_checkboxes">
+       		<h4>Rating</h4>
+       		<input id="star5" type="checkbox" name="star" value="5" onchange="changeRatingImage('rating5_',5)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating5_1"><img src="star-off.png" class="filter_star_img" id="rating5_2"><img src="star-off.png" class="filter_star_img" id="rating5_3"><img src="star-off.png" class="filter_star_img" id="rating5_4"><img src="star-off.png" class="filter_star_img" id="rating5_5"><br/>
+        	
+        	<input id="star4" type="checkbox" name="star" value="4" onchange="changeRatingImage('rating4_',4)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating4_1"><img src="star-off.png" class="filter_star_img" id="rating4_2"><img src="star-off.png" class="filter_star_img" id="rating4_5"><img src="star-off.png" class="filter_star_img" id="rating4_4"><br/>
+        	
+        	<input id="star3" type="checkbox" name="star" value="3" onchange="changeRatingImage('rating3_',3)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating3_1"><img src="star-off.png" class="filter_star_img" id="rating3_2"><img src="star-off.png" class="filter_star_img" id="rating3_3"><br/>
+       		
+       		<input id="star2" type="checkbox" name="star" value="2" onchange="changeRatingImage('rating2_',2)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating2_1"><img src="star-off.png" class="filter_star_img" id="rating2_2"><br>
+       		
+       		<input id="star1" type="checkbox" name="star" value="1" onchange="changeRatingImage('rating1_',1)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating1_1">
+  		</div>
     </div>
     <br/>
    

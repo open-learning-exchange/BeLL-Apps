@@ -333,7 +333,16 @@ border-bottom:1px solid black;
     margin-top: -850px;
 }
 #ProgressButton{
-  
  margin-left: 541px;
     margin-top: -922px;
+
+}
+#rating_checkboxes
+{
+	margin-left:0px;
+	margin-top:-422px;
+}
+.filter_star_img
+{
+	width: 20px;
 }

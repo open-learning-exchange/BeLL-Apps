@@ -56,8 +56,9 @@ $(function() {
    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
    		console.log($.url().attr('fragment'))
+
    		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage' &&$.url().attr('fragment')!='becomemember')
-   		{	
+                {	
    			Backbone.history.stop()
    			App.start()
    		}
@@ -665,13 +666,18 @@ $(function() {
 	     		subjectFilter.push($(this).val());
 	 		}
      	 })
-     	
-     	if(searchText != "" || (tagFilter && tagFilter.length>0) || (subjectFilter && subjectFilter.length>0))
+     	$("input[name='star']").each( function () {
+	 		if ($(this).is(":checked")){
+	     		ratingFilter.push($(this).val());
+	 		}
+     	 })
+     	if(searchText != "" || (tagFilter && tagFilter.length>0) || (subjectFilter && subjectFilter.length>0) || (ratingFilter && ratingFilter.length>0))
 	 	{
 	        $('ul.nav').html($("#template-nav-logged-in").html())
 	        var search = new App.Views.Search()
 	        search.tagFilter = tagFilter
 	        search.subjectFilter = subjectFilter
+	        search.ratingFilter = ratingFilter
 	        App.$el.children('.body').html(search.el)
 	        search.render()
 	        $("#searchText2").val(searchText)
@@ -726,6 +732,7 @@ $(function() {
       
       tagFilter.length = 0
        subjectFilter.length = 0
+       ratingFilter.length = 0
        rtitle.length = 0
        rids.length = 0
       
