@@ -17,7 +17,7 @@ $(function() {
     render: function() {
 	var obj = this
         this.$el.html(_.template(this.template, this.vars))
-	if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0))
+	if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
 	{
 	  this.fetchRecords()
 	}
@@ -64,13 +64,14 @@ $(function() {
     },
     checkFilters: function(result)
     {
+   
        //alert(this.tagFilter + ' ' + result.get("Tag"))
     	if(this.tagFilter.length==0 && this.subjectFilter.length==0 && this.ratingFilter.length==0)
     	{
     		//alert('in null')
     		return true
     	}
-    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) || (this.ratingFilter && $.inArray(result.get("averageRating"), this.ratingFilter) > -1))
+    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) || (this.ratingFilter && $.inArray(result.get("averageRating").toString(), this.ratingFilter) > -1))
     	{
     		//alert($.inArray(result.get("subject"), this.subjectFilter))
     		return true
@@ -80,8 +81,9 @@ $(function() {
     searchInArray: function(resourceArray,searchText){
     	var that  = this
       var resultArray = []
-      var foundCount 
-	 if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0))
+      var foundCount
+      console.log(this.ratingFilter)
+	 if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
 	 {
 	   _.each(resourceArray, function(result) {
 		if(result.get("title") != null ){
