@@ -20,12 +20,14 @@ program
   .option('-m, --mapfile [mapfile]', '', null)
   .option('-c, --continuous', 'make continuous')
   .option('-n, --create_target', 'create the target')
+  .option('-x, --cancel', 'cancel the replication')
   .parse(process.argv);
 
 var mapfile = program.mapfile 
 var to = program.to
 var continuous = program.continuous
 var create_target = program.create_target
+var cancel = program.cancel
 var replicationMap
 
 csv()
@@ -42,29 +44,33 @@ cmd = ''
 
 replicationMap.forEach(function(row) {
   if(i == 0) {
-    hosts[0] = row[0]
-    hosts[1] = row[2] 
+    hosts[0] = (row[0] == '') 
+      ? ''
+      : 'http://' + row[0] + '/'
+    hosts[1] = (row[2] == '') 
+      ? ''
+      : 'http://' + row[2] + '/'
     i++
   }
   else {
     if (row[1].search('<') != -1) {
       var db = row[0]
       replicatorDocs.push({
-        //_id: hosts[1] + '/' + db + '__to__' + hosts[0] + '/' + db, 
-        source: 'http://' + hosts[1] + '/' + db, 
-        target: 'http://' + hosts[0] + '/' + db,
+        source: hosts[1] + db, 
+        target: hosts[0] + db,
         create_target: create_target,
-        continuous: continuous
+        continuous: continuous,
+        cancel: cancel
       })
     }
     if (row[1].search('>') != -1) {
       var db = row[0]
       replicatorDocs.push({
-        //_id: hosts[0] + '/' + db + '__to__' + hosts[1] + '/' + db, 
-        source: 'http://' + hosts[0] + '/' + db, 
-        target: 'http://' + hosts[1] + '/' + db,
+        source: hosts[0] + '/' + db, 
+        target: hosts[1] + '/' + db,
         create_target: create_target,
-        continuous: continuous
+        continuous: continuous,
+        cancel: cancel
       })
     }
   }

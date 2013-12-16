@@ -40,6 +40,13 @@ sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get autoremove
 
+# change the host name
+```
+sudo vim /etc/hosts # replace raspberrypi with desired hostname
+sudo vim /etc/hostname # replace text with desired hostname
+sudo /etc/init.d/hostname.sh
+sudo reboot
+
 # now following directions from https://www.modmypi.com/blog/installing-the-rasclock-raspberry-pi-real-time-clock
 wget http://afterthoughtsoftware.com/files/linux-image-3.6.11-atsw-rtc_1.0_armhf.deb
 sudo dpkg -i linux-image-3.6.11-atsw-rtc_1.0_armhf.deb
