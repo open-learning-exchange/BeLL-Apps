@@ -612,6 +612,9 @@
       </a>
     </td>
     <td>
+        Average Rating <%=averageRating%>.0
+    </td>
+    <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
         <i class='icon-download'></i> Download
       </a>
@@ -632,9 +635,12 @@
       </a>
     </td>
     
-    </td>
-    
-  <% } %>
+ <td>   
+  <% for(var i=0;i<averageRating;i++){%>
+    <img src="star-on.png" style="height:23px"/>
+  <%}%>
+  </td>
+  <%}%>
   </script>
   
   <script type="text/html" id="template-rateResource">
