@@ -95,9 +95,10 @@ $(function() {
    },
    
 	addAll: function(){
-		this.$el.html('<h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search in comment" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>&nbsp;<span><button class="btn btn-info" id="search_feedback">Search</button>&nbsp;<button class="btn btn-info" id="see-all">See All</button></span></h4><br/>')
+		this.$el.html('<h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search in comment" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>&nbsp;<span><button class="btn btn-info" id="search_feedback">Search</button>&nbsp;<button class="btn btn-info" id="see-all">See All</button></span>&nbsp;<img id="progress_img" src="vendor/progress.gif" width="3%"></h4><br/>')
 		this.$el.append('<Select id="select_category"><option>Urgent</option><option>Bug</option><option>Question</option><option>Comment</option><option>Help</option><option>Suggestion</option></select>&nbsp;&nbsp<select id="select_status"><option>Unresolve</option><option>Resolved</option></select>&nbsp;&nbsp<button class="btn btn-info" id="switch">Apply Filters</button><br/><br/>')
 		this.$el.append('<th ><h4>Feedback</h4></th><th ><h4>Status</h4></th>')
+		$("#progress_img").hide()
 		this.collection.forEach(this.addOne,this)
 		this.$el.append('<br/><br/><input type="button" class="btn btn-hg btn-primary" id="previousButton" value="< Previous"> &nbsp;&nbsp;&nbsp;<button class="btn btn-hg btn-primary" id="next_button" >Next  ></button>')
        },
@@ -125,6 +126,7 @@ $(function() {
     },
     fetchRecords: function()
     {
+    	$("#progress_img").show()
        var obj = this
        this.collection.fetch({success: function() {
        	//alert(obj.resultArray.length + ' skip : ' + skip)
