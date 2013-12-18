@@ -115,10 +115,14 @@
   <script src="app/views/takeQuizView.js"></script>
   <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
-  
+  <!--
+  overlay poput script
+  -->
+  <script src="jquery.popupoverlay.js"></script>
   <!-- 
     Templates 
   -->
+
 <script>
 var searchText = "";
 var skip = 0;    //Variable used to skip the number of records been fetched before.
@@ -181,6 +185,18 @@ function onFocus(obj) {
       var end = obj.value.length; 
       if(obj.setSelectionRange) 
       obj.setSelectionRange(end, end); 
+}
+
+function showComposePopup()
+{
+	$('#emailCompose').popup({
+        horizontal: 'right',
+        vertical: 'bottom',
+        background : false,
+        blur : false,
+        scrolllock : true
+    });
+	//$('#emailCompose').popup('show');
 }
 $(window).scroll(function () {
   var $menu = $('#addEvent'),
@@ -615,12 +631,23 @@ $(window).scroll(function () {
 				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>
-				<td><button class="btn btn-hg btn-primary">Email</button></td>
+				<td><button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button></td>
 				<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>
 			</tr>
 			</table> 
 		</div>
             </div>
+            
+<div id="emailCompose" class="well">
+<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+<div class="mailbody"><textarea id="mailbodytexarea"></textarea>
+<br/>
+<button class="emailCompose_close btn btn-default">Close</button>
+<button class="emailCompose_close btn btn-primary">Send</button>
+</div>
+</div>
   </script>
   
    <script type="text/html" id="template-takeQuiz">
@@ -631,7 +658,22 @@ $(window).scroll(function () {
 
 <body>
 
+<script>
+$(document).ready(function () {
+    $.fn.popup.defaults.pagecontainer = '.container'
+});
+</script>
+
+<!-- Slide in -->
+
+
+
+
+
+
+
 </body>
+
 
   <!-- 
     START THE APP
@@ -640,7 +682,8 @@ $(window).scroll(function () {
   <script>
     $(document).ready(function() {
       App.start()
-    })
+      $('#emailCompose').popup('hide');
+     })
   </script>
 
 
