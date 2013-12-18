@@ -60,7 +60,7 @@
   <script src="app/models/Calendar.js"></script>
   <script src="app/models/CourseStep.js"></script>
   <script src="app/models/report.js"></script>
-
+  <script src="app/models/Mail.js"></script>
   <script src="app/models/StepResult.js"></script>
 	<script src="app/models/membercourseprogress.js"></script>
 
@@ -81,6 +81,7 @@
   <script src="app/collections/membercourseprogresses.js"></script>
   <script src="app/collections/memberprogressallcourses.js"></script>
   <script src="app/collections/AllInviteMember.js"></script>
+  <script src="app/collections/Mails.js"></script>
   
 
     
@@ -115,6 +116,8 @@
   <script src="app/views/takeQuizView.js"></script>
   <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
+  <script src="app/views/MailView.js"></script>
+   
   <!--
   overlay poput script
   -->
@@ -631,25 +634,34 @@ $(window).scroll(function () {
 				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>
-				<td><button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'">Email</button></td>
+				<!-- <td></td> -->
 				<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>
 			</tr>
 			</table> 
 		</div>
             </div>
             
-<div id="emailCompose" class="well">
-<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
-<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
-<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
-<div class="mailbody"><textarea id="mailbodytexarea"></textarea>
-<br/>
-<button class="emailCompose_close btn btn-default">Close</button>
-<button class="emailCompose_close btn btn-primary">Send</button>
-</div>
-</div>
+
   </script>
-  
+  <script type="text/template" id="template-mail">
+
+		<li><%=subject%></li>
+		
+		<li><button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button>
+<div id="emailCompose" class="well">
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_close btn btn-primary">Send</button>
+	</div>
+</div>
+
+	</li>
+</script>
    <script type="text/html" id="template-takeQuiz">
    <p>dfjhbldfgildfhgi</p>
    </script>

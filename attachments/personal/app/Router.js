@@ -31,13 +31,42 @@ $(function() {
       'report/:Url'                     : 'report',
       'notifications'                     : 'invitations',
       'siteFeedback'	              : 'viewAllFeedback',
-       'courses/barchart'	      : 'CoursesBarChart',
+      'courses/barchart'	      : 'CoursesBarChart',
+      'mail'					  : 'email',
       '*nomatch'                      : 'errornotfound',
-      
     },
     
     initialize: function() {
 	this.bind("all",this.startUpStuff)
+	},
+	cloudant: function(){
+		var a=new App.Collections.Invitations()
+		a.fetch({async:false})
+		a.each(function(modl){
+			var invite=modl.toJSON()
+		    var mail=new App.Models.Mail()
+		    mail.set("senderId",invite.senderId)
+		    mail.set("receiverId",invite.memberId)	
+		    mail.set("subject","Course Invitation")
+		    mail.set("body"," ")
+		    mail.set("type","invite")
+		    mail.set("subtype","course")
+			mail.set("status","0")
+			var now = new Date();
+			now.getDate()
+		    mail.set("sentDate",now.toString()) 
+		    mail.set("entityId",invite.entityId)
+		    mail.save()  	
+		})
+	},
+	email: function()
+	{
+		App.$el.children('.body').html('&nbsp')
+		var mymail=new App.Collections.Mails()
+		mymail.fetch({async:false})
+		var mailview=new App.Views.MailView({collection:mymail})
+		mailview.render()
+		App.$el.children('.body').append(mailview.el)
 	},
 	startUpStuff: function(){
 		this.checkLoggedIn
