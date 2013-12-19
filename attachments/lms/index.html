@@ -58,6 +58,8 @@
   <script src="app/models/ExploreBell.js"></script>
   <script src="app/models/membercourseprogress.js"></script>
   <script src="app/models/report.js"></script>
+  <script src="app/models/request.js"></script>
+  
     
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
@@ -73,7 +75,7 @@
   <script src="app/collections/StepResultsbyCourse.js"></script>
   <script src="app/collections/siteFeedbacks.js"></script>
   <script src="app/collections/leadermembers.js"></script>
-  
+   <script src="app/collections/Requests.js"></script>
   
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -117,6 +119,9 @@
   
   <!-- Course Reporting -->
    <script src="app/views/CoursesStudentsProgress.js"></script>
+    <script src="app/views/RequestView.js"></script>
+    <script src="app/views/RequestTable.js"></script>
+   <script src="app/views/RequestRow.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   <script>
@@ -150,6 +155,11 @@
 		$('#site-feedback').animate({height:'toggle'})
 	}
   }
+  
+   function showRequestForm(modl){
+	  App.renderRequest(modl)
+  }
+  
   
   function selectAllSearchResult()
   {
@@ -361,6 +371,11 @@
 
 
 
+ <script type="text/html" id="template-RequestRow">
+    <td><%=name%></td>
+    <td><%=type%></td>
+    <td><%=request%></td>
+  </script>
 
 
 
@@ -368,13 +383,13 @@
 
 
 
-
-  <script type="text/template" id="template-nav-logged-in"> 
+<script type="text/template" id="template-nav-logged-in"> 
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Courses <b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
         <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
+        <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
         <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>-->
       </ul>
     </li>
@@ -392,13 +407,21 @@
       <ul class="dropdown-menu">
         <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
         <li><a href="#resource/add"><i class="icon-plus"></i> Add a new Resource</a></li>
+        <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
       </ul>
     </li>
-
+	<li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Meetup<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
+      </ul>
+    </li>
     <li> 
       <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
     </li>
-
+	<li> 
+      <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
+    </li>
    <!-- <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
       <ul class="dropdown-menu">
@@ -407,7 +430,7 @@
           <a href="#compile/">Compile all Apps and all Resources for Syncing</a>
         </li>
         <li> 
-          <a href="#compile/week">Compile Apps and this week's Assigned Resources for Syncing</a>
+          <a href="#compile/week">Compile Apps and this weeks Assigned Resources for Syncing</a>
         </li>
 
       </ul> -->
@@ -587,6 +610,7 @@
         <i class='icon-remove'></i> Delete
       </a>
     </td>
+<!--
    <% if(status == "active"){%>
     <td>
       <a class='btn btn-danger' id="deactive" href='#'>Resign</a>
@@ -596,24 +620,31 @@
       <a class='btn btn-success' id="active" href='#'>Reinstate</a>
     </td>
    <% } %>
-  </script>
+--> 
+ </script>
 
 
   <script type="text/html" id="template-ResourceRow">
     <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
     <td>
-        <%= title %>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
     </td>
     
     
     <td>
-      <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+      <a class='resFeedBack btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
-    <td>
-        Average Rating <%=averageRating%>.0
-    </td>
+   
     <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
         <i class='icon-download'></i> Download
@@ -624,23 +655,7 @@
         <i class='icon-pencil'></i> Edit
       </a>
     </td>
-    <td>
-      <a class='btn' href='#resource/feedback/<%= _id %>' target="_blank">
-        <i class='icon-comment'></i> Feedback
-      </a>
-    </td>
-    <td>
-      <a class='destroy btn' href='#'>
-        <i class='icon-remove'></i> Delete
-      </a>
-    </td>
-    
- <td>   
-  <% for(var i=0;i<averageRating;i++){%>
-    <img src="star-on.png" style="height:23px"/>
-  <%}%>
-  </td>
-  <%}%>
+    <%}%>
   </script>
   
   <script type="text/html" id="template-rateResource">
@@ -858,14 +873,14 @@ You can also open your Personal BeLL and see and:
 
 <script type="text/template" id="template-LandingPage">
 <div style="position:absolute;margin-top:3%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
-<h1>Demo Community Bell</h1>
-<span style="margin-left:4%;font-size:18px"><B>Welcome to the Demo Community BeLL</B></span><br/>
+<h1><%=host%> Community Bell</h1>
+<span style="margin-left:4%;font-size:18px"><B>Welcome to the <%=host%>&nbsp; Community BeLL</B></span><br/>
 <!--<span style="margin-left:10%;font-size:20px;"> <b> You have now visited <%= visits %> times </b></span>-->
 <div style="width: 70%;font-size:16px;margin-left: -2%;">
 Please become a Member and explore both the Community Learning Management System (LMS) and your Personal BeLL.  To do this:<br/>
 <div style="margin-left:5%">
 <ol>
-  <li>Become a Demo Community Member by signing in.</li>
+  <li>Become a <%=host%>&nbsp; Community Member by signing in.</li>
   <li>Explore the Resources by opening some existing Resources and adding at least one new Resource.</li>
   <li>Explore the Courses by opening some existing Courses and adding at least one new Course, including at least two Course Steps. </li>
   <li>Invite yourself to join at least one Course.</li>
@@ -885,7 +900,7 @@ Please become a Member and explore both the Community Learning Management System
 <script type="text/template" id="template-login">
 <div style="position:absolute;margin-top:-1%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
 <span style="margin-left:5%;font-size:31px;">Welcome to the</span><br/><br/>
-<span style="margin-left:-5%;font-size:37px;">Demo Community BeLL</span><br/><br/>
+<span style="margin-left:4%;font-size:37px;">Community BeLL</span><br/><br/>
 <span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.4)</span><br/>
 <span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
 </script>

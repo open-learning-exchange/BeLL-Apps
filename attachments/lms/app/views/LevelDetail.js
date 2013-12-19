@@ -37,7 +37,6 @@ $(function() {
 	var rtitle = this.model.get("resourceTitles")
 	var rid = this.model.get("resourceId")
 	this.$el.append("</BR>")
-	
 	if(this.model.get("resourceTitles")){
 	for(i=0;i<this.model.get("resourceTitles").length;i++){
 	  var r = new App.Models.Resource({"_id":rid[i]})

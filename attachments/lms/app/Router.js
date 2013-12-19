@@ -43,7 +43,8 @@ $(function() {
       'assign-to-default-courses'	    :'AssignCoursestoExplore',
       'siteFeedback'					: 'viewAllFeedback',
       'course/report/:groupId/:groupName'          : 'CourseReport',
-      
+        'myRequests': 'myRequests',
+      'AllRequests': 'AllRequests'
       
     },
     initialize: function() {
@@ -65,6 +66,24 @@ $(function() {
    	}
    },
 
+    AllRequests:function(){
+		App.$el.children('.body').html('&nbsp')
+		var col=new App.Collections.Requests()
+	col.fetch({async:false})
+	var colView=new App.Views.RequestTable({collection:col})
+	colView.render()
+	App.$el.children('.body').append(colView.el)		
+		
+	},
+	myRequests:function(){
+	App.$el.children('.body').html('&nbsp')	
+	var col=new App.Collections.Requests({memberId:($.cookie('Member._id'))})
+	col.fetch({async:false})
+	var colView=new App.Views.RequestTable({collection:col})
+	colView.render()
+	App.$el.children('.body').append(colView.el)	
+	},
+   
     CourseReport: function(cId,cname){
           App.$el.children('.body').html("<h2> "+cname+"</h2>")
           App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/'+cId+'\'">Manage</button>')
@@ -90,7 +109,18 @@ $(function() {
     },
     LandingScreen : function(){
       $('ul.nav').html($('#template-nav-log-in').html()).hide()
-      App.$el.children('.body').html($('#template-LandingPage').html())
+var temp=$.url().attr("host").split(".")
+	temp=temp[0].substring(3)
+	console.log(temp)
+	var vars=new Object()
+	vars.host=temp
+	vars.visits="hassan chawal"
+	console.log(vars)
+	//App.$el.children('.body').html($('#template-LandingPage'), vars)
+	var template= $('#template-LandingPage').html()
+	App.$el.children('.body').html(_.template(template, vars))
+	//	App.$el.children('.body').html(template, vars)
+     // App.$el.children('.body').html($('#template-LandingPage').html())
     },
     BecomeMemberForm : function() {
       var m = new App.Models.Member()
@@ -169,6 +199,15 @@ $(function() {
     },
 
     Resources: function(database) {
+      /********************Adding Average Rating Attribute ****************/
+      /*var rlist = new App.Collections.Resources()
+      rlist.fetch({async:false})
+      rlist.each(function(m){
+            if(m.get("averageRating") == undefined){
+              m.set("averageRating",0)
+              m.save()
+            }
+      })*/
       $('ul.nav').html($("#template-nav-logged-in").html()).show()
       $('#itemsinnavbar').html($("#template-nav-logged-in").html())
       var resources = new App.Collections.Resources()
@@ -352,6 +391,17 @@ $(function() {
       })
       table.resources.fetch()
     },
+     // *********** MEMBER MEETUPS ****************************************************
+     Meetup : function(meetUpId){
+        $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        var className = "MeetUp"
+        var model = new App.Models[className]()
+        var modelForm = new App.Views[className + 'Form']({model: model})
+        App.$el.children('.body').html('<br/>')
+        App.$el.children('.body').append('<h3>Start a New Meetup</h3>')
+        App.$el.children('.body').append(modelForm.el)
+     },
+     
      
     //New Requirement of Managing the course Level 
     

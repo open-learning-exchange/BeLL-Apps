@@ -47,17 +47,21 @@ $(function() {
        flength.resourceId = that.model.get("resourceId")
        flength.fetch({async:false})
        var lengthoffeedbacks = flength.length
-       console.log(lengthoffeedbacks)
-       this.model.save()
+       console.log("lengthoffeedbacks"+ lengthoffeedbacks)
+       console.log(this.user_rating)
        this.model.on('sync',function(){
         var rmodel = new App.Models.Resource({"_id":that.model.get("resourceId")})
           rmodel.fetch({success:function(){
-                var avgr = rmodel.get("averageRating")
-                avgr = (parseInt(avgr) + parseInt(that.user_rating)) /(lengthoffeedbacks + 1)
-                rmodel.set("averageRating",parseFloat(Math.round(avgr)))
+                var avgr = rmodel.get("sum")
+                console.log(avgr)
+                avgr = parseInt(avgr) + parseInt(that.user_rating) 
+                rmodel.set("sum",parseInt(avgr))
+                rmodel.set("timesRated",lengthoffeedbacks + 1)
                 rmodel.save()
             }})
        })
+       this.model.save()
+       
     }
        
     },

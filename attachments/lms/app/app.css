@@ -184,7 +184,7 @@ input[type=checkbox]:checked + label:before {
 #browseImage{
    border: 1px solid;
     margin-left: 25%;
-    margin-top: -2%;
+    margin-top: -37px;
     position: absolute;
 }
 
@@ -227,8 +227,7 @@ margin-left:35%;
 
 }
 #browseImage{
-    margin-left: 42px;
-    position: absolute;
+    margin-left: 236px;
 }
 #f-formButton{
  margin-left: 10%;
@@ -345,4 +344,43 @@ border-bottom:1px solid black;
 .filter_star_img
 {
 	width: 20px;
+}
+#site-request{
+     background-color: #34495E;
+    border-radius: 20px;
+    color: #FFFFFF;
+    height: auto;
+    margin-left: 0%;
+    position: fixed;
+    top: 8%;
+    width: 60%;
+    visibility: hidden;
+    z-index:10;
+}
+#site-request fieldset{
+border:none;
+height:100%;
+}
+#site-request .bbf-form{
+height: 60%;
+margin-bottom: 0px;
+}
+#site-request .bbf-form .bbf-editor{
+height: 72%;
+}
+#site-request ul{
+height:100%;
+}
+#site-request li{
+height:100%;
+ color: #34495E;
+}
+#site-request [name="request"]{
+width:90%;
+height:100%;
+border-radius: 20px;
+}
+#site-request > span {
+padding-left:10px;
+font-weight: bold;
 }
