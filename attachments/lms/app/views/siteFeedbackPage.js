@@ -9,6 +9,7 @@ $(function() {
     resolved : null,
     stack : null,
     category : null,
+    urgent : null,
     applyFilters : null,
      resultArray : null,
  	 events: {
@@ -31,6 +32,7 @@ $(function() {
  	 "click #switch" : function(e) {
  	 	this.applyFilters = "1"
  	 	this.category = $('#select_category').val()
+ 	 	this.urgent = $('#select_urgent').val()
  	 	if($('#select_status').val()=="Resolved")
  	 	{
  	 		this.resolved = "1"
@@ -87,7 +89,7 @@ $(function() {
  	
    initialize: function(){
    	this.resultArray  = []
-   	this.category = "Urgent"
+   	this.category = "Bug"
    	this.resolved = "1"
    	this.applyFilters = "0"
    	this.searchText = ""
@@ -96,7 +98,7 @@ $(function() {
    
 	addAll: function(){
 		this.$el.html('<h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search in comment" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>&nbsp;<span><button class="btn btn-info" id="search_feedback">Search</button>&nbsp;<button class="btn btn-info" id="see-all">See All</button></span>&nbsp;<img id="progress_img" src="vendor/progress.gif" width="3%"></h4><br/>')
-		this.$el.append('<Select id="select_category"><option>Urgent</option><option>Bug</option><option>Question</option><option>Comment</option><option>Help</option><option>Suggestion</option></select>&nbsp;&nbsp<select id="select_status"><option>Unresolve</option><option>Resolved</option></select>&nbsp;&nbsp<button class="btn btn-info" id="switch">Apply Filters</button><br/><br/>')
+		this.$el.append('<Select id="select_category"><option>Bug</option><option>Question</option><option>Suggestion</option></select>&nbsp;&nbsp<select id="select_status"><option>Unresolve</option><option>Resolved</option></select>&nbsp;&nbsp<select id="select_urgent"><option>Normal</option><option>Urgent</option></select>&nbsp;&nbsp<button class="btn btn-info" id="switch">Apply Filters</button><br/><br/>')
 		this.$el.append('<th ><h4>Feedback</h4></th><th ><h4>Status</h4></th>')
 		$("#progress_img").hide()
 		this.collection.forEach(this.addOne,this)
@@ -105,16 +107,23 @@ $(function() {
 	
 	addOne: function(model){
 		//model.set('category','urgent')
-              if(!model.get("category")){
-                                  model.set("category","Bug")
-                        }
-              var revRow = new App.Views.siteFeedbackPageRow({model: model})
-              revRow.render()
-              this.$el.append(revRow.el)
+             if(!model.get("category"))
+             {
+              		model.set("category","Bug")
+             }
+             if(!model.get("priority")){
+             	
+                 model.set("priority",[])
+             }
+             console.log(model)
+             var revRow = new App.Views.siteFeedbackPageRow({model: model})
+             revRow.render()
+             this.$el.append(revRow.el)
 
 	},
     render: function() {
   		this.addAll()
+  		//alert('in render')
   		if(skipStack.length<=1)
  	 	{
  	 			$("#previousButton").hide()
@@ -172,8 +181,19 @@ $(function() {
     		return true
     	}
     	else if(this.resolved == result.get("Resolved") && this.category== result.get("category"))
-    	{
-    		return true
+    	{ 
+    		if(this.urgent=="Normal" && result.get("priority").length==0)
+    		{
+    			return true
+    		}
+    		else if(this.urgent=="Urgent" && result.get("priority").length>0)
+    		{
+    			return true
+    		}
+    		else
+    		{
+    			return false
+    		}
     	}
     	else
     	{
@@ -188,12 +208,17 @@ $(function() {
 	   _.each(resourceArray, function(result) {
 		if(result.get("comment") != null ){
 		 	skip++
-                        console.log(result)
 		 	
                         //alert(that.resolved+' '+result.get("Resolved") + ' ' + that.category + ' ' +  result.get("category"))
-                        if(!result.get("category")){
-                                   result.set("category","Bug")
-                        }
+            if(!result.get("category")){
+                 result.set("category","Bug")
+             }
+          //   alert(result.get("urgent").length)
+             if(!result.get("priority")){
+                 result.set("priority",[])
+             }
+         //    console.log(result)
+         //    alert(result.get("urgent").length)
 			if(result.get("comment").toLowerCase().indexOf(searchText.toLowerCase()) >=0 && that.checkFilters(result))
 			{	  
 				if(resultArray.length < limitofRecords)

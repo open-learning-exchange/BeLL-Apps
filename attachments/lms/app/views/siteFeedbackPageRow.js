@@ -29,9 +29,17 @@ $(function() {
    },
    
     render: function() {
-  
+  	
   	      var vars = this.model.toJSON()
-  	        this.$el.html(_.template(this.template, vars))
+  	      if(this.model.get("priority").length==0)
+  	      {
+                 vars.urgent ="Normal"
+         }
+         else
+         {
+         	vars.urgent = "Urgent"
+         }
+  	     this.$el.html(_.template(this.template, vars))
     }
 
   })
