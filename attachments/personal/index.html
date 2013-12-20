@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
     <link rel="stylesheet" href="app/morris.css"/>
-  <link rel="stylesheet" href="vendor/badger.css"/>
   <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
@@ -19,7 +18,6 @@
  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script> -->
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery-ui.js"></script>
-   <script src="vendor/badger.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
@@ -52,7 +50,6 @@
   <script src="app/models/Resource.js"></script>
   <script src="app/models/Group.js"></script>
   <script src="app/models/Assignment.js"></script>
-  <script src="app/models/Invitation.js"></script>
   <script src="app/models/Member.js"></script>
   <script src="app/models/Credentials.js"></script>
   <script src="app/models/Feedback.js"></script>
@@ -61,7 +58,6 @@
   <script src="app/models/CourseStep.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/Mail.js"></script>
-  <script src="app/models/StepResult.js"></script>
 	<script src="app/models/membercourseprogress.js"></script>
 
   <script src="app/models/membercourseprogress.js"></script>
@@ -71,13 +67,11 @@
   <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
-  <script src="app/collections/Invitations.js"></script>
   <script src="app/collections/NewsResources.js"></script>
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/SearchResource.js"></script>
   <script src="app/collections/Calendars.js"></script>
   <script src="app/collections/siteFeedbacks.js"></script>
-  <script src="app/collections/StepResults.js"></script>
   <script src="app/collections/membercourseprogresses.js"></script>
   <script src="app/collections/memberprogressallcourses.js"></script>
   <script src="app/collections/AllInviteMember.js"></script>
@@ -87,8 +81,6 @@
     
   
   <script src="app/views/GroupRow.js"></script>
-  <script src="app/views/NotificationTable.js"></script>
-  <script src="app/views/NotificationRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/MemberForm.js"></script>
   <script src="app/views/GroupsSpans.js"></script>
@@ -193,11 +185,14 @@ function onFocus(obj) {
 function showComposePopup()
 {
 	$('#emailCompose').popup({
+
         horizontal: 'right',
+
         vertical: 'bottom',
         background : false,
         blur : false,
         scrolllock : true
+
     });
 	//$('#emailCompose').popup('show');
 }
@@ -321,14 +316,6 @@ $(window).scroll(function () {
         <i class="fui-list"></i> Dashboard
       </a>
     </li> 
-
-	<li> 
-	<div id="badge" style="position:relative;padding:10px; ">
-      <a href="#notifications">
-        <i class="fui-chat"></i> <b>Invitations&nbsp&nbsp&nbsp</b>
-      </a>
-      </div>
-    </li>
 
      <li  style="float:right;"> 
       <a onclick = "showFeedbackForm()">
@@ -641,20 +628,14 @@ $(window).scroll(function () {
 			</table> 
 		</div>
             </div>
-            
-
   </script>
-  <script type="text/template" id="template-mail">
-<div style="margin-left:2%">	
-	<b style="color:black; font-size:25px;">Inbox
+  
+  
+   <script type="text/template" id="template-mail">
+		<b style="color:black; font-size:25px;">Inbox
 		<span class="new_mails"></span>
-		<span style="margin-left: 5%;"><input type="text" placeholder="Search Messages" style="height: 30px;width: 243px;"/>&nbsp;&nbsp;<button class="btn btn-primary" >Go</button></span>
-	</b>
-	<br/><br/>
-	<table id="inbox_mails" CELLPADDING=5 CELLSPACING=0 style="width:44%;font-size: 17px;" ></table>
-	
-	<div style="margin-left: 36%;margin-top:1%;"><button class="btn btn-primary">New Message</button></div>
-</div>
+		<span style="float:right;"><input type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" >Go</button></span>
+		</b>
 </script>
 <script type="text/template" id="template-view-mail">
 
@@ -669,22 +650,30 @@ $(window).scroll(function () {
 	</b>
 	<br/>
 </div>
+
 </script>
-   <script type="text/html" id="template-takeQuiz">
-   <p>dfjhbldfgildfhgi</p>
-   </script>
+
 
 </head>
 
 <body>
 
 <script>
+
 $(document).ready(function () {
+
     $.fn.popup.defaults.pagecontainer = '.container'
+
 });
+
 </script>
 
 <!-- Slide in -->
+
+
+
+
+
 
 
 
