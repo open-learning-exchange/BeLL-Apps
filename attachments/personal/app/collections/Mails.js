@@ -26,7 +26,7 @@ $(function() {
       return docs
     },
      
-    model: App.Models.Member
+    model: App.Models.Mail
 
 
   })

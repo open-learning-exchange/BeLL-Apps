@@ -16,7 +16,7 @@
 <!--
     DEPENDENCIES
   -->
- <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+ <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script> -->
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery-ui.js"></script>
    <script src="vendor/badger.js"></script>
@@ -645,10 +645,18 @@ $(window).scroll(function () {
 
   </script>
   <script type="text/template" id="template-mail">
-
-		<li><%=subject%></li>
+<div style="margin-left:2%">	
+	<b style="color:black; font-size:25px;">Inbox
+		<span class="new_mails"></span>
+		<span style="margin-left: 5%;"><input type="text" placeholder="Search Messages" style="height: 30px;width: 243px;"/>&nbsp;&nbsp;<button class="btn btn-primary" >Go</button></span>
+	</b>
+	<br/><br/>
+	<table id="inbox_mails" CELLPADDING=5 CELLSPACING=0 style="width:44%;font-size: 17px;" ></table>
+	
+	<div style="margin-left: 36%;margin-top:1%;"><button class="btn btn-primary">New Message</button></div>
+</div>
 		
-		<li><button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button>
+	<!--	<li><button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button>
 <div id="emailCompose" class="well">
 	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
 	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
@@ -660,7 +668,7 @@ $(window).scroll(function () {
 	</div>
 </div>
 
-	</li>
+	</li> -->
 </script>
    <script type="text/html" id="template-takeQuiz">
    <p>dfjhbldfgildfhgi</p>

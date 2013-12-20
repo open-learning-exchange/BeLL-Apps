@@ -67,6 +67,7 @@ $(function() {
 		var mailview=new App.Views.MailView({collection:mymail})
 		mailview.render()
 		App.$el.children('.body').append(mailview.el)
+		mailview.setNewMessages()
 	},
 	startUpStuff: function(){
 		this.checkLoggedIn
