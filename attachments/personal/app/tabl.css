@@ -457,5 +457,21 @@ font-weight: 900px;
 }
 #externalDiv > form {
     margin-bottom: 48px;
-
+}
+#inbox_mails{
+    font-size: 17px;
+    margin-left: 10%;
+    width: 80%;
+}
+#mailActions{
+ height: 64px;
+    margin-left: 10%;
+    overflow: hidden;
+	 width: 80%;
+}
+.mail-table {
+    height: 46px;
+    overflow: hidden;
+	 width: 80%;
+	  margin-left: 10%;
 }

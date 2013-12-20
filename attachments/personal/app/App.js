@@ -104,20 +104,7 @@ $(function() {
       }) 
      },
 
-badge: function() {
-    if($.cookie('Member._id')!=undefined){
-          	invits = new App.Collections.Invitations()
-          	invits.fetch({success: function() {
-          	if(invits.length!=0){
-      			$('#badge').badger(invits.length.toString())
-      			}
-      		else{
-      			$('#badge').badger("")
-      		}		
-      			
-      	  	}})
-          }
-    },
+
 
 
     // A special function for pulling specific documents from CouchDb to PouchDB
