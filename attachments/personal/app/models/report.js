@@ -16,10 +16,12 @@ $(function() {
       return url
     },
 
- schema: {
+    schema:
+    {
       PageUrl: 'Text',
       comment: 'TextArea',
       Resolved: 'Text',
+      category: { type: 'Select', options: ['Urgent', 'Bug' , 'Question' , 'Comment' , 'Help','Suggestion'] },
       memberLogin: 'Text',
       time: 'Text'
     }

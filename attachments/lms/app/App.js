@@ -27,6 +27,17 @@ $(function() {
 	  App.$el.children('.body').append('<br/>')
       App.$el.children('.body').append(na.el)
 	},
+        
+        renderRequest: function(kind){
+		var view=new App.Views.RequestView()
+		view.type=kind
+		view.render()
+		App.$el.children('.body').append(view.el) 
+			$('#site-request').animate({height:'302px'})
+			document.getElementById('site-request').style.visibility='visible'
+	},
+        
+        
     start: function(){
       this.$el.html(_.template(this.template))
       var loggedIn = ($.cookie('Member._id'))

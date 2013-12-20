@@ -7,10 +7,25 @@ $(function() {
     events: {
       "click #formButton": "setForm",
       "submit form" : "setFormFromEnterKey",
-"click #formButtonCancel": function(){
-	window.history.back()
-	
-}
+	  "click #formButtonCancel": function(){
+	        window.history.back()
+        },
+        "click #deactive" : function(e){
+		  e.preventDefault()
+ 		  var that = this
+          this.model.on('sync', function() {
+          location.reload(); 
+        })
+		this.model.save( {status : "deactive"}, {success :function(){}});
+	  },
+      "click #active" : function(e){
+		  e.preventDefault()
+          var that = this
+          this.model.on('sync', function() {
+            location.reload(); 
+        })
+        	this.model.save( {status : "active"}, {success :function(){/*this.model.fetch({async:false})*/}});
+		},
     },
     
 	
@@ -19,7 +34,6 @@ $(function() {
       // create the form
       this.form = new Backbone.Form({ model: this.model })
       var buttonText=""
-      
       this.$el.append(this.form.render().el)
       this.form.fields['status'].$el.hide()
       this.form.fields['yearsOfTeaching'].$el.hide()
@@ -67,7 +81,14 @@ $(function() {
         this.$el.append($img)
         this.$el.append($upload)
         this.$el.append($button)
-        var attchmentURL = '/members/' + this.model.id + '/' 
+		if(this.model.id!=undefined){
+			if(this.model.get("status") == "active"){
+				this.$el.append('<a class="btn btn-danger" id="deactive" style="margin-left:22%; margin-top:-7.8%;" href="#">Resign</a>')
+			}else{
+				this.$el.append('<a class="btn btn-success" id="active" style="margin-left:22%; margin-top:-7.8%;" href="#">Reinstate</a>')
+			}
+        }
+		var attchmentURL = '/members/' + this.model.id + '/' 
         if(typeof this.model.get('_attachments') !== 'undefined'){
    	      attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
               document.getElementById("memberImage").src=attchmentURL
