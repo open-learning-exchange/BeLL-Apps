@@ -114,7 +114,16 @@ $(function() {
                 if($('input[type="file"]').val()) {
 	              if(isEdit != undefined){
 				if(previousTitle != newTitle){
-				      var new_res = new App.Models.Resource()
+				      var titleMatch = false
+                                      var allres = new App.Collections.Resources()
+                                      allres.fetch({async:false})
+                                      allres.each(function(m){
+                                          if(newTitle == m.get("title")){
+                                            titleMatch = true
+                                          }
+                                      })
+                                      if(!titleMatch){
+                                      var new_res = new App.Models.Resource()
                                       new_res.set("title", newTitle)
                                       new_res.set("description",that.model.get("description"))
                                       new_res.set("articleDate",that.model.get("articleDate"))
@@ -133,6 +142,7 @@ $(function() {
                                       new_res.set("sum",0)
                                       new_res.set("timesRated",0)
                                       new_res.save()
+                                      console.log("MODEL UPDATION")
                                       new_res.on('sync',function(){
                                             new_res.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
                                             new_res.on('savedAttachment', function() {
@@ -143,6 +153,10 @@ $(function() {
 				                }, new_res)
                                           })
 						}
+                                        else{
+                                          alert("Resource title Already exist")
+                                        }
+                                        }
 					else{
 						alert("Cannot update model due to identical title")
 					 }

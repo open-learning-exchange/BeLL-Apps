@@ -8,7 +8,7 @@ $(function() {
 
     render: function() {
       var dashboard = this
-      this.vars.imgURL = "img/OLE_Home_Resized_Header.png"
+      this.vars.imgURL = "img/header_slice.png"
       this.$el.html(_.template(this.template, this.vars))
       groups = new App.Collections.MemberGroups()
       groups.memberId = $.cookie('Member._id')
@@ -35,8 +35,21 @@ $(function() {
    			attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
    			document.getElementById("imgurl").src=attchmentURL
  		}
-
-        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'">[Edit]</a>')
+		var temp=$.url().data.attr.host.split(".")
+			temp=temp[0].substring(3)
+			if(temp==""){
+				temp="local "	
+			}
+		    temp=temp+" Community Bell"
+		$('.bellLocation').html(temp)
+			if(parseInt(member.get('visits'))==0){
+				temp="Error!!"
+			}
+			else{
+				temp=member.get('visits')+ " visits"
+			}
+		//	$('.visits').html(temp)
+        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'"><button class="btn fui-gear"></button></a>')
       })
       member.fetch()
 

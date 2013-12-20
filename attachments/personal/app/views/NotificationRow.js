@@ -21,8 +21,8 @@ $(function() {
     			        memberlist.push($.cookie('Member._id'))
     				gmodel.set("members",memberlist)
     				gmodel.save({},{
-    					success: function(){
-    						
+				        success: function(){
+    						that.AddScheduleToCalender()
     						var memprogress = new App.Models.membercourseprogress()
 						var csteps = new App.Collections.coursesteps();
 						var stepsids = new Array()
@@ -86,6 +86,16 @@ $(function() {
     			this.remove()
     	 }
     	    },
+    AddScheduleToCalender : function(courseId)
+    {
+	var cs = new App.Models.CourseSchedule()
+	cs.coursId = courseId
+	cs.fetch({success:function(){
+		if(cs.get("type") == "Monthly"){
+		   //var 
+		}
+	}})
+    },
     initialize : function()
     {
     },

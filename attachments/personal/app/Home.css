@@ -5,23 +5,29 @@
     width: 950px;
 	overflow: hidden;
 }
-#page-header
-{
-	box-shadow: 0 2px 2px #888888;
-    height: 128px;
-    width: 100%;
+.imageData {
+    width: 112px;
 }
+.btn.fui-gear {
+    height: 40px;
 
+    padding: 0;
+
+    width: 40px;
+}
 #itemsinnavbar{
  font-size: 17px;
     margin: 0;
     padding-top: 8px;
+margin: 0 0 0 89px;
 }
-
-#header-image
-{
-	 height: inherit;
-	width:100%;
+.header-table {
+    width: 100%;
+ font-size: 20px;
+background-color:#E1E1E1;
+}
+.right {
+    text-align: right;
 }
 #page-body
 {
@@ -31,7 +37,11 @@
 {
 border: 5px solid black;
 }
-
+.name{
+	 font-size: 30px;
+	 padding-top: 12px;
+	font-weight: 900;
+}
 .stu-nav-table
 {
 padding:5 5 0 5;	
@@ -526,7 +536,7 @@ text-align:right;
 	margin-top: -7%;
 }
 .navbar .nav {
-    width: 94%;
+    width: 85%;
 }
 
 #site-feedback{
