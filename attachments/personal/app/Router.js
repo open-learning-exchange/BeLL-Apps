@@ -18,7 +18,6 @@ $(function() {
       'newsfeed/:authorTitle'         : 'Article_List',
       'search-bell'		      : 'SearchBell',
       'search-result'		      :'SearchResult',
-		'cloudant'		:'cloudant',
       'member/add'                    : 'MemberForm',
        'member/edit/:mid'              : 'MemberForm',
       'addResource/:rid/:title/:revid'                  : 'AddResourceToShelf',
@@ -29,7 +28,6 @@ $(function() {
       'calendar-event/delete/:eid'			: 'DeleteEvent',
       'addEvent'		      : 'addEvent',
       'report/:Url'                     : 'report',
-      'notifications'                     : 'invitations',
       'siteFeedback'	              : 'viewAllFeedback',
       'courses/barchart'	      : 'CoursesBarChart',
       'mail'					  : 'email',
@@ -39,34 +37,19 @@ $(function() {
     initialize: function() {
 	this.bind("all",this.startUpStuff)
 	},
-	cloudant: function(){
-		var a=new App.Collections.Invitations()
-		a.fetch({async:false})
-		a.each(function(modl){
-			var invite=modl.toJSON()
-		    var mail=new App.Models.Mail()
-		    mail.set("senderId",invite.senderId)
-		    mail.set("receiverId",invite.memberId)	
-		    mail.set("subject","Course Invitation")
-		    mail.set("body"," ")
-		    mail.set("type","invite")
-		    mail.set("subtype","course")
-			mail.set("status","0")
-			var now = new Date();
-			now.getDate()
-		    mail.set("sentDate",now.toString()) 
-		    mail.set("entityId",invite.entityId)
-		    mail.save()  	
-		})
-	},
 	email: function()
 	{
 		App.$el.children('.body').html('&nbsp')
-		var mymail=new App.Collections.Mails()
+		App.$el.children('.body').append('<div id="mailActions" ></div>')
+		App.$el.children('.body').append('<table id="inbox_mails" ></table>')
+		var mymail=new App.Collections.Mails({skip:0})
 		mymail.fetch({async:false})
 		var mailview=new App.Views.MailView({collection:mymail})
 		mailview.render()
 		App.$el.children('.body').append(mailview.el)
+		  
+      mailview.manageButtons()
+		
 	},
 	startUpStuff: function(){
 		this.checkLoggedIn
@@ -74,51 +57,8 @@ $(function() {
 		   $('div.takeQuizDiv').hide()
 		 $('#externalDiv').hide()
           this.bind( "all", this.checkLoggedIn)
-          this.bind( "all", this.renderNav )
-
-        
+          this.bind( "all", this.renderNav )  
 	},
-	cloudant: function(){
-		var a=new App.Collections.Groups()
-		a.fetch({async:false})
-
-		a.each(function(b){
-			if(b.toJSON().members!=null){	
-					var courseid=b.toJSON()._id
-					var mmbrs=b.toJSON().members
-					for(var index=0;index<(mmbrs.length);index++)
-						{
-							var stepIds=new Array()
-							var stepst=new Array()
-							var stepr=new Array()
-							var steps=new App.Collections.coursesteps()
-							steps.courseId=courseid
-							steps.fetch({async:false})
-							steps.each(function(s){
-								stepIds.push(s.toJSON()._id)
-								stepst.push('0')
-								stepr.push('0')
-							})
-							console.log(mmbrs[index])
-							console.log(courseid)
-							console.log(stepIds)
-							var mcp=new App.Models.membercourseprogress()
-							mcp.set('memberId',mmbrs[index])
-							mcp.set('courseId',courseid)
-							mcp.set('stepsIds',stepIds)
-							mcp.set('stepsStatus',stepst)
-							mcp.set('stepsResult',stepr)
-							mcp.save()
-							mcp.fetch({async:false})
-							console.log(mcp.toJSON())
-							
-						}
-					
-			}
-
-		})
-	},
-
 	
 	   checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
@@ -151,7 +91,7 @@ $(function() {
      		var na=new App.Views.navBarView({isLoggedIn:'0'})
      	}
      	 $('div.navbar-collapse').html(na.el)
-     	       App.badge()
+     	       
     },
 
 
@@ -168,17 +108,7 @@ $(function() {
 		App.$el.children('.body').append(chart.el) 
 	},
 
-    invitations: function(){
-    	App.$el.children('.body').html('&nbsp')
-    	App.$el.children('.body').append('<h3 class="hh3">Invitations<h3>')
-	invits = new App.Collections.Invitations()
-        invits.fetch({async:false})
-          $('#olelogo').remove()
-         var inv= new App.Views.NotificationTable({collection: invits})
-          inv.render()
-          App.$el.children('.body').append(inv.el) 
-    },
-    
+  
     MemberForm: function(memberId) {
       this.modelForm('Member', 'Member', memberId, 'login')
     },
