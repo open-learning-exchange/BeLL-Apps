@@ -8,6 +8,7 @@ $(function() {
    	newMessage : null,
    	modelNo : null,
      template : _.template($("#template-mail").html()),
+     templateMailView : _.template($("#template-view-mail").html()),
     initialize: function(){
     	this.newMessage = 0
     	this.modelNo = 0
@@ -17,7 +18,12 @@ $(function() {
     events: {
  	 "click .deleteBtn" : function(e) {
  	 	var modelNo = e.currentTarget.value
- 	 	var model = this.collection.at(modelNo)
+ 	 	var selectedModel = this.collection.at(modelNo)
+ 	 	var model = new App.Models.Mail()
+ 	 	model.id = selectedModel.get("id")
+ 	 //	alert(model.id)
+ 	 	model.fetch({async:false})
+ 	 //	alert(model.get("_id"))
  	 	model.destroy()
  	 	window.location.reload()
  	 	
@@ -28,7 +34,15 @@ $(function() {
  	 	var model = this.collection.at(modelNo)
  	 	model.set("status","1")
  	 	model.save()
- 	 	window.location.reload()
+ 	 	this.vars=model.toJSON()
+ 	 	var member = new App.Models.Member()
+      	member.id = model.get('senderId')
+      	member.fetch({async:false})
+      	this.vars.firstName = member.get('firstName')
+      	this.vars.lastName = member.get('lastName')
+      	this.vars.modelNo = modelNo
+ 	 	this.$el.html(this.templateMailView(this.vars))
+ 	 	//window.location.reload()
  	 }
     },
     addOne: function(model){
@@ -37,7 +51,7 @@ $(function() {
      // member.set("id",model.get('senderId'))
       member.id = model.get('senderId')
       member.fetch({async:false})
-      console.log(member)
+      //console.log(member)
       if(vars.subject){
       	var row = ""
       		if(vars.status==0)

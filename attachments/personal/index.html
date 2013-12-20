@@ -655,20 +655,20 @@ $(window).scroll(function () {
 	
 	<div style="margin-left: 36%;margin-top:1%;"><button class="btn btn-primary">New Message</button></div>
 </div>
-		
-	<!--	<li><button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button>
-<div id="emailCompose" class="well">
-	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
-	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
-	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
-	<div class="mailbody">
-		<textarea id="mailbodytexarea"></textarea><br/>
-		<button class="emailCompose_close btn btn-default">Close</button>
-		<button class="emailCompose_close btn btn-primary">Send</button>
-	</div>
-</div>
+</script>
+<script type="text/template" id="template-view-mail">
 
-	</li> -->
+<div style="margin-left:2%">	
+	<b style="color:black; font-size:25px;">Message&nbsp;<%= subject %>
+		<span style="margin-left: 5%;"><button class="btn deleteBtn btn-primary" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" >Reply</button></span>
+		<br/>
+		<div style="width: 40%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
+		<div style="width: 38%;height: 41px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
+		<div style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 38%;height: 231px;"><%=body%></div>
+		</div>
+	</b>
+	<br/>
+</div>
 </script>
    <script type="text/html" id="template-takeQuiz">
    <p>dfjhbldfgildfhgi</p>
@@ -695,6 +695,22 @@ $(document).ready(function () {
 </body>
 
 
+
+
+<!-- popup window for compose message
+	<button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button>
+<div id="emailCompose" class="well">
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_close btn btn-primary">Send</button>
+	</div>
+</div>
+
+	</li> -->
   <!-- 
     START THE APP
   -->
