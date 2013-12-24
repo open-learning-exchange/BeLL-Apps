@@ -9,6 +9,11 @@
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
   <link href="vendor/morris.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
+  <link rel="stylesheet" href="vendor/chosen.css"/>
+  <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
+  <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
+  <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
+  
   
 
   <!--
@@ -35,7 +40,10 @@
   <script src="vendor/jquery.raty.js"></script>
   <script src="vendor/raphael.js"></script>
   <script src="vendor/morris.js"></script>
-  
+  <script src="vendor/jquery.timepicker.js"></script>
+  <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
+  <script src="vendor/jquery-ui.multidatespicker.js"></script>
+
 
   <!--
     App
@@ -59,6 +67,7 @@
   <script src="app/models/membercourseprogress.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/request.js"></script>
+  <script src="app/views/CourseSchedule.js"></script>
   
     
   <script src="app/collections/Groups.js"></script>
@@ -122,6 +131,8 @@
     <script src="app/views/RequestView.js"></script>
     <script src="app/views/RequestTable.js"></script>
    <script src="app/views/RequestRow.js"></script>
+  <!-- Coourse Scheduling -->
+  <script src="app/views/CourseScheduleForm.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   <script>
@@ -740,6 +751,86 @@
                     <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
                     <button class="btn btn-hg btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
                     <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Home</button>
+</div>
+</script>
+<script type="text/html" id="template-CourseSchedule">
+    <div id="scheduleDiv">
+    <div id="durationDiv">
+          <table>
+          <tr>
+            <td>
+                  Time
+            </td>
+            <td>
+                  <input type="text" id="startTime" placeholder="Start"/>
+            </td>
+            <td>
+                To
+            </td>
+            <td>
+                  <input type="text" id="endTime"  placeholder="End"/>
+            </td>
+          </tr>
+          </table>
+    </div>
+      <div id="dateDiv">
+          <table>
+          <tr>
+            <td>
+                  Duration
+            </td>
+            <td>
+                  <input type="text" id="startDate" placeholder="Start"/>
+            </td>
+            <td>
+                To
+            </td>
+            <td>
+                  <input type="text" id="endDate"  placeholder="End"/>
+            </td>
+          </tr>
+          </table>
+    </div>
+    <div id="locationDiv">
+    <table>
+          <tr>
+            <td>
+                 Location
+            </td>
+             <td>
+                  <input type="text" id="location">
+            </td>
+          </tr>
+      </table>
+  </div>
+          <div id="TypeDiv">
+          <table>
+          <tr>
+            <td>
+                  Repeat
+            </td>
+            <td>
+                  <select id="type">
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                  </select>
+            </td>
+            <td>
+            <input type="text" id="typeView">
+            <select multiple="multiple" class="days" style="width:200px; height:134px;">
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+          </select>  
+            </td>
+          </tr>
+          </table>
+    </div>
+    <button id="saveSchedule" class="btn btn-success">Save Schedule</button>
 </div>
 </script>
 <script type="text/html" id="template-SearchCourses">

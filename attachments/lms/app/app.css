@@ -391,3 +391,52 @@ font-weight: bold;
 	margin-left: 43%;
 
 }
+
+
+/* course Schedule */
+#coursescheduleButton {
+    margin-left: 321px;
+    margin-top: -917px;
+}
+
+#durationDiv, #TypeDiv{
+  background-color: #E8E8E8;
+  margin-bottom: 2px;
+  padding-left:36px;
+  padding-top: 11px;
+}
+#durationDiv{
+  border-radius:  17px 17px 0 0;
+}
+#TypeDiv {
+     border-radius: 0 0 20px 20px;
+    height: 190px;
+    padding-left: 19px;
+}
+#dateDiv {
+     padding-left: 9px;
+    background-color:#F7F7F7;
+    padding-top: 11px;
+}
+#scheduletitle{
+  font-size: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+#durationDiv td,#dateDiv td,#TypeDiv td{
+    padding-left: 34px;
+}
+#typeView{
+   margin-left: 51px;
+}
+#locationDiv{
+  background-color: #E8E8E8;
+  padding-left:10px;
+  padding-top: 11px;
+}
+#locationDiv td{
+  padding-left: 34px;
+}
+#TypeDiv{
+  background-color:#F7F7F7;
+}
