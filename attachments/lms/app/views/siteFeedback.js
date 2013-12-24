@@ -16,6 +16,19 @@ $(function() {
 		"click #ViewAllButton":"gotoRoute"
     },
 gotoRoute: function(){
+var temp=Backbone.history.location.href
+	temp=temp.split('#')
+	var temp2=temp[1].split('/')
+	var ul="LMS:"+temp2[0]
+	for(var i=1;i<temp2.length;i++){
+		if(temp2[i].length!=32){
+			ul=ul+"/"+temp2[i]
+		}
+		else{
+			i=temp.length
+		}
+	}
+		url=ul
  Backbone.history.navigate('siteFeedback', {trigger: true})
 },
  cancelform: function() {

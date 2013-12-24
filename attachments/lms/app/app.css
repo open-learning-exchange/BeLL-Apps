@@ -440,3 +440,33 @@ font-weight: bold;
 #TypeDiv{
   background-color:#F7F7F7;
 }
+#debug {
+     background-color: #808080;
+    border-radius: 20px;
+    margin-left: 10%;
+    max-height: 95%;
+    position: fixed;
+    top: 30px;
+    width: 80%;
+}
+#comment-feedback {
+    margin: 5px;
+}
+#comments {
+  background-color: #B6B6B6;
+    border-radius: 20px;
+    margin: 10px;
+    max-height: 275px;
+    overflow-y: scroll;
+    padding: 23px;;
+}
+#r-formButton{
+margin-left: 33%;
+}
+#tile {
+    background-color: #34495E;
+    border-radius: 10px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    padding-left: 5px;
+}

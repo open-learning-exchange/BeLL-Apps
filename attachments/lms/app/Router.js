@@ -53,6 +53,7 @@ $(function() {
     },
     routeStartupTasks: function(){
 	$('#invitationdiv').hide()
+	 $('#debug').hide()
     },
    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
