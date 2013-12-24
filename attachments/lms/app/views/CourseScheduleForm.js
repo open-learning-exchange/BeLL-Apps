@@ -5,7 +5,6 @@ $(function() {
   events : {
     "click #addcourseschedule" : function(e){
        
-       
        /* var cs = new App.Models.CourseSchedule()
         cs.set("courseId",this.courseId)
         cs.set("startTime",$("#startTime").val())
