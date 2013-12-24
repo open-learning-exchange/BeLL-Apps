@@ -44,7 +44,8 @@ $(function() {
       'siteFeedback'					: 'viewAllFeedback',
       'course/report/:groupId/:groupName'          : 'CourseReport',
         'myRequests': 'myRequests',
-      'AllRequests': 'AllRequests'
+      'AllRequests': 'AllRequests',
+      'replicateResources': 'Replicate'
       
     },
     initialize: function() {
@@ -215,6 +216,7 @@ var temp=$.url().attr("host").split(".")
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
         resourcesTableView.render()
         App.$el.children('.body').html('<h1>Resources</h1>')
+        App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources</button>')
         App.$el.children('.body').append(resourcesTableView.el)
       }})
     },
@@ -948,7 +950,31 @@ var temp=$.url().attr("host").split(".")
       App.trigger('CompileManifestForWeeksAssignments:go')
 
     },
-
+    Replicate : function(){
+      var temp=$.url().attr("host").split(".")
+      var communities= new App.Collections.Communities()
+      communities.fetch({async:false})
+      communities.each(function(m){
+              if(m.get("name")!="olelocal" && m.get("name")!=temp[0]){
+              console.log(m.get("name")) 
+              $.ajax({
+               headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8' 
+               },  
+              type: 'POST',
+              url: '/_replicate',
+              dataType: 'json',
+              data: JSON.stringify({"source": "resources", "target": "https://"+m.get("name")+":oleoleole@"+m.get("name")+".cloudant.com/resources"}),
+              success: function(response) {
+                  console.log(response) 
+              },
+              async: false
+      }); 
+              }
+      })
+      
+    },
     CompileManifest: function() {
       // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()

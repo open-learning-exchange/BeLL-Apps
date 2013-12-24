@@ -2,7 +2,7 @@ $(function() {
 
   App.Collections.MemberGroups = Backbone.Collection.extend({
 
-    url: App.Server + '/groups/_all_docs?include_docs=true',
+    url: App.Server + '/groups/_design/bell/_view/GetCourses?key="'+ $.cookie('Member._id')+'"&include_docs=true',
     
 
     parse: function(results) {
@@ -10,12 +10,8 @@ $(function() {
       var memberId = this.memberId
       var i 
       for(i = 0 ; i< results.rows.length ; i++)
-      {   
-         if(results.rows[i].doc.members){
-         if(results.rows[i].doc.members.indexOf(memberId) != -1) {
+      {    console.log(results.rows[i].key)
           m.push(results.rows[i].doc)
-        }
-      }
       }
       return m
     },

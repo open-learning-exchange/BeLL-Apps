@@ -18,6 +18,8 @@ $(function() {
     },
     CourseSchedule : function(){
           var form = new App.Views.CourseScheduleForm()
+          console.log(this.model)
+          form.courseId = this.model.id
           form.render()
           App.$el.children('.body').html('<p id="scheduletitle">'+this.model.get("name")+'|Schedule</p>')
           App.$el.children('.body').append(form.el)
@@ -27,7 +29,6 @@ $(function() {
           $('#endDate').datepicker()
           $('#typeView').hide()
           $('.days').hide()
-          
           $('#type').on('change', function() {
                 if(this.value == "Monthly")
                 {
@@ -93,7 +94,7 @@ $(function() {
         $('.field-backgroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
         $('.field-foregroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
         // give the form a submit button
-        var $sbutton = $('<a class="group btn btn-success" id="sformButton">Save</button>')
+        var $sbutton = $('<a class="group btn btn-success" id="sformButton">Continue</button>')
         var $ubutton = $('<a class="group btn btn-success" style="margin-left:-606px;" id="uformButton">Update</button>')
         var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/'+groupForm.model.get("_id")+'/'+groupForm.model.get("name")+'"> <i class="icon-signal"></i> Progress</a>')
         var $scbutton = $('<a class="btn btn-success" id="coursescheduleButton">Schedule</button>')

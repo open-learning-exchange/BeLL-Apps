@@ -67,8 +67,8 @@
   <script src="app/models/membercourseprogress.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/request.js"></script>
-  <script src="app/views/CourseSchedule.js"></script>
-  
+  <script src="app/models/Community.js"></script>
+  <script src="app/models/CourseSchedule.js"></script>
     
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
@@ -84,7 +84,11 @@
   <script src="app/collections/StepResultsbyCourse.js"></script>
   <script src="app/collections/siteFeedbacks.js"></script>
   <script src="app/collections/leadermembers.js"></script>
-   <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/Communities.js"></script>
+  <script src="app/collections/EntityInvitation.js"></script>
+  
+   
   
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -133,6 +137,7 @@
    <script src="app/views/RequestRow.js"></script>
   <!-- Coourse Scheduling -->
   <script src="app/views/CourseScheduleForm.js"></script>
+  <script src="app/views/CourseSchedule.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   <script>
@@ -580,11 +585,11 @@
       </a>
     </td> -->
 
- <!--   <td>
+    <td>
       <a class='destroy btn' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
-    </td> -->
+    </td> 
   </script>
   
   <script type="text/html" id="template-LevelRow">
@@ -817,7 +822,7 @@
             </td>
             <td>
             <input type="text" id="typeView">
-            <select multiple="multiple" class="days" style="width:200px; height:134px;">
+            <select multiple="multiple" class="days" style="width:200px; height:134px;" id="weekDays">
               <option value="Monday">Monday</option>
               <option value="Tuesday">Tuesday</option>
               <option value="Wednesday">Wednesday</option>

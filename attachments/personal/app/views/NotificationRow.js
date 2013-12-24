@@ -8,7 +8,8 @@ $(function() {
     events:{
     	'click #acceptNotification': function(){
 	        console.log(this.model)
-    		var groupId = this.model.get("entityId")
+		this.AddScheduleToCalender()
+    		/*var groupId = this.model.get("entityId")
     		var gmodel = new App.Models.Group({_id : groupId})
     		gmodel.fetch({async:false})
     		var that = this
@@ -22,7 +23,7 @@ $(function() {
     				gmodel.set("members",memberlist)
     				gmodel.save({},{
 				        success: function(){
-    						that.AddScheduleToCalender()
+    						//that.AddScheduleToCalender()
     						var memprogress = new App.Models.membercourseprogress()
 						var csteps = new App.Collections.coursesteps();
 						var stepsids = new Array()
@@ -80,7 +81,7 @@ $(function() {
     		else{
     			alert("Error In Fetching Group")
     		}
-    		
+    		*/
     	},
     	'click #rejectNotification': function(){this.model.destroy()
     			this.remove()
@@ -88,11 +89,19 @@ $(function() {
     	    },
     AddScheduleToCalender : function(courseId)
     {
+	alert("HERE")
 	var cs = new App.Models.CourseSchedule()
 	cs.coursId = courseId
 	cs.fetch({success:function(){
-		if(cs.get("type") == "Monthly"){
-		   //var 
+		if(cs.get("type") == "Daily"){
+			var start = new Date(cs.get("startDate"))
+			var end = new Date(cs.get("endDate"))
+			var datearray = new Array()
+			while(start <= end){
+			    console.log(start)
+			    datearray.push(new Date(start))
+			    start = start.addDays(1)
+			}
 		}
 	}})
     },

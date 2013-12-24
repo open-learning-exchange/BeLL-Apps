@@ -48,7 +48,7 @@ $(function() {
 			else{
 				temp=member.get('visits')+ " visits"
 			}
-		//	$('.visits').html(temp)
+		        $('.visits').html(temp)
         $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'"><button class="btn fui-gear"></button></a>')
       })
       member.fetch()

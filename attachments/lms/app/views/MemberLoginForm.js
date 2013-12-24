@@ -33,6 +33,12 @@ $(function() {
       if(response.rows[0]){
         if(response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
           if(response.rows[0].doc.status == "active"){
+          //member visists
+          var memvisits = new App.Models.Member({_id:response.rows[0].doc._id })
+          memvisits.fetch({async:false})
+          memvisits.set("visits",memvisits.get("visits") + 1)
+          memvisits.save()
+          //-----------------------
           $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
           $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
           $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
