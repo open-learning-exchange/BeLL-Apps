@@ -7,8 +7,17 @@ $(function() {
     authorName : null,
    events: {
       "click #resolveButton": "resolve",
+      "click #commentButton": "comment"
     },
- 	
+ 	comment: function(e){
+ 	console.log(e.target.attributes[0].nodeValue)
+ 	var coll=new App.Collections.reportsComment()
+ 	coll.feedbackId=e.target.attributes[0].nodeValue
+ 	coll.fetch({async:false})
+ 	 var viw= new App.Views.addComment({collection:coll,commentId:e.target.attributes[0].nodeValue})
+ 	 viw.render()
+ 	$('#debug').append(viw.el)
+ 	},
  	resolve: function(e){
  		console.log(e)
  		e.preventDefault()
@@ -25,7 +34,6 @@ $(function() {
   else{
   	this.template=this.template1
   }
-   
    },
    
     render: function() {

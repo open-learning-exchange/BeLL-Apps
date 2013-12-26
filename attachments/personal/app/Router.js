@@ -40,15 +40,16 @@ $(function() {
 	email: function()
 	{
 		App.$el.children('.body').html('&nbsp')
-		App.$el.children('.body').append('<div id="mailActions" ></div>')
-		App.$el.children('.body').append('<table id="inbox_mails" ></table>')
+		//App.$el.children('.body').append('<div id="mailActions" ></div>')
+		//App.$el.children('.body').append('<table id="inbox_mails" ></table>')
 		var mymail=new App.Collections.Mails({skip:0})
 		mymail.fetch({async:false})
 		var mailview=new App.Views.MailView({collection:mymail})
 		mailview.render()
 		App.$el.children('.body').append(mailview.el)
-		  
-      mailview.manageButtons()
+		skipStack.push(skip)
+		mailview.fetchRecords()
+      //mailview.manageButtons()
 		
 	},
 	startUpStuff: function(){
@@ -58,6 +59,9 @@ $(function() {
 		 $('#externalDiv').hide()
           this.bind( "all", this.checkLoggedIn)
           this.bind( "all", this.renderNav )  
+          var a= new App.Collections.MailUnopened({receiverId:$.cookie('Member._id')})
+          a.fetch({async:false})
+          console.log(a)
 	},
 	
 	   checkLoggedIn: function(){
