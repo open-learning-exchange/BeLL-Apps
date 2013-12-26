@@ -190,15 +190,21 @@ input[type=checkbox]:checked + label:before {
 
 #site-feedback{
      background-color: #34495E;
-    border-radius: 0px 0px 20px 20px;
+    border-radius:20px;
     color: #FFFFFF;
     height: 0px;
     margin-left: 0%;
     position: absolute;
-    top: 8%;
+    top: 42%;
     width: 60%;
     visibility: hidden;
     z-index:10;
+}
+#site-feedback .field-comment,#site-feedback .field-priority{
+ color: #34495E;
+}
+#site-feedback .bbf-checkboxes label{
+color:white;
 }
 #site-feedback fieldset{
 border:none;

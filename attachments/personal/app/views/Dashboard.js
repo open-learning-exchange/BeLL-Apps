@@ -49,7 +49,7 @@ $(function() {
 				temp=member.get('visits')+ " visits"
 			}
 		        $('.visits').html(temp)
-        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'"><button class="btn fui-gear"></button></a>')
+        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'&nbsp;<a href="#member/edit/'+$.cookie('Member._id')+'"><i class="fui-gear"></i></a>')
       })
       member.fetch()
 

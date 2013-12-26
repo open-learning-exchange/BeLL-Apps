@@ -66,7 +66,7 @@ var temp=Backbone.history.location.href
         this.form.fields['Resolved'].$el.hide()
         this.form.fields['memberLogin'].$el.hide()
         this.form.fields['time'].$el.hide()
-         var $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">Cancel</button><button class="btn btn-hg btn-info" id="ViewAllButton">View All</button><button class="btn btn-hg btn-primary" id="formButton">Submit</button></div>')
+         var $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">Cancel</button><button class="btn btn-hg btn-info" id="ViewAllButton">View</button><button class="btn btn-hg btn-primary" id="formButton">Submit</button></div>')
         this.$el.append($button)
 
     }

@@ -59,6 +59,9 @@ $(function() {
 		 $('#externalDiv').hide()
           this.bind( "all", this.checkLoggedIn)
           this.bind( "all", this.renderNav )  
+          var a= new App.Collections.MailUnopened({receiverId:$.cookie('Member._id')})
+          a.fetch({async:false})
+          console.log(a)
 	},
 	
 	   checkLoggedIn: function(){

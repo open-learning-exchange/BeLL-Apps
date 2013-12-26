@@ -15,7 +15,7 @@
 <!--
     DEPENDENCIES
   -->
- <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script> -->
+  <script src="app/raphael.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery-ui.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
@@ -76,6 +76,7 @@
   <script src="app/collections/memberprogressallcourses.js"></script>
   <script src="app/collections/AllInviteMember.js"></script>
   <script src="app/collections/Mails.js"></script>
+  <script src="app/collections/MailUnopened.js"></script>
   
 
     
@@ -357,7 +358,7 @@ $(window).scroll(function () {
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
       <a href="#dashboard">
-        <i class="fui-list"></i> Dashboard
+      Dashboard
       </a>
     </li> 
 
@@ -367,11 +368,7 @@ $(window).scroll(function () {
       </a>
     </li>
 
-     <li  style="float:right;"> 
-      <a onclick = "showFeedbackForm()">
-        <i class="fui-cmd"></i> Feedback
-      </a>
-    </li>
+    
 	<li> 
       <a href="#">
        Meetups
@@ -382,7 +379,12 @@ $(window).scroll(function () {
          Community
       </a>
     </li>
-    
+     <li  > 
+      <a onclick = "showFeedbackForm()">
+        Feedback
+
+      </a>
+    </li>
   </script>
 
   <script type="text/template" id="template-nav-log-in"> 
@@ -398,9 +400,9 @@ $(window).scroll(function () {
       </a>
     </li>
     
-    <li  style="float:right;"> 
+    <li> 
       <a onclick = "showFeedbackForm()">
-        <i class="fui-cmd"></i> Feedback
+        Feedback
       </a>
     </li>
     
@@ -615,8 +617,8 @@ $(window).scroll(function () {
 					<div class="name"></div>
 			 </td>
 			 <td class="right">	
-					<div class="visits">  </div>
 					<div class="now" ></div>
+			 		<div class="visits">  </div>
 			 </td>	
 			</tr>
 		</table>	
@@ -692,6 +694,7 @@ $(window).scroll(function () {
 		
 		<!-- popup window for compose message -->
 <div id="emailCompose" class="well" style="display: none;">
+
 	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
 	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
 	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
@@ -700,6 +703,7 @@ $(window).scroll(function () {
 		<button class="emailCompose_close btn btn-default">Close</button>
 		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
 	</div>
+
 </div>
 
 	
@@ -721,6 +725,7 @@ $(window).scroll(function () {
 	<br/>
 </div>
 <div id="emailCompose" class="well" style="display: none;">
+
 	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
 	<div class="mailrecipients"><input type="text" value="<%= login %>" placeholder="Recipients" id="recipients"/></div>
 	<div class="mailsubject"><input type="text" value="Re: <%= subject %>" placeholder="Subject" id="subject" /></div>
@@ -729,6 +734,7 @@ $(window).scroll(function () {
 		<button class="emailCompose_close btn btn-default">Close</button>
 		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
 	</div>
+
 </div>
 </script>
 
@@ -759,6 +765,7 @@ $(document).ready(function () {
 <!-- popup window for compose message
 	<button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button>
 <div id="emailCompose" class="well">
+
 	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
 	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
 	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
@@ -767,6 +774,7 @@ $(document).ready(function () {
 		<button class="emailCompose_close btn btn-default">Close</button>
 		<button class="emailCompose_close btn btn-primary">Send</button>
 	</div>
+
 </div>
 
 	</li> -->
