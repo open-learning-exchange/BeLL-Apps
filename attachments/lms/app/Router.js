@@ -54,6 +54,7 @@ $(function() {
     },
     routeStartupTasks: function(){
 	$('#invitationdiv').hide()
+	 $('#debug').hide()
     },
    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
@@ -216,7 +217,7 @@ var temp=$.url().attr("host").split(".")
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
         resourcesTableView.render()
         App.$el.children('.body').html('<h1>Resources</h1>')
-        App.$el.children('.body').append('<button class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources</button>')
+        App.$el.children('.body').append('<button style="margin:-80px 0 0 250px" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to National Bell</button>')
         App.$el.children('.body').append(resourcesTableView.el)
       }})
     },
@@ -232,6 +233,7 @@ var temp=$.url().attr("host").split(".")
           feedbackTable.render()
           App.$el.children('.body').html('<h1>Feedback for "' + resource.get('title') + '"</h1>')
           App.$el.children('.body').append('<a class="btn" href="#resource/feedback/add/' + resourceId + '"><i class="icon-plus"></i> Add your feedback</a>')
+           App.$el.children('.body').append('<a class="btn" style="margin:20px" href="#resources"><< Back to Resources</a>')
           App.$el.children('.body').append(feedbackTable.el)
         })
         resourceFeedback.fetch()

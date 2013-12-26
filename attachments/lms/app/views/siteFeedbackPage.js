@@ -93,7 +93,10 @@ $(function() {
    	this.resolved = "1"
    	this.applyFilters = "0"
    	this.searchText = ""
-   	
+   	if(url=="unknown"){
+   	url="siteFeedback"
+   	}
+   	 $('#debug').append('<div id="comments"></div>')
    },
    
 	addAll: function(){
@@ -106,7 +109,6 @@ $(function() {
        },
 	
 	addOne: function(model){
-		//model.set('category','urgent')
              if(!model.get("category"))
              {
               		model.set("category","Bug")
@@ -115,7 +117,6 @@ $(function() {
              	
                  model.set("priority",[])
              }
-             console.log(model)
              var revRow = new App.Views.siteFeedbackPageRow({model: model})
              revRow.render()
              this.$el.append(revRow.el)
@@ -174,9 +175,30 @@ $(function() {
       }})
       
     },
+    
+     filterResult: function(model){
+    	var temp=model.get("PageUrl")
+		var temp2=temp.split('/')
+		var ul=temp2[0]
+		for(var i=1;i<temp2.length;i++){
+			if(temp2[i].length!=32){
+				ul=ul+"/"+temp2[i]
+			}
+			else{
+				i=temp.length
+			}
+		}
+		if(ul==url){
+			return true
+		}
+		else{
+			return false
+		}
+    },
+    
     checkFilters: function(result)
     {
-    	if(this.applyFilters=="0")
+    	if(this.applyFilters=="0"&&this.filterResult(result))
     	{
     		return true
     	}

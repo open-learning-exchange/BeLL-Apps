@@ -123,11 +123,11 @@ var searchText = "";
 var skip = 0;    //Variable used to skip the number of records been fetched before.
 var enablenext=0;
 var searchRecordsPerPage = 2;
-var limitofRecords = 5;
+var limitofRecords = 2;
 var skipStack = new Array()
 var numberOfNotificattions="."
 var lastpage = false
-
+var mailView;
 function showFeedbackForm(){
 	  App.renderFeedback()
 		if(document.getElementById('site-feedback').style.visibility!='visible'){
@@ -190,8 +190,55 @@ function showComposePopup()
         background : false,
         blur : false,
         scrolllock : true
-});
-	//$('#emailCompose').popup('show');
+
+    });
+	$('#emailCompose').popup('show');
+}
+function sendMail()
+{
+	var rec = $("#recipients").val();
+	var subject = $("#subject").val();
+	var mailBody = $("textarea#mailbodytexarea").val();
+	if(rec=="" )
+	{
+		alert("Please enter recipient.");
+	}
+	else if(subject=="")
+	{
+		alert("Please enter subject.");
+	}
+	else if(mailBody=="")
+	{
+		alert("Please enter message.");
+	}
+	else
+	{
+		$.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + rec + '"', function(response) {
+      		if(response.rows[0]){
+      			var currentdate = new Date();
+      			var id = response.rows[0].doc._id
+      			var mail = new App.Models.Mail();
+      			mail.set("senderId",$.cookie('Member._id'));
+      			mail.set("receiverId",id);
+      			mail.set("subject",subject);
+      			mail.set("body",mailBody);
+      			mail.set("status","0");
+      			mail.set("type","mail");
+      			mail.set("sentDate",currentdate);
+      			//console.log(mail)
+      			mail.save();
+      			alert("Mail successfully send.")
+      			$('#emailCompose').popup('hide');
+      		}
+      		else
+      		{
+      			alert("Invalid mail address")
+      		}
+		});
+		
+	}
+	
+
 }
 $(window).scroll(function () {
   var $menu = $('#addEvent'),
@@ -332,7 +379,7 @@ $(window).scroll(function () {
     </li>
     <li> 
       <a href="../lms/index.html#login">
-         Communitys
+         Community
       </a>
     </li>
     
@@ -635,25 +682,54 @@ $(window).scroll(function () {
   
   
    <script type="text/template" id="template-mail">
+   <div id="mailActions" >
 		<b style="color:black; font-size:25px;">Inbox
 		<span class="new_mails"></span>
-		<span style="float:right;"><input type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" >Go</button></span>
+		<span style="float:right;"><input type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
 		</b>
+		</div>
+		<table id="inbox_mails" ></table>
+		
+		<!-- popup window for compose message -->
+<div id="emailCompose" class="well" style="display: none;">
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+</div>
+
+	
+		
 </script>
 <script type="text/template" id="template-view-mail">
 
-<div style="margin-left:2%">	
-	<b style="color:black; font-size:25px;">Message&nbsp;<%= subject %>
-		<span style="margin-left: 5%;"><button class="btn deleteBtn btn-primary" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" >Reply</button></span>
+<div style="margin-left:10%">	
+	<div style="margin-left:10%">	
+		<div style="float:left: 34%;"><button type="button" class="btn btn-info" id="back">Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
 		<br/>
-		<div style="width: 40%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
-		<div style="width: 38%;height: 41px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
-		<div style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 38%;height: 231px;"><%=body%></div>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;">Message:&nbsp;</span><%= subject %></b></span>
+
+		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
+		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
+		<div style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
 		</div>
-	</b>
+	
 	<br/>
 </div>
-
+<div id="emailCompose" class="well" style="display: none;">
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" value="<%= login %>" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" value="Re: <%= subject %>" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+</div>
 </script>
 
 
@@ -673,10 +749,6 @@ $(document).ready(function () {
 </script>
 
 <!-- Slide in -->
-
-
-
-
 
 
 </body>

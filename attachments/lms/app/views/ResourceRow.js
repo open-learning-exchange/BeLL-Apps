@@ -12,9 +12,6 @@ $(function() {
       "click .trigger-modal" : function() {
         $('#myModal').modal({show:true})
       },
-      "click .resFeedBack" : function(e) {
-	  Backbone.history.navigate('resource/feedback/'+this.model.get("_id"), {trigger: true})
-	},
     },
 
     vars: {},

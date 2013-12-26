@@ -41,12 +41,13 @@ $(function() {
       this.form.fields['subjectSpecialization'].$el.hide()
       this.form.fields['forGrades'].$el.hide()
       this.form.fields['visits'].$el.hide()
+      var $imgt = "<p id='imageText'>Add Photo</p>"
       if(this.model.id!=undefined){
 	  buttonText="Update"
            $("input[name='login']").attr("disabled",true);
+           $imgt = "<p id='imageText'>Edit Photo</p>"    
        }else{
 	   buttonText="Register"
-           
        }
       
       
@@ -75,17 +76,16 @@ $(function() {
       // give the form a submit button
       var $button = $('<div class="signup-submit"><a class="signup-btn btn btn-success" id="formButton">'+buttonText+'</button><a class="btn btn-danger" id="formButtonCancel">Cancel</button></div>')
 		this.$el.append($button)
-      
-        var $upload=$('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
-        var $img=$('<div id="browseImage"><img width="100px" height="90px" id="memberImage"></div>')
+        var $upload=$('<form method="post" id="MemberfileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
+        var $img=$('<div id="browseImage">'+$imgt+'<img width="100px" height="90px" id="memberImage"></div>')
         this.$el.append($img)
         this.$el.append($upload)
         this.$el.append($button)
 		if(this.model.id!=undefined){
 			if(this.model.get("status") == "active"){
-				this.$el.append('<a class="btn btn-danger" id="deactive" style="margin-left:22%; margin-top:-7.8%;" href="#">Resign</a>')
+				this.$el.append('<a class="btn btn-danger" id="deactive" style="margin-left:212px; margin-top:-75px;" href="#">Resign</a>')
 			}else{
-				this.$el.append('<a class="btn btn-success" id="active" style="margin-left:22%; margin-top:-7.8%;" href="#">Reinstate</a>')
+				this.$el.append('<a class="btn btn-success" id="active" style="margin-left:212px; margin-top:-75px;" href="#">Reinstate</a>')
 			}
         }
 		var attchmentURL = '/members/' + this.model.id + '/' 

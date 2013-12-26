@@ -12,7 +12,7 @@ $(function() {
       })
       return docs
     },
-     comparator: function(m){console.log(m.get('time'))
+     comparator: function(m){
      	return -new Date(m.get('time')).getTime()
      },
     model: App.Models.report,

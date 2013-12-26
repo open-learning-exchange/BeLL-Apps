@@ -69,7 +69,10 @@
   <script src="app/models/request.js"></script>
   <script src="app/models/Community.js"></script>
   <script src="app/models/CourseSchedule.js"></script>
-    
+  <script src="app/models/reportComment.js"></script>
+
+  
+   
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/Resources.js"></script>
@@ -87,8 +90,8 @@
   <script src="app/collections/Requests.js"></script>
   <script src="app/collections/Communities.js"></script>
   <script src="app/collections/EntityInvitation.js"></script>
-  
-   
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/reportsComment.js"></script>
   
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -108,6 +111,8 @@
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
   <script src="app/views/InvitationForm.js"></script>
+    <script src="app/views/CourseSchedule.js"></script>
+     <script src="app/views/addComment.js"></script>
   <!-- Level Views -->
   <script src="app/views/LevelsTable.js"></script>
   <script src="app/views/LevelRow.js"></script>
@@ -150,6 +155,7 @@
   var lastpage = false;
   var grpId;
   var levelrevId;
+  url="unknown"
   var tagFilter = new Array() ; 
   var subjectFilter = new Array() ;
   var ratingFilter = new Array();
@@ -612,7 +618,7 @@
 
   <script type="text/html" id="template-MemberRow">
     <td>
-      <%= login %>
+      <%= login %>(<%= visits %>)
     </td> 
 
     <td>
@@ -669,6 +675,11 @@
     <td>
       <a class='btn' href='#resource/edit/<%= _id %>'>
         <i class='icon-pencil'></i> Edit
+      </a>
+    </td>
+    <td>
+      <a class='btn' href='#resource/feedback/<%= _id %>'>
+        <i class='icon-pencil'></i> Feedback
       </a>
     </td>
     <%}%>
@@ -1002,20 +1013,20 @@ Please become a Member and explore both the Community Learning Management System
 </script>
 <script type="text/html" id="template-siteReviewRownoAdmin">
   	 	<%  if(Resolved=="0"){%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved</td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 	   <%} 
 		else {%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 		<%}%>
   </script>
   
     
    <script type="text/html" id="template-siteReviewRowAdmin">
   	 	<%  if(Resolved=="0"){%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a></td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 	   <%} 
 		else {%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 		<%}%>
   </script>
 </head>
