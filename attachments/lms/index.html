@@ -618,7 +618,7 @@
 
   <script type="text/html" id="template-MemberRow">
     <td>
-      <%= login %>
+      <%= login %>(<%= visits %>)
     </td> 
 
     <td>
@@ -675,6 +675,11 @@
     <td>
       <a class='btn' href='#resource/edit/<%= _id %>'>
         <i class='icon-pencil'></i> Edit
+      </a>
+    </td>
+    <td>
+      <a class='btn' href='#resource/feedback/<%= _id %>'>
+        <i class='icon-pencil'></i> Feedback
       </a>
     </td>
     <%}%>
