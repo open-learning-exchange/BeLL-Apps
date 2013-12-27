@@ -3,25 +3,24 @@ $(function() {
   App.Views.ResourceRow = Backbone.View.extend({
 
     tagName: "tr",
-
+	admn:null,
     events: {
       "click .destroy" : function(event) {
+      alert("destroying")
         this.model.destroy()
         event.preventDefault()
       },
       "click .trigger-modal" : function() {
         $('#myModal').modal({show:true})
       },
-      "click .resFeedBack" : function(e) {
-	  Backbone.history.navigate('resource/feedback/'+this.model.get("_id"), {trigger: true})
-	},
     },
 
     vars: {},
 
     template : _.template($("#template-ResourceRow").html()),
 
-    initialize: function() {
+    initialize: function(e) {
+    this.admn=e.admin
       this.model.on('destroy', this.remove, this)
     },
     
@@ -58,7 +57,7 @@ $(function() {
      else{
         vars.totalRatings = 0 
       }
-     
+     vars.admn=this.admn
     this.$el.append(this.template(vars))
     
       

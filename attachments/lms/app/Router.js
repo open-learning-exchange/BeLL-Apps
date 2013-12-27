@@ -99,15 +99,15 @@ $(function() {
     },
 
     viewAllFeedback: function(){
-	  var feed = new App.Collections.siteFeedbacks()
-          feed.fetch({success: function() {
-          feedul = new App.Views.siteFeedbackPage({collection:feed})
+	  var fed = new App.Collections.siteFeedbacks()
+          fed.fetch({async:false})
+          	console.log(fed.toJSON())
+          feedul = new App.Views.siteFeedbackPage({collection:fed})
           feedul.render()
           $('#see-all', feedul.$el).trigger("click");
           App.$el.children('.body').html('&nbsp')	
           App.$el.children('.body').append(feedul.el) 
           $("#previousButton").hide()
-      }})
     },
     LandingScreen : function(){
       $('ul.nav').html($('#template-nav-log-in').html()).hide()

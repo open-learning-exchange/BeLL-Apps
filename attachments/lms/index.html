@@ -569,10 +569,13 @@
     </td> 
 
     <td>
+    <%if(isAdmin==1||isLeader==1){%>
       <a role='button' class='btn' href='#course/manage/<%= _id %>'> 
         <i class="icon-list"></i> Manage
       </a>
+   	<%}%>
     </td>
+    
     <td>
       <a role='button' class='btn' href='#course/report/<%= _id %>/<%= name %>'> 
         <i class="icon-signal"></i> Progress
@@ -592,10 +595,13 @@
     </td> -->
 
     <td>
-      <a class='destroy btn' href='#'>
+	<%if(isAdmin==1||isLeader==1){%>
+      <a class='destroy btn btn-danger' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
+    <%}%>
     </td> 
+    
   </script>
   
   <script type="text/html" id="template-LevelRow">
@@ -679,8 +685,15 @@
     </td>
     <td>
       <a class='btn' href='#resource/feedback/<%= _id %>'>
-        <i class='icon-pencil'></i> Feedback
+       Feedback
       </a>
+    </td>
+    <td>
+    <%if(admn==1){%>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove'></i> Delete
+      </a>
+      <%}%>
     </td>
     <%}%>
   </script>

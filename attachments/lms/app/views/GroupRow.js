@@ -58,6 +58,18 @@ $(function() {
     render: function () {
       
       var vars = this.model.toJSON()
+      if (vars.courseLeader!=undefined && vars.courseLeader==$.cookie('Member._id')){
+      vars.isLeader=1
+      }
+      else{
+      vars.isLeader=0
+      }
+      if($.cookie('Member.login')=='admin'){
+      vars.isAdmin=1
+      }
+      else{
+      vars.isAdmin=0
+      }
       this.$el.append(_.template(this.template, vars))
     }
 

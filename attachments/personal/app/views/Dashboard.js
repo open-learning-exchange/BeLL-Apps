@@ -9,6 +9,10 @@ $(function() {
     render: function() {
       var dashboard = this
       this.vars.imgURL = "img/header_slice.png"
+           var a= new App.Collections.MailUnopened({receiverId:$.cookie('Member._id')})
+          a.fetch({async:false})
+          this.vars.mails=a.length
+
       this.$el.html(_.template(this.template, this.vars))
       groups = new App.Collections.MemberGroups()
       groups.memberId = $.cookie('Member._id')

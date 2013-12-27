@@ -18,7 +18,7 @@ $(function() {
     },
     CourseSchedule : function(){
           var form = new App.Views.CourseScheduleForm()
-          console.log(this.model)
+
           form.courseId = this.model.id
           form.render()
           App.$el.children('.body').html('<p id="scheduletitle">'+this.model.get("name")+'|Schedule</p>')
@@ -86,7 +86,7 @@ $(function() {
 							optns.push(temp)
 						})
 	
-		console.log(optns)
+	
         groupForm.model.schema.courseLeader.options =optns  
         groupForm.form = new Backbone.Form({ model: groupForm.model})
         groupForm.$el.append(groupForm.form.render().el)
@@ -121,7 +121,7 @@ $(function() {
     setForm: function() {
       var that = this
       this.model.once('sync', function() {
-       console.log(that.model)
+
        Backbone.history.navigate('course/manage/'+that.model.get("id"), {trigger: true})
       })
       // Put the form's input into the model in memory
