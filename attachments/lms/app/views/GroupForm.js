@@ -57,6 +57,7 @@ $(function() {
         inviteModel.type = this.model.get("kind")
         inviteModel.title = this.model.get("name")
         var inviteForm = new App.Views.InvitationForm({model: inviteModel})
+        inviteForm.description = this.model.get("description")
         inviteForm.render()
         $('#invitationdiv').html('&nbsp')
         $('#invitationdiv').append(inviteForm.el)

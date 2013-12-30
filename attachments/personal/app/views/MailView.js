@@ -8,6 +8,7 @@ $(function() {
    	nextButton:null,
    	searchText : null,
     resultArray : null,
+    showNextButton : null,
     template : _.template($("#template-mail").html()),
     templateMailView : _.template($("#template-view-mail").html()),
     
@@ -25,6 +26,7 @@ $(function() {
            	skipStack.push(skip)
           	this.resultArray  = []
           	this.modelNo=0
+          	this.showNextButton = 1
  	 		this.fetchRecords()
    		 }
    		 else
@@ -33,6 +35,14 @@ $(function() {
    		 }
     	
     },
+    "click #invite-accept" : function(e)
+  	{
+  		alert('accept' + e.currentTarget.value)
+  	},
+  	"click #invite-reject" : function(e)
+  	{
+  		alert('reject' + e.currentTarget.value)
+  	},
     "click #search-mail":function(e)
     {
     	skip = 0
@@ -40,11 +50,11 @@ $(function() {
       	{
             	skipStack.pop();        
       	}
+      	this.searchText = $("#search-text").val()
  	 	this.resultArray  = []
  	 	skipStack.push(skip)
  	 	this.modelNo=0
  	 	this.fetchRecords()
-    	alert('search')
     },
  	 "click .deleteBtn" : function(e) {
  	
@@ -113,6 +123,7 @@ $(function() {
     	this.searchText = ""
         this.delegateEvents()  
       	this.resultArray  = []
+      	this.showNextButton = 0
     },
     addOne: function(model){
       vars=model.toJSON()
@@ -172,9 +183,9 @@ $(function() {
     fetchRecords: function()
     {
        var obj = this
-       var newCollection = new App.Collections.Mails()
+       var newCollection = new App.Collections.Mails({receiverId:$.cookie('Member._id')})
        newCollection.fetch({success: function() {
-       obj.resultArray.push.apply(obj.resultArray,obj.searchInArray(newCollection.models,searchText))
+       obj.resultArray.push.apply(obj.resultArray,obj.searchInArray(newCollection.models,obj.searchText))
        
  		if(obj.resultArray.length != limitofRecords && newCollection.models.length == limitofRecords){
 		    obj.fetchRecords()
@@ -199,6 +210,11 @@ $(function() {
 	    	ResultCollection.set(obj.resultArray)
 	    	obj.collection = ResultCollection
    			obj.addAll()
+   			if(obj.showNextButton == 1)
+   			{
+   				$("#nextButton").show()
+   				obj.showNextButton = 0
+   			}
 		}  
       }})
       
@@ -207,6 +223,7 @@ $(function() {
     	var that  = this
       var resultArray = []
       var foundCount
+      //alert(searchText)
 	// if(searchText != "" )
 	 {
 	   _.each(resourceArray, function(result) {
@@ -220,11 +237,13 @@ $(function() {
 				}
 				else
 				{
+					console.log('first')
 			    	skip--
 			 	}
 			}
 		 	else if(resultArray.length >=  limitofRecords)
 		 	{
+		 		console.log('second')
 				 skip--	
 	 	 	}
 	    }

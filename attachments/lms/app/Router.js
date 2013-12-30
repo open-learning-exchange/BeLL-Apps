@@ -158,7 +158,8 @@ var temp=$.url().attr("host").split(".")
       memberLoginForm.once('success:login', function() {
        // $('ul.nav').html($("#template-nav-logged-in").html())
        // Backbone.history.navigate('courses', {trigger: true})
-          Backbone.history.navigate('resources', {trigger: true})
+       	  window.location.href = "../personal/index.html";
+          //Backbone.history.navigate('resources', {trigger: true})
       })
       memberLoginForm.render()
       //App.$el.children('.body').html('<h1>Member login</h1>')

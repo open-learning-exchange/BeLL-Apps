@@ -92,32 +92,51 @@ $(function() {
       
       var temp
       var that = this
+      var currentdate = new Date();
       if(this.model.get("invitationType") == "All")
       {
            memberList.each(function(m) { 
-            temp = new App.Models.Invitation()
-            temp.set("title",that.model.title)
+           	temp = new App.Models.Mail()
             temp.set("senderId",that.model.senderId)
-            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
-            temp.set("memberId",m.get("_id"))
-			temp.set("entityId",that.model.resId)
-            temp.set("type",that.model.type)
+            temp.set("receiverId",m.get("_id"))
+			temp.set("status","0")
+			temp.set("subject","Course Invitation | " + that.model.title)
+            temp.set("type","course-invitation")
+            temp.set("body",that.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
+            temp.set("sendDate",currentdate)
+            temp.set("entityId",that.model.resId)
             temp.save()
+//            temp = new App.Models.Invitation()
+//            temp.set("title",that.model.title)
+//            temp.set("senderId",that.model.senderId)
+//            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
+//            temp.set("memberId",m.get("_id"))
+//			temp.set("entityId",that.model.resId)
+//            temp.set("type",that.model.type)
+//            temp.save()
           })
       
       }
       else if(this.model.get("invitationType") == "Members") {
          memberList.each(function(m) {
           var that2 = that;
-          console.log(that2.model);
           if(that.model.get("members").indexOf(m.get("_id")) > -1){
-            temp = new App.Models.Invitation()
-            temp.set("title",that2.model.title)
-            temp.set("senderId",that2.model.senderId)
-            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
-            temp.set("memberId",m.get("_id"))
-            temp.set("entityId",that2.model.resId)
-            temp.set("type",that2.model.type)
+          	temp = new App.Models.Mail()
+            temp.set("senderId",that.model.senderId)
+            temp.set("receiverId",m.get("_id"))
+			temp.set("status","0")
+			temp.set("subject","Course Invitation | " + that.model.title)
+			temp.set("body",that.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
+            temp.set("type","course-invitation")
+            temp.set("sendDate",currentdate)
+            temp.set("entityId",that.model.resId)
+//            temp = new App.Models.Invitation()
+//            temp.set("title",that2.model.title)
+//            temp.set("senderId",that2.model.senderId)
+//            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
+//            temp.set("memberId",m.get("_id"))
+//            temp.set("entityId",that2.model.resId)
+//            temp.set("type",that2.model.type)
             temp.save()
             console.log(temp);
           }
@@ -130,13 +149,22 @@ $(function() {
            memberList.each(function(m) {
                 var member_level = m.get("levels")
                 if(that.model.get("levels").indexOf(member_level[0]) > -1){
-                  temp = new App.Models.Invitation()  
-                  temp.set("title",that.title)
-                  temp.set("senderId",that.senderId)
-                  temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
-                  temp.set("memberId",m.get("_id"))
-                  temp.set("entityId",that.resId)
-                  temp.set("type",that.type)
+                	temp = new App.Models.Mail()
+            		temp.set("senderId",that.model.senderId)
+            		temp.set("receiverId",m.get("_id"))
+					temp.set("status","0")
+					temp.set("subject","Course Invitation | " + that.model.title)
+					temp.set("body",that.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
+            		temp.set("type","course-invitation")
+            		temp.set("sendDate",currentdate)
+            		temp.set("entityId",that.model.resId)
+//                  temp = new App.Models.Invitation()  
+//                  temp.set("title",that.title)
+//                  temp.set("senderId",that.senderId)
+//                  temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
+//                  temp.set("memberId",m.get("_id"))
+//                  temp.set("entityId",that.resId)
+//                  temp.set("type",that.type)
                   temp.save()
                 }
            });

@@ -23,6 +23,7 @@ $(function() {
       type:'Text',
       status: 'Text',
       sentDate:'Text'
+      
         }  
     
     
