@@ -13,12 +13,13 @@ $(function() {
     },
   addOne: function(model){
       var resourceRowView = new App.Views.ResourceRow({model: model,admin:this.isAdmin})
+      resourceRowView.isadmin = this.isadmin
       resourceRowView.render()  
       this.$el.append(resourceRowView.el)
     },
 
     addAll: function(){
-    if($.cookie('Member.login')=='admin'){
+    if(this.isadmin > -1){
     	this.isAdmin=1
     }
     else{

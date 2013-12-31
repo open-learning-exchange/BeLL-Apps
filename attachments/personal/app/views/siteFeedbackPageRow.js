@@ -30,7 +30,9 @@ $(function() {
    
     render: function() {
   	      var vars = this.model.toJSON()
+		if(!vars.kind){
       console.log(vars)
+}
      this.$el.html(_.template(this.template, vars))
     }
 

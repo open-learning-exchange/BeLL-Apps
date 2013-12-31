@@ -377,10 +377,12 @@
       </tr>
       <tr>
         <td>
+        <% if(hidesave == false) { %>
           <div class="save btn btn-success" name="save">
             Save
           </div>
-		<a class="btn btn-danger" id="cancel">Cancel</button>
+        <% } %>
+		<a class="btn btn-danger" id="cancel">Cancel</a>
         </td>
         <td class="status">
           <!-- status goes here -->
@@ -405,7 +407,10 @@
 
 
 
-<script type="text/template" id="template-nav-logged-in"> 
+<script type="text/template" id="template-nav-logged-in">
+   <li> 
+      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
+    </li>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Courses <b class="caret"></b></a>
       <ul class="dropdown-menu">
@@ -415,16 +420,23 @@
         <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>-->
       </ul>
     </li>
-
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Meetup<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
+         <li><a><i class="icon-list"></i>Add a new MeetUp</a></li>
+        <li><a><i class="icon-plus"></i>List Meetups</a></li>
+      </ul>
+    </li>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> Members <b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li><a href="#members"><i class="icon-list"></i> List Members</a></li>
         <li><a href="#member/add"><i class="icon-plus"></i> Add a new Member</a></li>
       </ul>
-    </li>
+   </li>
 
-    <li class="dropdown">
+   <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Resources <b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
@@ -432,15 +444,8 @@
         <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
       </ul>
     </li>
-	<li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Meetup<b class="caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
-      </ul>
-    </li>
-    <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
-    </li>
+	
+    
 <!--	<li> 
       <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
     </li>
@@ -457,16 +462,14 @@
 
       </ul> -->
     </li>
-
-
-    <li> 
-      <a href="#logout">
-        <i class="icon-plane icon-white"></i> Log out
-      </a>
-    </li>
-    <li  style="float:right;"> 
+   <li> 
       <a onclick = "showFeedbackForm()">
         <i class="icon-pencil icon-white"></i> Feedback
+      </a>
+    </li>
+      <li> 
+      <a href="#logout">
+        <i class="icon-plane icon-white"></i> Log out
       </a>
     </li>
   </script>
@@ -628,15 +631,19 @@
     </td> 
 
     <td>
+      <% if(showedit == true){ %>
       <a role='button' class='btn' href='#member/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
+      <% } %>
     </td>  
 
     <td>
+    <% if(showdelete == true){ %>
       <a class='destroy btn' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
+    <% } %>
     </td>
 <!--
    <% if(status == "active"){%>
@@ -680,7 +687,7 @@
     </td>
     <td>
       <a class='btn' href='#resource/edit/<%= _id %>'>
-        <i class='icon-pencil'></i> Edit
+        <i class='icon-pencil'></i> View
       </a>
     </td>
     <td>

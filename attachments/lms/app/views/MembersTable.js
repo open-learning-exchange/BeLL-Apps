@@ -7,6 +7,7 @@ $(function() {
 
     addOne: function(model){
       var memberRow = new App.Views.MemberRow({model: model})
+      memberRow.isadmin = this.isadmin 
       memberRow.render()  
       this.$el.append(memberRow.el)
     },

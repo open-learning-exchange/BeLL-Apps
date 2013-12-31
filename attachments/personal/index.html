@@ -357,34 +357,35 @@ $(window).scroll(function () {
 
   <script type="text/template" id="template-nav-logged-in"> 
     <li> 
-      <a href="#dashboard">
-      Dashboard
+      <a href="../lms/index.html#login">
+         Community
       </a>
-    </li> 
-
-	<li> 
+    </li>
+    <li> 
       <a href="#">
        Courses
       </a>
     </li>
-
-    
-	<li> 
+    <li> 
       <a href="#">
        Meetups
       </a>
     </li>
     <li> 
-      <a href="../lms/index.html#login">
-         Community
+      <a href="#dashboard">
+      Dashboard
       </a>
-    </li>
-     <li  > 
+    </li> 
+   <li> 
       <a onclick = "showFeedbackForm()">
         Feedback
-
       </a>
     </li>
+    <li> 
+      <a href= "#logout">
+        Logout
+      </a>
+    </li>	
   </script>
 
   <script type="text/template" id="template-nav-log-in"> 
@@ -673,9 +674,9 @@ $(window).scroll(function () {
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
 				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'">Email(<%=mails%>)</button></td>
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>
+				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
 				<!-- <td></td> -->
-				<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>
+				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
 			</tr>
 			</table> 
 		</div>

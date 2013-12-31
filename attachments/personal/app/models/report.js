@@ -15,13 +15,16 @@ $(function() {
       
       return url
     },
-
+	defaults: {
+      kind: "report"
+    },
     schema:
     {
       PageUrl: 'Text',
       comment: 'TextArea',
       Resolved: 'Text',
       category: { type: 'Select', options: ['Urgent', 'Bug' , 'Question' , 'Comment' , 'Help','Suggestion'] },
+		 priority: { type: 'Checkboxes',options: ['urgent']},
       memberLogin: 'Text',
       time: 'Text'
     }
