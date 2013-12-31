@@ -17,9 +17,20 @@ $(function() {
       
     },
     CourseSchedule : function(){
+          
           var form = new App.Views.CourseScheduleForm()
-
           form.courseId = this.model.id
+          var model
+          var cs = new App.Collections.CourseScheduleByCourse()
+          cs.courseId = this.model.id
+          cs.fetch({async:false})
+           if(cs.length > 0){
+            model = cs.first()
+            console.log(model)
+            form.edit = true
+            form.sid = model.get("_id")
+            form.srevid = model.get("_rev")
+           }
           form.render()
           App.$el.children('.body').html('<p id="scheduletitle">'+this.model.get("name")+'|Schedule</p>')
           App.$el.children('.body').append(form.el)
@@ -29,6 +40,19 @@ $(function() {
           $('#endDate').datepicker()
           $('#typeView').hide()
           $('.days').hide()
+          
+          if(cs.length > 0){
+              model = cs.first()       
+              $('#startTime').val(model.get("startTime"))
+              $('#endTime').val(model.get("endTime"))
+              $('#startDate').val(model.get("startDate"))
+              $('#endDate').val(model.get("endDate"))
+              $('#location').val(model.get("location"))
+              $('#type').val(model.get("type"))
+              if(model.get("type") == "Weekly"){
+                  $('#weekDays').val(model.get("weekDays"))
+              }
+          }
           $('#type').on('change', function() {
                 if(this.value == "Monthly")
                 {

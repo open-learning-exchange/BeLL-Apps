@@ -36,13 +36,58 @@ $(function() {
     	
     },
     "click #invite-accept" : function(e)
-  	{
-  		alert('accept' + e.currentTarget.value)
-  	},
-  	"click #invite-reject" : function(e)
-  	{
+     {
+	  var gmodel = new App.Models.Group({_id : e.currentTarget.value})
+	  gmodel.fetch({async:false})
+          var that = this
+	  if(gmodel.get("_id")){
+    	  var memberlist = []
+    	      if(gmodel.get("members") != null){
+		  	memberlist = gmodel.get("members")
+    	       }
+	    if(memberlist.indexOf($.cookie('Member._id')) == -1){
+    		memberlist.push($.cookie('Member._id'))
+    		gmodel.set("members",memberlist)
+    		gmodel.save({},{
+		     success: function(){
+			var memprogress = new App.Models.membercourseprogress()
+			var csteps = new App.Collections.coursesteps();
+						var stepsids = new Array()
+						var stepsres = new Array()
+						var stepsstatus = new Array()
+						csteps.courseId = gmodel.get("_id")
+						csteps.fetch({success:function(){
+						    csteps.each(function(m){
+						    stepsids.push(m.get("_id"))
+						    stepsres.push("0")
+						    stepsstatus.push("0")
+						  })
+						    memprogress.set("stepsIds",stepsids)
+						    memprogress.set("memberId",$.cookie("Member._id"))
+						    memprogress.set("stepsResult",stepsres)
+						    memprogress.set("stepsStatus",stepsstatus)
+						    memprogress.set("courseId",csteps.courseId)
+						    memprogress.save({success:function(){
+						}})
+						
+						}})
+						alert("Course added to your dashboard")
+						Backbone.history.navigate('dashboard', {trigger: true})
+					}
+    				})
+		      
+	    }
+	    else{
+	      alert("Course already added to your dashboard")
+	      Backbone.history.navigate('dashboard', {trigger: true})	    }
+	  }
+    },
+    
+    
+    "click #invite-reject" : function(e)
+     {
   		alert('reject' + e.currentTarget.value)
-  	},
+     },
     "click #search-mail":function(e)
     {
     	skip = 0

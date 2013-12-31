@@ -8,6 +8,12 @@ $(function() {
         var cs = new App.Models.CourseSchedule()
         if(this.courseId != undefined){
           cs.set("courseId",this.courseId)
+          if(this.edit == true){
+              cs.set("_id",this.sid)
+              cs.set("_rev",this.srevid)
+              console.log(cs)    
+          }
+          
         }else{
           addToDb = false
         }
@@ -54,13 +60,14 @@ $(function() {
        var that = this
         if(addToDb){
           cs.set("kind","Schedule")
-          cs.save({success:function(){
-          Backbone.history.navigate("#course/manage"+this.courseId ,{trigger:true})
-        }})
+          cs.on('sync',function(){
+          alert("Schedule Saved Successfully")
+          Backbone.history.navigate("#course/manage/"+that.courseId ,{trigger:true})
+        })
+          cs.save()
+          
       }
-        
-    
-    }
+   }
   },
     render: function () {
       this.$el.append(_.template(this.template))

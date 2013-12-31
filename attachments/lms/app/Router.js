@@ -303,7 +303,9 @@ var temp=$.url().attr("host").split(".")
     },
 
     Members: function() {
-              
+        var loggedIn = new App.Models.Member({"_id":$.cookie('Member._id')})
+        loggedIn.fetch({async:false})
+        var roles = loggedIn.get("roles")      
         members = new App.Collections.Members()
         members.fetch({success: function() {
         membersTable = new App.Views.MembersTable({collection: members})
