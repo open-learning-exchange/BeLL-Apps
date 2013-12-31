@@ -47,6 +47,7 @@ $(function() {
          {
          	vars.urgent = "Urgent"
          }
+console.log(vars)
   	     this.$el.html(_.template(this.template, vars))
     }
 

@@ -18,6 +18,8 @@ $(function() {
     },
     CourseSchedule : function(){
           var form = new App.Views.CourseScheduleForm()
+
+          form.courseId = this.model.id
           form.render()
           App.$el.children('.body').html('<p id="scheduletitle">'+this.model.get("name")+'|Schedule</p>')
           App.$el.children('.body').append(form.el)
@@ -27,7 +29,6 @@ $(function() {
           $('#endDate').datepicker()
           $('#typeView').hide()
           $('.days').hide()
-          
           $('#type').on('change', function() {
                 if(this.value == "Monthly")
                 {
@@ -86,7 +87,7 @@ $(function() {
 							optns.push(temp)
 						})
 	
-		console.log(optns)
+	
         groupForm.model.schema.courseLeader.options =optns  
         groupForm.form = new Backbone.Form({ model: groupForm.model})
         groupForm.$el.append(groupForm.form.render().el)
@@ -94,7 +95,7 @@ $(function() {
         $('.field-backgroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
         $('.field-foregroundColor input').spectrum({clickoutFiresChange: true, preferredFormat: 'hex'})
         // give the form a submit button
-        var $sbutton = $('<a class="group btn btn-success" id="sformButton">Save</button>')
+        var $sbutton = $('<a class="group btn btn-success" id="sformButton">Continue</button>')
         var $ubutton = $('<a class="group btn btn-success" style="margin-left:-606px;" id="uformButton">Update</button>')
         var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/'+groupForm.model.get("_id")+'/'+groupForm.model.get("name")+'"> <i class="icon-signal"></i> Progress</a>')
         var $scbutton = $('<a class="btn btn-success" id="coursescheduleButton">Schedule</button>')
@@ -121,7 +122,7 @@ $(function() {
     setForm: function() {
       var that = this
       this.model.once('sync', function() {
-       console.log(that.model)
+
        Backbone.history.navigate('course/manage/'+that.model.get("id"), {trigger: true})
       })
       // Put the form's input into the model in memory

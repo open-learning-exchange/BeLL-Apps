@@ -182,7 +182,7 @@ input[type=checkbox]:checked + label:before {
       
 }
 #browseImage{
-   border: 1px solid;
+  
     margin-left: 25%;
     margin-top: -37px;
     position: absolute;
@@ -190,15 +190,22 @@ input[type=checkbox]:checked + label:before {
 
 #site-feedback{
      background-color: #34495E;
-    border-radius: 0px 0px 20px 20px;
+    border-radius:20px;
     color: #FFFFFF;
     height: 0px;
     margin-left: 0%;
     position: absolute;
-    top: 8%;
+    top: 20%;
     width: 60%;
     visibility: hidden;
     z-index:10;
+    padding-left: 20px;
+}
+#site-feedback .field-comment,#site-feedback .field-priority{
+ color: #34495E;
+}
+#site-feedback .bbf-checkboxes label{
+color:white;
 }
 #site-feedback fieldset{
 border:none;
@@ -227,7 +234,7 @@ margin-left:35%;
 
 }
 #browseImage{
-    margin-left: 236px;
+    margin-left: 25px;
 }
 #f-formButton{
  margin-left: 10%;
@@ -270,7 +277,7 @@ border-bottom:1px solid black;
   border-radius: 37px;
   margin-bottom: -1%;
   margin-left: -1%;
-  width: 800px;
+  width: 883px;
 }
 #groupform [name="description"]{
   height: 80px;
@@ -318,7 +325,7 @@ border-bottom:1px solid black;
 #groupform .bbf-field.field-levels{
     margin-left: 236px;
     margin-top: -85px;
-    width: 550px;
+    width: 621px;
 }
 #groupform .bbf-field.field-description{
    margin-top:-21px; 
@@ -458,7 +465,7 @@ font-weight: bold;
     margin: 10px;
     max-height: 275px;
     overflow-y: scroll;
-    padding: 23px;;
+    padding: 23px;
 }
 #r-formButton{
 margin-left: 33%;
@@ -470,3 +477,9 @@ margin-left: 33%;
     margin-bottom: 10px;
     padding-left: 5px;
 }
+#MemberfileAttachment{
+  margin-bottom: 32px;
+    margin-left: 108px;
+  
+}
+

@@ -16,6 +16,11 @@ $(function() {
 	},
 	
 	addOne: function(model){
+		if(!model.get("kind"))
+		{
+			model.set("kind","report")
+			model.save({async:false})
+		}
 		var revRow = new App.Views.siteFeedbackPageRow({model: model})
       revRow.render()  
       this.$el.append(revRow.el)

@@ -44,7 +44,8 @@ $(function() {
       'siteFeedback'					: 'viewAllFeedback',
       'course/report/:groupId/:groupName'          : 'CourseReport',
         'myRequests': 'myRequests',
-      'AllRequests': 'AllRequests'
+      'AllRequests': 'AllRequests',
+      'replicateResources': 'Replicate'
       
     },
     initialize: function() {
@@ -98,15 +99,15 @@ $(function() {
     },
 
     viewAllFeedback: function(){
-	  var feed = new App.Collections.siteFeedbacks()
-          feed.fetch({success: function() {
-          feedul = new App.Views.siteFeedbackPage({collection:feed})
+	  var fed = new App.Collections.siteFeedbacks()
+          fed.fetch({async:false})
+          	console.log(fed.toJSON())
+          feedul = new App.Views.siteFeedbackPage({collection:fed})
           feedul.render()
           $('#see-all', feedul.$el).trigger("click");
           App.$el.children('.body').html('&nbsp')	
           App.$el.children('.body').append(feedul.el) 
           $("#previousButton").hide()
-      }})
     },
     LandingScreen : function(){
       $('ul.nav').html($('#template-nav-log-in').html()).hide()
@@ -217,6 +218,7 @@ var temp=$.url().attr("host").split(".")
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
         resourcesTableView.render()
         App.$el.children('.body').html('<h1>Resources</h1>')
+        App.$el.children('.body').append('<button style="margin:-80px 0 0 250px" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to National Bell</button>')
         App.$el.children('.body').append(resourcesTableView.el)
       }})
     },
@@ -232,6 +234,7 @@ var temp=$.url().attr("host").split(".")
           feedbackTable.render()
           App.$el.children('.body').html('<h1>Feedback for "' + resource.get('title') + '"</h1>')
           App.$el.children('.body').append('<a class="btn" href="#resource/feedback/add/' + resourceId + '"><i class="icon-plus"></i> Add your feedback</a>')
+           App.$el.children('.body').append('<a class="btn" style="margin:20px" href="#resources"><< Back to Resources</a>')
           App.$el.children('.body').append(feedbackTable.el)
         })
         resourceFeedback.fetch()
@@ -950,7 +953,31 @@ var temp=$.url().attr("host").split(".")
       App.trigger('CompileManifestForWeeksAssignments:go')
 
     },
-
+    Replicate : function(){
+      var temp=$.url().attr("host").split(".")
+      var communities= new App.Collections.Communities()
+      communities.fetch({async:false})
+      communities.each(function(m){
+              if(m.get("name")!="olelocal" && m.get("name")!=temp[0]){
+              console.log(m.get("name")) 
+              $.ajax({
+               headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8' 
+               },  
+              type: 'POST',
+              url: '/_replicate',
+              dataType: 'json',
+              data: JSON.stringify({"source": "resources", "target": "https://"+m.get("name")+":oleoleole@"+m.get("name")+".cloudant.com/resources"}),
+              success: function(response) {
+                  console.log(response) 
+              },
+              async: false
+      }); 
+              }
+      })
+      
+    },
     CompileManifest: function() {
       // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()

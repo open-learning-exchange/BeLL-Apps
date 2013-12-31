@@ -9,6 +9,10 @@ $(function() {
     render: function() {
       var dashboard = this
       this.vars.imgURL = "img/header_slice.png"
+           var a= new App.Collections.MailUnopened({receiverId:$.cookie('Member._id')})
+          a.fetch({async:false})
+          this.vars.mails=a.length
+
       this.$el.html(_.template(this.template, this.vars))
       groups = new App.Collections.MemberGroups()
       groups.memberId = $.cookie('Member._id')
@@ -48,8 +52,8 @@ $(function() {
 			else{
 				temp=member.get('visits')+ " visits"
 			}
-		//	$('.visits').html(temp)
-        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'<a href="#member/edit/'+$.cookie('Member._id')+'"><button class="btn fui-gear"></button></a>')
+		        $('.visits').html(temp)
+        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'&nbsp;<a href="#member/edit/'+$.cookie('Member._id')+'"><i class="fui-gear"></i></a>')
       })
       member.fetch()
 

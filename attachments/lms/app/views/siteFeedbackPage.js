@@ -6,7 +6,7 @@ $(function() {
     className: " table-feedback notification-table table-striped",
     authorName : null, 
     searchText : null,
-    resolved : null,
+    Resolved : null,
     stack : null,
     category : null,
     urgent : null,
@@ -35,11 +35,11 @@ $(function() {
  	 	this.urgent = $('#select_urgent').val()
  	 	if($('#select_status').val()=="Resolved")
  	 	{
- 	 		this.resolved = "1"
+ 	 		this.Resolved = "1"
  	 	}
  	 	else
  	 	{
- 	 		this.resolved = "0"
+ 	 		this.Resolved = "0"
  	 	}
  	 	while(skipStack.length > 0 )
       	{	
@@ -90,7 +90,7 @@ $(function() {
    initialize: function(){
    	this.resultArray  = []
    	this.category = "Bug"
-   	this.resolved = "1"
+   	this.Resolved = "1"
    	this.applyFilters = "0"
    	this.searchText = ""
    	if(url=="unknown"){
@@ -104,6 +104,7 @@ $(function() {
 		this.$el.append('<Select id="select_category"><option>Bug</option><option>Question</option><option>Suggestion</option></select>&nbsp;&nbsp<select id="select_status"><option>Unresolve</option><option>Resolved</option></select>&nbsp;&nbsp<select id="select_urgent"><option>Normal</option><option>Urgent</option></select>&nbsp;&nbsp<button class="btn btn-info" id="switch">Apply Filters</button><br/><br/>')
 		this.$el.append('<th ><h4>Feedback</h4></th><th ><h4>Status</h4></th>')
 		$("#progress_img").hide()
+		console.log(this.collection.toJSON())
 		this.collection.forEach(this.addOne,this)
 		this.$el.append('<br/><br/><input type="button" class="btn btn-hg btn-primary" id="previousButton" value="< Previous"> &nbsp;&nbsp;&nbsp;<button class="btn btn-hg btn-primary" id="next_button" >Next  ></button>')
        },
@@ -191,18 +192,19 @@ $(function() {
 		if(ul==url){
 			return true
 		}
-		else{
+		else{console.log(url)
 			return false
 		}
     },
     
     checkFilters: function(result)
-    {
-    	if(this.applyFilters=="0"&&this.filterResult(result))
+    {console.log(result)
+     if(this.filterResult(result)){
+    	if(this.applyFilters=="0")
     	{
     		return true
     	}
-    	else if(this.resolved == result.get("Resolved") && this.category== result.get("category"))
+    	else if(this.Resolved == result.get("Resolved") && this.category== result.get("category"))
     	{ 
     		if(this.urgent=="Normal" && result.get("priority").length==0)
     		{
@@ -221,9 +223,12 @@ $(function() {
     	{
     		return false
     	}
+     }
+     else{
+     	return false
+     }	
     },
     searchInArray: function(resourceArray,searchText){
-   
     	var that  = this
       var resultArray = []
       var foundCount 
@@ -231,7 +236,7 @@ $(function() {
 		if(result.get("comment") != null ){
 		 	skip++
 		 	
-                        //alert(that.resolved+' '+result.get("Resolved") + ' ' + that.category + ' ' +  result.get("category"))
+                        //alert(that.Resolved+' '+result.get("Resolved") + ' ' + that.category + ' ' +  result.get("category"))
             if(!result.get("category")){
                  result.set("category","Bug")
              }

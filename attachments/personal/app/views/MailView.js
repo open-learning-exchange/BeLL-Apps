@@ -56,6 +56,20 @@ $(function() {
  	 	this.modelNo=0
  	 	this.fetchRecords()
     },
+    "click #back" : function(e)
+ 	{
+ 	 //	this.viewButton(e)
+ 	 skip = 0
+    	while(skipStack.length > 0 )
+      	{
+            	skipStack.pop();        
+      	}
+ 	 	this.resultArray  = []
+ 	 	skipStack.push(skip)
+ 	 	this.modelNo=0
+ 	 this.render()
+ 	 this.fetchRecords()
+ 	 },
  	 "click .deleteBtn" : function(e) {
  	
  	//	this.deleteButton(e)

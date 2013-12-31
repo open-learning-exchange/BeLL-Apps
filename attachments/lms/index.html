@@ -67,6 +67,8 @@
   <script src="app/models/membercourseprogress.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/request.js"></script>
+  <script src="app/models/Community.js"></script>
+  <script src="app/models/CourseSchedule.js"></script>
   <script src="app/models/reportComment.js"></script>
   <script src="app/models/Mail.js"></script>
 
@@ -86,8 +88,11 @@
   <script src="app/collections/StepResultsbyCourse.js"></script>
   <script src="app/collections/siteFeedbacks.js"></script>
   <script src="app/collections/leadermembers.js"></script>
-   <script src="app/collections/Requests.js"></script>
-   <script src="app/collections/reportsComment.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/Communities.js"></script>
+  <script src="app/collections/EntityInvitation.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/reportsComment.js"></script>
   
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -138,6 +143,7 @@
    <script src="app/views/RequestRow.js"></script>
   <!-- Coourse Scheduling -->
   <script src="app/views/CourseScheduleForm.js"></script>
+  <script src="app/views/CourseSchedule.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   <script>
@@ -436,10 +442,10 @@
     <li> 
       <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
     </li>
-	<li> 
+<!--	<li> 
       <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
     </li>
-   <!-- <li class="dropdown">
+    <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
       <ul class="dropdown-menu">
 
@@ -564,10 +570,13 @@
     </td> 
 
     <td>
+    <%if(isAdmin==1||isLeader==1){%>
       <a role='button' class='btn' href='#course/manage/<%= _id %>'> 
         <i class="icon-list"></i> Manage
       </a>
+   	<%}%>
     </td>
+    
     <td>
       <a role='button' class='btn' href='#course/report/<%= _id %>/<%= name %>'> 
         <i class="icon-signal"></i> Progress
@@ -586,11 +595,14 @@
       </a>
     </td> -->
 
- <!--   <td>
-      <a class='destroy btn' href='#'>
+    <td>
+	<%if(isAdmin==1||isLeader==1){%>
+      <a class='destroy btn btn-danger' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
-    </td> -->
+    <%}%>
+    </td> 
+    
   </script>
   
   <script type="text/html" id="template-LevelRow">
@@ -613,7 +625,7 @@
 
   <script type="text/html" id="template-MemberRow">
     <td>
-      <%= login %>
+      <%= login %>(<%= visits %>)
     </td> 
 
     <td>
@@ -671,6 +683,18 @@
       <a class='btn' href='#resource/edit/<%= _id %>'>
         <i class='icon-pencil'></i> Edit
       </a>
+    </td>
+    <td>
+      <a class='btn' href='#resource/feedback/<%= _id %>'>
+       Feedback
+      </a>
+    </td>
+    <td>
+    <%if(admn==1){%>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove'></i> Delete
+      </a>
+      <%}%>
     </td>
     <%}%>
   </script>
@@ -823,7 +847,7 @@
             </td>
             <td>
             <input type="text" id="typeView">
-            <select multiple="multiple" class="days" style="width:200px; height:134px;">
+            <select multiple="multiple" class="days" style="width:200px; height:134px;" id="weekDays">
               <option value="Monday">Monday</option>
               <option value="Tuesday">Tuesday</option>
               <option value="Wednesday">Wednesday</option>

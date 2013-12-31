@@ -3,7 +3,7 @@ $(function() {
   App.Collections.reportsComment = Backbone.Collection.extend({
    
    url: function() {
-      return App.Server + '/report/_design/bell/_view/reportsComment?key="'+this.feedbackId+'"'
+      return App.Server + '/report/_design/bell/_view/reportsComment?key="'+this.feedbackId+'"&include_docs=true'
     },
 
     parse: function(response) {

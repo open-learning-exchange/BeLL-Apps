@@ -3,7 +3,7 @@ $(function() {
   App.Collections.siteFeedbacks = Backbone.Collection.extend({
    
    url: function() {
-      return App.Server + '/report/_all_docs?include_docs=true&limit='+limitofRecords+'&skip='+skip
+      return App.Server + '/report/_design/bell/_view/reportsOnly?limit='+limitofRecords+'&skip='+skip+'&include_docs=true'
     },
 
     parse: function(response) {

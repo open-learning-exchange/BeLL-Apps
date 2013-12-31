@@ -34,7 +34,7 @@ $(function() {
         this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
       }  
         this.form.fields['addedBy'].$el.attr("disabled",true)
-      
+        this.form.fields['averageRating'].$el.hide()
       var that = this
       if(_.has(this.model, 'id')) {
           if(this.model.get("Level") == "All"){
@@ -102,6 +102,17 @@ $(function() {
                   addtoDb = false
               }
           }
+          if(isEdit == undefined){
+                  var that = this
+                  var allres = new App.Collections.Resources()
+                  allres.fetch({async:false})
+                  allres.each(function(m){
+                  if(that.model.get("title") == m.get("title")){
+                        alert("Title already exist")
+                        addtoDb = false
+                      }
+                  })
+           }
           if(addtoDb){
                 if(isEdit == undefined){
                   this.model.set("sum",0)
