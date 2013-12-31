@@ -238,8 +238,59 @@ function sendMail()
 		});
 		
 	}
-	
 
+}
+function getScheduleDatesForCourse(startDate,endDate,days)
+{
+	startDate = new Date(2008, 2, 4);
+	endDate = new Date(2009, 2, 4);
+	var days = new Array(1,2,3)
+	
+	var day = startDate.getDay() ;
+	var scheduleDates = new Array();
+	while(startDate<endDate || startDate.valueOf()==endDate.valueOf())
+	{
+		day = startDate.getDay() ;	
+		var tempDate =new Date(startDate.valueOf()) ;
+		for(var i=0; i<days.length ; i++)
+		{
+			if(day<=days[i])
+			{
+				var t = startDate.getDate()+(days[i]-day)
+				tempDate.setDate(t)
+				//alert(day + ' ' + days[i] + ' ' + t + ' ' + tempDate)
+				if(tempDate<endDate || tempDate.valueOf()==endDate.valueOf())
+				{
+					var sdate = new Date(tempDate.valueOf())
+					scheduleDates.push(sdate)
+				}
+				else
+				{
+					endDate.setHours(tempDate.getHours())
+					if(tempDate.valueOf()==endDate.valueOf())
+					{
+						var sdate = new Date(tempDate.valueOf())
+						scheduleDates.push(sdate)
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+		startDate.setDate(startDate.getDate()+(7-startDate.getDay()))
+	}
+	alert(scheduleDates)
+	return scheduleDates;
+	
+}
+function monthDiff(d1, d2) {
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth() + 1;
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
 }
 $(window).scroll(function () {
   var $menu = $('#addEvent'),
