@@ -21,10 +21,10 @@ $(function() {
     },
 
     schema: {
+      addedBy:'Text',
       title: 'Text',
       description: 'Text',
       articleDate: 'Date',
-      addedBy:'Text',
       openWith:{
         type: 'Select',
         options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]

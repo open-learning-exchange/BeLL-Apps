@@ -20,9 +20,11 @@ $(function() {
       
       if(_.has(this.model, 'id')) {
         vars.header = 'Edit "' + this.model.get('title') + '"'
+        vars.hidesave = true
       }
       else {
         vars.header = 'New resource'
+        vars.hidesave = false
       }
       
       // prepare the form
@@ -60,6 +62,7 @@ $(function() {
       vars.form = "" //$(this.form.el).html()
       
       // render the template
+      console.log(vars)
       this.$el.html(this.template(vars))
       // @todo this is hackey, should be the following line or assigned to vars.form
       $('.fields').html(this.form.el)

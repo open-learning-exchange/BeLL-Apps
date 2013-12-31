@@ -3,6 +3,7 @@ $(function() {
   App.Views.MemberForm = Backbone.View.extend({
     
     className: "form",
+    id:'memberform',
 
     events: {
       "click #formButton": "setForm",

@@ -20,7 +20,6 @@ $(function() {
     template : _.template($("#template-ResourceRow").html()),
 
     initialize: function(e) {
-    this.admn=e.admin
       this.model.on('destroy', this.remove, this)
     },
     
@@ -57,8 +56,16 @@ $(function() {
      else{
         vars.totalRatings = 0 
       }
-     vars.admn=this.admn
-    this.$el.append(this.template(vars))
+     
+     if(this.isadmin > -1)
+      {
+        vars.admn = 1
+      }
+      else{
+        vars.admn = 0
+      }
+      
+     this.$el.append(this.template(vars))
     
       
     },
