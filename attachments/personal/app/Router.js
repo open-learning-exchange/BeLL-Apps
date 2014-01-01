@@ -52,11 +52,124 @@ $(function() {
       //mailview.manageButtons()
 		
 	},
+	
+	getIds:function(){
+		  var a=new App.Collections.ScriptCollection({model:new App.Models.Group,db:"groups",swtch:0})
+          a.fetch({async:false})
+          var courses=a.toJSON()
+        
+         a=new App.Collections.ScriptCollection({model:new App.Models.membercourseprogress,db:"membercourseprogress",swtch:0})
+          a.fetch({async:false})
+          var courseProgress=a.toJSON()
+          a=new App.Collections.ScriptCollection({model:new App.Models.CourseStep,db:"coursestep",swtch:0})
+         a.fetch({async:false})
+         var courseSteps=a.toJSON()
+          var ids=new Array()
+          console.log(courseProgress)
+          if(courseProgress.length!=0){
+          			for(var a=0;a<courseProgress.length;a++){
+          				if(ids.indexOf(courseProgress[a].courseId)==-1&&courseProgress[a].courseId!=undefined){
+          				ids.push(courseProgress[a].courseId)
+          				}
+          			}
+          }
+          console.log(ids)
+           if(courseSteps.length!=0){
+          			for(var a=0;a<courseSteps.length;a++){
+          				if(ids.indexOf(courseSteps[a].courseId)==-1&&courseSteps[a].courseId!=undefined){
+          				ids.push(courseSteps[a].courseId)
+          				}
+          			}
+          		
+          }
+          console.log(ids)
+          var indexArray = new Array()
+          for(var b=0;b < courses.length&&courses[b]._id!="_design/bell";b++){
+          	indexArray.push(courses[b]._id)
+          }
+          console.log(indexArray)
+          for(var b=0;b < ids.length;b++){
+          		if(indexArray.indexOf(ids[b]) == -1){
+          			App.idss.push(ids[b])
+          		}
+          }
+	},
+	
+	runscript: function(){	
+			this.getIds()
+			console.log(App.idss)
+          for (var i=0;i<App.idss.length;i++){
+          	 	var grp=new App.Models.Group()
+          		grp.set("name","Unknown")
+          		grp.set("levels",null)
+          		grp.set("description","Not Set Yet")
+          		grp.set("courseLeader",null)
+          		grp.set("leaderEmail",null)
+          		grp.set("leaderPhone",null)
+          		grp.set("members",null)
+          		grp.set("backgroundColor",null)
+          		grp.set("foregroundColor",null)
+          	    grp.once('sync',function(e){
+					 	var steps=new App.Collections.coursesteps()
+					 	steps.courseId=App.idss[0]
+					 	steps.fetch({async:false})
+					 	steps=new App.Collections.coursesteps()
+					 	steps.courseId=App.idss[0]
+					 	steps.fetch({async:false})
+					 	var results=new App.Collections.ScriptCollection({model:new App.Models.membercourseprogress,db:"membercourseprogress",swtch:1,courseId:App.idss[0]})
+					 	results.fetch({async:false})
+					/* 	console.log("Steps")
+					 	console.log(steps.length)
+					 	console.log("Results of enrolled ppl")
+					 	console.log(results.length)
+					 	console.log(App.idss[0])
+					 	console.log(e.toJSON().id)
+					 	console.log("----------------")
+					 */	
+					 	App.Router.addIds(steps,results,e.toJSON().id)
+					 App.idss.splice(0,1)
+					 	
+
+					 	
+		
+            	})
+          		grp.save()	
+          	
+          }
+	},
+	
+	addIds: function(steps,results,newId){
+	
+					 	
+		steps.forEach(function(s){
+					 	//	console.log(s.toJSON().courseId)
+					 		s.set("courseId",newId)
+					 		s.save(null,{
+					 			success:function(model,response){console.log("successfully saves step")},
+					 			error: function(model,response){(console.log(response))}
+					 		});
+					 		
+					 	})
+			results.forEach(function(r){
+					 	//	console.log(r.toJSON().courseId)
+					 		r.set("courseId",newId)
+					 		r.save(null,{
+					 			success:function(model,response){console.log("successfully saves result")},
+					 			error: function(model,response){(console.log(response))}
+					 		});
+					 	})
+					 				 	
+					 	
+	},
 	startUpStuff: function(){
 		this.checkLoggedIn
 		this.renderNav
+		if(App.idss.length==0){
+		//this.runscript()
+		}
 		   $('div.takeQuizDiv').hide()
 		 $('#externalDiv').hide()
+		  $('#debug').hide()
           this.bind( "all", this.checkLoggedIn)
           this.bind( "all", this.renderNav )  
 	},

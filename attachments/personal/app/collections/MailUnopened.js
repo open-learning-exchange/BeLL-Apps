@@ -6,7 +6,7 @@ $(function() {
 		if(e)
 		{
 		 if(e.receiverId){
-				this.url= App.Server + '/mail/_design/bell/_view/unopened?key="'+e.receiverId+'"&group=true'
+				this.url= App.Server + '/mail/_design/bell/_view/unopened?key="'+e.receiverId+'"'
 			}
 			else{
 				console.log("unable to find receiverId in MailUnopened Collection")

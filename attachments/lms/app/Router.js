@@ -3,6 +3,7 @@ $(function() {
 
     routes: {
       ''                            : '',
+      'teams'						:'Resources',
       'landingPage'                 : 'LandingScreen',
       'becomemember'                :  'BecomeMemberForm',
       'login'                       : 'MemberLogin',
@@ -128,7 +129,7 @@ var temp=$.url().attr("host").split(".")
       var m = new App.Models.Member()
       var bform = new App.Views.BecomeMemberForm({model:m})
       bform.on('BecomeMemberForm:done', function() {
-        Backbone.history.navigate('resources', {trigger: true})
+        window.location="../personal/index.html#dashboard"
       })
       bform.render()
       App.$el.children('.body').html('<h1>Become A Member</h1>')
