@@ -41,9 +41,9 @@ $(function() {
           //UPDATING MEMBER VISITIS
           var memvisits = new App.Models.Member({_id:response.rows[0].doc._id })
           memvisits.fetch({async:false})
-          memvisits.set("visits",memvisits.get("visits") + 1)
-          memvisits.save()
-          
+          memvisits.set("visits",parseInt(memvisits.get("visits")) + 1)
+          memvisits.once('sync',function()
+          {
           $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
           $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
           $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
@@ -61,6 +61,9 @@ $(function() {
               async: false
           });
          memberLoginForm.trigger('success:login')
+          })
+          memvisits.save()
+          
         }
         else{
           alert("Your Account Is Deactivated")
