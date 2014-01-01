@@ -58,10 +58,8 @@
   <script src="app/models/CourseStep.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/Mail.js"></script>
-	<script src="app/models/membercourseprogress.js"></script>
-
   <script src="app/models/membercourseprogress.js"></script>
-
+  <script src="app/models/CourseSchedule.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -77,6 +75,7 @@
   <script src="app/collections/AllInviteMember.js"></script>
   <script src="app/collections/Mails.js"></script>
   <script src="app/collections/MailUnopened.js"></script>
+  <script src="app/collections/CourseScheduleByCourse.js"></script>
   
 
     
@@ -242,10 +241,10 @@ function sendMail()
 }
 function getScheduleDatesForCourse(startDate,endDate,days)
 {
-	startDate = new Date(2008, 2, 4);
-	endDate = new Date(2009, 2, 4);
-	var days = new Array(1,2,3)
-	
+	//startDate = new Date(2008, 2, 4);
+	//endDate = new Date(2009, 2, 4);
+	//var days = new Array(1,2,3)
+	//alert(startDate + ' ' +endDate + ' ' +days)
 	var day = startDate.getDay() ;
 	var scheduleDates = new Array();
 	while(startDate<endDate || startDate.valueOf()==endDate.valueOf())
@@ -266,7 +265,7 @@ function getScheduleDatesForCourse(startDate,endDate,days)
 				}
 				else
 				{
-					endDate.setHours(tempDate.getHours())
+					//endDate.setHours(tempDate.getHours())
 					if(tempDate.valueOf()==endDate.valueOf())
 					{
 						var sdate = new Date(tempDate.valueOf())
@@ -281,17 +280,10 @@ function getScheduleDatesForCourse(startDate,endDate,days)
 		}
 		startDate.setDate(startDate.getDate()+(7-startDate.getDay()))
 	}
-	alert(scheduleDates)
 	return scheduleDates;
 	
 }
-function monthDiff(d1, d2) {
-    var months;
-    months = (d2.getFullYear() - d1.getFullYear()) * 12;
-    months -= d1.getMonth() + 1;
-    months += d2.getMonth();
-    return months <= 0 ? 0 : months;
-}
+
 $(window).scroll(function () {
   var $menu = $('#addEvent'),
       scrollpos = $(window).scrollTop();

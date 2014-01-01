@@ -401,7 +401,60 @@ $(function() {
 			temp.allDay=false
 			temp2.push(temp)	
 			});
-		var calendar = $('#calendar').fullCalendar({
+		
+                var membercourses = new App.Collections.MemberGroups()
+                membercourses.fetch({async:false})
+                console.log(membercourses.length)
+                        
+                membercourses.each(function(m){
+                    	
+                        
+                        var cs = new App.Collections.CourseScheduleByCourse()
+                        cs.courseId = m.get("_id")
+                     //   alert(cs.courseId)
+                        
+                        cs.fetch({async:false})
+                        
+                        if(cs.length > 0){
+                        var model = cs.first()
+                          var daysindex
+                          if(model.get("type") == "Daily"){
+                            daysindex= new Array(0,1,2,3,4,5,6)
+                          }
+                          else
+                          {
+                            
+                            daysindex = new Array()
+                            var week = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                            var sweek = model.get("weekDays")
+                            var i=0 
+                            while(i<sweek.length){
+                             daysindex.push(week.indexOf(sweek[i]))
+                             i++
+                            }
+                          }
+                          
+                          var sdate = model.get("startDate").split('/')
+                          var edate = model.get("endDate").split('/')
+                          
+                          var sdates = getScheduleDatesForCourse(new Date(sdate[2],sdate[0],sdate[1]),new Date(edate[2],edate[0],edate[1]),daysindex)
+                         // alert(sdates)
+                          for(var i=0; i<sdates.length ; i++)
+                          {
+                            
+                            var temp=new Object()
+                            temp.title=model.get("startTime") +" " + model.get("endTime")
+                            temp.start=sdates[i]
+                            temp.end=sdates[i]
+                            temp.allDay=false
+                            temp2.push(temp)
+                          }
+                        
+                    }
+                        
+		});
+                alert(temp2.length)
+                var calendar = $('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -413,10 +466,11 @@ $(function() {
 			return false
 		 },	
 		events: temp2,
-		});
-
-
-		})
+  		});
+          
+          
+  
+  })
 },
     /*
      * Syncing pages
