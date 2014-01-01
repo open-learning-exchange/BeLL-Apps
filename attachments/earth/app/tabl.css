@@ -229,10 +229,8 @@ margin-top:-10px;
 	font-size: 21px;
 }
 #star {
- color: #FFFFFF;
-    padding-left: 44px;
+    padding-left: 22px;
     width: 500px !important;
-    padding-top: 10px;
 }
 
 .feedback_form label{
@@ -364,9 +362,8 @@ height:80%;
 height:100%;
 }
 #f-formButton{
-  margin-left: 10%;
-  width: 80%;
-  margin-top:3%;
+ margin-left: 10%;
+    width: 80%;
 }
 
 #f-formButton button{
@@ -401,121 +398,4 @@ textarea[name="comment"]
 	  background-color: #C4EFFD;
     height: 60px;
     font-size: 19px;
-}
-.stu-nav-option-empty > a {
-    color: #FF0000;
-    font-size: 30px;
-    font-weight: 900;
-}
-.graphLabelgraph {
-    height: 39px;
-    overflow: hidden;
-    word-wrap: break-word;
-}
-
-#veticallable{
- float: left;
-    height: 45%;
-    padding-top: 10%;
-    position: relative;
-    width: 14px;
-}
-#graph{
-  float: left;
-    width: 98%;
-}
-#horizontallabel{
-    float: left;
-    padding-left: 48%;
-    position: relative;
-    width: 100%;
-}
-}
-.Graphbutton{
-    float: left;
-    margin-top: 20px;
-    position: relative;
-}
-#externalDiv {
-    background-color: #34495E;
-    border: 2px solid #000000;
-    border-radius: 20px;
-    font-weight: 900px;
-    height: 243px;
-    left: 10%;
-    overflow: hidden;
-    padding: 10px;
-    position: fixed;
-    top: 40%;
-    width: 80%;
-    z-index: 2;
-}
-
-#externalDiv fieldset{
-border:none;
-font-weight: 900px;
-}
-#externalDiv > form {
-    margin-bottom: 48px;
-}
-#inbox_mails{
-    font-size: 17px;
-    margin-left: 10%;
-    width: 80%;
-}
-#mailActions{
- height: 64px;
-    margin-left: 10%;
-    overflow: hidden;
-	 width: 80%;
-}
-.mail-table {
-    height: 46px;
-    overflow: hidden;
-	 width: 80%;
-	  margin-left: 10%;
-}
-.courseInfo-table
-{
-    border: 2px solid #000000;
-    overflow: hidden;
-    width: 940px;
-	color:white;
-	margin:0px auto;
-	background-color:#1ABC9C;
-	border-collapse:collapse;
-}
-.courseInfo-table th
-{background-color:#34495E;
-	font-weight: bolder;
-	    height: 40px;
-	font-size: 30px;
-	}
-.courseInfo-table tr
-{
- border-top: 2px dashed #000000;	
-	font-size: 17px;
-  font-weight: 900;
-  height: 47px;
-  overflow: hidden;	
-}
-.courseInfo-table tr
-{background-color:#1ABC9C;}
-
-.courseInfo-table-td-title
-{
-	width:50%;
-	padding-left: 5%;
-}
-
-.courseInfo-table-td-link
-{
-	width:50%;
-}
-
-.courseInfo-header
-{
-    width: 940px;
-	color:white;
-	margin:0px auto;
 }
