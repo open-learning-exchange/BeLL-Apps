@@ -15,6 +15,7 @@ $(function() {
     globalUrl:{},
     bellLocation : "Pakistan", 
     el: "body",
+    idss:[],
     template: $("#template-app").html(),
     events: {
       // For the x button on the modal

@@ -45,12 +45,13 @@ $(function() {
 				temp="local "	
 			}
 		    temp=temp+" Community Bell"
-		$('.bellLocation').html(temp)
+		        $('.bellLocation').html(temp)
 			if(parseInt(member.get('visits'))==0){
 				temp="Error!!"
 			}
 			else{
-				temp=member.get('visits')+ " visits"
+				console.log(member)
+                                temp=member.get('visits')+ " visits"
 			}
 		        $('.visits').html(temp)
         $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'&nbsp;<a href="#member/edit/'+$.cookie('Member._id')+'"><i class="fui-gear"></i></a>')

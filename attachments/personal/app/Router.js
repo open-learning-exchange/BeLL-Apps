@@ -53,15 +53,15 @@ $(function() {
 		
 	},
 	startUpStuff: function(){
-		this.checkLoggedIn
-		this.renderNav
-		   $('div.takeQuizDiv').hide()
-		 $('#externalDiv').hide()
+	  this.checkLoggedIn
+	  this.renderNav
+	  $('div.takeQuizDiv').hide()
+	  $('#externalDiv').hide()
           this.bind( "all", this.checkLoggedIn)
           this.bind( "all", this.renderNav )  
 	},
 	
-	   checkLoggedIn: function(){
+    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
    		console.log($.url().attr('fragment'))
    		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='member/add')
@@ -72,27 +72,23 @@ $(function() {
    	}
    },
 	
-	
-
-	viewAllFeedback: function(){
-		feed = new App.Collections.siteFeedbacks()
-       feed.fetch({success: function() {
+    viewAllFeedback: function(){
+          feed = new App.Collections.siteFeedbacks()
+          feed.fetch({success: function() {
           feedul = new App.Views.siteFeedbackPage({collection:feed})
           feedul.render()
           App.$el.children('.body').html('&nbsp')	
           App.$el.children('.body').append(feedul.el) 
 			}})
-	},
-	
-    renderNav: function(){
-   		if($.cookie('Member._id')){
+    },
+  renderNav: function(){
+    if($.cookie('Member._id')){
         var na=new App.Views.navBarView({isLoggedIn:'1'})
-     	}   
-     	else{
-     		var na=new App.Views.navBarView({isLoggedIn:'0'})
-     	}
-     	 $('div.navbar-collapse').html(na.el)
-     	       
+     }   
+     else{
+     	var na=new App.Views.navBarView({isLoggedIn:'0'})
+      }
+      $('div.navbar-collapse').html(na.el)
     },
 
 
