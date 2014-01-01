@@ -283,7 +283,17 @@ function getScheduleDatesForCourse(startDate,endDate,days)
 	return scheduleDates;
 	
 }
-
+function convertTo24Hour(time) {
+    var hours = parseInt(time.substr(0, 2));
+    return hours;
+    if(time.indexOf('am') != -1 && hours == 12) {
+        time = time.replace('12', '0');
+    }
+    if(time.indexOf('pm')  != -1 && hours < 12) {
+        time = time.replace(hours, (hours + 12));
+    }
+    return time.replace(/(am|pm)/, '');
+}
 $(window).scroll(function () {
   var $menu = $('#addEvent'),
       scrollpos = $(window).scrollTop();
@@ -756,14 +766,14 @@ $(window).scroll(function () {
 <script type="text/template" id="template-view-mail">
 
 <div style="margin-left:10%">	
-	<b style="color:black; font-size:25px;"><%= subject %></b>
+	<div style='style="width: 46%;'><b style="color:black; font-size:25px;"><%= subject %></b></div>
 		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
 		<br/>
-		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;">Message:&nbsp;</span><%= subject %></b></span>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"</span></b></span>
 
 		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
 		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
-		<div style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
+		<div id="mail-body" style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
 		</div>
 	
 	<br/>

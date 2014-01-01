@@ -439,13 +439,15 @@ $(function() {
                           
                           var sdates = getScheduleDatesForCourse(new Date(sdate[2],sdate[0],sdate[1]),new Date(edate[2],edate[0],edate[1]),daysindex)
                          // alert(sdates)
+                         var stime = convertTo24Hour(model.get("startTime"))
+                         var etime = convertTo24Hour(model.get("endTime"))
                           for(var i=0; i<sdates.length ; i++)
                           {
-                            
+                          	
                             var temp=new Object()
-                            temp.title=model.get("startTime") +" " + model.get("endTime")
-                            temp.start=sdates[i]
-                            temp.end=sdates[i]
+                            temp.title=m.get('name')
+                            temp.start=new Date(sdates[i].setHours(stime))
+                            temp.end=new Date(sdates[i].setHours(etime))
                             temp.allDay=false
                             temp2.push(temp)
                           }
@@ -453,7 +455,7 @@ $(function() {
                     }
                         
 		});
-                alert(temp2.length)
+                //alert(temp2.length)
                 var calendar = $('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',

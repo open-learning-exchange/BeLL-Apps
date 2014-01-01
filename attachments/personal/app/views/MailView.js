@@ -8,6 +8,7 @@ $(function() {
    	nextButton:null,
    	searchText : null,
     resultArray : null,
+    inViewModel : null,
     showNextButton : null,
     template : _.template($("#template-mail").html()),
     templateMailView : _.template($("#template-view-mail").html()),
@@ -37,6 +38,18 @@ $(function() {
     },
     "click #invite-accept" : function(e)
      {
+     	var body = inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+     	body = body.replace('Accept', '').replace('Reject','').replace('&nbsp;&nbsp;','')
+     	body = body + "<div style='margin-left: 25%;margin-top: 24%;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
+     	
+     	var model = new App.Models.Mail()
+ 	 	model.id = inViewModel.get("id")
+ 	 	model.fetch({async:false})
+     	
+     	model.set('body',body)
+     	model.save()
+     	$('#mail-body').html('<br/>' + body)
+     	return ;
 	  var gmodel = new App.Models.Group({_id : e.currentTarget.value})
 	  gmodel.fetch({async:false})
           var that = this
@@ -86,7 +99,17 @@ $(function() {
     
     "click #invite-reject" : function(e)
      {
-  		alert('reject' + e.currentTarget.value)
+  		var body = inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+     	body = body.replace('Accept', '').replace('Reject','').replace('&nbsp;&nbsp;','')
+     	body = body + "<div style='margin-left: 25%;margin-top: 24%;font-size: 11px;color: rgb(204,204,204);'>You have rejected this invitation.</div>"
+     	
+     	var model = new App.Models.Mail()
+ 	 	model.id = inViewModel.get("id")
+ 	 	model.fetch({async:false})
+     	
+     	model.set('body',body)
+     	model.save()
+     	$('#mail-body').html('<br/>' + body)
      },
     "click #search-mail":function(e)
     {
@@ -132,6 +155,7 @@ $(function() {
  	 //	this.viewButton(e)
  	 	var modelNo = e.currentTarget.value
  	 	var model = this.collection.at(modelNo)
+ 	 	inViewModel = model;
  	 	model.set("status","1")
  	 	model.save()
  	 	this.vars=model.toJSON()
