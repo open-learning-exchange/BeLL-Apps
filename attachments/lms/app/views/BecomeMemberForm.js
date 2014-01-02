@@ -63,10 +63,12 @@ $(function() {
       var that = this
       this.model.once('sync', function() {
         alert("Thank you for becoming a member")
+
          $.cookie('Member.login',that.model.get("login"),{path:"/apps/_design/bell/lms"})
           $.cookie('Member._id', that.model.get("id"),{path:"/apps/_design/bell/lms"})
           $.cookie('Member.login',that.model.get("login"),{path:"/apps/_design/bell/personal"})
           $.cookie('Member._id',that.model.get("id"),{path:"/apps/_design/bell/personal"})
+
         that.trigger('BecomeMemberForm:done')
       })
       // Put the form's input into the model in memory

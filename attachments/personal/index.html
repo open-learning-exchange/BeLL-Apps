@@ -60,8 +60,7 @@
   <script src="app/models/Mail.js"></script>
 	<script src="app/models/membercourseprogress.js"></script>
 <script src="app/models/reportComment.js"></script>
-  <script src="app/models/membercourseprogress.js"></script>
-
+  <script src="app/models/CourseSchedule.js"></script>
 
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -77,8 +76,15 @@
   <script src="app/collections/AllInviteMember.js"></script>
   <script src="app/collections/Mails.js"></script>
   <script src="app/collections/MailUnopened.js"></script>
+
   <script src="app/collections/ScriptCollection.js"></script>
 	<script src="app/collections/reportsComment.js"></script>
+
+  <script src="app/collections/CourseScheduleByCourse.js"></script>
+  <script src="app/collections/ScriptCollection.js"></script>
+  
+
+
     
   
   <script src="app/views/GroupRow.js"></script>
@@ -110,7 +116,11 @@
   <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
   <script src="app/views/MailView.js"></script>
+
    <script src="app/views/addComment.js"></script>
+
+  <script src="app/views/CourseInfoView.js"></script>
+   
   <!--
   overlay poput script
   -->
@@ -239,8 +249,62 @@ function sendMail()
 		});
 		
 	}
-	
 
+}
+function getScheduleDatesForCourse(startDate,endDate,days)
+{
+	//startDate = new Date(2008, 2, 4);
+	//endDate = new Date(2009, 2, 4);
+	//var days = new Array(1,2,3)
+	//alert(startDate + ' ' +endDate + ' ' +days)
+	var day = startDate.getDay() ;
+	var scheduleDates = new Array();
+	while(startDate<endDate || startDate.valueOf()==endDate.valueOf())
+	{
+		day = startDate.getDay() ;	
+		var tempDate =new Date(startDate.valueOf()) ;
+		for(var i=0; i<days.length ; i++)
+		{
+			if(day<=days[i])
+			{
+				var t = startDate.getDate()+(days[i]-day)
+				tempDate.setDate(t)
+				//alert(day + ' ' + days[i] + ' ' + t + ' ' + tempDate)
+				if(tempDate<endDate || tempDate.valueOf()==endDate.valueOf())
+				{
+					var sdate = new Date(tempDate.valueOf())
+					scheduleDates.push(sdate)
+				}
+				else
+				{
+					//endDate.setHours(tempDate.getHours())
+					if(tempDate.valueOf()==endDate.valueOf())
+					{
+						var sdate = new Date(tempDate.valueOf())
+						scheduleDates.push(sdate)
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+		startDate.setDate(startDate.getDate()+(7-startDate.getDay()))
+	}
+	return scheduleDates;
+	
+}
+function convertTo24Hour(time) {
+    var hours = parseInt(time.substr(0, 2));
+    return hours;
+    if(time.indexOf('am') != -1 && hours == 12) {
+        time = time.replace('12', '0');
+    }
+    if(time.indexOf('pm')  != -1 && hours < 12) {
+        time = time.replace(hours, (hours + 12));
+    }
+    return time.replace(/(am|pm)/, '');
 }
 $(window).scroll(function () {
   var $menu = $('#addEvent'),
@@ -715,14 +779,14 @@ $(window).scroll(function () {
 <script type="text/template" id="template-view-mail">
 
 <div style="margin-left:10%">	
-	<b style="color:black; font-size:25px;"><%= subject %></b>
+	<div style='style="width: 46%;'><b style="color:black; font-size:25px;"><%= subject %></b></div>
 		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
 		<br/>
-		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;">Message:&nbsp;</span><%= subject %></b></span>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"</span></b></span>
 
 		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
 		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
-		<div style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
+		<div id="mail-body" style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
 		</div>
 	
 	<br/>

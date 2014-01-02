@@ -9,7 +9,7 @@ $(function() {
     	'click #acceptNotification': function(){
 	        console.log(this.model)
 		this.AddScheduleToCalender()
-    		/*var groupId = this.model.get("entityId")
+    		var groupId = this.model.get("entityId")
     		var gmodel = new App.Models.Group({_id : groupId})
     		gmodel.fetch({async:false})
     		var that = this
@@ -81,7 +81,7 @@ $(function() {
     		else{
     			alert("Error In Fetching Group")
     		}
-    		*/
+    		
     	},
     	'click #rejectNotification': function(){this.model.destroy()
     			this.remove()

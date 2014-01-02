@@ -45,6 +45,7 @@ $(function() {
  			alert("Feedback Successfully Sent")
  			$('#comment',this.$el).val("")
  		}
+
  		$('#site-feedback').animate({height:'toggle'})
  },
 

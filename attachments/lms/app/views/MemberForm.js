@@ -133,9 +133,10 @@ $(function() {
               that.model.set("subjectSpecialization",null)
               that.model.set("forGrades",null)
            }
-            this.model.set("visits",0)
+            
             var addMem = true
             if(this.model.get("_id") == undefined){
+            this.model.set("visits",0)
             var existing = new App.Collections.Members()
             existing.fetch({async:false})
             existing.each(function(m){
@@ -144,7 +145,7 @@ $(function() {
                       addMem = false  
                     }
              })
-      }
+            }
             if(addMem){
             this.model.save(null,{success:function(){
                 that.model.unset('_attachments')

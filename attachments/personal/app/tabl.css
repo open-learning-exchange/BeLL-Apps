@@ -513,3 +513,49 @@ border:none;
     margin-bottom: 10px;
     padding-left: 5px;
 }
+
+.courseInfo-table
+{
+    border: 2px solid #000000;
+    overflow: hidden;
+    width: 940px;
+	color:white;
+	margin:0px auto;
+	background-color:#1ABC9C;
+	border-collapse:collapse;
+}
+.courseInfo-table th
+{background-color:#34495E;
+	font-weight: bolder;
+	    height: 40px;
+	font-size: 30px;
+	}
+.courseInfo-table tr
+{
+ border-top: 2px dashed #000000;	
+	font-size: 17px;
+  font-weight: 900;
+  height: 47px;
+  overflow: hidden;	
+}
+.courseInfo-table tr
+{background-color:#1ABC9C;}
+
+.courseInfo-table-td-title
+{
+	width:50%;
+	padding-left: 5%;
+}
+
+.courseInfo-table-td-link
+{
+	width:50%;
+}
+
+.courseInfo-header
+{
+    width: 940px;
+	color:white;
+	margin:0px auto;
+}
+

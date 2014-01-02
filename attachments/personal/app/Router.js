@@ -2,7 +2,7 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 	
     routes: {
-      ''                              : 'Dashboard', 
+      ''                              : 'MemberLogin', 
       'dashboard'                     : 'Dashboard',
       'login'                         : 'MemberLogin',
       'logout'                        : 'MemberLogout',
@@ -10,6 +10,8 @@ $(function() {
       'my-courses'                    : 'MemberGroups',
       'course/edit/:groupId'          : 'GroupForm',
       'course/details/:courseId/:name': 'CourseDetails', // @todo delete and change refs to it
+      'CourseInfo/:courseId'          : 'CourseInfo',
+      'course/resign/:courseId'       : 'ResignCourse',
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/link/:groupId'          : 'GroupLink',
       'update-assignments'            : 'UpdateAssignments',
@@ -19,7 +21,7 @@ $(function() {
       'search-bell'		      : 'SearchBell',
       'search-result'		      :'SearchResult',
       'member/add'                    : 'MemberForm',
-       'member/edit/:mid'              : 'MemberForm',
+      'member/edit/:mid'              : 'MemberForm',
       'addResource/:rid/:title/:revid'                  : 'AddResourceToShelf',
       'resource/detail/:rsrcid/:shelfid/:revid'         :  'Resource_Detail', //When Item is Selected from the shelf 
       'calendar'                      : 'CalendarFunction',
@@ -162,19 +164,22 @@ $(function() {
 					 	
 	},
 	startUpStuff: function(){
+
 		this.checkLoggedIn
 		this.renderNav
+
 		if(App.idss.length==0){
 		//this.runscript()
 		}
 		   $('div.takeQuizDiv').hide()
 		 $('#externalDiv').hide()
 		  $('#debug').hide()
+
           this.bind( "all", this.checkLoggedIn)
           this.bind( "all", this.renderNav )  
 	},
 	
-	   checkLoggedIn: function(){
+    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
    		console.log($.url().attr('fragment'))
    		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='member/add')
@@ -185,27 +190,23 @@ $(function() {
    	}
    },
 	
-	
-
-	viewAllFeedback: function(){
-		feed = new App.Collections.siteFeedbacks()
-       feed.fetch({success: function() {
+    viewAllFeedback: function(){
+          feed = new App.Collections.siteFeedbacks()
+          feed.fetch({success: function() {
           feedul = new App.Views.siteFeedbackPage({collection:feed})
           feedul.render()
           App.$el.children('.body').html('&nbsp')	
           App.$el.children('.body').append(feedul.el) 
 			}})
-	},
-	
-    renderNav: function(){
-   		if($.cookie('Member._id')){
+    },
+  renderNav: function(){
+    if($.cookie('Member._id')){
         var na=new App.Views.navBarView({isLoggedIn:'1'})
-     	}   
-     	else{
-     		var na=new App.Views.navBarView({isLoggedIn:'0'})
-     	}
-     	 $('div.navbar-collapse').html(na.el)
-     	       
+     }   
+     else{
+     	var na=new App.Views.navBarView({isLoggedIn:'0'})
+      }
+      $('div.navbar-collapse').html(na.el)
     },
 
 
@@ -384,7 +385,7 @@ $(function() {
 		ccSteps.courseId=courseId
 		ccSteps.fetch({success: function(){	
 			App.$el.children('.body').html('&nbsp')
-			App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>'+name+'</p>')
+			App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>'+name+'    <a href="#CourseInfo/'+courseId+'"><button class="btn fui-eye"></button></a></p>')
 			var levelsTable = new App.Views.CourseLevelsTable({collection: ccSteps})
 			levelsTable.render()
 			App.$el.children('.body').append(levelsTable.el)		    
@@ -402,6 +403,64 @@ $(function() {
 					}
 				});
 			}}) 
+    },
+    CourseInfo:function(courseId){
+    
+    var courseModel= new App.Models.Group()
+    courseModel.set('_id',courseId)
+    courseModel.fetch({async:false})
+    
+    var courseLeader=courseModel.get('courseLeader')
+    var memberModel=new App.Models.Member()
+    memberModel.set('_id',courseLeader)
+    memberModel.fetch({async:false})
+    
+    var viewCourseInfo=new App.Views.CourseInfoView({model:courseModel})
+    viewCourseInfo.leader=memberModel
+    
+    viewCourseInfo.render()
+    console.log(viewCourseInfo)
+    
+    App.$el.children('.body').html("&nbsp")
+    App.$el.children('.body').append('<div class="courseInfo-header"><a href="#course/details/'+courseId+'/'+courseModel.get('name')+'"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/'+courseId+'"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
+    App.$el.children('.body').append(viewCourseInfo.el)
+     
+    
+    
+    },
+    ResignCourse:function(courseId){
+    
+        var memberId = $.cookie('Member._id')
+        var courseModel= new App.Models.Group()
+        courseModel.set('_id',courseId)
+        courseModel.fetch({async:false})
+            
+        var courseMemebers=courseModel.get('members')
+        var index=courseMemebers.indexOf(memberId)
+        courseMemebers.splice(index, 1);
+        courseModel.set({members:courseMemebers})
+        courseModel.save();
+        
+        var mail = new App.Models.Mail();
+        var currentdate = new Date();
+        var id = courseModel.get('leaderEmail')
+        
+        var subject='Course Resignation | '+courseModel.get('name')+''
+        var mailBody='Hi,<br>Member '+$.cookie('Member.login')+' has resign from '+courseModel.get('name')+''
+
+      			mail.set("senderId",$.cookie('Member._id'));
+      			mail.set("receiverId",id);
+      			mail.set("subject",subject);
+      			mail.set("body",mailBody);
+      			mail.set("status","0");
+      			mail.set("type","mail");
+      			mail.set("sentDate",currentdate);
+      			//console.log(mail)
+      			mail.save();
+       alert("Mail successfully send.")
+
+       Backbone.history.navigate('dashboard', {trigger: true})
+     
     },
     NewsFeed : function(){ 
      var resources = new App.Collections.NewsResources()
@@ -514,7 +573,62 @@ $(function() {
 			temp.allDay=false
 			temp2.push(temp)	
 			});
-		var calendar = $('#calendar').fullCalendar({
+		
+                var membercourses = new App.Collections.MemberGroups()
+                membercourses.fetch({async:false})
+                console.log(membercourses.length)
+                        
+                membercourses.each(function(m){
+                    	
+                        
+                        var cs = new App.Collections.CourseScheduleByCourse()
+                        cs.courseId = m.get("_id")
+                     //   alert(cs.courseId)
+                        
+                        cs.fetch({async:false})
+                        
+                        if(cs.length > 0){
+                        var model = cs.first()
+                          var daysindex
+                          if(model.get("type") == "Daily"){
+                            daysindex= new Array(0,1,2,3,4,5,6)
+                          }
+                          else
+                          {
+                            
+                            daysindex = new Array()
+                            var week = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                            var sweek = model.get("weekDays")
+                            var i=0 
+                            while(i<sweek.length){
+                             daysindex.push(week.indexOf(sweek[i]))
+                             i++
+                            }
+                          }
+                          
+                          var sdate = model.get("startDate").split('/')
+                          var edate = model.get("endDate").split('/')
+                          
+                          var sdates = getScheduleDatesForCourse(new Date(sdate[2],sdate[0],sdate[1]),new Date(edate[2],edate[0],edate[1]),daysindex)
+                         // alert(sdates)
+                         var stime = convertTo24Hour(model.get("startTime"))
+                         var etime = convertTo24Hour(model.get("endTime"))
+                          for(var i=0; i<sdates.length ; i++)
+                          {
+                          	
+                            var temp=new Object()
+                            temp.title=m.get('name')
+                            temp.start=new Date(sdates[i].setHours(stime))
+                            temp.end=new Date(sdates[i].setHours(etime))
+                            temp.allDay=false
+                            temp2.push(temp)
+                          }
+                        
+                    }
+                        
+		});
+                //alert(temp2.length)
+                var calendar = $('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -526,10 +640,11 @@ $(function() {
 			return false
 		 },	
 		events: temp2,
-		});
-
-
-		})
+  		});
+          
+          
+  
+  })
 },
     /*
      * Syncing pages

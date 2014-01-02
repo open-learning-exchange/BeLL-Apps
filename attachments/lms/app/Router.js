@@ -70,22 +70,22 @@ $(function() {
    },
 
     AllRequests:function(){
-		App.$el.children('.body').html('&nbsp')
-		var col=new App.Collections.Requests()
+	App.$el.children('.body').html('&nbsp')
+	var col=new App.Collections.Requests()
 	col.fetch({async:false})
 	var colView=new App.Views.RequestTable({collection:col})
 	colView.render()
 	App.$el.children('.body').append(colView.el)		
-		
-	},
-	myRequests:function(){
+     },
+	
+    myRequests:function(){
 	App.$el.children('.body').html('&nbsp')	
 	var col=new App.Collections.Requests({memberId:($.cookie('Member._id'))})
 	col.fetch({async:false})
 	var colView=new App.Views.RequestTable({collection:col})
 	colView.render()
 	App.$el.children('.body').append(colView.el)	
-	},
+      },
    
     CourseReport: function(cId,cname){
           App.$el.children('.body').html("<h2> "+cname+"</h2>")
@@ -112,7 +112,7 @@ $(function() {
     },
     LandingScreen : function(){
       $('ul.nav').html($('#template-nav-log-in').html()).hide()
-var temp=$.url().attr("host").split(".")
+        var temp=$.url().attr("host").split(".")
 	temp=temp[0].substring(3)
 	console.log(temp)
 	var vars=new Object()
@@ -129,7 +129,10 @@ var temp=$.url().attr("host").split(".")
       var m = new App.Models.Member()
       var bform = new App.Views.BecomeMemberForm({model:m})
       bform.on('BecomeMemberForm:done', function() {
+
         window.location="../personal/index.html#dashboard"
+
+
       })
       bform.render()
       App.$el.children('.body').html('<h1>Become A Member</h1>')
@@ -160,7 +163,7 @@ var temp=$.url().attr("host").split(".")
       memberLoginForm.once('success:login', function() {
        // $('ul.nav').html($("#template-nav-logged-in").html())
        // Backbone.history.navigate('courses', {trigger: true})
-       	  window.location.href = "../personal/index.html";
+       	  window.location.href = "../personal/index.html#dashboard";
           //Backbone.history.navigate('resources', {trigger: true})
       })
       memberLoginForm.render()
@@ -305,6 +308,10 @@ var temp=$.url().attr("host").split(".")
 
     Members: function() {
               
+      var loggedIn = new App.Models.Member({"_id":$.cookie('Member._id')})
+      loggedIn.fetch({async:false})
+      var roles = loggedIn.get("roles")
+
         members = new App.Collections.Members()
         members.fetch({success: function() {
         membersTable = new App.Views.MembersTable({collection: members})
