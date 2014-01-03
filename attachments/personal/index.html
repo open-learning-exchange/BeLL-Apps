@@ -58,7 +58,8 @@
   <script src="app/models/CourseStep.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/Mail.js"></script>
-  <script src="app/models/membercourseprogress.js"></script>
+	<script src="app/models/membercourseprogress.js"></script>
+<script src="app/models/reportComment.js"></script>
   <script src="app/models/CourseSchedule.js"></script>
 
   <script src="app/collections/Groups.js"></script>
@@ -75,9 +76,14 @@
   <script src="app/collections/AllInviteMember.js"></script>
   <script src="app/collections/Mails.js"></script>
   <script src="app/collections/MailUnopened.js"></script>
+
+  <script src="app/collections/ScriptCollection.js"></script>
+	<script src="app/collections/reportsComment.js"></script>
+
   <script src="app/collections/CourseScheduleByCourse.js"></script>
   <script src="app/collections/ScriptCollection.js"></script>
   
+
 
     
   
@@ -110,6 +116,10 @@
   <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
   <script src="app/views/MailView.js"></script>
+
+   <script src="app/views/addComment.js"></script>
+
+  <script src="app/views/CourseInfoView.js"></script>
    
   <!--
   overlay poput script
@@ -124,9 +134,10 @@ var searchText = "";
 var skip = 0;    //Variable used to skip the number of records been fetched before.
 var enablenext=0;
 var searchRecordsPerPage = 2;
-var limitofRecords = 2;
+var limitofRecords = 5;
 var skipStack = new Array()
 var numberOfNotificattions="."
+ url="unknown";
 var lastpage = false
 var mailView;
 function showFeedbackForm(){
@@ -317,6 +328,7 @@ $(window).scroll(function () {
   <script type="text/template" id="template-app">  
   <div class="takeQuizDiv" id="tQuizDiv"></div>
   <div id="externalDiv"></div>
+  <div id="debug"></div>
   <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
@@ -405,17 +417,35 @@ $(window).scroll(function () {
 
 		</style>
 	<div id='calendar'></div>
-		
-	
 </script>
 
+
+
+
+
   <script type="text/template" id="template-nav-logged-in"> 
-    <li> 
+  <!--  <li> 
       <a href="../lms/index.html#login">
          Community
       </a>
     </li>
+   -->
     <li> 
+      <a href="#">
+      Personal
+      </a>
+    </li> 
+    <li> 
+      <a href="#ereader">
+       e-Readers
+      </a>
+    </li>
+    <li> 
+      <a href="#">
+       Resources
+      </a>
+    </li>
+     <li> 
       <a href="#">
        Courses
       </a>
@@ -425,12 +455,17 @@ $(window).scroll(function () {
        Meetups
       </a>
     </li>
+     <li> 
+      <a href="../lms/index.html#members">
+       Members
+      </a>
+    </li>
     <li> 
-      <a href="#dashboard">
-      Dashboard
+      <a href="#info">
+      Reports
       </a>
     </li> 
-   <li> 
+     <li> 
       <a onclick = "showFeedbackForm()">
         Feedback
       </a>
@@ -441,6 +476,10 @@ $(window).scroll(function () {
       </a>
     </li>	
   </script>
+
+
+
+
 
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
@@ -555,20 +594,20 @@ $(window).scroll(function () {
   
    <script type="text/html" id="template-siteReviewRownoAdmin">
   	 	<%  if(Resolved=="0"){%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved</td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 	   <%} 
 		else {%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 		<%}%>
   </script>
   
     
    <script type="text/html" id="template-siteReviewRowAdmin">
   	 	<%  if(Resolved=="0"){%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a></td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 	   <%} 
 		else {%>
-			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved</td>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 		<%}%>
   </script>
   <script type="text/html" id="template-AssignmentRow">
@@ -741,6 +780,8 @@ $(window).scroll(function () {
    <script type="text/template" id="template-mail">
    <div id="mailActions" >
 		<b style="color:black; font-size:25px;">Inbox
+		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
+		<button class="btn btn-primary" id="unread-mails">Unread</button>
 		<span class="new_mails"></span>
 		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
 		</b>

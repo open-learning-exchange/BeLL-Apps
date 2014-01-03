@@ -96,7 +96,9 @@ $(function() {
    	if(url=="unknown"){
    	url="siteFeedback"
    	}
+   	if($("#comments")!=null){
    	 $('#debug').append('<div id="comments"></div>')
+   	}
    },
    
 	addAll: function(){

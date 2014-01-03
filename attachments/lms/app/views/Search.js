@@ -15,12 +15,12 @@ $(function() {
       enablenext=0
     },
     render: function() {
-	var obj = this
-        this.$el.html(_.template(this.template, this.vars))
-	if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
-	{
-	  this.fetchRecords()
-	}
+		  var obj = this
+      	  this.$el.html(_.template(this.template, this.vars))
+		if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
+		{
+	 		 this.fetchRecords()
+		}
     },
     
     fetchRecords: function()
@@ -35,8 +35,8 @@ $(function() {
 		{  $('#previous_button').remove()}
 
 
- if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
-		  obj.fetchRecords()
+	  if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
+		  	obj.fetchRecords()
        }
        else if(obj.groupresult.models.length == 0 ){
 		      previousPageButtonPressed()
@@ -79,10 +79,11 @@ $(function() {
     	return false
     },
     searchInArray: function(resourceArray,searchText){
-    	var that  = this
+      var that  = this
       var resultArray = []
       var foundCount
       console.log(this.ratingFilter)
+	 
 	 if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
 	 {
 	   _.each(resourceArray, function(result) {

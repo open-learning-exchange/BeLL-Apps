@@ -281,6 +281,7 @@ color:white;
 .table-feedback{
 text-align:left;
 display: block;
+border:none;
 }
 .table-feedback th{
 text-align:center;
@@ -475,3 +476,86 @@ font-weight: 900px;
 	 width: 80%;
 	  margin-left: 10%;
 }
+#commentButton{
+ margin: 10px;
+}
+#debug {
+    background-color: #808080;
+    border-radius: 20px;
+    margin-left: 10%;
+    max-height: 95%;
+    position: fixed;
+    top: 30px;
+    width: 80%;
+    z-index: 4;
+}
+#comments {
+    background-color: #B6B6B6;
+    border-radius: 20px;
+    margin: 10px;
+    max-height: 275px;
+    overflow-y: scroll;
+    padding: 23px;
+}
+#comment-feedback {
+    margin: 5px;
+}
+#r-formButton {
+    margin-left: 33%;
+}
+#comment-feedback fieldset{
+border:none;
+}
+#tile {
+    background-color: #34495E;
+    border-radius: 10px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    padding-left: 5px;
+}
+
+.courseInfo-table
+{
+    border: 2px solid #000000;
+    overflow: hidden;
+    width: 940px;
+	color:white;
+	margin:0px auto;
+	background-color:#1ABC9C;
+	border-collapse:collapse;
+}
+.courseInfo-table th
+{background-color:#34495E;
+	font-weight: bolder;
+	    height: 40px;
+	font-size: 30px;
+	}
+.courseInfo-table tr
+{
+ border-top: 2px dashed #000000;	
+	font-size: 17px;
+  font-weight: 900;
+  height: 47px;
+  overflow: hidden;	
+}
+.courseInfo-table tr
+{background-color:#1ABC9C;}
+
+.courseInfo-table-td-title
+{
+	width:50%;
+	padding-left: 5%;
+}
+
+.courseInfo-table-td-link
+{
+	width:50%;
+}
+
+.courseInfo-header
+{
+    width: 940px;
+	color:white;
+	margin:0px auto;
+}
+

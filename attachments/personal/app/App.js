@@ -13,6 +13,7 @@ $(function() {
     Vars: {}, // A place to persist variables in the session
     ShelfItems: {},
     globalUrl:{},
+    idss:[],
     bellLocation : "Pakistan", 
     el: "body",
     idss:[],

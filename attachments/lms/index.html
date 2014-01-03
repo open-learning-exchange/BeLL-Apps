@@ -146,13 +146,14 @@
   <!-- Coourse Scheduling -->
   <script src="app/views/CourseScheduleForm.js"></script>
   <script src="app/views/CourseSchedule.js"></script>
+  <script src="app/views/ResourceSearch.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   <script>
   var searchText = "";
   var skip = 0;    //Variable used to skip the number of records been fetched before.
   var enablenext=0;
-  var searchRecordsPerPage = 2;
+  var searchRecordsPerPage = 5;
   var limitofRecords = 5;
   var skipStack = new Array();
   var lastpage = false;
@@ -165,6 +166,11 @@
   var rids = new Array() ; 
   var rtitle = new Array() ;
   
+  
+  function ListAllResources()
+  {
+     App.Router.Resources();
+  }
   function showFeedbackForm()
   {
 	  App.renderFeedback()
@@ -206,6 +212,13 @@
       $('#previous_button').remove()
       $('#searchText').focus();
       $("#searchText").val(searchText)
+  }
+  function ResourceSearch()
+  {
+    skip = 0;
+  	searchText = $("#searchText").val();
+    App.Router.ResourceSearch();
+  
   }
   function searchCourses()
   {
@@ -414,38 +427,40 @@
    <li> 
       <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
     </li>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Courses <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+    <li>
+      <a href="#courses" ><i class="icon-flag icon-white"></i> Courses <b><i class="icon-list"></i></b></a>
+    <!--  <ul class="dropdown-menu">
         <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
         <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
         <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
-        <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>-->
-      </ul>
+        <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>
+      </ul> -->
     </li>
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Meetup<b class="caret"></b></a>
-      <ul class="dropdown-menu">
+      <a href="#"><i class="icon-book icon-white"></i> Meetup <i class="icon-list"></i></a>
+     <!-- <ul class="dropdown-menu">
         <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
          <li><a><i class="icon-list"></i>Add a new MeetUp</a></li>
         <li><a><i class="icon-plus"></i>List Meetups</a></li>
-      </ul>
+      </ul> -->
     </li>
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> Members <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+      <a href="#members"><i class="icon-user icon-white"></i> Members <i class="icon-list"></i></a>
+   <!--  <ul class="dropdown-menu">
         <li><a href="#members"><i class="icon-list"></i> List Members</a></li>
         <li><a href="#member/add"><i class="icon-plus"></i> Add a new Member</a></li>
       </ul>
+     -->
    </li>
 
    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Resources <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+      <a href="#resources"><i class="icon-book icon-white"></i> Resources <i class="icon-list"></i></a>
+    <!--  <ul class="dropdown-menu">
         <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
         <li><a href="#resource/add"><i class="icon-plus"></i> Add a new Resource</a></li>
         <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
       </ul>
+      -->
     </li>
 	
     
@@ -630,20 +645,23 @@
 
   <script type="text/html" id="template-MemberRow">
     <td>
-      <%= login %>(<%= visits %>)
+      <%= firstName %> <%= lastName %>
     </td> 
+	<td>
+	<%= visits %>
+	</td>
+    <td>
+      <%= email %>
+    </td>  
 
     <td>
-      <% if(showedit == true){ %>
+    <% if(showedit == true){ %>
       <a role='button' class='btn' href='#member/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
       <% } %>
-    </td>  
-
-    <td>
     <% if(showdelete == true){ %>
-      <a class='destroy btn' href='#'>
+      <a class='destroy btn btn-danger' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
     <% } %>

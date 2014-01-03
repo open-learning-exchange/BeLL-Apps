@@ -1,10 +1,12 @@
 $(function() {
   App.Router = new (Backbone.Router.extend({
 
+
     routes: {
       ''                            : '',
+      'teams'						:'Resources',
       'landingPage'                 : 'LandingScreen',
-      'becomemember'                :  'BecomeMemberForm',
+      'becomemember'                : 'BecomeMemberForm',
       'login'                       : 'MemberLogin',
       'logout'                      : 'MemberLogout',
       'resources'                   : 'Resources',
@@ -43,7 +45,7 @@ $(function() {
       'assign-to-default-courses'	    :'AssignCoursestoExplore',
       'siteFeedback'					: 'viewAllFeedback',
       'course/report/:groupId/:groupName'          : 'CourseReport',
-        'myRequests': 'myRequests',
+      'myRequests': 'myRequests',
       'AllRequests': 'AllRequests',
       'replicateResources': 'Replicate'
       
@@ -55,6 +57,7 @@ $(function() {
     routeStartupTasks: function(){
 	$('#invitationdiv').hide()
 	 $('#debug').hide()
+	 
     },
    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
@@ -128,8 +131,10 @@ $(function() {
       var m = new App.Models.Member()
       var bform = new App.Views.BecomeMemberForm({model:m})
       bform.on('BecomeMemberForm:done', function() {
-        window.location.href = "../personal/index.html#login";
-        //  Backbone.history.navigate('resources', {trigger: true})
+
+        window.location="../personal/index.html#dashboard"
+
+
       })
       bform.render()
       App.$el.children('.body').html('<h1>Become A Member</h1>')
@@ -160,7 +165,7 @@ $(function() {
       memberLoginForm.once('success:login', function() {
        // $('ul.nav').html($("#template-nav-logged-in").html())
        // Backbone.history.navigate('courses', {trigger: true})
-       	  window.location.href = "../personal/index.html#login";
+       	  window.location.href = "../personal/index.html#dashboard";
           //Backbone.history.navigate('resources', {trigger: true})
       })
       memberLoginForm.render()
@@ -222,10 +227,31 @@ $(function() {
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
         resourcesTableView.isadmin = roles.indexOf("admin")
         resourcesTableView.render()
-        App.$el.children('.body').html('<h1>Resources</h1>')
+        App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
+      
+        App.$el.children('.body').append('<h1>Resources</h1>')
         App.$el.children('.body').append('<button style="margin:-80px 0 0 250px" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
         App.$el.children('.body').append(resourcesTableView.el)
       }})
+    },
+    ResourceSearch:function(){
+    
+       var resources=new App.Views.ResourceSearch()
+        resources.render()
+       var button='<p>'
+           button+='<a class="btn btn-success" href="#resource/add">Add a new Resource</a>'
+           button+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
+           button+='<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+           button+='<button class="btn btn-info" onclick="ResourceSearch()">Search</button></span>'
+           button+='</p>'
+            
+       App.$el.children('.body').html(button)
+       App.$el.children('.body').append('<h1>Resources</h1>')
+        App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllResources()">View All Resourcess</a>')
+       App.$el.children('.body').append('<button style="margin:-80px 0 0 250px" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
+      
+       App.$el.children('.body').append(resources.el)
+    
     },
 
     ResourceFeedback: function(resourceId) {
@@ -298,15 +324,17 @@ $(function() {
       groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html('<h1>Courses</h1>')
+        App.$el.children('.body').html('<h1>Courses<a style="margin-left:20px" class="btn btn-success" href="#course/add">Add a new Course</a><a style="margin-left:20px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a></h1>')
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
 
     Members: function() {
-        var loggedIn = new App.Models.Member({"_id":$.cookie('Member._id')})
-        loggedIn.fetch({async:false})
-        var roles = loggedIn.get("roles")      
+              
+      var loggedIn = new App.Models.Member({"_id":$.cookie('Member._id')})
+      loggedIn.fetch({async:false})
+      var roles = loggedIn.get("roles")
+
         members = new App.Collections.Members()
         members.fetch({success: function() {
         membersTable = new App.Views.MembersTable({collection: members})
@@ -318,7 +346,11 @@ $(function() {
         }
         console.log(membersTable.isadmin)
         membersTable.render()
-        App.$el.children('.body').html('<h1>Members</h1>')
+
+        
+        App.$el.children('.body').html('<h1>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h1>')
+        
+
         App.$el.children('.body').append(membersTable.el)
       }})
     },
