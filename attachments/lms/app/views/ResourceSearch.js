@@ -1,6 +1,6 @@
 $(function() {
 
-  App.Views.Search = Backbone.View.extend({
+  App.Views.ResourceSearch = Backbone.View.extend({
 	
 	
     template: $('#template-Search').html(),
@@ -15,9 +15,11 @@ $(function() {
       enablenext=0
     },
     render: function() {
-		  var obj = this
-      	  this.$el.html(_.template(this.template, this.vars))
-		if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
+		var obj = this
+      	//this.$el.html(_.template(this.template, this.vars))
+      	//this.searchText = $("#searchText").val()
+      	//alert(searchText)
+		if(searchText != "")
 		{
 	 		 this.fetchRecords()
 		}
@@ -29,12 +31,7 @@ $(function() {
        this.groupresult.fetch({success: function() {
        obj.resultArray.push.apply(obj.resultArray,obj.searchInArray(obj.groupresult.models,searchText))
       
-       if(enablenext==0)
-		{$('#next_button').remove()}
-		if(skipStack.length==1)
-		{  $('#previous_button').remove()}
-
-
+      
 	  if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
 		  	obj.fetchRecords()
        }
@@ -52,45 +49,28 @@ $(function() {
 	    var ResultCollection = new Backbone.Collection();
 	    if(obj.resultArray.length > 0){
 	        ResultCollection.set(obj.resultArray)
-		var SearchSpans = new App.Views.SearchSpans({collection: ResultCollection})
+		var SearchSpans = new App.Views.ResourcesTable({collection: ResultCollection})
 		SearchSpans.resourceids = obj.resourceids
 	        SearchSpans.render()
-		$('#srch').append(SearchSpans.el)
+		$('.body').append(SearchSpans.el)
 		}
 	          
        }
       }})
       
     },
-    checkFilters: function(result)
-    {
-   
-       //alert(this.tagFilter + ' ' + result.get("Tag"))
-    	if(this.tagFilter.length==0 && this.subjectFilter.length==0 && this.ratingFilter.length==0)
-    	{
-    		//alert('in null')
-    		return true
-    	}
-    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) || (this.ratingFilter && $.inArray(result.get("averageRating").toString(), this.ratingFilter) > -1))
-    	{
-    		//alert($.inArray(result.get("subject"), this.subjectFilter))
-    		return true
-    	}
-    	return false
-    },
     searchInArray: function(resourceArray,searchText){
       var that  = this
       var resultArray = []
       var foundCount
-      console.log(this.ratingFilter)
 	 
-	 if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
+	 if(searchText != "")
 	 {
 	   _.each(resourceArray, function(result) {
 		if(result.get("title") != null ){
 		 	skip++
 		 	//console.log( skip+' '+result.get("title"))
-			if(that.checkFilters(result) && result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >=0 )
+			if(result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >=0 )
 			{	  
 				if(resultArray.length < searchRecordsPerPage)
 				{
