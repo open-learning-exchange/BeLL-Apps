@@ -18,8 +18,7 @@
 #itemsinnavbar{
  font-size: 17px;
     margin: 0;
-    padding-top: 8px;
-margin: 0 0 0 89px;
+    width:100%;
 }
 .header-table {
     width: 100%;
@@ -244,16 +243,13 @@ width:100%;
 }
 
 
-.container body
-{
-	
-}
 
 .navbar-inverse
 {
+
   font-family: verdana;
     font-size: 20px;
-    height: 56px;
+   height: 62px;
     width: 99%;
 }
 
@@ -586,7 +582,7 @@ height:100%;
 }
 #main-body{
  position: absolute;
-    top: 65px;
+    top: 70px;
     width: 100%;
     margin-bottom: 40px;
 }
@@ -663,4 +659,10 @@ margin-left:35%;
        -moz-transform: translateX(0) translateY(0);
         -ms-transform: translateX(0) translateY(0);
             transform: translateX(0) translateY(0);
+}
+
+#underconstruction {
+    height: 400px;
+    margin-left: 32%;
+    width: 400px;
 }

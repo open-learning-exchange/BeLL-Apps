@@ -324,7 +324,7 @@ $(function() {
         }
         console.log(membersTable.isadmin)
         membersTable.render()
-        App.$el.children('.body').html('<h1>Members</h1>')
+        App.$el.children('.body').html('<h3 style="color:gray;">LMS | Members</h3>')
         App.$el.children('.body').append(membersTable.el)
       }})
     },
