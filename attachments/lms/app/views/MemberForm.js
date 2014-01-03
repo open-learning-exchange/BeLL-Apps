@@ -52,27 +52,27 @@ $(function() {
        }
       
       
-      var that = this
-      this.form.fields['roles'].$el.change(function(){
-        var values = new Array()
-         $('input[type="checkbox"]:checked').each(function() {
-                values.push(this.value)
-         })    
-          if(values.indexOf("lead") > -1){
-              that.form.fields['yearsOfTeaching'].$el.show()
-              that.form.fields['teachingCredentials'].$el.show()
-              that.form.fields['subjectSpecialization'].$el.show()
-              that.form.fields['forGrades'].$el.show()
-           }
-            else{
-              that.form.fields['yearsOfTeaching'].$el.hide()
-              that.form.fields['teachingCredentials'].$el.hide()
-              that.form.fields['subjectSpecialization'].$el.hide()
-              that.form.fields['forGrades'].$el.hide()
-              
-            }
-        
-      })
+      //var that = this
+      //this.form.fields['roles'].$el.change(function(){
+      //  var values = new Array()
+      //   $('input[type="checkbox"]:checked').each(function() {
+      //          values.push(this.value)
+      //   })    
+      //    if(values.indexOf("lead") > -1){
+      //        that.form.fields['yearsOfTeaching'].$el.show()
+      //        that.form.fields['teachingCredentials'].$el.show()
+      //        that.form.fields['subjectSpecialization'].$el.show()
+      //        that.form.fields['forGrades'].$el.show()
+      //     }
+      //      else{
+      //        that.form.fields['yearsOfTeaching'].$el.hide()
+      //        that.form.fields['teachingCredentials'].$el.hide()
+      //        that.form.fields['subjectSpecialization'].$el.hide()
+      //        that.form.fields['forGrades'].$el.hide()
+      //        
+      //      }
+      //  
+      //})
       
       // give the form a submit button
       var $button = $('<div class="signup-submit"><a class="signup-btn btn btn-success" id="formButton">'+buttonText+'</button><a class="btn btn-danger" id="formButtonCancel">Cancel</button></div>')
@@ -104,7 +104,7 @@ $(function() {
 	}
         var extension=img.val().split('.')
 		console.log(extension[(extension.length-1)])
-	if(extension[(extension.length-1)]=='jpeg'||extension[(extension.length-1)]=='jpg'||extension[(extension.length-1)]=='png'){
+	if(extension[(extension.length-1)]=='jpeg'||extension[(extension.length-1)]=='jpg'||extension[(extension.length-1)]=='png' || extension[(extension.length-1)]=='JPG'){
 		return 1
 	}
 	alert("ERROR: Not a valid image file \n\n Valid Extensions are  [.jpg, .jpeg ]")
@@ -136,6 +136,7 @@ $(function() {
             
             var addMem = true
             if(this.model.get("_id") == undefined){
+            this.model.set("roles",["Learner"])  
             this.model.set("visits",0)
             var existing = new App.Collections.Members()
             existing.fetch({async:false})
@@ -147,7 +148,8 @@ $(function() {
              })
             }
             if(addMem){
-            this.model.save(null,{success:function(){
+                
+                this.model.save(null,{success:function(){
                 that.model.unset('_attachments')
                 if($('input[type="file"]').val()) 
                 {
