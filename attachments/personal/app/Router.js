@@ -2,7 +2,7 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 	
     routes: {
-      ''                              : 'Dashboard', 
+      ''                              : 'MemberLogin', 
       'dashboard'                     : 'Dashboard',
       'login'                         : 'MemberLogin',
       'logout'                        : 'MemberLogout',
@@ -37,6 +37,9 @@ $(function() {
     initialize: function() {
 	this.bind("all",this.startUpStuff)
 	},
+	errornotfound: function(){
+		Backbone.history.navigate('login', {trigger: true})
+		},
 	email: function()
 	{
 		App.$el.children('.body').html('&nbsp')

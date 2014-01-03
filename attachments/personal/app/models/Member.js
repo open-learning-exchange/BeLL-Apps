@@ -17,7 +17,8 @@ $(function() {
     },
 
     defaults: {
-      kind: "Member"
+      kind: "Member",
+      roles:["Learner"]
     },
 
     toString: function() {
@@ -44,10 +45,6 @@ $(function() {
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','Higher']
       },
       status:'Text',
-      roles: {
-        type: 'Checkboxes',
-        options: ['admin', 'student', 'teacher', 'head', 'coach', 'lead']
-      },
       yearsOfTeaching:{
           type: 'Select',
           options: ['None', '1 to 20', 'More than 20']

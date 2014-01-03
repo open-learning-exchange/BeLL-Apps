@@ -19,30 +19,31 @@ $(function() {
       this.form.fields['subjectSpecialization'].$el.hide()
       this.form.fields['forGrades'].$el.hide()
       this.form.fields['visits'].$el.hide()
+     // this.form.fields['roles'].$el.hide()
       
       
       
       var that = this
-      this.form.fields['roles'].$el.change(function(){
-        var values = new Array()
-         $('input[type="checkbox"]:checked').each(function() {
-                values.push(this.value)
-         })    
-          if(values.indexOf("lead") > -1){
-              that.form.fields['yearsOfTeaching'].$el.show()
-              that.form.fields['teachingCredentials'].$el.show()
-              that.form.fields['subjectSpecialization'].$el.show()
-              that.form.fields['forGrades'].$el.show()
-           }
-            else{
-              that.form.fields['yearsOfTeaching'].$el.hide()
-              that.form.fields['teachingCredentials'].$el.hide()
-              that.form.fields['subjectSpecialization'].$el.hide()
-              that.form.fields['forGrades'].$el.hide()
-              
-            }
-        
-      })
+//      this.form.fields['roles'].$el.change(function(){
+//        var values = new Array()
+//         $('input[type="checkbox"]:checked').each(function() {
+//                values.push(this.value)
+//         })    
+//          if(values.indexOf("lead") > -1){
+//              that.form.fields['yearsOfTeaching'].$el.show()
+//              that.form.fields['teachingCredentials'].$el.show()
+//              that.form.fields['subjectSpecialization'].$el.show()
+//              that.form.fields['forGrades'].$el.show()
+//           }
+//            else{
+//              that.form.fields['yearsOfTeaching'].$el.hide()
+//              that.form.fields['teachingCredentials'].$el.hide()
+//              that.form.fields['subjectSpecialization'].$el.hide()
+//              that.form.fields['forGrades'].$el.hide()
+//              
+//            }
+//        
+//      })
       // give the form a submit button
       var $button = $('<a class="btn btn-success" id="formButton">Save</button>')
       this.$el.append($button)
@@ -58,8 +59,7 @@ $(function() {
   		{
 			return
   		}
-  
-    	
+  		
       var that = this
       this.model.once('sync', function() {
         alert("Thank you for becoming a member")
