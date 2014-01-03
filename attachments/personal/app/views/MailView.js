@@ -6,6 +6,7 @@ $(function() {
     recordsPerPage:null,
    	modelNo : null,
    	nextButton:null,
+   	unopen:null,
    	searchText : null,
     resultArray : null,
     inViewModel : null,
@@ -19,6 +20,25 @@ $(function() {
     	this.resultArray  = []
     	skipStack.push(skip)
 		this.fetchRecords()    	
+    },
+    "click #all-mails":function(e){
+    	this.modelNo=0
+    	skip=0
+    	this.resultArray  = []
+    	this.unopen=false
+		this.fetchRecords()
+		$("#nextButton").show() 
+		$("#previousButton").hide()   	
+    },
+    
+    "click #unread-mails":function(e){
+    	this.modelNo=0
+    	skip=0
+    	this.resultArray  = []
+    	this.unopen=true
+		this.fetchRecords() 
+		$("#nextButton").show()
+		$("#previousButton").hide()   	
     },
     "click #previousButton":function(e){
     	if(skipStack.length > 1){
@@ -201,7 +221,8 @@ $(function() {
     initialize: function(){
     	this.modelNo = 0
     	this.skip=0
-    	this.recordsPerPage=2
+    	this.unopen=false
+    	this.recordsPerPage=5
     	this.nextButton=1
     	this.searchText = ""
         this.delegateEvents()  
@@ -266,12 +287,12 @@ $(function() {
     fetchRecords: function()
     {
        var obj = this
-       var newCollection = new App.Collections.Mails({receiverId:$.cookie('Member._id')})
+       var newCollection = new App.Collections.Mails({receiverId:$.cookie('Member._id'),unread:obj.unopen})
        newCollection.fetch({success: function() {
        obj.resultArray.push.apply(obj.resultArray,obj.searchInArray(newCollection.models,obj.searchText))
-       
- 		if(obj.resultArray.length != limitofRecords && newCollection.models.length == limitofRecords){
+       if(obj.resultArray.length != limitofRecords && newCollection.models.length == limitofRecords){
 		    obj.fetchRecords()
+		    
 		    return;
   		}
         else if(obj.resultArray.length == 0 && skipStack.length > 1 ){
@@ -286,7 +307,8 @@ $(function() {
        		{
        			alert('No result found')
        		}
-       }	
+       }
+       
 	   var ResultCollection = new App.Collections.Mails()
 	   //if(obj.resultArray.length > 0)
 	   {
@@ -306,14 +328,14 @@ $(function() {
     	var that  = this
       var resultArray = []
       var foundCount
-      //alert(searchText)
-	// if(searchText != "" )
+      
 	 {
 	   _.each(resourceArray, function(result) {
 		if(result.get("subject") != null && result.get("body") != null ){
 		 	skip++
 			if(result.get("subject").toLowerCase().indexOf(searchText.toLowerCase()) >=0 || result.get("body").toLowerCase().indexOf(searchText.toLowerCase()) >=0 )
 			{	  
+				
 				if(resultArray.length < limitofRecords)
 				{
 					resultArray.push(result)

@@ -4,6 +4,8 @@ $(function() {
     routes: {
       ''                              : 'MemberLogin', 
       'dashboard'                     : 'Dashboard',
+      'ereader'                     : 'ereader',
+      'info'                     	  : 'info',
       'login'                         : 'MemberLogin',
       'logout'                        : 'MemberLogout',
       'courses'                       : 'Groups',
@@ -162,6 +164,16 @@ $(function() {
 					 	})
 					 				 	
 					 	
+	},
+	info: function(){
+		//App.$el.children('.body').html('<div id="underconstruction"><img src="img/cons.jpg" alt="Under Construction" height="100%" width="100%"> </div>')
+		App.$el.children('.body').html(' ')
+	
+	},
+	ereader: function(){
+		//App.$el.children('.body').html('<div id="underconstruction"><img src="img/cons.jpg" alt="Under Construction" height="100%" width="100%"> </div>')
+		App.$el.children('.body').html(' ')
+	
 	},
 	startUpStuff: function(){
 

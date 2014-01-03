@@ -57,6 +57,7 @@ $(function() {
     routeStartupTasks: function(){
 	$('#invitationdiv').hide()
 	 $('#debug').hide()
+	 
     },
    checkLoggedIn: function(){
    	if(!$.cookie('Member._id')){
@@ -345,9 +346,11 @@ $(function() {
         }
         console.log(membersTable.isadmin)
         membersTable.render()
+
         
         App.$el.children('.body').html('<h1>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h1>')
         
+
         App.$el.children('.body').append(membersTable.el)
       }})
     },

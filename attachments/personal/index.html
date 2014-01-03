@@ -134,7 +134,7 @@ var searchText = "";
 var skip = 0;    //Variable used to skip the number of records been fetched before.
 var enablenext=0;
 var searchRecordsPerPage = 2;
-var limitofRecords = 2;
+var limitofRecords = 5;
 var skipStack = new Array()
 var numberOfNotificattions="."
  url="unknown";
@@ -417,17 +417,35 @@ $(window).scroll(function () {
 
 		</style>
 	<div id='calendar'></div>
-		
-	
 </script>
 
+
+
+
+
   <script type="text/template" id="template-nav-logged-in"> 
-    <li> 
+  <!--  <li> 
       <a href="../lms/index.html#login">
          Community
       </a>
     </li>
+   -->
     <li> 
+      <a href="#">
+      Personal
+      </a>
+    </li> 
+    <li> 
+      <a href="#ereader">
+       e-Readers
+      </a>
+    </li>
+    <li> 
+      <a href="#">
+       Resources
+      </a>
+    </li>
+     <li> 
       <a href="#">
        Courses
       </a>
@@ -437,12 +455,17 @@ $(window).scroll(function () {
        Meetups
       </a>
     </li>
+     <li> 
+      <a href="../lms/index.html#members">
+       Members
+      </a>
+    </li>
     <li> 
-      <a href="#dashboard">
-      Dashboard
+      <a href="#info">
+      Reports
       </a>
     </li> 
-   <li> 
+     <li> 
       <a onclick = "showFeedbackForm()">
         Feedback
       </a>
@@ -453,6 +476,10 @@ $(window).scroll(function () {
       </a>
     </li>	
   </script>
+
+
+
+
 
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
@@ -753,6 +780,8 @@ $(window).scroll(function () {
    <script type="text/template" id="template-mail">
    <div id="mailActions" >
 		<b style="color:black; font-size:25px;">Inbox
+		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
+		<button class="btn btn-primary" id="unread-mails">Unread</button>
 		<span class="new_mails"></span>
 		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
 		</b>
