@@ -808,7 +808,7 @@ $(window).scroll(function () {
 <script type="text/template" id="template-view-mail">
 
 <div style="margin-left:10%">	
-	<div style='style="width: 46%;'><b style="color:black; font-size:25px;"><%= subject %></b></div>
+	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
 		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
 		<br/>
 		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"</span></b></span>
