@@ -362,7 +362,6 @@ border-bottom:1px solid black;
     position: fixed;
     top: 8%;
     width: 60%;
-    visibility: hidden;
     z-index:10;
 }
 #site-request fieldset{
@@ -508,5 +507,9 @@ margin-left: 33%;
  margin-left: 239px;
  margin-top: -84px; 
 }
-
+#underconstruction {
+    height: 400px;
+    margin-left: 32%;
+    width: 400px;
+}
 /******************/

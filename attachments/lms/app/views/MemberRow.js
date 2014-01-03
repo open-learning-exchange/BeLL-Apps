@@ -65,6 +65,7 @@ $(function() {
         vars.showdelete = true
         vars.showedit = true
       }
+      console.log(vars)
        this.$el.html(_.template(this.template, vars))
    }
     
