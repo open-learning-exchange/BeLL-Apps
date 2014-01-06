@@ -64,7 +64,9 @@ $(function() {
       else{
       vars.isLeader=0
       }
-      if($.cookie('Member.login')=='admin'){
+       var manager = new App.Models.Member({"_id":$.cookie('Member._id')})
+      manager.fetch({async:false})
+      if(manager.get("roles").indexOf("Manager")!=-1){
       vars.isAdmin=1
       }
       else{

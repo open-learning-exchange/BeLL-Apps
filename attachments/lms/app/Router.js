@@ -225,7 +225,7 @@ $(function() {
       var resources = new App.Collections.Resources()
       resources.fetch({success: function() {
         var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
-        resourcesTableView.isadmin = roles.indexOf("admin")
+        resourcesTableView.isadmin = roles.indexOf("Manager")
         resourcesTableView.render()
         App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
       
@@ -338,7 +338,7 @@ $(function() {
         members = new App.Collections.Members()
         members.fetch({success: function() {
         membersTable = new App.Views.MembersTable({collection: members})
-        if(roles.indexOf("admin") > -1){
+        if(roles.indexOf("Manager") > -1){
           membersTable.isadmin = true
         }
         else{

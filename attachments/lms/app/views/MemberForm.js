@@ -77,7 +77,7 @@ $(function() {
       // give the form a submit button
       var $button = $('<div class="signup-submit"><a class="signup-btn btn btn-success" id="formButton">'+buttonText+'</button><a class="btn btn-danger" id="formButtonCancel">Cancel</button></div>')
 		this.$el.append($button)
-        var $upload=$('<form method="post" id="MemberfileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
+		var $upload=$('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
         var $img=$('<div id="browseImage">'+$imgt+'<img width="100px" height="90px" id="memberImage"></div>')
         this.$el.append($img)
         this.$el.append($upload)
@@ -149,10 +149,11 @@ $(function() {
             }
             if(addMem){
                 
-                this.model.save(null,{success:function(){
+                 this.model.save(null, {success: function() {
                 that.model.unset('_attachments')
                 if($('input[type="file"]').val()) 
                 {
+                		alert('saved att')
                       that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
                 }
                 else 
