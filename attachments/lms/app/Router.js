@@ -230,7 +230,7 @@ $(function() {
         App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
       
         App.$el.children('.body').append('<h1>Resources</h1>')
-        App.$el.children('.body').append('<button style="margin:-80px 0 0 250px" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
+        App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
         App.$el.children('.body').append(resourcesTableView.el)
       }})
     },
@@ -248,7 +248,7 @@ $(function() {
        App.$el.children('.body').html(button)
        App.$el.children('.body').append('<h1>Resources</h1>')
         App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllResources()">View All Resourcess</a>')
-       App.$el.children('.body').append('<button style="margin:-80px 0 0 250px" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
+       App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
       
        App.$el.children('.body').append(resources.el)
     
@@ -318,17 +318,41 @@ $(function() {
             }
       })
       /***********/
-      $('ul.nav').html($("#template-nav-logged-in").html()).show()
-      $('#itemsinnavbar').html($("#template-nav-logged-in").html())
-      groups = new App.Collections.Groups()
-      groups.fetch({success: function() {
+        $('ul.nav').html($("#template-nav-logged-in").html()).show()
+        $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        groups = new App.Collections.Groups()
+        groups.fetch({success: function() {
         groupsTable = new App.Views.GroupsTable({collection: groups})
         groupsTable.render()
-        App.$el.children('.body').html('<h1>Courses<a style="margin-left:20px" class="btn btn-success" href="#course/add">Add a new Course</a><a style="margin-left:20px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a></h1>')
+        
+       var button='<p>'
+           button+='<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
+           button+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
+           button+='<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+           button+='<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+           button+='</p>'
+        App.$el.children('.body').html(button)
+        App.$el.children('.body').append('<h1>Courses</h1>')
         App.$el.children('.body').append(groupsTable.el)
       }})
     },
-
+    GroupSearch:function(){
+    
+      var cSearch
+      cSearch = new App.Views.CourseSearch()
+      cSearch.render()
+       var button='<p>'
+           button+='<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
+           button+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
+           button+='<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+           button+='<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+           button+='</p>'
+        App.$el.children('.body').html(button)  
+        App.$el.children('.body').append('<h1>Courses</h1>')
+        App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>')
+        App.$el.children('.body').append(cSearch.el)
+    },
+    
     Members: function() {
               
       var loggedIn = new App.Models.Member({"_id":$.cookie('Member._id')})

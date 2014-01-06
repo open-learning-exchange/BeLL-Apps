@@ -263,10 +263,6 @@ width:100%;
 	    font-weight: 900;
 }
 
-.navbar-inverse .nav > li > a {
-line-height:1px;
-}
-
 .login-form > .bbf-form{
  
     height: 191px;
@@ -310,7 +306,8 @@ line-height:1px;
 .navbar-inverse .nav > li > a
 {
 	border: none;
-	
+	font-size: 15px;
+	padding: 16px 20px 15px 0px;	
 }
 a{color:white;}
 

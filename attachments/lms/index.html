@@ -9,6 +9,8 @@
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
   <link href="vendor/morris.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
+  <link rel="stylesheet" href="app/flat-ui.css"/>
+  <link rel="stylesheet" href="app/navStyle.css"/>
   <link rel="stylesheet" href="vendor/chosen.css"/>
   <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
   <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
@@ -95,7 +97,7 @@
   <script src="app/collections/reportsComment.js"></script>
   <script src="app/collections/CourseScheduleByCourse.js"></script>
   
-  <!---- Views -->
+  <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -147,8 +149,10 @@
   <script src="app/views/CourseScheduleForm.js"></script>
   <script src="app/views/CourseSchedule.js"></script>
   <script src="app/views/ResourceSearch.js"></script>
+  <script src="app/views/CourseSearch.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
+  
   <script>
   var searchText = "";
   var skip = 0;    //Variable used to skip the number of records been fetched before.
@@ -159,7 +163,7 @@
   var lastpage = false;
   var grpId;
   var levelrevId;
-  url="unknown"
+  url="unknown";
   var tagFilter = new Array() ; 
   var subjectFilter = new Array() ;
   var ratingFilter = new Array();
@@ -167,10 +171,7 @@
   var rtitle = new Array() ;
   
   
-  function ListAllResources()
-  {
-     App.Router.Resources();
-  }
+ 
   function showFeedbackForm()
   {
 	  App.renderFeedback()
@@ -216,10 +217,28 @@
   function ResourceSearch()
   {
     skip = 0;
-  	searchText = $("#searchText").val();
-    App.Router.ResourceSearch();
+  	searchText = $("#searchText").val()
+    App.Router.ResourceSearch()
   
   }
+   function ListAllResources()
+  {
+     App.Router.Resources()
+  }
+  
+  function CourseSearch()
+  {
+    //alert("COURSE SEARCH");
+    skip = 0;
+  	searchText = $("#searchText").val();
+    App.Router.GroupSearch();
+  
+  }
+   function ListAllCourses()
+  {
+     App.Router.Groups()
+  }
+  
   function searchCourses()
   {
       skip = 0;
@@ -343,21 +362,11 @@
   <script type="text/template" id="template-app">
     <div id="debug"></div>
 <div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
-    <div class="navbar navbar-inverse navbar-fixed-top" id="nav">
-      <div class="navbar-inner">
+    <div id='nav' class="navbar navbar-inverse" id="top-nav">
         <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">BeLL LMS</a>
-          <div class="nav-collapse collapse">
             <ul class="nav">
 
             </ul>
-          </div><!--/.nav-collapse -->
-        </div>
       </div>
     </div>
 
@@ -424,87 +433,58 @@
 
 
 <script type="text/template" id="template-nav-logged-in">
-   <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
-    </li>
-    <li>
-      <a href="#courses" ><i class="icon-flag icon-white"></i> Courses <b><i class="icon-list"></i></b></a>
-    <!--  <ul class="dropdown-menu">
-        <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
-        <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
-        <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
-        <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>
-      </ul> -->
-    </li>
-    <li class="dropdown">
-      <a href="#"><i class="icon-book icon-white"></i> Meetup <i class="icon-list"></i></a>
-     <!-- <ul class="dropdown-menu">
-        <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
-         <li><a><i class="icon-list"></i>Add a new MeetUp</a></li>
-        <li><a><i class="icon-plus"></i>List Meetups</a></li>
-      </ul> -->
-    </li>
-    <li class="dropdown">
-      <a href="#members"><i class="icon-user icon-white"></i> Members <i class="icon-list"></i></a>
-   <!--  <ul class="dropdown-menu">
-        <li><a href="#members"><i class="icon-list"></i> List Members</a></li>
-        <li><a href="#member/add"><i class="icon-plus"></i> Add a new Member</a></li>
-      </ul>
-     -->
-   </li>
-
-   <li class="dropdown">
-      <a href="#resources"><i class="icon-book icon-white"></i> Resources <i class="icon-list"></i></a>
-    <!--  <ul class="dropdown-menu">
-        <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
-        <li><a href="#resource/add"><i class="icon-plus"></i> Add a new Resource</a></li>
-        <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
-      </ul>
-      -->
-    </li>
-	
-    
-<!--	<li> 
-      <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
-    </li>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
-      <ul class="dropdown-menu">
-
-        <li> 
-          <a href="#compile/">Compile all Apps and all Resources for Syncing</a>
-        </li>
-        <li> 
-          <a href="#compile/week">Compile Apps and this weeks Assigned Resources for Syncing</a>
-        </li>
-
-      </ul> -->
-    </li>
-   <li> 
-      <a onclick = "showFeedbackForm()">
-        <i class="icon-pencil icon-white"></i> Feedback
+<!--  <li> 
+      <a href="../lms/index.html#login">
+         Community
       </a>
     </li>
-      <li> 
-      <a href="#logout">
-        <i class="icon-plane icon-white"></i> Log out
-      </a>
-    </li>
-  </script>
-
-  <script type="text/template" id="template-nav-log-in"> 
+   -->
     <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
-    </li>
-
+      <a href="../personal/index.html#dashboard">
+      Dashboard
+      </a>
+    </li> 
     <li> 
-      <a href="/devices/_design/all/update.html"><i class="icon-download-alt icon-white"></i> Install BeLL Apps on this device</a>
-    </li>
-    <li  style="float:right;"> 
-      <a onclick = "showFeedbackForm()">
-        <i class="fui-cmd"></i> Feedback
+      <a href="#ereader">
+       e-Readers
       </a>
     </li>
+    <li> 
+      <a href="../lms/index.html#resources">
+       Resources
+      </a>
+    </li>
+     <li> 
+      <a href="../lms/index.html#courses">
+       Courses
+      </a>
+    </li>
+    <li> 
+      <a href="../lms/index.html#meetups">
+       Meetups
+      </a>
+    </li>
+     <li> 
+      <a href="../lms/index.html#members">
+       Members
+      </a>
+    </li>
+    <li> 
+      <a href="#info">
+      Reports
+      </a>
+    </li> 
+     <li> 
+      <a onclick = "showFeedbackForm()">
+        Feedback
+      </a>
+    </li>
+    <li> 
+      <a href= "#logout">
+        Logout
+      </a>
+    </li>	
+
   </script>
 
 
@@ -591,26 +571,26 @@
 
     <td>
     <%if(isAdmin==1||isLeader==1){%>
-      <a role='button' class='btn' href='#course/manage/<%= _id %>'> 
+      <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'> 
         <i class="icon-list"></i> Manage
       </a>
    	<%}%>
     </td>
     
     <td>
-      <a role='button' class='btn' href='#course/report/<%= _id %>/<%= name %>'> 
+      <a role='button' class='btn btn-inverse' href='#course/report/<%= _id %>/<%= name %>'> 
         <i class="icon-signal"></i> Progress
       </a>
     </td>
 
 <!--   <td>
-      <a role='button' class='btn' href='#course/edit/<%= _id %>'> 
+      <a role='button' class='btn btn-inverse' href='#course/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
     </td> -->
     
    <!-- <td>
-      <a role='button' class='btn' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
+      <a role='button' class='btn btn-inverse' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
         <i class="icon-edit"></i> Invite
       </a>
     </td> -->
@@ -656,7 +636,7 @@
 
     <td>
     <% if(showedit == true){ %>
-      <a role='button' class='btn' href='#member/edit/<%= _id %>'> 
+      <a role='button' class='btn btn-inverse' href='#member/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
       <% } %>
@@ -696,23 +676,23 @@
     
     
     <td>
-      <a class='resFeedBack btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+      <a class='resFeedBack btn btn-inverse' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
    
     <td>
-      <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
+      <a class='btn btn-inverse' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
         <i class='icon-download'></i> Download
       </a>
     </td>
     <td>
-      <a class='btn' href='#resource/edit/<%= _id %>'>
+      <a class='btn btn-inverse' href='#resource/edit/<%= _id %>'>
         <i class='icon-pencil'></i> View
       </a>
     </td>
     <td>
-      <a class='btn' href='#resource/feedback/<%= _id %>'>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'>
        Feedback
       </a>
     </td>
