@@ -11,7 +11,8 @@
     "couchapp": ">= 0.10.0",
     "underscore": ">= 1.5.2",
     "request": ">= 2.27.0",
-    "commander": "2.0.0" 
+    "commander": "2.0.0", 
+    "csv": "0.3.6"
   },
   "engines": { "node": ">= 0.3.0" }
 }

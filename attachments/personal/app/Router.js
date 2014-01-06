@@ -41,6 +41,9 @@ $(function() {
     initialize: function() {
 	this.bind("all",this.startUpStuff)
 	},
+	errornotfound: function(){
+		Backbone.history.navigate('login', {trigger: true})
+		},
 	email: function()
 	{
 		App.$el.children('.body').html('&nbsp')

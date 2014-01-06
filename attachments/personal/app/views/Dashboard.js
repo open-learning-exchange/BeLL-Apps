@@ -53,8 +53,32 @@ $(function() {
 				console.log(member)
                                 temp=member.get('visits')+ " visits"
 			}
+			var roles = "&nbsp;-&nbsp;"
+			var temp1 = 0
+			if(member.get("roles").indexOf("Learner")!=-1)
+			{
+				roles = roles + "Learner"
+				temp1 = 1
+			}
+			if(member.get("roles").indexOf("Leader")!=-1)
+			{
+				if(temp1==1)
+				{
+					roles = roles + ",&nbsp;"
+				}
+				roles = roles + "Leader"
+				temp1 = 1
+			}
+			if(member.get("roles").indexOf("Manager")!=-1)
+			{
+				if(temp1 ==1)
+				{
+					roles = roles + ",&nbsp;"
+				}
+				roles = roles + "Manager"
+			}
 		        $('.visits').html(temp)
-        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+'&nbsp;<a href="#member/edit/'+$.cookie('Member._id')+'"><i class="fui-gear"></i></a>')
+        $('.name').html(member.get('firstName') + ' ' + member.get('lastName')+ '<span style="font-size:15px;">' + roles + '</span>' +'&nbsp;<a href="#member/edit/'+$.cookie('Member._id')+'"><i class="fui-gear"></i></a>')
       })
       member.fetch()
 

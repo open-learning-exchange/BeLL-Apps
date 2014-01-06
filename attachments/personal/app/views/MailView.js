@@ -60,7 +60,7 @@ $(function() {
      {
      	var body = inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
      	body = body.replace('Accept', '').replace('Reject','').replace('&nbsp;&nbsp;','')
-     	body = body + "<div style='margin-left: 25%;margin-top: 24%;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
+     	body = body + "<div style='margin-left: 25%;margin-top: 22%;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
      	
      	var model = new App.Models.Mail()
  	 	model.id = inViewModel.get("id")
@@ -121,7 +121,7 @@ $(function() {
      {
   		var body = inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
      	body = body.replace('Accept', '').replace('Reject','').replace('&nbsp;&nbsp;','')
-     	body = body + "<div style='margin-left: 25%;margin-top: 24%;font-size: 11px;color: rgb(204,204,204);'>You have rejected this invitation.</div>"
+     	body = body + "<div style='margin-left: 25%;margin-top: 22%;font-size: 11px;color: rgb(204,204,204);'>You have rejected this invitation.</div>"
      	
      	var model = new App.Models.Mail()
  	 	model.id = inViewModel.get("id")

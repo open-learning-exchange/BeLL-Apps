@@ -171,6 +171,14 @@ $(function() {
           alert("Course description is missing")
       }
       else{
+      	var member = new App.Models.Member()
+      	member.id = $.cookie('Member._id')
+      	member.fetch({async:false})
+      	if(member.get('roles').indexOf("Leader")==-1)
+      	{
+      		member.get('roles').push("Leader")
+      		member.save()
+      	}
         this.model.save()
       } 
     },

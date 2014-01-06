@@ -11,13 +11,41 @@ This is the third iteration of the BeLL software. It's a Backbone.js app that ca
 
 # Installing on a server
 
-The following recipe is for Raspbian on Raspberry Pi.
+## Install on a remote CouchDB
+
+Let's say you have your own CouchDB on something like Iriscouch.com at http://mycouch.iriscouch.com.  In the following script we're going to download the source code to our local machine and then push it to that CouchDB of yours.  Prerequisites for your computer include having installed [Node.js](http://nodejs.com) and [Git](http://git-scm.com/). Before you begin, set up a default admin for your database. For example, we might go to [http://mycouch.iriscouch.com/_utils](http://mycouch.iriscouch.com/_utils) and set an admin with username pi and password raspberry.  
+
+```
+ulimit -n 10056
+git clone https://github.com/open-learning-exchange/BeLL-Apps.git;
+cd BeLL-Apps/build/;
+npm install;
+./install --couchurl http://pi:raspberry@mycouch.iriscouch.com;
+./install --couchurl http://pi:raspberry@mycouch.iriscouch.com;
+```
+Yes, we are running that install script twice because it is prone to race conditions on the first run.
+
+
+## 
+ulimit -n 10056
+./install --couchurl http://pi:raspberry@bell.local:5984;
+./install --couchurl http://pi:raspberry@bell.local:5984;
+
+
+## The following recipe is for Raspbian on Raspberry Pi.
 
 ```
 # download, install, and ssh into Raspbian -> http://www.raspbian.org/
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get autoremove
+
+# change the host name
+```
+sudo vim /etc/hosts # replace raspberrypi with desired hostname
+sudo vim /etc/hostname # replace text with desired hostname
+sudo /etc/init.d/hostname.sh
+sudo reboot
 
 # now following directions from https://www.modmypi.com/blog/installing-the-rasclock-raspberry-pi-real-time-clock
 wget http://afterthoughtsoftware.com/files/linux-image-3.6.11-atsw-rtc_1.0_armhf.deb
@@ -42,19 +70,48 @@ git clone https://github.com/open-learning-exchange/BeLL-Apps.git
 
 
 # --- Everything here on out can't make it into a distro
-
+```
 sudo raspi-config
 # run expand_fs in raspi-config
+# set the timezone
 sudo dpkg-reconfigure tzdata
-hwclock -w
+# set the date
+sudo date --set 1998-11-02 
+# set the time (local time)
+sudo date --set 21:08:00
+# update the hardware clock with settings
+sudo hwclock -w
 sudo reboot
 cd BeLL-Apps/build
 git pull
-./install.js --mapfile ./settings/settings.bell --hostname bell --ipaddress 127.0.0.1 --couchurl http://pi:raspberry@127.0.0.1:5984
-
+# install prompt for a messenger bell
+# edit ./config/messenger.replicator beforehand if you need to.
+./install --mapfile ./config/messenger.replicator --hostname messenger --couchurl http://pi:raspberry@127.0.0.1:5984
 ```
 
 
 # Installing on clients
 
 The recommended client is the Firefox Beta for Android included in this repository.
+
+
+# Replication maps
+
+The `install-map` utility can save you hours of entering items in the _replicator database as well as save you from some errors.  
+
+Here are some examples:
+
+Here's an example of a one time replication of oledemo.cloudant.com to another place.
+
+```
+./install-map --to http://oledemo:oleoleole@oledemo.cloudant.com/_replicate --mapfile ./map--send-oledemo-somewhere-else.csv --create_target
+```
+
+Here' an example of configuring a BeLL to replicate as a community BeLL from OLE Demo.
+```
+./install-map --to http://oledemo:oleoleole@oledemo.cloudant.com/replicator_database_for_sattelites --mapfile ./map--sattelite-to-oledemo.csv.csv --create_target --continuous
+```
+
+Sattelites would then just replicate `http://oledemo:oleoleole@oledemo.cloudant.com/replicator_database_for_sattelites` database to their _replicator database and they would have all the necessary settings.
+
+
