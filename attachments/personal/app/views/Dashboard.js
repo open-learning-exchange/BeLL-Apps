@@ -54,24 +54,24 @@ $(function() {
                                 temp=member.get('visits')+ " visits"
 			}
 			var roles = "&nbsp;-&nbsp;"
-			var temp = 0
+			var temp1 = 0
 			if(member.get("roles").indexOf("Learner")!=-1)
 			{
 				roles = roles + "Learner"
-				temp = 1
+				temp1 = 1
 			}
 			if(member.get("roles").indexOf("Leader")!=-1)
 			{
-				if(temp==1)
+				if(temp1==1)
 				{
 					roles = roles + ",&nbsp;"
 				}
 				roles = roles + "Leader"
-				temp = 1
+				temp1 = 1
 			}
 			if(member.get("roles").indexOf("Manager")!=-1)
 			{
-				if(temp==1)
+				if(temp1 ==1)
 				{
 					roles = roles + ",&nbsp;"
 				}
