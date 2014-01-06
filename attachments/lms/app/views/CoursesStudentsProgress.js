@@ -66,10 +66,13 @@ $(function() {
 	  student=new App.Models.Member({_id:model.toJSON().memberId})
 	 student.fetch({async:false})
 	  console.log(student.toJSON())
-	temp.name=student.toJSON().firstName
-	  temp.passed=passed
-	  temp.remaining=remaining
-	  this.arrayOfData.push(temp)
+	  if(student.toJSON().firstName!=undefined)
+	  {
+	  	temp.name=student.toJSON().firstName
+	  	temp.passed=passed
+	  	temp.remaining=remaining
+	  	this.arrayOfData.push(temp)
+	  }
     },
 
     BuildString: function(){
