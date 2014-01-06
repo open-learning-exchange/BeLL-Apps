@@ -11,9 +11,8 @@ $(function() {
     Views: {},
     Collections: {},
     Vars: {}, // A place to persist variables in the session
-
     el: "body",
-
+    
     template: $("#template-app").html(),
 
     events: {

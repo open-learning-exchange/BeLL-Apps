@@ -71,7 +71,7 @@ $(function() {
 			}
 			if(member.get("roles").indexOf("Manager")!=-1)
 			{
-				if(temp1==1)
+				if(temp1 ==1)
 				{
 					roles = roles + ",&nbsp;"
 				}
