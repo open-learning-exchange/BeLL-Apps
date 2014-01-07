@@ -1,3 +1,11 @@
+# Installing on your local CouchDB from the BeLL Apps Source server
+
+1. Go to `https://bellappssource.cloudant.com/apps/_design/bell/installer/get-bookmarklet-here.html` (username is bellappssource and password is installpass)
+1. Drag the link to your bookmarks bar.
+1. Go to your local CouchDB's Futon (probably `http://127.0.0.1:5984/_utils`)
+1. Click on the `Install BeLL Apps` bookmarklet
+
+
 # About
 This is the third iteration of the BeLL software. It's a Backbone.js app that caches itself in the browser that is backed by CouchDB when a server is available and PouchDB in the browser when a server is not available. Initial support for PDFs is currently implemented, support for Videos and single HTML5 Apps coming next.  We're tracking bugs and new features on the [GitHub Wiki](https://github.com/open-learning-exchange/BeLL-Apps/wiki/@todo's) at the moment.
 
@@ -114,10 +122,4 @@ Here' an example of configuring a BeLL to replicate as a community BeLL from OLE
 
 Sattelites would then just replicate `http://oledemo:oleoleole@oledemo.cloudant.com/replicator_database_for_sattelites` database to their _replicator database and they would have all the necessary settings.
 
-# Installing on your local CouchDB from the BeLL Apps Source server
-
-1. Go to `https://bellappssource.cloudant.com/apps/_design/bell/installer/get-bookmarklet-here.html` (username is bellappssource and password is installpass)
-1. Drag the link to your bookmarks bar.
-1. Go to your local CouchDB's Futon (probably `http://127.0.0.1:5984/_utils`)
-1. Click on the `Install BeLL Apps` bookmarklet
 
