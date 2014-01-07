@@ -8,22 +8,22 @@ var replicate = function() {
   var database = databases[i]
   $.couch.replicate(source + '/' + database, database, {
     success: function() {
-      if (databases.length <= i) {
+      if (databases.length-1 > i) {
         i++
         replicate()
       }
       else {
         alert("Installation has completed")
-        window.location = window.location.host + '/apps/_design/bell/lms/index.html'
+        window.location = 'http://' + window.location.host + '/apps/_design/bell/lms/index.html'
       }
     },
     error: function(status) {
       console.log(status);
       alert('Something went wrong:' + status)
-  	},
-  	{
-	    create_target: true
-  	}
+    }
+  },
+  {
+    create_target: true
   })
 }
 // Start the recursion
