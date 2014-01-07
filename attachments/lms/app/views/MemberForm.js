@@ -153,7 +153,6 @@ $(function() {
                 that.model.unset('_attachments')
                 if($('input[type="file"]').val()) 
                 {
-                		alert('saved att')
                       that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
                 }
                 else 
