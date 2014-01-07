@@ -21,7 +21,7 @@ $(function() {
       'course/assign/:groupId'        : 'GroupAssign',
       'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
       'course/manage/:groupId'   : 'ManageCourse',
-       'addItemstoLevel/:lid/:rid/:title'    :  'AddItemsToLevel', 
+      'addItemstoLevel/:lid/:rid/:title'    :  'AddItemsToLevel', 
       'level/add/:groupId/:levelId/:totalLevels'       : 'AddLevel',
       'level/view/:levelId/:rid'       : 'ViewLevel',
       'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
@@ -51,24 +51,42 @@ $(function() {
       
     },
     initialize: function() {
-        this.bind( "all", this.checkLoggedIn )
-	this.bind( "all",this.routeStartupTasks)
+        	this.bind( "all", this.checkLoggedIn )
+	        this.bind( "all",this.routeStartupTasks)
     },
     routeStartupTasks: function(){
-	$('#invitationdiv').hide()
-	 $('#debug').hide()
+			$('#invitationdiv').hide()
+		    $('#debug').hide()
 	 
     },
    checkLoggedIn: function(){
-   	if(!$.cookie('Member._id')){
-   		console.log($.url().attr('fragment'))
+     	 if(!$.cookie('Member._id')){
+   		    console.log($.url().attr('fragment'))
 
-   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage' &&$.url().attr('fragment')!='becomemember')
+   		 if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage' &&$.url().attr('fragment')!='becomemember')
                 {	
-   			Backbone.history.stop()
-   			App.start()
-   		}
-   	}
+   			     Backbone.history.stop()
+   			     App.start()
+   		   }
+      	}
+    	else{
+    	   	var expTime=$.cookie('Member.expTime')
+ 			var d = new Date(Date.parse(expTime))
+            var diff = Math.abs(new Date() - d)
+           // alert('test')
+           var expirationTime=60000
+            if(diff<expirationTime)
+            {
+                var date=new Date()
+                $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
+                $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+            }
+            else{       
+                 this.expireSession()
+                 Backbone.history.stop()
+   			     App.start()
+            }
+      	}
    },
 
     AllRequests:function(){
@@ -176,11 +194,21 @@ $(function() {
     },
 
     MemberLogout: function() {
-      $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
-      $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
-      $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
-      $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
-      Backbone.history.navigate('landingPage', {trigger: true})
+      this.expireSession()
+      
+     // alert('logout  Lms')
+    Backbone.history.navigate('landingPage', {trigger: true})
+    },
+    expireSession:function(){
+    
+        $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
+      
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/lms"})
+    
     },
 
     ResourceForm : function(resourceId) {
