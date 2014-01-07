@@ -1,6 +1,6 @@
 # Easy install of BeLL Apps on your local computer
 1. Install CouchDB on your local computer. See [http://couchdb.apache.org](http://couchdb.apache.org)
-1. Go to `https://bellappssource.cloudant.com/apps/_design/bell/installer/get-bookmarklet-here.html` (username is bellappssource and password is installpass)
+1. Go to [this website to see the bookmarklet that will install your BeLL Apps](https://bellappssource:installpass@bellappssource.cloudant.com/apps/_design/bell/installer/get-bookmarklet-here.html) 
 1. Drag the link to your bookmarks bar.
 1. Go to your local CouchDB's Futon (probably `http://127.0.0.1:5984/_utils`)
 1. Click on the `Install BeLL Apps` bookmarklet
