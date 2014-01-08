@@ -13,6 +13,10 @@ $(function() {
       "click .trigger-modal" : function() {
         $('#myModal').modal({show:true})
       },
+      "click .resFeedBack" : function(event){
+           $('ul.nav').html($('#template-nav-logged-in').html()).hide()
+          Backbone.history.navigate('resource/feedback/add/'+this.model.get("_id")+'/'+this.model.get("title"),{trigger:true})
+      },
     },
 
     vars: {},
