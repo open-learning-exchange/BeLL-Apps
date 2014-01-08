@@ -16,7 +16,7 @@ $(function() {
 		}
 		else{
 			
-			 $('#cc').append("<td class='course-box'>No Courses Assigned Yet</td>")
+			 $('#cc').append("<td class='course-box'>No Courses Accepted</td>")
 		}
     },
 

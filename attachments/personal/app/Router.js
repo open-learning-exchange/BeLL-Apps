@@ -456,6 +456,16 @@ $(function() {
         courseModel.set({members:courseMemebers})
         courseModel.save();
         
+        var memberProgress = new App.Collections.memberprogressallcourses()
+        memberProgress.memberId = memberId
+        memberProgress.fetch({async:false})
+        memberProgress.each(function(m){
+        	if(m.get("courseId")==courseId)
+        	{
+        		m.destroy()
+        	}
+        })
+        
         var mail = new App.Models.Mail();
         var currentdate = new Date();
         var id = courseModel.get('leaderEmail')
