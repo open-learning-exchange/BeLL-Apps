@@ -31,8 +31,25 @@ curl -XPOST -H "Content-Type: application/json" http://bell-apps-community-qa:**
 ```
 
 ## #6 
-Push the Release Candidate to the BeLL App Stable Channel and tag it with a version in the Git repository.
+Push the Release Candidate to the BeLL Apps Release Channel and tag it with a version in the Git repository.
+```
+git checkout dev;
+git tag x.x;
+git checkout stable;
+git merge dev;
+git push;
+git push --tags;
+delete-all-dbs --couchurl http://bell-apps-stable:***@bell-apps-stable.cloudant.com;
+cd build;
+./install --couchurl http://bell-apps-stable:***@bell-apps-stable.cloudant.com;
+```
+
+
 ## #7 
-Nation Servers will pull down the release from the Stable Channel.
+Nation Servers will pull down the release from the Stable Channel. This will occur when a nation uses their BeLL Apps Sync button. This process looks in the `replicator` database (note this is not `/_replicator` or `/_replicate`) and carry out the instructions found. The instruction that accomplishes this step is installed in the following `curl` example.
+```
+curl -XPUT -H "Content-Type: application/json" http://nation-a:***@nation-a.cloudant.com/replicator -d '{"source": "http://bell-apps-stable:***@bell-apps-stable.cloudant.com", "target": "apps"}'
+```
+
 ## #8 
-Community Servers will pull down the release from their respective nation servers.
+Community Servers will pull down the release from the Stable Channel. This will occur when a community uses their BeLL Apps Sync button. This process looks in the `replicator` database (note this is not `/_replicator` or `/_replicate`) and carry out the instructions found. The instruction that accomplishes this step is installed because the Community servers mirror the `replicator` database of their parent Nation Server.
