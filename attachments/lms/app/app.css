@@ -336,11 +336,11 @@ border-bottom:1px solid black;
 #inviteMemberButton{
   
   margin-left: 660px;
-    margin-top: -850px;
+    margin-top: -991px;
 }
 #ProgressButton{
  margin-left: 541px;
-    margin-top: -922px;
+    margin-top: -1070px;
 
 }
 #rating_checkboxes
@@ -402,7 +402,7 @@ font-weight: bold;
 /* course Schedule */
 #coursescheduleButton {
     margin-left: 321px;
-    margin-top: -917px;
+    margin-top: -1070px;
 }
 
 #durationDiv, #TypeDiv{

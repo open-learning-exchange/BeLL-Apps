@@ -36,6 +36,7 @@ $(function() {
       'search-bell/:levelId/:rId'   : 'SearchBell',
       'search-result'		    :'SearchResult',
       'assign-to-level'	    :'AssignResourcetoLevel',
+      'addToshelf/:rid/:title'       : 'AddToshelf',
       'assign-to-shelf'		    :'AssignResourcetoShelf',
       'create-quiz/:lid/:rid/:title'				:'CreateQuiz',
       'demo-version'				:'DemoVersion',
@@ -74,7 +75,7 @@ $(function() {
  			var d = new Date(Date.parse(expTime))
             var diff = Math.abs(new Date() - d)
            // alert('test')
-           var expirationTime=60000
+           var expirationTime=600000
             if(diff<expirationTime)
             {
                 var date=new Date()
@@ -197,7 +198,7 @@ $(function() {
       this.expireSession()
       
      // alert('logout  Lms')
-    Backbone.history.navigate('landingPage', {trigger: true})
+    Backbone.history.navigate('login', {trigger: true})
     },
     expireSession:function(){
     
@@ -262,6 +263,19 @@ $(function() {
         App.$el.children('.body').append(resourcesTableView.el)
       }})
     },
+    AddToshelf:function(rId,title){
+      
+          var shelfItem=new App.Models.Shelf()
+              shelfItem.set('memberId',$.cookie('Member._id'))
+              shelfItem.set('resourceId',rId)
+              shelfItem.set('resourceTitle',title)
+              //Adding the Selected Resource to the Shelf Hash(Dictionary)
+              shelfItem.save(null, {
+            	  success: function(model,response,options) {}
+              });
+       alert('Successfully Add To Shelf')
+       Backbone.history.navigate('resources', {trigger: true})
+    },
     ResourceSearch:function(){
     
        var resources=new App.Views.ResourceSearch()
@@ -306,15 +320,20 @@ $(function() {
       feedbackModel.on('sync', function() {
         Backbone.history.navigate('resource/feedback/' + resourceId, {trigger: true})
       })
-      var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
-      var user_rating 
+  var resInfo=new App.Models.Resource({_id: resourceId})
+      resInfo.fetch({async:false})
+  var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
+   	   feedbackForm.rtitle=resInfo.get('title')
+  var user_rating 
       feedbackForm.render()
      
-      App.$el.children('.body').html('<h1>Add Feedback</h1>')
+     
+      
+      App.$el.children('.body').html('<h3 style="color:gray">Add Feedback For '+resInfo.get('title')+'</h3>')
       App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
       App.$el.children('.body').append('<div id="star" data-score="0"></div>')
       $('#star').raty()
-       $("#star > img").click(function(){
+      $("#star > img").click(function(){
           feedbackForm.setUserRating($(this).attr("alt"))
       });
 

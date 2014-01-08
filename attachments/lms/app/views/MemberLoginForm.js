@@ -17,7 +17,9 @@ $(function() {
       this.$el.append(this.form.render().el)
       // give the form a submit button
       var $button = $('<a class="btn btn-success" id="formButton">Sign In</button>')
+      var $btnBecomeaMember=$('&nbsp&nbsp<a class="btn btn-success" href="#becomemember">Become a Member</button>')
       this.$el.append($button)
+      this.$el.append($btnBecomeaMember)
     },
 
     setFormFromEnterKey: function(event) {
