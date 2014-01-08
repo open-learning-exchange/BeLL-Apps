@@ -44,10 +44,15 @@ $(function() {
           memvisits.set("visits",parseInt(memvisits.get("visits")) + 1)
           memvisits.once('sync',function()
           {
-          $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
-          $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
-          $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
-          $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/personal"})
+           	var date=new Date()
+           	$.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
+          	$.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
+          	$.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
+          	$.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/personal"})
+          
+            $.cookie('Member.expTime', date,{path:"/apps/_design/bell/lms"})
+          	$.cookie('Member.expTime', date,{path:"/apps/_design/bell/personal"})
+          
           $.ajax({
               type: 'GET',
               url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',

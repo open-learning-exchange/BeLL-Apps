@@ -203,6 +203,23 @@ $(function() {
    			App.start()
    		}
    	}
+   	else{
+    	   	var expTime=$.cookie('Member.expTime')
+ 			var d = new Date(Date.parse(expTime))
+            var diff = Math.abs(new Date() - d)
+            //alert(diff)
+            var expirationTime=60000
+            if(diff<expirationTime)
+            {
+                var date=new Date()
+                $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
+                $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+            }
+            else{       
+            App.Router.MemberLogout() 
+               
+            }
+      	}
    },
 	
     viewAllFeedback: function(){
@@ -345,11 +362,16 @@ $(function() {
     },
 
     MemberLogout: function() {
+    
       App.ShelfItems = {}
       $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
       $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
       $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
       $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
+      
+      $.removeCookie('Member.expTime',{path:"/apps/_design/bell/personal"})
+      $.removeCookie('Member.expTime',{path:"/apps/_design/bell/lms"})
+      
       Backbone.history.navigate('login', {trigger: true})
     },
 
