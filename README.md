@@ -1,3 +1,4 @@
+# Quick start
 To get started quickly with using the BeLL Apps, follow the direction over [here](http://open-learning-exchange.github.io/).
 
 # About
