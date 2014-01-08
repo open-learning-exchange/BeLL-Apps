@@ -50,7 +50,6 @@ $(function() {
 				temp="Error!!"
 			}
 			else{
-				console.log(member)
                                 temp=member.get('visits')+ " visits"
 			}
 			var roles = "&nbsp;-&nbsp;"

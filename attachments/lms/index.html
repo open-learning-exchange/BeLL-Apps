@@ -17,11 +17,11 @@
   <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
   
   
-
+ 
   <!--
     DEPENDENCIES
   -->
-
+	<script src="vendor/Spin.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/spectrum.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
@@ -45,7 +45,7 @@
   <script src="vendor/jquery.timepicker.js"></script>
   <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
   <script src="vendor/jquery-ui.multidatespicker.js"></script>
-
+ <script src="jquery.popupoverlay.js"></script>
 
   <!--
     App
@@ -95,6 +95,7 @@
   <script src="app/collections/EntityInvitation.js"></script>
   <script src="app/collections/Requests.js"></script>
   <script src="app/collections/reportsComment.js"></script>
+   <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/CourseScheduleByCourse.js"></script>
   <script src="app/collections/courseprogressallmembers.js"></script>
   
@@ -382,6 +383,7 @@
 
   <script type="text/template" id="template-app">
     <div id="debug"></div>
+    <div id="popup-spinning"></div>
 <div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
     <div id='nav' class="navbar navbar-inverse" id="top-nav">
         <div class="container">
@@ -593,14 +595,14 @@
     <td>
     <%if(isAdmin==1||isLeader==1){%>
       <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'> 
-        <i class="icon-list"></i> Manage
+        <i class="icon-wrench icon-white"></i> Manage
       </a>
    	<%}%>
     </td>
     
     <td>
-      <a role='button' class='btn btn-inverse' href='#course/report/<%= _id %>/<%= name %>'> 
-        <i class="icon-signal"></i> Progress
+      <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= name %>'> 
+        <i class="icon-signal icon-white"></i> Progress
       </a>
     </td>
 
@@ -619,7 +621,7 @@
     <td>
 	<%if(isAdmin==1||isLeader==1){%>
       <a class='destroy btn btn-danger' href='#'>
-        <i class='icon-remove'></i> Delete
+        <i class='icon-remove icon-white'></i> Delete
       </a>
     <%}%>
     </td> 
@@ -697,35 +699,38 @@
     
     
     <td>
-      <a class='resFeedBack btn btn-inverse' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
-        <i class='icon-eye-open'></i> Open
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
       </a>
     </td>
    
     <td>
-      <a class='btn btn-inverse' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
-        <i class='icon-download'></i> Download
+      <a class='btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
+        <i class='icon-download icon-white'></i> Download
       </a>
     </td>
     <td>
-      <a class='btn btn-inverse' href='#resource/edit/<%= _id %>'>
-        <i class='icon-pencil'></i> View
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
       </a>
     </td>
     <td>
+
       <a class='btn btn-inverse' href='#addToshelf/<%= _id %>/<%= title %>' ">
          Add To Shelf
       </a>
     </td>
     <td>
-      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'>
+     
+
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
        Feedback
       </a>
     </td>
     <td>
     <%if(admn==1){%>
       <a class='btn btn-danger destroy'>
-        <i class='icon-remove'></i> Delete
+        <i class='icon-remove icon-white'></i> Delete
       </a>
       <%}%>
     </td>

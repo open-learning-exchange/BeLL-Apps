@@ -1,4 +1,5 @@
-$(function () {
+$(function() {
+
 
     App.Views.MailView = Backbone.View.extend({
 

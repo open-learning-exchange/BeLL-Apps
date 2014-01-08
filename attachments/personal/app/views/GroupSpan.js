@@ -34,7 +34,7 @@ $(function() {
 		vars.yes='<br>('+PassedSteps+'/'+totalSteps+')'
 		}
 		else{
-		vars.yes="<br>(error!!!)"
+		vars.yes="<br>(No Steps)"
 		}
       this.$el.append(_.template(this.template, vars))
     }

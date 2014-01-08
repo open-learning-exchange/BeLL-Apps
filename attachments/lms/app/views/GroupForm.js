@@ -16,8 +16,8 @@ $(function() {
       }
       
     },
+
     CourseSchedule : function(){
-          
           var form = new App.Views.CourseScheduleForm()
           form.courseId = this.model.id
           var model
