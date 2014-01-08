@@ -3,7 +3,7 @@
 ![BeLL Apps Release Strategy Diagram](bell-apps-release-strategy-diagram.png)
 
 ## #1 & #2 
-A participating Nation and Community instance copies themselves to their respective QA servers.
+Participating Nation and Community instances mirror themselves to their respective QA servers.
 
 ```
 delete-all-dbs --couchurl http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com;
@@ -13,13 +13,22 @@ mirror-a-couchdb-server --source http://nation-a.cloudant.com --target http://be
 ```
 
 ## #3
-We push the code on the Dev server to the Release Candidate server.
+We replace the code on the Release Candidate server with the code on the Dev server.
 ```
-delete-all-dbs --couchurl http://bell-apps-nation-qa.cloudant.com;
+git checkout dev;
+git tag x.x-release-candidate-x;
+git push --tags;
+delete-all-dbs --couchurl http://bell-apps-release-candidate:***@bell-apps-release-candidate.cloudant.com;
+cd build;
+./install --couchurl http://bell-apps-release-candidate:***@bell-apps-release-candidate.cloudant.com;
 ```
 
 ## #4 & #5 
 We simulate a release by having the QA servers consume the Release Candidate. Run QA scripts. If QA Scripts fail, return to step one when another Release Candidate is ready. If QA Scripts pass, proceed to step #6.
+```
+curl -XPOST -H "Content-Type: application/json" http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com/_replicate -d '{"continuous":true, "source": "http://bell-apps-release-candidate:***@bell-apps-release-candidate.cloudant.com/apps", "target":"http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com/apps"}';
+curl -XPOST -H "Content-Type: application/json" http://bell-apps-community-qa:***@bell-apps-community-qa.cloudant.com/_replicate -d '{"continuous":true, "source": "http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com/apps", "target":"http://bell-apps-community-qa:***@bell-apps-community-qa.cloudant.com/apps"}';
+```
 
 ## #6 
 Push the Release Candidate to the BeLL App Stable Channel and tag it with a version in the Git repository.
