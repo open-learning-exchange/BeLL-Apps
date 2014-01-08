@@ -471,9 +471,20 @@ $(function() {
         var index=courseMemebers.indexOf(memberId)
         courseMemebers.splice(index, 1)
         courseModel.set({members:courseMemebers})
-        courseModel.save()
-        var mail = new App.Models.Mail()
-        var currentdate = new Date()
+        courseModel.save();
+        
+        var memberProgress = new App.Collections.memberprogressallcourses()
+        memberProgress.memberId = memberId
+        memberProgress.fetch({async:false})
+        memberProgress.each(function(m){
+        	if(m.get("courseId")==courseId)
+        	{
+        		m.destroy()
+        	}
+        })
+        
+        var mail = new App.Models.Mail();
+        var currentdate = new Date();
         var id = courseModel.get('leaderEmail')
         
         var subject='Course Resignation | '+courseModel.get('name')+''

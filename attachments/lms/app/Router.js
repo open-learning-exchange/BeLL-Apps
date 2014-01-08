@@ -1,249 +1,269 @@
-$(function() {
-  App.Router = new (Backbone.Router.extend({
+$(function () {
+    App.Router = new(Backbone.Router.extend({
 
 
-    routes: {
-      ''                            : '',
-      'teams'						:'Resources',
-      'landingPage'                 : 'LandingScreen',
-      'becomemember'                : 'BecomeMemberForm',
-      'login'                       : 'MemberLogin',
-      'logout'                      : 'MemberLogout',
-      'resources'                   : 'Resources',
-      'resource/add'                : 'ResourceForm',
-      'resource/edit/:resourceId'   : 'ResourceForm',
-      'resource/feedback/:resourceId'      : 'ResourceFeedback',
-      'resource/invite/:resourceId/:name/:kind'      : 'ResourceInvitation',
-      'resource/feedback/add/:resourceId'  : 'FeedbackForm',
-      'courses'                       : 'Groups',
-      'course/edit/:groupId'          : 'GroupForm',
-      'course/default'                : 'Explore_Bell_Courses',
-      'course/assign/:groupId'        : 'GroupAssign',
-      'course/assignments/week-of/:groupId'   : 'GroupWeekOfAssignments',
-      'course/manage/:groupId'   : 'ManageCourse',
-      'addItemstoLevel/:lid/:rid/:title'    :  'AddItemsToLevel', 
-      'level/add/:groupId/:levelId/:totalLevels'       : 'AddLevel',
-      'level/view/:levelId/:rid'       : 'ViewLevel',
-      'course/assignments/week-of/:groupId/:weekOf'   : 'GroupWeekOfAssignments',
-      'course/assignments/:groupId' : 'GroupAssignments',
-      'course/add'                  : 'GroupForm',
-      'members'                     : 'Members',
-      'member/add'                  : 'MemberForm',
-      'member/edit/:memberId'       : 'MemberForm',
-      'compile/week'                : 'CompileManifestForWeeksAssignments',
-      'compile'                     : 'CompileManifest',
-      'search-bell'		    : 'SearchBell',
-      'search-bell/:levelId/:rId'   : 'SearchBell',
-      'search-result'		    :'SearchResult',
-      'assign-to-level'	    :'AssignResourcetoLevel',
-      'assign-to-shelf'		    :'AssignResourcetoShelf',
-      'create-quiz/:lid/:rid/:title'				:'CreateQuiz',
-      'demo-version'				:'DemoVersion',
-      'savedesc/:lid'                : 'saveDescprition',
-      'resource/atlevel/feedback/:rid/:levelid/:revid': 'LevelResourceFeedback',
-      'search/courses' : 'SearchCourses',
-      'assign-to-default-courses'	    :'AssignCoursestoExplore',
-      'siteFeedback'					: 'viewAllFeedback',
-      'course/report/:groupId/:groupName'          : 'CourseReport',
-      'myRequests': 'myRequests',
-      'AllRequests': 'AllRequests',
-      'replicateResources': 'Replicate'
-      
-    },
-    initialize: function() {
-        	this.bind( "all", this.checkLoggedIn )
-	        this.bind( "all",this.routeStartupTasks)
-    },
-    routeStartupTasks: function(){
-			$('#invitationdiv').hide()
-		    $('#debug').hide()
-	 
-    },
-   checkLoggedIn: function(){
-     	 if(!$.cookie('Member._id')){
-   		    console.log($.url().attr('fragment'))
+        routes: {
+            '': '',
+            'teams': 'Resources',
+            'landingPage': 'LandingScreen',
+            'becomemember': 'BecomeMemberForm',
+            'login': 'MemberLogin',
+            'logout': 'MemberLogout',
+            'resources': 'Resources',
+            'resource/add': 'ResourceForm',
+            'resource/edit/:resourceId': 'ResourceForm',
+            'resource/feedback/:resourceId': 'ResourceFeedback',
+            'resource/invite/:resourceId/:name/:kind': 'ResourceInvitation',
+            'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
+            'courses': 'Groups',
+            'course/edit/:groupId': 'GroupForm',
+            'course/default': 'Explore_Bell_Courses',
+            'course/assign/:groupId': 'GroupAssign',
+            'course/assignments/week-of/:groupId': 'GroupWeekOfAssignments',
+            'course/manage/:groupId': 'ManageCourse',
+            'addItemstoLevel/:lid/:rid/:title': 'AddItemsToLevel',
+            'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
+            'level/view/:levelId/:rid': 'ViewLevel',
+            'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
+            'course/assignments/:groupId': 'GroupAssignments',
+            'course/add': 'GroupForm',
+            'members': 'Members',
+            'member/add': 'MemberForm',
+            'member/edit/:memberId': 'MemberForm',
+            'compile/week': 'CompileManifestForWeeksAssignments',
+            'compile': 'CompileManifest',
+            'search-bell': 'SearchBell',
+            'search-bell/:levelId/:rId': 'SearchBell',
+            'search-result': 'SearchResult',
+            'assign-to-level': 'AssignResourcetoLevel',
+            'assign-to-shelf': 'AssignResourcetoShelf',
+            'create-quiz/:lid/:rid/:title': 'CreateQuiz',
+            'demo-version': 'DemoVersion',
+            'savedesc/:lid': 'saveDescprition',
+            'resource/atlevel/feedback/:rid/:levelid/:revid': 'LevelResourceFeedback',
+            'search/courses': 'SearchCourses',
+            'assign-to-default-courses': 'AssignCoursestoExplore',
+            'siteFeedback': 'viewAllFeedback',
+            'course/report/:groupId/:groupName': 'CourseReport',
+            'myRequests': 'myRequests',
+            'AllRequests': 'AllRequests',
+            'replicateResources': 'Replicate'
 
-   		 if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='landingPage' &&$.url().attr('fragment')!='becomemember')
-                {	
-   			     Backbone.history.stop()
-   			     App.start()
-   		   }
-      	}
-    	else{
-    	   	var expTime=$.cookie('Member.expTime')
- 			var d = new Date(Date.parse(expTime))
-            var diff = Math.abs(new Date() - d)
-           // alert('test')
-           var expirationTime=60000
-            if(diff<expirationTime)
-            {
-                var date=new Date()
-                $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
-                $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+        },
+        initialize: function () {
+            this.bind("all", this.checkLoggedIn)
+            this.bind("all", this.routeStartupTasks)
+        },
+        routeStartupTasks: function () {
+            $('#invitationdiv').hide()
+            $('#debug').hide()
+
+        },
+        checkLoggedIn: function () {
+            if (!$.cookie('Member._id')) {
+                console.log($.url().attr('fragment'))
+
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
+                    Backbone.history.stop()
+                    App.start()
+                }
             }
-            else{       
-                 this.expireSession()
-                 Backbone.history.stop()
-   			     App.start()
+        },
+
+        AllRequests: function () {
+            App.$el.children('.body').html('&nbsp')
+            var col = new App.Collections.Requests()
+            col.fetch({
+                async: false
+            })
+            var colView = new App.Views.RequestTable({
+                collection: col
+            })
+            colView.render()
+            App.$el.children('.body').append(colView.el)
+        },
+
+        myRequests: function () {
+            App.$el.children('.body').html('&nbsp')
+            var col = new App.Collections.Requests({
+                memberId: ($.cookie('Member._id'))
+            })
+            col.fetch({
+                async: false
+            })
+            var colView = new App.Views.RequestTable({
+                collection: col
+            })
+            colView.render()
+            App.$el.children('.body').append(colView.el)
+        },
+
+        CourseReport: function (cId, cname) {
+            App.$el.children('.body').html("<h2> " + cname + "</h2>")
+            App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
+            App.$el.children('.body').append("<div id='graph'></div>")
+            var allResults = new App.Collections.StepResultsbyCourse()
+            allResults.courseId = cId
+            allResults.fetch({
+                async: false
+            })
+            var vi = new App.Views.CoursesStudentsProgress({
+                collection: allResults
+            })
+            vi.render()
+            console.log(allResults.length)
+        },
+
+        viewAllFeedback: function () {
+            var fed = new App.Collections.siteFeedbacks()
+            fed.fetch({
+                async: false
+            })
+            console.log(fed.toJSON())
+            feedul = new App.Views.siteFeedbackPage({
+                collection: fed
+            })
+            feedul.render()
+            $('#see-all', feedul.$el).trigger("click");
+            App.$el.children('.body').html('&nbsp')
+            App.$el.children('.body').append(feedul.el)
+            $("#previousButton").hide()
+        },
+        LandingScreen: function () {
+            $('ul.nav').html($('#template-nav-log-in').html()).hide()
+            var temp = $.url().attr("host").split(".")
+            temp = temp[0].substring(3)
+            console.log(temp)
+            var vars = new Object()
+            vars.host = temp
+            vars.visits = "hassan chawal"
+            console.log(vars)
+            //App.$el.children('.body').html($('#template-LandingPage'), vars)
+            var template = $('#template-LandingPage').html()
+            App.$el.children('.body').html(_.template(template, vars))
+            //	App.$el.children('.body').html(template, vars)
+            // App.$el.children('.body').html($('#template-LandingPage').html())
+        },
+        BecomeMemberForm: function () {
+        	////shoom sharak testing
+        	/*var mempro = new App.Collections.courseprogressallmembers()
+        	mempro.fetch({async:false})
+        	var courseStep = new  App.Collections.CourseLevels()
+        	courseStep.fetch({async:false})
+        	mempro.each(function(m){
+				var memberId = m.get("memberId")
+				var cid = m.get("courseId")
+				if(cid !== undefined){
+				var cmodel = new App.Models.Group({"_id":cid})
+				cmodel.fetch({async:false})
+				var memids = cmodel.get("members")
+				console.log(memids)
+				if(memids.indexOf(memberId) == -1){
+					alert("Deleting")
+					m.destroy()
+				}
+			  }		
+			})
+			//////////////*/
+            var m = new App.Models.Member()
+            var bform = new App.Views.BecomeMemberForm({
+                model: m
+            })
+            bform.on('BecomeMemberForm:done', function () {
+
+                window.location = "../personal/index.html#dashboard"
+
+
+            })
+            bform.render()
+            App.$el.children('.body').html('<h1>Become A Member</h1>')
+            App.$el.children('.body').append(bform.el)
+        },
+        DemoScreen: function () {
+            $('ul.nav').html($("#template-nav-logged-in").html())
+            var demo = new App.Views.Demo()
+            App.$el.children('.body').html(demo.el)
+            demo.render()
+        },
+        DemoVersion: function () {
+            $('ul.nav').html($("#template-nav-logged-in").html()).show()
+            var demo = new App.Views.Demo()
+            App.$el.children('.body').html(demo.el)
+            demo.render()
+
+        },
+        MemberLogin: function () {
+            // Prevent this Route from completing if Member is logged in.
+            if ($.cookie('Member._id')) {
+                Backbone.history.navigate('resources', {
+                    trigger: true
+                })
+                return
             }
-      	}
-   },
+            var credentials = new App.Models.Credentials()
+            var memberLoginForm = new App.Views.MemberLoginForm({
+                model: credentials
+            })
+            memberLoginForm.once('success:login', function () {
+                // $('ul.nav').html($("#template-nav-logged-in").html())
+                // Backbone.history.navigate('courses', {trigger: true})
+                window.location.href = "../personal/index.html#dashboard";
+                //Backbone.history.navigate('resources', {trigger: true})
+            })
+            memberLoginForm.render()
+            //App.$el.children('.body').html('<h1>Member login</h1>')
+            App.$el.children('.body').html(memberLoginForm.el)
+            //Override the menu
+            $('ul.nav').html($('#template-nav-log-in').html()).hide()
+        },
 
-    AllRequests:function(){
-	App.$el.children('.body').html('&nbsp')
-	var col=new App.Collections.Requests()
-	col.fetch({async:false})
-	var colView=new App.Views.RequestTable({collection:col})
-	colView.render()
-	App.$el.children('.body').append(colView.el)		
-     },
-	
-    myRequests:function(){
-	App.$el.children('.body').html('&nbsp')	
-	var col=new App.Collections.Requests({memberId:($.cookie('Member._id'))})
-	col.fetch({async:false})
-	var colView=new App.Views.RequestTable({collection:col})
-	colView.render()
-	App.$el.children('.body').append(colView.el)	
-      },
-   
-    CourseReport: function(cId,cname){
-          App.$el.children('.body').html("<h2> "+cname+"</h2>")
-          App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/'+cId+'\'">Manage</button>')
-          App.$el.children('.body').append("<div id='graph'></div>")
-          var allResults=new App.Collections.StepResultsbyCourse()
-          allResults.courseId=cId
-          allResults.fetch({async:false})
-          var vi=new App.Views.CoursesStudentsProgress({collection: allResults})
-          vi.render()
-          console.log(allResults.length)
-    },
+        MemberLogout: function () {
+            $.removeCookie('Member.login', {
+                path: "/apps/_design/bell/lms"
+            })
+            $.removeCookie('Member._id', {
+                path: "/apps/_design/bell/lms"
+            })
+            $.removeCookie('Member.login', {
+                path: "/apps/_design/bell/personal"
+            })
+            $.removeCookie('Member._id', {
+                path: "/apps/_design/bell/personal"
+            })
+            Backbone.history.navigate('landingPage', {
+                trigger: true
+            })
+        },
 
-    viewAllFeedback: function(){
-	  var fed = new App.Collections.siteFeedbacks()
-          fed.fetch({async:false})
-          	console.log(fed.toJSON())
-          feedul = new App.Views.siteFeedbackPage({collection:fed})
-          feedul.render()
-          $('#see-all', feedul.$el).trigger("click");
-          App.$el.children('.body').html('&nbsp')	
-          App.$el.children('.body').append(feedul.el) 
-          $("#previousButton").hide()
-    },
-    LandingScreen : function(){
-      $('ul.nav').html($('#template-nav-log-in').html()).hide()
-        var temp=$.url().attr("host").split(".")
-	temp=temp[0].substring(3)
-	console.log(temp)
-	var vars=new Object()
-	vars.host=temp
-	vars.visits="hassan chawal"
-	console.log(vars)
-	//App.$el.children('.body').html($('#template-LandingPage'), vars)
-	var template= $('#template-LandingPage').html()
-	App.$el.children('.body').html(_.template(template, vars))
-	//	App.$el.children('.body').html(template, vars)
-     // App.$el.children('.body').html($('#template-LandingPage').html())
-    },
-    BecomeMemberForm : function() {
-      var m = new App.Models.Member()
-      var bform = new App.Views.BecomeMemberForm({model:m})
-      bform.on('BecomeMemberForm:done', function() {
+        ResourceForm: function (resourceId) {
+            var resource = (resourceId) ? new App.Models.Resource({
+                _id: resourceId
+            }) : new App.Models.Resource()
+            resource.on('processed', function () {
+                Backbone.history.navigate('resources', {
+                    trigger: true
+                })
+            })
+            var resourceFormView = new App.Views.ResourceForm({
+                model: resource
+            })
+            App.$el.children('.body').html(resourceFormView.el)
 
-        window.location="../personal/index.html#dashboard"
-
-
-      })
-      bform.render()
-      App.$el.children('.body').html('<h1>Become A Member</h1>')
-      App.$el.children('.body').append (bform.el)
-    },
-    DemoScreen: function(){
-      $('ul.nav').html($("#template-nav-logged-in").html())       
-      var demo = new App.Views.Demo()
-      App.$el.children('.body').html(demo.el)
-      demo.render()
-    },
-    DemoVersion : function()
-    {
-    	$('ul.nav').html($("#template-nav-logged-in").html()).show()
-    	 var demo = new App.Views.Demo()
-	     App.$el.children('.body').html(demo.el)
-	     demo.render()
-
-    },
-    MemberLogin: function() {
-      // Prevent this Route from completing if Member is logged in.
-      if($.cookie('Member._id')) {
-        Backbone.history.navigate('resources', {trigger: true})
-        return
-      }
-      var credentials = new App.Models.Credentials()
-      var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
-      memberLoginForm.once('success:login', function() {
-       // $('ul.nav').html($("#template-nav-logged-in").html())
-       // Backbone.history.navigate('courses', {trigger: true})
-       	  window.location.href = "../personal/index.html#dashboard";
-          //Backbone.history.navigate('resources', {trigger: true})
-      })
-      memberLoginForm.render()
-      //App.$el.children('.body').html('<h1>Member login</h1>')
-      App.$el.children('.body').html(memberLoginForm.el)
-      //Override the menu
-     $('ul.nav').html($('#template-nav-log-in').html()).hide()
-    },
-
-    MemberLogout: function() {
-      this.expireSession()
-    Backbone.history.navigate('landingPage', {trigger: true})
-    },
-    expireSession:function(){
-    
-        $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
-        $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
-        $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
-        $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
-      
-        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/personal"})
-        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/lms"})
-    
-    },
-
-    ResourceForm : function(resourceId) {
-      var resource = (resourceId)
-        ? new App.Models.Resource({_id: resourceId})
-        : new App.Models.Resource()
-      resource.on('processed', function() {
-        Backbone.history.navigate('resources', {trigger: true})
-      })
-      var resourceFormView = new App.Views.ResourceForm({model: resource})
-      App.$el.children('.body').html(resourceFormView.el)
-      
-      if(resource.id) {
-        App.listenToOnce(resource, 'sync', function() {
-        resourceFormView.render()
-        $("input[name='addedBy']").attr("disabled",true);
-        })
-        resource.fetch()
-      }
-      else {
-        resourceFormView.render()
-        $("input[name='addedBy']").val($.cookie("Member.login"));
-        $("input[name='addedBy']").attr("disabled",true);
-      }
-    },
-
-    Resources: function(database) {
-      /********************Adding Average Rating Attribute ****************/
-      /*var rlist = new App.Collections.Resources()
-      rlist.fetch({async:false})
-      rlist.each(function(m){
-            if(m.get("averageRating") == undefined){
-              m.set("averageRating",0)
-              m.save()
+            if (resource.id) {
+                App.listenToOnce(resource, 'sync', function () {
+                    resourceFormView.render()
+                    $("input[name='addedBy']").attr("disabled", true);
+                })
+                resource.fetch()
+            } else {
+                resourceFormView.render()
+                $("input[name='addedBy']").val($.cookie("Member.login"));
+                $("input[name='addedBy']").attr("disabled", true);
             }
-      })*/
-      	App.startActivityIndicator()
+        },
+
+        Resources: function (database) {
+        App.startActivityIndicator()
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -262,9 +282,9 @@ $(function() {
                     resourcesTableView.isadmin = roles.indexOf("Manager")
                     resourcesTableView.render()
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
-                    App.$el.children('.body').append('<h3 style="color:gray;">Resources</h3>')
-                    App.$el.children('.body').append('<button style="margin:-100px 0px 0px 225px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
 
+                    App.$el.children('.body').append('<h1>Resources</h1>')
+                    App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
             })
@@ -301,8 +321,10 @@ $(function() {
                 })
                 resourceFeedback.on('sync', function () {
                     feedbackTable.render()
-                    App.$el.children('.body').html('<h1>Feedback for "' + resource.get('title') + '"</h1>')
-                    App.$el.children('.body').append('<a class="btn" href="#resource/feedback/add/' + resourceId + '"><i class="icon-plus"></i> Add your feedback</a>')
+                     $('ul.nav').html($('#template-nav-logged-in').html()).show()
+                    App.$el.children('.body').html('<h3>Feedback for "' + resource.get('title') + '"</h3>')
+                    var url_togo = "#resource/feedback/add/"+resourceId+"/"+resource.get('title')
+                    App.$el.children('.body').append('<a class="btn" href="'+url_togo+'"><i class="icon-plus"></i> Add your feedback</a>')
                     App.$el.children('.body').append('<a class="btn" style="margin:20px" href="#resources"><< Back to Resources</a>')
                     App.$el.children('.body').append(feedbackTable.el)
                 })
@@ -311,7 +333,7 @@ $(function() {
             resource.fetch()
         },
 
-        FeedbackForm: function (resourceId) {
+        FeedbackForm: function (resourceId,title) {
             var feedbackModel = new App.Models.Feedback({
                 resourceId: resourceId,
                 memberId: $.cookie('Member._id')
@@ -327,7 +349,8 @@ $(function() {
             var user_rating
             feedbackForm.render()
 
-            App.$el.children('.body').html('<h1>Add Feedback</h1>')
+            App.$el.children('.body').html('<h2>Add Feedback</h2>')
+            App.$el.children('.body').html('<h3>Feedback for "' + title + '"</h3>')
             App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
             App.$el.children('.body').append('<div id="star" data-score="0"></div>')
             $('#star').raty()
@@ -355,9 +378,8 @@ $(function() {
         },
 
         Groups: function () {
+         App.startActivityIndicator()
             /****** Amendment script *****/
-            App.startActivityIndicator()
-            
             var allcrs = new App.Collections.Groups();
             allcrs.fetch({
                 async: false
@@ -386,12 +408,11 @@ $(function() {
                     button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
                     button += '</p>'
                     App.$el.children('.body').html(button)
-                    App.$el.children('.body').append('<h3 style="color:gray;">Courses</h3>')
+                    App.$el.children('.body').append('<h1>Courses</h1>')
                     App.$el.children('.body').append(groupsTable.el)
                 }
             })
-            
-            App.stopActivityIndicator()
+              App.stopActivityIndicator()
         },
         GroupSearch: function () {
 
@@ -399,7 +420,7 @@ $(function() {
             cSearch = new App.Views.CourseSearch()
             cSearch.render()
             var button = '<p>'
-            button += '<a class="btn btn-success" href="#course/add">Add a new Course</a>'
+            button += '<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
             button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
             button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
             button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
@@ -412,6 +433,7 @@ $(function() {
 
         Members: function () {
         App.startActivityIndicator()
+
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -435,14 +457,13 @@ $(function() {
                     membersTable.render()
 
 
-                    App.$el.children('.body').html('<h3 style="color:gray;">Members<a style="margin-left:20px;" class="btn btn-success" href="#member/add">Add a New Member</a></h3>')
+                    App.$el.children('.body').html('<h1>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h1>')
 
 
                     App.$el.children('.body').append(membersTable.el)
                 }
             })
-          App.stopActivityIndicator()
-        
+                      App.stopActivityIndicator()
         },
 
         GroupForm: function (groupId) {
