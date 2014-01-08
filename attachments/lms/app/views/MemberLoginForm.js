@@ -39,10 +39,14 @@ $(function() {
           memvisits.set("visits",memvisits.get("visits") + 1)
           memvisits.once('sync',function()
           {
+              var date=new Date();
               $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
               $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
               $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
               $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/personal"})
+             
+              $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
+              $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
             
             if ($.inArray('student', response.rows[0].doc.roles) != -1) {
               if(response.rows[0].doc.roles.length < 2){
