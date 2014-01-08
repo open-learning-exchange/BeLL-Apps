@@ -9,9 +9,9 @@ Participating Nation and Community instances mirror themselves to their respecti
 
 ```
 delete-all-dbs --couchurl http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com;
-mirror-a-couchdb-server --source http://nation-a:***@nation-a.cloudant.com --target http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com;
+push-all-dbs --source http://nation-a:***@nation-a.cloudant.com --target http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com;
 delete-all-dbs --couchurl http://bell-apps-nation-qa:***@bell-apps-nation-qa.cloudant.com;
-mirror-a-couchdb-server --source http://nation-a.cloudant.com --target http://bell-apps-nation-qa.cloudant.com;
+push-all-dbs --source http://nation-a.cloudant.com --target http://bell-apps-nation-qa.cloudant.com;
 ```
 
 ## #3
