@@ -195,8 +195,6 @@ $(function() {
 
     MemberLogout: function() {
       this.expireSession()
-      
-     // alert('logout  Lms')
     Backbone.history.navigate('landingPage', {trigger: true})
     },
     expireSession:function(){
@@ -245,6 +243,7 @@ $(function() {
               m.save()
             }
       })*/
+      	App.startActivityIndicator()
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -269,6 +268,7 @@ $(function() {
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
             })
+            App.stopActivityIndicator()
         },
         ResourceSearch: function () {
 
@@ -357,6 +357,7 @@ $(function() {
         Groups: function () {
             /****** Amendment script *****/
             App.startActivityIndicator()
+            
             var allcrs = new App.Collections.Groups();
             allcrs.fetch({
                 async: false
@@ -389,6 +390,7 @@ $(function() {
                     App.$el.children('.body').append(groupsTable.el)
                 }
             })
+            
             App.stopActivityIndicator()
         },
         GroupSearch: function () {
@@ -409,6 +411,7 @@ $(function() {
         },
 
         Members: function () {
+        App.startActivityIndicator()
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -438,7 +441,7 @@ $(function() {
                     App.$el.children('.body').append(membersTable.el)
                 }
             })
-         //  setTimeout(function(){App.stopActivityIndicator()},5000)
+          App.stopActivityIndicator()
         
         },
 

@@ -179,12 +179,10 @@ $(function() {
 	
 	},
 	startUpStuff: function(){
-
+		
 		this.checkLoggedIn
 		this.renderNav
-
 		if(App.idss.length==0){
-		//this.runscript()
 		}
 		   $('div.takeQuizDiv').hide()
 		 $('#externalDiv').hide()

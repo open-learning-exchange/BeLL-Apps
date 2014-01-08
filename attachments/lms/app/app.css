@@ -513,3 +513,8 @@ margin-left: 33%;
     width: 400px;
 }
 /******************/
+#popup-spinning {
+    position: fixed;
+    top: 45%;
+    left:45%;
+}

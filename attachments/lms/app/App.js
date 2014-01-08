@@ -5,7 +5,7 @@ $(function() {
 
     // Settings
     Server: '',
-	wheel: '',
+	wheel: null,
     // Backbone structure
     Models: {},
     Views: {},
@@ -97,24 +97,20 @@ $(function() {
      */
 	startActivityIndicator:function(){
 		var target = document.getElementById("popup-spinning");
-		App.wheel = new Spinner({lines: 12, color: "#fff"}).spin(target);
-	/*
-
-		$('#popup-spinning').popup({
-        horizontal: 'center',
-        vertical: 'center',
-        blur : false,
-        opacity:0.1,
-        scrolllock : true
-    	});
-    	
-    	$('#popup-spinning').popup('show')
-*/
+		if(App.wheel==null){
+			App.wheel = new Spinner({lines: 12,length: 20,trail: 40,width:5,radius: 50,speed:2, color: "#34495E"}).spin(target);
+		}
+		else{
+			App.wheel.spin(target)
+		}
+		document.getElementById('cont').style.visibility='hidden'
 	},
 	stopActivityIndicator:function(){
-			
-		//	$('#popup-spinning').popup('hide')
-			App.wheel.spin(false);
+	    window.setTimeout(function(){
+			document.getElementById('cont').style.visibility='visible'
+			App.wheel.stop()
+		},1000)
+		//	window.setTimeout(App.wheel.spin(false),6000)
 	},
     compileManifest: function(bundles, targetDocURL) {
 
