@@ -3,7 +3,7 @@ $(function() {
   App.Views.GroupRow = Backbone.View.extend({
 
     tagName: "tr",
-
+	roles:null,
     events: {
       "click .destroy" : function(e) {
         e.preventDefault()
@@ -51,8 +51,9 @@ $(function() {
 
     template : $("#template-GroupRow").html(),
 
-    initialize: function() {
+    initialize: function(e) {
       //this.model.on('destroy', this.remove, this)
+      this.roles=e.roles
     },
 
     render: function () {
@@ -64,14 +65,16 @@ $(function() {
       else{
       vars.isLeader=0
       }
-       var manager = new App.Models.Member({"_id":$.cookie('Member._id')})
-      manager.fetch({async:false})
-      if(manager.get("roles").indexOf("Manager")!=-1){
+  
+       
+      if(this.roles.indexOf("Manager")!=-1){
       vars.isAdmin=1
       }
       else{
       vars.isAdmin=0
       }
+    
+    vars.isAdmin=1
       this.$el.append(_.template(this.template, vars))
     }
 

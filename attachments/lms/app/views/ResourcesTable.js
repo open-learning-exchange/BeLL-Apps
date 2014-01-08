@@ -10,6 +10,7 @@ $(function() {
 
     initialize: function(){
       //this.$el.append(_.template(this.template))
+     
     },
   addOne: function(model){
       var resourceRowView = new App.Views.ResourceRow({model: model,admin:this.isAdmin})
@@ -19,6 +20,7 @@ $(function() {
     },
 
     addAll: function(){
+           
     if(this.isadmin > -1){
     	this.isAdmin=1
     }
@@ -29,6 +31,7 @@ $(function() {
     },
 
     render: function() {
+       this.$el.html("<tr><th>Title</th><th colspan='5'>Actions</th></tr>")
       this.addAll()
     }
 

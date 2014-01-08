@@ -84,7 +84,7 @@ $(function() {
     		gmodel.save({},{
 		     success: function(){
 			var memprogress = new App.Models.membercourseprogress()
-			var csteps = new App.Collections.coursesteps();
+			var csteps = new App.Collections.coursesteps()
 						var stepsids = new Array()
 						var stepsres = new Array()
 						var stepsstatus = new Array()

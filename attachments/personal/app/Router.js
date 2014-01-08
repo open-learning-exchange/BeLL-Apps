@@ -434,8 +434,6 @@ $(function() {
     viewCourseInfo.leader=memberModel
     
     viewCourseInfo.render()
-    console.log(viewCourseInfo)
-    
     App.$el.children('.body').html("&nbsp")
     App.$el.children('.body').append('<div class="courseInfo-header"><a href="#course/details/'+courseId+'/'+courseModel.get('name')+'"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/'+courseId+'"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
     App.$el.children('.body').append(viewCourseInfo.el)
@@ -449,28 +447,26 @@ $(function() {
         var courseModel= new App.Models.Group()
         courseModel.set('_id',courseId)
         courseModel.fetch({async:false})
-            
         var courseMemebers=courseModel.get('members')
         var index=courseMemebers.indexOf(memberId)
-        courseMemebers.splice(index, 1);
+        courseMemebers.splice(index, 1)
         courseModel.set({members:courseMemebers})
-        courseModel.save();
-        
-        var mail = new App.Models.Mail();
-        var currentdate = new Date();
+        courseModel.save()
+        var mail = new App.Models.Mail()
+        var currentdate = new Date()
         var id = courseModel.get('leaderEmail')
         
         var subject='Course Resignation | '+courseModel.get('name')+''
         var mailBody='Hi,<br>Member '+$.cookie('Member.login')+' has resign from '+courseModel.get('name')+''
 
-      			mail.set("senderId",$.cookie('Member._id'));
-      			mail.set("receiverId",id);
-      			mail.set("subject",subject);
-      			mail.set("body",mailBody);
-      			mail.set("status","0");
-      			mail.set("type","mail");
-      			mail.set("sentDate",currentdate);
-      			//console.log(mail)
+      			mail.set("senderId",$.cookie('Member._id'))
+      			mail.set("receiverId",id)
+      			mail.set("subject",subject)
+      			mail.set("body",mailBody)
+      			mail.set("status","0")
+      			mail.set("type","mail")
+      			mail.set("sentDate",currentdate)
+      			console.log(mail)
       			mail.save();
        alert("Mail successfully send.")
 

@@ -5,7 +5,7 @@ $(function() {
 
     // Settings
     Server: '',
-
+	wheel: '',
     // Backbone structure
     Models: {},
     Views: {},
@@ -95,7 +95,27 @@ $(function() {
      * files to.
      *
      */
+	startActivityIndicator:function(){
+		var target = document.getElementById("popup-spinning");
+		App.wheel = new Spinner({lines: 12, color: "#fff"}).spin(target);
+	/*
 
+		$('#popup-spinning').popup({
+        horizontal: 'center',
+        vertical: 'center',
+        blur : false,
+        opacity:0.1,
+        scrolllock : true
+    	});
+    	
+    	$('#popup-spinning').popup('show')
+*/
+	},
+	stopActivityIndicator:function(){
+			
+		//	$('#popup-spinning').popup('hide')
+			App.wheel.spin(false);
+	},
     compileManifest: function(bundles, targetDocURL) {
 
       //

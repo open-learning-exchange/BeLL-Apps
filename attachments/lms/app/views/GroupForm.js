@@ -16,8 +16,8 @@ $(function() {
       }
       
     },
+
     CourseSchedule : function(){
-          
           var form = new App.Views.CourseScheduleForm()
           form.courseId = this.model.id
           var model
@@ -179,7 +179,36 @@ $(function() {
       		member.get('roles').push("Leader")
       		member.save()
       	}
-        this.model.save()
+      	this.model.set("members",[this.model.get("courseLeader")])
+      	console.log(this.model)
+      	var that =this
+        this.model.save({},{
+        	success:function(){
+        		var memprogress = new App.Models.membercourseprogress()
+				var csteps = new App.Collections.coursesteps()
+						var stepsids = new Array()
+						var stepsres = new Array()
+						var stepsstatus = new Array()
+						alert(that.model.get("id"))
+						csteps.courseId = that.model.get("id")
+						csteps.fetch({success:function(){
+						    csteps.each(function(m){
+						    stepsids.push(m.get("_id"))
+						    stepsres.push("0")
+						    stepsstatus.push("0")
+						  })
+						    memprogress.set("stepsIds",stepsids)
+						    memprogress.set("memberId",that.model.get("courseLeader"))
+						    memprogress.set("stepsResult",stepsres)
+						    memprogress.set("stepsStatus",stepsstatus)
+						    memprogress.set("courseId",csteps.courseId)
+						    memprogress.save({success:function(){
+						}})
+						
+						}})
+						alert("Course Created")
+        	}
+        	})
       } 
     },
 
