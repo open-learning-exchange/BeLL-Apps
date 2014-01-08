@@ -2,6 +2,8 @@
 
 ![BeLL Apps Release Strategy Diagram](bell-apps-release-strategy-diagram.png)
 
+*The command line examples in the following steps make heavy use of the CouchDB Wedge utilities found [here](https://github.com/rjsteinert/CouchDB-Wedge).*
+
 ## #1 & #2 
 Participating Nation and Community instances mirror themselves to their respective QA servers.
 
