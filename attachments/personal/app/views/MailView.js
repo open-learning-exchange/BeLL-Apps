@@ -252,7 +252,6 @@ $(function () {
             member.fetch({
                 async: false
             })
-
             if (member.id == undefined) {
                 var name = "Error!!"
             } else {
@@ -365,5 +364,6 @@ $(function () {
         }
 
     })
+
 
 })

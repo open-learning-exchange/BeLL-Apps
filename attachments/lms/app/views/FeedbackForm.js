@@ -6,18 +6,25 @@ $(function() {
     user_rating  : 'null',
     events: {
       "click #formButton": "setForm",
+      //"click #addtoshelf": "setForm",
       "submit form" : "setFormFromEnterKey"
     },
 
     render: function() {
       this.user_rating = 0
+      console.log(this.model)
       this.form = new Backbone.Form({ model: this.model })
       this.$el.append(this.form.render().el)
       this.form.fields['rating'].$el.hide()
       this.form.fields['memberId'].$el.hide()
       this.form.fields['resourceId'].$el.hide()
-      var $button = $('<a class="btn btn-success" style="width:60px;height:30px;font-weight:bolder;font-size:20px;padding-top: 10px;margin-left:10%;" id="formButton">Save</button>')
+      
+     
+      var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">Save</a>') 
+      $btnAddToshelf= $('<a class="btn btn-success" id="addtoshelf" href="#addToshelf/'+this.model.get('resourceId')+'/'+this.rtitle+'" style="margin-left:10px">Add To Shelf</a>')
+      
       this.$el.append($button)
+      this.$el.append($btnAddToshelf)
     },
 
     setFormFromEnterKey: function(event) {

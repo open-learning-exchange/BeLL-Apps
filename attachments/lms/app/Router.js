@@ -15,6 +15,7 @@ $(function () {
             'resource/feedback/:resourceId': 'ResourceFeedback',
             'resource/invite/:resourceId/:name/:kind': 'ResourceInvitation',
             'resource/feedback/add/:resourceId': 'FeedbackForm',
+            'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
             'courses': 'Groups',
             'course/edit/:groupId': 'GroupForm',
             'course/default': 'Explore_Bell_Courses',
@@ -40,6 +41,7 @@ $(function () {
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             'demo-version': 'DemoVersion',
             'savedesc/:lid': 'saveDescprition',
+            'addToshelf/:rid/:title'       : 'AddToshelf',
             'resource/atlevel/feedback/:rid/:levelid/:revid': 'LevelResourceFeedback',
             'search/courses': 'SearchCourses',
             'assign-to-default-courses': 'AssignCoursestoExplore',
@@ -68,6 +70,25 @@ $(function () {
                     App.start()
                 }
             }
+            else{
+    	     	var expTime=$.cookie('Member.expTime')
+ 			    var d = new Date(Date.parse(expTime))
+             	var diff = Math.abs(new Date() - d)
+           		 //alert(diff)
+            	var expirationTime=600000
+            	if(diff<expirationTime)
+           		 {
+              	  var date=new Date()
+              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
+              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+           		 }
+           	 else{ 
+                  this.expireSession()
+                  Backbone.history.stop()
+   			      App.start() 
+               
+            }
+      	}
         },
 
         AllRequests: function () {
@@ -82,7 +103,6 @@ $(function () {
             colView.render()
             App.$el.children('.body').append(colView.el)
         },
-
         myRequests: function () {
             App.$el.children('.body').html('&nbsp')
             var col = new App.Collections.Requests({
@@ -97,7 +117,6 @@ $(function () {
             colView.render()
             App.$el.children('.body').append(colView.el)
         },
-
         CourseReport: function (cId, cname) {
             App.$el.children('.body').html("<h2> " + cname + "</h2>")
             App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
@@ -113,7 +132,7 @@ $(function () {
             vi.render()
             console.log(allResults.length)
         },
-
+		
         viewAllFeedback: function () {
             var fed = new App.Collections.siteFeedbacks()
             fed.fetch({
@@ -136,7 +155,7 @@ $(function () {
             console.log(temp)
             var vars = new Object()
             vars.host = temp
-            vars.visits = "hassan chawal"
+            vars.visits = "hassan "
             console.log(vars)
             //App.$el.children('.body').html($('#template-LandingPage'), vars)
             var template = $('#template-LandingPage').html()
@@ -217,24 +236,23 @@ $(function () {
             $('ul.nav').html($('#template-nav-log-in').html()).hide()
         },
 
-        MemberLogout: function () {
-            $.removeCookie('Member.login', {
-                path: "/apps/_design/bell/lms"
-            })
-            $.removeCookie('Member._id', {
-                path: "/apps/_design/bell/lms"
-            })
-            $.removeCookie('Member.login', {
-                path: "/apps/_design/bell/personal"
-            })
-            $.removeCookie('Member._id', {
-                path: "/apps/_design/bell/personal"
-            })
-            Backbone.history.navigate('landingPage', {
-                trigger: true
-            })
-        },
-
+   		MemberLogout: function() {
+    
+       		this.expireSession()
+      
+      		Backbone.history.navigate('login', {trigger: true})
+    	},
+		expireSession:function(){
+    
+        $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
+      
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/lms"})
+    
+    },
         ResourceForm: function (resourceId) {
             var resource = (resourceId) ? new App.Models.Resource({
                 _id: resourceId
@@ -263,6 +281,7 @@ $(function () {
         },
 
         Resources: function (database) {
+        App.startActivityIndicator()
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -287,7 +306,21 @@ $(function () {
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
             })
+            App.stopActivityIndicator()
         },
+        AddToshelf:function(rId,title){
+      
+          var shelfItem=new App.Models.Shelf()
+              shelfItem.set('memberId',$.cookie('Member._id'))
+              shelfItem.set('resourceId',rId)
+              shelfItem.set('resourceTitle',title)
+              //Adding the Selected Resource to the Shelf Hash(Dictionary)
+              shelfItem.save(null, {
+            	  success: function(model,response,options) {}
+              });
+       alert('Successfully Add To Shelf')
+       Backbone.history.navigate('resources', {trigger: true})
+    },
         ResourceSearch: function () {
 
             var resources = new App.Views.ResourceSearch()
@@ -319,8 +352,10 @@ $(function () {
                 })
                 resourceFeedback.on('sync', function () {
                     feedbackTable.render()
-                    App.$el.children('.body').html('<h1>Feedback for "' + resource.get('title') + '"</h1>')
-                    App.$el.children('.body').append('<a class="btn" href="#resource/feedback/add/' + resourceId + '"><i class="icon-plus"></i> Add your feedback</a>')
+                     $('ul.nav').html($('#template-nav-logged-in').html()).show()
+                    App.$el.children('.body').html('<h3>Feedback for "' + resource.get('title') + '"</h3>')
+                    var url_togo = "#resource/feedback/add/"+resourceId+"/"+resource.get('title')
+                    App.$el.children('.body').append('<a class="btn" href="'+url_togo+'"><i class="icon-plus"></i> Add your feedback</a>')
                     App.$el.children('.body').append('<a class="btn" style="margin:20px" href="#resources"><< Back to Resources</a>')
                     App.$el.children('.body').append(feedbackTable.el)
                 })
@@ -328,35 +363,30 @@ $(function () {
             })
             resource.fetch()
         },
+		FeedbackForm: function (resourceId,title) {
+      		var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
+      		feedbackModel.on('sync', function() {
+        		Backbone.history.navigate('resource/feedback/' + resourceId, {trigger: true})
+      		})
+  			var resInfo=new App.Models.Resource({_id: resourceId})
+      		resInfo.fetch({async:false})
+  			var feedbackForm = new App.Views.FeedbackForm({model: feedbackModel})
+   	   		feedbackForm.rtitle=resInfo.get('title')
+  			var user_rating 
+      feedbackForm.render()
+     
+     
+      
+      App.$el.children('.body').html('<h3 style="color:gray">Add Feedback For '+resInfo.get('title')+'</h3>')
+      App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
+      App.$el.children('.body').append('<div id="star" data-score="0"></div>')
+      $('#star').raty()
+      $("#star > img").click(function(){
+          feedbackForm.setUserRating($(this).attr("alt"))
+      });
 
-        FeedbackForm: function (resourceId) {
-            var feedbackModel = new App.Models.Feedback({
-                resourceId: resourceId,
-                memberId: $.cookie('Member._id')
-            })
-            feedbackModel.on('sync', function () {
-                Backbone.history.navigate('resource/feedback/' + resourceId, {
-                    trigger: true
-                })
-            })
-            var feedbackForm = new App.Views.FeedbackForm({
-                model: feedbackModel
-            })
-            var user_rating
-            feedbackForm.render()
-
-            App.$el.children('.body').html('<h1>Add Feedback</h1>')
-            App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
-            App.$el.children('.body').append('<div id="star" data-score="0"></div>')
-            $('#star').raty()
-            $("#star > img").click(function () {
-                feedbackForm.setUserRating($(this).attr("alt"))
-            });
-
-            App.$el.children('.body').append(feedbackForm.el)
-        },
-
-
+      App.$el.children('.body').append(feedbackForm.el)
+   },
         ResourceInvitation: function (resourceId, name, kind) {
             var inviteModel = new App.Models.InviFormModel()
             inviteModel.entityId = resourceId
@@ -371,8 +401,8 @@ $(function () {
             App.$el.children('.body').html('<h1>Send Invitation</h1>')
             App.$el.children('.body').append(inviteForm.el)
         },
-
         Groups: function () {
+         App.startActivityIndicator()
             /****** Amendment script *****/
             var allcrs = new App.Collections.Groups();
             allcrs.fetch({
@@ -406,6 +436,7 @@ $(function () {
                     App.$el.children('.body').append(groupsTable.el)
                 }
             })
+              App.stopActivityIndicator()
         },
         GroupSearch: function () {
 
@@ -423,8 +454,8 @@ $(function () {
             App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>')
             App.$el.children('.body').append(cSearch.el)
         },
-
-        Members: function () {
+		Members: function () {
+        App.startActivityIndicator()
 
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
@@ -455,17 +486,15 @@ $(function () {
                     App.$el.children('.body').append(membersTable.el)
                 }
             })
+                      App.stopActivityIndicator()
         },
-
         GroupForm: function (groupId) {
             this.modelForm('Group', 'Course', groupId, 'courses')
         },
-
         MemberForm: function (memberId) {
             this.modelForm('Member', 'Member', memberId, 'members')
         },
-
-        modelForm: function (className, label, modelId, reroute) {
+		modelForm: function (className, label, modelId, reroute) {
             //cv Set up
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
@@ -1132,6 +1161,7 @@ $(function () {
                 })
 
             })
+<<<<<<< HEAD
 
 
             //
@@ -1278,6 +1308,154 @@ $(function () {
             resources.fetch()
         }
 
+=======
+
+
+            //
+            // Step 6
+            //
+            // Our bundles are ready, send to the compiler
+
+            App.once('CompileManifestForWeeksAssignments:readyToCompileBundle', function () {
+                // Listen for when compiling the manifest has finished
+                App.once('compileManifest:done', function () {
+                    App.trigger('CompileManifestForWeeksAssignments:done')
+                })
+                App.compileManifest(bundles, targetDocURL)
+            })
+
+
+            //
+            // Step 7
+            //
+            // Our compiler is now done, navigate to another page
+
+            App.once('CompileManifestForWeeksAssignments:done', function () {
+                Backbone.history.navigate('courses', {
+                    trigger: true
+                })
+            })
+
+
+            //
+            // All events have been binded. Go!
+            //
+            App.trigger('CompileManifestForWeeksAssignments:go')
+
+        },
+        Replicate: function () {
+            var temp = $.url().attr("host").split(".")
+            var communities = new App.Collections.Communities()
+            communities.fetch({
+                async: false
+            })
+            communities.each(function (m) {
+                if (m.get("name") != "olelocal" && m.get("name") != temp[0]) {
+                    console.log(m.get("name"))
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": "resources",
+                            "target": "https://" + m.get("name") + ":oleoleole@" + m.get("name") + ".cloudant.com/resources"
+                        }),
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        async: false
+                    });
+                }
+            })
+
+        },
+        CompileManifest: function () {
+            // The resources we'll need to inject into the manifest file
+            var resources = new App.Collections.Resources()
+            var apps = new App.Collections.Apps()
+
+            // The URL of the device where we'll store transformed files
+            var deviceURL = '/devices/_design/all'
+            // The location of the default files we'll tranform
+            var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
+            var defaultUpdateURL = '/apps/_design/bell/update.default.html'
+            // URLs to save transformed files to      
+            var transformedManifestURL = deviceURL + '/manifest.appcache'
+            var transformedUpdateURL = deviceURL + '/update.html'
+            // The string to find in the default manifest file that we'll replace with Resources
+            var find = '{replace me}'
+            var replace = '# Compiled at ' + new Date().getTime() + '\n'
+
+            // Compile the new manifest file and save it to devices/all
+            resources.on('sync', function () {
+                _.each(resources.models, function (resource) {
+                    replace += encodeURI('/resources/' + resource.id) + '\n'
+                    if (resource.get('kind') == 'Resource' && resource.get('_attachments')) {
+                        _.each(resource.get('_attachments'), function (value, key, list) {
+                            replace += encodeURI('/resources/' + resource.id + '/' + key) + '\n'
+                        })
+                    }
+                })
+                App.trigger('compile:resourceListReady')
+            }) //????????
+
+            App.once('compile:resourceListReady', function () {
+                apps.once('sync', function () {
+                    _.each(apps.models, function (app) {
+                        _.each(app.get('_attachments'), function (value, key, list) {
+                            replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
+                        })
+                    })
+                    App.trigger('compile:appsListReady')
+                })
+                apps.fetch()
+            })
+
+            App.once('compile:appsListReady', function () {
+                $.get(defaultManifestURL, function (defaultManifest) {
+                    var transformedManifest = defaultManifest.replace(find, replace)
+                    $.getJSON(deviceURL, function (deviceDoc) {
+                        var xhr = new XMLHttpRequest()
+                        xhr.open('PUT', transformedManifestURL + '?rev=' + deviceDoc._rev, true)
+                        xhr.onload = function (response) {
+                            App.trigger('compile:done')
+                        }
+                        xhr.setRequestHeader("Content-type", "text/cache-manifest");
+                        xhr.send(new Blob([transformedManifest], {
+                            type: 'text/plain'
+                        }))
+                    })
+                })
+            })
+
+            // Save the update.html file to devices/all
+            App.once('compile:done', function () {
+                $.get(defaultUpdateURL, function (defaultUpdateHTML) {
+                    // We're not transforming the default yet
+                    transformedUpdateHTML = defaultUpdateHTML
+                    $.getJSON(deviceURL, function (deviceDoc) {
+                        var xhr = new XMLHttpRequest()
+                        xhr.open('PUT', transformedUpdateURL + '?rev=' + deviceDoc._rev, true)
+                        xhr.onload = function (response) {
+                            App.$el.children('.body').html('<a class="btn" href="' + transformedUpdateURL + '">Resources compiled. Click here to update your device.</a>')
+                        }
+                        xhr.setRequestHeader("Content-type", "text/html");
+                        xhr.send(new Blob([transformedUpdateHTML], {
+                            type: 'text/plain'
+                        }))
+                    })
+                })
+            })
+
+            // Start the process
+            resources.fetch()
+        }
+
+>>>>>>> 52d30cdfba015bd6f4b7f063ab09c35f47e9d707
     }))
 
 })

@@ -57,9 +57,6 @@ $(function() {
       openUrl: 'Text',
       averageRating :'Text',
     },
- 
-    
-    
     
     saveAttachment: function(formEl, fileEl, revEl) {
 
@@ -103,22 +100,22 @@ $(function() {
             $(formEl).ajaxSubmit({
               url: server + "/"+ input_db +"/"+ input_id,
               success: function(response) {
-                
                 model.trigger('savedAttachment')
+                alert("Resource Successfully added")
+               App.stopActivityIndicator()
               },
               error : function(response){
-                  alert("Error")
+              alert("Error")
+              App.stopActivityIndicator()
               },
             })
           }
-
         }, // End success, we have a Doc
     handleError: function( s, xhr, status, e ) {
     // If a local callback was specified, fire it
        if ( s.error ) {
               s.error.call( s.context || window, xhr, status, e );
        }
-
     // Fire the global callback
          if ( s.global ) {
                (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );

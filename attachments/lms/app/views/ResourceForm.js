@@ -176,6 +176,7 @@ $(function() {
 					 }
 				}
                                 else{
+                                	  App.startActivityIndicator()
                                  that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev" )
                                 }
 			}

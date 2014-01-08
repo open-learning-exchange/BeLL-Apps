@@ -16,8 +16,8 @@ $(function() {
       }
       
     },
+
     CourseSchedule : function(){
-          
           var form = new App.Views.CourseScheduleForm()
           form.courseId = this.model.id
           var model
@@ -97,6 +97,10 @@ $(function() {
         var groupForm = this
         if(this.model.get("_id") != undefined){
             this.prevmemlist = this.model.get("members")
+        }
+        if(!this.model.get("languageOfInstruction"))
+        {
+        	this.model.set("languageOfInstruction","")
         }
         this.model.schema.members.options = []
         var memberList = new App.Collections.leadermembers()
@@ -180,6 +184,12 @@ $(function() {
       		member.save()
       	}
         this.model.save()
+        alert("Course successfully updated.")
+        ///to get the latest rev.id 
+        var groupModel = new App.Models.Group()
+        groupModel.id = this.model.get("_id")
+        groupModel.fetch({async:false})
+		this.model = groupModel
       } 
     },
 

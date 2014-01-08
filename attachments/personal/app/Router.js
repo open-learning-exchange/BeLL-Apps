@@ -179,15 +179,13 @@ $(function() {
 	
 	},
 	startUpStuff: function(){
-
+		
 		this.checkLoggedIn
 		this.renderNav
-
 		if(App.idss.length==0){
-		//this.runscript()
 		}
-		   $('div.takeQuizDiv').hide()
-		 $('#externalDiv').hide()
+		  $('div.takeQuizDiv').hide()
+		  $('#externalDiv').hide()
 		  $('#debug').hide()
 
           this.bind( "all", this.checkLoggedIn)
@@ -203,6 +201,25 @@ $(function() {
    			App.start()
    		}
    	}
+   	else{
+    	   	var expTime=$.cookie('Member.expTime')
+ 			var d = new Date(Date.parse(expTime))
+            var diff = Math.abs(new Date() - d)
+            //alert(diff)
+            var expirationTime=600000
+            if(diff<expirationTime)
+            {
+                var date=new Date()
+                $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
+                $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+            }
+            else{ 
+                  this.expireSession()
+                  Backbone.history.stop()
+   			      App.start() 
+               
+            }
+      	}
    },
 	
     viewAllFeedback: function(){
@@ -345,12 +362,22 @@ $(function() {
     },
 
     MemberLogout: function() {
+    
       App.ShelfItems = {}
-      $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
-      $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
-      $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
-      $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
+      this.expireSession()
+      
       Backbone.history.navigate('login', {trigger: true})
+    },
+    expireSession:function(){
+    
+        $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
+      
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/lms"})
+    
     },
 
     Groups: function() {
@@ -434,8 +461,6 @@ $(function() {
     viewCourseInfo.leader=memberModel
     
     viewCourseInfo.render()
-    console.log(viewCourseInfo)
-    
     App.$el.children('.body').html("&nbsp")
     App.$el.children('.body').append('<div class="courseInfo-header"><a href="#course/details/'+courseId+'/'+courseModel.get('name')+'"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/'+courseId+'"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
     App.$el.children('.body').append(viewCourseInfo.el)
@@ -449,10 +474,9 @@ $(function() {
         var courseModel= new App.Models.Group()
         courseModel.set('_id',courseId)
         courseModel.fetch({async:false})
-            
         var courseMemebers=courseModel.get('members')
         var index=courseMemebers.indexOf(memberId)
-        courseMemebers.splice(index, 1);
+        courseMemebers.splice(index, 1)
         courseModel.set({members:courseMemebers})
         courseModel.save();
         
@@ -473,14 +497,14 @@ $(function() {
         var subject='Course Resignation | '+courseModel.get('name')+''
         var mailBody='Hi,<br>Member '+$.cookie('Member.login')+' has resign from '+courseModel.get('name')+''
 
-      			mail.set("senderId",$.cookie('Member._id'));
-      			mail.set("receiverId",id);
-      			mail.set("subject",subject);
-      			mail.set("body",mailBody);
-      			mail.set("status","0");
-      			mail.set("type","mail");
-      			mail.set("sentDate",currentdate);
-      			//console.log(mail)
+      			mail.set("senderId",$.cookie('Member._id'))
+      			mail.set("receiverId",id)
+      			mail.set("subject",subject)
+      			mail.set("body",mailBody)
+      			mail.set("status","0")
+      			mail.set("type","mail")
+      			mail.set("sentDate",currentdate)
+      			console.log(mail)
       			mail.save();
        alert("Mail successfully send.")
 

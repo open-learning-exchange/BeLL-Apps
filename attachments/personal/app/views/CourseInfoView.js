@@ -17,11 +17,7 @@ $(function() {
     },
 
 
-    render: function() {
-    
-      console.log(this.model)
-      console.log(this.leader)
-      
+    render: function() {  
       var courseInfo=this.model.toJSON()
       var leaderInfo=this.leader.toJSON()
       
