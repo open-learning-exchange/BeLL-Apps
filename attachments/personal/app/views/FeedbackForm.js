@@ -9,10 +9,10 @@ $(function () {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
         },
+
         initialize: function(e){
         this.resourceId=e.resId
         },
-
         render: function () {
             this.user_rating = 0
             this.form = new Backbone.Form({
@@ -66,6 +66,7 @@ $(function () {
                 }
                 $('#externalDiv').hide()
                location.reload()
+
             }
 
         },

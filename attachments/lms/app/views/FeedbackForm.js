@@ -86,6 +86,7 @@ $(function () {
                 	member.set("pendingReviews",pending)
                 	member.save()
                 }
+
             }
 
         },

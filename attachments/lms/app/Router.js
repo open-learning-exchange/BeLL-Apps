@@ -59,6 +59,11 @@ $(function () {
             this.bind("all", this.routeStartupTasks)
             this.bind("all", this.reviewStatus)
         },
+        routeStartupTasks: function () {
+            $('#invitationdiv').hide()
+            $('#debug').hide()
+
+        },
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
                 console.log($.url().attr('fragment'))
@@ -87,10 +92,6 @@ $(function () {
                
             }
       	}
-        },
-         routeStartupTasks: function () {
-            $('#invitationdiv').hide()
-            $('#debug').hide()
         },
         reviewStatus: function(){
         	 var member = new App.Models.Member({
