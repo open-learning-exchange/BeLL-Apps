@@ -85,8 +85,6 @@
   
 
 
-    
-  
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -461,7 +459,7 @@ $(window).scroll(function () {
       </a>
     </li>
     <li> 
-      <a href="#info">
+      <a href="../lms/index.html#reports">
       Reports
       </a>
     </li> 
@@ -782,6 +780,7 @@ $(window).scroll(function () {
 		<b style="color:black; font-size:25px;">Inbox
 		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
 		<button class="btn btn-primary" id="unread-mails">Unread</button>
+		 <button class="btn btn-info" onclick="showComposePopup()">Compose</button>
 		<span class="new_mails"></span>
 		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
 		</b>

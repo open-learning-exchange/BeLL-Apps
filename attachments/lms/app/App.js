@@ -95,6 +95,8 @@ $(function() {
      * files to.
      *
      */
+     
+     
 	startActivityIndicator:function(){
 		var target = document.getElementById("popup-spinning");
 		if(App.wheel==null){
@@ -110,8 +112,9 @@ $(function() {
 			document.getElementById('cont').style.visibility='visible'
 			App.wheel.stop()
 		},1000)
-		//	window.setTimeout(App.wheel.spin(false),6000)
 	},
+	
+	
     compileManifest: function(bundles, targetDocURL) {
 
       //

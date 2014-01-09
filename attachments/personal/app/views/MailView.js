@@ -74,19 +74,19 @@ $(function () {
                 gmodel.fetch({
                     async: false
                 })
-        
+
                 var that = this
                 if (gmodel.get("_id")) {
                     var memberlist = []
                     if (gmodel.get("members") != null) {
                         memberlist = gmodel.get("members")
                     }
-                    
+
 
                     if (memberlist.indexOf($.cookie('Member._id')) == -1) {
                         memberlist.push($.cookie('Member._id'))
                         gmodel.set("members", memberlist)
-                       
+
                         gmodel.save({}, {
                             success: function () {
                                 var memprogress = new App.Models.membercourseprogress()
@@ -236,7 +236,7 @@ $(function () {
         initialize: function () {
             this.modelNo = 0
             this.skip = 0
-            this.unopen = false
+            this.unopen = true
             this.recordsPerPage = 5
             this.nextButton = 1
             this.searchText = ""
@@ -289,7 +289,7 @@ $(function () {
         },
         render: function () {
             this.$el.html(this.template(this.vars))
-            this.$el.append('<div class="mail-table"><span style="float:right; margin-left:10px;"><button id="nextButton" class="btn btn-primary fui-arrow-right"></button></span> <span style="float:left;"><button class="btn btn-info" onclick="showComposePopup()">Compose</button></span> <span style="float:right;"><button id="previousButton" class="btn btn-primary fui-arrow-left"></button></span></div>')
+            this.$el.append('<div class="mail-table"><span style="float:right; margin-left:10px;"><button id="nextButton" class="btn btn-primary fui-arrow-right"></button></span> <span style="float:right;"><button id="previousButton" class="btn btn-primary fui-arrow-left"></button></span></div>')
             //$('#mailActions').html(this.template)
 
 
@@ -315,7 +315,8 @@ $(function () {
                     }
 
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
-                        if (searchText != "") {
+                      //  if (searchText != "")
+                       {
                             alert('No result found')
                         }
                     }
