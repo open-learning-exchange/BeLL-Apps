@@ -1,6 +1,6 @@
 $(function () {
 
-    App.Views.ResourceForm = Backbone.View.extend({
+    App.Views.ReportForm = Backbone.View.extend({
 
         className: "form",
         hide: false,
@@ -22,7 +22,7 @@ $(function () {
                 vars.header = 'Edit "' + this.model.get('title') + '"'
                 vars.hidesave = true
             } else {
-                vars.header = 'New resource'
+                vars.header = 'New Report'
                 vars.hidesave = false
             }
 
@@ -31,32 +31,21 @@ $(function () {
                 model: this.model
             })
             this.form.render()
-            this.form.fields['uploadDate'].$el.hide()
+            //this.form.fields['uploadDate'].$el.hide()
             if (this.edit == false) {
                 alert("here")
-                this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
+                //this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
             }
-            this.form.fields['addedBy'].$el.attr("disabled", true)
-            this.form.fields['averageRating'].$el.hide()
+            //this.form.fields['addedBy'].$el.attr("disabled",true)
+            //this.form.fields['averageRating'].$el.hide()
             var that = this
             if (_.has(this.model, 'id')) {
-                if (this.model.get("Level") == "All") {
-                    that.form.fields['toLevel'].$el.hide();
-                    that.form.fields['fromLevel'].$el.hide();
-                    that.hide = true
-                }
+                //if(this.model.get("Level") == "All"){
+                // that.form.fields['toLevel'].$el.hide();
+                //that.form.fields['fromLevel'].$el.hide();
+                //that.hide = true
             }
-            that.form.fields['Level'].$el.change(function () {
-                if (!that.hide) {
-                    that.form.fields['toLevel'].$el.hide();
-                    that.form.fields['fromLevel'].$el.hide();
-                    that.hide = true
-                } else {
-                    that.form.fields['toLevel'].$el.show();
-                    that.form.fields['fromLevel'].$el.show();
-                    that.hide = false
-                }
-            })
+
 
             // @todo Why won't this work?
             vars.form = "" //$(this.form.el).html()
@@ -176,7 +165,6 @@ $(function () {
                                         alert("Cannot update model due to identical title")
                                     }
                                 } else {
-                                    App.startActivityIndicator()
                                     that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                                 }
                             } else {

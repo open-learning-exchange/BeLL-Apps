@@ -1,13 +1,14 @@
 $(function () {
 
-    App.Views.addComment = Backbone.View.extend({
+    App.Views.CommunityReportCommentView = Backbone.View.extend({
 
         tagName: "div",
         id: "comment-feedback",
         cId: null,
         initialize: function (e) {
-            this.cId = e.commentId
-            this.model = new App.Models.reportComment
+            console.log(e)
+            this.cId = e.CommunityReportId
+            this.model = new App.Models.CommunityReportComment
 
         },
 
@@ -24,7 +25,7 @@ $(function () {
                 var now = new Date();
                 now.getDate()
                 this.form.setValue({
-                    reportId: this.cId
+                    CommunityReportId: this.cId
                 })
                 this.form.setValue({
                     commentNumber: (this.collection.length + 1)
@@ -49,10 +50,12 @@ $(function () {
                 this.render()
             }
         },
+
         addOne: function (modl) {
             $('#comments').append('<div id=tile><b>Login:</b>' + modl.toJSON().memberLogin + '<br/><b>Time:</b>' + modl.toJSON().time + '<br/><b>Comment:</b>' + modl.toJSON().comment + '</div>')
             console.log(modl.toJSON())
         },
+
         render: function () {
             $('#debug').show()
             this.$el.html('&nbsp;')
@@ -62,15 +65,13 @@ $(function () {
                 model: this.model
             })
             this.$el.append(this.form.render().el)
-            this.form.fields['reportId'].$el.hide()
+            this.form.fields['CommunityReportId'].$el.hide()
             this.form.fields['commentNumber'].$el.hide()
             this.form.fields['memberLogin'].$el.hide()
             this.form.fields['time'].$el.hide()
-            var $button = $('<div id="r-formButton"><button class="btn btn-primary" id="submitFormButton">Add Comment</button><button class="btn btn-info" id="cancelFormButton">Cancel</button></div>')
+            var $button = $('<div id="r-formButton"><button class="btn btn-primary" id="submitFormButton">Add Comment</button><button class="btn btn-info" id="cancelFormButton">Close</button></div>')
             this.$el.append($button)
-            $("#comments").animate({
-                scrollTop: $('#comments')[0].scrollHeight
-            }, 3000);
+            // $("#comments").animate({ scrollTop: $('#comments')[0].scrollHeight}, 3000);
         }
 
     })
