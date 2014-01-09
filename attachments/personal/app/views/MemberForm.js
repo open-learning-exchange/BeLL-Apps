@@ -34,26 +34,26 @@ $(function() {
       this.form.fields['visits'].$el.hide()
       var that = this
       
-      this.form.fields['roles'].$el.change(function(){
-        var values = new Array()
-         $('input[type="checkbox"]:checked').each(function() {
-                values.push(this.value)
-         })    
-          if(values.indexOf("lead") > -1){
-              that.form.fields['yearsOfTeaching'].$el.show()
-              that.form.fields['teachingCredentials'].$el.show()
-              that.form.fields['subjectSpecialization'].$el.show()
-              that.form.fields['forGrades'].$el.show()
-           }
-            else{
-              that.form.fields['yearsOfTeaching'].$el.hide()
-              that.form.fields['teachingCredentials'].$el.hide()
-              that.form.fields['subjectSpecialization'].$el.hide()
-              that.form.fields['forGrades'].$el.hide()
-              
-            }
-        
-      })
+//      this.form.fields['roles'].$el.change(function(){
+//        var values = new Array()
+//         $('input[type="checkbox"]:checked').each(function() {
+//                values.push(this.value)
+//         })    
+//          if(values.indexOf("lead") > -1){
+//              that.form.fields['yearsOfTeaching'].$el.show()
+//              that.form.fields['teachingCredentials'].$el.show()
+//              that.form.fields['subjectSpecialization'].$el.show()
+//              that.form.fields['forGrades'].$el.show()
+//           }
+//            else{
+//              that.form.fields['yearsOfTeaching'].$el.hide()
+//              that.form.fields['teachingCredentials'].$el.hide()
+//              that.form.fields['subjectSpecialization'].$el.hide()
+//              that.form.fields['forGrades'].$el.hide()
+//              
+//            }
+//        
+//      })
       var $button = $('<div class="signup-submit"><a class="signup-btn btn" id="formButton">'+buttonText+'</button></div>')
      // var $memberImage = $('<img src="attchmentURL" /> ')
       var $upload=$('<form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
