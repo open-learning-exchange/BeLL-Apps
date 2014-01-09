@@ -109,7 +109,7 @@ $(function() {
 	    window.setTimeout(function(){
 			document.getElementById('cont').style.visibility='visible'
 			App.wheel.stop()
-		},1000)
+		},3000)
 		//	window.setTimeout(App.wheel.spin(false),6000)
 	},
     compileManifest: function(bundles, targetDocURL) {

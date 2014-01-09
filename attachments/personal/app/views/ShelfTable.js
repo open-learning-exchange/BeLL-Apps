@@ -1,28 +1,28 @@
-$(function() {
-  App.Views.GroupsTable = Backbone.View.extend({
+$(function () {
+    App.Views.GroupsTable = Backbone.View.extend({
 
-    tagName: "table",
+        tagName: "table",
 
-    className: "table table-striped",
+        className: "table table-striped",
 
-    addOne: function(model){
-      var groupRow = new App.Views.GroupRow({model: model})
-      groupRow.render()  
-      this.$el.append(groupRow.el)
-    },
+        addOne: function (model) {
+            var groupRow = new App.Views.GroupRow({
+                model: model
+            })
+            groupRow.render()
+            this.$el.append(groupRow.el)
+        },
 
-    addAll: function(){
-      // @todo this does not work as expected, either of the lines
-      // _.each(this.collection.models, this.addOne())
-      this.collection.each(this.addOne, this)
-    },
+        addAll: function () {
+            // @todo this does not work as expected, either of the lines
+            // _.each(this.collection.models, this.addOne())
+            this.collection.each(this.addOne, this)
+        },
 
-    render: function() {
-      this.addAll()
-    }
+        render: function () {
+            this.addAll()
+        }
 
-  })
+    })
 
 })
-
-
