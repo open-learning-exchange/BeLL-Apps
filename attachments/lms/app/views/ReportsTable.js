@@ -3,7 +3,7 @@ $(function() {
   App.Views.ReportsTable = Backbone.View.extend({
 
     tagName: "table",
-	isAdmin:null,
+	isManager:null,
     className: "table table-striped",
 
     //template: $('#template-ResourcesTable').html(),
@@ -12,20 +12,14 @@ $(function() {
       //this.$el.append(_.template(this.template))
     },
   addOne: function(model){
-      var reportRowView = new App.Views.ReportsRow({model: model,admin:this.isAdmin})
-      reportRowView.isadmin = this.isadmin
+      var reportRowView = new App.Views.ReportsRow({model: model})
+      reportRowView.isManager = this.isManager
       reportRowView.render()
       this.$el.append(reportRowView.el)
     },
 
     addAll: function(){
-    if(this.isadmin > -1){
-    	this.isAdmin=1
-    }
-    else{
-    	this.isAdmin=0
-    }
-    this.$el.append('<tr><th>Time</th><th>Title</th><th>Author</th><th colspan="3">Actions</th></tr>')
+    this.$el.append('<tr><th>Time</th><th>Title</th><th>Author</th><th>Views</th><th colspan="3">Actions</th></tr>')
       this.collection.forEach(this.addOne, this)
     },
 
