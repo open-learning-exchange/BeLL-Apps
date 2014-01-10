@@ -1106,7 +1106,7 @@ Please become a Member and explore both the Community Learning Management System
     </td>
     <td>
 
-      <a class='btn btn-success' value='<%= _id %>' id='open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+      <a class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/<%= _id %>' target="_blank">
 
         <i class='icon-eye-open'></i> Open
       </a>
@@ -1118,6 +1118,9 @@ Please become a Member and explore both the Community Learning Management System
    
     <td>
     	<%if(isManager>-1){%>
+      <a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+        View Details
+      </a>
       <a class='btn btn-danger destroy'>
         <i class='icon-remove'></i> Delete
       </a>
