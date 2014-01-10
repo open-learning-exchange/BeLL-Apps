@@ -15,6 +15,9 @@ $(function() {
       }
       return url
     },
+    SetRid : function(rid){
+    	this.id = rid
+    },
     defaults: {
       kind: 'Resource'
     },
