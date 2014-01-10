@@ -4,11 +4,15 @@ $(function () {
 
         tagName: "form",
         user_rating: 'null',
+        resourceId:'null',
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
         },
 
+        initialize: function(e){
+        this.resourceId=e.resId
+        },
         render: function () {
             this.user_rating = 0
             this.form = new Backbone.Form({
@@ -46,7 +50,23 @@ $(function () {
                 this.form.commit()
                 //Send the updated model to the server
                 this.model.save()
+                var member = new App.Models.Member({
+                                _id: $.cookie('Member._id')
+                            })
+                            member.fetch({
+                                async: false
+                           })  
+                var pending=[]
+                pending=member.get("pendingReviews")
+                var index=pending.indexOf( this.resourceId)
+                if(index>-1){
+                	pending.splice(index,1)
+                	member.set("pendingReviews",pending)
+                	member.save()
+                }
                 $('#externalDiv').hide()
+               location.reload()
+
             }
 
         },

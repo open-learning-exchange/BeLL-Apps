@@ -17,6 +17,18 @@ $(function () {
             },
             "click .resFeedBack": function (event) {
                 $('ul.nav').html($('#template-nav-logged-in').html()).hide()
+                 var member = new App.Models.Member({
+                                _id: $.cookie('Member._id')
+                            })
+                            member.fetch({
+                                async: false
+                            })
+                            var pending=[]
+                           pending= member.get("pendingReviews")
+                           pending.push(this.model.get("_id"))
+                		   member.set("pendingReviews",pending)
+                		   member.save()
+                	console.log(member.get("pendingReviews"))
                 Backbone.history.navigate('resource/feedback/add/' + this.model.get("_id") + '/' + this.model.get("title"), {
                     trigger: true
                 })

@@ -163,7 +163,7 @@ $(function () {
             var that = this
 
             var newEntery = 0
-            
+
             this.model.once('sync', function () {
 
                 Backbone.history.navigate('course/manage/' + that.model.get("id"), {
@@ -174,7 +174,7 @@ $(function () {
             this.form.commit()
             // Send the updated model to the server
             if (this.model.get("_id") == undefined) {
-            
+
             	newEntery = 1
 
                 this.model.set("members", null)
@@ -231,8 +231,6 @@ $(function () {
                 	}
                 	
                 }})
-                
-                
             }
         },
 

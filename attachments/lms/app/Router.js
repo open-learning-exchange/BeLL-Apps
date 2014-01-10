@@ -57,7 +57,78 @@ $(function () {
         initialize: function () {
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.routeStartupTasks)
+            this.bind("all", this.reviewStatus)
         },
+        routeStartupTasks: function () {
+            $('#invitationdiv').hide()
+            $('#debug').hide()
+
+        },
+        checkLoggedIn: function () {
+            if (!$.cookie('Member._id')) {
+                console.log($.url().attr('fragment'))
+
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
+                    Backbone.history.stop()
+                    App.start()
+                }
+            }
+            else{
+    	     	var expTime=$.cookie('Member.expTime')
+ 			    var d = new Date(Date.parse(expTime))
+             	var diff = Math.abs(new Date() - d)
+           		 //alert(diff)
+            	var expirationTime=600000
+            	if(diff<expirationTime)
+           		 {
+              	  var date=new Date()
+              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
+              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+           		 }
+           	 else{ 
+                  this.expireSession()
+                  Backbone.history.stop()
+   			      App.start() 
+               
+            }
+      	}
+        },
+        reviewStatus: function(){
+        	 var member = new App.Models.Member({
+                                _id: $.cookie('Member._id')
+                            })
+                            member.fetch({
+                                async: false
+                           })            
+                           console.log(member.get("pendingReviews"))
+            if( member.get("pendingReviews")==undefined){
+            var pending=[]
+            	member.set("pendingReviews",pending)
+            	member.save()
+            }
+            else{
+            	var path=$.url().attr('fragment').split("/")
+            	console.log(path)
+                if(member.get("pendingReviews").length!=0&&path[0]!="resource"&&path[1]!="feedback"&&path[2]!="add"){
+                	console.log(member.get("pendingReviews"))
+                	var pending=member.get("pendingReviews")
+                	var resource=new App.Models.Resource({_id:pending[0]})
+                	console.log(resource)
+                	var response=resource.fetch({async:false})
+                	if(response.status==200){
+                		Backbone.history.navigate('resource/feedback/add/' + resource.attributes._id + '/' + resource.attributes.title, {
+                    	trigger: true
+                		})
+                	}
+                	else{
+                		pending=pending.splice(0,1)      
+                		member.set("pendingReviews",pending)      		
+                	}
+                }
+            }
+        },
+       
+        
         Reports: function (database) {
         
             var loggedIn = new App.Models.Member({
@@ -109,40 +180,7 @@ $(function () {
                 //$("input[name='addedBy']").attr("disabled",true);
             }
         },
-        routeStartupTasks: function () {
-            $('#invitationdiv').hide()
-            $('#debug').hide()
-
-        },
-        checkLoggedIn: function () {
-            if (!$.cookie('Member._id')) {
-                console.log($.url().attr('fragment'))
-
-                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
-                    Backbone.history.stop()
-                    App.start()
-                }
-            }
-            else{
-    	     	var expTime=$.cookie('Member.expTime')
- 			    var d = new Date(Date.parse(expTime))
-             	var diff = Math.abs(new Date() - d)
-           		 //alert(diff)
-            	var expirationTime=600000
-            	if(diff<expirationTime)
-           		 {
-              	  var date=new Date()
-              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
-              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
-           		 }
-           	 else{ 
-                  this.expireSession()
-                  Backbone.history.stop()
-   			      App.start() 
-               
-            }
-      	}
-        },
+        
 
         AllRequests: function () {
             App.$el.children('.body').html('&nbsp')
@@ -430,7 +468,7 @@ $(function () {
      
      
       
-      App.$el.children('.body').html('<h3 style="color:gray">Add Feedback For '+resInfo.get('title')+'</h3>')
+      App.$el.children('.body').html('<h4 style="color:gray">Add Feedback For<span style="color:black;"> '+resInfo.get('title')+'</span></h4>')
       App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
       App.$el.children('.body').append('<div id="star" data-score="0"></div>')
       $('#star').raty()
