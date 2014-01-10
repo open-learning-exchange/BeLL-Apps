@@ -1094,18 +1094,21 @@ Please become a Member and explore both the Community Learning Management System
       </td>
     </td>
     
-    
+       <td>
+    <%=views%>
+    </td>
     <td>
-      <a class='btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+      <a class='btn btn-success' value='<%= _id %>' id='open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
+ 
     <td>
       <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
     </td>
    
     <td>
-    <%if(admn==1){%>
+    <%if(isManager>-1){%>
       <a class='btn btn-danger destroy'>
         <i class='icon-remove'></i> Delete
       </a>

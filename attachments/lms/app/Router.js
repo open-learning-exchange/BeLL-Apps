@@ -100,7 +100,6 @@ $(function () {
                             member.fetch({
                                 async: false
                            })            
-                           console.log(member.get("pendingReviews"))
             if( member.get("pendingReviews")==undefined){
             var pending=[]
             	member.set("pendingReviews",pending)
@@ -108,7 +107,6 @@ $(function () {
             }
             else{
             	var path=$.url().attr('fragment').split("/")
-            	console.log(path)
                 if(member.get("pendingReviews").length!=0&&path[0]!="resource"&&path[1]!="feedback"&&path[2]!="add"){
                 	console.log(member.get("pendingReviews"))
                 	var pending=member.get("pendingReviews")
@@ -147,11 +145,17 @@ $(function () {
             var resourcesTableView = new App.Views.ReportsTable({
                 collection: reports
             })
-            resourcesTableView.isadmin = roles.indexOf("Manager")
+            resourcesTableView.isManager = roles.indexOf("Manager")
             resourcesTableView.render()
+            if(roles.indexOf("Manager")>-1){
             App.$el.children('.body').html('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
-
-            App.$el.children('.body').append('<h1>Reports</h1>')
+			}
+			var temp = $.url().attr("host").split(".")
+            temp = temp[0].substring(3)
+            if(temp.length==0){
+            temp="Community"
+            }
+			App.$el.children('.body').append('<h4><span style="color:gray;">'+temp+'</span> | Reports</h4>')
             App.$el.children('.body').append(resourcesTableView.el)
 
         },
@@ -246,7 +250,7 @@ $(function () {
             console.log(temp)
             var vars = new Object()
             vars.host = temp
-            vars.visits = "hassan "
+            vars.visits = "null"
             console.log(vars)
             //App.$el.children('.body').html($('#template-LandingPage'), vars)
             var template = $('#template-LandingPage').html()
@@ -388,7 +392,7 @@ $(function () {
                     var resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
-                    resourcesTableView.isadmin = roles.indexOf("Manager")
+                    resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
 
