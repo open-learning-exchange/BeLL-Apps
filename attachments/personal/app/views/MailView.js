@@ -25,6 +25,7 @@ $(function () {
                 this.modelNo = 0
                 skip = 0
                 this.searchText = ""
+                $("#search-text").val("")
                 this.resultArray = []
                 this.unopen = false
                 this.fetchRecords()
@@ -35,6 +36,8 @@ $(function () {
             "click #unread-mails": function (e) {
                 this.modelNo = 0
                 skip = 0
+                this.searchText = ""
+                $("#search-text").val("")
                 this.resultArray = []
                 this.unopen = true
                 this.fetchRecords()
