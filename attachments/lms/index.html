@@ -73,6 +73,8 @@
   <script src="app/models/CourseSchedule.js"></script>
   <script src="app/models/reportComment.js"></script>
   <script src="app/models/Mail.js"></script>
+  <script src="app/models/CommunityReportComment.js"></script>
+  <script src="app/models/CommunityReport.js"></script>
 
   
    
@@ -98,6 +100,8 @@
    <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/CourseScheduleByCourse.js"></script>
   <script src="app/collections/courseprogressallmembers.js"></script>
+  <script src="app/collections/CommunityReportComments.js"></script>
+  <script src="app/collections/Reports.js"></script>
   
   <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
@@ -152,6 +156,12 @@
   <script src="app/views/CourseSchedule.js"></script>
   <script src="app/views/ResourceSearch.js"></script>
   <script src="app/views/CourseSearch.js"></script>
+  
+  <!-- Report     -->
+  <script src="app/views/CommunityReportCommentView.js"></script>
+  <script src="app/views/ReportsTable.js"></script>
+  <script src="app/views/ReportsRow.js"></script>
+  <script src="app/views/ReportForm.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   
@@ -381,9 +391,14 @@
   </script>
 
 
-  <script type="text/template" id="template-app">
-    <div id="debug"></div>
+   <script type="text/template" id="template-app">
+
+    <div id="debug">
+		<div id="comments">
+			
+		</div>    
     <div id="popup-spinning"></div>
+    </div>
 <div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
     <div id='nav' class="navbar navbar-inverse" id="top-nav">
         <div class="container">
@@ -405,11 +420,14 @@
     -->
   <script type="text/template" id="template-form-file">
     <table class="table table-striped">
-      <th> 
+      <tr>
+      <td colspan="2">
+         
         <h2>
           <%= header %>
         </h2> 
-      </th>
+        </td>
+      </tr>
       <tr>
         <td colspan="2" class="fields">
           <!-- The first form that will be submitted without the file -->
@@ -493,7 +511,7 @@
       </a>
     </li>
     <li> 
-      <a href="#info">
+      <a href="#reports">
       Reports
       </a>
     </li> 
@@ -1064,6 +1082,46 @@ Please become a Member and explore both the Community Learning Management System
 <span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.4)</span><br/>
 <span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
 </script>
+<!-- Report template -->
+<script type="text/html" id="template-ReportRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+    
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+      </td>
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= author %></BR></span>
+      </td>
+    </td>
+    
+    
+    <td>
+    <a class='btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#openreport/<%= _id %>' target="_blank">
+        <i class='icon-eye-open'></i> Open
+      </a>
+    </td>
+    <td>
+      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
+    </td>
+   
+    <td>
+    <%if(admn==1){%>
+    <a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+        View Details
+      </a>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove'></i> Delete
+      </a>
+      <%}%>
+    </td>
+    <%}%>
+  </script>
+
 <script type="text/html" id="template-siteReviewRownoAdmin">
   	 	<%  if(Resolved=="0"){%>
 			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
