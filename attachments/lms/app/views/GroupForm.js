@@ -148,12 +148,10 @@ $(function () {
                     }
 
                     groupForm.$el.append("<a class='btn btn-danger' style='margin-left:-384px;' id='cancel'>Cancel</a>")
-
                 }
             })
 
         },
-
         setFormFromEnterKey: function (event) {
             event.preventDefault()
             this.setForm()
@@ -161,7 +159,9 @@ $(function () {
 
         setForm: function () {
             var that = this
+
             var newEntery = 0
+
             this.model.once('sync', function () {
 
                 Backbone.history.navigate('course/manage/' + that.model.get("id"), {
@@ -172,7 +172,9 @@ $(function () {
             this.form.commit()
             // Send the updated model to the server
             if (this.model.get("_id") == undefined) {
+
             	newEntery = 1
+
                 this.model.set("members", null)
             } else {
                 this.model.set("members", this.prevmemlist)
@@ -195,6 +197,7 @@ $(function () {
                     member.get('roles').push("Leader")
                     member.save()
                 }
+
                 this.model.set("members",[$.cookie('Member._id')]) 
                 this.model.save(null,{success:function(e){
                 	if(newEntery==1)
@@ -226,10 +229,6 @@ $(function () {
                 	}
                 	
                 }})
-                
-                
-               	
-                
             }
         },
 

@@ -19,7 +19,8 @@ $(function () {
             // prepare the header
 
             if (_.has(this.model, 'id')) {
-                vars.header = 'Edit "' + this.model.get('title') + '"'
+
+                vars.header = 'Title "' + this.model.get('title') + '"'
                 vars.hidesave = true
             } else {
                 vars.header = 'New Report'

@@ -56,6 +56,7 @@ $(function () {
                     async: false
                 })
                 var lengthoffeedbacks = flength.length
+
                 console.log("lengthoffeedbacks" + lengthoffeedbacks)
                 console.log(this.user_rating)
                 this.model.on('sync', function () {
@@ -74,6 +75,20 @@ $(function () {
                     })
                 })
                 this.model.save()
+				var member = new App.Models.Member({
+                                _id: $.cookie('Member._id')
+                            })
+                            member.fetch({
+                                async: false
+                           })            
+                var pending=[]
+                pending=member.get("pendingReviews")
+                var index=pending.indexOf(that.model.get("resourceId"))
+                if(index>-1){
+                	pending.splice(index,1)
+                	member.set("pendingReviews",pending)
+                	member.save()
+                }
 
             }
 

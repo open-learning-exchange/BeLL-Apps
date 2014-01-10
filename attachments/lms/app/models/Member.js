@@ -33,7 +33,7 @@ $(function() {
        password: {validators: ['required']},
        phone: 'Text',
        email:'Text',
-       birthLanguage :'Text',
+       language :'Text',
        BirthDate:  'Date',
 	   visits : 'Text',
 	   Gender: {
