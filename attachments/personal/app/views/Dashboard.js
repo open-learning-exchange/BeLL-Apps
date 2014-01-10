@@ -18,19 +18,16 @@ $(function () {
             this.vars.mails = a.length
 
             this.$el.html(_.template(this.template, this.vars))
+            
             groups = new App.Collections.MemberGroups()
             groups.memberId = $.cookie('Member._id')
-            groups.fetch({
-                success: function () {
-                    groupsSpans = new App.Views.GroupsSpans({
-                        collection: groups
-                    })
-                    groupsSpans.render()
-                    // dashboard.$el.children('.groups').append(groupsDiv.el)
-                    $('#cc').append(groupsSpans.el)
-                }
+            groups.fetch({async:false})
+			groupsSpans = new App.Views.GroupsSpans({
+            	collection: groups
             })
-
+            groupsSpans.render()
+            // dashboard.$el.children('.groups').append(groupsDiv.el)
+            $('#cc').append(groupsSpans.el)
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
 

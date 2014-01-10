@@ -38,21 +38,21 @@ $(function () {
         render: function () {
             var vars = this.model.toJSON()
             console.log(vars)
-            this.$el.append("<tr><td>Title</td><td>" + vars.rows[0].doc.title + "</td></tr>")
-            this.$el.append("<tr><td>Subject</td><td>" + vars.rows[0].doc.subject + "</td></tr>")
-            this.$el.append("<tr><td>Tag</td><td>" + vars.rows[0].doc.Tag + "</td></tr>")
-            this.$el.append("<tr><td>Level</td><td>" + vars.rows[0].doc.Level + "</td></tr>")
-            if (vars.rows[0].doc.author) {
-                this.$el.append("<tr><td>Author</td><td>" + vars.rows[0].doc.author + "</td></tr>")
+            this.$el.append("<tr><td>Title</td><td>" + vars.title + "</td></tr>")
+            this.$el.append("<tr><td>Subject</td><td>" + vars.subject + "</td></tr>")
+            this.$el.append("<tr><td>Tag</td><td>" + vars.Tag + "</td></tr>")
+            this.$el.append("<tr><td>Level</td><td>" + vars.Level + "</td></tr>")
+            if (vars.author) {
+                this.$el.append("<tr><td>Author</td><td>" + vars.author + "</td></tr>")
             } else {
                 this.$el.append("<tr><td>Author</td><td>No Author Defined</td></tr>")
             }
             //if the model has the Attachments
-            if (vars.rows[0].doc._attachments) {
-                this.$el.append("<tr><td>Attachement</td><td><a class='btn open' target='_blank' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars.rows[0].doc._id + "'>View</a></td></tr>")
+            if (vars._attachments) {
+                this.$el.append("<tr><td>Attachement</td><td><a class='btn open' target='_blank' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "'>View</a></td></tr>")
             } else {
                 this.$el.append("<tr><td>Attachement</td><td>No Attachment</td></tr>")
-            }
+            }	
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
 
         }

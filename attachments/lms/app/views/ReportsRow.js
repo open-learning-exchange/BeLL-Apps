@@ -5,16 +5,11 @@ $(function () {
         tagName: "tr",
         admn: null,
         events: {
-            "click .destroy": function (event) {
-                alert("destroying")
+        	"click .destroy": function (event) {
+                alert("deleting")
                 this.model.destroy()
                 event.preventDefault()
-            },
-            "click .trigger-modal": function () {
-                $('#myModal').modal({
-                    show: true
-                })
-            },
+            },           
             "click #commentButton": function (e) {
                 console.log(e)
                 console.log(e.target.attributes[0].nodeValue)
@@ -46,12 +41,11 @@ $(function () {
             //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()
 
+			if(vars.views==undefined){
+			vars.views=0
+			}
 
-            if (this.isadmin > -1) {
-                vars.admn = 1
-            } else {
-                vars.admn = 0
-            }
+                vars.isManager = this.isManager
 
             this.$el.append(this.template(vars))
 
