@@ -44,6 +44,17 @@ $(function () {
                 $("#nextButton").show()
                 $("#previousButton").hide()
             },
+            "click .deleteBtn": function (e) {
+                var modelNo = e.currentTarget.value
+                var selectedModel = this.collection.at(modelNo)
+                var model = new App.Models.Mail()
+                model.id = selectedModel.get("id")
+                model.fetch({
+                    async: false
+                })
+                model.destroy()
+                window.location.reload()
+            },
             "click #previousButton": function (e) {
                 if (skipStack.length > 1) {
                     skipStack.pop()
@@ -59,12 +70,12 @@ $(function () {
 
             },
             "click #invite-accept": function (e) {
-                var body = inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
 
                 var model = new App.Models.Mail()
-                model.id = inViewModel.get("id")
+                model.id = mailView.inViewModel.get("id")
                 model.fetch({
                     async: false
                 })
@@ -135,12 +146,12 @@ $(function () {
 
 
             "click #invite-reject": function (e) {
-                var body = inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have rejected this invitation.</div>"
 
                 var model = new App.Models.Mail()
-                model.id = inViewModel.get("id")
+                model.id = mailView.inViewModel.get("id")
                 model.fetch({
                     async: false
                 })
@@ -186,9 +197,9 @@ $(function () {
                 
         },
         viewButton: function (e) {
-
             var modelNo = e.currentTarget.value
-            var model = mailView.collection.at(modelNo)
+            var model = mailView.collection.at(modelNo)     
+            mailView.inViewModel = model
             model.set("status", "1")
             model.save()
             mailView.vars = model.toJSON()
@@ -296,7 +307,7 @@ $(function () {
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
                       //  if (searchText != "")
                        {
-                            alert('No unread mails found')
+                            alert('No mails found')
                             return
                         }
                     }
