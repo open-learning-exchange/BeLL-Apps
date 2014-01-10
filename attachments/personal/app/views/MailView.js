@@ -24,6 +24,7 @@ $(function () {
             "click #all-mails": function (e) {
                 this.modelNo = 0
                 skip = 0
+                this.searchText = ""
                 this.resultArray = []
                 this.unopen = false
                 this.fetchRecords()
@@ -173,6 +174,7 @@ $(function () {
         	
         	mailView.modelNo = 0
             skip = 0
+            this.searchText = ""
             mailView.resultArray = []
             mailView.unopen = false
             mailView.fetchRecords()
@@ -209,7 +211,7 @@ $(function () {
         },
         initialize: function () {
             this.modelNo = 0
-            this.skip = 0
+            skip = 0
             this.unopen = true
             this.recordsPerPage = 5
             this.nextButton = 1
