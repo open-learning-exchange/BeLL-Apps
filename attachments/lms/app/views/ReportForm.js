@@ -19,6 +19,7 @@ $(function () {
             // prepare the header
 
             if (_.has(this.model, 'id')) {
+
                 vars.header = 'Title "' + this.model.get('title') + '"'
                 vars.hidesave = true
             } else {

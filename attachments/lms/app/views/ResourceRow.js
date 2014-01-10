@@ -17,6 +17,18 @@ $(function () {
             },
             "click .resFeedBack": function (event) {
                 $('ul.nav').html($('#template-nav-logged-in').html()).hide()
+                 var member = new App.Models.Member({
+                                _id: $.cookie('Member._id')
+                            })
+                            member.fetch({
+                                async: false
+                            })
+                            var pending=[]
+                           pending= member.get("pendingReviews")
+                           pending.push(this.model.get("_id"))
+                		   member.set("pendingReviews",pending)
+                		   member.save()
+                	console.log(member.get("pendingReviews"))
                 Backbone.history.navigate('resource/feedback/add/' + this.model.get("_id") + '/' + this.model.get("title"), {
                     trigger: true
                 })
@@ -60,6 +72,7 @@ $(function () {
                 vars.totalRatings = this.model.get("timesRated")
                 vars.averageRating = (parseInt(this.model.get("sum")) / parseInt(vars.totalRatings))
             } else {
+            	vars.averageRating="Sum not found"
                 vars.totalRatings = 0
             }
 
@@ -68,7 +81,7 @@ $(function () {
             } else {
                 vars.admn = 0
             }
-
+			console.log(vars)
             this.$el.append(this.template(vars))
 
 

@@ -51,13 +51,15 @@ $(function () {
             'AllRequests': 'AllRequests',
             'replicateResources': 'Replicate',
             'reports': 'Reports',
-            'reports/add': 'ReportForm',
-            'reports/edit/:resportId': 'ReportForm'
+    	    'reports/edit/:resportId': 'ReportForm',
+            'reports/add': 'ReportForm'
+
 
         },
         initialize: function () {
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.routeStartupTasks)
+            this.bind("all", this.reviewStatus)
         },
         Reports: function (database) {
         
@@ -146,6 +148,95 @@ $(function () {
             }
       	}
         },
+        reviewStatus: function(){
+        	 var member = new App.Models.Member({
+                                _id: $.cookie('Member._id')
+                            })
+                            member.fetch({
+                                async: false
+                           })            
+                           console.log(member.get("pendingReviews"))
+            if( member.get("pendingReviews")==undefined){
+            var pending=[]
+            	member.set("pendingReviews",pending)
+            	member.save()
+            }
+            else{
+            	var path=$.url().attr('fragment').split("/")
+            	console.log(path)
+                if(member.get("pendingReviews").length!=0&&path[0]!="resource"&&path[1]!="feedback"&&path[2]!="add"){
+                	console.log(member.get("pendingReviews"))
+                	var pending=member.get("pendingReviews")
+                	var resource=new App.Models.Resource({_id:pending[0]})
+                	console.log(resource)
+                	var response=resource.fetch({async:false})
+                	if(response.status==200){
+                		Backbone.history.navigate('resource/feedback/add/' + resource.attributes._id + '/' + resource.attributes.title, {
+                    	trigger: true
+                		})
+                	}
+                	else{
+                		pending=pending.splice(0,1)      
+                		member.set("pendingReviews",pending)      		
+                	}
+                }
+            }
+        },
+       
+        
+        Reports: function (database) {
+            App.startActivityIndicator()
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles")
+            $('ul.nav').html($("#template-nav-logged-in").html()).show()
+            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+            var reports = new App.Collections.Reports()
+            reports.fetch({
+                async: false
+            })
+            var resourcesTableView = new App.Views.ReportsTable({
+                collection: reports
+            })
+            resourcesTableView.isadmin = roles.indexOf("Manager")
+            resourcesTableView.render()
+            App.$el.children('.body').html('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+
+            App.$el.children('.body').append('<h3>Reports</h3>')
+            App.$el.children('.body').append(resourcesTableView.el)
+            App.stopActivityIndicator()
+
+        },
+        ReportForm: function (reportId) {
+            var report = (reportId) ? new App.Models.CommunityReport({
+                _id: reportId
+            }) : new App.Models.CommunityReport()
+            report.on('processed', function () {
+                Backbone.history.navigate('report', {
+                    trigger: true
+                })
+            })
+            var reportFormView = new App.Views.ReportForm({
+                model: report
+            })
+            App.$el.children('.body').html(reportFormView.el)
+
+            if (report.id) {
+                App.listenToOnce(report, 'sync', function () {
+                    reportFormView.render()
+                })
+                report.fetch()
+            } else {
+                reportFormView.render()
+                //$("input[name='addedBy']").val($.cookie("Member.login"));
+                //$("input[name='addedBy']").attr("disabled",true);
+            }
+        },
+        
 
         AllRequests: function () {
             App.$el.children('.body').html('&nbsp')
@@ -433,7 +524,7 @@ $(function () {
      
      
       
-      App.$el.children('.body').html('<h3 style="color:gray">Add Feedback For '+resInfo.get('title')+'</h3>')
+      App.$el.children('.body').html('<h4 style="color:gray">Add Feedback For<span style="color:black;"> '+resInfo.get('title')+'</span></h4>')
       App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
       App.$el.children('.body').append('<div id="star" data-score="0"></div>')
       $('#star').raty()
