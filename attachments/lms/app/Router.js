@@ -200,6 +200,7 @@ $(function () {
             App.$el.children('.body').html('&nbsp')
             App.$el.children('.body').append(feedul.el)
             $("#previousButton").hide()
+              $("#progress_img").hide()
         },
         LandingScreen: function () {
             $('ul.nav').html($('#template-nav-log-in').html()).hide()

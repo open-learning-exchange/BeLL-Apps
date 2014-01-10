@@ -127,9 +127,10 @@ $(function () {
             if (this.collection.length < 5) {
                 $("#next_button").hide()
             }
+            $("#progress_img").hide()
         },
         fetchRecords: function () {
-            $("#progress_img").show()
+            //$("#progress_img").show()
             var obj = this
             this.collection.fetch({
                 success: function () {
@@ -156,7 +157,7 @@ $(function () {
                         //  $("#selectAllButton").hide() 
                     }
                     var ResultCollection = new App.Collections.siteFeedbacks()
-                    //if(obj.resultArray.length > 0)
+                    if(obj.resultArray.length > 0)
                     {
                         ResultCollection.set(obj.resultArray)
                         obj.collection = ResultCollection
