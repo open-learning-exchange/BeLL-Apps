@@ -2,8 +2,9 @@ $(function() {
 
   App.Collections.MemberGroups = Backbone.Collection.extend({
 
-    url: App.Server + '/groups/_design/bell/_view/GetCourses?key="'+ $.cookie('Member._id')+'"&include_docs=true',
-    
+	url: function() {
+      return App.Server + '/groups/_design/bell/_view/GetCourses?key="'+ $.cookie('Member._id')+'"&include_docs=true'
+    },
 
     parse: function(results) {
       var m = []

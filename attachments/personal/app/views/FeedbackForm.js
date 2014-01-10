@@ -66,7 +66,6 @@ $(function () {
                 }
                 $('#externalDiv').hide()
                location.reload()
-
             }
 
         },

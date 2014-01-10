@@ -167,40 +167,18 @@ $(function () {
                 this.modelNo = 0
                 this.render()
                 this.fetchRecords()
-            },
-            "click .deleteBtn": function (e) {
-
-                //	this.deleteButton(e)
-                var modelNo = e.currentTarget.value
-                var selectedModel = this.collection.at(modelNo)
-                var model = new App.Models.Mail()
-                model.id = selectedModel.get("id")
-                model.fetch({
-                    async: false
-                })
-                model.destroy()
-                window.location.reload()
-
-            },
-            "click .viewBtn": function (e) {
-                //	this.viewButton(e)
-                var modelNo = e.currentTarget.value
-                var model = this.collection.at(modelNo)
-                inViewModel = model;
-                model.set("status", "1")
-                model.save()
-                this.vars = model.toJSON()
-                var member = new App.Models.Member()
-                member.id = model.get('senderId')
-                member.fetch({
-                    async: false
-                })
-                this.vars.firstName = member.get('firstName')
-                this.vars.lastName = member.get('lastName')
-                this.vars.modelNo = modelNo
-                this.$el.html(this.templateMailView(this.vars))
-                //window.location.reload()
             }
+        },
+        renderAllMails: function(e) {
+        	
+        	mailView.modelNo = 0
+            skip = 0
+            mailView.resultArray = []
+            mailView.unopen = false
+            mailView.fetchRecords()
+            $("#nextButton").show()
+            $("#previousButton").hide()
+                
         },
         viewButton: function (e) {
 
@@ -225,13 +203,9 @@ $(function () {
         deleteButton: function (e) {
             var modelNo = e.currentTarget.value
             var selectedModel = mailView.collection.at(modelNo)
-            var model = new App.Models.Mail()
-            model.id = selectedModel.get("id")
-            model.fetch({
-                async: false
-            })
-            model.destroy()
-            window.location.reload()
+            selectedModel.destroy()
+            mailView.renderAllMails()
+           // window.location.reload()
         },
         initialize: function () {
             this.modelNo = 0
@@ -268,10 +242,10 @@ $(function () {
                 var deleteId = "delete" + this.modelNo
                 var viewId = "view" + this.modelNo
 
-                row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td align="right"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn deleteBtn btn-danger">Delete</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn viewBtn btn-primary" >View</button></td></tr>'
+                row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td align="right"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn btn-danger">Delete</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn btn-primary" >View</button></td></tr>'
                 $('#inbox_mails').append(row)
                 this.modelNo++
-                $("#" + deleteId).click(this.viewButton)
+                $("#" + deleteId).click(this.deleteButton)
                 $("#" + viewId).click(this.viewButton)
                 mailView = this
             }
@@ -317,7 +291,8 @@ $(function () {
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
                       //  if (searchText != "")
                        {
-                            alert('No result found')
+                            alert('No unread mails found')
+                            return
                         }
                     }
 

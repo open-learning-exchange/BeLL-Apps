@@ -394,9 +394,13 @@
    <script type="text/template" id="template-app">
 
     <div id="debug">
-		<div id="comments">	</div>   
+		<div id="comments">
+			
+		</div>    
+
+   
     </div>
-    <div id="popup-spinning"></div>
+     <div id="popup-spinning"></div>
 <div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
     <div id='nav' class="navbar navbar-inverse" id="top-nav">
         <div class="container">
@@ -418,11 +422,14 @@
     -->
   <script type="text/template" id="template-form-file">
     <table class="table table-striped">
-      <th> 
+      <tr>
+      <td colspan="2">
+         
         <h2>
           <%= header %>
         </h2> 
-      </th>
+        </td>
+      </tr>
       <tr>
         <td colspan="2" class="fields">
           <!-- The first form that will be submitted without the file -->
@@ -1098,7 +1105,9 @@ Please become a Member and explore both the Community Learning Management System
     <%=views%>
     </td>
     <td>
+
       <a class='btn btn-success' value='<%= _id %>' id='open' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
@@ -1108,7 +1117,7 @@ Please become a Member and explore both the Community Learning Management System
     </td>
    
     <td>
-    <%if(isManager>-1){%>
+    	<%if(isManager>-1){%>
       <a class='btn btn-danger destroy'>
         <i class='icon-remove'></i> Delete
       </a>

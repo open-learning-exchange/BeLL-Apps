@@ -148,12 +148,10 @@ $(function () {
                     }
 
                     groupForm.$el.append("<a class='btn btn-danger' style='margin-left:-384px;' id='cancel'>Cancel</a>")
-
                 }
             })
 
         },
-
         setFormFromEnterKey: function (event) {
             event.preventDefault()
             this.setForm()
@@ -199,6 +197,7 @@ $(function () {
                     member.get('roles').push("Leader")
                     member.save()
                 }
+
                 this.model.set("members",[$.cookie('Member._id')]) 
                 this.model.save(null,{success:function(e){
                 	if(newEntery==1)
@@ -230,7 +229,6 @@ $(function () {
                 	}
                 	
                 }})
-
             }
         },
 

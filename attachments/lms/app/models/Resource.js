@@ -22,6 +22,7 @@ $(function() {
 
     schema: {
       addedBy:'Text',
+      language: 'Text',
       title: 'Text',
       description: 'Text',
       articleDate: 'Date',

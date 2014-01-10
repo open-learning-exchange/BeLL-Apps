@@ -72,6 +72,7 @@ $(function () {
                 vars.totalRatings = this.model.get("timesRated")
                 vars.averageRating = (parseInt(this.model.get("sum")) / parseInt(vars.totalRatings))
             } else {
+            	vars.averageRating="Sum not found"
                 vars.totalRatings = 0
             }
 
@@ -80,7 +81,7 @@ $(function () {
             } else {
                 vars.admn = 0
             }
-
+			console.log(vars)
             this.$el.append(this.template(vars))
 
 

@@ -1,4 +1,4 @@
-$(function() {
+ $(function() {
 
 
   App = new (Backbone.View.extend({
@@ -111,7 +111,9 @@ $(function() {
 	    window.setTimeout(function(){
 			document.getElementById('cont').style.visibility='visible'
 			App.wheel.stop()
+
 		},1000)
+
 	},
 	
 	
