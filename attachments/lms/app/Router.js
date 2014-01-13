@@ -61,57 +61,6 @@ $(function () {
             this.bind("all", this.routeStartupTasks)
             this.bind("all", this.reviewStatus)
         },
-        Reports: function (database) {  
-        App.startActivityIndicator()
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            var roles = loggedIn.get("roles")
-            $('ul.nav').html($("#template-nav-logged-in").html()).show()
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
-            var reports = new App.Collections.Reports()
-            reports.fetch({
-                async: false
-            })
-            var resourcesTableView = new App.Views.ReportsTable({
-                collection: reports
-            })
-            resourcesTableView.isadmin = roles.indexOf("Manager")
-            resourcesTableView.render()
-            App.$el.children('.body').html('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
-
-            App.$el.children('.body').append('<h3>Reports</h3>')
-            App.$el.children('.body').append(resourcesTableView.el)
-            App.stopActivityIndicator()
-            },
-        ReportForm: function (reportId) {
-            var report = (reportId) ? new App.Models.CommunityReport({
-                _id: reportId
-            }) : new App.Models.CommunityReport()
-            report.on('processed', function () {
-                Backbone.history.navigate('report', {
-                    trigger: true
-                })
-            })
-            var reportFormView = new App.Views.ReportForm({
-                model: report
-            })
-            App.$el.children('.body').html(reportFormView.el)
-
-            if (report.id) {
-                App.listenToOnce(report, 'sync', function () {
-                    reportFormView.render()
-                })
-                report.fetch()
-            } else {
-                reportFormView.render()
-                //$("input[name='addedBy']").val($.cookie("Member.login"));
-                //$("input[name='addedBy']").attr("disabled",true);
-            }
-        },
         routeStartupTasks: function () {
             $('#invitationdiv').hide()
             $('#debug').hide()
@@ -199,8 +148,9 @@ $(function () {
             })
             resourcesTableView.isManager = roles.indexOf("Manager")
             resourcesTableView.render()
+             App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').html('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+            App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
 			}
 			var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)

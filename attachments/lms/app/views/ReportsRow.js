@@ -9,6 +9,18 @@ $(function () {
                 alert("deleting")
                 this.model.destroy()
                 event.preventDefault()
+            },
+            "click #open": function (event) {
+            	if(this.model.get("views")==undefined){
+            		this.model.set('views',1)
+            		this.model.save()
+            	}
+            	else{
+            		this.model.set('views',this.model.get("views")+1)
+            		this.model.save()
+            	}
+                
+                
             },           
             "click #commentButton": function (e) {
                 console.log(e)

@@ -62,8 +62,13 @@ $(function () {
         },
 
         render: function () {
+        	if(!this.model.get("visits"))
+			{
+				this.model.set("visits")
+			}
             var vars = this.model.toJSON()
-
+			
+			
             if ((this.model.get("_id") == $.cookie('Member._id')) && !this.isadmin) {
                 vars.showdelete = false
                 vars.showedit = true
