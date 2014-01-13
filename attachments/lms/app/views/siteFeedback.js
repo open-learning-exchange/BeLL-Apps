@@ -36,7 +36,7 @@ $(function () {
             $('#site-feedback').animate({
                 height: 'toggle'
             })
-            $('#comment', this.$el).val("")  
+            this.unsetForm()
         },
         setForm: function () {
             if ($('#comment').val().length != 0 && $('input[name="category"]:checked').val()) {
@@ -59,11 +59,16 @@ $(function () {
                 })
                 this.model.save()
                 alert("Feedback Successfully Sent")
-                $('#comment', this.$el).val("")
+                this.unsetForm()
             }
             $('#site-feedback').animate({
                 height: 'toggle'
             })
+        },
+        unsetForm:function(){
+            $('#comment', this.$el).val("")
+            $('input[name="category"]').attr('checked',false)
+            $("#priority").attr('checked', false)
         },
         render: function () {
             this.$el.append('<br/><br/><div class="form-field" ><input name="PageUrl" id="PageUrl" type="text"></div>')

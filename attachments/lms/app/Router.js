@@ -288,7 +288,7 @@ $(function () {
             })
             bform.on('BecomeMemberForm:done', function () {
 
-                window.location = "../personal/index.html#dashboard"
+                window.location = "../lms/index.html#login"
 
 
             })
