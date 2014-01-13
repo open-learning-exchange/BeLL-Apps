@@ -10,7 +10,6 @@ var _ = require('underscore')
 var request = require('request')
 var program = require('commander');
 var fs = require('fs')
-var replicatorInstaller = require('./includes/replicator-installer')
 function puts(error, stdout, stderr) { sys.puts(stdout) } 
 
 // Increase the ulimit so the entire directory of attachments can be uploaded
