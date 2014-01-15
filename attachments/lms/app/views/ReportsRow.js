@@ -11,7 +11,6 @@ $(function () {
                 event.preventDefault()
             },
             "click #open": function (event) {
-            console.log(event.target.attributes[3].nodeValue)
             	if(this.model.get("views")==undefined){
             		this.model.set('views',1)
             		this.model.save()
@@ -20,10 +19,8 @@ $(function () {
             		this.model.set('views',this.model.get("views")+1)
             		this.model.save()
             	}
-                
-                
-            },
-           
+
+            },           
             "click #commentButton": function (e) {
                 console.log(e)
                 console.log(e.target.attributes[0].nodeValue)

@@ -51,6 +51,11 @@ $(function () {
                 }
                 temp = temp + " Community Bell"
                 $('.bellLocation').html(temp)
+                if(!member.get('visits'))
+                {
+                	member.set('visits',1)
+                	member.save()
+                }
                 if (parseInt(member.get('visits')) == 0) {
                     temp = "Error!!"
                 } else {

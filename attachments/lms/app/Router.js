@@ -86,6 +86,7 @@ $(function () {
                 //$("input[name='addedBy']").attr("disabled",true);
             }
         },
+
         routeStartupTasks: function () {
             $('#invitationdiv').hide()
             $('#debug').hide()
@@ -173,8 +174,9 @@ $(function () {
             })
             resourcesTableView.isManager = roles.indexOf("Manager")
             resourcesTableView.render()
+             App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').html('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+            App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
 			}
 			var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
@@ -286,7 +288,7 @@ $(function () {
             })
             bform.on('BecomeMemberForm:done', function () {
 
-                window.location = "../personal/index.html#dashboard"
+                window.location = "../lms/index.html#login"
 
 
             })
