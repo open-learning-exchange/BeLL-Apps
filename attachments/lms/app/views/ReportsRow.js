@@ -19,8 +19,7 @@ $(function () {
             		this.model.set('views',this.model.get("views")+1)
             		this.model.save()
             	}
-                
-                
+
             },           
             "click #commentButton": function (e) {
                 console.log(e)
@@ -54,12 +53,14 @@ $(function () {
             var vars = this.model.toJSON()
 
 			if(vars.views==undefined){
-			vars.views=0
+			    vars.views=0
 			}
 
                 vars.isManager = this.isManager
+                var date=new Date(vars.Date)
+                vars.Date=date.toUTCString()
 
-            this.$el.append(this.template(vars))
+                this.$el.append(this.template(vars))
 
 
         },

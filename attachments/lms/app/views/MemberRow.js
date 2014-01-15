@@ -67,8 +67,8 @@ $(function () {
 				this.model.set("visits")
 			}
             var vars = this.model.toJSON()
-			
-			
+			vars.community_code=this.community_code
+
             if ((this.model.get("_id") == $.cookie('Member._id')) && !this.isadmin) {
                 vars.showdelete = false
                 vars.showedit = true
@@ -80,6 +80,12 @@ $(function () {
                 vars.showedit = true
             }
             console.log(vars)
+            vars.src="img/default.jpg"
+            var attchmentURL = '/members/' + this.model.id + '/'
+            if (typeof this.model.get('_attachments') !== 'undefined') {
+                attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
+                vars.src = attchmentURL
+            }
             this.$el.html(_.template(this.template, vars))
         }
 

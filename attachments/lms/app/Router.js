@@ -61,6 +61,32 @@ $(function () {
             this.bind("all", this.routeStartupTasks)
             this.bind("all", this.reviewStatus)
         },
+        ReportForm: function (reportId) {
+            var report = (reportId) ? new App.Models.CommunityReport({
+                _id: reportId
+            }) : new App.Models.CommunityReport()
+            report.on('processed', function () {
+                Backbone.history.navigate('report', {
+                    trigger: true
+                })
+            })
+            var reportFormView = new App.Views.ReportForm({
+                model: report
+            })
+            App.$el.children('.body').html(reportFormView.el)
+
+            if (report.id) {
+                App.listenToOnce(report, 'sync', function () {
+                    reportFormView.render()
+                })
+                report.fetch()
+            } else {
+                reportFormView.render()
+                //$("input[name='addedBy']").val($.cookie("Member.login"));
+                //$("input[name='addedBy']").attr("disabled",true);
+            }
+        },
+
         routeStartupTasks: function () {
             $('#invitationdiv').hide()
             $('#debug').hide()
@@ -161,33 +187,7 @@ $(function () {
             App.$el.children('.body').append(resourcesTableView.el)
             App.stopActivityIndicator()
 
-        },
-        ReportForm: function (reportId) {
-            var report = (reportId) ? new App.Models.CommunityReport({
-                _id: reportId
-            }) : new App.Models.CommunityReport()
-            report.on('processed', function () {
-                Backbone.history.navigate('report', {
-                    trigger: true
-                })
-            })
-            var reportFormView = new App.Views.ReportForm({
-                model: report
-            })
-            App.$el.children('.body').html(reportFormView.el)
-
-            if (report.id) {
-                App.listenToOnce(report, 'sync', function () {
-                    reportFormView.render()
-                })
-                report.fetch()
-            } else {
-                reportFormView.render()
-                //$("input[name='addedBy']").val($.cookie("Member.login"));
-                //$("input[name='addedBy']").attr("disabled",true);
-            }
-        },
-        
+        },  
         AllRequests: function () {
             App.$el.children('.body').html('&nbsp')
             var col = new App.Collections.Requests()
@@ -386,6 +386,12 @@ $(function () {
             loggedIn.fetch({
                 async: false
             })
+            
+            var temp = $.url().data.attr.host.split(".")  // get name of community
+                temp = temp[0].substring(3)
+            if(temp=="")
+            temp='local'
+            
             var roles = loggedIn.get("roles")
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
@@ -400,7 +406,9 @@ $(function () {
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
 
                     App.$el.children('.body').append('<h1>Resources</h1>')
-                    App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
+                     
+                    if(temp=='hagadera' || temp=='dagahaley' || temp=='ifo')
+                     App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
             })
@@ -408,6 +416,12 @@ $(function () {
         },
         AddToshelf:function(rId,title){
       
+      		 var memberShelfResource=new App.Collections.shelfResource() 
+             memberShelfResource.resourceId=rId
+             memberShelfResource.memberId=$.cookie('Member._id') 
+             memberShelfResource.fetch({async:false})
+      if(memberShelfResource.length==0){
+      		
           var shelfItem=new App.Models.Shelf()
               shelfItem.set('memberId',$.cookie('Member._id'))
               shelfItem.set('resourceId',rId)
@@ -416,8 +430,13 @@ $(function () {
               shelfItem.save(null, {
             	  success: function(model,response,options) {}
               });
-       alert('Successfully Add To Shelf')
+       		  alert('Successfully Add To Shelf')
+       		 }
+       else{
+      		   alert('Already in Shelf')
+       }
        Backbone.history.navigate('resources', {trigger: true})
+      
     },
         ResourceSearch: function () {
 
@@ -554,7 +573,14 @@ $(function () {
         },
 		Members: function () {
         App.startActivityIndicator()
-
+			
+             var communitycodes = new App.Collections.CommunityCode()
+            communitycodes.fetch({
+                async: false
+            })
+            var codes = communitycodes.first().toJSON().community_code
+            console.log(codes)
+                    
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -562,13 +588,15 @@ $(function () {
                 async: false
             })
             var roles = loggedIn.get("roles")
-
+			
             members = new App.Collections.Members()
             members.fetch({
                 success: function () {
                     membersTable = new App.Views.MembersTable({
                         collection: members
                     })
+                    membersTable.community_code=codes
+                    console.log(membersTable.community_code)
                     if (roles.indexOf("Manager") > -1) {
                         membersTable.isadmin = true
                     } else {

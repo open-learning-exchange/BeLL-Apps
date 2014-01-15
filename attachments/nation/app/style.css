@@ -1,0 +1,102 @@
+body{
+	
+}
+.addNation-form{
+  width:800px;
+  margin: 0 auto;
+}
+.heading{
+	padding: 10px;
+	font-size: 17px;
+	color: white;
+   font-family: verdana;
+}
+.heading a{
+	font-size: 17px;
+	color: white;
+	text-decoration: none;
+}
+#addNation-heading{
+   width: 100%;
+   height:50px;
+   background-color: #235279;
+
+}
+#nationForm-container{
+     background-color: #fff;
+}
+#top-from{
+   padding:1%; 
+   background-color: #D8D8D8;
+}
+#top-from input{
+	height: 30px;
+	width: 350px;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+.middle-from{
+	padding: 1%;
+    margin:0 3%;
+    background-color: #E7E7E7;
+}
+.middle-from input{
+	height: 20px;
+	width: 217px;
+	padding-top: 10px;
+	border-radius: 5px;
+	border: 1px solid gray;
+}
+.form-field{
+	padding-top: 5px;
+	padding-left: 10px;
+	display: inline-block;
+
+}
+#urgent-from{
+   height:50px;
+   margin:0 3%; 
+   background-color: #FEDADA;
+}
+#urgent-from input{
+	height: 30px;
+	width: 330px;
+	border-radius: 5px;
+	border: 1px solid gray;
+
+}
+#Authorized-from{
+   height:50px;
+   margin:0 3%;
+   background-color: #FEDADA;
+}
+#Authorized-from input{
+    
+	height: 30px;
+	width: 330px;
+	border-radius: 5px;
+	border: 1px solid gray;
+
+}
+.submit-button{
+   float: right;
+   margin: 3%;
+}
+.login-input{
+padding:5px;
+float:right;
+clear:both;
+}
+.login-input input{
+ width:200px;
+ border: 1px solid gray;
+ border-radius: 5px;
+ height:30px;
+ display:block;
+
+}
+
+
+
+
+
