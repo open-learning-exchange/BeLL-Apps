@@ -1,8 +1,8 @@
-var source = 'http://bellappssource:installpass@bellappssource.cloudant.com'
+var source = 'http://oledemo:oleoleole@oledemo.cloudant.com'
 var i = 0
 alert("Install script loaded. Now replicating data from " + source)
 // @todo Need the rest of the databases here
-var databases = ['apps', 'facilities', 'members', 'feedback']
+var databases = ['apps', 'facilities', 'members', 'feedback','actions','calendar','communityreports','courseschedule','coursestep','groups','invitations','mail','membercourseprogress','report','resources','shelf']
 // A recursive function to replicate the databases one at a time
 var replicate = function() {
   var database = databases[i]
@@ -10,6 +10,7 @@ var replicate = function() {
     success: function() {
       if (databases.length-1 > i) {
         i++
+        console.log('database : ' + databases[i])
         replicate()
       }
       else {
