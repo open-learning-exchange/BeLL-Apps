@@ -75,6 +75,7 @@
   <script src="app/models/Mail.js"></script>
   <script src="app/models/CommunityReportComment.js"></script>
   <script src="app/models/CommunityReport.js"></script>
+  <script src="app/models/CommunityCode.js"></script>
 
   
    
@@ -102,6 +103,7 @@
   <script src="app/collections/courseprogressallmembers.js"></script>
   <script src="app/collections/CommunityReportComments.js"></script>
   <script src="app/collections/Reports.js"></script>
+  <script src="app/collections/CommunityCode.js"></script>
   
   <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
@@ -668,6 +670,9 @@
 
   <script type="text/html" id="template-MemberRow">
     <td>
+      <div id="Image"><img width="60px" height="90px" src="<%= src %>" id="userImage"></div>
+    </td> 
+    <td>
       <%= firstName %> <%= lastName %>
     </td> 
 	<td>
@@ -675,6 +680,10 @@
 	</td>
     <td>
       <%= email %>
+    </td>  
+
+    <td>
+      <%= login %>.<%= community_code %>@olebell.org
     </td>  
 
     <td>
@@ -1106,7 +1115,7 @@ Please become a Member and explore both the Community Learning Management System
     </td>
     <td>
 
-      <a class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/<%= _id %>' target="_blank">
+      <a class='btn btn-success' value='<%= _id %>' id='open' href='/apps/_design/bell/bell-resource-router/index.html#openreport/<%= _id %>' target="_blank">
 
         <i class='icon-eye-open'></i> Open
       </a>
@@ -1118,7 +1127,7 @@ Please become a Member and explore both the Community Learning Management System
    
     <td>
     	<%if(isManager>-1){%>
-      <a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+    	<a href="#reports/edit/<%= _id %>" class="btn btn-warning">
         View Details
       </a>
       <a class='btn btn-danger destroy'>

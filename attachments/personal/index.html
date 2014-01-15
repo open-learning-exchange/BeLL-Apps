@@ -58,10 +58,11 @@
   <script src="app/models/CourseStep.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/Mail.js"></script>
-	<script src="app/models/membercourseprogress.js"></script>
-<script src="app/models/reportComment.js"></script>
+  <script src="app/models/membercourseprogress.js"></script>
+  <script src="app/models/reportComment.js"></script>
   <script src="app/models/CourseSchedule.js"></script>
-
+  <script src="app/models/CommunityCode.js"></script>
+  
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
@@ -82,6 +83,7 @@
 
   <script src="app/collections/CourseScheduleByCourse.js"></script>
   <script src="app/collections/ScriptCollection.js"></script>
+  <script src="app/collections/CommunityCode.js"></script>
   
 
 
@@ -207,6 +209,13 @@ function showComposePopup()
 function sendMail()
 {
 	var rec = $("#recipients").val();
+	if(rec.indexOf('@olebell.org')!=-1)
+		{
+			console.log(rec)
+			var names=rec.split(".")
+			console.log(names[0])
+			rec=names[0]
+		}
 	var subject = $("#subject").val();
 	var mailBody = $("textarea#mailbodytexarea").val();
 	if(rec=="" )
@@ -808,12 +817,12 @@ $(window).scroll(function () {
 
 <div style="margin-left:10%">	
 	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
-		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
 		<br/>
 		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"</span></b></span>
 
 		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
-		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
+		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp;<%= firstName %>&nbsp;<%= lastName %> &nbsp; (<%= email %>)  </div>
 		<div id="mail-body" style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
 		</div>
 	
