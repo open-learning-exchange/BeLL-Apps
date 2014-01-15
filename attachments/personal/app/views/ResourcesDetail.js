@@ -29,7 +29,7 @@ $(function () {
              			
     
              })
-             alert("Resource Successfully removed from Shelf "+memberShelfResource.length)
+             alert("Resource Successfully removed from Shelf ")
              Backbone.history.navigate('dashboard', {trigger: true})
              
              //console.log(memberShelfResource.toJSON())
