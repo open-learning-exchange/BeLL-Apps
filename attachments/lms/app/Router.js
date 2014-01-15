@@ -386,6 +386,12 @@ $(function () {
             loggedIn.fetch({
                 async: false
             })
+            
+            var temp = $.url().data.attr.host.split(".")  // get name of community
+                temp = temp[0].substring(3)
+            if(temp=="")
+            temp='local'
+            
             var roles = loggedIn.get("roles")
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
@@ -400,7 +406,9 @@ $(function () {
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
 
                     App.$el.children('.body').append('<h1>Resources</h1>')
-                    App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
+                     
+                    if(temp=='hagadera' || temp=='dagahaley' || temp=='ifo')
+                     App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
             })
@@ -408,6 +416,12 @@ $(function () {
         },
         AddToshelf:function(rId,title){
       
+      		 var memberShelfResource=new App.Collections.shelfResource() 
+             memberShelfResource.resourceId=rId
+             memberShelfResource.memberId=$.cookie('Member._id') 
+             memberShelfResource.fetch({async:false})
+      if(memberShelfResource.length==0){
+      		
           var shelfItem=new App.Models.Shelf()
               shelfItem.set('memberId',$.cookie('Member._id'))
               shelfItem.set('resourceId',rId)
@@ -416,8 +430,13 @@ $(function () {
               shelfItem.save(null, {
             	  success: function(model,response,options) {}
               });
-       alert('Successfully Add To Shelf')
+       		  alert('Successfully Add To Shelf')
+       		 }
+       else{
+      		   alert('Already in Shelf')
+       }
        Backbone.history.navigate('resources', {trigger: true})
+      
     },
         ResourceSearch: function () {
 

@@ -11,12 +11,41 @@ $(function () {
         events: {
             // Handling the Destroy button if the user wants to remove this Element from its shelf
             "click #DestroyShelfItem": function (e) {
-                var vars = this.model.toJSON()
-                var id = vars.rows[0].doc._id
+            
+             var vars = this.model.toJSON()
+             var rId = vars._id
+             var mId=$.cookie('Member._id')
+             
+             var memberShelfResource=new App.Collections.shelfResource() 
+             memberShelfResource.resourceId=rId
+             memberShelfResource.memberId=mId 
+             
+             memberShelfResource.fetch({async:false})
+             
+             memberShelfResource.each(
+             		function(e){
+             			e.destroy()	
+             			
+             			
+    
+             })
+             alert("Resource Successfully removed from Shelf "+memberShelfResource.length)
+             Backbone.history.navigate('dashboard', {trigger: true})
+             
+             //console.log(memberShelfResource.toJSON())
+               
+               
+               /* var vars = this.model.toJSON()
+                console.log(vars)
+                var sid = vars._id
+                var  rid=vars._rev
+                console.log(sid)
+                console.log(rid)
                 var smodel = new App.Models.Shelf({
                     _id: this.sid,
                     _rev: this.rid
                 })
+                smodel.fetch({async:false})
                 smodel.destroy({
                     success: function () {
                         alert("Item Removed Successfully From your Shelf")
@@ -26,6 +55,7 @@ $(function () {
                         })
                     }
                 });
+                */
             }
         },
         initialize: function () {
@@ -55,7 +85,7 @@ $(function () {
             }	
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
 
-        }
+        },
 
     })
 
