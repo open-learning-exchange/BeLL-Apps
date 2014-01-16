@@ -316,14 +316,16 @@ $(function () {
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
                       //  if (searchText != "")
                        {
-                            alert('No mails found')
+                            
+                        $("#errorMessage").show();
                             return
                         }
                     }
 
                     var ResultCollection = new App.Collections.Mails()
-                    //if(obj.resultArray.length > 0)
+                    if(obj.resultArray.length > 0)
                     {
+                        $("#errorMessage").hide();
                         ResultCollection.set(obj.resultArray)
                         obj.collection = ResultCollection
                         obj.addAll()
