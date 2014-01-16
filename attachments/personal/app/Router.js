@@ -76,21 +76,21 @@ $(function () {
                 	var response=resource.fetch({async:false})
                 	if(response.status==200){
                 		ratingModel = new App.Models.Feedback()
-                ratingModel.set('resourceId', resource.attributes._id)
-                ratingModel.set('memberId', $.cookie('Member._id'))
-                ratingView = new App.Views.FeedbackForm({
-                    model: ratingModel,resId:resource.attributes._id
-                })
-                $('#externalDiv').html('<h4 style="color:white">'+resource.attributes.title+'<h4>')
-                $('#externalDiv').append('<div id="star"></div>')
-                $('#star').append("Rating<br/>")
-                $('#star').raty()
-                $("#star > img").click(function () {
-                    ratingView.setUserRating($(this).attr("alt"))
-                });
-                ratingView.render()
-                $('#externalDiv').append(ratingView.el)
-                $('#externalDiv').show()
+		                ratingModel.set('resourceId', resource.attributes._id)
+		                ratingModel.set('memberId', $.cookie('Member._id'))
+		                ratingView = new App.Views.FeedbackForm({
+		                    model: ratingModel,resId:resource.attributes._id
+		                })
+		                $('#externalDiv').html('<h4 style="color:white">'+resource.attributes.title+'<h4>')
+		                $('#externalDiv').append('<div id="star"></div>')
+		                $('#star').append("Rating<br/>")
+		                $('#star').raty()
+		                $("#star > img").click(function () {
+		                    ratingView.setUserRating($(this).attr("alt"))
+		                });
+		                ratingView.render()
+		                $('#externalDiv').append(ratingView.el)
+		                $('#externalDiv').show()
                 		document.getElementById("top-nav").style.visibility="hidden"
                 		document.getElementById("main-body").style.visibility="hidden"
                 		
@@ -99,8 +99,9 @@ $(function () {
                 		//})
                 	}
                 	else{
-                		pending=pending.splice(0,1)      
-                		member.set("pendingReviews",pending)      		
+                		pending.splice(0,1)      
+                		member.set("pendingReviews",pending)
+                		member.save()      		
                 	}
                 }
             }
