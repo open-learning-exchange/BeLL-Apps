@@ -666,7 +666,9 @@ $(function () {
         },
         calendaar: function (eventId) {
             App.$el.children('.body').html('&nbsp')
+           
             App.$el.children('.body').append('<h5>Event Details</h5>')
+             
             var cmodel = new App.Models.Calendar({
                 _id: eventId
             })
@@ -679,7 +681,9 @@ $(function () {
             App.$el.children('.body').append('<br/><b>Ending at: </b>' + new Date(cmodel.attributes.end))
             App.$el.children('.body').append('<br/><br/><a class="btn btn-primary" href="#calendar-event/edit/' + eventId + '">Edit</a>')
             App.$el.children('.body').append('&nbsp;&nbsp;<a class="btn btn-primary" href="#calendar-event/delete/' + eventId + '">Delete</a>')
+            App.$el.children('.body').append('&nbsp;&nbsp;<a href="#calendar" class="btn btn-info"><< Back To Calander</a>')
         },
+        
         CalendarFunction: function () {
 
             App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">Add Event</div><br/><br/>")

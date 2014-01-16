@@ -13,10 +13,10 @@ $(function () {
             "click #coursescheduleButton": "CourseSchedule",
             "click #cancel": function () {
                 window.history.back()
-            }
+            },
+
 
         },
-
         CourseSchedule: function () {
             var form = new App.Views.CourseScheduleForm()
             form.courseId = this.model.id
@@ -34,7 +34,8 @@ $(function () {
                 form.srevid = model.get("_rev")
             }
             form.render()
-            App.$el.children('.body').html('<p id="scheduletitle">' + this.model.get("name") + '|Schedule</p>')
+            App.$el.children('.body').html('<a id="BackToCourse" onclick = "location.reload()" class="btn btn-info"><< Back To Course</a>')
+            App.$el.children('.body').append('<p id="scheduletitle">' + this.model.get("name") + '|Schedule</p>')
             App.$el.children('.body').append(form.el)
             $('#startTime').timepicker()
             $('#endTime').timepicker()

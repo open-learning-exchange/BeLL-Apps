@@ -205,8 +205,7 @@
       "Edit_CalendarEvents":17,
       "List_CalendarEvents":18,
   }  
-  
- 
+
   function showFeedbackForm()
   {
 	  App.renderFeedback()
@@ -227,6 +226,9 @@
 	  App.renderRequest(modl)
   }
   
+  function addToshelf(rId,title){
+     App.Router.AddToshelf(rId,title)
+  }
   
   function selectAllSearchResult()
   {
@@ -745,13 +747,11 @@
       </a>
     </td>
     <td>
-
-      <a class='btn btn-inverse' href='#addToshelf/<%= _id %>/<%= title %>' ">
-         Add To Shelf
-      </a>
+    
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>add to Shelf</button>
+	 
     </td>
     <td>
-     
 
       <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
        Feedback
@@ -854,6 +854,8 @@
 </script>
 <script type="text/html" id="template-CourseSchedule">
     <div id="scheduleDiv">
+    
+    <br>
     <div id="durationDiv">
           <table>
           <tr>
