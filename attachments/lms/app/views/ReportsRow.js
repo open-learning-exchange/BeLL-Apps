@@ -19,8 +19,7 @@ $(function () {
             		this.model.set('views',this.model.get("views")+1)
             		this.model.save()
             	}
-                
-                
+
             },           
             "click #commentButton": function (e) {
                 console.log(e)

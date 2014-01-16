@@ -1,7 +1,7 @@
 $(function () {
 
     App.Views.MailView = Backbone.View.extend({
-
+		code:null,
         vars: {},
         recordsPerPage: null,
         modelNo: null,
@@ -43,6 +43,9 @@ $(function () {
                 this.fetchRecords()
                 $("#nextButton").show()
                 $("#previousButton").hide()
+            },   
+            "click #backpage": function (e) {
+                window.location.reload()
             },
             "click .deleteBtn": function (e) {
                 var modelNo = e.currentTarget.value
@@ -201,6 +204,8 @@ $(function () {
             var model = mailView.collection.at(modelNo)     
             mailView.inViewModel = model
             model.set("status", "1")
+           // console.log(this)
+            console.log(e)
             model.save()
             mailView.vars = model.toJSON()
             console.log(mailView.vars)
@@ -211,8 +216,10 @@ $(function () {
             })
             mailView.vars.firstName = member.get('firstName')
             mailView.vars.lastName = member.get('lastName')
+            mailView.vars.email=member.get('login')+'.'+mailView.code+'@olebell.org'
+            console.log(mailView.vars.email)
             mailView.vars.modelNo = modelNo
-            mailView.vars.login = member.get('login')
+            mailView.vars.login = mailView.vars.email
             mailView.$el.html('')
             mailView.$el.append(mailView.templateMailView(mailView.vars))
         },
@@ -223,7 +230,9 @@ $(function () {
             mailView.renderAllMails()
            // window.location.reload()
         },
-        initialize: function () {
+        initialize: function (args) {
+        	this.code=args.community_code
+        	console.log(this.code)
             this.modelNo = 0
             skip = 0
             this.unopen = true

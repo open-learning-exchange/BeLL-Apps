@@ -114,15 +114,18 @@ $(function () {
             App.$el.children('.body').html('&nbsp')
             //App.$el.children('.body').append('<div id="mailActions" ></div>')
             //App.$el.children('.body').append('<table id="inbox_mails" ></table>')
+             var communitycodes = new App.Collections.CommunityCode()
+            communitycodes.fetch({
+                async: false
+            })
+            var codes = communitycodes.first().toJSON().community_code
             var mymail = new App.Collections.Mails({
                 skip: 0
             })
             mymail.fetch({
                 async: false
             })
-            var mailview = new App.Views.MailView({
-                collection: mymail
-            })
+            var mailview = new App.Views.MailView({collection: mymail,community_code:codes})
             mailview.render()
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)
