@@ -435,7 +435,7 @@ $(function () {
        else{
       		   alert('Already in Shelf')
        }
-       Backbone.history.navigate('resources', {trigger: true})
+      // Backbone.history.navigate('resources', {trigger: true})
       
     },
         ResourceSearch: function () {
