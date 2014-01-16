@@ -64,12 +64,19 @@ $(function () {
 
         },
         checkFilters: function (result) {
-
-            //alert(this.tagFilter + ' ' + result.get("Tag"))
+			if(!result.get("averageRating"))
+			{
+				result.set("averageRating",0)
+			}
             if (this.tagFilter.length == 0 && this.subjectFilter.length == 0 && this.ratingFilter.length == 0) {
                 //alert('in null')
                 return true
-            } else if ((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) || (this.ratingFilter && $.inArray(result.get("averageRating").toString(), this.ratingFilter) > -1)) {
+            } 
+            else if ((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || 
+            		(this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) || 
+            		(this.ratingFilter && $.inArray(result.get("averageRating").toString(), this.ratingFilter) > -1)) 
+        	{
+        	
                 //alert($.inArray(result.get("subject"), this.subjectFilter))
                 return true
             }
@@ -79,8 +86,7 @@ $(function () {
             var that = this
             var resultArray = []
             var foundCount
-            console.log(this.ratingFilter)
-
+            
             if (searchText != "" || (this.tagFilter && this.tagFilter.length > 0) || (this.subjectFilter && this.subjectFilter.length > 0) || (this.ratingFilter && this.ratingFilter.length > 0)) {
                 _.each(resourceArray, function (result) {
                     if (result.get("title") != null) {
@@ -88,7 +94,7 @@ $(function () {
                         //console.log( skip+' '+result.get("title"))
                         if (that.checkFilters(result) && result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
                             if (resultArray.length < searchRecordsPerPage) {
-                                resultArray.push(result)
+                            	resultArray.push(result)
                             } else {
                                 enablenext = 1
                                 skip--

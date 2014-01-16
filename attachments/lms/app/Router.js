@@ -435,7 +435,7 @@ $(function () {
        else{
       		   alert('Already in Shelf')
        }
-       Backbone.history.navigate('resources', {trigger: true})
+      // Backbone.history.navigate('resources', {trigger: true})
       
     },
         ResourceSearch: function () {
@@ -883,7 +883,7 @@ $(function () {
                     App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>Back To Course </a>&nbsp;&nbsp;")
                     App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
                     App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/" + lid + "\"'>Save</button></BR></BR>")
-                    App.$el.children('.body').append('<B>Resources</B><a class="btn btn-success"  style="float:right;" target="_blank" href=\'#search-bell/' + lid + '/' + rid + '\'">Add</a>')
+                    App.$el.children('.body').append('<B>Resources</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" target="_blank" href=\'#search-bell/' + lid + '/' + rid + '\'">Add</a>')
                     App.$el.children('.body').append(levelDetails.el)
                     App.$el.children('.body').append('</BR>')
                     if (levelInfo.get("questions") == null) {

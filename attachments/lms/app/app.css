@@ -396,6 +396,10 @@ font-weight: bold;
 	margin-left: 43%;
 
 }
+.checkDisplay
+{
+	display: block;
+}
 
 
 /* course Schedule */

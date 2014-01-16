@@ -23,7 +23,8 @@ $(function () {
 
 
             var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">Save</a>')
-            $btnAddToshelf = $('<a class="btn btn-success" id="addtoshelf" href="#addToshelf/' + this.model.get('resourceId') + '/' + this.rtitle + '" style="margin-left:10px">Add To Shelf</a>')
+            $btnAddToshelf = $('<button class="btn btn-success" id="addtoshelf" onclick=addToshelf("'+this.model.get('resourceId') + '","' + this.rtitle + '") style="margin-left:10px">Add To Shelf</button>')
+
 
             this.$el.append($button)
             this.$el.append($btnAddToshelf)
