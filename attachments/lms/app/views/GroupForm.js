@@ -148,7 +148,7 @@ $(function () {
                         groupForm.$el.append($sbutton)
                     }
 
-                    groupForm.$el.append("<a class='btn btn-danger' style='margin-left:-384px;' id='cancel'>Cancel</a>")
+                    groupForm.$el.append("<a class='btn btn-danger' id='cancel'>Cancel</a>")
                 }
             })
 
@@ -182,9 +182,11 @@ $(function () {
             }
             if (this.model.get("name").length == 0) {
                 alert("Course name is missing")
-            } else if (this.model.get("courseLeader") == 0000) {
-                alert("Select Course Leader")
-            } else if (this.model.get("leaderEmail").length == 0) {
+            } 
+//            else if (this.model.get("courseLeader") == 0000) {
+//                alert("Select Course Leader")
+//            } 
+            else if (this.model.get("leaderEmail").length == 0) {
                 alert("Leader email address is missing")
             } else if (this.model.get("description").length == 0) {
                 alert("Course description is missing")
@@ -199,7 +201,8 @@ $(function () {
                     member.save()
                 }
 
-                this.model.set("members",[$.cookie('Member._id')]) 
+                this.model.set("members",[$.cookie('Member._id')])
+                this.model.set('courseLeader',$.cookie("Member._id")) 
                 this.model.save(null,{success:function(e){
                 	if(newEntery==1)
                 	{

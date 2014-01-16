@@ -537,8 +537,7 @@ $(function () {
 
             var mail = new App.Models.Mail();
             var currentdate = new Date();
-            var id = courseModel.get('leaderEmail')
-
+            var id = courseModel.get('courseLeader')
             var subject = 'Course Resignation | ' + courseModel.get('name') + ''
             var mailBody = 'Hi,<br>Member ' + $.cookie('Member.login') + ' has resign from ' + courseModel.get('name') + ''
 
@@ -551,7 +550,7 @@ $(function () {
             mail.set("sentDate", currentdate)
             console.log(mail)
             mail.save();
-            alert("Mail successfully send.")
+            alert("Successfully resigned from " + courseModel.get('name') + ' . ')
 
             Backbone.history.navigate('dashboard', {
                 trigger: true
