@@ -166,7 +166,7 @@ input[type=checkbox]:checked + label:before {
 }
 #quiz-body
 {
-	margin-left:-14%;
+	margin-left:14%;
 }
 #options-table
 {
