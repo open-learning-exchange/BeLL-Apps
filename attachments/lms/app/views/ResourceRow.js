@@ -68,6 +68,24 @@ $(function () {
       }) 
       this.model.save()
       */
+//      var flength = new App.Collections.ResourceFeedback()
+//                flength.resourceId = this.model.get("_id")
+//                flength.fetch({
+//                    async: false
+//               	})
+//       var s = 0
+//      flength.each(function(m){
+//      	s = s + parseInt(m.get("rating"))
+//      })
+//      console.log('check : ' + s + ' ' + this.model.get("sum") + ' ' + flength.length +  ' ' + this.model.get("timesRated"))
+//      this.model.set("sum",s.toString())
+//      this.model.set("timesRated",flength.length.toString())
+//      this.model.save()
+//      if(s!=parseInt(this.model.get("sum")) && flength.length == parseInt(this.model.get("timesRated")) )
+//      {
+//      	this.model.set("sum",s.toString())
+//      	this.model.save()
+//      }
             if (this.model.get("sum") != 0) {
                 vars.totalRatings = this.model.get("timesRated")
                 vars.averageRating = (parseInt(this.model.get("sum")) / parseInt(vars.totalRatings))
@@ -81,7 +99,6 @@ $(function () {
             } else {
                 vars.admn = 0
             }
-			console.log(vars)
             this.$el.append(this.template(vars))
 
 
