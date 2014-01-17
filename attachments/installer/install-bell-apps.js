@@ -2,7 +2,8 @@ var source = 'http://oledemo:oleoleole@oledemo.cloudant.com'
 var i = 0
 alert("Install script loaded. Now replicating data from " + source)
 // @todo Need the rest of the databases here
-var databases = ['apps', 'facilities', 'members', 'feedback','actions','calendar','communityreports','courseschedule','coursestep','groups','invitations','mail','membercourseprogress','report','resources','shelf']
+//apps, 'facilities', 'members', 'feedback','actions','calendar','communityreports','courseschedule','coursestep','groups','invitations','mail','membercourseprogress','report','resources','shelf','community_code'
+var databases = ['community_code']
 // A recursive function to replicate the databases one at a time
 var replicate = function() {
   var database = databases[i]

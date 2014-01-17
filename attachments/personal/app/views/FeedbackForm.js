@@ -59,13 +59,19 @@ $(function () {
                 var pending=[]
                 pending=member.get("pendingReviews")
                 var index=pending.indexOf( this.resourceId)
+                //console.log(index)
                 if(index>-1){
+                	console.log(pending)
                 	pending.splice(index,1)
+                	console.log(pending)
                 	member.set("pendingReviews",pending)
-                	member.save()
+                	member.save(null,{success: function(){
+    						location.reload()
+                	}})
                 }
                 $('#externalDiv').hide()
-               location.reload()
+              //  alert("yes")
+              // location.reload()
             }
 
         },
