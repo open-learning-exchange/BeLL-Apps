@@ -1322,34 +1322,81 @@ $(function () {
 
         },
         Replicate: function () {
+        	var that = this
             var temp = $.url().attr("host").split(".")
             var communities = new App.Collections.Communities()
             communities.fetch({
                 async: false
             })
-            communities.each(function (m) {
-                if (m.get("name") != "olelocal" && m.get("name") != temp[0]) {
-                    console.log(m.get("name"))
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        type: 'POST',
-                        url: '/_replicate',
-                        dataType: 'json',
-                        data: JSON.stringify({
-                            "source": "resources",
-                            "target": "https://" + m.get("name") + ":oleoleole@" + m.get("name") + ".cloudant.com/resources"
-                        }),
-                        success: function (response) {
-                            console.log(response)
-                        },
-                        async: false
-                    });
-                }
+            
+           // console.log(communities)
+            
+            if(communities.length ==0 )
+            {
+            	alert("Does not belong to any nation.")
+            	return 
+            }
+            var community = communities.first()
+            var nationURL = community.get('nationUrl') 
+    
+            $.ajax({
+    			url : 'http://ole'+community.get('nationName')+':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
+    			//url : 'http://10.10.2.79:5984/communities/_all_docs?include_docs=true',
+    			type : 'GET',
+    			dataType : "jsonp",
+    			success : function(json) {
+    				for(var i=0 ; i<json.rows.length ; i++)
+    				{
+    					var community = json.rows[i]
+    					console.log(community.doc.url)
+    					var communityurl = community.doc.url
+    					that.synchCommunityWithURL(communityurl)
+    				/*	
+    					 $.ajax({
+                        	headers: {
+                            	'Accept': 'application/json',
+                            	'Content-Type': 'application/json; charset=utf-8'
+                        	},
+                        	type: 'POST',
+                        	url: '/_replicate',
+                        	dataType: 'json',
+                        	data: JSON.stringify({
+                           		"source": "resources",
+                            	"target": 'http://' + communityurl + ':5984/resources'
+                        	}),
+                        	success: function (response) {
+                            	console.log(response)
+                            	alert('success')
+                        	},
+                        	async: false
+                    	})
+                    */
+    				}
+    				that.synchCommunityWithURL(nationURL)	
+    			}
+  			 })
+  
+        },
+        synchCommunityWithURL : function(communityurl) 
+        {
+        	$.ajax({
+            	headers: {
+                	'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+            	type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                	"source": "resources",
+                    "target": 'http://' + communityurl + ':5984/resources'
+            	}),
+                success: function (response) {
+                	console.log(response)
+                	alert('success')
+                },
+                async: false
             })
-
         },
         CompileManifest: function () {
             // The resources we'll need to inject into the manifest file
