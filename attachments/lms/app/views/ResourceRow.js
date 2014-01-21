@@ -52,7 +52,6 @@ $(function () {
             			freqmodel.get("frequency").push(1)
             			//freqmodel.set("frequency",[1])
             			freqmodel.save()
-            			alert('saved')
             			return
             		}
             	}
