@@ -12,10 +12,51 @@ $(function () {
             },
             "click .trigger-modal": function () {
                 $('#myModal').modal({
+                	
                     show: true
                 })
             },
             "click .resFeedBack": function (event) {
+            	
+            	var resourcefreq = new App.Collections.ResourcesFrequency()
+            	resourcefreq.memberID = $.cookie('Member._id')
+            	resourcefreq.fetch({async:false})
+            	
+            	if(resourcefreq.length==0)
+            	{
+            		var freqmodel = new App.Models.ResourceFrequency()
+            		freqmodel.set("memberID", $.cookie('Member._id'))
+            		freqmodel.set("resourceID",[this.model.get("_id")])
+            		freqmodel.set("frequency",[1])
+            		freqmodel.save()
+            		return
+            	}
+            	else
+            	{
+            		var freqmodel  = resourcefreq.first()
+            		var index = freqmodel.get("resourceID").indexOf(this.model.get("_id").toString())
+            		if(index!=-1)
+            		{
+            			var freq = freqmodel.get('frequency')
+            			freq[index] = freq[index] + 1
+            			freqmodel.save()
+            			if(freq[index]%5!=0)
+            			{
+            				return
+            			}
+            		}
+            		else
+            		{
+            			//freqmodel.set("resourceID",freqmodel.get("resourceID").push[this.model.get("_id")])
+            			freqmodel.get("resourceID").push(this.model.get("_id"))
+            			freqmodel.get("frequency").push(1)
+            			//freqmodel.set("frequency",[1])
+            			freqmodel.save()
+            			alert('saved')
+            			return
+            		}
+            	}
+            	
                 $('ul.nav').html($('#template-nav-logged-in').html()).hide()
                  var member = new App.Models.Member({
                                 _id: $.cookie('Member._id')

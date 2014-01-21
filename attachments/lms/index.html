@@ -76,6 +76,8 @@
   <script src="app/models/CommunityReportComment.js"></script>
   <script src="app/models/CommunityReport.js"></script>
   <script src="app/models/CommunityCode.js"></script>
+  <script src="app/models/ResourceFrequency.js"></script>
+  
 
   
    
@@ -105,7 +107,7 @@
   <script src="app/collections/Reports.js"></script>
   <script src="app/collections/CommunityCode.js"></script>
   <script src="app/collections/shelfResource.js"></script>
-  
+  <script src="app/collections/ResourcesFrequency.js"></script>
   <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -238,6 +240,7 @@
   }
   function showSearchView()
   {
+  	 $('#not-found').hide()
       App.Router.SearchBell(grpId,levelrevId,0);
 
   }
@@ -1093,7 +1096,7 @@ Please become a Member and explore both the Community Learning Management System
 <div style="position:absolute;margin-top:-1%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
 <span style="margin-left:5%;font-size:31px;">Welcome to the</span><br/><br/>
 <span style="margin-left:4%;font-size:37px;">Community BeLL</span><br/><br/>
-<span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.5)</span><br/>
+<span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.6)</span><br/>
 <span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
 </script>
 <!-- Report template -->

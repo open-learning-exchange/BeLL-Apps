@@ -148,7 +148,7 @@ $(function () {
                         groupForm.$el.append($sbutton)
                     }
 
-                    groupForm.$el.append("<a class='btn btn-danger' id='cancel'>Cancel</a>")
+                    groupForm.$el.append("<a class='btn btn-danger' style='margin-left : -384px;' id='cancel'>Cancel</a>")
                 }
             })
 
