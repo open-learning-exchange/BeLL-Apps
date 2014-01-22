@@ -58,7 +58,7 @@ $(function () {
                 })
                 var lengthoffeedbacks = flength.length
 				console.log("lengthoffeedbacks" + lengthoffeedbacks)
-                console.log(this.user_rating)
+                console.log(this.user_rating)                                                                                                        
                 
                 this.model.on('sync', function () {
                     var rmodel = new App.Models.Resource({
@@ -76,20 +76,31 @@ $(function () {
                     })
                 })
                 this.model.save()
-				var member = new App.Models.Member({
-                                _id: $.cookie('Member._id')
-                            })
-                            member.fetch({
-                                async: false
-                           })            
-                var pending=[]
-                pending=member.get("pendingReviews")
-                var index=pending.indexOf(that.model.get("resourceId"))
-                if(index>-1){
-                	pending.splice(index,1)
-                	member.set("pendingReviews",pending)
-                	member.save()
-                }
+                var resourcefreq = new App.Collections.ResourcesFrequency()
+            	resourcefreq.memberID = $.cookie('Member._id')
+            	resourcefreq.fetch({async:false})
+            	var freqmodel  = resourcefreq.first()
+            	var index = freqmodel.get("resourceID").indexOf(that.model.get("resourceId").toString())
+            	if(index!=-1)
+            	{
+            		var freq = freqmodel.get('reviewed')
+            		freq[index] = freq[index] + 1
+            		freqmodel.save()
+            	}
+//				var member = new App.Models.Member({
+//                     _id: $.cookie('Member._id')
+//                 })
+//                 member.fetch({
+//                     async: false
+//                })            
+//                var pending=[]
+//                pending=member.get("pendingReviews")
+//                var index=pending.indexOf(that.model.get("resourceId"))
+//                if(index>-1){
+//                	pending.splice(index,1)
+//                	member.set("pendingReviews",pending)
+//                	member.save()
+//                }
 
             }
 
