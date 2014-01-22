@@ -23,7 +23,7 @@ $(function() {
 
     schema: {
     
-    community_code: {	type:'Text',
+   community_code: {	type:'Text',
        					validators: ['required']
        				  },
        	nationName: {	type:'Text',

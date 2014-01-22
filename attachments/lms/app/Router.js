@@ -407,7 +407,7 @@ $(function () {
 
                     App.$el.children('.body').append('<h1>Resources</h1>')
                      
-                    if(temp=='hagadera' || temp=='dagahaley' || temp=='ifo')
+                    if(temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia')
                      App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
@@ -1322,24 +1322,38 @@ $(function () {
 
         },
         Replicate: function () {
-        	App.startActivityIndicator()
-        	var that = this
-            var temp = $.url().attr("host").split(".")
-            var communities = new App.Collections.Communities()
-            communities.fetch({
-                async: false
-            })
-            
-           // console.log(communities)
-            
-            if(communities.length ==0 )
-            {
-            	alert("Does not belong to any nation.")
-            	return 
-            }
-            var currentCommunity = communities.first()
-            var nationURL = currentCommunity.get('nationUrl') 
-            var nationName = currentCommunity.get('nationName')
+        
+          App.startActivityIndicator()
+          
+           var that = this
+           var temp = $.url().attr("host").split(".")
+           var currentHost=$.url().attr("host")
+           
+           var nationURL=''
+           var nationName=''
+           var type=''
+    
+    	    var configurations=Backbone.Collection.extend({
+    				url:'http://127.0.0.1:5984/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var config=new configurations()
+    	      config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+        
+    	    
+    	    type=cofigINJSON.rows[0].doc.type
+    	      if(type=='nation')
+    	       {
+    	       	   nationURL='127.0.0.1'
+    	       	   nationName=cofigINJSON.rows[0].doc.name
+    	       }
+    	        else{
+    	     	   	nationURL=cofigINJSON.rows[0].doc.nationUrl
+    	        	nationName=cofigINJSON.rows[0].doc.nationName
+    	       }
+    	    
+
     
             $.ajax({
     			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
@@ -1353,7 +1367,7 @@ $(function () {
     					console.log(community.doc.url)
     					var communityurl = community.doc.url
     					var communityname = community.doc.name
-    					that.synchCommunityWithURL(communityurl,communityname)
+    				//	that.synchCommunityWithURL(communityurl,communityname)
     				/*	
     					 $.ajax({
                         	headers: {
@@ -1375,7 +1389,7 @@ $(function () {
                     	})
                     */
     				}
-    				that.synchCommunityWithURL(nationURL,nationName)	
+    				//that.synchCommunityWithURL(nationURL,nationName)	
     			}
   			 })
   			App.stopActivityIndicator()
