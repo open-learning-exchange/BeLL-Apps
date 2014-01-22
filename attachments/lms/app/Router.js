@@ -924,7 +924,7 @@ $(function () {
             App.$el.children('.body').append(feedbackForm.el)
         },
 
-        //***************************************Explore Bell Setup***********************************************************
+        // ***************************************Explore Bell Setup***********************************************************
 
         Explore_Bell_Courses: function () {
             var dfcourses = new App.Models.ExploreBell({
@@ -1322,6 +1322,7 @@ $(function () {
 
         },
         Replicate: function () {
+        	App.startActivityIndicator()
         	var that = this
             var temp = $.url().attr("host").split(".")
             var communities = new App.Collections.Communities()
@@ -1336,11 +1337,12 @@ $(function () {
             	alert("Does not belong to any nation.")
             	return 
             }
-            var community = communities.first()
-            var nationURL = community.get('nationUrl') 
+            var currentCommunity = communities.first()
+            var nationURL = currentCommunity.get('nationUrl') 
+            var nationName = currentCommunity.get('nationName')
     
             $.ajax({
-    			url : 'http://ole'+community.get('nationName')+':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
+    			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
     			//url : 'http://10.10.2.79:5984/communities/_all_docs?include_docs=true',
     			type : 'GET',
     			dataType : "jsonp",
@@ -1350,7 +1352,8 @@ $(function () {
     					var community = json.rows[i]
     					console.log(community.doc.url)
     					var communityurl = community.doc.url
-    					that.synchCommunityWithURL(communityurl)
+    					var communityname = community.doc.name
+    					that.synchCommunityWithURL(communityurl,communityname)
     				/*	
     					 $.ajax({
                         	headers: {
@@ -1372,12 +1375,12 @@ $(function () {
                     	})
                     */
     				}
-    				that.synchCommunityWithURL(nationURL)	
+    				that.synchCommunityWithURL(nationURL,nationName)	
     			}
   			 })
-  
+  			App.stopActivityIndicator()
         },
-        synchCommunityWithURL : function(communityurl) 
+        synchCommunityWithURL : function(communityurl,communityname) 
         {
         	$.ajax({
             	headers: {
@@ -1389,11 +1392,10 @@ $(function () {
                 dataType: 'json',
                 data: JSON.stringify({
                 	"source": "resources",
-                    "target": 'http://' + communityurl + ':5984/resources'
+                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources'
             	}),
                 success: function (response) {
                 	console.log(response)
-                	alert('success')
                 },
                 async: false
             })
