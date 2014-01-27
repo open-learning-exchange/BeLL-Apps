@@ -27,6 +27,7 @@ $(function () {
             		var freqmodel = new App.Models.ResourceFrequency()
             		freqmodel.set("memberID", $.cookie('Member._id'))
             		freqmodel.set("resourceID",[this.model.get("_id")])
+            		freqmodel.set("reviewed",[0])
             		freqmodel.set("frequency",[1])
             		freqmodel.save()
             		return
@@ -47,28 +48,33 @@ $(function () {
             		}
             		else
             		{
-            			//freqmodel.set("resourceID",freqmodel.get("resourceID").push[this.model.get("_id")])
             			freqmodel.get("resourceID").push(this.model.get("_id"))
             			freqmodel.get("frequency").push(1)
-            			//freqmodel.set("frequency",[1])
+            			if(!freqmodel.get("reviewed"))
+            			{
+            				freqmodel.set("reviewed",[0])
+            			}
+            			else
+            			{
+            				freqmodel.get("reviewed").push(0)
+            			}
             			freqmodel.save()
             			return
             		}
             	}
             	
                 $('ul.nav').html($('#template-nav-logged-in').html()).hide()
-                 var member = new App.Models.Member({
-                                _id: $.cookie('Member._id')
-                            })
-                            member.fetch({
-                                async: false
-                            })
-                            var pending=[]
-                           pending= member.get("pendingReviews")
-                           pending.push(this.model.get("_id"))
-                		   member.set("pendingReviews",pending)
-                		   member.save()
-                	console.log(member.get("pendingReviews"))
+//                 var member = new App.Models.Member({
+//                 	_id: $.cookie('Member._id')
+//                 })
+//                 member.fetch({
+//                     async: false
+//                 })
+//                 var pending=[]
+//                pending= member.get("pendingReviews")
+//                pending.push(this.model.get("_id"))
+//     		   	member.set("pendingReviews",pending)
+//     		   	member.save()
                 Backbone.history.navigate('resource/feedback/add/' + this.model.get("_id") + '/' + this.model.get("title"), {
                     trigger: true
                 })

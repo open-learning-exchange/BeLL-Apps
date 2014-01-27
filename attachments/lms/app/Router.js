@@ -59,7 +59,7 @@ $(function () {
         initialize: function () {
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.routeStartupTasks)
-            this.bind("all", this.reviewStatus)
+           // this.bind("all", this.reviewStatus)
         },
         ReportForm: function (reportId) {
             var report = (reportId) ? new App.Models.CommunityReport({
