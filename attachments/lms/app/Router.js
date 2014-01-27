@@ -1334,7 +1334,7 @@ $(function () {
            var type=''
     
     	    var configurations=Backbone.Collection.extend({
-    				url:'http://127.0.0.1:5984/configurations/_all_docs?include_docs=true'
+    				url:App.Server+'/configurations/_all_docs?include_docs=true'
     		})	
     	    var config=new configurations()
     	      config.fetch({async:false})
@@ -1345,7 +1345,7 @@ $(function () {
     	    type=cofigINJSON.rows[0].doc.type
     	      if(type=='nation')
     	       {
-    	       	   nationURL='127.0.0.1'
+    	       	   nationURL=App.Server
     	       	   nationName=cofigINJSON.rows[0].doc.name
     	       }
     	        else{
@@ -1353,8 +1353,8 @@ $(function () {
     	        	nationName=cofigINJSON.rows[0].doc.nationName
     	       }
     	    
-
-    
+console.log(nationURL)
+    alert('test')
             $.ajax({
     			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
     			//url : 'http://10.10.2.79:5984/communities/_all_docs?include_docs=true',
