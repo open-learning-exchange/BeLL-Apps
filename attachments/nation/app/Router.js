@@ -7,9 +7,11 @@ $(function(){
 	  		 'login'                : 'MemberLogin',
 	  		 'logout'               : 'MemberLogout',
 	  		 'listCommunity'          : 'ListCommunity',
+	  		  'dashboard': 'Dashboard',
 	  	}, 
 	  	
 	initialize: function() {
+    		  this.bind("all", this.checkLoggedIn)
     		 this.bind( "all", this.renderNav )
 		},
 		
@@ -23,9 +25,51 @@ $(function(){
      	  $('div.navbar-collapse').html(na.el)
      	      // App.badge()
        },
-       
+       checkLoggedIn: function () {
+            if (!$.cookie('Member._id')) {
+                console.log($.url().attr('fragment'))
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
+                    Backbone.history.stop()
+                    App.start()
+                }
+            }
+            else{
+    	     	var expTime=$.cookie('Member.expTime')
+ 			    var d = new Date(Date.parse(expTime))
+             	var diff = Math.abs(new Date() - d)
+           		 //alert(diff)
+            	var expirationTime=600000
+            	if(diff<expirationTime)
+           		 {
+              	  var date=new Date()
+              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell"})
+              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell"})
+           		 }
+           	 else{ 
+                  this.expireSession()
+                  Backbone.history.stop()
+   			      App.start() 
+               
+            }
+      	}
+        },
+                Dashboard: function () {
+        
+           var dashboard = new App.Views.Dashboard()
+            App.$el.children('.body').html(dashboard.el)
+            dashboard.render()
+            
+        var Communities = new App.Collections.Community({
+        limit:3
+        })
+     	Communities.fetch({ async: false})
+     	Communities.each(function(m){
+     	$('#communities tbody').append('<tr class="success"><td>'+m.toJSON().Name+'</td></tr>');
+     	})
+     	$('#communities').append('<tr ><td><a class="btn btn-default" href="#listCommunity" id="clickmore">Click for more</a></td></tr>');
+     	},
 	CommunityForm: function(CommunityId) {
-	  			//755d143e2effa8a892f9fb820a0004a1
+	  			
       			this.modelForm('Community', CommunityId, 'login')
     	},
 	modelForm:function(className, modelId, reroute){
@@ -40,6 +84,8 @@ $(function(){
       		
      			 
               App.$el.children('.body').append(modelForm.el)
+              
+      //	.append($button) 
              // modelForm.render()
              // Bind form events for when Group is ready
         
@@ -64,60 +110,54 @@ $(function(){
      	 else {
        		 model.trigger('Model:ready')
       		}
-    
-            alert("add Community");
-	  	
-	  	
 	  	} ,
 	MemberLogin: function() {
       	// Prevent this Route from completing if Member is logged in.
       	if($.cookie('Member._id')) {
-      	  Backbone.history.navigate('ListCommunity', {trigger: true})
+      	  Backbone.history.navigate('listCommunity', {trigger: true})
        	 return
       	}
       	var credentials = new App.Models.Credentials()
       	var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       	memberLoginForm.once('success:login', function() {
-      	 	 // $('ul.nav').html($("#template-nav-logged-in").html())
-      		 // Backbone.history.navigate('courses', {trigger: true})
-       	   	 Backbone.history.navigate('listCommunity', {trigger: true})
+      	 	 window.location.href = "../personal/index.html#dashboard";
+      	 	 //Backbone.history.navigate('listCommunity', {trigger: true})
       		})
       	memberLoginForm.render()
-      	//App.$el.children('.body').html('<h1>Member login</h1>')
       	App.$el.children('.body').html(memberLoginForm.el)
-      	//Override the menu
-     	$('ul.nav').html($('#template-nav-log-in').html()).hide()
+      	$('ul.nav').html($('#template-nav-log-in').html()).hide()
      },
-
-    MemberLogout: function() {
-     	 	//since cookies are stored for /apps/_design/bell so destroied for /aaps/_design/bell
-     		 $.removeCookie("Member.login", {path: "/apps/_design/bell"}) 
-	 		 $.removeCookie("Member._id", {path: "/apps/_design/bell"})
-     	 	 Backbone.history.navigate('login', {trigger: true})
+MemberLogout: function() {
+    
+       		this.expireSession()
+      
+      		Backbone.history.navigate('login', {trigger: true})
+    	},
+		expireSession:function(){
+    
+        $.removeCookie('Member.login',{path:"/apps/_design/bell"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell"})
+      
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell"})
+       
+    
     },
    ListCommunity:function(){
-			 
-    
-   
- 		var Communities = new App.Collections.Community()
+           App.startActivityIndicator()
+		var Communities = new App.Collections.Community()
      	Communities.fetch({success: function() {
         CommunityTable = new App.Views.CommunitiesTable({collection: Communities})
         CommunityTable.render()
-        var listCommunity="<div id='addNation-heading'> <p class='heading'> <a href=''>Nation Bell</a>  |   <a href=''>Communities List</a>    </p> </div>"
-            listCommunity+="<div style='width:940px;margin:0 auto' id='list-of-nations'></div>"
+        var listCommunity="<div id='listcommunity-head'> <p class='heading'> <a href=''>Nation Bell</a>  |   <a href=''>Communities List</a>   <a  class='btn btn-success' id='addComm' href='#addCommunity'>Add Community</a> </p> </div>"
+        
+            listCommunity+="<div style='width:940px;margin:0 auto' id='list-of-Communities'></div>"
     
         App.$el.children('.body').html(listCommunity)
-        App.$el.children('.body').append(CommunityTable.el)
+         $('#list-of-Communities',App.$el).append(CommunityTable.el)
         
-			 alert('this is ListCommunity Function')
       }})
     
-			 
-			 
-			 
-    
-			 
-			 
+		App.stopActivityIndicator()		 
 			 
     }
     

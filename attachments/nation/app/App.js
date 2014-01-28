@@ -61,6 +61,26 @@ $(function() {
 
    
     },
+     
+	startActivityIndicator:function(){
+		var target = document.getElementById("popup-spinning");
+		if(App.wheel==null){
+			App.wheel = new Spinner({lines: 12,length: 20,trail: 40,width:5,radius: 50,speed:2, color: "#34495E"}).spin(target);
+		}
+		else{
+			App.wheel.spin(target)
+		}
+		document.getElementById('main-body').style.visibility='hidden'
+	},
+	stopActivityIndicator:function(){
+	    window.setTimeout(function(){
+			document.getElementById('main-body').style.visibility='visible'
+			App.wheel.stop()
+
+		},1000)
+
+	},
+	
 }))
 
 

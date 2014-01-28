@@ -19,7 +19,7 @@ $(function() {
     },
 
     addAll: function(){
-    this.$el.append('<tr><th>Time</th><th>Title</th><th>Author</th><th>Views</th><th colspan="3">Actions</th></tr>')
+    this.$el.append('<tr><th>Time</th><th>Title</th><th>Author</th><th>Views</th><th colspan="5">Actions</th></tr>')
       this.collection.forEach(this.addOne, this)
     },
 

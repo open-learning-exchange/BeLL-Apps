@@ -3,7 +3,6 @@ $(function() {
   App.Views.navBarView = Backbone.View.extend({
   tagName:"ul",
   className:"nav",
-  id:"itemsinnavbar",
   
     authorName : null,
       template1 : _.template($('#template-nav-logged-in').html()),
