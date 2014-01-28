@@ -41,7 +41,7 @@ $(function () {
         initialize: function () {
             this.bind("all", this.startUpStuff)
 
-            this.bind("all", this.reviewStatus)
+           // this.bind("all", this.reviewStatus)
         },
         startUpStuff: function () {
 

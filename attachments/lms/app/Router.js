@@ -59,7 +59,7 @@ $(function () {
         initialize: function () {
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.routeStartupTasks)
-            this.bind("all", this.reviewStatus)
+           // this.bind("all", this.reviewStatus)
         },
         ReportForm: function (reportId) {
             var report = (reportId) ? new App.Models.CommunityReport({
@@ -404,7 +404,7 @@ $(function () {
 
                     App.$el.children('.body').append('<h1>Resources</h1>')
                      
-                    if(temp=='hagadera' || temp=='dagahaley' || temp=='ifo')
+                    if(temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia')
                      App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
@@ -921,7 +921,7 @@ $(function () {
             App.$el.children('.body').append(feedbackForm.el)
         },
 
-        //***************************************Explore Bell Setup***********************************************************
+        // ***************************************Explore Bell Setup***********************************************************
 
         Explore_Bell_Courses: function () {
             var dfcourses = new App.Models.ExploreBell({
@@ -1319,34 +1319,97 @@ $(function () {
 
         },
         Replicate: function () {
-            var temp = $.url().attr("host").split(".")
-            var communities = new App.Collections.Communities()
-            communities.fetch({
+        
+          App.startActivityIndicator()
+          
+           var that = this
+           var temp = $.url().attr("host").split(".")
+           var currentHost=$.url().attr("host")
+           
+           var nationURL=''
+           var nationName=''
+           var type=''
+    
+    	    var configurations=Backbone.Collection.extend({
+    				url:'http://127.0.0.1:5984/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var config=new configurations()
+    	      config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+        
+    	    
+    	    type=cofigINJSON.rows[0].doc.type
+    	      if(type=='nation')
+    	       {
+    	       	   nationURL='127.0.0.1'
+    	       	   nationName=cofigINJSON.rows[0].doc.name
+    	       }
+    	        else{
+    	     	   	nationURL=cofigINJSON.rows[0].doc.nationUrl
+    	        	nationName=cofigINJSON.rows[0].doc.nationName
+    	       }
+    	    
+
+    
+            $.ajax({
+    			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
+    			//url : 'http://10.10.2.79:5984/communities/_all_docs?include_docs=true',
+    			type : 'GET',
+    			dataType : "jsonp",
+    			success : function(json) {
+    				for(var i=0 ; i<json.rows.length ; i++)
+    				{
+    					var community = json.rows[i]
+    					console.log(community.doc.url)
+    					var communityurl = community.doc.url
+    					var communityname = community.doc.name
+    				//	that.synchCommunityWithURL(communityurl,communityname)
+    				/*	
+    					 $.ajax({
+                        	headers: {
+                            	'Accept': 'application/json',
+                            	'Content-Type': 'application/json; charset=utf-8'
+                        	},
+                        	type: 'POST',
+                        	url: '/_replicate',
+                        	dataType: 'json',
+                        	data: JSON.stringify({
+                           		"source": "resources",
+                            	"target": 'http://' + communityurl + ':5984/resources'
+                        	}),
+                        	success: function (response) {
+                            	console.log(response)
+                            	alert('success')
+                        	},
+                        	async: false
+                    	})
+                    */
+    				}
+    				//that.synchCommunityWithURL(nationURL,nationName)	
+    			}
+  			 })
+  			App.stopActivityIndicator()
+        },
+        synchCommunityWithURL : function(communityurl,communityname) 
+        {
+        	$.ajax({
+            	headers: {
+                	'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+            	type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                	"source": "resources",
+                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources'
+            	}),
+                success: function (response) {
+                	console.log(response)
+                },
                 async: false
             })
-            communities.each(function (m) {
-                if (m.get("name") != "olelocal" && m.get("name") != temp[0]) {
-                    console.log(m.get("name"))
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        type: 'POST',
-                        url: '/_replicate',
-                        dataType: 'json',
-                        data: JSON.stringify({
-                            "source": "resources",
-                            "target": "https://" + m.get("name") + ":oleoleole@" + m.get("name") + ".cloudant.com/resources"
-                        }),
-                        success: function (response) {
-                            console.log(response)
-                        },
-                        async: false
-                    });
-                }
-            })
-
         },
         CompileManifest: function () {
             // The resources we'll need to inject into the manifest file
