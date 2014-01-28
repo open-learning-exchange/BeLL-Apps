@@ -22,7 +22,7 @@ $(function() {
 
     render: function() {
     
-      this.$el.append('<thead><tr><th><h6>Nation Name</h6></th><th><h6>Location</h6></th><th><h6>Communities</h6></th></tr></thead>')
+      this.$el.append('<thead><tr><th>Nation Name</th><th>Location</th><th>Communities</th></tr></thead>')
       this.addAll()
     }
 

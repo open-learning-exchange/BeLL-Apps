@@ -50,19 +50,19 @@ $(function() {
         ContactEmail: {	type:'Text',
        			validators: ['required']
        		  },
-        LeaderFirstname: {	type:'Text',
+        SuperManagerFirstname: {	type:'Text',
        			validators: ['required']
        		  },
-       	LeaderMiddlename: {	type:'Text',
+       	SuperManagerMiddlename: {	type:'Text',
        			validators: ['required']
        		  },	  
-       	LeaderLastname: {	type:'Text',
+       	SuperManagerLastname: {	type:'Text',
        			validators: ['required']
        		  },	  
-       	LeaderPhone: {	type:'Text',
+       	SuperManagerPhone: {	type:'Text',
        			validators: ['required']
        		  },	  
-       	LeaderEmail: {	type:'Text',
+       	SuperManagerEmail: {	type:'Text',
        			validators: ['required']
        		  },	  
        	LeaderId: {	type:'Text',

@@ -95,7 +95,6 @@ $(function () {
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
                 console.log($.url().attr('fragment'))
-
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
                     Backbone.history.stop()
                     App.start()
@@ -110,8 +109,8 @@ $(function () {
             	if(diff<expirationTime)
            		 {
               	  var date=new Date()
-              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
-              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell"})
+              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell"})
            		 }
            	 else{ 
                   this.expireSession()
@@ -342,13 +341,11 @@ $(function () {
     	},
 		expireSession:function(){
     
-        $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
-        $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
-        $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
-        $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member.login',{path:"/apps/_design/bell"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell"})
       
-        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/personal"})
-        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell"})
+       
     
     },
         ResourceForm: function (resourceId) {

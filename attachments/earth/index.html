@@ -129,15 +129,16 @@
     
   </script>
    
+   
+   
    <script type="text/template" id="template-nav-logged-in"> 
    <div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
-  
    
   <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Nations <b class="caret"></b></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Courses <b class="caret"></b></a>
       <ul class="dropdown-menu">
-        <li><a href="#nations"><i class="icon-list"></i> List Nations</a></li>
-        <li><a href="#nation/add"><i class="icon-plus"></i> Add a new Nation</a></li>
+        <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
+        <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
         <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
         <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>-->
       </ul>
@@ -159,26 +160,17 @@
         <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
       </ul>
     </li>
-     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Courses <b class="caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
-        <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
-        <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
-        <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>-->
-      </ul>
-    </li>
 	<li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Publications <b class="caret"></b></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Meetup<b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
       </ul>
     </li>
     <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i>Reports</a>
+      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
     </li>
 	<li> 
-      <a href="#myRequests"><i class="icon-tint icon-white"></i>Send/Receive</a>
+      <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
     </li>
    <!-- <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
@@ -191,10 +183,10 @@
           <a href="#compile/week">Compile Apps and this weeks Assigned Resources for Syncing</a>
         </li>
 
-      </ul>
+      </ul> -->
     </li>
 
- -->
+
     <li> 
       <a href="#logout">
         <i class="icon-plane icon-white"></i> Log out
@@ -220,27 +212,27 @@
     </div>
 	<div id='nationForm-container'>
 
-   			<form id='nationFrom'>
+   			<form id='nationFrom' method="POST" >
              <div id='top-from' style='margin:0 auto'> 
                     <div class='form-field'>
-                         <input placeholder="Name" type="text" id="nation-name" name="nation-name" /><br />
+                         <input placeholder="Name" type="text" id="nation-name" pattern="[a-zA-Z]*" required title="Country Name only contains alphabets" name="nation-name" /><br />
                     </div>
                     <div class='form-field'>
-                         <input placeholder="Url" type="text" id="nation-url" name="nation-url" /><br />
+                         <input placeholder="Url" type="url" id="nation-url" name="nation-url"  required/><br />
                     </div>
              </div>
              <div style='margin-left:3%;'><p style='font-size:17px'>Sponsoring Organization</p></div>
              <div class='middle-from'> 
                     <div class='form-field' >
-                         <input style='width:355px' placeholder="Name" type="text" id="org-name" name="org-name" /><br />
+                         <input style='width:355px' placeholder="Name" required type="text" id="org-name" name="org-name" /><br />
                     </div>
                     <div class='form-field'>
-                        <input style='width:355px;' placeholder="Address" type="text" id="org-sponseraddress" name="org-sponseraddress" /><br />
+                        <input style='width:355px;' required placeholder="Address" type="text" id="org-sponseraddress" name="org-sponseraddress" /><br />
                     </div>
                     <div style='padding-left:2%;'><p style='font-size:17px'>Primary Contact</p></div>
 
                     <div class='form-field'>
-                         <input placeholder="First Name" type="text" id="org-firstname" name="org-firstname" /><br />
+                         <input placeholder="First Name" required type="text" id="org-firstname" name="org-firstname" /><br />
                     </div>
                     <div class='form-field'>
                          <input placeholder="Midlle Name" type="text" id="org-middlename" name="org-middlename" /><br />
@@ -250,10 +242,10 @@
                     </div>
                 <br>
                     <div class='form-field' >
-                         <input style='width:355px' placeholder="Phone" type="text" id="org-phone" name="org-phone" /><br />
+                         <input style='width:355px' placeholder="Phone" type="text" required id="org-phone" name="org-phone" /><br />
                     </div>
                     <div class='form-field' style='width:310px'>
-                        <input style='width:355px;' placeholder="Email" type="text" id="org-email" name="org-email" /><br />
+                        <input style='width:355px;' placeholder="Email" type="email" required id="org-email" name="org-email" /><br />
                     </div>
                 
              </div>
@@ -261,7 +253,7 @@
              <div class='middle-from'> 
 
                     <div class='form-field'>
-                         <input placeholder="First Name" type="text" id="leader-firstname" name="leader-firstname" /><br />
+                         <input placeholder="First Name" type="text" id="leader-firstname" required name="leader-firstname" /><br />
                     </div>
                     <div class='form-field'>
                        <input placeholder="Midlle Name" type="text" id="leader-middlename" name="leader-middlename" /><br />
@@ -271,17 +263,17 @@
                     </div>
                 </br>
                     <div class='form-field' >
-                         <input style='width:355px' placeholder="Phone M" type="text" id="leader-phone" name="leader-phone" /><br />
+                         <input style='width:355px' placeholder="Phone M" type="text" id="leader-phone" required name="leader-phone" /><br />
                     </div>
                     <div class='form-field' style='width:310px'>
-                         <input style='width:355px;' placeholder="Email" type="text" id="leader-email" name="leader-email" /><br />
+                         <input style='width:355px;' placeholder="Email" type="email" id="leader-email" name="leader-email" /><br />
                     </div>
                  <br>
                     <div class='form-field' >
-                        <input style='width:355px' placeholder="ID" type="text" id="leader-ID" name="leader-ID" /><br />
+                        <input style='width:355px' placeholder="ID" type="text" id="leader-ID" required name="leader-ID" /><br />
                     </div>
                     <div class='form-field' style='width:310px'>
-                        <input style='width:355px;' placeholder="Password" type="text" id="leader-password" name="leader-password" /><br />
+                        <input style='width:355px;' placeholder="Password" type="text" id="leader-password" name="leader-password" pattern="[A-Za-z]{5,}" title="Atleast five letters" /><br />
                     </div>   
                 
              </div>
@@ -295,21 +287,22 @@
                   </div>
               <div id='urgent-from'> 
                     <div class='form-field'>
-                        <input placeholder="Name" type="text" id="urg-name" name="urg-name" /><br />
+                        <input placeholder="Name" required type="text" id="urg-name" name="urg-name" /><br />
                     </div>
                     <div class='form-field'>
-                         <input placeholder="Url" type="text" id="urg-phone" name="urg-phone" /><br />
+                         <input placeholder="Url" type="url" required id="urg-phone" name="urg-phone" /><br />
                     </div>
              </div>
               <div style='margin-left:3%'><p style='font-size:17px'>Authorized By</p></div>
               <div id='Authorized-from' style='background-color:#eee'>
                     <div class='form-field'>
-                         <input placeholder="Name" type="text" id="auth-name" name="auth-name" /><br />
+                         <input placeholder="Name" type="text" required id="auth-name" name="auth-name" /><br />
                     </div>
                     <div class='form-field'>
                         <input placeholder="Date" type="date" id="auth-date" name="auth-date" /><br />
                     </div>
              </div>
+             
          </form>
        </div>
    </script>  

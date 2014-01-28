@@ -79,6 +79,7 @@ $(function () {
                         roles = roles + ",&nbsp;"
                     }
                     roles = roles + "Manager"
+                    roles='<a href="../nation/index.html#dashboard">' + roles + '</a>'
                 }
                 $('.visits').html(temp)
                 $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')

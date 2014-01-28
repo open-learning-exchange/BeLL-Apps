@@ -4,37 +4,54 @@
     <head>
   <meta charset="utf-8">
   
+    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   
-  <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
     <link rel="stylesheet" href="app/style.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
   
   <title>Nation Bell</title>
+
+
+  <link rel="stylesheet" href="app/app.css"/>
+  <link rel="stylesheet" href="app/flat-ui.css"/>
+  <link rel="stylesheet" href="app/navStyle.css"/>
+  <link rel="stylesheet" href="vendor/chosen.css"/>
+  <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
   
-   <!--DEPENDENCIES-->
-  	<script src="vendor/jquery-1.7.2.js"></script>
-  	<script src="vendor/jquery-ui.js"></script>
-  	<script src="vendor/badger.js"></script>
-  	<script src="vendor/jquery.cookie.js"></script>
-  	<script src="vendor/pouchdb-nightly.js"></script>
-  	<script src="vendor/underscore-1.4.4.js"></script>
-  	<script src="vendor/backbone-1.0.0.js"></script>
-  	<script src="vendor/backbone-forms.js"></script>
-  	<script src="vendor/backbone-pouch.js"></script>
-  	<script src="vendor/jquery.form.js"></script>
-  	<script src="vendor/sha1.js"></script>
-  	<script src="vendor/jquery.couch.js"></script>
-  	<script src="vendor/backbone.couchdb.js"></script>
-  	<script src="vendor/html-encode.js"></script>
-  	<script src="vendor/jquery.url.js"></script>
-  	<script src="vendor/moment.min.js"></script>
-  	<script src="vendor/bootstrap/js/bootstrap.js"></script>
-  	<script src="vendor/jquery.raty.js"></script>
-  	<script src="vendor/jquery-ui.custom.min.js"></script>
-  	<script src="vendor/fullcalendar.min.js"></script>
+  
+ 
+  <!--
+    DEPENDENCIES
+  -->
+	<script src="vendor/Spin.js"></script>
+  <script src="vendor/jquery-1.7.2.js"></script>
+  <script src="vendor/spectrum.js"></script>
+  <script src="vendor/underscore-1.4.4.js"></script>
+  <script src="vendor/backbone-1.0.0.js"></script>
+  <script src="vendor/backbone-forms.js"></script>
+  <script src="/_utils/script/json2.js"></script>
+  <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
+  <!--<script src="/_utils/script/jquery.form.js?0.9.0"></script> -->
+  <script src="vendor/jquery.form.js"></script>
+  <script src="vendor/sha1.js"></script>
+  <script src="vendor/moment.min.js"></script>
+  <script src="vendor/jquery.couch.js"></script>
+  <script src="vendor/jquery.cookie.js"></script>
+  <script src="vendor/backbone.couchdb.js"></script>
+  <script src="vendor/html-encode.js"></script>
+  <script src="vendor/jquery.url.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="vendor/jquery.raty.js"></script>
+  <script src="vendor/raphael.js"></script>
+  <script src="vendor/morris.js"></script>
+  <script src="vendor/jquery.timepicker.js"></script>
+  <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
+  <script src="vendor/jquery-ui.multidatespicker.js"></script>
+ <script src="jquery.popupoverlay.js"></script>
+
   
       <!-- -->
   
@@ -49,7 +66,10 @@
     
      <script src="app/models/Community.js"></script>
      <script src="app/models/Credentials.js"></script>
+     <script src="app/models/Member.js"></script>
+      <!-- Collections  -->
      <script src="app/collections/Community.js"></script>
+     <script src="app/collections/MailUnopened.js"></script>
      
      <!-- Views  -->
      
@@ -62,6 +82,7 @@
     
      <script src="app/views/CommunitiesTable.js"></script>
      <script src="app/views/CommunityRow.js"></script>
+    <script src="app/views/Dashboard.js"></script>
     
   	<script src="app/Router.js"></script>
   	
@@ -77,7 +98,7 @@
           				<span></span>
           		 </div>
           		 <div class='login-input'>
-          		        <input placeholder='Password' id='password' 'type='text'/>
+          		        <input placeholder='Password' id='password' type='text'/>
           				<span></span>
           		 </div>
           		 <div class='login-input' style='padding-top:20px' id='submit-button'>
@@ -89,6 +110,7 @@
      
     <script type="text/template" id="template-app">  
        <div class="takeQuizDiv" id="tQuizDiv"></div>
+        <div id="popup-spinning"></div>
        <div class="navbar navbar-inverse" id="top-nav">
      	 <div class="navbar-header">
      	 	<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
@@ -98,6 +120,7 @@
       </div>
 	
       <!-- Body -->
+      
       <div class="container body" id="main-body">
          <!-- Content -->
       </div>
@@ -107,7 +130,7 @@
    <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#login">
-      Personal BeLL - v1.0.0
+      Personal BeLL - v1.0.7
       </a>
     </li>
     <li> 
@@ -137,30 +160,197 @@
    
    
    <script type="text/template" id="template-nav-logged-in"> 
+    
     <li> 
-      <a href="#listNations">
-        <i class="fui-list"></i> List Nations
+      <a href="#listCommunity">
+         Communities
+      </a>
+    </li> 
+    <li> 
+      <a href="#">
+        Publications
+      </a>
+    </li> 
+<li> 
+      <a href="#">
+        Requests
+      </a>
+    </li> 
+<li> 
+      <a href="#">
+        Databases
+      </a>
+    </li> 
+<li> 
+      <a href="#">
+        Reports
+      </a>
+    </li> 
+<li> 
+      <a href="#">
+        Feedback
+      </a>
+    </li> 
+	<li> 
+      <a href="../personal/index.html#dashboard">
+        Dashboard
       </a>
     </li> 
 
-	<li> 
-	<div id="badge" style="position:relative;padding:10px; ">
-      <a href="#addNation">
-        <i class="fui-chat"></i> <b>Add Nation&nbsp&nbsp&nbsp</b>
-      </a>
-      </div>
-    </li>
-    
-     <li  style="float:right;"> 
-      <a href= "#logout">
-        <i class="fui-cmd"></i> Logout
-      </a>
-    </li>
-
+  </script>
+   <script type="text/html" id="template-Dashboard">
+    <div id="dashboard">
+		<table class="header-table" >
+			<tr class="imageRow">
+			 <td rowspan="2" class="imageData">
+				<!--	<img id="header-image" src="img/header_slice.png" /> -->
+		 			<img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:60px;"/>
+			 </td>
+			</tr>
+			<tr>
+			 <td class="left">
+					<div class="bellLocation"></div>
+					<div class="name"></div>
+					<div class="visits">  </div>
+			 </td>
+			 <td class="right">	
+					<div class="now" ></div>
+			 </td>	
+			</tr>
+		</table>	
+		<table class="table">
+		<tr>
+		<td>
+		<table class="table" id="communities">
+		<th >Recentlay Added Communities</th>
+		
+		</table>
+		</td>
+		<td >
+		<table class="table table-striped">
+		<th>New Issues of Publications</th>
+		<tr>
+		<td>
+		Publication 1
+		</td>
+		</tr>
+		<tr>
+		<td>
+		Publication 2
+		</td>
+		</tr>
+		<tr>
+		<td>
+		Publication 3
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<button class="btn btn-default" id="clickmore" >Click for more</button>
+		</td>
+		</tr>
+		</table>
+		</td>
+		<td>
+		<table class="table table-striped">
+		<th>List of Pending Requests</th>
+		<tr>
+		<td>
+		Request 1
+		</td>
+		</tr>
+		<tr>
+		<td>
+		Request 2
+		</td>
+		</tr>
+		<tr>
+		<td>
+		Request 3
+		</td>
+		</tr>
+		
+		<tr>
+		<td>
+		<button class="btn btn-default" id="clickmore">Click for more</button>
+		</td>
+		</tr>
+		</table>
+		</td>
+		<td>
+		<table class="table table-striped">
+		<th>Latest Updated Databases</th>
+		<tr >
+		<td>
+		Database 1
+		</td>
+		</tr>
+		<tr >
+		<td>
+		Database 2
+		</td>
+		</tr>
+		<tr >
+		<td>
+		Database 3
+		</td>
+		</tr>
+		
+		<tr>
+		<td>
+		<button class="btn btn-default" id="clickmore">Click for more</button>
+		</td>
+		</tr>
+		</table>
+		</td>
+		<td>
+		<table class="table">
+		<th> Recent Added Reports </th>
+		<tr class="warning">
+		<td >
+		Report 1
+		</td>
+		</tr>
+		<tr class="warning">
+		<td>
+		Report 2
+		</td>
+		</tr>
+		<tr class="warning">
+		<td>
+		Report 3
+		</td>
+		</tr>
+		
+		<tr>
+		<td>
+		<button class="btn btn-default" id="clickmore">Click for more</button>
+		</td>
+		</tr>
+		</table>
+		
+		</td>
+		</tr>
+		</table>
+      
+		<table class="page-bottom-navtable">
+			<tr>
+			
+				<td><button class="btn btn-hg btn-primary">Badges</button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'">Email(<%=mails%>)</button></td>
+				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
+				<!-- <td></td> -->
+				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
+			</tr>
+			</table> 
+		</div>
+            </div>
   </script>
   
  
-   <script type="text/template" id="template-addNation">
+   <script type="text/template" id="template-addCommunity">
    <div id='addNation-heading'>
       <p>
        <p class='heading'> <a href=''>Nation Bell</a>  |   <a href=''>Add Community</a>    </p>
@@ -168,27 +358,27 @@
     </div>
 	<div id='nationForm-container'>
 
-   			<form id='nationFrom'>
+   			<form id='communityFrom' autocomplete="on" id="addCommunity" onSubmit="">
              <div id='top-from' style='margin:0 auto'> 
                     <div class='form-field'>
-                         <input placeholder="Name" type="text" id="nation-name" pattern="[A-Za-z][A-Za-z]*" title="Required field and don't contain numbers" name="nation-name" /><br />
+                         <input placeholder="Name" type="text" id="nation-name" Required pattern="[A-Za-z][A-Za-z]*" title="Required field and don't contain numbers" name="nation-name" /><br />
                     </div>
                     <div class='form-field'>
-                         <input placeholder="Url" type="text" id="nation-url" name="nation-url" /><br />
+                         <input placeholder="Url" type="url" id="nation-url" Required name="nation-url" /><br />
                     </div>
              </div>
              <div style='margin-left:3%;'><p style='font-size:17px'>Sponsoring Organization</p></div>
              <div class='middle-from'> 
                     <div class='form-field' >
-                         <input style='width:335px' placeholder="Name" type="text" id="org-name" name="org-name" /><br />
+                         <input style='width:335px' placeholder="Name" type="text" Required id="org-name" name="org-name" /><br />
                     </div>
                     <div class='form-field' style='width:330px'>
-                        <input style='width:335px;' placeholder="Address" type="text" id="org-sponseraddress" name="org-sponseraddress" /><br />
+                        <input style='width:335px;' placeholder="Address" type="text" Required id="org-sponseraddress" name="org-sponseraddress" /><br />
                     </div>
                     <div style='padding-left:2%;'><p style='font-size:17px'>Primary Contact</p></div>
 
                     <div class='form-field'>
-                         <input placeholder="First Name" type="text" id="org-firstname" name="org-firstname" /><br />
+                         <input placeholder="First Name" type="text" id="org-firstname" Required name="org-firstname" /><br />
                     </div>
                     <div class='form-field'>
                          <input placeholder="Midlle Name" type="text" id="org-middlename" name="org-middlename" /><br />
@@ -198,18 +388,18 @@
                     </div>
                 <br>
                     <div class='form-field' >
-                         <input style='width:335px' placeholder="Phone" type="text" id="org-phone" name="org-phone" /><br />
+                         <input style='width:335px' placeholder="Phone" type="text" Required id="org-phone" name="org-phone" /><br />
                     </div>
                     <div class='form-field' style='width:310px'>
-                        <input style='width:335px;' placeholder="Email" type="text" id="org-email" name="org-email" /><br />
+                        <input style='width:335px;' placeholder="Email" type="email" Required id="org-email" name="org-email" /><br />
                     </div>
                 
              </div>
-             <div style='margin-left:3%'><p style='font-size:17px'>Bell Leader</p></div>
+             <div style='margin-left:3%'><p style='font-size:17px'>Bell Manager</p></div>
              <div class='middle-from'> 
 
                     <div class='form-field'>
-                         <input placeholder="First Name" type="text" id="leader-firstname" name="leader-firstname" /><br />
+                         <input placeholder="First Name" type="text" Required id="leader-firstname" name="leader-firstname" /><br />
                     </div>
                     <div class='form-field'>
                        <input placeholder="Midlle Name" type="text" id="leader-middlename" name="leader-middlename" /><br />
@@ -219,24 +409,24 @@
                     </div>
                 </br>
                     <div class='form-field' >
-                         <input style='width:335px' placeholder="Phone M" type="text" id="leader-phone" name="leader-phone" /><br />
+                         <input style='width:335px' placeholder="Phone M" type="text" required id="leader-phone" name="leader-phone" /><br />
                     </div>
                     <div class='form-field' style='width:310px'>
-                         <input style='width:335px;' placeholder="Email" type="text" id="leader-email" name="leader-email" /><br />
+                         <input style='width:335px;' placeholder="Email" type="email" Required id="leader-email" name="leader-email" /><br />
                     </div>
                  <br>
                     <div class='form-field' >
-                        <input style='width:335px' placeholder="ID" type="text" id="leader-ID" name="leader-ID" /><br />
+                        <input style='width:335px' placeholder="ID" type="text" Required id="leader-ID" name="leader-ID" /><br />
                     </div>
                     <div class='form-field' style='width:310px'>
-                        <input style='width:335px;' placeholder="Password" type="text" id="leader-password" name="leader-password" /><br />
+                        <input style='width:335px;' placeholder="Password" Required type="text" id="leader-password" name="leader-password" /><br />
                     </div>   
                 
              </div>
              <div style='margin-left:3%;color:#C20712'><p style='font-size:17px'>Urgent Contact</p></div>
               <div id='urgent-from'> 
                     <div class='form-field'>
-                        <input placeholder="Name" type="text" id="urg-name" name="urg-name" /><br />
+                        <input placeholder="Name" type="text" Required id="urg-name" name="urg-name" /><br />
                     </div>
                     <div class='form-field'>
                          <input placeholder="Url" type="text" id="urg-phone" name="urg-phone" /><br />
@@ -251,7 +441,8 @@
                         <input placeholder="Date" type="date" id="auth-date" name="auth-date" /><br />
                     </div>
              </div>
-         </form>
+            <div class="submit-button"><button class="addNation-btn btn btn-success" id="formButton">Save!</button></div>
+      	 </form>
        </div>
    </script>  
 

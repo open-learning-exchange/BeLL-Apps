@@ -48,23 +48,13 @@ $(function () {
                             memvisits.once('sync', function () {
                                 var date = new Date();
                                 $.cookie('Member.login', response.rows[0].doc.login, {
-                                    path: "/apps/_design/bell/lms"
+                                    path: "/apps/_design/bell"
                                 })
                                 $.cookie('Member._id', response.rows[0].doc._id, {
-                                    path: "/apps/_design/bell/lms"
-                                })
-                                $.cookie('Member.login', response.rows[0].doc.login, {
-                                    path: "/apps/_design/bell/personal"
-                                })
-                                $.cookie('Member._id', response.rows[0].doc._id, {
-                                    path: "/apps/_design/bell/personal"
-                                })
-
-                                $.cookie('Member.expTime', date, {
-                                    path: "/apps/_design/bell/lms"
+                                    path: "/apps/_design/bell"
                                 })
                                 $.cookie('Member.expTime', date, {
-                                    path: "/apps/_design/bell/personal"
+                                    path: "/apps/_design/bell"
                                 })
 
                                 if ($.inArray('student', response.rows[0].doc.roles) != -1) {
