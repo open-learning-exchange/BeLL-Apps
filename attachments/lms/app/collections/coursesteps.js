@@ -3,8 +3,14 @@ $(function() {
   App.Collections.coursesteps = Backbone.Collection.extend({
 
     url: function() {
-      var url = App.Server + '/coursestep/_design/bell/_view/StepsData?key="' + this.courseId + '"&include_docs=true'
-      return url
+   	  if(this.getAll)
+   	  {
+   	  	return App.Server + '/coursestep/_all_docs?include_docs=true'
+   	  }
+      else
+      {
+      	return  App.Server + '/coursestep/_design/bell/_view/StepsData?key="' + this.courseId + '"&include_docs=true'
+      }
     },
 
     parse: function(response) {

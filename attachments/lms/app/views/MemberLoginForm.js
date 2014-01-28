@@ -28,8 +28,8 @@ $(function () {
             event.preventDefault()
             this.setForm()
         },
-
-        setForm: function () {
+		setForm: function () {
+        	
             var memberLoginForm = this
             this.form.commit()
             var credentials = this.form.model

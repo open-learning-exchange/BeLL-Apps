@@ -105,7 +105,7 @@
 		else{
 			App.wheel.spin(target)
 		}
-		document.getElementById('cont').style.visibility='hidden'
+		//document.getElementById('cont').style.visibility='hidden'
 	},
 	stopActivityIndicator:function(){
 	    window.setTimeout(function(){
