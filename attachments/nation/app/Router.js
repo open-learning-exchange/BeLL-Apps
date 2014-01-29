@@ -7,14 +7,16 @@ $(function(){
 	  		 'login'                : 'MemberLogin',
 	  		 'logout'               : 'MemberLogout',
 	  		 'listCommunity'          : 'ListCommunity',
+	  		 'siteFeedback': 'viewAllFeedback',
 	  		  'dashboard': 'Dashboard',
+	  		  'request': 'earthRequest',
+	  		  'commrequest': 'commRequest',
 	  	}, 
 	  	
 	initialize: function() {
     		  this.bind("all", this.checkLoggedIn)
     		 this.bind( "all", this.renderNav )
 		},
-		
 	renderNav: function(){
    		 if($.cookie('Member._id')){
          var na=new App.Views.navBarView({isLoggedIn:'1'})
@@ -72,6 +74,22 @@ $(function(){
 	  			
       			this.modelForm('Community', CommunityId, 'login')
     	},
+    	 viewAllFeedback: function () {
+            var fed = new App.Collections.siteFeedbacks()
+            fed.fetch({
+                async: false
+            })
+            console.log(fed.toJSON())
+            feedul = new App.Views.siteFeedbackPage({
+                collection: fed
+            })
+            feedul.render()
+            $('#see-all', feedul.$el).trigger("click");
+            App.$el.children('.body').html('&nbsp')
+            App.$el.children('.body').append(feedul.el)
+            $("#previousButton").hide()
+              $("#progress_img").hide()
+        },
 	modelForm:function(className, modelId, reroute){
 	  				
            // Set up
@@ -159,7 +177,22 @@ MemberLogout: function() {
     
 		App.stopActivityIndicator()		 
 			 
-    }
+    },
+    earthRequest:function(){
+		var listReq="<div id='listRequest-head'> <p class='heading'> <a href='#' style='color:#1ABC9C'>Earth Request</a>  |   <a href='#commrequest'>Communities Request</a> </p> </div>"
+        
+            listReq+="<div style='width:940px;margin:0 auto' id='listReq'></div>"
+    
+        App.$el.children('.body').html(listReq)
+    	},
+		commRequest:function(){
+		var listReq="<div id='listRequest-head'> <p class='heading'> <a href='#request' >Earth Request</a>  |   <a href='#commrequest' style='color:#1ABC9C'>Communities Request</a> </p> </div>"
+        
+            listReq+="<div style='width:940px;margin:0 auto' id='listReq'></div>"
+    
+        App.$el.children('.body').html(listReq)
+    
+		},
     
 	}))
 	 

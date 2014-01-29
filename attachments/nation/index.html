@@ -67,9 +67,12 @@
      <script src="app/models/Community.js"></script>
      <script src="app/models/Credentials.js"></script>
      <script src="app/models/Member.js"></script>
+     <script src="app/models/report.js"></script>
+     
       <!-- Collections  -->
      <script src="app/collections/Community.js"></script>
      <script src="app/collections/MailUnopened.js"></script>
+     <script src="app/collections/siteFeedbacks.js"></script>
      
      <!-- Views  -->
      
@@ -77,16 +80,32 @@
      <script src="app/views/CommunityForm.js"></script>
      <script src="app/views/navBarView.js"></script>
      <script src="app/views/MemberLoginForm.js"></script>
-     
-   <!-- Views  -->
-    
      <script src="app/views/CommunitiesTable.js"></script>
      <script src="app/views/CommunityRow.js"></script>
-    <script src="app/views/Dashboard.js"></script>
+    <script src="app/views/Dashboard.js"></script> 
+    <script src="app/views/siteFeedback.js"></script>
+    <script src="app/views/siteFeedbackPage.js"></script>
+    <script src="app/views/siteFeedbackPageRow.js"></script>
     
   	<script src="app/Router.js"></script>
   	
-  	
+  	<script>
+  	 var limitofRecords = 5;
+  	 var skip = 0;
+  	 var skipStack = new Array();
+  	 url="unknown";
+  	function showFeedbackForm(){
+	  App.renderFeedback()
+		if(document.getElementById('site-feedback').style.visibility!='visible'){
+		$('#site-feedback').animate({height:'320px'})
+		document.getElementById('site-feedback').style.visibility='visible'
+		}
+		else{
+		$('#site-feedback').animate({height:'toggle'})
+		}
+		}
+
+  	</script>
     <!--templates -->
     <script type='text/template' id='template-login'>
     <p style='text-align:center;font-size:27px'>Welcome to Nation Bell <br> The Billion Kids' Basic e-Learning Library</p>
@@ -151,7 +170,7 @@
     
     <li  style="float:right;"> 
       <a onclick = "showFeedbackForm()">
-        <i class="fui-cmd"></i> Feedback
+        Feedback
       </a>
     </li>
     
@@ -172,7 +191,7 @@
       </a>
     </li> 
 <li> 
-      <a href="#">
+      <a href="#request">
         Requests
       </a>
     </li> 
@@ -187,7 +206,7 @@
       </a>
     </li> 
 <li> 
-      <a href="#">
+      <a onclick = "showFeedbackForm()">
         Feedback
       </a>
     </li> 
@@ -221,8 +240,8 @@
 		<table class="table">
 		<tr>
 		<td>
-		<table class="table" id="communities">
-		<th >Recentlay Added Communities</th>
+		<table class="table table-striped" id="communities">
+		<th >Recently Added Communities</th>
 		
 		</table>
 		</td>
@@ -272,7 +291,7 @@
 		
 		<tr>
 		<td>
-		<button class="btn btn-default" id="clickmore">Click for more</button>
+		<button class="btn btn-default" id="clickmore" onclick = "document.location.href='#request'">Click for more</button>
 		</td>
 		</tr>
 		</table>
@@ -304,7 +323,7 @@
 		</table>
 		</td>
 		<td>
-		<table class="table">
+		<table class="table table-striped">
 		<th> Recent Added Reports </th>
 		<tr class="warning">
 		<td >
@@ -337,9 +356,9 @@
 			<tr>
 			
 				<td><button class="btn btn-hg btn-primary">Badges</button></td>
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
-				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'">Email(<%=mails%>)</button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#newsfeed'">News Feed</button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='../personal/index.html#calendar'">Calender</button></td> 
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#mail'">Email(<%=mails%>)</button></td>
 				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
 				<!-- <td></td> -->
 				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
@@ -445,7 +464,24 @@
       	 </form>
        </div>
    </script>  
-
+<script type="text/html" id="template-siteReviewRownoAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
+  
+    
+   <script type="text/html" id="template-siteReviewRowAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
 
     
     <-- End Of templates -->
