@@ -1,12 +1,12 @@
 $(function() {
 
-  App.Views.GroupSpan = Backbone.View.extend({
+  App.Views.TutorSpan = Backbone.View.extend({
 
     tagName: "td",
 
-    className: 'shelf-box',
+    className: 'tutor-box',
 
-    template : $("#template-ShelfSpan").html(),
+    template : $("#template-Tutor").html(),
 
     render: function () {
       

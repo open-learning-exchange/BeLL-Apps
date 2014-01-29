@@ -1,9 +1,9 @@
 .table-striped{
 	
 	text-align:center;
-	 width:550px;
+	width:550px;
   	font:verdana;
-  		margin-left: 5%;
+  	margin-left: 5%;
 	width: 90%;
 	margin-right: 5%;
 	border-collapse: collapse;
@@ -14,14 +14,14 @@
 }
 
 .table-striped td{
-	font-size:21px;
+	font-size:14px;
 	color : 00235E;
 	border-left: 1px solid #000;
 	border-right: 1px solid #000;
 	word-wrap: break-word;
 }
 .table-striped tr{
-	line-height: 52px;
+	line-height: 30px;
 }
 .table-striped a{
 	background: #1ABC9C;

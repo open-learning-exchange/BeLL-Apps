@@ -14,7 +14,7 @@ $(function() {
     },
   addOne: function(model){
       var resourceRowView = new App.Views.ResourceRow({model: model,admin:this.isAdmin})
-      resourceRowView.isadmin = this.isadmin
+      resourceRowView.isManager = this.isManager
       resourceRowView.render()  
       this.$el.append(resourceRowView.el)
     },

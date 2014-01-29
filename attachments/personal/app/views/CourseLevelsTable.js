@@ -10,17 +10,17 @@ $(function () {
             "click #resourseOpened": function (e) {
                 resid = e.target.attributes.rid.nodeValue
                  var member = new App.Models.Member({
-                                _id: $.cookie('Member._id')
-                            })
-                            member.fetch({
-                                async: false
-                            })
-                            var pending=[]
-                           pending= member.get("pendingReviews")
-                           pending.push(resid)
-                		   member.set("pendingReviews",pending)
-                		   member.save()
-                	console.log(member.get("pendingReviews"))     
+                 	_id: $.cookie('Member._id')
+                 })
+                 member.fetch({
+                     async: false
+                 })
+                 var pending=[]
+                pending= member.get("pendingReviews")
+                pending.push(resid)
+     		   	member.set("pendingReviews",pending)
+     		   	member.save()
+                console.log(member.get("pendingReviews"))     
                 ratingModel = new App.Models.Feedback()
                 ratingModel.set('resourceId', resid)
                 ratingModel.set('memberId', $.cookie('Member._id'))
@@ -37,7 +37,7 @@ $(function () {
                 $('#externalDiv').append(ratingView.el)
                 $('#externalDiv').show()
 
-            }
+            },
         },
 
         quiz: function (e) {
@@ -114,7 +114,9 @@ $(function () {
                 }
             }
         },
-        render: function () {
+        
+        render: function () {        	
+        
             if (this.collection.length < 1) {
                 this.$el.append('<p style="font-weight:900;">No data related to selected course found</p>')
             } else {
