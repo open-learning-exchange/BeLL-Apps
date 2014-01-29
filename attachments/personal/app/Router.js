@@ -46,7 +46,7 @@ $(function () {
         },
         startUpStuff: function () {
 
-            this.checkLoggedIn
+            console.log(this.checkLoggedIn)
             this.renderNav
             if (App.idss.length == 0) {}
             $('div.takeQuizDiv').hide()
@@ -200,10 +200,10 @@ $(function () {
                 if (diff < expirationTime) {
                     var date = new Date()
                     $.cookie('Member.expTime', date, {
-                        path: "/apps/_design/bell/lms"
+                        path: "/apps/_design/bell"
                     })
                     $.cookie('Member.expTime', date, {
-                        path: "/apps/_design/bell/personal"
+                        path: "/apps/_design/bell"
                     })
                 } else {
                     this.expireSession()
@@ -333,7 +333,7 @@ $(function () {
             $.ajax({
                 type: 'GET',
                 url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="' + $.cookie('Member._id') + '"',
-                dataType: 'json',
+                dataType: 'json', 
                 success: function (response) {
                     for (var i = 0; i < response.rows.length; i++) {
                         App.ShelfItems[response.rows[i].doc.resourceId] = [response.rows[i].doc.resourceTitle + "+" + response.rows[i].doc._id]
@@ -385,23 +385,14 @@ $(function () {
         expireSession: function () {
 
             $.removeCookie('Member.login', {
-                path: "/apps/_design/bell/lms"
+                path: "/apps/_design/bell"
             })
             $.removeCookie('Member._id', {
-                path: "/apps/_design/bell/lms"
+                path: "/apps/_design/bell"
             })
-            $.removeCookie('Member.login', {
-                path: "/apps/_design/bell/personal"
-            })
-            $.removeCookie('Member._id', {
-                path: "/apps/_design/bell/personal"
-            })
-
+            
             $.removeCookie('Member.expTime', {
-                path: "/apps/_design/bell/personal"
-            })
-            $.removeCookie('Member.expTime', {
-                path: "/apps/_design/bell/lms"
+                path: "/apps/_design/bell"
             })
 
         },

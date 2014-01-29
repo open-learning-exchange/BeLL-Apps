@@ -22,7 +22,7 @@ $(function() {
 
     render: function() {
     
-      this.$el.append('<thead><tr><th><h6>Community Name</h6></th></tr></thead>')
+     this.$el.append('<tr><th>Community-Name</th><th>#Members</th><th colspan="2">Actions</th></tr>')
       this.addAll()
     }
 

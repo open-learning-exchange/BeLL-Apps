@@ -16,7 +16,7 @@ body{
 	color: white;
 	text-decoration: none;
 }
-#addNation-heading,#listnation-head{
+#addNation-heading{
    width: 940px;
    margin: 0 auto;
    height:60px;

@@ -226,6 +226,59 @@ function showComposePopup()
     });
 	$('#emailCompose').popup('show');
 }
+function HandleBrowseClick()
+{
+
+    var fileinput = document.getElementById("_attachments");
+    fileinput.click();
+}
+function FieSelected()
+{
+	var courseId = document.getElementById("courseId").value;
+	var stepTitle = document.getElementById("stepTitle").value;
+	var courseModel = new App.Models.Group()
+    courseModel.set('_id', courseId)
+    courseModel.fetch({
+    	async: false
+    })
+    if(!courseModel.get("courseLeader"))
+    {
+    	return
+    }
+	var img = $('input[type="file"]')
+	var extension = img.val().split('.')
+	if(img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt'
+			&& extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' 
+				&& extension[(extension.length - 1)] != 'png')
+	{
+		alert("Invalid attatchment.")
+	}
+	var currentdate = new Date();
+	var mail = new App.Models.Mail();
+	mail.set("senderId",$.cookie('Member._id'));
+	mail.set("receiverId",courseModel.get("courseLeader"));
+	mail.set("subject","Assignment | " + courseModel.get("name"));
+	mail.set("body",stepTitle);
+	mail.set("status","0");
+	mail.set("type","mail");
+	mail.set("sentDate",currentdate);
+	mail.save(null, {
+        	success: function () {   	
+            	mail.unset('_attachments')
+                if ($('input[type="file"]').val()) {
+                	mail.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
+               	} 
+               	else {
+               		////no attachment
+                }
+                mail.on('savedAttachment', function () {
+                	/////Attatchment successfully saved
+                	alert("Assignement successfully submitted.")
+                }, mail)
+                	
+        }
+	})
+}
 function sendMail()
 {
 	var rec = $("#recipients").val()
@@ -235,6 +288,9 @@ function sendMail()
 
 	var subject = $("#subject").val();
 	var mailBody = $("textarea#mailbodytexarea").val();
+	var img = $('input[type="file"]')
+	var extension = img.val().split('.')
+	//alert(img + ' ' + extension)
 	if(rec=="" )
 	{
 		alert("Please enter recipient.");
@@ -246,6 +302,12 @@ function sendMail()
 	else if(mailBody=="")
 	{
 		alert("Please enter message.");
+	}
+	else if(img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt'
+			&& extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' 
+				&& extension[(extension.length - 1)] != 'png')
+	{
+		alert("Invalid attatchment.")
 	}
 	else
 	{
@@ -284,12 +346,34 @@ function sendSingleMail(mailId,mailBody,subject,mailingList)
       			//console.log(mail)
       			mail.save();
       			$('#emailCompose').popup('hide');
+      			
+      			mail.save(null, {
+                	success: function () {   	
+                    	mail.unset('_attachments')
+                        if ($('input[type="file"]').val()) {
+                        	mail.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
+                       	} 
+                       	else {
+                       		////no attachment
+                        }
+                        mail.on('savedAttachment', function () {
+                        	/////Attatchment successfully saved
+                        }, mail)
+                        	
+                }
+     		})
+      		alert("Mail successfully send.")
+      		$('#emailCompose').popup('hide');
+      		
       		}
       		else
       		{
       			alert("Invalid mail address")
       		}
+
 		});
+		
+	}
 
 }
 function getScheduleDatesForCourse(startDate,endDate,days)
@@ -544,7 +628,7 @@ $(window).scroll(function () {
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#login">
-      DashBoard - v1.0.6
+      DashBoard - v1.0.7
       </a>
     </li>
  
@@ -635,6 +719,15 @@ $(window).scroll(function () {
                                                 <%}else{%>
                                                   <button class='btn btn-disabled'>Take Quiz</button>
                                                 <%}%>
+                                    <div class="mailsubject">
+                                    	<form method="post" id="fileAttachment">
+	                                    	<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected()" /> 
+	                                    	<input class="rev" type="hidden" name="_rev">
+	                                    	<input type="hidden" value=<%=courseId%> id="courseId">
+	                                    	<input type="hidden" value=<%=title%> id="stepTitle">
+	                                    	<input class='btn btn-primary' type="button" value="Upload Paper" id="fakeBrowse" onclick="HandleBrowseClick()" style="position: absolute;margin-top: -37px;" />
+                                    	</form>
+                                    </div>
 					
 				</td>
 				
@@ -852,7 +945,21 @@ $(window).scroll(function () {
 		</div>
 		<table id="inbox_mails" ></table>
 		
-	
+
+		<!-- popup window for compose message -->
+<div id="emailCompose" class="well" style="display: none;">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	 <!--<div class="mailsubject"><form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form></div> -->
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+
+</div>
 
 	
 		
@@ -861,7 +968,7 @@ $(window).scroll(function () {
 
 <div style="margin-left:10%">	
 	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
-		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()" id="replyMailButton">Reply</button></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button><% if(isAttachment==1){ %>&nbsp;&nbsp<a role='button' class='btn btn-primary' href=<%= attchmentURL %> target="_blank">Attachment</a><%}%></div>
 		<br/>
 		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"></span></b></span>
 

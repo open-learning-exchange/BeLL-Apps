@@ -59,7 +59,8 @@ $(function() {
        	
 	   
       	var that = this
-      	var $button = $('<div class="submit-button"><a class="addNation-btn btn btn-success" id="formButton">'+buttonText+'</button></div>')
+      	var $button = $('<button class="addNation-btn btn btn-success" id="formButton">'+buttonText+'</button>')
+      	$('#nationFrom').html($('#nationFrom') + $button)
       	this.$el.append($button)
    
     },
@@ -87,23 +88,21 @@ $(function() {
           		 AuthName:$('#auth-name').val(),
           		 AuthDate:$('#auth-date').val(),
           });
-          //console.log(this.form);
-          
+          console.log(this.form);
+           
           console.log(this.model.commit)
-    
-    	 // if(this.form.validate()==null){
-                 
-              //   this.model.save();
-                 //if(this.form.commit())
-                // alert('validate');
-                 
-       			// console.log(this.model.toJSON())
-          this.model.save()
-           Backbone.history.navigate('nations', {trigger: true})
-       		//}
-       		// else{
-//        		alert('not validate');
-//        		
+          this.model.save(null, {
+    success: function (model, response) {
+        console.log("success");
+    },
+    error: function (model, response) {
+        console.log("error");
+    }
+});
+    	  this.model.save()
+    	  alert("Added Successfully")
+    	  Backbone.history.navigate('nations', {trigger: true})
+       		
 //        		}
        }
 

@@ -22,6 +22,16 @@ body{
    background-color: #235279;
 
 }
+#listcommunity-head
+{
+   width: 100%;
+   height:60px;
+   background-color: #235279;
+}
+#addComm
+{
+margin-left: 200px;
+}
 #nationForm-container{
      background-color: #fff;
 }
@@ -84,7 +94,7 @@ body{
 }
 .login-input{
 padding:5px;
-float:right;
+margin-left: 70%;
 clear:both;
 }
 .login-input input{

@@ -6,8 +6,46 @@ $(function () {
         admn: null,
         events: {
             "click .destroy": function (event) {
-                alert("destroying")
-                this.model.destroy()
+            	var that = this
+                ////Deleting from the resource
+                var shelfResources = new App.Collections.shelfResource()
+                shelfResources.deleteResource = 1
+                shelfResources.resourceId = this.model.get("_id")
+                shelfResources.fetch({async : false})
+                var model;
+				while (model = shelfResources.first()) {
+  					model.destroy();
+				}
+               	//////Deleting resources feedback
+               	var resourcesFeedback = new App.Collections.ResourceFeedback()
+               	resourcesFeedback.resourceId = this.model.get("_id")
+               	resourcesFeedback.fetch({async:false})
+               	while (model = resourcesFeedback.first()) {
+  					model.destroy();
+				}
+               	//////Deleting resources from course setp
+               	var courseSteps = new App.Collections.coursesteps()
+               	courseSteps.getAll = 1
+               	courseSteps.resourceId = this.model.get("_id")
+               	courseSteps.fetch({async:false})
+               	courseSteps.each(function(m){
+               		
+               		if(!m.get("resourceId"))
+               		{
+               			m.set("resourceId",[])
+               		}
+               		var index = m.get("resourceId").indexOf(that.model.get("_id").toString())
+               		if(index!=-1)
+               		{
+               			m.get("resourceId").splice(index,1)
+               			m.get("resourceTitles").splice(index,1)
+               			m.save()
+               		}
+               		
+               	})
+
+               	this.model.destroy()
+               	alert("Resource Successfully deleted.")
                 event.preventDefault()
             },
             "click .trigger-modal": function () {
@@ -17,7 +55,7 @@ $(function () {
                 })
             },
             "click .resFeedBack": function (event) {
-            	
+            	alert('open')
             	var resourcefreq = new App.Collections.ResourcesFrequency()
             	resourcefreq.memberID = $.cookie('Member._id')
             	resourcefreq.fetch({async:false})
@@ -140,10 +178,10 @@ $(function () {
                 vars.totalRatings = 0
             }
 
-            if (this.isadmin > -1) {
-                vars.admn = 1
+            if (this.isManager > -1) {
+                vars.Manager = 1
             } else {
-                vars.admn = 0
+                vars.Manager = 0
             }
             this.$el.append(this.template(vars))
 

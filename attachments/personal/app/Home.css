@@ -56,7 +56,7 @@ border: 5px solid black;
 	 padding-top: 12px;
 	font-weight: 900;
 }
-.stu-nav-table
+.stu-nav-table  
 {
 padding:5 5 0 5;	
 width:100%;	
@@ -677,4 +677,10 @@ margin-left:35%;
     height: 400px;
     margin-left: 32%;
     width: 400px;
+}
+.systemUpdate {
+color: Red;
+background-color: lightgrey;
+font-weight: bold;
+margin-left: 19%;
 }

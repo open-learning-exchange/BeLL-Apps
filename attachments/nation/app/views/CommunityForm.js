@@ -6,27 +6,24 @@ $(function() {
     vars:{},
 
     events: {
-      "click #formButton": "setForm", 
+      "click #formButton": function()
+      {
+      	document.getElementById("addCommunity").submit();
+      }, 
+      "submit form" : "setForm" , 
     },
-    template: $('#template-addNation').html(),
+    template: $('#template-addCommunity').html(),
 
     
   render: function() {
   
       	var Nation = this.model
-      	//this.form = new Backbone.Form({ model: this.model })
       	 this.$el.append(_.template(this.template, this.vars))
-      
-      	var buttonText="Save"
       	if(this.model.id!=undefined){
 	  				buttonText="Update"
 	  			
 	  			$('#nation-name').val(Nation.get('Name'))
 	  			$('#nation-url').val(Nation.get('Url'))
-	  			
-	  			console.log(Nation.get('SponserName'))
-	  			console.log(Nation.get('SponserAddress'))
-	  			
 	  			$('#org-name').val(Nation.get('SponserName'))
 	  			$('#org-sponseraddress').val(Nation.get('SponserAddress'))
 	  			$('#org-firstname').val(Nation.get('ContactFirstname'))
@@ -47,18 +44,12 @@ $(function() {
           		$('#urg-phone').val(Nation.get('UrgentPhone'))
           		$('#auth-name').val(Nation.get('AuthName'))
           		$('#auth-date').val(Nation.get('AuthDate'))
-       	}else{
-	   				buttonText="Save"
        	}
-       	
-	   
-      	var that = this
-      	var $button = $('<div class="submit-button"><button class="addNation-btn btn btn-success" id="formButton">'+buttonText+'</button></div>')
-      	this.$el.append($button)
+       	var that = this
+      
    
     },
     setForm:function(){
-          
           this.model.set({
          		 Name:$('#nation-name').val(),
           		 Url:$('#nation-url').val(),
@@ -81,12 +72,65 @@ $(function() {
           		 AuthName:$('#auth-name').val(),
           		 AuthDate:$('#auth-date').val(),
           });
-          //console.log(this.form);
-          
-          console.log(this.model.commit)
-    
-    	 
-            	 this.model.save()
+        
+           
+          this.model.save()
+            alert("Successfully Saved")
+            App.startActivityIndicator()
+            Backbone.history.navigate('listCommunity',{trigger:true});
+            App.stopActivityIndicator()		 
+                         /*    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'jsonp',
+                        data: JSON.stringify({
+                            "source": "community_code",
+                            "target": "http://10.10.2.79:5984/community_code"
+                        }),
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        async: false
+                    });
+                   
+            
+          	var myDonut = this.model.toJSON()
+          	var m = JSON.stringify(myDonut)
+          	alert(m)
+          	$.ajax({
+    			url : 'http://10.10.2.69:5984/community',
+    			type : 'POST',
+    			dataType : "jsonp",
+    			data : m , 
+    			success : function(json) {
+    				console.log(json)
+    				alert('ddkkkkddd')
+    			}
+    		})
+          // $.ajax({
+//                         headers: {
+//                             'Accept': 'application/json',
+//                             'Content-Type': 'application/json; charset=utf-8'
+//                         },
+//                         type: 'POST',
+//                         url: 'http://10.10.2.79:5984/community_code',
+//                         dataType: 'jsonp',
+//                         data: JSON.stringify(myDonut),
+//                         success: function (response) {
+//                             
+//                         	console.log(data)
+//                             console.log(response)
+//                         },
+//                         async: false
+//                     });
+ 				//$.post('community_code',)  */ 	 
+            	 
+            	 
+            	 
        		//}
        		// else{
 //        		alert('not validate');

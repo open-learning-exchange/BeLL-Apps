@@ -212,6 +212,13 @@ $(function () {
         viewButton: function (e) {
             var modelNo = e.currentTarget.value
             var model = mailView.collection.at(modelNo)     
+            var attchmentURL = '/mail/' + model.get("_id") + '/'
+            var attachmentName = ''
+            if (typeof model.get('_attachments') !== 'undefined') {
+                attchmentURL = attchmentURL + _.keys(model.get('_attachments'))[0]
+                attachmentName = _.keys(model.get('_attachments'))[0]
+                //document.getElementById("memberImage").src = attchmentURL
+            }
             mailView.inViewModel = model
             model.set("status", "1")
            // console.log(this)
@@ -229,6 +236,15 @@ $(function () {
             mailView.vars.email=member.get('login')+'.'+mailView.code+'@olebell.org'
             mailView.vars.modelNo = modelNo
             mailView.vars.login = mailView.vars.email
+            if(attachmentName!="")
+            {
+            	mailView.vars.isAttachment = 1
+            	mailView.vars.attchmentURL = attchmentURL
+            }
+            else
+            {
+            	mailView.vars.isAttachment = 0
+            }
             mailView.$el.html('')
             mailView.$el.append(mailView.templateMailView(mailView.vars))
         },

@@ -95,7 +95,6 @@ $(function () {
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
                 console.log($.url().attr('fragment'))
-
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
                     Backbone.history.stop()
                     App.start()
@@ -110,8 +109,8 @@ $(function () {
             	if(diff<expirationTime)
            		 {
               	  var date=new Date()
-              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell/lms"})
-              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell/personal"})
+              	  $.cookie('Member.expTime',date ,{path:"/apps/_design/bell"})
+              	  $.cookie('Member.expTime',date,{path:"/apps/_design/bell"})
            		 }
            	 else{ 
                   this.expireSession()
@@ -324,7 +323,7 @@ $(function () {
             memberLoginForm.once('success:login', function () {
                 // $('ul.nav').html($("#template-nav-logged-in").html())
                 // Backbone.history.navigate('courses', {trigger: true})
-                window.location.href = "../personal/index.html#dashboard";
+                window.location.href = "../personal/index.html#dashboard"
                 //Backbone.history.navigate('resources', {trigger: true})
             })
             memberLoginForm.render()
@@ -342,13 +341,11 @@ $(function () {
     	},
 		expireSession:function(){
     
-        $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
-        $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
-        $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
-        $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
+        $.removeCookie('Member.login',{path:"/apps/_design/bell"})
+        $.removeCookie('Member._id',{path:"/apps/_design/bell"})
       
-        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/personal"})
-        $.removeCookie('Member.expTime',{path:"/apps/_design/bell/lms"})
+        $.removeCookie('Member.expTime',{path:"/apps/_design/bell"})
+       
     
     },
         ResourceForm: function (resourceId) {
@@ -1334,7 +1331,8 @@ $(function () {
            var type=''
     
     	    var configurations=Backbone.Collection.extend({
-    				url:App.Server+'/configurations/_all_docs?include_docs=true'
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
     		})	
     	    var config=new configurations()
     	      config.fetch({async:false})
@@ -1343,18 +1341,23 @@ $(function () {
         
     	    
     	    type=cofigINJSON.rows[0].doc.type
-    	      if(type=='nation')
-    	       {
-    	       	   nationURL=App.Server
-    	       	   nationName=cofigINJSON.rows[0].doc.name
-    	       }
-    	        else{
-    	     	   	nationURL=cofigINJSON.rows[0].doc.nationUrl
-    	        	nationName=cofigINJSON.rows[0].doc.nationName
-    	       }
+
+//    	      if(type=='nation')
+//    	       {
+//    	       	   nationURL= App.Server
+//    	       	   nationName=cofigINJSON.rows[0].doc.name
+//    	       }
+//    	        else{
+//    	     	   	nationURL=cofigINJSON.rows[0].doc.nationUrl
+//    	        	nationName=cofigINJSON.rows[0].doc.nationName
+//    	       }
     	    
-console.log(nationURL)
-    alert('test')
+				nationURL=cofigINJSON.rows[0].doc.nationUrl
+    	        nationName=cofigINJSON.rows[0].doc.nationName
+    			App.$el.children('.body').html('Please Wait…')
+    			var waitMsg = ''
+    			var msg = ''
+    			
             $.ajax({
     			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
     			//url : 'http://10.10.2.79:5984/communities/_all_docs?include_docs=true',
@@ -1364,38 +1367,31 @@ console.log(nationURL)
     				for(var i=0 ; i<json.rows.length ; i++)
     				{
     					var community = json.rows[i]
-    					console.log(community.doc.url)
     					var communityurl = community.doc.url
     					var communityname = community.doc.name
-    				//	that.synchCommunityWithURL(communityurl,communityname)
-    				/*	
-    					 $.ajax({
-                        	headers: {
-                            	'Accept': 'application/json',
-                            	'Content-Type': 'application/json; charset=utf-8'
-                        	},
-                        	type: 'POST',
-                        	url: '/_replicate',
-                        	dataType: 'json',
-                        	data: JSON.stringify({
-                           		"source": "resources",
-                            	"target": 'http://' + communityurl + ':5984/resources'
-                        	}),
-                        	success: function (response) {
-                            	console.log(response)
-                            	alert('success')
-                        	},
-                        	async: false
-                    	})
-                    */
-    				}
-    				//that.synchCommunityWithURL(nationURL,nationName)	
+    					msg = waitMsg
+    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
+    					App.$el.children('.body').html(waitMsg)
+    					that.synchCommunityWithURL(communityurl,communityname)
+    					waitMsg = msg
+    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.'
+    					App.$el.children('.body').html(waitMsg)
+      				}
+      				if(type!="nation")
+      				{
+      					msg = waitMsg
+    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
+    					that.synchCommunityWithURL(nationURL,nationName)
+    					waitMsg = msg
+    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.<br>Replication completed.'	
+      				}
     			}
   			 })
   			App.stopActivityIndicator()
         },
         synchCommunityWithURL : function(communityurl,communityname) 
         {
+        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources')
         	$.ajax({
             	headers: {
                 	'Accept': 'application/json',
