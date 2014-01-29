@@ -119,6 +119,7 @@
    <script src="app/views/addComment.js"></script>
 
   <script src="app/views/CourseInfoView.js"></script>
+  <script src="app/views/GroupMembers.js"></script>
    
   <!--
   overlay poput script
@@ -192,6 +193,26 @@ function onFocus(obj) {
       if(obj.setSelectionRange) 
       obj.setSelectionRange(end, end); 
 }
+function showComposePopupMultiple(email)
+{ 
+    $("#subject").val("")
+	$("#recipients").val("")
+    $("#mailbodytexarea").val("")
+    
+    var multipalMembers=new Array()
+    $("input[name='checkedMember']").each(function () {
+                if ($(this).is(":checked")) {
+                    multipalMembers.push($(this).val());
+                }
+            })        
+    console.log(multipalMembers)
+   // if(email)
+    $('#recipients').val(multipalMembers)
+    showComposePopup()
+    
+    
+}
+function hideMail(){}
 
 function showComposePopup()
 {
@@ -207,14 +228,11 @@ function showComposePopup()
 }
 function sendMail()
 {
-	var rec = $("#recipients").val();
-	if(rec.indexOf('@olebell.org')!=-1)
-		{
-			console.log(rec)
-			var names=rec.split(".")
-			console.log(names[0])
-			rec=names[0]
-		}
+	var rec = $("#recipients").val()
+	var malingList =new Array()
+	malingList=rec.split(',')
+
+
 	var subject = $("#subject").val();
 	var mailBody = $("textarea#mailbodytexarea").val();
 	if(rec=="" )
@@ -231,7 +249,26 @@ function sendMail()
 	}
 	else
 	{
-		$.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + rec + '"', function(response) {
+		for(var i=0;i<malingList.length;i++)
+		{
+	      if(malingList[i].indexOf('@olebell.org')!=-1)
+		 {
+		  	console.log(malingList[i])
+		 	var names=malingList[i].split(".")
+		 	console.log(names[0])
+			mailId=names[0]
+		 }
+	     sendSingleMail(mailId,mailBody,subject,malingList)
+		
+	   }
+	   alert("Mail successfully send.")
+	   $('#MakeMailForMembers').popup('hide');
+	}
+
+}
+function sendSingleMail(mailId,mailBody,subject,mailingList)
+{
+  $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + mailId + '"', function(response) {
       		if(response.rows[0]){
       			var currentdate = new Date();
       			var id = response.rows[0].doc._id
@@ -243,9 +280,9 @@ function sendMail()
       			mail.set("status","0");
       			mail.set("type","mail");
       			mail.set("sentDate",currentdate);
+      			mail.set('mailingList',mailingList);
       			//console.log(mail)
       			mail.save();
-      			alert("Mail successfully send.")
       			$('#emailCompose').popup('hide');
       		}
       		else
@@ -253,8 +290,6 @@ function sendMail()
       			alert("Invalid mail address")
       		}
 		});
-		
-	}
 
 }
 function getScheduleDatesForCourse(startDate,endDate,days)
@@ -329,12 +364,31 @@ $(window).scroll(function () {
 });
 
 </script>
+<script type="text/template" id="template-sendMail-CourseMember">
 
+  
+
+
+</script>
 	
   <script type="text/template" id="template-app">  
+  <div id="emailCompose" class="well" style="display: none;">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+
+</div>
+  
   <div class="takeQuizDiv" id="tQuizDiv"></div>
   <div id="externalDiv"></div>
   <div id="debug"></div>
+  
   <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
@@ -448,7 +502,7 @@ $(window).scroll(function () {
     </li>
     <li> 
       <a href="../lms/index.html#resources">
-       Resources
+       Library
       </a>
     </li>
      <li> 
@@ -753,7 +807,7 @@ $(window).scroll(function () {
 					<td class="stu-nav-option-empty"></td>
 		 </tr>
 		<tr class="stu-nav-tube">
-					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>
+					<td class="stu-nav-title-shelf stu-nav-title">My Library</td>
 					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
 							<table id="ur" class="inner-table" >	
@@ -788,7 +842,7 @@ $(window).scroll(function () {
 		<b style="color:black; font-size:25px;">Inbox
 		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
 		<button class="btn btn-primary" id="unread-mails">Unread</button>
-		 <button class="btn btn-info" onclick="showComposePopup()">Compose</button>
+		<button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton">Compose</button>
 		<span class="new_mails"></span>
 		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
 		</b>
@@ -798,19 +852,7 @@ $(window).scroll(function () {
 		</div>
 		<table id="inbox_mails" ></table>
 		
-		<!-- popup window for compose message -->
-<div id="emailCompose" class="well" style="display: none;">
-
-	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
-	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
-	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
-	<div class="mailbody">
-		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
-		<button class="emailCompose_close btn btn-default">Close</button>
-		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
-	</div>
-
-</div>
+	
 
 	
 		
@@ -819,9 +861,9 @@ $(window).scroll(function () {
 
 <div style="margin-left:10%">	
 	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
-		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()" id="replyMailButton">Reply</button></div>
 		<br/>
-		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"</span></b></span>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"></span></b></span>
 
 		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
 		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp;<%= firstName %>&nbsp;<%= lastName %> &nbsp; (<%= email %>)  </div>
@@ -830,18 +872,7 @@ $(window).scroll(function () {
 	
 	<br/>
 </div>
-<div id="emailCompose" class="well" style="display: none;">
 
-	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
-	<div class="mailrecipients"><input type="text" value="<%= login %>" placeholder="Recipients" id="recipients"/></div>
-	<div class="mailsubject"><input type="text" value="Re: <%= subject %>" placeholder="Subject" id="subject" /></div>
-	<div class="mailbody">
-		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
-		<button class="emailCompose_close btn btn-default">Close</button>
-		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
-	</div>
-
-</div>
 </script>
 
 
@@ -892,6 +923,7 @@ $(document).ready(function () {
     $(document).ready(function() {
       App.start()
       $('#emailCompose').popup('hide');
+     // $('#MakeMailForMembers').popup('hide');
      })
   </script>
 

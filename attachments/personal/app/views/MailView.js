@@ -15,6 +15,16 @@ $(function () {
         templateMailView: _.template($("#template-view-mail").html()),
 
         events: {
+        	"click #replyMailButton" : function(e) {
+        		$("#recipients").val(this.vars.mailingList)
+        		$("#subject").val("Re : " + this.vars.subject)
+        		$("#mailbodytexarea").val("")
+        	},
+        	"click #mailComposeButton" : function(e) {
+        		$("#subject").val("")
+        		$("#recipients").val("")
+        		$("#mailbodytexarea").val("")
+        	},
             "click #nextButton": function (e) {
                 this.modelNo = 0
                 this.resultArray = []
@@ -217,7 +227,6 @@ $(function () {
             mailView.vars.firstName = member.get('firstName')
             mailView.vars.lastName = member.get('lastName')
             mailView.vars.email=member.get('login')+'.'+mailView.code+'@olebell.org'
-            console.log(mailView.vars.email)
             mailView.vars.modelNo = modelNo
             mailView.vars.login = mailView.vars.email
             mailView.$el.html('')

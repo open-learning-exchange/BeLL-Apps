@@ -37,7 +37,7 @@ $(function () {
                 $('#externalDiv').append(ratingView.el)
                 $('#externalDiv').show()
 
-            }
+            },
         },
 
         quiz: function (e) {
@@ -114,7 +114,9 @@ $(function () {
                 }
             }
         },
-        render: function () {
+        
+        render: function () {        	
+        
             if (this.collection.length < 1) {
                 this.$el.append('<p style="font-weight:900;">No data related to selected course found</p>')
             } else {

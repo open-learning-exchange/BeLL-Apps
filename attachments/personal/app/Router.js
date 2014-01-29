@@ -15,6 +15,7 @@ $(function () {
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
             'course/assignments/:groupId': 'GroupAssignments',
+            'course/members/:courseId':'GroupMembers',
             'course/link/:groupId': 'GroupLink',
             'update-assignments': 'UpdateAssignments',
             'resource/feedback/add/:resourceId': 'FeedbackForm',
@@ -134,7 +135,14 @@ $(function () {
             //mailview.manageButtons()
 
         },
-
+        GroupMembers:function(cId)
+        {
+           var groupMembers=new App.Views.GroupMembers()
+           groupMembers.courseId=cId
+           groupMembers.render()
+           App.$el.children('.body').html(groupMembers.el)
+                 
+        },
         addIds: function (steps, results, newId) {
             steps.forEach(function (s) {
                 //	console.log(s.toJSON().courseId)
@@ -455,13 +463,15 @@ $(function () {
         CourseDetails: function (courseId, name) {
             var ccSteps = new App.Collections.coursesteps()
             ccSteps.courseId = courseId
+            
             ccSteps.fetch({
                 success: function () {
                     App.$el.children('.body').html('&nbsp')
-                    App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a></p>')
+                    App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/'+courseId+'" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
                     var levelsTable = new App.Views.CourseLevelsTable({
-                        collection: ccSteps
+                        collection: ccSteps,
                     })
+                    levelsTable.courseId=courseId
                     levelsTable.render()
                     App.$el.children('.body').append(levelsTable.el)
                     $("#accordion")

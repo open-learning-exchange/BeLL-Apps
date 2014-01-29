@@ -22,7 +22,8 @@ $(function() {
       body: 'Text',
       type:'Text',
       status: 'Text',
-      sentDate:'Text'
+      sentDate:'Text',
+      mailingList:'Text'
         }  
     
     
