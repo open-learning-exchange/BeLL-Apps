@@ -77,6 +77,12 @@ $(function () {
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
 
+			TutorsSpans=new App.Views.TutorsSpans({
+				collection: groups
+			})
+			TutorsSpans.render()
+			$('#tutorTable').append(TutorsSpans.el)
+			
             //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
             // Time
             $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
@@ -88,7 +94,7 @@ $(function () {
                 var attchmentURL = '/members/' + member.id + '/'
                 if (typeof member.get('_attachments') !== 'undefined') {
                     attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
-                    document.getElementById("imgurl").src = attchmentURL
+                    //document.getElementById("imgurl").src = attchmentURL
                 }
                 var temp = $.url().data.attr.host.split(".")
                 temp = temp[0].substring(3)
@@ -160,6 +166,7 @@ $(function () {
     			dataType : "jsonp",
     			success : function(json) {
     				var nationConfig = json.rows[0].doc
+    				//alert(nationConfig.version + ' ' + currentConfig.rows[0].doc.version)
 	    			 if(typeof nationConfig.version === 'undefined')
 	    			 {
 	    			 	/////No version found in nation

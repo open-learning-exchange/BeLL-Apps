@@ -119,6 +119,10 @@
    <script src="app/views/addComment.js"></script>
 
   <script src="app/views/CourseInfoView.js"></script>
+  
+  <script src="app/views/TutorsSpans.js"></script>
+  <script src="app/views/TutorSpan.js"></script>
+  
    
   <!--
   overlay poput script
@@ -744,6 +748,14 @@ $(window).scroll(function () {
      </div>
 </script>
 
+<script type="text/html" id="template-Tutor">
+      <div class="displayCourse"> 
+        <a href='#member/<%= _id %>'> 
+            <%= leaderEmail %>
+        </a>
+     </div>
+</script>
+
 <script type="text/html" id="template-Search">
 <div id="search">
 <div class="row">
@@ -841,6 +853,16 @@ $(window).scroll(function () {
 					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
 							<table id="ur" class="inner-table" >	
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+	  	  </tr>
+	  	  <tr class="stu-nav-tube">
+					<td class="stu-nav-title-tuter stu-nav-title">My Tutors</td>
+					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="tutorTable" class="inner-table" >	
 							</table>
 						</div>
 					</td>

@@ -1,7 +1,7 @@
 
 #dashboard
 {
-    height: 471px;
+    height: 550px;
     width: 950px;
 	overflow: hidden;
 }
@@ -52,7 +52,7 @@ padding-top:5px;
 {
 width: 943px;
 height:50px;	
-padding-top:0px;
+padding-top:94px;
 margin-bottom: 50px;
 }
 
@@ -668,4 +668,11 @@ color: Red;
 background-color: lightgrey;
 font-weight: bold;
 margin-left: 19%;
+margin-top: 2px;
+}
+.tutor-box {
+    background-color: #8A4C80;
+    border-right: 2px solid #FFFFFF;
+    font-family: verdana;
+    word-wrap: break-word;
 }
