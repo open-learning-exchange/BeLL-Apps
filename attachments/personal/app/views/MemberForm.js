@@ -147,7 +147,10 @@ $(function () {
                         that.model.set("subjectSpecialization", null)
                         that.model.set("forGrades", null)
                     }
+                    
+                  if(this.model.get('visits')==null)
                     this.model.set("visits", 0)
+                    
                     this.model.save(null, {
                         success: function () {
 

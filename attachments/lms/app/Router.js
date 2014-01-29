@@ -1331,6 +1331,7 @@ $(function () {
            var type=''
     
     	    var configurations=Backbone.Collection.extend({
+
     				url: App.Server + '/configurations/_all_docs?include_docs=true'
     		})	
     	    var config=new configurations()
@@ -1340,6 +1341,7 @@ $(function () {
         
     	    
     	    type=cofigINJSON.rows[0].doc.type
+
 //    	      if(type=='nation')
 //    	       {
 //    	       	   nationURL= App.Server
@@ -1355,6 +1357,7 @@ $(function () {
     			App.$el.children('.body').html('Please Wait…')
     			var waitMsg = ''
     			var msg = ''
+    			
             $.ajax({
     			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
     			//url : 'http://10.10.2.79:5984/communities/_all_docs?include_docs=true',

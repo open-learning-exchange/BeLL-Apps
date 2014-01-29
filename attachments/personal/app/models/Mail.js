@@ -22,7 +22,8 @@ $(function() {
       body: 'Text',
       type:'Text',
       status: 'Text',
-      sentDate:'Text'
+      sentDate:'Text',
+      mailingList:'Text'
         },
      saveAttachment: function(formEl, fileEl, revEl) {
       // Work with this doc in the files database

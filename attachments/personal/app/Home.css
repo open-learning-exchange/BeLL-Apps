@@ -5,6 +5,21 @@
     width: 950px;
 	overflow: hidden;
 }
+
+#viewCourseMembers {
+    background-color: rgb(177, 177, 177);
+    border-radius: 20px;
+    position: fixed;
+    top: 20%;
+    width: 65%;
+    z-index: 2;
+    margin-left: 10%;
+    overflow: scroll;
+    height: 40%;
+}
+
+
+
 .imageData {
     width: 112px;
 }
@@ -590,7 +605,7 @@ margin-left:35%;
 .well
 {
 	background-color : white;
-	width : 25%;
+	width: 35%;
 	height : 60%
 }
 .newEmailDiv
