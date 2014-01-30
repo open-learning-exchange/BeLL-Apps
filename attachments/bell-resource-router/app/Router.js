@@ -3,7 +3,7 @@ $(function() {
 
     routes: {
       'open/:resourceId' : 'open', 
-      'openreport/:reportId' : 'openReport', 
+      'openreport/:level/:reportId' : 'openReport', 
       'download/:resourceId' : 'download', 
     },
 
@@ -27,19 +27,26 @@ $(function() {
       resource.fetch()
     },
     
-    openReport: function(reportId) {
+    openReport: function(level,reportId) {
       var openUrl
-      var resource = new App.Models.CommunityReports({_id: reportId})
+      if(level=='community')
+      { 
+      		var resource = new App.Models.CommunityReports({_id: reportId})
+      }
+      else if(level=='nation')
+      { 
+      		var resource = new App.Models.NationReports({_id: reportId})
+      }
       resource.on('sync', function() {
         // If there is a openURL, that overrides what we use to open, else we build the URL according to openWith
         if(resource.get('openUrl') && resource.get('openUrl').length > 0) {
           openUrl = resource.get('openUrl')
         }
         else if(resource.get('openWhichFile') && resource.get('openWhichFile').length > 0) {
-          openUrl = resource.__proto__.openWithMap['Just download'] + '/communityreports/' + resource.id + '/' + resource.get('openWhichFile')
+          openUrl = resource.__proto__.openWithMap['Just download'] + '/'+level+'reports/' + resource.id + '/' + resource.get('openWhichFile')
         }
         else {
-          openUrl = resource.__proto__.openWithMap['Just download'] + '/communityreports/' + resource.id + '/' + _.keys(resource.get('_attachments'))[0]
+          openUrl = resource.__proto__.openWithMap['Just download'] + '/'+level+'reports/' + resource.id + '/' + _.keys(resource.get('_attachments'))[0]
         }
         window.location = openUrl
         //console.log(openUrl)
