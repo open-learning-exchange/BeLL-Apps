@@ -20,7 +20,13 @@ $(function() {
     },
 
 
-
+	renderFeedback: function(){
+	  var mymodels=new App.Models.report()
+	  var na=new App.Views.siteFeedback({model: mymodels})
+	  na.render()
+	  App.$el.children('.body').append('<br/>')
+      App.$el.children('.body').append(na.el)
+	},
     start: function(){
       // App body
       this.$el.html(_.template(this.template))
