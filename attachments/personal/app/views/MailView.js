@@ -16,7 +16,14 @@ $(function () {
 
         events: {
         	"click #replyMailButton" : function(e) {
-        		$("#recipients").val(this.vars.mailingList)
+        		if(this.vars.mailingList)
+        		{
+        			$("#recipients").val(this.vars.mailingList)
+        		}
+        		else
+        		{
+        			$("#recipients").val(this.vars.login)
+        		}
         		$("#subject").val("Re : " + this.vars.subject)
         		$("#mailbodytexarea").val("")
         	},

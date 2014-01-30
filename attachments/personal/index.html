@@ -62,6 +62,7 @@
   <script src="app/models/reportComment.js"></script>
   <script src="app/models/CourseSchedule.js"></script>
   <script src="app/models/CommunityCode.js"></script>
+  <script src="app/models/AssignmentPaper.js"></script>
   
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -241,6 +242,7 @@ function FieSelected()
 {
 	var courseId = document.getElementById("courseId").value;
 	var stepTitle = document.getElementById("stepTitle").value;
+	var stepId = document.getElementById("stepId").value;
 	var courseModel = new App.Models.Group()
     courseModel.set('_id', courseId)
     courseModel.fetch({
@@ -262,30 +264,37 @@ function FieSelected()
 	var mail = new App.Models.Mail();
 	mail.set("senderId",$.cookie('Member._id'));
 	mail.set("receiverId",courseModel.get("courseLeader"));
-	mail.set("subject","Assignment | " + courseModel.get("name"));
-	mail.set("body",stepTitle);
+	mail.set("subject","Assignment | " + courseModel.get("name") );
+	mail.set("body","Assignment submited for <b>" + stepTitle + '</b>.');
 	mail.set("status","0");
 	mail.set("type","mail");
 	mail.set("sentDate",currentdate);
-	mail.save(null, {
+	mail.save()
+	var assignmentpaper = new App.Models.AssignmentPaper();
+	assignmentpaper.set("sentDate",currentdate);
+	assignmentpaper.set("senderId",$.cookie('Member._id'));
+	assignmentpaper.set("courseId",courseId);
+	assignmentpaper.set("stepId",stepId);
+	assignmentpaper.save(null, {
         	success: function () {   	
-            	mail.unset('_attachments')
+            	assignmentpaper.unset('_attachments')
                 if ($('input[type="file"]').val()) {
-                	mail.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
+                	assignmentpaper.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                	} 
                	else {
                		////no attachment
                 }
-                mail.on('savedAttachment', function () {
+                assignmentpaper.on('savedAttachment', function () {
                 	/////Attatchment successfully saved
                 	alert("Assignement successfully submitted.")
-                }, mail)
+                }, assignmentpaper)
                 	
         }
 	})
 }
 function sendMail()
 {
+	var attachment = true
 	var rec = $("#recipients").val()
 	var malingList =new Array()
 	malingList=rec.split(',')
@@ -294,8 +303,14 @@ function sendMail()
 	var subject = $("#subject").val();
 	var mailBody = $("textarea#mailbodytexarea").val();
 	var img = $('input[type="file"]')
-	var extension = img.val().split('.')
-	//alert(img + ' ' + extension)
+	if(!img.val())
+	{
+		attachment = false
+	}
+	else
+	{
+		var extension = img.val().split('.')
+	}
 	if(rec=="" )
 	{
 		alert("Please enter recipient.");
@@ -308,7 +323,7 @@ function sendMail()
 	{
 		alert("Please enter message.");
 	}
-	else if(img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt'
+	else if(attachment && img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt'
 			&& extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' 
 				&& extension[(extension.length - 1)] != 'png')
 	{
@@ -631,7 +646,7 @@ $(window).scroll(function () {
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#login">
-      DashBoard - v1.0.7
+      DashBoard - v1.0.8
       </a>
     </li>
  
@@ -728,6 +743,7 @@ $(window).scroll(function () {
 	                                    	<input class="rev" type="hidden" name="_rev">
 	                                    	<input type="hidden" value=<%=courseId%> id="courseId">
 	                                    	<input type="hidden" value=<%=title%> id="stepTitle">
+	                                    	<input type="hidden" value=<%=_id%> id="stepId">
 	                                    	<input class='btn btn-primary' type="button" value="Upload Paper" id="fakeBrowse" onclick="HandleBrowseClick()" style="position: absolute;margin-top: -37px;" />
                                     	</form>
                                     </div>
@@ -883,6 +899,16 @@ $(window).scroll(function () {
 
       <div id="page-body">
         <table class="stu-nav-table">
+        <tr class="stu-nav-tube">
+					<td class="stu-nav-title-shelf stu-nav-title">My Library</td>
+					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="ur" class="inner-table" >	
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+	  	  </tr>
         	<tr class="stu-nav-tube">
             	<td class="stu-nav-title">
             		<a href="#courses/barchart">  My Courses Progress</a>
@@ -910,19 +936,9 @@ $(window).scroll(function () {
 					</td>
 					<td class="stu-nav-option-empty"></td>
 		 </tr>
-		<tr class="stu-nav-tube">
-					<td class="stu-nav-title-shelf stu-nav-title">My Library</td>
-					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
-						<div class="inner">
-							<table id="ur" class="inner-table" >	
-							</table>
-						</div>
-					</td>
-					<td class="stu-nav-option-empty"></td>
-	  	  </tr>
 	  	  <tr class="stu-nav-tube">
 					<td class="stu-nav-title-tuter stu-nav-title">My Tutors</td>
-					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+					<td class="scrollable-tutor">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
 							<table id="tutorTable" class="inner-table" >	
 							</table>
@@ -989,7 +1005,7 @@ $(window).scroll(function () {
 
 <div style="margin-left:10%">	
 	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
-		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button><% if(isAttachment==1){ %>&nbsp;&nbsp<a role='button' class='btn btn-primary' href=<%= attchmentURL %> target="_blank">Attachment</a><%}%></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()" id="replyMailButton">Reply</button><% if(isAttachment==1){ %>&nbsp;&nbsp<a role='button' class='btn btn-primary' href=<%= attchmentURL %> target="_blank">Attachment</a><%}%></div>
 		<br/>
 		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"></span></b></span>
 
