@@ -21,6 +21,9 @@ $(function() {
     },
 
     schema: {
+     
+     languageOfInstruction: 'Text',
+      memberLimit: 'Text',
       name: 'Text',
       levels: {
         type: 'Checkboxes',

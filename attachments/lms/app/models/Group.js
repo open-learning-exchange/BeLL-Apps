@@ -21,13 +21,31 @@ $(function() {
     },
 
     schema: {
-      languageOfInstruction: 'Text',
       name: 'Text',
-      levels: {
-        type: 'Checkboxes',
-        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','Higher']
+      languageOfInstruction: 'Text',
+      memberLimit: 'Text', 
+      goals: 'TextArea',
+      method:'Text',
+      frequency: {
+        type: 'Radio',
+        options: ['Daily', 'Weekly']
       },
+      gradeLevel: {
+        type: 'Select',
+        options: ['Pre-K','K','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','College','Post-Grad']
+      },
+      subjectLevel: {
+        type: 'Select',
+        options: ['Beginner', 'Intermediate', 'Advanced', 'Expert']
+      },
+      startTime: 'Text',
+      endTime: 'Text',
+     location: 'Text',
       description:'TextArea',
+      startDate: 'Text',
+      endDate: 'Text',
+      
+     
       courseLeader:{
             type:'Select',
             options:null,

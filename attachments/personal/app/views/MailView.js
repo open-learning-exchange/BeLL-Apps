@@ -90,19 +90,18 @@ $(function () {
 
             },
             "click #invite-accept": function (e) {
+                 
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+                var vacancyFull= body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>this Course Was Full.</div>"
                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
-
+                 
                 var model = new App.Models.Mail()
                 model.id = mailView.inViewModel.get("id")
                 model.fetch({
                     async: false
                 })
 
-                model.set('body', body)
-                model.save()
-                $('#mail-body').html('<br/>' + body)
                 var gmodel = new App.Models.Group({
                     _id: e.currentTarget.value
                 })
@@ -111,6 +110,25 @@ $(function () {
                 })
 
                 var that = this
+                
+               //*************check Vacancies for the Course**************
+            
+                var num=gmodel.get("members").length       
+                if(gmodel.get("memberLimit"))       
+                if(gmodel.get("memberLimit") < num)
+                {
+                  alert('This Course is full')
+                  model.set('body', vacancyFull)
+                  $('#mail-body').html('<br/>' + vacancyFull)
+                  model.save()
+                  return
+                }
+                
+                
+                model.set('body', body)
+                model.save()
+               $('#mail-body').html('<br/>' + body)
+                
                 if (gmodel.get("_id")) {
                     var memberlist = []
                     if (gmodel.get("members") != null) {

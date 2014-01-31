@@ -12,7 +12,20 @@ $(function () {
 
         render: function () {
             // create the form
+             var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var version=''
+            var config=new configurations()
+    	        config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+    	    version=cofigINJSON.rows[0].doc.version
+    	    this.vars.versionNO=version
+    	    
             this.$el.html(_.template(this.template, this.vars))
+            
             this.form = new Backbone.Form({
                 model: this.model
             })

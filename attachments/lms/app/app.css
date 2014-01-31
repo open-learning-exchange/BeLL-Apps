@@ -21,7 +21,7 @@
 }
 
 .form li {
-  margin:10px -1px 17px;
+
 }
 
 .form .bbf-radio li, .form .bbf-checkboxes li {
@@ -284,26 +284,26 @@ border-bottom:1px solid black;
 
 #groupform .bbf-field.field-leaderEmail{
     margin-left: 250px;
-     margin-top: -82px;
+     margin-top: -65px;
      position: relative;
     
 }
 #groupform .bbf-field.field-courseLeader{
-     margin-top: -18px;
+     margin-top: -5px;
 }
 #groupform .bbf-field.field-leaderPhone{
     margin-left: 500px;
-    margin-top: -84px;
+    margin-top: -65px;
     position: relative;
     
 }
 #groupform .bbf-field.field-foregroundColor{
     margin-left: 147px;
-    margin-top: -73px;
+    margin-top: -50px;
     position: relative;
 }
 #groupform .bbf-field.field-backgroundColor{
-    margin-top: -17px;
+    margin-top: -5px;
 }
 #invitationForm{
   color:white;
@@ -326,7 +326,7 @@ border-bottom:1px solid black;
     width: 621px;
 }
 #groupform .bbf-field.field-description{
-   margin-top:-21px; 
+   margin-top:-10px; 
 }
 #groupform .bbf-field.field-levels.bbf-editor > ul > li{
    margin-left:-16px; 
@@ -334,11 +334,11 @@ border-bottom:1px solid black;
 #inviteMemberButton{
   
   margin-left: 660px;
-  margin-top: -991px;
+  margin-top: -1305px;
 }
 #ProgressButton{
  margin-left: 541px;
-    margin-top: -1070px;
+    margin-top: -1386px;
 }
 #rating_checkboxes
 {
@@ -403,7 +403,7 @@ font-weight: bold;
 /* course Schedule */
 #coursescheduleButton {
     margin-left: 321px;
-    margin-top: -1070px;
+    margin-top: -1386px;
 }
 
 #durationDiv, #TypeDiv{
@@ -505,8 +505,8 @@ margin-left: 33%;
  margin-top: -84px; 
 }
 #memberform .bbf-field.field-levels{
- margin-left: 239px;
- margin-top: -84px; 
+   margin-left: 239px;
+   margin-top: -84px; 
 }
 #underconstruction {
     height: 400px;
@@ -519,3 +519,59 @@ margin-left: 33%;
     top: 45%;
     left:45%;
 }
+/******************course Details ********************/
+#courseSteps-heading{
+    color: #404040;
+}
+#courseName-heading{
+   color: #404040;
+}
+
+/***************/
+.form  .field-languageOfInstruction{
+    margin-left: 259px;
+    margin-top: -66px;
+}
+.form .field-subjectLevel{
+    margin-left: 259px;
+    margin-top: -66px;
+}
+
+.form .field-method{
+    margin-left: 259px;
+    margin-top: -100px;
+}
+
+.form .field-memberLimit{
+   margin-left: 514px;
+    margin-top: -66px;
+}
+.form .field-frequency{
+    margin-left: 514px;
+    margin-top: -100px;
+}
+.form .field-endDate{
+    margin-left: 259px;
+    margin-top: -66px;
+}
+.form .field-endTime{
+    margin-left: 259px;
+    margin-top: -66px;
+}
+.form .field-location{
+  margin-left: 514px;
+    margin-top: -66px;
+}
+.form .field-stepGoals{
+      margin-left: 259px;
+    margin-top: -94px;
+}
+.form .field-stepMethod{
+      margin-left: 259px;
+    margin-top: -66px;
+}
+.form .field-outComes{
+      margin-left: 259px;
+    margin-top: -66px;
+}
+

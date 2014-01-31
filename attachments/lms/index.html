@@ -166,6 +166,9 @@
   <script src="app/views/ReportsTable.js"></script>
   <script src="app/views/ReportsRow.js"></script>
   <script src="app/views/ReportForm.js"></script>
+  <script src="app/views/GroupView.js"></script>
+  <script src="app/views/CourseStepsView.js"></script>
+  
   
   <!-- ALL Code Regarding the Search Function -->
   
@@ -625,6 +628,12 @@
         <i class="icon-wrench icon-white"></i> Manage
       </a>
    	<%}%>
+    </td>
+    
+    <td>
+      <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= name %>'> 
+       View Course
+      </a>
     </td>
     
     <td>
@@ -1095,7 +1104,7 @@ Please become a Member and explore both the Community Learning Management System
 <div style="position:absolute;margin-top:-1%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
 <span style="margin-left:5%;font-size:31px;">Welcome to the</span><br/><br/>
 <span style="margin-left:4%;font-size:37px;">Community BeLL</span><br/><br/>
-<span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.8)</span><br/>
+<span style="margin-left:1%;font-size:25px;">Pre-release version (<%=versionNO%>)</span><br/>
 <span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
 </script>
 <!-- Report template -->
