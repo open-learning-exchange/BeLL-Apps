@@ -23,7 +23,7 @@ $(function () {
                 vars.header = 'Title "' + this.model.get('title') + '"'
                 vars.hidesave = true
             } else {
-                vars.header = 'New Report'
+                vars.header = 'New Nation Report'
                 vars.hidesave = false
             }
 

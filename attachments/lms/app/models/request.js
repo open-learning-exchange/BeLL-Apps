@@ -22,9 +22,12 @@ $(function() {
   schema: {
       senderId :'Text',
       status: 'Text',
+      sendFrom:'Text',
+      sendFromName:'Text',
       request: 'TextArea',
       response: 'TextArea',
-      type:'Text'
+      type:'Text',
+      date:'Text'
     }  
   
   }) 

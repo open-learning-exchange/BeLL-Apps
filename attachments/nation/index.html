@@ -68,11 +68,13 @@
      <script src="app/models/Credentials.js"></script>
      <script src="app/models/Member.js"></script>
      <script src="app/models/report.js"></script>
+     <script src="app/models/NationReport.js"></script>
      
       <!-- Collections  -->
      <script src="app/collections/Community.js"></script>
      <script src="app/collections/MailUnopened.js"></script>
      <script src="app/collections/siteFeedbacks.js"></script>
+     <script src="app/collections/Reports.js"></script>
      
      <!-- Views  -->
      
@@ -86,6 +88,9 @@
     <script src="app/views/siteFeedback.js"></script>
     <script src="app/views/siteFeedbackPage.js"></script>
     <script src="app/views/siteFeedbackPageRow.js"></script>
+    <script src="app/views/ReportsRow.js"></script>
+    <script src="app/views/ReportsTable.js"></script>
+    <script src="app/views/ReportForm.js"></script>
     
   	<script src="app/Router.js"></script>
   	
@@ -201,7 +206,7 @@
       </a>
     </li> 
 <li> 
-      <a href="#">
+      <a href="#reports">
         Reports
       </a>
     </li> 
@@ -343,7 +348,7 @@
 		
 		<tr>
 		<td>
-		<button class="btn btn-default" id="clickmore">Click for more</button>
+		<button class="btn btn-default" id="clickmore"  onclick = "document.location.href='#reports'">Click for more</button>
 		</td>
 		</tr>
 		</table>
@@ -482,7 +487,91 @@
 			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 		<%}%>
   </script>
+<!-- Report template -->
+<script type="text/html" id="template-ReportRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+    
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+      </td>
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= author %></BR></span>
+      </td>
+    </td>
+    
+       <td>
+    <%=views%>
+    </td>
+    <td>
 
+      <a id="open" class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/nation/<%= _id %>' target="_blank">
+       Open
+      </a>
+    </td>
+ 
+    <td>
+      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
+    </td>
+   
+    <td>
+    	<%if(isManager>-1){%>
+    	<td>
+    	<a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+        Details
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        Delete
+      </a>
+      </td>
+      <%}%>
+    </td>
+    <%}%>
+  </script>
+<script type="text/template" id="template-form-file">
+    <table class="table table-striped">
+      <tr>
+      <td colspan="2">
+         
+        <h2>
+          <%= header %>
+        </h2> 
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="fields">
+          <!-- The first form that will be submitted without the file -->
+          <%= form %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <!-- The Second form that will be submitted containing the file -->
+          <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+        <% if(hidesave == false) { %>
+          <div class="save btn btn-success" name="save">
+            Save
+          </div>
+        <% } %>
+		<a class="btn btn-danger" id="cancel">Cancel</a>
+        </td>
+        <td class="status">
+          <!-- status goes here -->
+        </td>
+      </tr>
+    </table>
+  </script>
     
     <-- End Of templates -->
     
