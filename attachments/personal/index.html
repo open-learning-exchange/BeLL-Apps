@@ -232,17 +232,17 @@ function showComposePopup()
     });
 	$('#emailCompose').popup('show');
 }
-function HandleBrowseClick()
+function HandleBrowseClick(stepId)
 {
-
-    var fileinput = document.getElementById("_attachments");
+   var fileinput = document.forms["fileAttachment"+stepId]["_attachments"]
     fileinput.click();
 }
-function FieSelected()
+function FieSelected(stepId)
 {
-	var courseId = document.getElementById("courseId").value;
-	var stepTitle = document.getElementById("stepTitle").value;
-	var stepId = document.getElementById("stepId").value;
+	var courseId = document.getElementById("courseId"+stepId).value;
+	var stepTitle = document.getElementById("stepTitle"+stepId).value;
+	var stepNo = document.getElementById("stepNo"+stepId).value;
+	
 	var courseModel = new App.Models.Group()
     courseModel.set('_id', courseId)
     courseModel.fetch({
@@ -275,14 +275,16 @@ function FieSelected()
 	assignmentpaper.set("senderId",$.cookie('Member._id'));
 	assignmentpaper.set("courseId",courseId);
 	assignmentpaper.set("stepId",stepId);
+	assignmentpaper.set("stepNo",stepNo);
 	assignmentpaper.save(null, {
         	success: function () {   	
             	assignmentpaper.unset('_attachments')
                 if ($('input[type="file"]').val()) {
-                	assignmentpaper.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
+                	assignmentpaper.saveAttachment("form#fileAttachment"+stepId, "form#fileAttachment"+ stepId +" #_attachments", "form#fileAttachment"+ stepId +" .rev")
                	} 
                	else {
                		////no attachment
+               		 alert('no attachment')
                 }
                 assignmentpaper.on('savedAttachment', function () {
                 	/////Attatchment successfully saved
@@ -738,13 +740,13 @@ $(window).scroll(function () {
                                                   <button class='btn btn-disabled'>Take Quiz</button>
                                                 <%}%>
                                     <div class="mailsubject">
-                                    	<form method="post" id="fileAttachment">
-	                                    	<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected()" /> 
+                                    	<form method="post" id="fileAttachment<%=_id%>">
+	                                    	<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" /> 
 	                                    	<input class="rev" type="hidden" name="_rev">
-	                                    	<input type="hidden" value=<%=courseId%> id="courseId">
-	                                    	<input type="hidden" value=<%=title%> id="stepTitle">
-	                                    	<input type="hidden" value=<%=_id%> id="stepId">
-	                                    	<input class='btn btn-primary' type="button" value="Upload Paper" id="fakeBrowse" onclick="HandleBrowseClick()" style="position: absolute;margin-top: -37px;" />
+	                                    	<input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+	                                    	<input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
+	                                    	<input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
+	                                  <input class='btn btn-primary' type="button" value="Upload paper" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -37px;margin-left: 9%;" />
                                     	</form>
                                     </div>
 					

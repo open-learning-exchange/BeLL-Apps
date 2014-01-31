@@ -226,6 +226,7 @@ $(function () {
                 collection: allResults
             })
             vi.render()
+            App.$el.children('.body').append(vi.el)
             console.log(allResults.length)
         },
 		
@@ -518,16 +519,16 @@ $(function () {
         Groups: function () {
          App.startActivityIndicator()
             /****** Amendment script *****/
-            var allcrs = new App.Collections.Groups();
-            allcrs.fetch({
-                async: false
-            })
-            allcrs.each(function (m) {
-                if (m.get("name") == null) {
-                    m.set("name", "not defined")
-                    m.save()
-                }
-            })
+//            var allcrs = new App.Collections.Groups();
+//            allcrs.fetch({
+//                async: false
+//            })
+//            allcrs.each(function (m) {
+//                if (m.get("name") == null) {
+//                    m.set("name", "not defined")
+//                    m.save()
+//                }
+//            })
             /***********/
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
