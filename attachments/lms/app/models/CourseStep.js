@@ -21,7 +21,10 @@ $(function() {
     
   schema: {
       title: 'Text',
+      stepMethod:'Text',
       description: 'TextArea',
+       stepGoals: 'TextArea',
+      
       step :'Text',
       courseId : 'Text',
       resourceId:{
@@ -45,6 +48,10 @@ $(function() {
           options: [],
       },
       allowedErrors:'Text',
+       outComes: {
+        type: 'Radio',
+        options: ['Paper', 'Quiz']
+      },
       
       passingPercentage:{
           type:'Select',

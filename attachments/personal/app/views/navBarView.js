@@ -15,9 +15,30 @@ $(function () {
             }
             var temp = Backbone.history.location.href
             temp = temp.split('#')
-            this.data = {
-                uRL: temp[1]
-            }
+            
+             var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})	
+    	var version=''
+    		
+        if(temp[1]=='login')
+        {
+            var config=new configurations()
+    	     config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+        
+    	    
+    	    version=cofigINJSON.rows[0].doc.version
+        }
+        
+        this.data = {
+                uRL: temp[1],
+                versionNO:version
+                
+            } 
+            
             this.$el.append(this.template(this.data))
         },
 

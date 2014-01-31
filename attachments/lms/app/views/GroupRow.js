@@ -81,7 +81,6 @@ $(function () {
             } else {
                 vars.isAdmin = 0
             }
-            vars.isAdmin = 1
             this.$el.append(_.template(this.template, vars))
         }
 

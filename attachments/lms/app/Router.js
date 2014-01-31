@@ -17,6 +17,7 @@ $(function () {
             'resource/feedback/add/:resourceId': 'FeedbackForm',
             'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
             'courses': 'Groups',
+            'course/details/:courseId/:courseName':'courseDetails',
             'course/edit/:groupId': 'GroupForm',
             'course/default': 'Explore_Bell_Courses',
             'course/assign/:groupId': 'GroupAssign',
@@ -226,6 +227,7 @@ $(function () {
                 collection: allResults
             })
             vi.render()
+            App.$el.children('.body').append(vi.el)
             console.log(allResults.length)
         },
 		
@@ -518,16 +520,16 @@ $(function () {
         Groups: function () {
          App.startActivityIndicator()
             /****** Amendment script *****/
-            var allcrs = new App.Collections.Groups();
-            allcrs.fetch({
-                async: false
-            })
-            allcrs.each(function (m) {
-                if (m.get("name") == null) {
-                    m.set("name", "not defined")
-                    m.save()
-                }
-            })
+//            var allcrs = new App.Collections.Groups();
+//            allcrs.fetch({
+//                async: false
+//            })
+//            allcrs.each(function (m) {
+//                if (m.get("name") == null) {
+//                    m.set("name", "not defined")
+//                    m.save()
+//                }
+//            })
             /***********/
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
@@ -551,6 +553,35 @@ $(function () {
                 }
             })
               App.stopActivityIndicator()
+        },
+        courseDetails:function(courseId,courseName){
+        
+           App.$el.children('.body').html('<div id="courseName-heading"><h3>Course Details | '+courseName+'</h3></div>')
+           var courseModel=new App.Models.Group({_id:courseId})
+               courseModel.fetch({async:false})
+              
+           var courseLeader = courseModel.get('courseLeader')
+           var memberModel = new App.Models.Member()
+               memberModel.set('_id', courseLeader)
+               memberModel.fetch({async: false})
+            
+          var  ccSteps = new App.Collections.coursesteps()
+                ccSteps.courseId = courseId
+                ccSteps.fetch({async:false})
+
+          var GroupDetailsView=new App.Views.GroupView({model:courseModel})
+              GroupDetailsView.courseLeader=memberModel
+              GroupDetailsView.render()
+        
+          
+          var courseStepsView=new App.Views.CourseStepsView({collection:ccSteps})  
+               courseStepsView.render()
+               
+               
+          App.$el.children('.body').append(GroupDetailsView.el)
+          App.$el.children('.body').append('<div id="courseSteps-heading"><h5>Course Steps</h5></div>') 
+          App.$el.children('.body').append(courseStepsView.el)
+           
         },
         GroupSearch: function () {
 
