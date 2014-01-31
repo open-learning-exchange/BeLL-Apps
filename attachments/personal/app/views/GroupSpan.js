@@ -9,8 +9,12 @@ $(function () {
         template: $("#template-GroupSpan").html(),
 
         render: function () {
+        	if(this.model.keys().length<5)
+        	{
+        		this.model.destroy()
+        		return
+        	}
             var vars = this.model.toJSON()
-
             var res = new App.Collections.membercourseprogresses()
             res.courseId = vars._id
             res.memberId = $.cookie('Member._id')

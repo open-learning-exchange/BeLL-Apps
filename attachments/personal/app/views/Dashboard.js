@@ -94,7 +94,7 @@ $(function () {
                 var attchmentURL = '/members/' + member.id + '/'
                 if (typeof member.get('_attachments') !== 'undefined') {
                     attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
-                    //document.getElementById("imgurl").src = attchmentURL
+                    document.getElementById("imgurl").src = attchmentURL
                 }
                 var temp = $.url().data.attr.host.split(".")
                 temp = temp[0].substring(3)

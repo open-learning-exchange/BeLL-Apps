@@ -574,4 +574,7 @@ margin-left: 33%;
       margin-left: 259px;
     margin-top: -66px;
 }
-
+.Graphbutton
+{
+	position: relative;
+}
