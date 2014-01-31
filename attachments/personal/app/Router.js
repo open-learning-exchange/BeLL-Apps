@@ -41,18 +41,19 @@ $(function () {
 
         initialize: function () {
             this.bind("all", this.startUpStuff)
+            this.bind("all", this.checkLoggedIn)
+            this.bind("all", this.renderNav)
 
            // this.bind("all", this.reviewStatus)
         },
         startUpStuff: function () {
             this.renderNav
+            
             if (App.idss.length == 0) {}
             $('div.takeQuizDiv').hide()
             $('#externalDiv').hide()
             $('#debug').hide()
 
-            this.bind("all", this.checkLoggedIn)
-            this.bind("all", this.renderNav)
         },
          reviewStatus: function(){
         	 var member = new App.Models.Member({

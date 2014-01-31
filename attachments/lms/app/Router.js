@@ -3,7 +3,7 @@ $(function () {
 
 
         routes: {
-            '': '',
+            '': 'LandingScreen',
             'teams': 'Resources',
             'landingPage': 'LandingScreen',
             'becomemember': 'BecomeMemberForm',
