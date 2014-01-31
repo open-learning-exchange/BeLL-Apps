@@ -9,8 +9,8 @@ $(function(){
 	  		 'listCommunity'          : 'ListCommunity',
 	  		 'siteFeedback': 'viewAllFeedback',
 	  		  'dashboard': 'Dashboard',
-	  		  'request': 'earthRequest',
-	  		  'commrequest': 'commRequest',
+	  		  'request': 'commRequest',
+	  		  'earthrequest': 'earthRequest',
 	  		  'reports': 'Reports',
     	      'reports/edit/:resportId': 'ReportForm',
               'reports/add': 'ReportForm',
@@ -182,18 +182,39 @@ MemberLogout: function() {
 			 
     },
     earthRequest:function(){
-		var listReq="<div id='listRequest-head'> <p class='heading'> <a href='#' style='color:#1ABC9C'>Earth Request</a>  |   <a href='#commrequest'>Communities Request</a> </p> </div>"
+		var listReq="<div id='listRequest-head'> <p class='heading'> <a href='#' style='color:#1ABC9C'>Earth Request</a>  |   <a href='#request'>Communities Request</a> </p> </div>"
         
             listReq+="<div style='width:940px;margin:0 auto' id='listReq'></div>"
     
         App.$el.children('.body').html(listReq)
     	},
 		commRequest:function(){
-		var listReq="<div id='listRequest-head'> <p class='heading'> <a href='#request' >Earth Request</a>  |   <a href='#commrequest' style='color:#1ABC9C'>Communities Request</a> </p> </div>"
+		
+
+        
+		var listReq="<div id='listRequest-head'> <p class='heading'> <a href='#earthrequest' >Earth Request</a>  |   <a href='#request' style='color:#1ABC9C'>Communities Request</a> </p> </div>"
         
             listReq+="<div style='width:940px;margin:0 auto' id='listReq'></div>"
     
         App.$el.children('.body').html(listReq)
+        
+            App.startActivityIndicator()
+       
+            var request = new App.Collections.CourseRequest()
+            request.fetch({
+                async: false
+            })
+            var requestResource = new App.Collections.ResourceRequest()
+            requestResource.fetch({
+                async: false
+            })
+            request.add(requestResource.toJSON(), {silent : true});
+            var requestTableView = new App.Views.RequestsTable({
+                collection: request
+            })
+            requestTableView.render()
+            App.$el.children('.body').append(requestTableView.el)
+            App.stopActivityIndicator()
     
 		},
 		Reports: function (database) {

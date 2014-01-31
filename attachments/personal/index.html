@@ -335,7 +335,6 @@ function sendMail()
 		{
 	      if(malingList[i].indexOf('@olebell.org')!=-1)
 		 {
-		  	console.log(malingList[i])
 		 	var names=malingList[i].split(".")
 		 	console.log(names[0])
 			mailId=names[0]
@@ -364,7 +363,6 @@ function sendSingleMail(mailId,mailBody,subject,mailingList)
       			mail.set("sentDate",currentdate);
       			mail.set('mailingList',mailingList);
       			//console.log(mail)
-      			mail.save();
       			$('#emailCompose').popup('hide');
       			
       			mail.save(null, {
@@ -382,7 +380,6 @@ function sendSingleMail(mailId,mailBody,subject,mailingList)
                         	
                 }
      		})
-      		alert("Mail successfully send.")
       		$('#emailCompose').popup('hide');
       		
       		}

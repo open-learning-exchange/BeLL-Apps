@@ -69,12 +69,15 @@
      <script src="app/models/Member.js"></script>
      <script src="app/models/report.js"></script>
      <script src="app/models/NationReport.js"></script>
+     <script src="app/models/request.js"></script>
      
       <!-- Collections  -->
      <script src="app/collections/Community.js"></script>
      <script src="app/collections/MailUnopened.js"></script>
      <script src="app/collections/siteFeedbacks.js"></script>
      <script src="app/collections/Reports.js"></script>
+     <script src="app/collections/CourseRequest.js"></script>
+     <script src="app/collections/ResourceRequest.js"></script>
      
      <!-- Views  -->
      
@@ -91,6 +94,8 @@
     <script src="app/views/ReportsRow.js"></script>
     <script src="app/views/ReportsTable.js"></script>
     <script src="app/views/ReportForm.js"></script>
+    <script src="app/views/RequestsTable.js"></script>
+    <script src="app/views/RequestRow.js"></script>
     
   	<script src="app/Router.js"></script>
   	
@@ -534,6 +539,38 @@
     </td>
     <%}%>
   </script>
+<!-- Requests template -->
+<script type="text/html" id="template-RequestRow">
+    
+       <td>
+    <%=sendFromName%>
+    </td>
+    <td>
+    <%=type%>
+    </td>
+    <td>
+        <%= request %></BR>
+      </td>
+    
+    <td>
+        <%= login %></BR>
+      </td>
+    <td>
+        <%= date %></BR>
+      </td>
+    	<%if(status=="0"){%>
+    	<td>
+    	<a href="#" class="btn btn-warning">
+        Response
+      </a>
+      </td>
+      <%}%>
+      <%if(status=="1"){%>
+    	<td>
+    	Responded
+      </td>
+      <%}%>
+      </script>
 <script type="text/template" id="template-form-file">
     <table class="table table-striped">
       <tr>
