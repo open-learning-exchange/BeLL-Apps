@@ -174,7 +174,7 @@ $(function () {
             // Send the updated model to the server
             if (this.model.get("_id") == undefined) {
 
-            	newEntery = 1
+                newEntery = 1
 
                 this.model.set("members", null)
             } else {
@@ -182,10 +182,10 @@ $(function () {
             }
             if (this.model.get("name").length == 0) {
                 alert("Course name is missing")
-            } 
-//            else if (this.model.get("courseLeader") == 0000) {
-//                alert("Select Course Leader")
-//            } 
+            }
+            //            else if (this.model.get("courseLeader") == 0000) {
+            //                alert("Select Course Leader")
+            //            } 
             else if (this.model.get("leaderEmail").length == 0) {
                 alert("Leader email address is missing")
             } else if (this.model.get("description").length == 0) {
@@ -201,38 +201,37 @@ $(function () {
                     member.save()
                 }
 
-                this.model.set("members",[$.cookie('Member._id')])
-                this.model.set('courseLeader',$.cookie("Member._id")) 
-                this.model.save(null,{success:function(e){
-                	if(newEntery==1)
-                	{
-               			var memprogress = new App.Models.membercourseprogress()
-                		var stepsids = new Array()
-                		var stepsres = new Array()
-                		var stepsstatus = new Array()
-						memprogress.set("stepsIds", stepsids)
-                		memprogress.set("memberId", $.cookie("Member._id"))
-                		memprogress.set("stepsResult", stepsres)
-               			memprogress.set("stepsStatus", stepsstatus)
-                		memprogress.set("courseId", e.get("id"))
-                		memprogress.save()
-                		alert("Course successfully Created.")
-                	}
-                	else
-                	{
-                		//alert(that.model.get("_id"))
-                		///to get the latest rev.id 
-               		 	var groupModel = new App.Models.Group()
-                		groupModel.id = that.model.get("_id")
-                		groupModel.fetch({
-                    		async: false
-                		})
-                		//alert(groupModel.get("rev"))
-                		that.model.set("_rev",groupModel.get("_rev"))
-                		alert("Course successfully Updated.")
-                	}
-                	
-                }})
+                this.model.set("members", [$.cookie('Member._id')])
+                this.model.set('courseLeader', $.cookie("Member._id"))
+                this.model.save(null, {
+                    success: function (e) {
+                        if (newEntery == 1) {
+                            var memprogress = new App.Models.membercourseprogress()
+                            var stepsids = new Array()
+                            var stepsres = new Array()
+                            var stepsstatus = new Array()
+                            memprogress.set("stepsIds", stepsids)
+                            memprogress.set("memberId", $.cookie("Member._id"))
+                            memprogress.set("stepsResult", stepsres)
+                            memprogress.set("stepsStatus", stepsstatus)
+                            memprogress.set("courseId", e.get("id"))
+                            memprogress.save()
+                            alert("Course successfully Created.")
+                        } else {
+                            //alert(that.model.get("_id"))
+                            ///to get the latest rev.id 
+                            var groupModel = new App.Models.Group()
+                            groupModel.id = that.model.get("_id")
+                            groupModel.fetch({
+                                async: false
+                            })
+                            //alert(groupModel.get("rev"))
+                            that.model.set("_rev", groupModel.get("_rev"))
+                            alert("Course successfully Updated.")
+                        }
+
+                    }
+                })
             }
         },
 

@@ -1,31 +1,33 @@
-$(function() {
+$(function () {
 
-  App.Views.FeedbackRow = Backbone.View.extend({
-    
-    vars: {},
+    App.Views.FeedbackRow = Backbone.View.extend({
 
-    tagName: "tr",
+        vars: {},
 
-    events: {
-      "click .destroy" : function(e) {
-        e.preventDefault()
-        this.model.destroy()
-        this.remove()
-      },
-      "click .browse" : function(e) {
-        e.preventDefault()
-        $('#modal').modal({show:true})
-      }
-    },
+        tagName: "tr",
 
-    template : $("#template-FeedbackRow").html(),
+        events: {
+            "click .destroy": function (e) {
+                e.preventDefault()
+                this.model.destroy()
+                this.remove()
+            },
+            "click .browse": function (e) {
+                e.preventDefault()
+                $('#modal').modal({
+                    show: true
+                })
+            }
+        },
 
-    render: function () {
-      var vars = this.model.toJSON()
-      vars.memberName = "";
-      this.$el.append(_.template(this.template, vars))
-    }
+        template: $("#template-FeedbackRow").html(),
 
-  })
+        render: function () {
+            var vars = this.model.toJSON()
+            vars.memberName = "";
+            this.$el.append(_.template(this.template, vars))
+        }
+
+    })
 
 })
