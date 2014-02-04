@@ -130,6 +130,24 @@ $(function () {
                 this.vars.marks = sr[index]
                 this.vars.index = index
             }
+            var attachmentNames = new Array()
+            var attachmentURLs = new Array()
+            if(model.get('_attachments'))
+            {
+	            for (i = 0; i < _.keys(model.get('_attachments')).length; i++) {
+	            	
+	            	var attachmentURL = '/coursestep/' + model.get('_id') + '/'
+	            	var attachmentName = ''
+                	if (typeof model.get('_attachments') !== 'undefined') {
+                   		attachmentURL = attachmentURL + _.keys(model.get('_attachments'))[i]
+                    	attachmentName = _.keys(model.get('_attachments'))[i]
+                    	attachmentNames.push(attachmentName)
+                    	attachmentURLs.push(attachmentURL)
+                	}
+	            }
+            }
+            this.vars.attachmentNames = attachmentNames 
+	        this.vars.attachmentURLs = attachmentURLs
             this.$el.append(this.template(this.vars))
             
         },
