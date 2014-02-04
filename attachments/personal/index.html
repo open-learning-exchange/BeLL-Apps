@@ -265,6 +265,7 @@ function FieSelected(stepId)
 				&& extension[(extension.length - 1)] != 'png')
 	{
 		alert("Invalid attatchment.")
+		return;
 	}
 	var currentdate = new Date();
 	var mail = new App.Models.Mail();
@@ -284,7 +285,7 @@ function FieSelected(stepId)
 	assignmentpaper.set("stepNo",stepNo);
 	assignmentpaper.save(null, {
         	success: function () {   	
-            	assignmentpaper.unset('_attachments')
+            	//assignmentpaper.unset('_attachments')
                 if ($('input[type="file"]').val()) {
                 	assignmentpaper.saveAttachment("form#fileAttachment"+stepId, "form#fileAttachment"+ stepId +" #_attachments", "form#fileAttachment"+ stepId +" .rev")
                	} 
@@ -701,6 +702,23 @@ $(window).scroll(function () {
                             <%=description%>
                           </td>
                         </tr>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Instructions</br>
+                          </td>
+                        </tr>
+                        
+                        <% for (var i=0; i<attachmentNames.length; i++){%>
+                         	<tr class="level-section-data">  
+								<td><b><%=i+1%></b></td>
+                                <td><%= attachmentNames[i] %> &nbsp&nbsp</td>
+								<td>
+									<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank">Open</a>
+								</td>
+							</tr>
+						<% } %>
+
+                        
                        <tr class="level-section-title">
                           <td colspan="3">
                             Resources</br>
@@ -750,7 +768,7 @@ $(window).scroll(function () {
 	                                    	<input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
 	                                    	<input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
 	                                    	<input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
-	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -37px;margin-left: 9%;" />
+	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -43px;margin-left: 9%;" />
 
                                     	</form>
                                     </div>
