@@ -103,6 +103,10 @@ $(function () {
 	                uploadString = uploadString + '<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" /> '
 	                uploadString = uploadString + '<input class="rev" type="hidden" name="_rev"></form>'
 	            this.$el.append(uploadString)
+	            if(!this.model.get('_attachments'))
+            	{
+            		return
+            	}
 	            var tableString = '<table class="table table-striped">'
 	            for (i = 0; i < _.keys(this.model.get('_attachments')).length; i++) {
 	            	
