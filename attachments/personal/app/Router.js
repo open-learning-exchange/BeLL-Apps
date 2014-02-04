@@ -27,6 +27,7 @@ $(function () {
             'member/edit/:mid': 'MemberForm',
             'addResource/:rid/:title/:revid': 'AddResourceToShelf',
             'resource/detail/:rsrcid/:shelfid/:revid': 'Resource_Detail', //When Item is Selected from the shelf 
+            'meetup/detail/:meetupId/:title': 'Meetup_Detail',
             'calendar': 'CalendarFunction',
             'calendar/event/:eid': 'calendaar',
             'calendar-event/edit/:eid': 'EditEvent',
@@ -624,6 +625,15 @@ $(function () {
                 }
             })
 
+        },
+        Meetup_Detail:function(meetupId,title){
+        
+            var meetupModel=new App.Models.MeetUp({_id:meetupId})
+            meetupModel.fetch({async:false})
+            var meetup_details=new App.Views.MeetupDetails({model:meetupModel})
+            meetup_details.render()
+            App.$el.children('.body').html(meetup_details.el)
+        
         },
 
         //Calendar Methods  

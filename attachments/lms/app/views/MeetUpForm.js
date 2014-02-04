@@ -1,12 +1,12 @@
 $(function () {
 
-    App.Views.MeetUp = Backbone.View.extend({
+    App.Views.MeetUpForm = Backbone.View.extend({
 
         className: "form",
         id: 'meetUpForm',
         prevmemlist: null,
         events: {
-            "click #formButton": "setForm",
+            "click #MeetUpformButton": "setForm",
             "submit form": "setFormFromEnterKey",
             "click #inviteMemberButton": "MemberInvite",
             "click #MeetUpcancel": function () {
@@ -37,16 +37,29 @@ $(function () {
             }
         },
         render: function () {
+           
             $('#invitationdiv').hide()
             // members is required for the form's members field
+            
+            var btnText='Save'
+            if(!this.model.get('_id')) 
+              this.$el.append('<h3>Start a New Meetup</h3>')
+             else
+             {
+               this.$el.append('<h3>Edit Meetup | '+this.model.get('title')+'</h3>')
+               btnText='Update'
+             }
+             
+             
             this.form = new Backbone.Form({
                 model: this.model
             })
             this.$el.append(this.form.render().el)
-            var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">Save</button>')
-            var $ubutton = $('<a class="btn btn-success" id="formButton">Update</button>')
-            var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
-            this.$el.append($button)
+            var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">'+btnText+'</a>')
+            var $ubutton = $('<a class="btn btn-success" id="formButton">Cancel</a>')
+           // var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
+            this.$el.append($sbutton)
+            //this.$el.append($button)
             this.$el.append("<a class='btn btn-danger' id='MeetUpcancel'>Cancel</a>")
         },
 
@@ -59,28 +72,37 @@ $(function () {
             var that = this
             this.model.once('sync', function () {
                 console.log(that.model)
-                Backbone.history.navigate('course/manage/' + that.model.get("id"), {
+                Backbone.history.navigate('meetups', {
                     trigger: true
                 })
             })
             // Put the form's input into the model in memory
             this.form.commit()
-            // Send the updated model to the server
-            if (this.model.get("_id") == undefined) {
-                this.model.set("members", null)
-            } else {
-                this.model.set("members", this.prevmemlist)
-            }
-            if (this.model.get("name").length == 0) {
-                alert("Course name is missing")
-            } else if (this.model.get("courseLeader") == 0000) {
-                alert("Select Course Leader")
-            } else if (this.model.get("leaderEmail").length == 0) {
-                alert("Leader email address is missing")
+            
+            if (this.model.get("title").length == 0) {
+                alert("MeetUp title is missing")
             } else if (this.model.get("description").length == 0) {
-                alert("Course description is missing")
-            } else {
-                this.model.save()
+                alert("MeetUp Description is missing")
+            } else if (this.model.get("meetupLocation").length == 0) {
+                alert("MeetUp Location is missing")
+            }  else {
+            
+                this.model.set('creator',$.cookie('Member._id'))
+                this.model.save(null,{success:function(responce){
+                	var userMeetup=new App.Models.UserMeetups()
+            
+                  userMeetup.set({
+                    memberId:$.cookie('Member._id'),
+                    meetupId:responce.get('id'),
+                    meetupTitle:responce.get('title'),
+                    
+                    })
+                    
+                    userMeetup.save()  
+                }})
+                
+                
+                    
             }
         },
 
