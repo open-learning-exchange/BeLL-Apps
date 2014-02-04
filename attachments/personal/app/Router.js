@@ -40,7 +40,10 @@ $(function () {
         },
 
         initialize: function () {
+        	
             this.bind("all", this.startUpStuff)
+            this.bind("all", this.checkLoggedIn)
+            this.bind("all", this.renderNav)
 
            // this.bind("all", this.reviewStatus)
         },
@@ -49,10 +52,7 @@ $(function () {
             if (App.idss.length == 0) {}
             $('div.takeQuizDiv').hide()
             $('#externalDiv').hide()
-            $('#debug').hide()
-
-            this.bind("all", this.checkLoggedIn)
-            this.bind("all", this.renderNav)
+            $('#debug').hide()  
         },
          reviewStatus: function(){
         	 var member = new App.Models.Member({

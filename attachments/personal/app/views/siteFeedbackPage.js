@@ -172,9 +172,8 @@ $(function () {
         filterResult: function (model) {
 
             var temp = model.get("PageUrl")
-            if(!temp)
-            {
-               temp=''
+            if (!temp) {
+                temp = ''
             }
             var temp2 = temp.split('/')
             var ul = temp2[0]

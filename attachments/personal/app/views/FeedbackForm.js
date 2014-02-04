@@ -4,14 +4,14 @@ $(function () {
 
         tagName: "form",
         user_rating: 'null',
-        resourceId:'null',
+        resourceId: 'null',
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
         },
 
-        initialize: function(e){
-        this.resourceId=e.resId
+        initialize: function (e) {
+            this.resourceId = e.resId
         },
         render: function () {
             this.user_rating = 0
@@ -51,27 +51,29 @@ $(function () {
                 //Send the updated model to the server
                 this.model.save()
                 var member = new App.Models.Member({
-                                _id: $.cookie('Member._id')
-                            })
-                            member.fetch({
-                                async: false
-                           })  
-                var pending=[]
-                pending=member.get("pendingReviews")
-                var index=pending.indexOf( this.resourceId)
+                    _id: $.cookie('Member._id')
+                })
+                member.fetch({
+                    async: false
+                })
+                var pending = []
+                pending = member.get("pendingReviews")
+                var index = pending.indexOf(this.resourceId)
                 //console.log(index)
-                if(index>-1){
-                	console.log(pending)
-                	pending.splice(index,1)
-                	console.log(pending)
-                	member.set("pendingReviews",pending)
-                	member.save(null,{success: function(){
-    						location.reload()
-                	}})
+                if (index > -1) {
+                    console.log(pending)
+                    pending.splice(index, 1)
+                    console.log(pending)
+                    member.set("pendingReviews", pending)
+                    member.save(null, {
+                        success: function () {
+                            location.reload()
+                        }
+                    })
                 }
                 $('#externalDiv').hide()
-              //  alert("yes")
-              // location.reload()
+                //  alert("yes")
+                // location.reload()
             }
 
         },

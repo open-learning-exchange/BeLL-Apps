@@ -13,12 +13,19 @@ $(function () {
 
         addAll: function () {
 
-            if (this.collection.length != 0) {
-                this.collection.each(this.addOne, this)
-            } else {
+			////temporary
+			var temp = ["English","Algebra","Midwifery"]
+			for(var i=0; i<3 ; i++)
+			{
+				this.addOne(temp[i],this)
+			}
 
-                $('#tutorTable').append("<td class='course-box'>No Tutor</td>")
-            }
+//            if (this.collection.length != 0) {
+//                this.collection.each(this.addOne, this)
+//            } else {
+//
+//                $('#tutorTable').append("<td class='course-box'>No Tutor</td>")
+//            }
         },
 
         render: function () {
