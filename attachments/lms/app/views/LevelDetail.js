@@ -47,10 +47,13 @@ $(function () {
                     r.fetch({
                         async: false
                     })
-                    if (r.get("_attachments")) {
-                        this.$el.append("<tr><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
-                    } else {
-                        this.$el.append("<tr><td>" + rtitle[i] + "</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                    if(! (r.get("hidden") ))
+                    	{
+                    	if (r.get("_attachments")) {
+                        	this.$el.append("<tr><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                    		} 	else {
+                        		this.$el.append("<tr><td>" + rtitle[i] + "</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                    	}
                     }
                 }
             }

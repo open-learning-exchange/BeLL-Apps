@@ -13,7 +13,10 @@ $(function () {
             if (!empty) {
                 $.each(App.ShelfItems, function (key, value) {
                     var arr = value.toString().split("+")
-                    $('#ur').append('<td class="shelf-box"><a href="#resource/detail/' + key + '/' + arr[1] + '/' + arr[2] + '">' + arr[0] + '</a></td>')
+                    if(arr[0]=='false')
+                    {
+                    	$('#ur').append('<td class="shelf-box"><a href="#resource/detail/' + key + '/' + arr[2] + '/' + arr[3] + '">' + arr[1] + '</a></td>')
+                    }
                 });
             } else {
                 $('#ur').append('<td class="shelf-box">No Item In the Shelf</td>')
