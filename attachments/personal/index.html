@@ -701,7 +701,7 @@ $(window).scroll(function () {
                             <%=description%>
                           </td>
                         </tr>
-                       <tr class="level-section-title">
+                       <tr class="level-section-title" id="r_items">
                           <td colspan="3">
                             Resources</br>
                           </td>
@@ -710,6 +710,7 @@ $(window).scroll(function () {
                         
                         
                           <%for (var i=0; i<resourceId.length; i++){%>
+                          
                          <tr class="level-section-data">  
 				<td>
                                       <b><%=i+1%></b>

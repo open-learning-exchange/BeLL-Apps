@@ -773,8 +773,12 @@
 
 
   <script type="text/html" id="template-ResourceRow">
-    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
-    <td>
+  
+  <%if(Manager==1){%>
+  
+    	<% if(!hidden){ %>
+    	<% if(title){ %>
+  <td>
         <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
@@ -784,45 +788,107 @@
           <img src="star-off.png" style="height:17px"/>
       <% }}%>&nbsp;(<%=totalRatings%>)
   </td>
-    </td>
-    
-    
-    <td>
+   <td>
       <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
         <i class='icon-eye-open icon-white'></i> Open
       </a>
     </td>
-   
-    <td>
-      <a class='btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
-        <i class='icon-download icon-white'></i> Download
-      </a>
-    </td>
-    <td>
+   <td>
       <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
         View Details
       </a>
     </td>
+  
     <td>
-    
-	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>add to My Library</button>
-	 
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
     </td>
-    <td>
-
+   <td>
       <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
        Feedback
       </a>
     </td>
     <td>
-    <%if(Manager==1){%>
       <a class='btn btn-danger destroy'>
         <i class='icon-remove icon-white'></i> Delete
       </a>
+      </td>
+        <td>
+        <a  class="btn btn-danger hides" style="width: 66px;">
+        <i class='icon-pencil icon-white'></i>Hide
+      </a> 
+      </td>
       <%}%>
+      <%}else{%>
+      <% if(title){ %>
+  <td>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= title %></BR></span>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+   <td>
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
+      </a>
+    </td>
+  
+    <td>
+	 <button class='btn btn-inverse disabled'>Add to My Library</button>
+    </td>
+     <td>
+      <button class='btn btn-inverse disabled' > <i class='icon-pencil icon-white'></i>
+       Feedback
+      </button>
+    </td>
+    <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      </td>
+      <td>
+	<a class='btn btn-warning unhide'>
+        <i class='icon-pencil icon-white'></i>Unhide
+      </a>
+      </td> 
+      <%}%>
+    <%}%>
+     <%}%>
+    <%if(Manager!=1 &&!hidden){%>
+    <% if(title){ %>
+     <td>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+     <td>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
+    </td>
+   <td>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
+       Feedback
+      </a>
     </td>
     <%}%>
-    
+    <%}%>
   </script>
   
   <script type="text/html" id="template-rateResource">

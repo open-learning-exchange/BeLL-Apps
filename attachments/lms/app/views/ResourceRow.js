@@ -48,6 +48,51 @@ $(function () {
                	alert("Resource Successfully deleted.")
                 event.preventDefault()
             },
+                        
+            "click .hides": function (event) {
+               	$(this.el).html("")
+            	this.model.set({"hidden":true})
+               	this.model.save()
+               	App.startActivityIndicator()
+               	 var shelfResources = new App.Collections.shelfResource()
+                shelfResources.deleteResource = 1
+                shelfResources.resourceId = this.model.get("_id")
+                shelfResources.fetch({async : false})
+                shelfResources.each(function(item) {
+        			item.set({"hidden":true})
+        			item.save()
+    			});
+               	App.stopActivityIndicator()
+               	var newmodel=new App.Models.Resource({
+                "_id":this.model.get('_id')
+                })
+                newmodel.fetch({async:false})
+                this.model=newmodel
+               	this.render()
+            },
+            "click .unhide": function (event) {
+               	
+               	$(this.el).html("")
+               	this.model.set({"hidden":false})
+               	this.model.save()
+               	App.startActivityIndicator()
+               	 var shelfResources = new App.Collections.shelfResource()
+                shelfResources.deleteResource = 1
+                shelfResources.resourceId = this.model.get("_id")
+                shelfResources.fetch({async : false})
+                shelfResources.each(function(item) {
+        			item.set({"hidden":false})
+        			item.save()
+    			});
+               	App.stopActivityIndicator()
+				var newmodel=new App.Models.Resource({
+                "_id":this.model.get('_id')
+                })
+                newmodel.fetch({async:false})
+                this.model=newmodel
+               	this.render()
+               
+            },
             "click .trigger-modal": function () {
                 $('#myModal').modal({
                 	
@@ -128,8 +173,13 @@ $(function () {
         },
 
         render: function () {
-            //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()
+
+		if(vars.hidden==undefined)
+		{
+			vars.hidden=false
+		}
+            //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             /*var resourceFeedback = new App.Collections.ResourceFeedback()
       resourceFeedback.resourceId = this.model.get("_id")
       resourceFeedback.fetch({async:false})

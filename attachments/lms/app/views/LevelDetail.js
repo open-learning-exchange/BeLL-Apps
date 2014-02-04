@@ -90,10 +90,13 @@ $(function () {
                     r.fetch({
                         async: false
                     })
-                    if (r.get("_attachments")) {
-                        stepResources = stepResources + ("<tr><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
-                    } else {
-                        stepResources = stepResources + ("<tr><td>" + rtitle[i] + "</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                    if(! (r.get("hidden") ))
+                    	{
+                    	if (r.get("_attachments")) {
+                        	stepResources = stepResources + ("<tr><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                    		} 	else {
+                        		stepResources = stepResources + ("<tr><td>" + rtitle[i] + "</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                    	}
                     }
                 }
                 stepResources = stepResources + '</table>'
@@ -103,6 +106,10 @@ $(function () {
 	                uploadString = uploadString + '<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" /> '
 	                uploadString = uploadString + '<input class="rev" type="hidden" name="_rev"></form>'
 	            this.$el.append(uploadString)
+	            if(!this.model.get('_attachments'))
+            	{
+            		return
+            	}
 	            var tableString = '<table class="table table-striped">'
 	            for (i = 0; i < _.keys(this.model.get('_attachments')).length; i++) {
 	            	

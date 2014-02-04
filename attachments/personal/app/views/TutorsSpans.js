@@ -14,18 +14,24 @@ $(function () {
         addAll: function () {
 
 			////temporary
-			var temp = ["English","Algebra","Midwifery"]
-			for(var i=0; i<3 ; i++)
+			if($.cookie('Member._id')=="821d357b8f3ba3c09836c91bebcb29d7")
 			{
-				this.addOne(temp[i],this)
+				var temp = ["English","Algebra","Midwifery"]
+				for(var i=0; i<3 ; i++)
+				{
+					this.addOne(temp[i],this)
+				}
 			}
+			else
+			{
 
-//            if (this.collection.length != 0) {
-//                this.collection.each(this.addOne, this)
-//            } else {
-//
-//                $('#tutorTable').append("<td class='course-box'>No Tutor</td>")
-//            }
+	            if (this.collection.length != 0) {
+	                this.collection.each(this.addOne, this)
+	            } else {
+	
+	                $('#tutorTable').append("<td class='course-box'>No Tutor</td>")
+	            }
+			}
         },
 
         render: function () {
