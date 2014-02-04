@@ -55,6 +55,9 @@ $(function () {
                 model: this.model
             })
             this.$el.append(this.form.render().el)
+            this.form.fields['Time'].$el.hide();
+            
+           
             var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">'+btnText+'</a>')
             var $ubutton = $('<a class="btn btn-success" id="formButton">Cancel</a>')
            // var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
@@ -87,6 +90,7 @@ $(function () {
                 alert("MeetUp Location is missing")
             }  else {
             
+                this.model.set('Time',$('#MeetupStartTime').val())
                 this.model.set('creator',$.cookie('Member._id'))
                 this.model.save(null,{success:function(responce){
                 	var userMeetup=new App.Models.UserMeetups()

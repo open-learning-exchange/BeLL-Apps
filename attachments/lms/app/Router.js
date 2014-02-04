@@ -759,6 +759,9 @@ $(function () {
             modelForm.render()
              
             App.$el.children('.body').html(modelForm.el)
+            App.$el.children('.body').append('<input type="text" id="MeetupStartTime" placeholder="MeetUp Start Time" style="margin-top:-274px; margin-left:269px;"/>')
+            $('#MeetupStartTime').val(model.get('Time'))
+            $('#MeetupStartTime').timepicker()
 
         },
         deleteMeetUp:function(meetupId){
