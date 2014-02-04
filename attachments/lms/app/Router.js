@@ -3,7 +3,7 @@ $(function () {
 
 
         routes: {
-            '': '',
+            '': 'LandingScreen',
             'teams': 'Resources',
             'landingPage': 'LandingScreen',
             'becomemember': 'BecomeMemberForm',
@@ -601,14 +601,17 @@ $(function () {
         },
 		Members: function () {
         App.startActivityIndicator()
-			
-             var communitycodes = new App.Collections.CommunityCode()
-            communitycodes.fetch({
-                async: false
-            })
-            var codes = communitycodes.first().toJSON().community_code
-            console.log(codes)
-                    
+			 var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})
+    		var config=new configurations()
+    	     config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+        
+    	    
+    	    code=cofigINJSON.rows[0].doc.code       
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -623,7 +626,7 @@ $(function () {
                     membersTable = new App.Views.MembersTable({
                         collection: members
                     })
-                    membersTable.community_code=codes
+                    membersTable.community_code=code
                     console.log(membersTable.community_code)
                     if (roles.indexOf("Manager") > -1) {
                         membersTable.isadmin = true

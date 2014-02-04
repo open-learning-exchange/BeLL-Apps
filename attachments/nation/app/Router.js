@@ -14,6 +14,7 @@ $(function(){
 	  		  'reports': 'Reports',
     	      'reports/edit/:resportId': 'ReportForm',
               'reports/add': 'ReportForm',
+              'publication':'Publication'
 	  	}, 
 	  	
 	initialize: function() {
@@ -275,7 +276,10 @@ MemberLogout: function() {
                 
             }
         },
-
+		Publication: function()
+		{
+			alert('Publications')
+		}
 	}))
 	 
 })

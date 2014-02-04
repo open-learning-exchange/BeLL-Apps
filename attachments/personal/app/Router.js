@@ -49,10 +49,11 @@ $(function () {
         },
         startUpStuff: function () {
             this.renderNav
+            
             if (App.idss.length == 0) {}
             $('div.takeQuizDiv').hide()
             $('#externalDiv').hide()
-            $('#debug').hide()  
+            $('#debug').hide()
         },
          reviewStatus: function(){
         	 var member = new App.Models.Member({
