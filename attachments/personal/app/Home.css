@@ -691,3 +691,10 @@ margin-top: 2px;
     font-family: verdana;
     word-wrap: break-word;
 }
+#meetUpTable{
+    background-color: #8A4C80;
+    border-right: 2px solid #FFFFFF;
+    font-family: verdana;
+    word-wrap: break-word;
+
+}

@@ -17,6 +17,11 @@ $(function () {
             'resource/feedback/add/:resourceId': 'FeedbackForm',
             'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
             'courses': 'Groups',
+            'meetups':'ListMeetups',
+            'meetup/add':'Meetup',
+            'meetup/delete/:MeetupId':'deleteMeetUp',
+            'meetup/details/:meetupId/:title':'meetupDetails',
+            'meetup/manage/:meetUpId':'Meetup',
             'course/details/:courseId/:courseName':'courseDetails',
             'course/edit/:groupId': 'GroupForm',
             'course/default': 'Explore_Bell_Courses',
@@ -737,15 +742,63 @@ $(function () {
         },
         // *********** MEMBER MEETUPS ****************************************************
         Meetup: function (meetUpId) {
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        
+            $('#itemsinnavbar').html($("#template-nav-logged-in").html())  
+             
             var className = "MeetUp"
             var model = new App.Models[className]()
+             if(meetUpId){
+             
+            		  	model.id=meetUpId
+              			model.fetch({async:false})
+             }
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-            App.$el.children('.body').html('<br/>')
-            App.$el.children('.body').append('<h3>Start a New Meetup</h3>')
-            App.$el.children('.body').append(modelForm.el)
+            
+            modelForm.render()
+             
+            App.$el.children('.body').html(modelForm.el)
+
+        },
+        deleteMeetUp:function(meetupId){
+        
+       var  UserMeetups = new App.Collections.UserMeetups()
+            UserMeetups.meetupId=meetupId
+            UserMeetups.fetch({async:false})
+            var model;
+			while (model = UserMeetups.first()) {
+                   model.destroy();
+            }
+           var meetupModel=new App.Models.MeetUp({_id:meetupId})
+               meetupModel.fetch({async:false})
+               meetupModel.destroy() 
+               Backbone.history.navigate('meetups', {
+                        trigger: true
+                    })
+        
+        },
+        meetupDetails:function(meetupId,title){
+        
+            var meetupModel=new App.Models.MeetUp({_id:meetupId})
+            meetupModel.fetch({async:false})
+            var meetupView=new App.Views.meetupView({model:meetupModel})
+            meetupView.render()
+            App.$el.children('.body').html(meetupView.el)
+            
+        
+        },
+         ListMeetups: function () {
+          
+          App.$el.children('.body').html('<h3>Meetups<a style="margin-left:20px" class="btn btn-success" href="#meetup/add">Add Meetup</a></h3>')
+          var meetUps=new App.Collections.Meetups()
+          meetUps.fetch({
+                 async:false
+           })
+         var meetUpView=new App.Views.MeetUpTable({collection:meetUps})
+         
+         meetUpView.render()
+         App.$el.children('.body').append(meetUpView.el)
         },
 
 
@@ -899,7 +952,7 @@ $(function () {
         ViewLevel: function (lid, rid) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid,
-                "_rev": rid
+              //  "_rev": rid
             })
             var that = this
             levelInfo.fetch({

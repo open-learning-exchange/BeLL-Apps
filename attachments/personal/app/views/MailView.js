@@ -1,7 +1,7 @@
 $(function () {
 
     App.Views.MailView = Backbone.View.extend({
-		code:null,
+        code: null,
         vars: {},
         recordsPerPage: null,
         modelNo: null,
@@ -15,23 +15,20 @@ $(function () {
         templateMailView: _.template($("#template-view-mail").html()),
 
         events: {
-        	"click #replyMailButton" : function(e) {
-        		if(this.vars.mailingList)
-        		{
-        			$("#recipients").val(this.vars.mailingList)
-        		}
-        		else
-        		{
-        			$("#recipients").val(this.vars.login)
-        		}
-        		$("#subject").val("Re : " + this.vars.subject)
-        		$("#mailbodytexarea").val("")
-        	},
-        	"click #mailComposeButton" : function(e) {
-        		$("#subject").val("")
-        		$("#recipients").val("")
-        		$("#mailbodytexarea").val("")
-        	},
+            "click #replyMailButton": function (e) {
+                if (this.vars.mailingList) {
+                    $("#recipients").val(this.vars.mailingList)
+                } else {
+                    $("#recipients").val(this.vars.login)
+                }
+                $("#subject").val("Re : " + this.vars.subject)
+                $("#mailbodytexarea").val("")
+            },
+            "click #mailComposeButton": function (e) {
+                $("#subject").val("")
+                $("#recipients").val("")
+                $("#mailbodytexarea").val("")
+            },
             "click #nextButton": function (e) {
                 this.modelNo = 0
                 this.resultArray = []
@@ -60,7 +57,7 @@ $(function () {
                 this.fetchRecords()
                 $("#nextButton").show()
                 $("#previousButton").hide()
-            },   
+            },
             "click #backpage": function (e) {
                 window.location.reload()
             },
@@ -90,12 +87,12 @@ $(function () {
 
             },
             "click #invite-accept": function (e) {
-                 
+
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-                var vacancyFull= body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>this Course Was Full.</div>"
+                var vacancyFull = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>this Course Was Full.</div>"
                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
-                 
+
                 var model = new App.Models.Mail()
                 model.id = mailView.inViewModel.get("id")
                 model.fetch({
@@ -110,25 +107,24 @@ $(function () {
                 })
 
                 var that = this
-                
-               //*************check Vacancies for the Course**************
-            
-                var num=gmodel.get("members").length       
-                if(gmodel.get("memberLimit"))       
-                if(gmodel.get("memberLimit") < num)
-                {
-                  alert('This Course is full')
-                  model.set('body', vacancyFull)
-                  $('#mail-body').html('<br/>' + vacancyFull)
-                  model.save()
-                  return
-                }
-                
-                
+
+                //*************check Vacancies for the Course**************
+
+                var num = gmodel.get("members").length
+                if (gmodel.get("memberLimit"))
+                    if (gmodel.get("memberLimit") < num) {
+                        alert('This Course is full')
+                        model.set('body', vacancyFull)
+                        $('#mail-body').html('<br/>' + vacancyFull)
+                        model.save()
+                        return
+                    }
+
+
                 model.set('body', body)
                 model.save()
-               $('#mail-body').html('<br/>' + body)
-                
+                $('#mail-body').html('<br/>' + body)
+
                 if (gmodel.get("_id")) {
                     var memberlist = []
                     if (gmodel.get("members") != null) {
@@ -222,9 +218,9 @@ $(function () {
                 this.fetchRecords()
             }
         },
-        renderAllMails: function(e) {
-        	
-        	mailView.modelNo = 0
+        renderAllMails: function (e) {
+
+            mailView.modelNo = 0
             skip = 0
             this.searchText = ""
             mailView.resultArray = []
@@ -232,11 +228,11 @@ $(function () {
             mailView.fetchRecords()
             $("#nextButton").show()
             $("#previousButton").hide()
-                
+
         },
         viewButton: function (e) {
             var modelNo = e.currentTarget.value
-            var model = mailView.collection.at(modelNo)     
+            var model = mailView.collection.at(modelNo)
             var attchmentURL = '/mail/' + model.get("_id") + '/'
             var attachmentName = ''
             if (typeof model.get('_attachments') !== 'undefined') {
@@ -246,7 +242,7 @@ $(function () {
             }
             mailView.inViewModel = model
             model.set("status", "1")
-           // console.log(this)
+            // console.log(this)
             console.log(e)
             model.save()
             mailView.vars = model.toJSON()
@@ -258,17 +254,14 @@ $(function () {
             })
             mailView.vars.firstName = member.get('firstName')
             mailView.vars.lastName = member.get('lastName')
-            mailView.vars.email=member.get('login')+'.'+mailView.code+'@olebell.org'
+            mailView.vars.email = member.get('login') + '.' + mailView.code + '@olebell.org'
             mailView.vars.modelNo = modelNo
             mailView.vars.login = mailView.vars.email
-            if(attachmentName!="")
-            {
-            	mailView.vars.isAttachment = 1
-            	mailView.vars.attchmentURL = attchmentURL
-            }
-            else
-            {
-            	mailView.vars.isAttachment = 0
+            if (attachmentName != "") {
+                mailView.vars.isAttachment = 1
+                mailView.vars.attchmentURL = attchmentURL
+            } else {
+                mailView.vars.isAttachment = 0
             }
             mailView.$el.html('')
             mailView.$el.append(mailView.templateMailView(mailView.vars))
@@ -278,11 +271,11 @@ $(function () {
             var selectedModel = mailView.collection.at(modelNo)
             selectedModel.destroy()
             mailView.renderAllMails()
-           // window.location.reload()
+            // window.location.reload()
         },
         initialize: function (args) {
-        	this.code=args.community_code
-        	console.log(this.code)
+            this.code = args.community_code
+            console.log(this.code)
             this.modelNo = 0
             skip = 0
             this.unopen = true
@@ -364,17 +357,16 @@ $(function () {
                     }
 
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
-                      //  if (searchText != "")
-                       {
-                            
-                        $("#errorMessage").show();
+                        //  if (searchText != "")
+                        {
+
+                            $("#errorMessage").show();
                             return
                         }
                     }
 
                     var ResultCollection = new App.Collections.Mails()
-                    if(obj.resultArray.length > 0)
-                    {
+                    if (obj.resultArray.length > 0) {
                         $("#errorMessage").hide();
                         ResultCollection.set(obj.resultArray)
                         obj.collection = ResultCollection

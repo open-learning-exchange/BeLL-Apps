@@ -9,23 +9,24 @@ $(function () {
             "click #takequiz": "quiz",
             "click #resourseOpened": function (e) {
                 resid = e.target.attributes.rid.nodeValue
-                 var member = new App.Models.Member({
-                 	_id: $.cookie('Member._id')
-                 })
-                 member.fetch({
-                     async: false
-                 })
-                 var pending=[]
-                pending= member.get("pendingReviews")
+                var member = new App.Models.Member({
+                    _id: $.cookie('Member._id')
+                })
+                member.fetch({
+                    async: false
+                })
+                var pending = []
+                pending = member.get("pendingReviews")
                 pending.push(resid)
-     		   	member.set("pendingReviews",pending)
-     		   	member.save()
-                console.log(member.get("pendingReviews"))     
+                member.set("pendingReviews", pending)
+                member.save()
+                console.log(member.get("pendingReviews"))
                 ratingModel = new App.Models.Feedback()
                 ratingModel.set('resourceId', resid)
                 ratingModel.set('memberId', $.cookie('Member._id'))
                 ratingView = new App.Views.FeedbackForm({
-                    model: ratingModel,resId:resid
+                    model: ratingModel,
+                    resId: resid
                 })
                 $('#externalDiv').html('<div id="star"></div>')
                 $('#star').append("Rating<br/>")
@@ -107,11 +108,11 @@ $(function () {
                 }
              }
             this.vars = model.toJSON()
-            if(!this.vars.outComes)
-              this.vars.outComes=''
-            if(this.vars.questions && this.vars.questions.length>0)  
-              this.vars.outComes='Quiz'
-              
+            if (!this.vars.outComes)
+                this.vars.outComes = ''
+            if (this.vars.questions && this.vars.questions.length > 0)
+                this.vars.outComes = 'Quiz'
+
             var index = 0
             var sstatus = this.modl.get("stepsStatus")
             var ssids = this.modl.get("stepsIds")
@@ -152,9 +153,9 @@ $(function () {
                 }
             }
         },
-        
-        render: function () {        	
-        
+
+        render: function () {
+
             if (this.collection.length < 1) {
                 this.$el.append('<p style="font-weight:900;">No data related to selected course found</p>')
             } else {

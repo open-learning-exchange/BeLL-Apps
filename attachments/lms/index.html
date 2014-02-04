@@ -78,6 +78,8 @@
   <script src="app/models/CommunityCode.js"></script>
   <script src="app/models/ResourceFrequency.js"></script>
   <script src="app/models/AssignmentPaper.js"></script>
+  <script src="app/models/MeetUp.js"></script>
+  <script src="app/models/UserMeetups.js"></script>
 
   
    
@@ -109,6 +111,9 @@
   <script src="app/collections/shelfResource.js"></script>
   <script src="app/collections/ResourcesFrequency.js"></script>
    <script src="app/collections/AssignmentPapers.js"></script>
+   <script src="app/collections/Meetups.js"></script>
+  <script src="app/collections/UserMeetups.js"></script>
+   
   <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
@@ -170,7 +175,11 @@
   <script src="app/views/ReportForm.js"></script>
   <script src="app/views/GroupView.js"></script>
   <script src="app/views/CourseStepsView.js"></script>
-  
+   <!-- MeetUps     -->
+    <script src="app/views/MeetUpForm.js"></script>
+    <script src="app/views/MeetUpRow.js"></script>
+    <script src="app/views/MeetUpTable.js"></script>
+    <script src="app/views/meetupView.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   
@@ -664,6 +673,36 @@
     <%}%>
     </td> 
     
+  </script>
+  
+  <script type="text/html" id="template-MeetUpRow">
+    <td>
+      <%= title %>
+    </td> 
+
+   
+    <td>
+      <a role='button' class='btn btn-warning' href='#meetup/details/<%= _id %>/<%= title %>'> 
+       View Meetup
+      </a>
+    </td>
+    
+    <td>
+    <%if(creator){%>
+      <a role='button' class='btn btn-inverse' href='#meetup/manage/<%= _id %>'> 
+        <i class="icon-wrench icon-white"></i> Manage
+      </a>
+      <%}%>
+    </td>
+
+    <td>
+     <%if(creator){%>
+      <a class='destroy btn btn-danger' href='#meetup/delete/<%= _id %>'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      <%}%>
+    </td> 
+ 
   </script>
   
   <script type="text/html" id="template-LevelRow">
