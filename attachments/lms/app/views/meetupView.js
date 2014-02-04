@@ -22,6 +22,7 @@ $(function () {
         },
         joinMeetUp:function(){
         
+        
           var UserMeetUp=new App.Models.UserMeetups()
           UserMeetUp.set('memberId',$.cookie('Member._id'))
           UserMeetUp.set('meetupId',this.model.get('_id'))

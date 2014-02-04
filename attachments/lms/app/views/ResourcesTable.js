@@ -31,7 +31,7 @@ $(function() {
     },
 
     render: function() {
-       this.$el.html("<tr><th>Title</th><th colspan='5'>Actions</th></tr>")
+       this.$el.html("<tr><th>Title</th><th colspan='6'>Actions</th></tr>")
       this.addAll()
     }
 

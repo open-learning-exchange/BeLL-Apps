@@ -14,16 +14,19 @@ $(function () {
             
              var vars = this.model.toJSON()
              var mId=$.cookie('Member._id')
-             
+    
              var userMeetups=new App.Collections.UserMeetups() 
-             userMeetups.memberId=mId 
+             userMeetups.memberId=mId
+             userMeetups.meetupId=vars._id
              
              userMeetups.fetch({async:false})
              
-             userMeetups.each(
-             		function(e){
-             			e.destroy()	
-             })
+             
+         var model;
+			 while (model = userMeetups.first()) {
+  							model.destroy();
+			  }
+             
              alert("Successfully removed from My Meetups ")
              Backbone.history.navigate('dashboard', {trigger: true})
              

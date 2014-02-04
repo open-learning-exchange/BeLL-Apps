@@ -75,6 +75,38 @@ $(function () {
         },
 
         addOne: function (model) {
+            
+            var upto=0
+            if (model.get("resourceTitles")) {
+            
+            max = model.get("resourceTitles").length
+                for (var i = 0; i < max; i++) {
+                var rtitle = model.get("resourceTitles")
+            var rid = model.get("resourceId")
+                    var r = new App.Models.Resource({
+                        "_id": rid[upto]
+                    })
+                    r.fetch({
+                        async: false
+                    })
+                    if(r.get("hidden")==true)
+                    {
+                    	
+                    	var index = model.get("resourceId").indexOf(r.get("_id").toString())
+                    	
+               			if(index!=-1)
+               			{
+               				model.get("resourceId").splice(index,1)
+               				model.get("resourceTitles").splice(index,1)
+               			}
+               			
+                    		
+                    }
+                    else{
+               			upto++
+               			}
+                }
+             }
             this.vars = model.toJSON()
             if (!this.vars.outComes)
                 this.vars.outComes = ''
@@ -117,6 +149,7 @@ $(function () {
             this.vars.attachmentNames = attachmentNames 
 	        this.vars.attachmentURLs = attachmentURLs
             this.$el.append(this.template(this.vars))
+            
         },
 
         setAllResults: function () {

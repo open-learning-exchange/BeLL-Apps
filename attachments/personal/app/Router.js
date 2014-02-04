@@ -340,7 +340,7 @@ $(function () {
                 dataType: 'json', 
                 success: function (response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        App.ShelfItems[response.rows[i].doc.resourceId] = [response.rows[i].doc.resourceTitle + "+" + response.rows[i].doc._id]
+                        App.ShelfItems[response.rows[i].doc.resourceId] = [response.rows[i].doc.hidden + "+" + response.rows[i].doc.resourceTitle + "+" + response.rows[i].doc._id]
                     }
                 },
                 data: {},

@@ -20,7 +20,7 @@ $(function() {
       title: 'Text',
       description: 'TextArea',
       schedule: 'Date',
-      Time: 'Text',
+      Time: {type:'Text',id:'ui-timepicker-input'},
       category: { type: 'Select', options: ['ICT', 'First Time' , 'Mothers' , 'General' , 'E Learning','Farming','Academic Discussion','Academic Help','Awareness'] },
       meetupLocation: 'Text',
     }
