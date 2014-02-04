@@ -6,17 +6,18 @@
   <title>Personal BeLL</title>
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
-  <link rel="stylesheet" href="vendor/badger.css"/>
+    <link rel="stylesheet" href="app/morris.css"/>
+  <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
+   
 
 <!--
     DEPENDENCIES
   -->
- 
+  <script src="app/raphael.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
-   <script src="vendor/badger.js"></script>
-	<script src="vendor/spectrum.js"></script>
+  <script src="vendor/jquery-ui.js"></script>
   <script src="vendor/jquery.cookie.js"></script>
   <script src="vendor/pouchdb-nightly.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
@@ -25,7 +26,7 @@
   <script src="vendor/backbone-pouch.js"></script>
   <script src="/_utils/script/json2.js"></script>
   <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
-  <script src="/_utils/script/jquery.form.js?0.9.0"></script>
+  <script src="vendor/jquery.form.js"></script>
   <script src="vendor/sha1.js"></script>
   <script src="vendor/jquery.couch.js"></script>
   <script src="vendor/backbone.couchdb.js"></script>
@@ -36,6 +37,8 @@
   <script src="vendor/jquery.raty.js"></script>
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
+  <script src="app/morris.js"></script>
+  
 
   <!--
     App
@@ -47,26 +50,44 @@
   <script src="app/models/Resource.js"></script>
   <script src="app/models/Group.js"></script>
   <script src="app/models/Assignment.js"></script>
-  <script src="app/models/Invitation.js"></script>
   <script src="app/models/Member.js"></script>
   <script src="app/models/Credentials.js"></script>
   <script src="app/models/Feedback.js"></script>
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Calendar.js"></script>
+  <script src="app/models/CourseStep.js"></script>
+  <script src="app/models/report.js"></script>
+  <script src="app/models/Mail.js"></script>
+	<script src="app/models/membercourseprogress.js"></script>
+<script src="app/models/reportComment.js"></script>
+  <script src="app/models/CourseSchedule.js"></script>
 
   <script src="app/collections/Groups.js"></script>
+  <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
   <script src="app/collections/GroupAssignments.js"></script>
-  <script src="app/collections/Invitations.js"></script>
   <script src="app/collections/NewsResources.js"></script>
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/SearchResource.js"></script>
   <script src="app/collections/Calendars.js"></script>
+  <script src="app/collections/siteFeedbacks.js"></script>
+  <script src="app/collections/membercourseprogresses.js"></script>
+  <script src="app/collections/memberprogressallcourses.js"></script>
+  <script src="app/collections/AllInviteMember.js"></script>
+  <script src="app/collections/Mails.js"></script>
+  <script src="app/collections/MailUnopened.js"></script>
+
+  <script src="app/collections/ScriptCollection.js"></script>
+	<script src="app/collections/reportsComment.js"></script>
+
+  <script src="app/collections/CourseScheduleByCourse.js"></script>
+  <script src="app/collections/ScriptCollection.js"></script>
   
+
+
+    
   
   <script src="app/views/GroupRow.js"></script>
-  <script src="app/views/NotificationTable.js"></script>
-  <script src="app/views/NotificationRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/MemberForm.js"></script>
   <script src="app/views/GroupsSpans.js"></script>
@@ -87,11 +108,27 @@
   <script src="app/views/ShelfSpans.js"></script>
   <script src="app/views/ResourcesDetail.js"></script>
   <script src="app/views/CalendarForm.js"></script>
-  
+  <script src="app/views/CourseLevelsTable.js"></script>
+  <script src="app/views/navBarView.js"></script>
+  <script src="app/views/siteFeedback.js"></script>
+   <script src="app/views/CoursesChartProgress.js"></script>
+  <script src="app/views/takeQuizView.js"></script>
+  <script src="app/views/siteFeedbackPage.js"></script>
+  <script src="app/views/siteFeedbackPageRow.js"></script>
+  <script src="app/views/MailView.js"></script>
 
+   <script src="app/views/addComment.js"></script>
+
+  <script src="app/views/CourseInfoView.js"></script>
+   
+  <!--
+  overlay poput script
+  -->
+  <script src="jquery.popupoverlay.js"></script>
   <!-- 
     Templates 
   -->
+
 <script>
 var searchText = "";
 var skip = 0;    //Variable used to skip the number of records been fetched before.
@@ -100,7 +137,19 @@ var searchRecordsPerPage = 2;
 var limitofRecords = 5;
 var skipStack = new Array()
 var numberOfNotificattions="."
+ url="unknown";
 var lastpage = false
+var mailView;
+function showFeedbackForm(){
+	  App.renderFeedback()
+		if(document.getElementById('site-feedback').style.visibility!='visible'){
+		$('#site-feedback').animate({height:'320px'})
+		document.getElementById('site-feedback').style.visibility='visible'
+		}
+		else{
+		$('#site-feedback').animate({height:'toggle'})
+		}
+}
 
 function searchResources()
 {
@@ -140,43 +189,165 @@ function previousPageButtonPressed(){
 }
 
 function onFocus(obj) { 
-var end = obj.value.length; 
-if(obj.setSelectionRange) 
-obj.setSelectionRange(end, end); 
+      var end = obj.value.length; 
+      if(obj.setSelectionRange) 
+      obj.setSelectionRange(end, end); 
 }
+
+function showComposePopup()
+{
+	$('#emailCompose').popup({
+        horizontal: 'right',
+        vertical: 'bottom',
+        background : false,
+        blur : false,
+        scrolllock : true
+
+    });
+	$('#emailCompose').popup('show');
+}
+function sendMail()
+{
+	var rec = $("#recipients").val();
+	var subject = $("#subject").val();
+	var mailBody = $("textarea#mailbodytexarea").val();
+	if(rec=="" )
+	{
+		alert("Please enter recipient.");
+	}
+	else if(subject=="")
+	{
+		alert("Please enter subject.");
+	}
+	else if(mailBody=="")
+	{
+		alert("Please enter message.");
+	}
+	else
+	{
+		$.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + rec + '"', function(response) {
+      		if(response.rows[0]){
+      			var currentdate = new Date();
+      			var id = response.rows[0].doc._id
+      			var mail = new App.Models.Mail();
+      			mail.set("senderId",$.cookie('Member._id'));
+      			mail.set("receiverId",id);
+      			mail.set("subject",subject);
+      			mail.set("body",mailBody);
+      			mail.set("status","0");
+      			mail.set("type","mail");
+      			mail.set("sentDate",currentdate);
+      			//console.log(mail)
+      			mail.save();
+      			alert("Mail successfully send.")
+      			$('#emailCompose').popup('hide');
+      		}
+      		else
+      		{
+      			alert("Invalid mail address")
+      		}
+		});
+		
+	}
+
+}
+function getScheduleDatesForCourse(startDate,endDate,days)
+{
+	//startDate = new Date(2008, 2, 4);
+	//endDate = new Date(2009, 2, 4);
+	//var days = new Array(1,2,3)
+	//alert(startDate + ' ' +endDate + ' ' +days)
+	var day = startDate.getDay() ;
+	var scheduleDates = new Array();
+	while(startDate<endDate || startDate.valueOf()==endDate.valueOf())
+	{
+		day = startDate.getDay() ;	
+		var tempDate =new Date(startDate.valueOf()) ;
+		for(var i=0; i<days.length ; i++)
+		{
+			if(day<=days[i])
+			{
+				var t = startDate.getDate()+(days[i]-day)
+				tempDate.setDate(t)
+				//alert(day + ' ' + days[i] + ' ' + t + ' ' + tempDate)
+				if(tempDate<endDate || tempDate.valueOf()==endDate.valueOf())
+				{
+					var sdate = new Date(tempDate.valueOf())
+					scheduleDates.push(sdate)
+				}
+				else
+				{
+					//endDate.setHours(tempDate.getHours())
+					if(tempDate.valueOf()==endDate.valueOf())
+					{
+						var sdate = new Date(tempDate.valueOf())
+						scheduleDates.push(sdate)
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+		startDate.setDate(startDate.getDate()+(7-startDate.getDay()))
+	}
+	return scheduleDates;
+	
+}
+function convertTo24Hour(time) {
+    var hours = parseInt(time.substr(0, 2));
+    return hours;
+    if(time.indexOf('am') != -1 && hours == 12) {
+        time = time.replace('12', '0');
+    }
+    if(time.indexOf('pm')  != -1 && hours < 12) {
+        time = time.replace(hours, (hours + 12));
+    }
+    return time.replace(/(am|pm)/, '');
+}
+$(window).scroll(function () {
+  var $menu = $('#addEvent'),
+      scrollpos = $(window).scrollTop();
+  if (scrollpos >= 118) {
+      $menu.css( {
+        "top" : "0",
+        "position": "fixed",
+      });
+  } else {
+      $menu.css( {
+        "position": "fixed",
+        "top" : "68px",
+      });
+  }
+});
 
 </script>
 
-
-  <script type="text/template" id="template-app">
-    <div id="debug"></div>
-    
-  <div class="navbar navbar-inverse">
+	
+  <script type="text/template" id="template-app">  
+  <div class="takeQuizDiv" id="tQuizDiv"></div>
+  <div id="externalDiv"></div>
+  <div id="debug"></div>
+  <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
   </div>    
-  <div class="navbar-collapse collapse" id="nav-collapse-01">
-    <ul class="nav" id="itemsinnavbar">
-    
-    </ul>     
+  <div class="navbar-collapse collapse" id="nav-collapse-01">   
   </div>      
 </div>
-    <div id="logo">
-    </div>
+	
     <!-- Body -->
-    <div class="container body">
+    <div class="container body" id="main-body">
       <!-- Content -->
     </div>
      
   </script>
+  
    <script type="text/template" id="template-logoimg">
    <img id="olelogo" src="img/ole.png">
-   
    </script>
    
-   
-
-
    <script type="text/html" id="template-ResourceRow">
     <td class="news-table-td-title">
       <% if(author){ %>
@@ -192,7 +363,6 @@ obj.setSelectionRange(end, end);
       </a>
     </td>
   </script>
-
 
   <script type="text/html" id="template-ArticleRow">
     <td class="news-table-td-title">
@@ -247,67 +417,199 @@ obj.setSelectionRange(end, end);
 
 		</style>
 	<div id='calendar'></div>
-		
-	
 </script>
 
 
+
+
+
   <script type="text/template" id="template-nav-logged-in"> 
+  <!--  <li> 
+      <a href="../lms/index.html#login">
+         Community
+      </a>
+    </li>
+   -->
     <li> 
-      <a href="#dashboard">
-        <i class="icon-home icon-white"></i> Dashboard
+      <a href="#">
+      Personal
       </a>
     </li> 
-
-	<li> 
-	<div id="badge" style="position:relative;padding:10px; ">
-      <a href="#notifications">
-        <i class="icon-plane icon-white"></i> <b>Notifications&nbsp&nbsp&nbsp</b>
-      </a>
-      </div>
-    </li>
-
     <li> 
-      <a class="fui-lock" href="#logout">
-        <i class="icon-plane icon-white"></i> Exit
+      <a href="#ereader">
+       e-Readers
       </a>
     </li>
-  
-
-    <li id="application-cache-status" style="display:none;"> 
-      <a href="#"  style="color:red">
-        <i class="icon-download icon-white"></i> Resources are downloading...
+    <li> 
+      <a href="#">
+       Resources
       </a>
     </li>
+     <li> 
+      <a href="#">
+       Courses
+      </a>
+    </li>
+    <li> 
+      <a href="#">
+       Meetups
+      </a>
+    </li>
+     <li> 
+      <a href="../lms/index.html#members">
+       Members
+      </a>
+    </li>
+    <li> 
+      <a href="#info">
+      Reports
+      </a>
+    </li> 
+     <li> 
+      <a onclick = "showFeedbackForm()">
+        Feedback
+      </a>
+    </li>
+    <li> 
+      <a href= "#logout">
+        Logout
+      </a>
+    </li>	
   </script>
+
+
+
 
 
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
-      <a href="#">
+      <a href="#login">
       Personal BeLL - v1.0.0
       </a>
     </li>
-    <li> 
-      <a href="#">
-          Pakistan
+ 
+     <li> 
+      <a href="../lms/index.html#login">
+          Community
       </a>
     </li>
     
-    <li id="application-cache-status" style="display:none"> 
-      <a href="#"  style="color:red">
-        <i class="icon-download icon-white"></i> Resources are downloading...
+    <li> 
+      <a onclick = "showFeedbackForm()">
+        Feedback
       </a>
     </li>
+    
   </script>
 
   <script type="text/html" id="template-GroupAssignmentsTable">
     <th colspan="3"> 
-       <h4>Assignments for <%= groupName %><h4> 
+       <h4> <%= groupName %><h4> 
     </th>
+  </script>
+  
+  
+  
+  
+  
+  
+  <script type="text/html" id="template-courseLevelsTable">
+  
+	<h3 class="bigheader"><div style="width:95%">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <% if(status == "1") { %>
+            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
+        <% } %>
+        </div>
+        </h3>
+
+  	<div>
+		<table class="Course-table">
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Description</br>
+                          </td>
+                        </tr>
+                        <tr class="level-section-data"> 
+                          <td colspan="3">
+                            <%=description%>
+                          </td>
+                        </tr>
+                       <tr class="level-section-title">
+                          <td colspan="3">
+                            Resources</br>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                          <%for (var i=0; i<resourceId.length; i++){%>
+                         <tr class="level-section-data">  
+				<td>
+                                      <b><%=i+1%></b>
+                                </td>
+                                <td>
+						<%= resourceTitles[i] %> &nbsp&nbsp
+				</td>
+				<td>
+						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+				</td>
+			</tr>
+                          <%}%>
+                      
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Quiz</br>
+                          </td>
+                        </tr>
+                      
+                         <tr class="level-section-data"> 
+				<td colspan="2">
+					
+						Passing Percentage:<b><%=passingPercentage%>%<br></b>
+						Allowed Errors:<b><%=allowedErrors%></b>
+                                                
+                                </td>
+                                <td>
+                                                <%if (questions!=null){%>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take Quiz</button>
+                                                <%}else{%>
+                                                  <button class='btn btn-disabled'>Take Quiz</button>
+                                                <%}%>
+					
+				</td>
+				
+                      </tr>
+              </table>
+	</div>
 
   </script>
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   <script type="text/html" id="template-siteReviewRownoAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
+  
+    
+   <script type="text/html" id="template-siteReviewRowAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
   <script type="text/html" id="template-AssignmentRow">
     <td>
       <%= title %>
@@ -322,8 +624,6 @@ obj.setSelectionRange(end, end);
         <i class='icon-eye-open'></i> Feedback
       </a>
     </td>
-
-
   </script>
 
   <script type="text/html" id="template-GroupRow">
@@ -340,8 +640,8 @@ obj.setSelectionRange(end, end);
 
   <script type="text/html" id="template-GroupSpan">
       <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
-        <a href='#course/assign/<%= _id %>' style=' color:<%= foregroundColor %>; '> 
-          <%= name %>
+        <a href='#course/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '> 
+          <%= name %><%=yes%>
         </a>
      </div>
   </script>
@@ -349,7 +649,7 @@ obj.setSelectionRange(end, end);
 <script type="text/html" id="template-ShelfSpan">
       <div class="displayCourse"> 
         <a href='#resources/detail/<%= _id %>'> 
-           <%= title %>
+            <%= title %>
         </a>
      </div>
 </script>
@@ -392,102 +692,188 @@ obj.setSelectionRange(end, end);
                     </div>
 </script>
 
-
-
  <script type="text/html" id="template-Search-box">
     <td><%= title %></td><td><%= subject %></td><td><%= author %></td><td><%= Tag %></td>
   </script>
 
  <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
-       <div id="page-header">
-		<img id="header-image" src="img/OLE_Home_Resized_Header.png" />
-	<div style="margin-left:23px;margin-top:-122px;position:absolute; z-index:-1">
-		 <img src="img/agnes.jpeg" width="108px" height="108px" />
-	</div>
-	<div style="width:100%;height:100%;margin-left:145px;margin-top:-122px;font-size:25px;">
-		Welcome,
-		<br>
-		<span class="name" style="font-size:33px;font-famity:verdana;"></span>
-		<div class="now" style="font-size:16px;margin-top:-2px;margin-left:530px;"></div>
-		<div style="margin-top:-76px;margin-left:605px;position:absolute;font-size:17px;"> 07 </div>
-		<div style="margin-top:-76px;margin-left:742px;position:absolute;font-size:17px;"> 15 </div>
-	</div>
-    </div>	
+		<table class="header-table">
+			<tr class="imageRow">
+			 <td rowspan="2" class="imageData">
+				<!--	<img id="header-image" src="img/header_slice.png" /> -->
+		 			<img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:60px;"/>
+			 </td>
+			</tr>
+			<tr>
+			 <td class="left">
+					<div class="bellLocation"></div>
+					<div class="name"></div>
+					<div class="visits">  </div>
+			 </td>
+			 <td class="right">	
+					<div class="now" ></div>
+			 </td>	
+			</tr>
+		</table>	
 
       <div id="page-body">
         <table class="stu-nav-table">
-          <tr class="stu-nav-tube">
-            <td class="stu-nav-title">
-              My Courses
-            </td>
-            <td class="scrollable-courses">      
-		<div class="inner">
-		    <table id="cc" class="inner-table">
-                    </table>
-                  </div>
-             </td>     
-          <td class="stu-nav-option-empty"></td>
-          </tr>
-          <tr class="stu-nav-tube">
-					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>
-					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+        	<tr class="stu-nav-tube">
+            	<td class="stu-nav-title">
+            		<a href="#courses/barchart">  My Courses Progress</a>
+            	</td>
+            	<td class="scrollable-courses">      
 					<div class="inner">
-						<table id="ur" class="inner-table" >
-							
-						</table>
+		    			<table id="cc" class="inner-table">
+                    	</table>
+                  	</div>
+             	</td>     
+         		<td class="stu-nav-option-empty"></td>
+           </tr>
+		  <tr class="stu-nav-tube">
+					<td class="stu-nav-title-badges stu-nav-title">My Meetups</td>
+					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table class="inner-table">
+								<tr>
+									<td class="badge-box">
+									No Meetups
+									</td>
+								</tr>
+							</table>
 						</div>
 					</td>
 					<td class="stu-nav-option-empty"></td>
-	  </tr>
-			<tr class="stu-nav-tube">
-					<td class="stu-nav-title-badges stu-nav-title">My Badges</td>
-					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
-					<div class="inner">
-						<table class="inner-table">
-							<tr>
-								<td class="badge-box">
-									Match Achievement
-								</td>
-								<td class="badge-box">
-									Community Project
-								</td>
-								
-								
-								
-							</tr>
-						</table>
-					</div>
+		 </tr>
+		<tr class="stu-nav-tube">
+					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>
+					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="ur" class="inner-table" >	
+							</table>
+						</div>
 					</td>
 					<td class="stu-nav-option-empty"></td>
-			</tr>
-			</table>
-			
-				
-		</div>
+	  	  </tr>
+	  </table>		
+	</div>
 	
       
 		<table class="page-bottom-navtable">
 			<tr>
 			
-				<td><button class="btn btn-hg btn-primary">Learning Goals</button></td>
-				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
+				<td><button class="btn btn-hg btn-primary">Badges</button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>
-				<td><button class="btn btn-hg btn-primary">Email</button></td>
-				<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'">Email(<%=mails%>)</button></td>
+				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
+				<!-- <td></td> -->
+				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
 			</tr>
 			</table> 
 		</div>
             </div>
   </script>
+  
+  
+   <script type="text/template" id="template-mail">
+   <div id="mailActions" >
+		<b style="color:black; font-size:25px;">Inbox
+		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
+		<button class="btn btn-primary" id="unread-mails">Unread</button>
+		<span class="new_mails"></span>
+		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
+		</b>
+		</div>
+		<table id="inbox_mails" ></table>
+		
+		<!-- popup window for compose message -->
+<div id="emailCompose" class="well" style="display: none;">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+
+</div>
+
+	
+		
+</script>
+<script type="text/template" id="template-view-mail">
+
+<div style="margin-left:10%">	
+	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
+		<br/>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"</span></b></span>
+
+		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
+		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
+		<div id="mail-body" style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
+		</div>
+	
+	<br/>
+</div>
+<div id="emailCompose" class="well" style="display: none;">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" value="<%= login %>" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" value="Re: <%= subject %>" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+
+</div>
+</script>
+
 
 </head>
 
 <body>
 
+<script>
+
+
+$(document).ready(function () {
+
+    $.fn.popup.defaults.pagecontainer = '.container'
+
+});
+
+</script>
+
+<!-- Slide in -->
+
+
 </body>
 
+
+
+
+<!-- popup window for compose message
+	<button class="emailCompose_open btn btn-hg btn-primary" onclick="showComposePopup()">Email</button>
+<div id="emailCompose" class="well">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_close btn btn-primary">Send</button>
+	</div>
+
+</div>
+
+	</li> -->
   <!-- 
     START THE APP
   -->
@@ -495,7 +881,9 @@ obj.setSelectionRange(end, end);
   <script>
     $(document).ready(function() {
       App.start()
-    })
+      $('#emailCompose').popup('hide');
+     })
   </script>
+
 
 </html>

@@ -12,14 +12,15 @@ $(function() {
     initialize : function(){
       this.groupresult = new App.Collections.SearchResource()  
       this.resultArray  = []
-enablenext=0
+      enablenext=0
     },
     render: function() {
-	var obj = this
-        this.$el.html(_.template(this.template, this.vars))
-	if(searchText != ""){
-	  this.fetchRecords()
-	}
+		  var obj = this
+      	  this.$el.html(_.template(this.template, this.vars))
+		if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
+		{
+	 		 this.fetchRecords()
+		}
     },
     
     fetchRecords: function()
@@ -34,8 +35,8 @@ enablenext=0
 		{  $('#previous_button').remove()}
 
 
- if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
-		  obj.fetchRecords()
+	  if(obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords){
+		  	obj.fetchRecords()
        }
        else if(obj.groupresult.models.length == 0 ){
 		      previousPageButtonPressed()
@@ -52,6 +53,7 @@ enablenext=0
 	    if(obj.resultArray.length > 0){
 	        ResultCollection.set(obj.resultArray)
 		var SearchSpans = new App.Views.SearchSpans({collection: ResultCollection})
+		SearchSpans.resourceids = obj.resourceids
 	        SearchSpans.render()
 		$('#srch').append(SearchSpans.el)
 		}
@@ -62,23 +64,28 @@ enablenext=0
     },
     checkFilters: function(result)
     {
-       
-    	if(this.tagFilter.length==0 && this.subjectFilter.length==0)
+   
+       //alert(this.tagFilter + ' ' + result.get("Tag"))
+    	if(this.tagFilter.length==0 && this.subjectFilter.length==0 && this.ratingFilter.length==0)
     	{
+    		//alert('in null')
     		return true
     	}
-    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1))
+    	else if((this.tagFilter && $.inArray(result.get("Tag"), this.tagFilter) > -1) || (this.subjectFilter && $.inArray(result.get("subject"), this.subjectFilter) > -1) || (this.ratingFilter && $.inArray(result.get("averageRating").toString(), this.ratingFilter) > -1))
     	{
-		
+    		//alert($.inArray(result.get("subject"), this.subjectFilter))
     		return true
     	}
     	return false
     },
     searchInArray: function(resourceArray,searchText){
-    	var that  = this
+      var that  = this
       var resultArray = []
-      var foundCount 
-	 if(searchText!=""){
+      var foundCount
+      console.log(this.ratingFilter)
+	 
+	 if(searchText != "" || (this.tagFilter && this.tagFilter.length>0) || (this.subjectFilter && this.subjectFilter.length>0) || (this.ratingFilter && this.ratingFilter.length>0))
+	 {
 	   _.each(resourceArray, function(result) {
 		if(result.get("title") != null ){
 		 	skip++

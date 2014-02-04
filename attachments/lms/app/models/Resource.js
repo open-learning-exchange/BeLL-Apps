@@ -21,16 +21,17 @@ $(function() {
     },
 
     schema: {
+      addedBy:'Text',
       title: 'Text',
       description: 'Text',
       articleDate: 'Date',
-      openWith: {
+      openWith:{
         type: 'Select',
         options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
       },
       subject:{
         type:'Select',
-        options:['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)']
+        options:['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)','EN (Environment)']
       },
       Level:{
         type:'Select',
@@ -53,7 +54,8 @@ $(function() {
      openWhichFile: 'Text',
      uploadDate:'Date',
      // override everything, just open a specific URL
-      openUrl: 'Text'
+      openUrl: 'Text',
+      averageRating :'Text',
     },
  
     
@@ -101,18 +103,33 @@ $(function() {
             $(formEl).ajaxSubmit({
               url: server + "/"+ input_db +"/"+ input_id,
               success: function(response) {
+                
                 model.trigger('savedAttachment')
-              }
+              },
+              error : function(response){
+                  alert("Error")
+              },
             })
           }
 
         }, // End success, we have a Doc
-        
+    handleError: function( s, xhr, status, e ) {
+    // If a local callback was specified, fire it
+       if ( s.error ) {
+              s.error.call( s.context || window, xhr, status, e );
+       }
+
+    // Fire the global callback
+         if ( s.global ) {
+               (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );
+          }
+      },
         // @todo I don't think this code will ever be run.
         // If there is no CouchDB document with that ID then we'll need to create it before we can attach a file to it.
         error: function(status) {
           $.couch.db(input_db).saveDoc({"_id":input_id}, {
             success: function(couchDoc) {
+              alert('error success')
               // Now that the Couch Doc exists, we can submit the attachment,
               // but before submitting we have to define the revision of the Couch
               // Doc so that it gets passed along in the form submit.

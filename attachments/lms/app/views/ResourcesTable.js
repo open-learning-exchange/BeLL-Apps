@@ -3,7 +3,7 @@ $(function() {
   App.Views.ResourcesTable = Backbone.View.extend({
 
     tagName: "table",
-
+	isAdmin:null,
     className: "table table-striped",
 
     //template: $('#template-ResourcesTable').html(),
@@ -12,12 +12,19 @@ $(function() {
       //this.$el.append(_.template(this.template))
     },
   addOne: function(model){
-      var resourceRowView = new App.Views.ResourceRow({model: model})
+      var resourceRowView = new App.Views.ResourceRow({model: model,admin:this.isAdmin})
+      resourceRowView.isadmin = this.isadmin
       resourceRowView.render()  
       this.$el.append(resourceRowView.el)
     },
 
     addAll: function(){
+    if(this.isadmin > -1){
+    	this.isAdmin=1
+    }
+    else{
+    	this.isAdmin=0
+    }
       this.collection.forEach(this.addOne, this)
     },
 

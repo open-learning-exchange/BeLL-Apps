@@ -53,9 +53,22 @@ $(function() {
 
     render: function () {
       var vars = this.model.toJSON()
+      
+      if((this.model.get("_id") == $.cookie('Member._id')) && !this.isadmin){
+          vars.showdelete = false
+          vars.showedit = true
+      } else if(!this.isadmin){
+        vars.showdelete = false
+        vars.showedit = false
+      }
+      else{
+        vars.showdelete = true
+        vars.showedit = true
+      }
       console.log(vars)
-      this.$el.html(_.template(this.template, vars))
-    }
+       this.$el.html(_.template(this.template, vars))
+   }
+    
 
   })
 

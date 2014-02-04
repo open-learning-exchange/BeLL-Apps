@@ -7,7 +7,13 @@
   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
+  <link href="vendor/morris.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
+  <link rel="stylesheet" href="vendor/chosen.css"/>
+  <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
+  <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
+  <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
+  
   
 
   <!--
@@ -21,7 +27,8 @@
   <script src="vendor/backbone-forms.js"></script>
   <script src="/_utils/script/json2.js"></script>
   <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
-  <script src="/_utils/script/jquery.form.js?0.9.0"></script>
+  <!--<script src="/_utils/script/jquery.form.js?0.9.0"></script> -->
+  <script src="vendor/jquery.form.js"></script>
   <script src="vendor/sha1.js"></script>
   <script src="vendor/moment.min.js"></script>
   <script src="vendor/jquery.couch.js"></script>
@@ -31,6 +38,12 @@
   <script src="vendor/jquery.url.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
   <script src="vendor/jquery.raty.js"></script>
+  <script src="vendor/raphael.js"></script>
+  <script src="vendor/morris.js"></script>
+  <script src="vendor/jquery.timepicker.js"></script>
+  <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
+  <script src="vendor/jquery-ui.multidatespicker.js"></script>
+
 
   <!--
     App
@@ -48,8 +61,19 @@
   <script src="app/models/App.js"></script>
   <script src="app/models/Shelf.js"></script>
   <script src="app/models/Invitation.js"></script>
+  <script src="app/models/CourseStep.js"></script>
   <script src="app/models/InviFormModel.js"></script>
+  <script src="app/models/ExploreBell.js"></script>
+  <script src="app/models/membercourseprogress.js"></script>
+  <script src="app/models/report.js"></script>
+  <script src="app/models/request.js"></script>
+  <script src="app/models/Community.js"></script>
+  <script src="app/models/CourseSchedule.js"></script>
+  <script src="app/models/reportComment.js"></script>
+  <script src="app/models/Mail.js"></script>
 
+  
+   
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/Members.js"></script>
   <script src="app/collections/Resources.js"></script>
@@ -59,9 +83,21 @@
   <script src="app/collections/AssignmentsByDate.js"></script>
   <script src="app/collections/ResourceFeedback.js"></script>
   <script src="app/collections/SearchResource.js"></script>
+  <script src="app/collections/CourseLevels.js"></script>
+  <script src="app/collections/SearchCourses.js"></script>
+  <script src="app/collections/StepResultsbyCourse.js"></script>
+  <script src="app/collections/siteFeedbacks.js"></script>
+  <script src="app/collections/leadermembers.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/Communities.js"></script>
+  <script src="app/collections/EntityInvitation.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/reportsComment.js"></script>
+  <script src="app/collections/CourseScheduleByCourse.js"></script>
   
-
+  <!---- Views -->
   <script src="app/views/GroupForm.js"></script>
+  <script src="app/views/BecomeMemberForm.js"></script>
   <script src="app/views/MemberForm.js"></script>
   <script src="app/views/MemberLoginForm.js"></script>
   <script src="app/views/GroupRow.js"></script>
@@ -69,7 +105,6 @@
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/MembersTable.js"></script>
   <script src="app/views/ResourceForm.js"></script>
-  <script src="app/views/InvitationForm.js"></script>
   <script src="app/views/ResourceRow.js"></script>
   <script src="app/views/ResourcesTable.js"></script>
   <script src="app/views/FeedbackTable.js"></script>
@@ -78,23 +113,105 @@
   <script src="app/views/AssignResourcesToGroupTable.js"></script>
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
-  
+  <script src="app/views/InvitationForm.js"></script>
+    <script src="app/views/CourseSchedule.js"></script>
+     <script src="app/views/addComment.js"></script>
+  <!-- Level Views -->
+  <script src="app/views/LevelsTable.js"></script>
+  <script src="app/views/LevelRow.js"></script>
+  <script src="app/views/LevelForm.js"></script>
+  <script src="app/views/LevelDetail.js"></script>
+  <script src="app/views/QuizView.js"></script>
+
   <!-- LMS SEARCH -->
   <script src="app/views/Search.js"></script>
   <script src="app/views/SearchSpan.js"></script>
   <script src="app/views/SearchSpans.js"></script>
-
+  <script src="app/views/Demo.js"></script>
+ 
+  <!-- LMS EXPPLORE BELL VIEW -->
+  <script src="app/views/ListDefaultCourses.js"></script>
+  <script src="app/views/SearchCourses.js"></script>
+  
+  <!-- LMS Feedback view -->
+  <script src="app/views/siteFeedback.js"></script>
+  <script src="app/views/siteFeedbackPage.js"></script>
+  <script src="app/views/siteFeedbackPageRow.js"></script>
+  
+  <!-- Course Reporting -->
+   <script src="app/views/CoursesStudentsProgress.js"></script>
+    <script src="app/views/RequestView.js"></script>
+    <script src="app/views/RequestTable.js"></script>
+   <script src="app/views/RequestRow.js"></script>
+  <!-- Coourse Scheduling -->
+  <script src="app/views/CourseScheduleForm.js"></script>
+  <script src="app/views/CourseSchedule.js"></script>
+  <script src="app/views/ResourceSearch.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   <script>
   var searchText = "";
   var skip = 0;    //Variable used to skip the number of records been fetched before.
   var enablenext=0;
-  var searchRecordsPerPage = 2;
+  var searchRecordsPerPage = 5;
   var limitofRecords = 5;
-  var skipStack = new Array()
-  var lastpage = false
+  var skipStack = new Array();
+  var lastpage = false;
   var grpId;
+  var levelrevId;
+  url="unknown"
+  var tagFilter = new Array() ; 
+  var subjectFilter = new Array() ;
+  var ratingFilter = new Array();
+  var rids = new Array() ; 
+  var rtitle = new Array() ;
+  var permissions = {
+      "Add_Resource":0,
+      "Delete_Resource":1,
+      "Edit_Resource":2,
+      "List_Resource":3,
+      "Add_Course":4,
+      "Delete_Course":5,
+      "Manage_Course":6,
+      "List_Course":7,
+      "Add_Member":8,
+      "Edit_Member":9,
+      "List_Member":10,
+      "Add_Meetups":11,
+      "Delete_Meetups":12,
+      "Edit_Meetups":13,
+      "List_Meetups":14,
+      "Add_CalendarEvents":15,
+      "Delete_CalendarEvents":16,
+      "Edit_CalendarEvents":17,
+      "List_CalendarEvents":18,
+  }  
+  
+  function ListAllResources()
+  {
+     App.Router.Resources();
+  }
+  function showFeedbackForm()
+  {
+	  App.renderFeedback()
+	  
+	  if(document.getElementById('site-feedback').style.visibility!='visible')
+	  {
+	  
+		$('#site-feedback').animate({height:'302px'})
+		document.getElementById('site-feedback').style.visibility='visible'
+	  }
+	else
+	{
+		$('#site-feedback').animate({height:'toggle'})
+	}
+  }
+  
+   function showRequestForm(modl){
+	  App.renderRequest(modl)
+  }
+  
+  
   function selectAllSearchResult()
   {
       $("input[name='result']").each( function () {
@@ -103,7 +220,8 @@
   }
   function showSearchView()
   {
-     App.Router.SearchBell(grpId);
+      App.Router.SearchBell(grpId,levelrevId,0);
+
   }
   function searchResources()
   {
@@ -111,6 +229,23 @@
       popAll();
       lastpage = false;
       App.Router.SearchResult();
+      $('#previous_button').remove()
+      $('#searchText').focus();
+      $("#searchText").val(searchText)
+  }
+  function ResourceSearch()
+  {
+    skip = 0;
+  	searchText = $("#searchText").val();
+    App.Router.ResourceSearch();
+  
+  }
+  function searchCourses()
+  {
+      skip = 0;
+      popAll();
+      lastpage = false;
+      App.Router.SearchCoursesInDb();
       $('#previous_button').remove()
       $('#searchText').focus();
       $("#searchText").val(searchText)
@@ -127,6 +262,11 @@
       App.Router.SearchResult();
       $("#searchText").val(searchText);
   }
+   function nextPageButtonPressedC()
+  {
+      App.Router.SearchCoursesInDb();
+      $("#searchText").val(searchText);
+  }
   function previousPageButtonPressed(){
       if(skipStack.length > 1){
           skipStack.pop();
@@ -138,12 +278,23 @@
              $('#previous_button').remove()
         }
   }
-
+   function previousPageButtonPressedC(){
+      if(skipStack.length > 1){
+          skipStack.pop();
+          skip = skipStack.pop();
+          App.Router.SearchCoursesInDb();
+          $("#searchText").val(searchText);
+        }
+        else{
+             $('#previous_button').remove()
+        }
+  }
   function onFocus(obj) { 
     var end = obj.value.length; 
     if(obj.setSelectionRange) 
     obj.setSelectionRange(end, end); 
   }
+
     function showSubjectCheckBoxes()
   {
         var subjects = ['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)'];
@@ -158,8 +309,25 @@
   	$("#SubjectCheckboxes").html(htmlString);
  
   }
+	function changeRatingImage(checkID,count)
+	{
+		//alert($('#' + checkID + 1).attr('src'));
+		var imgName = "";
+		if($('#' + checkID + 1).attr('src')=="star-on.png")
+		{
+			imgName = "star-off.png";
+		}
+		else
+		{
+			imgName = "star-on.png";
+		}
+		for(var i=1 ; i<=5 ; i++)
+		{
+			$('#' + checkID + i).attr('src', imgName);
+		}
+	}
+  </script>
 
-</script>
   
   
   
@@ -175,6 +343,7 @@
     </tr>
 
   </script>
+   
 
 
   <script type="text/template" id="template-ResourcesTableHeader">
@@ -193,8 +362,8 @@
 
   <script type="text/template" id="template-app">
     <div id="debug"></div>
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
+    <div class="navbar navbar-inverse navbar-fixed-top" id="nav">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -213,7 +382,7 @@
     </div>
 
     <!-- Body -->
-    <div class="container body">
+    <div class="container body" id="cont">
       <!-- Content -->
     </div>
      
@@ -244,9 +413,12 @@
       </tr>
       <tr>
         <td>
-          <div class="btn save" name="save">
-            save
+        <% if(hidesave == false) { %>
+          <div class="save btn btn-success" name="save">
+            Save
           </div>
+        <% } %>
+		<a class="btn btn-danger" id="cancel">Cancel</a>
         </td>
         <td class="status">
           <!-- status goes here -->
@@ -255,35 +427,66 @@
     </table>
   </script>
 
-  <script type="text/template" id="template-nav-logged-in"> 
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Courses <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+
+
+
+
+ <script type="text/html" id="template-RequestRow">
+    <td><%=name%></td>
+    <td><%=type%></td>
+    <td><%=request%></td>
+  </script>
+
+
+
+
+
+
+
+<script type="text/template" id="template-nav-logged-in">
+   <li> 
+      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
+    </li>
+    <li>
+      <a href="#courses" ><i class="icon-flag icon-white"></i> Courses <b><i class="icon-list"></i></b></a>
+    <!--  <ul class="dropdown-menu">
         <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
         <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
-      </ul>
+        <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
+        <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>
+      </ul> -->
     </li>
-
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> Members <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+      <a href="#"><i class="icon-book icon-white"></i> Meetup <i class="icon-list"></i></a>
+     <!-- <ul class="dropdown-menu">
+        <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
+         <li><a><i class="icon-list"></i>Add a new MeetUp</a></li>
+        <li><a><i class="icon-plus"></i>List Meetups</a></li>
+      </ul> -->
+    </li>
+    <li class="dropdown">
+      <a href="#members"><i class="icon-user icon-white"></i> Members <i class="icon-list"></i></a>
+   <!--  <ul class="dropdown-menu">
         <li><a href="#members"><i class="icon-list"></i> List Members</a></li>
         <li><a href="#member/add"><i class="icon-plus"></i> Add a new Member</a></li>
       </ul>
-    </li>
+     -->
+   </li>
 
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Resources <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+   <li class="dropdown">
+      <a href="#resources"><i class="icon-book icon-white"></i> Resources <i class="icon-list"></i></a>
+    <!--  <ul class="dropdown-menu">
         <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
         <li><a href="#resource/add"><i class="icon-plus"></i> Add a new Resource</a></li>
+        <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
       </ul>
+      -->
     </li>
-
-    <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
+	
+    
+<!--	<li> 
+      <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
     </li>
-
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
       <ul class="dropdown-menu">
@@ -292,14 +495,17 @@
           <a href="#compile/">Compile all Apps and all Resources for Syncing</a>
         </li>
         <li> 
-          <a href="#compile/week">Compile Apps and this week's Assigned Resources for Syncing</a>
+          <a href="#compile/week">Compile Apps and this weeks Assigned Resources for Syncing</a>
         </li>
 
-      </ul>
+      </ul> -->
     </li>
-
-
-    <li> 
+   <li> 
+      <a onclick = "showFeedbackForm()">
+        <i class="icon-pencil icon-white"></i> Feedback
+      </a>
+    </li>
+      <li> 
       <a href="#logout">
         <i class="icon-plane icon-white"></i> Log out
       </a>
@@ -313,6 +519,11 @@
 
     <li> 
       <a href="/devices/_design/all/update.html"><i class="icon-download-alt icon-white"></i> Install BeLL Apps on this device</a>
+    </li>
+    <li  style="float:right;"> 
+      <a onclick = "showFeedbackForm()">
+        <i class="fui-cmd"></i> Feedback
+      </a>
     </li>
   </script>
 
@@ -346,6 +557,7 @@
       <!-- Resources -->
     </table>
     <button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell/<%= groupId %>'">Add new resources</button>
+    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#create-quiz'">Create Quiz</button>
   </script>
 
   <script type="text/html" id="template-AssignResourcesToGroupTable">
@@ -392,29 +604,59 @@
 
   </script>
 
-  <script type="text/html" id="template-GroupRow">
+ <script type="text/html" id="template-GroupRow">
     <td>
       <%= name %>
     </td> 
 
     <td>
-      <a role='button' class='btn' href='#course/assignments/week-of/<%= _id %>'> 
-        <i class="icon-list"></i> Assignments
+    <%if(isAdmin==1||isLeader==1){%>
+      <a role='button' class='btn' href='#course/manage/<%= _id %>'> 
+        <i class="icon-list"></i> Manage
+      </a>
+   	<%}%>
+    </td>
+    
+    <td>
+      <a role='button' class='btn' href='#course/report/<%= _id %>/<%= name %>'> 
+        <i class="icon-signal"></i> Progress
       </a>
     </td>
 
-    <td>
+<!--   <td>
       <a role='button' class='btn' href='#course/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
-    </td>    
-    <td>
-      <a class="btn" href="#resource/invite/<%= _id %>/<%= name %>/<%= kind %>">
-        <i class="icon-comment"></i> Invite
+    </td> -->
+    
+   <!-- <td>
+      <a role='button' class='btn' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
+        <i class="icon-edit"></i> Invite
       </a>
-    </td>
+    </td> -->
+
     <td>
-      <a class='destroy btn' href='#'>
+	<%if(isAdmin==1||isLeader==1){%>
+      <a class='destroy btn btn-danger' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    <%}%>
+    </td> 
+    
+  </script>
+  
+  <script type="text/html" id="template-LevelRow">
+    <td>
+     <input type="radio" name="stepRow" />&nbsp;&nbsp;Step <%= step %> : <%= title %>  
+    </td> 
+   <td>
+      <a role='button' class='btn btn-info' href='#level/view/<%= _id %>/<%= _rev %>'> 
+        <i class="icon-edit"></i> View Details
+      </a>
+    </td>    
+
+    <td>
+      <a class='destroyStep btn btn-danger' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
     </td>
@@ -423,20 +665,28 @@
 
   <script type="text/html" id="template-MemberRow">
     <td>
-      <%= login %>
+      <%= firstName %> <%= lastName %>
     </td> 
-
+	<td>
+	<%= visits %>
+	</td>
     <td>
-      <a role='button' class='btn' href='#member/edit/<%= _id %>'> 
-        <i class="icon-edit"></i> Edit
-      </a>
+      <%= email %>
     </td>  
 
     <td>
-      <a class='destroy btn' href='#'>
+    <% if(showedit == true){ %>
+      <a role='button' class='btn' href='#member/edit/<%= _id %>'> 
+        <i class="icon-edit"></i> Edit
+      </a>
+      <% } %>
+    <% if(showdelete == true){ %>
+      <a class='destroy btn btn-danger' href='#'>
         <i class='icon-remove'></i> Delete
       </a>
+    <% } %>
     </td>
+<!--
    <% if(status == "active"){%>
     <td>
       <a class='btn btn-danger' id="deactive" href='#'>Resign</a>
@@ -446,19 +696,31 @@
       <a class='btn btn-success' id="active" href='#'>Reinstate</a>
     </td>
    <% } %>
-  </script>
+--> 
+ </script>
 
 
   <script type="text/html" id="template-ResourceRow">
     <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
     <td>
-        <%= title %>
-    </td> 
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+    </td>
+    
+    
     <td>
-      <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+      <a class='resFeedBack btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
         <i class='icon-eye-open'></i> Open
       </a>
     </td>
+   
     <td>
       <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
         <i class='icon-download'></i> Download
@@ -466,20 +728,22 @@
     </td>
     <td>
       <a class='btn' href='#resource/edit/<%= _id %>'>
-        <i class='icon-pencil'></i> Edit
+        <i class='icon-pencil'></i> View
       </a>
     </td>
     <td>
-      <a class='btn' href='#resource/feedback/<%= _id %>' target="_blank">
-        <i class='icon-comment'></i> Feedback
+      <a class='btn' href='#resource/feedback/<%= _id %>'>
+       Feedback
       </a>
     </td>
     <td>
-      <a class='destroy btn' href='#'>
+    <%if(admn==1){%>
+      <a class='btn btn-danger destroy'>
         <i class='icon-remove'></i> Delete
       </a>
+      <%}%>
     </td>
-  <% } %>
+    <%}%>
   </script>
   
   <script type="text/html" id="template-rateResource">
@@ -508,32 +772,29 @@
         <input id="check3" type="checkbox" name="tag" value="Non Fiction">  
         <label for="check3">Non Fiction</label>  
     </div>
-       <div class="checkbox-subject" id="SubjectCheckboxes">  
-     <!--   <script>
-        	//showSubjectCheckBoxes();
-        </script> -->
-    <!--    <input id="subject1" type="checkbox" name="subject" value="News">  
 
-        <label for="subject1">News</label>  
-        <br>  
-        <input id="subject2" type="checkbox" name="subject" value="Fiction">  
-        <label for="subject2">Fiction</label> 
-         <br>  
-        <input id="subject3" type="checkbox" name="subject" value="Non-Fiction">  
-        <label for="subject3">Non Fiction</label>  -->
+       <div class="checkbox-subject" id="SubjectCheckboxes">  
+       </div>
+       <div id="rating_checkboxes">
+       		<h4>Rating</h4>
+       		<input id="star5" type="checkbox" name="star" value="5" onchange="changeRatingImage('rating5_',5)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating5_1"><img src="star-off.png" class="filter_star_img" id="rating5_2"><img src="star-off.png" class="filter_star_img" id="rating5_3"><img src="star-off.png" class="filter_star_img" id="rating5_4"><img src="star-off.png" class="filter_star_img" id="rating5_5"><br/>
+        	
+        	<input id="star4" type="checkbox" name="star" value="4" onchange="changeRatingImage('rating4_',4)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating4_1"><img src="star-off.png" class="filter_star_img" id="rating4_2"><img src="star-off.png" class="filter_star_img" id="rating4_5"><img src="star-off.png" class="filter_star_img" id="rating4_4"><br/>
+        	
+        	<input id="star3" type="checkbox" name="star" value="3" onchange="changeRatingImage('rating3_',3)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating3_1"><img src="star-off.png" class="filter_star_img" id="rating3_2"><img src="star-off.png" class="filter_star_img" id="rating3_3"><br/>
+       		
+       		<input id="star2" type="checkbox" name="star" value="2" onchange="changeRatingImage('rating2_',2)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating2_1"><img src="star-off.png" class="filter_star_img" id="rating2_2"><br>
+       		
+       		<input id="star1" type="checkbox" name="star" value="1" onchange="changeRatingImage('rating1_',1)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating1_1">
+  		</div>
     </div>
     <br/>
-   <!-- <div class="checkbox-length">  
-        <h4>Length</h4>
-        <input id="pbook" type="checkbox" name="length" value="Picture-Book">  
-        <label for="pbook">Picture Books</label>  
-        <br>  
-        <input id="cbook1" type="checkbox" name="length" value="Chapter-Book-Short">  
-        <label for="cbook1">Chapter Books (Short)</label> 
-         <br>  
-        <input id="cbook2" type="checkbox" name="length" value="Chapter-Book-Long">  
-        <label for="cbook2">Chapter Books (Long)</label>  
-    </div>  -->
+   
     </div>
 </div>
 <div class="search-result-header">
@@ -541,14 +802,16 @@
     <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
 </div>
 <br>
-       <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+    <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+
 <br/><br/>
     <table id="srch"> 
     </table>
 <div id="not-found" style="color:red; margin-left:34%; font-size:20px;"></div>
 </div>
 		    <div class="search-bottom-nav">
-                    <br/>
+		    <br/>
+
                     <table class="search-bottom-nav-table">
                        <tr>
                           <td class="previous-button-container">
@@ -562,21 +825,271 @@
                     </table>
                     <br/><br/>
                     <button class="btn btn-hg btn-primary" onclick = "showSearchView()">Return to Search</button>
-                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>
-                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-course'">Send to My Course List</button>
-                    <button class="btn btn-hg btn-primary" onclick = "document.location.href='#courses'">Home</button>
-                    </div>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
+                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Home</button>
+</div>
+</script>
+<script type="text/html" id="template-CourseSchedule">
+    <div id="scheduleDiv">
+    <div id="durationDiv">
+          <table>
+          <tr>
+            <td>
+                  Time
+            </td>
+            <td>
+                  <input type="text" id="startTime" placeholder="Start"/>
+            </td>
+            <td>
+                To
+            </td>
+            <td>
+                  <input type="text" id="endTime"  placeholder="End"/>
+            </td>
+          </tr>
+          </table>
+    </div>
+      <div id="dateDiv">
+          <table>
+          <tr>
+            <td>
+                  Duration
+            </td>
+            <td>
+                  <input type="text" id="startDate" placeholder="Start"/>
+            </td>
+            <td>
+                To
+            </td>
+            <td>
+                  <input type="text" id="endDate"  placeholder="End"/>
+            </td>
+          </tr>
+          </table>
+    </div>
+    <div id="locationDiv">
+    <table>
+          <tr>
+            <td>
+                 Location
+            </td>
+             <td>
+                  <input type="text" id="location">
+            </td>
+          </tr>
+      </table>
+  </div>
+          <div id="TypeDiv">
+          <table>
+          <tr>
+            <td>
+                  Repeat
+            </td>
+            <td>
+                  <select id="type">
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                  </select>
+            </td>
+            <td>
+            <input type="text" id="typeView">
+            <select multiple="multiple" class="days" style="width:200px; height:134px;" id="weekDays">
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+          </select>  
+            </td>
+          </tr>
+          </table>
+    </div>
+    <button id="saveSchedule" class="btn btn-success">Save Schedule</button>
+</div>
+</script>
+<script type="text/html" id="template-SearchCourses">
+<div id="searchcourses">
+<div class="row">
+    <div class="col-lg-5">
+        <div class="form-group search-Box">
+           <h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>
+            <span><button class="btn btn-info" onclick = "searchCourses()">Search</button></span></h4>
+        </div>
+        <br/>
+    </div>
+    <br/>
+   </div>
+  </div>
+<div class="search-result-header">
+    <h3 class="search-result-h3">Search Results</h3>
+    <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
+</div>
+<br>
+    <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+
+<br/><br/>
+    <table id="srch"> 
+    </table>
+<div id="not-found" style="color:red; margin-left:34%; font-size:20px;"></div>
+</div>
+		    <div class="search-bottom-nav">
+		    <br/>
+
+                    <table class="search-bottom-nav-table">
+                       <tr>
+                          <td class="previous-button-container">
+                               <button class="btn btn-hg btn-primary" id="previous_button" onclick = "previousPageButtonPressedC()"><  Previous</button>
+                          </td>  
+                          <td class="next-button-container">
+                               <button class="btn btn-hg btn-primary" id="next_button" onclick = "nextPageButtonPressedC()">Next  ></button>
+ 
+                          </td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                    <button class="btn btn-hg btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#assign-to-default-courses'">Add To Default Courses</button>
+                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Home</button>
+</div>
 </script>
 
 <script type="text/html" id="template-Search-box">
-    <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
-    	<label for="<%= _id %>">
+    <% if(title != "CourseSearchBox") { %>
+      <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
+    <% } else if(name !="ResourceSearchBox"){ %>
+      <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>">
+    <% } %>
+  
+    	<%if(Tag != "CourseSearchBox") { %>
+        <label for="<%= _id %>">
     		<font class="search-result-title" ><%= title %></font>
-    		-<%= description %>&nbsp;by&nbsp;<%= author %>
+    		-
+                <%= description %>
+                 &nbsp;by&nbsp;
+                <%= author %>
     	</label></td><td><%= Tag %></td>
+        <% }else{ %>
+          <label for="<%= _id %>">
+    		<font class="search-result-title" ><%= name %></font>
+          </label></td>
+        <% } %>
+</script>
+<script type="text/template" id="make-Quiz">
+<div id="quiz-body">
+<br/>
+Courses | <%= courseTitle %>
+<h4 id="new-quiz">New Quiz</h4>
+<div id="question-area">
+	<div id="question-no">Question 1: </div>
+	<div id="question-box"><textarea rows="3"  style="width:100%;height:100%" id="quizQuestion" placeholder="Enter your question here" ></textarea><br/></div>
+</div>
+<div id="option-area">
+<br/>
+&nbsp;&nbsp;Response Options:<br/>
+&nbsp;&nbsp;(Identify the right response)
+<div id="options-table">
+<table style="border-spacing: 36px 0px;border-collapse:separate;">
+<tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1" placeholder="Option A" /></td>
+<td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2" placeholder="Option B" /></td></tr>
+<tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3" placeholder="Option C" /></td>
+<td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4" placeholder="Option D" /></td></tr>
+<tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5" placeholder="Option E" /></td></tr></table>
+</div>
+</div>
+<br/>
+<button class="btn btn-hg btn-primary" id="prev-question" >Previous Question</button>
+<button class="btn btn-hg btn-primary" id="next-question" >Next Question</button>
+<button class="btn btn-hg btn-success" id="save-quiz" >Save Quiz</button>
+<button class="btn btn-hg btn-danger" id="cancel-quiz" >Cancel</button>
+
+</div>
 </script>
 
 
+
+<script type="text/template" id="template-demo">
+<h1>Demo Community Bell</h1>
+<span style="margin-left:13%;font-size:18px">Welcome to the Demo Community BeLL</span><br/>
+<span style="margin-left:10%;font-size:20px;"> <b> You have now visited <%= visits %> times </b></span>
+<div style="width: 70%;font-size:16px;margin-left: -2%;">
+Thank you for becoming a Member of OLE’s Demo Community
+You can help us in our continuing development of the  BeLL 
+Learning Management System (LMS.) <br/>
+Use the Task Bar at the top of the screen to see and add:
+<div style="margin-left:20%">
+<ol>
+  <li>Member</li>
+  <li>Courses</li>
+  <li>Resources</li>
+</ol>
+</div>
+You can also open your Personal BeLL and see and:
+<div style="margin-left:20%"><ol>
+  <li>accept admission to a Course</li>
+  <li>Take a Step in a course and its quiz</li>
+  <li>Add resources to your Shelf</li>
+</ol></div>
+</div>
+<br/>
+ <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Continue >></button>
+</script>
+
+
+<script type="text/template" id="template-LandingPage">
+<div style="position:absolute;margin-top:3%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
+<h1><%=host%> Community Bell</h1>
+<span style="margin-left:4%;font-size:18px"><B>Welcome to the <%=host%>&nbsp; Community BeLL</B></span><br/>
+<!--<span style="margin-left:10%;font-size:20px;"> <b> You have now visited <%= visits %> times </b></span>-->
+<div style="width: 70%;font-size:16px;margin-left: -2%;">
+Please become a Member and explore both the Community Learning Management System (LMS) and your Personal BeLL.  To do this:<br/>
+<div style="margin-left:5%">
+<ol>
+  <li>Become a <%=host%>&nbsp; Community Member by signing in.</li>
+  <li>Explore the Resources by opening some existing Resources and adding at least one new Resource.</li>
+  <li>Explore the Courses by opening some existing Courses and adding at least one new Course, including at least two Course Steps. </li>
+  <li>Invite yourself to join at least one Course.</li>
+  <li>Open your Personal BeLL and Accept the Course Invitation.  </li>
+  <li>Open a Step in your Course, then open a Resource in that Step, read it and then take the Quiz, followed by Rating and Commenting on the Resource.</li>
+  <li>Search the BeLL Resource Catalog and add a Resource to your Personal Shelf.  Open that Resource in your Personal BeLL and then Rate it. </li>
+  <li>Provide Feedback to us on your experience.</li>
+</ol>
+</div>
+
+ <B> Note: </B>The BeLL system is under continuous development and is upgraded almost daily.  Feel free to return frequently to see the changes that have been made and give us feedback on them.  </div>
+<br/>
+ <button class="btn btn-hg btn-success" onclick = "document.location.href='#login'">Sign In</button>
+ &nbsp;&nbsp;<button class="btn btn-hg btn-success" onclick = "document.location.href='#becomemember'">Become A Member</button>
+</script>
+
+<script type="text/template" id="template-login">
+<div style="position:absolute;margin-top:-1%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
+<span style="margin-left:5%;font-size:31px;">Welcome to the</span><br/><br/>
+<span style="margin-left:4%;font-size:37px;">Community BeLL</span><br/><br/>
+<span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.4)</span><br/>
+<span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
+</script>
+<script type="text/html" id="template-siteReviewRownoAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
+  
+    
+   <script type="text/html" id="template-siteReviewRowAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
 </head>
 
 <body>

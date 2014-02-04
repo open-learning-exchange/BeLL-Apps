@@ -1,32 +1,46 @@
 
 #dashboard
 {
-	width:950px;
-	height: 460px;
-
+    height: 471px;
+    width: 950px;
+	overflow: hidden;
 }
-#page-header
-{
-	height: 135px;
-	box-shadow: 0px 2px 2px #888888;
-	float: bottom;
-	width:100%;
+.imageData {
+    width: 112px;
 }
+.btn.fui-gear {
+    height: 40px;
 
-#header-image
-{
-	width:100%;
+    padding: 0;
+
+    width: 40px;
+}
+#itemsinnavbar{
+ font-size: 17px;
+    margin: 0;
+    width:100%;
+}
+.header-table {
+    width: 100%;
+ font-size: 20px;
+background-color:#E1E1E1;
+}
+.right {
+    text-align: right;
 }
 #page-body
 {
-	height: 280px;
-	float: bottom;
+	height: 290px;
 }
 .stu-nav-tube
 {
 border: 5px solid black;
 }
-
+.name{
+	 font-size: 30px;
+	 padding-top: 12px;
+	font-weight: 900;
+}
 .stu-nav-table
 {
 padding:5 5 0 5;	
@@ -38,7 +52,13 @@ padding-top:5px;
 {
 width: 943px;
 height:50px;	
-padding-top: 9px;
+padding-top:0px;
+margin-bottom: 50px;
+}
+
+.stu-nav-title > a{
+	color: #FFA500;
+	
 }
 
 .stu-nav-title
@@ -219,21 +239,18 @@ body{
     line-height: none;
     margin: none;
 overflow:auto;
+width:100%;
 }
 
 
-.container body
-{
-	
-}
 
 .navbar-inverse
 {
- height: 57px;
-    margin-bottom: 5px;
-    width: 100%;
-	font-size: 15px;
-	font-family: verdana;
+
+  font-family: verdana;
+    font-size: 20px;
+   height: 62px;
+    width: 99%;
 }
 
 .btn.btn-hg, .input-group-hg .btn 
@@ -241,8 +258,8 @@ overflow:auto;
 	line-height:13px;
 	color: white;
 	    font-size: 15px;
-	    height: 46px;
-	    width: 152px;
+	    height: 51px;
+	    width: 233px;
 	    font-weight: 900;
 }
 
@@ -391,8 +408,8 @@ background:none;
  font-size: 22px;
     font-weight: bold;
     line-height: inherit;
-    padding-left: 36%;
-    padding-right: 40%;
+    padding-left: 12%;
+    padding-right: 26%;
 }
 
 .signup-heading
@@ -421,5 +438,231 @@ background:none;
     background-color: #34495E;
     color: #FFFFFF;
 }
+.Course-heading{
+font-size: 24px;
+    margin-left: 4%;
+    color: #666666;
+}
+.ui-accordion-header.ui-helper-reset.ui-state-default.ui-accordion-header-active.ui-state-active.ui-corner-top.ui-accordion-icons {
+      background-color: #34495E;
+    color: #FFFFFF;
+}
+.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all.ui-accordion-icons {
+   background-color: #404040;
+    color: #FFFFFF;
+}
+.ui-accordion .ui-accordion-content {
+    padding: 0;
+    border-radius: 0 0 10px 10px;
+}
+.bigheader{
+font-size: 23px;
+}
+.cidt-pp{
+text-align:right;
+}
 
+.signup-form .field-firstName
+{
+}
+.signup-form .field-lastName
+{
+	margin-top: -51px;
+	margin-left: 400px;
+}
+.signup-form .field-middleNames
+{
+	position: absolute;
+	margin-left: 196px;
+	margin-top: -54px;
 
+}
+.signup-form .field-login
+{
+	margin-left: 0%;
+	margin-top: 5%;
+}
+.signup-form .field-password
+{
+        position: absolute;
+	margin-left: 196px;
+	margin-top: -53px;
+}
+.signup-form .field-phone
+{
+	margin-left : 0%;
+	margin-top: 40px;
+}
+.signup-form .field-email
+{
+	margin-left: 400px;
+	margin-top: -145px;
+}
+.signup-form .field-birthLanguage
+{
+	margin-left: 195px;
+	margin-top: 40px;
+}
+.signup-form .field-BirthDate
+{
+	margin-left: 400px;
+    margin-top: -54px;
+}
+.signup-form .field-Gender
+{
+	margin-top: 50px;
+}
+.signup-form .field-levels
+{
+	margin-left: 195px;
+    margin-top: -41px;
+}
+.signup-form .field-roles
+{
+	margin-left: 68%;
+	margin-top: -7%;
+}
+.field-teachingCredentials{
+    margin-left: 195px;
+    margin-top: -41px;
+}
+.field-subjectSpecialization
+{
+	margin-left: 68%;
+	margin-top: -7%;
+}
+.navbar .nav {
+    width: 85%;
+}
+
+#site-feedback{
+     background-color: #34495E;
+    border-radius: 0px 0px 20px 20px;
+    color: #FFFFFF;
+    height: 0px;
+    margin-left: 20%;
+    position: absolute;
+    top: -1%;
+    width: 60%;
+    visibility: hidden;
+    z-index:10;
+}
+#site-feedback fieldset{
+border:none;
+height:100%;
+}
+#f-formButton{
+ margin-left: 10%;
+    width: 80%;
+}
+
+#f-formButton button{
+float:left;
+margin-left: 1px;
+width: 33%;
+}
+
+ textarea[name="comment"]
+ {
+  border-radius: 20px;
+    height: 100%;
+    width: 87%;
+ }
+#site-feedback .bbf-form{
+height: 72%;
+}
+#site-feedback .bbf-form .bbf-editor{
+height: 72%;
+}
+#site-feedback ul{
+height:80%;
+}
+#site-feedback li{
+height:100%;
+}
+#main-body{
+ position: absolute;
+    top: 70px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+.hh3{
+margin-left:35%;
+
+}
+.well
+{
+	background-color : white;
+	width : 25%;
+	height : 60%
+}
+.newEmailDiv
+{
+	background-color: gray;
+	height: 20px;
+	color: white;
+}
+.mailsubject
+{
+	height: 35px;
+	width:98%;
+}
+.mailrecipients
+{
+	height: 35px;
+	width:98%;
+}
+.mailbody
+{
+	height : 57%;
+	width:98%;
+}
+#mailbodytexarea
+{
+	width: 95%;
+	height: 100%;
+	margin-top : 2%;
+	resize: none;
+}
+#recipients, #subject 
+{
+	width: 100%;
+	height: 100%
+}
+#browseImage{
+    margin-left: 42px;
+     overflow: hidden;
+    position: absolute;
+    border-radius: 84px;
+    border: 2px solid #000000;
+}
+
+#emailCompose_background {
+    -webkit-transition: all 0.3s;
+       -moz-transition: all 0.3s;
+            transition: all 0.3s;
+}
+#emailCompose,
+#emailCompose_wrapper {
+    -webkit-transition: all 0.3s ease-out;
+       -moz-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+}
+#emailCompose {
+    -webkit-transform: translateX(0) translateY(-40%);
+       -moz-transform: translateX(0) translateY(-40%);
+        -ms-transform: translateX(0) translateY(-40%);
+            transform: translateX(0) translateY(-40%);
+}
+.popup_visible #emailCompose {
+    -webkit-transform: translateX(0) translateY(0);
+       -moz-transform: translateX(0) translateY(0);
+        -ms-transform: translateX(0) translateY(0);
+            transform: translateX(0) translateY(0);
+}
+
+#underconstruction {
+    height: 400px;
+    margin-left: 32%;
+    width: 400px;
+}

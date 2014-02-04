@@ -15,8 +15,8 @@ $(function() {
       this.form = new Backbone.Form({model:this.model})
       this.$el.append(this.form.render().el)
       // give the form a submit button
-      var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" id="formButton">Login</button>')
-      var $button2 = $('<div class="signup-div"><a class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">SignUp</button></div>')
+      var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" id="formButton">Sign In</button>')
+      var $button2 = $('<div class="signup-div"><a class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">Become A Member</button></div>')
       this.$el.append($button) 
       this.$el.append($button2)
     },
@@ -38,8 +38,16 @@ $(function() {
       if(response.rows[0]){
       if(response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
           if(response.rows[0].doc.status == "active"){
-          $.cookie('Member.login', response.rows[0].doc.login)
-          $.cookie('Member._id', response.rows[0].doc._id)
+          //UPDATING MEMBER VISITIS
+          var memvisits = new App.Models.Member({_id:response.rows[0].doc._id })
+          memvisits.fetch({async:false})
+          memvisits.set("visits",parseInt(memvisits.get("visits")) + 1)
+          memvisits.once('sync',function()
+          {
+          $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
+          $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
+          $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
+          $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/personal"})
           $.ajax({
               type: 'GET',
               url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',
@@ -53,6 +61,9 @@ $(function() {
               async: false
           });
          memberLoginForm.trigger('success:login')
+          })
+          memvisits.save()
+          
         }
         else{
           alert("Your Account Is Deactivated")

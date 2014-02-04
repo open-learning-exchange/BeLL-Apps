@@ -12,7 +12,7 @@ $(function() {
     initialize : function(){
       this.groupresult = new App.Collections.SearchResource()  
       this.resultArray  = []
-enablenext=0
+	  enablenext=0
     },
     render: function() {
 	var obj = this

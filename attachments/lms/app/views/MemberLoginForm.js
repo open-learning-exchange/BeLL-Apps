@@ -1,7 +1,8 @@
 $(function() {
 
   App.Views.MemberLoginForm = Backbone.View.extend({
-    
+    template: $('#template-login').html(),
+    vars: {},
     className: "form",
 
     events: {
@@ -11,10 +12,11 @@ $(function() {
 
     render: function() {
       // create the form
+      this.$el.html(_.template(this.template, this.vars))
       this.form = new Backbone.Form({model:this.model})
       this.$el.append(this.form.render().el)
       // give the form a submit button
-      var $button = $('<a class="btn" id="formButton">go</button>')
+      var $button = $('<a class="btn btn-success" id="formButton">Sign In</button>')
       this.$el.append($button)
     },
 
@@ -31,8 +33,16 @@ $(function() {
       if(response.rows[0]){
         if(response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
           if(response.rows[0].doc.status == "active"){
-            $.cookie('Member.login', response.rows[0].doc.login)
-            $.cookie('Member._id', response.rows[0].doc._id)
+          //member visists
+          var memvisits = new App.Models.Member({_id:response.rows[0].doc._id })
+          memvisits.fetch({async:false})
+          memvisits.set("visits",memvisits.get("visits") + 1)
+          memvisits.once('sync',function()
+          {
+              $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/lms"})
+              $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/lms"})
+              $.cookie('Member.login', response.rows[0].doc.login,{path:"/apps/_design/bell/personal"})
+              $.cookie('Member._id', response.rows[0].doc._id,{path:"/apps/_design/bell/personal"})
             
             if ($.inArray('student', response.rows[0].doc.roles) != -1) {
               if(response.rows[0].doc.roles.length < 2){
@@ -45,6 +55,10 @@ $(function() {
             else {
               memberLoginForm.trigger('success:login')
             }
+          })
+          memvisits.save()
+          //-----------------------
+        
           }
           else{
             alert("Your account is deactivated")

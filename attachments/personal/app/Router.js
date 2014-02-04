@@ -1,16 +1,19 @@
 $(function() {
-
   App.Router = new (Backbone.Router.extend({
-
+	
     routes: {
-      ''                              : 'Dashboard', 
+      ''                              : 'MemberLogin', 
       'dashboard'                     : 'Dashboard',
+      'ereader'                     : 'ereader',
+      'info'                     	  : 'info',
       'login'                         : 'MemberLogin',
       'logout'                        : 'MemberLogout',
       'courses'                       : 'Groups',
       'my-courses'                    : 'MemberGroups',
       'course/edit/:groupId'          : 'GroupForm',
-      'course/assign/:groupId'        : 'GroupAssignments', // @todo delete and change refs to it
+      'course/details/:courseId/:name': 'CourseDetails', // @todo delete and change refs to it
+      'CourseInfo/:courseId'          : 'CourseInfo',
+      'course/resign/:courseId'       : 'ResignCourse',
       'course/assignments/:groupId'   : 'GroupAssignments',
       'course/link/:groupId'          : 'GroupLink',
       'update-assignments'            : 'UpdateAssignments',
@@ -20,36 +23,222 @@ $(function() {
       'search-bell'		      : 'SearchBell',
       'search-result'		      :'SearchResult',
       'member/add'                    : 'MemberForm',
+      'member/edit/:mid'              : 'MemberForm',
       'addResource/:rid/:title/:revid'                  : 'AddResourceToShelf',
       'resource/detail/:rsrcid/:shelfid/:revid'         :  'Resource_Detail', //When Item is Selected from the shelf 
       'calendar'                      : 'CalendarFunction',
-      'calendar/:eid'                 : 'calendaar',
+      'calendar/event/:eid'                 : 'calendaar',
+      'calendar-event/edit/:eid'			: 'EditEvent',
+      'calendar-event/delete/:eid'			: 'DeleteEvent',
       'addEvent'		      : 'addEvent',
-      'member/edit/:mid'              : 'MemberForm',
-      'notifications'                     : 'notifications',
-      '*nomatch'                      : 'errornotfound',  
-    },
-    errornotfound: function()
-    {
-        alert("no route matching")
+      'report/:Url'                     : 'report',
+      'siteFeedback'	              : 'viewAllFeedback',
+      'courses/barchart'	      : 'CoursesBarChart',
+      'mail'					  : 'email',
+      '*nomatch'                      : 'errornotfound',
     },
     
-    
-    
-    
-    notifications: function(){
-    	App.$el.children('.body').html('&nbsp')
-    	App.$el.children('.body').html('<h3>Notifications<h3>')
-	invits = new App.Collections.Invitations()
-        invits.fetch({success: function() {
-      	console.log(invits.length.toString())
-          $('#olelogo').remove();
-          invitsTable = new App.Views.NotificationTable({collection: invits})
-          invitsTable.render()
-          App.$el.children('.body').append(invitsTable.el) 
-	}})
+    initialize: function() {
+	this.bind("all",this.startUpStuff)
+	},
+	errornotfound: function(){
+		Backbone.history.navigate('login', {trigger: true})
+		},
+	email: function()
+	{
+		App.$el.children('.body').html('&nbsp')
+		//App.$el.children('.body').append('<div id="mailActions" ></div>')
+		//App.$el.children('.body').append('<table id="inbox_mails" ></table>')
+		var mymail=new App.Collections.Mails({skip:0})
+		mymail.fetch({async:false})
+		var mailview=new App.Views.MailView({collection:mymail})
+		mailview.render()
+		App.$el.children('.body').append(mailview.el)
+		skipStack.push(skip)
+		mailview.fetchRecords()
+      //mailview.manageButtons()
+		
+	},
+	
+	getIds:function(){
+		  var a=new App.Collections.ScriptCollection({model:new App.Models.Group,db:"groups",swtch:0})
+          a.fetch({async:false})
+          var courses=a.toJSON()
+        
+         a=new App.Collections.ScriptCollection({model:new App.Models.membercourseprogress,db:"membercourseprogress",swtch:0})
+          a.fetch({async:false})
+          var courseProgress=a.toJSON()
+          a=new App.Collections.ScriptCollection({model:new App.Models.CourseStep,db:"coursestep",swtch:0})
+         a.fetch({async:false})
+         var courseSteps=a.toJSON()
+          var ids=new Array()
+          console.log(courseProgress)
+          if(courseProgress.length!=0){
+          			for(var a=0;a<courseProgress.length;a++){
+          				if(ids.indexOf(courseProgress[a].courseId)==-1&&courseProgress[a].courseId!=undefined){
+          				ids.push(courseProgress[a].courseId)
+          				}
+          			}
+          }
+          console.log(ids)
+           if(courseSteps.length!=0){
+          			for(var a=0;a<courseSteps.length;a++){
+          				if(ids.indexOf(courseSteps[a].courseId)==-1&&courseSteps[a].courseId!=undefined){
+          				ids.push(courseSteps[a].courseId)
+          				}
+          			}
+          		
+          }
+          console.log(ids)
+          var indexArray = new Array()
+          for(var b=0;b < courses.length&&courses[b]._id!="_design/bell";b++){
+          	indexArray.push(courses[b]._id)
+          }
+          console.log(indexArray)
+          for(var b=0;b < ids.length;b++){
+          		if(indexArray.indexOf(ids[b]) == -1){
+          			App.idss.push(ids[b])
+          		}
+          }
+	},
+	
+	runscript: function(){	
+			this.getIds()
+			console.log(App.idss)
+          for (var i=0;i<App.idss.length;i++){
+          	 	var grp=new App.Models.Group()
+          		grp.set("name","Unknown")
+          		grp.set("levels",null)
+          		grp.set("description","Not Set Yet")
+          		grp.set("courseLeader",null)
+          		grp.set("leaderEmail",null)
+          		grp.set("leaderPhone",null)
+          		grp.set("members",null)
+          		grp.set("backgroundColor",null)
+          		grp.set("foregroundColor",null)
+          	    grp.once('sync',function(e){
+					 	var steps=new App.Collections.coursesteps()
+					 	steps.courseId=App.idss[0]
+					 	steps.fetch({async:false})
+					 	steps=new App.Collections.coursesteps()
+					 	steps.courseId=App.idss[0]
+					 	steps.fetch({async:false})
+					 	var results=new App.Collections.ScriptCollection({model:new App.Models.membercourseprogress,db:"membercourseprogress",swtch:1,courseId:App.idss[0]})
+					 	results.fetch({async:false})
+					/* 	console.log("Steps")
+					 	console.log(steps.length)
+					 	console.log("Results of enrolled ppl")
+					 	console.log(results.length)
+					 	console.log(App.idss[0])
+					 	console.log(e.toJSON().id)
+					 	console.log("----------------")
+					 */	
+					 	App.Router.addIds(steps,results,e.toJSON().id)
+					 App.idss.splice(0,1)
+					 	
+
+					 	
+		
+            	})
+          		grp.save()	
+          	
+          }
+	},
+	
+	addIds: function(steps,results,newId){
+	
+					 	
+		steps.forEach(function(s){
+					 	//	console.log(s.toJSON().courseId)
+					 		s.set("courseId",newId)
+					 		s.save(null,{
+					 			success:function(model,response){console.log("successfully saves step")},
+					 			error: function(model,response){(console.log(response))}
+					 		});
+					 		
+					 	})
+			results.forEach(function(r){
+					 	//	console.log(r.toJSON().courseId)
+					 		r.set("courseId",newId)
+					 		r.save(null,{
+					 			success:function(model,response){console.log("successfully saves result")},
+					 			error: function(model,response){(console.log(response))}
+					 		});
+					 	})
+					 				 	
+					 	
+	},
+	info: function(){
+		//App.$el.children('.body').html('<div id="underconstruction"><img src="img/cons.jpg" alt="Under Construction" height="100%" width="100%"> </div>')
+		App.$el.children('.body').html(' ')
+	
+	},
+	ereader: function(){
+		//App.$el.children('.body').html('<div id="underconstruction"><img src="img/cons.jpg" alt="Under Construction" height="100%" width="100%"> </div>')
+		App.$el.children('.body').html(' ')
+	
+	},
+	startUpStuff: function(){
+
+		this.checkLoggedIn
+		this.renderNav
+
+		if(App.idss.length==0){
+		//this.runscript()
+		}
+		   $('div.takeQuizDiv').hide()
+		 $('#externalDiv').hide()
+		  $('#debug').hide()
+
+          this.bind( "all", this.checkLoggedIn)
+          this.bind( "all", this.renderNav )  
+	},
+	
+    checkLoggedIn: function(){
+   	if(!$.cookie('Member._id')){
+   		console.log($.url().attr('fragment'))
+   		if($.url().attr('fragment')!='login'&&$.url().attr('fragment')!=''&&$.url().attr('fragment')!='member/add')
+   		{	
+   			Backbone.history.stop()
+   			App.start()
+   		}
+   	}
+   },
+	
+    viewAllFeedback: function(){
+          feed = new App.Collections.siteFeedbacks()
+          feed.fetch({success: function() {
+          feedul = new App.Views.siteFeedbackPage({collection:feed})
+          feedul.render()
+          App.$el.children('.body').html('&nbsp')	
+          App.$el.children('.body').append(feedul.el) 
+			}})
     },
-    
+  renderNav: function(){
+    if($.cookie('Member._id')){
+        var na=new App.Views.navBarView({isLoggedIn:'1'})
+     }   
+     else{
+     	var na=new App.Views.navBarView({isLoggedIn:'0'})
+      }
+      $('div.navbar-collapse').html(na.el)
+    },
+
+
+      CoursesBarChart: function(){
+		App.$el.children('.body').html('&nbsp')
+		App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
+		App.$el.children('.body').append('<div id="graph"></div>')
+		App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
+		var coursesResults=new App.Collections.memberprogressallcourses()
+		coursesResults.memberId=$.cookie('Member._id')
+		coursesResults.fetch({async:false})
+		var chart=new App.Views.CoursesChartProgress({collection: coursesResults})
+		chart.render()
+		App.$el.children('.body').append(chart.el) 
+	},
+
+  
     MemberForm: function(memberId) {
       this.modelForm('Member', 'Member', memberId, 'login')
     },
@@ -94,6 +283,7 @@ $(function() {
 
 
     SearchResult : function(text){
+    this.renderFeedback
       skipStack.push(skip)
       if(text){
           searchText = text
@@ -101,37 +291,22 @@ $(function() {
       else{
         searchText = $("#searchText").val()
       }
-      $('ul.nav').html($("#template-nav-logged-in").html())
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
       search.render()
       $("#searchText").val(searchText)
       $('#olelogo').remove()
-       App.badge()
   },
   
   SearchBell: function() {
-      $('ul.nav').html($("#template-nav-logged-in").html())
+      
       var search = new App.Views.Search()
       App.$el.children('.body').html(search.el)
       search.render()
       $('#olelogo').remove()
-       App.badge()
     },
     Dashboard: function() {
-    App.badge()
-      $('ul.nav').html($("#template-nav-logged-in").html())       
-      var dashboard = new App.Views.Dashboard()
-      App.$el.children('.body').html(dashboard.el)
-      dashboard.render()
-      $('#olelogo').remove()
-
-    },
-
-    MemberLogin: function() {
-      // Prevent this Route from completing if Member is logged in.
-      if($.cookie('Member._id')) {
-        App.ShelfItems = {} // Resetting the Array Here http://stackoverflow.com/questions/1999781/javascript-remove-all-object-elements-of-an-associative-array
+      App.ShelfItems = {} // Resetting the Array Here http://stackoverflow.com/questions/1999781/javascript-remove-all-object-elements-of-an-associative-array
         $.ajax({
               type: 'GET',
               url: '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+$.cookie('Member._id') +'"',
@@ -143,14 +318,22 @@ $(function() {
               },
               data: {},
               async: false
-        });
+      });       		 
+      var dashboard = new App.Views.Dashboard()
+      App.$el.children('.body').html(dashboard.el)
+      dashboard.render()
+      $('#olelogo').remove()
+    },
+
+    MemberLogin: function() {
+      // Prevent this Route from completing if Member is logged in.
+      if($.cookie('Member._id')) {
         Backbone.history.navigate('dashboard', {trigger: true})
         return
       }
       var credentials = new App.Models.Credentials()
       var memberLoginForm = new App.Views.MemberLoginForm({model: credentials})
       memberLoginForm.once('success:login', function() {
-        $('ul.nav').html($("#template-nav-logged-in").html())
         $('#logo').html($("#template-logoimg").html())
         Backbone.history.navigate('dashboard', {trigger: true})
       })
@@ -158,14 +341,15 @@ $(function() {
       App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>')
       App.$el.children('.body').append(memberLoginForm.el)
       // Override the menu
-      $('ul.nav').html($('#template-nav-log-in').html())
        $('#logo').html($("#template-logoimg").html())
     },
 
     MemberLogout: function() {
       App.ShelfItems = {}
-      $.removeCookie('Member.login')
-      $.removeCookie('Member._id')
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/lms"})
+      $.removeCookie('Member.login',{path:"/apps/_design/bell/personal"})
+      $.removeCookie('Member._id',{path:"/apps/_design/bell/personal"})
       Backbone.history.navigate('login', {trigger: true})
     },
 
@@ -195,7 +379,6 @@ $(function() {
     },
 
     GroupAssignments: function(groupId) {
-
       var group = new App.Models.Group()
       group.id = groupId
       group.once('sync', function() {
@@ -211,13 +394,96 @@ $(function() {
       group.fetch()
     },
     
-    NewsFeed : function(){
+    
+      CourseDetails: function(courseId,name) {
+		var ccSteps = new App.Collections.coursesteps()
+		ccSteps.courseId=courseId
+		ccSteps.fetch({success: function(){	
+			App.$el.children('.body').html('&nbsp')
+			App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>'+name+'    <a href="#CourseInfo/'+courseId+'"><button class="btn fui-eye"></button></a></p>')
+			var levelsTable = new App.Views.CourseLevelsTable({collection: ccSteps})
+			levelsTable.render()
+			App.$el.children('.body').append(levelsTable.el)		    
+			 $( "#accordion" )
+				.accordion({
+					header: "h3"
+				})
+				.sortable({
+					axis: "y",
+					handle: "h3",
+					stop: function( event, ui ) {
+						// IE doesn't register the blur when sorting
+						// so trigger focusout handlers to remove .ui-state-focus
+						ui.item.children( "h3" ).triggerHandler( "focusout" );
+					}
+				});
+			}}) 
+    },
+    CourseInfo:function(courseId){
+    
+    var courseModel= new App.Models.Group()
+    courseModel.set('_id',courseId)
+    courseModel.fetch({async:false})
+    
+    var courseLeader=courseModel.get('courseLeader')
+    var memberModel=new App.Models.Member()
+    memberModel.set('_id',courseLeader)
+    memberModel.fetch({async:false})
+    
+    var viewCourseInfo=new App.Views.CourseInfoView({model:courseModel})
+    viewCourseInfo.leader=memberModel
+    
+    viewCourseInfo.render()
+    console.log(viewCourseInfo)
+    
+    App.$el.children('.body').html("&nbsp")
+    App.$el.children('.body').append('<div class="courseInfo-header"><a href="#course/details/'+courseId+'/'+courseModel.get('name')+'"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/'+courseId+'"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
+    App.$el.children('.body').append(viewCourseInfo.el)
      
+    
+    
+    },
+    ResignCourse:function(courseId){
+    
+        var memberId = $.cookie('Member._id')
+        var courseModel= new App.Models.Group()
+        courseModel.set('_id',courseId)
+        courseModel.fetch({async:false})
+            
+        var courseMemebers=courseModel.get('members')
+        var index=courseMemebers.indexOf(memberId)
+        courseMemebers.splice(index, 1);
+        courseModel.set({members:courseMemebers})
+        courseModel.save();
+        
+        var mail = new App.Models.Mail();
+        var currentdate = new Date();
+        var id = courseModel.get('leaderEmail')
+        
+        var subject='Course Resignation | '+courseModel.get('name')+''
+        var mailBody='Hi,<br>Member '+$.cookie('Member.login')+' has resign from '+courseModel.get('name')+''
+
+      			mail.set("senderId",$.cookie('Member._id'));
+      			mail.set("receiverId",id);
+      			mail.set("subject",subject);
+      			mail.set("body",mailBody);
+      			mail.set("status","0");
+      			mail.set("type","mail");
+      			mail.set("sentDate",currentdate);
+      			//console.log(mail)
+      			mail.save();
+       alert("Mail successfully send.")
+
+       Backbone.history.navigate('dashboard', {trigger: true})
+     
+    },
+    NewsFeed : function(){ 
      var resources = new App.Collections.NewsResources()
      resources.fetch({success: function() {
          var resourcesTableView = new App.Views.ResourcesTable({collection: resources})
          resourcesTableView.render()
-         App.$el.children('.body').html(resourcesTableView.el)
+         App.$el.children('.body').html("&nbsp")
+         App.$el.children('.body').append(resourcesTableView.el)
       }}) 
     },
     
@@ -231,9 +497,11 @@ $(function() {
                    var articleTableView = new App.Views.ArticleTable({collection: resources})
                    articleTableView.setAuthorName(authorTitle)
                    articleTableView.render()  
-                   App.$el.children('.body').html(articleTableView.el)
+                    App.$el.children('.body').html("&nbsp")
+                   App.$el.children('.body').append(articleTableView.el)
          }})
     },
+    
     AddResourceToShelf : function (rid,title,revid){
             var shelfItem=new App.Models.Shelf()
             shelfItem.set('memberId',$.cookie('Member._id'))
@@ -249,6 +517,7 @@ $(function() {
             skip = skipStack.pop()    // To Render on the same page poping the staring index of  current page values to display
             App.Router.SearchResult(searchText)
     },
+    
     Resource_Detail : function(rsrcid,sid,revid){
         var resource = new App.Models.Resource()
         resource.SetRid(rsrcid)
@@ -260,6 +529,7 @@ $(function() {
         }})
     
     },
+    
   //Calendar Methods  
   addEvent: function(){
 	var model = new App.Models.Calendar()
@@ -268,19 +538,44 @@ $(function() {
 	App.$el.children('.body').append(modelForm.el)
 	    modelForm.render()
   },
+  DeleteEvent: function (eventId)
+  {
+  	var cmodel = new App.Models.Calendar({_id : eventId})
+	cmodel.fetch({async:false})
+	cmodel.destroy({success:function()
+	{
+		alert("Event Successfully Deleted!!!" )
+		Backbone.history.navigate('calendar',{trigger :true})
+	}})
+  },
+  EditEvent: function(eventId){
+  	var cmodel = new App.Models.Calendar({_id : eventId})
+	cmodel.fetch({async:false})
+	
+	var modelForm = new App.Views.CalendarForm({model: cmodel})
+	modelForm.update = true
+	App.$el.children('.body').html('<h3 class="signup-heading">Update Event</h3>')
+	App.$el.children('.body').append(modelForm.el)
+	modelForm.render()
+  },
   calendaar: function(eventId){
-	App.$el.children('.body').html('<h5>Event Details</h5>')
+  	App.$el.children('.body').html('&nbsp')
+	App.$el.children('.body').append('<h5>Event Details</h5>')
 	var cmodel = new App.Models.Calendar({_id : eventId})
 	cmodel.fetch({async:false})
-	console.log(cmodel)
 	App.$el.children('.body').append('<br/><b>Title: </b>'+cmodel.attributes.title)
 	App.$el.children('.body').append('<br/><b>Description: </b>'+cmodel.attributes.description)
 	App.$el.children('.body').append('<br/><b>Starting from: </b>'+new Date(cmodel.attributes.start))
 	App.$el.children('.body').append('<br/><b>Ending at: </b>'+new Date(cmodel.attributes.end))
+	App.$el.children('.body').append('<br/><br/><a class="btn btn-primary" href="#calendar-event/edit/' + eventId +'">Edit</a>')
+	App.$el.children('.body').append('&nbsp;&nbsp;<a class="btn btn-primary" href="#calendar-event/delete/' + eventId +'">Delete</a>')
   },
   CalendarFunction: function(){
-       App.$el.children('.body').html("<div id='calendar'><div id='addEvent' class='btn btn-bg btn-success' onclick =\"document.location.href='#addEvent'\">Add Event</div></div>")
+
+       App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">Add Event</div><br/><br/>")
+       App.$el.children('.body').append("<br/><br/><div id='calendar'></div>")
         $(document).ready(function() {
+
                  var temp2 = []
 		 var allEvents=new App.Collections.Calendars()
 		 allEvents.fetch({async:false})
@@ -289,12 +584,66 @@ $(function() {
 			temp.title=evnt.attributes.title
 			temp.start=evnt.attributes.start
 			temp.end=evnt.attributes.end
-			temp.url="calendar/"+evnt.id
+			temp.url="calendar/event/"+evnt.id
 			temp.allDay=false
-			console.log(evnt)
 			temp2.push(temp)	
 			});
-		var calendar = $('#calendar').fullCalendar({
+		
+                var membercourses = new App.Collections.MemberGroups()
+                membercourses.fetch({async:false})
+                console.log(membercourses.length)
+                        
+                membercourses.each(function(m){
+                    	
+                        
+                        var cs = new App.Collections.CourseScheduleByCourse()
+                        cs.courseId = m.get("_id")
+                     //   alert(cs.courseId)
+                        
+                        cs.fetch({async:false})
+                        
+                        if(cs.length > 0){
+                        var model = cs.first()
+                          var daysindex
+                          if(model.get("type") == "Daily"){
+                            daysindex= new Array(0,1,2,3,4,5,6)
+                          }
+                          else
+                          {
+                            
+                            daysindex = new Array()
+                            var week = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                            var sweek = model.get("weekDays")
+                            var i=0 
+                            while(i<sweek.length){
+                             daysindex.push(week.indexOf(sweek[i]))
+                             i++
+                            }
+                          }
+                          
+                          var sdate = model.get("startDate").split('/')
+                          var edate = model.get("endDate").split('/')
+                          
+                          var sdates = getScheduleDatesForCourse(new Date(sdate[2],sdate[0],sdate[1]),new Date(edate[2],edate[0],edate[1]),daysindex)
+                         // alert(sdates)
+                         var stime = convertTo24Hour(model.get("startTime"))
+                         var etime = convertTo24Hour(model.get("endTime"))
+                          for(var i=0; i<sdates.length ; i++)
+                          {
+                          	
+                            var temp=new Object()
+                            temp.title=m.get('name')
+                            temp.start=new Date(sdates[i].setHours(stime))
+                            temp.end=new Date(sdates[i].setHours(etime))
+                            temp.allDay=false
+                            temp2.push(temp)
+                          }
+                        
+                    }
+                        
+		});
+                //alert(temp2.length)
+                var calendar = $('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -306,9 +655,11 @@ $(function() {
 			return false
 		 },	
 		events: temp2,
-		});
-
-      });
+  		});
+          
+          
+  
+  })
 },
     /*
      * Syncing pages
@@ -324,7 +675,7 @@ $(function() {
         Backbone.history.navigate('dashboard', {trigger: true})
       })
       App.pull_doc_ids([groupId], window.location.origin + '/groups', 'groups')
-    },
+    	},
 
     // This route may no longer be needed so long as we are running the replication on
     // an interval from App.start()
@@ -358,7 +709,7 @@ $(function() {
         }
       }) 
     },
-
+    
     FeedbackForm: function(resourceId) {
       var feedbackModel = new App.Models.Feedback({resourceId: resourceId, memberId: $.cookie('Member._id')})
       feedbackModel.on('sync', function() {

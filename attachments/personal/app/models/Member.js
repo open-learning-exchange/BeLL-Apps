@@ -17,7 +17,8 @@ $(function() {
     },
 
     defaults: {
-      kind: "Member"
+      kind: "Member",
+      roles:["Learner"]
     },
 
     toString: function() {
@@ -33,20 +34,30 @@ $(function() {
        phone: 'Text',
        email:'Text',
        birthLanguage :'Text',
-	BirthDate:  'Date',
-       Gender: {
-        type: 'Select',
-        options: ['Male', 'Female']
-      },
+       BirthDate:  'Date',
+	   visits : 'Text',
+	   Gender: {
+          type: 'Select',
+          options: ['Male', 'Female']
+      }, 
       levels: {
         type: 'Select',
-        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','Higher']
       },
-      status:'Text', 
-      roles: {
-        type: 'Checkboxes',
-        options: ['admin', 'student', 'teacher', 'head', 'coach', 'lead']
-      }
+      status:'Text',
+      yearsOfTeaching:{
+          type: 'Select',
+          options: ['None', '1 to 20', 'More than 20']
+      },
+      teachingCredentials:{
+        type:'Select',
+        options:['Yes','No']
+      },
+      subjectSpecialization: 'Text',
+      forGrades:{
+        type:'Checkboxes',
+        options:['Pre-k','Grades(1-12)','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
+      },
     },
 
     
@@ -66,11 +77,14 @@ $(function() {
         // If found, then set the revision in the form and save
         success: function(couchDoc) {
           // If the current doc has an attachment we need to clear it for the new attachment
-          if (_.has(couchDoc, '_attachments')) {
+          if (_.has(couchDoc, '_attachments'))
+           {
+           //	alert('asdfasd')
             $.ajax({
               url: '/members/' + couchDoc._id + '/' + _.keys(couchDoc._attachments)[0] + '?rev=' + couchDoc._rev,
               type: 'DELETE',
               success: function(response, status, jqXHR) {
+              //	alert('success')
                 // Defining a revision on saving over a Couch Doc that exists is required.
                 // This puts the last revision of the Couch Doc into the input#rev field
                 // so that it will be submitted using ajaxSubmit.
