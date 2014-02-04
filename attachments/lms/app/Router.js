@@ -952,7 +952,7 @@ $(function () {
         ViewLevel: function (lid, rid) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid,
-                "_rev": rid
+              //  "_rev": rid
             })
             var that = this
             levelInfo.fetch({

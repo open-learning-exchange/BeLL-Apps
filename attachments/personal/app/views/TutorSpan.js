@@ -9,13 +9,17 @@ $(function() {
     template : $("#template-Tutor").html(),
 
     render: function () {
-      
-      var vars = this.model.toJSON()
-      if(!vars.leaderEmail)
-      {
-      	vars.leaderEmail = "Undefined"
-      }
-      console.log(vars)
+      ///Temporary 
+      var vars = {}
+      vars.leaderEmail = this.model
+      vars._id = "none"
+//      var vars = this.model.toJSON()
+//      vars.leaderEmail = this.temp
+//      if(!vars.leaderEmail)
+//      {
+//      	vars.leaderEmail = this.model
+//      }
+//      console.log(vars)
       this.$el.append(_.template(this.template, vars))
     }
 

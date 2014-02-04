@@ -41,6 +41,7 @@ $(function () {
         },
 
         initialize: function () {
+        	
             this.bind("all", this.startUpStuff)
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.renderNav)
@@ -54,7 +55,6 @@ $(function () {
             $('div.takeQuizDiv').hide()
             $('#externalDiv').hide()
             $('#debug').hide()
-
         },
          reviewStatus: function(){
         	 var member = new App.Models.Member({

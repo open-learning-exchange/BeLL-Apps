@@ -22,7 +22,7 @@ $(function () {
             $('#site-feedback').animate({
                 height: 'toggle'
             })
-           this.unsetForm()
+            this.unsetForm()
         },
         setForm: function () {
             if ($('#comment').val().length != 0 && $('input[name="category"]:checked').val()) {
@@ -52,9 +52,9 @@ $(function () {
                 height: 'toggle'
             })
         },
-       unsetForm:function(){
+        unsetForm: function () {
             $('#comment', this.$el).val("")
-            $('input[name="category"]').attr('checked',false)
+            $('input[name="category"]').attr('checked', false)
             $("#priority").attr('checked', false)
         },
 
