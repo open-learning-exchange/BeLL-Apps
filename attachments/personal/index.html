@@ -63,6 +63,8 @@
   <script src="app/models/CourseSchedule.js"></script>
   <script src="app/models/CommunityCode.js"></script>
   <script src="app/models/AssignmentPaper.js"></script>
+  <script src="app/models/UserMeetup.js"></script>
+  <script src="app/models/MeetUp.js"></script>
   
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -86,6 +88,7 @@
   <script src="app/collections/ScriptCollection.js"></script>
   <script src="app/collections/CommunityCode.js"></script>
   <script src="app/collections/shelfResource.js"></script>
+  <script src="app/collections/UserMeetups.js"></script>
 
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
@@ -126,6 +129,9 @@
   
   <script src="app/views/GroupMembers.js"></script>
 
+<script src="app/views/MeetupSpan.js"></script>
+<script src="app/views/MeetupSpans.js"></script>
+<script src="app/views/MeetupDetails.js"></script>
    
   <!--
   overlay poput script
@@ -835,6 +841,13 @@ $(window).scroll(function () {
         </a>
      </div>
 </script>
+<script type="text/html" id="template-Meetup">
+      <div class="displayCourse"> 
+        <a href='#meetup/detail/<%= meetupId %>/<%=meetupTitle%>'> 
+            <%= meetupTitle %>
+        </a>
+     </div>
+</script>
 
 <script type="text/html" id="template-Search">
 <div id="search">
@@ -927,13 +940,8 @@ $(window).scroll(function () {
 					<td class="stu-nav-title-badges stu-nav-title">My Meetups</td>
 					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
-							<table class="inner-table">
-								<tr>
-									<td class="badge-box">
-									Goat Keepers
-									</td>
-									<td class="badge-box">First Time Mothers</td>
-								</tr>
+							<table id="meetUpTable" class="inner-table" >	
+				
 							</table>
 						</div>
 					</td>

@@ -80,6 +80,14 @@ $(function () {
             $('#cc').append(groupsSpans.el)
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
+            
+            UserMeetups = new App.Collections.UserMeetups()
+            UserMeetups.memberId=$.cookie('Member._id')
+            UserMeetups.fetch({async:false})
+            MeetupSpans=new App.Views.MeetupSpans({collection:UserMeetups})
+            MeetupSpans.render()       
+            $('#meetUpTable').append(MeetupSpans.el)
+            
 
             TutorsSpans = new App.Views.TutorsSpans({
                 collection: groups
