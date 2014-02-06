@@ -5,11 +5,17 @@ $(function() {
 
     className: "table table-striped",
 	roles:null,
+	events: {
+		"click #admissionButton" : function (e){
+			alert('asdfasdf')
+		}
+	},
     render: function() {
             console.log(this.model)
         	this.addCourseDetails()
     },
     addCourseDetails:function(){
+    		var that = this
             var courseInfo = this.model.toJSON()
             var leaderInfo = this.courseLeader.toJSON()
 
@@ -20,9 +26,24 @@ $(function() {
             this.$el.append('<tr><td><b>LeaderName </b></td><td>' + leaderInfo.firstName + ' ' + leaderInfo.lastName + '</td></tr>')
             this.$el.append('<tr><td><b>Leader Email </b></td><td>' + courseInfo.leaderEmail + '</td></tr>')
             this.$el.append('<tr><td><b>Leader Phone Number </b></td><td>' + courseInfo.leaderPhone + '</td></tr>')
+            
+            $(document).on('Notification:submitButtonClicked', function (e) { 
+            	var currentdate = new Date();
+            	var mail = new App.Models.Mail();
+      			mail.set("senderId",$.cookie('Member._id'));
+      			mail.set("receiverId",that.model.get('courseLeader'));
+      			mail.set("subject","Course Admission Request | " + that.model.get('name'));
+      			mail.set("body",'Admission request recieved from user \"' + $.cookie('Member.login') + '\" in ' + that.model.get('name') + ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.get('_id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.get('id') + '" >Reject</button>');
+      			mail.set("status","0");
+      			mail.set("type","admissionRequest");
+      			mail.set("sentDate",currentdate);
+      			mail.save()
+      			alert("Admission request successfully sent to this course leader.")
+      			
+      			
+   			});
           
     }
-
   })
 
 })

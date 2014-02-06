@@ -50,7 +50,7 @@ $(function () {
                                 async: false
                             })
                             var vis = parseInt(memvisits.get("visits"))
-                            vis = vis + 1
+                            vis++
                             memvisits.set("visits", vis)
                             memvisits.once('sync', function () {
                                 var date = new Date()
