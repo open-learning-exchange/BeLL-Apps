@@ -96,7 +96,14 @@ $(function () {
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
                 var vacancyFull = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>this Course Was Full.</div>"
                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
-
+                
+                if(mailView.inViewModel.get('type')=="Meetup-invitation")
+				{
+					mailView.meetupRequestAccepted(e.currentTarget.value)
+					mailView.updateMailBody(body)	
+					return
+				}
+                
                 var gmodel = new App.Models.Group({
                     _id: e.currentTarget.value
                 })
@@ -443,6 +450,28 @@ $(function () {
   			mail.save()
   			
   			mailView.updateMailBody(body)
+        },
+        meetupRequestAccepted:function (meetupId) {
+            
+        var meetup=new App.Models.MeetUp()
+        	meetup.id=meetupId
+        	meetup.fetch({success:function(){
+        	var userMeetup=new App.Models.UserMeetup()
+            
+            userMeetup.set({
+                    memberId:$.cookie('Member._id'),
+                    meetupId:meetupId,
+                    meetupTitle:meetup.get('title'),
+                    
+                    })
+                    
+                    userMeetup.save()  
+        	}})
+        	
+        	
+        	
+        	
+        	
         },
         updateMailBody : function(body)
         {

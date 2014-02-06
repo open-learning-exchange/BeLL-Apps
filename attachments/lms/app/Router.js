@@ -770,6 +770,9 @@ $(function () {
             App.$el.children('.body').append('<input type="text" id="MeetupStartTime" placeholder="MeetUp Start Time" style="margin-top:-274px; margin-left:269px;"/>')
             $('#MeetupStartTime').val(model.get('Time'))
             $('#MeetupStartTime').timepicker()
+            $('.form .field-schedule input').datepicker({
+               todayHighlight: true
+            });
 
         },
         deleteMeetUp:function(meetupId){

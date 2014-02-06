@@ -20,8 +20,9 @@ $(function () {
 MemberInvite: function () {
 
 			    //alert(this.model.get("kind"))
-
            // if ($("textarea[name='description']").val().length > 0) {
+                console.log(this.model)
+           
                 $('#invitationdiv').fadeIn(1000)
                 document.getElementById('cont').style.opacity = 0.1
                 document.getElementById('nav').style.opacity = 0.1

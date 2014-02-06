@@ -78,8 +78,6 @@ $(function () {
         },
 
         setForm: function () {
-        alert(this.model.resId)
-        alert('check model in meetup invitation')
             var member = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })
@@ -97,7 +95,6 @@ $(function () {
             var that = this
             var currentdate = new Date();
             if (this.model.get("invitationType") == "All") {
-                alert('in member all ')
                 memberList.each(function (m) {
                     temp = new App.Models.Mail()
                     temp.set("senderId", that.model.senderId)

@@ -5,35 +5,46 @@ $(function () {
         className: "form",
         id: 'meetUpForm',
         prevmemlist: null,
+        saved:null,
         events: {
             "click #MeetUpformButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #btninviteMember": "MemberInvite",
+            "click #InviteMembers": "MemberInvite",
             "click #MeetUpcancel": function () {
                 window.history.back()
             }
 
         },
         MemberInvite: function () {
-
-            if ($("textarea[name='description']").val().length > 0) {
+        
+           var model=this.model
+           console.log(model)
+        
+           if(!model.get('id'))
+           {
+           		this.setForm()
+           		return
+           }
+        if ($("textarea[name='description']").val().length > 0) {
+           
                 $('#invitationdiv').fadeIn(1000)
                 document.getElementById('cont').style.opacity = 0.1
                 document.getElementById('nav').style.opacity = 0.1
                 $('#invitationdiv').show()
-                var inviteModel = new App.Models.InviFormModel()
-                inviteModel.resId = this.model.get("_id")
+            var inviteModel = new App.Models.InviMeetup()
+                inviteModel.resId = model.get("id")
                 inviteModel.senderId = $.cookie('Member._id')
-                inviteModel.type = this.model.get("kind")
-                inviteModel.title = this.model.get("name")
-                var inviteForm = new App.Views.MeetupInvitation({
+                inviteModel.type = model.get("kind")
+                inviteModel.title = model.get("title")
+                inviteModel.description = model.get("description")
+            var inviteForm = new App.Views.MeetupInvitation({
                     model: inviteModel
                 })
                 inviteForm.render()
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
             } else {
-                alert("Specify course description first")
+                alert("Specify Meetup description first")
             }
         },
         render: function () {
@@ -54,20 +65,28 @@ $(function () {
             this.form = new Backbone.Form({
                 model: this.model
             })
-            if(btnText=='Update'){
-                this.$el.append('<a class="btn btn-success" id="btninviteMember">Invite</a>')
-               
-            }
             this.$el.append(this.form.render().el)
             this.form.fields['Time'].$el.hide();
             
            
             var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">'+btnText+'</a>')
+           
             var $ubutton = $('<a class="btn btn-success" id="formButton">Cancel</a>')
            // var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
             this.$el.append($sbutton)
             //this.$el.append($button)
+         if(btnText!='Update')
+            this.$el.append('<a class="btn btn-info" id="InviteMembers">Invite Members</a>')
+            
             this.$el.append("<a class='btn btn-danger' id='MeetUpcancel'>Cancel</a>")
+            
+            console.log(this.model)
+            
+           /*  var picker = new Backbone.UI.TimePicker({
+  					model: this.model,
+  				    content: 'Time',
+				})
+           */
         },
 
         setFormFromEnterKey: function (event) {
@@ -75,13 +94,21 @@ $(function () {
             this.setForm()
         },
         setForm: function () {
+        
+        	if(this.model.get('id'))
+           	{
+           		alert('Saved already')
+           		return
+           	}
+            
             var that = this
-            this.model.once('sync', function () {
+           /* this.model.once('sync', function () {
                 console.log(that.model)
                 Backbone.history.navigate('meetups', {
                     trigger: true
                 })
             })
+            */
             // Put the form's input into the model in memory
             this.form.commit()
             
@@ -104,8 +131,10 @@ $(function () {
                     meetupTitle:responce.get('title'),
                     
                     })
-                    
+                   
                     userMeetup.save()  
+                    
+                    that.MemberInvite(responce)
                 }})
                 
                 
