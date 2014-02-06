@@ -87,17 +87,15 @@ $(function () {
 
             },
             "click #invite-accept": function (e) {
-
+				if(mailView.inViewModel.get('type')=="admissionRequest")
+				{
+					mailView.admissionRequestAccepted(e.currentTarget.value)
+					return
+				}
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
                 var vacancyFull = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>this Course Was Full.</div>"
                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
-
-                var model = new App.Models.Mail()
-                model.id = mailView.inViewModel.get("id")
-                model.fetch({
-                    async: false
-                })
 
                 var gmodel = new App.Models.Group({
                     _id: e.currentTarget.value
@@ -114,17 +112,10 @@ $(function () {
                 if (gmodel.get("memberLimit"))
                     if (gmodel.get("memberLimit") < num) {
                         alert('This Course is full')
-                        model.set('body', vacancyFull)
-                        $('#mail-body').html('<br/>' + vacancyFull)
-                        model.save()
+                        mailView.updateMailBody(vacancyFull)
                         return
                     }
-
-
-                model.set('body', body)
-                model.save()
-                $('#mail-body').html('<br/>' + body)
-
+				mailView.updateMailBody(body)
                 if (gmodel.get("_id")) {
                     var memberlist = []
                     if (gmodel.get("members") != null) {
@@ -180,19 +171,16 @@ $(function () {
 
 
             "click #invite-reject": function (e) {
+            	if(mailView.inViewModel.get('type')=="admissionRequest")
+				{
+					mailView.admissoinRequestRejected(e.currentTarget.value)
+					return
+				}
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have rejected this invitation.</div>"
 
-                var model = new App.Models.Mail()
-                model.id = mailView.inViewModel.get("id")
-                model.fetch({
-                    async: false
-                })
-
-                model.set('body', body)
-                model.save()
-                $('#mail-body').html('<br/>' + body)
+                mailView.updateMailBody(body)
             },
             "click #search-mail": function (e) {
                 skip = 0
@@ -406,7 +394,67 @@ $(function () {
 
             }
             return resultArray
-        }
+        },
+        admissionRequestAccepted: function (courseId)
+        {
+        	var course = new App.Models.Group();
+        	course.id = courseId
+        	course.fetch({async:false})
+        	course.get('members').push(mailView.inViewModel.get('senderId'))
+        	course.save()
+        	var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+            body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this request.</div>"
+            
+            mailView.inViewModel.save()
+     
+            var currentdate = new Date();
+        	var mail = new App.Models.Mail();
+  			mail.set("senderId",$.cookie('Member._id'));
+  			mail.set("receiverId",mailView.inViewModel.get('senderId'));
+  			mail.set("subject","Admission Request Accepted | " + course.get('name'));
+  			mail.set("body","Your admission request for \"" + course.get('name') + "\" accepted by the course leader.");
+  			mail.set("status","0");
+  			mail.set("type","mail");
+  			mail.set("sentDate",currentdate);
+  			mail.save()
+  			
+  			mailView.updateMailBody(body)
+        },
+        admissoinRequestRejected : function (courseId) { 
+        	
+        	var course = new App.Models.Group();
+        	course.id = courseId
+        	course.fetch({async:false})
+        	
+        	var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+            body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have rejected this request.</div>"
+            
+            var currentdate = new Date();
+        	var mail = new App.Models.Mail();
+  			mail.set("senderId",$.cookie('Member._id'));
+  			mail.set("receiverId",mailView.inViewModel.get('senderId'));
+  			mail.set("subject","Admission Request Rejected | " + courseId.get('name'));
+  			mail.set("body","Your admission request for \"" + courseId.get('name') + "\" rejected by the course leader.");
+  			mail.set("status","0");
+  			mail.set("type","mail");
+  			mail.set("sentDate",currentdate);
+  			mail.save()
+  			
+  			mailView.updateMailBody(body)
+        },
+        updateMailBody : function(body)
+        {
+        	var model = new App.Models.Mail()
+            model.id = mailView.inViewModel.get("id")
+            model.fetch({
+            	async: false
+           	})
+            model.set('body', body)
+            model.save()
+            $('#mail-body').html('<br/>' + body)
+        },
 
     })
 
