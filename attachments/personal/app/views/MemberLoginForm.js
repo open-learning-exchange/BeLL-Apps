@@ -49,7 +49,9 @@ $(function () {
                             memvisits.fetch({
                                 async: false
                             })
-                            memvisits.set("visits", parseInt(memvisits.get("visits")) + 1)
+                            var vis = parseInt(memvisits.get("visits"))
+                            vis++
+                            memvisits.set("visits", vis)
                             memvisits.once('sync', function () {
                                 var date = new Date()
                                 $.cookie('Member.login', response.rows[0].doc.login, {

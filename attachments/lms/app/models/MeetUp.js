@@ -15,12 +15,16 @@ $(function() {
       
       return url
     },
+    defaults: {
+      kind: "Meetup"
+    },
+
 
  schema: {
       title: 'Text',
       description: 'TextArea',
-      schedule: 'Date',
-      Time: {type:'Text',id:'ui-timepicker-input'},
+      schedule: 'Text',
+      Time: 'Text',
       category: { type: 'Select', options: ['ICT', 'First Time' , 'Mothers' , 'General' , 'E Learning','Farming','Academic Discussion','Academic Help','Awareness'] },
       meetupLocation: 'Text',
     }

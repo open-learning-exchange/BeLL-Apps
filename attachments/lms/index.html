@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
   <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
   <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
+  <link rel="stylesheet" href="vendor/backbone-ui.css"/>
   
   
  
@@ -26,6 +27,7 @@
   <script src="vendor/spectrum.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
   <script src="vendor/backbone-1.0.0.js"></script>
+  <script src="vendor/backbone-ui.js"></script>
   <script src="vendor/backbone-forms.js"></script>
   <script src="/_utils/script/json2.js"></script>
   <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
@@ -81,6 +83,7 @@
   <script src="app/models/AssignmentPaper.js"></script>
   <script src="app/models/MeetUp.js"></script>
   <script src="app/models/UserMeetups.js"></script>
+  <script src="app/models/InviMeetup.js"></script>
 
   
    
@@ -181,6 +184,7 @@
     <script src="app/views/MeetUpRow.js"></script>
     <script src="app/views/MeetUpTable.js"></script>
     <script src="app/views/meetupView.js"></script>
+    <script src="app/views/MeetupInvitation.js"></script>
   
   <!-- ALL Code Regarding the Search Function -->
   
@@ -656,9 +660,11 @@
     </td>
     
     <td>
+    <%if(viewProgress==1){%>
       <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'> 
         <i class="icon-signal icon-white"></i> Progress
       </a>
+      <%}%>
     </td>
 
 <!--   <td>
