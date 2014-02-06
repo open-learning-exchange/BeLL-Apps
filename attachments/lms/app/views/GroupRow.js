@@ -67,15 +67,24 @@ $(function () {
         },
 
         render: function () {
-
             var vars = this.model.toJSON()
+            if(!vars.members)
+            {
+            	vars.members = new Array()
+            }
             if (vars.courseLeader != undefined && vars.courseLeader == $.cookie('Member._id')) {
                 vars.isLeader = 1
             } else {
                 vars.isLeader = 0
             }
-
-
+			if (this.roles.indexOf("Manager") != -1 || vars.courseLeader == $.cookie('Member._id') || vars.members.indexOf($.cookie('Member._id'))!=-1)
+			{
+				vars.viewProgress = 1
+			}
+			else
+			{
+				vars.viewProgress = 0
+			}
             if (this.roles.indexOf("Manager") != -1) {
                 vars.isAdmin = 1
             } else {

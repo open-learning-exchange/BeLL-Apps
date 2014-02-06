@@ -220,10 +220,28 @@ $(function () {
             App.$el.children('.body').append(colView.el)
         },
         CourseReport: function (cId, cname) {
+        	
+        	var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+        	var roles = loggedIn.get("roles")
+        	
+        	var course = new App.Models.Group();
+        	course.id = cId
+        	course.fetch({async:false})
+        	
             App.$el.children('.body').html("<h2> " + cname + "</h2>")
             App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
             App.$el.children('.body').append("<div id='graph'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
+            
+            if(course.get('courseLeader')!=$.cookie('Member._id') && roles.indexOf("Manager") ==-1)
+            {
+            	allResults.memberId = $.cookie('Member._id')
+            }
             allResults.courseId = cId
             allResults.fetch({
                 async: false
@@ -411,8 +429,8 @@ $(function () {
 
                     App.$el.children('.body').append('<h1>Resources</h1>')
                      
-                    if(temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia')
-                     App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
+                     App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
             })
@@ -443,7 +461,14 @@ $(function () {
       
     },
         ResourceSearch: function () {
-
+		
+			var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+			 var roles = loggedIn.get("roles")
             var resources = new App.Views.ResourceSearch()
             resources.render()
             var button = '<p>'
@@ -455,8 +480,9 @@ $(function () {
 
             App.$el.children('.body').html(button)
             App.$el.children('.body').append('<h1>Resources</h1>')
-            App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllResources()">View All Resourcess</a>')
-            App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Resources to Somali Bell</button>')
+            App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllResources()">View Library</a>')
+            if(roles.indexOf("Manager") !=-1 )
+            App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
 
             App.$el.children('.body').append(resources.el)
 
@@ -560,13 +586,26 @@ $(function () {
               App.stopActivityIndicator()
         },
         courseDetails:function(courseId,courseName){
-        
-           App.$el.children('.body').html('<div id="courseName-heading"><h3>Course Details | '+courseName+'</h3></div>')
-           var courseModel=new App.Models.Group({_id:courseId})
+        	
+        	var courseModel=new App.Models.Group({_id:courseId})
                courseModel.fetch({async:false})
               
            var courseLeader = courseModel.get('courseLeader')
            var courseMembers = courseModel.get('members')
+        	
+          var button = '<br><a href="#courses"><button class="btn btn-success">Back to courses</button></a>'
+          if(courseMembers && courseMembers.indexOf($.cookie('Member._id'))==-1)
+          {
+          	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton">Admission</button><br/><br/>'
+          }
+          else
+          {
+          	button += '<br/><br/>'
+          }
+        	
+           App.$el.children('.body').html('<div id="courseName-heading"><h3>Course Details | '+courseName+'</h3></div>')
+           App.$el.children('.body').append(button)
+           
            var memberModel = new App.Models.Member()
                memberModel.set('_id', courseLeader)
                memberModel.fetch({async: false})
@@ -583,15 +622,10 @@ $(function () {
           var courseStepsView=new App.Views.CourseStepsView({collection:ccSteps})  
                courseStepsView.render()
                
-          var button = '<br><a href="#courses"><button class="btn btn-success">Back to courses</button></a>'
-          if(courseMembers && courseMembers.indexOf($.cookie('Member._id'))==-1)
-          {
-          	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton">Admission</button>'
-          }
           App.$el.children('.body').append(GroupDetailsView.el)
           App.$el.children('.body').append('<div id="courseSteps-heading"><h5>Course Steps</h5></div>') 
           App.$el.children('.body').append(courseStepsView.el)
-          App.$el.children('.body').append(button)
+          
    			$('#admissionButton').on('click', function (e) {
         		$(document).trigger('Notification:submitButtonClicked')
     		})
@@ -604,12 +638,12 @@ $(function () {
             var button = '<p>'
             button += '<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
             button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
+            button += '<a style="margin-left:10px" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>'
             button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
             button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
             button += '</p>'
             App.$el.children('.body').html(button)
             App.$el.children('.body').append('<h1>Courses</h1>')
-            App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>')
             App.$el.children('.body').append(cSearch.el)
         },
 		Members: function () {
