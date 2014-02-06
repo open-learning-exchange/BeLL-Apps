@@ -1,6 +1,6 @@
 $(function () {
 
-    App.Views.InvitationForm = Backbone.View.extend({
+    App.Views.MeetupInvitation = Backbone.View.extend({
 
         id: "invitationForm",
 
@@ -15,6 +15,7 @@ $(function () {
         entityId: null,
         type: null,
         senderId: null,
+        
         hidediv: function () {
             $('#invitationdiv').fadeOut(1000)
             document.getElementById('cont').style.opacity = 1.0
@@ -38,6 +39,7 @@ $(function () {
             var that = this
             var inviteForm = this
             inviteForm.on('InvitationForm:MembersReady', function () {
+            
                 console.log(that.model.schema)
                 this.model.schema.members.options = members
                 // create the form
@@ -46,20 +48,13 @@ $(function () {
                 })
                 this.$el.append(this.form.render().el)
                 this.form.fields['members'].$el.hide()
-                this.form.fields['levels'].$el.hide()
-
 
                 this.form.fields['invitationType'].$el.change(function () {
                     var val = that.form.fields['invitationType'].$el.find('option:selected').text()
                     if (val == "Members") {
                         that.form.fields['members'].$el.show()
-                        that.form.fields['levels'].$el.hide()
-                    } else if (val == "Level") {
+                    }  else {
                         that.form.fields['members'].$el.hide()
-                        that.form.fields['levels'].$el.show()
-                    } else {
-                        that.form.fields['members'].$el.hide()
-                        that.form.fields['levels'].$el.hide()
                     }
                 })
                 // give the form a submit button
@@ -74,9 +69,7 @@ $(function () {
                 inviteForm.trigger('InvitationForm:MembersReady')
 
             })
-
             members.fetch()
-
         },
 
         setFormFromEnterKey: function (event) {
@@ -85,7 +78,8 @@ $(function () {
         },
 
         setForm: function () {
-       
+        alert(this.model.resId)
+        alert('check model in meetup invitation')
             var member = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })
@@ -102,28 +96,20 @@ $(function () {
             var temp
             var that = this
             var currentdate = new Date();
-            
-             alert(this.model.get('invitationType'))
             if (this.model.get("invitationType") == "All") {
+                alert('in member all ')
                 memberList.each(function (m) {
                     temp = new App.Models.Mail()
                     temp.set("senderId", that.model.senderId)
                     temp.set("receiverId", m.get("_id"))
                     temp.set("status", "0")
-                    temp.set("subject", "Course Invitation | " + that.model.title)
-                    temp.set("type", "course-invitation")
-                    temp.set("body", that.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
+                    temp.set("subject", "Meetup Invitation | " + that.model.title)
+                    temp.set("type", "Meetup-invitation")
+                    temp.set("body",that.model.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
                     temp.set("sendDate", currentdate)
                     temp.set("entityId", that.model.resId)
                     temp.save()
-                    //            temp = new App.Models.Invitation()
-                    //            temp.set("title",that.model.title)
-                    //            temp.set("senderId",that.model.senderId)
-                    //            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
-                    //            temp.set("memberId",m.get("_id"))
-                    //			temp.set("entityId",that.model.resId)
-                    //            temp.set("type",that.model.type)
-                    //            temp.save()
+            
                 })
 
             } else if (this.model.get("invitationType") == "Members") {
@@ -134,48 +120,15 @@ $(function () {
                         temp.set("senderId", that.model.senderId)
                         temp.set("receiverId", m.get("_id"))
                         temp.set("status", "0")
-                        temp.set("subject", "Course Invitation | " + that.model.title)
-                        temp.set("body", that.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
-                        temp.set("type", "course-invitation")
+                        temp.set("subject", "Meetup Invitation | " + that.model.title)
+                        temp.set("body", that.model.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
+                        temp.set("type", "Meetup-invitation")
                         temp.set("sendDate", currentdate)
                         temp.set("entityId", that.model.resId)
-                        //            temp = new App.Models.Invitation()
-                        //            temp.set("title",that2.model.title)
-                        //            temp.set("senderId",that2.model.senderId)
-                        //            temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
-                        //            temp.set("memberId",m.get("_id"))
-                        //            temp.set("entityId",that2.model.resId)
-                        //            temp.set("type",that2.model.type)
                         temp.save()
                         console.log(temp);
                     }
                 })
-            } else {
-                //Fetching The Members and then checking each levels whether they have the same level then incrementing the counnt and save
-
-                memberList.each(function (m) {
-                    var member_level = m.get("levels")
-                    if (that.model.get("levels").indexOf(member_level[0]) > -1) {
-                        temp = new App.Models.Mail()
-                        temp.set("senderId", that.model.senderId)
-                        temp.set("receiverId", m.get("_id"))
-                        temp.set("status", "0")
-                        temp.set("subject", "Course Invitation | " + that.model.title)
-                        temp.set("body", that.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
-                        temp.set("type", "course-invitation")
-                        temp.set("sendDate", currentdate)
-                        temp.set("entityId", that.model.resId)
-                        //                  temp = new App.Models.Invitation()  
-                        //                  temp.set("title",that.title)
-                        //                  temp.set("senderId",that.senderId)
-                        //                  temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
-                        //                  temp.set("memberId",m.get("_id"))
-                        //                  temp.set("entityId",that.resId)
-                        //                  temp.set("type",that.type)
-                        temp.save()
-                    }
-                });
-
             }
             $('#invitationdiv').fadeOut(1000)
             alert("Invitation sent successfully")

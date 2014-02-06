@@ -15,6 +15,10 @@ $(function() {
       
       return url
     },
+    defaults: {
+      kind: "Meetup"
+    },
+
 
  schema: {
       title: 'Text',

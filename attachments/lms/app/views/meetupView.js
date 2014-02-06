@@ -12,10 +12,36 @@ $(function () {
         },
         events:{
            
-          'click  #joinMeetUp':'joinMeetUp'
+          'click  #joinMeetUp':'joinMeetUp',
+          'click #meetupsInvitation':'MemberInvite'
         
         },
 
+MemberInvite: function () {
+
+			    //alert(this.model.get("kind"))
+
+           // if ($("textarea[name='description']").val().length > 0) {
+                $('#invitationdiv').fadeIn(1000)
+                document.getElementById('cont').style.opacity = 0.1
+                document.getElementById('nav').style.opacity = 0.1
+                $('#invitationdiv').show()
+            var inviteModel = new App.Models.InviMeetup()
+                inviteModel.resId = this.model.get("_id")
+                inviteModel.senderId = $.cookie('Member._id')
+                inviteModel.type = this.model.get("kind")
+                inviteModel.title = this.model.get("title")
+                inviteModel.description = this.model.get("description")
+            var inviteForm = new App.Views.MeetupInvitation({
+                    model: inviteModel
+                })
+                inviteForm.render()
+                $('#invitationdiv').html('&nbsp')
+                $('#invitationdiv').append(inviteForm.el)
+           // } else {
+           //     alert("Specify course description first")
+           // }
+        },
         add: function (model) {
             //Single Author Should not be displayed multiple times on The Screen
 
@@ -36,6 +62,8 @@ $(function () {
 
 
         render: function () {
+            
+            $('#invitationdiv').hide()
             var meetupInfo = this.model.toJSON()
             
             console.log(meetupInfo)
@@ -56,7 +84,7 @@ $(function () {
             
             */
             
-            this.$el.append('<tr><td><a class="btn btn-success" id="joinMeetUp">Join Meetup</a><a style="margin-left:20px" class="btn btn-info" href="#meetups">Back</a></td><td></td></tr>')
+            this.$el.append('<tr><td><a class="btn btn-success" id="joinMeetUp">Join Meetup</a><a style="margin-left:20px" class="btn btn-info" id="meetupsInvitation">Invite Members</a><a style="margin-left:20px" class="btn btn-info" href="#meetups">Back</a></td><td></td></tr>')
         }
 
     })

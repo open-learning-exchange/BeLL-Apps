@@ -8,7 +8,7 @@ $(function () {
         events: {
             "click #MeetUpformButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #inviteMemberButton": "MemberInvite",
+            "click #btninviteMember": "MemberInvite",
             "click #MeetUpcancel": function () {
                 window.history.back()
             }
@@ -26,7 +26,7 @@ $(function () {
                 inviteModel.senderId = $.cookie('Member._id')
                 inviteModel.type = this.model.get("kind")
                 inviteModel.title = this.model.get("name")
-                var inviteForm = new App.Views.InvitationForm({
+                var inviteForm = new App.Views.MeetupInvitation({
                     model: inviteModel
                 })
                 inviteForm.render()
@@ -54,6 +54,10 @@ $(function () {
             this.form = new Backbone.Form({
                 model: this.model
             })
+            if(btnText=='Update'){
+                this.$el.append('<a class="btn btn-success" id="btninviteMember">Invite</a>')
+               
+            }
             this.$el.append(this.form.render().el)
             this.form.fields['Time'].$el.hide();
             
@@ -70,7 +74,6 @@ $(function () {
             event.preventDefault()
             this.setForm()
         },
-
         setForm: function () {
             var that = this
             this.model.once('sync', function () {
