@@ -20,9 +20,15 @@ $(function() {
     },
     
   schema: {
-      title: 'Text',
+      title: {
+      			type:'Text',
+      			validators : ['required']
+      },
       stepMethod:'Text',
-      description: 'TextArea',
+      description: { 
+      	type : 'TextArea',
+      	validators : ['required']
+      },
        stepGoals: 'TextArea',
       
       step :'Text',
@@ -47,12 +53,14 @@ $(function() {
           type:'Select',
           options: [],
       },
-      allowedErrors:'Text',
+      allowedErrors:{ 
+      	type : 'Text',
+      	validators : ['required']
+      },
        outComes: {
         type: 'Radio',
         options: ['Paper', 'Quiz']
       },
-      
       passingPercentage:{
           type:'Select',
           options: [10,20,30,40,50,60,70,80,90,100],

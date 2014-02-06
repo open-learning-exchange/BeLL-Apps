@@ -7,6 +7,10 @@ $(function () {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
+            "click #addresources" : function (e) {
+            	this.addResource = true
+            	this.setForm()
+            },
         },
 
         render: function () {
@@ -25,8 +29,9 @@ $(function () {
             this.form.fields['resourceId'].$el.hide()
             this.form.fields['resourceTitles'].$el.hide()
             // give the form a submit button
-            var $button = $('<a class="btn btn-success" id="formButton">Save</button>')
-            this.$el.append($button)
+            var button = ('<a class="btn btn-success" id="addresources">Add Resource</button>')
+            button += ('<a class="btn btn-success" id="formButton">Save</button>')
+            this.$el.append(button)
 
         },
 
@@ -48,30 +53,32 @@ $(function () {
                     allcrs.courseId = that.model.get("courseId")
                     allcrs.fetch({
                         success: function () {
-                            console.log(allcrs.length)
-                            allcrs.each(function (m) {
-                                var sids = m.get("stepsIds")
-                                var sresults = m.get("stepsResult")
-                                var sstatus = m.get("stepsStatus")
-                                sids.push(that.model.get("id"))
-                                sresults.push("0")
-                                sstatus.push("0")
-                                m.set("stepsIds", sids)
-                                m.set("stepsResult", sresults)
-                                m.set("stepsStatus", sstatus)
-                                m.save({
-                                    success: function () {
-                                        console.log("model Saved")
-                                    }
-                                })
-                            })
+                        	allcrs.each(function (m) {
+	                            var sids = m.get("stepsIds")
+	                            var sresults = m.get("stepsResult")
+	                            var sstatus = m.get("stepsStatus")
+	                            sids.push(that.model.get("id"))
+	                            sresults.push("0")
+	                            sstatus.push("0")
+	                            m.set("stepsIds", sids)
+	                            m.set("stepsResult", sresults)
+	                            m.set("stepsStatus", sstatus)
+	                           	m.save()
+                          	})
                         }
                     })
-
-                    Backbone.history.navigate('course/manage/' + that.model.get("courseId"), {
-                        trigger: true
-                    })
-                } else {
+					if(that.addResource)
+					{
+						window.location.href = '#search-bell/' + id + '/' + rid
+					}
+					else
+                    {
+                    	Backbone.history.navigate('course/manage/' + that.model.get("courseId"), {
+                        	trigger: true
+                    	})
+                    }
+                } 
+                else {
                     Backbone.history.navigate('level/view/' + id + '/' + rid, {
                         trigger: true
                     })
@@ -80,11 +87,15 @@ $(function () {
             // Put the form's input into the model in memory
             this.form.commit()
             // Send the updated model to the server
-            if (isNaN(this.model.get("allowedErrors"))) {
+            if (isNaN(this.model.get("allowedErrors"))) 
+            {
                 alert("Not a valid Allowed Errors")
-            } else if (isNaN(this.model.get("step"))) {
+            } 
+            else if (isNaN(this.model.get("step")))
+            {
                 alert("Not a valid Step Number")
-            } else {
+            }
+            else {
                 if (!this.edit) {
                     this.model.set("questions", null)
                     this.model.set("answers", null)
