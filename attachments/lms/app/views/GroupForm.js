@@ -149,7 +149,8 @@ $(function () {
                     }
 
                     groupForm.$el.append("<a class='btn btn-danger' style='margin-left : 20px;' id='cancel'>Cancel</a>")
-                }
+                },
+                async:false
             })
 
         },
@@ -180,15 +181,13 @@ $(function () {
             } else {
                 this.model.set("members", this.prevmemlist)
             }
-            if (this.model.get("name").length == 0) {
-                alert("Course name is missing")
+            if (this.model.get('CourseTitle').length==0) {
+                alert("Course Title is missing")
             }
             //            else if (this.model.get("courseLeader") == 0000) {
             //                alert("Select Course Leader")
             //            } 
-            else if (this.model.get("leaderEmail").length == 0) {
-                alert("Leader email address is missing")
-            } else if (this.model.get("description").length == 0) {
+           else if (this.model.get("description").length == 0) {
                 alert("Course description is missing")
             } else {
                 var member = new App.Models.Member()

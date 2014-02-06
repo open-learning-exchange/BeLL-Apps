@@ -21,42 +21,38 @@ $(function() {
     },
 
     schema: {
-      addedBy:'Text',
+         title: 'Text',
+       author:'Text',  // Author Field is required when adding the resource with tag news else no need for that.
+     Publisher: 'Text',
       language: 'Text',
-      title: 'Text',
-      description: 'Text',
-      articleDate: 'Date',
-      openWith:{
-        type: 'Select',
-        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
-      },
+     
+      Year: 'Text',
+      
       subject:{
         type:'Select',
         options:['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)','EN (Environment)']
       },
       Level:{
         type:'Select',
-        options: ['Range','All']
+        options: ['All','Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional']
       },
-      fromLevel:{
-          type :'Select',
-          options:['1','2','3','4','5','6','7','8','9','10','11','12']
-      },
-      toLevel:{
-          type :'Select',
-          options:['1','2','3','4','5','6','7','8','9','10','11','12']
-      },
+      
       Tag:{
             type:'Select',
-            options:['News','Fiction','Non Fiction']
+ 			options:['Art--Drawing/Coloring','Curriculum--Syllabus','Language—Alphabet/Words','Music—Voice/Instrument','Humor--Joke','News','Fiction','Non Fiction','Project/Activity','Quiz','Reference—Dictionaries/Encyclopedias','Sports--Games--(Primary)','Sports--Games--(Secondary)','Textbook, Manual','Worksheet, Exercise']
       },
-      author:'Text',  // Author Field is required when adding the resource with tag news else no need for that.
-      // For Resources with more than one and where one open file must be specified
-     openWhichFile: 'Text',
+      Medium:{
+        type: 'Select',
+        options: [ 'Text', 'Graphic/Pictures', 'Audio/Music/Book ', 'Video']
+      },
+      openWith:{
+        type: 'Select',
+        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
+      },
      uploadDate:'Date',
-     // override everything, just open a specific URL
-      openUrl: 'Text',
       averageRating :'Text',
+      articleDate: 'Date',
+      addedBy:'Text',
     },
     
     saveAttachment: function(formEl, fileEl, revEl) {

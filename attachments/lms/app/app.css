@@ -277,29 +277,22 @@ border-bottom:1px solid black;
   margin-left: -1%;
   width: 883px;
 }
+
+#resourceform {
+  background-color: #F3F3F3;
+  border-radius: 37px;
+  margin-bottom: -1%;
+  margin-left: -1%;
+  width: 883px;
+}
 #groupform [name="description"]{
-  height: 80px;
-    width: 702px;
+ height: 120px;
+    width: 456px;
 }
 
-#groupform .bbf-field.field-leaderEmail{
-    margin-left: 250px;
-     margin-top: -65px;
-     position: relative;
-    
-}
-#groupform .bbf-field.field-courseLeader{
-     margin-top: -5px;
-}
-#groupform .bbf-field.field-leaderPhone{
-    margin-left: 500px;
-    margin-top: -65px;
-    position: relative;
-    
-}
 #groupform .bbf-field.field-foregroundColor{
     margin-left: 147px;
-    margin-top: -50px;
+    margin-top: -56px;
     position: relative;
 }
 #groupform .bbf-field.field-backgroundColor{
@@ -325,7 +318,7 @@ border-bottom:1px solid black;
     margin-top: -85px;
     width: 621px;
 }
-#groupform .bbf-field.field-description{
+#groupform .bbf-field .field-description{
    margin-top:-10px; 
 }
 #groupform .bbf-field.field-levels.bbf-editor > ul > li{
@@ -334,11 +327,11 @@ border-bottom:1px solid black;
 #inviteMemberButton{
   
   margin-left: 660px;
-  margin-top: -1305px;
+  margin-top: -1602px;
 }
 #ProgressButton{
  margin-left: 541px;
-    margin-top: -1386px;
+    margin-top: -1680px;
 }
 #rating_checkboxes
 {
@@ -403,7 +396,7 @@ font-weight: bold;
 /* course Schedule */
 #coursescheduleButton {
     margin-left: 321px;
-    margin-top: -1386px;
+    margin-top: -1680px;
 }
 
 #durationDiv, #TypeDiv{
@@ -530,49 +523,72 @@ margin-left: 33%;
 /***************/
 .form  .field-languageOfInstruction{
     margin-left: 259px;
-    margin-top: -66px;
+    margin-top: -64px;
 }
+
 .form .field-subjectLevel{
     margin-left: 259px;
-    margin-top: -66px;
+    margin-top: -64px;
 }
+.form .field-Publisher
+{
+margin-left: 450px;
+    margin-top: -64px
+}.form .field-Year
+{
+margin-left: 450px;
+    margin-top: -64px
+}
+.form .field-endDate
+{
+margin-left: 259px;
+    margin-top: -64px
 
+}
+.form .field-Level
+{
+margin-left: 224px;
+    margin-top: -64px
+} 
+.form .field-Tag {
+    margin-left: 450px;
+    margin-top: -64px;
+}
+.form .field-openWith{
+    margin-left: 450px;
+    margin-top: -65px;
+}
 .form .field-method{
-    margin-left: 259px;
-    margin-top: -100px;
-}
-
-.form .field-memberLimit{
-   margin-left: 514px;
-    margin-top: -66px;
-}
-.form .field-frequency{
     margin-left: 514px;
-    margin-top: -100px;
-}
-.form .field-endDate{
-    margin-left: 259px;
-    margin-top: -66px;
-}
-.form .field-endTime{
-    margin-left: 259px;
-    margin-top: -66px;
+    margin-top: -165px;
 }
 .form .field-location{
-  margin-left: 514px;
-    margin-top: -66px;
+ margin-left: 514px;
+    margin-top: -64px;
+}
+.form .field-memberLimit{
+   margin-left: 514px;
+    margin-top: -64px;
+}
+.form .field-frequency{
+     margin-left: 526px;
+    margin-top: -63px;
+}
+.form .field-endTime{
+margin-left: 259px;
+    margin-top: -64px;
 }
 .form .field-stepGoals{
       margin-left: 259px;
-    margin-top: -94px;
+    margin-top: -109px;
 }
 .form .field-stepMethod{
       margin-left: 259px;
-    margin-top: -66px;
+    margin-top: -64px;
 }
 .form .field-outComes{
       margin-left: 259px;
-    margin-top: -66px;
+    margin-top: -64px;
 }
 .Graphbutton
 {

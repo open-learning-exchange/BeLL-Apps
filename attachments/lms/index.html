@@ -186,6 +186,9 @@
   
   
   <script>
+  
+ 
+  
   var searchText = "";
   var skip = 0;    //Variable used to skip the number of records been fetched before.
   var enablenext=0;
@@ -465,7 +468,7 @@
       <tr>
         <td colspan="2">
           <!-- The Second form that will be submitted containing the file -->
-          <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
         </td>
       </tr>
@@ -635,7 +638,7 @@
 
  <script type="text/html" id="template-GroupRow">
     <td>
-      <%= name %>
+      <%= CourseTitle %>
     </td> 
 
     <td>
@@ -647,13 +650,13 @@
     </td>
     
     <td>
-      <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= name %>'> 
+      <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'> 
        View Course
       </a>
     </td>
     
     <td>
-      <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= name %>'> 
+      <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'> 
         <i class="icon-signal icon-white"></i> Progress
       </a>
     </td>
@@ -665,7 +668,7 @@
     </td> -->
     
    <!-- <td>
-      <a role='button' class='btn btn-inverse' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
+      <a role='button' class='btn btn-inverse' href='#resource/invite/<%= _id %>/<%= CourseTitle %>/<%= kind %>'> 
         <i class="icon-edit"></i> Invite
       </a>
     </td> -->
