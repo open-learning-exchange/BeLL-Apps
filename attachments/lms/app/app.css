@@ -327,11 +327,11 @@ border-bottom:1px solid black;
 #inviteMemberButton{
   
   margin-left: 660px;
-  margin-top: -1602px;
+  margin-top: -1200px;
 }
 #ProgressButton{
  margin-left: 541px;
-    margin-top: -1680px;
+  margin-top: -1277px;
 }
 #rating_checkboxes
 {
@@ -396,7 +396,7 @@ font-weight: bold;
 /* course Schedule */
 #coursescheduleButton {
     margin-left: 321px;
-    margin-top: -1680px;
+    margin-top: -1280px;
 }
 
 #durationDiv, #TypeDiv{
@@ -499,7 +499,7 @@ margin-left: 33%;
 }
 #memberform .bbf-field.field-levels{
    margin-left: 239px;
-   margin-top: -84px; 
+   margin-top: -65px; 
 }
 #underconstruction {
     height: 400px;
@@ -548,11 +548,11 @@ margin-left: 259px;
 .form .field-Level
 {
 margin-left: 224px;
-    margin-top: -64px
+    margin-top: -114px
 } 
-.form .field-Tag {
+.form .field-Collection {
     margin-left: 450px;
-    margin-top: -64px;
+    margin-top: -114px;
 }
 .form .field-openWith{
     margin-left: 450px;

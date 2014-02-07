@@ -30,16 +30,15 @@ $(function() {
       
       subject:{
         type:'Select',
-        options:['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)','EN (Environment)']
+        options:['Agriculture','Business and Finance','Environment','Fine Arts','Food and Nutrition','Geography','Health & Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics & Government','Reference','Religion','Science','Social Sciences','Sports','Technology']
       },
       Level:{
         type:'Select',
-        options: ['All','Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional']
+        options: ['All','Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional'],
       },
-      
-      Tag:{
+      Collection:{
             type:'Select',
- 			options:['Art--Drawing/Coloring','Curriculum--Syllabus','Language—Alphabet/Words','Music—Voice/Instrument','Humor--Joke','News','Fiction','Non Fiction','Project/Activity','Quiz','Reference—Dictionaries/Encyclopedias','Sports--Games--(Primary)','Sports--Games--(Secondary)','Textbook, Manual','Worksheet, Exercise']
+ 			options:['Add New',{ group: 'Art', options: ['Drawing', 'Coloring']}, { group: 'Curriculum', options: '<option>Syllabus</option>'}, { group: 'Language', options: ['Alphabet', 'Words']},{ group: 'Music', options: ['Voice', 'Instrument']},{ group: 'Humor', options: '<option>Joke</option>'},'News','Fiction','Non Fiction','Project/Activity','Quiz', { group: 'Reference', options: ['Dictionaries', 'Encyclopedias ']}, { group: 'Sports', options: [{ group: 'Games', options: ['Primary', 'Secondary']}, 'Encyclopedias ']},'Textbook, Manual','Worksheet, Exercise']
       },
       Medium:{
         type: 'Select',
@@ -47,7 +46,7 @@ $(function() {
       },
       openWith:{
         type: 'Select',
-        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
+        options: [ 'Just download' ]
       },
      uploadDate:'Date',
       averageRating :'Text',

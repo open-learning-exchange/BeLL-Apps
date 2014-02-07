@@ -84,6 +84,7 @@
   <script src="app/models/MeetUp.js"></script>
   <script src="app/models/UserMeetups.js"></script>
   <script src="app/models/InviMeetup.js"></script>
+  <script src="app/models/CollectionList.js"></script>
 
   
    
@@ -117,6 +118,7 @@
    <script src="app/collections/AssignmentPapers.js"></script>
    <script src="app/collections/Meetups.js"></script>
   <script src="app/collections/UserMeetups.js"></script>
+   <script src="app/collections/listRCollection.js"></script>
    
   <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
@@ -179,6 +181,7 @@
   <script src="app/views/ReportForm.js"></script>
   <script src="app/views/GroupView.js"></script>
   <script src="app/views/CourseStepsView.js"></script>
+  <script src="app/views/ListCollectionView.js"></script>
    <!-- MeetUps     -->
     <script src="app/views/MeetUpForm.js"></script>
     <script src="app/views/MeetUpRow.js"></script>
@@ -472,7 +475,7 @@
       <tr>
         <td colspan="2">
           <!-- The Second form that will be submitted containing the file -->
-          <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
         </td>
       </tr>

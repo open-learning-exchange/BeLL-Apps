@@ -23,7 +23,7 @@ $(function () {
                 vars.header = 'Details "' + this.model.get('title') + '"'
                 vars.hidesave = true
             } else {
-                vars.header = 'New resource'
+                vars.header = 'New Resource'
                 vars.hidesave = false
             }
 
@@ -42,16 +42,11 @@ $(function () {
             var that = this
             if (_.has(this.model, 'id')) {
                 if (this.model.get("Level") == "All") {
-                    that.form.fields['toLevel'].$el.hide();
-                    that.form.fields['fromLevel'].$el.hide();
                     that.hide = true
                 }
             }
             // @todo Why won't this work?
             vars.form = "" //$(this.form.el).html()
-
-            // render the template
-            console.log(vars)
             this.$el.html(this.template(vars))
             // @todo this is hackey, should be the following line or assigned to vars.form
             $('.fields').html(this.form.el)

@@ -408,6 +408,40 @@ $(function () {
                 $("select[class='bbf-year']").attr("disabled", true);
                 
             }
+            $('.form .field-subject select').attr("multiple", true);
+            $('.form .field-Level select').attr("multiple", true); 
+            $('.form .field-Collection select').attr("multiple", true);
+            $('.form .field-Collection select').click(function() {
+    				if(this.value=='Add New')
+    				{
+    					 $('#invitationdiv').fadeIn(1000)
+                document.getElementById('cont').style.opacity = 0.2
+                document.getElementById('nav').style.opacity = 0.2
+                var collectionlist = new App.Models.CollectionList()
+                 var inviteForm = new App.Views.ListCollectionView({
+                    model: collectionlist
+                })
+                inviteForm.render()
+                $('#invitationdiv').html('&nbsp')
+                $('#invitationdiv').append(inviteForm.el)
+    				}
+    				else{
+    					
+    					 document.getElementById('cont').style.opacity = 1
+                document.getElementById('nav').style.opacity = 1
+    					 $('#invitationdiv').hide()
+    					
+    				}
+
+				});
+				var collections=new App.Collections.listRCollection()
+				collections.fetch({
+				async:false
+				})
+				collections.each(function(a){
+				$('.form .field-Collection select').append('<option>'+a.get('CollectionName')+'</option>');
+				})
+				
         },
 
         Resources: function (database) {
@@ -746,7 +780,7 @@ $(function () {
             $('.form .field-startTime input').timepicker();
   				
             $('.form .field-endTime input').timepicker();
-  				
+  			
             
                
 
