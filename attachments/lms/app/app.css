@@ -325,7 +325,6 @@ border-bottom:1px solid black;
    margin-left:-16px; 
 }
 #inviteMemberButton{
-  
    position: absolute;
 	top: 130px;
 	left: 646px;
@@ -400,6 +399,7 @@ font-weight: bold;
     position: absolute;
 	top: 130px;
 	left: 436px;
+
 }
 
 #durationDiv, #TypeDiv{
@@ -504,6 +504,7 @@ margin-left: 33%;
 #memberform .bbf-field.field-levels{
    margin-left: 239px;
    margin-top: -67px;
+
 }
 #underconstruction {
     height: 400px;
@@ -552,11 +553,11 @@ margin-left: 259px;
 .form .field-Level
 {
 margin-left: 224px;
-    margin-top: -64px
+    margin-top: -114px
 } 
-.form .field-Tag {
+.form .field-Collection {
     margin-left: 450px;
-    margin-top: -64px;
+    margin-top: -114px;
 }
 .form .field-openWith{
     margin-left: 450px;

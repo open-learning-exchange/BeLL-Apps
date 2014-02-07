@@ -19,10 +19,10 @@ $(function() {
           openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + resource.get('openWhichFile')
         }
         else {
+        console.log(_.keys(resource.get('_attachments'))[1]) 	
           openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + _.keys(resource.get('_attachments'))[0]
-        }
-        window.location = openUrl
-        //console.log(openUrl)
+    }
+         window.location=openUrl
       })
       resource.fetch()
     },
