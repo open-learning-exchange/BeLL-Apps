@@ -452,10 +452,30 @@ $(function () {
   			mailView.updateMailBody(body)
         },
         meetupRequestAccepted:function (meetupId) {
-            
+            var UMeetup=new App.Collections.UserMeetups()
+                UMeetup.memberId=$.cookie('Member._id')
+                UMeetup.meetupId=meetupId
+                  
+                UMeetup.fetch({async:false}) 
+             if(UMeetup.length>0)
+             {
+                 alert("Your have already joined this Meetup")
+                 return 
+             }
+                
         var meetup=new App.Models.MeetUp()
         	meetup.id=meetupId
-        	meetup.fetch({success:function(){
+        	meetup.fetch({async:false})
+        	
+        	console.log(meetup)
+        	 
+        	if(!meetup.get('title'))
+        	{
+        	   alert('Meetup No more Exist')
+        	   return
+        	}
+        	
+        	
         	var userMeetup=new App.Models.UserMeetup()
             
             userMeetup.set({
@@ -464,9 +484,10 @@ $(function () {
                     meetupTitle:meetup.get('title'),
                     
                     })
-                    
                     userMeetup.save()  
-        	}})
+                    
+               alert('Successfully Joined')     
+        	
         	
         	
         	

@@ -485,28 +485,29 @@ margin-left: 33%;
 
 /******************MEMBER FORM CSS **************************/
 #memberform .bbf-field.field-lastName{
- margin-left: 481px;
- margin-top: -83px; 
+ margin-left: 239px;
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-middleNames{
- margin-left: 239px;
- margin-top: -83px; 
+ 
+ margin-left: 481px;
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-password{
  margin-left: 239px;
- margin-top: -84px; 
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-email{
  margin-left: 239px;
- margin-top: -84px; 
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-language{
  margin-left: 481px;
- margin-top: -84px; 
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-levels{
    margin-left: 239px;
-   margin-top: -84px; 
+   margin-top: -67px;
 }
 #underconstruction {
     height: 400px;

@@ -23,6 +23,11 @@ $(function () {
             setTimeout(function () {
                 $('#invitationdiv').hide()
             }, 1000);
+            
+            Backbone.history.navigate('meetups', {
+                    trigger: true
+                })
+
         },
         SetParams: function (ti, e, t, s) {
             this.title = ti
@@ -134,6 +139,10 @@ $(function () {
             setTimeout(function () {
                 $('#invitationdiv').hide()
             }, 1000);
+            
+            Backbone.history.navigate('meetups', {
+                    trigger: true
+                })
 
         },
 

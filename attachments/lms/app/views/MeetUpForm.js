@@ -6,6 +6,7 @@ $(function () {
         id: 'meetUpForm',
         prevmemlist: null,
         saved:null,
+        btnText:'Save',
         events: {
             "click #MeetUpformButton": "setForm",
             "submit form": "setFormFromEnterKey",
@@ -52,13 +53,12 @@ $(function () {
             $('#invitationdiv').hide()
             // members is required for the form's members field
             
-            var btnText='Save'
             if(!this.model.get('_id')) 
               this.$el.append('<h3>Start a New Meetup</h3>')
              else
              {
                this.$el.append('<h3>Edit Meetup | '+this.model.get('title')+'</h3>')
-               btnText='Update'
+               this.btnText='Update'
              }
              
              
@@ -69,13 +69,13 @@ $(function () {
             this.form.fields['Time'].$el.hide();
             
            
-            var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">'+btnText+'</a>')
+            var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">'+this.btnText+'</a>')
            
             var $ubutton = $('<a class="btn btn-success" id="formButton">Cancel</a>')
            // var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
             this.$el.append($sbutton)
             //this.$el.append($button)
-         if(btnText!='Update')
+         if(this.btnText!='Update')
             this.$el.append('<a class="btn btn-info" id="InviteMembers">Invite Members</a>')
             
             this.$el.append("<a class='btn btn-danger' id='MeetUpcancel'>Cancel</a>")
@@ -113,28 +113,46 @@ $(function () {
             this.form.commit()
             
             if (this.model.get("title").length == 0) {
-                alert("MeetUp title is missing")
+                alert("Meetup title is missing")
             } else if (this.model.get("description").length == 0) {
-                alert("MeetUp Description is missing")
+                alert("Meetup Description is missing")
             } else if (this.model.get("meetupLocation").length == 0) {
-                alert("MeetUp Location is missing")
+                alert("Meetup Location is missing")
             }  else {
             
                 this.model.set('Time',$('#MeetupStartTime').val())
                 this.model.set('creator',$.cookie('Member._id'))
                 this.model.save(null,{success:function(responce){
-                	var userMeetup=new App.Models.UserMeetups()
-            
-                  userMeetup.set({
-                    memberId:$.cookie('Member._id'),
-                    meetupId:responce.get('id'),
-                    meetupTitle:responce.get('title'),
+                
+                 
+            		if(that.btnText=='Save')
+            		{
+              		var userMeetup=new App.Models.UserMeetups()
+                  		userMeetup.set({
+                    	memberId:$.cookie('Member._id'),
+                    	meetupId:responce.get('id'),
+                    	meetupTitle:responce.get('title'),
                     
-                    })
-                   
-                    userMeetup.save()  
+                  		  })
+                    	userMeetup.save()  
+                    	that.MemberInvite(responce)
+                   }
+                   else{
+                   var userMeetup=new App.Collections.UserMeetups()
+                       userMeetup.meetupId=responce.get('id')
+                       userMeetup.memberId=$.cookie('Member._id')
+                       userMeetup.fetch({async:false})
+                       if(res=userMeetup.first())
+                       {
+                          res.set('meetupTitle',responce.get('title'))
+                          res.save()
+                          alert('Updated Successfully')
+                          Backbone.history.navigate('meetups', {
+                  				  trigger: true
+                		  })
+                       }
+                   } 
                     
-                    that.MemberInvite(responce)
                 }})
                 
                 
