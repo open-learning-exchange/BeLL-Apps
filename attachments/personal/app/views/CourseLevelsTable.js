@@ -107,12 +107,29 @@ $(function () {
                			}
                 }
              }
+             
+             
+             
+             
             this.vars = model.toJSON()
+        
             if (!this.vars.outComes)
+            {
                 this.vars.outComes = ''
             if (this.vars.questions && this.vars.questions.length > 0)
-                this.vars.outComes = 'Quiz'
-
+                this.vars.outComes = ['Quiz']
+            }
+            else if(this.vars.outComes instanceof Array)
+            {}
+            else{
+            var temp=this.vars.outComes
+               this.vars.outComes=new Array()
+               this.vars.outComes[0]=temp 
+          
+            }
+            
+            
+            
             var index = 0
             var sstatus = this.modl.get("stepsStatus")
             var ssids = this.modl.get("stepsIds")

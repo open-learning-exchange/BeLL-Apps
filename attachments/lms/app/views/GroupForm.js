@@ -5,6 +5,7 @@ $(function () {
         className: "form",
         id: 'groupform',
         prevmemlist: null,
+        btnText:'Continue',
         events: {
             "click #sformButton": "setForm",
             "click #uformButton": "setForm",
@@ -127,6 +128,10 @@ $(function () {
                     })
                     groupForm.$el.append(groupForm.form.render().el)
                     groupForm.form.fields['members'].$el.hide()
+                     if (groupForm.model.get("_id") == undefined) {
+                         groupForm.form.fields['Day'].$el.hide()
+                     }
+                    
                     $('.field-backgroundColor input').spectrum({
                         clickoutFiresChange: true,
                         preferredFormat: 'hex'

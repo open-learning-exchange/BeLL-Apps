@@ -45,6 +45,10 @@ $(function() {
         type: 'Radio',
         options: ['Daily', 'Weekly']
       },
+      Day: {
+        type: 'Radio',
+        options: ['Saturday', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
+      },
        startTime: 'Text',
       endTime: 'Text',
      location: 'Text',

@@ -326,12 +326,14 @@ border-bottom:1px solid black;
 }
 #inviteMemberButton{
   
-  margin-left: 660px;
-  margin-top: -1602px;
+   position: absolute;
+	top: 130px;
+	left: 646px;
 }
 #ProgressButton{
- margin-left: 541px;
-    margin-top: -1680px;
+  position: absolute;
+	top: 130px;
+	left: 532px;
 }
 #rating_checkboxes
 {
@@ -395,8 +397,9 @@ font-weight: bold;
 
 /* course Schedule */
 #coursescheduleButton {
-    margin-left: 321px;
-    margin-top: -1680px;
+    position: absolute;
+	top: 130px;
+	left: 436px;
 }
 
 #durationDiv, #TypeDiv{
@@ -581,7 +584,7 @@ margin-left: 259px;
 }
 .form .field-stepGoals{
       margin-left: 259px;
-    margin-top: -109px;
+    margin-top: -96px;
 }
 .form .field-stepMethod{
       margin-left: 259px;

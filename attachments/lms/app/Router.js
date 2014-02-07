@@ -599,7 +599,7 @@ $(function () {
         	
         	var courseModel=new App.Models.Group({_id:courseId})
                courseModel.fetch({async:false})
-              
+    
            var courseLeader = courseModel.get('courseLeader')
            var courseMembers = courseModel.get('members')
         	
@@ -735,7 +735,6 @@ $(function () {
                  })
                 // Set up the form
                 modelForm.render()
-              
                 $('.form .field-startDate input').datepicker({
                todayHighlight: true
             });
@@ -747,11 +746,20 @@ $(function () {
   				
             $('.form .field-endTime input').timepicker();
   				
+  				$('.form .field-frequency input').click(function() {
+    				if(this.value=='Weekly')
+    				{
+    				  $('.form .field-Day').show()
+    				}
+    				else{
+    				$('.form .field-Day').hide()
+    				}
+
+				});
             
                
 
             })
-
             // Set up the model for the form
             if (modelId) {
                 model.id = modelId
@@ -829,12 +837,22 @@ $(function () {
             modelForm.render()
              
             App.$el.children('.body').html(modelForm.el)
-            App.$el.children('.body').append('<input type="text" id="MeetupStartTime" placeholder="MeetUp Start Time" style="margin-top:-274px; margin-left:269px;"/>')
-            $('#MeetupStartTime').val(model.get('Time'))
-            $('#MeetupStartTime').timepicker()
+            
+            $('.form .field-Time input').timepicker()
             $('.form .field-schedule input').datepicker({
                todayHighlight: true
             });
+            
+            $('.form .field-reoccuring input').click(function() {
+    				if(this.value=='Weekly')
+    				{
+    				  $('.form .field-Day').show()
+    				}
+    				else{
+    				$('.form .field-Day').hide()
+    				}
+
+				});
 
         },
         deleteMeetUp:function(meetupId){
@@ -903,8 +921,33 @@ $(function () {
                 })
                 // Set up the form
                 modelForm.render()
-            })
+                
+                 $('.form .field-startDate input').datepicker({
+               todayHighlight: true
+            });
+            $('.form .field-endDate input').datepicker({
+               todayHighlight: true
+            });
+  				
+            $('.form .field-startTime input').timepicker();
+  				
+            $('.form .field-endTime input').timepicker();
+            
+              $('.form .field-frequency input').click(function() {
+    				if(this.value=='Weekly')
+    				{
+    				  $('.form .field-Day').show()
+    				}
+    				else{
+    				$('.form .field-Day').hide()
+    				}
 
+				});
+
+                
+            })
+            
+          
             // Set up the model for the form
             if (groupId) {
                 model.id = groupId

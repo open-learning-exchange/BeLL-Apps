@@ -52,11 +52,11 @@ $(function () {
             this.form.fields['subjectSpecialization'].$el.hide()
             this.form.fields['forGrades'].$el.hide()
             this.form.fields['visits'].$el.hide()
-            var $imgt = "<p id='imageText'>Add Photo</p>"
+            var $imgt = "<p id='imageText' style='margin-left: -100px;margin-top: 37px;'>Add Photo</p>"
             if (this.model.id != undefined) {
                 buttonText = "Update"
                 $("input[name='login']").attr("disabled", true);
-                $imgt = "<p id='imageText'>Edit Photo</p>"
+                $imgt = "<p id='imageText' style='margin-left: -100px;margin-top: 37px;'>Edit Photo</p>"
             } else {
                 buttonText = "Register"
             }

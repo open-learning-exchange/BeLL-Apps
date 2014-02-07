@@ -17,6 +17,7 @@ $(function() {
     addCourseDetails:function(){
     		var that = this
             var courseInfo = this.model.toJSON()
+    
             var leaderInfo = this.courseLeader.toJSON()
 			console.log(courseInfo)
 			console.log(leaderInfo)	
@@ -28,6 +29,10 @@ $(function() {
             this.$el.append('<tr><td><b>LeaderName </b></td><td>' + leaderInfo.firstName + ' ' + leaderInfo.lastName + '</td></tr>')
             this.$el.append('<tr><td><b>Leader Email </b></td><td>' + courseInfo.leaderEmail + '</td></tr>')
             this.$el.append('<tr><td><b>Leader Phone Number </b></td><td>' + courseInfo.leaderPhone + '</td></tr>')
+            
+            this.$el.append('<tr><td><b>schedule</b></td><td>Date :  ' + courseInfo.startDate + '-'+courseInfo.endDate+'<br>Time :  '+courseInfo.startTime+'- '+courseInfo.endTime+'</td></tr>')
+            
+            this.$el.append('<tr><td><b>Location </b></td><td>' + courseInfo.location + '</td></tr>')
             
             $(document).on('Notification:submitButtonClicked', function (e) { 
             	var currentdate = new Date();

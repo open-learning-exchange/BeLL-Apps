@@ -66,8 +66,8 @@ $(function () {
                 model: this.model
             })
             this.$el.append(this.form.render().el)
-            this.form.fields['Time'].$el.hide();
-            
+          if(this.btnText!='Update')
+             this.form.fields['Day'].$el.hide();
            
             var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">'+this.btnText+'</a>')
            
@@ -119,8 +119,7 @@ $(function () {
             } else if (this.model.get("meetupLocation").length == 0) {
                 alert("Meetup Location is missing")
             }  else {
-            
-                this.model.set('Time',$('#MeetupStartTime').val())
+        
                 this.model.set('creator',$.cookie('Member._id'))
                 this.model.save(null,{success:function(responce){
                 

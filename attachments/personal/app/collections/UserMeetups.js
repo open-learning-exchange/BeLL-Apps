@@ -2,7 +2,6 @@ $(function () {
 
     App.Collections.UserMeetups = Backbone.Collection.extend({
 
-
         url: function () {
               if(this.memberId && this.meetupId)
                  return App.Server + '/usermeetups/_design/bell/_view/getUserMeetup?key=["' + this.memberId + '","'+this.meetupId+'"]&include_docs=true' 

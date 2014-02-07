@@ -740,10 +740,10 @@ $(window).scroll(function () {
 				</td>
 			</tr>
                           <%}%>
-                      <%if(outComes!=''){%>
+                      <%for (var i=0; i<outComes.length; i++){%>
                         <tr class="level-section-title">
                           <td colspan="3">
-                            <%=outComes%></br>
+                            <%=outComes[i]%></br>
                           </td>
                         </tr>
                       
@@ -756,9 +756,9 @@ $(window).scroll(function () {
                                 </td>
                                 <td>
                                                 <%if (questions!=null){%>
-                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes%></button>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
                                                 <%}else{%>
-                                                  <button class='btn btn-disabled'>Take <%=outComes%></button>
+                                                  <button class='btn btn-disabled'>Take <%=outComes[i]%></button>
                                                 <%}%>
                                     <div class="mailsubject">
                                     	<form method="post" id="fileAttachment<%=_id%>">
@@ -768,7 +768,7 @@ $(window).scroll(function () {
 	                                    	<input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
 	                                    	<input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
 	                                    	<input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
-	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -43px;margin-left: 9%;" />
+	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -43px;margin-left:140px" />
 
                                     	</form>
                                     </div>

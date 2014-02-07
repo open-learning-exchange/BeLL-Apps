@@ -119,6 +119,11 @@ $(function () {
                     member.set('visits', 1)
                     member.save()
                 }
+                else{
+                    var temp=parseInt(member.get('visits'))%100
+                    member.set('visits', temp)
+                    member.save()
+                }
                 if (parseInt(member.get('visits')) == 0) {
                     temp = "Error!!"
                 } else {

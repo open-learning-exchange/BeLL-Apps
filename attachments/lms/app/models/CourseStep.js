@@ -57,8 +57,8 @@ $(function() {
       	type : 'Text',
       	validators : ['required']
       },
-       outComes: {
-        type: 'Radio',
+      outComes: {
+        type: 'Checkboxes',
         options: ['Paper', 'Quiz']
       },
       passingPercentage:{

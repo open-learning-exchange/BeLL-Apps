@@ -24,6 +24,14 @@ $(function() {
       title: 'Text',
       description: 'TextArea',
       schedule: 'Text',
+      reoccuring: {
+        type: 'Radio',
+        options: ['Daily', 'Weekly']
+      },
+     Day: {
+        type: 'Radio',
+        options: ['Saturday', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
+      },
       Time: 'Text',
       category: { type: 'Select', options: ['ICT', 'First Time' , 'Mothers' , 'General' , 'E Learning','Farming','Academic Discussion','Academic Help','Awareness'] },
       meetupLocation: 'Text',
