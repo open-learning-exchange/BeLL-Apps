@@ -14,7 +14,16 @@ $(function() {
     model: App.Models.Group,
 
     comparator: function(model) {
+    if(model.get('CourseTitle')==undefined)
+    {
       var title = model.get('name')
+      model.set('CourseTitle',title)
+      model.save()
+    }
+    else
+    {
+    	var title = model.get('CourseTitle')
+     } 
       if (title) return title.toLowerCase()
     },
 

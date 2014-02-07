@@ -3,6 +3,7 @@ $(function () {
     App.Views.ResourceForm = Backbone.View.extend({
 
         className: "form",
+        id: 'resourceform',
         hide: false,
         events: {
             "click .save": "saveForm",
@@ -46,18 +47,6 @@ $(function () {
                     that.hide = true
                 }
             }
-            that.form.fields['Level'].$el.change(function () {
-                if (!that.hide) {
-                    that.form.fields['toLevel'].$el.hide();
-                    that.form.fields['fromLevel'].$el.hide();
-                    that.hide = true
-                } else {
-                    that.form.fields['toLevel'].$el.show();
-                    that.form.fields['fromLevel'].$el.show();
-                    that.hide = false
-                }
-            })
-
             // @todo Why won't this work?
             vars.form = "" //$(this.form.el).html()
 

@@ -391,12 +391,22 @@ $(function () {
                 App.listenToOnce(resource, 'sync', function () {
                     resourceFormView.render()
                     $("input[name='addedBy']").attr("disabled", true);
+                    
+                $("select[class='bbf-date']").attr("disabled", true);
+                $("select[class='bbf-month']").attr("disabled", true);
+                $("select[class='bbf-year']").attr("disabled", true);
+                
                 })
                 resource.fetch()
             } else {
                 resourceFormView.render()
                 $("input[name='addedBy']").val($.cookie("Member.login"));
                 $("input[name='addedBy']").attr("disabled", true);
+                //resourceFormView.form.fields['articleDate'].$el.disable();
+                $("select[class='bbf-date']").attr("disabled", true);
+                $("select[class='bbf-month']").attr("disabled", true);
+                $("select[class='bbf-year']").attr("disabled", true);
+                
             }
         },
 
@@ -425,7 +435,7 @@ $(function () {
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
-                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add a new Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
+                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
 
                     App.$el.children('.body').append('<h1>Resources</h1>')
                      
@@ -573,7 +583,7 @@ $(function () {
                     groupsTable.render()
 
                     var button = '<p>'
-                    button += '<a class="btn btn-success" href="#course/add">Add a new Course</a>'
+                    button += '<a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
                     button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
                     button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
@@ -694,6 +704,7 @@ $(function () {
         },
         GroupForm: function (groupId) {
             this.modelForm('Group', 'Course', groupId, 'courses')
+             
         },
         MemberForm: function (memberId) {
             this.modelForm('Member', 'Member', memberId, 'members')
@@ -704,25 +715,41 @@ $(function () {
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-
             // Bind form to the DOM
             if (modelId) {
                 App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
             } else {
-                App.$el.children('.body').html('<h1>Add a ' + label + '</h1>')
+                App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
             }
             App.$el.children('.body').append(modelForm.el)
+            
+            
 
             // Bind form events for when Group is ready
             model.once('Model:ready', function () {
                 // when the users submits the form, the group will be processed
-                modelForm.on(className + 'Form:done', function () {
+                 modelForm.on(className + 'Form:done', function () {
                     Backbone.history.navigate(reroute, {
                         trigger: true
                     })
-                })
+                 })
                 // Set up the form
                 modelForm.render()
+              
+                $('.form .field-startDate input').datepicker({
+               todayHighlight: true
+            });
+            $('.form .field-endDate input').datepicker({
+               todayHighlight: true
+            });
+  				
+            $('.form .field-startTime input').timepicker();
+  				
+            $('.form .field-endTime input').timepicker();
+  				
+            
+               
+
             })
 
             // Set up the model for the form
@@ -738,6 +765,7 @@ $(function () {
             } else {
                 model.trigger('Model:ready')
             }
+            
         },
 
         GroupAssign: function (groupId) {
