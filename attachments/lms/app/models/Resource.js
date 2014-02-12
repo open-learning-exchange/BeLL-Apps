@@ -22,23 +22,26 @@ $(function() {
 
     schema: {
          title: 'Text',
-       author:'Text',  // Author Field is required when adding the resource with tag news else no need for that.
+       author:{title:'Author/Editor',type:'Text'},  // Author Field is required when adding the resource with tag news else no need for that.
      Publisher: 'Text',
-      language: 'Text',
+      language: {title:'Languages',type:'Text'},
      
       Year: 'Text',
       
       subject:{
+        title:'Subjects',
         type:'Select',
         options:['Agriculture','Business and Finance','Environment','Fine Arts','Food and Nutrition','Geography','Health & Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics & Government','Reference','Religion','Science','Social Sciences','Sports','Technology']
       },
       Level:{
+        title:'Levels',
         type:'Select',
         options: ['All','Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional'],
       },
-      Collection:{
+      Tag:{
+            title:'Collection',
             type:'Select',
- 			options:['Add New',{ group: 'Art', options: ['Drawing', 'Coloring']}, { group: 'Curriculum', options: '<option>Syllabus</option>'}, { group: 'Language', options: ['Alphabet', 'Words']},{ group: 'Music', options: ['Voice', 'Instrument']},{ group: 'Humor', options: '<option>Joke</option>'},'News','Fiction','Non Fiction','Project/Activity','Quiz', { group: 'Reference', options: ['Dictionaries', 'Encyclopedias ']}, { group: 'Sports', options: [{ group: 'Games', options: ['Primary', 'Secondary']}, 'Encyclopedias ']},'Textbook, Manual','Worksheet, Exercise']
+ 			options:['Add New',{ group: 'Art'}, { group: 'Curricula'}, 'Languages',{ group: 'Music'},{ group: 'Humor'},{ group: 'Reference'}, { group: 'Sports', options: [{ group: 'Games'}]}]
       },
       Medium:{
         type: 'Select',
@@ -50,7 +53,7 @@ $(function() {
       },
      uploadDate:'Date',
       averageRating :'Text',
-      articleDate: 'Date',
+      articleDate: {title:'Date Added to Library',type:'Date'},
       addedBy:'Text',
     },
     

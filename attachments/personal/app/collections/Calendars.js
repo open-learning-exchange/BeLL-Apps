@@ -2,7 +2,7 @@ $(function () {
 
     App.Collections.Calendars = Backbone.Collection.extend({
 
-        url: App.Server + '/calendar/_all_docs?include_docs=true',
+        url: App.Server + '/calendar/_design/bell/_view/EventById?key="'+$.cookie('Member._id')+'"&include_docs=true',
 
         parse: function (response) {
             var docs = _.map(response.rows, function (row) {

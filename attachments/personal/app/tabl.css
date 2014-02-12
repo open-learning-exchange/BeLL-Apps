@@ -169,7 +169,7 @@ bbf-form ul{border: 5px solid dotted;}
 }
 
 .signup-form .bbf-editor  input {
-    height: 25px;
+    height: 20px;
 }
 
 .signup-form .bbf-error  {
@@ -559,4 +559,3 @@ border:none;
 	color:white;
 	margin:0px auto;
 }
-

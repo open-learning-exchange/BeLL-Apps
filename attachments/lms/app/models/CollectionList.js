@@ -24,8 +24,16 @@ $(function() {
       
       CollectionName: 'TextArea',
       
+      Description:'TextArea',
+      NesttedUnder:{
+            type:'Select',
+ 			options:['--Select--','Art','Curricula','Languages','Music', 'Humor','Reference', 'Sports','Games']
+      },
+      AddedBy:'Text',
+      AddedDate:'Text',
+      
+      
     }
     
 }) 
-
 })

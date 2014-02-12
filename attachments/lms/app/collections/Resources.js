@@ -5,11 +5,15 @@ $(function() {
   App.Collections.Resources = Backbone.Collection.extend({
     
     model: App.Models.Resource,
+    initialize: function (a) {
+            if (a){
+            console.log(a.collectionName)
+                    this.url = App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&key="' + a.collectionName + '"'
+                } else {
+                this.url = App.Server + '/resources/_all_docs?include_docs=true'
+            }
+        },
 
-    url: function() {
-      return App.Server + '/resources/_all_docs?include_docs=true'
-    },
-    
     parse: function(response) {
       var models = []
       _.each(response.rows, function(row) {
