@@ -49,7 +49,7 @@ $(function() {
       },
       openWith:{
         type: 'Select',
-        options: [ 'Just download' ]
+        options: [ 'Just download','HTML','PDF.js','Flow Video Player','BeLL Video Book Player','Native Video' ]
       },
      uploadDate:'Date',
       averageRating :'Text',
