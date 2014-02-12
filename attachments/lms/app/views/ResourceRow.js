@@ -100,7 +100,6 @@ $(function () {
                 })
             },
             "click .resFeedBack": function (event) {
-            	alert('open')
             	var resourcefreq = new App.Collections.ResourcesFrequency()
             	resourcefreq.memberID = $.cookie('Member._id')
             	resourcefreq.fetch({async:false})
