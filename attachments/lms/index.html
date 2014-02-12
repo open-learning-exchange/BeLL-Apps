@@ -182,6 +182,8 @@
   <script src="app/views/GroupView.js"></script>
   <script src="app/views/CourseStepsView.js"></script>
   <script src="app/views/ListCollectionView.js"></script>
+  <script src="app/views/CollectionTable.js"></script>
+  <script src="app/views/CollectionRow.js"></script>
    <!-- MeetUps     -->
     <script src="app/views/MeetUpForm.js"></script>
     <script src="app/views/MeetUpRow.js"></script>
@@ -437,7 +439,10 @@
    
     </div>
      <div id="popup-spinning"></div>
-<div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
+<div id="invitationSuperDiv">
+	<div id="invitationdiv">
+	</div>
+</div>
     <div id='nav' class="navbar navbar-inverse" id="top-nav">
         <div class="container">
             <ul class="nav">
@@ -1278,6 +1283,13 @@ Please become a Member and explore both the Community Learning Management System
     </td>
     <%}%>
   </script>
+  <!-- Collection template -->
+<script type="text/html" id="template-CollectionRow">
+    <td>
+    <a href="#listCollection/<%=CollectionName%>"> -<%=CollectionName%></a>  
+    </td>
+    
+      </script>
 
 <script type="text/html" id="template-siteReviewRownoAdmin">
   	 	<%  if(Resolved=="0"){%>

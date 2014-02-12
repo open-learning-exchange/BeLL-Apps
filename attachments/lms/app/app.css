@@ -311,7 +311,7 @@ border-bottom:1px solid black;
     z-index: 2;
     margin-left:10%;
     overflow: scroll;
-    height: 40%;
+    height: 50%;
 }
 #groupform .bbf-field.field-levels{
     margin-left: 236px;
@@ -544,10 +544,24 @@ margin-left: 450px;
 margin-left: 450px;
     margin-top: -64px
 }
+
+#invitationForm .bbf-form .field-Description
+{
+
+margin-left: 259px;
+    margin-top: -108px;
+}
+#invitationForm .bbf-form .field-AddedBy
+{
+
+margin-left: 259px;
+    margin-top: -64px;
+}
+
 .form .field-endDate
 {
 margin-left: 259px;
-    margin-top: -64px
+    margin-top: -64px;
 
 }
 .form .field-Level
@@ -555,7 +569,7 @@ margin-left: 259px;
 margin-left: 224px;
     margin-top: -114px
 } 
-.form .field-Collection {
+.form .field-Tag {
     margin-left: 450px;
     margin-top: -114px;
 }
