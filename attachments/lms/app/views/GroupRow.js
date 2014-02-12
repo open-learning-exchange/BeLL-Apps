@@ -68,6 +68,10 @@ $(function () {
 
         render: function () {
             var vars = this.model.toJSON()
+            
+            if(vars._id=='_design/bell')
+               return
+            
             if(!vars.members)
             {
             	vars.members = new Array()

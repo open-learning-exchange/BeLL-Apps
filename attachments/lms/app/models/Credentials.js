@@ -6,7 +6,7 @@ $(function() {
 
     schema: {
       login: 'Text',
-      password: 'Text'
+      password: 'Password'
     }
 
   }) 

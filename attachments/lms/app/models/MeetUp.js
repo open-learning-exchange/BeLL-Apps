@@ -23,16 +23,18 @@ $(function() {
  schema: {
       title: 'Text',
       description: 'TextArea',
-      schedule: 'Text',
+      startDate: 'Text',
+      endDate: 'Text',
       reoccuring: {
         type: 'Radio',
         options: ['Daily', 'Weekly']
       },
      Day: {
-        type: 'Radio',
+        type: 'Checkboxes',
         options: ['Saturday', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
       },
-      Time: 'Text',
+      startTime: 'Text',
+      endTime:'Text',
       category: { type: 'Select', options: ['ICT', 'First Time' , 'Mothers' , 'General' , 'E Learning','Farming','Academic Discussion','Academic Help','Awareness'] },
       meetupLocation: 'Text',
     }

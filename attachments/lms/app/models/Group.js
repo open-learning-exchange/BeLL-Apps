@@ -46,7 +46,7 @@ $(function() {
         options: ['Daily', 'Weekly']
       },
       Day: {
-        type: 'Radio',
+        type: 'Checkboxes',
         options: ['Saturday', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
       },
        startTime: 'Text',

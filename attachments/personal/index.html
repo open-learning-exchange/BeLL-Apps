@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="app/jqueryui.css" />
     <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
+  <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
    
 
 <!--
@@ -38,6 +39,7 @@
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
   <script src="app/morris.js"></script>
+  <script src="vendor/jquery.timepicker.js"></script>
   
 
   <!--
@@ -119,6 +121,7 @@
   <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
   <script src="app/views/MailView.js"></script>
+<script src="app/views/EventInfo.js"></script>
 
    <script src="app/views/addComment.js"></script>
 
@@ -305,8 +308,8 @@ function sendMail()
 {
 	var attachment = true
 	var rec = $("#recipients").val()
-	var malingList =new Array()
-	malingList=rec.split(',')
+	var mailingList =new Array()
+	mailingList=rec.split(',')
 
 
 	var subject = $("#subject").val();
@@ -340,15 +343,19 @@ function sendMail()
 	}
 	else
 	{
-		for(var i=0;i<malingList.length;i++)
+	    var mailId='' 
+		for(var i=0;i<mailingList.length;i++)
 		{
-	      if(malingList[i].indexOf('@olebell.org')!=-1)
+	      if(mailingList[i].indexOf('@olebell.org')!=-1)
 		 {
-		 	var names=malingList[i].split(".")
+		 	var names=mailingList[i].split(".")
 		 	console.log(names[0])
 			mailId=names[0]
 		 }
-	     sendSingleMail(mailId,mailBody,subject,malingList)
+		 else{
+		   mailId=mailingList[i]
+		 }
+	     sendSingleMail(mailId,mailBody,subject,mailingList)
 		
 	   }
 	   alert("Mail successfully send.")

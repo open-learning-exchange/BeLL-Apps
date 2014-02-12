@@ -326,12 +326,12 @@ border-bottom:1px solid black;
 }
 #inviteMemberButton{
    position: absolute;
-	top: 130px;
+	top: 96px;
 	left: 646px;
 }
 #ProgressButton{
   position: absolute;
-	top: 130px;
+	top: 96px;
 	left: 532px;
 }
 #rating_checkboxes
@@ -397,7 +397,7 @@ font-weight: bold;
 /* course Schedule */
 #coursescheduleButton {
     position: absolute;
-	top: 130px;
+	top: 96px;
 	left: 436px;
 
 }

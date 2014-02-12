@@ -102,8 +102,7 @@ $(function () {
             var temp
             var that = this
             var currentdate = new Date();
-            
-             alert(this.model.get('invitationType'))
+
             if (this.model.get("invitationType") == "All") {
                 memberList.each(function (m) {
                     temp = new App.Models.Mail()

@@ -776,9 +776,16 @@ $(function () {
                todayHighlight: true
             });
   				
-            $('.form .field-startTime input').timepicker();
+            $('.form .field-startTime input').timepicker({
+                'minTime': '8:00am',
+                'maxTime': '12:30am',
+            });
   				
-            $('.form .field-endTime input').timepicker();
+            $('.form .field-endTime input').timepicker({
+               'minTime': '8:00am',
+                'maxTime': '12:30am',            
+            
+            });
 
   				$('.form .field-frequency input').click(function() {
     				if(this.value=='Weekly')
@@ -873,8 +880,18 @@ $(function () {
              
             App.$el.children('.body').html(modelForm.el)
             
-            $('.form .field-Time input').timepicker()
-            $('.form .field-schedule input').datepicker({
+            $('.form .field-startTime input').timepicker({
+               'minTime': '8:00am',
+                'maxTime': '12:30am',
+            })
+            $('.form .field-endTime input').timepicker({
+                 'minTime': '8:00am',
+                'maxTime': '12:30am',
+            })
+            $('.form .field-startDate input').datepicker({
+               todayHighlight: true
+            });
+             $('.form .field-endDate input').datepicker({
                todayHighlight: true
             });
             
@@ -964,9 +981,17 @@ $(function () {
                todayHighlight: true
             });
   				
-            $('.form .field-startTime input').timepicker();
+            $('.form .field-startTime input').timepicker({
+              'minTime': '8:00am',
+                'maxTime': '12:30am',
+            
+            });
   				
-            $('.form .field-endTime input').timepicker();
+            $('.form .field-endTime input').timepicker({
+                'minTime': '8:00am',
+                'maxTime': '12:30am',
+            
+            });
             
               $('.form .field-frequency input').click(function() {
     				if(this.value=='Weekly')
