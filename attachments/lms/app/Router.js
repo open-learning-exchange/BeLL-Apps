@@ -58,7 +58,9 @@ $(function () {
             'replicateResources': 'Replicate',
             'reports': 'Reports',
     	    'reports/edit/:resportId': 'ReportForm',
-            'reports/add': 'ReportForm'
+            'reports/add': 'ReportForm',
+            'collection':'Collection',
+            'listCollection/:collectionName':'ListCollection'
 
 
         },
@@ -390,28 +392,25 @@ $(function () {
             if (resource.id) {
                 App.listenToOnce(resource, 'sync', function () {
                     resourceFormView.render()
-                    $("input[name='addedBy']").attr("disabled", true);
-                    
-                $("select[class='bbf-date']").attr("disabled", true);
-                $("select[class='bbf-month']").attr("disabled", true);
-                $("select[class='bbf-year']").attr("disabled", true);
-                
+                                  
                 })
-                resource.fetch()
+                resource.fetch({async:false})
             } else {
                 resourceFormView.render()
                 $("input[name='addedBy']").val($.cookie("Member.login"));
-                $("input[name='addedBy']").attr("disabled", true);
                 //resourceFormView.form.fields['articleDate'].$el.disable();
-                $("select[class='bbf-date']").attr("disabled", true);
-                $("select[class='bbf-month']").attr("disabled", true);
-                $("select[class='bbf-year']").attr("disabled", true);
                 
             }
+             $("input[name='addedBy']").attr("disabled", true); 
+            $("select[class='bbf-date']").attr("disabled", true);
+            $("select[class='bbf-month']").attr("disabled", true);
+            $("select[class='bbf-year']").attr("disabled", true);
+                
             $('.form .field-subject select').attr("multiple", true);
             $('.form .field-Level select').attr("multiple", true); 
-            $('.form .field-Collection select').attr("multiple", true);
-            $('.form .field-Collection select').click(function() {
+            $('.form .field-Tag select').attr("multiple", true);
+            
+            $('.form .field-Tag select').click(function() {
     				if(this.value=='Add New')
     				{
     					 $('#invitationdiv').fadeIn(1000)
@@ -424,6 +423,11 @@ $(function () {
                 inviteForm.render()
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
+                 $("input[name='AddedBy']").val($.cookie("Member.login"));
+                $('#invitationForm .bbf-form .field-AddedDate input',this.el).datepicker({
+                    todayHighlight: true
+                });
+                $("input[name='AddedBy']").attr("disabled", true);
     				}
     				else{
     					
@@ -434,12 +438,45 @@ $(function () {
     				}
 
 				});
+				$('.form .field-Tag select').dblclick(function () {
+
+				    console.log(this.value)
+				    if (this.value != 'Add New') {
+				        $('#invitationdiv').fadeIn(1000)
+				        document.getElementById('cont').style.opacity = 0.2
+				        document.getElementById('nav').style.opacity = 0.2
+				        var collectionlist = new App.Models.CollectionList({_id:this.value})
+				        collectionlist.fetch({async:false})
+				        var inviteForm = new App.Views.ListCollectionView({
+				            model: collectionlist
+				        })
+				        inviteForm.render()
+				        $('#invitationdiv').html('&nbsp')
+				        $('#invitationdiv').append(inviteForm.el)
+				        $("input[name='AddedBy']").val($.cookie("Member.login"));
+				        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
+				            todayHighlight: true
+				        });
+				        $("input[name='AddedBy']").attr("disabled", true);
+				    }
+				});
 				var collections=new App.Collections.listRCollection()
 				collections.fetch({
 				async:false
 				})
 				collections.each(function(a){
-				$('.form .field-Collection select').append('<option>'+a.get('CollectionName')+'</option>');
+				
+				if(a.get('NesttedUnder')=='--Select--')
+            {
+            	$('.form .field-Tag select').append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
+            }
+            else
+            {
+            	if($('.form .field-Tag select optgroup[label='+a.get("NesttedUnder")+"]")!=null)
+            	{
+            		$('.form .field-Tag select optgroup[label='+a.get("NesttedUnder")+"]").append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
+            	}
+            }
 				})
 				
         },
@@ -471,10 +508,10 @@ $(function () {
                     resourcesTableView.render()
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
 
-                    App.$el.children('.body').append('<h1>Resources</h1>')
+                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
-                     App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                     App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
                 }
             })
@@ -530,8 +567,81 @@ $(function () {
 
             App.$el.children('.body').append(resources.el)
 
-        },
+        }, 
+        Collection: function () {
+		App.startActivityIndicator()
+           var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+              var temp = $.url().data.attr.host.split(".")  // get name of community
+                temp = temp[0].substring(3)
+            if(temp=="")
+            temp='local'
+             var roles = loggedIn.get("roles")
+            $('ul.nav').html($("#template-nav-logged-in").html()).show()
+            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+           var collections=new App.Collections.listRCollection()
+				collections.fetch({ 
+				
+				 success: function () {
+                    var collectionTableView = new App.Views.CollectionTable({
+                        collection: collections
+                    })
+                    collectionTableView.render()
+                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
 
+                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
+                     
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
+                     App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                    App.$el.children('.body').append(collectionTableView.el)
+                }
+				})
+        App.stopActivityIndicator()
+			
+			
+				
+
+        },
+ ListCollection: function (collectionName) {
+        App.startActivityIndicator()
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            
+            var temp = $.url().data.attr.host.split(".")  // get name of community
+                temp = temp[0].substring(3)
+            if(temp=="")
+            temp='local'
+            
+            var roles = loggedIn.get("roles")
+            $('ul.nav').html($("#template-nav-logged-in").html()).show()
+            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+            var resources = new App.Collections.Resources({collectionName:collectionName})
+            resources.fetch({
+                success: function () {
+                    var resourcesTableView = new App.Views.ResourcesTable({
+                        collection: resources
+                    })
+                    resourcesTableView.isManager = roles.indexOf("Manager")
+                    resourcesTableView.render()
+                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
+
+                    App.$el.children('.body').append('<p style="font-size:24px;color:#808080;">'+collectionName+'&nbsp&nbsp<a href="#resources"style="font-size:24px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:24px;">Collections</a> </p>')
+                     
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
+                     App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                    App.$el.children('.body').append(resourcesTableView.el)
+                }
+            })
+            App.stopActivityIndicator()
+        },
         ResourceFeedback: function (resourceId) {
             var resource = new App.Models.Resource()
             resource.id = resourceId

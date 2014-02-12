@@ -20,7 +20,10 @@ $(function() {
     },
 
     addAll: function(){
-           
+           if(this.collection.length==0)
+           {
+                  this.$el.append("<tr><td>No resource found</td></tr>")
+           } 
     if(this.isadmin > -1){
     	this.isAdmin=1
     }

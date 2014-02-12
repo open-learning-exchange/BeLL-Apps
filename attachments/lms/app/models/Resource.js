@@ -38,9 +38,10 @@ $(function() {
         type:'Select',
         options: ['All','Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional'],
       },
-      Collection:{
+      Tag:{
+            title:'Collection',
             type:'Select',
- 			options:['Add New',{ group: 'Art', options: ['Drawing', 'Coloring']}, { group: 'Curriculum', options: '<option>Syllabus</option>'}, { group: 'Language', options: ['Alphabet', 'Words']},{ group: 'Music', options: ['Voice', 'Instrument']},{ group: 'Humor', options: '<option>Joke</option>'},'News','Fiction','Non Fiction','Project/Activity','Quiz', { group: 'Reference', options: ['Dictionaries', 'Encyclopedias ']}, { group: 'Sports', options: [{ group: 'Games', options: ['Primary', 'Secondary']}, 'Encyclopedias ']},'Textbook, Manual','Worksheet, Exercise']
+ 			options:['Add New',{ group: 'Art'}, { group: 'Curricula'}, 'Languages',{ group: 'Music'},{ group: 'Humor'},{ group: 'Reference'}, { group: 'Sports', options: [{ group: 'Games'}]}]
       },
       Medium:{
         type: 'Select',
