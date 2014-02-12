@@ -18,6 +18,7 @@ $(function() {
       this.roles=manager.get("roles")
       // @todo this does not work as expected, either of the lines
       // _.each(this.collection.models, this.addOne())
+      
       this.collection.each(this.addOne, this)
     },
 

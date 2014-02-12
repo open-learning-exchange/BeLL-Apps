@@ -20,10 +20,15 @@ $(function() {
 		title: 'Event Name',
 		validators: ['required']},
 	description: {
-		title: "Event description",
-		validators: ['required']},
-    start: 'DateTime',
-	end: 'DateTime',
+	type:'TextArea',
+			title: "Event description",
+			validators: ['required']
+		},
+    startDate: 'Text',
+	endDate: 'Text',
+	startTime:'Text',
+	endTime:'Text',
+	
 	userId:{
 		validators: ['required'],
 		type:'Hidden'},

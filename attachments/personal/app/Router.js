@@ -31,7 +31,6 @@ $(function () {
             'calendar': 'CalendarFunction',
             'calendar/event/:eid': 'calendaar',
             'calendar-event/edit/:eid': 'EditEvent',
-            'calendar-event/delete/:eid': 'DeleteEvent',
             'addEvent': 'addEvent',
             'report/:Url': 'report',
             'siteFeedback': 'viewAllFeedback',
@@ -645,22 +644,20 @@ $(function () {
             App.$el.children('.body').html('<h3 class="signup-heading">Add Event</h3>')
             App.$el.children('.body').append(modelForm.el)
             modelForm.render()
-        },
-        DeleteEvent: function (eventId) {
-            var cmodel = new App.Models.Calendar({
-                _id: eventId
+            $('.bbf-form .field-startTime input').timepicker({
+                'minTime': '8:00am',
+                'maxTime': '12:30am',
             })
-            cmodel.fetch({
-                async: false
+            $('.bbf-form .field-endTime input').timepicker({
+                'minTime': '8:00am',
+                'maxTime': '12:30am',
             })
-            cmodel.destroy({
-                success: function () {
-                    alert("Event Successfully Deleted!!!")
-                    Backbone.history.navigate('calendar', {
-                        trigger: true
-                    })
-                }
-            })
+            $('.bbf-form .field-startDate input').datepicker({
+               todayHighlight: true
+            });
+             $('.bbf-form .field-endDate input').datepicker({
+               todayHighlight: true
+            });
         },
         EditEvent: function (eventId) {
             var cmodel = new App.Models.Calendar({
@@ -680,22 +677,15 @@ $(function () {
         },
         calendaar: function (eventId) {
             App.$el.children('.body').html('&nbsp')
-           
-            App.$el.children('.body').append('<h5>Event Details</h5>')
-             
             var cmodel = new App.Models.Calendar({
                 _id: eventId
             })
             cmodel.fetch({
                 async: false
             })
-            App.$el.children('.body').append('<br/><b>Title: </b>' + cmodel.attributes.title)
-            App.$el.children('.body').append('<br/><b>Description: </b>' + cmodel.attributes.description)
-            App.$el.children('.body').append('<br/><b>Starting from: </b>' + new Date(cmodel.attributes.start))
-            App.$el.children('.body').append('<br/><b>Ending at: </b>' + new Date(cmodel.attributes.end))
-            App.$el.children('.body').append('<br/><br/><a class="btn btn-primary" href="#calendar-event/edit/' + eventId + '">Edit</a>')
-            App.$el.children('.body').append('&nbsp;&nbsp;<a class="btn btn-primary" href="#calendar-event/delete/' + eventId + '">Delete</a>')
-            App.$el.children('.body').append('&nbsp;&nbsp;<a href="#calendar" class="btn btn-info"><< Back To Calander</a>')
+            var eventView=new App.Views.EventInfo({model:cmodel})
+            eventView.render()
+            App.$el.children('.body').append(eventView.el)
         },
         
         CalendarFunction: function () {
@@ -710,13 +700,29 @@ $(function () {
                     async: false
                 })
                 allEvents.each(function (evnt) {
-                    var temp = new Object()
-                    temp.title = evnt.attributes.title
-                    temp.start = evnt.attributes.start
-                    temp.end = evnt.attributes.end
-                    temp.url = "calendar/event/" + evnt.id
-                    temp.allDay = false
-                    temp2.push(temp)
+                 
+                 console.log(evnt)
+                 
+                if(evnt.get('startDate') && evnt.get('endDate'))
+                 {	
+                    var sdate=evnt.get('startDate').split('/')
+                    var edate=evnt.get('endDate').split('/')
+                    daysindex = new Array(0, 1, 2, 3, 4, 5, 6)
+                	var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
+                    var stime = convertTo24Hour(evnt.get("startTime"))
+                    var etime = convertTo24Hour(evnt.get("endTime"))
+                    
+                 for (var i = 0; i < sdates.length; i++) {
+                 
+                            var temp = new Object()
+                            temp.title = evnt.get('title')
+                            temp.start = new Date(sdates[i].setHours(stime))
+                            temp.end = new Date(sdates[i].setHours(etime))
+                            temp.url = "calendar/event/" + evnt.id
+                            temp.allDay = false
+                            temp2.push(temp)
+                   }
+                  }  
                 });
 
                 var membercourses = new App.Collections.MemberGroups()
@@ -725,55 +731,118 @@ $(function () {
                 })
                 console.log(membercourses.length)
 
-                membercourses.each(function (m) {
+                membercourses.each(function (model) {
 
-
-                    var cs = new App.Collections.CourseScheduleByCourse()
-                    cs.courseId = m.get("_id")
-                    //   alert(cs.courseId)
-
-                    cs.fetch({
-                        async: false
-                    })
-
-                    if (cs.length > 0) {
-                        var model = cs.first()
                         var daysindex
-                        if (model.get("type") == "Daily") {
+                        if (model.get("frequency") == "Daily") {
                             daysindex = new Array(0, 1, 2, 3, 4, 5, 6)
                         } else {
 
                             daysindex = new Array()
                             var week = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-                            var sweek = model.get("weekDays")
+                            
+                            var sweek = model.get("Day")
+                            
+                        if(sweek instanceof Array){}
+            			else{
+            					var temp=sweek
+               					sweek=new Array()
+               					sweek[0]=temp 
+            				}
+            				
                             var i = 0
                             while (i < sweek.length) {
                                 daysindex.push(week.indexOf(sweek[i]))
                                 i++
                             }
                         }
-
+                        
+                    if(model.get("startDate") && model.get("startDate"))
+                    {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
-
-                        var sdates = getScheduleDatesForCourse(new Date(sdate[2], sdate[0], sdate[1]), new Date(edate[2], edate[0], edate[1]), daysindex)
-                        // alert(sdates)
+                        
+                         console.log(sdate)
+                         console.log(edate)
+                         
+                        var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
+                        
                         var stime = convertTo24Hour(model.get("startTime"))
                         var etime = convertTo24Hour(model.get("endTime"))
+                        
                         for (var i = 0; i < sdates.length; i++) {
-
                             var temp = new Object()
-                            temp.title = m.get('name')
+                            temp.title = '\nCourse: \n'+model.get('name')
                             temp.start = new Date(sdates[i].setHours(stime))
                             temp.end = new Date(sdates[i].setHours(etime))
                             temp.allDay = false
                             temp2.push(temp)
                         }
-
                     }
 
                 });
+                
+                var memMeetup=new App.Collections.UserMeetups()
+                    memMeetup.memberId=$.cookie('Member._id')
+                    memMeetup.fetch({async:false})
+                
+                  memMeetup.each(function(meetup){
+                         model= new App.Models.MeetUp({_id:meetup.get('meetupId')})
+                         model.fetch({async:false})
+                         
+
+                        var daysindex
+                        if (model.get("reoccuring") == "Daily") {
+                            daysindex = new Array(0, 1, 2, 3, 4, 5, 6)
+                        } else {
+
+                            daysindex = new Array()
+                            var week = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+                            
+                            var sweek = model.get("Day")
+                            
+                        if(sweek instanceof Array){}
+            			else{
+            					var temp=sweek
+               					sweek=new Array()
+               					sweek[0]=temp 
+            				}
+            				
+                            var i = 0
+                            while (i < sweek.length) {
+                                daysindex.push(week.indexOf(sweek[i]))
+                                i++
+                            }
+                        }
+                        
+                    if(model.get("startDate") && model.get("startDate"))
+                    {
+                        var sdate = model.get("startDate").split('/')
+                        var edate = model.get("endDate").split('/')
+                        
+                         console.log(sdate)
+                         console.log(edate)
+                         
+                        var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
+                        
+                        var stime = convertTo24Hour(model.get("startTime"))
+                        var etime = convertTo24Hour(model.get("endTime"))
+                        
+                        for (var i = 0; i < sdates.length; i++) {
+                            var temp = new Object()
+                            temp.title = '\nMeetup: \n'+model.get('title')
+                            temp.start = new Date(sdates[i].setHours(stime))
+                            temp.end = new Date(sdates[i].setHours(etime))
+                            temp.allDay = false
+                            temp2.push(temp)
+                        }
+                    }
+
+                
+                  })
+                    
                 //alert(temp2.length)
+                
                 var calendar = $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',

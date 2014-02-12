@@ -18,6 +18,7 @@ $(function () {
 
 
         },
+       
         CourseSchedule: function () {
             var form = new App.Views.CourseScheduleForm()
             form.courseId = this.model.id
@@ -99,6 +100,14 @@ $(function () {
             var groupForm = this
             if (this.model.get("_id") != undefined) {
                 this.prevmemlist = this.model.get("members")
+               this.model.on({
+  						"change:statDate": this.sendMail,
+  						"change:endDate": this.sendMail,
+  						"change:startTime": this.sendMail,
+  						"change:endTime": this.sendMail,
+  						"change:location": this.sendMail
+						});
+					
             }
             if (!this.model.get("languageOfInstruction")) {
                 this.model.set("languageOfInstruction", "")
@@ -142,7 +151,7 @@ $(function () {
                     })
                     // give the form a submit button
                     var $sbutton = $('<a class="group btn btn-success" id="sformButton">Continue</button>')
-                    var $ubutton = $('<a class="group btn btn-success" style="margin-left:-606px;" id="uformButton">Update</button>')
+                    var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">Update</button>')
                     var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
                     var $scbutton = $('<a class="btn btn-success" id="coursescheduleButton">Schedule</button>')
                     if (groupForm.model.get("_id") != undefined) {
@@ -183,8 +192,7 @@ $(function () {
             if (this.model.get("_id") == undefined) {
 
                 newEntery = 1
-
-                this.model.set("members", null)
+                this.model.set("members", [$.cookie('Member._id')])
             } else {
                 this.model.set("members", this.prevmemlist)
             }
@@ -206,8 +214,7 @@ $(function () {
                     member.get('roles').push("Leader")
                     member.save()
                 }
-
-                this.model.set("members", [$.cookie('Member._id')])
+                
                 this.model.set('courseLeader', $.cookie("Member._id"))
                 this.model.save(null, {
                     success: function (e) {
@@ -233,12 +240,41 @@ $(function () {
                             })
                             //alert(groupModel.get("rev"))
                             that.model.set("_rev", groupModel.get("_rev"))
+                            
                             alert("Course successfully Updated.")
                         }
 
                     }
                 })
             }
+        },
+         sendMail:function(e){
+         
+           memberList=e._previousAttributes.members
+           
+           for (var i = 0; i < memberList.length; i++) {
+                var mem = new App.Models.Member({
+                    _id: memberList[i]
+                })
+                mem.fetch({
+                    async: false
+                })
+         
+          		var currentdate = new Date();
+				var mail = new App.Models.Mail();
+				mail.set("senderId",$.cookie('Member._id'));
+				mail.set("receiverId",mem.get("_id"));
+				mail.set("subject","Change of Course Schedule | " + e.get("name") );
+				var mailText="<b>Schedule is changed </b><br><br>New Schedule is:<br> Duration:   " + e.get('startDate') + '  to  '+e.get('endDate')+'<br>'
+                    mailText+="Timing:        "+e.get('startTime')+'  to  '+e.get('endTime')
+                    mailText+="<br>Locatoin:      "+e.get('location')				
+ 				mail.set("body",mailText);
+				mail.set("status","0");
+				mail.set("type","mail");
+				mail.set("sentDate",currentdate);
+				mail.save()
+			}
+			
         },
 
 
