@@ -45,12 +45,12 @@ $(function () {
             // Put the form's input into the model in memory
             this.form.commit()
             if (this.model.get('NesttedUnder') == '--Select--') {
-                $('.form .field-Collection select').append('<option>' + this.model.get('CollectionName') + '</option>')
+                $('.form .field-Tag select').append('<option>' + this.model.get('CollectionName') + '</option>')
                 this.model.save()
 
             } else {
-                if ($('.form .field-Collection select optgroup[label=' + this.model.get("NesttedUnder") + "]") != null) {
-                    $('.form .field-Collection select optgroup[label=' + this.model.get("NesttedUnder") + "]").append('<option>' + this.model.get('CollectionName') + '</option>');
+                if ($('.form .field-Tag select optgroup[label=' + this.model.get("NesttedUnder") + "]") != null) {
+                    $('.form .field-Tag select optgroup[label=' + this.model.get("NesttedUnder") + "]").append('<option>' + this.model.get('CollectionName') + '</option>');
                     this.model.save()
                 }
             }
