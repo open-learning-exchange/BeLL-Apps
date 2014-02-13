@@ -5,14 +5,31 @@ $(function() {
   App.Collections.Resources = Backbone.Collection.extend({
     
     model: App.Models.Resource,
+    url: function () { 
+    	if(this.collectionName)
+    	{
+    		return App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&key="' + this.collectionName + '"'
+    	}
+    	else if(this.skip>=0)
+    	{
+    		return App.Server + '/resources/_all_docs?include_docs=true&limit=20&skip='+this.skip
+    	}
+    	else
+    	{
+    		return App.Server + '/resources/_all_docs?include_docs=true'
+    	}
+    },
     initialize: function (a) {
-            if (a){
-            console.log(a.collectionName)
-                    this.url = App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&key="' + a.collectionName + '"'
-                } else {
-                this.url = App.Server + '/resources/_all_docs?include_docs=true'
-            }
-        },
+  		
+    	if (a && a.collectionName)
+    	{
+    		this.collectionName = a.collectionName 
+        }
+        else if(a && a.skip>=0)
+        {
+        	this.skip = a.skip 
+        }
+   },
 
     parse: function(response) {
       var models = []
