@@ -1,10 +1,1 @@
-module.exports = [
-      'apps',
-      'assignments', 
-      'feedback', 
-      'groups', 
-      'members', 
-      'actions',
-      'resources', 
-      'facilities'
-]
+module.exports = ["actions","apps","assignments","calendar","community","communityreports","courseschedule","coursestep","facilities","feedback","groups","install","invitations","mail","membercourseprogress","members","report","resources","shelf","stepresults","sync"]  

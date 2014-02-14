@@ -557,7 +557,7 @@ $(function () {
             var roles = loggedIn.get("roles")
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
-            var resources = new App.Collections.Resources()
+            var resources = new App.Collections.Resources({skip:0})
             resources.fetch({
                 success: function () {
                     var resourcesTableView = new App.Views.ResourcesTable({
