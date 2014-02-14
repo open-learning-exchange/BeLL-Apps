@@ -199,6 +199,7 @@
  
   
   var searchText = "";
+  var searchType ='';
   var skip = 0;    //Variable used to skip the number of records been fetched before.
   var enablenext=0;
   var searchRecordsPerPage = 5;
@@ -288,6 +289,8 @@
   {
     skip = 0;
   	searchText = $("#searchText").val()
+  	searchType= $('#searchtype').val()
+ 
     App.Router.ResourceSearch()
   
   }

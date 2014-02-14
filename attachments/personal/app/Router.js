@@ -701,8 +701,6 @@ $(function () {
                 })
                 allEvents.each(function (evnt) {
                  
-                 console.log(evnt)
-                 
                 if(evnt.get('startDate') && evnt.get('endDate'))
                  {	
                     var sdate=evnt.get('startDate').split('/')

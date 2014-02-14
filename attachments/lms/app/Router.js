@@ -100,6 +100,18 @@ $(function () {
             $('#debug').hide()
 
         },
+        getRoles:function(){
+        
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles")
+            
+            return roles
+        },
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
                 console.log($.url().attr('fragment'))
@@ -162,14 +174,10 @@ $(function () {
         },
      
         Reports: function (database) {
+        
             App.startActivityIndicator()
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            var roles = loggedIn.get("roles")
+            var roles =this.getRoles()
+            
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
             var reports = new App.Collections.Reports()
@@ -223,14 +231,8 @@ $(function () {
         },
         CourseReport: function (cId, cname) {
         	
-        	var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-        	var roles = loggedIn.get("roles")
-        	
+        	var roles = this.getRoles()
+    
         	var course = new App.Models.Group();
         	course.id = cId
         	course.fetch({async:false})
@@ -482,20 +484,15 @@ $(function () {
         },
 
         Resources: function (database) {
-        App.startActivityIndicator()
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
+            App.startActivityIndicator()
             
             var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
             
-            var roles = loggedIn.get("roles")
+            var roles = this.getRoles()
+            
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
             var resources = new App.Collections.Resources()
@@ -506,16 +503,61 @@ $(function () {
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
-                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
-
+                    
+                    var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
+                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
+                        btnText+='<span id="searchBox" style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text">'
+                        btnText+='<select id="collectionBox" style="margin:0 5px;height:40px;width:150px"><option>--select--</option></select>'
+                        btnText+='<select id="searchtype" style="margin:0 5px;height:40px;width:70px"><option>Title</option><option>Tag</option></select>'
+                        btnText+='<span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></span></p>'
+                    App.$el.children('.body').html(btnText)
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
                      App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
-                    App.$el.children('.body').append(resourcesTableView.el)
+                     App.$el.children('.body').append(resourcesTableView.el)
+                     
+                     var collections=new App.Collections.listRCollection()
+						   collections.major=true
+						   collections.fetch({
+							async:false
+						  })
+					collections.each(function(a){
+							$('#collectionBox').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
+						})
+                     
+                     $('#collectionBox').hide()
+                     
+                     $("#searchtype").change(function(){
+                         if(this.value=='Tag'){
+                           $("#searchText").hide()
+                            $('#collectionBox').show()						
+                         }
+                         else{
+                            $("#collectionBox").hide()
+                            $('#searchText').show()
+                         } 
+                     })
+                     
+                     $('#collectionBox').change(function(){
+                       if(this.value!='--select--'){
+                           var collectionlist = new App.Models.CollectionList({_id:this.value})
+				           collectionlist.fetch({async:false})
+				           window.location.href= '#listCollection/'+this.value
+				           
+				           
+				           console.log(collectionlist.toJSON())
+				           alert('testing')
+                       
+                       }
+                     
+                     })
+                     
+
                 }
             })
             App.stopActivityIndicator()
+            
         },
         AddToshelf:function(rId,title){
       
@@ -541,21 +583,19 @@ $(function () {
       // Backbone.history.navigate('resources', {trigger: true})
       
     },
-        ResourceSearch: function () {
+    ResourceSearch: function () {
 		
-			var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-			 var roles = loggedIn.get("roles")
+			var roles = this.getRoles()
+			 
             var resources = new App.Views.ResourceSearch()
             resources.render()
+            
             var button = '<p>'
             button += '<a class="btn btn-success" href="#resource/add">Add a new Resource</a>'
             button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
             button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+            button+='<select id="collectionBox" style="margin:0 5px;height:40px;width:150px"><option>--select--</option></select>'
+            button+='<select id="searchtype" style="margin:0 5px;height:40px;width:70px"><option>Title</option><option>Tag</option></select>'
             button += '<button class="btn btn-info" onclick="ResourceSearch()">Search</button></span>'
             button += '</p>'
 
@@ -566,21 +606,41 @@ $(function () {
             App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
 
             App.$el.children('.body').append(resources.el)
+            
+             var collections=new App.Collections.listRCollection()
+						   collections.major=true
+						   collections.fetch({
+							async:false
+						  })
+					collections.each(function(a){
+							$('#collectionBox').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
+						})
+            
+           $('#collectionBox').hide()
+                     
+                     $("#searchtype").change(function(){
+                         if(this.value=='Tag'){
+                            $("#searchText").hide()
+                            $('#collectionBox').show()
+                         }
+                         else{
+                            $("#collectionBox").hide()
+                            $('#searchText').show()
+                         } 
+                     })
 
+        
         }, 
         Collection: function () {
-		App.startActivityIndicator()
-           var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-              var temp = $.url().data.attr.host.split(".")  // get name of community
+		    App.startActivityIndicator()
+		   
+            var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
-             var roles = loggedIn.get("roles")
+            
+             var roles =this.getRoles()
+             
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
            var collections=new App.Collections.listRCollection()
@@ -607,20 +667,15 @@ $(function () {
 
         },
  ListCollection: function (collectionName) {
-        App.startActivityIndicator()
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
+            App.startActivityIndicator()
             
             var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
             
-            var roles = loggedIn.get("roles")
+            var roles = this.getRoles()
+            
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
             var resources = new App.Collections.Resources({collectionName:collectionName})
@@ -813,13 +868,8 @@ $(function () {
         
     	    
     	    code=cofigINJSON.rows[0].doc.code       
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            var roles = loggedIn.get("roles")
+            
+            var roles = this.getRoles()
 			
             members = new App.Collections.Members()
             members.fetch({

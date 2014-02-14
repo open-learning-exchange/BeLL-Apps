@@ -4,7 +4,7 @@ $(function () {
 
 
         template: $('#template-Search').html(),
-
+        type:'',
         vars: {},
         groupresult: null,
         resultArray: null,
@@ -19,6 +19,9 @@ $(function () {
             //this.$el.html(_.template(this.template, this.vars))
             //this.searchText = $("#searchText").val()
             //alert(searchText)
+            
+            this.type=searchType.toLowerCase()
+            
             if (searchText != "") {
                 this.fetchRecords()
             }
@@ -28,7 +31,13 @@ $(function () {
             var obj = this
             this.groupresult.fetch({
                 success: function () {
-                    obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.groupresult.models, searchText))
+                 
+                    if(obj.type=='tag'){
+                    	obj.resultArray.push.apply(obj.resultArray, obj.searchInArrayForTag(obj.groupresult.models, searchText))
+                    	}
+                    else{
+                    	obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.groupresult.models, searchText))
+                    	}
 
 
                     if (obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords) {
@@ -37,17 +46,26 @@ $(function () {
                         previousPageButtonPressed()
 
                     } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
-                        $('#not-found').html("No Such Record Exist");
+                        $('.body').html("No Such Record Exist");
                         $("#selectAllButton").hide()
 
 
                     } else {
                         var ResultCollection = new Backbone.Collection();
+                    
                         if (obj.resultArray.length > 0) {
                             ResultCollection.set(obj.resultArray)
+                            
+                    var loggedIn = new App.Models.Member({"_id": $.cookie('Member._id')})
+                        loggedIn.fetch({async: false})
+                    var roles = loggedIn.get("roles")
+                            
                             var SearchSpans = new App.Views.ResourcesTable({
                                 collection: ResultCollection
                             })
+                            
+                            SearchSpans.isManager = roles.indexOf("Manager")
+                            
                             SearchSpans.resourceids = obj.resourceids
                             SearchSpans.render()
                             $('.body').append(SearchSpans.el)
@@ -62,13 +80,16 @@ $(function () {
             var that = this
             var resultArray = []
             var foundCount
-
+            
+            
+            
             if (searchText != "") {
+                
                 _.each(resourceArray, function (result) {
-                    if (result.get("title") != null) {
+                    if (result.get('title') != null) {
                         skip++
                         //console.log( skip+' '+result.get("title"))
-                        if (result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
+                        if (result.get('title').toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
                             if (resultArray.length < searchRecordsPerPage) {
                                 resultArray.push(result)
                             } else {
@@ -83,7 +104,37 @@ $(function () {
 
             }
             return resultArray
+        },
+        searchInArrayForTag:function(resourceArray, searchText){
+        
+            var that = this
+            var resultArray = []
+            var foundCount
+     
+            if (searchText != "") {
+                
+                _.each(resourceArray, function (result) {
+                    if (result.get('Tag') != null) {
+                        skip++
+                        //console.log( skip+' '+result.get("title"))
+                        if (result.get('Tag').indexOf(searchText.toLowerCase()) >= 0) {
+                            if (resultArray.length < searchRecordsPerPage) {
+                                resultArray.push(result)
+                            } else {
+                                enablenext = 1
+                                skip--
+                            }
+                        } else if (resultArray.length >= searchRecordsPerPage) {
+                            skip--
+                        }
+                    }
+                })
+
+            }
+            return resultArray
+        
         }
+        
 
     })
 

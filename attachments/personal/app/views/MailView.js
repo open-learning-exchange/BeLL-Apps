@@ -221,6 +221,7 @@ $(function () {
             mailView.resultArray = []
             mailView.unopen = false
             mailView.fetchRecords()
+            
             $("#nextButton").show()
             $("#previousButton").hide()
 
@@ -262,6 +263,7 @@ $(function () {
             mailView.$el.append(mailView.templateMailView(mailView.vars))
         },
         deleteButton: function (e) {
+        alert(e.currentTarget.value)
             var modelNo = e.currentTarget.value
             var selectedModel = mailView.collection.at(modelNo)
             selectedModel.destroy()
@@ -338,6 +340,9 @@ $(function () {
                 receiverId: $.cookie('Member._id'),
                 unread: obj.unopen
             })
+            
+            alert('fecth Record')
+            
             newCollection.fetch({
                 success: function () {
                     obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(newCollection.models, obj.searchText))
