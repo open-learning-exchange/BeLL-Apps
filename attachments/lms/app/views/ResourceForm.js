@@ -21,10 +21,10 @@ $(function () {
 
             if (_.has(this.model, 'id')) {
                 vars.header = 'Details "' + this.model.get('title') + '"'
-                vars.hidesave = true
+              
             } else {
                 vars.header = 'New Resource'
-                vars.hidesave = false
+              
             }
 
             // prepare the form
@@ -72,8 +72,6 @@ $(function () {
             var savemodel = false
             if (this.model.get("title").length == 0) {
                 alert("Resource Title is missing")
-            } else if ((this.model.get("Tag") == "News") && !this.model.get("author")) {
-                alert("Please Specify Author For This News Resource")
             } else {
                 $('#gressImage').show();
                 this.model.set(' uploadDate', new Date().getTime())
@@ -158,6 +156,7 @@ $(function () {
                                         }
                                     } else {
                                         alert("Cannot update model due to identical title")
+                                        window.location.reload()
                                     }
                                 } else {
                                     App.startActivityIndicator()

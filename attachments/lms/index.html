@@ -468,10 +468,16 @@
     <table class="table table-striped">
       <tr>
       <td colspan="2">
-         
-        <h2>
+      <%if(header.length<=40){%>
+        <h2 style="width:25em;word-wrap:break-word;">
           <%= header %>
-        </h2> 
+          </h2> 
+          <%}else{%>
+        <h4 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h4>
+        <%}%>  
+        
         </td>
       </tr>
       <tr>
@@ -482,6 +488,7 @@
       </tr>
       <tr>
         <td colspan="2">
+        <label id="selectedResources"></label>
           <!-- The Second form that will be submitted containing the file -->
           <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
@@ -489,12 +496,10 @@
       </tr>
       <tr>
         <td>
-        <% if(hidesave == false) { %>
           <div class="save btn btn-success" name="save">
             Save
           </div>
-        <% } %>
-		<a class="btn btn-danger" id="cancel">Cancel</a>
+        <a class="btn btn-danger" id="cancel">Cancel</a>
         </td>
         <td class="status">
           <!-- status goes here -->
@@ -799,7 +804,7 @@
     	<% if(!hidden){ %>
     	<% if(title){ %>
   <td>
-        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+        <p style="width:180px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>
@@ -1289,7 +1294,7 @@ Please become a Member and explore both the Community Learning Management System
   <!-- Collection template -->
 <script type="text/html" id="template-CollectionRow">
     <td>
-    <a href="#listCollection/<%=CollectionName%>"> -<%=CollectionName%></a>  
+    <a href="#listCollection/<%=_id%>"> -<%=CollectionName%></a>  
     </td>
     
       </script>

@@ -16,23 +16,22 @@ $(function() {
       return url
     },
     defaults: {
-      kind: "CollectionList"
+      kind: "CollectionList",
+      IsMajor:true
     },
 
 
  schema: {
       
-      CollectionName: 'TextArea',
+      CollectionName:'Text',
       
       Description:'TextArea',
       NesttedUnder:{
             type:'Select',
- 			options:['--Select--','Art','Curricula','Languages','Music', 'Humor','Reference', 'Sports','Games']
+ 			options:['--Select--']
       },
       AddedBy:'Text',
       AddedDate:'Text',
-      
-      
     }
     
 }) 

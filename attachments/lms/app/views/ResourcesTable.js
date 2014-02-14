@@ -7,7 +7,27 @@ $(function() {
     className: "table table-striped",
 
     //template: $('#template-ResourcesTable').html(),
-
+	events : {
+		"click #backButton": function (e) {
+			if(this.collection.skip>0)
+			{
+				this.collection.skip = this.collection.skip-20
+			}
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
+		},
+		"click #nextButton": function (e){
+			this.collection.skip = this.collection.skip+20
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
+		}
+	},
     initialize: function(){
       //this.$el.append(_.template(this.template))
      
@@ -36,6 +56,12 @@ $(function() {
     render: function() {
        this.$el.html("<tr><th>Title</th><th colspan='6'>Actions</th></tr>")
       this.addAll()
+      this.$el.append('<br/><br/>')
+      if(this.collection.skip!=0)
+      {
+      	this.$el.append('<a class="btn btn-success" id="backButton">Back</a>&nbsp;&nbsp;')
+      }
+      this.$el.append('<a class="btn btn-success" id="nextButton">Next</a>')
     }
 
   })

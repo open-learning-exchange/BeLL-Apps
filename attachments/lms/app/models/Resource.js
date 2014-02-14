@@ -41,7 +41,7 @@ $(function() {
       Tag:{
             title:'Collection',
             type:'Select',
- 			options:['Add New',{ group: 'Art'}, { group: 'Curricula'}, 'Languages',{ group: 'Music'},{ group: 'Humor'},{ group: 'Reference'}, { group: 'Sports', options: [{ group: 'Games'}]}]
+ 			options:['Add New']
       },
       Medium:{
         type: 'Select',
