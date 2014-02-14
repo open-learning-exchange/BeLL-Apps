@@ -465,10 +465,16 @@
     <table class="table table-striped">
       <tr>
       <td colspan="2">
-         
-        <h2>
+      <%if(header.length<=40){%>
+        <h2 style="width:25em;word-wrap:break-word;">
           <%= header %>
-        </h2> 
+          </h2> 
+          <%}else{%>
+        <h4 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h4>
+        <%}%>  
+        
         </td>
       </tr>
       <tr>
@@ -796,7 +802,7 @@
     	<% if(!hidden){ %>
     	<% if(title){ %>
   <td>
-        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+        <p style="width:180px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>
@@ -1286,7 +1292,7 @@ Please become a Member and explore both the Community Learning Management System
   <!-- Collection template -->
 <script type="text/html" id="template-CollectionRow">
     <td>
-    <a href="#listCollection/<%=CollectionName%>"> -<%=CollectionName%></a>  
+    <a href="#listCollection/<%=_id%>"> -<%=CollectionName%></a>  
     </td>
     
       </script>
