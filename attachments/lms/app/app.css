@@ -549,7 +549,7 @@ margin-left: 450px;
 {
 
 margin-left: 259px;
-    margin-top: -108px;
+    margin-top: -64px;
 }
 #invitationForm .bbf-form .field-AddedBy
 {
@@ -557,7 +557,11 @@ margin-left: 259px;
 margin-left: 259px;
     margin-top: -64px;
 }
-
+.MajorCategory
+{
+    font-weight:bold;
+    font-style:italic;
+}
 .form .field-endDate
 {
 margin-left: 259px;

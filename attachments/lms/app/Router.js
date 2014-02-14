@@ -376,6 +376,13 @@ $(function () {
     
     },
         ResourceForm: function (resourceId) {
+        var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+        	var roles = loggedIn.get("roles")
             var resource = (resourceId) ? new App.Models.Resource({
                 _id: resourceId
             }) : new App.Models.Resource()
@@ -410,7 +417,14 @@ $(function () {
             $('.form .field-Level select').attr("multiple", true); 
             $('.form .field-Tag select').attr("multiple", true);
             
+				
             $('.form .field-Tag select').click(function() {
+    				
+				var collections=new App.Collections.listRCollection()
+				collections.major=true
+				collections.fetch({
+				async:false
+				})
     				if(this.value=='Add New')
     				{
     					 $('#invitationdiv').fadeIn(1000)
@@ -424,10 +438,17 @@ $(function () {
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
                  $("input[name='AddedBy']").val($.cookie("Member.login"));
-                $('#invitationForm .bbf-form .field-AddedDate input',this.el).datepicker({
-                    todayHighlight: true
-                });
-                $("input[name='AddedBy']").attr("disabled", true);
+                 var currentDate = new Date();  
+				$('#invitationForm .bbf-form .field-AddedDate input',this.el).datepicker({
+                     todayHighlight: true
+                 });
+				$('#invitationForm .bbf-form .field-AddedDate input',this.el).datepicker("setDate",currentDate);
+                 $("input[name='AddedBy']").attr("disabled", true);
+                 $("input[name='AddedDate']").attr("disabled", true);
+                collections.each(function(a){
+				$('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
+				})	
+    				
     				}
     				else{
     					
@@ -439,32 +460,62 @@ $(function () {
 
 				});
 				$('.form .field-Tag select').dblclick(function () {
-
-				    console.log(this.value)
+					if(roles.indexOf("Manager")>-1)
+					{
+				    var collections=new App.Collections.listRCollection()
+					collections.major=true
+					collections.fetch({
+					async:false
+					})
 				    if (this.value != 'Add New') {
 				        $('#invitationdiv').fadeIn(1000)
 				        document.getElementById('cont').style.opacity = 0.2
 				        document.getElementById('nav').style.opacity = 0.2
 				        var collectionlist = new App.Models.CollectionList({_id:this.value})
 				        collectionlist.fetch({async:false})
+				        collections.remove(collectionlist)
+				        console.log(collectionlist.toJSON())
 				        var inviteForm = new App.Views.ListCollectionView({
 				            model: collectionlist
 				        })
+				        
 				        inviteForm.render()
+				         
 				        $('#invitationdiv').html('&nbsp')
 				        $('#invitationdiv').append(inviteForm.el)
-				        $("input[name='AddedBy']").val($.cookie("Member.login"));
+				        collections.each(function(a){
+							$('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
+						})	
+						$('#invitationForm .bbf-form .field-NesttedUnder select option[value="'+collectionlist.get('NesttedUnder')+'"]').attr('selected', 'selected');
+				        if($("#invitationForm .bbf-form .field-IsMajor input").is(':checked'))
+        				{
+        					$("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'hidden')
+        				}
+        				else
+        				{
+        					$("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'visible')
+        				}
 				        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
 				            todayHighlight: true
 				        });
 				        $("input[name='AddedBy']").attr("disabled", true);
 				    }
+					}
 				});
-				var collections=new App.Collections.listRCollection()
+				collections=new App.Collections.listRCollection()
+				collections.major=true
 				collections.fetch({
 				async:false
 				})
 				collections.each(function(a){
+				$('.form .field-Tag select').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
+				})
+				var subcollections=new App.Collections.listRCollection()
+				subcollections.major=false
+				subcollections.fetch({
+				async:false
+				})
+				subcollections.each(function(a){
 				
 				if(a.get('NesttedUnder')=='--Select--')
             {
@@ -472,13 +523,21 @@ $(function () {
             }
             else
             {
-            	if($('.form .field-Tag select optgroup[label='+a.get("NesttedUnder")+"]")!=null)
+            	if($('.form .field-Tag select option[value="'+a.get("NesttedUnder")+'"]')!=null)
             	{
-            		$('.form .field-Tag select optgroup[label='+a.get("NesttedUnder")+"]").append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
+            		$('.form .field-Tag select').find('option[value="'+a.get("NesttedUnder")+'"]').after('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
             	}
             }
 				})
-				
+				 if (resource.id) {
+				  $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
+				 console.log(resource.get('Tag')[0])
+				 var total=resource.get('Tag').length
+				 for(var counter=0;counter<total;counter++)
+				 $('.form .field-Tag select option[value="'+resource.get('Tag')[counter]+'"]').attr('selected', 'selected');
+				 
+				 }
+				//$('.form .field-Tag select option[value='+a.get("NesttedUnder")+"]").append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
         },
 
         Resources: function (database) {
@@ -633,7 +692,7 @@ $(function () {
                     resourcesTableView.render()
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
 
-                    App.$el.children('.body').append('<p style="font-size:24px;color:#808080;">'+collectionName+'&nbsp&nbsp<a href="#resources"style="font-size:24px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:24px;">Collections</a> </p>')
+                    App.$el.children('.body').append('<p style="font-size:24px;color:#808080;">&nbsp&nbsp<a href="#resources"style="font-size:24px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:24px;">Collections</a> </p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
                      App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
