@@ -577,7 +577,6 @@ $(function () {
                      App.$el.children('.body').append(resourcesTableView.el)
                      
                      var collections=new App.Collections.listRCollection()
-						   collections.major=true
 						   collections.fetch({
 							async:false
 						  })
@@ -603,11 +602,6 @@ $(function () {
                            var collectionlist = new App.Models.CollectionList({_id:this.value})
 				           collectionlist.fetch({async:false})
 				           window.location.href= '#listCollection/'+this.value
-				           
-				           
-				           console.log(collectionlist.toJSON())
-				           alert('testing')
-                       
                        }
                      
                      })
@@ -648,8 +642,9 @@ $(function () {
 			 
             var resources = new App.Views.ResourceSearch()
             resources.render()
-            
-            var button = '<p>'
+           
+        
+        var button = '<p>'
             button += '<a class="btn btn-success" href="#resource/add">Add a new Resource</a>'
             button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
             button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
@@ -663,9 +658,48 @@ $(function () {
             App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllResources()">View Library</a>')
             if(roles.indexOf("Manager") !=-1 )
             App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
-
+    
+        
             App.$el.children('.body').append(resources.el)
             
+            var collections=new App.Collections.listRCollection()
+						   collections.major=true
+						   collections.fetch({
+							async:false
+						  })
+					collections.each(function(a){
+							$('#collectionBox').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
+						})
+            
+           $('#collectionBox').hide()
+                     
+                     $("#searchtype").change(function(){
+                         if(this.value=='Tag'){
+                            $("#searchText").hide()
+                            $('#collectionBox').show()
+                         }
+                         else{
+                            $("#collectionBox").hide()
+                            $('#searchText').show()
+                         } 
+                     })
+                     
+                     
+                     $('#collectionBox').change(function(){
+                       if(this.value!='--select--'){
+                           var collectionlist = new App.Models.CollectionList({_id:this.value})
+				           collectionlist.fetch({async:false})
+				           window.location.href= '#listCollection/'+this.value
+                       }
+                     
+                     })
+   
+        }, 
+       /* searchView:function(){},
+        searchfunction:function(){
+             
+             alert('search fiunction')
+             
              var collections=new App.Collections.listRCollection()
 						   collections.major=true
 						   collections.fetch({
@@ -687,9 +721,9 @@ $(function () {
                             $('#searchText').show()
                          } 
                      })
-
         
-        }, 
+        },
+        */
         Collection: function () {
 		    App.startActivityIndicator()
 		   
@@ -727,7 +761,7 @@ $(function () {
         },
  ListCollection: function (collectionName) {
             App.startActivityIndicator()
-            
+            var that=this
             var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
@@ -743,15 +777,19 @@ $(function () {
                     var resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
-                    resourcesTableView.isManager = roles.indexOf("Manager")
+                
+                resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
-                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
+                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"><a id="backButton" class="btn btn-success" href="">Back</a></span></p>')
 
                     App.$el.children('.body').append('<p style="font-size:24px;color:#808080;">&nbsp&nbsp<a href="#resources"style="font-size:24px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:24px;">Collections</a> </p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
                      App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                     App.$el.children('.body').append(resourcesTableView.el)
+                    $('#backButton').click(function(){
+                       Backbone.history.navigate('#resources',{trigger:false})
+                    })
                 }
             })
             App.stopActivityIndicator()
