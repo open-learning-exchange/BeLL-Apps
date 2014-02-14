@@ -31,26 +31,35 @@ $(function () {
             var obj = this
             this.groupresult.fetch({
                 success: function () {
-                 
-                    if(obj.type=='tag'){
-                    	obj.resultArray.push.apply(obj.resultArray, obj.searchInArrayForTag(obj.groupresult.models, searchText))
-                    	}
-                    else{
-                    	obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.groupresult.models, searchText))
-                    	}
-
+                
+            
+                    obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.groupresult.models, searchText))
+                
+					console.log("result"+obj.groupresult.models.length)
 
                     if (obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords) {
                         obj.fetchRecords()
                     } else if (obj.groupresult.models.length == 0) {
                         previousPageButtonPressed()
+                         obj.appnedResult()
 
                     } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
                         $('.body').html("No Such Record Exist");
                         $("#selectAllButton").hide()
-
+                       alert('no record found')
 
                     } else {
+                       obj.appnedResult()
+                    }
+                }
+            })
+
+        },
+        appnedResult:function(){
+           
+                        var obj=this
+                
+                    
                         var ResultCollection = new Backbone.Collection();
                     
                         if (obj.resultArray.length > 0) {
@@ -71,10 +80,8 @@ $(function () {
                             $('.body').append(SearchSpans.el)
                         }
 
-                    }
-                }
-            })
-
+                    
+        
         },
         searchInArray: function (resourceArray, searchText) {
             var that = this
@@ -84,7 +91,6 @@ $(function () {
             
             
             if (searchText != "") {
-                
                 _.each(resourceArray, function (result) {
                     if (result.get('title') != null) {
                         skip++

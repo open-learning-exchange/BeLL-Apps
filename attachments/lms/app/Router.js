@@ -663,7 +663,6 @@ $(function () {
             App.$el.children('.body').append(resources.el)
             
             var collections=new App.Collections.listRCollection()
-						   collections.major=true
 						   collections.fetch({
 							async:false
 						  })
@@ -780,7 +779,7 @@ $(function () {
                 
                 resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
-                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"><a id="backButton" class="btn btn-success" href="">Back</a></span></p>')
+                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
 
                     App.$el.children('.body').append('<p style="font-size:24px;color:#808080;">&nbsp&nbsp<a href="#resources"style="font-size:24px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:24px;">Collections</a> </p>')
                      
