@@ -141,7 +141,7 @@ $(function () {
                     if (temp1 == 1) {
                         roles = roles + ",&nbsp;"
                     }
-                    roles ='<a href="../nation/index.html#dashboard">' + roles + 'Manager</a>'
+                    roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
                 }
                 $('.visits').html(temp)
                 $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
