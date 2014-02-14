@@ -485,6 +485,7 @@
       </tr>
       <tr>
         <td colspan="2">
+        <label id="selectedResources"></label>
           <!-- The Second form that will be submitted containing the file -->
           <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
@@ -492,12 +493,10 @@
       </tr>
       <tr>
         <td>
-        <% if(hidesave == false) { %>
           <div class="save btn btn-success" name="save">
             Save
           </div>
-        <% } %>
-		<a class="btn btn-danger" id="cancel">Cancel</a>
+        <a class="btn btn-danger" id="cancel">Cancel</a>
         </td>
         <td class="status">
           <!-- status goes here -->
