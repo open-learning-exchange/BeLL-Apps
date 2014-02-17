@@ -890,7 +890,7 @@
     <%if(Manager!=1 &&!hidden){%>
     <% if(title){ %>
      <td>
-        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+        <p style="width:280px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>
@@ -1293,10 +1293,9 @@ Please become a Member and explore both the Community Learning Management System
   </script>
   <!-- Collection template -->
 <script type="text/html" id="template-CollectionRow">
-    <td>
-    <a href="#listCollection/<%=_id%>"><%=CollectionName%></a>  
+    <td  id=<%=_id%> >
+    <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>  
     </td>
-    
       </script>
 
 <script type="text/html" id="template-siteReviewRownoAdmin">
