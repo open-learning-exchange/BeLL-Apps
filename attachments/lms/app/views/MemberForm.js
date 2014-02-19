@@ -23,6 +23,10 @@ $(function () {
                     success: function () {}
                 });
             },
+            "click #ptManager": function (e) {
+            
+               
+            },
             "click #active": function (e) {
                 e.preventDefault()
                 var that = this
@@ -36,7 +40,20 @@ $(function () {
                 });
             },
         },
-
+		getRoles:function(userId){
+        
+            var user = (userId) ? new App.Models.Member({
+                "_id": userId
+            }): new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            user.fetch({
+                async: false
+            })
+            var roles = user.get("roles")
+            
+            return roles
+        },
 
 
         render: function () {
@@ -55,6 +72,7 @@ $(function () {
             var $imgt = "<p id='imageText' style='margin-left: -100px;margin-top: 37px;'>Add Photo</p>"
             if (this.model.id != undefined) {
                 buttonText = "Update"
+                
                 $("input[name='login']").attr("disabled", true);
                 $imgt = "<p id='imageText' style='margin-left: -100px;margin-top: 37px;'>Edit Photo</p>"
             } else {
@@ -94,10 +112,19 @@ $(function () {
             this.$el.append($button)
             if (this.model.id != undefined) {
                 if (this.model.get("status") == "active") {
-                    this.$el.append('<a class="btn btn-danger" id="deactive" style="margin-left:212px; margin-top:-75px;" href="#">Resign</a>')
+                    this.$el.append('<a class="btn btn-danger" id="deactive" style="margin-left:212px; margin-top:-81px;" href="#">Resign</a>')
                 } else {
                     this.$el.append('<a class="btn btn-success" id="active" style="margin-left:212px; margin-top:-75px;" href="#">Reinstate</a>')
                 }
+                var logUserroles = this.getRoles(false)
+            	 if (logUserroles.indexOf("SuperManager") > -1) {
+            	 		var thisUser=this.getRoles(this.model.id)
+            	 		 $('#memberform').append('<div style="margin-left: 510px;margin-top: -190px;"><input id="ptManager" type="checkbox" ><label for="ptManager">Promote To Manager</label></div>')
+            	 		if(thisUser.indexOf("Manager")>-1)
+                       		{
+                       			$('#ptManager').prop('checked', true);
+                       		}
+                        } 
             }
             var attchmentURL = '/members/' + this.model.id + '/'
             if (typeof this.model.get('_attachments') !== 'undefined') {
@@ -107,7 +134,6 @@ $(function () {
         },
 
         validImageTypeCheck: function (img) {
-            console.log(img.val())
             if (img.val() == "") {
                 //alert("ERROR: No image selected \n\nPlease Select an Image File")
                 return 1
@@ -127,7 +153,18 @@ $(function () {
         },
 
         setForm: function () {
-            var that = this
+        if($('#ptManager').attr('checked')) {
+        this.model.toJSON().roles.push("Manager")
+        }
+        else
+        {
+        	var index=this.model.toJSON().roles.indexOf('Manager')
+        	if(index>-1)
+        	{
+        		 this.model.toJSON().roles.splice(index,1)
+        	}
+        }
+        var that = this
             if (this.form.validate() != null) {
                 return
             }

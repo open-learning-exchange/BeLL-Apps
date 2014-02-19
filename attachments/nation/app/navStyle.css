@@ -1,14 +1,3 @@
-.navbar-inverse {
-    font-family: verdana;
-    font-size: 20px;
-}
-.navbar-inverse .nav > li > a {
-    border: medium none;
-    font-size: 15px;
-    padding: 16px 20px 15px 6px;
-}
-#itemsinnavbar {
-    font-size: 17px;
-    margin: 0px;
-    width: 100%;
-}
+.navbar-inverse{font-family:verdana;font-size:20px}
+.navbar-inverse .nav>li>a{border:medium none;font-size:15px;padding:16px 20px 15px 6px}
+#itemsinnavbar{font-size:17px;margin:0;width:100%}

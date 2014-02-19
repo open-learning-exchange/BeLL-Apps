@@ -321,7 +321,7 @@ border-bottom:1px solid black;
     z-index: 2;
     margin-left:10%;
     overflow: scroll;
-    height: 50%;
+    height: 60%;
 }
 #groupform .bbf-field.field-levels{
     margin-left: 236px;
@@ -569,7 +569,6 @@ margin-left: 259px;
 .MajorCategory
 {
     font-weight:bold;
-    font-style:italic;
 }
 .form .field-endDate
 {

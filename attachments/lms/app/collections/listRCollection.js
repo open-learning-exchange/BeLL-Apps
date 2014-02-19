@@ -19,13 +19,9 @@ $(function() {
       return docs
     },
     comparator: function(item) {
-        return item.get("CollectionName");
+        var name=item.get("CollectionName");
+        if(name) return (name.toLowerCase())
     },
-    sortByField: function() {
-        this.sort_key = "CollectionName";
-        this.sort();
-    },
-     
     model: App.Models.CollectionList,
 
   })
