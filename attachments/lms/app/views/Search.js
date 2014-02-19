@@ -24,9 +24,15 @@ $(function () {
             this.vars.addResource=this.addResource
         
             this.$el.html(_.template(this.template, this.vars))
+            
+           
+             
             if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFilter && this.ratingFilter.length > 0)) {
+               App.startActivityIndicator()
                 this.fetchRecords()
             }
+            
+            
         },
 
         fetchRecords: function () {
@@ -52,6 +58,7 @@ $(function () {
                     } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
                         $('#not-found').html("No Such Record Exist");
                         $("#selectAllButton").hide()
+                        App.stopActivityIndicator()
 
 
                     } else {
@@ -67,6 +74,7 @@ $(function () {
                               obj.ManageResourceView()
                         
                         }
+                        App.stopActivityIndicator()
 
                     }
                 }
