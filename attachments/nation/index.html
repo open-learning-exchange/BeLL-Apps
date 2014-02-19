@@ -70,15 +70,18 @@
      <script src="app/models/report.js"></script>
      <script src="app/models/NationReport.js"></script>
      <script src="app/models/request.js"></script>
+     <script src="app/models/NationReportComment.js"></script>
+      <script src="app/models/Publication.js"></script>
      
       <!-- Collections  -->
      <script src="app/collections/Community.js"></script>
      <script src="app/collections/MailUnopened.js"></script>
      <script src="app/collections/siteFeedbacks.js"></script>
      <script src="app/collections/Reports.js"></script>
+     <script src="app/collections/Publication.js"></script>
      <script src="app/collections/CourseRequest.js"></script>
      <script src="app/collections/ResourceRequest.js"></script>
-     
+     <script src="app/collections/NationReportComments.js"></script>
      <!-- Views  -->
      
      
@@ -92,11 +95,13 @@
     <script src="app/views/siteFeedbackPage.js"></script>
     <script src="app/views/siteFeedbackPageRow.js"></script>
     <script src="app/views/ReportsRow.js"></script>
+    <script src="app/views/Publication.js"></script>
     <script src="app/views/ReportsTable.js"></script>
     <script src="app/views/ReportForm.js"></script>
+    <script src="app/views/PublicationForm.js"></script>
     <script src="app/views/RequestsTable.js"></script>
     <script src="app/views/RequestRow.js"></script>
-    
+	<script src="app/views/NationReportCommentView.js"></script>
   	<script src="app/Router.js"></script>
   	
   	<script>
@@ -127,7 +132,7 @@
           				<span></span>
           		 </div>
           		 <div class='login-input'>
-          		        <input placeholder='Password' id='password' type='text'/>
+          		        <input placeholder='Password' id='password' type='password'/>
           				<span></span>
           		 </div>
           		 <div class='login-input' style='padding-top:20px' id='submit-button'>
@@ -138,6 +143,18 @@
     </script>
      
     <script type="text/template" id="template-app">  
+    
+    <div id="debug">
+		<div id="comments">
+			
+		</div>    
+
+   
+    </div>
+<div id="invitationSuperDiv">
+	<div id="invitationdiv">
+	</div>
+</div>
        <div class="takeQuizDiv" id="tQuizDiv"></div>
         <div id="popup-spinning"></div>
        <div class="navbar navbar-inverse" id="top-nav">
@@ -227,6 +244,15 @@
     </li> 
 
   </script>
+  <script type="text/template" id="template-Publication"> 
+    <div id='listPublication-head'> 
+    <p class='heading' style="font-size: 20px;"> 
+    <a href='#publication' class="publicationFont" style='color:#1ABC9C' >List Issues</a>  |   <a href='#publication/add' class="publicationFont">Add Issue</a>
+     </p>
+      </div>
+
+	<div style='width:940px;margin:0 auto' id='listReq'></div>
+  </script>
    <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
 		<table class="header-table" >
@@ -275,7 +301,7 @@
 		</tr>
 		<tr>
 		<td>
-		<button class="btn btn-default" id="clickmore" >Click for more</button>
+		<a class="btn btn-default" id="clickmore" href="#publication" >Click for more</a>
 		</td>
 		</tr>
 		</table>
@@ -596,11 +622,9 @@
       </tr>
       <tr>
         <td>
-        <% if(hidesave == false) { %>
           <div class="save btn btn-success" name="save">
             Save
           </div>
-        <% } %>
 		<a class="btn btn-danger" id="cancel">Cancel</a>
         </td>
         <td class="status">

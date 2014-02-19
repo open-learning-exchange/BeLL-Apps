@@ -141,7 +141,6 @@ $(function () {
         },
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
-                console.log($.url().attr('fragment'))
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
                     Backbone.history.stop()
                     App.start()
@@ -182,10 +181,8 @@ $(function () {
             else{
             	var path=$.url().attr('fragment').split("/")
                 if(member.get("pendingReviews").length!=0&&path[0]!="resource"&&path[1]!="feedback"&&path[2]!="add"){
-                	console.log(member.get("pendingReviews"))
                 	var pending=member.get("pendingReviews")
                 	var resource=new App.Models.Resource({_id:pending[0]})
-                	console.log(resource)
                 	var response=resource.fetch({async:false})
                 	if(response.status==200){
                 		Backbone.history.navigate('resource/feedback/add/' + resource.attributes._id + '/' + resource.attributes.title, {
@@ -282,7 +279,7 @@ $(function () {
             })
             vi.render()
             App.$el.children('.body').append(vi.el)
-            console.log(allResults.length)
+            
         },
 		
         viewAllFeedback: function () {
@@ -290,7 +287,6 @@ $(function () {
             fed.fetch({
                 async: false
             })
-            console.log(fed.toJSON())
             feedul = new App.Views.siteFeedbackPage({
                 collection: fed
             })
@@ -305,11 +301,9 @@ $(function () {
             $('ul.nav').html($('#template-nav-log-in').html()).hide()
             var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
-            console.log(temp)
             var vars = new Object()
             vars.host = temp
             vars.visits = "null"
-            console.log(vars)
             //App.$el.children('.body').html($('#template-LandingPage'), vars)
             var template = $('#template-LandingPage').html()
             App.$el.children('.body').html(_.template(template, vars))
@@ -357,10 +351,9 @@ $(function () {
                 model: credentials
             })
             memberLoginForm.once('success:login', function () {
-                // $('ul.nav').html($("#template-nav-logged-in").html())
-                // Backbone.history.navigate('courses', {trigger: true})
+                
                 window.location.href = "../personal/index.html#dashboard"
-                //Backbone.history.navigate('resources', {trigger: true})
+                
             })
             memberLoginForm.render()
             //App.$el.children('.body').html('<h1>Member login</h1>')
@@ -461,7 +454,6 @@ $(function () {
 	                async: false
 	            })
 	            collections.remove(collectionlist)
-	            console.log(collectionlist.toJSON())
 	            var inviteForm = new App.Views.ListCollectionView({
 	                model: collectionlist
 	            })
@@ -605,7 +597,7 @@ $(function () {
        else{
       		   alert('Already in Shelf')
        }
-      // Backbone.history.navigate('resources', {trigger: true})
+     
       
     },
    
@@ -755,7 +747,6 @@ $(function () {
 	            collectionlist.fetch({
 	                async: false
 	            })
-	            console.log(collectionlist.toJSON())
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
             var resources = new App.Collections.Resources({collectionName:collectionId})
@@ -836,7 +827,6 @@ $(function () {
             inviteModel.senderId = $.cookie('Member._id')
             inviteModel.type = kind
             inviteModel.title = name
-            console.log(inviteModel);
             var inviteForm = new App.Views.InvitationForm({
                 model: inviteModel
             })
@@ -965,13 +955,11 @@ $(function () {
                         collection: members
                     })
                     membersTable.community_code=code
-                    console.log(membersTable.community_code)
                     if (roles.indexOf("Manager") > -1) {
                         membersTable.isadmin = true
                     } else {
                         membersTable.isadmin = false
                     }
-                    console.log(membersTable.isadmin)
                     membersTable.render()
 
 
@@ -992,6 +980,7 @@ $(function () {
         },
 		modelForm: function (className, label, modelId, reroute) {
             //cv Set up
+            var context =this
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
@@ -1003,10 +992,7 @@ $(function () {
                 App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
             }
             App.$el.children('.body').append(modelForm.el)
-            
-            
-
-            // Bind form events for when Group is ready
+           // Bind form events for when Group is ready
             model.once('Model:ready', function () {
                 // when the users submits the form, the group will be processed
                  modelForm.on(className + 'Form:done', function () {
@@ -1016,6 +1002,7 @@ $(function () {
                  })
                 // Set up the form
                 modelForm.render()
+                 
                 $('.form .field-startDate input').datepicker({
                todayHighlight: true
             });
@@ -1058,7 +1045,7 @@ $(function () {
                 model.fetch({
                     async: false
                 })
-
+           
             } else {
                 model.trigger('Model:ready')
             }
@@ -1387,7 +1374,6 @@ $(function () {
                         model: levelInfo
                     })
                     levelDetails.render()
-                    console.log(levelInfo)
                     App.$el.children('.body').html('<h3> Step ' + levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
                     App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">Edit Step</a>&nbsp;&nbsp;')
                     App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>Back To Course </a>&nbsp;&nbsp;")
@@ -1463,12 +1449,9 @@ $(function () {
             clist.fetch({
                 async: false
             })
-            console.log(clist)
             var that = this
             oldIds = clist.get("courseIds")
             oldTitles = clist.get("courseTitles")
-            console.log(oldIds)
-
             $("input[name='result']").each(function () {
                 if ($(this).is(":checked")) {
                     var rId = $(this).val();
@@ -1546,7 +1529,6 @@ $(function () {
 
             cstep.set("resourceId", oldIds.concat(rids))
             cstep.set("resourceTitles", oldTitles.concat(rtitle))
-            console.log(cstep)
             cstep.save()
             cstep.on('sync', function () {
                 alert("Your Resources have been updated successfully")
@@ -1918,7 +1900,7 @@ $(function () {
                     "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources'
             	}),
                 success: function (response) {
-                	console.log(response)
+
                 },
                 async: false
             })

@@ -10,7 +10,7 @@ $(function() {
               validators:['required']
               },
       password: {
-              	type: 'Text',
+              	type: 'Password',
               	validators:['required']
               },        
     }

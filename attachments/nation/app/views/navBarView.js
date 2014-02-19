@@ -17,9 +17,6 @@ $(function() {
     	}
      var temp=Backbone.history.location.href
      temp=temp.split('#')
-    
-    console.log(temp[1])
-    
     this.data={uRL:temp[1]}
 	this.$el.append(this.template(this.data))
     },

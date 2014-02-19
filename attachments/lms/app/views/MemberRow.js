@@ -79,7 +79,6 @@ $(function () {
                 vars.showdelete = true
                 vars.showedit = true
             }
-            console.log(vars)
             vars.src="img/default.jpg"
             var attchmentURL = '/members/' + this.model.id + '/'
             if (typeof this.model.get('_attachments') !== 'undefined') {
