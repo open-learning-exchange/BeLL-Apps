@@ -18,11 +18,17 @@
   <link rel="stylesheet" href="vendor/backbone-ui.css"/>
   
   
- 
+  <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.filter.css"/>
+   <link rel="stylesheet" href="vendor/jQuery-multiselect/style1.css"/>
+  <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.css"/>
+   
   <!--
     DEPENDENCIES
   -->
-	<script src="vendor/Spin.js"></script>
+  
+ 
+  
+  <script src="vendor/Spin.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/spectrum.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
@@ -50,6 +56,8 @@
  <script src="jquery.popupoverlay.js"></script>
  <script src="vender/moment.min.js"></script>
 
+ <script src="vendor/jQuery-multiselect/jquery.multiselect.js"></script>
+  <script src="vendor/jQuery-multiselect/jquery.multiselect.filter.js"></script>
   <!--
     App
   -->
@@ -275,6 +283,12 @@
       App.Router.SearchBell(grpId,levelrevId,0);
 
   }
+  function backtoSearchView()
+  {
+     $('#not-found').hide()
+     App.Router.bellResourceSearch();
+  
+  }
   function searchResources()
   {
       skip = 0;
@@ -290,7 +304,7 @@
     skip = 0;
   	searchText = $("#searchText").val()
   	searchType= $('#searchtype').val()
-
+  	
     App.Router.ResourceSearch()
   
   }
@@ -369,15 +383,15 @@
 
     function showSubjectCheckBoxes()
   {
-        var subjects = ['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)'];
+    var subjects = ['Agriculture','Business and Finance','Fine Arts','Food and Nutrition','Geography','Health & Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics & Government','Reference','Religion','Science','Social Sciences','Sports','Technology'];
   	var length = subjects.length;
-  	var htmlString = "<h4>Subject</h4>" ; 
+  	var htmlString = "<label style='font-size:16px'><b>Subject</b></label><br>" ;
+  	    htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>" ; 
   	for(var i=0 ; i<length ; i++)
-  	{
-  		htmlString = htmlString + '<input id="subject' + (i+1) + '" type="checkbox" name="subject" value="' + subjects[i] +'">' ;   
-        htmlString = htmlString + '<label for="subject' + (i+1) + '">' + subjects[i] + '</label>' ;  
-        htmlString = htmlString + '<br>' ; 
+  	{	
+  		htmlString = htmlString + '<option id="subject' + (i+1) + '" value="' + subjects[i] +'">'+subjects[i]+'</option>' ;    
   	}
+  	   htmlString+='</select>'
   	$("#SubjectCheckboxes").html(htmlString);
  
   }
@@ -927,26 +941,57 @@
 <div class="row">
     <div class="col-lg-5">
         <div class="form-group search-Box">
-           <h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>
-            <span><button class="btn btn-info" onclick = "searchResources()">Search</button></span></h4>
+            <label style='font-size:16px'><b>Key Word</b></label><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;"></input>
+            <label style='font-size:bold'><b>Author</b></label><input style="height:24px; " type='Text' placeholder="Author Name" id='Author-name'></input>
         </div>
-        <br/>
-     <div class="checkbox1">  
-        <h4>Tag</h4>
-        <input id="check1" type="checkbox" name="tag" value="News">  
-        <label for="check1">News</label>  
-        <br>  
-        <input id="check2" type="checkbox" name="tag" value="Fiction">  
-        <label for="check2">Fiction</label> 
-         <br>  
-        <input id="check3" type="checkbox" name="tag" value="Non Fiction">  
-        <label for="check3">Non Fiction</label>  
+     <div class="checkbox-subject" id="SubjectCheckboxes">  
+     </div>
+     <div class="right-column-search">
+     <label style='font-size:16px'><b>Collections</b></label><br>
+     <div class="Collection-search"> 
+         <select id="multiselect-collections-search" multiple="multiple" style="width: 370px;">
+         <%for(i=0;i<tags.length;i++){%>
+            <option value=<%=tags[i]._id%>><%=tags[i].CollectionName%></option>
+         <%}%>
+         </select>
+    </div>
+    
+    <div class="levels-search"> 
+    
+     <label style='font-size:16px'><b>Level</b></label><br>
+     <select  name="Level" id="multiselect-levels-search" multiple="multiple" style="width: 370px;">
+   	  		<option>Early Education</option>
+    	 	<option>Lower Primary</option>
+     		<option>Upper Primary</option>
+     		<option>Lower Secondary</option>
+     		<option>Upper Secondary</option>
+     		<option>Undergraduate</option>
+     		<option>Graduate</option>
+     		<option>Professional</option>
+     </select>
+        
+    </div>
+    <div class="medium-search"> 
+     <label style='font-size:16px'><b>Medium</b></label><br>
+     
+     <select name="Medium"  id="multiselect-medium-search" multiple="multiple" style="width: 370px;">
+    	  <option>Text</option>
+     	  <option>Graphic/Pictures</option>
+     	  <option>Audio/Music/Book </option>
+     	  <option>Video</option>
+     </select>
+        
+        
+    </div>
+    <div class="language-search"> 
+     <label style='font-size:16px'><b>Language</b></label><br>
+     
+    <input style="width: 351px;" type='Text' placeholder="Language" id='Language-filter'></input>
+        
     </div>
 
-       <div class="checkbox-subject" id="SubjectCheckboxes">  
-       </div>
        <div id="rating_checkboxes">
-       		<h4>Rating</h4>
+       		<label style='font-size:16px'><b>Rating</b></label><br>
        		<input id="star5" type="checkbox" name="star" value="5" onchange="changeRatingImage('rating5_',5)">  
         	<img src="star-off.png" class="filter_star_img" id="rating5_1"><img src="star-off.png" class="filter_star_img" id="rating5_2"><img src="star-off.png" class="filter_star_img" id="rating5_3"><img src="star-off.png" class="filter_star_img" id="rating5_4"><img src="star-off.png" class="filter_star_img" id="rating5_5"><br/>
         	
@@ -962,9 +1007,12 @@
        		<input id="star1" type="checkbox" name="star" value="1" onchange="changeRatingImage('rating1_',1)">  
         	<img src="star-off.png" class="filter_star_img" id="rating1_1">
   		</div>
+  		
     </div>
+    
     <br/>
-   
+    <div id='search-button'><h4><span><button style='width:300px' class="btn btn-info" <%if(addResource==true) {%>onclick = "searchResources()"<%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
+    </div>
     </div>
 </div>
 <div class="search-result-header">
@@ -1140,10 +1188,10 @@
         <label for="<%= _id %>">
     		<font class="search-result-title" ><%= title %></font>
     		-
-                <%= description %>
+                <% %>
                  &nbsp;by&nbsp;
                 <%= author %>
-    	</label></td><td><%= Tag %></td>
+    	</label></td><td><% %></td>
         <% }else{ %>
           <label for="<%= _id %>">
     		<font class="search-result-title" ><%= name %></font>

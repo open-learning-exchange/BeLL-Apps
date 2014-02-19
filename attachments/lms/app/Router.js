@@ -39,7 +39,7 @@ $(function () {
             'member/edit/:memberId': 'MemberForm',
             'compile/week': 'CompileManifestForWeeksAssignments',
             'compile': 'CompileManifest',
-            'search-bell': 'SearchBell',
+            'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
             'search-result': 'SearchResult',
             'assign-to-level': 'AssignResourcetoLevel',
@@ -565,17 +565,16 @@ $(function () {
                     
                     var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
                         btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
-                        btnText+='<span id="searchBox" style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text">'
-                        btnText+='<select id="collectionBox" style="margin:0 5px;height:40px;width:150px"><option>--select--</option></select>'
-                        btnText+='<select id="searchtype" style="margin:0 5px;height:40px;width:70px"><option>Title</option><option>Tag</option></select>'
-                        btnText+='<span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></span></p>'
+                        
                     App.$el.children('.body').html(btnText)
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
                      App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                     App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
                      App.$el.children('.body').append(resourcesTableView.el)
                      
+                    
                      var collections=new App.Collections.listRCollection()
 						   collections.fetch({
 							async:false
@@ -637,92 +636,71 @@ $(function () {
       
     },
     ResourceSearch: function () {
+      // alert('in resource search function ')
+      
+      App.startActivityIndicator()
+      
+        var collectionFilter=new Array()
+        var subjectFilter=new Array()
+        var levelFilter=new Array()
+        var languageFilter=new Array()
+            
+        collectionFilter=$("#multiselect-collections-search").val()
+        subjectFilter=$("#multiselect-subject-search").val()
+        levelFilter=$("#multiselect-levels-search").val()
+		languageFilter=$("#Language-filter").val()
+		authorName=$('#Author-name').val()
 		
-			var roles = this.getRoles()
-			 
-            var resources = new App.Views.ResourceSearch()
-            resources.render()
-           
-        
-        var button = '<p>'
-            button += '<a class="btn btn-success" href="#resource/add">Add a new Resource</a>'
-            button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
-            button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
-            button+='<select id="collectionBox" style="margin:0 5px;height:40px;width:150px"><option>--select--</option></select>'
-            button+='<select id="searchtype" style="margin:0 5px;height:40px;width:70px"><option>Title</option><option>Tag</option></select>'
-            button += '<button class="btn btn-info" onclick="ResourceSearch()">Search</button></span>'
-            button += '</p>'
+		mediumFilter=$('#multiselect-medium-search').val()
+		
+       
+        console.log(collectionFilter)  
+		console.log(subjectFilter)
+		console.log(levelFilter)
+		console.log(languageFilter)
+         
+       //  alert(mediumFilter)
+         
+           $("input[name='star']").each(function () {
+                if ($(this).is(":checked")) {
+                    ratingFilter.push($(this).val());
+                }
+            })
 
-            App.$el.children('.body').html(button)
-            App.$el.children('.body').append('<h1>Resources</h1>')
-            App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllResources()">View Library</a>')
-            if(roles.indexOf("Manager") !=-1 )
-            App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+            if (searchText != "" || (collectionFilter) || (subjectFilter) || (levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
+              // alert('in search')
+            
+                $('ul.nav').html($("#template-nav-logged-in").html())
+                
+                var search = new App.Views.Search()
+                
+                search.collectionFilter = collectionFilter
+                search.languageFilter = languageFilter
+                search.levelFilter = levelFilter
+                search.subjectFilter = subjectFilter
+                search.ratingFilter = ratingFilter
+                search.mediumFilter = mediumFilter
+                search.authorName = authorName
+                
+                search.addResource = false
+                
+                App.$el.children('.body').html(search.el)
+                search.render()
+                
+                
+                $("#srch").show()
+                $(".row").hide()
+                $('#not-found').show()
+          
+                $(".search-bottom-nav").hide()
+                $(".search-result-header").hide()
+                $("#selectAllButton").hide()
+                
+            }
+        
+        App.stopActivityIndicator()
     
-        
-            App.$el.children('.body').append(resources.el)
-            
-            var collections=new App.Collections.listRCollection()
-						   collections.fetch({
-							async:false
-						  })
-					collections.each(function(a){
-							$('#collectionBox').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
-						})
-            
-           $('#collectionBox').hide()
-                     
-                     $("#searchtype").change(function(){
-                         if(this.value=='Tag'){
-                            $("#searchText").hide()
-                            $('#collectionBox').show()
-                         }
-                         else{
-                            $("#collectionBox").hide()
-                            $('#searchText').show()
-                         } 
-                     })
-                     
-                     
-                     $('#collectionBox').change(function(){
-                       if(this.value!='--select--'){
-                           var collectionlist = new App.Models.CollectionList({_id:this.value})
-				           collectionlist.fetch({async:false})
-				           window.location.href= '#listCollection/'+this.value
-                       }
-                     
-                     })
-   
-        }, 
-       /* searchView:function(){},
-        searchfunction:function(){
-             
-             alert('search fiunction')
-             
-             var collections=new App.Collections.listRCollection()
-						   collections.major=true
-						   collections.fetch({
-							async:false
-						  })
-					collections.each(function(a){
-							$('#collectionBox').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
-						})
-            
-           $('#collectionBox').hide()
-                     
-                     $("#searchtype").change(function(){
-                         if(this.value=='Tag'){
-                            $("#searchText").hide()
-                            $('#collectionBox').show()
-                         }
-                         else{
-                            $("#collectionBox").hide()
-                            $('#searchText').show()
-                         } 
-                     })
-        
-        },
-        */
+    }, 
         Collection: function () {
 		    App.startActivityIndicator()
 		   
@@ -1577,35 +1555,52 @@ $(function () {
             } else {
                 searchText = $("#searchText").val()
             }
-
-            $("input[name='result']").each(function () {
-                if ($(this).is(":checked")) {
-                    var rId = $(this).val();
-                    rtitle.push($(this).attr('rTitle'))
-                    rids.push(rId)
-                }
-            });
-            $("input[name='tag']").each(function () {
-                if ($(this).is(":checked")) {
-                    tagFilter.push($(this).val());
-                }
-            })
-            $("input[name='subject']").each(function () {
-                if ($(this).is(":checked")) {
-                    subjectFilter.push($(this).val());
-                }
-            })
-            $("input[name='star']").each(function () {
+        
+        
+            var collectionFilter=new Array()
+            var subjectFilter=new Array()
+            var levelFilter=new Array()
+            var languageFilter=new Array()
+            
+        collectionFilter=$("#multiselect-collections-search").val()
+        subjectFilter=$("#multiselect-subject-search").val()
+        levelFilter=$("#multiselect-levels-search").val()
+		languageFilter=$("#Language-filter").val()
+		authorName=$('#Author-name').val()
+		
+		mediumFilter=$('#multiselect-medium-search').val()
+		
+       
+        console.log(collectionFilter)  
+		console.log(subjectFilter)
+		console.log(levelFilter)
+		console.log(languageFilter)
+         
+       //  alert(mediumFilter)
+         
+           $("input[name='star']").each(function () {
                 if ($(this).is(":checked")) {
                     ratingFilter.push($(this).val());
                 }
             })
-            if (searchText != "" || (tagFilter && tagFilter.length > 0) || (subjectFilter && subjectFilter.length > 0) || (ratingFilter && ratingFilter.length > 0)) {
+
+            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
+              // alert('in search')
+            
                 $('ul.nav').html($("#template-nav-logged-in").html())
+                
                 var search = new App.Views.Search()
-                search.tagFilter = tagFilter
+                
+                search.collectionFilter = collectionFilter
+                search.languageFilter = languageFilter
+                search.levelFilter = levelFilter
                 search.subjectFilter = subjectFilter
                 search.ratingFilter = ratingFilter
+                search.mediumFilter = mediumFilter
+                search.authorName = authorName
+                
+                search.addResource=true
+                
                 App.$el.children('.body').html(search.el)
                 search.render()
                 $("#searchText2").val(searchText)
@@ -1643,7 +1638,6 @@ $(function () {
 
         SearchBell: function (levelId, rid, resourceIds) {
 
-
             var levelInfo = new App.Models.CourseStep({
                 "_id": levelId
             })
@@ -1656,27 +1650,76 @@ $(function () {
                     if (typeof rid === 'undefined') {
                         document.location.href = '#courses'
                     }
-                    grpId = levelId
-                    levelrevId = rid
-
-                    tagFilter.length = 0
-                    subjectFilter.length = 0
-                    ratingFilter.length = 0
-                    rtitle.length = 0
-                    rids.length = 0
+                    
+                      grpId = levelId
+                      levelrevId = rid
+                      
+                      ratingFilter.length=0
+                    
+                      rtitle.length = 0
+                      rids.length = 0
 
                     $('ul.nav').html($("#template-nav-logged-in").html())
+                    
                     var search = new App.Views.Search()
                     search.resourceids = levelInfo.get("resourceId")
+                    search.addResource=true
                     App.$el.children('.body').html(search.el)
                     search.render()
+                    
+                   // alert($("#multiselect-subject-search"))
+                    
+                    
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
                     $("#srch").hide()
                     $(".search-bottom-nav").hide()
                     $(".search-result-header").hide()
                     $("#selectAllButton").hide()
                     showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
                 }
             })
+        },
+        bellResourceSearch:function(){
+                   //alert()
+                   
+                   $('ul.nav').html($("#template-nav-logged-in").html())                    
+                    var search = new App.Views.Search()
+                        search.addResource=false
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                
+                    
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+					$("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+        
+        
         },
         SearchCourses: function () {
             var levelInfo = new App.Models.ExploreBell({

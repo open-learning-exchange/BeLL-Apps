@@ -79,11 +79,20 @@ padding-left: 22px;
 	
 }
 
-
 .search-Box
 {
-	margin-left: 12%;
-	margin-top: 3%;
+	margin-top: 0%;
+}
+#search-button{
+margin-left: 22%;
+
+}
+.collection-search{
+  border: 1px solid gray;
+  width:300px:
+  height:200px;
+  overflow: scroll;
+
 }
 label {
     display: inline-block;
@@ -116,8 +125,9 @@ input[type=checkbox]:checked + label:before {
 }
 .checkbox-subject
 {
-	margin-left:40%;
-	margin-top:-12%;
+}
+.right-column-search{
+
 }
 .checkbox-length
 {
@@ -337,7 +347,6 @@ border-bottom:1px solid black;
 #rating_checkboxes
 {
 	margin-left:0px;
-	margin-top:-422px;
 }
 .filter_star_img
 {

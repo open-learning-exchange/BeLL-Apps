@@ -16,6 +16,7 @@ $(function () {
         },
         render: function () {
             var obj = this
+            
             //this.$el.html(_.template(this.template, this.vars))
             //this.searchText = $("#searchText").val()
             //alert(searchText)
