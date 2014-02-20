@@ -109,6 +109,7 @@ $(function () {
 	        async: false
 	    })
 	    collections.each(function (a) {
+	    
 	        $(iden).append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
 	    })
 
@@ -118,6 +119,7 @@ $(function () {
 	        async: false
 	    })
 	    _.each(subcollections.last(subcollections.length).reverse(), function (a) {
+	    	
 	        if (a.get('NesttedUnder') == '--Select--') {
 	            $(iden).append('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
 	        } else {

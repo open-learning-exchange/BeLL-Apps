@@ -17,7 +17,8 @@ $(function() {
     },
     defaults: {
       kind: "CollectionList",
-      IsMajor:true
+      IsMajor:true,
+      show:true
     },
 
 
