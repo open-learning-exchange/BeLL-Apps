@@ -172,8 +172,9 @@ $(function () {
         },
 
         render: function () {
+        
             var vars = this.model.toJSON()
-
+            
 		if(vars.hidden==undefined)
 		{
 			vars.hidden=false

@@ -32,7 +32,8 @@ $(function () {
         },
         deleteRecord: function () {
         $('.form .field-Tag select option[value=' + this.model.get("_id") + "]").remove();
-        this.model.destroy()
+        this.model.set({'show':false})
+        this.model.save()
          $('#invitationdiv').fadeOut(1000)
             document.getElementById('cont').style.opacity = 1.0
             document.getElementById('nav').style.opacity = 1.0

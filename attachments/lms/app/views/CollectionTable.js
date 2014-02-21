@@ -2,7 +2,7 @@ $(function() {
   App.Views.CollectionTable = Backbone.View.extend({
 
     tagName: "table",
-
+	id:"collectionTable",
     className: "table table-striped",
 	addOne: function(model){
       var groupRow = new App.Views.CollectionRow({model: model})

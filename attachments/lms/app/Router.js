@@ -39,7 +39,7 @@ $(function () {
             'member/edit/:memberId': 'MemberForm',
             'compile/week': 'CompileManifestForWeeksAssignments',
             'compile': 'CompileManifest',
-            'search-bell': 'SearchBell',
+            'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
             'search-result': 'SearchResult',
             'assign-to-level': 'AssignResourcetoLevel',
@@ -60,7 +60,8 @@ $(function () {
     	    'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
             'collection':'Collection',
-            'listCollection/:collectionName':'ListCollection'
+            'listCollection/:collectionId':'ListCollection',
+            'listCollection/:collectionId/:collectionName':'ListCollection'
 
 
         },
@@ -100,9 +101,48 @@ $(function () {
             $('#debug').hide()
 
         },
+        RenderTagSelect: function (iden) {
+		
+	    var collections = new App.Collections.listRCollection()
+	    collections.major = true
+	    collections.fetch({
+	        async: false
+	    })
+	    collections.each(function (a) {
+	    
+	        $(iden).append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
+	    })
+
+	    var subcollections = new App.Collections.listRCollection()
+	    subcollections.major = false
+	    subcollections.fetch({
+	        async: false
+	    })
+	    _.each(subcollections.last(subcollections.length).reverse(), function (a) {
+	    	
+	        if (a.get('NesttedUnder') == '--Select--') {
+	            $(iden).append('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
+	        } else {
+	            if ($(iden+' option[value="' + a.get("NesttedUnder") + '"]') != null) {
+	                $(iden).find('option[value="' + a.get("NesttedUnder") + '"]').after('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
+	            }
+	        }
+	    })
+	  },
+        getRoles:function(){
+        
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles")
+            
+            return roles
+        },
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
-                console.log($.url().attr('fragment'))
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
                     Backbone.history.stop()
                     App.start()
@@ -143,10 +183,8 @@ $(function () {
             else{
             	var path=$.url().attr('fragment').split("/")
                 if(member.get("pendingReviews").length!=0&&path[0]!="resource"&&path[1]!="feedback"&&path[2]!="add"){
-                	console.log(member.get("pendingReviews"))
                 	var pending=member.get("pendingReviews")
                 	var resource=new App.Models.Resource({_id:pending[0]})
-                	console.log(resource)
                 	var response=resource.fetch({async:false})
                 	if(response.status==200){
                 		Backbone.history.navigate('resource/feedback/add/' + resource.attributes._id + '/' + resource.attributes.title, {
@@ -162,14 +200,10 @@ $(function () {
         },
      
         Reports: function (database) {
+        
             App.startActivityIndicator()
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            var roles = loggedIn.get("roles")
+            var roles =this.getRoles()
+            
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
             var reports = new App.Collections.Reports()
@@ -223,14 +257,8 @@ $(function () {
         },
         CourseReport: function (cId, cname) {
         	
-        	var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-        	var roles = loggedIn.get("roles")
-        	
+        	var roles = this.getRoles()
+    
         	var course = new App.Models.Group();
         	course.id = cId
         	course.fetch({async:false})
@@ -253,7 +281,7 @@ $(function () {
             })
             vi.render()
             App.$el.children('.body').append(vi.el)
-            console.log(allResults.length)
+            
         },
 		
         viewAllFeedback: function () {
@@ -261,7 +289,6 @@ $(function () {
             fed.fetch({
                 async: false
             })
-            console.log(fed.toJSON())
             feedul = new App.Views.siteFeedbackPage({
                 collection: fed
             })
@@ -276,38 +303,16 @@ $(function () {
             $('ul.nav').html($('#template-nav-log-in').html()).hide()
             var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
-            console.log(temp)
             var vars = new Object()
             vars.host = temp
             vars.visits = "null"
-            console.log(vars)
             //App.$el.children('.body').html($('#template-LandingPage'), vars)
             var template = $('#template-LandingPage').html()
             App.$el.children('.body').html(_.template(template, vars))
-            //	App.$el.children('.body').html(template, vars)
-            // App.$el.children('.body').html($('#template-LandingPage').html())
+            
         },
         BecomeMemberForm: function () {
-        	////shoom sharak testing
-        	/*var mempro = new App.Collections.courseprogressallmembers()
-        	mempro.fetch({async:false})
-        	var courseStep = new  App.Collections.CourseLevels()
-        	courseStep.fetch({async:false})
-        	mempro.each(function(m){
-				var memberId = m.get("memberId")
-				var cid = m.get("courseId")
-				if(cid !== undefined){
-				var cmodel = new App.Models.Group({"_id":cid})
-				cmodel.fetch({async:false})
-				var memids = cmodel.get("members")
-				console.log(memids)
-				if(memids.indexOf(memberId) == -1){
-					alert("Deleting")
-					m.destroy()
-				}
-			  }		
-			})
-			//////////////*/
+        	
             var m = new App.Models.Member()
             var bform = new App.Views.BecomeMemberForm({
                 model: m
@@ -348,10 +353,9 @@ $(function () {
                 model: credentials
             })
             memberLoginForm.once('success:login', function () {
-                // $('ul.nav').html($("#template-nav-logged-in").html())
-                // Backbone.history.navigate('courses', {trigger: true})
+                
                 window.location.href = "../personal/index.html#dashboard"
-                //Backbone.history.navigate('resources', {trigger: true})
+                
             })
             memberLoginForm.render()
             //App.$el.children('.body').html('<h1>Member login</h1>')
@@ -375,186 +379,152 @@ $(function () {
        
     
     },
-        ResourceForm: function (resourceId) {
-        var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-        	var roles = loggedIn.get("roles")
-            var resource = (resourceId) ? new App.Models.Resource({
-                _id: resourceId
-            }) : new App.Models.Resource()
-            resource.on('processed', function () {
-                Backbone.history.navigate('resources', {
-                    trigger: true
-                })
-            })
-            var resourceFormView = new App.Views.ResourceForm({
-                model: resource
-            })
-            App.$el.children('.body').html(resourceFormView.el)
+    ResourceForm: function (resourceId) {
+	    var context = this
 
-            if (resource.id) {
-                App.listenToOnce(resource, 'sync', function () {
-                    resourceFormView.render()
-                                  
-                })
-                resource.fetch({async:false})
-            } else {
-                resourceFormView.render()
-                $("input[name='addedBy']").val($.cookie("Member.login"));
-                //resourceFormView.form.fields['articleDate'].$el.disable();
-                
-            }
-             $("input[name='addedBy']").attr("disabled", true); 
-            $("select[class='bbf-date']").attr("disabled", true);
-            $("select[class='bbf-month']").attr("disabled", true);
-            $("select[class='bbf-year']").attr("disabled", true);
-                
-            $('.form .field-subject select').attr("multiple", true);
-            $('.form .field-Level select').attr("multiple", true); 
-            $('.form .field-Tag select').attr("multiple", true);
-            
-				
-            $('.form .field-Tag select').click(function() {
-    				
-				var collections=new App.Collections.listRCollection()
-				collections.major=true
-				collections.fetch({
-				async:false
-				})
-    				if(this.value=='Add New')
-    				{
-    					 $('#invitationdiv').fadeIn(1000)
-                document.getElementById('cont').style.opacity = 0.2
-                document.getElementById('nav').style.opacity = 0.2
-                var collectionlist = new App.Models.CollectionList()
-                 var inviteForm = new App.Views.ListCollectionView({
-                    model: collectionlist
-                })
-                inviteForm.render()
-                $('#invitationdiv').html('&nbsp')
-                $('#invitationdiv').append(inviteForm.el)
-                 $("input[name='AddedBy']").val($.cookie("Member.login"));
-                 var currentDate = new Date();  
-				$('#invitationForm .bbf-form .field-AddedDate input',this.el).datepicker({
-                     todayHighlight: true
-                 });
-				$('#invitationForm .bbf-form .field-AddedDate input',this.el).datepicker("setDate",currentDate);
-                 $("input[name='AddedBy']").attr("disabled", true);
-                 $("input[name='AddedDate']").attr("disabled", true);
-                collections.each(function(a){
-				$('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
-				})	
-    				
-    				}
-    				else{
-    					
-    					 document.getElementById('cont').style.opacity = 1
-                document.getElementById('nav').style.opacity = 1
-    					 $('#invitationdiv').hide()
-    					
-    				}
+	    var resource = (resourceId) ? new App.Models.Resource({
+	        _id: resourceId
+	    }) : new App.Models.Resource()
+	    resource.on('processed', function () {
+	        Backbone.history.navigate('resources', {
+	            trigger: true
+	        })
+	    })
+	    var resourceFormView = new App.Views.ResourceForm({
+	        model: resource
+	    })
+	    App.$el.children('.body').html(resourceFormView.el)
 
-				});
-				$('.form .field-Tag select').dblclick(function () {
-					if(roles.indexOf("Manager")>-1)
-					{
-				    var collections=new App.Collections.listRCollection()
-					collections.major=true
-					collections.fetch({
-					async:false
-					})
-				    if (this.value != 'Add New') {
-				        $('#invitationdiv').fadeIn(1000)
-				        document.getElementById('cont').style.opacity = 0.2
-				        document.getElementById('nav').style.opacity = 0.2
-				        var collectionlist = new App.Models.CollectionList({_id:this.value})
-				        collectionlist.fetch({async:false})
-				        collections.remove(collectionlist)
-				        console.log(collectionlist.toJSON())
-				        var inviteForm = new App.Views.ListCollectionView({
-				            model: collectionlist
-				        })
-				        
-				        inviteForm.render()
-				         
-				        $('#invitationdiv').html('&nbsp')
-				        $('#invitationdiv').append(inviteForm.el)
-				        collections.each(function(a){
-							$('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
-						})	
-						$('#invitationForm .bbf-form .field-NesttedUnder select option[value="'+collectionlist.get('NesttedUnder')+'"]').attr('selected', 'selected');
-				        if($("#invitationForm .bbf-form .field-IsMajor input").is(':checked'))
-        				{
-        					$("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'hidden')
-        				}
-        				else
-        				{
-        					$("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'visible')
-        				}
-				        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
-				            todayHighlight: true
-				        });
-				        $("input[name='AddedBy']").attr("disabled", true);
-				    }
-					}
-				});
-				collections=new App.Collections.listRCollection()
-				collections.major=true
-				collections.fetch({
-				async:false
-				})
-				collections.each(function(a){
-				$('.form .field-Tag select').append('<option value="'+a.get('_id')+'" class="MajorCategory">'+a.get('CollectionName')+'</option>')
-				})
-				var subcollections=new App.Collections.listRCollection()
-				subcollections.major=false
-				subcollections.fetch({
-				async:false
-				})
-				subcollections.each(function(a){
-				
-				if(a.get('NesttedUnder')=='--Select--')
-            {
-            	$('.form .field-Tag select').append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
-            }
-            else
-            {
-            	if($('.form .field-Tag select option[value="'+a.get("NesttedUnder")+'"]')!=null)
-            	{
-            		$('.form .field-Tag select').find('option[value="'+a.get("NesttedUnder")+'"]').after('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
-            	}
-            }
-				})
-				 if (resource.id) {
-				  $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
-				 console.log(resource.get('Tag')[0])
-				 var total=resource.get('Tag').length
-				 for(var counter=0;counter<total;counter++)
-				 $('.form .field-Tag select option[value="'+resource.get('Tag')[counter]+'"]').attr('selected', 'selected');
-				 
-				 }
-				//$('.form .field-Tag select option[value='+a.get("NesttedUnder")+"]").append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
-        },
+	    if (resource.id) {
+	        App.listenToOnce(resource, 'sync', function () {
+	            resourceFormView.render()
 
+	        })
+	        resource.fetch({
+	            async: false
+	        })
+	    } else {
+	        resourceFormView.render()
+	        $("input[name='addedBy']").val($.cookie("Member.login"));
+	        //resourceFormView.form.fields['articleDate'].$el.disable();
+
+	    }
+	    $("input[name='addedBy']").attr("disabled", true);
+	    $("select[class='bbf-date']").attr("disabled", true);
+	    $("select[class='bbf-month']").attr("disabled", true);
+	    $("select[class='bbf-year']").attr("disabled", true);
+
+	    $('.form .field-subject select').attr("multiple", true);
+	    $('.form .field-Level select').attr("multiple", true);
+	    $('.form .field-Tag select').attr("multiple", true);
+
+
+	    $('.form .field-Tag select').click(function () {
+	        context.AddNewSelect(this.value)
+	    });
+	    $('.form .field-Tag select').dblclick(function () {
+	        context.EditTag(this.value)
+	    });
+	    var identifier = '.form .field-Tag select'
+	    this.RenderTagSelect(identifier)
+	    if (resource.id) {
+	        $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
+	        var total = resource.get('Tag').length
+	        for (var counter = 0; counter < total; counter++)
+	            $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected');
+
+	    }
+	    //$('.form .field-Tag select option[value='+a.get("NesttedUnder")+"]").append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
+	},
+	EditTag: function (value) {
+	    var roles = this.getRoles()
+	    if (roles.indexOf("Manager") > -1) {
+
+	        if (value != 'Add New') {
+	            var collections = new App.Collections.listRCollection()
+	            collections.major = true
+	            collections.fetch({
+	                async: false
+	            })
+	            $('#invitationdiv').fadeIn(1000)
+	            document.getElementById('cont').style.opacity = 0.2
+	            document.getElementById('nav').style.opacity = 0.2
+	            var collectionlist = new App.Models.CollectionList({
+	                _id: value
+	            })
+	            collectionlist.fetch({
+	                async: false
+	            })
+	            collections.remove(collectionlist)
+	            var inviteForm = new App.Views.ListCollectionView({
+	                model: collectionlist
+	            })
+
+	            inviteForm.render()
+
+	            $('#invitationdiv').html('&nbsp')
+	            $('#invitationdiv').append(inviteForm.el)
+	            collections.each(function (a) {
+	                $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
+	            })
+	            $('#invitationForm .bbf-form .field-NesttedUnder select option[value="' + collectionlist.get('NesttedUnder') + '"]').attr('selected', 'selected');
+	            if ($("#invitationForm .bbf-form .field-IsMajor input").is(':checked')) {
+	                $("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'hidden')
+	            } else {
+	                $("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'visible')
+	            }
+	            $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
+	                todayHighlight: true
+	            });
+	            $("input[name='AddedBy']").attr("disabled", true);
+	        }
+	    }
+	},
+	AddNewSelect: function (value) {
+	    if (value == 'Add New') {
+	        var collections = new App.Collections.listRCollection()
+	        collections.major = true
+	        collections.fetch({
+	            async: false
+	        })
+	        $('#invitationdiv').fadeIn(1000)
+	        document.getElementById('cont').style.opacity = 0.2
+	        document.getElementById('nav').style.opacity = 0.2
+	        var collectionlist = new App.Models.CollectionList()
+	        var inviteForm = new App.Views.ListCollectionView({
+	            model: collectionlist
+	        })
+	        inviteForm.render()
+	        $('#invitationdiv').html('&nbsp')
+	        $('#invitationdiv').append(inviteForm.el)
+	        $("input[name='AddedBy']").val($.cookie("Member.login"));
+	        var currentDate = new Date();
+	        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
+	            todayHighlight: true
+	        });
+	        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker("setDate", currentDate);
+	        $("input[name='AddedBy']").attr("disabled", true);
+	        $("input[name='AddedDate']").attr("disabled", true);
+	        collections.each(function (a) {
+	            $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
+	        })
+
+	    } else {
+	        document.getElementById('cont').style.opacity = 1
+	        document.getElementById('nav').style.opacity = 1
+	        $('#invitationdiv').hide()
+
+	    }
+
+	},
         Resources: function (database) {
-        App.startActivityIndicator()
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            
+            App.startActivityIndicator()
+            var context=this
             var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
-            
-            var roles = loggedIn.get("roles")
+            var roles = this.getRoles()
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
             var resources = new App.Collections.Resources({skip:0})
@@ -565,16 +535,51 @@ $(function () {
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
-                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
-
+                    
+                    var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
+                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
+                        
+                    App.$el.children('.body').html(btnText)
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
-                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia' || temp=='demo') )
+
                      App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
-                    App.$el.children('.body').append(resourcesTableView.el)
+                     App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
+                     App.$el.children('.body').append(resourcesTableView.el)
+                     
+ 
+                    
+                     var identifier='#collectionBox'
+                     context.RenderTagSelect(identifier)
+
+                     $('#collectionBox').hide()
+                     
+                     $("#searchtype").change(function(){
+                         if(this.value=='Tag'){
+                           $("#searchText").hide()
+                            $('#collectionBox').show()						
+                         }
+                         else{
+                            $("#collectionBox").hide()
+                            $('#searchText').show()
+                         } 
+                     })
+                     
+                     $('#collectionBox').change(function(){
+                       if(this.value!='--select--'){
+                           var collectionlist = new App.Models.CollectionList({_id:this.value})
+				           collectionlist.fetch({async:false})
+				           window.location.href= '#listCollection/'+this.value
+                       }
+                     
+                     })
+                     
+
                 }
             })
             App.stopActivityIndicator()
+            
         },
         AddToshelf:function(rId,title){
       
@@ -597,52 +602,88 @@ $(function () {
        else{
       		   alert('Already in Shelf')
        }
-      // Backbone.history.navigate('resources', {trigger: true})
+     
       
     },
-        ResourceSearch: function () {
+   
+    ResourceSearch: function () {
+      // alert('in resource search function ')
+      
+     
+      
+        var collectionFilter=new Array()
+        var subjectFilter=new Array()
+        var levelFilter=new Array()
+        var languageFilter=new Array()
+            
+        collectionFilter=$("#multiselect-collections-search").val()
+        subjectFilter=$("#multiselect-subject-search").val()
+        levelFilter=$("#multiselect-levels-search").val()
+		languageFilter=$("#Language-filter").val()
+		authorName=$('#Author-name').val()
 		
-			var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
+		mediumFilter=$('#multiselect-medium-search').val()
+		
+       
+        console.log(collectionFilter)  
+		console.log(subjectFilter)
+		console.log(levelFilter)
+		console.log(languageFilter)
+         
+       //  alert(mediumFilter)
+         
+           $("input[name='star']").each(function () {
+                if ($(this).is(":checked")) {
+                    ratingFilter.push($(this).val());
+                }
             })
-            loggedIn.fetch({
-                async: false
-            })
-			 var roles = loggedIn.get("roles")
-            var resources = new App.Views.ResourceSearch()
-            resources.render()
-            var button = '<p>'
-            button += '<a class="btn btn-success" href="#resource/add">Add a new Resource</a>'
-            button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
-            button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
-            button += '<button class="btn btn-info" onclick="ResourceSearch()">Search</button></span>'
-            button += '</p>'
 
-            App.$el.children('.body').html(button)
-            App.$el.children('.body').append('<h1>Resources</h1>')
-            App.$el.children('.body').append('<a style="float:right" class="btn btn-info" onclick="ListAllResources()">View Library</a>')
-            if(roles.indexOf("Manager") !=-1 )
-            App.$el.children('.body').append('<button style="margin:-100px 0px 0px 340px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
-
-            App.$el.children('.body').append(resources.el)
-
-        }, 
+            if (searchText != "" || (collectionFilter) || (subjectFilter) || (levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
+              // alert('in search')
+            
+                $('ul.nav').html($("#template-nav-logged-in").html())
+                
+                var search = new App.Views.Search()
+                
+                search.collectionFilter = collectionFilter
+                search.languageFilter = languageFilter
+                search.levelFilter = levelFilter
+                search.subjectFilter = subjectFilter
+                search.ratingFilter = ratingFilter
+                search.mediumFilter = mediumFilter
+                search.authorName = authorName
+                
+                search.addResource = false
+                
+                App.$el.children('.body').html(search.el)
+                search.render()
+                
+                
+                $("#srch").show()
+                $(".row").hide()
+                $('#not-found').show()
+          
+                $(".search-bottom-nav").hide()
+                $(".search-result-header").hide()
+                $("#selectAllButton").hide()
+                
+            }
+    
+    }, 
         Collection: function () {
-		App.startActivityIndicator()
-           var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-              var temp = $.url().data.attr.host.split(".")  // get name of community
+		    App.startActivityIndicator()
+		   
+            var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
-             var roles = loggedIn.get("roles")
+            
+             var roles =this.getRoles()
+             
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
            var collections=new App.Collections.listRCollection()
+           collections.major=true
 				collections.fetch({ 
 				
 				 success: function () {
@@ -650,53 +691,78 @@ $(function () {
                         collection: collections
                     })
                     collectionTableView.render()
-                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
+                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a></p></span>')
 
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
-                     App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                     App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                     App.$el.children('.body').append(collectionTableView.el)
-                }
+                },
+                async:false
 				})
+				var subcollections=new App.Collections.listRCollection()
+				subcollections.major=false
+				subcollections.fetch({
+				async:false
+				})
+				_.each(subcollections.last(subcollections.length).reverse(), function(a){ 
+				if(a.get('NesttedUnder')=='--Select--')
+            {
+            	$('#collectionTable').append('<tr><td><a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td></tr>')
+            }
+            else
+            {
+            	$('#'+a.get('NesttedUnder')+'').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td></tr>')
+            
+            }
+				
+				});
+				
         App.stopActivityIndicator()
 			
 			
 				
 
         },
- ListCollection: function (collectionName) {
-        App.startActivityIndicator()
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            
+ ListCollection: function (collectionId,collectionName) {
+            App.startActivityIndicator()
+            var that=this
             var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
-            
-            var roles = loggedIn.get("roles")
+            var roles = this.getRoles()
+            var collectionlist = new App.Models.CollectionList({
+	                _id: collectionId
+	            })
+	            collectionlist.fetch({
+	                async: false
+	            })
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
-            var resources = new App.Collections.Resources({collectionName:collectionName})
+            var resources = new App.Collections.Resources({collectionName:collectionId})
             resources.fetch({
                 success: function () {
                     var resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
-                    resourcesTableView.isManager = roles.indexOf("Manager")
+                
+                resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
-                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px"><button class="btn btn-info" onclick="ResourceSearch()">Search</button></span></p></span>')
+                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
 
-                    App.$el.children('.body').append('<p style="font-size:24px;color:#808080;">&nbsp&nbsp<a href="#resources"style="font-size:24px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:24px;">Collections</a> </p>')
+                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
-                     App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                     App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                    App.$el.children('.body').append('<p style="font-size: 30px;font-weight: bolder;color: #808080;width: 450px;word-wrap: break-word;">'+collectionlist.get('CollectionName')+'</p>')
+                    
                     App.$el.children('.body').append(resourcesTableView.el)
+                    
+                    $('#backButton').click(function(){
+                       Backbone.history.navigate('#resources',{trigger:false})
+                    })
                 }
             })
             App.stopActivityIndicator()
@@ -753,7 +819,6 @@ $(function () {
             inviteModel.senderId = $.cookie('Member._id')
             inviteModel.type = kind
             inviteModel.title = name
-            console.log(inviteModel);
             var inviteForm = new App.Views.InvitationForm({
                 model: inviteModel
             })
@@ -872,13 +937,8 @@ $(function () {
         
     	    
     	    code=cofigINJSON.rows[0].doc.code       
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            var roles = loggedIn.get("roles")
+            
+            var roles = this.getRoles()
 			
             members = new App.Collections.Members()
             members.fetch({
@@ -887,13 +947,11 @@ $(function () {
                         collection: members
                     })
                     membersTable.community_code=code
-                    console.log(membersTable.community_code)
                     if (roles.indexOf("Manager") > -1) {
                         membersTable.isadmin = true
                     } else {
                         membersTable.isadmin = false
                     }
-                    console.log(membersTable.isadmin)
                     membersTable.render()
 
 
@@ -914,6 +972,7 @@ $(function () {
         },
 		modelForm: function (className, label, modelId, reroute) {
             //cv Set up
+            var context =this
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
@@ -925,10 +984,7 @@ $(function () {
                 App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
             }
             App.$el.children('.body').append(modelForm.el)
-            
-            
-
-            // Bind form events for when Group is ready
+           // Bind form events for when Group is ready
             model.once('Model:ready', function () {
                 // when the users submits the form, the group will be processed
                  modelForm.on(className + 'Form:done', function () {
@@ -938,6 +994,7 @@ $(function () {
                  })
                 // Set up the form
                 modelForm.render()
+                 
                 $('.form .field-startDate input').datepicker({
                todayHighlight: true
             });
@@ -980,7 +1037,7 @@ $(function () {
                 model.fetch({
                     async: false
                 })
-
+           
             } else {
                 model.trigger('Model:ready')
             }
@@ -1309,7 +1366,6 @@ $(function () {
                         model: levelInfo
                     })
                     levelDetails.render()
-                    console.log(levelInfo)
                     App.$el.children('.body').html('<h3> Step ' + levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
                     App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">Edit Step</a>&nbsp;&nbsp;')
                     App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>Back To Course </a>&nbsp;&nbsp;")
@@ -1385,12 +1441,9 @@ $(function () {
             clist.fetch({
                 async: false
             })
-            console.log(clist)
             var that = this
             oldIds = clist.get("courseIds")
             oldTitles = clist.get("courseTitles")
-            console.log(oldIds)
-
             $("input[name='result']").each(function () {
                 if ($(this).is(":checked")) {
                     var rId = $(this).val();
@@ -1468,7 +1521,6 @@ $(function () {
 
             cstep.set("resourceId", oldIds.concat(rids))
             cstep.set("resourceTitles", oldTitles.concat(rtitle))
-            console.log(cstep)
             cstep.save()
             cstep.on('sync', function () {
                 alert("Your Resources have been updated successfully")
@@ -1490,35 +1542,52 @@ $(function () {
             } else {
                 searchText = $("#searchText").val()
             }
-
-            $("input[name='result']").each(function () {
-                if ($(this).is(":checked")) {
-                    var rId = $(this).val();
-                    rtitle.push($(this).attr('rTitle'))
-                    rids.push(rId)
-                }
-            });
-            $("input[name='tag']").each(function () {
-                if ($(this).is(":checked")) {
-                    tagFilter.push($(this).val());
-                }
-            })
-            $("input[name='subject']").each(function () {
-                if ($(this).is(":checked")) {
-                    subjectFilter.push($(this).val());
-                }
-            })
-            $("input[name='star']").each(function () {
+        
+        
+            var collectionFilter=new Array()
+            var subjectFilter=new Array()
+            var levelFilter=new Array()
+            var languageFilter=new Array()
+            
+        collectionFilter=$("#multiselect-collections-search").val()
+        subjectFilter=$("#multiselect-subject-search").val()
+        levelFilter=$("#multiselect-levels-search").val()
+		languageFilter=$("#Language-filter").val()
+		authorName=$('#Author-name').val()
+		
+		mediumFilter=$('#multiselect-medium-search').val()
+		
+       
+        console.log(collectionFilter)  
+		console.log(subjectFilter)
+		console.log(levelFilter)
+		console.log(languageFilter)
+         
+       //  alert(mediumFilter)
+         
+           $("input[name='star']").each(function () {
                 if ($(this).is(":checked")) {
                     ratingFilter.push($(this).val());
                 }
             })
-            if (searchText != "" || (tagFilter && tagFilter.length > 0) || (subjectFilter && subjectFilter.length > 0) || (ratingFilter && ratingFilter.length > 0)) {
+
+            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
+              // alert('in search')
+            
                 $('ul.nav').html($("#template-nav-logged-in").html())
+                
                 var search = new App.Views.Search()
-                search.tagFilter = tagFilter
+                
+                search.collectionFilter = collectionFilter
+                search.languageFilter = languageFilter
+                search.levelFilter = levelFilter
                 search.subjectFilter = subjectFilter
                 search.ratingFilter = ratingFilter
+                search.mediumFilter = mediumFilter
+                search.authorName = authorName
+                
+                search.addResource=true
+                
                 App.$el.children('.body').html(search.el)
                 search.render()
                 $("#searchText2").val(searchText)
@@ -1556,7 +1625,6 @@ $(function () {
 
         SearchBell: function (levelId, rid, resourceIds) {
 
-
             var levelInfo = new App.Models.CourseStep({
                 "_id": levelId
             })
@@ -1569,27 +1637,76 @@ $(function () {
                     if (typeof rid === 'undefined') {
                         document.location.href = '#courses'
                     }
-                    grpId = levelId
-                    levelrevId = rid
-
-                    tagFilter.length = 0
-                    subjectFilter.length = 0
-                    ratingFilter.length = 0
-                    rtitle.length = 0
-                    rids.length = 0
+                    
+                      grpId = levelId
+                      levelrevId = rid
+                      
+                      ratingFilter.length=0
+                    
+                      rtitle.length = 0
+                      rids.length = 0
 
                     $('ul.nav').html($("#template-nav-logged-in").html())
+                    
                     var search = new App.Views.Search()
                     search.resourceids = levelInfo.get("resourceId")
+                    search.addResource=true
                     App.$el.children('.body').html(search.el)
                     search.render()
+                    
+                   // alert($("#multiselect-subject-search"))
+                    
+                    
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
                     $("#srch").hide()
                     $(".search-bottom-nav").hide()
                     $(".search-result-header").hide()
                     $("#selectAllButton").hide()
                     showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
                 }
             })
+        },
+        bellResourceSearch:function(){
+                   //alert()
+                   
+                   $('ul.nav').html($("#template-nav-logged-in").html())                    
+                    var search = new App.Views.Search()
+                        search.addResource=false
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                
+                    
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+					$("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+        
+        
         },
         SearchCourses: function () {
             var levelInfo = new App.Models.ExploreBell({
@@ -1840,7 +1957,7 @@ $(function () {
                     "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources'
             	}),
                 success: function (response) {
-                	console.log(response)
+
                 },
                 async: false
             })
