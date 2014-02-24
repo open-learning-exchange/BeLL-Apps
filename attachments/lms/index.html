@@ -310,6 +310,10 @@
     App.Router.ResourceSearch()
   
   }
+  function AddColletcion()
+  {
+  App.Router.AddNewSelect("Add New")
+  }
    function ListAllResources()
   {
      App.Router.Resources()
@@ -1345,6 +1349,7 @@ Please become a Member and explore both the Community Learning Management System
 <script type="text/html" id="template-CollectionRow">
     <td  id=<%=_id%> >
     <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>  
+    <span class="glyphicon glyphicon-edit" style="color:red; float:right"></span>
     </td>
       </script>
 
