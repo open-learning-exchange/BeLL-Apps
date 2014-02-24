@@ -682,9 +682,9 @@ flowplayer.engine.flash = function(player, root) {
                   // RTMP sends a lot of finish events in vain
                   // case "finish": if (conf.rtmp) return;
                   case "ready": arg = $.extend(video, arg); break;
-                  case "click": event.flash = true; break;
-                  case "keydown": event.which = arg; break;
-                  case "seek": video.time = arg; break;
+                  case "click": event.flash = true; alert('check') break;
+                  case "keydown": event.which = arg; alert('check') break;
+                  case "seek": video.time = arg; alert('check') break;
                   case "buffered": video.buffered = true; break;
 
                   case "status":
@@ -968,7 +968,6 @@ flowplayer.engine.html5 = function(player, root) {
       $.each(EVENTS, function(type, flow) {
 
          api.addEventListener(type, function(e) {
-
             // safari hack for bad URL (10s before fails)
             if (flow == "progress" && e.srcElement && e.srcElement.readyState === 0) {
                setTimeout(function() {
@@ -1818,7 +1817,6 @@ flowplayer(function(player, root) {
 
          player[key] = function(e) {
             e && e.preventDefault();
-
             // next (or previous) entry
             var el = active()[key]();
 
