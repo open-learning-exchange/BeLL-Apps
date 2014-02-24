@@ -12,7 +12,9 @@ $(function() {
     	}
     	else if(this.skip>=0)
     	{
-    		return App.Server + '/resources/_all_docs?include_docs=true&limit=20&skip='+this.skip
+    		//return App.Server + '/resources/_all_docs?include_docs=true&limit=20&skip='+this.skip
+    		return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&limit=20&skip='+this.skip
+    		//return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true'
     	}
     	else
     	{
