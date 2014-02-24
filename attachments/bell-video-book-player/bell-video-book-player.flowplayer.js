@@ -76,9 +76,9 @@ flowplayer(function(api, root) {
     $(".fp-cuepoint").removeClass("current-page")
 
     // Set the links
-    $(".fp-cuepoint" + previousPage).text("<").addClass("previous-page")
-    $(".fp-cuepoint" + destinationPage).html("<div class='page-number'>Page <h2>" + (destinationPage + 1 + "</h2></div>")).addClass("current-page")
-    $(".fp-cuepoint" + nextPage).text(">").addClass("next-page")
+     $(".fp-cuepoint" + lastPage).text("<").addClass("previous-page")
+    $(".fp-cuepoint" + currentPage).html("<div class='page-number'>Page <h2>" + (currentPage + 1 + "</h2></div>")).addClass("current-page")
+    $(".fp-cuepoint" + (currentPage + 1)).text(">").addClass("next-page")
 
   // when a video is loaded and ready to play
   }).bind("ready", function() {
