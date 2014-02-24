@@ -154,7 +154,7 @@ $(function () {
  			    var d = new Date(Date.parse(expTime))
              	var diff = Math.abs(new Date() - d)
            		 //alert(diff)
-            	var expirationTime=600000
+            	var expirationTime=7200000
             	if(diff<expirationTime)
            		 {
               	  var date=new Date()
@@ -546,35 +546,8 @@ $(function () {
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia' || temp=='demo') )
 
                      App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
-                     App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
+                     App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
                      App.$el.children('.body').append(resourcesTableView.el)
-                     
- 
-                    
-                     var identifier='#collectionBox'
-                     context.RenderTagSelect(identifier)
-
-                     $('#collectionBox').hide()
-                     
-                     $("#searchtype").change(function(){
-                         if(this.value=='Tag'){
-                           $("#searchText").hide()
-                            $('#collectionBox').show()						
-                         }
-                         else{
-                            $("#collectionBox").hide()
-                            $('#searchText').show()
-                         } 
-                     })
-                     
-                     $('#collectionBox').change(function(){
-                       if(this.value!='--select--'){
-                           var collectionlist = new App.Models.CollectionList({_id:this.value})
-				           collectionlist.fetch({async:false})
-				           window.location.href= '#listCollection/'+this.value
-                       }
-                     
-                     })
                      
 
                 }

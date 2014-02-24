@@ -199,7 +199,7 @@ $(function () {
                 var d = new Date(Date.parse(expTime))
                 var diff = Math.abs(new Date() - d)
                 //alert(diff)
-                var expirationTime = 600000
+                var expirationTime = 7200000
                 if (diff < expirationTime) {
                     var date = new Date()
                     $.cookie('Member.expTime', date, {

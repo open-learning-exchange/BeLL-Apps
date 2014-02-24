@@ -341,8 +341,6 @@ $(function () {
                 unread: obj.unopen
             })
             
-            alert('fecth Record')
-            
             newCollection.fetch({
                 success: function () {
                     obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(newCollection.models, obj.searchText))

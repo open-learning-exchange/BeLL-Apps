@@ -682,9 +682,9 @@ flowplayer.engine.flash = function(player, root) {
                   // RTMP sends a lot of finish events in vain
                   // case "finish": if (conf.rtmp) return;
                   case "ready": arg = $.extend(video, arg); break;
-                  case "click": event.flash = true; alert('check') break;
-                  case "keydown": event.which = arg; alert('check') break;
-                  case "seek": video.time = arg; alert('check') break;
+                  case "click": event.flash = true;break;
+                  case "keydown": event.which = arg;break;
+                  case "seek": video.time = arg;break;
                   case "buffered": video.buffered = true; break;
 
                   case "status":
