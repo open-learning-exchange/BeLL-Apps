@@ -41,6 +41,7 @@ $(function () {
             'compile': 'CompileManifest',
             'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
+            'search-bell/:publicationId': 'SearchPresources',
             'search-result': 'SearchResult',
             'assign-to-level': 'AssignResourcetoLevel',
             'assign-to-shelf': 'AssignResourcetoShelf',
@@ -1533,9 +1534,9 @@ $(function () {
 
         SearchResult: function (text) {
 
-            if (typeof grpId === 'undefined') {
-                document.location.href = '#courses'
-            }
+           //  if (typeof grpId === 'undefined') {
+//                 document.location.href = '#courses'
+//             }
             skipStack.push(skip)
             if (text) {
                 searchText = text
@@ -1621,7 +1622,45 @@ $(function () {
                 $("#selectAllButton").show()
             }
         },
+		SearchPresources: function (publicationId) {
 
+            var publications = new App.Models.Publication({
+                "_id": publicationId
+            })
+            publications.fetch({
+                success: function () {
+                    $('ul.nav').html($("#template-nav-logged-in").html())
+                    
+                    var search = new App.Views.Search()
+                    //search.resourceids = levelInfo.get("resourceId")
+                    search.addResource=true
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                    
+                   // alert($("#multiselect-subject-search"))
+                    
+                    
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
+                    $("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+                }
+            })
+        },
 
         SearchBell: function (levelId, rid, resourceIds) {
 

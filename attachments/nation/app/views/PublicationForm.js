@@ -5,6 +5,7 @@ $(function () {
         className: "form",
         events: {
             "click .save": "saveForm",
+            "click #AddResPublication":"searchres",
             "click #cancel": function () {
                 window.history.back()
             }
@@ -34,6 +35,7 @@ $(function () {
             this.form.render()
             this.$el.html(this.template(vars))
             $('.fields').html(this.form.el)
+            $('.form .field-resources').hide();
             $('#progressImage').hide();
             return this
         },
@@ -45,7 +47,6 @@ $(function () {
             if (this.model.get("IssueNo").length == 0) {
                 alert("Publication Issue is missing")
             } else {
-                $('#progressImage').show();
                  if (isEdit == undefined) {
                     var that = this
                     var allres = new App.Collections.Publication()
@@ -60,26 +61,45 @@ $(function () {
                     })
                 }
                 if (addtoDb) {
-                    this.model.save(null, {
-                        success: function () {
-                            that.model.unset('_attachments')
-                            if ($('input[type="file"]').val()) {
-                                    that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
-                            } else {
-                                that.model.trigger('processed')
-                            }
-
-                            that.model.on('savedAttachment', function () {
-                                this.trigger('processed')
-                                $('#progressImage').hide();
-                            }, that.model)
-                        }
-                    })
+                    this.model.save()
                 }
             }
 
         },
-
+		searchres:function(){
+		  var showsearch=true
+		  var isEdit = this.model.get("_id")
+		  this.form.commit()
+		  
+		  if (this.model.get("IssueNo").length == 0) {
+                alert("Publication Issue is missing")
+                showsearch=false
+            }
+            else {
+                 if (isEdit == undefined) {
+                    var that = this
+                    var allpub = new App.Collections.Publication()
+                    allpub.fetch({
+                        async: false
+                    })
+                    allpub.each(function (m) {
+                        if (that.model.get("IssueNo") == m.get("IssueNo")) {
+                            alert("IssueNo already exist")
+                            showsearch=false
+                        }
+                    })
+                }
+            }
+            if(showsearch)
+            {
+            		this.model.save(null,{success:function(e){
+		 				 window.location.href = '../lms/index.html#search-bell/'+e.toJSON().id;
+		 				 }
+		  			})
+		  
+            		
+            }
+		},
         statusLoading: function () {
             this.$el.children('.status').html('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
         }
