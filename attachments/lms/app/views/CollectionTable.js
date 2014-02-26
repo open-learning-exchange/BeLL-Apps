@@ -5,13 +5,13 @@ $(function() {
 	id:"collectionTable",
     className: "table table-striped",
 	addOne: function(model){
-      var groupRow = new App.Views.CollectionRow({model: model})
-      groupRow.render()  
-      this.$el.append(groupRow.el)
+      var collectionRow = new App.Views.CollectionRow({model: model})
+      collectionRow.render()  
+      this.$el.append(collectionRow.el)
     },
 
     addAll: function(){
-    this.$el.html("<tr><th colspan='4'>Sub-Collections</th></tr>")
+    this.$el.html("<tr><th colspan='4'>Collections</th></tr>")
   this.collection.each(this.addOne, this)
     },
 

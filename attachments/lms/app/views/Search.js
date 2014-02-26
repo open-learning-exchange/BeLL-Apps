@@ -2,7 +2,10 @@ $(function () {
 
     App.Views.Search = Backbone.View.extend({
 
-
+		events: {
+            "click #searchR": "searchResult",
+            "click #addRestoPub":"addResourceToPublication"
+        },
         template: $('#template-Search').html(),
 
         vars: {},
@@ -22,11 +25,15 @@ $(function () {
 						  })
 			this.vars.tags=collections.toJSON()
             this.vars.addResource=this.addResource
-        
+            if(this.Publications!=undefined)
+            {
+            	
+            	this.vars.Publications=this.Publications
+            }
+            else{
+            	this.vars.Publications=false 
+            }
             this.$el.html(_.template(this.template, this.vars))
-            
-           
-             
             if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFilter && this.ratingFilter.length > 0)) {
                App.startActivityIndicator()
                 this.fetchRecords()
@@ -52,11 +59,12 @@ $(function () {
                         obj.fetchRecords()
                     } else if (obj.groupresult.models.length == 0) {
                         previousPageButtonPressed()
-                      // alert('Number of fetched records are Zero')
-              
-
                     } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
                         $('#not-found').html("No Such Record Exist");
+                        if(!obj.addResource)
+                        {
+                          $('#not-found').append('<h4><a style="float:right" class="btn btn-info" onclick="backtoSearchView()">Back To Search</a></h4>')
+                        }
                         $("#selectAllButton").hide()
                         App.stopActivityIndicator()
 
@@ -180,7 +188,17 @@ $(function () {
              return false 
           var name=row.get('author')
           var check=false
+          
               if(name){
+                 if(name instanceof Array){
+                 //  alert(name)
+                	     for(i=0 ; i<name.length ; i++)
+                            if(name[i].toLowerCase().indexOf(this.authorName.toLowerCase()) >= 0){
+				   	   				check=true
+				   	   				return check
+                             }
+                 }  
+                else 
                  if(name.toLowerCase().indexOf(this.authorName.toLowerCase()) >= 0)
                     check=true
               }
@@ -241,6 +259,16 @@ $(function () {
           var name=row.get('language')
           var check=false
               if(name){
+                  // alert(name)
+                   if(name instanceof Array){
+                        
+                        for(i=0 ; i<name.length ; i++)
+                            if(name[i].toLowerCase().indexOf(this.languageFilter.toLowerCase()) >= 0){
+				   	   				check=true
+				   	   				return check
+                             }
+                 }  
+                else 
                  if(name.toLowerCase().indexOf(this.languageFilter.toLowerCase()) >= 0)
                     check=true
               }
@@ -254,14 +282,13 @@ $(function () {
            
           var collection=row.get('Level')
           var check=false
-    console.log(row)
+          
           if(collection instanceof Array) 	
 			$.each(this.levelFilter,function(i,val){
 			   
 				var result=$.inArray(val,collection);
 				if(result!=-1)	
 				{		
-				  console.log('matched '+row)
 				   check=true
 				  return check
                 }
@@ -294,6 +321,110 @@ $(function () {
                 })
                 
             return resultArray
+        },
+        searchResult: function()
+        {
+        	skip = 0;
+      		popAll();
+      		lastpage = false;
+            skipStack.push(skip)
+           
+            var searchText = $("#searchText").val()
+            var collectionFilter=new Array()
+            var subjectFilter=new Array()
+            var levelFilter=new Array()
+            var languageFilter=new Array()
+            
+        collectionFilter=$("#multiselect-collections-search").val()
+        subjectFilter=$("#multiselect-subject-search").val()
+        levelFilter=$("#multiselect-levels-search").val()
+		languageFilter=$("#Language-filter").val()
+		authorName=$('#Author-name').val()
+		
+		mediumFilter=$('#multiselect-medium-search').val()
+        console.log(collectionFilter)  
+		console.log(subjectFilter)
+		console.log(levelFilter)
+		console.log(languageFilter)
+         
+       //  alert(mediumFilter)
+         
+           $("input[name='star']").each(function () {
+                if ($(this).is(":checked")) {
+                    ratingFilter.push($(this).val());
+                }
+            })
+
+            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
+              // alert('in search')
+            
+                $('ul.nav').html($("#template-nav-logged-in").html())
+                
+               
+                
+                this.collectionFilter = collectionFilter
+                this.languageFilter = languageFilter
+                this.levelFilter = levelFilter
+                this.subjectFilter = subjectFilter
+                this.ratingFilter = ratingFilter
+                this.mediumFilter = mediumFilter
+                this.authorName = authorName
+                
+                this.addResource=true
+                
+                App.$el.children('.body').html(search.el)
+                this.render()
+                $("#searchText2").val(searchText)
+                $("#srch").show()
+                $(".row").hide()
+                $(".search-bottom-nav").show()
+                $(".search-result-header").show()
+                $("#selectAllButton").show()
+            }
+            $('#previous_button').remove()
+      		$('#searchText').focus();
+      		$("#searchText").val(searchText)
+        
+        },
+        addResourceToPublication:function()
+        {
+            if (typeof grpId === 'undefined') {
+                document.location.href = '../nation/index.html#publication'
+            }
+            var rids = new Array()
+            var publication = new App.Models.Publication({
+                "_id": grpId
+            })
+            publication.fetch({
+                async: false
+            })
+           
+			console.log(publication.toJSON())
+            $("input[name='result']").each(function () {
+                if ($(this).is(":checked")) {
+                    var rId = $(this).val();
+                    if(publication.get("resources")!=null)
+                    {
+                    	 rids=publication.get("resources")
+                    	if(rids.indexOf(rId)<0)
+                        rids.push(rId)
+                    }
+                    else
+                    {
+                        rids.push(rId)
+                    }
+                    
+                }
+            });
+			console.log(rids)
+            publication.set("resources", rids)
+            publication.save()
+            publication.on('sync', function () {
+                alert("Your Resources have been added successfully")
+                window.location='../nation/index.html#publication'
+            })
+
+        
         }
 
     })

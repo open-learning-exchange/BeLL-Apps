@@ -7,7 +7,14 @@ $(function() {
     model: App.Models.Publication,
 
     url: function() {
-      return App.Server + '/publications/_all_docs?include_docs=true'
+    if(this.getlast==true)
+    {
+    	return App.Server + '/publications/_changes?include_docs=true&descending=true&limit=3'
+    }
+      else{
+      	return App.Server + '/publications/_all_docs?include_docs=true'
+      }
+      
     },
     
     parse: function(response) {

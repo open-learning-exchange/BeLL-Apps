@@ -69,7 +69,29 @@ $(function () {
 
             // Put the form's input into the model in memory
            this.form.commit()
-            if (this.model.get('NesttedUnder') != '--Select--') {
+           var newTitle=this.model.get("CollectionName")
+           var titleMatch = false
+            var allres = new App.Collections.listRCollection()
+            allres.fetch({     
+            async: false  
+            })
+    	    allres.each(function (m) {
+    	    if (newTitle == m.get("CollectionName")) 
+    	    {
+    	    titleMatch = true
+    	    }
+    	    })
+           if(titleMatch)
+           {
+           alert("Collection Name already exist")
+            $('#invitationdiv').fadeOut(1000)
+            
+            document.getElementById('cont').style.opacity = 1.0
+            document.getElementById('nav').style.opacity = 1.0
+           }
+           else
+           {
+           		if (this.model.get('NesttedUnder') != '--Select--') {
             	this.model.set({'IsMajor':false})
             }
             else
@@ -78,10 +100,10 @@ $(function () {
             }
            if(this.model.get('CollectionName').length>0)
            {
-           var that=this
-           this.model.save(null,{success:function(m){
-           console.log(that.model.toJSON())
            
+           var that=this
+  			
+           this.model.save(null,{success:function(m){
            alert("Collection Saved Successfully")
            if(that.model.get('_id')==undefined)
            {
@@ -106,22 +128,23 @@ $(function () {
             setTimeout(function () {
                 $('#invitationdiv').hide()
             }, 1000);
+            
+            	location.reload()
             }
             else
             {
             	location.reload()
             }
-           
-			
-        
-           
-           
-           }})
+           }
+           })
            
            }
            else {
 	        		alert("Enter collection name!")
         		}
+           
+           }
+            
         
         },
 
