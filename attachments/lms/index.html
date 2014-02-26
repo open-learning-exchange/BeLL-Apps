@@ -93,6 +93,7 @@
   <script src="app/models/UserMeetups.js"></script>
   <script src="app/models/InviMeetup.js"></script>
   <script src="app/models/CollectionList.js"></script>
+  <script src="app/models/Publication.js"></script>
 
   
    
@@ -290,16 +291,6 @@
      App.Router.bellResourceSearch();
   
   }
-  function searchResources()
-  {
-      skip = 0;
-      popAll();
-      lastpage = false;
-      App.Router.SearchResult();
-      $('#previous_button').remove()
-      $('#searchText').focus();
-      $("#searchText").val(searchText)
-  }
   function ResourceSearch()
   {
     skip = 0;
@@ -308,6 +299,14 @@
   	
     App.Router.ResourceSearch()
   
+  }
+  function AddColletcion()
+  {
+  App.Router.AddNewSelect("Add New")
+  }
+  function EditColletcion(value)
+  {
+  App.Router.EditTag(value)
   }
    function ListAllResources()
   {
@@ -942,7 +941,7 @@
 <div class="row">
     <div class="col-lg-5">
         <div class="form-group search-Box">
-            <label style='font-size:16px'><b>Key Word</b></label><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;"></input>
+            <label style='font-size:16px'></label><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;"></input>
             <label style='font-size:bold'><b>Author</b></label><input style="height:24px; " type='Text' placeholder="Author Name" id='Author-name'></input>
         </div>
      <div class="checkbox-subject" id="SubjectCheckboxes">  
@@ -1012,7 +1011,7 @@
     </div>
     
     <br/>
-    <div id='search-button'><h4><span><button style='width:300px' class="btn btn-info" <%if(addResource==true) {%>onclick = "searchResources()"<%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
+    <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
     </div>
     </div>
 </div>
@@ -1043,10 +1042,18 @@
                         </tr>
                     </table>
                     <br/><br/>
+                     <%if(Publications==true) {%>
+                     <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-success" id='addRestoPub'>Add To Publication</button>
+                    <button class="btn btn-success" onclick = "document.location.href='../nation/index.html#publication'">Back</button>
+                     
+                     <%}else{ %>
                     <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
                     <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
                     <button class="btn btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
                     <button class="btn btn-success" onclick = "document.location.href='#courses'">Home</button>
+                    <%}%>
 </div>
 </script>
 <script type="text/html" id="template-CourseSchedule">
@@ -1344,6 +1351,9 @@ Please become a Member and explore both the Community Learning Management System
 <script type="text/html" id="template-CollectionRow">
     <td  id=<%=_id%> >
     <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>  
+    </td>
+    <td>
+    <button onclick="EditColletcion('<%=_id%>')"><i class="icon-edit pull-right"></i></button>
     </td>
       </script>
 

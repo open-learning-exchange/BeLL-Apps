@@ -18,7 +18,8 @@ $(function ()
 			'reports/edit/:resportId': 'ReportForm',
 			'reports/add': 'ReportForm',
 			'publication': 'Publication',
-			'publication/add': 'PublicationForm'
+			'publication/add': 'PublicationForm',
+			'publicationdetail/:publicationId': 'PublicationDetails'
 		},
 
 		initialize: function ()
@@ -107,11 +108,34 @@ $(function ()
 			{
 				async: false
 			})
+			console.log(Communities)
 			Communities.each(function (m)
 			{
 				$('#communities tbody').append('<tr class="success"><td>' + m.toJSON().Name + '</td></tr>');
 			})
 			$('#communities').append('<tr ><td><a class="btn btn-default" href="#listCommunity" id="clickmore">Click for more</a></td></tr>');
+			
+			var Publications = new App.Collections.Publication()
+			Publications.getlast=true
+			Publications.fetch(
+			{   success:function(collection,response){
+				_.each(response.results, function(model) {
+				if(model.doc.IssueNo!=undefined)
+				{
+					$('#publications tbody').append('<tr class="info"><td>Issue :' + model.doc.IssueNo + '</td></tr>');
+				}
+				else
+				{
+						$('#publications tbody').append('<tr class="info"><td>Issue Deleted</td></tr>');
+				}
+     		 	 })
+			
+			},
+				async: false
+			})
+			$('#publications').append('<tr ><td><a class="btn btn-default" href="#publication" id="clickmore">Click for more</a></td></tr>');
+			
+			
 		},
 		CommunityForm: function (CommunityId)
 		{
@@ -125,7 +149,7 @@ $(function ()
 			{
 				async: false
 			})
-			console.log(fed.toJSON())
+			
 			feedul = new App.Views.siteFeedbackPage(
 			{
 				collection: fed
@@ -397,17 +421,52 @@ $(function ()
 			{
 				async: false
 			})
-			var resourcesTableView = new App.Views.ReportsTable(
-			{
-				collection: publicationCollection
-			})
 			var publication = new App.Views.Publication()
 			publication.render()
 			App.$el.children('.body').html(publication.el)
+			var publicationtable=new App.Views.PublicationTable({ collection:publicationCollection })
+			publicationtable.render()
+			App.$el.children('.body').append(publicationtable.el)
 			
 			App.stopActivityIndicator()
 			
 		},
+		PublicationDetails:function(publicationId)
+		{
+		
+		var publication = new App.Views.Publication()
+			publication.render()
+			App.$el.children('.body').html(publication.el)
+		var publicationObject=new App.Models.Publication({
+		_id:publicationId
+		})
+		publicationObject.fetch({
+		async:false
+		})
+		var coll=Array()
+		console.log(publicationObject.toJSON())
+		App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.'+publicationObject.get('IssueNo')+'</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/'+publicationObject.get('_id')+'" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a></div>')
+		var resources=publicationObject.get('resources')
+		var i=0
+		_.each(resources, function(){
+		var resource=new App.Models.Resource({
+		_id: (resources[i])
+		})
+		resource.fetch({
+		async:false
+		})
+		coll.push(resource)
+		i++
+		
+		})
+		var publicationresTable=new App.Views.PublicationResourceTable({
+		collection:coll
+		})
+		publicationresTable.Id=publicationId
+		publicationresTable.render()
+		App.$el.children('.body').append(publicationresTable.el)
+		},
+		
 		PublicationForm: function(publicationId)
 		{
 			var publication = (publicationId) ? new App.Models.Publication(
@@ -442,9 +501,19 @@ $(function ()
 				
 
 			}
+			 $('.bbf-form .field-Date input').attr("disabled", true)
+            $('.bbf-form .field-IssueNo input').val('')
+			 var currentDate = new Date();
 			 $('.bbf-form .field-Date input').datepicker({
                todayHighlight: true
             });
+			   $('.bbf-form .field-Date input', this.el).datepicker("setDate", currentDate);
+			 $('.bbf-form .field-Date input').datepicker({
+               todayHighlight: true
+            });
+            
+           
+            
             
 		}
 	}))
