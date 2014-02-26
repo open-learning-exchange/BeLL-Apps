@@ -57,6 +57,10 @@ $(function () {
 
                     } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
                         $('#not-found').html("No Such Record Exist");
+                        if(!obj.addResource)
+                        {
+                          $('#not-found').append('<h4><a style="float:right" class="btn btn-info" onclick="backtoSearchView()">Back To Search</a></h4>')
+                        }
                         $("#selectAllButton").hide()
                         App.stopActivityIndicator()
 
@@ -180,7 +184,17 @@ $(function () {
              return false 
           var name=row.get('author')
           var check=false
+          
               if(name){
+                 if(name instanceof Array){
+                 //  alert(name)
+                	     for(i=0 ; i<name.length ; i++)
+                            if(name[i].toLowerCase().indexOf(this.authorName.toLowerCase()) >= 0){
+				   	   				check=true
+				   	   				return check
+                             }
+                 }  
+                else 
                  if(name.toLowerCase().indexOf(this.authorName.toLowerCase()) >= 0)
                     check=true
               }
@@ -241,6 +255,16 @@ $(function () {
           var name=row.get('language')
           var check=false
               if(name){
+                  // alert(name)
+                   if(name instanceof Array){
+                        
+                        for(i=0 ; i<name.length ; i++)
+                            if(name[i].toLowerCase().indexOf(this.languageFilter.toLowerCase()) >= 0){
+				   	   				check=true
+				   	   				return check
+                             }
+                 }  
+                else 
                  if(name.toLowerCase().indexOf(this.languageFilter.toLowerCase()) >= 0)
                     check=true
               }
@@ -254,14 +278,13 @@ $(function () {
            
           var collection=row.get('Level')
           var check=false
-    console.log(row)
+          
           if(collection instanceof Array) 	
 			$.each(this.levelFilter,function(i,val){
 			   
 				var result=$.inArray(val,collection);
 				if(result!=-1)	
 				{		
-				  console.log('matched '+row)
 				   check=true
 				  return check
                 }

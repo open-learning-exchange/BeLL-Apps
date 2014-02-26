@@ -542,7 +542,7 @@ $(function () {
                     App.$el.children('.body').html(btnText)
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
-                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia' || temp=='demo') )
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') )
 
                      App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
@@ -588,6 +588,8 @@ $(function () {
         var subjectFilter=new Array()
         var levelFilter=new Array()
         var languageFilter=new Array()
+            
+        skipStack.push(skip)
             
         collectionFilter=$("#multiselect-collections-search").val()
         subjectFilter=$("#multiselect-subject-search").val()
@@ -668,7 +670,7 @@ $(function () {
 
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
                      
-                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='somalia') )
                      App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                     App.$el.children('.body').append(collectionTableView.el)
                 },
@@ -1653,7 +1655,7 @@ $(function () {
         },
         bellResourceSearch:function(){
                    //alert()
-                   
+                   popAll()      // reset the SkipStack
                    $('ul.nav').html($("#template-nav-logged-in").html())                    
                     var search = new App.Views.Search()
                         search.addResource=false
