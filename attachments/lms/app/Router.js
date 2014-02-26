@@ -682,11 +682,11 @@ $(function () {
 				_.each(subcollections.last(subcollections.length).reverse(), function(a){ 
 				if(a.get('NesttedUnder')=='--Select--')
             {
-            	$('#collectionTable').append('<tr><td><a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td></tr>')
+            	$('#collectionTable').append('<tr><td><a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td><td><button onclick=EditColletcion('+a.get('_id')+')><i class="icon-edit pull-right"></i></button></td></tr>')
             }
             else
             {
-            	$('#'+a.get('NesttedUnder')+'').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td></tr>')
+            	$('#'+a.get('NesttedUnder')+'').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td><td><button onclick=EditColletcion("'+a.get('_id')+'")><i class="icon-edit pull-right"></i></button></td></tr>')
             
             }
 				
@@ -826,7 +826,7 @@ $(function () {
                     var button = '<p>'
                     button += '<a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
                     button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
-                    button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+                    button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
                     button += '</p>'
                     App.$el.children('.body').html(button)
@@ -1503,74 +1503,6 @@ $(function () {
             })
 
         },
-
-        SearchResult: function (text) {
-
-           //  if (typeof grpId === 'undefined') {
-//                 document.location.href = '#courses'
-//             }
-            skipStack.push(skip)
-            if (text) {
-                searchText = text
-            } else {
-                searchText = $("#searchText").val()
-            }
-        
-        
-            var collectionFilter=new Array()
-            var subjectFilter=new Array()
-            var levelFilter=new Array()
-            var languageFilter=new Array()
-            
-        collectionFilter=$("#multiselect-collections-search").val()
-        subjectFilter=$("#multiselect-subject-search").val()
-        levelFilter=$("#multiselect-levels-search").val()
-		languageFilter=$("#Language-filter").val()
-		authorName=$('#Author-name').val()
-		
-		mediumFilter=$('#multiselect-medium-search').val()
-		
-       
-        console.log(collectionFilter)  
-		console.log(subjectFilter)
-		console.log(levelFilter)
-		console.log(languageFilter)
-         
-       //  alert(mediumFilter)
-         
-           $("input[name='star']").each(function () {
-                if ($(this).is(":checked")) {
-                    ratingFilter.push($(this).val());
-                }
-            })
-
-            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
-              // alert('in search')
-            
-                $('ul.nav').html($("#template-nav-logged-in").html())
-                
-                var search = new App.Views.Search()
-                
-                search.collectionFilter = collectionFilter
-                search.languageFilter = languageFilter
-                search.levelFilter = levelFilter
-                search.subjectFilter = subjectFilter
-                search.ratingFilter = ratingFilter
-                search.mediumFilter = mediumFilter
-                search.authorName = authorName
-                
-                search.addResource=true
-                
-                App.$el.children('.body').html(search.el)
-                search.render()
-                $("#searchText2").val(searchText)
-                $("#srch").show()
-                $(".row").hide()
-                $(".search-bottom-nav").show()
-                $(".search-result-header").show()
-                $("#selectAllButton").show()
-            }
-        },
         SearchCoursesInDb: function (text) {
 
             skipStack.push(skip)
@@ -1604,14 +1536,11 @@ $(function () {
                     $('ul.nav').html($("#template-nav-logged-in").html())
                     
                     var search = new App.Views.Search()
-                    //search.resourceids = levelInfo.get("resourceId")
+                    grpId = publicationId
                     search.addResource=true
+                    search.Publications=true
                     App.$el.children('.body').html(search.el)
                     search.render()
-                    
-                   // alert($("#multiselect-subject-search"))
-                    
-                    
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
 					$("#multiselect-medium-search").multiselect({

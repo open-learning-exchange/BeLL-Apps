@@ -62,6 +62,8 @@ $(function () {
                 }
                 if (addtoDb) {
                     this.model.save()
+                    alert("Issue Saved (No Resources attached)")
+                    window.location.href='#publication'
                 }
             }
 
@@ -71,7 +73,7 @@ $(function () {
 		  var isEdit = this.model.get("_id")
 		  this.form.commit()
 		  
-		  if (this.model.get("IssueNo").length == 0) {
+		  if (this.model.get("IssueNo")==undefined) {
                 alert("Publication Issue is missing")
                 showsearch=false
             }
