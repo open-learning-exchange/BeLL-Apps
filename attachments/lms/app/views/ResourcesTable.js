@@ -26,6 +26,28 @@ $(function() {
 			{
 				this.render()
 			}
+		},
+		"click .clickonalphabets" : function(e)
+		{
+			this.collection.skip = 0
+			var val = $(e.target).text()
+			this.collection.startkey = val
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
+			
+		},
+		"click #allresources" : function(e)
+		{
+			this.collection.startkey = ""
+			this.collection.skip = 0
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
 		}
 	},
     initialize: function(){
@@ -52,14 +74,25 @@ $(function() {
     }
       this.collection.forEach(this.addOne, this)
     },
-
+	alphabetsClicked: function(){
+		alert('hello')
+	},
     render: function() {
-       this.$el.html("<tr><th>Title</th><th colspan='6'>Actions</th></tr>")
+    	this.$el.html("")
+    	this.$el.append('<a  id="allresources" >#</a>&nbsp;&nbsp;')
+    	var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	   for(var i=0; i<str.length; i++)
+	   {
+	      var nextChar = str.charAt(i);
+	      this.$el.append('<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;')
+	   }
+	   this.$el.append('<br/><br/>')
+       this.$el.append("<tr><th>Title</th><th colspan='6'>Actions</th></tr>")
       this.addAll()
       this.$el.append('<br/><br/>')
       if(this.collection.skip!=0)
       {
-      	this.$el.append('<a class="btn btn-success" id="backButton">Back</a>&nbsp;&nbsp;')
+      	this.$el.append('<a class="btn btn-success" id="backButton" >Back</a>&nbsp;&nbsp;')
       }
       this.$el.append('<a class="btn btn-success" id="nextButton">Next</a>')
     }

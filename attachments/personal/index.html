@@ -305,14 +305,66 @@ function FieSelected(stepId)
         }
 	})
 }
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+} 
 function sendMail()
 {
+	var configurations=Backbone.Collection.extend({
+		url: App.Server + '/configurations/_all_docs?include_docs=true'
+   	})
+   	var config=new configurations()
+    config.fetch({async:false})
+    var currentConfig=config.first()
+    var cofigINJSON=currentConfig.toJSON()
+   var scode = cofigINJSON.rows[0].doc.code + cofigINJSON.rows[0].doc.nationName.substring(3,5)
+	
 	var attachment = true
 	var rec = $("#recipients").val()
+	var invalidEmails = new Array()
+	var invalidIndex = new Array()
 	var mailingList =new Array()
 	mailingList=rec.split(',')
-
-
+	for(var i=0; i<mailingList.length ; i++)
+	{
+		var mailadd = mailingList[i]
+		if(validateEmail(mailadd))
+		{	
+			if(mailadd!="mycommunity@olebell.org")
+			{
+				var temp = (mailadd.split('@')[0]).split('.')
+				if(temp.length>0)
+				{
+					var code = temp[temp.length-1]
+					if(code==scode && mailadd.split('@')[1]=='olebell.org')
+					{
+						///valid email address
+					}
+					else
+					{
+						invalidEmails.push(mailadd)
+						invalidIndex.push(i)
+					}
+				}
+				else
+				{
+					invalidIndex.push(i)
+					invalidEmails.push(mailadd)
+				}
+			}
+		}
+		else
+		{
+			invalidIndex.push(i)
+			invalidEmails.push(mailadd)
+		}
+	}
+	for(var i=0 ; i<invalidIndex.length ; i++)
+	{
+		mailingList.splice(invalidIndex[i],1)
+	}
+	
 	var subject = $("#subject").val();
 	var mailBody = $("textarea#mailbodytexarea").val();
 	var img = $('input[type="file"]')
@@ -344,19 +396,37 @@ function sendMail()
 	}
 	else
 	{
+		alert(invalidEmails + ' are invalid email addresses.')
+		if(mailingList.length<=0)
+		{
+			return 
+		}
 	    var mailId='' 
+	   	if(mailingList.indexOf('mycommunity@olebell.org')!=-1)
+		{
+				var members = new App.Collections.Members()
+				members.fetch({async:false})
+				members.each(function(member) {
+					console.log(member)
+					mailId = member.get('login')
+					sendSingleMail(mailId,mailBody,subject,mailingList)
+        			alert(member.get('login'))
+    			});
+    			alert("Mail successfully send.")
+				return
+		}
 		for(var i=0;i<mailingList.length;i++)
 		{
-	      if(mailingList[i].indexOf('@olebell.org')!=-1)
-		 {
-		 	var names=mailingList[i].split(".")
-		 	console.log(names[0])
-			mailId=names[0]
-		 }
-		 else{
-		   mailId=mailingList[i]
-		 }
-	     sendSingleMail(mailId,mailBody,subject,mailingList)
+	    	if(mailingList[i].indexOf('@olebell.org')!=-1)
+		 	{
+		 		var names=mailingList[i].split(".")
+		 		console.log(names[0])
+				mailId=names[0]
+		 	}
+		 	else{
+		   		mailId=mailingList[i]
+		 	}
+	     	sendSingleMail(mailId,mailBody,subject,mailingList)
 		
 	   }
 	   alert("Mail successfully send.")

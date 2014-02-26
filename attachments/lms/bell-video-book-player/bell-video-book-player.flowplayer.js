@@ -72,9 +72,8 @@ flowplayer(function(api, root) {
       	nextPage = 0
       	previousPage = lastPage - 1
     }
-
+	//alert('pre page : ' + previousPage + 'current page : ' + destinationPage + ' Next page : ' + nextPage)
     // Clear the pager
-    alert('end')
     $(".fp-cuepoint").text("")
     $(".fp-cuepoint").removeClass("previous-page")
     $(".fp-cuepoint").removeClass("next-page")
@@ -99,11 +98,11 @@ flowplayer(function(api, root) {
     $(".video-reader-pager .fp-cuepoint").each(function() {
       lastPage++
     })
-
     $(".fp-cuepoint" + lastPage).text("<").addClass("previous-page")
     $(".fp-cuepoint" + currentPage).html("<div class='page-number'>Page <h2>" + (currentPage + 1 + "</h2></div>")).addClass("current-page")
     $(".fp-cuepoint" + (currentPage + 1)).text(">").addClass("next-page")
 
   });
+  
  
 });

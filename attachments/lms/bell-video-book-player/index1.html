@@ -1,0 +1,45 @@
+<!doctype html>
+
+<head>
+
+   <!-- player skin -->
+  <script src="lib/jquery-1.7.1.js"></script>`
+   <script src="lib/jquery.url.js"></script>
+   <script src="cuepoint.js"></script>
+
+   <!-- video-reader script using the flowplayer API -->
+	<script>
+	var cuePoints;
+	$(document).ready(function(){
+	var resource_url = "http://127.0.0.1:5984/apps/_design/bell/lms/bell-video-book-player/"
+	var fileName = "kevins-birthday.webmsd.webm"
+ 	$.getJSON(resource_url + fileName + ".cuepoints.json", function(data) {
+ 		
+ 		cuePoints = data;
+ 	});
+  	var slides = {5:"Hello World"}
+  		cuepoint.init(slides);
+  		//cuepoint.play();
+	});
+	function  next()
+	{
+		//alert('next')
+		cuepoint.nextPage(cuePoints);
+	}
+	function previous()
+	{
+		cuepoint.previousPage(cuePoints);
+	}
+	</script>  
+
+</head>
+
+
+
+<body>
+
+ <video id='video' width="768" preload="auto" controls poster="images/poster.jpg">
+			<source src='kevins-birthday.webmsd.webm' />
+		</video>
+<input type="button" id="next" value="Next" name="Next" onclick="next()"/>&nbsp;&nbsp;<input type="button" id="previous" value="Previous" name="Previoius" onclick="previous()"/>
+</body>
