@@ -13,7 +13,8 @@ $(function () {
         resultArray: null,
 
         initialize: function () {
-            this.groupresult = new App.Collections.SearchResource()
+            //this.groupresult = new App.Collections.SearchResource()
+            this.groupresult = new App.Collections.Resources()
             this.resultArray = []
             enablenext = 0
         },
@@ -25,7 +26,7 @@ $(function () {
 						  })
 			this.vars.tags=collections.toJSON()
             this.vars.addResource=this.addResource
-            if(this.Publications!=undefined)
+            if(typeof this.Publications!= 'undefined')
             {
             	
             	this.vars.Publications=this.Publications
@@ -34,14 +35,80 @@ $(function () {
             	this.vars.Publications=false 
             }
             this.$el.html(_.template(this.template, this.vars))
-            if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFilter && this.ratingFilter.length > 0)) {
+            if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFailter && this.ratingFilter.length > 0)) {
                App.startActivityIndicator()
-                this.fetchRecords()
+                //this.fetchRecords()
+                this.getSearchedRecords();
             }
             
             
         },
+		getSearchedRecords: function()
+		{
+			var filters = new Array()
+           	if(this.collectionFilter)
+           	{
+           		for(var i=0 ; i<this.collectionFilter.length; i++)
+           		{
+           			filters.push(this.collectionFilter[i])
+           		}
+           	}
+           	if(this.subjectFilter)
+           	{
+           		for(var i=0 ; i<this.subjectFilter.length; i++)
+           		{
+           			filters.push(this.subjectFilter[i])
+           		}
+           	}
+           	if(this.levelFilter)
+           	{
+           		for(var i=0 ; i<this.levelFilter.length; i++)
+           		{
+           			filters.push(this.levelFilter[i])
+           		}
+           	}
+           	if(this.mediumFilter)
+           	{
+           		for(var i=0 ; i<this.mediumFilter.length; i++)
+           		{
+           			filters.push(this.mediumFilter[i])
+           		}
+           	}
+           	var fil = JSON.stringify(filters);
+           	this.groupresult.skip = 0
+           	this.groupresult.collectionName = fil;
+           	this.groupresult.fetch({async:false})
+           	App.stopActivityIndicator()
+           	var obj=this
+           	if(obj.addResource!=true)
+            {
+                if (this.groupresult.length > 0) {
+                    var SearchSpans = new App.Views.SearchSpans({
+                        collection: this.groupresult
+                    })
+                          
+                    SearchSpans.resourceids = obj.resourceids
+                    SearchSpans.render()
+                    $('#srch').append(SearchSpans.el)
 
+                }
+            }
+            else
+            {
+           		var loggedIn = new App.Models.Member({"_id": $.cookie('Member._id')})
+          	 	loggedIn.fetch({async: false})
+           		var roles = loggedIn.get("roles")
+          		var SearchSpans = new App.Views.ResourcesTable({
+              		collection: this.groupresult
+          		})
+          		SearchSpans.isManager = roles.indexOf("Manager")
+          		SearchSpans.resourceids = obj.resourceids
+          		SearchSpans.render()
+          		$('#srch').html('<h4>Search Result <a style="float:right" class="btn btn-info" onclick="backtoSearchView()">Back To Search</a></h4>')
+          		$('#srch').append(SearchSpans.el)
+            }
+  					
+		},
         fetchRecords: function () {
             var obj = this
             this.groupresult.fetch({
