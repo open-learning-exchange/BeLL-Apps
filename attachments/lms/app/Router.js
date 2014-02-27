@@ -646,64 +646,90 @@ $(function () {
             }
     
     }, 
-        Collection: function () {
-		    App.startActivityIndicator()
-		   
-            var temp = $.url().data.attr.host.split(".")  // get name of community
-                temp = temp[0].substring(3)
-            if(temp=="")
-            temp='local'
-            
-             var roles =this.getRoles()
-             
-            $('ul.nav').html($("#template-nav-logged-in").html()).show()
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
-           var collections=new App.Collections.listRCollection()
-           collections.major=true
-				collections.fetch({ 
-				
-				 success: function () {
-                    var collectionTableView = new App.Views.CollectionTable({
-                        collection: collections
-                    })
-                    collectionTableView.render()
-                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a></p></span>')
+        		Collection: function ()
+				{
+					App.startActivityIndicator()
 
-                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
-                     
-                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='somalia') )
-                     App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+					var temp = $.url().data.attr.host.split(".") // get name of community
+					temp = temp[0].substring(3)
+					if (temp == "")
+						temp = 'local'
 
-                    if(roles.indexOf("Manager") !=-1 )
-                     App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick="AddColletcion()">Add Collection</button>')
-                    App.$el.children('.body').append(collectionTableView.el)
-                },
-                async:false
-				})
-				var subcollections=new App.Collections.listRCollection()
-				subcollections.major=false
-				subcollections.fetch({
-				async:false
-				})
-				_.each(subcollections.last(subcollections.length).reverse(), function(a){ 
-				if(a.get('NesttedUnder')=='--Select--')
-            {
-            	$('#collectionTable').append('<tr><td><a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td><td><button onclick=EditColletcion('+a.get('_id')+')><i class="icon-edit pull-right"></i></button></td></tr>')
-            }
-            else
-            {
-            	$('#'+a.get('NesttedUnder')+'').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/'+a.get('_id')+'/'+a.get('CollectionName')+'">'+a.get('CollectionName')+'</a></td><td><button onclick=EditColletcion("'+a.get('_id')+'")><i class="icon-edit pull-right"></i></button></td></tr>')
-            
-            }
-				
-				});
-				
-        App.stopActivityIndicator()
-			
-			
-				
+					var roles = this.getRoles()
 
-        },
+					$('ul.nav').html($("#template-nav-logged-in").html()).show()
+					$('#itemsinnavbar').html($("#template-nav-logged-in").html())
+					var collections = new App.Collections.listRCollection()
+					collections.major = true
+					collections.fetch(
+					{
+
+						success: function ()
+						{
+							var collectionTableView = new App.Views.CollectionTable(
+							{
+								collection: collections
+							})
+							collectionTableView.render()
+							App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a></p></span>')
+
+							App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
+
+							if (roles.indexOf("Manager") != -1 && (temp == 'hagadera' || temp == 'dagahaley' || temp == 'ifo' || temp == 'somalia'))
+								App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+
+							if (roles.indexOf("Manager") != -1)
+								App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick="AddColletcion()">Add Collection</button>')
+							App.$el.children('.body').append(collectionTableView.el)
+						},
+						async: false
+					})
+					var subcollections = new App.Collections.listRCollection()
+					subcollections.major = false
+					subcollections.fetch(
+					{
+						async: false
+					})
+					if (roles.indexOf("Manager") != -1)
+					{
+						_.each(subcollections.last(subcollections.length).reverse(), function (a)
+						{
+							if (a.get('NesttedUnder') == '--Select--')
+							{
+								$('#collectionTable').append('<tr><td><a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td><button onclick=EditColletcion(' + a.get('_id') + ')><i class="icon-edit pull-right"></i></button></td></tr>')
+							}
+							else
+							{
+								$('#' + a.get('NesttedUnder') + '').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td><button onclick=EditColletcion("' + a.get('_id') + '")><i class="icon-edit pull-right"></i></button></td></tr>')
+
+							}
+
+						});
+					}
+					else
+					{
+						_.each(subcollections.last(subcollections.length).reverse(), function (a)
+						{
+							if (a.get('NesttedUnder') == '--Select--')
+							{
+								$('#collectionTable').append('<tr><td><a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td></td></tr>')
+							}
+							else
+							{
+								$('#' + a.get('NesttedUnder') + '').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td></td></tr>')
+
+							}
+
+						});
+					}
+
+
+					App.stopActivityIndicator()
+
+
+
+
+				},
  ListCollection: function (collectionId,collectionName) {
             App.startActivityIndicator()
             var that=this

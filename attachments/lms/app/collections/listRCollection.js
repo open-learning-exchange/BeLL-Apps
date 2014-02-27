@@ -19,7 +19,6 @@ $(function() {
       return docs
     },
     comparator: function(item) {
-        
         var name=item.get("CollectionName");
         if(name) return (name.toLowerCase())
     },
