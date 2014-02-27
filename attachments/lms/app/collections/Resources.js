@@ -8,7 +8,7 @@ $(function() {
     url: function () { 
     	if(this.collectionName)
     	{
-    		return App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&key="' + this.collectionName + '"'
+    		return App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&keys=' + this.collectionName
     	}
     	else if(this.skip>=0)
     	{

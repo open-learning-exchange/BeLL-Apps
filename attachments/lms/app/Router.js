@@ -430,10 +430,14 @@ $(function () {
 	    this.RenderTagSelect(identifier)
 	    if (resource.id) {
 	        $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
-	        var total = resource.get('Tag').length
+	        if(resource.get('Tag'))
+	        {
+	        	var total = resource.get('Tag').length
 	        for (var counter = 0; counter < total; counter++)
 	            $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected');
 
+	        }
+	      
 	    }
 	    //$('.form .field-Tag select option[value='+a.get("NesttedUnder")+"]").append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
 	},
@@ -746,7 +750,10 @@ $(function () {
 	            })
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
-            var resources = new App.Collections.Resources({collectionName:collectionId})
+            var collId = Array()
+            collId.push(collectionId)
+             collId=JSON.stringify(collId);
+            var resources = new App.Collections.Resources({collectionName:collId})
             resources.fetch({
                 success: function () {
                     var resourcesTableView = new App.Views.ResourcesTable({

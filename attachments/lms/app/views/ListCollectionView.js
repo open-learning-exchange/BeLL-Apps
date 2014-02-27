@@ -35,13 +35,7 @@ $(function () {
         $('#'+this.model.get("_id")).parent('tr').remove()
         this.model.set({'show':false})
         this.model.save()
-         $('#invitationdiv').fadeOut(1000)
-            document.getElementById('cont').style.opacity = 1.0
-            document.getElementById('nav').style.opacity = 1.0
-            setTimeout(function () {
-                $('#invitationdiv').hide()
-            }, 1000);
-            
+        location.reload()
         },
         render: function () {
             var inviteForm = this
