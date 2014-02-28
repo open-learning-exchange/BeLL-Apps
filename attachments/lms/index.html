@@ -383,7 +383,7 @@
 
     function showSubjectCheckBoxes()
   {
-    var subjects = ['Agriculture','Business and Finance','Fine Arts','Food and Nutrition','Geography','Health & Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics & Government','Reference','Religion','Science','Social Sciences','Sports','Technology'];
+    var subjects = ['Agriculture','Business and Finance','Fine Arts','Food and Nutrition','Geography','Health and Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics and Government','Reference','Religion','Science','Social Sciences','Sports','Technology'];
   	var length = subjects.length;
   	var htmlString = "<label style='font-size:16px'><b>Subject</b></label><br>" ;
   	    htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>" ; 
@@ -1353,7 +1353,10 @@ Please become a Member and explore both the Community Learning Management System
     <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>  
     </td>
     <td>
+    <%if(display==true){%>
+    
     <button onclick="EditColletcion('<%=_id%>')"><i class="icon-edit pull-right"></i></button>
+    <%}%>
     </td>
       </script>
 

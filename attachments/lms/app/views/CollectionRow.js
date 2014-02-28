@@ -12,7 +12,7 @@ $(function () {
 
         render: function () {
             var vars = this.model.toJSON()
-           	console.log(vars)
+            vars.display=this.display
            	if(!vars.CollectionName)
            	vars.CollectionName="XYZ"
            	this.$el.append(_.template(this.template, vars))

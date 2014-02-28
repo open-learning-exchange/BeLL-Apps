@@ -67,6 +67,8 @@
   <script src="app/models/AssignmentPaper.js"></script>
   <script src="app/models/UserMeetup.js"></script>
   <script src="app/models/MeetUp.js"></script>
+  <script src="app/models/ReleaseNotes.js"></script>
+  
   
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
@@ -1134,13 +1136,19 @@ function startRecording()
 			</table> 
 		</div>
             </div>
-            
-            <input type="button" name="start" value="start Recording" onclick="startRecording()" />
-            
-            <div id="audios-container">
-        </div>
-        
 
+       		<div id="releaseVersion" style="display: none;">
+       			<br/><h3>Add Release Notes</h3><br/>
+       			<input type="text" placeholder="Enter version no" id="appversion" ><br/><br/>
+       			<textarea id="notes"></textarea><br/><br/>
+       			<input type="button" name="Save" value="Save" id="savenotes" />&nbsp;&nbsp;
+       			<input type ="button" name="Cancel" value="Cancel" id="cancelnotes" />
+       		</div>
+       		<div id="showReleaseNotes" style="display: none;">
+       		<br/><h3>Release Notes</h3>
+       		<br/>
+       		<textarea id="shownotes"  style="width: 599px; height: 96px;resize: none;" disabled></textarea><br/>
+       		</div>
             
      
   </script>

@@ -431,40 +431,46 @@ $(function ()
 			App.stopActivityIndicator()
 			
 		},
-		PublicationDetails:function(publicationId)
+		PublicationDetails: function (publicationId)
 		{
-		
-		var publication = new App.Views.Publication()
+
+			var publication = new App.Views.Publication()
 			publication.render()
 			App.$el.children('.body').html(publication.el)
-		var publicationObject=new App.Models.Publication({
-		_id:publicationId
-		})
-		publicationObject.fetch({
-		async:false
-		})
-		var coll=Array()
-		console.log(publicationObject.toJSON())
-		App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.'+publicationObject.get('IssueNo')+'</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/'+publicationObject.get('_id')+'" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a></div>')
-		var resources=publicationObject.get('resources')
-		var i=0
-		_.each(resources, function(){
-		var resource=new App.Models.Resource({
-		_id: (resources[i])
-		})
-		resource.fetch({
-		async:false
-		})
-		coll.push(resource)
-		i++
-		
-		})
-		var publicationresTable=new App.Views.PublicationResourceTable({
-		collection:coll
-		})
-		publicationresTable.Id=publicationId
-		publicationresTable.render()
-		App.$el.children('.body').append(publicationresTable.el)
+			var publicationObject = new App.Models.Publication(
+			{
+				_id: publicationId
+			})
+			publicationObject.fetch(
+			{
+				async: false
+			})
+			var coll = Array()
+			console.log(publicationObject.toJSON())
+			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a></div>')
+			var resources = publicationObject.get('resources')
+			var i = 0
+			_.each(resources, function ()
+			{
+				var resource = new App.Models.Resource(
+				{
+					_id: (resources[i])
+				})
+				resource.fetch(
+				{
+					async: false
+				})
+				coll.push(resource)
+				i++
+
+			})
+			var publicationresTable = new App.Views.PublicationResourceTable(
+			{
+				collection: coll
+			})
+			publicationresTable.Id = publicationId
+			publicationresTable.render()
+			App.$el.children('.body').append(publicationresTable.el)
 		},
 		
 		PublicationForm: function(publicationId)
