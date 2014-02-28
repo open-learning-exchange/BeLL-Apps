@@ -1658,7 +1658,7 @@ $(function () {
             })
         },
         bellResourceSearch:function(){
-                   //alert()
+                  
                    popAll()      // reset the SkipStack
                    $('ul.nav').html($("#template-nav-logged-in").html())                    
                     var search = new App.Views.Search()
