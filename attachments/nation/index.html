@@ -108,6 +108,7 @@
     <script src="app/views/RequestsTable.js"></script>
     <script src="app/views/RequestRow.js"></script>
 	<script src="app/views/NationReportCommentView.js"></script>
+	<script src="app/views/listCommunityView.js"></script>
   	<script src="app/Router.js"></script>
      
   	
@@ -126,14 +127,10 @@
 		$('#site-feedback').animate({height:'toggle'})
 		}
 		}
-		function searchres(){
-            		// this.model.save(null,{success:function(e){
-// 		 				 window.location.href = '../lms/index.html#search-bell/'+e.toJSON().id;
-// 		 				 }
-// 		  			})
-				alert(id)
-		}
-
+		function SelectCommunity()
+  		{
+  			App.Router.SelectCommunities()
+  		}
   	</script>
     <!--templates -->
     <script type='text/template' id='template-login'>
@@ -661,15 +658,27 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2">
+       <%if(rlength>0){%>
+        <td colspan="1">
           <button class="btn btn-success" id="AddResPublication">Add Resources</button>
         </td>
+       
+        <td>
+        <p>
+         Total Resources: <%=rlength%>
+        </p>
+        </td>
+        <%}else{%>
+        <td colspan="2">
+          <button class="btn btn-success" id="AddResPublication">Add Resources</button>
+        </td> 
+        <%}%>
       </tr>
       
       <tr>
         <td>
           <div class="save btn btn-success" name="save">
-            Send
+            Save
           </div>
 		<a class="btn btn-danger" id="cancel">Cancel</a>
         </td>

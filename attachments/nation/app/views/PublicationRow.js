@@ -27,7 +27,7 @@ $(function () {
         render: function () {
             //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()
-            console.log(vars)
+          
                 vars.isManager = this.isManager
                 var date=new Date(vars.Date)
                 vars.Date=date.toUTCString()
