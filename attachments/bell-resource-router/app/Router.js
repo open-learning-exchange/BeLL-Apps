@@ -22,6 +22,9 @@ $(function() {
         console.log(_.keys(resource.get('_attachments'))[1]) 	
           openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + _.keys(resource.get('_attachments'))[0]
     }
+    
+         //alert(openUrl)
+         
          window.location=openUrl
       })
       resource.fetch()

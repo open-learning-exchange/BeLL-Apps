@@ -52,6 +52,83 @@ $(function () {
                     },
                     async: false
                 })
+            },
+            "click #showReleaseNotesDiv": function(e)
+            {
+            	if ($('#releaseVersion').css('display') == 'none') {
+            		$( "#releaseVersion" ).slideDown( "slow", function() {
+    				
+  					});
+            	}
+            	else
+            	{
+            		$( "#releaseVersion" ).slideUp( "slow", function() {
+            			$('#appversion').val("")
+            			$('#notes').val("")
+  					});
+            	}
+            },
+            "click #cancelnotes": function(e)
+            {
+            	$( "#releaseVersion" ).slideUp( "slow", function() {
+            			$('#appversion').val("")
+            			$('#notes').val("")
+  					});
+            },
+            "click #savenotes": function(e)
+            {
+            	if($('#appversion').val()=="")
+            	{
+            		alert("Please enter version no.")
+            		return
+            	}
+            	if($('#notes').val()=="")
+            	{
+            		alert("Please enter release notes.")
+            		return
+            	}
+            	
+            	var configurations=Backbone.Collection.extend({
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    			})
+    			var config=new configurations()
+    	     	config.fetch({async:false})
+    	    	var con=config.first()
+              	con = (con.get('rows')[0]).doc
+              	var conTable = new App.Models.ReleaseNotes({_id:con._id})
+              	conTable.fetch({async:false})
+              	conTable.set('version' ,$('#appversion').val() )
+            	conTable.set('notes' ,$('#notes').val() )
+              	conTable.save(null,{ success: function(e){
+              		$( "#releaseVersion" ).slideUp( "slow", function() {
+            			$('#appversion').val("")
+            			$('#notes').val("")
+            			alert('Notes successfully saved.')
+  					})
+              	}})
+              	
+            	
+            },
+            "click #viewReleaseNotes": function(e)
+            {
+            	if ($('#showReleaseNotes').css('display') == 'none') {
+            		$( "#showReleaseNotes" ).slideDown( "slow", function() {
+            			var configurations=Backbone.Collection.extend({
+    						url: App.Server + '/configurations/_all_docs?include_docs=true'
+    					})
+    					var config=new configurations()
+    	     			config.fetch({async:false})
+    	    			var con=config.first()
+              			con = (con.get('rows')[0]).doc
+              			$("textarea#shownotes").val(con.notes)
+    				
+  					});
+            	}
+            	else
+            	{
+            		$( "#showReleaseNotes" ).slideUp( "slow", function() {
+  					});
+            	}
             }
         },
         render: function () {
@@ -165,6 +242,7 @@ $(function () {
             var currentConfig = config.first().toJSON()
             console.log(currentConfig.rows[0].doc)
             if (currentConfig.rows[0].doc.type == 'nation') {
+            	dashboard.$el.append('<br/><br/><button class="btn systemUpdate" id="showReleaseNotesDiv">Add release notes</button>')
                 return
             }
             var nationName = currentConfig.rows[0].doc.nationName
@@ -174,16 +252,21 @@ $(function () {
                 type: 'GET',
                 dataType: "jsonp",
                 success: function (json) {
+                	
                     var nationConfig = json.rows[0].doc
                     //alert(nationConfig.version + ' ' + currentConfig.rows[0].doc.version)
                     if (typeof nationConfig.version === 'undefined') {
+                    	 
                         /////No version found in nation
                     } else if (nationConfig.version == currentConfig.rows[0].doc.version) {
+                    	 
                         ///No updatea availabe
                     } else {
                         ////updates availabe
+                        
                         dashboard.latestVersion = nationConfig.version
-                        dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + '). Press to update. </button>')
+                        dashboard.$el.append('<br/><br/><button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + '). Press to update. </button>')
+                        dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">View Release Notes </button>')
                     }
                 },
                 async: false
