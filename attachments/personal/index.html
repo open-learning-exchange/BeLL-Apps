@@ -552,7 +552,7 @@ $(window).scroll(function () {
 
 function startRecording()
 {
-	
+	var that=this
 	var mediaConstraints = { audio: true };
             var adio;
             navigator.getUserMedia_ = (   navigator.getUserMedia
@@ -561,8 +561,8 @@ function startRecording()
                            || navigator.msGetUserMedia);
 
 			if ( !! navigator.getUserMedia_) {
-    		//navigator.getUserMedia_('video', successCallback, errorCallback);
-            navigator.getUserMedia_(mediaConstraints, onMediaSuccess, onMediaError);
+    			//navigator.getUserMedia_('video', successCallback, errorCallback);
+            	navigator.getUserMedia_(mediaConstraints, onMediaSuccess, onMediaError);
 			}
 
             function onMediaSuccess(stream) {
@@ -580,31 +580,34 @@ function startRecording()
                 var mediaRecorder = new MediaStreamRecorder(stream);
                 adio = mediaRecorder;
                 mediaRecorder.mimeType = 'audio/wav';
+                
                 mediaRecorder.ondataavailable = function(blob) {
-                    var a = document.createElement('a');
-                    a.target = '_blank';
-                    a.innerHTML = 'Open Recorded Audio No. ' + (index++);
-					a.style.color = 'black';
-                    a.href = URL.createObjectURL(blob);
-
-                    audiosContainer.appendChild(a);
-                    audiosContainer.appendChild(document.createElement('hr'));
-                    var audioPlayer = document.getElementsByTagName('audio')[0];
-    				audioPlayer.pause();
+    				  stopButtonPressed(blob);  // list the audio and stop
                 };
 
-                // get blob after each 5 second!
+                // get blob after each 20 second!
                 mediaRecorder.start(20 * 1000);
+                
+                alert('You have 20 seconds')
             }
 
             function onMediaError(e) {
                 console.error('media error', e);
             }
-			function stopButtonPressed()
-			{
+			function stopButtonPressed(blob)
+			{ 
+			     var a = document.createElement('a');
+                    a.target = '_blank';
+                    a.innerHTML = 'Listen Recording ' + (index++);
+					a.style.color = 'black';
+                    a.href = URL.createObjectURL(blob);
+
+                    audiosContainer.appendChild(a);
+                    audiosContainer.appendChild(document.createElement('hr'));
+                    
 				var audioPlayer = document.getElementsByTagName('audio')[0];
-    			audioPlayer.pause();
-    			//adio.stop();
+    			    audioPlayer.pause();
+               alert('stoped')
 			}
             var audiosContainer = document.getElementById('audios-container');
             var index = 1;
@@ -1133,6 +1136,7 @@ function startRecording()
             </div>
             
             <input type="button" name="start" value="start Recording" onclick="startRecording()" />
+            
             <div id="audios-container">
         </div>
         
