@@ -25,7 +25,7 @@
 	    $('#next').attr('disabled',false)
 	    $('#previous').attr('disabled',false)
 	              
-	$('#video').html("<source src='"+resource_url+"' />")
+	//$('#video').html("<source src='"+resource_url+"' />")
 	
  	$.getJSON(url + fileName+".cuepoints.json", function(data) {
  		     
@@ -131,7 +131,7 @@ function startRecording()
         <div id='video-container' style='width:900px;height:500px;margin:0px auto'>
  		
  			<video id='video' style='width:900px;height:500px' preload="auto" controls=true poster="images/poster.jpg">
-					
+					<source src='example-book/kevins-birthday.webmsd.webm' />
  			</video>
  		
  		</div>
