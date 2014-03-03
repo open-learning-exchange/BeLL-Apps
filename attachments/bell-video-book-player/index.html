@@ -14,20 +14,23 @@
 	<script>
 	var cuePoints;
 	$(document).ready(function(){
-    var pathname = $.url().data.attr.fragment
-    
-	var resource_url = pathname.substring(4) 
+    //var pathname = $.url().data.attr.fragment
+	//var resource_url = pathname.substring(4) 
 	
-	var url="http://127.0.0.1:5984/apps/_design/bell/lms/bell-video-book-player/"
+	 var currentPath=$.url().data.attr.path
+	 
+	   path=currentPath.substring(0,currentPath.lastIndexOf('/'))
+	   
+	var url="/example-book/"
 	var fileName = "kevins-birthday.webmsd.webm"
 	    
 	    
 	    $('#next').attr('disabled',false)
 	    $('#previous').attr('disabled',false)
 	              
-	$('#video').html("<source src='"+resource_url+"' />")
+	//$('#video').html("<source src='"+resource_url+"' />")
 	
- 	$.getJSON(url + fileName+".cuepoints.json", function(data) {
+ 	$.getJSON(path+url + fileName+".cuepoints.json", function(data) {
  		     
  		cuePoints = data;
  		id=setInterval(function(){
@@ -131,7 +134,7 @@ function startRecording()
         <div id='video-container' style='width:900px;height:500px;margin:0px auto'>
  		
  			<video id='video' style='width:900px;height:500px' preload="auto" controls=true poster="images/poster.jpg">
-					
+					<source src='example-book/kevins-birthday.webmsd.webm' />
  			</video>
  		
  		</div>
