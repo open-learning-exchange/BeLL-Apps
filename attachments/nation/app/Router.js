@@ -543,7 +543,6 @@ $(function ()
 			Communities.each(
 			function(log) {
             $('#comselect').append("<option value='" + log.get('Url')+ "'>" + log.get('Name') + "</option>")
-            console.log('log item.', log);
         	})
         	
 			

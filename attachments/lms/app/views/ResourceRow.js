@@ -170,17 +170,95 @@ $(function () {
         initialize: function (e) {
             this.model.on('destroy', this.remove, this)
         },
-
-        render: function () {
-        
-            var vars = this.model.toJSON()
-            
-		if(vars.hidden==undefined)
+				render: function ()
 		{
-			vars.hidden=false
-		}
-            //vars.avgRating = Math.round(parseFloat(vars.averageRating))
-            /*var resourceFeedback = new App.Collections.ResourceFeedback()
+
+			var vars = this.model.toJSON()
+			var Details = ""
+			if (vars.language != undefined)
+				if (vars.language.length > 0)
+					Details = '<b>Language </b>' + vars.language + " , "
+			if (vars.subject != undefined)
+			{
+				Details = Details + "<b>Subject('s) </b>"
+				if ($.isArray(vars.subject))
+				{
+					for (var i = 0; i < vars.subject.length; i++)
+					{
+						Details = Details + vars.subject[i] + ' / '
+					}
+
+				}
+				else
+				{
+					Details = Details + vars.subject + ' / '
+
+				}
+				Details = Details.substring(0, Details.length - 3)
+				Details = Details + ' , '
+			}
+			if (vars.Level != undefined)
+			{
+				Details = Details + "<b>Level('s) </b>"
+				if ($.isArray(vars.Level))
+				{
+					for (var i = 0; i < vars.Level.length; i++)
+					{
+						Details = Details + vars.Level[i] + ' / '
+					}
+
+				}
+				else
+				{
+					Details = Details + vars.Level + ' / '
+
+				}
+
+				Details = Details.substring(0, Details.length - 3)
+				Details = Details + ' , '
+
+			}
+			if (vars.openWith != undefined)
+			{
+				Details = Details + "<b>Media </b>"
+				Details = Details + vars.openWith + ' , '
+
+			}
+			if (vars.Tag != undefined)
+			{
+
+				Details = Details + "<b>Collection </b>"
+				if ($.isArray(vars.Tag))
+				{
+					for (var i = 0; i < vars.Tag.length; i++)
+					{
+						var coll = new App.Models.CollectionList(
+						{
+							_id: vars.Tag[i]
+						})
+						coll.fetch(
+						{
+							async: false
+						})
+						if (coll.toJSON().CollectionName != undefined)
+							Details = Details + coll.toJSON().CollectionName + " / "
+					}
+				}
+				else
+				{
+					if (vars.Tag != 'Add New')
+						Details = Details + vars.Tag + ' / '
+				}
+
+			}
+			Details = Details.substring(0, Details.length - 3)
+			vars.Details = Details
+			if (vars.hidden == undefined)
+			{
+				vars.hidden = false
+			}
+			//vars.avgRating = Math.round(parseFloat(vars.averageRating))
+			/*var resourceFeedback = new App.Collections.ResourceFeedback()
       resourceFeedback.resourceId = this.model.get("_id")
       resourceFeedback.fetch({async:false})
       var averageRating = 0
@@ -202,41 +280,47 @@ $(function () {
       }) 
       this.model.save()
       */
-//      var flength = new App.Collections.ResourceFeedback()
-//                flength.resourceId = this.model.get("_id")
-//                flength.fetch({
-//                    async: false
-//               	})
-//       var s = 0
-//      flength.each(function(m){
-//      	s = s + parseInt(m.get("rating"))
-//      })
-//      console.log('check : ' + s + ' ' + this.model.get("sum") + ' ' + flength.length +  ' ' + this.model.get("timesRated"))
-//      this.model.set("sum",s.toString())
-//      this.model.set("timesRated",flength.length.toString())
-//      this.model.save()
-//      if(s!=parseInt(this.model.get("sum")) && flength.length == parseInt(this.model.get("timesRated")) )
-//      {
-//      	this.model.set("sum",s.toString())
-//      	this.model.save()
-//      }
-            if (this.model.get("sum") != 0) {
-                vars.totalRatings = this.model.get("timesRated")
-                vars.averageRating = (parseInt(this.model.get("sum")) / parseInt(vars.totalRatings))
-            } else {
-            	vars.averageRating="Sum not found"
-                vars.totalRatings = 0
-            }
+			//      var flength = new App.Collections.ResourceFeedback()
+			//                flength.resourceId = this.model.get("_id")
+			//                flength.fetch({
+			//                    async: false
+			//               	})
+			//       var s = 0
+			//      flength.each(function(m){
+			//      	s = s + parseInt(m.get("rating"))
+			//      })
+			//      console.log('check : ' + s + ' ' + this.model.get("sum") + ' ' + flength.length +  ' ' + this.model.get("timesRated"))
+			//      this.model.set("sum",s.toString())
+			//      this.model.set("timesRated",flength.length.toString())
+			//      this.model.save()
+			//      if(s!=parseInt(this.model.get("sum")) && flength.length == parseInt(this.model.get("timesRated")) )
+			//      {
+			//      	this.model.set("sum",s.toString())
+			//      	this.model.save()
+			//      }
+			if (this.model.get("sum") != 0)
+			{
+				vars.totalRatings = this.model.get("timesRated")
+				vars.averageRating = (parseInt(this.model.get("sum")) / parseInt(vars.totalRatings))
+			}
+			else
+			{
+				vars.averageRating = "Sum not found"
+				vars.totalRatings = 0
+			}
 
-            if (this.isManager > -1) {
-                vars.Manager = 1
-            } else {
-                vars.Manager = 0
-            }
-            this.$el.append(this.template(vars))
+			if (this.isManager > -1)
+			{
+				vars.Manager = 1
+			}
+			else
+			{
+				vars.Manager = 0
+			}
+			this.$el.append(this.template(vars))
 
 
-        },
+		},
 
 
     })
