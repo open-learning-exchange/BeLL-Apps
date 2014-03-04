@@ -24,7 +24,10 @@ $(function() {
       });
       return models
     },
-    
+    comparator: function(model) {
+      var issueNo = model.get('IssueNo')
+      if (issueNo) return issueNo
+    }
   
   })
 

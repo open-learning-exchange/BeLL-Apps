@@ -19,9 +19,6 @@ $(function () {
                 async: false
             })
             vars.login=sender.toJSON().login
-            
-            console.log(vars.login)
-				console.log(vars)
 				if(vars.date==undefined){
 			    vars.date="Not available"
 			}

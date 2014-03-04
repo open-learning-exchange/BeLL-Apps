@@ -465,8 +465,6 @@ $(function () {
             publication.fetch({
                 async: false
             })
-           
-			console.log(publication.toJSON())
             $("input[name='result']").each(function () {
                 if ($(this).is(":checked")) {
                     var rId = $(this).val();
@@ -483,12 +481,11 @@ $(function () {
                     
                 }
             });
-			console.log(rids)
             publication.set("resources", rids)
             publication.save()
             publication.on('sync', function () {
                 alert("Your Resources have been added successfully")
-                window.location='../nation/index.html#publication'
+                window.location='../nation/index.html#publication/add/'+publication.get('_id')
             })
 
         
