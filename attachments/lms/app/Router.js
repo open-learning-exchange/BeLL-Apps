@@ -426,6 +426,11 @@ $(function () {
 	    $('.form .field-Tag select').dblclick(function () {
 	        context.EditTag(this.value)
 	    });
+	   /* $('.form .field-openWith select').change(function () {
+	        $('#attachments-tablerow form').append('<label for="_attachments">Upload JsonFile(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev">')
+	    });
+	    */
+	    
 	    var identifier = '.form .field-Tag select'
 	    this.RenderTagSelect(identifier)
 	    if (resource.id) {

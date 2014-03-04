@@ -80,7 +80,7 @@ $(function () {
            	this.groupresult.fetch({async:false})
            	App.stopActivityIndicator()
            	var obj=this
-           	if(obj.addResource!=true)
+           	if(obj.addResource==true)
             {
                 if (this.groupresult.length > 0) {
                     var SearchSpans = new App.Views.SearchSpans({
