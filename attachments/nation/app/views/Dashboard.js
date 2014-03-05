@@ -5,7 +5,6 @@ $(function () {
         template: $('#template-Dashboard').html(),
 
         vars: {},
-
         render: function () {
             var dashboard = this
             this.vars.imgURL = "img/header_slice.png"

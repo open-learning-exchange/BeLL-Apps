@@ -132,6 +132,21 @@ $(function () {
             }
         },
         render: function () {
+        	
+        	///to get language
+        	var configurations=Backbone.Collection.extend({
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})
+    		var config=new configurations()
+    	    config.fetch({async:false})
+    	    var con=config.first()
+    	    con = (con.get('rows')[0]).doc
+            var configuration = new App.Models.ReleaseNotes({_id:con._id})
+            configuration.fetch({async:false})
+            var clanguage = configuration.get("currentLanguage")
+            var languageDict = configuration.get(clanguage)
+           
+           //////////////
             var dashboard = this
             this.vars.imgURL = "img/header_slice.png"
             var a = new App.Collections.MailUnopened({
@@ -141,6 +156,7 @@ $(function () {
                 async: false
             })
             this.vars.mails = a.length
+            this.vars.languageDict = languageDict;
 
             this.$el.html(_.template(this.template, this.vars))
 
@@ -248,7 +264,7 @@ $(function () {
             var nationName = currentConfig.rows[0].doc.nationName
             var nationURL = currentConfig.rows[0].doc.nationUrl
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true',
+                url: 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/ /_all_docs?include_docs=true',
                 type: 'GET',
                 dataType: "jsonp",
                 success: function (json) {
