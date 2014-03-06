@@ -500,13 +500,13 @@
           <%= form %>
         </td>
       </tr>
-      <tr>
-        <td colspan="2">
+      <tr id='attachments-tablerow'>
+        <td colspan="">
         <label id="selectedResources"></label>
           <!-- The Second form that will be submitted containing the file -->
           <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
-        </td>
+          </td>
       </tr>
       <tr>
         <td>
@@ -819,6 +819,7 @@
     	<% if(title){ %>
   <td>
         <p style="width:180px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>
@@ -905,6 +906,7 @@
     <% if(title){ %>
      <td>
         <p style="width:280px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>

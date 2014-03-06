@@ -426,6 +426,11 @@ $(function () {
 	    $('.form .field-Tag select').dblclick(function () {
 	        context.EditTag(this.value)
 	    });
+	   /* $('.form .field-openWith select').change(function () {
+	        $('#attachments-tablerow form').append('<label for="_attachments">Upload JsonFile(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev">')
+	    });
+	    */
+	    
 	    var identifier = '.form .field-Tag select'
 	    this.RenderTagSelect(identifier)
 	    if (resource.id) {
@@ -680,7 +685,7 @@ $(function () {
 							App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
 
 							if (roles.indexOf("Manager") != -1 && (temp == 'hagadera' || temp == 'dagahaley' || temp == 'ifo' || temp == 'somalia'))
-								App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+								App.$el.children('.body').append('<button style="margin:margin: -55px 0 0 650px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
 
 							if (roles.indexOf("Manager") != -1)
 								App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick="AddColletcion()">Add Collection</button>')
@@ -1658,7 +1663,7 @@ $(function () {
             })
         },
         bellResourceSearch:function(){
-                   //alert()
+                  
                    popAll()      // reset the SkipStack
                    $('ul.nav').html($("#template-nav-logged-in").html())                    
                     var search = new App.Views.Search()
@@ -1891,7 +1896,6 @@ $(function () {
     			
             $.ajax({
     			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
-    			//url : 'http://10.10.2.79:5984/communities/_all_docs?include_docs=true',
     			type : 'GET',
     			dataType : "jsonp",
     			success : function(json) {

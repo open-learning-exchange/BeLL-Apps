@@ -7,7 +7,7 @@ $(function () {
             "click .save": "saveForm",
             "click #AddResPublication":"searchres",
             "click #cancel": function () {
-                window.history.back()
+              window.location.href='#publication'
             }
         },
 
@@ -20,7 +20,7 @@ $(function () {
 
             if (_.has(this.model, 'id')) {
 
-                vars.header = 'Title "' + this.model.get('title') + '"'
+                vars.header = 'Publication Issue : "' + this.model.get('IssueNo') + '"'
                 
             } else {
                 vars.header = 'New Publication Issue'
@@ -32,6 +32,7 @@ $(function () {
                 model: this.model
             })
             vars.form = ""
+            vars.rlength=this.rlength
             this.form.render()
             this.$el.html(this.template(vars))
             $('.fields').html(this.form.el)
@@ -41,12 +42,18 @@ $(function () {
         },
 
         saveForm: function () {
-            var addtoDb=true
             var isEdit = this.model.get("_id")
+             console.log(this.model.get("resources"))
             this.form.commit()
             if (this.model.get("IssueNo").length == 0) {
                 alert("Publication Issue is missing")
-            } else {
+            } 
+           
+            else if(this.model.get("resources") == undefined)
+            {
+            	alert("Please add resource('s)")
+            }
+            else {
                  if (isEdit == undefined) {
                     var that = this
                     var allres = new App.Collections.Publication()
@@ -62,7 +69,7 @@ $(function () {
                 }
                 if (addtoDb) {
                     this.model.save()
-                    alert("Issue Saved (No Resources attached)")
+                    alert("Issue Saved!")
                     window.location.href='#publication'
                 }
             }

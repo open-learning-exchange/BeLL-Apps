@@ -10,6 +10,7 @@ $(function() {
     open: function(resourceId) {
       var openUrl
       var resource = new App.Models.Resource({_id: resourceId})
+      var secondAttch=':';
       resource.on('sync', function() {
         // If there is a openURL, that overrides what we use to open, else we build the URL according to openWith
         if(resource.get('openUrl') && resource.get('openUrl').length > 0) {
@@ -19,13 +20,17 @@ $(function() {
           openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + resource.get('openWhichFile')
         }
         else {
-        console.log(_.keys(resource.get('_attachments'))[1]) 	
+             if(_.keys(resource.get('_attachments'))[1])
+                {
+                 secondAttch+='/resources/' + resource.id + '/'+_.keys(resource.get('_attachments'))[1]
+             }
+              else
+                 secondAttch=''
+              	      
           openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + _.keys(resource.get('_attachments'))[0]
     }
-    
-         //alert(openUrl)
          
-         window.location=openUrl
+         window.location=openUrl+secondAttch
       })
       resource.fetch()
     },

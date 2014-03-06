@@ -19,8 +19,9 @@ $(function ()
 			'reports/add': 'ReportForm',
 			'publication': 'Publication',
 			'publication/add': 'PublicationForm',
-			'publicationdetail/:publicationId': 'PublicationDetails',
-			'configuration' : 'Configuration'
+			'configuration' : 'Configuration',
+			'publication/add/:publicationId': 'PublicationForm',
+			'publicationdetail/:publicationId': 'PublicationDetails'
 		},
 
 		initialize: function ()
@@ -459,8 +460,7 @@ $(function ()
 				async: false
 			})
 			var coll = Array()
-			console.log(publicationObject.toJSON())
-			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a></div>')
+			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-success" style="float:left;margin-left:20px" onclick="SelectCommunity()">Send Publication</button></div>')
 			var resources = publicationObject.get('resources')
 			var i = 0
 			_.each(resources, function ()
@@ -471,11 +471,14 @@ $(function ()
 				})
 				resource.fetch(
 				{
-					async: false
+					success: function(response) {
+              		coll.push(resource)
+					
+              		var data = response.toJSON()
+           		}
+					,async: false
 				})
-				coll.push(resource)
 				i++
-
 			})
 			var publicationresTable = new App.Views.PublicationResourceTable(
 			{
@@ -507,22 +510,28 @@ $(function ()
 			
 			if (publication.id)
 			{
-				App.listenToOnce(publication, 'sync', function ()
-				{
-					publicationFormView.render()
+				publication.fetch({
+				success: function(response) {
+					publicationFormView.rlength=publication.get('resources').length
+				},
+				async:false
 				})
-				publication.fetch()
+				publicationFormView.render()
+				
 			}
 			else
 			{
-				
+				publicationFormView.rlength=0
 				publicationFormView.render()
 				
 
 			}
 			 $('.bbf-form .field-Date input').attr("disabled", true)
-            $('.bbf-form .field-IssueNo input').val('')
-			 var currentDate = new Date();
+            if (!publication.id)
+			{
+				$('.bbf-form .field-IssueNo input').val('')
+			}
+             var currentDate = new Date();
 			 $('.bbf-form .field-Date input').datepicker({
                todayHighlight: true
             });
@@ -534,7 +543,24 @@ $(function ()
            
             
             
-		}
+		},
+		SelectCommunities: function () {
+	        $('#invitationdiv').fadeIn(1000)
+	        var inviteForm = new App.Views.listCommunityView()
+ 	        inviteForm.render()
+ 	        $('#invitationdiv').html('&nbsp')
+	    	$('#invitationdiv').append(inviteForm.el)
+	    	var Communities = new App.Collections.Community()
+			Communities.fetch(
+			{async:false})
+			Communities.each(
+			function(log) {
+            $('#comselect').append("<option value='" + log.get('Url')+ "'>" + log.get('Name') + "</option>")
+        	})
+        	
+			
+
+	},
 	}))
 
 })
