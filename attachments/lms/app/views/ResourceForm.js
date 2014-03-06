@@ -69,10 +69,23 @@ $(function () {
             // Send the updated model to the server
             newTitle = this.model.get("title")
             var that = this
-            var savemodel = false
             if (this.model.get("title").length == 0) {
                 alert("Resource Title is missing")
-            } else {
+            }
+            else if(this.model.get("subject") == null)
+            {
+                alert("Resource Subject is missing")
+            }
+            else if(this.model.get("Level") == null)
+            {
+                alert("Resource Level is missing")
+            }
+            else if(this.model.get("Tag") == null)
+            {
+                alert("Resource Tag is missing")
+            }
+            
+             else {
                 $('#gressImage').show();
                 this.model.set(' uploadDate', new Date().getTime())
                 if (this.model.get("Level") == "All") {

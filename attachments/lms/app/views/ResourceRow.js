@@ -172,8 +172,8 @@ $(function () {
         },
 				render: function ()
 		{
-
 			var vars = this.model.toJSON()
+			//console.log(vars)
 			var Details = ""
 			if (vars.language != undefined)
 				if (vars.language.length > 0)
@@ -228,20 +228,17 @@ $(function () {
 			{
 
 				Details = Details + "<b>Collection </b>"
+				//console.log(this.collections)
 				if ($.isArray(vars.Tag))
 				{
 					for (var i = 0; i < vars.Tag.length; i++)
 					{
-						var coll = new App.Models.CollectionList(
-						{
-							_id: vars.Tag[i]
-						})
-						coll.fetch(
-						{
-							async: false
-						})
-						if (coll.toJSON().CollectionName != undefined)
-							Details = Details + coll.toJSON().CollectionName + " / "
+						if (this.collections.get(vars.Tag[i])!=undefined)
+							Details = Details + this.collections.get(vars.Tag[i]).toJSON().CollectionName + " / "
+							// else
+// 							{
+// 								var tag=new App.Models.CollectionList()
+// 							}
 					}
 				}
 				else

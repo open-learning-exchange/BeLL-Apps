@@ -62,7 +62,8 @@ $(function () {
             'reports/add': 'ReportForm',
             'collection':'Collection',
             'listCollection/:collectionId':'ListCollection',
-            'listCollection/:collectionId/:collectionName':'ListCollection'
+            'listCollection/:collectionId/:collectionName':'ListCollection',
+            'abc':'resourcesTagScript'
 
 
         },
@@ -102,6 +103,100 @@ $(function () {
             $('#debug').hide()
 
         },
+        	resourcesTagScript: function ()
+        	{
+        		var resources = new App.Collections.Resources()
+        		resources.fetch(
+        		{
+        			async: false
+        		})
+        		resources.each(function (m)
+        		{
+
+        			var Tags = m.get("Tag")
+        			//console.log(Tags)
+        			console.log(m.get("_id"))
+        			if ($.isArray(Tags))
+        			{
+        				if(flag)
+        				{
+        					return;
+        				}
+        				var i = 0;
+        				var flag = false;
+        				while(i < Tags.length)
+        				{
+        					Tags[i] = Tags[i].replace("&","n"); 
+        					Tags[i] = Tags[i].replace(";"," "); 
+        					var coll = new App.Models.CollectionList(
+        					{
+        						_id: Tags[i]
+        					})
+        					coll.fetch(
+        					{
+        						async: false
+        					})
+        					//console.log(coll)
+        					if (coll.get('CollectionName') == undefined)
+        					{
+        						
+        						var TagColl = Backbone.Collection.extend(
+        						{
+        							url: App.Server + '/collectionlist/_design/bell/_view/collectionByName?key="' + Tags[i] + '"&include_docs=true'
+        						})
+        						//console.log(App.Server + '/collectionlist/_design/bell/_view/collectionByName?key="' + Tags[i] + '"&include_docs=true')
+        						var collTag = new TagColl()
+        						collTag.fetch(
+        						{
+        							async: false
+        						})
+        						//console.log(collTag)
+        						var matchedTag = collTag.first()
+        							
+        						if(matchedTag.toJSON().rows[0]!=undefined)
+        						{
+									Tags[i] =matchedTag.toJSON().rows[0].id ;
+									console.log(matchedTag.toJSON().rows[0].id)
+									console.log(Tags[i])
+									console.log(Tags)
+        						}
+        						else
+        						{
+									var newTag = new App.Models.CollectionList()
+									newTag.set({'AddedBy':'admin'})
+									newTag.set({'AddedDate':'"05/3/2014"'})
+									newTag.set({'CollectionName':Tags[i]})
+									newTag.set({'Description':''})
+									newTag.set({'IsMajor':true})
+									newTag.set({'NesttedUnder':"--Select--"})
+									newTag.set({'kind':'CollectionList'})
+									newTag.set({'show':true})
+									flag = true;
+									newTag.save(null,{success:function(response,model){
+              							i = i -1;
+              							//console.log(i)
+              							Tags[i] =response.toJSON().id 
+              							//console.log(Tags[i])
+              							//console.log(Tags)
+              							i = i + 1;
+              							flag = false;
+									}})
+        						
+        						
+        						}
+        						
+        					}
+        					
+        					i = i + 1;	
+        				}
+        				
+        			}
+        			console.log(Tags)
+        			m.set({'Tag':Tags})
+        						m.save()
+        		})
+
+        	},
         RenderTagSelect: function (iden) {
 		
 	    var collections = new App.Collections.listRCollection()
@@ -428,18 +523,43 @@ $(function () {
 	    });
 	    var identifier = '.form .field-Tag select'
 	    this.RenderTagSelect(identifier)
+	   // $('.form .field-field-Level select option[value="Add New"]:selected').removeAttr("selected")
+	    if(resource.id==undefined)
+	    {
+	    	$(".form .field-Tag select").find('option').removeAttr("selected");
+	    	$("'.form .field-Level select").find('option').removeAttr("selected");
+	    	$(".form .field-subject select").find('option').removeAttr("selected");
+	    
+	    }
+	    
 	    if (resource.id) {
-	        $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
 	        if(resource.get('Tag'))
 	        {
 	        	var total = resource.get('Tag').length
 	        for (var counter = 0; counter < total; counter++)
-	            $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected');
+	            $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
+	         $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
+
 
 	        }
+	        if(resource.get('subject')==null)
+	        {
+	        	$(".form .field-subject select").find('option').removeAttr("selected");
+	    
+	        }
+	        if(resource.get('Tag')==null)
+	        {
+	        	$(".form .field-Tag select").find('option').removeAttr("selected");
+	        }
+	        if(resource.get('Level')==null)
+	        {
+	        	$("'.form .field-Level select").find('option').removeAttr("selected")
+	        }
+	       // console.log(resource.get('subject'))
+	        //console.log(resource.get('Tag'))
+	        console.log(resource.get('Level'))
 	      
 	    }
-	    //$('.form .field-Tag select option[value='+a.get("NesttedUnder")+"]").append('<option value="'+a.get('_id')+'">'+a.get('CollectionName')+'</option>')
 	},
 	EditTag: function (value) {
 	    var roles = this.getRoles()
