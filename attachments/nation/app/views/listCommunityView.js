@@ -47,45 +47,21 @@ $(function () {
         },
         synchResCommunityWithURL : function(communityurl,communityname) 
         {
-        	console.log('https://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources')
+        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources')
         	$.ajax({
-            	// headers: {
-//                 	'Accept': 'application/json',
-//                     'Content-Type': 'application/json; charset=utf-8'
-//                 },
-//             	
-            	url : 'http://'+ communityname +':oleoleole@'+communityurl+':5984/resources/_all_docs?include_docs=true',
-               // url: '/_replicate',
-               type: 'GET',
-                dataType: 'jsonp',
-                // data: JSON.stringify({
-//                 	"source": "resources",
-//                     "target": 'https://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources'
-//             	}),
-                success: function (json) {
-                
-    				for(var i=0 ; i<json.rows.length ; i++)
-    				{
-    					var community = json.rows[i]
-    					var communityurl = community.doc.url
-    					var communityname = community.doc.name
-    					msg = waitMsg
-    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
-    					App.$el.children('.body').html(waitMsg)
-    					that.synchCommunityWithURL(communityurl,communityname)
-    					waitMsg = msg
-    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.'
-    					App.$el.children('.body').html(waitMsg)
-      				}
-      				if(type!="nation")
-      				{
-      					msg = waitMsg
-    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
-    					that.synchCommunityWithURL(nationURL,nationName)
-    					waitMsg = msg
-    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.<br>Replication completed.'	
-      				}
-    			
+            	headers: {
+                	'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+            	type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                	"source": "resources",
+                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources',
+                    "doc_ids":["15abbc21fbc445171a33cd454c00e918"]
+            	}),
+                success: function (response) {
 
                 },
                 async: false
@@ -93,43 +69,21 @@ $(function () {
         },
         synchPubCommunityWithURL : function(communityurl,communityname) 
         {
-        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/publications')
+        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources')
         	$.ajax({
-            	// headers: {
-//                 	'Accept': 'application/json',
-//                     'Content-Type': 'application/json; charset=utf-8'
-//                 },
-            	type: 'GET',
-                url: 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/publications',
-                dataType: 'jsonp',
-                // data: JSON.stringify({
-//                 	"source": "publications",
-//                     "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/publications'
-//             	}),
-                success: function (json) {
-				
-    				for(var i=0 ; i<json.rows.length ; i++)
-    				{
-    					var community = json.rows[i]
-    					var communityurl = community.doc.url
-    					var communityname = community.doc.name
-    					msg = waitMsg
-    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
-    					App.$el.children('.body').html(waitMsg)
-    					that.synchCommunityWithURL(communityurl,communityname)
-    					waitMsg = msg
-    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.'
-    					App.$el.children('.body').html(waitMsg)
-      				}
-      				if(type!="nation")
-      				{
-      					msg = waitMsg
-    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
-    					that.synchCommunityWithURL(nationURL,nationName)
-    					waitMsg = msg
-    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.<br>Replication completed.'	
-      				}
-    			
+            	headers: {
+                	'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+            	type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                	"source": "resources",
+                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources'
+            	}),
+                success: function (response) {
+
                 },
                 async: false
             })

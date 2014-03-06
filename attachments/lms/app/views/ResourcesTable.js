@@ -5,6 +5,7 @@ $(function() {
     tagName: "table",
 	isAdmin:null,
     className: "table table-striped",
+    collections:null,
 
     //template: $('#template-ResourcesTable').html(),
 	events : {
@@ -57,11 +58,19 @@ $(function() {
   addOne: function(model){
       var resourceRowView = new App.Views.ResourceRow({model: model,admin:this.isAdmin})
       resourceRowView.isManager = this.isManager
+     
+      resourceRowView.collections = this.collections
+      
       resourceRowView.render()  
       this.$el.append(resourceRowView.el)
     },
 
     addAll: function(){
+    this.collections = new App.Collections.listRCollection()
+			this.collections.fetch({
+			async:false
+			})
+			 console.log(this.collections)
            if(this.collection.length==0)
            {
                   this.$el.append("<tr><td>No resource found</td></tr>")
