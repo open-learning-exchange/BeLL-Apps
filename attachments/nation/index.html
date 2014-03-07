@@ -257,6 +257,55 @@
     </li> 
 
   </script>
+  <script type="text/template" id="template-nav-logged-in-cummunity">
+  
+     <li> 
+      <a href="../personal/index.html#dashboard">
+      Dashboard
+      </a>
+    </li> 
+    <li> 
+      <a href="../lms/index.html#ereader">
+       e-Readers
+      </a>
+    </li>
+    <li> 
+      <a href="../lms/index.html#resources">
+       Library
+      </a>
+    </li>
+     <li> 
+      <a href="../lms/index.html#courses">
+       Courses
+      </a>
+    </li>
+    <li> 
+      <a href="../lms/index.html#meetups">
+       Meetups
+      </a>
+    </li>
+     <li> 
+      <a href="../lms/index.html#members">
+       Members
+      </a>
+    </li>
+    <li> 
+      <a href="../lms/index.html#reports">
+      Reports
+      </a>
+    </li> 
+     <li> 
+      <a onclick = "showFeedbackForm()">
+        Feedback
+      </a>
+    </li>
+    <li> 
+      <a href= "#logout">
+        Logout
+      </a>
+    </li>	
+    
+  </script>
   <script type="text/template" id="template-Publication"> 
     <div id='listPublication-head'> 
     <p class='heading' style="font-size: 20px;"> 
@@ -382,7 +431,7 @@
 		</td>
 		</tr>
 		</table>
-      	<% if ( type == "nation" || type == "Nation") { %><a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a> <% } %>
+      	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>
 	<!--	<table class="page-bottom-navtable">
 			<tr>
 			
@@ -408,9 +457,12 @@
     	<option value="<%= availableLanguages[i] %>"><%= availableLanguages[i] %> </option>
 	<% } %>
 	</select>
-     <br/><h5>&nbsp;&nbsp;Add Release Notes</h5>
-     &nbsp;&nbsp;<input type="text" placeholder="Enter current ver sion no" id="appversion" style="width:263px;" value="<%= version %>"><br/><br/>
-    &nbsp;&nbsp; <textarea id="notes" style="width:250px;height:119px;"><%= notes %></textarea><br/><br/>
+    <% if ( type == "nation" || type == "Nation") { %> 
+    		<br/><h5>&nbsp;&nbsp;Add Release Notes</h5>
+     		&nbsp;&nbsp;<input type="text" placeholder="Enter current ver sion no" id="appversion" style="width:263px;" value="<%= version %>"><br/><br/>
+    		&nbsp;&nbsp; <textarea id="notes" style="width:250px;height:119px;"><%= notes %></textarea><br/><br/>
+    
+    <% } %>
 	
 	
   </script>

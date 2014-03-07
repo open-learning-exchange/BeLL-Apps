@@ -323,7 +323,6 @@ function sendMail()
     var currentConfig=config.first()
     var cofigINJSON=currentConfig.toJSON()
    var scode = cofigINJSON.rows[0].doc.code + cofigINJSON.rows[0].doc.nationName.substring(3,5)
-	
 	var attachment = true
 	var rec = $("#recipients").val()
 	var invalidEmails = new Array()
@@ -349,12 +348,14 @@ function sendMail()
 					{
 						invalidEmails.push(mailadd)
 						invalidIndex.push(i)
+						alert('a')
 					}
 				}
 				else
 				{
 					invalidIndex.push(i)
 					invalidEmails.push(mailadd)
+					alert('b')
 				}
 			}
 		}
@@ -362,6 +363,7 @@ function sendMail()
 		{
 			invalidIndex.push(i)
 			invalidEmails.push(mailadd)
+			elert('c')
 		}
 	}
 	for(var i=0 ; i<invalidIndex.length ; i++)
@@ -745,47 +747,47 @@ function startRecording()
    -->
     <li> 
       <a href="#">
-      Dashboard
+      <%= languageDict['Dashboard'] %>
       </a>
     </li> 
     <li> 
       <a href="#ereader">
-       e-Readers
+      <%= languageDict['e-Readers'] %>
       </a>
     </li>
     <li> 
       <a href="../lms/index.html#resources">
-       Library
+      <%= languageDict['Library'] %>
       </a>
     </li>
      <li> 
       <a href="../lms/index.html#courses">
-       Courses
+      <%= languageDict['Courses'] %>
       </a>
     </li>
     <li> 
       <a href="../lms/index.html#meetups">
-       Meetups
+      <%= languageDict['Meetups'] %>
       </a>
     </li>
      <li> 
       <a href="../lms/index.html#members">
-       Members
+      <%= languageDict['Members'] %>
       </a>
     </li>
     <li> 
       <a href="../lms/index.html#reports">
-      Reports
+      <%= languageDict['Reports'] %>
       </a>
     </li> 
      <li> 
       <a onclick = "showFeedbackForm()">
-        Feedback
+      <%= languageDict['Feedback'] %>
       </a>
     </li>
     <li> 
       <a href= "#logout">
-        Logout
+      <%= languageDict['Logout'] %>
       </a>
     </li>	
   </script>
