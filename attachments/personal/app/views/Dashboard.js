@@ -5,7 +5,9 @@ $(function () {
         template: $('#template-Dashboard').html(),
 
         vars: {},
+        nationConfiguration : null,
         latestVersion: null,
+        nationConfigJson: null,
         events: {
             "click #updateButton": function (e) {
                 var configurations = Backbone.Collection.extend({
@@ -113,14 +115,7 @@ $(function () {
             {
             	if ($('#showReleaseNotes').css('display') == 'none') {
             		$( "#showReleaseNotes" ).slideDown( "slow", function() {
-            			var configurations=Backbone.Collection.extend({
-    						url: App.Server + '/configurations/_all_docs?include_docs=true'
-    					})
-    					var config=new configurations()
-    	     			config.fetch({async:false})
-    	    			var con=config.first()
-              			con = (con.get('rows')[0]).doc
-              			$("textarea#shownotes").val(con.notes)
+              			$("textarea#shownotes").val(nationConfigJson.notes)
     				
   					});
             	}
@@ -132,6 +127,21 @@ $(function () {
             }
         },
         render: function () {
+        	
+        	///to get language
+        	var configurations=Backbone.Collection.extend({
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})
+    		var config=new configurations()
+    	    config.fetch({async:false})
+    	    var con=config.first()
+    	    con = (con.get('rows')[0]).doc
+            var configuration = new App.Models.ReleaseNotes({_id:con._id})
+            configuration.fetch({async:false})
+            var clanguage = configuration.get("currentLanguage")
+            var languageDict = configuration.get(clanguage)
+           
+           //////////////
             var dashboard = this
             this.vars.imgURL = "img/header_slice.png"
             var a = new App.Collections.MailUnopened({
@@ -141,6 +151,7 @@ $(function () {
                 async: false
             })
             this.vars.mails = a.length
+            this.vars.languageDict = languageDict;
 
             this.$el.html(_.template(this.template, this.vars))
 
@@ -232,46 +243,46 @@ $(function () {
             if ($.inArray('Manager', roles) == -1) {
                 return
             }
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var currentConfig = config.first().toJSON()
-            console.log(currentConfig.rows[0].doc)
-            if (currentConfig.rows[0].doc.type == 'nation') {
-            	dashboard.$el.append('<br/><br/><button class="btn systemUpdate" id="showReleaseNotesDiv">Add release notes</button>')
-                return
-            }
-            var nationName = currentConfig.rows[0].doc.nationName
-            var nationURL = currentConfig.rows[0].doc.nationUrl
-            $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true',
-                type: 'GET',
-                dataType: "jsonp",
-                success: function (json) {
-                	
-                    var nationConfig = json.rows[0].doc
-                    //alert(nationConfig.version + ' ' + currentConfig.rows[0].doc.version)
-                    if (typeof nationConfig.version === 'undefined') {
-                    	 
+            var config = new App.Collections.Configurations()
+             config.fetch({
+             	async: false
+             })
+            
+             var configuration = config.first()
+             var nationName = configuration.get("nationName")
+             var nationURL = configuration.get("nationUrl")
+             var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true' 
+             
+               // console.log(nationConfig)
+            // alert('check')
+            //alert('http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true')
+             $.ajax({
+    			url : nationConfigURL,
+    			type : 'GET',
+    			dataType : "jsonp",
+    			success : function(json) {
+    				var nationConfig = json.rows[0].doc
+    				nationConfigJson = nationConfig
+    				if (typeof nationConfig.version === 'undefined') {
+    					
+    					//alert('no version ')
+                    	 //return;
                         /////No version found in nation
-                    } else if (nationConfig.version == currentConfig.rows[0].doc.version) {
+                    } 
+                     else if (nationConfig.version == configuration.get('version')) {
                     	 
+                    	 //alert('no update')
                         ///No updatea availabe
-                    } else {
-                        ////updates availabe
-                        
-                        dashboard.latestVersion = nationConfig.version
+                    }
+                    else
+                    {
+                    	dashboard.latestVersion = nationConfig.version
                         dashboard.$el.append('<br/><br/><button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + '). Press to update. </button>')
                         dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">View Release Notes </button>')
                     }
-                },
-                async: false
-            })
-
+    			}
+  			 })
+  			 return;
         },
     })
 

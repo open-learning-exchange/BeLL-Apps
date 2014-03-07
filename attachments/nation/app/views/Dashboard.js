@@ -5,8 +5,14 @@ $(function () {
         template: $('#template-Dashboard').html(),
 
         vars: {},
-
         render: function () {
+        	
+        	var config = new App.Collections.Configurations()
+             config.fetch({
+             	async: false
+             })
+             var configuration = config.first()
+        	
             var dashboard = this
             this.vars.imgURL = "img/header_slice.png"
             var a = new App.Collections.MailUnopened({
@@ -15,8 +21,9 @@ $(function () {
             a.fetch({
                 async: false
             })
+            this.vars.type = configuration.get("type")
             this.vars.mails = a.length
-
+			
             this.$el.html(_.template(this.template, this.vars))
             $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
             // Member Name

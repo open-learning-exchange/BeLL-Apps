@@ -63,7 +63,7 @@
       
   
     <!-- Models  -->
-    
+     <script src="app/models/Configuration.js"></script>
      <script src="app/models/Community.js"></script>
      <script src="app/models/Credentials.js"></script>
      <script src="app/models/Member.js"></script>
@@ -76,6 +76,7 @@
       <script src="app/models/Resource.js"></script>
      
       <!-- Collections  -->
+     <script src="app/collections/Configurations.js"></script>
      <script src="app/collections/Community.js"></script>
      <script src="app/collections/MailUnopened.js"></script>
      <script src="app/collections/siteFeedbacks.js"></script>
@@ -88,6 +89,7 @@
      
      
      <script src="app/views/CommunityForm.js"></script>
+     <script src="app/views/ConfigurationView.js"></script>
      <script src="app/views/navBarView.js"></script>
      <script src="app/views/MemberLoginForm.js"></script>
      <script src="app/views/CommunitiesTable.js"></script>
@@ -380,24 +382,38 @@
 		</td>
 		</tr>
 		</table>
-      
-		<table class="page-bottom-navtable">
+      	<% if ( type == "nation" || type == "Nation") { %><a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a> <% } %>
+	<!--	<table class="page-bottom-navtable">
 			<tr>
 			
 				<td><button class="btn btn-hg btn-primary">Badges</button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#newsfeed'">News Feed</button></td>
 				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='../personal/index.html#calendar'">Calender</button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#mail'">Email(<%=mails%>)</button></td>
-				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
 				<!-- <td></td> -->
-				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
+				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>
 			</tr>
-			</table> 
+			</table> -->
 		</div>
             </div>
   </script>
   
- 
+  <script type="text/template" id="template-Configuration">
+ 	<h5>&nbsp;&nbsp;Set Nation Language </h5>
+ 	&nbsp;&nbsp;<select id="languageSelection">
+ 	<option value="" selected><%= currentLanguage %></option>
+ 	<option value="">----------------</option>
+ 	<% for (var i=0; i<availableLanguages.length; i++){%>
+    	<option value="<%= availableLanguages[i] %>"><%= availableLanguages[i] %> </option>
+	<% } %>
+	</select>
+     <br/><h5>&nbsp;&nbsp;Add Release Notes</h5>
+     &nbsp;&nbsp;<input type="text" placeholder="Enter current ver sion no" id="appversion" style="width:263px;" value="<%= version %>"><br/><br/>
+    &nbsp;&nbsp; <textarea id="notes" style="width:250px;height:119px;"><%= notes %></textarea><br/><br/>
+	
+	
+  </script>
    <script type="text/template" id="template-addCommunity">
    <div id='addNation-heading'>
       <p>

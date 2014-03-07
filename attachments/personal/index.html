@@ -68,6 +68,7 @@
   <script src="app/models/UserMeetup.js"></script>
   <script src="app/models/MeetUp.js"></script>
   <script src="app/models/ReleaseNotes.js"></script>
+  <script src="app/models/Configuration.js"></script>
   
   
   <script src="app/collections/Groups.js"></script>
@@ -93,6 +94,7 @@
   <script src="app/collections/CommunityCode.js"></script>
   <script src="app/collections/shelfResource.js"></script>
   <script src="app/collections/UserMeetups.js"></script>
+  <script src="app/collections/Configurations.js"></script>
 
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
@@ -1076,7 +1078,7 @@ function startRecording()
       <div id="page-body">
         <table class="stu-nav-table">
         <tr class="stu-nav-tube">
-					<td class="stu-nav-title-shelf stu-nav-title">My Library</td>
+					<td class="stu-nav-title-shelf stu-nav-title"><%= languageDict['My Library'] %></td>
 					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
 							<table id="ur" class="inner-table" >	
@@ -1087,7 +1089,7 @@ function startRecording()
 	  	  </tr>
         	<tr class="stu-nav-tube">
             	<td class="stu-nav-title">
-            		<a href="#courses/barchart">  My Courses Progress</a>
+            		<a href="#courses/barchart"><%= languageDict['My Courses Progress'] %></a>
             	</td>
             	<td class="scrollable-courses">      
 					<div class="inner">
@@ -1098,7 +1100,7 @@ function startRecording()
          		<td class="stu-nav-option-empty"></td>
            </tr>
 		  <tr class="stu-nav-tube">
-					<td class="stu-nav-title-badges stu-nav-title">My Meetups</td>
+					<td class="stu-nav-title-badges stu-nav-title"><%= languageDict['My Meetups'] %></td>
 					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
 							<table id="meetUpTable" class="inner-table" >	
@@ -1109,7 +1111,7 @@ function startRecording()
 					<td class="stu-nav-option-empty"></td>
 		 </tr>
 	  	  <tr class="stu-nav-tube">
-					<td class="stu-nav-title-tuter stu-nav-title">My Tutors</td>
+					<td class="stu-nav-title-tuter stu-nav-title"><%= languageDict['My Tutors'] %></td>
 					<td class="scrollable-tutor">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
 							<table id="tutorTable" class="inner-table" >	
@@ -1125,10 +1127,10 @@ function startRecording()
 		<table class="page-bottom-navtable">
 			<tr>
 			
-				<td><button class="btn btn-hg btn-primary">Badges</button></td>
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
-				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'">Email(<%=mails%>)</button></td>
+				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calender'] %></button></td> 
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
 				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
 				<!-- <td></td> -->
 				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
@@ -1137,13 +1139,6 @@ function startRecording()
 		</div>
             </div>
 
-       		<div id="releaseVersion" style="display: none;">
-       			<br/><h3>Add Release Notes</h3><br/>
-       			<input type="text" placeholder="Enter version no" id="appversion" ><br/><br/>
-       			<textarea id="notes"></textarea><br/><br/>
-       			<input type="button" name="Save" value="Save" id="savenotes" />&nbsp;&nbsp;
-       			<input type ="button" name="Cancel" value="Cancel" id="cancelnotes" />
-       		</div>
        		<div id="showReleaseNotes" style="display: none;">
        		<br/><h3>Release Notes</h3>
        		<br/>

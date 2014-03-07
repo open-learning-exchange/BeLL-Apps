@@ -19,6 +19,7 @@ $(function ()
 			'reports/add': 'ReportForm',
 			'publication': 'Publication',
 			'publication/add': 'PublicationForm',
+			'configuration' : 'Configuration',
 			'publication/add/:publicationId': 'PublicationForm',
 			'publicationdetail/:publicationId': 'PublicationDetails'
 		},
@@ -35,7 +36,19 @@ $(function ()
             $('#debug').hide()
 
         },
-        
+        Configuration : function()
+        {
+             var config = new App.Collections.Configurations()
+             config.fetch({
+             	async: false
+             })
+             var configuration = config.first()
+        	var configView = new App.Views.ConfigurationView()
+        	configView.model = configuration
+			configView.render()
+			App.$el.children('.body').html(configView.el)
+			
+        },
 		renderNav: function ()
 		{
 			if ($.cookie('Member._id'))
