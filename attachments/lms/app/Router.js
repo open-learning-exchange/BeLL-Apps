@@ -63,6 +63,8 @@ $(function () {
             'collection':'Collection',
             'listCollection/:collectionId':'ListCollection',
             'listCollection/:collectionId/:collectionName':'ListCollection',
+            'viewpublication':'ViewPublication',
+            'publicationdetail/:publicationId': 'PublicationDetails',
             'abc':'resourcesTagScript'
 
 
@@ -115,100 +117,131 @@ $(function () {
             $('#debug').hide()
 
         },
-        	resourcesTagScript: function ()
-        	{
-        		var resources = new App.Collections.Resources()
-        		resources.fetch(
-        		{
-        			async: false
-        		})
-        		resources.each(function (m)
-        		{
+        resourcesTagScript: function ()
+			{
+				var resources = new App.Collections.Resources()
+				resources.fetch(
+				{
+					async: false
+				})
+				resources.each(function (m)
+				{
 
-        			var Tags = m.get("Tag")
-        			//console.log(Tags)
-        			console.log(m.get("_id"))
-        			if ($.isArray(Tags))
-        			{
-        				if(flag)
-        				{
-        					return;
-        				}
-        				var i = 0;
-        				var flag = false;
-        				while(i < Tags.length)
-        				{
-        					Tags[i] = Tags[i].replace("&","n"); 
-        					Tags[i] = Tags[i].replace(";"," "); 
-        					var coll = new App.Models.CollectionList(
-        					{
-        						_id: Tags[i]
-        					})
-        					coll.fetch(
-        					{
-        						async: false
-        					})
-        					//console.log(coll)
-        					if (coll.get('CollectionName') == undefined)
-        					{
-        						
-        						var TagColl = Backbone.Collection.extend(
-        						{
-        							url: App.Server + '/collectionlist/_design/bell/_view/collectionByName?key="' + Tags[i] + '"&include_docs=true'
-        						})
-        						//console.log(App.Server + '/collectionlist/_design/bell/_view/collectionByName?key="' + Tags[i] + '"&include_docs=true')
-        						var collTag = new TagColl()
-        						collTag.fetch(
-        						{
-        							async: false
-        						})
-        						//console.log(collTag)
-        						var matchedTag = collTag.first()
-        							
-        						if(matchedTag.toJSON().rows[0]!=undefined)
-        						{
-									Tags[i] =matchedTag.toJSON().rows[0].id ;
+					var Tags = m.get("Tag")
+					//console.log(Tags)
+					console.log(m.get("_id"))
+					if ($.isArray(Tags))
+					{
+						if (flag)
+						{
+							return;
+						}
+						var i = 0;
+						var flag = false;
+						while (i < Tags.length)
+						{
+							Tags[i] = Tags[i].replace("&", "n");
+							Tags[i] = Tags[i].replace(";", " ");
+							var coll = new App.Models.CollectionList(
+							{
+								_id: Tags[i]
+							})
+							coll.fetch(
+							{
+								async: false
+							})
+							//console.log(coll)
+							if (coll.get('CollectionName') == undefined)
+							{
+
+								var TagColl = Backbone.Collection.extend(
+								{
+									url: App.Server + '/collectionlist/_design/bell/_view/collectionByName?key="' + Tags[i] + '"&include_docs=true'
+								})
+								//console.log(App.Server + '/collectionlist/_design/bell/_view/collectionByName?key="' + Tags[i] + '"&include_docs=true')
+								var collTag = new TagColl()
+								collTag.fetch(
+								{
+									async: false
+								})
+								//console.log(collTag)
+								var matchedTag = collTag.first()
+
+								if (matchedTag.toJSON().rows[0] != undefined)
+								{
+									Tags[i] = matchedTag.toJSON().rows[0].id;
 									console.log(matchedTag.toJSON().rows[0].id)
 									console.log(Tags[i])
 									console.log(Tags)
-        						}
-        						else
-        						{
+								}
+								else
+								{
 									var newTag = new App.Models.CollectionList()
-									newTag.set({'AddedBy':'admin'})
-									newTag.set({'AddedDate':'"05/3/2014"'})
-									newTag.set({'CollectionName':Tags[i]})
-									newTag.set({'Description':''})
-									newTag.set({'IsMajor':true})
-									newTag.set({'NesttedUnder':"--Select--"})
-									newTag.set({'kind':'CollectionList'})
-									newTag.set({'show':true})
+									newTag.set(
+									{
+										'AddedBy': 'admin'
+									})
+									newTag.set(
+									{
+										'AddedDate': '"05/3/2014"'
+									})
+									newTag.set(
+									{
+										'CollectionName': Tags[i]
+									})
+									newTag.set(
+									{
+										'Description': ''
+									})
+									newTag.set(
+									{
+										'IsMajor': true
+									})
+									newTag.set(
+									{
+										'NesttedUnder': "--Select--"
+									})
+									newTag.set(
+									{
+										'kind': 'CollectionList'
+									})
+									newTag.set(
+									{
+										'show': true
+									})
 									flag = true;
-									newTag.save(null,{success:function(response,model){
-              							i = i -1;
-              							//console.log(i)
-              							Tags[i] =response.toJSON().id 
-              							//console.log(Tags[i])
-              							//console.log(Tags)
-              							i = i + 1;
-              							flag = false;
-									}})
-        						
-        						
-        						}
-        						
-        					}
-        					
-        					i = i + 1;	
-        				}
-        				
-        			}
-        			console.log(Tags)
-        			m.set({'Tag':Tags})
-        						m.save()
-        		})
+									newTag.save(null,
+									{
+										success: function (response, model)
+										{
+											i = i - 1;
+											//console.log(i)
+											Tags[i] = response.toJSON().id
+											//console.log(Tags[i])
+											//console.log(Tags)
+											i = i + 1;
+											flag = false;
+										}
+									})
 
-        	},
+
+								}
+
+							}
+
+							i = i + 1;
+						}
+
+					}
+					console.log(Tags)
+					m.set(
+					{
+						'Tag': Tags
+					})
+					m.save()
+				})
+
+			},
         RenderTagSelect: function (iden) {
 		
 	    var collections = new App.Collections.listRCollection()
@@ -677,9 +710,12 @@ $(function () {
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') )
-
-                     App.$el.children('.body').append('<button style="margin:-65px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
-                     App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
+					{
+					App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                     
+					}
+					App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
+					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
                      App.$el.children('.body').append(resourcesTableView.el)
                      
 
@@ -1722,7 +1758,7 @@ $(function () {
                     showSubjectCheckBoxes()
                     
                     $("#multiselect-subject-search").multiselect().multiselectfilter();
-                }
+                },async:false
             })
         },
 
@@ -1969,6 +2005,73 @@ $(function () {
             App.trigger('CompileManifestForWeeksAssignments:go')
 
         },
+        ViewPublication:function(){
+        
+			App.startActivityIndicator()
+			var publicationCollection = new App.Collections.Publication()
+			publicationCollection.getlast=true
+			publicationCollection.fetch(
+			{
+				async: false
+			})
+			var publication = new App.Views.Publication()
+			publication.render()
+			App.$el.children('.body').html(publication.el)
+			var publicationtable=new App.Views.PublicationTable({ collection:publicationCollection })
+			publicationtable.render()
+			App.$el.children('.body').append(publicationtable.el)
+			
+			App.stopActivityIndicator()
+	        },
+	    PublicationDetails: function (publicationId)
+		{
+
+			var publication = new App.Views.Publication()
+			publication.render()
+			App.$el.children('.body').html(publication.el)
+			var publicationObject = new App.Models.Publication(
+			{
+				_id: publicationId
+			})
+			publicationObject.recPub=true
+			publicationObject.fetch(
+			{
+				async: false
+			})
+			var coll = Array()
+			var publicationIds=Array()
+			var resources = publicationObject.get('resources')
+			publicationIds.push(publicationId)
+			var myJsonString = JSON.stringify(resources);
+			var jSonId=JSON.stringify(publicationIds)
+			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6></div>')
+			var i = 0
+			_.each(resources, function ()
+			{
+				var resource = new App.Models.Resource(
+				{
+					_id: (resources[i])
+				})
+				resource.pubResource=true
+				resource.fetch(
+				{
+					success: function(response) {
+              		coll.push(resource)
+					
+              		var data = response.toJSON()
+           		}
+					,async: false
+				})
+				i++
+			})
+			var publicationresTable = new App.Views.PublicationResourceTable(
+			{
+				collection: coll
+			})
+			publicationresTable.Id = publicationId
+			publicationresTable.render()
+			App.$el.children('.body').append(publicationresTable.el)
+		},
         Replicate: function () {
         
           App.startActivityIndicator()

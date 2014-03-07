@@ -479,8 +479,12 @@ $(function ()
 				async: false
 			})
 			var coll = Array()
-			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-success" style="float:left;margin-left:20px" onclick="SelectCommunity()">Send Publication</button></div>')
+			var publicationIds=Array()
 			var resources = publicationObject.get('resources')
+			publicationIds.push(publicationId)
+			var myJsonString = JSON.stringify(resources);
+			var jSonId=JSON.stringify(publicationIds)
+			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-success" style="float:left;margin-left:20px" onclick=SelectCommunity('+myJsonString+','+jSonId+')>Send Publication</button></div>')
 			var i = 0
 			_.each(resources, function ()
 			{
@@ -563,9 +567,12 @@ $(function ()
             
             
 		},
-		SelectCommunities: function () {
+		SelectCommunities: function (res,pId) {
+			console.log(pId)
 	        $('#invitationdiv').fadeIn(1000)
 	        var inviteForm = new App.Views.listCommunityView()
+ 	        inviteForm.res=res
+ 	        inviteForm.pId=pId
  	        inviteForm.render()
  	        $('#invitationdiv').html('&nbsp')
 	    	$('#invitationdiv').append(inviteForm.el)
