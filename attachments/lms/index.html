@@ -94,6 +94,7 @@
   <script src="app/models/InviMeetup.js"></script>
   <script src="app/models/CollectionList.js"></script>
   <script src="app/models/Publication.js"></script>
+  <script src="app/models/Configuration.js"></script>
 
   
    
@@ -127,6 +128,8 @@
    <script src="app/collections/AssignmentPapers.js"></script>
    <script src="app/collections/Meetups.js"></script>
   <script src="app/collections/UserMeetups.js"></script>
+   <script src="app/collections/Configurations.js"></script>
+   
   <script src="app/collections/listRCollection.js"></script>
   <script src="app/collections/Publication.js"></script>
    
@@ -200,6 +203,8 @@
     <script src="app/views/MeetUpTable.js"></script>
     <script src="app/views/meetupView.js"></script>
     <script src="app/views/MeetupInvitation.js"></script>
+    <script src="app/views/navBarView.js"></script>
+  
   <!-- Publications-->
    <script src="app/views/Publication.js"></script>
    <script src="app/views/PublicationResourceRow.js"></script>
@@ -207,6 +212,8 @@
    
    <script src="app/views/PublicationRow.js"></script>
    <script src="app/views/PublicationTable.js"></script>
+   
+   
   <!-- ALL Code Regarding the Search Function -->
   
   
@@ -469,9 +476,7 @@
 </div>
     <div id='nav' class="navbar navbar-inverse" id="top-nav">
         <div class="container">
-            <ul class="nav">
-
-            </ul>
+    
       </div>
     </div>
 
@@ -554,47 +559,54 @@
    -->
     <li> 
       <a href="../personal/index.html#dashboard">
-      Dashboard
+      <%= languageDict['Dashboard'] %>
       </a>
     </li> 
     <li> 
       <a href="#ereader">
-       e-Readers
+      <%= languageDict['e-Readers'] %>
+       
       </a>
     </li>
     <li> 
       <a href="../lms/index.html#resources">
-       Library
+      <%= languageDict['Library'] %>
+       
       </a>
     </li>
      <li> 
       <a href="../lms/index.html#courses">
-       Courses
+      <%= languageDict['Courses'] %>
+       
       </a>
     </li>
     <li> 
       <a href="../lms/index.html#meetups">
-       Meetups
+      <%= languageDict['Meetups'] %>
+       
       </a>
     </li>
      <li> 
       <a href="../lms/index.html#members">
-       Members
+      <%= languageDict['Members'] %>
+       
       </a>
     </li>
     <li> 
       <a href="#reports">
-      Reports
+      <%= languageDict['Reports'] %>
+      
       </a>
     </li> 
      <li> 
       <a onclick = "showFeedbackForm()">
-        Feedback
+      <%= languageDict['Feedback'] %>
+        
       </a>
     </li>
     <li> 
       <a href= "#logout">
-        Logout
+      <%= languageDict['Logout'] %>
       </a>
     </li>	
 

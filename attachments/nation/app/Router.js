@@ -51,11 +51,13 @@ $(function ()
         },
 		renderNav: function ()
 		{
+		   var con=this.getConfigurations()
 			if ($.cookie('Member._id'))
 			{
 				var na = new App.Views.navBarView(
 				{
-					isLoggedIn: '1'
+					isLoggedIn: '1',
+					type:con.get('type')
 				})
 			}
 			else
@@ -107,9 +109,22 @@ $(function ()
 			}
 		}
 	},
+	getConfigurations:function(){
+			var config = new App.Collections.Configurations()
+            	 config.fetch({
+             		async: false
+             })
+             var configuration = config.first()
+	      return configuration
+	},
 		Dashboard: function ()
 		{
-
+            var con=this.getConfigurations()
+            if(con.get('type')=='community')
+            {
+            	this.cummunityManage()
+            	return
+            }
 			var dashboard = new App.Views.Dashboard()
 			App.$el.children('.body').html(dashboard.el)
 			dashboard.render()
@@ -147,9 +162,13 @@ $(function ()
 			},
 				async: false
 			})
-			$('#publications').append('<tr ><td><a class="btn btn-default" href="#publication" id="clickmore">Click for more</a></td></tr>');
-			
-			
+		
+		},
+		cummunityManage:function(){
+		
+		    App.$el.children('.body').html('')
+		    App.$el.children('.body').append('<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>')
+		
 		},
 		CommunityForm: function (CommunityId)
 		{

@@ -73,7 +73,19 @@ $(function () {
         initialize: function () {
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.routeStartupTasks)
-           // this.bind("all", this.reviewStatus)
+            this.bind("all", this.renderNav)
+        },
+        renderNav: function () {
+            if ($.cookie('Member._id')) {
+                var na = new App.Views.navBarView({
+                    isLoggedIn: '1'
+                })
+            } else {
+                var na = new App.Views.navBarView({
+                    isLoggedIn: '0'
+                })
+            }
+            $('#nav .container').html(na.el)
         },
         ReportForm: function (reportId) {
             var report = (reportId) ? new App.Models.CommunityReport({
@@ -381,8 +393,6 @@ $(function () {
             App.startActivityIndicator()
             var roles =this.getRoles()
             
-            $('ul.nav').html($("#template-nav-logged-in").html()).show()
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
             var reports = new App.Collections.Reports()
             reports.fetch({
                 async: false
@@ -477,13 +487,11 @@ $(function () {
               $("#progress_img").hide()
         },
         LandingScreen: function () {
-            $('ul.nav').html($('#template-nav-log-in').html()).hide()
             var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
             var vars = new Object()
             vars.host = temp
             vars.visits = "null"
-            //App.$el.children('.body').html($('#template-LandingPage'), vars)
             var template = $('#template-LandingPage').html()
             App.$el.children('.body').html(_.template(template, vars))
             
@@ -505,13 +513,11 @@ $(function () {
             App.$el.children('.body').append(bform.el)
         },
         DemoScreen: function () {
-            $('ul.nav').html($("#template-nav-logged-in").html())
             var demo = new App.Views.Demo()
             App.$el.children('.body').html(demo.el)
             demo.render()
         },
         DemoVersion: function () {
-            $('ul.nav').html($("#template-nav-logged-in").html()).show()
             var demo = new App.Views.Demo()
             App.$el.children('.body').html(demo.el)
             demo.render()
@@ -538,7 +544,6 @@ $(function () {
             //App.$el.children('.body').html('<h1>Member login</h1>')
             App.$el.children('.body').html(memberLoginForm.el)
             //Override the menu
-            $('ul.nav').html($('#template-nav-log-in').html()).hide()
         },
 
    		MemberLogout: function() {
@@ -736,8 +741,7 @@ $(function () {
             if(temp=="")
             temp='local'
             var roles = this.getRoles()
-            $('ul.nav').html($("#template-nav-logged-in").html()).show()
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+            
             var resources = new App.Collections.Resources({skip:0})
             resources.fetch({
                 success: function () {
@@ -830,8 +834,6 @@ $(function () {
 
             if (searchText != "" || (collectionFilter) || (subjectFilter) || (levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
               // alert('in search')
-            
-                $('ul.nav').html($("#template-nav-logged-in").html())
                 
                 var search = new App.Views.Search()
                 
@@ -870,9 +872,6 @@ $(function () {
 						temp = 'local'
 
 					var roles = this.getRoles()
-
-					$('ul.nav').html($("#template-nav-logged-in").html()).show()
-					$('#itemsinnavbar').html($("#template-nav-logged-in").html())
 					var collections = new App.Collections.listRCollection()
 					collections.major = true
 					collections.fetch(
@@ -958,8 +957,7 @@ $(function () {
 	            collectionlist.fetch({
 	                async: false
 	            })
-            $('ul.nav').html($("#template-nav-logged-in").html()).show()
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        
             var collId = Array()
             collId.push(collectionId)
              collId=JSON.stringify(collId);
@@ -1000,7 +998,7 @@ $(function () {
                 })
                 resourceFeedback.on('sync', function () {
                     feedbackTable.render()
-                     $('ul.nav').html($('#template-nav-logged-in').html()).show()
+                    
                     App.$el.children('.body').html('<h3>Feedback for "' + resource.get('title') + '"</h3>')
                     var url_togo = "#resource/feedback/add/"+resourceId+"/"+resource.get('title')
                     App.$el.children('.body').append('<a class="btn" href="'+url_togo+'"><i class="icon-plus"></i> Add your feedback</a>')
@@ -1062,8 +1060,7 @@ $(function () {
 //                }
 //            })
             /***********/
-            $('ul.nav').html($("#template-nav-logged-in").html()).show()
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+            
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function () {
@@ -1234,7 +1231,7 @@ $(function () {
                 'maxTime': '12:30am',            
             
             });
-
+            
   				$('.form .field-frequency input').click(function() {
     				if(this.value=='Weekly')
     				{
@@ -1311,8 +1308,6 @@ $(function () {
         // *********** MEMBER MEETUPS ****************************************************
         Meetup: function (meetUpId) {
         
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())  
-             
             var className = "MeetUp"
             var model = new App.Models[className]()
              if(meetUpId){
@@ -1400,7 +1395,8 @@ $(function () {
 
 
         ManageCourse: function (groupId) {
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        
+        var that=this
             levels = new App.Collections.CourseLevels()
             levels.groupId = groupId
 
@@ -1440,6 +1436,10 @@ $(function () {
                 'maxTime': '12:30am',
             
             });
+            
+              var Roles=that.getRoles()
+             if(Roles.indexOf('Manager')==-1)
+              $('.form .field-courseLeader select').attr("disabled", "true")
             
               $('.form .field-frequency input').click(function() {
     				if(this.value=='Weekly')
@@ -1486,7 +1486,7 @@ $(function () {
         },
 
         AddLevel: function (groupId, levelId, totalLevels) {
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        
             var Cstep = new App.Models.CourseStep()
             Cstep.set({
                 courseId: groupId
@@ -1530,7 +1530,7 @@ $(function () {
             //  $('#bbf-form input[name=step]').attr("disabled",true);
         },
         AddItemsToLevel: function (lid, rid, title) {
-            $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+        
             App.$el.children('.body').html('<h1>Mange | ' + title + '</h1>')
             App.$el.children('.body').append('<button class="btn btn-info"  onclick = "document.location.href=\'#search-bell/' + lid + '/' + rid + '\'">Add Resources</button>')
             App.$el.children('.body').append('<button class="btn btn-info"  onclick = "document.location.href=\'#create-quiz/' + lid + '/' + rid + '\'">Create Quiz</button>')
@@ -1763,7 +1763,7 @@ $(function () {
             rtitle.length = 0
             rids.length = 0
             if (searchText != "") {
-                $('ul.nav').html($("#template-nav-logged-in").html())
+            
                 var search = new App.Views.SearchCourses()
                 App.$el.children('.body').html(search.el)
                 search.render()
@@ -1782,7 +1782,6 @@ $(function () {
             })
             publications.fetch({
                 success: function () {
-                    $('ul.nav').html($("#template-nav-logged-in").html())
                     
                     var search = new App.Views.Search()
                     grpId = publicationId
@@ -1834,8 +1833,6 @@ $(function () {
                     
                       rtitle.length = 0
                       rids.length = 0
-
-                    $('ul.nav').html($("#template-nav-logged-in").html())
                     
                     var search = new App.Views.Search()
                     search.resourceids = levelInfo.get("resourceId")
@@ -1869,8 +1866,7 @@ $(function () {
         },
         bellResourceSearch:function(){
                   
-                   popAll()      // reset the SkipStack
-                   $('ul.nav').html($("#template-nav-logged-in").html())                    
+                   popAll()      // reset the SkipStack                  
                     var search = new App.Views.Search()
                         search.addResource=false
                     App.$el.children('.body').html(search.el)
@@ -1903,7 +1899,6 @@ $(function () {
             })
             levelInfo.fetch({
                 success: function () {
-                    $('ul.nav').html($("#template-nav-logged-in").html())
                     var search = new App.Views.SearchCourses()
                     App.$el.children('.body').html(search.el)
                     search.render()

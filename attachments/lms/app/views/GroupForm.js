@@ -94,6 +94,16 @@ $(function () {
                 alert("Specify course description first")
             }
         },
+        getRoles:function(){
+        
+        var member = new App.Models.Member()
+                member.id = $.cookie('Member._id')
+                member.fetch({
+                    async: false
+                })
+          return member.get('roles')
+        
+        },
         render: function () {
             $('#invitationdiv').hide()
             // members is required for the form's members field
@@ -132,10 +142,12 @@ $(function () {
 
 
                     groupForm.model.schema.courseLeader.options = optns
+                         
                     groupForm.form = new Backbone.Form({
                         model: groupForm.model
                     })
                     groupForm.$el.append(groupForm.form.render().el)
+                    
                     groupForm.form.fields['members'].$el.hide()
                      if (groupForm.model.get("_id") == undefined) {
                          groupForm.form.fields['Day'].$el.hide()
@@ -153,11 +165,9 @@ $(function () {
                     var $sbutton = $('<a class="group btn btn-success" id="sformButton">Continue</button>')
                     var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">Update</button>')
                     var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
-                    var $scbutton = $('<a class="btn btn-success" id="coursescheduleButton">Schedule</button>')
                     if (groupForm.model.get("_id") != undefined) {
                         groupForm.$el.append($button)
                         groupForm.$el.append($ubutton)
-                        groupForm.$el.append($scbutton)
                     } else {
                         groupForm.$el.append($sbutton)
                     }
@@ -215,7 +225,15 @@ $(function () {
                     member.save()
                 }
                 
-                this.model.set('courseLeader', $.cookie("Member._id"))
+                //console.log(this.model)
+               // alert('Group Model')
+                
+               // alert(this.model.get('courseLeader'))
+                
+              //  if(member.get('roles').indexOf('Manager')!=-1)
+               //  this.model.set('courseLeader',)
+                
+                
                 this.model.save(null, {
                     success: function (e) {
                         if (newEntery == 1) {
