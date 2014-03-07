@@ -5,7 +5,22 @@ $(function() {
     idAttribute: "_id",
 
     url: function() {
-      if (_.has(this, 'id')) {
+    if(this.pubResource==true)
+    {
+    
+    	  if (_.has(this, 'id')) {
+        var url = (_.has(this.toJSON(), '_rev'))
+          ? App.Server + '/pubresources/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
+          : App.Server + '/pubresources/' + this.id // For READ
+      }
+      else {
+        var url = App.Server + '/pubresources' // for CREATE
+      }
+    
+    }
+    else
+    {
+    	  if (_.has(this, 'id')) {
         var url = (_.has(this.toJSON(), '_rev'))
           ? App.Server + '/resources/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
           : App.Server + '/resources/' + this.id // For READ
@@ -13,6 +28,8 @@ $(function() {
       else {
         var url = App.Server + '/resources' // for CREATE
       }
+    
+    }
       return url
     },
 

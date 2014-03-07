@@ -127,7 +127,8 @@
    <script src="app/collections/AssignmentPapers.js"></script>
    <script src="app/collections/Meetups.js"></script>
   <script src="app/collections/UserMeetups.js"></script>
-   <script src="app/collections/listRCollection.js"></script>
+  <script src="app/collections/listRCollection.js"></script>
+  <script src="app/collections/Publication.js"></script>
    
   <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
@@ -148,8 +149,8 @@
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
   <script src="app/views/InvitationForm.js"></script>
-    <script src="app/views/CourseSchedule.js"></script>
-     <script src="app/views/addComment.js"></script>
+  <script src="app/views/CourseSchedule.js"></script>
+  <script src="app/views/addComment.js"></script>
   <!-- Level Views -->
   <script src="app/views/LevelsTable.js"></script>
   <script src="app/views/LevelRow.js"></script>
@@ -199,7 +200,13 @@
     <script src="app/views/MeetUpTable.js"></script>
     <script src="app/views/meetupView.js"></script>
     <script src="app/views/MeetupInvitation.js"></script>
-  
+  <!-- Publications-->
+   <script src="app/views/Publication.js"></script>
+   <script src="app/views/PublicationResourceRow.js"></script>
+   <script src="app/views/PublicationResourceTable.js"></script>
+   
+   <script src="app/views/PublicationRow.js"></script>
+   <script src="app/views/PublicationTable.js"></script>
   <!-- ALL Code Regarding the Search Function -->
   
   
@@ -633,7 +640,33 @@
     <table class="table table-striped">
     </table>
   </script>
-
+<script type="text/html" id="template-PublicationRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+      <td>
+        <span style="font-weight:900; font-size:16px;"><%= IssueNo %></BR></span>
+      </td>
+      <td>
+       <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:100px "><%= editorName %></p></BR></span>
+      </td>
+      <td>
+        <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:300px "><%= editorEmail %></p></BR></span>
+      </td>
+      <td>
+      <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:150px "><%= editorPhone %></p></BR></span>
+      </td>
+      <td>
+    	<a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
+        Details
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        Delete
+      </a>
+      </td>
+  </script>
   <script type="text/html" id="template-AssignResourceToGroupRow">
     <td>
     <%if(resource.title){ %>
@@ -1208,6 +1241,28 @@
           </label></td>
         <% } %>
 </script>
+<script type="text/html" id="template-PubResourceRow">
+  
+
+  <td>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= title %></BR></span>
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+    <td>
+      <a class='btn btn-warning movetolibrary'>Move to Library
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Remove
+      </a>
+      </td>
+    
+  </script>
 <script type="text/template" id="make-Quiz">
 <div id="quiz-body">
 <br/>
@@ -1371,7 +1426,14 @@ Please become a Member and explore both the Community Learning Management System
 		<%}%>
   </script>
   
-    
+    <script type="text/template" id="template-Publication"> 
+    <div id='listPublication-head'> 
+    <p class='heading' style="font-size: 20px;"> 
+     </p>
+      </div>
+
+	<div style='width:940px;margin:0 auto' id='listReq'></div>
+  </script> 
    <script type="text/html" id="template-siteReviewRowAdmin">
   	 	<%  if(Resolved=="0"){%>
 			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>

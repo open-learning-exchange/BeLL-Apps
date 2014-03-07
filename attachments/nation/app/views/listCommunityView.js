@@ -23,7 +23,8 @@ $(function () {
                 this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
         },
         syncData: function(){
-
+        	App.startActivityIndicator()
+			console.log(this.pId)
         	alert("Sending data")
         	var selectedValues = $('#comselect').val();
     		if(selectedValues.length>0)
@@ -31,8 +32,8 @@ $(function () {
     			for (var i = 0; i < selectedValues.length; i++) {
     			var communityUrl=selectedValues[i]
     			var communityName=$("#comselect option[value='"+selectedValues[i]+"']").text()
-    			this.synchResCommunityWithURL(communityUrl,communityName)
-				this.synchPubCommunityWithURL(communityUrl,communityName)
+				this.synchPubCommunityWithURL(communityUrl,communityName,this.pId)
+				this.synchResCommunityWithURL(communityUrl,communityName,this.res)
 				}
     		
     		}
@@ -44,8 +45,10 @@ $(function () {
             setTimeout(function () {
                 $('#invitationdiv').hide()
             }, 1000);
+            App.stopActivityIndicator()
+
         },
-        synchResCommunityWithURL : function(communityurl,communityname) 
+        synchResCommunityWithURL : function(communityurl,communityname,res) 
         {
         	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources')
         	$.ajax({
@@ -59,17 +62,17 @@ $(function () {
                 data: JSON.stringify({
                 	"source": "resources",
                     "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources',
-                    "doc_ids":["15abbc21fbc445171a33cd454c00e918"]
+                    "doc_ids":res
             	}),
                 success: function (response) {
-
+				console.log(response)
                 },
                 async: false
             })
         },
-        synchPubCommunityWithURL : function(communityurl,communityname) 
+        synchPubCommunityWithURL : function(communityurl,communityname,pId) 
         {
-        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources')
+        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/recpublication')
         	$.ajax({
             	headers: {
                 	'Accept': 'application/json',
@@ -79,11 +82,12 @@ $(function () {
                 url: '/_replicate',
                 dataType: 'json',
                 data: JSON.stringify({
-                	"source": "resources",
-                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources'
+                	"source": "publications",
+                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/recpublication',
+                    "doc_ids":pId
             	}),
                 success: function (response) {
-
+				console.log(response)
                 },
                 async: false
             })

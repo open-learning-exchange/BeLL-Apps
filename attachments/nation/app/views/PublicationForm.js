@@ -43,13 +43,13 @@ $(function () {
 
         saveForm: function () {
             var isEdit = this.model.get("_id")
-             console.log(this.model.get("resources"))
+            var addtoDb=true
             this.form.commit()
             if (this.model.get("IssueNo").length == 0) {
                 alert("Publication Issue is missing")
             } 
            
-            else if(this.model.get("resources") == undefined)
+            else if(this.rlength <= 0)
             {
             	alert("Please add resource('s)")
             }

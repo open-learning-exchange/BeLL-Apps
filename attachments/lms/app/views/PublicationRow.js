@@ -10,10 +10,7 @@ $(function () {
                 this.model.destroy()
                 event.preventDefault()
             },
-            "click #a":function(id)
-            {
-            	alert(id)
-            }
+           
         },
 
         vars: {},
@@ -27,11 +24,10 @@ $(function () {
         render: function () {
             //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()
-          		console.log(vars)
                 vars.isManager = this.isManager
                 var date=new Date(vars.Date)
                 vars.Date=date.toUTCString()
-			
+
                 this.$el.append(this.template(vars))
 
 
