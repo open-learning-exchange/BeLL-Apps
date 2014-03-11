@@ -51,7 +51,7 @@ $(function() {
       }
       else {
         // We're logged in and have a route, start the history.
-     	App.Router.renderNav()
+     	//App.Router.renderNav()
         Backbone.history.start({pushState: false})
       }
 
