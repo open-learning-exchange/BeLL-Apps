@@ -65,7 +65,8 @@ $(function () {
             'listCollection/:collectionId/:collectionName':'ListCollection',
             'viewpublication':'ViewPublication',
             'publicationdetail/:publicationId': 'PublicationDetails',
-            'abc':'resourcesTagScript'
+            'abc':'resourcesTagScript',
+            'abcde':'resourcesIdScript'
 
 
         },
@@ -166,14 +167,16 @@ $(function () {
 								})
 								//console.log(collTag)
 								var matchedTag = collTag.first()
-
+								if(matchedTag!=undefined){
 								if (matchedTag.toJSON().rows[0] != undefined)
 								{
 									Tags[i] = matchedTag.toJSON().rows[0].id;
 									console.log(matchedTag.toJSON().rows[0].id)
 									console.log(Tags[i])
 									console.log(Tags)
+									}
 								}
+								
 								else
 								{
 									var newTag = new App.Models.CollectionList()
@@ -232,6 +235,51 @@ $(function () {
 							i = i + 1;
 						}
 
+					}
+					console.log(Tags)
+					m.set(
+					{
+						'Tag': Tags
+					})
+					m.save()
+				})
+
+			},
+			resourcesIdScript: function ()
+			{
+				var resources = new App.Collections.Resources()
+				resources.fetch(
+				{
+					async: false
+				})
+				resources.each(function (m)
+				{
+
+					var Tags = m.get("Tag")
+					//console.log(Tags)
+					console.log(m.get("_id"))
+					if ($.isArray(Tags))
+					{
+						var i = 0;
+						 while (i < Tags.length)
+						{
+							var coll = new App.Models.CollectionList(
+							{
+								_id: Tags[i]
+							})
+							coll.fetch(
+							{
+								async: false
+							})
+							//console.log(coll)
+							if (coll.get('CollectionName') != undefined)
+							{
+							Tags[i]=coll.get('CollectionName')
+							
+							}
+
+							i = i + 1;
+						}
 					}
 					console.log(Tags)
 					m.set(
@@ -711,10 +759,11 @@ $(function () {
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') )
 					{
+					App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
+					
 					App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
 					}
-					App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
 					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
                      App.$el.children('.body').append(resourcesTableView.el)
                      
