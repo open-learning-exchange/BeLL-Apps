@@ -335,14 +335,10 @@ border-bottom:1px solid black;
    margin-left:-16px; 
 }
 #inviteMemberButton{
-   position: absolute;
-	top: 96px;
-	left: 646px;
+  
 }
 #ProgressButton{
-  position: absolute;
-	top: 96px;
-	left: 532px;
+
 }
 #rating_checkboxes
 {

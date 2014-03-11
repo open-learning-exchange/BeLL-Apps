@@ -105,6 +105,7 @@ $(function () {
         
         },
         render: function () {
+        
             $('#invitationdiv').hide()
             // members is required for the form's members field
             var groupForm = this
@@ -164,9 +165,9 @@ $(function () {
                     // give the form a submit button
                     var $sbutton = $('<a class="group btn btn-success" id="sformButton">Continue</button>')
                     var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">Update</button>')
-                    var $button = $('<a class="btn btn-success" id="inviteMemberButton">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
+                    var $button = $('<a style="margin-left:52%;margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">Invite Member</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="../personal/index.html#course/members/'+groupForm.model.get("_id")+'"> Members</a>')
                     if (groupForm.model.get("_id") != undefined) {
-                        groupForm.$el.append($button)
+                        groupForm.$el.prepend($button)
                         groupForm.$el.append($ubutton)
                     } else {
                         groupForm.$el.append($sbutton)
@@ -189,13 +190,12 @@ $(function () {
             var newEntery = 0
 
             this.model.once('sync', function () {
-
                 Backbone.history.navigate('course/manage/' + that.model.get("id"), {
                     trigger: true
                 })
             })
             // Put the form's input into the model in memory
-            
+           var previousLeader=this.model.get('courseLeader')
             this.form.commit()
             this.model.set("name",this.model.get("CourseTitle"))
             // Send the updated model to the server
@@ -225,15 +225,20 @@ $(function () {
                     member.save()
                 }
                 
-                //console.log(this.model)
-               // alert('Group Model')
-                
-               // alert(this.model.get('courseLeader'))
-                
-              //  if(member.get('roles').indexOf('Manager')!=-1)
-               //  this.model.set('courseLeader',)
-                
-                
+                 var leader=this.model.get('courseLeader')
+                 
+                 courseMembers=this.model.get('members') 
+                 index=courseMembers.indexOf(previousLeader)
+                 if(index!=-1)
+                  courseMembers.splice(index,1)
+
+                if(index=courseMembers.indexOf(leader)==-1)
+                {
+                   courseMembers.push(leader)
+                }
+                this.model.set("members", courseMembers)
+                  
+            
                 this.model.save(null, {
                     success: function (e) {
                         if (newEntery == 1) {

@@ -1369,7 +1369,7 @@ $(function () {
                 // Set up the form
                 modelForm.render()
                 
-                 $('.form .field-startDate input').datepicker({
+           $('.form .field-startDate input').datepicker({
                todayHighlight: true
             });
             $('.form .field-endDate input').datepicker({
