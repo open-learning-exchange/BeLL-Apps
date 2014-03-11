@@ -6,6 +6,7 @@ $(function () {
         events: {
             "click .save": "saveForm",
             "click #AddResPublication":"searchres",
+            "click #AddCoursePublication":"listCourses",
             "click #cancel": function () {
               window.location.href='#publication'
             }
@@ -45,7 +46,7 @@ $(function () {
             var isEdit = this.model.get("_id")
             var addtoDb=true
             this.form.commit()
-            if (this.model.get("IssueNo").length == 0) {
+            if (this.model.get("IssueNo")==undefined) {
                 alert("Publication Issue is missing")
             } 
            
@@ -79,7 +80,8 @@ $(function () {
 		  var showsearch=true
 		  var isEdit = this.model.get("_id")
 		  this.form.commit()
-		  
+		  this.model.set({"kind":'ResourcePublication'})
+		  console.log(this.model.toJSON())
 		  if (this.model.get("IssueNo")==undefined) {
                 alert("Publication Issue is missing")
                 showsearch=false
@@ -103,6 +105,45 @@ $(function () {
             {
             		this.model.save(null,{success:function(e){
 		 				 window.location.href = '../lms/index.html#search-bell/'+e.toJSON().id;
+		 				 }
+		  			})
+		  
+            		
+            }
+		},
+		listCourses: function()
+		{
+		  var showcourse=true
+		  var myCourses=new Array()
+		  var isEdit = this.model.get("_id")
+		  this.form.commit()
+		  this.model.unset("resources", { silent: true });
+		  this.model.set({"courses":myCourses})
+		  this.model.set({"kind":'CoursePublication'})
+		  console.log(this.model.toJSON())
+		  if (this.model.get("IssueNo")==undefined) {
+                alert("Publication Issue is missing")
+                showcourse=false
+            }
+            else {
+                 if (isEdit == undefined) {
+                    var that = this
+                    var allpub = new App.Collections.Publication()
+                    allpub.fetch({
+                        async: false
+                    })
+                    allpub.each(function (m) {
+                        if (that.model.get("IssueNo") == m.get("IssueNo")) {
+                            alert("IssueNo already exist")
+                            showcourse=false
+                        }
+                    })
+                }
+            }
+            if(showcourse)
+            {
+            		this.model.save(null,{success:function(e){
+		 				 window.location.href = '../lms/index.html#courses/'+e.toJSON().id;
 		 				 }
 		  			})
 		  
