@@ -220,7 +220,7 @@ function showComposePopupMultiple(email)
     $("#mailbodytexarea").val("")
     
     var multipalMembers=new Array()
-    $("input[name='checkedMember']").each(function () {
+    $("input[name='courseMember']").each(function () {
                 if ($(this).is(":checked")) {
                     multipalMembers.push($(this).val());
                 }
@@ -332,11 +332,13 @@ function sendMail()
 	for(var i=0; i<mailingList.length ; i++)
 	{
 		var mailadd = mailingList[i]
+	
 		if(validateEmail(mailadd))
 		{	
 			if(mailadd!="mycommunity@olebell.org")
 			{
 				var temp = (mailadd.split('@')[0]).split('.')
+				alert(temp)
 				if(temp.length>0)
 				{
 					var code = temp[temp.length-1]
@@ -348,14 +350,12 @@ function sendMail()
 					{
 						invalidEmails.push(mailadd)
 						invalidIndex.push(i)
-						alert('a')
 					}
 				}
 				else
 				{
 					invalidIndex.push(i)
 					invalidEmails.push(mailadd)
-					alert('b')
 				}
 			}
 		}
@@ -363,7 +363,6 @@ function sendMail()
 		{
 			invalidIndex.push(i)
 			invalidEmails.push(mailadd)
-			elert('c')
 		}
 	}
 	for(var i=0 ; i<invalidIndex.length ; i++)
@@ -402,7 +401,8 @@ function sendMail()
 	}
 	else
 	{
-		alert(invalidEmails + ' are invalid email addresses.')
+		//alert(invalidEmails + ' are invalid email addresses.')
+		
 		if(mailingList.length<=0)
 		{
 			return 
@@ -478,7 +478,7 @@ function sendSingleMail(mailId,mailBody,subject,mailingList)
       		}
       		else
       		{
-      			alert("Invalid mail address")
+      			alert("Invalid mail address"+mailId)
       		}
 
 		});
@@ -1131,7 +1131,7 @@ function startRecording()
 			
 				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
-				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calender'] %></button></td> 
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calendar'] %></button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
 				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
 				<!-- <td></td> -->

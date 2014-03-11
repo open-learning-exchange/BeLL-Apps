@@ -334,6 +334,12 @@ border-bottom:1px solid black;
 #groupform .bbf-field.field-levels.bbf-editor > ul > li{
    margin-left:-16px; 
 }
+#inviteMemberButton{
+  
+}
+#ProgressButton{
+
+}
 #rating_checkboxes
 {
 	margin-left:0px;
