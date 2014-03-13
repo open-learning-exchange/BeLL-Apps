@@ -56,6 +56,7 @@ $(function () {
             }
             else {
                  if (isEdit == undefined) {
+                   
                     var that = this
                     var allres = new App.Collections.Publication()
                     allres.fetch({
@@ -90,15 +91,17 @@ $(function () {
                  if (isEdit == undefined) {
                     var that = this
                     var allpub = new App.Collections.Publication()
+                    allpub.issue=this.model.get("IssueNo")
                     allpub.fetch({
                         async: false
                     })
-                    allpub.each(function (m) {
-                        if (that.model.get("IssueNo") == m.get("IssueNo")) {
-                            alert("IssueNo already exist")
-                            showsearch=false
-                        }
-                    })
+                    allpub=allpub.first()
+                    if(allpub!=undefined)
+                    if (allpub.toJSON().IssueNo!=undefined) {
+                    alert("IssueNo already exist")
+                    showsearch=false
+                    }
+                  
                 }
             }
             if(showsearch)
@@ -129,15 +132,17 @@ $(function () {
                  if (isEdit == undefined) {
                     var that = this
                     var allpub = new App.Collections.Publication()
+                    allpub.issue=this.model.get('IssueNo')
                     allpub.fetch({
                         async: false
                     })
-                    allpub.each(function (m) {
-                        if (that.model.get("IssueNo") == m.get("IssueNo")) {
-                            alert("IssueNo already exist")
-                            showcourse=false
-                        }
-                    })
+                     allpub=allpub.first()
+                    if(allpub!=undefined)
+                    if (allpub.toJSON().IssueNo!=undefined) {
+                    alert("IssueNo already exist")
+                    showcourse=false
+                    }
+                  
                 }
             }
             if(showcourse)

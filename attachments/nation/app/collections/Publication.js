@@ -11,8 +11,14 @@ $(function() {
     {
     	return App.Server + '/publications/_changes?include_docs=true&descending=true&limit=3'
     }
+    else if(this.issue)
+    {
+          return App.Server + '/publications/_design/bell/_view/publicationIssue?include_docs=true&key='+this.issue
+
+    
+    }
       else{
-      	return App.Server + '/publications/_all_docs?include_docs=true'
+      	return App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true'
       }
       
     },

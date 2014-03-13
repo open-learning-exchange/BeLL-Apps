@@ -17,6 +17,7 @@ $(function () {
             'resource/feedback/add/:resourceId': 'FeedbackForm',
             'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
             'courses': 'Groups',
+            'courses/:courseId':'Groups',
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
@@ -129,8 +130,6 @@ $(function () {
 				{
 
 					var Tags = m.get("Tag")
-					//console.log(Tags)
-					console.log(m.get("_id"))
 					if ($.isArray(Tags))
 					{
 						if (flag)
@@ -165,15 +164,67 @@ $(function () {
 								{
 									async: false
 								})
-								//console.log(collTag)
 								var matchedTag = collTag.first()
 								if(matchedTag!=undefined){
 								if (matchedTag.toJSON().rows[0] != undefined)
 								{
+								
 									Tags[i] = matchedTag.toJSON().rows[0].id;
 									console.log(matchedTag.toJSON().rows[0].id)
 									console.log(Tags[i])
 									console.log(Tags)
+									}
+									else{
+										
+									var newTag = new App.Models.CollectionList()
+									newTag.set(
+									{
+										'AddedBy': 'admin'
+									})
+									newTag.set(
+									{
+										'AddedDate': '"05/3/2014"'
+									})
+									newTag.set(
+									{
+										'CollectionName': Tags[i]
+									})
+									newTag.set(
+									{
+										'Description': ''
+									})
+									newTag.set(
+									{
+										'IsMajor': true
+									})
+									newTag.set(
+									{
+										'NesttedUnder': "--Select--"
+									})
+									newTag.set(
+									{
+										'kind': 'CollectionList'
+									})
+									newTag.set(
+									{
+										'show': true
+									})
+									flag = true;
+									newTag.save(null,
+									{
+										success: function (response, model)
+										{
+											i = i - 1;
+											//console.log(i)
+											Tags[i] = response.toJSON().id
+											i = i + 1;
+											flag = false;
+										}
+									})
+
+
+								
+								
 									}
 								}
 								
@@ -220,8 +271,6 @@ $(function () {
 											i = i - 1;
 											//console.log(i)
 											Tags[i] = response.toJSON().id
-											//console.log(Tags[i])
-											//console.log(Tags)
 											i = i + 1;
 											flag = false;
 										}
@@ -320,17 +369,33 @@ $(function () {
 	  },
         getRoles:function(){
         
-            var loggedIn = new App.Models.Member({
-                "_id": $.cookie('Member._id')
-            })
-            loggedIn.fetch({
-                async: false
-            })
-            var roles = loggedIn.get("roles")
-            
-            return roles
+//            var loggedIn = new App.Models.Member({
+//                "_id": $.cookie('Member._id')
+//            })
+
+//            loggedIn.fetch({
+//                async: false
+//            })
+
+//            var roles = $.cookie('Member.mod'); // get user's roles from cookie
+//            console.log(roles);
+
+            var loggedIn = JSON.parse( $.cookie('Member.mod') ); // get user object as a json string from cookie
+
+//            console.log("LMS::App::Router.js::getRoles()::LoggedIn.roles: " + loggedIn.roles);
+//            console.log("LMS::App::Router.js::getRoles()::LoggedIn: " + loggedIn);
+
+           // alert('test')
+
+//            var roles = loggedIn.get("roles");
+//            console.log("LMS::App::Router.js::getRoles()::LoggedIn: " + loggedIn);
+//            console.log("LMS::App::Router.js::getRoles()::LoggedIn: " + loggedIn.get("firstName") + ' ' +
+//                loggedIn.get("lastName") + ' ' + loggedIn.get("password") + ' ' + loggedIn.get("phone") +
+//                ' ' + loggedIn.get("email") + ' ' + loggedIn.get("language") + ' ' + loggedIn.get("BirthDate"));
+            return loggedIn.roles
         },
         checkLoggedIn: function () {
+//            console.log("attachments::lms::app::router.js: here we are");
             if (!$.cookie('Member._id')) {
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
                     Backbone.history.stop()
@@ -555,9 +620,10 @@ $(function () {
 		expireSession:function(){
     
         $.removeCookie('Member.login',{path:"/apps/_design/bell"})
-        $.removeCookie('Member._id',{path:"/apps/_design/bell"})
-      
-        $.removeCookie('Member.expTime',{path:"/apps/_design/bell"})
+            $.removeCookie('Member._id',{path:"/apps/_design/bell"})
+            $.removeCookie('Member.mod',{path:"/apps/_design/bell"})
+
+            $.removeCookie('Member.expTime',{path:"/apps/_design/bell"})
        
     
     },
@@ -740,7 +806,7 @@ $(function () {
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
-            var roles = this.getRoles()
+            var roles = this.getRoles();
             
             var resources = new App.Collections.Resources({skip:0})
             resources.fetch({
@@ -749,6 +815,11 @@ $(function () {
                         collection: resources
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
+                       var collectionslist = new App.Collections.listRCollection()
+						collectionslist.fetch({
+						async:false
+						})
+					resourcesTableView.collections=collectionslist	
                     resourcesTableView.render()
                     
                     var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
@@ -1046,41 +1117,90 @@ $(function () {
             App.$el.children('.body').html('<h1>Send Invitation</h1>')
             App.$el.children('.body').append(inviteForm.el)
         },
-        Groups: function () {
-         App.startActivityIndicator()
-            /****** Amendment script *****/
-//            var allcrs = new App.Collections.Groups();
-//            allcrs.fetch({
-//                async: false
-//            })
-//            allcrs.each(function (m) {
-//                if (m.get("name") == null) {
-//                    m.set("name", "not defined")
-//                    m.save()
-//                }
-//            })
-            /***********/
-            
+        Groups: function (courseId) {
+         App.startActivityIndicator()           
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function () {
                     groupsTable = new App.Views.GroupsTable({
                         collection: groups
                     })
-                    groupsTable.render()
-
-                    var button = '<p>'
-                    button += '<a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
+                       var button = ''
+                    if(courseId)
+                    {
+                    groupsTable.courseId=courseId
+                    button += '<p>'
+                    button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+                    button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+                    button += '</p>'
+                    }
+                    else
+                    {
+                    	button += '<p><a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
                     button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
                     button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
                     button += '</p>'
+                    	groupsTable.courseId=null
+                    }
+                    groupsTable.render()
+                   
                     App.$el.children('.body').html(button)
                     App.$el.children('.body').append('<h1>Courses</h1>')
                     App.$el.children('.body').append(groupsTable.el)
+                    if(courseId)
+                    {
+                    	 button='<button id="courseAdd" style="float:right;margin-right:50px;width:125px" onclick=App.Router.addCoursetoPublication("'+courseId+'") class="btn btn-success">Done</button>'
+                    	App.$el.children('.body').append(button)
+                    }
                 }
             })
               App.stopActivityIndicator()
+        },
+        addCoursetoPublication:function(publicationId)
+        {
+        
+            
+            var rCids = new Array()
+            var publication = new App.Models.Publication({
+                "_id": publicationId
+            })
+            publication.fetch({
+                async: false
+            })
+            $("input[name='addCourse']").each(function () {
+                if ($(this).is(":checked")) {
+                    var Cid = $(this).val();
+                    if(publication.get("courses")!=null)
+                    {
+                    	 rCids=publication.get("courses")
+                    	if(rCids.indexOf(Cid)<0)
+                        rCids.push(Cid)
+                    }
+                    else
+                    {
+                        rCids.push(Cid)
+                    }
+                    
+                }
+            });
+            publication.set("courses", rCids)
+            publication.save()
+            publication.on('sync', function () {
+                alert("Your Courses have been added successfully")
+                window.location='../nation/index.html#publication/add/'+publication.get('_id')
+            })
+
+        
+        
+        // console.log(publicationId)
+//         var publications = new App.Models.Publication({
+//                 "_id": publicationId
+//             })
+//             publications.fetch({
+//                 success: function () {
+//                     }})
+                    
         },
         courseDetails:function(courseId,courseName){
         	
@@ -1406,7 +1526,7 @@ $(function () {
                 model: model
             })
             App.$el.children('.body').html('<br/>')
-            App.$el.children('.body').append('<h3>Course Details</h3>')
+            App.$el.children('.body').append('<h3>Course Manage</h3>')
             App.$el.children('.body').append(modelForm.el)
             model.once('Model:ready', function () {
                 // when the users submits the form, the group will be processed
