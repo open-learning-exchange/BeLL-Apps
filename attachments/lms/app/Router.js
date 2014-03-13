@@ -109,8 +109,6 @@ $(function () {
                 report.fetch()
             } else {
                 reportFormView.render()
-                //$("input[name='addedBy']").val($.cookie("Member.login"));
-                //$("input[name='addedBy']").attr("disabled",true);
             }
         },
 
@@ -122,18 +120,15 @@ $(function () {
         resourcesTagScript: function ()
 			{
 				var resources = new App.Collections.Resources()
-				resources.fetch(
-				{
+				resources.fetch({
 					async: false
 				})
 				resources.each(function (m)
 				{
-
 					var Tags = m.get("Tag")
 					if ($.isArray(Tags))
 					{
-						if (flag)
-						{
+						if (flag){
 							return;
 						}
 						var i = 0;
@@ -168,7 +163,6 @@ $(function () {
 								if(matchedTag!=undefined){
 								if (matchedTag.toJSON().rows[0] != undefined)
 								{
-								
 									Tags[i] = matchedTag.toJSON().rows[0].id;
 									console.log(matchedTag.toJSON().rows[0].id)
 									console.log(Tags[i])
@@ -231,45 +225,34 @@ $(function () {
 								else
 								{
 									var newTag = new App.Models.CollectionList()
-									newTag.set(
-									{
+									newTag.set({
 										'AddedBy': 'admin'
 									})
-									newTag.set(
-									{
+									newTag.set({
 										'AddedDate': '"05/3/2014"'
 									})
-									newTag.set(
-									{
+									newTag.set({
 										'CollectionName': Tags[i]
 									})
-									newTag.set(
-									{
+									newTag.set({
 										'Description': ''
 									})
-									newTag.set(
-									{
+									newTag.set({
 										'IsMajor': true
 									})
-									newTag.set(
-									{
+									newTag.set({
 										'NesttedUnder': "--Select--"
 									})
-									newTag.set(
-									{
+									newTag.set({
 										'kind': 'CollectionList'
 									})
-									newTag.set(
-									{
+									newTag.set({
 										'show': true
 									})
 									flag = true;
-									newTag.save(null,
-									{
-										success: function (response, model)
-										{
+									newTag.save(null,{
+										success: function (response, model){
 											i = i - 1;
-											//console.log(i)
 											Tags[i] = response.toJSON().id
 											i = i + 1;
 											flag = false;
@@ -347,7 +330,6 @@ $(function () {
 	        async: false
 	    })
 	    collections.each(function (a) {
-	    
 	        $(iden).append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
 	    })
 
@@ -510,7 +492,6 @@ $(function () {
         CourseReport: function (cId, cname) {
         	
         	var roles = this.getRoles()
-    
         	var course = new App.Models.Group();
         	course.id = cId
         	course.fetch({async:false})
@@ -568,10 +549,7 @@ $(function () {
                 model: m
             })
             bform.on('BecomeMemberForm:done', function () {
-
                 window.location = "../lms/index.html#login"
-
-
             })
             bform.render()
             App.$el.children('.body').html('<h1>Become A Member</h1>')
@@ -601,35 +579,26 @@ $(function () {
                 model: credentials
             })
             memberLoginForm.once('success:login', function () {
-                
                 window.location.href = "../personal/index.html#dashboard"
-                
             })
             memberLoginForm.render()
-            //App.$el.children('.body').html('<h1>Member login</h1>')
             App.$el.children('.body').html(memberLoginForm.el)
             //Override the menu
         },
 
    		MemberLogout: function() {
-    
        		this.expireSession()
-      
       		Backbone.history.navigate('login', {trigger: true})
     	},
 		expireSession:function(){
-    
-        $.removeCookie('Member.login',{path:"/apps/_design/bell"})
+		
+        	$.removeCookie('Member.login',{path:"/apps/_design/bell"})
             $.removeCookie('Member._id',{path:"/apps/_design/bell"})
             $.removeCookie('Member.mod',{path:"/apps/_design/bell"})
-
             $.removeCookie('Member.expTime',{path:"/apps/_design/bell"})
-       
-    
     },
     ResourceForm: function (resourceId) {
 	    var context = this
-
 	    var resource = (resourceId) ? new App.Models.Resource({
 	        _id: resourceId
 	    }) : new App.Models.Resource()
@@ -654,8 +623,6 @@ $(function () {
 	    } else {
 	        resourceFormView.render()
 	        $("input[name='addedBy']").val($.cookie("Member.login"));
-	        //resourceFormView.form.fields['articleDate'].$el.disable();
-
 	    }
 	    $("input[name='addedBy']").attr("disabled", true);
 	    $("select[class='bbf-date']").attr("disabled", true);
@@ -673,14 +640,9 @@ $(function () {
 	    $('.form .field-Tag select').dblclick(function () {
 	        context.EditTag(this.value)
 	    });
-	   /* $('.form .field-openWith select').change(function () {
-	        $('#attachments-tablerow form').append('<label for="_attachments">Upload JsonFile(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev">')
-	    });
-	    */
-	    
 	    var identifier = '.form .field-Tag select'
 	    this.RenderTagSelect(identifier)
-	   // $('.form .field-field-Level select option[value="Add New"]:selected').removeAttr("selected")
+	    
 	    if(resource.id==undefined)
 	    {
 	    	$(".form .field-Tag select").find('option').removeAttr("selected");
@@ -696,26 +658,17 @@ $(function () {
 	        for (var counter = 0; counter < total; counter++)
 	            $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
 	         $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
-
-
 	        }
-	        if(resource.get('subject')==null)
-	        {
+	        if(resource.get('subject')==null){
 	        	$(".form .field-subject select").find('option').removeAttr("selected");
-	    
 	        }
-	        if(resource.get('Tag')==null)
-	        {
+	        if(resource.get('Tag')==null) {
 	        	$(".form .field-Tag select").find('option').removeAttr("selected");
 	        }
-	        if(resource.get('Level')==null)
-	        {
+	        if(resource.get('Level')==null)  {
 	        	$("'.form .field-Level select").find('option').removeAttr("selected")
 	        }
-	       // console.log(resource.get('subject'))
-	        //console.log(resource.get('Tag'))
-	        console.log(resource.get('Level'))
-	      
+	        console.log(resource.get('Level'))  
 	    }
 	},
 	EditTag: function (value) {
@@ -824,15 +777,13 @@ $(function () {
                     
                     var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
                         btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
-                        
                     App.$el.children('.body').html(btnText)
+                    
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
-                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') )
-					{
-					App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
-					
-					App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') ){
+						App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
+						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
 					}
 					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
