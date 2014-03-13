@@ -21,6 +21,7 @@ $(function () {
             // For the x button on the modal
             "click .close": "closeModal"
         },
+        
         start: function () {
         
             this.ShelfItems = {}
@@ -60,6 +61,12 @@ $(function () {
             //setInterval(App.updateAppCacheStatus, 10000)
 
         },
+        renderFeedback: function(){
+	  			var mymodels=new App.Models.report()
+	  			var na=new App.Views.siteFeedback({model: mymodels})
+	  			na.render()
+      			App.$el.children('.body').append(na.el)
+		},
         startActivityIndicator: function () {
             var target = document.getElementById("popup-spinning");
             if (App.wheel == null) {

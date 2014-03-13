@@ -45,6 +45,17 @@ $(function () {
                             memvisits.fetch({
                                 async: false
                             })
+                            //App.member = memvisits;
+                            // if(!App.member)
+//                             {
+//                             	 var member = new App.Models.Member({
+//                                 	_id: $.cookie('Member._id')
+//                             	})
+//                             	member.fetch({
+//                                 	async: false
+//                             	})
+//                             	App.member = member;
+//                             }
                             var vis = parseInt(memvisits.get("visits"))
                             vis++
                             memvisits.set("visits", vis)

@@ -8,6 +8,10 @@ $(function(){
             'ereader':'eReader',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
+            'member/add': 'MemberForm',
+            'member/edit/:mid': 'MemberForm',
+            'resources': 'Resources',
+            'courses': 'Groups',
       
       },
       initialize: function () {
@@ -108,9 +112,19 @@ $(function(){
                 trigger: true
             })
         },
+        getRoles:function(){
+        
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles")
+            
+            return roles
+        },
         Dashboard: function () {
-           alert('dashboard')
-           /*
             App.ShelfItems = {} // Resetting the Array Here http://stackoverflow.com/questions/1999781/javascript-remove-all-object-elements-of-an-associative-array
             $.ajax({
                 type: 'GET',
@@ -127,9 +141,128 @@ $(function(){
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
             dashboard.render()
-            $('#olelogo').remove()
-            */
+            
+           // $('#olelogo').remove()
         },
+        MemberForm: function (memberId) {
+            this.modelForm('Member', 'Member', memberId, 'login')
+        },
+
+        modelForm: function (className, label, modelId, reroute) {
+            // Set up
+            var model = new App.Models[className]()
+            var modelForm = new App.Views[className + 'Form']({
+                model: model
+            })
+            // Bind form to the DOM
+            if (modelId) {
+                App.$el.children('.body').html('<h3>Update Profile </h3>')
+            } else {
+                App.$el.children('.body').html('<h3 class="signup-heading">Become a ' + label + '</h3>')
+            }
+            App.$el.children('.body').append(modelForm.el)
+
+            // Bind form events for when Group is ready
+            model.once('Model:ready', function () {
+                // when the users submits the form, the group will be processed
+                modelForm.on(className + 'Form:done', function () {
+                    Backbone.history.navigate(reroute, {
+                        trigger: true
+                    })
+                })
+                // Set up the form
+                modelForm.render()
+                $('#olelogo').remove()
+            })
+
+            // Set up the model for the form
+            if (modelId) {
+                model.id = modelId
+                model.once('sync', function () {
+                    model.trigger('Model:ready')
+                })
+                model.fetch({
+                    async: false
+                })
+            } else {
+                model.trigger('Model:ready')
+            }
+        },
+        Resources: function () {
+            App.startActivityIndicator()
+            var context=this
+            var temp = $.url().data.attr.host.split(".")  // get name of community
+                temp = temp[0].substring(3)
+            if(temp=="")
+            temp='local'
+            var roles = this.getRoles()
+            
+            var resources = new App.Collections.Resources({skip:0})
+            resources.fetch({
+                success: function () {
+                    var resourcesTableView = new App.Views.ResourcesTable({
+                        collection: resources
+                    })
+                    resourcesTableView.isManager = roles.indexOf("Manager")
+                    resourcesTableView.render()
+                    
+                    var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
+                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
+                    App.$el.children('.body').html(btnText)
+                    
+                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
+                     
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') ){
+						App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
+						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                     
+					}
+					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
+                     App.$el.children('.body').append(resourcesTableView.el)
+                     
+
+                }
+            })
+            App.stopActivityIndicator()
+            
+        },
+        Groups: function () {
+         App.startActivityIndicator()
+            /****** Amendment script *****/
+//            var allcrs = new App.Collections.Groups();
+//            allcrs.fetch({
+//                async: false
+//            })
+//            allcrs.each(function (m) {
+//                if (m.get("name") == null) {
+//                    m.set("name", "not defined")
+//                    m.save()
+//                }
+//            })
+            /***********/
+            
+            groups = new App.Collections.Groups()
+            groups.fetch({
+                success: function () {
+                    groupsTable = new App.Views.GroupsTable({
+                        collection: groups
+                    })
+                    groupsTable.render()
+
+                    var button = '<p>'
+                    button += '<a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
+                    button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
+                    button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+                    button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+                    button += '</p>'
+                    App.$el.children('.body').html(button)
+                    App.$el.children('.body').append('<h1>Courses</h1>')
+                    App.$el.children('.body').append(groupsTable.el)
+                }
+            })
+              App.stopActivityIndicator()
+        },
+        
    
    
    }))

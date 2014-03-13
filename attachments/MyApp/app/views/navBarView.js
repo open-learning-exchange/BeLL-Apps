@@ -8,7 +8,8 @@ $(function () {
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
         initialize: function (option) {
-        alert('nav initialize')
+            
+            console.log('nav initialize')
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {

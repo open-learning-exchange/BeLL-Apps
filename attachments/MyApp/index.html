@@ -77,14 +77,50 @@
   <script src="app/models/Credentials.js"></script>
   <script src="app/models/Member.js"></script>
   <script src="app/models/Configuration.js"></script>
+  <script src="app/models/report.js"></script>
+  <script src="app/models/Group.js"></script>
+  <script src='app/models/membercourseprogress.js'></script>
+  <script src='app/models/UserMeetup.js'></script>
+  <script src='app/models/Resource.js'></script>
+  <script src='app/models/CollectionList.js'></script>
+  
+  
+  
   
   <!-- App Collection  -->
   <script src="app/collections/Configurations.js"></script>
+  <script src="app/collections/Members.js"></script>
+  <script src="app/collections/MailUnopened.js"></script>
+  <script src="app/collections/MemberGroups.js"></script>
+  <script src="app/collections/membercourseprogresses.js"></script>
+  <script src="app/collections/UserMeetups.js"></script>
+  <script src='app/collections/Resources.js'></script>
+  <script src='app/collections/listRCollection.js'></script>
   
 
    <!-- app-Views -->
   <script src="app/views/MemberLoginForm.js"></script>
   <script src="app/views/navBarView.js"></script>
+  <script src="app/views/MemberForm.js"></script>
+  <script src="app/views/siteFeedback.js"></script>
+  <script src='app/views/Dashboard.js'></script>
+  <script src="app/views/GroupSpan.js"></script>
+  <script src='app/views/GroupsSpans.js'></script>
+  <script src="app/views/ShelfSpan.js"></script>
+  <script src='app/views/ShelfSpans.js'></script>
+  <script src="app/views/MeetupSpan.js"></script>
+  <script src='app/views/MeetupSpans.js'></script>
+  <script src="app/views/TutorSpan.js"></script>
+  <script src='app/views/TutorsSpans.js'></script>
+  <script src='app/views/ResourcesTable.js'></script>
+  <script src='app/views/ResourceRow.js'></script>
+  
+  
+  
+  <!-- javaScript -->
+  
+  <script src='indexFile.js'></script>
+  
   
 
   <script type='text/template' id='template-app'>
@@ -115,7 +151,7 @@
 	
     <!-- Body -->
    
-    <div class="container body" id="main-body">
+    <div class="container body" id="cont">
       <!-- Content -->
     </div>
 </script>
@@ -137,7 +173,7 @@
       </a>
     </li>
     <li> 
-      <a href="../lms/index.html#resources">
+      <a href="#resources">
       <%= languageDict['Library'] %>
       </a>
     </li>
@@ -185,6 +221,249 @@
       </a>
     </li>
     
+</script>
+<script type="text/html" id="template-Dashboard">
+    <div id="dashboard">
+		<table class="header-table">
+			<tr class="imageRow">
+			 <td rowspan="2" class="imageData">
+				<!--	<img id="header-image" src="img/header_slice.png" /> -->
+		 			<img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:60px;"/>
+			 </td>
+			</tr>
+			<tr>
+			 <td class="left">
+					<div class="bellLocation"></div>
+					<div class="name"></div>
+					<div class="visits">  </div>
+			 </td>
+			 <td class="right">	
+					<div class="now" ></div>
+			 </td>	
+			</tr>
+		</table>	
+
+      <div id="page-body">
+        <table class="stu-nav-table">
+        <tr class="stu-nav-tube">
+					<td class="stu-nav-title-shelf stu-nav-title"><%= languageDict['My Library'] %></td>
+					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="ur" class="inner-table" >	
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+	  	  </tr>
+        	<tr class="stu-nav-tube">
+            	<td class="stu-nav-title">
+            		<a href="#courses/barchart"><%= languageDict['My Courses Progress'] %></a>
+            	</td>
+            	<td class="scrollable-courses">      
+					<div class="inner">
+		    			<table id="cc" class="inner-table">
+                    	</table>
+                  	</div>
+             	</td>     
+         		<td class="stu-nav-option-empty"></td>
+           </tr>
+		  <tr class="stu-nav-tube">
+					<td class="stu-nav-title-badges stu-nav-title"><%= languageDict['My Meetups'] %></td>
+					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="meetUpTable" class="inner-table" >	
+				
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+		 </tr>
+	  	  <tr class="stu-nav-tube">
+					<td class="stu-nav-title-tuter stu-nav-title"><%= languageDict['My Tutors'] %></td>
+					<td class="scrollable-tutor">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="tutorTable" class="inner-table" >	
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+	  	  </tr>
+	  </table>		
+	</div>
+	
+      
+		<table class="page-bottom-navtable">
+			<tr>
+			
+				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calendarr'] %></button></td> 
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
+				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
+				<!-- <td></td> -->
+				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
+			</tr>
+			</table> 
+		</div>
+            </div>
+
+       		<div id="showReleaseNotes" style="display: none;">
+       		<br/><h3>Release Notes</h3>
+       		<br/>
+       		<textarea id="shownotes"  style="width: 599px; height: 96px;resize: none;" disabled></textarea><br/>
+       		</div>
+            
+     
+  </script>
+  <script type="text/html" id="template-GroupSpan">
+      <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
+        <a href='#course/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '> 
+          <%= name %><%=yes%>
+        </a>
+     </div>
+  </script>
+  
+  <script type="text/html" id="template-ShelfSpan">
+      <div class="displayCourse"> 
+        <a href='#resources/detail/<%= _id %>'> 
+            <%= title %>
+        </a>
+     </div>
+</script>
+
+<script type="text/html" id="template-Tutor">
+      <div class="displayCourse"> 
+        <a href='#member/<%= _id %>'> 
+            <%= leaderEmail %>
+        </a>
+     </div>
+</script>
+<script type="text/html" id="template-Meetup">
+      <div class="displayCourse"> 
+        <a href='#meetup/detail/<%= meetupId %>/<%=meetupTitle%>'> 
+            <%= meetupTitle %>
+        </a>
+     </div>
+</script>
+<script type="text/html" id="template-ResourceRow">
+  
+  <%if(Manager==1){%>
+  
+    	<% if(!hidden){ %>
+    	<% if(title){ %>
+  <td>
+        <p style="width:180px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+   <td>
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
+      </a>
+    </td>
+  
+    <td>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
+    </td>
+   <td>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
+       Feedback
+      </a>
+    </td>
+    <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      </td>
+        <td>
+        <a  class="btn btn-danger hides" style="width: 66px;">
+        <i class='icon-pencil icon-white'></i>Hide
+      </a> 
+      </td>
+      <%}%>
+      <%}else{%>
+      <% if(title){ %>
+  <td>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= title %></BR></span>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+   <td>
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
+      </a>
+    </td>
+  
+    <td>
+	 <button class='btn btn-inverse disabled'>Add to My Library</button>
+    </td>
+     <td>
+      <button class='btn btn-inverse disabled' > <i class='icon-pencil icon-white'></i>
+       Feedback
+      </button>
+    </td>
+    <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      </td>
+      <td>
+	<a class='btn btn-warning unhide'>
+        <i class='icon-pencil icon-white'></i>Unhide
+      </a>
+      </td> 
+      <%}%>
+    <%}%>
+     <%}%>
+    <%if(Manager!=1 &&!hidden){%>
+    <% if(title){ %>
+     <td>
+        <p style="width:280px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+     <td>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
+    </td>
+   <td>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
+       Feedback
+      </a>
+    </td>
+    <%}%>
+    <%}%>
   </script>
 
 
