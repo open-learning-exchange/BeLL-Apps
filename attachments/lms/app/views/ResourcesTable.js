@@ -5,8 +5,6 @@ $(function() {
     tagName: "table",
 	isAdmin:null,
     className: "table table-striped",
-    collections:null,
-
     //template: $('#template-ResourcesTable').html(),
 	events : {
 		"click #backButton": function (e) {
@@ -66,11 +64,6 @@ $(function() {
     },
 
     addAll: function(){
-    this.collections = new App.Collections.listRCollection()
-			this.collections.fetch({
-			async:false
-			})
-			 console.log(this.collections)
            if(this.collection.length==0)
            {
                   this.$el.append("<tr><td>No resource found</td></tr>")

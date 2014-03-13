@@ -165,6 +165,7 @@ $(function () {
                     // give the form a submit button
                     var $sbutton = $('<a class="group btn btn-success" id="sformButton">Continue</button>')
                     var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">Update</button>')
+
                     var $button = $('<a style="margin-left:52%;margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">Invite Member</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="../personal/index.html#course/members/'+groupForm.model.get("_id")+'"> Members</a>')
                     if (groupForm.model.get("_id") != undefined) {
                         groupForm.$el.prepend($button)

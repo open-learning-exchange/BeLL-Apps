@@ -99,16 +99,18 @@ $(function () {
                 }
                 if (isEdit == undefined) {
                     var that = this
-                    var allres = new App.Collections.Resources()
-                    allres.fetch({
+                    var checkTitle = new App.Collections.Resources()
+                    checkTitle.title=that.model.get("title")
+                    checkTitle.fetch({
                         async: false
                     })
-                    allres.each(function (m) {
-                        if (that.model.get("title") == m.get("title")) {
-                            alert("Title already exist")
-                            addtoDb = false
-                        }
-                    })
+                    checkTitle=checkTitle.first()
+                    if(checkTitle!=undefined)
+                    if (checkTitle.toJSON().title!=undefined) {
+                             alert("Title already exist")
+                             addtoDb = false
+                         }
+                   
                 }
                 if (addtoDb) {
                     if (isEdit == undefined) {
@@ -122,16 +124,19 @@ $(function () {
                             if ($('input[type="file"]').val()) {
                                 if (isEdit != undefined) {
                                     if (previousTitle != newTitle) {
-                                        var titleMatch = false
-                                        var allres = new App.Collections.Resources()
-                                        allres.fetch({
-                                            async: false
-                                        })
-                                        allres.each(function (m) {
-                                            if (newTitle == m.get("title")) {
-                                                titleMatch = true
-                                            }
-                                        })
+                                     var titleMatch = false
+                                        var checkTitle = new App.Collections.Resources()
+										checkTitle.title=that.model.get("title")
+										checkTitle.fetch({
+											async: false
+										})
+										checkTitle=checkTitle.first()
+										if(checkTitle!=undefined)
+										if (checkTitle.toJSON().title!=undefined) {
+												 alert("Title already exist")
+												titleMatch = true
+											 }
+                                       
                                         if (!titleMatch) {
                                             var new_res = new App.Models.Resource()
                                             new_res.set("title", newTitle)

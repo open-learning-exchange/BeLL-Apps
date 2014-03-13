@@ -7,12 +7,13 @@ $(function() {
 	roles:null,
     addOne: function(model){
       var groupRow = new App.Views.GroupRow({model: model,roles:this.roles})
+      groupRow.courseId=this.courseId
       groupRow.render()  
       this.$el.append(groupRow.el)
     },
 
     addAll: function(){
-    this.$el.html("<tr><th>Title</th><th colspan='4'>Actions</th></tr>")
+    this.$el.html("<tr><th>Title</th><th colspan='0'>Actions</th></tr>")
     var manager = new App.Models.Member({_id:$.cookie('Member._id')})
       manager.fetch({async:false})
       this.roles=manager.get("roles")

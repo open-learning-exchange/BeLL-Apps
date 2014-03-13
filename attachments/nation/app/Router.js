@@ -162,6 +162,8 @@ $(function ()
 			},
 				async: false
 			})
+			$('#publications').append('<tr ><td><a class="btn btn-default" href="#publication" id="clickmore">Click for more</a></td></tr>');
+			
 		
 		},
 		cummunityManage:function(){
@@ -479,10 +481,45 @@ $(function ()
 				async: false
 			})
 			var coll = Array()
+			if(publicationObject.get('kind')=='CoursePublication')
+			{
+					var i=0
+					var courses = publicationObject.get('courses')
+					var myJsonString = JSON.stringify(courses)
+					_.each(courses, function ()
+					{
+						var Pcourse = new App.Models.Group(
+						{
+							_id: (courses[i])
+						})
+						Pcourse.fetch(
+						{
+							success: function(response) {
+							coll.push(Pcourse)
+					
+							var data = response.toJSON()
+						}
+							,async: false
+						})
+						i++
+					})
+					  groupsTable = new App.Views.GroupsTable({
+                        collection: coll
+                    })
+                       var button = ''
+					console.log(coll)
+			/*
+			Tuesday 11 march 2014
+			Resume from view the added courses in Publication  dddd
+			 Render GroupTable GroupRow their tables and customise them(GroupRow,GroupTable,Group View added)
+			*/
+			}
+			else
+			{
 			var publicationIds=Array()
 			var resources = publicationObject.get('resources')
 			publicationIds.push(publicationId)
-			var myJsonString = JSON.stringify(resources);
+			var myJsonString = JSON.stringify(resources)
 			var jSonId=JSON.stringify(publicationIds)
 			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-success" style="float:left;margin-left:20px" onclick=SelectCommunity('+myJsonString+','+jSonId+')>Send Publication</button></div>')
 			var i = 0
@@ -509,7 +546,9 @@ $(function ()
 			})
 			publicationresTable.Id = publicationId
 			publicationresTable.render()
-			App.$el.children('.body').append(publicationresTable.el)
+			App.$el.children('.body').append(publicationresTable.el)			
+			}
+
 		},
 		
 		PublicationForm: function(publicationId)
@@ -535,7 +574,17 @@ $(function ()
 			{
 				publication.fetch({
 				success: function(response) {
+				if(publication.get('kind')=='CoursePublication')
+				{
+					publicationFormView.rlength=publication.get('courses').length
+				}
+				else
+				{
+					if(publication.get('resources')!=null)
 					publicationFormView.rlength=publication.get('resources').length
+					
+				}
+
 				},
 				async:false
 				})

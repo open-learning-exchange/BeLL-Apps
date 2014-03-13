@@ -67,8 +67,12 @@ $(function () {
         },
 
         render: function () {
-            var vars = this.model.toJSON()
-            
+        
+        	if(this.courseId==null)
+        	{
+        	var vars = this.model.toJSON()
+        	
+        	vars.courseId=this.courseId    
             if(vars._id=='_design/bell')
                return
             
@@ -95,6 +99,17 @@ $(function () {
                 vars.isAdmin = 0
             }
             this.$el.append(_.template(this.template, vars))
+        	
+        	}
+        	else{
+        	var vars = this.model.toJSON()
+        	vars.viewProgress = 0
+        	vars.isAdmin = 0
+        	vars.isLeader = 0  
+        	vars.courseId=this.courseId
+        	this.$el.append(_.template(this.template, vars))
+        	}
+            
         }
 
     })

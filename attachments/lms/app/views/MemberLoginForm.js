@@ -46,7 +46,18 @@ $(function () {
             var memberLoginForm = this
             this.form.commit()
             var credentials = this.form.model
+
+            console.log("LMS::App::Views::MemberLoginForm.js::setForm():: credentials: " +
+                            JSON.stringify(this.form.model));
+
             $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + credentials.get('login') + '"', function (response) {
+
+//                console.log("LMS::App::Views::MemberLoginForm.js::setForm():: response.rows[0]: " +
+//                    JSON.stringify(response.rows[0]));
+//                console.log("<------****----->");
+//                console.log("LMS::App::Views::MemberLoginForm.js::setForm():: response.rows[1]: " +
+//                    JSON.stringify(response.rows[1]));
+
                 if (response.rows[0]) {
                     if (response.total_rows > 0 && response.rows[0].doc.password == credentials.get('password')) {
                         if (response.rows[0].doc.status == "active") {
@@ -56,7 +67,11 @@ $(function () {
                             })
                             memvisits.fetch({
                                 async: false
-                            })
+                            });
+
+//                            console.log("memvisits 1" + JSON.stringify(memvisits));
+
+
                             memvisits.set("visits", memvisits.get("visits") + 1)
                             memvisits.once('sync', function () {
                                 var date = new Date();
@@ -69,6 +84,15 @@ $(function () {
                                 $.cookie('Member.expTime', date, {
                                     path: "/apps/_design/bell"
                                 })
+
+                                var tempUser = JSON.stringify(memvisits.toJSON());
+                                $.cookie('Member.mod', tempUser, {
+                                    path: "/apps/_design/bell"
+                                });
+
+//                                console.log( tempUser );
+
+//                                alert(JSON.stringify(response.rows.length));
 
                                 if ($.inArray('student', response.rows[0].doc.roles) != -1) {
                                     if (response.rows[0].doc.roles.length < 2) {
@@ -87,10 +111,10 @@ $(function () {
                             alert("Your account is deactivated")
                         }
                     } else {
-                        alert('Login or Pass incorrect.')
+                        alert('Login or Password incorrect.')
                     }
                 } else {
-                    alert('Login or Pass incorrect.')
+                    alert('Login or Password incorrect.')
                 }
             });
         },

@@ -46,12 +46,12 @@ $(function () {
             this.bind("all", this.renderNav)
         },
         startUpStuff: function () {
-        
+            this.renderNav
+            
             if (App.idss.length == 0) {}
             $('div.takeQuizDiv').hide()
             $('#externalDiv').hide()
             $('#debug').hide()
-            
         },
         renderNav: function () {
             if ($.cookie('Member._id')) {
@@ -93,7 +93,6 @@ $(function () {
                 }
             }
         },
-        
          reviewStatus: function(){
         	 var member = new App.Models.Member({
                                 _id: $.cookie('Member._id')
@@ -224,6 +223,38 @@ $(function () {
             App.$el.children('.body').html(' ')
 
         },
+        
+
+        checkLoggedIn: function () {
+            if (!$.cookie('Member._id')) {
+                console.log($.url().attr('fragment'))
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add') {
+                    Backbone.history.stop()
+                    App.start()
+                }
+            } else {
+                var expTime = $.cookie('Member.expTime')
+                var d = new Date(Date.parse(expTime))
+                var diff = Math.abs(new Date() - d)
+                //alert(diff)
+                var expirationTime = 7200000
+                if (diff < expirationTime) {
+                    var date = new Date()
+                    $.cookie('Member.expTime', date, {
+                        path: "/apps/_design/bell"
+                    })
+                    $.cookie('Member.expTime', date, {
+                        path: "/apps/_design/bell"
+                    })
+                } else {
+                    this.expireSession()
+                    Backbone.history.stop()
+                    App.start()
+
+                }
+            }
+        },
+
         viewAllFeedback: function () {
             feed = new App.Collections.siteFeedbacks()
             feed.fetch({
@@ -237,6 +268,19 @@ $(function () {
                 }
             })
         },
+        renderNav: function () {
+            if ($.cookie('Member._id')) {
+                var na = new App.Views.navBarView({
+                    isLoggedIn: '1'
+                })
+            } else {
+                var na = new App.Views.navBarView({
+                    isLoggedIn: '0'
+                })
+            }
+            $('div.navbar-collapse').html(na.el)
+        },
+
 
         CoursesBarChart: function () {
             App.$el.children('.body').html('&nbsp')
