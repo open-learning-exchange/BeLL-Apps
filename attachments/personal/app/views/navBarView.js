@@ -16,7 +16,7 @@ $(function () {
             var temp = Backbone.history.location.href
             temp = temp.split('#')
             
-    	var version=''
+    	    var version=''
     	 
             var config = new App.Collections.Configurations()
              config.fetch({
@@ -28,13 +28,13 @@ $(function () {
              var languageDict = configuration.get(clanguage)
     	     version=configuration.get('version')
     	     
-        this.data = {
+             this.data = {
                 uRL: temp[1],
                 versionNO:version,
                 languageDict:languageDict
-            } 
+             } 
             
-            this.$el.append(this.template(this.data))
+             this.$el.append(this.template(this.data))
         },
 
         render: function () {}

@@ -40,10 +40,10 @@ $(function () {
         },
 
         initialize: function () {
-        	
+        
             this.bind("all", this.startUpStuff)
-            //this.bind("all", this.checkLoggedIn)
-           // this.bind("all", this.renderNav)
+            this.bind("all", this.checkLoggedIn)
+            this.bind("all", this.renderNav)
         },
         startUpStuff: function () {
         
@@ -52,47 +52,6 @@ $(function () {
             $('#externalDiv').hide()
             $('#debug').hide()
             
-            if ($.cookie('Member._id')) {
-                var na = new App.Views.navBarView({
-                    isLoggedIn: '1'
-                })
-            } else {
-                var na = new App.Views.navBarView({
-                    isLoggedIn: '0'
-                })
-            }
-            $('div.navbar-collapse').html(na.el)
-            
-            if (!$.cookie('Member._id')) {
-                console.log($.url().attr('fragment'))
-                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add') {
-                    Backbone.history.stop()
-                    App.start()
-                }
-            } else {
-                var expTime = $.cookie('Member.expTime')
-                var d = new Date(Date.parse(expTime))
-                var diff = Math.abs(new Date() - d)
-                //alert(diff)
-                var expirationTime = 7200000
-                if (diff < expirationTime) {
-                    var date = new Date()
-                    $.cookie('Member.expTime', date, {
-                        path: "/apps/_design/bell"
-                    })
-                    $.cookie('Member.expTime', date, {
-                        path: "/apps/_design/bell"
-                    })
-                } else {
-                    this.expireSession()
-                    Backbone.history.stop()
-                    App.start()
-
-                }
-            }
-           
-          // this.renderNav()
-           //this.checkLoggedIn() 
         },
         renderNav: function () {
             if ($.cookie('Member._id')) {
@@ -105,7 +64,6 @@ $(function () {
                 })
             }
             $('div.navbar-collapse').html(na.el)
-            alert('navrender +  casgvghgas')
         },
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
@@ -118,7 +76,6 @@ $(function () {
                 var expTime = $.cookie('Member.expTime')
                 var d = new Date(Date.parse(expTime))
                 var diff = Math.abs(new Date() - d)
-                //alert(diff)
                 var expirationTime = 7200000
                 if (diff < expirationTime) {
                     var date = new Date()
@@ -135,7 +92,6 @@ $(function () {
 
                 }
             }
-            alert('checkLogin')
         },
         
          reviewStatus: function(){
