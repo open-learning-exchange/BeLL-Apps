@@ -29,10 +29,7 @@ $(function () {
                 vars.creator = 1
             } else {
                 vars.creator = 0
-            }
-
-            console.log(vars)
-            
+            }            
             this.$el.append(_.template(this.template, vars))
         }
 
