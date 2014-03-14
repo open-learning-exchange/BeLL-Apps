@@ -1,8 +1,9 @@
 $(function() {
 
-  App.Models.report = Backbone.Model.extend({
+  App.Models.reportComment = Backbone.Model.extend({
   
   idAttribute: "_id",
+  
   url: function() {
       if (_.has(this, 'id')) {
         var url = (_.has(this.toJSON(), '_rev'))
@@ -14,23 +15,20 @@ $(function() {
       }
       
       return url
-    },
-	   defaults: {
-      kind: "report"
+  },
+    
+    defaults: {
+      kind: "reportComment"
     },
 
 
- schema: {
-      PageUrl: 'Text',
-      comment: 'TextArea',
-      Resolved: 'Text',
-      category: { type: 'Select', options: ['Bug' , 'Question' ,'Suggestion'] },
-      priority: { type: 'Checkboxes',options: ['urgent']},
-      memberLogin: 'Text',
-      time: 'Text'
+ 	schema: {
+    	reportId:'Text',
+    	commentNumber:'Text',
+      	comment: 'TextArea',
+      	memberLogin: 'Text',
+      	time: 'Text'
     }
-
-
 }) 
 
 })
