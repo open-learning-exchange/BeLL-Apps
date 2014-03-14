@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8">
   <title>Bell LMS</title>
-   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+  <!-- <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
-  
+  -->
 <!--  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   -->
@@ -18,8 +18,8 @@
   <link rel="stylesheet" href="app/navStyle.css"/>
   
   <link rel="stylesheet" href="app/flat-ui.css"/>
-  <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/jqueryui.css"/>
+  <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
   
@@ -108,15 +108,13 @@
   <script src="app/models/reportComment.js"></script>
   <script src="app/models/CommunityReportComment.js"></script>
   <script src="app/models/CommunityReport.js"></script>
-  <script src="app/models/CommunityCode.js"></script>
   <script src="app/models/ResourceFrequency.js"></script>
   <script src="app/models/MeetUp.js"></script>
   <script src="app/models/UserMeetups.js"></script>
-  <script src="app/models/InviMeetup.js"></script>
-  <script src="app/models/CollectionList.js"></script>
   <script src="app/models/Publication.js"></script>
   <script src="app/models/Configuration.js"></script>
-  
+  <script src='app/models/CollectionList.js'></script>
+  <script src='app/models/InviMeetup.js'></script>
   
   
   
@@ -181,6 +179,7 @@
   <script src='app/views/TutorsSpans.js'></script>
   <script src='app/views/ResourcesTable.js'></script>
   <script src='app/views/ResourceRow.js'></script>
+  <script src='app/views/ResourcesDetail.js'></script>
   <script src='app/views/GroupsTable.js'></script>
   <script src='app/views/GroupRow.js'></script>
   <script src='app/views/GroupForm.js'></script>
@@ -191,6 +190,11 @@
   <script src='app/views/MeetUpRow.js'></script>
   <script src='app/views/MembersTable.js'></script>
   <script src='app/views/MemberRow.js'></script>
+  
+  <script src='app/views/ReportsRow.js'></script>
+  <script src='app/views/ReportsTable.js'></script>
+  <script src='app/views/ReportForm.js'></script>
+  <script src='app/views/CourseLevelsTable.js'></script>
   
   
   <!-- javaScript -->
@@ -269,7 +273,7 @@
       </a>
     </li>
     <li> 
-      <a href="../lms/index.html#reports">
+      <a href="#reports">
       <%= languageDict['Reports'] %>
       </a>
     </li> 
@@ -669,6 +673,195 @@
     </td>
     
  </script>
+ <script type="text/html" id="template-ReportRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+    
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+      </td>
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= author %></BR></span>
+      </td>
+    </td>
+    
+       <td>
+    <%=views%>
+    </td>
+    <td>
+
+      <a id="open" class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/community/<%= _id %>' target="_blank">
+       Open
+      </a>
+    </td>
+ 
+    <td>
+      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
+    </td>
+   
+    <td>
+    	<%if(isManager>-1){%>
+    	<td>
+    	<a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+        Details
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        Delete
+      </a>
+      </td>
+      <%}%>
+    </td>
+    <%}%>
+  </script>
+  <script type="text/template" id="template-form-file">
+    <table class="table table-striped">
+      <tr>
+      <td colspan="2">
+      <%if(header.length<=40){%>
+        <h2 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h2> 
+          <%}else{%>
+        <h4 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h4>
+        <%}%>  
+        
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="fields">
+          <!-- The first form that will be submitted without the file -->
+          <%= form %>
+        </td>
+      </tr>
+      <tr id='attachments-tablerow'>
+        <td colspan="">
+        <label id="selectedResources"></label>
+          <!-- The Second form that will be submitted containing the file -->
+          <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="save btn btn-success" name="save">
+            Save
+          </div>
+        <a class="btn btn-danger" id="cancel">Cancel</a>
+        </td>
+        <td class="status">
+          <!-- status goes here -->
+        </td>
+      </tr>
+    </table>
+  </script>
+  <script type="text/html" id="template-courseLevelsTable">
+  
+	<h3 class="bigheader"><div style="width:95%">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <% if(status == "1") { %>
+            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
+        <% } %>
+        </div>
+        </h3>
+
+  	<div>
+		<table class="Course-table">
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Description</br>
+                          </td>
+                        </tr>
+                        <tr class="level-section-data"> 
+                          <td colspan="3">
+                            <%=description%>
+                          </td>
+                        </tr>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Instructions</br>
+                          </td>
+                        </tr>
+                        
+                        <% for (var i=0; i<attachmentNames.length; i++){%>
+                         	<tr class="level-section-data">  
+								<td><b><%=i+1%></b></td>
+                                <td><%= attachmentNames[i] %> &nbsp&nbsp</td>
+								<td>
+									<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank">Open</a>
+								</td>
+							</tr>
+						<% } %>
+
+                       <tr class="level-section-title" id="r_items">
+                          <td colspan="3">
+                            Resources</br>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                          <%for (var i=0; i<resourceId.length; i++){%>
+                          
+                         <tr class="level-section-data">  
+				<td>
+                                      <b><%=i+1%></b>
+                                </td>
+                                <td>
+						<%= resourceTitles[i] %> &nbsp&nbsp
+				</td>
+				<td>
+						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+				</td>
+			</tr>
+                          <%}%>
+                      <%for (var i=0; i<outComes.length; i++){%>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            <%=outComes[i]%></br>
+                          </td>
+                        </tr>
+                      
+                         <tr class="level-section-data"> 
+				<td colspan="2">
+					
+						Passing Percentage:<b><%=passingPercentage%>%<br></b>
+						Allowed Errors:<b><%=allowedErrors%></b>
+                                                
+                                </td>
+                                <td>
+                                                <%if (questions!=null){%>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                                                <%}else{%>
+                                                  <button class='btn btn-disabled'>Take <%=outComes[i]%></button>
+                                                <%}%>
+                                    <div class="mailsubject">
+                                    	<form method="post" id="fileAttachment<%=_id%>">
+	                                    	<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" /> 
+	                                    	<input class="rev" type="hidden" name="_rev">
+	                                    	
+	                                    	<input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+	                                    	<input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
+	                                    	<input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
+	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -43px;margin-left:140px" />
+
+                                    	</form>
+                                    </div>
+					
+				</td>
+				
+                      </tr>
+                    <%}%>
+              </table>
+	</div>
+
+  </script>
 
 
 </head>

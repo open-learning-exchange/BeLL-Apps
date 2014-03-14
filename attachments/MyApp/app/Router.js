@@ -11,16 +11,24 @@ $(function(){
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
             'resources': 'Resources',
+            'resource/detail/:rsrcid/:shelfid/:revid': 'Resource_Detail',
+            
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
+            'course/details/:courseId/:name': 'CourseDetails',
             
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
-            'meetup/details/:meetupId/:title':'meetupDetails',
+            'meetup/detail/:meetupId/:title':'meetupDetails',
+            'meetup/details/:meetupId/:title': 'meetupDetails',
             'meetup/manage/:meetUpId':'Meetup',
             
             'members': 'Members',
+            
+            'reports': 'Reports',
+    	    'reports/edit/:resportId': 'ReportForm',
+            'reports/add': 'ReportForm',
       
       },
       initialize: function () {
@@ -361,6 +369,36 @@ $(function(){
                 }
             })
         },
+        CourseDetails: function (courseId, name) {
+            var ccSteps = new App.Collections.coursesteps()
+            ccSteps.courseId = courseId
+            
+            ccSteps.fetch({
+                success: function () {
+                    App.$el.children('.body').html('&nbsp')
+                    App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/'+courseId+'" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
+                    var levelsTable = new App.Views.CourseLevelsTable({
+                        collection: ccSteps,
+                    })
+                    levelsTable.courseId=courseId
+                    levelsTable.render()
+                    App.$el.children('.body').append(levelsTable.el)
+                    $("#accordion")
+                        .accordion({
+                            header: "h3"
+                        })
+                        .sortable({
+                            axis: "y",
+                            handle: "h3",
+                            stop: function (event, ui) {
+                                // IE doesn't register the blur when sorting
+                                // so trigger focusout handlers to remove .ui-state-focus
+                                ui.item.children("h3").triggerHandler("focusout");
+                            }
+                        });
+                }
+            })
+        },
         ListMeetups: function () {
           
           App.$el.children('.body').html('<h3>Meetups<a style="margin-left:20px" class="btn btn-success" href="#meetup/add">Add Meetup</a></h3>')
@@ -372,6 +410,16 @@ $(function(){
          
          meetUpView.render()
          App.$el.children('.body').append(meetUpView.el)
+        },
+       meetupDetails:function(meetupId,title){
+        
+            var meetupModel=new App.Models.MeetUp({_id:meetupId})
+            meetupModel.fetch({async:false})
+            var meetupView=new App.Views.meetupView({model:meetupModel})
+            meetupView.render()
+            App.$el.children('.body').html(meetupView.el)
+            
+        
         },
     Members: function () {
     
@@ -386,7 +434,6 @@ $(function(){
     	    code=cofigINJSON.code       
             
             var roles = this.getRoles()
-			
             members = new App.Collections.Members()
             members.fetch({
                 success: function () {
@@ -409,6 +456,48 @@ $(function(){
                 }
             })
                       App.stopActivityIndicator()
+        },
+        Reports: function () {
+        
+            App.startActivityIndicator()
+            
+            var roles =this.getRoles()
+            var reports = new App.Collections.Reports()
+            reports.fetch({
+                async: false
+            })
+            var resourcesTableView = new App.Views.ReportsTable({
+                collection: reports
+            })
+            resourcesTableView.isManager = roles.indexOf("Manager")
+            resourcesTableView.render()
+             App.$el.children('.body').html('')
+            if(roles.indexOf("Manager")>-1){
+            App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+			}
+			var temp = $.url().attr("host").split(".")
+            temp = temp[0].substring(3)
+            if(temp.length==0){
+            temp="Community"
+            }
+			App.$el.children('.body').append('<h4><span style="color:gray;">'+temp+'</span> | Reports</h4>')
+            App.$el.children('.body').append(resourcesTableView.el)
+            App.stopActivityIndicator()
+
+        },
+        Resource_Detail: function (rsrcid, sid, revid) {
+            var resource = new App.Models.Resource({_id:rsrcid})
+            resource.fetch({
+                success: function () {
+                    var resourceDetail = new App.Views.ResourcesDetail({
+                        model: resource
+                    })
+                    resourceDetail.SetShelfId(sid, revid)
+                    resourceDetail.render()
+                    App.$el.children('.body').html(resourceDetail.el)
+                }
+            })
+
         },
         
    

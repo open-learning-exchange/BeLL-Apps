@@ -6,7 +6,7 @@ $(function () {
         authorName: null,
         tagName: "table",
 
-        className: "table table-striped",
+        className: "btable btable-striped",
         initialize: function () {
             this.$el.html('<h3 colspan="20">Meetup | '+this.model.get('title')+'</h3>')
         },
@@ -61,7 +61,7 @@ MemberInvite: function () {
              }
         
         
-          var UserMeetUp=new App.Models.UserMeetups()
+          var UserMeetUp=new App.Models.UserMeetup()
           UserMeetUp.set('memberId',$.cookie('Member._id'))
           UserMeetUp.set('meetupId',this.model.get('_id'))
           UserMeetUp.set('meetupTitle',this.model.get('title'))
