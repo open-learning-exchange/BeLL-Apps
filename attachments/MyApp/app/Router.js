@@ -151,6 +151,7 @@ $(function(){
             if (App.idss.length == 0) {}
             $('div.takeQuizDiv').hide()
             $('#externalDiv').hide()
+            $('#invitationdiv').hide()
             $('#debug').hide()
             
         },
