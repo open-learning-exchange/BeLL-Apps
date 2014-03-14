@@ -11,6 +11,8 @@ $(function(){
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
             'resources': 'Resources',
+            'resource/detail/:rsrcid/:shelfid/:revid': 'Resource_Detail',
+            
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
             
@@ -21,6 +23,10 @@ $(function(){
             'meetup/manage/:meetUpId':'Meetup',
             
             'members': 'Members',
+            
+            'reports': 'Reports',
+    	    'reports/edit/:resportId': 'ReportForm',
+            'reports/add': 'ReportForm',
       
       },
       initialize: function () {
@@ -386,7 +392,6 @@ $(function(){
     	    code=cofigINJSON.code       
             
             var roles = this.getRoles()
-			
             members = new App.Collections.Members()
             members.fetch({
                 success: function () {
@@ -409,6 +414,48 @@ $(function(){
                 }
             })
                       App.stopActivityIndicator()
+        },
+        Reports: function () {
+        
+            App.startActivityIndicator()
+            
+            var roles =this.getRoles()
+            var reports = new App.Collections.Reports()
+            reports.fetch({
+                async: false
+            })
+            var resourcesTableView = new App.Views.ReportsTable({
+                collection: reports
+            })
+            resourcesTableView.isManager = roles.indexOf("Manager")
+            resourcesTableView.render()
+             App.$el.children('.body').html('')
+            if(roles.indexOf("Manager")>-1){
+            App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+			}
+			var temp = $.url().attr("host").split(".")
+            temp = temp[0].substring(3)
+            if(temp.length==0){
+            temp="Community"
+            }
+			App.$el.children('.body').append('<h4><span style="color:gray;">'+temp+'</span> | Reports</h4>')
+            App.$el.children('.body').append(resourcesTableView.el)
+            App.stopActivityIndicator()
+
+        },
+        Resource_Detail: function (rsrcid, sid, revid) {
+            var resource = new App.Models.Resource({_id:rsrcid})
+            resource.fetch({
+                success: function () {
+                    var resourceDetail = new App.Views.ResourcesDetail({
+                        model: resource
+                    })
+                    resourceDetail.SetShelfId(sid, revid)
+                    resourceDetail.render()
+                    App.$el.children('.body').html(resourceDetail.el)
+                }
+            })
+
         },
         
    

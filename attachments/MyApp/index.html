@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8">
   <title>Bell LMS</title>
-   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+  <!-- <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
-  
+  -->
 <!--  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   -->
@@ -94,7 +94,7 @@
   <script src='app/models/Group.js'></script>
   <script src='app/models/CourseStep.js'></script>
   <script src='app/models/Meetup.js'></script>
-  
+  <script src='app/models/CommunityReport.js'></script>
   
   
   
@@ -112,6 +112,8 @@
   <script src='app/collections/CourseLevels.js'></script>
   <script src='app/collections/leadermembers.js'></script>
   <script src='app/collections/Meetups.js'></script>
+  <script src='app/collections/Reports.js'></script>
+  
   
 
    <!-- app-Views -->
@@ -130,6 +132,7 @@
   <script src='app/views/TutorsSpans.js'></script>
   <script src='app/views/ResourcesTable.js'></script>
   <script src='app/views/ResourceRow.js'></script>
+  <script src='app/views/ResourcesDetail.js'></script>
   <script src='app/views/GroupsTable.js'></script>
   <script src='app/views/GroupRow.js'></script>
   <script src='app/views/GroupForm.js'></script>
@@ -140,6 +143,10 @@
   <script src='app/views/MeetUpRow.js'></script>
   <script src='app/views/MembersTable.js'></script>
   <script src='app/views/MemberRow.js'></script>
+  
+  <script src='app/views/ReportsRow.js'></script>
+  <script src='app/views/ReportsTable.js'></script>
+  <script src='app/views/ReportForm.js'></script>
   
   
   <!-- javaScript -->
@@ -218,7 +225,7 @@
       </a>
     </li>
     <li> 
-      <a href="../lms/index.html#reports">
+      <a href="#reports">
       <%= languageDict['Reports'] %>
       </a>
     </li> 
@@ -618,6 +625,95 @@
     </td>
     
  </script>
+ <script type="text/html" id="template-ReportRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+    
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+      </td>
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= author %></BR></span>
+      </td>
+    </td>
+    
+       <td>
+    <%=views%>
+    </td>
+    <td>
+
+      <a id="open" class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/community/<%= _id %>' target="_blank">
+       Open
+      </a>
+    </td>
+ 
+    <td>
+      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
+    </td>
+   
+    <td>
+    	<%if(isManager>-1){%>
+    	<td>
+    	<a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+        Details
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        Delete
+      </a>
+      </td>
+      <%}%>
+    </td>
+    <%}%>
+  </script>
+  <script type="text/template" id="template-form-file">
+    <table class="table table-striped">
+      <tr>
+      <td colspan="2">
+      <%if(header.length<=40){%>
+        <h2 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h2> 
+          <%}else{%>
+        <h4 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h4>
+        <%}%>  
+        
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="fields">
+          <!-- The first form that will be submitted without the file -->
+          <%= form %>
+        </td>
+      </tr>
+      <tr id='attachments-tablerow'>
+        <td colspan="">
+        <label id="selectedResources"></label>
+          <!-- The Second form that will be submitted containing the file -->
+          <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="save btn btn-success" name="save">
+            Save
+          </div>
+        <a class="btn btn-danger" id="cancel">Cancel</a>
+        </td>
+        <td class="status">
+          <!-- status goes here -->
+        </td>
+      </tr>
+    </table>
+  </script>
 
 
 </head>
