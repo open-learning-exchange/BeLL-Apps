@@ -8,7 +8,7 @@ $(function () {
             'info': 'info',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
-            'courses': 'Groups',
+            //'courses': 'Groups',
             'my-courses': 'MemberGroups',
             'course/edit/:groupId': 'GroupForm',
             'course/details/:courseId/:name': 'CourseDetails', // @todo delete and change refs to it
@@ -437,39 +437,39 @@ $(function () {
             })
 
         },
+// 
+//         Groups: function () {
+//             groups = new App.Collections.Groups()
+//             groups.fetch({
+//                 success: function () {
+//                     $('#olelogo').remove();
+//                     groupsTable = new App.Views.GroupsTable({
+//                         collection: groups
+//                     })
+//                     groupsTable.render()
+// 
+//                     App.$el.children('.body').html('<h1 class="teams_table_heading"></h1>')
+//                     App.$el.children('.body').append('<table class=table-striped><tr><th><h6>Team Names</h6></th><th><h6>Assignments</h6></th></tr></table>')
+//                     App.$el.children('.body').append(groupsTable.el)
+//                 }
+//             })
+//         },
 
-        Groups: function () {
-            groups = new App.Collections.Groups()
-            groups.fetch({
-                success: function () {
-                    $('#olelogo').remove();
-                    groupsTable = new App.Views.GroupsTable({
-                        collection: groups
-                    })
-                    groupsTable.render()
-
-                    App.$el.children('.body').html('<h1 class="teams_table_heading"></h1>')
-                    App.$el.children('.body').append('<table class=table-striped><tr><th><h6>Team Names</h6></th><th><h6>Assignments</h6></th></tr></table>')
-                    App.$el.children('.body').append(groupsTable.el)
-                }
-            })
-        },
-
-        MemberGroups: function () {
-            groups = new App.Collections.MemberGroups()
-            groups.memberId = $.cookie('Member._id')
-            groups.fetch({
-                success: function () {
-                    $('#olelogo').remove();
-                    groupsTable = new App.Views.GroupsTable({
-                        collection: groups
-                    })
-                    groupsTable.render()
-                    App.$el.children('.body').html('<h1>My Courses</h1>')
-                    App.$el.children('.body').append(groupsTable.el)
-                }
-            })
-        },
+       //  MemberGroups: function () {
+//             groups = new App.Collections.MemberGroups()
+//             groups.memberId = $.cookie('Member._id')
+//             groups.fetch({
+//                 success: function () {
+//                     $('#olelogo').remove();
+//                     groupsTable = new App.Views.GroupsTable({
+//                         collection: groups
+//                     })
+//                     groupsTable.render()
+//                     App.$el.children('.body').html('<h1>My Courses</h1>')
+//                     App.$el.children('.body').append(groupsTable.el)
+//                 }
+//             })
+//         },
 
         GroupAssignments: function (groupId) {
             var group = new App.Models.Group()

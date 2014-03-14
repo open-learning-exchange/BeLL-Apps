@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8">
   <title>Bell LMS</title>
+   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+  <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
   <link href="vendor/morris.css" rel="stylesheet" media="screen" />
@@ -63,6 +65,7 @@
   <script src="vender/moment.min.js"></script>
   <script src="vendor/jQuery-multiselect/jquery.multiselect.js"></script>
   <script src="vendor/jQuery-multiselect/jquery.multiselect.filter.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
 
    <!-- html-templates -->
   <link rel="text" href="app/templates/templates.txt"/>
@@ -145,13 +148,13 @@
   	 	<div id="invitationdiv"></div>
     </div>
 
-    <div id='nav' class="navbar navbar-inverse" id="top-nav">
+    <div id='nav' class="navbar navbar-inverse" id="top-nav"style="margin-bottom: 0px;">
         <div class="container"></div> 
     </div>
 	
     <!-- Body -->
    
-    <div class="container body" id="cont">
+    <div class="body" id="cont">
       <!-- Content -->
     </div>
 </script>
@@ -224,7 +227,7 @@
 </script>
 <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
-		<table class="header-table">
+		<table class="header-table" style="border-collapse: separate;">
 			<tr class="imageRow">
 			 <td rowspan="2" class="imageData">
 				<!--	<img id="header-image" src="img/header_slice.png" /> -->
@@ -244,7 +247,7 @@
 		</table>	
 
       <div id="page-body">
-        <table class="stu-nav-table">
+        <table class="stu-nav-table" style="border-collapse: separate;">
         <tr class="stu-nav-tube">
 					<td class="stu-nav-title-shelf stu-nav-title"><%= languageDict['My Library'] %></td>
 					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
@@ -292,7 +295,7 @@
 	</div>
 	
       
-		<table class="page-bottom-navtable">
+		<table class="page-bottom-navtable" style="border-collapse: separate;">
 			<tr>
 			
 				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
@@ -352,7 +355,7 @@
     	<% if(!hidden){ %>
     	<% if(title){ %>
   <td>
-        <p style="width:180px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="width:500px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
         <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  

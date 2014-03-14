@@ -1,16 +1,4 @@
-.btable{
-    border-spacing: 0px;
-}
-.btable-striped tbody > tr:nth-child(2n+1) > td, .btable-striped tbody > tr:nth-child(2n+1) > th {
-    background-color: #F9F9F9;
-}
-.btable th, .btable td {
-    border-top: 1px solid #DDDDDD;
-    line-height: 20px;
-    padding: 8px;
-    text-align: left;
-    vertical-align: top;
-}
+
 
 #dashboard
 {
@@ -336,8 +324,11 @@ width:100%;
 	font-size: 15px;
 	padding: 16px 20px 15px 0px;	
 }
-a{color:white;}
+#itemsinnavbar{
+padding-left: 20px;
+padding-top: 5px;
 
+}
 .news-table
 {
    border: 2px solid #000000;
