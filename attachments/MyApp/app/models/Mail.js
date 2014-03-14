@@ -1,68 +1,34 @@
 $(function() {
 
-  App.Models.Member = Backbone.Model.extend({
-
-    idAttribute: "_id",
-
-    url: function() {
+  App.Models.Mail = Backbone.Model.extend({
+  
+  idAttribute: "_id",
+  url: function() {
       if (_.has(this, 'id')) {
         var url = (_.has(this.toJSON(), '_rev'))
-          ? App.Server + '/members/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
-          : App.Server + '/members/' + this.id // For READ
+          ? App.Server + '/mail/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
+          : App.Server + '/mail/' + this.id // For READ
       }
       else {
-        var url = App.Server + '/members' // for CREATE
+        var url = App.Server + '/mail' // for CREATE
       }
       return url
     },
-
-    defaults: {
-      kind: "Member",
-      roles: ["Learner"]
-    },
-
-    toString: function() {
-      return this.get('login') + ': ' + this.get('firstName') + ' ' + this.get('lastName')
-    },
-
-  schema: {
-       firstName: {validators: ['required']},
-       lastName: {validators: ['required']},
-       middleNames:'Text',
-       login: {validators: ['required']},
-       password: {validators: ['required']},
-       phone: 'Text',
-       email:'Text',
-       language :'Text',
-       BirthDate:  'Date',
-	   visits : 'Text',
-	   Gender: {
-          type: 'Select',
-          options: ['Male', 'Female']
-      }, 
-      levels: {
-        type: 'Select',
-        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','Higher']
-      },
-      status:'Text',
-      yearsOfTeaching:{
-          type: 'Select',
-          options: ['None', '1 to 20', 'More than 20']
-      },
-      teachingCredentials:{
-        type:'Select',
-        options:['Yes','No']
-      },
-      subjectSpecialization: 'Text',
-      forGrades:{
-        type:'Checkboxes',
-        options:['Pre-k','Grades(1-12)','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
-      },
-    },
-  saveAttachment: function(formEl, fileEl, revEl) {
+    
+     schema: {
+      sednerId  :'Text',
+      receiverId : 'Text',
+      subject: 'Text',
+      body: 'Text',
+      type:'Text',
+      status: 'Text',
+      sentDate:'Text',
+      mailingList:'Text'
+        },
+     saveAttachment: function(formEl, fileEl, revEl) {
       // Work with this doc in the files database
       var server = App.Server
-      var input_db = "members"
+      var input_db = "mail"
       var input_id = (this.get('_id'))
         ? this.get('_id')
         : this.get('id')
@@ -77,7 +43,7 @@ $(function() {
            {
            //	alert('asdfasd')
             $.ajax({
-              url: '/members/' + couchDoc._id + '/' + _.keys(couchDoc._attachments)[0] + '?rev=' + couchDoc._rev,
+              url: '/mail/' + couchDoc._id + '/' + _.keys(couchDoc._attachments)[0] + '?rev=' + couchDoc._rev,
               type: 'DELETE',
               success: function(response, status, jqXHR) {
               //	alert('success')
@@ -124,16 +90,17 @@ $(function() {
                 // Submit the form with the attachment
                  url: "/"+ input_db +"/"+ input_id,
                  success: function(response) {
+                   console.log('file submitted successfully!' +  response)
                    model.trigger('savedAttachment')                        
                  }
               })
             }
           })
-        } // End error, no Doc
-
-      }) // End openDoc()
-    }
-
+        }
+      })
+     }  
+    
+    
   }) 
 
 })
