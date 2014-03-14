@@ -12,6 +12,15 @@ $(function(){
             'member/edit/:mid': 'MemberForm',
             'resources': 'Resources',
             'courses': 'Groups',
+            'course/manage/:groupId': 'ManageCourse',
+            
+            'meetups':'ListMeetups',
+            'meetup/add':'Meetup',
+            'meetup/delete/:MeetupId':'deleteMeetUp',
+            'meetup/details/:meetupId/:title':'meetupDetails',
+            'meetup/manage/:meetUpId':'Meetup',
+            
+            'members': 'Members',
       
       },
       initialize: function () {
@@ -261,6 +270,145 @@ $(function(){
                 }
             })
               App.stopActivityIndicator()
+        },
+        ManageCourse: function (groupId) {
+        
+           var that=this
+            levels = new App.Collections.CourseLevels()
+            levels.groupId = groupId
+
+            var className = "Group"
+            var model = new App.Models[className]()
+            var modelForm = new App.Views[className + 'Form']({
+                model: model
+            })
+            App.$el.children('.body').html('<br/>')
+            App.$el.children('.body').append('<h3>Course Manage</h3>')
+            App.$el.children('.body').append(modelForm.el)
+            model.once('Model:ready', function () {
+                // when the users submits the form, the group will be processed
+                modelForm.on(className + 'Form:done', function () {
+                    Backbone.history.navigate(reroute, {
+                        trigger: true
+                    })
+                })
+                // Set up the form
+                modelForm.render()
+                
+           $('.form .field-startDate input').datepicker({
+               todayHighlight: true
+            });
+            $('.form .field-endDate input').datepicker({
+               todayHighlight: true
+            });
+  				
+            $('.form .field-startTime input').timepicker({
+              'minTime': '8:00am',
+                'maxTime': '12:30am',
+            
+            });
+  				
+            $('.form .field-endTime input').timepicker({
+                'minTime': '8:00am',
+                'maxTime': '12:30am',
+            
+            });
+            
+              var Roles=that.getRoles()
+             if(Roles.indexOf('Manager')==-1)
+              $('.form .field-courseLeader select').attr("disabled", "true")
+            
+              $('.form .field-frequency input').click(function() {
+    				if(this.value=='Weekly')
+    				{
+    				  $('.form .field-Day').show()
+    				}
+    				else{
+    				$('.form .field-Day').hide()
+    				}
+
+				});
+
+                
+            })
+            
+          
+            // Set up the model for the form
+            if (groupId) {
+                model.id = groupId
+                model.once('sync', function () {
+                    model.trigger('Model:ready')
+                })
+                model.fetch()
+            } else {
+                model.trigger('Model:ready')
+            }
+
+            levels.fetch({
+                success: function () {
+                    levels.sort()
+                    lTable = new App.Views.LevelsTable({
+                        collection: levels
+                    })
+                    lTable.groupId = groupId
+                    lTable.render()
+                    App.$el.children('.body').append("</BR><h3> Course Steps </h3>")
+                    App.$el.children('.body').append(lTable.el)
+
+                    $("#moveup").hide()
+                    $("#movedown").hide()
+                    $("input[type='radio']").hide();
+                }
+            })
+        },
+        ListMeetups: function () {
+          
+          App.$el.children('.body').html('<h3>Meetups<a style="margin-left:20px" class="btn btn-success" href="#meetup/add">Add Meetup</a></h3>')
+          var meetUps=new App.Collections.Meetups()
+          meetUps.fetch({
+                 async:false
+           })
+         var meetUpView=new App.Views.MeetUpTable({collection:meetUps})
+         
+         meetUpView.render()
+         App.$el.children('.body').append(meetUpView.el)
+        },
+    Members: function () {
+    
+            App.startActivityIndicator()
+            
+    	 	var config=new App.Collections.Configurations()
+    	     config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+        
+    	    
+    	    code=cofigINJSON.code       
+            
+            var roles = this.getRoles()
+			
+            members = new App.Collections.Members()
+            members.fetch({
+                success: function () {
+                    membersTable = new App.Views.MembersTable({
+                        collection: members
+                    })
+                    membersTable.community_code=code
+                    if (roles.indexOf("Manager") > -1) {
+                        membersTable.isadmin = true
+                    } else {
+                        membersTable.isadmin = false
+                    }
+                    membersTable.render()
+
+
+                    App.$el.children('.body').html('<h1>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h1>')
+
+
+                    App.$el.children('.body').append(membersTable.el)
+                }
+            })
+                      App.stopActivityIndicator()
         },
         
    

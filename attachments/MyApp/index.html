@@ -5,6 +5,10 @@
   <meta charset="utf-8">
   <title>Bell LMS</title>
   
+<!--  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+  <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
+  -->
+  
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
   <link href="vendor/morris.css" rel="stylesheet" media="screen" />
 
@@ -29,6 +33,7 @@
     DEPENDENCIES
   -->
   
+  <script src="vendor/Spin.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="app/raphael.js"></script>
   <script src="vendor/jquery-ui.js"></script>
@@ -83,6 +88,10 @@
   <script src='app/models/UserMeetup.js'></script>
   <script src='app/models/Resource.js'></script>
   <script src='app/models/CollectionList.js'></script>
+  <script src='app/models/Group.js'></script>
+  <script src='app/models/CourseStep.js'></script>
+  <script src='app/models/Meetup.js'></script>
+  
   
   
   
@@ -96,6 +105,10 @@
   <script src="app/collections/UserMeetups.js"></script>
   <script src='app/collections/Resources.js'></script>
   <script src='app/collections/listRCollection.js'></script>
+  <script src='app/collections/Groups.js'></script>
+  <script src='app/collections/CourseLevels.js'></script>
+  <script src='app/collections/leadermembers.js'></script>
+  <script src='app/collections/Meetups.js'></script>
   
 
    <!-- app-Views -->
@@ -114,7 +127,16 @@
   <script src='app/views/TutorsSpans.js'></script>
   <script src='app/views/ResourcesTable.js'></script>
   <script src='app/views/ResourceRow.js'></script>
-  
+  <script src='app/views/GroupsTable.js'></script>
+  <script src='app/views/GroupRow.js'></script>
+  <script src='app/views/GroupForm.js'></script>
+  <script src='app/views/LevelsTable.js'></script>
+  <script src='app/views/LevelRow.js'></script>
+  <script src='app/views/MeetUpTable.js'></script>
+  <script src='app/views/meetupView.js'></script>
+  <script src='app/views/MeetUpRow.js'></script>
+  <script src='app/views/MembersTable.js'></script>
+  <script src='app/views/MemberRow.js'></script>
   
   
   <!-- javaScript -->
@@ -178,17 +200,17 @@
       </a>
     </li>
      <li> 
-      <a href="../lms/index.html#courses">
+      <a href="#courses">
       <%= languageDict['Courses'] %>
       </a>
     </li>
     <li> 
-      <a href="../lms/index.html#meetups">
+      <a href="#meetups">
       <%= languageDict['Meetups'] %>
       </a>
     </li>
      <li> 
-      <a href="../lms/index.html#members">
+      <a href="#members">
       <%= languageDict['Members'] %>
       </a>
     </li>
@@ -465,6 +487,134 @@
     <%}%>
     <%}%>
   </script>
+   <script type="text/html" id="template-GroupRow">
+    <td>
+      <%= CourseTitle %>
+    </td> 
+
+    <td>
+    <%if(isAdmin==1||isLeader==1){%>
+      <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'> 
+        <i class="icon-wrench icon-white"></i> Manage
+      </a>
+   	<%}%>
+    </td>
+    
+    <td>
+      <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'> 
+       View Course
+      </a>
+    </td>
+    
+    <td>
+    <%if(viewProgress==1){%>
+      <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'> 
+        <i class="icon-signal icon-white"></i> Progress
+      </a>
+      <%}%>
+    </td>
+
+<!--   <td>
+      <a role='button' class='btn btn-inverse' href='#course/edit/<%= _id %>'> 
+        <i class="icon-edit"></i> Edit
+      </a>
+    </td> -->
+    
+   <!-- <td>
+      <a role='button' class='btn btn-inverse' href='#resource/invite/<%= _id %>/<%= CourseTitle %>/<%= kind %>'> 
+        <i class="icon-edit"></i> Invite
+      </a>
+    </td> -->
+
+    <td>
+	<%if(isAdmin==1||isLeader==1){%>
+      <a class='destroy btn btn-danger' href='#'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+    <%}%>
+    </td> 
+    <% if(courseId!=null){%>
+    <td><input type="checkbox" name="addCourse" value='<%= _id %>'>Add </td>
+    <%}%>
+  </script>
+  <script type="text/html" id="template-LevelRow">
+    <td>
+     <input type="radio" name="stepRow" />&nbsp;&nbsp;Step <%= step %> : <%= title %>  
+    </td> 
+   <td>
+      <a role='button' class='btn btn-info' href='#level/view/<%= _id %>/<%= _rev %>'> 
+        <i class="icon-edit"></i> View Details
+      </a>
+    </td>    
+
+    <td>
+      <a class='destroyStep btn btn-danger' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    </td>
+
+  </script>
+<script type="text/html" id="template-MeetUpRow">
+    <td>
+      <%= title %>
+    </td> 
+
+   
+    <td>
+      <a role='button' class='btn btn-warning' href='#meetup/details/<%= _id %>/<%= title %>'> 
+       View Meetup
+      </a>
+    </td>
+    
+    <td>
+    <%if(creator){%>
+      <a role='button' class='btn btn-inverse' href='#meetup/manage/<%= _id %>'> 
+        <i class="icon-wrench icon-white"></i> Manage
+      </a>
+      <%}%>
+    </td>
+
+    <td>
+     <%if(creator){%>
+      <a class='destroy btn btn-danger' href='#meetup/delete/<%= _id %>'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      <%}%>
+    </td> 
+ 
+  </script>
+  <script type="text/html" id="template-MemberRow">
+    <td>
+      <div id="Image"><img width="60px" height="90px" src="<%= src %>" id="userImage"></div>
+    </td> 
+    <td>
+      <%= firstName %> <%= lastName %>
+    </td> 
+	<td>
+	<%= visits %>
+	</td>
+    <td>
+      <%= email %>
+    </td>  
+
+    <td>
+      <%= login %>.<%= community_code %>@olebell.org
+    </td>  
+
+    <td>
+    <% if(showedit == true){ %>
+      <a role='button' class='btn btn-inverse' href='#member/edit/<%= _id %>'> 
+        <i class="icon-edit"></i> Edit
+      </a>
+      <% } %>
+    <% if(showdelete == true){ %>
+      <a class='destroy btn btn-danger' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    <% } %>
+    </td>
+    
+ </script>
 
 
 </head>

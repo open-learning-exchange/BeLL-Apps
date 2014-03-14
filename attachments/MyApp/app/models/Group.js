@@ -49,8 +49,8 @@ $(function() {
         type: 'Checkboxes',
         options: ['Saturday', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
       },
-     startTime: 'Text',
-     endTime: 'Text',
+       startTime: 'Text',
+      endTime: 'Text',
      location: 'Text',
       
      backgroundColor: 'Text',

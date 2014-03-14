@@ -1,3 +1,22 @@
+.btable{
+    border-spacing: 0px;
+    width:100%;
+}
+.btable .btn{
+	
+	display: inline-block;
+}
+
+.btable-striped tbody > tr:nth-child(2n+1) > td, .btable-striped tbody > tr:nth-child(2n+1) > th {
+    background-color: #F9F9F9;
+}
+.btable th, .btable td {
+    border-top: 1px solid #DDDDDD;
+    line-height: 20px;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
 .inner-table{
 	table-layout: fixed; 
 	width: 100%;
