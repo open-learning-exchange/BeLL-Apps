@@ -18,8 +18,8 @@
   <link rel="stylesheet" href="app/navStyle.css"/>
   
   <link rel="stylesheet" href="app/flat-ui.css"/>
-  <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/jqueryui.css"/>
+  <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
   
@@ -93,28 +93,56 @@
   <script src='app/models/CollectionList.js'></script>
   <script src='app/models/Group.js'></script>
   <script src='app/models/CourseStep.js'></script>
-  <script src='app/models/Meetup.js'></script>
+  <script src='app/models/MeetUp.js'></script>
   <script src='app/models/CommunityReport.js'></script>
+  <script src='app/models/InviMeetup.js'></script>
   
   
   
   
   <!-- App Collection  -->
-  <script src="app/collections/Configurations.js"></script>
-  <script src="app/collections/Members.js"></script>
-  <script src="app/collections/MailUnopened.js"></script>
+   
+  <script src="app/collections/Groups.js"></script>
+  <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
+  <script src="app/collections/GroupAssignments.js"></script>
+  <script src="app/collections/NewsResources.js"></script>
+  <script src="app/collections/Members.js"></script>
+  <script src="app/collections/SearchResource.js"></script>
+  <script src="app/collections/Calendars.js"></script>
+  <script src="app/collections/siteFeedbacks.js"></script>
   <script src="app/collections/membercourseprogresses.js"></script>
+  <script src="app/collections/memberprogressallcourses.js"></script>
+  <script src="app/collections/AllInviteMember.js"></script>
+  <script src="app/collections/Mails.js"></script>
+  <script src="app/collections/MailUnopened.js"></script>
+  <script src="app/collections/reportsComment.js"></script>
+  <script src="app/collections/CourseScheduleByCourse.js"></script>
+  <script src="app/collections/shelfResource.js"></script>
   <script src="app/collections/UserMeetups.js"></script>
-  <script src='app/collections/Resources.js'></script>
-  <script src='app/collections/listRCollection.js'></script>
-  <script src='app/collections/Groups.js'></script>
-  <script src='app/collections/CourseLevels.js'></script>
-  <script src='app/collections/leadermembers.js'></script>
-  <script src='app/collections/Meetups.js'></script>
-  <script src='app/collections/Reports.js'></script>
-  
-  
+  <script src="app/collections/Configurations.js"></script>
+  <script src="app/collections/Resources.js"></script>
+  <script src="app/collections/Apps.js"></script>
+  <script src="app/collections/GroupAssignmentsByDate.js"></script>
+  <script src="app/collections/AssignmentsByDate.js"></script>
+  <script src="app/collections/ResourceFeedback.js"></script>
+  <script src="app/collections/CourseLevels.js"></script>
+  <script src="app/collections/SearchCourses.js"></script>
+  <script src="app/collections/StepResultsbyCourse.js"></script>
+  <script src="app/collections/leadermembers.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/Communities.js"></script>
+  <script src="app/collections/EntityInvitation.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/courseprogressallmembers.js"></script>
+  <script src="app/collections/CommunityReportComments.js"></script>
+  <script src="app/collections/Reports.js"></script>
+  <script src="app/collections/ResourcesFrequency.js"></script>
+   <script src="app/collections/AssignmentPapers.js"></script>
+   <script src="app/collections/Meetups.js"></script>
+  <script src="app/collections/listRCollection.js"></script>
+  <script src="app/collections/Publication.js"></script>
+ 
 
    <!-- app-Views -->
   <script src="app/views/MemberLoginForm.js"></script>
@@ -147,6 +175,7 @@
   <script src='app/views/ReportsRow.js'></script>
   <script src='app/views/ReportsTable.js'></script>
   <script src='app/views/ReportForm.js'></script>
+  <script src='app/views/CourseLevelsTable.js'></script>
   
   
   <!-- javaScript -->
@@ -713,6 +742,106 @@
         </td>
       </tr>
     </table>
+  </script>
+  <script type="text/html" id="template-courseLevelsTable">
+  
+	<h3 class="bigheader"><div style="width:95%">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <% if(status == "1") { %>
+            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
+        <% } %>
+        </div>
+        </h3>
+
+  	<div>
+		<table class="Course-table">
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Description</br>
+                          </td>
+                        </tr>
+                        <tr class="level-section-data"> 
+                          <td colspan="3">
+                            <%=description%>
+                          </td>
+                        </tr>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Instructions</br>
+                          </td>
+                        </tr>
+                        
+                        <% for (var i=0; i<attachmentNames.length; i++){%>
+                         	<tr class="level-section-data">  
+								<td><b><%=i+1%></b></td>
+                                <td><%= attachmentNames[i] %> &nbsp&nbsp</td>
+								<td>
+									<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank">Open</a>
+								</td>
+							</tr>
+						<% } %>
+
+                       <tr class="level-section-title" id="r_items">
+                          <td colspan="3">
+                            Resources</br>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                          <%for (var i=0; i<resourceId.length; i++){%>
+                          
+                         <tr class="level-section-data">  
+				<td>
+                                      <b><%=i+1%></b>
+                                </td>
+                                <td>
+						<%= resourceTitles[i] %> &nbsp&nbsp
+				</td>
+				<td>
+						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+				</td>
+			</tr>
+                          <%}%>
+                      <%for (var i=0; i<outComes.length; i++){%>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            <%=outComes[i]%></br>
+                          </td>
+                        </tr>
+                      
+                         <tr class="level-section-data"> 
+				<td colspan="2">
+					
+						Passing Percentage:<b><%=passingPercentage%>%<br></b>
+						Allowed Errors:<b><%=allowedErrors%></b>
+                                                
+                                </td>
+                                <td>
+                                                <%if (questions!=null){%>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                                                <%}else{%>
+                                                  <button class='btn btn-disabled'>Take <%=outComes[i]%></button>
+                                                <%}%>
+                                    <div class="mailsubject">
+                                    	<form method="post" id="fileAttachment<%=_id%>">
+	                                    	<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" /> 
+	                                    	<input class="rev" type="hidden" name="_rev">
+	                                    	
+	                                    	<input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+	                                    	<input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
+	                                    	<input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
+	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -43px;margin-left:140px" />
+
+                                    	</form>
+                                    </div>
+					
+				</td>
+				
+                      </tr>
+                    <%}%>
+              </table>
+	</div>
+
   </script>
 
 

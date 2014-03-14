@@ -15,11 +15,13 @@ $(function(){
             
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
+            'course/details/:courseId/:name': 'CourseDetails',
             
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
-            'meetup/details/:meetupId/:title':'meetupDetails',
+            'meetup/detail/:meetupId/:title':'meetupDetails',
+            'meetup/details/:meetupId/:title': 'meetupDetails',
             'meetup/manage/:meetUpId':'Meetup',
             
             'members': 'Members',
@@ -367,6 +369,36 @@ $(function(){
                 }
             })
         },
+        CourseDetails: function (courseId, name) {
+            var ccSteps = new App.Collections.coursesteps()
+            ccSteps.courseId = courseId
+            
+            ccSteps.fetch({
+                success: function () {
+                    App.$el.children('.body').html('&nbsp')
+                    App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/'+courseId+'" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
+                    var levelsTable = new App.Views.CourseLevelsTable({
+                        collection: ccSteps,
+                    })
+                    levelsTable.courseId=courseId
+                    levelsTable.render()
+                    App.$el.children('.body').append(levelsTable.el)
+                    $("#accordion")
+                        .accordion({
+                            header: "h3"
+                        })
+                        .sortable({
+                            axis: "y",
+                            handle: "h3",
+                            stop: function (event, ui) {
+                                // IE doesn't register the blur when sorting
+                                // so trigger focusout handlers to remove .ui-state-focus
+                                ui.item.children("h3").triggerHandler("focusout");
+                            }
+                        });
+                }
+            })
+        },
         ListMeetups: function () {
           
           App.$el.children('.body').html('<h3>Meetups<a style="margin-left:20px" class="btn btn-success" href="#meetup/add">Add Meetup</a></h3>')
@@ -378,6 +410,16 @@ $(function(){
          
          meetUpView.render()
          App.$el.children('.body').append(meetUpView.el)
+        },
+       meetupDetails:function(meetupId,title){
+        
+            var meetupModel=new App.Models.MeetUp({_id:meetupId})
+            meetupModel.fetch({async:false})
+            var meetupView=new App.Views.meetupView({model:meetupModel})
+            meetupView.render()
+            App.$el.children('.body').html(meetupView.el)
+            
+        
         },
     Members: function () {
     

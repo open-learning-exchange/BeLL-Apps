@@ -28,7 +28,7 @@ $(function() {
         saveAttachment: function(formEl, fileEl, revEl) {
       // Work with this doc in the files database
       var server = App.Server
-      var input_db = "members"
+      var input_db = "mail"
       var input_id = (this.get('_id'))
         ? this.get('_id')
         : this.get('id')
