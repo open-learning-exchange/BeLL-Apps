@@ -320,6 +320,11 @@ width:100%;
 	font-size: 15px;
 	padding: 16px 20px 15px 0px;	
 }
+
+#itemsinnavbar{
+padding-left: 20px;
+padding-top: 5px;
+}
 .news-table
 {
    border: 2px solid #000000;
