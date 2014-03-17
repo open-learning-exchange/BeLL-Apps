@@ -8,8 +8,6 @@ $(function () {
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
         initialize: function (option) {
-            
-            console.log('nav initialize')
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {
@@ -18,25 +16,34 @@ $(function () {
             var temp = Backbone.history.location.href
             temp = temp.split('#')
             
-    	    var version=''
+    		var version=''
     	 
-            var config = new App.Collections.Configurations()
-             config.fetch({
-             	async: false
-             })
-             var configuration = config.first()
-             
-             var clanguage = configuration.get("currentLanguage")
-             var languageDict = configuration.get(clanguage)
-    	     version=configuration.get('version')
-    	     
-             this.data = {
+    	 	if(!App.configuration)
+    	 	{
+        		var config = new App.Collections.Configurations()
+    	    	config.fetch({async:false})
+    	    	var con=config.first()
+            	App.configuration = config.first()
+    	 	}
+            var clanguage = App.configuration.get("currentLanguage")
+            var languageDict = App.configuration.get(clanguage)
+            version=App.configuration.get('version')
+        	this.data = {
                 uRL: temp[1],
                 versionNO:version,
                 languageDict:languageDict
-             } 
-            
-             this.$el.append(this.template(this.data))
+            } 
+            this.$el.append(this.template(this.data))
+            ///////if login then fetch member
+            if(!App.member && $.cookie('Member._id'))
+            {
+            	 var member = new App.Models.Member()
+            	 member.set('_id', $.cookie('Member._id'))
+            	 member.fetch({
+                	async: false
+                })
+                App.member = member
+            }
         },
 
         render: function () {}

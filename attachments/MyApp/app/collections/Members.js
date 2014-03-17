@@ -2,7 +2,16 @@ $(function () {
 
     App.Collections.Members = Backbone.Collection.extend({
 
-        url: App.Server + '/members/_design/bell/_view/Members?include_docs=true',
+       url: function() {
+			if(this.login)
+			{
+				return App.Server + '/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + this.login + '"'
+			}
+			else
+			{
+				return App.Server + '/members/_design/bell/_view/Members?include_docs=true'
+			}
+		},
 
         parse: function (response) {
             var docs = _.map(response.rows, function (row) {

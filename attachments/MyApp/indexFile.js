@@ -260,10 +260,8 @@ function sendMail()
 				var members = new App.Collections.Members()
 				members.fetch({async:false})
 				members.each(function(member) {
-					console.log(member)
 					mailId = member.get('login')
 					sendSingleMail(mailId,mailBody,subject,mailingList)
-        			alert(member.get('login'))
     			});
     			alert("Mail successfully send.")
 				return
@@ -465,3 +463,7 @@ function startRecording()
             var audiosContainer = document.getElementById('audios-container');
             var index = 1;
 }
+function addToshelf(rId,title){
+     App.Router.AddToshelf(rId,title)
+  }
+  

@@ -5,7 +5,7 @@ $(function () {
 
         changedSteps: null,
 
-        className: "table table-striped",
+        className: "btable btable-striped",
 
         events: {
             "click #Rearrange": function (e) {

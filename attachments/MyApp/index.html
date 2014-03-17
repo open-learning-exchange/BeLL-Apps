@@ -12,15 +12,14 @@
   -->
   
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
-  <link href="vendor/morris.css" rel="stylesheet" media="screen" />
 
   <link rel="stylesheet" href="app/app.css"/>
   <link rel="stylesheet" href="app/navStyle.css"/>
-  
+  <link rel="stylesheet" href="app/fullcalendar.css"/>
   <link rel="stylesheet" href="app/flat-ui.css"/>
+  <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="app/jqueryui.css"/>
   <link rel="stylesheet" href="app/Home.css"/>
-  <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
   
   <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
@@ -42,7 +41,6 @@
   <script src="vendor/pouchdb-nightly.js"></script>
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
-  <script src="app/morris.js"></script>
   <script src="vendor/jquery.timepicker.js"></script>
   <script src="vendor/Spin.js"></script>
   <script src="vendor/spectrum.js"></script>
@@ -180,22 +178,44 @@
   <script src='app/views/ResourcesTable.js'></script>
   <script src='app/views/ResourceRow.js'></script>
   <script src='app/views/ResourcesDetail.js'></script>
+  <script src='app/views/ResourceForm.js'></script>
+  <script src='app/views/RequestView.js'></script>
+  
+  <script src='app/views/FeedbackTable.js'></script>
+  <script src='app/views/FeedbackRow.js'></script>
+  <script src='app/views/FeedbackForm.js'></script>
+  
+  
   <script src='app/views/GroupsTable.js'></script>
   <script src='app/views/GroupRow.js'></script>
   <script src='app/views/GroupForm.js'></script>
+  <script src='app/views/CoursesStudentsProgress.js'></script>
+  
+  <script src='app/views/LevelForm.js'></script>
+  <script src='app/views/LevelDetail.js'></script>
   <script src='app/views/LevelsTable.js'></script>
   <script src='app/views/LevelRow.js'></script>
   <script src='app/views/MeetUpTable.js'></script>
   <script src='app/views/meetupView.js'></script>
   <script src='app/views/MeetUpRow.js'></script>
+  <script src='app/views/MeetUpForm.js'></script>
+  
   <script src='app/views/MembersTable.js'></script>
   <script src='app/views/MemberRow.js'></script>
+  
   
   <script src='app/views/ReportsRow.js'></script>
   <script src='app/views/ReportsTable.js'></script>
   <script src='app/views/ReportForm.js'></script>
   <script src='app/views/CourseLevelsTable.js'></script>
   <script src='app/views/MeetupInvitation.js'></script>
+  
+  <script src='app/views/MailView.js'></script>
+  
+  <script src='app/views/CoursesChartProgress.js'></script>
+  
+  <script src='app/views/CalendarForm.js'></script>
+  <script src='app/views/EventInfo.js'></script>
   
   
   <!-- javaScript -->
@@ -433,8 +453,8 @@
     	<% if(!hidden){ %>
     	<% if(title){ %>
   <td>
-        <p style="width:500px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
-        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+        <p style=" font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style=" font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>
@@ -861,6 +881,67 @@
                     <%}%>
               </table>
 	</div>
+
+  </script>
+  <script type="text/template" id="template-mail">
+   <div id="mailActions" >
+		<b style="color:black; font-size:25px;">Inbox
+		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
+		<button class="btn btn-primary" id="unread-mails">Unread</button>
+		<button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton">Compose</button>
+		<span class="new_mails"></span>
+		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
+		</b>
+		</div>
+		<div id="errorMessage">
+		<p style="color:red;margin-left:10%">* No Unread Email.</p>
+		</div>
+		<table id="inbox_mails" ></table>
+		
+
+		<!-- popup window for compose message -->
+<div id="emailCompose" class="well" style="display: none;">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	 <!--<div class="mailsubject"><form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form></div> -->
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+
+</div>
+
+	
+		
+</script>
+<script type="text/template" id="template-view-mail">
+
+<div style="margin-left:10%">	
+	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()" id="replyMailButton">Reply</button><% if(isAttachment==1){ %>&nbsp;&nbsp<a role='button' class='btn btn-primary' href=<%= attchmentURL %> target="_blank">Attachment</a><%}%></div>
+		<br/>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"></span></b></span>
+
+		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
+		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp;<%= firstName %>&nbsp;<%= lastName %> &nbsp; (<%= email %>)  </div>
+		<div id="mail-body" style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
+		</div>
+	
+	<br/>
+</div>
+
+</script>
+<script type="text/html" id="template-FeedbackRow">
+    <td>
+      <%= comment %>
+    </td> 
+
+    <td>
+	<%=rating%>
+  </td>
 
   </script>
 

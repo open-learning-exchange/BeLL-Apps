@@ -15,47 +15,18 @@ $(function () {
              var vars = this.model.toJSON()
              var rId = vars._id
              var mId=$.cookie('Member._id')
-             
+    
              var memberShelfResource=new App.Collections.shelfResource() 
              memberShelfResource.resourceId=rId
-             memberShelfResource.memberId=mId 
-             
+             memberShelfResource.memberId=mId          
              memberShelfResource.fetch({async:false})
-             
              memberShelfResource.each(
              		function(e){
              			e.destroy()	
-             			
-             			
-    
              })
              alert("Resource Successfully removed from Shelf ")
              Backbone.history.navigate('dashboard', {trigger: true})
              
-             //console.log(memberShelfResource.toJSON())
-               
-               
-               /* var vars = this.model.toJSON()
-                console.log(vars)
-                var sid = vars._id
-                var  rid=vars._rev
-                console.log(sid)
-                console.log(rid)
-                var smodel = new App.Models.Shelf({
-                    _id: this.sid,
-                    _rev: this.rid
-                })
-                smodel.fetch({async:false})
-                smodel.destroy({
-                    success: function () {
-                        alert("Item Removed Successfully From your Shelf")
-                        delete App.ShelfItems[id];
-                        Backbone.history.navigate('dashboard', {
-                            trigger: true
-                        })
-                    }
-                });
-                */
             }
         },
         initialize: function () {
