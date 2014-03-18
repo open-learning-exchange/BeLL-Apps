@@ -128,44 +128,38 @@ $(function () {
         },
         render: function () {
         	
-        	///to get language
-        	var configurations=Backbone.Collection.extend({
-    				url: App.Server + '/configurations/_all_docs?include_docs=true'
-    		})
-    		var config=new configurations()
-    	    config.fetch({async:false})
-    	    var con=config.first()
-    	    con = (con.get('rows')[0]).doc
-            var configuration = new App.Models.Configuration({_id:con._id})
-            configuration.fetch({async:false})
-            var clanguage = configuration.get("currentLanguage")
-            var languageDict = configuration.get(clanguage)
-           
-           //////////////
-            var dashboard = this
+        	var dashboard = this
+        	this.vars.mails = 0
+        	var clanguage = App.configuration.get("currentLanguage")
+            this.vars.languageDict = App.configuration.get(clanguage)
+            
             this.vars.imgURL = "img/header_slice.png"
             var a = new App.Collections.MailUnopened({
                 receiverId: $.cookie('Member._id')
             })
-            a.fetch({
-                async: false
-            })
+            a.fetch({async:false})
             this.vars.mails = a.length
-            this.vars.languageDict = languageDict;
-
             this.$el.html(_.template(this.template, this.vars))
-
+           
             groups = new App.Collections.MemberGroups()
             groups.memberId = $.cookie('Member._id')
-            groups.fetch({
-                async: false
-            })
-            groupsSpans = new App.Views.GroupsSpans({
-                collection: groups
-            })
-            groupsSpans.render()
+            groups.fetch({success:function(e){
+            	console.log(groups)
+            	groupsSpans = new App.Views.GroupsSpans({
+                	collection: groups
+            	})
+            	groupsSpans.render()
+            	$('#cc').append(groupsSpans.el)
+            	
+            	TutorsSpans = new App.Views.TutorsSpans({
+                	collection: groups
+            	})
+            	TutorsSpans.render()
+            	$('#tutorTable').append(TutorsSpans.el)
+            }})
+            
             // dashboard.$el.children('.groups').append(groupsDiv.el)
-            $('#cc').append(groupsSpans.el)
+            
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
             
@@ -177,20 +171,13 @@ $(function () {
             $('#meetUpTable').append(MeetupSpans.el)
             
 
-            TutorsSpans = new App.Views.TutorsSpans({
-                collection: groups
-            })
-            TutorsSpans.render()
-            $('#tutorTable').append(TutorsSpans.el)
+          
 
             //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
             // Time
             $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
             // Member Name
-            var member = new App.Models.Member()
-            member.id = $.cookie('Member._id')
-
-            member.on('sync', function () {
+            var member = App.member
                 var attchmentURL = '/members/' + member.id + '/'
                 if (typeof member.get('_attachments') !== 'undefined') {
                     attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
@@ -235,20 +222,12 @@ $(function () {
                 $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
                 dashboard.checkAvailableUpdates(member.get('roles'), dashboard)
                 //dashboard.$el.append('<div id="updates"></div>')
-            })
-            member.fetch()
-
         },
         checkAvailableUpdates: function (roles, dashboard) {
             if ($.inArray('Manager', roles) == -1) {
                 return
             }
-            var config = new App.Collections.Configurations()
-             config.fetch({
-             	async: false
-             })
-            
-             var configuration = config.first()
+             var configuration = App.configuration
              var nationName = configuration.get("nationName")
              var nationURL = configuration.get("nationUrl")
              var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true' 
@@ -264,14 +243,9 @@ $(function () {
     				var nationConfig = json.rows[0].doc
     				nationConfigJson = nationConfig
     				if (typeof nationConfig.version === 'undefined') {
-    					
-    					//alert('no version ')
-                    	 //return;
                         /////No version found in nation
                     } 
-                     else if (nationConfig.version == configuration.get('version')) {
-                    	 
-                    	 //alert('no update')
+                    else if (nationConfig.version == configuration.get('version')) {
                         ///No updatea availabe
                     }
                     else

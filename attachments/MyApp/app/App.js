@@ -11,7 +11,6 @@ $(function () {
         Views: {},
         Collections: {},
         Vars: {}, // A place to persist variables in the session
-        ShelfItems: {},
         globalUrl: {},
         idss: [],
         bellLocation: "Pakistan",
@@ -23,8 +22,6 @@ $(function () {
         },
         
         start: function () {
-        
-            this.ShelfItems = {}
             this.$el.html(_.template(this.template))
             var loggedIn = ($.cookie('Member._id')) ? true : false
             if (!loggedIn && $.url().attr('fragment')) {
@@ -41,6 +38,7 @@ $(function () {
                 })
             } else if (loggedIn && !$.url().attr('fragment')) {
                 // We're logged in but have no where to go, default to the teams page.
+                App.Router.renderNav()
                 Backbone.history.start({
                     pushState: false
                 })
@@ -49,6 +47,7 @@ $(function () {
                 })
             } else {
                 // We're logged in and have a route, start the history.
+                App.Router.renderNav()
                 Backbone.history.start({
                     pushState: false
                 })
@@ -67,6 +66,14 @@ $(function () {
 	  			na.render()
       			App.$el.children('.body').append(na.el)
 		},
+		renderRequest: function(kind){
+		var view=new App.Views.RequestView()
+		view.type=kind
+		view.render()
+		App.$el.children('.body').append(view.el) 
+			$('#site-request').animate({height:'302px'})
+			document.getElementById('site-request').style.visibility='visible'
+	},
         startActivityIndicator: function () {
             var target = document.getElementById("popup-spinning");
             if (App.wheel == null) {
@@ -89,7 +96,7 @@ $(function () {
                 document.getElementById('cont').style.visibility = 'visible'
                 App.wheel.stop()
 
-            }, 1000)
+            }, 500)
 
         },
 

@@ -4,6 +4,9 @@ var enablenext=0;
 var searchRecordsPerPage = 2;
 var limitofRecords = 5;
 var skipStack = new Array()
+var ratingFilter = new Array();
+var rtitle = new Array() ;
+var rids = new Array() ; 
 var numberOfNotificattions="."
  url="unknown";
 var lastpage = false
@@ -260,10 +263,8 @@ function sendMail()
 				var members = new App.Collections.Members()
 				members.fetch({async:false})
 				members.each(function(member) {
-					console.log(member)
 					mailId = member.get('login')
 					sendSingleMail(mailId,mailBody,subject,mailingList)
-        			alert(member.get('login'))
     			});
     			alert("Mail successfully send.")
 				return
@@ -465,3 +466,110 @@ function startRecording()
             var audiosContainer = document.getElementById('audios-container');
             var index = 1;
 }
+function addToshelf(rId,title){
+     App.Router.AddToshelf(rId,title)
+  }
+  function showSubjectCheckBoxes()
+  {
+    var subjects = ['Agriculture','Business and Finance','Fine Arts','Food and Nutrition','Geography','Health and Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics and Government','Reference','Religion','Science','Social Sciences','Sports','Technology'];
+  	var length = subjects.length;
+  	var htmlString = "<label style='font-size:16px'><b>Subject</b></label><br>" ;
+  	    htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>" ; 
+  	for(var i=0 ; i<length ; i++)
+  	{	
+  		htmlString = htmlString + '<option id="subject' + (i+1) + '" value="' + subjects[i] +'">'+subjects[i]+'</option>' ;    
+  	}
+  	   htmlString+='</select>'
+  	$("#SubjectCheckboxes").html(htmlString);
+ 
+  }
+  function ResourceSearch() {
+      // alert('in resource search function ')
+      
+     skip = 0;
+  	 searchText = $("#searchText").val()
+  	 searchType= $('#searchtype').val()
+      
+        var collectionFilter=new Array()
+        var subjectFilter=new Array()
+        var levelFilter=new Array()
+        var languageFilter=new Array()
+            
+        skipStack.push(skip)
+            
+        collectionFilter=$("#multiselect-collections-search").val()
+        subjectFilter=$("#multiselect-subject-search").val()
+        levelFilter=$("#multiselect-levels-search").val()
+		languageFilter=$("#Language-filter").val()
+		authorName=$('#Author-name').val()
+		
+		mediumFilter=$('#multiselect-medium-search').val()
+		
+       
+        console.log(collectionFilter)  
+		console.log(subjectFilter)
+		console.log(levelFilter)
+		console.log(languageFilter)
+         
+       //  alert(mediumFilter)
+         
+           $("input[name='star']").each(function () {
+                if ($(this).is(":checked")) {
+                    ratingFilter.push($(this).val());
+                }
+            })
+
+            if (searchText != "" || (collectionFilter) || (subjectFilter) || (levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
+              // alert('in search')
+                
+                var search = new App.Views.Search()
+                
+                search.collectionFilter = collectionFilter
+                search.languageFilter = languageFilter
+                search.levelFilter = levelFilter
+                search.subjectFilter = subjectFilter
+                search.ratingFilter = ratingFilter
+                search.mediumFilter = mediumFilter
+                search.authorName = authorName
+                
+                search.addResource = false
+                
+                App.$el.children('.body').html(search.el)
+                search.render()
+                
+                
+                $("#srch").show()
+                $(".row").hide()
+                $('#not-found').show()
+          
+                $(".search-bottom-nav").hide()
+                $(".search-result-header").hide()
+                $("#selectAllButton").hide()
+                
+            }
+    
+    }
+ function backtoSearchView()
+  {
+     $('#not-found').hide()
+     searchText=''
+     App.Router.bellResourceSearch();
+  
+  }
+  function changeRatingImage(checkID,count)
+	{
+		//alert($('#' + checkID + 1).attr('src'));
+		var imgName = "";
+		if($('#' + checkID + 1).attr('src')=="star-on.png")
+		{
+			imgName = "star-off.png";
+		}
+		else
+		{
+			imgName = "star-on.png";
+		}
+		for(var i=1 ; i<=5 ; i++)
+		{
+			$('#' + checkID + i).attr('src', imgName);
+		}
+	}
