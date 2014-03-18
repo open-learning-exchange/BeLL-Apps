@@ -886,6 +886,22 @@ $(function(){
                 }
             })
         },
+        GroupSearch: function () {
+
+            var cSearch
+            cSearch = new App.Views.CourseSearch()
+            cSearch.render()
+            var button = '<p>'
+            button += '<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
+            button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
+            button += '<a style="margin-left:10px" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>'
+            button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+            button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+            button += '</p>'
+            App.$el.children('.body').html(button)
+            App.$el.children('.body').append('<h1>Courses</h1>')
+            App.$el.children('.body').append(cSearch.el)
+        },
         ListMeetups: function () {
           
           App.$el.children('.body').html('<h3>Meetups<a style="margin-left:20px" class="btn btn-success" href="#meetup/add">Add Meetup</a></h3>')
