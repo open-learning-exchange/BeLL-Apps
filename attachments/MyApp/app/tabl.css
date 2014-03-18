@@ -107,7 +107,7 @@ word-wrap:break-word;
     height: 182px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    width: 346px;
+    width: 363px;
     color:white;
     background-color: #34495E;
 }
@@ -119,7 +119,7 @@ bbf-form ul{border: 5px solid dotted;}
 .login-form .field-login .bbf-editor input[name="login"],.login-form .field-password .bbf-editor input[name="password"] 
 {
     height: 30px;
-    width: 243px;
+    width: 285px;
 }
 .page-bottom-navtable td
 {

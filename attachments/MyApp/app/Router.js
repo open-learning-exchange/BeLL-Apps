@@ -458,7 +458,7 @@ $(function(){
                     button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
                     button += '</p>'
                     App.$el.children('.body').html(button)
-                    App.$el.children('.body').append('<h1>Courses</h1>')
+                    App.$el.children('.body').append('<h3>Courses</h3>')
                     App.$el.children('.body').append(groupsTable.el)
                 }
             })
@@ -1088,7 +1088,7 @@ $(function(){
                     membersTable.render()
 
 
-                    App.$el.children('.body').html('<h1>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h1>')
+                    App.$el.children('.body').html('<h3>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h3>')
 
 
                     App.$el.children('.body').append(membersTable.el)
