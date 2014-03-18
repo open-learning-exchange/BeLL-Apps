@@ -265,7 +265,9 @@ width:100%;
 #imageText{
  margin-top: 25px;
 }
-
+#search{
+margin-left:40px;
+}
 .btn.btn-hg, .input-group-hg .btn 
 {
 	line-height:13px;
