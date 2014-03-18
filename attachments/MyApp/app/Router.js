@@ -35,6 +35,8 @@ $(function(){
             'level/view/:levelId/:rid': 'ViewLevel',
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             
+             'collection':'Collection',
+            
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
@@ -64,7 +66,7 @@ $(function(){
             this.bind("all", this.renderNav)
         },
         eReader:function(){
-            alert('match with ereader')
+           // alert('match with ereader')
         },
         startUpStuff: function () {
         
@@ -1751,9 +1753,168 @@ $(function(){
 	        }
 	    })
 	  },
-        
-   
-   
+	  Collection: function ()
+				{
+					App.startActivityIndicator()
+
+					var temp = $.url().data.attr.host.split(".") // get name of community
+					temp = temp[0].substring(3)
+					if (temp == "")
+						temp = 'local'
+
+					var roles = this.getRoles()
+					var collections = new App.Collections.listRCollection()
+					collections.major = true
+					collections.fetch(
+					{
+
+						success: function ()
+						{
+							var collectionTableView = new App.Views.CollectionTable(
+							{
+								collection: collections
+							})
+							collectionTableView.render()
+							App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a></p></span>')
+
+							App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
+
+							if (roles.indexOf("Manager") != -1 && (temp == 'hagadera' || temp == 'dagahaley' || temp == 'ifo' || temp == 'somalia'))
+								App.$el.children('.body').append('<button style="margin:margin: -55px 0 0 650px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+
+							if (roles.indexOf("Manager") != -1)
+								App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick="AddColletcion()">Add Collection</button>')
+							App.$el.children('.body').append(collectionTableView.el)
+						},
+						async: false
+					})
+					var subcollections = new App.Collections.listRCollection()
+					subcollections.major = false
+					subcollections.fetch(
+					{
+						async: false
+					})
+					if (roles.indexOf("Manager") != -1)
+					{
+						_.each(subcollections.last(subcollections.length).reverse(), function (a)
+						{
+							if (a.get('NesttedUnder') == '--Select--')
+							{
+								$('#collectionTable').append('<tr><td><a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td><button onclick=EditColletcion(' + a.get('_id') + ')><i class="icon-edit pull-right"></i></button></td></tr>')
+							}
+							else
+							{
+								$('#' + a.get('NesttedUnder') + '').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td><button onclick=EditColletcion("' + a.get('_id') + '")><i class="icon-edit pull-right"></i></button></td></tr>')
+
+							}
+
+						});
+					}
+					else
+					{
+						_.each(subcollections.last(subcollections.length).reverse(), function (a)
+						{
+							if (a.get('NesttedUnder') == '--Select--')
+							{
+								$('#collectionTable').append('<tr><td><a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td></td></tr>')
+							}
+							else
+							{
+								$('#' + a.get('NesttedUnder') + '').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td></td></tr>')
+
+							}
+
+						});
+					}
+
+
+					App.stopActivityIndicator()
+
+
+
+
+				},
+	AddNewSelect: function (value) {
+	    if (value == 'Add New') {
+	        var collections = new App.Collections.listRCollection()
+	        collections.major = true
+	        collections.fetch({
+	            async: false
+	        })
+	        $('#invitationdiv').fadeIn(1000)
+	        document.getElementById('cont').style.opacity = 0.2
+	        document.getElementById('nav').style.opacity = 0.2
+	        var collectionlist = new App.Models.CollectionList()
+	        var inviteForm = new App.Views.ListCollectionView({
+	            model: collectionlist
+	        })
+	        inviteForm.render()
+	        $('#invitationdiv').html('&nbsp')
+	        $('#invitationdiv').append(inviteForm.el)
+	        $("input[name='AddedBy']").val($.cookie("Member.login"));
+	        var currentDate = new Date();
+	        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
+	            todayHighlight: true
+	        });
+	        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker("setDate", currentDate);
+	        $("input[name='AddedBy']").attr("disabled", true);
+	        $("input[name='AddedDate']").attr("disabled", true);
+	        collections.each(function (a) {
+	            $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
+	        })
+
+	    } else {
+	        document.getElementById('cont').style.opacity = 1
+	        document.getElementById('nav').style.opacity = 1
+	        $('#invitationdiv').hide()
+
+	    }
+    },
+    EditTag: function (value) {
+	    var roles = this.getRoles()
+	    if (roles.indexOf("Manager") > -1) {
+
+	        if (value != 'Add New') {
+	            var collections = new App.Collections.listRCollection()
+	            collections.major = true
+	            collections.fetch({
+	                async: false
+	            })
+	            $('#invitationdiv').fadeIn(1000)
+	            document.getElementById('cont').style.opacity = 0.2
+	            document.getElementById('nav').style.opacity = 0.2
+	            var collectionlist = new App.Models.CollectionList({
+	                _id: value
+	            })
+	            collectionlist.fetch({
+	                async: false
+	            })
+	            collections.remove(collectionlist)
+	            var inviteForm = new App.Views.ListCollectionView({
+	                model: collectionlist
+	            })
+
+	            inviteForm.render()
+
+	            $('#invitationdiv').html('&nbsp')
+	            $('#invitationdiv').append(inviteForm.el)
+	            collections.each(function (a) {
+	                $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
+	            })
+	            $('#invitationForm .bbf-form .field-NesttedUnder select option[value="' + collectionlist.get('NesttedUnder') + '"]').attr('selected', 'selected');
+	            if ($("#invitationForm .bbf-form .field-IsMajor input").is(':checked')) {
+	                $("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'hidden')
+	            } else {
+	                $("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'visible')
+	            }
+	            $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
+	                todayHighlight: true
+	            });
+	            $("input[name='AddedBy']").attr("disabled", true);
+	        }
+	    }
+	},    
+
    }))
   
 

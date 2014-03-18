@@ -581,4 +581,11 @@ function showRequestForm(modl){
   {
      App.Router.Groups()
   }
-  	
+function AddColletcion()
+  {
+  App.Router.AddNewSelect("Add New")
+  }
+ function EditColletcion(value)
+  {
+  App.Router.EditTag(value)
+  } 
