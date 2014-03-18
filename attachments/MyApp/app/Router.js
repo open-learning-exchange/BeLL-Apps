@@ -17,6 +17,9 @@ $(function(){
             'resource/detail/:rsrcid/:shelfid/:revid': 'Resource_Detail',
             'resource/feedback/:resourceId': 'ResourceFeedback',
             'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
+            'resource/search': 'bellResourceSearch',
+            'search-bell/:levelId/:rId': 'SearchBell',
+            'assign-to-level': 'AssignResourcetoLevel',
             
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
@@ -268,6 +271,126 @@ $(function(){
             })
             App.stopActivityIndicator()
             
+        },
+        bellResourceSearch:function(){
+                  
+                   popAll()      // reset the SkipStack                  
+                    var search = new App.Views.Search()
+                        search.addResource=false
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                
+                    
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+					$("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+        
+        
+        },
+        SearchBell: function (levelId, rid, resourceIds) {
+
+            var levelInfo = new App.Models.CourseStep({
+                "_id": levelId
+            })
+            levelInfo.fetch({
+                success: function () {
+                    if (typeof levelId === 'undefined') {
+                        document.location.href = '#courses'
+                    }
+
+                    if (typeof rid === 'undefined') {
+                        document.location.href = '#courses'
+                    }
+                    
+                      grpId = levelId
+                      levelrevId = rid
+                      
+                      ratingFilter.length=0
+                    
+                      rtitle.length = 0
+                      rids.length = 0
+                    
+                    var search = new App.Views.Search()
+                    search.resourceids = levelInfo.get("resourceId")
+                    search.addResource=true
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                    
+                   // alert($("#multiselect-subject-search"))
+                    
+                    
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
+                    $("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+                }
+            })
+        },
+        AssignResourcetoLevel: function () {
+
+            if (typeof grpId === 'undefined') {
+                document.location.href = '#courses'
+            }
+            //var rids = new Array()
+            //var rtitle = new Array()
+            var cstep = new App.Models.CourseStep({
+                "_id": grpId,
+                "_rev": levelrevId
+            })
+            cstep.fetch({
+                async: false
+            })
+            var oldIds = cstep.get("resourceId")
+            var oldTitles = cstep.get("resourceTitles")
+
+            $("input[name='result']").each(function () {
+                if ($(this).is(":checked")) {
+                    var rId = $(this).val();
+                    if (oldIds.indexOf(rId) == -1) {
+                        rtitle.push($(this).attr('rTitle'))
+                        rids.push(rId)
+                    }
+                }
+            });
+
+            cstep.set("resourceId", oldIds.concat(rids))
+            cstep.set("resourceTitles", oldTitles.concat(rtitle))
+            cstep.save()
+            cstep.on('sync', function () {
+                alert("Your Resources have been updated successfully")
+                Backbone.history.navigate('course/manage/' + cstep.get("courseId"), {
+                    trigger: true
+                })
+            })
+
         },
         Groups: function () {
          App.startActivityIndicator()
@@ -637,7 +760,7 @@ $(function(){
                     App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>Back To Course </a>&nbsp;&nbsp;")
                     App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
                     App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/" + lid + "\"'>Save</button></BR></BR>")
-                    App.$el.children('.body').append('<B>Resources</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" target="_blank" href=\'#search-bell/' + lid + '/' + rid + '\'">Add</a>')
+                    App.$el.children('.body').append('<B>Resources</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">Add</a>')
                     App.$el.children('.body').append(levelDetails.el)
                     App.$el.children('.body').append('</BR>')
                     if (levelInfo.get("questions") == null) {

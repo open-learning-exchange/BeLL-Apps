@@ -5,7 +5,7 @@ $(function () {
 
         url: function () {
             if (this.deleteResource == 1) {
-                return App.Server + '/shelf/_design/bell/_view/getShelfItemWithResourceId?key=' + this.resourceId + '&include_docs=true'
+                return App.Server + '/shelf/_design/bell/_view/getShelfItemWithResourceId?key="' + this.resourceId + '"&include_docs=true'
             } else {
                 return App.Server + '/shelf/_design/bell/_view/getResource?key=["' + this.memberId + '","' + this.resourceId + '"]&include_docs=true'
             }

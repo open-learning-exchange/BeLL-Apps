@@ -102,7 +102,7 @@ $(function () {
                 }
                 stepResources = stepResources + '</table>'
                 this.$el.append(stepResources)
-                this.$el.append('<br/><br/><B>Instructions</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" target="_blank" id="addInstructions">Add</a><br/><br/>')
+                this.$el.append('<br/><br/><B>Instructions</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">Add</a><br/><br/>')
                 var uploadString = '<form method="post" id="fileAttachment">'
 	                uploadString = uploadString + '<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" /> '
 	                uploadString = uploadString + '<input class="rev" type="hidden" name="_rev"></form>'

@@ -179,6 +179,10 @@
   <script src='app/views/ResourceRow.js'></script>
   <script src='app/views/ResourcesDetail.js'></script>
   <script src='app/views/ResourceForm.js'></script>
+  <script src='app/views/Search.js'></script>
+   <script src="app/views/SearchSpan.js"></script>
+  <script src="app/views/SearchSpans.js"></script>
+  
   <script src='app/views/RequestView.js'></script>
   
   <script src='app/views/FeedbackTable.js'></script>
@@ -944,6 +948,147 @@
   </td>
 
   </script>
+  <script type="text/html" id="template-Search">
+<div id="search">
+<div class="row">
+    <div class="col-lg-5">
+       <!-- <div class="form-group search-Box">
+            <label style='font-size:16px'></label><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;"></input>
+            <label style='font-size:bold'><b>Author</b></label><input style="height:24px; " type='Text' placeholder="Author Name" id='Author-name'></input>
+        </div> -->
+     <div class="checkbox-subject" id="SubjectCheckboxes">  
+     </div>
+     <div class="right-column-search">
+     <label style='font-size:16px'><b>Collections</b></label><br>
+     <div class="Collection-search"> 
+         <select id="multiselect-collections-search" multiple="multiple" style="width: 370px;">
+         <%for(i=0;i<tags.length;i++){%>
+            <option value=<%=tags[i]._id%>><%=tags[i].CollectionName%></option>
+         <%}%>
+         </select>
+    </div>
+    
+    <div class="levels-search"> 
+    
+     <label style='font-size:16px'><b>Level</b></label><br>
+     <select  name="Level" id="multiselect-levels-search" multiple="multiple" style="width: 370px;">
+   	  		<option>Early Education</option>
+    	 	<option>Lower Primary</option>
+     		<option>Upper Primary</option>
+     		<option>Lower Secondary</option>
+     		<option>Upper Secondary</option>
+     		<option>Undergraduate</option>
+     		<option>Graduate</option>
+     		<option>Professional</option>
+     </select>
+        
+    </div>
+    <div class="medium-search"> 
+     <label style='font-size:16px'><b>Medium</b></label><br>
+     
+     <select name="Medium"  id="multiselect-medium-search" multiple="multiple" style="width: 370px;">
+    	  <option>Text</option>
+     	  <option>Graphic/Pictures</option>
+     	  <option>Audio/Music/Book </option>
+     	  <option>Video</option>
+     </select>
+        
+        
+    </div>
+   <!-- <div class="language-search"> 
+     <label style='font-size:16px'><b>Language</b></label><br>
+     
+    <input style="width: 351px;" type='Text' placeholder="Language" id='Language-filter'></input>
+        
+    </div> -->
+
+       <div id="rating_checkboxes">
+       		<label style='font-size:16px'><b>Rating</b></label><br>
+       		<input id="star5" type="checkbox" name="star" value="5" onchange="changeRatingImage('rating5_',5)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating5_1"><img src="star-off.png" class="filter_star_img" id="rating5_2"><img src="star-off.png" class="filter_star_img" id="rating5_3"><img src="star-off.png" class="filter_star_img" id="rating5_4"><img src="star-off.png" class="filter_star_img" id="rating5_5"><br/>
+        	
+        	<input id="star4" type="checkbox" name="star" value="4" onchange="changeRatingImage('rating4_',4)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating4_1"><img src="star-off.png" class="filter_star_img" id="rating4_2"><img src="star-off.png" class="filter_star_img" id="rating4_5"><img src="star-off.png" class="filter_star_img" id="rating4_4"><br/>
+        	
+        	<input id="star3" type="checkbox" name="star" value="3" onchange="changeRatingImage('rating3_',3)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating3_1"><img src="star-off.png" class="filter_star_img" id="rating3_2"><img src="star-off.png" class="filter_star_img" id="rating3_3"><br/>
+       		
+       		<input id="star2" type="checkbox" name="star" value="2" onchange="changeRatingImage('rating2_',2)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating2_1"><img src="star-off.png" class="filter_star_img" id="rating2_2"><br>
+       		
+       		<input id="star1" type="checkbox" name="star" value="1" onchange="changeRatingImage('rating1_',1)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating1_1">
+  		</div> 
+  		
+    </div>
+    
+    <br/>
+    <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
+    </div>
+    </div>
+</div>
+<div class="search-result-header">
+    <h3 class="search-result-h3">Search Results</h3>
+    <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
+</div>
+<br>
+    <button class="btn btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+
+<br/><br/>
+    <table id="srch"> 
+    </table>
+<div id="not-found" style="color:red; margin-left:34%; font-size:20px;"></div>
+</div>
+		    <div class="search-bottom-nav">
+		    <br/>
+
+                    <table class="search-bottom-nav-table">
+                       <tr>
+                          <td class="previous-button-container">
+                               <button class="btn btn-primary" id="previous_button" onclick = "previousPageButtonPressed()"><  Previous</button>
+                          </td>  
+                          <td class="next-button-container">
+                               <button class="btn btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next  ></button>
+ 
+                          </td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                     <%if(Publications==true) {%>
+                     <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-success" id='addRestoPub'>Add To Publication</button>
+                    <button class="btn btn-success" onclick = "document.location.href='../nation/index.html#publication'">Back</button>
+                     
+                     <%}else{ %>
+                    <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
+                    <button class="btn btn-success" onclick = "document.location.href='#courses'">Home</button>
+                    <%}%>
+</div>
+</script>
+<script type="text/html" id="template-Search-box">
+    <% if(title != "CourseSearchBox") { %>
+      <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
+    <% } else if(name !="ResourceSearchBox"){ %>
+      <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>">
+    <% } %>
+  
+    	<%if(Tag != "CourseSearchBox") { %>
+        <label for="<%= _id %>">
+    		<font class="search-result-title" ><%= title %></font>
+    		-
+                <% %>
+                 &nbsp;by&nbsp;
+                <%= author %>
+    	</label></td><td><% %></td>
+        <% }else{ %>
+          <label for="<%= _id %>">
+    		<font class="search-result-title" ><%= name %></font>
+          </label></td>
+        <% } %>
+</script>
 
 
 </head>
