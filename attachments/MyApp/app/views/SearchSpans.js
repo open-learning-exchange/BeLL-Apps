@@ -14,7 +14,8 @@ $(function() {
     renderView : function(model){
               var modelView = new App.Views.SearchSpan({model: model})
               modelView.render()  
-              $('#srch').append(modelView.el)
+              this.$el.append(modelView.el)
+              //$('#srch').append(modelView.el)
     },
     addAll: function(){
       this.collection.each(this.addOne, this)

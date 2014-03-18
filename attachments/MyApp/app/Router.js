@@ -2,9 +2,7 @@ $(function(){
    
    App.Router=new(Backbone.Router.extend({
        
-      routes:{
-
-            '': 'MemberLogin',
+      routes:{'': 'MemberLogin',
             'dashboard': 'Dashboard',
             'ereader':'eReader',
             'login': 'MemberLogin',
@@ -24,110 +22,42 @@ $(function(){
             
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
-            'course/details/:courseId/:name': 'courseDetails',
+            'course/details/:courseId/:courseName':'courseDetails',
             'course/report/:groupId/:groupName': 'CourseReport',
             'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
             'course/assignments/:groupId': 'GroupAssignments',
             'course/add': 'GroupForm',
-            'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
-            'level/view/:levelId/:rid': 'ViewLevel',
-            'resources': 'Resources',
-            'resource/add': 'ResourceForm',
-            'resource/edit/:resourceId': 'ResourceForm',
-            'resource/feedback/:resourceId': 'ResourceFeedback',
-            'resource/invite/:resourceId/:name/:kind': 'ResourceInvitation',
-            'resource/feedback/add/:resourceId': 'FeedbackForm',
-            'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
-            'courses/:courseId':'Groups',
-            'meetups':'ListMeetups',
-            'meetup/add':'Meetup',
-            'meetup/delete/:MeetupId':'deleteMeetUp',
-            'meetup/details/:meetupId/:title':'meetupDetails',
-            'meetup/manage/:meetUpId':'Meetup',
-            'course/edit/:groupId': 'GroupForm',
-            'course/default': 'Explore_Bell_Courses',
-            'course/assign/:groupId': 'GroupAssign',
-            'course/assignments/week-of/:groupId': 'GroupWeekOfAssignments',
-            'course/manage/:groupId': 'ManageCourse',
-            'addItemstoLevel/:lid/:rid/:title': 'AddItemsToLevel',
-            'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
-            'level/view/:levelId/:rid': 'ViewLevel',
-            'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
-            'course/assignments/:groupId': 'GroupAssignments',
-            'course/add': 'GroupForm',
-            'members': 'Members',
-            'compile/week': 'CompileManifestForWeeksAssignments',
-            'compile': 'CompileManifest',
-            'resource/search': 'bellResourceSearch',
-            'search-bell/:levelId/:rId': 'SearchBell',
-            'search-bell/:publicationId': 'SearchPresources',
-            'search-result': 'SearchResult',
-            'assign-to-level': 'AssignResourcetoLevel',
-            'assign-to-shelf': 'AssignResourcetoShelf',
-            'create-quiz/:lid/:rid/:title': 'CreateQuiz',
-            'demo-version': 'DemoVersion',
-            'savedesc/:lid': 'saveDescprition',
-            'addToshelf/:rid/:title'       : 'AddToshelf',
-            'resource/atlevel/feedback/:rid/:levelid/:revid': 'LevelResourceFeedback',
-            'search/courses': 'SearchCourses',
-            'assign-to-default-courses': 'AssignCoursestoExplore',
-            'siteFeedback': 'viewAllFeedback',
-            'course/report/:groupId/:groupName': 'CourseReport',
-            'myRequests': 'myRequests',
-            'AllRequests': 'AllRequests',
-            'replicateResources': 'Replicate',
-            'reports': 'Reports',
-    	    'reports/edit/:resportId': 'ReportForm',
-            'reports/add': 'ReportForm',
-            'collection':'Collection',
-            'listCollection/:collectionId':'ListCollection',
-            'listCollection/:collectionId/:collectionName':'ListCollection',
-            'viewpublication':'ViewPublication',
-            'publicationdetail/:publicationId': 'PublicationDetails',
-            'abc':'resourcesTagScript',
-            'abcde':'resourcesIdScript',
-            
-            			
-            '': 'MemberLogin',
-            'dashboard': 'Dashboard',
-            'ereader': 'eReader',
-            'info': 'info',
-            'login': 'MemberLogin',
-            'logout': 'MemberLogout',
-            'my-courses': 'MemberGroups',
-           //(same in LMS)  'course/edit/:groupId': 'GroupForm',
-           //(same in LMS)    'course/assignments/:groupId': 'GroupAssignments',
-           //(same in LMS)   'search-result': 'SearchResult',
-           //(same in LMS)   'siteFeedback': 'viewAllFeedback',
-           //(same in LMS)   'member/add': 'MemberForm',
-           //(same in LMS)   'logout': 'MemberLogout',
-           //(same in LMS)     'login': 'MemberLogin',
-           //(same in LMS)   'member/edit/:memberId': 'MemberForm',
-           //(same in LMS) 'course/details/:courseId/:name': 'CourseDetails', // @todo delete and change refs to it
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
             'course/members/:courseId':'GroupMembers',
-            'course/link/:groupId': 'GroupLink',
-            'update-assignments': 'UpdateAssignments',
-            'resource/feedback/add/:resourceId': 'FeedbackForm',
-            'newsfeed': 'NewsFeed',
-            'newsfeed/:authorTitle': 'Article_List',
-            'search-bell': 'SearchBell',
-            'member/add': 'MemberForm',
-            'member/edit/:mid': 'MemberForm',
-            'addResource/:rid/:title/:revid': 'AddResourceToShelf',
-            'resource/detail/:rsrcid/:shelfid/:revid': 'Resource_Detail', //When Item is Selected from the shelf 
-            'meetup/detail/:meetupId/:title': 'Meetup_Detail',
-            'calendar': 'CalendarFunction',
-            'calendar/event/:eid': 'calendaar',
-            'calendar-event/edit/:eid': 'EditEvent',
-            'addEvent': 'addEvent',
-            'report/:Url': 'report',
-            'courses/barchart': 'CoursesBarChart',
+            
+            'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
+            'level/view/:levelId/:rid': 'ViewLevel',
+            'create-quiz/:lid/:rid/:title': 'CreateQuiz',
+            
+            'meetups':'ListMeetups',
+            'meetup/add':'Meetup',
+            'meetup/delete/:MeetupId':'deleteMeetUp',
+            'meetup/detail/:meetupId/:title':'meetupDetails',
+            'meetup/details/:meetupId/:title': 'meetupDetails',
+            'meetup/manage/:meetUpId':'Meetup',
+            
+            
+            'members': 'Members',
+            
+            'reports': 'Reports',
+    	    'reports/edit/:resportId': 'ReportForm',
+            'reports/add': 'ReportForm',
+            
             'mail': 'email',
-            '*nomatch': 'errornotfound',
-      
-      },
+            
+            'courses/barchart': 'CoursesBarChart',
+            
+             'calendar': 'CalendarFunction',
+             'addEvent': 'addEvent',
+             'calendar/event/:eid': 'calendaar',
+             'calendar-event/edit/:eid': 'EditEvent',
+},
       initialize: function () {
             this.bind("all", this.startUpStuff)
             this.bind("all", this.checkLoggedIn)
@@ -477,7 +407,6 @@ $(function(){
 //                }
 //            })
             /***********/
-            alert("Other")
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function () {
@@ -498,6 +427,57 @@ $(function(){
                 }
             })
               App.stopActivityIndicator()
+        },
+        CreateQuiz: function (lid, rid, title) {
+            var levelInfo = new App.Models.CourseStep({
+                "_id": lid
+            })
+            levelInfo.fetch({
+                success: function () {
+                    var quiz = new App.Views.QuizView()
+                    quiz.levelId = lid
+                    quiz.revId = rid
+                    quiz.ltitle = title
+                    if (levelInfo.get("questions")) {
+                        App.$el.children('.body').html('<h3>Edit Quiz for |' + title + '</h3>')
+                        quiz.quizQuestions = levelInfo.get("questions")
+                        quiz.questionOptions = levelInfo.get("qoptions")
+                        quiz.answers = levelInfo.get("answers")
+
+                    }
+                    App.$el.children('.body').html(quiz.el)
+                    quiz.render()
+                    if (levelInfo.get("questions")) {
+                        quiz.displayQuestionInView(0)
+                    }
+                }
+            })
+        },
+        CourseInfo: function (courseId) {
+
+            var courseModel = new App.Models.Group()
+            courseModel.set('_id', courseId)
+            courseModel.fetch({
+                async: false
+            })
+
+            var courseLeader = courseModel.get('courseLeader')
+            var memberModel = new App.Models.Member()
+            memberModel.set('_id', courseLeader)
+            memberModel.fetch({
+                async: false
+            })
+
+            var viewCourseInfo = new App.Views.CourseInfoView({
+                model: courseModel
+            })
+            viewCourseInfo.leader = memberModel
+
+            viewCourseInfo.render()
+            App.$el.children('.body').html("&nbsp")
+            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#course/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
+            App.$el.children('.body').append(viewCourseInfo.el)
+            
         },
          CourseReport: function (cId, cname) {
         	
@@ -616,8 +596,8 @@ $(function(){
                     $("input[type='radio']").hide();
                 }
             })
-        },
-         courseDetails:function(courseId,courseName){
+        }, 
+        courseDetails:function(courseId,courseName){
         	
         	var courseModel=new App.Models.Group({_id:courseId})
                courseModel.fetch({async:false})
@@ -661,6 +641,14 @@ $(function(){
    			$('#admissionButton').on('click', function (e) {
         		$(document).trigger('Notification:submitButtonClicked')
     		})
+        },
+         GroupMembers:function(cId)
+        {
+           var groupMembers=new App.Views.GroupMembers()
+           groupMembers.courseId=cId
+           groupMembers.render()
+           App.$el.children('.body').html(groupMembers.el)
+                 
         },
         GroupForm: function (groupId) {
             this.modelForm('Group', 'Course', groupId, 'courses')
@@ -748,6 +736,55 @@ $(function(){
             assignResourcesToGroupTable.groupId = groupId
             assignResourcesToGroupTable.render()
             App.$el.children('.body').html(assignResourcesToGroupTable.el)
+        },
+        ResignCourse: function (courseId) {
+
+            var memberId = $.cookie('Member._id')
+            var courseModel = new App.Models.Group()
+            courseModel.set('_id', courseId)
+            courseModel.fetch({
+                async: false
+            })
+            var courseMemebers = courseModel.get('members')
+            var index = courseMemebers.indexOf(memberId)
+            courseMemebers.splice(index, 1)
+            courseModel.set({
+                members: courseMemebers
+            })
+            courseModel.save();
+
+            var memberProgress = new App.Collections.memberprogressallcourses()
+            memberProgress.memberId = memberId
+            memberProgress.fetch({
+                async: false
+            })
+            memberProgress.each(function (m) {
+                if (m.get("courseId") == courseId) {
+                    m.destroy()
+                }
+            })
+
+            var mail = new App.Models.Mail();
+            var currentdate = new Date();
+            var id = courseModel.get('courseLeader')
+            var subject = 'Course Resignation | ' + courseModel.get('name') + ''
+            var mailBody = 'Hi,<br>Member ' + $.cookie('Member.login') + ' has resign from ' + courseModel.get('name') + ''
+
+            mail.set("senderId", $.cookie('Member._id'))
+            mail.set("receiverId", id)
+            mail.set("subject", subject)
+            mail.set("body", mailBody)
+            mail.set("status", "0")
+            mail.set("type", "mail")
+            mail.set("sentDate", currentdate)
+            console.log(mail)
+            mail.save();
+            alert("Successfully resigned from " + courseModel.get('name') + ' . ')
+
+            Backbone.history.navigate('dashboard', {
+                trigger: true
+            })
+
         },
 
         GroupWeekOfAssignments: function (groupId, weekOf) {
@@ -1005,6 +1042,35 @@ $(function(){
             App.stopActivityIndicator()
 
         },
+        ReportForm: function (reportId) {
+            var report = (reportId) ? new App.Models.CommunityReport({
+                _id: reportId
+            }) : new App.Models.CommunityReport()
+            report.on('processed', function () {
+                Backbone.history.navigate('report', {
+                    trigger: true
+                })
+            })
+            var reportFormView = new App.Views.ReportForm({
+                model: report
+            })
+            App.$el.children('.body').html(reportFormView.el)
+
+            if (report.id) {
+                App.listenToOnce(report, 'sync', function () {
+                    reportFormView.render()
+                })
+                report.fetch()
+            } else {
+                reportFormView.render()
+            }
+        },
+
+        routeStartupTasks: function () {
+            $('#invitationdiv').hide()
+            $('#debug').hide()
+
+        },
         Resource_Detail: function (rsrcid, sid, revid) {
             var resource = new App.Models.Resource({_id:rsrcid})
             resource.fetch({
@@ -1187,7 +1253,6 @@ $(function(){
 
         },
         CoursesBarChart: function () {
-             alert("Here")
             App.$el.children('.body').html('&nbsp')
             App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
             App.$el.children('.body').append('<div id="graph"></div>')
