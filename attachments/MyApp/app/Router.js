@@ -196,32 +196,63 @@ $(function(){
         },
 
         modelForm: function (className, label, modelId, reroute) {
-            // Set up
+            //cv Set up
+            var context =this
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
             // Bind form to the DOM
             if (modelId) {
-                App.$el.children('.body').html('<h3>Update Profile </h3>')
+                App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
             } else {
-                App.$el.children('.body').html('<h3 class="signup-heading">Become a ' + label + '</h3>')
+                App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
             }
             App.$el.children('.body').append(modelForm.el)
-
-            // Bind form events for when Group is ready
+           // Bind form events for when Group is ready
             model.once('Model:ready', function () {
                 // when the users submits the form, the group will be processed
-                modelForm.on(className + 'Form:done', function () {
+                 modelForm.on(className + 'Form:done', function () {
                     Backbone.history.navigate(reroute, {
                         trigger: true
                     })
-                })
+                 })
                 // Set up the form
                 modelForm.render()
-                $('#olelogo').remove()
-            })
+                 
+                $('.form .field-startDate input').datepicker({
+               todayHighlight: true
+            });
+            $('.form .field-endDate input').datepicker({
+               todayHighlight: true
+            });
+  				
+            $('.form .field-startTime input').timepicker({
+                'minTime': '8:00am',
+                'maxTime': '12:30am',
+            });
+  				
+            $('.form .field-endTime input').timepicker({
+               'minTime': '8:00am',
+                'maxTime': '12:30am',            
+            
+            });
+            
+  				$('.form .field-frequency input').click(function() {
+    				if(this.value=='Weekly')
+    				{
+    				  $('.form .field-Day').show()
+    				}
+    				else{
+    				$('.form .field-Day').hide()
+    				}
 
+				});
+
+            
+               
+
+            })
             // Set up the model for the form
             if (modelId) {
                 model.id = modelId
@@ -231,9 +262,11 @@ $(function(){
                 model.fetch({
                     async: false
                 })
+           
             } else {
                 model.trigger('Model:ready')
             }
+            
         },
         Resources: function () {
             App.startActivityIndicator()
