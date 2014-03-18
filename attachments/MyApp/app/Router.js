@@ -23,6 +23,7 @@ $(function(){
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
             'course/details/:courseId/:courseName':'courseDetails',
+            'usercourse/details/:courseId/:courseName':'UserCourseDetails',
             'course/report/:groupId/:groupName': 'CourseReport',
             'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
             'course/assignments/:groupId': 'GroupAssignments',
@@ -510,7 +511,7 @@ $(function(){
 
             viewCourseInfo.render()
             App.$el.children('.body').html("&nbsp")
-            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#course/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
+            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
             App.$el.children('.body').append(viewCourseInfo.el)
             
         },
@@ -676,6 +677,36 @@ $(function(){
    			$('#admissionButton').on('click', function (e) {
         		$(document).trigger('Notification:submitButtonClicked')
     		})
+        },
+        UserCourseDetails: function (courseId, name) {
+            var ccSteps = new App.Collections.coursesteps()
+            ccSteps.courseId = courseId
+            
+            ccSteps.fetch({
+                success: function () {
+                    App.$el.children('.body').html('&nbsp')
+                    App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/'+courseId+'" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
+                    var levelsTable = new App.Views.CourseLevelsTable({
+                        collection: ccSteps,
+                    })
+                    levelsTable.courseId=courseId
+                    levelsTable.render()
+                    App.$el.children('.body').append(levelsTable.el)
+                    $("#accordion")
+                        .accordion({
+                            header: "h3"
+                        })
+                        .sortable({
+                            axis: "y",
+                            handle: "h3",
+                            stop: function (event, ui) {
+                                // IE doesn't register the blur when sorting
+                                // so trigger focusout handlers to remove .ui-state-focus
+                                ui.item.children("h3").triggerHandler("focusout");
+                            }
+                        });
+                }
+            })
         },
          GroupMembers:function(cId)
         {
