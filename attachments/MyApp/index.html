@@ -114,7 +114,7 @@
   
   
   <!-- App Collection  -->
-   
+   <script src="app/collections/listRCollection.js"></script>
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
@@ -229,6 +229,10 @@
   
   <script src='app/views/CalendarForm.js'></script>
   <script src='app/views/EventInfo.js'></script>
+  
+  <script src="app/views/CollectionTable.js"></script>
+  <script src="app/views/CollectionRow.js"></script>
+  <script src="app/views/ListCollectionView.js"></script>
   
   
 
@@ -412,7 +416,7 @@
 			
 				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
-				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calendarr'] %></button></td> 
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calender'] %></button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
 				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
 				<!-- <td></td> -->
@@ -1127,6 +1131,17 @@
 
 		</div>
 </script>
+<script type="text/html" id="template-CollectionRow">
+    <td  id=<%=_id%> >
+    <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>  
+    </td>
+    <td>
+    <%if(display==true){%>
+    
+    <button onclick="EditColletcion('<%=_id%>')"><i class="icon-edit pull-right"></i></button>
+    <%}%>
+    </td>
+ </script>
 
 
 
