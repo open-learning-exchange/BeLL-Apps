@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Bell LMS</title>
+  <title>Bell MyApp</title>
 <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
 
@@ -189,6 +189,8 @@
   <script src='app/views/GroupsTable.js'></script>
   <script src='app/views/GroupRow.js'></script>
   <script src='app/views/GroupForm.js'></script>
+  <script src='app/views/GroupView.js'></script>
+  <script src='app/views/CourseStepsView.js'></script>
   <script src='app/views/CoursesStudentsProgress.js'></script>
   
   <script src='app/views/LevelForm.js'></script>
@@ -249,7 +251,7 @@
   	 	<div id="invitationdiv"></div>
     </div>
 
-    <div id='nav' class="navbar navbar-inverse" id="top-nav"style="margin-bottom: 0px;">
+    <div id='nav' class="navbar navbar-inverse" id="top-nav"style="margin: 4px 0px 0px 0px;">
         <div class="container"></div> 
     </div>
 	
@@ -332,7 +334,7 @@
 			<tr class="imageRow">
 			 <td rowspan="2" class="imageData">
 				<!--	<img id="header-image" src="img/header_slice.png" /> -->
-		 			<img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:60px;"/>
+		 			<img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:55px;height: 105px; width: 105px;"/>
 			 </td>
 			</tr>
 			<tr>
@@ -543,8 +545,8 @@
     <%if(Manager!=1 &&!hidden){%>
     <% if(title){ %>
      <td>
-        <p style="width:280px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
-        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+        <p style="font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>

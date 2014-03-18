@@ -146,9 +146,6 @@ bbf-form ul{border: 5px solid dotted;}
 .signup-form .bbf-error  {
     color:red;
 }
-.bbf-field label
-{color:white;}
-
 .signup-submit {
     margin-top: 12px;
      margin-bottom: 50px;
@@ -228,13 +225,6 @@ margin-top:-10px;
     border-radius: 0 0 20px 20px;
     color: #FFFFFF;
 }
-#fileAttachment > input {
-   height: 40px;
-    margin-left: 158px;
-    padding-bottom: 33px;
-    margin-top: 2%;
-}
-
 .btn.btn-info {
     font-weight: bolder;
 }

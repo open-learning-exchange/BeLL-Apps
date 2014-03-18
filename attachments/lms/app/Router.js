@@ -350,34 +350,11 @@ $(function () {
 	    })
 	  },
         getRoles:function(){
-        
-//            var loggedIn = new App.Models.Member({
-//                "_id": $.cookie('Member._id')
-//            })
-
-//            loggedIn.fetch({
-//                async: false
-//            })
-
-//            var roles = $.cookie('Member.mod'); // get user's roles from cookie
-//            console.log(roles);
 
             var loggedIn = JSON.parse( $.cookie('Member.mod') ); // get user object as a json string from cookie
-
-//            console.log("LMS::App::Router.js::getRoles()::LoggedIn.roles: " + loggedIn.roles);
-//            console.log("LMS::App::Router.js::getRoles()::LoggedIn: " + loggedIn);
-
-           // alert('test')
-
-//            var roles = loggedIn.get("roles");
-//            console.log("LMS::App::Router.js::getRoles()::LoggedIn: " + loggedIn);
-//            console.log("LMS::App::Router.js::getRoles()::LoggedIn: " + loggedIn.get("firstName") + ' ' +
-//                loggedIn.get("lastName") + ' ' + loggedIn.get("password") + ' ' + loggedIn.get("phone") +
-//                ' ' + loggedIn.get("email") + ' ' + loggedIn.get("language") + ' ' + loggedIn.get("BirthDate"));
             return loggedIn.roles
         },
         checkLoggedIn: function () {
-//            console.log("attachments::lms::app::router.js: here we are");
             if (!$.cookie('Member._id')) {
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
                     Backbone.history.stop()
@@ -1080,7 +1057,7 @@ $(function () {
                     if(courseId)
                     {
                     groupsTable.courseId=courseId
-                    button += '<p>'
+                    button += '<p >'
                     button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
                     button += '</p>'

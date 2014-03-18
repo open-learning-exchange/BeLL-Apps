@@ -2,7 +2,6 @@
 {
     height: 600px;
     width: 950px;
-	overflow: hidden;
 }
 
 #viewCourseMembers {
@@ -708,4 +707,7 @@ margin-left: 259px;
 margin-left: 259px;
     margin-top: -50px
 
+}
+#library-top-buttons{
+margin-top: 20px;
 }

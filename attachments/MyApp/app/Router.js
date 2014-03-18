@@ -24,7 +24,7 @@ $(function(){
             
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
-            'course/details/:courseId/:name': 'CourseDetails',
+            'course/details/:courseId/:name': 'courseDetails',
             'course/report/:groupId/:groupName': 'CourseReport',
             'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
             'course/assignments/:groupId': 'GroupAssignments',
@@ -38,14 +38,12 @@ $(function(){
             'resource/invite/:resourceId/:name/:kind': 'ResourceInvitation',
             'resource/feedback/add/:resourceId': 'FeedbackForm',
             'resource/feedback/add/:resourceId/:title': 'FeedbackForm',
-            'courses': 'Groups',
             'courses/:courseId':'Groups',
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
             'meetup/details/:meetupId/:title':'meetupDetails',
             'meetup/manage/:meetUpId':'Meetup',
-            'course/details/:courseId/:courseName':'courseDetails',
             'course/edit/:groupId': 'GroupForm',
             'course/default': 'Explore_Bell_Courses',
             'course/assign/:groupId': 'GroupAssign',
@@ -325,7 +323,7 @@ $(function(){
                     resourcesTableView.isManager = roles.indexOf("Manager")
                     resourcesTableView.render()
                     
-                    var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
+                    var btnText='<p id="library-top-buttons"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
                         btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
                     App.$el.children('.body').html(btnText)
                     
@@ -479,7 +477,7 @@ $(function(){
 //                }
 //            })
             /***********/
-            
+            alert("Other")
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function () {
@@ -488,7 +486,7 @@ $(function(){
                     })
                     groupsTable.render()
 
-                    var button = '<p>'
+                    var button = '<p id="library-top-buttons">'
                     button += '<a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
                     button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
                     button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
@@ -619,35 +617,50 @@ $(function(){
                 }
             })
         },
-        CourseDetails: function (courseId, name) {
-            var ccSteps = new App.Collections.coursesteps()
-            ccSteps.courseId = courseId
+         courseDetails:function(courseId,courseName){
+        	
+        	var courseModel=new App.Models.Group({_id:courseId})
+               courseModel.fetch({async:false})
+    
+           var courseLeader = courseModel.get('courseLeader')
+           var courseMembers = courseModel.get('members')
+        	
+          var button = '<br><a href="#courses"><button class="btn btn-success">Back to courses</button></a>'
+          if(courseMembers && courseMembers.indexOf($.cookie('Member._id'))==-1)
+          {
+          	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton">Admission</button><br/><br/>'
+          }
+          else
+          {
+          	button += '<br/><br/>'
+          }
+        	
+           App.$el.children('.body').html('<div id="courseName-heading"><h3>Course Details | '+courseName+'</h3></div>')
+           App.$el.children('.body').append(button)
+           
+           var memberModel = new App.Models.Member()
+               memberModel.set('_id', courseLeader)
+               memberModel.fetch({async: false})
             
-            ccSteps.fetch({
-                success: function () {
-                    App.$el.children('.body').html('&nbsp')
-                    App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/'+courseId+'" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
-                    var levelsTable = new App.Views.CourseLevelsTable({
-                        collection: ccSteps,
-                    })
-                    levelsTable.courseId=courseId
-                    levelsTable.render()
-                    App.$el.children('.body').append(levelsTable.el)
-                    $("#accordion")
-                        .accordion({
-                            header: "h3"
-                        })
-                        .sortable({
-                            axis: "y",
-                            handle: "h3",
-                            stop: function (event, ui) {
-                                // IE doesn't register the blur when sorting
-                                // so trigger focusout handlers to remove .ui-state-focus
-                                ui.item.children("h3").triggerHandler("focusout");
-                            }
-                        });
-                }
-            })
+          var  ccSteps = new App.Collections.coursesteps()
+                ccSteps.courseId = courseId
+                ccSteps.fetch({async:false})
+
+          var GroupDetailsView=new App.Views.GroupView({model:courseModel})
+              GroupDetailsView.courseLeader=memberModel
+              GroupDetailsView.render()
+        
+          
+          var courseStepsView=new App.Views.CourseStepsView({collection:ccSteps})  
+               courseStepsView.render()
+               
+          App.$el.children('.body').append(GroupDetailsView.el)
+          App.$el.children('.body').append('<div id="courseSteps-heading"><h5>Course Steps</h5></div>') 
+          App.$el.children('.body').append(courseStepsView.el)
+          
+   			$('#admissionButton').on('click', function (e) {
+        		$(document).trigger('Notification:submitButtonClicked')
+    		})
         },
         GroupForm: function (groupId) {
             this.modelForm('Group', 'Course', groupId, 'courses')
@@ -1174,6 +1187,7 @@ $(function(){
 
         },
         CoursesBarChart: function () {
+             alert("Here")
             App.$el.children('.body').html('&nbsp')
             App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
             App.$el.children('.body').append('<div id="graph"></div>')

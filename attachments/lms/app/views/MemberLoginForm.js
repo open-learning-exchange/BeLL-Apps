@@ -47,8 +47,6 @@ $(function () {
             this.form.commit()
             var credentials = this.form.model
 
-            console.log("LMS::App::Views::MemberLoginForm.js::setForm():: credentials: " +
-                            JSON.stringify(this.form.model));
 
             $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + credentials.get('login') + '"', function (response) {
 

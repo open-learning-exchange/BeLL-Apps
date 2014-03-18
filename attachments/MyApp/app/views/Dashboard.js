@@ -251,7 +251,7 @@ $(function () {
                     else
                     {
                     	dashboard.latestVersion = nationConfig.version
-                        dashboard.$el.append('<br/><br/><button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + '). Press to update. </button>')
+                        dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + '). Press to update. </button>')
                         dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">View Release Notes </button>')
                     }
     			}

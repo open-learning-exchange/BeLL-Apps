@@ -2,11 +2,10 @@ $(function() {
 
   App.Views.ResourcesTable = Backbone.View.extend({
 
-    //tagName: "table",
+    tagName: "table",
 	isAdmin:null,
-    className: "btable btable-striped",
-    collections:null,
-
+    className: "table table-striped",
+    
     //template: $('#template-ResourcesTable').html(),
 	events : {
 		"click #backButton": function (e) {
