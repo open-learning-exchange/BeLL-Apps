@@ -569,4 +569,16 @@ function showRequestForm(modl){
 		$(this).prop('checked', true);
       })
   }  
+  
+  function CourseSearch()
+  {
+    //alert("COURSE SEARCH");
+    skip = 0;
+  	searchText = $("#searchText").val();
+    App.Router.GroupSearch();
+  }
+  function ListAllCourses()
+  {
+     App.Router.Groups()
+  }
   	
