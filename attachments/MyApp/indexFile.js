@@ -39,25 +39,6 @@ function popAll()
             skipStack.pop();        
       }
 }
-function nextPageButtonPressed()
-{
-    App.Router.SearchResult();
-    $("#searchText").val(searchText);
-}
-function previousPageButtonPressed(){
-      
-        if(skipStack.length > 1)
-        {
-          skipStack.pop();
-          skip = skipStack.pop();
-          App.Router.SearchResult();
-          $("#searchText").val(searchText);
-        }
-        else
-        {
-             $('#previous_button').remove()
-        }
-}
 
 function onFocus(obj) { 
       var end = obj.value.length; 
@@ -573,3 +554,19 @@ function addToshelf(rId,title){
 			$('#' + checkID + i).attr('src', imgName);
 		}
 	}
+function showRequestForm(modl){
+	  App.renderRequest(modl)
+  }
+  function showSearchView()
+  {
+  	 $('#not-found').hide()
+      App.Router.SearchBell(grpId,levelrevId,0);
+
+  }
+ function selectAllSearchResult()
+  {
+      $("input[name='result']").each( function () {
+		$(this).prop('checked', true);
+      })
+  }  
+  	

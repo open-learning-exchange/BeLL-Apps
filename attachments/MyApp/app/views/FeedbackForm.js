@@ -87,6 +87,7 @@ $(function () {
                     var freq = freqmodel.get('reviewed')
                     freq[index] = freq[index] + 1
                     freqmodel.save()
+                    
                 }
                 //				var member = new App.Models.Member({
                 //                     _id: $.cookie('Member._id')
@@ -101,8 +102,8 @@ $(function () {
                 //                	pending.splice(index,1)
                 //                	member.set("pendingReviews",pending)
                 //                	member.save()
-                //                }
-
+            
+                    $('#externalDiv').hide()
             }
 
         },

@@ -28,9 +28,13 @@ $(function(){
             'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
             'course/assignments/:groupId': 'GroupAssignments',
             'course/add': 'GroupForm',
+            'CourseInfo/:courseId': 'CourseInfo',
+            'course/resign/:courseId': 'ResignCourse',
+            'course/members/:courseId':'GroupMembers',
             
             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
+            'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
@@ -54,6 +58,8 @@ $(function(){
              'addEvent': 'addEvent',
              'calendar/event/:eid': 'calendaar',
              'calendar-event/edit/:eid': 'EditEvent',
+             
+             
             
       
       },
@@ -428,6 +434,57 @@ $(function(){
             })
               App.stopActivityIndicator()
         },
+        CreateQuiz: function (lid, rid, title) {
+            var levelInfo = new App.Models.CourseStep({
+                "_id": lid
+            })
+            levelInfo.fetch({
+                success: function () {
+                    var quiz = new App.Views.QuizView()
+                    quiz.levelId = lid
+                    quiz.revId = rid
+                    quiz.ltitle = title
+                    if (levelInfo.get("questions")) {
+                        App.$el.children('.body').html('<h3>Edit Quiz for |' + title + '</h3>')
+                        quiz.quizQuestions = levelInfo.get("questions")
+                        quiz.questionOptions = levelInfo.get("qoptions")
+                        quiz.answers = levelInfo.get("answers")
+
+                    }
+                    App.$el.children('.body').html(quiz.el)
+                    quiz.render()
+                    if (levelInfo.get("questions")) {
+                        quiz.displayQuestionInView(0)
+                    }
+                }
+            })
+        },
+        CourseInfo: function (courseId) {
+
+            var courseModel = new App.Models.Group()
+            courseModel.set('_id', courseId)
+            courseModel.fetch({
+                async: false
+            })
+
+            var courseLeader = courseModel.get('courseLeader')
+            var memberModel = new App.Models.Member()
+            memberModel.set('_id', courseLeader)
+            memberModel.fetch({
+                async: false
+            })
+
+            var viewCourseInfo = new App.Views.CourseInfoView({
+                model: courseModel
+            })
+            viewCourseInfo.leader = memberModel
+
+            viewCourseInfo.render()
+            App.$el.children('.body').html("&nbsp")
+            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#course/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
+            App.$el.children('.body').append(viewCourseInfo.el)
+            
+        },
          CourseReport: function (cId, cname) {
         	
         	var roles = this.getRoles()
@@ -576,6 +633,14 @@ $(function(){
                 }
             })
         },
+         GroupMembers:function(cId)
+        {
+           var groupMembers=new App.Views.GroupMembers()
+           groupMembers.courseId=cId
+           groupMembers.render()
+           App.$el.children('.body').html(groupMembers.el)
+                 
+        },
         GroupForm: function (groupId) {
             this.modelForm('Group', 'Course', groupId, 'courses')
              
@@ -662,6 +727,55 @@ $(function(){
             assignResourcesToGroupTable.groupId = groupId
             assignResourcesToGroupTable.render()
             App.$el.children('.body').html(assignResourcesToGroupTable.el)
+        },
+        ResignCourse: function (courseId) {
+
+            var memberId = $.cookie('Member._id')
+            var courseModel = new App.Models.Group()
+            courseModel.set('_id', courseId)
+            courseModel.fetch({
+                async: false
+            })
+            var courseMemebers = courseModel.get('members')
+            var index = courseMemebers.indexOf(memberId)
+            courseMemebers.splice(index, 1)
+            courseModel.set({
+                members: courseMemebers
+            })
+            courseModel.save();
+
+            var memberProgress = new App.Collections.memberprogressallcourses()
+            memberProgress.memberId = memberId
+            memberProgress.fetch({
+                async: false
+            })
+            memberProgress.each(function (m) {
+                if (m.get("courseId") == courseId) {
+                    m.destroy()
+                }
+            })
+
+            var mail = new App.Models.Mail();
+            var currentdate = new Date();
+            var id = courseModel.get('courseLeader')
+            var subject = 'Course Resignation | ' + courseModel.get('name') + ''
+            var mailBody = 'Hi,<br>Member ' + $.cookie('Member.login') + ' has resign from ' + courseModel.get('name') + ''
+
+            mail.set("senderId", $.cookie('Member._id'))
+            mail.set("receiverId", id)
+            mail.set("subject", subject)
+            mail.set("body", mailBody)
+            mail.set("status", "0")
+            mail.set("type", "mail")
+            mail.set("sentDate", currentdate)
+            console.log(mail)
+            mail.save();
+            alert("Successfully resigned from " + courseModel.get('name') + ' . ')
+
+            Backbone.history.navigate('dashboard', {
+                trigger: true
+            })
+
         },
 
         GroupWeekOfAssignments: function (groupId, weekOf) {
@@ -917,6 +1031,35 @@ $(function(){
 			App.$el.children('.body').append('<h4><span style="color:gray;">'+temp+'</span> | Reports</h4>')
             App.$el.children('.body').append(resourcesTableView.el)
             App.stopActivityIndicator()
+
+        },
+        ReportForm: function (reportId) {
+            var report = (reportId) ? new App.Models.CommunityReport({
+                _id: reportId
+            }) : new App.Models.CommunityReport()
+            report.on('processed', function () {
+                Backbone.history.navigate('report', {
+                    trigger: true
+                })
+            })
+            var reportFormView = new App.Views.ReportForm({
+                model: report
+            })
+            App.$el.children('.body').html(reportFormView.el)
+
+            if (report.id) {
+                App.listenToOnce(report, 'sync', function () {
+                    reportFormView.render()
+                })
+                report.fetch()
+            } else {
+                reportFormView.render()
+            }
+        },
+
+        routeStartupTasks: function () {
+            $('#invitationdiv').hide()
+            $('#debug').hide()
 
         },
         Resource_Detail: function (rsrcid, sid, revid) {

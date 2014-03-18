@@ -194,6 +194,11 @@
   <script src='app/views/GroupRow.js'></script>
   <script src='app/views/GroupForm.js'></script>
   <script src='app/views/CoursesStudentsProgress.js'></script>
+  <script src='app/views/CourseInfoView.js'></script>
+  <script src='app/views/GroupMembers.js'></script>
+  <script src="app/views/InvitationForm.js"></script>
+  
+  <script src="app/views/QuizView.js"></script>
   
   <script src='app/views/LevelForm.js'></script>
   <script src='app/views/LevelDetail.js'></script>
@@ -211,6 +216,8 @@
   <script src='app/views/ReportsRow.js'></script>
   <script src='app/views/ReportsTable.js'></script>
   <script src='app/views/ReportForm.js'></script>
+  <script src='app/views/CommunityReportCommentView.js'></script>
+  
   <script src='app/views/CourseLevelsTable.js'></script>
   <script src='app/views/MeetupInvitation.js'></script>
   
@@ -1029,7 +1036,6 @@
 </div>
 <div class="search-result-header">
     <h3 class="search-result-h3">Search Results</h3>
-    <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
 </div>
 <br>
     <button class="btn btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
@@ -1045,11 +1051,10 @@
                     <table class="search-bottom-nav-table">
                        <tr>
                           <td class="previous-button-container">
-                               <button class="btn btn-primary" id="previous_button" onclick = "previousPageButtonPressed()"><  Previous</button>
+                          <button class="btn btn-primary" id="previous_button" ><  Previous</button>
                           </td>  
                           <td class="next-button-container">
-                               <button class="btn btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next  ></button>
- 
+                               <button class="btn btn-primary" id="next_button" >Next  ></button>
                           </td>
                         </tr>
                     </table>
@@ -1089,6 +1094,37 @@
           </label></td>
         <% } %>
 </script>
+<script type="text/template" id="make-Quiz">
+		<div id="quiz-body">
+		<br/>
+		Courses | <%= courseTitle %>
+		<h4 id="new-quiz">New Quiz</h4>
+		<div id="question-area">
+			<div id="question-no">Question 1: </div>
+			<div id="question-box"><textarea rows="3"  style="width:100%;height:100%" id="quizQuestion" placeholder="Enter your question here" ></textarea><br/></div>
+		</div>
+		<div id="option-area">
+		<br/>
+		&nbsp;&nbsp;Response Options:<br/>
+		&nbsp;&nbsp;(Identify the right response)
+		<div id="options-table">
+		<table style="border-spacing: 36px 0px;border-collapse:separate;">
+		<tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1" placeholder="Option A" /></td>
+		<td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2" placeholder="Option B" /></td></tr>
+		<tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3" placeholder="Option C" /></td>
+		<td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4" placeholder="Option D" /></td></tr>
+		<tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5" placeholder="Option E" /></td></tr></table>
+		</div>
+		</div>
+		<br/>
+		<button class="btn btn-primary" id="prev-question" >Previous Question</button>
+		<button class="btn btn-primary" id="next-question" >Next Question</button>
+		<button class="btn btn-success" id="save-quiz" >Save Quiz</button>
+		<button class="btn btn-danger" id="cancel-quiz" >Cancel</button>
+
+		</div>
+</script>
+
 
 
 </head>

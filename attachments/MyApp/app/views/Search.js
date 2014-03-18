@@ -4,7 +4,59 @@ $(function () {
 
 		events: {
             "click #searchR": "searchResult",
-            "click #addRestoPub":"addResourceToPublication"
+            "click #addRestoPub":"addResourceToPublication",
+            "click #next_button" : function(e)
+            {
+            	App.startActivityIndicator()
+           		this.groupresult.skip = this.groupresult.skip + 20;
+           		this.groupresult.fetch({async:false})
+           		App.stopActivityIndicator()
+           		var obj=this
+                if (this.groupresult.length > 0) {
+                    var SearchSpans = new App.Views.SearchSpans({
+                        collection: this.groupresult
+                    })  
+                    SearchSpans.resourceids = obj.resourceids
+                    SearchSpans.render()
+                    $('#srch').html(SearchSpans.el)
+                    $("#previous_button").show()
+                    
+                    if(this.groupresult.length <20)
+                    {
+                    	$("#next_button").hide();
+                    }
+            	}
+            	else
+            	{
+            		this.groupresult.skip = this.groupresult.skip - 20;
+            		$("#next_button").hide();
+            	}
+            },
+            "click #previous_button" : function(e)
+            {
+            	App.startActivityIndicator()
+           		this.groupresult.skip = this.groupresult.skip - 20;
+           		this.groupresult.fetch({async:false})
+           		App.stopActivityIndicator()
+           		var obj=this
+                if (this.groupresult.length > 0) {
+                    var SearchSpans = new App.Views.SearchSpans({
+                        collection: this.groupresult
+                    })  
+                    SearchSpans.resourceids = obj.resourceids
+                    SearchSpans.render()
+                    $('#srch').html(SearchSpans.el)
+                    $("#next_button").show()
+            	}
+            	else
+            	{
+            		$("#previous_button").hide();
+            	}
+            	if(this.groupresult.skip <= 0)
+            	{
+            		$("#previous_button").hide();
+            	}
+            }
         },
         template: $('#template-Search').html(),
 
@@ -36,8 +88,7 @@ $(function () {
             }
             this.$el.html(_.template(this.template, this.vars))
             if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFailter && this.ratingFilter.length > 0)) {
-               App.startActivityIndicator()
-                //this.fetchRecords()
+                App.startActivityIndicator()
                 this.getSearchedRecords();
             }
             
@@ -95,8 +146,9 @@ $(function () {
             }
             else
             {
-           		var loggedIn = new App.Models.Member({"_id": $.cookie('Member._id')})
-          	 	loggedIn.fetch({async: false})
+           		var loggedIn = App.member
+           		//console.log(App.member)
+           		//alert('check')
            		var roles = loggedIn.get("roles")
           		var SearchSpans = new App.Views.ResourcesTable({
               		collection: this.groupresult
@@ -109,53 +161,6 @@ $(function () {
             }
   					
 		},
-        fetchRecords: function () {
-            var obj = this
-            this.groupresult.fetch({
-                success: function () {
-                    obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.groupresult.models, searchText))
-
-                    if (enablenext == 0) {
-                        $('#next_button').remove()
-                    }
-                    if (skipStack.length == 1) {
-                        $('#previous_button').remove()
-                    }
-
-                    if (obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords) {
-                        obj.fetchRecords()
-                    } else if (obj.groupresult.models.length == 0) {
-                        previousPageButtonPressed()
-                    } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
-                        $('#not-found').html("No Such Record Exist");
-                        if(!obj.addResource)
-                        {
-                          $('#not-found').append('<h4><a style="float:right" class="btn btn-info" onclick="backtoSearchView()">Back To Search</a></h4>')
-                        }
-                        $("#selectAllButton").hide()
-                        App.stopActivityIndicator()
-
-
-                    } else {
-                   
-                        if(obj.addResource==true)
-                        {
-                           //alert('Add view')
-                           obj.addResourceToStepView()
-                        }
-                        else{
-                        
-                             // alert('Manage view')
-                              obj.ManageResourceView()
-                        
-                        }
-                        App.stopActivityIndicator()
-
-                    }
-                }
-            })
-
-        },
         addResourceToStepView:function(){
         
          			var obj=this
@@ -173,262 +178,31 @@ $(function () {
                         }
         
         },
-        ManageResourceView:function(){
-           
-                        var obj=this
-                
-                    
-                        var ResultCollection = new Backbone.Collection();
-                    
-                        if (obj.resultArray.length > 0) {
-                            ResultCollection.set(obj.resultArray)
-                            
-                    var loggedIn = new App.Models.Member({"_id": $.cookie('Member._id')})
-                        loggedIn.fetch({async: false})
-                    var roles = loggedIn.get("roles")
-                            
-                            var SearchSpans = new App.Views.ResourcesTable({
-                                collection: ResultCollection
-                            })
-                            
-                            SearchSpans.isManager = roles.indexOf("Manager")
-                            
-                            SearchSpans.resourceids = obj.resourceids
-                            SearchSpans.render()
-                            $('#srch').html('<h4>Search Result <a style="float:right" class="btn btn-info" onclick="backtoSearchView()">Back To Search</a></h4>')
-                        
-                            $('#srch').append(SearchSpans.el)
-                        }
-
-                    
-        
-        },
-        checkFilters: function (result) {
-        
-   	 	   /* 
-   	 	    console.log('++++++++++++++')  
-        
-    	    console.log(this.collectionFilter)  
-			console.log(this.subjectFilter)
-			console.log(this.levelFilter)
-			console.log(this.languageFilter)
-			console.log('this is rating filter   '+this.ratingFilter)
-			console.log('++++++++++++++') 
-			*/
-		
-		   //console.log(result.get('title'))
-		
-		    
-		    //  if(this.checkCollection(result)==true)
-		    //  console.log('check it tag filter is:    '+this.checkCollection(result))
-		
-			if(!result.get("averageRating"))
-			{
-				result.set("averageRating",0)
-			}
-            if (!this.collectionFilter && !this.levelFilter && !this.languageFilter && !this.subjectFilter && this.ratingFilter.length==0 && !this.levelFilter && !this.languageFilter && !this.authorName && !this.mediumFilter) {
-                return true
-            } 
-            else if ((this.checkCollection(result)) || (this.checkSubject(result)) || (this.checkAvgRating(result)) || (this.checkLanguage(result)) || (this.checkLevel(result)) || (this.checkMedium(result)) || (this.checkAuthname(result))) 
-        	{
-                return true
-            }
-            return false
-        },
-        checkMedium:function(row){
-
-        if(!this.mediumFilter)
-             return false 
-          var medium=row.get('Medium')
-          var check=false
-          
-              if(medium){
-                  if(medium==this.mediumFilter)
-                    check=true
-              }
-          return check
-        
-        },
-        checkAuthname:function(row){
-        
-          if(!this.authorName)
-             return false 
-          var name=row.get('author')
-          var check=false
-          
-              if(name){
-                 if(name instanceof Array){
-                 //  alert(name)
-                	     for(i=0 ; i<name.length ; i++)
-                            if(name[i].toLowerCase().indexOf(this.authorName.toLowerCase()) >= 0){
-				   	   				check=true
-				   	   				return check
-                             }
-                 }  
-                else 
-                 if(name.toLowerCase().indexOf(this.authorName.toLowerCase()) >= 0)
-                    check=true
-              }
-          return check
-        },
-        checkCollection:function(row){
-        
-          if(!this.collectionFilter)
-             return false 
-          var collection=row.get('Tag')
-          var check=false
-          
-          if(collection instanceof Array) 	
-			$.each(this.collectionFilter,function(i,val){
-			   
-				var result=$.inArray(val,collection);
-				if(result!=-1)	
-				{		
-				   check=true
-				  return check
-                }
-			})
-        	
-          return check
-        },
-        checkSubject:function(row){
-        
-          if(!this.subjectFilter)
-           return false
-           
-          var collection=row.get('subject')
-          var check=false
-          
-          if(collection instanceof Array) 	
-			$.each(this.subjectFilter,function(i,val){
-			   
-				var result=$.inArray(val,collection);
-				if(result!=-1)	
-				{		
-				   check=true
-				  return check
-                }
-			})
-        	
-          return check
-        },
-        checkAvgRating:function(row){
-        
-        	if((this.ratingFilter && $.inArray(row.get("averageRating").toString(), this.ratingFilter) > -1))
-        	   return true
-        	   
-            return false;
-        },
-        checkLanguage:function(row){
-        
-         if(!this.languageFilter)
-             return false 
-          var name=row.get('language')
-          var check=false
-              if(name){
-                  // alert(name)
-                   if(name instanceof Array){
-                        
-                        for(i=0 ; i<name.length ; i++)
-                            if(name[i].toLowerCase().indexOf(this.languageFilter.toLowerCase()) >= 0){
-				   	   				check=true
-				   	   				return check
-                             }
-                 }  
-                else 
-                 if(name.toLowerCase().indexOf(this.languageFilter.toLowerCase()) >= 0)
-                    check=true
-              }
-          return check
-          
-        },
-        checkLevel:function(row){
-        
-         if(!this.levelFilter)
-           return false
-           
-          var collection=row.get('Level')
-          var check=false
-          
-          if(collection instanceof Array) 	
-			$.each(this.levelFilter,function(i,val){
-			   
-				var result=$.inArray(val,collection);
-				if(result!=-1)	
-				{		
-				   check=true
-				  return check
-                }
-			})
-        	
-          return check
-        },
-        searchInArray: function (resourceArray, searchText) {
-            var that = this
-            var resultArray = []
-            var foundCount
-            
-                _.each(resourceArray, function (result) {
-                    if (result.get("title") != null) {
-                        skip++
-                        
-                         console.log(that.checkFilters(result)+'       '+result.get("title").toLowerCase().indexOf(searchText.toLowerCase()))
-                         
-                        if (that.checkFilters(result) && result.get("title").toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
-                            if (resultArray.length < searchRecordsPerPage) {
-                            	resultArray.push(result)
-                            } else {
-                                enablenext = 1
-                                skip--
-                            }
-                        } else if (resultArray.length >= searchRecordsPerPage) {
-                            skip--
-                        }
-                    }
-                })
-                
-            return resultArray
-        },
         searchResult: function()
         {
-        	skip = 0;
-      		popAll();
-      		lastpage = false;
-            skipStack.push(skip)
-           
             var searchText = $("#searchText").val()
             var collectionFilter=new Array()
             var subjectFilter=new Array()
             var levelFilter=new Array()
             var languageFilter=new Array()
             
-        collectionFilter=$("#multiselect-collections-search").val()
-        subjectFilter=$("#multiselect-subject-search").val()
-        levelFilter=$("#multiselect-levels-search").val()
-		languageFilter=$("#Language-filter").val()
-		authorName=$('#Author-name').val()
+			collectionFilter=$("#multiselect-collections-search").val()
+			subjectFilter=$("#multiselect-subject-search").val()
+			levelFilter=$("#multiselect-levels-search").val()
+			languageFilter=$("#Language-filter").val()
+			authorName=$('#Author-name').val()
 		
-		mediumFilter=$('#multiselect-medium-search').val()
-        console.log(collectionFilter)  
-		console.log(subjectFilter)
-		console.log(levelFilter)
-		console.log(languageFilter)
-         
-       //  alert(mediumFilter)
-         
+			mediumFilter=$('#multiselect-medium-search').val()
+
            $("input[name='star']").each(function () {
                 if ($(this).is(":checked")) {
                     ratingFilter.push($(this).val());
                 }
             })
 
-            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
-              // alert('in search')
+            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0))
+            {
             
-                $('ul.nav').html($("#template-nav-logged-in").html())
-                
-               
-                
                 this.collectionFilter = collectionFilter
                 this.languageFilter = languageFilter
                 this.levelFilter = levelFilter
@@ -448,7 +222,7 @@ $(function () {
                 $(".search-result-header").show()
                 $("#selectAllButton").show()
             }
-            $('#previous_button').remove()
+            $('#previous_button').hide()
       		$('#searchText').focus();
       		$("#searchText").val(searchText)
         
