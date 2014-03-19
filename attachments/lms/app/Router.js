@@ -163,13 +163,13 @@ $(function () {
 								if(matchedTag!=undefined){
 								if (matchedTag.toJSON().rows[0] != undefined)
 								{
+								
 									Tags[i] = matchedTag.toJSON().rows[0].id;
 									console.log(matchedTag.toJSON().rows[0].id)
 									console.log(Tags[i])
 									console.log(Tags)
 									}
 									else{
-										
 									var newTag = new App.Models.CollectionList()
 									newTag.set(
 									{
@@ -225,34 +225,45 @@ $(function () {
 								else
 								{
 									var newTag = new App.Models.CollectionList()
-									newTag.set({
+									newTag.set(
+									{
 										'AddedBy': 'admin'
 									})
-									newTag.set({
+									newTag.set(
+									{
 										'AddedDate': '"05/3/2014"'
 									})
-									newTag.set({
+									newTag.set(
+									{
 										'CollectionName': Tags[i]
 									})
-									newTag.set({
+									newTag.set(
+									{
 										'Description': ''
 									})
-									newTag.set({
+									newTag.set(
+									{
 										'IsMajor': true
 									})
-									newTag.set({
+									newTag.set(
+									{
 										'NesttedUnder': "--Select--"
 									})
-									newTag.set({
+									newTag.set(
+									{
 										'kind': 'CollectionList'
 									})
-									newTag.set({
+									newTag.set(
+									{
 										'show': true
 									})
 									flag = true;
-									newTag.save(null,{
-										success: function (response, model){
+									newTag.save(null,
+									{
+										success: function (response, model)
+										{
 											i = i - 1;
+											//console.log(i)
 											Tags[i] = response.toJSON().id
 											i = i + 1;
 											flag = false;
@@ -1057,7 +1068,7 @@ $(function () {
                     if(courseId)
                     {
                     groupsTable.courseId=courseId
-                    button += '<p >'
+                    button += '<p>'
                     button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
                     button += '</p>'
