@@ -25,13 +25,37 @@ $(function () {
     	    	var con=config.first()
             	App.configuration = config.first()
     	 	}
-            var clanguage = App.configuration.get("currentLanguage")
-            var languageDict = App.configuration.get(clanguage)
+
+            if(! App.languageDict){
+                var clanguage = App.configuration.get("currentLanguage")
+                var languageDict;
+                // fetch dict for the current/selected language from the languages db/table
+                $.ajax({
+                    type: 'GET',
+                    url: '/languages/_all_docs?include_docs=true',
+                    dataType: 'json',
+                    success: function (response) {
+                        var languageDicts = response.rows[0].doc; // put json of all dictionaries in var
+                        // now get the selected language dict from that var
+                        languageDict = languageDicts[clanguage];
+//                    console.log("doc attrib when str === english: " + JSON.stringify(languageDict));
+                    },
+                    data: {},
+                    async: false
+                });
+
+                App.languageDict = languageDict;
+            }
+
+
+
+//            var languageDict = App.configuration.get(clanguage);
+//            console.log("App.configuration.get(clanguage): " + JSON.stringify(languageDict));
             version=App.configuration.get('version')
         	this.data = {
                 uRL: temp[1],
                 versionNO:version,
-                languageDict:languageDict
+                languageDict:App.languageDict
             } 
             this.$el.append(this.template(this.data))
             if(!App.member && $.cookie('Member._id'))
