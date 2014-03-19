@@ -131,7 +131,7 @@ $(function () {
         	var dashboard = this
         	this.vars.mails = 0
         	var clanguage = App.configuration.get("currentLanguage")
-            this.vars.languageDict = App.configuration.get(clanguage)
+            this.vars.languageDict = App.languageDict;
             
             this.vars.imgURL = "img/header_slice.png"
             var a = new App.Collections.MailUnopened({
