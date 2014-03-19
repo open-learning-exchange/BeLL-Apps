@@ -362,8 +362,16 @@ $(function () {
 	  },
         getRoles:function(){
 
-            var loggedIn = JSON.parse( $.cookie('Member.mod') ); // get user object as a json string from cookie
-            return loggedIn.roles
+          //  var loggedIn = JSON.parse($.cookie('Member.mod') ); // get user object as a json string from cookie
+           // return loggedIn.roles
+          var member = new App.Models.Member()
+                member.id = $.cookie('Member._id')
+                member.fetch({
+                    async: false
+                })
+          return member.get('roles')   
+                
+        
         },
         checkLoggedIn: function () {
             if (!$.cookie('Member._id')) {
