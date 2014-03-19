@@ -1158,6 +1158,29 @@ $(function(){
             var resource = new App.Models.Resource({_id:rsrcid})
             resource.fetch({
                 success: function () {
+                
+                    var Tags = resource.toJSON().Tag
+                    var key=JSON.stringify(Tags);
+                    var setTags=Array()
+                    var TagColl = Backbone.Collection.extend(
+								{
+									url: App.Server + '/collectionlist/_design/bell/_view/DocById?keys=' + key + '&include_docs=true'
+								})
+								var collTag = new TagColl()
+								collTag.fetch(
+								{
+									async: false
+								})
+								collTag=collTag.first()
+								accessedTags=collTag.toJSON().rows
+								_.each(accessedTags, function(a) { 
+								
+								console.log(a.value)
+								setTags.push(a.value)	
+								})
+							 
+								
+								resource.set({'Tag':setTags})
                     var resourceDetail = new App.Views.ResourcesDetail({
                         model: resource
                     })
