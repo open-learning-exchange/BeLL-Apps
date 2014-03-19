@@ -34,7 +34,6 @@ $(function () {
                 languageDict:languageDict
             } 
             this.$el.append(this.template(this.data))
-            ///////if login then fetch member
             if(!App.member && $.cookie('Member._id'))
             {
             	 var member = new App.Models.Member()

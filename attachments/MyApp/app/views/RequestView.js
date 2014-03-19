@@ -39,7 +39,6 @@ $(function () {
     	    var currentConfig=config.first()
             var cofigINJSON=currentConfig.toJSON()
              var date1 = new Date()
-                console.log(date1)
 				var datestring = ("0" + (date1.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date1.getDate().toString()).substr(-2)  + "/" + (date1.getFullYear().toString()).substr(2)
             if (this.form.getValue("request").length != 0) {
                 this.form.setValue({
@@ -65,7 +64,6 @@ $(function () {
                 })
                 this.form.commit()
                 this.model.save()
-                console.log(this.model.toJSON())
                 alert("Request Successfully Sent")
                 this.form.setValue({
                     request: ""

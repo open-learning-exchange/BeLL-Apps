@@ -52,7 +52,6 @@ $(function () {
             vars.form = "" //$(this.form.el).html()
 
             // render the template
-            console.log(vars)
             this.$el.html(this.template(vars))
             // @todo this is hackey, should be the following line or assigned to vars.form
             $('.fields').html(this.form.el)
@@ -70,7 +69,6 @@ $(function () {
             var previousTitle = this.model.get("title")
             var newTitle
             var isEdit = this.model.get("_id")
-            console.log(isEdit)
             this.form.commit()
             // Send the updated model to the server
             newTitle = this.model.get("title")
@@ -147,7 +145,6 @@ $(function () {
                                             new_res.set("sum", 0)
                                             new_res.set("timesRated", 0)
                                             new_res.save()
-                                            console.log("MODEL UPDATION")
                                             new_res.on('sync', function () {
                                                 new_res.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                                                 new_res.on('savedAttachment', function () {

@@ -694,7 +694,8 @@ $(function(){
                     App.$el.children('.body').append(levelsTable.el)
                     $("#accordion")
                         .accordion({
-                            header: "h3"
+                            header: "h3",
+                            heightStyle: "content" 
                         })
                         .sortable({
                             axis: "y",

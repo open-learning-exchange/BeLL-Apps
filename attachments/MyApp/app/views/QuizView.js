@@ -68,7 +68,6 @@ $(function () {
                 if (err != 'none') {
                     alert(err)
                 } else {
-                    console.log(this.questionOptions)
                     var cstep = new App.Models.CourseStep({
                         "_id": this.levelId,
                         "_rev": this.revId
@@ -79,7 +78,6 @@ $(function () {
                     cstep.set("questions", this.quizQuestions)
                     cstep.set("qoptions", this.questionOptions)
                     cstep.set("answers", this.answers)
-                    console.log(cstep)
                     cstep.save()
                     var that = this
                     cstep.on('sync', function () {
@@ -106,7 +104,6 @@ $(function () {
                 var rem = answer % 5;
 
                 var radios = document.getElementsByName('options')
-                console.log(rem + ' ' + radios.length)
                 radios[rem].checked = true
             }
         },
