@@ -62,7 +62,7 @@ $(function(){
              'calendar/event/:eid': 'calendaar',
              'calendar-event/edit/:eid': 'EditEvent',
              
-              'siteFeedback': 'viewAllFeedback',
+              'siteFeedback': 'viewAllFeedback'
               
 },
       initialize: function () {
