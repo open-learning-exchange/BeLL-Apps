@@ -59,7 +59,7 @@ $(function () {
                 $("#previousButton").hide()
             },
             "click #backpage": function (e) {
-                window.location.reload()
+               this.render()
             },
             "click .deleteBtn": function (e) {
                 var modelNo = e.currentTarget.value
@@ -70,7 +70,7 @@ $(function () {
                     async: false
                 })
                 model.destroy()
-                window.location.reload()
+                this.render()
             },
             "click #previousButton": function (e) {
                 if (skipStack.length > 1) {

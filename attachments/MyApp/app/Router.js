@@ -34,6 +34,7 @@ $(function(){
             
             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
+            'savedesc/:lid': 'saveDescprition',
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             
              'collection':'Collection',
@@ -60,6 +61,9 @@ $(function(){
              'addEvent': 'addEvent',
              'calendar/event/:eid': 'calendaar',
              'calendar-event/edit/:eid': 'EditEvent',
+             
+              'siteFeedback': 'viewAllFeedback',
+              
 },
       initialize: function () {
             this.bind("all", this.startUpStuff)
@@ -207,9 +211,19 @@ $(function(){
             })
             // Bind form to the DOM
             if (modelId) {
-                App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
+            
+            	model.id = modelId
+            	model.fetch({
+                    async: false
+                })
+            	console.log(modelId)
+            	//console.log(model.toJSON())
+            	
+                App.$el.children('.body').html('<h3>Edit ' + label + ' | ' + model.get('firstName') + '  '+model.get('lastName') + '</h3>')
+                
+                
             } else {
-                App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
+                App.$el.children('.body').html('<h3>Add ' + label + '</h3>')
             }
             App.$el.children('.body').append(modelForm.el)
            // Bind form events for when Group is ready
@@ -258,7 +272,7 @@ $(function(){
             })
             // Set up the model for the form
             if (modelId) {
-                model.id = modelId
+               
                 model.once('sync', function () {
                     model.trigger('Model:ready')
                 })
@@ -269,6 +283,7 @@ $(function(){
             } else {
                 model.trigger('Model:ready')
             }
+            
             
         },
         Resources: function () {
@@ -400,7 +415,6 @@ $(function(){
             //var rtitle = new Array()
             var cstep = new App.Models.CourseStep({
                 "_id": grpId,
-                "_rev": levelrevId
             })
             cstep.fetch({
                 async: false
@@ -420,13 +434,14 @@ $(function(){
 
             cstep.set("resourceId", oldIds.concat(rids))
             cstep.set("resourceTitles", oldTitles.concat(rtitle))
-            cstep.save()
-            cstep.on('sync', function () {
-                alert("Your Resources have been updated successfully")
-                Backbone.history.navigate('course/manage/' + cstep.get("courseId"), {
-                    trigger: true
-                })
-            })
+            cstep.save(null,{success:function(responseModel,responseRev){
+            	
+            	cstep.set("_rev",responseRev.rev)
+            	alert("Your Resources have been updated successfully")
+                Backbone.history.navigate('level/view/'+responseRev.id+'/'+responseRev.rev, {trigger: true})
+            
+            }})
+            
 
         },
         Groups: function () {
@@ -472,7 +487,7 @@ $(function(){
                 success: function () {
                     var quiz = new App.Views.QuizView()
                     quiz.levelId = lid
-                    quiz.revId = rid
+                    quiz.revId = levelInfo.get('_rev')
                     quiz.ltitle = title
                     if (levelInfo.get("questions")) {
                         App.$el.children('.body').html('<h3>Edit Quiz for |' + title + '</h3>')
@@ -721,83 +736,6 @@ $(function(){
             this.modelForm('Group', 'Course', groupId, 'courses')
              
         },
-        MemberForm: function (memberId) {
-            this.modelForm('Member', 'Member', memberId, 'members')
-        },
-		modelForm: function (className, label, modelId, reroute) {
-            //cv Set up
-            var context =this
-            var model = new App.Models[className]()
-            var modelForm = new App.Views[className + 'Form']({
-                model: model
-            })
-            // Bind form to the DOM
-            if (modelId) {
-                App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
-            } else {
-                App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
-            }
-            App.$el.children('.body').append(modelForm.el)
-           // Bind form events for when Group is ready
-            model.once('Model:ready', function () {
-                // when the users submits the form, the group will be processed
-                 modelForm.on(className + 'Form:done', function () {
-                    Backbone.history.navigate(reroute, {
-                        trigger: true
-                    })
-                 })
-                // Set up the form
-                modelForm.render()
-                 
-                $('.form .field-startDate input').datepicker({
-               todayHighlight: true
-            });
-            $('.form .field-endDate input').datepicker({
-               todayHighlight: true
-            });
-  				
-            $('.form .field-startTime input').timepicker({
-                'minTime': '8:00am',
-                'maxTime': '12:30am',
-            });
-  				
-            $('.form .field-endTime input').timepicker({
-               'minTime': '8:00am',
-                'maxTime': '12:30am',            
-            
-            });
-            
-  				$('.form .field-frequency input').click(function() {
-    				if(this.value=='Weekly')
-    				{
-    				  $('.form .field-Day').show()
-    				}
-    				else{
-    				$('.form .field-Day').hide()
-    				}
-
-				});
-
-            
-               
-
-            })
-            // Set up the model for the form
-            if (modelId) {
-                model.id = modelId
-                model.once('sync', function () {
-                    model.trigger('Model:ready')
-                })
-                model.fetch({
-                    async: false
-                })
-           
-            } else {
-                model.trigger('Model:ready')
-            }
-            
-        },
-
         GroupAssign: function (groupId) {
             var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
             assignResourcesToGroupTable.groupId = groupId
@@ -902,7 +840,7 @@ $(function(){
 
             if (levelId == "nolevel") {
 
-                App.$el.children('.body').html('<h1>New Step</h1>')
+                App.$el.children('.body').html('<h3>New Step</h3>')
                 lForm.edit = false
                 lForm.previousStep = 0
                 lForm.render()
@@ -913,7 +851,7 @@ $(function(){
                     "_id": levelId
                 })
                 Cstep.once('sync', function () {
-                    App.$el.children('.body').html('<h1>Edit Step</h1>')
+                    App.$el.children('.body').html('<h3>Edit Step</h3>')
                     lForm.edit = true
                     lForm.ques = Cstep.get("questions")
                     lForm.ans = Cstep.get("answers")
@@ -954,11 +892,27 @@ $(function(){
                     App.$el.children('.body').append(levelDetails.el)
                     App.$el.children('.body').append('</BR>')
                     if (levelInfo.get("questions") == null) {
-                        App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;" target="_blank" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Create Quiz</a>&nbsp;&nbsp;')
+                        App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;"  href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Create Quiz</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {
-                        App.$el.children('.body').append('<B>' + levelInfo.get("title") + ' - Quiz</B><a class="btn btn-primary"  style="float:right;" target="_blank" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Edit Quiz</a>&nbsp;&nbsp;')
+                        App.$el.children('.body').append('<B>' + levelInfo.get("title") + ' - Quiz</B><a class="btn btn-primary"  style="float:right;" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Edit Quiz</a>&nbsp;&nbsp;')
                     }
+                }
+            })
+        },
+        saveDescprition: function (lid) {
+            var level = new App.Models.CourseStep({
+                "_id": lid
+            })
+            var that = this
+            level.fetch({
+                success: function () {
+                    level.set("description", $('#LevelDescription').val())
+                    var that = this
+                    level.save()
+                    level.on('sync', function () {
+                        document.location.href = '#level/view/' + lid + '/' + level.get("rev");
+                    })
                 }
             })
         },
@@ -1158,6 +1112,29 @@ $(function(){
             var resource = new App.Models.Resource({_id:rsrcid})
             resource.fetch({
                 success: function () {
+                
+                    var Tags = resource.toJSON().Tag
+                    var key=JSON.stringify(Tags);
+                    var setTags=Array()
+                    var TagColl = Backbone.Collection.extend(
+								{
+									url: App.Server + '/collectionlist/_design/bell/_view/DocById?keys=' + key + '&include_docs=true'
+								})
+								var collTag = new TagColl()
+								collTag.fetch(
+								{
+									async: false
+								})
+								collTag=collTag.first()
+								accessedTags=collTag.toJSON().rows
+								_.each(accessedTags, function(a) { 
+								
+								console.log(a.value)
+								setTags.push(a.value)	
+								})
+							 
+								
+								resource.set({'Tag':setTags})
                     var resourceDetail = new App.Views.ResourcesDetail({
                         model: resource
                     })
@@ -1871,7 +1848,20 @@ $(function(){
 	            $("input[name='AddedBy']").attr("disabled", true);
 	        }
 	    }
-	},    
+	},
+	viewAllFeedback: function () {
+            feed = new App.Collections.siteFeedbacks()
+            feed.fetch({
+                success: function () {
+                    feedul = new App.Views.siteFeedbackPage({
+                        collection: feed
+                    })
+                    feedul.render()
+                    App.$el.children('.body').html('&nbsp')
+                    App.$el.children('.body').append(feedul.el)
+                }
+            })
+        },    
 
    }))
   
