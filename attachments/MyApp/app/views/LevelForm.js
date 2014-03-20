@@ -7,6 +7,10 @@ $(function () {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
+            
+            "click #retrunBack" : function (e) {
+			history.back()    
+			},
             "click #addresources" : function (e) {
             	this.addResource = true
             	this.setForm()
@@ -29,8 +33,9 @@ $(function () {
             this.form.fields['resourceId'].$el.hide()
             this.form.fields['resourceTitles'].$el.hide()
             // give the form a submit button
-            var button = ('<a class="btn btn-success" id="addresources">Add Resource</button>')
+            var button = ('<a class="btn btn-success" id="retrunBack"> Back </button>')
             button += ('<a class="btn btn-success" id="formButton">Save</button>')
+            button += ('<a class="btn btn-success" id="addresources">Add Resource</button>')
             this.$el.append(button)
 
         },
