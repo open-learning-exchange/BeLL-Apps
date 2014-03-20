@@ -81,13 +81,17 @@ $(function() {
 	},
     render: function() {
     	this.$el.html("")
-    	this.$el.append('<a  id="allresources" >#</a>&nbsp;&nbsp;')
+    	var viewText="<tr></tr>"
+    	viewText+="colspan=7<tr><td colspan=7>"
+    	viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
     	var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	   for(var i=0; i<str.length; i++)
 	   {
 	      var nextChar = str.charAt(i);
-	      this.$el.append('<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;')
+	      viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 	   }
+	   viewText+="</td></tr>"
+	   this.$el.append(viewText)
 	   this.$el.append('<br/><br/>')
        this.$el.append("<tr><th>Title</th><th colspan='6'>Actions</th></tr>")
       this.addAll()
