@@ -985,9 +985,12 @@ $(function () {
                     var resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
-                
+                 var collectionslist = new App.Collections.listRCollection()
+						collectionslist.fetch({
+						async:false
+						})
+				resourcesTableView.collections=collectionslist	
                 resourcesTableView.isManager = roles.indexOf("Manager")
-                alert("here")
                 resourcesTableView.render()
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
 

@@ -207,6 +207,8 @@
   <script src='app/views/LevelRow.js'></script>
   <script src='app/views/MeetUpTable.js'></script>
   <script src='app/views/meetupView.js'></script>
+  <script src='app/views/MeetupDetails.js'></script>
+  
   <script src='app/views/MeetUpRow.js'></script>
   <script src='app/views/MeetUpForm.js'></script>
   
@@ -237,6 +239,9 @@
   
     <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
+  
+  <script src="app/views/RequestTable.js"></script>
+  <script src="app/views/RequestRow.js"></script>
   
   
 
@@ -469,7 +474,7 @@
 </script>
 <script type="text/html" id="template-Meetup">
       <div class="displayCourse"> 
-        <a href='#meetup/detail/<%= meetupId %>/<%=meetupTitle%>'> 
+        <a href='#usermeetup/detail/<%= meetupId %>/<%=meetupTitle%>'> 
             <%= meetupTitle %>
         </a>
      </div>
@@ -1170,7 +1175,11 @@
 			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
 		<%}%>
   </script>
-
+ <script type="text/html" id="template-RequestRow">
+    <td><%=name%></td>
+    <td><%=type%></td>
+    <td><%=request%></td>
+  </script>
 
 </head>
 
