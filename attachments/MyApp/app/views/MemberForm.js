@@ -78,30 +78,6 @@ $(function () {
             } else {
                 buttonText = "Register"
             }
-
-
-            //var that = this
-            //this.form.fields['roles'].$el.change(function(){
-            //  var values = new Array()
-            //   $('input[type="checkbox"]:checked').each(function() {
-            //          values.push(this.value)
-            //   })    
-            //    if(values.indexOf("lead") > -1){
-            //        that.form.fields['yearsOfTeaching'].$el.show()
-            //        that.form.fields['teachingCredentials'].$el.show()
-            //        that.form.fields['subjectSpecialization'].$el.show()
-            //        that.form.fields['forGrades'].$el.show()
-            //     }
-            //      else{
-            //        that.form.fields['yearsOfTeaching'].$el.hide()
-            //        that.form.fields['teachingCredentials'].$el.hide()
-            //        that.form.fields['subjectSpecialization'].$el.hide()
-            //        that.form.fields['forGrades'].$el.hide()
-            //        
-            //      }
-            //  
-            //})
-
             // give the form a submit button
             var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel">Cancel</button></div>')
             //this.$el.append($button)
@@ -189,15 +165,16 @@ $(function () {
                     this.model.set("roles", ["Learner"])
                     this.model.set("visits", 0)
                     var existing = new App.Collections.Members()
+                    existing.login=that.model.get("login")
                     existing.fetch({
                         async: false
                     })
-                    existing.each(function (m) {
-                        if (m.get("login") == that.model.get("login")) {
-                            alert("Login already exist")
-                            addMem = false
-                        }
-                    })
+                    existing=existing.first()
+								if(existing!=undefined)
+									if (existing.toJSON().login!=undefined) {
+                            			alert("Login already exist")
+                            			addMem = false
+                        				}
                 }
                 if (addMem) {
 

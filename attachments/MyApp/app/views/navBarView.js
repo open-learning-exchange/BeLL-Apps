@@ -8,6 +8,7 @@ $(function () {
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
         initialize: function (option) {
+        var languageDict;
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {
@@ -28,7 +29,7 @@ $(function () {
 
             if(! App.languageDict){
                 var clanguage = App.configuration.get("currentLanguage")
-                var languageDict;
+                
                 // fetch dict for the current/selected language from the languages db/table
                 $.ajax({
                     type: 'GET',
