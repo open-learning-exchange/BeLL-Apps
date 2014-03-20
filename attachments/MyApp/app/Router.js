@@ -1579,81 +1579,6 @@ $(function(){
             App.$el.children('.body').append(modelForm.el)
             modelForm.render()
         },
-        
-    ResourceForm: function (resourceId) {
-	    var context = this
-	    var resource = (resourceId) ? new App.Models.Resource({
-	        _id: resourceId
-	    }) : new App.Models.Resource()
-	    resource.on('processed', function () {
-	        Backbone.history.navigate('resources', {
-	            trigger: true
-	        })
-	    })
-	    var resourceFormView = new App.Views.ResourceForm({
-	        model: resource
-	    })
-	    App.$el.children('.body').html(resourceFormView.el)
-
-	    if (resource.id) {
-	        App.listenToOnce(resource, 'sync', function () {
-	            resourceFormView.render()
-
-	        })
-	        resource.fetch({
-	            async: false
-	        })
-	    } else {
-	        resourceFormView.render()
-	        $("input[name='addedBy']").val($.cookie("Member.login"));
-	    }
-	    $("input[name='addedBy']").attr("disabled", true);
-	    $("select[class='bbf-date']").attr("disabled", true);
-	    $("select[class='bbf-month']").attr("disabled", true);
-	    $("select[class='bbf-year']").attr("disabled", true);
-
-	    $('.form .field-subject select').attr("multiple", true);
-	    $('.form .field-Level select').attr("multiple", true);
-	    $('.form .field-Tag select').attr("multiple", true);
-
-
-	    $('.form .field-Tag select').click(function () {
-	        context.AddNewSelect(this.value)
-	    });
-	    $('.form .field-Tag select').dblclick(function () {
-	        context.EditTag(this.value)
-	    });
-	    var identifier = '.form .field-Tag select'
-	    this.RenderTagSelect(identifier)
-	    
-	    if(resource.id==undefined)
-	    {
-	    	$(".form .field-Tag select").find('option').removeAttr("selected");
-	    	$("'.form .field-Level select").find('option').removeAttr("selected");
-	    	$(".form .field-subject select").find('option').removeAttr("selected");
-	    
-	    }
-	    
-	    if (resource.id) {
-	        if(resource.get('Tag'))
-	        {
-	        	var total = resource.get('Tag').length
-	        for (var counter = 0; counter < total; counter++)
-	            $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
-	         $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
-	        }
-	        if(resource.get('subject')==null){
-	        	$(".form .field-subject select").find('option').removeAttr("selected");
-	        }
-	        if(resource.get('Tag')==null) {
-	        	$(".form .field-Tag select").find('option').removeAttr("selected");
-	        }
-	        if(resource.get('Level')==null)  {
-	        	$("'.form .field-Level select").find('option').removeAttr("selected")
-	        }
-	        console.log(resource.get('Level'))  
-	    }
-	},
 	EditTag: function (value) {
 	    var roles = this.getRoles()
 	    if (roles.indexOf("Manager") > -1) {
@@ -1735,33 +1660,6 @@ $(function(){
 	    }
 
 	},
-	RenderTagSelect: function (iden) {
-		
-	    var collections = new App.Collections.listRCollection()
-	    collections.major = true
-	    collections.fetch({
-	        async: false
-	    })
-	    collections.each(function (a) {
-	        $(iden).append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
-	    })
-
-	    var subcollections = new App.Collections.listRCollection()
-	    subcollections.major = false
-	    subcollections.fetch({
-	        async: false
-	    })
-	    _.each(subcollections.last(subcollections.length).reverse(), function (a) {
-	    	
-	        if (a.get('NesttedUnder') == '--Select--') {
-	            $(iden).append('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
-	        } else {
-	            if ($(iden+' option[value="' + a.get("NesttedUnder") + '"]') != null) {
-	                $(iden).find('option[value="' + a.get("NesttedUnder") + '"]').after('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
-	            }
-	        }
-	    })
-	  },
 	  Collection: function ()
 				{
 					App.startActivityIndicator()
@@ -1843,86 +1741,6 @@ $(function(){
 
 
 				},
-	AddNewSelect: function (value) {
-	    if (value == 'Add New') {
-	        var collections = new App.Collections.listRCollection()
-	        collections.major = true
-	        collections.fetch({
-	            async: false
-	        })
-	        $('#invitationdiv').fadeIn(1000)
-	        document.getElementById('cont').style.opacity = 0.2
-	        document.getElementById('nav').style.opacity = 0.2
-	        var collectionlist = new App.Models.CollectionList()
-	        var inviteForm = new App.Views.ListCollectionView({
-	            model: collectionlist
-	        })
-	        inviteForm.render()
-	        $('#invitationdiv').html('&nbsp')
-	        $('#invitationdiv').append(inviteForm.el)
-	        $("input[name='AddedBy']").val($.cookie("Member.login"));
-	        var currentDate = new Date();
-	        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
-	            todayHighlight: true
-	        });
-	        $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker("setDate", currentDate);
-	        $("input[name='AddedBy']").attr("disabled", true);
-	        $("input[name='AddedDate']").attr("disabled", true);
-	        collections.each(function (a) {
-	            $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
-	        })
-
-	    } else {
-	        document.getElementById('cont').style.opacity = 1
-	        document.getElementById('nav').style.opacity = 1
-	        $('#invitationdiv').hide()
-
-	    }
-    },
-    EditTag: function (value) {
-	    var roles = this.getRoles()
-	    if (roles.indexOf("Manager") > -1) {
-
-	        if (value != 'Add New') {
-	            var collections = new App.Collections.listRCollection()
-	            collections.major = true
-	            collections.fetch({
-	                async: false
-	            })
-	            $('#invitationdiv').fadeIn(1000)
-	            document.getElementById('cont').style.opacity = 0.2
-	            document.getElementById('nav').style.opacity = 0.2
-	            var collectionlist = new App.Models.CollectionList({
-	                _id: value
-	            })
-	            collectionlist.fetch({
-	                async: false
-	            })
-	            collections.remove(collectionlist)
-	            var inviteForm = new App.Views.ListCollectionView({
-	                model: collectionlist
-	            })
-
-	            inviteForm.render()
-
-	            $('#invitationdiv').html('&nbsp')
-	            $('#invitationdiv').append(inviteForm.el)
-	            collections.each(function (a) {
-	                $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
-	            })
-	            $('#invitationForm .bbf-form .field-NesttedUnder select option[value="' + collectionlist.get('NesttedUnder') + '"]').attr('selected', 'selected');
-	            if ($("#invitationForm .bbf-form .field-IsMajor input").is(':checked')) {
-	                $("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'hidden')
-	            } else {
-	                $("#invitationForm .bbf-form .field-NesttedUnder").css('visibility', 'visible')
-	            }
-	            $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
-	                todayHighlight: true
-	            });
-	            $("input[name='AddedBy']").attr("disabled", true);
-	        }
-	    }
-	},
 	viewAllFeedback: function () {
             feed = new App.Collections.siteFeedbacks()
             feed.fetch({
