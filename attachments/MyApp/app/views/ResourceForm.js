@@ -145,8 +145,6 @@ $(function () {
                                             new_res.set("openWith", that.model.get("openWith"))
                                             new_res.set("subject", that.model.get("subject"))
                                             new_res.set("Level", that.model.get("Level"))
-                                            new_res.set("fromLevel", that.model.get("fromLevel"))
-                                            new_res.set("toLevel", that.model.get("toLevel"))
                                             new_res.set("Tag", that.model.get("Tag"))
                                             new_res.set("author", that.model.get("author"))
                                             new_res.set("openWhichFile", that.model.get("openWhichFile"))

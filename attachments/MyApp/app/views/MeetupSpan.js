@@ -11,7 +11,6 @@ $(function() {
     render: function () {
       
       var vars = this.model.toJSON()
-      console.log(vars)
       this.$el.append(_.template(this.template, vars))
     }
 

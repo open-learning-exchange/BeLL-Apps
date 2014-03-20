@@ -224,8 +224,6 @@ $(function(){
             	model.fetch({
                     async: false
                 })
-            	console.log(modelId)
-            	//console.log(model.toJSON())
             	
                 App.$el.children('.body').html('<h3>Edit ' + label + ' | ' + model.get('firstName') + '  '+model.get('lastName') + '</h3>')
                 
@@ -408,8 +406,7 @@ $(function(){
                if(resource.get('Level')==null)  {
                    $(".form .field-Level select").find('option').removeAttr("selected")
                }
-               console.log(resource.get('Level'))
-           }
+            }
        },
 
         bellResourceSearch:function(){
@@ -534,18 +531,6 @@ $(function(){
         },
         Groups: function () {
          App.startActivityIndicator()
-            /****** Amendment script *****/
-//            var allcrs = new App.Collections.Groups();
-//            allcrs.fetch({
-//                async: false
-//            })
-//            allcrs.each(function (m) {
-//                if (m.get("name") == null) {
-//                    m.set("name", "not defined")
-//                    m.save()
-//                }
-//            })
-            /***********/
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function () {
@@ -870,7 +855,6 @@ $(function(){
             mail.set("status", "0")
             mail.set("type", "mail")
             mail.set("sentDate", currentdate)
-            console.log(mail)
             mail.save();
             alert("Successfully resigned from " + courseModel.get('name') + ' . ')
 
@@ -1224,7 +1208,6 @@ $(function(){
 								accessedTags=collTag.toJSON().rows
 								_.each(accessedTags, function(a) { 
 								
-								console.log(a.value)
 								setTags.push(a.value)	
 								})
 							 
@@ -1413,7 +1396,6 @@ $(function(){
                 membercourses.fetch({
                     async: false
                 })
-                console.log(membercourses.length)
 
                 membercourses.each(function (model) {
 
@@ -1446,8 +1428,6 @@ $(function(){
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
                         
-                         console.log(sdate)
-                         console.log(edate)
                          
                         var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
                         
@@ -1503,9 +1483,6 @@ $(function(){
                     {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
-                        
-                         console.log(sdate)
-                         console.log(edate)
                          
                         var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
                         
