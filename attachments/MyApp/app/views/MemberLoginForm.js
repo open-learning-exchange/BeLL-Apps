@@ -17,8 +17,8 @@ $(function () {
             })
             this.$el.append(this.form.render().el)
             // give the form a submit button
-            var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="margin-left: -4px;margin-top: -21px;" id="formButton">Sign In</button>')
-            var $button2 = $('<div class="signup-div" ><a style="margin-left: -4px;margin-top: -21px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">Become A Member</button></div>')
+            var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="margin-left: -4px;margin-top: -21px; font-size:27px;" id="formButton">Sign In</button>')
+            var $button2 = $('<div class="signup-div" ><a style="margin-left: -4px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">Become A Member</button></div>')
             this.$el.append($button)
             this.$el.append($button2)
         },

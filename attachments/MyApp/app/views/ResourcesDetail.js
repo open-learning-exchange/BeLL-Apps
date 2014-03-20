@@ -38,7 +38,6 @@ $(function () {
         },
         render: function () {
             var vars = this.model.toJSON()
-            console.log(vars)
             this.$el.append("<tr><td>Title</td><td>" + vars.title + "</td></tr>")
             this.$el.append("<tr><td>Subject</td><td>" + vars.subject + "</td></tr>")
             this.$el.append("<tr><td>Tag</td><td>" + vars.Tag + "</td></tr>")

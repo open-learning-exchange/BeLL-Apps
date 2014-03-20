@@ -177,7 +177,7 @@ margin-top:-10px;
 }
 
 .resourceDetail{
-	width: 50%;
+	width: 80%;
 	margin: 0px auto;
 }
 
@@ -229,7 +229,6 @@ margin-top:-10px;
     font-weight: bolder;
 }
 h3 a{
-float:right;
 color:white;
 }
 
