@@ -26,7 +26,9 @@ $(function () {
                 this.displayQuestionInView(this.currentQuestion)
             },
             "click #cancel-quiz": function () {
-                window.close()
+            
+                Backbone.history.navigate('level/view/'+this.levelId+'/'+this.revId, {trigger: true})
+               // window.close()
                 //Backbone.history.navigate('courses', {trigger: true})
             },
             "click #next-question": function (e) {
@@ -79,14 +81,12 @@ $(function () {
                     cstep.set("questions", this.quizQuestions)
                     cstep.set("qoptions", this.questionOptions)
                     cstep.set("answers", this.answers)
-                    console.log(cstep)
-                    cstep.save()
+                  //  console.log(cstep)
                     var that = this
-                    cstep.on('sync', function () {
-                        alert("Your Quiz has been saved successfully")
-                        window.close()
-                        // Backbone.history.navigate('level/view/'+that.levelId+'/'+cstep.get("rev"), {trigger: true})
-                    })
+                    cstep.save(null,{success:function(cstepModel,modelRev){
+                        alert('Quiz Successfully Saved')
+                        Backbone.history.navigate('level/view/'+modelRev.id+'/'+modelRev.rev, {trigger: true})
+                    }})
                 }
             },
         },

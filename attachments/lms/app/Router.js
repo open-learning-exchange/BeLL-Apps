@@ -369,7 +369,7 @@ $(function () {
                 member.fetch({
                     async: false
                 })
-          return member.get('roles')   
+            return member.get('roles')   
                 
         
         },
