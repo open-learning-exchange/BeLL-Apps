@@ -38,7 +38,8 @@ $(function(){
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             
              'collection':'Collection',
-            
+             'listCollection/:collectionId':'ListCollection',
+            'listCollection/:collectionId/:collectionName':'ListCollection',
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
@@ -393,7 +394,7 @@ $(function(){
                    $(".form .field-Tag select").find('option').removeAttr("selected");
                }
                if(resource.get('Level')==null)  {
-                   $("'.form .field-Level select").find('option').removeAttr("selected")
+                   $(".form .field-Level select").find('option').removeAttr("selected")
                }
                console.log(resource.get('Level'))
            }
@@ -1754,6 +1755,50 @@ $(function(){
                     App.$el.children('.body').append(feedul.el)
                 }
             })
+        },
+         ListCollection: function (collectionId,collectionName) {
+            App.startActivityIndicator()
+            var that=this
+            var temp = $.url().data.attr.host.split(".")  // get name of community
+                temp = temp[0].substring(3)
+            if(temp=="")
+            temp='local'
+            var roles = this.getRoles()
+            var collectionlist = new App.Models.CollectionList({
+	                _id: collectionId
+	            })
+	            collectionlist.fetch({
+	                async: false
+	            })
+        
+            var collId = Array()
+            collId.push(collectionId)
+             collId=JSON.stringify(collId);
+            var resources = new App.Collections.Resources({collectionName:collId})
+            resources.fetch({
+                success: function () {
+                    var resourcesTableView = new App.Views.ResourcesTable({
+                        collection: resources
+                    })
+                
+                resourcesTableView.isManager = roles.indexOf("Manager")
+                resourcesTableView.render()
+                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
+
+                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
+                     
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
+                     App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                    App.$el.children('.body').append('<p style="font-size: 30px;font-weight: bolder;color: #808080;width: 450px;word-wrap: break-word;">'+collectionlist.get('CollectionName')+'</p>')
+                    
+                    App.$el.children('.body').append(resourcesTableView.el)
+                    
+                    $('#backButton').click(function(){
+                       Backbone.history.navigate('#resources',{trigger:false})
+                    })
+                }
+            })
+            App.stopActivityIndicator()
         },    
 
    }))
