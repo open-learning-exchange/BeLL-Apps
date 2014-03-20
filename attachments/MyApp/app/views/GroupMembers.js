@@ -18,7 +18,7 @@ $(function () {
       			$("input[name='courseMember']").each( function () {
 						$(this).prop('checked', true);
       			})
-      			$("#selectAllMembers").text('Uncheck')
+      			$("#selectAllMembers").text('Unselect All')
       		}
       		else{
       		 $("input[name='courseMember']").each( function () {
@@ -80,7 +80,7 @@ $(function () {
             var code = currentConfig.rows[0].doc.code
             var na = currentConfig.rows[0].doc.nationName.substring(3,5)
 
-            this.$el.append('<h3 style="margin-left:5%">Course Members | ' + courseModel.get('name') + '</h3>')
+            this.$el.html('<h3 style="margin-left:5%">Course Members | ' + courseModel.get('name') + '</h3>')
             var viewtext = '<table class="btable btable-striped"><th>Photo</th><th colspan=3>Name</th>'
 
             for (var i = 0; i < memberList.length; i++) {

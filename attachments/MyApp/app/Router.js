@@ -34,6 +34,7 @@ $(function(){
             
             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
+            'savedesc/:lid': 'saveDescprition',
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             
              'collection':'Collection',
@@ -60,6 +61,9 @@ $(function(){
              'addEvent': 'addEvent',
              'calendar/event/:eid': 'calendaar',
              'calendar-event/edit/:eid': 'EditEvent',
+             
+              'siteFeedback': 'viewAllFeedback',
+              
 },
       initialize: function () {
             this.bind("all", this.startUpStuff)
@@ -411,7 +415,6 @@ $(function(){
             //var rtitle = new Array()
             var cstep = new App.Models.CourseStep({
                 "_id": grpId,
-                "_rev": levelrevId
             })
             cstep.fetch({
                 async: false
@@ -431,13 +434,14 @@ $(function(){
 
             cstep.set("resourceId", oldIds.concat(rids))
             cstep.set("resourceTitles", oldTitles.concat(rtitle))
-            cstep.save()
-            cstep.on('sync', function () {
-                alert("Your Resources have been updated successfully")
-                Backbone.history.navigate('course/manage/' + cstep.get("courseId"), {
-                    trigger: true
-                })
-            })
+            cstep.save(null,{success:function(responseModel,responseRev){
+            	
+            	cstep.set("_rev",responseRev.rev)
+            	alert("Your Resources have been updated successfully")
+                Backbone.history.navigate('level/view/'+responseRev.id+'/'+responseRev.rev, {trigger: true})
+            
+            }})
+            
 
         },
         Groups: function () {
@@ -483,7 +487,7 @@ $(function(){
                 success: function () {
                     var quiz = new App.Views.QuizView()
                     quiz.levelId = lid
-                    quiz.revId = rid
+                    quiz.revId = levelInfo.get('_rev')
                     quiz.ltitle = title
                     if (levelInfo.get("questions")) {
                         App.$el.children('.body').html('<h3>Edit Quiz for |' + title + '</h3>')
@@ -888,11 +892,27 @@ $(function(){
                     App.$el.children('.body').append(levelDetails.el)
                     App.$el.children('.body').append('</BR>')
                     if (levelInfo.get("questions") == null) {
-                        App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;" target="_blank" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Create Quiz</a>&nbsp;&nbsp;')
+                        App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;"  href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Create Quiz</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {
-                        App.$el.children('.body').append('<B>' + levelInfo.get("title") + ' - Quiz</B><a class="btn btn-primary"  style="float:right;" target="_blank" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Edit Quiz</a>&nbsp;&nbsp;')
+                        App.$el.children('.body').append('<B>' + levelInfo.get("title") + ' - Quiz</B><a class="btn btn-primary"  style="float:right;" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Edit Quiz</a>&nbsp;&nbsp;')
                     }
+                }
+            })
+        },
+        saveDescprition: function (lid) {
+            var level = new App.Models.CourseStep({
+                "_id": lid
+            })
+            var that = this
+            level.fetch({
+                success: function () {
+                    level.set("description", $('#LevelDescription').val())
+                    var that = this
+                    level.save()
+                    level.on('sync', function () {
+                        document.location.href = '#level/view/' + lid + '/' + level.get("rev");
+                    })
                 }
             })
         },
@@ -1902,7 +1922,20 @@ $(function(){
 	            $("input[name='AddedBy']").attr("disabled", true);
 	        }
 	    }
-	},    
+	},
+	viewAllFeedback: function () {
+            feed = new App.Collections.siteFeedbacks()
+            feed.fetch({
+                success: function () {
+                    feedul = new App.Views.siteFeedbackPage({
+                        collection: feed
+                    })
+                    feedul.render()
+                    App.$el.children('.body').html('&nbsp')
+                    App.$el.children('.body').append(feedul.el)
+                }
+            })
+        },    
 
    }))
   

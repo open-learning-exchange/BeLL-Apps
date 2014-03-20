@@ -85,6 +85,8 @@ $(function () {
                 attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
                 vars.src = attchmentURL
             }
+            if(!vars.email)
+             vars.email=''
             this.$el.html(_.template(this.template, vars))
         }
 

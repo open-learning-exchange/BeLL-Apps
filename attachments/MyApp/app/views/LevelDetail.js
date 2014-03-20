@@ -6,6 +6,7 @@ $(function () {
         events: {
             // Handling the Destroy button if the user wants to remove this Element from its shelf
             "click .remover": function (e) {
+            	var that =  this
                 var rid = e.currentTarget.value
                 var rtitle = this.model.get("resourceTitles")
                 var rids = this.model.get("resourceId")
@@ -14,13 +15,11 @@ $(function () {
                 rtitle.splice(index, 1)
                 this.model.set("resourceId", rids)
                 this.model.set("resourceTitles", rtitle)
-                this.model.save()
-                var that = this
-                this.model.on('sync', function () {
-                    console.log(that.model.get('rev'))
-                    document.location.href = '#course/manage/' + that.model.get("courseId")
-
-                })
+                this.model.save(null,{success:function(responseModel,responseRev){
+                	that.model.set("_rev",responseRev.rev)
+                	$('#'+rid.replace("\.","\\.")).remove();
+                
+                }})
             },
             "click .removeAttachment" : function (e) {
             	var that = this
@@ -94,9 +93,9 @@ $(function () {
                     if(! (r.get("hidden") ))
                     	{
                     	if (r.get("_attachments")) {
-                        	stepResources = stepResources + ("<tr><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                        	stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
                     		} 	else {
-                        		stepResources = stepResources + ("<tr><td>" + rtitle[i] + "</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                        		stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
                     	}
                     }
                 }
