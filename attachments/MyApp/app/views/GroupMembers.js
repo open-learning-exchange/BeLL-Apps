@@ -10,7 +10,10 @@ $(function () {
         initialize: function () {},
         events: {
          "click  #selectAllMembers": "selectAllMembers",
-         "click  #removeMember":"removeMember"
+         "click  #removeMember":"removeMember",
+         "click #retrunBack" : function (e) {
+			history.back()    
+			}
         },
         selectAllMembers:function(){
         	if($("#selectAllMembers").text()=='Select All')
@@ -109,7 +112,7 @@ $(function () {
                 viewtext+='</tr>'
 
             }
-            viewtext += '<tr><td></td><td></td><td><button class="btn"  id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn" onclick=showComposePopupMultiple("' + mail + '") id="sendMailButton">Send Mail</button></td></tr>'
+            viewtext += '<tr><td></td><td></td><td><button class="btn"  id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn" onclick=showComposePopupMultiple("' + mail + '") id="sendMailButton">Send Mail</button><button class="btn" style="margin-left:10px"  id="retrunBack">Back</button></td></tr>'
             viewtext += '</table>'
             this.$el.append(viewtext)
 

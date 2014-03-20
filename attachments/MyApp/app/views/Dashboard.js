@@ -144,7 +144,6 @@ $(function () {
             groups = new App.Collections.MemberGroups()
             groups.memberId = $.cookie('Member._id')
             groups.fetch({success:function(e){
-            	console.log(groups)
             	groupsSpans = new App.Views.GroupsSpans({
                 	collection: groups
             	})

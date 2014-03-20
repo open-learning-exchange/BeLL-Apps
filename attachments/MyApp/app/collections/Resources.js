@@ -30,6 +30,11 @@ $(function() {
     			return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&limit=20&skip='+this.skip
     		}
     	}
+    	else if(this.title)
+    		{
+    			return App.Server + '/resources/_design/bell/_view/resourceOnTtile?include_docs=true&key="' + this.title +'"'
+    			//return App.Server + '/shelf/_design/bell/_view/getShelfItemWithResourceId?key="' +this.resourceId+ '"&include_docs=true'
+    		}
     	else
     	{
     		return App.Server + '/resources/_all_docs?include_docs=true'

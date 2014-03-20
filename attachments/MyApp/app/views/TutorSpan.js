@@ -23,7 +23,6 @@ $(function() {
 		      {
 		      	vars.leaderEmail = "Undefined"
 		      }
-		      console.log(vars)
 		}
       this.$el.append(_.template(this.template, vars))
     }

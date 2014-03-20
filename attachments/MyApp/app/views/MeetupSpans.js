@@ -7,7 +7,6 @@ $(function () {
             var modelView = new App.Views.MeetupSpan({
                 model: model
             })
-            console.log(model)
             modelView.render()
             $('#meetUpTable').append(modelView.el)
         },

@@ -38,12 +38,13 @@ $(function(){
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             
              'collection':'Collection',
-            
+             'listCollection/:collectionId':'ListCollection',
+            'listCollection/:collectionId/:collectionName':'ListCollection',
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
-            'meetup/detail/:meetupId/:title':'meetupDetails',
-            'meetup/details/:meetupId/:title': 'meetupDetails',
+            'usermeetup/detail/:meetupId/:title':'Meetup_Detail',
+            'meetup/details/:meetupId/:title': 'usermeetupDetails',
             'meetup/manage/:meetUpId':'Meetup',
             
             
@@ -54,15 +55,22 @@ $(function(){
             'reports/add': 'ReportForm',
             
             'mail': 'email',
+            'newsfeed': 'NewsFeed',
             
             'courses/barchart': 'CoursesBarChart',
             
-             'calendar': 'CalendarFunction',
-             'addEvent': 'addEvent',
-             'calendar/event/:eid': 'calendaar',
-             'calendar-event/edit/:eid': 'EditEvent',
-             
-              'siteFeedback': 'viewAllFeedback'
+            'calendar': 'CalendarFunction',
+            'addEvent': 'addEvent',
+            'calendar/event/:eid': 'calendaar',
+            'calendar-event/edit/:eid': 'EditEvent',
+            
+            'siteFeedback': 'viewAllFeedback',
+            
+            'myRequests': 'myRequests',
+            'AllRequests': 'AllRequests',
+            
+            'replicateResources': 'Replicate',
+
               
 },
       initialize: function () {
@@ -216,8 +224,6 @@ $(function(){
             	model.fetch({
                     async: false
                 })
-            	console.log(modelId)
-            	//console.log(model.toJSON())
             	
                 App.$el.children('.body').html('<h3>Edit ' + label + ' | ' + model.get('firstName') + '  '+model.get('lastName') + '</h3>')
                 
@@ -293,7 +299,7 @@ $(function(){
                 temp = temp[0].substring(3)
             if(temp=="")
             temp='local'
-            var roles = this.getRoles()
+            var roles = this.getRoles();
             
             var resources = new App.Collections.Resources({skip:0})
             resources.fetch({
@@ -302,9 +308,14 @@ $(function(){
                         collection: resources
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
+                       var collectionslist = new App.Collections.listRCollection()
+						collectionslist.fetch({
+						async:false
+						})
+					resourcesTableView.collections=collectionslist	
                     resourcesTableView.render()
                     
-                    var btnText='<p id="library-top-buttons"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
+                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
                         btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
                     App.$el.children('.body').html(btnText)
                     
@@ -393,10 +404,9 @@ $(function(){
                    $(".form .field-Tag select").find('option').removeAttr("selected");
                }
                if(resource.get('Level')==null)  {
-                   $("'.form .field-Level select").find('option').removeAttr("selected")
+                   $(".form .field-Level select").find('option').removeAttr("selected")
                }
-               console.log(resource.get('Level'))
-           }
+            }
        },
 
         bellResourceSearch:function(){
@@ -521,18 +531,6 @@ $(function(){
         },
         Groups: function () {
          App.startActivityIndicator()
-            /****** Amendment script *****/
-//            var allcrs = new App.Collections.Groups();
-//            allcrs.fetch({
-//                async: false
-//            })
-//            allcrs.each(function (m) {
-//                if (m.get("name") == null) {
-//                    m.set("name", "not defined")
-//                    m.save()
-//                }
-//            })
-            /***********/
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function () {
@@ -857,7 +855,6 @@ $(function(){
             mail.set("status", "0")
             mail.set("type", "mail")
             mail.set("sentDate", currentdate)
-            console.log(mail)
             mail.save();
             alert("Successfully resigned from " + courseModel.get('name') + ' . ')
 
@@ -996,7 +993,7 @@ $(function(){
             var cSearch
             cSearch = new App.Views.CourseSearch()
             cSearch.render()
-            var button = '<p>'
+        var button = '<p style="margin-top:15px">'
             button += '<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
             button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
             button += '<a style="margin-left:10px" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>'
@@ -1004,7 +1001,7 @@ $(function(){
             button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
             button += '</p>'
             App.$el.children('.body').html(button)
-            App.$el.children('.body').append('<h1>Courses</h1>')
+            App.$el.children('.body').append('<h3>Courses</h3>')
             App.$el.children('.body').append(cSearch.el)
         },
         ListMeetups: function () {
@@ -1019,8 +1016,15 @@ $(function(){
          meetUpView.render()
          App.$el.children('.body').append(meetUpView.el)
         },
-       meetupDetails:function(meetupId,title){
+       Meetup_Detail:function(meetupId,title){
+            var meetupModel=new App.Models.MeetUp({_id:meetupId})
+            meetupModel.fetch({async:false})
+            var meetup_details=new App.Views.MeetupDetails({model:meetupModel})
+            meetup_details.render()
+            App.$el.children('.body').html(meetup_details.el)
         
+        },
+       usermeetupDetails:function(meetupId,title){
             var meetupModel=new App.Models.MeetUp({_id:meetupId})
             meetupModel.fetch({async:false})
             var meetupView=new App.Views.meetupView({model:meetupModel})
@@ -1142,7 +1146,7 @@ $(function(){
             resourcesTableView.render()
              App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
 			}
 			var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
@@ -1204,7 +1208,6 @@ $(function(){
 								accessedTags=collTag.toJSON().rows
 								_.each(accessedTags, function(a) { 
 								
-								console.log(a.value)
 								setTags.push(a.value)	
 								})
 							 
@@ -1393,7 +1396,6 @@ $(function(){
                 membercourses.fetch({
                     async: false
                 })
-                console.log(membercourses.length)
 
                 membercourses.each(function (model) {
 
@@ -1426,8 +1428,6 @@ $(function(){
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
                         
-                         console.log(sdate)
-                         console.log(edate)
                          
                         var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
                         
@@ -1483,9 +1483,6 @@ $(function(){
                     {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
-                        
-                         console.log(sdate)
-                         console.log(edate)
                          
                         var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
                         
@@ -1754,8 +1751,153 @@ $(function(){
                     App.$el.children('.body').append(feedul.el)
                 }
             })
-        },    
+        },
+         ListCollection: function (collectionId,collectionName) {
+            App.startActivityIndicator()
+            var that=this
+            var temp = $.url().data.attr.host.split(".")  // get name of community
+                temp = temp[0].substring(3)
+            if(temp=="")
+            temp='local'
+            var roles = this.getRoles()
+            var collectionlist = new App.Models.CollectionList({
+	                _id: collectionId
+	            })
+	            collectionlist.fetch({
+	                async: false
+	            })
+        
+            var collId = Array()
+            collId.push(collectionId)
+             collId=JSON.stringify(collId);
+            var resources = new App.Collections.Resources({collectionName:collId})
+            resources.fetch({
+                success: function () {
+                    var resourcesTableView = new App.Views.ResourcesTable({
+                        collection: resources
+                    })
+                 var collectionslist = new App.Collections.listRCollection()
+						collectionslist.fetch({
+						async:false
+						})
+				resourcesTableView.collections=collectionslist	
+                resourcesTableView.isManager = roles.indexOf("Manager")
+                resourcesTableView.render()
+                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
 
+                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
+                     
+                    if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
+                     App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
+                    App.$el.children('.body').append('<p style="font-size: 30px;font-weight: bolder;color: #808080;width: 450px;word-wrap: break-word;">'+collectionlist.get('CollectionName')+'</p>')
+                    
+                    App.$el.children('.body').append(resourcesTableView.el)
+                    
+                    $('#backButton').click(function(){
+                       Backbone.history.navigate('#resources',{trigger:false})
+                    })
+                }
+            })
+            App.stopActivityIndicator()
+        },
+
+     NewsFeed: function () {
+            var resources = new App.Collections.NewsResources()
+            resources.fetch({
+                success: function () {
+                    var resourcesTableView = new App.Views.ResourcesTable({
+                        collection: resources
+                    })
+                    resourcesTableView.render()
+                    App.$el.children('.body').html("&nbsp")
+                    App.$el.children('.body').append(resourcesTableView.el)
+                }
+            })
+        }, 
+     AllRequests: function () {
+            App.$el.children('.body').html('&nbsp')
+            var col = new App.Collections.Requests()
+            col.fetch({
+                async: false
+            })
+            var colView = new App.Views.RequestTable({
+                collection: col
+            })
+            colView.render()
+            App.$el.children('.body').append(colView.el)
+        },
+        myRequests: function () {
+            App.$el.children('.body').html('&nbsp')
+            var col = new App.Collections.Requests({
+                memberId: ($.cookie('Member._id'))
+            })
+            col.fetch({
+                async: false
+            })
+            var colView = new App.Views.RequestTable({
+                collection: col
+            })
+            colView.render()
+            App.$el.children('.body').append(colView.el)
+        },
+       Replicate: function () {
+        
+          App.startActivityIndicator()
+          
+           var that = this
+           var temp = $.url().attr("host").split(".")
+           var currentHost=$.url().attr("host")
+           
+           var nationURL=''
+           var nationName=''
+           var type=''
+    
+    	    var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var config=new configurations()
+    	      config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+    
+    	        type=cofigINJSON.rows[0].doc.type
+				nationURL=cofigINJSON.rows[0].doc.nationUrl
+    	        nationName=cofigINJSON.rows[0].doc.nationName
+    			App.$el.children('.body').html('Please Wait…')
+    			var waitMsg = ''
+    			var msg = ''
+    			
+            $.ajax({
+    			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
+    			type : 'GET',
+    			dataType : "jsonp",
+    			success : function(json) {
+    				for(var i=0 ; i<json.rows.length ; i++)
+    				{
+    					var community = json.rows[i]
+    					var communityurl = community.doc.url
+    					var communityname = community.doc.name
+    					msg = waitMsg
+    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
+    					App.$el.children('.body').html(waitMsg)
+    					that.synchCommunityWithURL(communityurl,communityname)
+    					waitMsg = msg
+    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.'
+    					App.$el.children('.body').html(waitMsg)
+      				}
+      				if(type!="nation")
+      				{
+      					msg = waitMsg
+    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
+    					that.synchCommunityWithURL(nationURL,nationName)
+    					waitMsg = msg
+    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.<br>Replication completed.'	
+      				}
+    			}
+  			 })
+  			App.stopActivityIndicator()
+        },         
    }))
   
 
