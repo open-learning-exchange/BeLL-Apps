@@ -21,10 +21,13 @@ $(function () {
 
             if (_.has(this.model, 'id')) {
                 vars.header = 'Details "' + this.model.get('title') + '"'
+                vars.resourceTitle = this.model.get('title');
+                vars.resourceUrl = this.model.get('url');
               
             } else {
                 vars.header = 'New Resource'
-              
+                vars.resourceTitle = "No file selected";
+                vars.resourceUrl = "";
             }
 
             // prepare the form
