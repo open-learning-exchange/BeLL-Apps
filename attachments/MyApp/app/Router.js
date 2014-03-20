@@ -207,9 +207,19 @@ $(function(){
             })
             // Bind form to the DOM
             if (modelId) {
-                App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
+            
+            	model.id = modelId
+            	model.fetch({
+                    async: false
+                })
+            	console.log(modelId)
+            	//console.log(model.toJSON())
+            	
+                App.$el.children('.body').html('<h3>Edit ' + label + ' | ' + model.get('firstName') + '  '+model.get('lastName') + '</h3>')
+                
+                
             } else {
-                App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
+                App.$el.children('.body').html('<h3>Add ' + label + '</h3>')
             }
             App.$el.children('.body').append(modelForm.el)
            // Bind form events for when Group is ready
@@ -258,7 +268,7 @@ $(function(){
             })
             // Set up the model for the form
             if (modelId) {
-                model.id = modelId
+               
                 model.once('sync', function () {
                     model.trigger('Model:ready')
                 })
@@ -269,6 +279,7 @@ $(function(){
             } else {
                 model.trigger('Model:ready')
             }
+            
             
         },
         Resources: function () {
@@ -721,83 +732,6 @@ $(function(){
             this.modelForm('Group', 'Course', groupId, 'courses')
              
         },
-        MemberForm: function (memberId) {
-            this.modelForm('Member', 'Member', memberId, 'members')
-        },
-		modelForm: function (className, label, modelId, reroute) {
-            //cv Set up
-            var context =this
-            var model = new App.Models[className]()
-            var modelForm = new App.Views[className + 'Form']({
-                model: model
-            })
-            // Bind form to the DOM
-            if (modelId) {
-                App.$el.children('.body').html('<h1>Edit this ' + label + '</h1>')
-            } else {
-                App.$el.children('.body').html('<h1>Add ' + label + '</h1>')
-            }
-            App.$el.children('.body').append(modelForm.el)
-           // Bind form events for when Group is ready
-            model.once('Model:ready', function () {
-                // when the users submits the form, the group will be processed
-                 modelForm.on(className + 'Form:done', function () {
-                    Backbone.history.navigate(reroute, {
-                        trigger: true
-                    })
-                 })
-                // Set up the form
-                modelForm.render()
-                 
-                $('.form .field-startDate input').datepicker({
-               todayHighlight: true
-            });
-            $('.form .field-endDate input').datepicker({
-               todayHighlight: true
-            });
-  				
-            $('.form .field-startTime input').timepicker({
-                'minTime': '8:00am',
-                'maxTime': '12:30am',
-            });
-  				
-            $('.form .field-endTime input').timepicker({
-               'minTime': '8:00am',
-                'maxTime': '12:30am',            
-            
-            });
-            
-  				$('.form .field-frequency input').click(function() {
-    				if(this.value=='Weekly')
-    				{
-    				  $('.form .field-Day').show()
-    				}
-    				else{
-    				$('.form .field-Day').hide()
-    				}
-
-				});
-
-            
-               
-
-            })
-            // Set up the model for the form
-            if (modelId) {
-                model.id = modelId
-                model.once('sync', function () {
-                    model.trigger('Model:ready')
-                })
-                model.fetch({
-                    async: false
-                })
-           
-            } else {
-                model.trigger('Model:ready')
-            }
-            
-        },
-
         GroupAssign: function (groupId) {
             var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
             assignResourcesToGroupTable.groupId = groupId
@@ -902,7 +836,7 @@ $(function(){
 
             if (levelId == "nolevel") {
 
-                App.$el.children('.body').html('<h1>New Step</h1>')
+                App.$el.children('.body').html('<h3>New Step</h3>')
                 lForm.edit = false
                 lForm.previousStep = 0
                 lForm.render()
@@ -913,7 +847,7 @@ $(function(){
                     "_id": levelId
                 })
                 Cstep.once('sync', function () {
-                    App.$el.children('.body').html('<h1>Edit Step</h1>')
+                    App.$el.children('.body').html('<h3>Edit Step</h3>')
                     lForm.edit = true
                     lForm.ques = Cstep.get("questions")
                     lForm.ans = Cstep.get("answers")
