@@ -315,7 +315,7 @@ $(function(){
 					resourcesTableView.collections=collectionslist	
                     resourcesTableView.render()
                     
-                    var btnText='<p><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
+                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
                         btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
                     App.$el.children('.body').html(btnText)
                     
