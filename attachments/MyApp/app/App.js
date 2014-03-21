@@ -12,6 +12,7 @@ $(function () {
         Collections: {},
         Vars: {}, // A place to persist variables in the session
         globalUrl: {},
+        collectionslist:null,
         idss: [],
         bellLocation: "Pakistan",
         el: "body",
@@ -24,6 +25,8 @@ $(function () {
         start: function () {
             this.$el.html(_.template(this.template))
             var loggedIn = ($.cookie('Member._id')) ? true : false
+            App.collectionslist = new App.Collections.listRCollection()
+			App.collectionslist.fetch()
             if (!loggedIn && $.url().attr('fragment')) {
                 // We want to abort this page load so there isn't a race condition with whatever 
                 // url is being requested and the loading of the login page.

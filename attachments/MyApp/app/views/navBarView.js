@@ -39,7 +39,6 @@ $(function () {
                         var languageDicts = response.rows[0].doc; // put json of all dictionaries in var
                         // now get the selected language dict from that var
                         languageDict = languageDicts[clanguage];
-//                    console.log("doc attrib when str === english: " + JSON.stringify(languageDict));
                     },
                     data: {},
                     async: false
@@ -48,10 +47,6 @@ $(function () {
                 App.languageDict = languageDict;
             }
 
-
-
-//            var languageDict = App.configuration.get(clanguage);
-//            console.log("App.configuration.get(clanguage): " + JSON.stringify(languageDict));
             version=App.configuration.get('version')
         	this.data = {
                 uRL: temp[1],

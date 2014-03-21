@@ -2,6 +2,7 @@ $(function(){
    
    App.Router=new(Backbone.Router.extend({
        
+      
       routes:{'': 'MemberLogin',
             'dashboard': 'Dashboard',
             'ereader':'eReader',
@@ -295,6 +296,7 @@ $(function(){
         Resources: function () {
             App.startActivityIndicator()
             var context=this
+            var resourcesTableView
             var temp = $.url().data.attr.host.split(".")  // get name of community
                 temp = temp[0].substring(3)
             if(temp=="")
@@ -304,17 +306,11 @@ $(function(){
             var resources = new App.Collections.Resources({skip:0})
             resources.fetch({
                 success: function () {
-                    var resourcesTableView = new App.Views.ResourcesTable({
+                    resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
-                       var collectionslist = new App.Collections.listRCollection()
-						collectionslist.fetch({
-						async:false
-						})
-					resourcesTableView.collections=collectionslist	
-                    resourcesTableView.render()
-                    
+                       
                     var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
                         btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
                     App.$el.children('.body').html(btnText)
@@ -327,12 +323,22 @@ $(function(){
                      
 					}
 					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
-                     App.$el.children('.body').append(resourcesTableView.el)
+                    
+							 while(App.collectionslist.length==0)
+							 {
+								 alert("Retriving records")
+							 }
+							
+							 console.log(App.collectionslist.length)
+							 resourcesTableView.collections=App.collectionslist	
+                     		 resourcesTableView.render()
+                     		App.$el.children('.body').append(resourcesTableView.el)
+						
                      
 
                 }
-            })
-            App.stopActivityIndicator()
+            })      
+           App.stopActivityIndicator() 
             
         },
        ResourceForm: function (resourceId) {
@@ -1776,11 +1782,8 @@ $(function(){
                     var resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
-                 var collectionslist = new App.Collections.listRCollection()
-						collectionslist.fetch({
-						async:false
-						})
-				resourcesTableView.collections=collectionslist	
+                    //console.log(App.collectionlist)
+				resourcesTableView.collections=App.collectionslist	
                 resourcesTableView.isManager = roles.indexOf("Manager")
                 resourcesTableView.render()
                     App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
