@@ -485,15 +485,6 @@ function addToshelf(rId,title){
 		authorName=$('#Author-name').val()
 		
 		mediumFilter=$('#multiselect-medium-search').val()
-		
-       
-        console.log(collectionFilter)  
-		console.log(subjectFilter)
-		console.log(levelFilter)
-		console.log(languageFilter)
-         
-       //  alert(mediumFilter)
-         
            $("input[name='star']").each(function () {
                 if ($(this).is(":checked")) {
                     ratingFilter.push($(this).val());

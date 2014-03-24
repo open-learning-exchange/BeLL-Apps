@@ -72,10 +72,7 @@ $(function () {
         },
         render: function () {
             var obj = this
-            var collections=new App.Collections.listRCollection()
-						   collections.fetch({
-							async:false
-						  })
+            var collections = App.collectionslist
 			this.vars.tags=collections.toJSON()
             this.vars.addResource=this.addResource
             if(typeof this.Publications!= 'undefined')
@@ -125,6 +122,13 @@ $(function () {
            			filters.push(this.mediumFilter[i])
            		}
            	}
+           	if(this.ratingFilter)
+           	{
+           		for(var i=0 ; i<this.ratingFilter.length; i++)
+           		{
+           			filters.push(this.ratingFilter[i])
+           		}
+           	}
            	var fil = JSON.stringify(filters);
            	this.groupresult.skip = 0
            	this.groupresult.collectionName = fil;
@@ -150,14 +154,15 @@ $(function () {
            		//console.log(App.member)
            		//alert('check')
            		var roles = loggedIn.get("roles")
-          		var SearchSpans = new App.Views.ResourcesTable({
+          		var SearchResult = new App.Views.ResourcesTable({
               		collection: this.groupresult
           		})
-          		SearchSpans.isManager = roles.indexOf("Manager")
-          		SearchSpans.resourceids = obj.resourceids
-          		SearchSpans.render()
+          		SearchResult.isManager = roles.indexOf("Manager")
+          		SearchResult.resourceids = obj.resourceids
+          		SearchResult.collections=App.collectionslist	
+          		SearchResult.render()
           		$('#srch').html('<h4>Search Result <a style="float:right" class="btn btn-info" onclick="backtoSearchView()">Back To Search</a></h4>')
-          		$('#srch').append(SearchSpans.el)
+          		$('#srch').append(SearchResult.el)
             }
   					
 		},

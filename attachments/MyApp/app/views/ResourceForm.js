@@ -20,10 +20,22 @@ $(function () {
             // prepare the header
 
             if (_.has(this.model, 'id')) {
-                vars.header = 'Details "' + this.model.get('title') + '"'
+                vars.header = 'Details "' + this.model.get('title') + '"';
+                var tempAttachments = this.model.get('_attachments');
+                var fields = _.map(
+                    _.pairs(tempAttachments),
+                    function(pair) {
+                        return {
+                            key: pair[0],
+                            value: pair[1]
+                        };
+                    }
+                );
+                vars.resourceAttachments = fields;
               
             } else {
-                vars.header = 'New Resource'
+                vars.header = 'New Resource';
+                vars.resourceAttachments="No File Selected.";
               
             }
 

@@ -71,7 +71,7 @@ $(function(){
             'AllRequests': 'AllRequests',
             
             'replicateResources': 'Replicate',
-
+			 'savingPochDB' : 'PochDB',
               
 },
       initialize: function () {
@@ -417,14 +417,12 @@ $(function(){
 
         bellResourceSearch:function(){
                   
-                   popAll()      // reset the SkipStack                  
+                   popAll()            
                     var search = new App.Views.Search()
-                        search.addResource=false
+                    search.addResource=false
                     App.$el.children('.body').html(search.el)
                     search.render()
-                
-                    
-                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                	$("#multiselect-collections-search").multiselect().multiselectfilter();
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
 					$("#multiselect-medium-search").multiselect({
   					    multiple: false,
@@ -1211,13 +1209,17 @@ $(function(){
 									async: false
 								})
 								collTag=collTag.first()
-								accessedTags=collTag.toJSON().rows
-								_.each(accessedTags, function(a) { 
+								if(collTag!=undefined)
+								{
+									accessedTags=collTag.toJSON().rows
+									_.each(accessedTags, function(a) { 
+							
+										setTags.push(a.value)	
+									})
+						 
 								
-								setTags.push(a.value)	
-								})
-							 
 								
+								}
 								resource.set({'Tag':setTags})
                     var resourceDetail = new App.Views.ResourcesDetail({
                         model: resource
@@ -1900,7 +1902,25 @@ $(function(){
     			}
   			 })
   			App.stopActivityIndicator()
-        },         
+        },
+        PochDB:function()
+        {
+        alert("Here")
+        var pdb = new PouchDB('pouchnotes');
+        console.log(App.collectionslist.first().toJSON())
+        pdb.post(App.collectionslist.first().toJSON(), function(error, response) {
+    	if (error) {
+      		console.log(error);
+      		return;
+    		} else if(response && response.ok) {
+      /* Do something with the response. */
+      console.log(response)
+      alert("Saved")
+    }
+  });
+        }   
+        
+              
    }))
   
 

@@ -67,8 +67,13 @@ $(function () {
                     rmodel.fetch({
                         success: function () {
                             var avgr = rmodel.get("sum")
-                            console.log(avgr)
-                            avgr = parseInt(avgr) + parseInt(that.user_rating)
+                            if(avgr==null)
+                            {
+                            	avgr = parseInt(that.user_rating)       
+                            }
+                            else{
+                            	avgr = parseInt(avgr) + parseInt(that.user_rating)
+                            }
                             rmodel.set("sum", parseInt(avgr))
                             rmodel.set("timesRated", lengthoffeedbacks + 1)
                             rmodel.save()

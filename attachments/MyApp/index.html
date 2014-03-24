@@ -65,6 +65,8 @@
   <script src="vendor/jQuery-multiselect/jquery.multiselect.js"></script>
   <script src="vendor/jQuery-multiselect/jquery.multiselect.filter.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.js"></script>
+   <script src="vendor/pouchdb-2.0.0.min.js"></script><script src="vendor/pouchdb-nightly.js"></script>
+  
 
    <!-- html-templates -->
   <link rel="text" href="app/templates/templates.txt"/>
@@ -242,7 +244,6 @@
   
   <script src="app/views/RequestTable.js"></script>
   <script src="app/views/RequestRow.js"></script>
-  
   
 
   <!-- javaScript -->
@@ -799,7 +800,14 @@
         <td colspan="">
         <label id="selectedResources"></label>
           <!-- The Second form that will be submitted containing the file -->
-          <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <form method="post" id="fileAttachment"> 
+          <label for="_attachments">Upload Resource(s)</label>
+          <input type="file" name="_attachments" id="_attachments" multiple="multiple" label=" :" /> 
+          <input class="rev" type="hidden" name="_rev">
+			  <label>
+				  <%_(resourceAttachments).each(function(field) {%> &nbsp&nbsp&nbsp<%= field.key%> <%});%>
+			  </label>
+          </form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
           </td>
       </tr>
