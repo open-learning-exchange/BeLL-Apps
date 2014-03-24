@@ -32,11 +32,14 @@ $(function () {
                     }
                 );
                 vars.resourceAttachments = fields;
+                vars.resourceTitle = this.model.get('title');
+                vars.resourceUrl = this.model.get('url');
+              
               
             } else {
                 vars.header = 'New Resource';
                 vars.resourceAttachments="No File Selected.";
-              
+                vars.resourceUrl = "";
             }
 
             // prepare the form

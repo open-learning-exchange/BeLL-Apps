@@ -509,7 +509,7 @@
     </td>
   
     <td>
-	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
     </td>
    <td>
       <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
@@ -809,6 +809,7 @@
 			  </label>
           </form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
+
           </td>
       </tr>
       <tr>

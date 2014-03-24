@@ -99,7 +99,7 @@ $(function () {
                 document.getElementById('cont').style.visibility = 'visible'
                 App.wheel.stop()
 
-            }, 500)
+            }, 1000)
 
         },
 
