@@ -1264,8 +1264,8 @@ $(function(){
                     
                     App.$el.children('.body').html('<h3>Feedback for "' + resource.get('title') + '"</h3>')
                     var url_togo = "#resource/feedback/add/"+resourceId+"/"+resource.get('title')
-                    App.$el.children('.body').append('<a class="btn" href="'+url_togo+'"><i class="icon-plus"></i> Add your feedback</a>')
-                    App.$el.children('.body').append('<a class="btn" style="margin:20px" href="#resources"><< Back to Resources</a>')
+                    App.$el.children('.body').append('<a class="btn btn-primary"" href="'+url_togo+'"><i class="icon-plus"></i> Add your feedback</a>')
+                    App.$el.children('.body').append('<a class="btn btn-primary" style="margin:20px" href="#resources"><< Back to Resources</a>')
                     App.$el.children('.body').append(feedbackTable.el)
                 })
                 resourceFeedback.fetch()
@@ -1343,7 +1343,7 @@ $(function(){
           var shelfItem=new App.Models.Shelf()
               shelfItem.set('memberId',$.cookie('Member._id'))
               shelfItem.set('resourceId',rId)
-              shelfItem.set('resourceTitle',title)
+              shelfItem.set('resourceTitle',decodeURI(title))
               //Adding the Selected Resource to the Shelf Hash(Dictionary)
               shelfItem.save(null, {
             	  success: function(model,response,options) {}
