@@ -420,8 +420,9 @@ $(function(){
                    popAll()            
                     var search = new App.Views.Search()
                     search.addResource=false
-                    App.$el.children('.body').html(search.el)
                     search.render()
+                    App.$el.children('.body').html(search.el)
+                    
                 	$("#multiselect-collections-search").multiselect().multiselectfilter();
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
 					$("#multiselect-medium-search").multiselect({

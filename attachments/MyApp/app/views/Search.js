@@ -88,8 +88,6 @@ $(function () {
                 App.startActivityIndicator()
                 this.getSearchedRecords();
             }
-            
-            
         },
 		getSearchedRecords: function()
 		{
@@ -190,6 +188,7 @@ $(function () {
             var subjectFilter=new Array()
             var levelFilter=new Array()
             var languageFilter=new Array()
+            ratingFilter.length=0
             
 			collectionFilter=$("#multiselect-collections-search").val()
 			subjectFilter=$("#multiselect-subject-search").val()

@@ -475,7 +475,7 @@ function addToshelf(rId,title){
         var subjectFilter=new Array()
         var levelFilter=new Array()
         var languageFilter=new Array()
-            
+         ratingFilter.length=0   
         skipStack.push(skip)
             
         collectionFilter=$("#multiselect-collections-search").val()
