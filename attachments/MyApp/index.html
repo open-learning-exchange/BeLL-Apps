@@ -590,7 +590,7 @@
       </a>
     </td>
      <td>
-	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
     </td>
    <td>
       <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>

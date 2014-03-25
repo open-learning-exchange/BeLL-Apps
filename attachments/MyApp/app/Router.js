@@ -319,7 +319,7 @@ $(function(){
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
                      
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') ){
-						App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
+					//App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
 						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
 					}
@@ -1353,7 +1353,7 @@ $(function(){
           var shelfItem=new App.Models.Shelf()
               shelfItem.set('memberId',$.cookie('Member._id'))
               shelfItem.set('resourceId',rId)
-              shelfItem.set('resourceTitle',decodeURI(title))
+              shelfItem.set('resourceTitle',unescape(title))
               //Adding the Selected Resource to the Shelf Hash(Dictionary)
               shelfItem.save(null, {
             	  success: function(model,response,options) {}
