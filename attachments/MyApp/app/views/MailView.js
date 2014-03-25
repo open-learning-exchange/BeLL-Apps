@@ -47,19 +47,12 @@ $(function () {
                 $("#previousButton").hide()
             },
 
-            "click #unread-mails": function (e) {
-                this.modelNo = 0
-                skip = 0
-                this.searchText = ""
-                $("#search-text").val("")
-                this.resultArray = []
-                this.unopen = true
-                this.fetchRecords()
-                $("#nextButton").show()
-                $("#previousButton").hide()
-            },
-            "click #backpage": function (e) {
+            "click #unread-mails": "unReadMails",
+            "click #backpage": function(e){
+             
                this.render()
+               this.unReadMails()
+            
             },
             "click .deleteBtn": function (e) {
                 var modelNo = e.currentTarget.value
@@ -70,7 +63,9 @@ $(function () {
                     async: false
                 })
                 model.destroy()
-                this.render()
+            
+               this.render()
+               this.unReadMails()
             },
             "click #previousButton": function (e) {
                 if (skipStack.length > 1) {
@@ -213,8 +208,19 @@ $(function () {
                 this.fetchRecords()
             }
         },
+        unReadMails:function (e) {
+                this.modelNo = 0
+                skip = 0
+                this.searchText = ""
+                $("#search-text").val("")
+                this.resultArray = []
+                this.unopen = true
+                this.fetchRecords()
+                $("#nextButton").show()
+                $("#previousButton").hide()
+            },
         renderAllMails: function (e) {
-
+        
             mailView.modelNo = 0
             skip = 0
             this.searchText = ""
