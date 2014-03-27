@@ -72,6 +72,7 @@ $(function(){
             
             'replicateResources': 'Replicate',
 			 'savingPochDB' : 'PochDB',
+			 'deletePouchDB': 'deletePouchDB',
               
 },
       initialize: function () {
@@ -1927,20 +1928,60 @@ $(function(){
         },
         PochDB:function()
         {
-        alert("Here")
-        var pdb = new PouchDB('pouchnotes');
-        console.log(App.collectionslist.first().toJSON())
-        pdb.post(App.collectionslist.first().toJSON(), function(error, response) {
-    	if (error) {
-      		console.log(error);
-      		return;
-    		} else if(response && response.ok) {
-      /* Do something with the response. */
-      console.log(response)
-      alert("Saved")
-    }
-  });
-        }   
+       //  var db = new PouchDB('resources'),
+//    	 remote = 'https://oledemo:oleoleole@oledemo.cloudant.com/resources', 
+//    	 opts = {
+//       continuous: true
+//     };
+//     db.replicate.from(remote, opts);
+	    var pdb = new PouchDB('languages'),
+   	 remote = 'http://oledemo:oleoleole@oledemo.cloudant.com/languages', 
+   	 opts = {
+      continuous: true
+    };
+		pdb.replicate.from(remote, opts);
+		pdb.allDocs({include_docs: true, descending: true}, function(err, doc) {
+		console.log(doc.rows);
+		});
+
+        
+        // 
+//         alert("Here")
+//         var pdb = new PouchDB('pouchnotes');
+//         console.log(App.collectionslist)
+//         var o={}
+//         o.notetitle = "Tabraiz";
+//   		o.note = 123;
+//   		o.tags = "science";
+//  		 o._id = '13957291234538350';
+//         pdb.put(o, function(error, response) {
+//     	if (error) {
+//       		console.log(error);
+//       		return;
+//     		} else if(response && response.ok) {
+//       /* Do something with the response. */
+//       console.log(response)
+//       alert("Saved")
+//     }
+//   });
+// 	pdb.destroy(
+// 	function(error,info){
+// 	console.log(error)
+// 	console.log(info)
+// 	}
+// 	)
+//        
+ }  ,
+        deletePouchDB:function(){
+        alert("Delete")
+        var db=new PouchDB('pouchnotes')
+        db.destroy(function(err, info) { 
+        console.log(err)
+        console.log(info)
+        
+        
+        });
+        } 
         
               
    }))
