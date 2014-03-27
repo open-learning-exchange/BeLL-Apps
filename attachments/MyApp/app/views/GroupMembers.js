@@ -10,7 +10,7 @@ $(function () {
         initialize: function () {},
         events: {
          "click  #selectAllMembers": "selectAllMembers",
-         "click  #removeMember":"removeMember",
+         "click  .removeMember":"removeMember",
          "click #retrunBack" : function (e) {
 			history.back()    
 			}
@@ -35,9 +35,8 @@ $(function () {
         },
         removeMember:function(e){
         
-           var memberId=$('#removeMember').val()
+           var memberId=e.currentTarget.value
            var that=this
-           
            var courseModel = new App.Models.Group({
                 _id: this.courseId
             })
@@ -45,8 +44,9 @@ $(function () {
              		success:function(result){
                             members=result.get('members')
                             members.splice(members.indexOf(memberId),1)
-                            result.set('members',members)
                             
+                            result.set('members',members)
+                           
                             result.save()
                             memberCoursePro=new App.Collections.membercourseprogresses()
                             memberCoursePro.memberId=memberId
@@ -106,7 +106,7 @@ $(function () {
                 
                 if($.cookie('Member._id')==courseModel.get('courseLeader'))
                 {
-                   viewtext+='<td><button class="btn btn-danger" id="removeMember" value="' + mem.get('_id') + '">Remove</button></td>'
+                   viewtext+='<td><button class="btn btn-danger removeMember" value="' + mem.get('_id') + '">Remove</button></td>'
                 }
                 
                 viewtext+='</tr>'

@@ -56,6 +56,7 @@ $(function () {
             },
             "click .deleteBtn": function (e) {
                 var modelNo = e.currentTarget.value
+                alert(modelNo)
                 var selectedModel = this.collection.at(modelNo)
                 var model = new App.Models.Mail()
                 model.id = selectedModel.get("id")

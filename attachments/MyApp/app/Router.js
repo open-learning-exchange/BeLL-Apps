@@ -1904,6 +1904,27 @@ $(function(){
   			 })
   			App.stopActivityIndicator()
         },
+        synchCommunityWithURL : function(communityurl,communityname) 
+        {
+        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources')
+        	$.ajax({
+            	headers: {
+                	'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+            	type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                	"source": "resources",
+                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources'
+            	}),
+                success: function (response) {
+
+                },
+                async: false
+            })
+        },
         PochDB:function()
         {
         alert("Here")
