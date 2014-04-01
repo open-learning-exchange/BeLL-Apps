@@ -66,7 +66,7 @@ $(function() {
     addAll: function(){
            if(this.collection.length==0)
            {
-                  this.$el.append("<tr><td>No resource found</td></tr>")
+                  this.$el.append("<tr><td width: 630px;>No resource found</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
            } 
     if(this.isadmin > -1){
     	this.isAdmin=1
@@ -76,14 +76,11 @@ $(function() {
     }
       this.collection.forEach(this.addOne, this)
     },
-	alphabetsClicked: function(){
-		alert('hello')
-	},
     render: function() {
     	this.$el.html("")
     	if(this.removeAlphabet==undefined){
     		var viewText="<tr></tr>"
-    	viewText+="colspan=7<tr><td colspan=7>"
+    	viewText+="<tr><td colspan=7>"
     	viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
     	var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	   for(var i=0; i<str.length; i++)
@@ -96,7 +93,7 @@ $(function() {
 	   
     	}
 	   this.$el.append('<br/><br/>')
-       this.$el.append("<tr><th>Title</th><th colspan='6'>Actions</th></tr>")
+       this.$el.append("<tr><th style='width: 430px;'>Title</th><th colspan='6'>Actions</th></tr>")
       this.addAll()
       this.$el.append('<br/><br/>')
       if(this.collection.skip!=0)

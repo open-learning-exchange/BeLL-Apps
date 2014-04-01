@@ -73,7 +73,7 @@ $(function(){
             'replicateResources': 'Replicate',
 			 'savingPochDB' : 'PochDB',
 			 'deletePouchDB': 'deletePouchDB',
-              
+			'compile'       : 'CompileManifest',  
 },
       initialize: function () {
             this.bind("all", this.startUpStuff)
@@ -1971,7 +1971,85 @@ $(function(){
 			alert('this is responce')
 		});
  
- } 
+ },
+ 
+    CompileManifest: function() {
+      // The resources we'll need to inject into the manifest file
+      var resources = new App.Collections.Resources()
+      var apps = new App.Collections.Apps()
+
+      // The URL of the device where we'll store transformed files
+      var deviceURL = '/devices/_design/all'
+      // The location of the default files we'll tranform
+      var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
+      var defaultUpdateURL = '/apps/_design/bell/update.default.html'
+      // URLs to save transformed files to      
+      var transformedManifestURL = deviceURL + '/manifest.appcache'
+      var transformedUpdateURL = deviceURL + '/update.html'
+      // The string to find in the default manifest file that we'll replace with Resources
+      var find = '{replace me}'
+      var replace = '# Compiled at ' + new Date().getTime() + '\n'
+
+      // Compile the new manifest file and save it to devices/all
+      resources.on('sync', function() {
+        _.each(resources.models, function(resource) {
+          replace += encodeURI('/resources/' + resource.id) + '\n'
+          if(resource.get('kind') == 'Resource' && resource.get('_attachments')) {
+            _.each(resource.get('_attachments'), function(value, key, list) {
+              replace += encodeURI('/resources/' + resource.id + '/' + key) + '\n'
+            })
+          }
+        })
+        App.trigger('compile:resourceListReady')
+      })
+
+      App.once('compile:resourceListReady', function() {
+        apps.once('sync', function() {
+          _.each(apps.models, function(app) {
+            _.each(app.get('_attachments'), function(value, key, list) {
+              replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
+            })
+          })
+          App.trigger('compile:appsListReady')
+        })
+        apps.fetch()
+      })
+
+      App.once('compile:appsListReady', function() {
+        $.get(defaultManifestURL, function(defaultManifest) {
+          var transformedManifest = defaultManifest.replace(find, replace)
+          $.getJSON(deviceURL, function(deviceDoc){
+            var xhr = new XMLHttpRequest()
+            xhr.open('PUT', transformedManifestURL + '?rev=' + deviceDoc._rev, true)
+            xhr.onload = function(response) { 
+              App.trigger('compile:done')
+            }
+            xhr.setRequestHeader("Content-type", "text/cache-manifest" );
+            xhr.send(new Blob([transformedManifest], {type: 'text/plain'}))
+          })
+        })
+      })
+      
+      // Save the update.html file to devices/all
+      App.once('compile:done', function() {
+        $.get(defaultUpdateURL, function(defaultUpdateHTML) {
+          // We're not transforming the default yet
+          transformedUpdateHTML = defaultUpdateHTML
+          $.getJSON(deviceURL, function(deviceDoc){
+            var xhr = new XMLHttpRequest()
+            xhr.open('PUT',transformedUpdateURL + '?rev=' + deviceDoc._rev, true)
+            xhr.onload = function(response) { 
+              App.$el.children('.body').html('<a class="btn" href="' + transformedUpdateURL + '">Resources compiled. Click here to update your device.</a>')
+            }
+            xhr.setRequestHeader("Content-type", "text/html" );
+            xhr.send(new Blob([transformedUpdateHTML], {type: 'text/plain'}))
+          })
+        })
+      })
+
+      // Start the process
+      resources.fetch()
+    }
               
    }))
   

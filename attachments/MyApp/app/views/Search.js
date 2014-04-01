@@ -125,7 +125,8 @@ $(function () {
            	{
            		for(var i=0 ; i<this.ratingFilter.length; i++)
            		{
-           			filters.push(this.ratingFilter[i])
+           			console.log("Here it is :"+parseInt(this.ratingFilter[i]))
+           			filters.push(parseInt(this.ratingFilter[i]))
            		}
            	}
            	if(this.searchText!='')
