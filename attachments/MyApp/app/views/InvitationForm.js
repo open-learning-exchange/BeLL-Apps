@@ -176,6 +176,7 @@ $(function () {
                 });
 
             }
+            
             $('#invitationdiv').fadeOut(1000)
             alert("Invitation sent successfully")
             document.getElementById('cont').style.opacity = 1.0
