@@ -24,7 +24,7 @@ $(function () {
         		var config = new App.Collections.Configurations()
     	    	config.fetch({async:false})
     	    	var con=config.first()
-            	App.configuration = config.first()
+            	App.configuration = con
     	 	}
 
             if(! App.languageDict){
