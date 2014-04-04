@@ -2107,8 +2107,16 @@ var test=new App.Models.CourseInvitation()
       var lang=new App.Collections.Languages()
       var members=new App.Collections.Members()
       var collection=new App.Collections.listRCollection()
-      var logMember=new App.Collection.Members()
-      //logMember.login=
+      var logMember=new App.Collections.Members()
+      var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+      var login = loggedIn.get("login")        
+      
+      logMember.login=login
       // The URL of the device where we'll store transformed files
       var deviceURL = '/devices/_design/all'
       // The location of the default files we'll tranform
@@ -2176,15 +2184,11 @@ var test=new App.Models.CourseInvitation()
 		})
 	App.once('compile:loginmember', function() {
 	  
-				  members.once('sync', function() {
-				      replace+=encodeURI('/members/_design/bell/_view/Members?include_docs=true')+'\n'
-					_.each(members.models, function(mem) {
-					  replace += encodeURI('/members/'+mem.id)+'\n'
-					})
-	  
+				  logMember.once('sync', function() {
+				      replace+=encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + login + '"')+'\n'
 					  App.trigger('compile:shelf')
 				  })
-		  members.fetch()
+		  logMember.fetch()
 	  
 		})	
     App.once('compile:shelf', function() {
