@@ -81,7 +81,8 @@ $(function() {
 	},
     render: function() {
     	this.$el.html("")
-    	var viewText="<tr></tr>"
+    	if(this.removeAlphabet==undefined){
+    		var viewText="<tr></tr>"
     	viewText+="colspan=7<tr><td colspan=7>"
     	viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
     	var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -92,6 +93,8 @@ $(function() {
 	   }
 	   viewText+="</td></tr>"
 	   this.$el.append(viewText)
+	   
+    	}
 	   this.$el.append('<br/><br/>')
        this.$el.append("<tr><th>Title</th><th colspan='6'>Actions</th></tr>")
       this.addAll()

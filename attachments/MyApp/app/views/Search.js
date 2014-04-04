@@ -84,7 +84,8 @@ $(function () {
             	this.vars.Publications=false 
             }
             this.$el.html(_.template(this.template, this.vars))
-            if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFailter && this.ratingFilter.length > 0)) {
+            if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFilter && this.ratingFilter.length > 0))
+             {
                 App.startActivityIndicator()
                 this.getSearchedRecords();
             }
@@ -127,7 +128,16 @@ $(function () {
            			filters.push(this.ratingFilter[i])
            		}
            	}
+           	if(this.searchText!='')
+           	{
+           				var prefix=searchText.replace(/[!(.,;):&]+/gi,"").toLowerCase().split(" ")
+           				for (var idx in prefix) {
+           						if(prefix[idx]!=' ' && prefix[idx]!=""&& prefix[idx]!="the"&& prefix[idx]!="an"&& prefix[idx]!="a")
+								filters.push(prefix[idx])                		
+								}
+           	}
            	var fil = JSON.stringify(filters);
+           	console.log(fil)
            	this.groupresult.skip = 0
            	this.groupresult.collectionName = fil;
            	this.groupresult.fetch({async:false})
@@ -155,6 +165,7 @@ $(function () {
           		var SearchResult = new App.Views.ResourcesTable({
               		collection: this.groupresult
           		})
+          		SearchResult.removeAlphabet=true
           		SearchResult.isManager = roles.indexOf("Manager")
           		SearchResult.resourceids = obj.resourceids
           		SearchResult.collections=App.collectionslist	
@@ -212,9 +223,7 @@ $(function () {
                 this.levelFilter = levelFilter
                 this.subjectFilter = subjectFilter
                 this.ratingFilter = ratingFilter
-                this.mediumFilter = mediumFilter
-                this.authorName = authorName
-                
+                this.mediumFilter = mediumFilter                
                 this.addResource=true
                 
                 App.$el.children('.body').html(search.el)
