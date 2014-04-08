@@ -1999,9 +1999,10 @@ var test=new App.Models.CourseInvitation()
       var resources = new App.Collections.Resources()
       var apps = new App.Collections.Apps()
       var config=new App.Collections.Configurations()
+      var MemberCourseProgress = new App.Collections.membercourseprogresses()
       var lang=new App.Collections.Languages()
       var members=new App.Collections.Members()
-      var collection=new App.Collections.listRCollection()
+      var collectionlist=new App.Collections.listRCollection()
       var logMember=new App.Collections.Members()
       var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
@@ -2024,6 +2025,8 @@ var test=new App.Models.CourseInvitation()
       // The location of the default files we'll tranform
       var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
       var defaultUpdateURL = '/apps/_design/bell/update.default.html'
+      var shelfitems=new App.Collections.shelfResource()
+      shelfitems.compile=true
       // URLs to save transformed files to      
       var transformedManifestURL = deviceURL + '/manifest.appcache'
       var transformedUpdateURL = deviceURL + '/update.html'
@@ -2049,12 +2052,23 @@ var test=new App.Models.CourseInvitation()
               replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
             })
           })
-                config.once('sync', function() {
+          App.trigger('compile:configurations')
+        })
+        apps.fetch()
+        
+      })
+      App.once('compile:configurations',function(){
+       config.once('sync', function() {
         _.each(config.models, function(configs) {
           replace += encodeURI('/configurations/_all_docs?include_docs=true') + '\n'
         })
+       App.trigger('compile:languages')
+      })   
+        config.fetch()
+      })
+      App.once('compile:languages',function(){
       
-      lang.once('sync', function() {
+            lang.once('sync', function() {
          replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
         _.each(lang.models, function(langs) {
           replace += encodeURI('/languages/_all_docs?include_docs=true') + '\n'
@@ -2064,13 +2078,7 @@ var test=new App.Models.CourseInvitation()
       })
       
       lang.fetch()  
-      })
-          
-          
-        config.fetch()
-        })
-        apps.fetch()
-        
+      
       })
 	App.once('compile:members', function() {
 	  
@@ -2080,11 +2088,48 @@ var test=new App.Models.CourseInvitation()
 					  replace += encodeURI('/members/'+mem.id)+'\n'
 					})
 	  
-					  App.trigger('compile:Meetups')
+					  App.trigger('compile:shelfResource')
 				  })
 		  members.fetch()
 	  
-		})		
+		})
+		App.once('compile:shelfResource',function(){
+		
+	  
+				  shelfitems.once('sync', function() {
+				      replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
+				      
+					_.each(shelfitems.models, function(mem) {
+					var resId=mem.get('resourceId')
+					console.log(resId)
+					var resource=new App.Models.Resource({_id:resId})
+                                         resource.fetch({success:function(resp){
+                                            replace+=encodeURI('/resources/'+resId)+ '\n'
+                                             if (resource.get('kind') == 'Resource' && resource.get('_attachments')) {
+											_.each(resource.get('_attachments'), function (value, key, list) {
+												replace += encodeURI('/resources/' + resId + '/' + key) + '\n'
+											})
+										}
+                                         }
+					})
+	  
+				  })
+		 
+							  App.trigger('compile:collectionList')
+
+		})
+		 shelfitems.fetch()
+		})
+	App.once('compile:collectionList',function(){
+	  
+				collectionlist.once('sync', function() {
+          replace += encodeURI('/collectionlist/_design/bell/_view/allrecords?include_docs=true') + '\n'
+	 App.trigger('compile:Meetups')
+      })
+		  collectionlist.fetch()
+		
+	
+	})			
 	App.once('compile:Meetups', function() {  
 				Meetups.once('sync', function() {
 					
@@ -2109,21 +2154,27 @@ var test=new App.Models.CourseInvitation()
 	                  _.each(Groups.models, function(group) {
 					  		replace += encodeURI('/groups/'+group.id)+'\n'
 					  		replace += encodeURI('/coursestep/_design/bell/_view/StepsData?key="'+ group.id +'"&include_docs=true')+'\n'
-					  		
-					  		// http://127.0.0.1:5984/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=[%22f37b6913a1260218466278728605f3bd%22,%226a5d800116068da3049ab8fff50062e0%22]&include_docs=true
-					  		
-					  		replace += encodeURI('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["'+memId+'","'+group.id+'"]&include_docs=true')+'\n'
+					  		MemberCourseProgress.courseId=group.id
+					  		MemberCourseProgress.memberId=memId
+					  		MemberCourseProgress.fetch({success:function(){
+					  		//don't encode this url because it contain's '[' & ']' which spoil the key
+					  		replace += ('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["'+memId+'","'+group.id+'"]&include_docs=true')+'\n'
+					  		}})
 					  		levels = new App.Collections.CourseLevels()
                             levels.groupId = group.id
                             levels.fetch({async:false})
                             levels.each(function(level){
                                var resources=level.get('resourceId')
                               _.each(resources,function(res){
+                              console.log(res)
                                      var resource=new App.Models.Resource({_id:res})
-                                         resource.fetch({success:function(res){
-                                          //  console.log(res)
+                                         resource.fetch({success:function(resp){
                                             replace+=encodeURI('/resources/'+res)+ '\n'
-                                         
+                                             if (resource.get('kind') == 'Resource' && resource.get('_attachments')) {
+											_.each(resource.get('_attachments'), function (value, key, list) {
+												replace += encodeURI('/resources/' + res + '/' + key) + '\n'
+											})
+										}
                                          }})
                                         
                               },this)
