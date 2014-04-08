@@ -2049,6 +2049,7 @@ var test=new App.Models.CourseInvitation()
         })
       
       lang.once('sync', function() {
+         replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
         _.each(lang.models, function(langs) {
           replace += encodeURI('/languages/_all_docs?include_docs=true') + '\n'
         })
@@ -2112,7 +2113,13 @@ var test=new App.Models.CourseInvitation()
                             levels.each(function(level){
                                var resources=level.get('resourceId')
                               _.each(resources,function(res){
-                                     replace+=encodeURI('/resources/'+res)+ '\n'
+                                     var resource=new App.Models.Resource({_id:res})
+                                         resource.fetch({success:function(res){
+                                          //  console.log(res)
+                                            replace+=encodeURI('/resources/'+res)+ '\n'
+                                         
+                                         }})
+                                        
                               },this)
                                
                             },this)
