@@ -1946,112 +1946,7 @@ var test=new App.Models.CourseInvitation()
                 },
                 async: false
             })
-        },
-    CompileManifest: function () {
-   			
-   			// alert('Compile function')
-           
-            // The resources we'll need to inject into the manifest file
-            var resources = new App.Collections.Resources()
-            var apps = new App.Collections.Apps()
-            var config =new App.Collections.Configurations()
-
-            // The URL of the device where we'll store transformed files
-            var deviceURL = '/devices/_design/all'
-            // The location of the default files we'll tranform
-            var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
-            var defaultUpdateURL = '/apps/_design/bell/update.default.html'
-            // URLs to save transformed files to      
-            var transformedManifestURL = deviceURL + '/manifest.appcache'
-            var transformedUpdateURL = deviceURL + '/update.html'
-            // The string to find in the default manifest file that we'll replace with Resources
-            var find = '{replace me}'
-            var replace = '# Compiled at ' + new Date().getTime() + '\n'
-
-            // Compile the new manifest file and save it to devices/all
-            resources.on('sync', function () {
-            
-             	// console.log(resources)
-             	// alert('resources')
-            
-                _.each(resources.models, function (resource) {
-                    replace += encodeURI('/resources/' + resource.id) + '\n'
-                    if (resource.get('kind') == 'Resource' && resource.get('_attachments')) {
-                        _.each(resource.get('_attachments'), function (value, key, list) {
-                            replace += encodeURI('/resources/' + resource.id + '/' + key) + '\n'
-                        })
-                    }
-                })
-            
-                App.trigger('compile:resourceListReady')
-            }) //????????
-
-            App.once('compile:resourceListReady', function () {
-                apps.once('sync', function () {
-                    _.each(apps.models, function (app) {
-                        _.each(app.get('_attachments'), function (value, key, list) {
-                            replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
-                        })
-                    })
-                    App.trigger('compile:Configuration')
-                })
-                apps.fetch()
-            })
-            
-            
-         App.once('compile:Configuration', function() {
-                config.once('sync', function() {
-                     _.each(config.models, function(configs) {
-                    replace += encodeURI('/configurations/_all_docs?include_docs=true') + '\n'
-               })
-      
-                  App.trigger('compile:appsListReady')
-              })
-          
-          
-              config.fetch()
-        })
-
-            App.once('compile:appsListReady', function () {
-                $.get(defaultManifestURL, function (defaultManifest) {
-                    var transformedManifest = defaultManifest.replace(find, replace)
-                    $.getJSON(deviceURL, function (deviceDoc) {
-                        var xhr = new XMLHttpRequest()
-                        xhr.open('PUT', transformedManifestURL + '?rev=' + deviceDoc._rev, true)
-                        xhr.onload = function (response) {
-                            App.trigger('compile:done')
-                        }
-                        xhr.setRequestHeader("Content-type", "text/cache-manifest");
-                        xhr.send(new Blob([transformedManifest], {
-                            type: 'text/plain'
-                        }))
-                    })
-                })
-            })
-
-            // Save the update.html file to devices/all
-            App.once('compile:done', function () {
-                $.get(defaultUpdateURL, function (defaultUpdateHTML) {
-                    // We're not transforming the default yet
-                    transformedUpdateHTML = defaultUpdateHTML
-                    $.getJSON(deviceURL, function (deviceDoc) {
-                        var xhr = new XMLHttpRequest()
-                        xhr.open('PUT', transformedUpdateURL + '?rev=' + deviceDoc._rev, true)
-                        xhr.onload = function (response) {
-                            App.$el.children('.body').html('<a class="btn" href="' + transformedUpdateURL + '">Resources compiled. Click here to update your device.</a>')
-                        }
-                        xhr.setRequestHeader("Content-type", "text/html");
-                        xhr.send(new Blob([transformedUpdateHTML], {
-                            type: 'text/plain'
-                        }))
-                    })
-                })
-               // console.log(xhr)
-            })
-
-            // Start the process
-            resources.fetch()
-        },    
+     },         
  PochDB:function(){
 //       
 //         alert("in pouch app sync") 
@@ -2117,6 +2012,11 @@ var test=new App.Models.CourseInvitation()
       var login = loggedIn.get("login")        
       
       logMember.login=login
+      var Meetups = new App.Collections.Meetups()
+      
+      
+      var memId=$.cookie('Member._id')
+      
       // The URL of the device where we'll store transformed files
       var deviceURL = '/devices/_design/all'
       // The location of the default files we'll tranform
@@ -2128,7 +2028,7 @@ var test=new App.Models.CourseInvitation()
       // The string to find in the default manifest file that we'll replace with Resources
       var find = '{replace me}'
       var replace = '# Compiled at ' + new Date().getTime() + '\n'
-
+      
       // Compile the new manifest file and save it to devices/all
       resources.on('sync', function() {
         _.each(resources.models, function(resource) {
@@ -2186,22 +2086,37 @@ var test=new App.Models.CourseInvitation()
 	  
 				  logMember.once('sync', function() {
 				      replace+=encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + login + '"')+'\n'
+
 					  App.trigger('compile:shelf')
 				  })
 		  logMember.fetch()
 	  
-		})	
+		})
     App.once('compile:shelf', function() {
 	  
 				  collection.once('sync', function() {
 					
 					  replace += encodeURI('/collectionlist/_design/bell/_view/allrecords?include_docs=true')+'\n'
 	  
-					  App.trigger('compile:appsListReady')
+					  App.trigger('compile:Meetups')
 				  })
 		  collection.fetch()
 	  
-		})		
+		})
+	App.once('compile:Meetups', function() {  
+				Meetups.once('sync', function() {
+					
+					  replace += encodeURI('/meetups/_all_docs?include_docs=true')+'\n'
+					  replace += encodeURI('/usermeetups/_design/bell/_view/getUsermeetups?key="' + memId + '"&include_docs=true')+'\n'
+					  
+	                  _.each(Meetups.models, function(meetup) {
+					  		replace += encodeURI('/meetup/'+meetup.id)+'\n'
+					})  
+					  App.trigger('compile:appsListReady')
+				  })
+		  Meetups.fetch()
+	  
+		})						
       
 
       App.once('compile:appsListReady', function() {
