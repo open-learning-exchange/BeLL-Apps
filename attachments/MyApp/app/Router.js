@@ -2003,6 +2003,15 @@ var test=new App.Models.CourseInvitation()
       var members=new App.Collections.Members()
       var collection=new App.Collections.listRCollection()
       var logMember=new App.Collections.Members()
+      var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+      var login = loggedIn.get("login")        
+      
+      logMember.login=login
       var Meetups = new App.Collections.Meetups()
       var Groups = new App.Collections.MemberGroups()
           Groups.memberId = $.cookie('Member._id')
@@ -2010,9 +2019,6 @@ var test=new App.Models.CourseInvitation()
       
       
       var memId=$.cookie('Member._id')
-      
-      //logMember.login=
-      
       // The URL of the device where we'll store transformed files
       var deviceURL = '/devices/_design/all'
       // The location of the default files we'll tranform
