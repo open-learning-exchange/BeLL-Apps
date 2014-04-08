@@ -76,6 +76,8 @@ $(function () {
 
         addOne: function (model) {
             
+            console.log(model)
+            
             var upto=0
             if (model.get("resourceTitles")) {
             

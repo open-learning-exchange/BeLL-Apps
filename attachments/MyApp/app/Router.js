@@ -2013,10 +2013,12 @@ var test=new App.Models.CourseInvitation()
       
       logMember.login=login
       var Meetups = new App.Collections.Meetups()
+      var Groups = new App.Collections.MemberGroups()
+          Groups.memberId = $.cookie('Member._id')
+      var Reports=new App.Collections.Reports()
       
       
       var memId=$.cookie('Member._id')
-      
       // The URL of the device where we'll store transformed files
       var deviceURL = '/devices/_design/all'
       // The location of the default files we'll tranform
@@ -2077,32 +2079,11 @@ var test=new App.Models.CourseInvitation()
 					  replace += encodeURI('/members/'+mem.id)+'\n'
 					})
 	  
-					  App.trigger('compile:loginmember')
+					  App.trigger('compile:Meetups')
 				  })
 		  members.fetch()
 	  
-		})
-	App.once('compile:loginmember', function() {
-	  
-				  logMember.once('sync', function() {
-				      replace+=encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + login + '"')+'\n'
-
-					  App.trigger('compile:shelf')
-				  })
-		  logMember.fetch()
-	  
-		})
-    App.once('compile:shelf', function() {
-	  
-				  collection.once('sync', function() {
-					
-					  replace += encodeURI('/collectionlist/_design/bell/_view/allrecords?include_docs=true')+'\n'
-	  
-					  App.trigger('compile:Meetups')
-				  })
-		  collection.fetch()
-	  
-		})
+		})		
 	App.once('compile:Meetups', function() {  
 				Meetups.once('sync', function() {
 					
@@ -2110,15 +2091,54 @@ var test=new App.Models.CourseInvitation()
 					  replace += encodeURI('/usermeetups/_design/bell/_view/getUsermeetups?key="' + memId + '"&include_docs=true')+'\n'
 					  
 	                  _.each(Meetups.models, function(meetup) {
-					  		replace += encodeURI('/meetup/'+meetup.id)+'\n'
+					  		replace += encodeURI('/meetups/'+meetup.id)+'\n'
+					  		
+					})  
+					  App.trigger('compile:Groups')
+				  })
+		  Meetups.fetch()
+		})	
+		
+  App.once('compile:Groups', function() {  
+				Groups.once('sync', function() {
+					
+					  replace += encodeURI('/groups/_all_docs?include_docs=true')+'\n'
+					  replace += encodeURI('/groups/_design/bell/_view/GetCourses?key="'+ memId +'"&include_docs=true')+'\n'
+					  
+	                  _.each(Groups.models, function(group) {
+					  		replace += encodeURI('/groups/'+group.id)+'\n'
+					  		replace += encodeURI('/coursestep/_design/bell/_view/StepsData?key="'+ group.id +'"&include_docs=true')+'\n'
+					  		
+					  		// http://127.0.0.1:5984/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=[%22f37b6913a1260218466278728605f3bd%22,%226a5d800116068da3049ab8fff50062e0%22]&include_docs=true
+					  		
+					  		replace += encodeURI('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["'+memId+'","'+group.id+'"]&include_docs=true')+'\n'
+					  		levels = new App.Collections.CourseLevels()
+                            levels.groupId = group.id
+                            levels.fetch({async:false})
+                            levels.each(function(level){
+                               var resources=level.get('resourceId')
+                              _.each(resources,function(res){
+                                     replace+=encodeURI('/resources/'+res)+ '\n'
+                              },this)
+                               
+                            },this)
+					})  
+					  App.trigger('compile:CommunityReport')
+				  })
+		  Groups.fetch()
+		})							
+ App.once('compile:CommunityReport', function() {  
+				
+				Reports.once('sync', function() {	
+					  replace += encodeURI('/communityreports/_design/bell/_view/allCommunityReports?include_docs=true')+'\n'
+	                  _.each(Reports.models, function(report) {
+					  		replace += encodeURI('/communityreports/'+report.id)+'\n'
 					})  
 					  App.trigger('compile:appsListReady')
 				  })
-		  Meetups.fetch()
-	  
-		})						
-      
-
+		  Reports.fetch()
+		})	
+		
       App.once('compile:appsListReady', function() {
 
         $.get(defaultManifestURL, function(defaultManifest) {
