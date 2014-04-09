@@ -51,7 +51,9 @@ $(function () {
                             var vis = parseInt(member.get("visits"))
                             vis++
                             member.set("visits", vis)
-                            member.once('sync', function () {
+                            member.once('sync', function () {})
+                            member.save()
+							
                                 var date = new Date()
                                 $.cookie('Member.login', member.get('login'), {
                                     path: "/apps/_design/bell"
@@ -63,9 +65,7 @@ $(function () {
                                     path: "/apps/_design/bell"
                                 })
                                 memberLoginForm.trigger('success:login')
-                            })
-                            member.save()
-
+                            
                         } else {
                             alert("Your Account Is Deactivated")
                         }

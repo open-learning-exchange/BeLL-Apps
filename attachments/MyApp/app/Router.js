@@ -1950,7 +1950,7 @@ var test=new App.Models.CourseInvitation()
  PochDB:function(){
 //       
 //         alert("in pouch app sync") 
-			db=new PouchDB('testing');
+			db=new PouchDB('login');
 
 //  		db.put({
 //   				title: 'Heroes'
@@ -1959,7 +1959,7 @@ var test=new App.Models.CourseInvitation()
 //      alert('end of pouch app sync')
 //      
 
-	  db.replicate.from('http://127.0.0.1:5984/resources',function(error, response){
+	  db.replicate.from('http://127.0.0.1:5984/meetups',function(error, response){
 		if(error){
 		console.log(error)
 		  alert('there is an error')
@@ -1980,18 +1980,21 @@ var test=new App.Models.CourseInvitation()
  },
  deletePouchDB:function(){
  
-    db=new PouchDB('testing');
+    db=new PouchDB('login');
     var test=db.allDocs({include_docs: true},function(error,response){
         console.log(response)
-        alert('this is responce')
      
      });
-
-	db.get('9ecd3cd4886e1b513b9aaaed7a000654',function(error,response){
-			console.log(response)
-			alert('this is responce')
-		});
- 
+PouchDB.destroy('login', function(err, info) {
+	if(err)
+	{
+	console.log(err)
+	}
+	else{
+	console.log(info)
+	}
+ });
+	
  },
  
     CompileManifest: function() {
@@ -2020,6 +2023,7 @@ var test=new App.Models.CourseInvitation()
       
       
       var memId=$.cookie('Member._id')
+      var memName=$.cookie('Member.login')
       // The URL of the device where we'll store transformed files
       var deviceURL = '/devices/_design/all'
       // The location of the default files we'll tranform
@@ -2135,6 +2139,8 @@ var test=new App.Models.CourseInvitation()
 					
 					  replace += encodeURI('/meetups/_all_docs?include_docs=true')+'\n'
 					  replace += encodeURI('/usermeetups/_design/bell/_view/getUsermeetups?key="' + memId + '"&include_docs=true')+'\n'
+					  replace += encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="'+memName+'"')+'\n'
+					 console.log(encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="'+memName+'"')+'\n')
 					  
 	                  _.each(Meetups.models, function(meetup) {
 					  		replace += encodeURI('/meetups/'+meetup.id)+'\n'
