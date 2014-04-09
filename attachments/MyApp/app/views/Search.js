@@ -84,7 +84,7 @@ $(function () {
             	this.vars.Publications=false 
             }
             this.$el.html(_.template(this.template, this.vars))
-            if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.authorName) || (this.mediumFilter) || (this.ratingFilter && this.ratingFilter.length > 0))
+            if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.mediumFilter) || (this.ratingFilter && this.ratingFilter.length > 0))
              {
                 App.startActivityIndicator()
                 this.getSearchedRecords();
@@ -92,6 +92,7 @@ $(function () {
         },
 		getSearchedRecords: function()
 		{
+			
 			var filters = new Array()
            	if(this.collectionFilter)
            	{
@@ -125,11 +126,10 @@ $(function () {
            	{
            		for(var i=0 ; i<this.ratingFilter.length; i++)
            		{
-           			console.log("Here it is :"+parseInt(this.ratingFilter[i]))
            			filters.push(parseInt(this.ratingFilter[i]))
            		}
            	}
-           	if(this.searchText!='')
+           	if(searchText!='')
            	{
            				var prefix=searchText.replace(/[!(.,;):&]+/gi,"").toLowerCase().split(" ")
            				for (var idx in prefix) {
@@ -195,19 +195,15 @@ $(function () {
         },
         searchResult: function()
         {
-            var searchText = $("#searchText").val()
+            searchText = $("#searchText").val()
             var collectionFilter=new Array()
             var subjectFilter=new Array()
             var levelFilter=new Array()
-            var languageFilter=new Array()
             ratingFilter.length=0
             
 			collectionFilter=$("#multiselect-collections-search").val()
 			subjectFilter=$("#multiselect-subject-search").val()
 			levelFilter=$("#multiselect-levels-search").val()
-			languageFilter=$("#Language-filter").val()
-			authorName=$('#Author-name').val()
-		
 			mediumFilter=$('#multiselect-medium-search').val()
 
            $("input[name='star']").each(function () {
@@ -216,17 +212,15 @@ $(function () {
                 }
             })
 
-            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter) || (languageFilter) || (authorName)|| (mediumFilter) || (ratingFilter && ratingFilter.length > 0))
+            if (searchText != "" || (collectionFilter) || (subjectFilter) ||(levelFilter)  ||  (mediumFilter) || (ratingFilter && ratingFilter.length > 0))
             {
             
                 this.collectionFilter = collectionFilter
-                this.languageFilter = languageFilter
                 this.levelFilter = levelFilter
                 this.subjectFilter = subjectFilter
                 this.ratingFilter = ratingFilter
-                this.mediumFilter = mediumFilter                
+                this.mediumFilter = mediumFilter 
                 this.addResource=true
-                
                 App.$el.children('.body').html(search.el)
                 this.render()
                 $("#searchText2").val(searchText)

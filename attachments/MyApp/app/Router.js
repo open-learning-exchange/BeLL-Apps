@@ -491,9 +491,9 @@ var test=new App.Models.CourseInvitation()
                     var search = new App.Views.Search()
                     search.resourceids = levelInfo.get("resourceId")
                     search.addResource=true
-                    App.$el.children('.body').html(search.el)
                     search.render()
-                    
+                    App.$el.children('.body').html(search.el)
+
                    // alert($("#multiselect-subject-search"))
                     
                     
