@@ -127,7 +127,7 @@ $(function () {
             }
         },
         render: function () {
-        	
+
         	var dashboard = this
         	this.vars.mails = 0
         	var clanguage = App.configuration.get("currentLanguage")
@@ -148,11 +148,13 @@ $(function () {
                 	collection: groups
             	})
             	groupsSpans.render()
+
             	$('#cc').append(groupsSpans.el)
             	
             	TutorsSpans = new App.Views.TutorsSpans({
                 	collection: groups
             	})
+
             	TutorsSpans.render()
             	$('#tutorTable').append(TutorsSpans.el)
             }})
@@ -170,7 +172,6 @@ $(function () {
             $('#meetUpTable').append(MeetupSpans.el)
             
 
-          
 
             //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
             // Time

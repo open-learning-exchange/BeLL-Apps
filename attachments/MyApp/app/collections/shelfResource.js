@@ -6,10 +6,10 @@ $(function () {
         url: function () {
             if (this.deleteResource == 1) {
                 return App.Server + '/shelf/_design/bell/_view/getShelfItemWithResourceId?key="' + this.resourceId + '"&include_docs=true'
-            } 
-            else if(this.memberId)
+            }
+            else if(this.compile)
             {
-                return App.Server+'/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="' + this.memberId + '"&include_docs=true'
+                return App.Server + '/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="' + $.cookie('Member._id') + '"'
             }
             else {
                 return App.Server + '/shelf/_design/bell/_view/getResource?key=["' + this.memberId + '","' + this.resourceId + '"]&include_docs=true'
