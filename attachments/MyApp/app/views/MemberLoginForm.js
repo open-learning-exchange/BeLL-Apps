@@ -62,13 +62,20 @@ $(function () {
                                 $.cookie('Member.expTime', date, {
                                     path: "/apps/_design/bell"
                                 })
-                                memberLoginForm.trigger('success:login')
+                                
+                                if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1)
+              						 Backbone.history.navigate('configuration/add', {trigger: true})
+              					else 
+              					     memberLoginForm.trigger('success:login')
+              						 
                             })
-                            member.save({success:function(rev){
-                            
-                               alert('succesfully')
-                            
-                            }})
+                            member.save(null,{ success: function(doc,rev){
+              				//alert(parseInt(doc.get('visits')))
+              			//	alert(doc.get('roles').indexOf('SuperManager'))
+              			//			    if(parseInt(doc.get('visits'))==1 && doc.get('roles').indexOf('SuperManager')!=-1)
+              				//		      Backbone.history.navigate('configuration/add', {trigger: true})
+  							}})
+        
 
                         } else {
                             alert("Your Account Is Deactivated")

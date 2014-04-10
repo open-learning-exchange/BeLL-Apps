@@ -48,6 +48,8 @@ $(function(){
             'meetup/details/:meetupId/:title': 'usermeetupDetails',
             'meetup/manage/:meetUpId':'Meetup',
             
+            'configuration/add':'Configure',
+            
             
             'members': 'Members',
             
@@ -165,6 +167,17 @@ var test=new App.Models.CourseInvitation()
             })
 
         },
+        
+      Configure:function(){
+      
+           conModel = new App.Models.Configuration()
+            var conForm = new App.Views.Configurations({
+                model: conModel
+            })
+            conForm.render()
+            App.$el.children('.body').html(conForm.el)
+      
+      },  
       MemberLogin: function () {
       
             // Prevent this Route from completing if Member is logged in.
