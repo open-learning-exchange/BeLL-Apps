@@ -2016,6 +2016,9 @@ var test=new App.Models.CourseInvitation()
       var Groups = new App.Collections.MemberGroups()
           Groups.memberId = $.cookie('Member._id')
       var Reports=new App.Collections.Reports()
+      var userShelf=new App.Collections.shelfResource()
+          userShelf.memberId=$.cookie('Member._id')
+      
       
       
       var memId=$.cookie('Member._id')
@@ -2055,7 +2058,7 @@ var test=new App.Models.CourseInvitation()
         })
       
       lang.once('sync', function() {
-         replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
+        
         _.each(lang.models, function(langs) {
           replace += encodeURI('/languages/_all_docs?include_docs=true') + '\n'
         })
@@ -2095,10 +2098,26 @@ var test=new App.Models.CourseInvitation()
 					  		replace += encodeURI('/meetups/'+meetup.id)+'\n'
 					  		
 					})  
-					  App.trigger('compile:Groups')
+					  App.trigger('compile:shelf')
 				  })
 		  Meetups.fetch()
 		})	
+		
+App.once('compile:shelf', function() {  
+				userShelf.once('sync', function() {
+					
+					  replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
+					  
+	                  _.each(userShelf.models, function(item) {
+	                  
+					  		replace += encodeURI('/resources/'+item.get('resourceId'))+'\n'
+					  		
+					})  
+					  App.trigger('compile:Groups')
+				  })
+		  userShelf.fetch()
+})	
+		
 		
   App.once('compile:Groups', function() {  
 				Groups.once('sync', function() {
@@ -2121,8 +2140,8 @@ var test=new App.Models.CourseInvitation()
                               _.each(resources,function(res){
                                      var resource=new App.Models.Resource({_id:res})
                                          resource.fetch({success:function(res){
-                                          //  console.log(res)
-                                            replace+=encodeURI('/resources/'+res)+ '\n'
+                                              console.log(res)
+                                            //replace+=encodeURI('/resources/'+res)+ '\n'
                                          
                                          }})
                                         
