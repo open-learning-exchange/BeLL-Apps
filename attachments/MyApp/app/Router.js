@@ -2073,7 +2073,6 @@ PouchDB.destroy('login', function(err, info) {
       App.once('compile:languages',function(){
       
             lang.once('sync', function() {
-         replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
         _.each(lang.models, function(langs) {
           replace += encodeURI('/languages/_all_docs?include_docs=true') + '\n'
         })
@@ -2098,11 +2097,8 @@ PouchDB.destroy('login', function(err, info) {
 	  
 		})
 		App.once('compile:shelfResource',function(){
-		
-	  
 				  shelfitems.once('sync', function() {
-				      replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
-				      
+				 replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
 					_.each(shelfitems.models, function(mem) {
 					var resId=mem.get('resourceId')
 					console.log(resId)
@@ -2151,7 +2147,7 @@ PouchDB.destroy('login', function(err, info) {
 		  Meetups.fetch()
 		})	
 		
-  App.once('compile:Groups', function() {  
+ App.once('compile:Groups', function() {  
 				Groups.once('sync', function() {
 					
 					  replace += encodeURI('/groups/_all_docs?include_docs=true')+'\n'
