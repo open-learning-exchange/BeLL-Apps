@@ -395,12 +395,13 @@ var test=new App.Models.CourseInvitation()
            $("select[class='bbf-month']").attr("disabled", true);
            $("select[class='bbf-year']").attr("disabled", true);
 
-           $('.form .field-subject select').attr("multiple", true);
-           $('.form .field-Level select').attr("multiple", true);
-           $('.form .field-Tag select').attr("multiple", true);
-
+           $('.form .field-subject select').multiselect().multiselectfilter();
+           $('.form .field-Level select').multiselect().multiselectfilter();
+         // $('.form .field-Tag select').attr("multiple", true);
+          
 
            $('.form .field-Tag select').click(function () {
+           alert('on click check')
                context.AddNewSelect(this.value)
            });
            $('.form .field-Tag select').dblclick(function () {
@@ -409,6 +410,8 @@ var test=new App.Models.CourseInvitation()
            var identifier = '.form .field-Tag select'
            this.RenderTagSelect(identifier)
 
+           $('.form .field-Tag select').multiselect();
+           
            if(resource.id==undefined)
            {
                $(".form .field-Tag select").find('option').removeAttr("selected");

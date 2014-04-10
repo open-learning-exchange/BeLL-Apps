@@ -64,7 +64,11 @@ $(function () {
                                 })
                                 memberLoginForm.trigger('success:login')
                             })
-                            member.save()
+                            member.save({success:function(rev){
+                            
+                               alert('succesfully')
+                            
+                            }})
 
                         } else {
                             alert("Your Account Is Deactivated")
