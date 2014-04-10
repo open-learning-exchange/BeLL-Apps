@@ -65,7 +65,6 @@ $(function () {
                                     path: "/apps/_design/bell"
                                 })
                                 memberLoginForm.trigger('success:login')
-                            })
                             member.save({success:function(rev){
                             
                                alert('succesfully')

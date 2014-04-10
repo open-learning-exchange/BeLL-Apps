@@ -2023,11 +2023,6 @@ PouchDB.destroy('login', function(err, info) {
       var Groups = new App.Collections.MemberGroups()
           Groups.memberId = $.cookie('Member._id')
       var Reports=new App.Collections.Reports()
-      var userShelf=new App.Collections.shelfResource()
-          shelfitems.compile=true
-      
-      
-      
       var memId=$.cookie('Member._id')
       var memName=$.cookie('Member.login')
       // The URL of the device where we'll store transformed files
@@ -2104,7 +2099,7 @@ PouchDB.destroy('login', function(err, info) {
 		})
 		App.once('compile:shelfResource',function(){
 				  shelfitems.once('sync', function() {
-				 replace += encodeURI('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
+				 replace += ('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="'+memId+'"')+'\n'
 					_.each(shelfitems.models, function(mem) {
 					var resId=mem.get('resourceId')
 					console.log(resId)
