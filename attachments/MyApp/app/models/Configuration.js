@@ -15,6 +15,32 @@ $(function() {
       
       return url
     },
+    schema:{
+    
+    name:{
+       type:'Text',
+       validators: ['required']
+    },
+    code:{
+         type:'Text',
+         validators: ['required']
+    },
+    type:{
+         Ttpe:'Text',
+         validators: ['required']
+    },
+    nationName:{
+        type:'Text',
+        validators: ['required']
+    },
+    nationUrl:{
+        type:'Text',
+        validators: ['required']
+    }
+    
+    
+    
+    },
 }) 
 
 })
