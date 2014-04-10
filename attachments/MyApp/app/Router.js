@@ -2020,6 +2020,9 @@ PouchDB.destroy('login', function(err, info) {
       var Groups = new App.Collections.MemberGroups()
           Groups.memberId = $.cookie('Member._id')
       var Reports=new App.Collections.Reports()
+      var userShelf=new App.Collections.shelfResource()
+          shelfitems.compile=true
+      
       
       
       var memId=$.cookie('Member._id')
@@ -2071,8 +2074,8 @@ PouchDB.destroy('login', function(err, info) {
         config.fetch()
       })
       App.once('compile:languages',function(){
-      
             lang.once('sync', function() {
+
         _.each(lang.models, function(langs) {
           replace += encodeURI('/languages/_all_docs?include_docs=true') + '\n'
         })
@@ -2148,6 +2151,7 @@ PouchDB.destroy('login', function(err, info) {
 		})	
 		
  App.once('compile:Groups', function() {  
+
 				Groups.once('sync', function() {
 					
 					  replace += encodeURI('/groups/_all_docs?include_docs=true')+'\n'
