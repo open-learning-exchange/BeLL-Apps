@@ -418,7 +418,9 @@ var test=new App.Models.CourseInvitation()
                context.EditTag(this.value)
            });
            var identifier = '.form .field-Tag select'
-           this.RenderTagSelect(identifier)           
+           this.RenderTagSelect(identifier)
+
+           $('.form .field-Tag select').multiselect();
            if(resource.id==undefined)
            {
                $(".form .field-Tag select").find('option').removeAttr("selected");
@@ -432,7 +434,9 @@ var test=new App.Models.CourseInvitation()
                {
                    var total = resource.get('Tag').length
                    for (var counter = 0; counter < total; counter++)
+                   {
                        $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
+                    }
                    $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
                }
                if(resource.get('subject')==null){
@@ -1264,32 +1268,32 @@ var test=new App.Models.CourseInvitation()
             })
 
         },
-        RenderTagSelect: function (iden) {
-		
-	    var collections = new App.Collections.listRCollection()
-	    collections.major = true
-	    collections.fetch({
-	        async: false
-	    })
-	    collections.each(function (a) {
-	        $(iden).append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
-	    })
+		RenderTagSelect: function (iden) {
 
-	    var subcollections = new App.Collections.listRCollection()
-	    subcollections.major = false
-	    subcollections.fetch({
-	        async: false
-	    })
-	    _.each(subcollections.last(subcollections.length).reverse(), function (a) {
-	    	
-	        if (a.get('NesttedUnder') == '--Select--') {
-	            $(iden).append('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
-	        } else {
-	            if ($(iden+' option[value="' + a.get("NesttedUnder") + '"]') != null) {
-	                $(iden).find('option[value="' + a.get("NesttedUnder") + '"]').after('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
-	            }
-	        }
-	    })
+				var collections = new App.Collections.listRCollection()
+				collections.major = true
+				collections.fetch({
+					async: false
+				})
+				collections.each(function (a) {
+					$(iden).append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
+				})
+
+				var subcollections = new App.Collections.listRCollection()
+				subcollections.major = false
+				subcollections.fetch({
+					async: false
+				})
+				_.each(subcollections.last(subcollections.length).reverse(), function (a) {
+	
+					if (a.get('NesttedUnder') == '--Select--') {
+						$(iden).append('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
+					} else {
+						if ($(iden+' option[value="' + a.get("NesttedUnder") + '"]') != null) {
+							$(iden).find('option[value="' + a.get("NesttedUnder") + '"]').after('<option value="' + a.get('_id') + '">' + a.get('CollectionName') + '</option>')
+						}
+					}
+				})
 	  },
         ResourceFeedback: function (resourceId) {
             var resource = new App.Models.Resource()
