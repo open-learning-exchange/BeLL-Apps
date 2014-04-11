@@ -1951,50 +1951,62 @@ var test=new App.Models.CourseInvitation()
             })
      },         
  PochDB:function(){
-//       
-//         alert("in pouch app sync") 
-			db=new PouchDB('login');
-
-//  		db.put({
-//   				title: 'Heroes'
-// 				}, 'mydoc', function(err, response) {});
-// 
-//      alert('end of pouch app sync')
-//      
-
-	  db.replicate.from('http://127.0.0.1:5984/meetups',function(error, response){
+      FeedBackDb=new PouchDB('feedback');
+	  FeedBackDb.replicate.from('http://127.0.0.1:5984/feedback',function(error, response){
 		if(error){
-		console.log(error)
-		  alert('there is an error')
+		console.log("feedback replication error :"+error)
 		}
 		else{
-		  console.log(response)
-		  alert('success for replication')
+		  console.log("Successfully replicated feedback :" + response)
 		}
 
 	  });
-//       
-//       db.get('mydoc',function(error,response){
-//            console.log(response)
-//            alert('this is responce')
-//       });
-//       
+ 
+       ResourceFrequencyDB=new PouchDB('resourcefrequency');
+	  ResourceFrequencyDB.replicate.from('http://127.0.0.1:5984/resourcefrequency',function(error, response){
+		if(error){
+		console.log("ResourceFrequencyDB replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
+		}
 
+	  });
+	  CourseStep=new PouchDB('coursestep');
+	  CourseStep.replicate.from('http://127.0.0.1:5984/coursestep',function(error, response){
+		if(error){
+		console.log("coursestep replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated coursestep :" + response)
+		}
+
+	  });
+	  MemberCourseProgress=new PouchDB('membercourseprogress');
+	  MemberCourseprogress.replicate.from('http://127.0.0.1:5984/membercourseprogress',function(error, response){
+		if(error){
+		console.log("membercourseprogress replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated membercourseprogress :" + response)
+		}
+
+	  });
  },
  deletePouchDB:function(){
  
-    db=new PouchDB('login');
+    db=new PouchDB('feedback');
     var test=db.allDocs({include_docs: true},function(error,response){
         console.log(response)
      
      });
-PouchDB.destroy('login', function(err, info) {
+PouchDB.destroy('feedback', function(err, info) {
 	if(err)
 	{
-	console.log(err)
+	console.log("Feedback error"+err)
 	}
 	else{
-	console.log(info)
+	console.log("Feedback success"+info)
 	}
  });
 	
