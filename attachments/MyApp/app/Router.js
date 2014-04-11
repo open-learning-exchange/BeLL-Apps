@@ -408,23 +408,17 @@ var test=new App.Models.CourseInvitation()
            $("select[class='bbf-month']").attr("disabled", true);
            $("select[class='bbf-year']").attr("disabled", true);
 
-           $('.form .field-subject select').multiselect().multiselectfilter();
-           $('.form .field-Level select').multiselect().multiselectfilter();
-         // $('.form .field-Tag select').attr("multiple", true);
-          
-
+          $('.form .field-subject select').attr("multiple", true);
+           $('.form .field-Level select').attr("multiple", true);
+           $('.form .field-Tag select').attr("multiple", true);
            $('.form .field-Tag select').click(function () {
-           alert('on click check')
                context.AddNewSelect(this.value)
            });
            $('.form .field-Tag select').dblclick(function () {
                context.EditTag(this.value)
            });
            var identifier = '.form .field-Tag select'
-           this.RenderTagSelect(identifier)
-
-           $('.form .field-Tag select').multiselect();
-           
+           this.RenderTagSelect(identifier)           
            if(resource.id==undefined)
            {
                $(".form .field-Tag select").find('option').removeAttr("selected");
@@ -1964,7 +1958,18 @@ var test=new App.Models.CourseInvitation()
             })
      },         
  PochDB:function(){
-      FeedBackDb=new PouchDB('feedback');
+ 	  var memId=$.cookie('Member._id')
+      var memName=$.cookie('Member.login')
+      var logMember=new App.Collections.Members()
+      var loggedIn = new App.Models.Member({
+                "_id": memId
+            })
+            loggedIn.fetch({
+                async: false
+            })
+      var login = loggedIn.get("login")        
+      
+      var FeedBackDb=new PouchDB('feedback');
 	  FeedBackDb.replicate.from('http://127.0.0.1:5984/feedback',function(error, response){
 		if(error){
 		console.log("feedback replication error :"+error)
@@ -1974,8 +1979,18 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
+	 var Members=new PouchDB('members');
+		  Members.replicate.from('http://127.0.0.1:5984/members',function(error, response){
+			if(error){
+			console.log("members replication error :"+error)
+			}
+			else{
+			  console.log("Successfully replicated members :" + response)
+			}
+
+		  });
  
-       ResourceFrequencyDB=new PouchDB('resourcefrequency');
+       var ResourceFrequencyDB=new PouchDB('resourcefrequency');
 	  ResourceFrequencyDB.replicate.from('http://127.0.0.1:5984/resourcefrequency',function(error, response){
 		if(error){
 		console.log("ResourceFrequencyDB replication error :"+error)
@@ -1985,7 +2000,7 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-	  CourseStep=new PouchDB('coursestep');
+	  var CourseStep=new PouchDB('coursestep');
 	  CourseStep.replicate.from('http://127.0.0.1:5984/coursestep',function(error, response){
 		if(error){
 		console.log("coursestep replication error :"+error)
@@ -1995,8 +2010,8 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-	  MemberCourseProgress=new PouchDB('membercourseprogress');
-	  MemberCourseprogress.replicate.from('http://127.0.0.1:5984/membercourseprogress',function(error, response){
+	  var MemberCourseProgress=new PouchDB('membercourseprogress');
+	  MemberCourseProgress.replicate.from('http://127.0.0.1:5984/membercourseprogress',function(error, response){
 		if(error){
 		console.log("membercourseprogress replication error :"+error)
 		}
@@ -2005,14 +2020,69 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
+		this.saveResources();	 
+ },
+ saveResources:function(){
+ 				 var Resources=new PouchDB('resources');
+ 				 var shelfitems=new App.Collections.shelfResource()
+      			shelfitems.compile=true
+				  shelfitems.once('sync', function() {
+					_.each(shelfitems.models, function(mem) {
+					var resId=mem.get('resourceId')
+					var resource=new App.Models.Resource({_id:resId})
+                    resource.fetch({success:function(resp){
+                   // Resources.put(, 'myOtherDoc').then(function(response) { });
+
+                    Resources.get(resource.toJSON()._id,function(err,response){
+					if(err)
+					{
+						console.log("Can't save Resources"+err)
+					}
+					else{
+					console.log("Resources saved!")
+					}
+					})
+                                         
+                    }
+					})
+					
+				  })
+		})
+		 shelfitems.fetch()
+		
+ },
+ fetchResources:function(){
+  	alert("Here")
+     Resources.get('1000SunnahPerDayIslamicSomalianBook',function(err,doc){
+     if(err)
+     console.log("Error fetching")
+     else
+     console.log(doc)
+     })
  },
  deletePouchDB:function(){
- 
-    db=new PouchDB('feedback');
-    var test=db.allDocs({include_docs: true},function(error,response){
-        console.log(response)
-     
-     });
+    var Resources=new PouchDB('resources');
+ 	Resources.destroy(function(err,info){
+ 	if(err)
+ 	console.log(err)
+ 	else
+ 	console.log(info)
+ 	})
+ 	
+//     var FeedBackDb=new PouchDB('feedback');
+// 	FeedBackDb.destroy(function(err, info) {});
+    var Members=new PouchDB('members');
+	Members.destroy(function(err, info) { });
+	var ResourceFrequencyDB=new PouchDB('resourcefrequency');
+	ResourceFrequencyDB.destroy(function(err, info) { });
+	
+
+    // var db=new PouchDB('feedback');
+//     var test=db.allDocs({include_docs: true},function(error,response){
+//         console.log(response)
+//      
+//      });
+//      
 PouchDB.destroy('feedback', function(err, info) {
 	if(err)
 	{

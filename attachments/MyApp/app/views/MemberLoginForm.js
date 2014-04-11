@@ -33,8 +33,7 @@ $(function () {
                 trigger: true
             })
         },
-
-        setForm: function () {
+	setForm: function () {
             var memberLoginForm = this
             this.form.commit()
             var credentials = this.form.model
@@ -52,8 +51,7 @@ $(function () {
                             vis++
                             member.set("visits", vis)
                             member.once('sync', function () {})
-                            member.save()
-							
+                            
                                 var date = new Date()
                                 $.cookie('Member.login', member.get('login'), {
                                     path: "/apps/_design/bell"
@@ -64,6 +62,7 @@ $(function () {
                                 $.cookie('Member.expTime', date, {
                                     path: "/apps/_design/bell"
                                 })
+                                
                                 if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1)
               						{
               						 //$('#nav').hide()
@@ -72,14 +71,12 @@ $(function () {
               					else 
               					     memberLoginForm.trigger('success:login')
               						 
-                            })
+                            
                             member.save(null,{ success: function(doc,rev){
-              				//alert(parseInt(doc.get('visits')))
-              			//	alert(doc.get('roles').indexOf('SuperManager'))
-              			//			    if(parseInt(doc.get('visits'))==1 && doc.get('roles').indexOf('SuperManager')!=-1)
-              				//		      Backbone.history.navigate('configuration/add', {trigger: true})
-  							}})
-                                } else {
+              				}})
+        
+
+                        } else {
                             alert("Your Account Is Deactivated")
                         }
                     } else {
@@ -90,8 +87,6 @@ $(function () {
                 }
             }});
         },
-
-
     })
 
 })
