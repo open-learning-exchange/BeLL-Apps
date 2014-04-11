@@ -64,7 +64,10 @@ $(function () {
                                 })
                                 
                                 if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1)
+              						{
+              						 //$('#nav').hide()
               						 Backbone.history.navigate('configuration/add', {trigger: true})
+              						}
               					else 
               					     memberLoginForm.trigger('success:login')
               						 

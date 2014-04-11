@@ -11,14 +11,54 @@ $(function() {
       collectionRow.render()  
       this.$el.append(collectionRow.el)
     },
-
+ events : {
+		"click .clickonalphabets" : function(e)
+		{
+			this.collection.skip = 0
+			var val = $(e.target).text()
+			this.collection.startkey = val
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
+			
+		},
+		"click #allresources" : function(e)
+		{
+			this.collection.startkey = ""
+			this.collection.skip = 0
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
+		}
+	},
     addAll: function(){
-    this.$el.html("<tr><th colspan='4'>Collections</th></tr>")
-  this.collection.each(this.addOne, this)
+    
+    	this.$el.html("<tr><th colspan='4'>Collections</th></tr>")
+				var viewText="<tr></tr>"
+			
+				viewText+="<tr><td colspan=7>"
+				viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
+				var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			
+		  		for(var i=0; i<str.length; i++)
+		   		{
+			  		var nextChar = str.charAt(i);
+			 	 	viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+		   		}
+				viewText+="</td></tr>"
+				this.$el.append(viewText)
+    	
+  		this.collection.each(this.addOne, this)
     },
 
     render: function() {
-    
+        
+        
+	   
     	var roles=this.getRoles()
     	if(roles.indexOf('Manager')>=0)
     	{

@@ -41,7 +41,8 @@ $(function () {
                 con.save(null,{ success: function(doc,rev){
         
               			  	alert('Configurations are Successfully Added')
-              			    Backbone.history.navigate('dasboard', {trigger: true})
+              			    Backbone.history.navigate('dashboard', {trigger: true})
+              			    //$('#nav').show()
   						}})
     	    	
 
