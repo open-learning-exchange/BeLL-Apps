@@ -47,7 +47,17 @@ $(function() {
 			{
 				this.render()
 			}
-		}
+		},
+		"click .pageNumber" : function(e)
+		{
+			this.collection.startkey = ""
+			this.collection.skip = e.currentTarget.attributes[0].value
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
+		},
 	},
     initialize: function(){
       //this.$el.append(_.template(this.template))
@@ -94,13 +104,30 @@ $(function() {
     	}
 	   this.$el.append('<br/><br/>')
        this.$el.append("<tr><th style='width: 430px;'>Title</th><th colspan='6'>Actions</th></tr>")
-      this.addAll()
-      this.$el.append('<br/><br/>')
+       this.addAll()
+      
+     var text='<tr><td>'
+     
       if(this.collection.skip!=0)
       {
-      	this.$el.append('<a class="btn btn-success" id="backButton" >Back</a>&nbsp;&nbsp;')
+      	text+='<a class="btn btn-success" id="backButton" >Back</a>&nbsp;&nbsp;'
       }
-      this.$el.append('<a class="btn btn-success" id="nextButton">Next</a>')
+       text+='<a class="btn btn-success" id="nextButton">Next</a></td></tr>'
+      this.$el.append(text)
+     
+      
+      
+      var pageBottom="<tr><td colspan=7>"
+       var looplength=528/20
+       for(var i=0; i<looplength; i++)
+	   {
+	      if(i==0)
+	      pageBottom+='<a  class="pageNumber" value="'+i*20+'">Home</a>&nbsp&nbsp'
+	      else
+	      pageBottom+='<a  class="pageNumber" value="'+i*20+'">'+i+'</a>&nbsp&nbsp'
+	   }
+	    pageBottom+="</td></tr>"
+       this.$el.append(pageBottom)
     }
 
   })
