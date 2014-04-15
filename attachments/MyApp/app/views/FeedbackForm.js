@@ -59,7 +59,6 @@ $(function () {
                 var lengthoffeedbacks = flength.length
                 console.log("lengthoffeedbacks" + lengthoffeedbacks)
                 console.log(this.user_rating)
-
                 this.model.on('sync', function () {
                     var rmodel = new App.Models.Resource({
                         "_id": that.model.get("resourceId")

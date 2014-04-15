@@ -77,6 +77,7 @@ $(function(){
 			'course/invitations/add': 'addCourseInvi',
 			
 			'compile': 'CompileManifest',
+			'dbInfo':'dbinfo',
 			
 },
 addCourseInvi:function(){
@@ -408,9 +409,10 @@ var test=new App.Models.CourseInvitation()
            $("select[class='bbf-month']").attr("disabled", true);
            $("select[class='bbf-year']").attr("disabled", true);
 
-          $('.form .field-subject select').attr("multiple", true);
-           $('.form .field-Level select').attr("multiple", true);
-           $('.form .field-Tag select').attr("multiple", true);
+           $('.form .field-subject select').multiselect().multiselectfilter();
+           $('.form .field-Level select').multiselect().multiselectfilter();
+         // $('.form .field-Tag select').attr("multiple", true);
+           //$('.form .field-Tag select').multiselect();
            $('.form .field-Tag select').click(function () {
                context.AddNewSelect(this.value)
            });
@@ -419,7 +421,6 @@ var test=new App.Models.CourseInvitation()
            });
            var identifier = '.form .field-Tag select'
            this.RenderTagSelect(identifier)
-
            $('.form .field-Tag select').multiselect();
            if(resource.id==undefined)
            {
@@ -428,7 +429,6 @@ var test=new App.Models.CourseInvitation()
                $(".form .field-subject select").find('option').removeAttr("selected");
 
            }
-
            if (resource.id) {
                if(resource.get('Tag'))
                {
@@ -2035,15 +2035,13 @@ var test=new App.Models.CourseInvitation()
 					var resId=mem.get('resourceId')
 					var resource=new App.Models.Resource({_id:resId})
                     resource.fetch({success:function(resp){
-                   // Resources.put(, 'myOtherDoc').then(function(response) { });
-
-                    Resources.get(resource.toJSON()._id,function(err,response){
+                    Resources.put(resource.toJSON(),resource.toJSON()._id,resource.toJSON()._rev,function(err,response){
 					if(err)
 					{
 						console.log("Can't save Resources"+err)
 					}
 					else{
-					console.log("Resources saved!")
+					console.log("Resources saved!"+response)
 					}
 					})
                                          
@@ -2053,16 +2051,6 @@ var test=new App.Models.CourseInvitation()
 				  })
 		})
 		 shelfitems.fetch()
-		
- },
- fetchResources:function(){
-  	alert("Here")
-     Resources.get('1000SunnahPerDayIslamicSomalianBook',function(err,doc){
-     if(err)
-     console.log("Error fetching")
-     else
-     console.log(doc)
-     })
  },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');
@@ -2070,35 +2058,49 @@ var test=new App.Models.CourseInvitation()
  	if(err)
  	console.log(err)
  	else
- 	console.log(info)
+ 	console.log("deleted successfully " + info)
  	})
- 	
-//     var FeedBackDb=new PouchDB('feedback');
-// 	FeedBackDb.destroy(function(err, info) {});
-    var Members=new PouchDB('members');
-	Members.destroy(function(err, info) { });
-	var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-	ResourceFrequencyDB.destroy(function(err, info) { });
-	
-
-    // var db=new PouchDB('feedback');
-//     var test=db.allDocs({include_docs: true},function(error,response){
-//         console.log(response)
-//      
-//      });
-//      
-PouchDB.destroy('feedback', function(err, info) {
+  	
+    var FeedBackDb=new PouchDB('feedback');
+	FeedBackDb.destroy(function(err, info) {
 	if(err)
-	{
-	console.log("Feedback error"+err)
-	}
-	else{
-	console.log("Feedback success"+info)
-	}
- });
+ 	console.log(err)
+ 	else
+	console.log("Successfully Deleted feedback"+info)
+	});
+    var Members=new PouchDB('members');
+	Members.destroy(function(err, info) { 
+	if(err)
+ 	console.log(err)
+ 	else
+		console.log("Successfully Deleted members"+info)
+
+	});
+	var ResourceFrequencyDB=new PouchDB('resourcefrequency');
+	ResourceFrequencyDB.destroy(function(err, info) {
+	if(err)
+ 	console.log(err)
+ 	else 
+	console.log("Successfully Destroy ResourceFrequency"+info)
+	});
 	
- },
  
+},
+dbinfo:function()
+{
+    var Resources=new PouchDB('resources');
+    Resources.info(function(err,info){console.log(info)})
+    var FeedBackDb=new PouchDB('feedback');
+    FeedBackDb.info(function(err,info){console.log(info)})
+	var Members=new PouchDB('members');
+	Members.info(function(err,info){console.log(info)})
+	var ResourceFrequencyDB=new PouchDB('resourcefrequency');
+	ResourceFrequencyDB.info(function(err,info){console.log(info)})
+	var CourseStep=new PouchDB('coursestep');
+	CourseStep.info(function(err,info){console.log(info)})
+
+
+},
     CompileManifest: function() {
       // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()

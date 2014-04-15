@@ -34,6 +34,7 @@ $(function () {
             })
         },
 	setForm: function () {
+// 	 		var Members=new PouchDB('members');
             var memberLoginForm = this
             this.form.commit()
             var credentials = this.form.model
@@ -70,11 +71,20 @@ $(function () {
               						}
               					else 
               					     memberLoginForm.trigger('success:login')
-              						 
-                            
+              				
+							console.log(member.toJSON())
                             member.save(null,{ success: function(doc,rev){
               				}})
-        
+              				
+              				
+//         				Members.get(member.get('_id'), function(err, doc) {
+//         					
+// 							Members.put(member.toJSON(),function(err,info){
+//               				console.log(err)
+//               				console.log(info)
+//               				})
+//               				console.log(doc)
+//         				 });
 
                         } else {
                             alert("Your Account Is Deactivated")

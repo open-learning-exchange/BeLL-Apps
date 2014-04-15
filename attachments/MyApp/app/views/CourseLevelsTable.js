@@ -20,7 +20,6 @@ $(function () {
                 pending.push(resid)
                 member.set("pendingReviews", pending)
                 member.save()
-                console.log(member.get("pendingReviews"))
                 ratingModel = new App.Models.Feedback()
                 ratingModel.set('resourceId', resid)
                 ratingModel.set('memberId', $.cookie('Member._id'))
@@ -42,29 +41,56 @@ $(function () {
         },
 
         quiz: function (e) {
-
+			var context=this
             step = new App.Models.CourseStep({
                 _id: e.currentTarget.value
             })
             step.fetch({
                 async: false
             })
-            console.log(step.toJSON())
+            var JSONsteps=null;
+            if(step.toJSON().questions==undefined)
+            {
+            	var CourseStep=new PouchDB('coursestep');
+				CourseStep.get(e.currentTarget.value, function(err, doc) {
+        					
+              	JSONsteps=doc
+              	var ssids = context.modl.get("stepsIds")
+				var index = ssids.indexOf(e.currentTarget.value)
+				var temp = new App.Views.takeQuizView({
+					questions: JSONsteps.questions,
+					answers: JSONsteps.answers,
+					options: JSONsteps.qoptions,
+					passP: JSONsteps.passingPercentage,
+					resultModel: context.modl,
+					stepIndex: index
+				})
+				temp.render()
+				$('div.takeQuizDiv').html(temp.el)
+				});
+        				 
+				
 
-            var ssids = this.modl.get("stepsIds")
-            var index = ssids.indexOf(e.currentTarget.value)
-            var statusArray = this.modl.get("stepsStatus")
-            var temp = new App.Views.takeQuizView({
-                questions: step.toJSON().questions,
-                answers: step.toJSON().answers,
-                options: step.toJSON().qoptions,
-                passP: step.toJSON().passingPercentage,
-                resultModel: this.modl,
-                stepIndex: index
-            })
-            temp.render()
-            $('div.takeQuizDiv').html(temp.el)
+            }
+            else
+            {
+            	JSONsteps=step.toJSON()
+            	
+				var ssids = context.modl.get("stepsIds")
+				var index = ssids.indexOf(e.currentTarget.value)
+				var temp = new App.Views.takeQuizView({
+					questions: JSONsteps.questions,
+					answers: JSONsteps.answers,
+					options: JSONsteps.qoptions,
+					passP: JSONsteps.passingPercentage,
+					resultModel: context.modl,
+					stepIndex: index
+				})
+				temp.render()
+				$('div.takeQuizDiv').html(temp.el)
 
+			
+            }
         },
 
         initialize: function () {
@@ -74,10 +100,7 @@ $(function () {
             this.collection.each(this.addOne, this)
         },
 
-        addOne: function (model) {
-            
-            console.log(model)
-            
+        addOne: function (model) {            
             var upto=0
             if (model.get("resourceTitles")) {
             
