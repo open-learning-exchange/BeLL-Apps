@@ -73,6 +73,8 @@ $(function(){
             'AllRequests': 'AllRequests',
             'replicateResources': 'Replicate',
 			'savingPochDB' : 'PochDB',
+			'viewInPouchDb':'getCollectionViaMapReduce',
+	
 			'deletePouchDB': 'deletePouchDB',
 			'course/invitations/add': 'addCourseInvi',
 			
@@ -2109,6 +2111,26 @@ var test=new App.Models.CourseInvitation()
 	  });
 
 		this.saveResources();	 
+ },
+ getCollectionViaMapReduce:function(){
+ 
+   var MemberCourseProgress=new PouchDB('membercourseprogress');
+   	   MemberCourseProgress.query({map:function(doc){
+             if(doc.id){
+               emit(doc,true)
+         }
+   }
+   },function(err,res){
+   
+   		console.log(res)
+   		console.log(err)
+   		alert('this is responce')
+   
+   
+   });
+ 
+ 
+ 
  },
  saveResources:function(){
  				 var Resources=new PouchDB('resources');
