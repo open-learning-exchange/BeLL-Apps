@@ -2051,6 +2051,8 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
+	  FeedBackDb.sync('http://127.0.0.1:5984/feedback',{});
+
 	 var Members=new PouchDB('members');
 		  Members.replicate.from('http://127.0.0.1:5984/members',function(error, response){
 			if(error){
@@ -2061,7 +2063,10 @@ var test=new App.Models.CourseInvitation()
 			}
 
 		  });
- 
+ 		Members.sync('http://127.0.0.1:5984/members', {
+  continuous: true,
+	  });
+
        var ResourceFrequencyDB=new PouchDB('resourcefrequency');
 	  ResourceFrequencyDB.replicate.from('http://127.0.0.1:5984/resourcefrequency',function(error, response){
 		if(error){
@@ -2072,6 +2077,10 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
+	  ResourceFrequencyDB.sync('http://127.0.0.1:5984/resourcefrequency', {
+  continuous: true,
+	  });
+
 	  var CourseStep=new PouchDB('coursestep');
 	  CourseStep.replicate.from('http://127.0.0.1:5984/coursestep',function(error, response){
 		if(error){
@@ -2082,6 +2091,9 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
+	  CourseStep.sync('http://127.0.0.1:5984/coursestep', {
+			continuous:true	  });
+
 	  var MemberCourseProgress=new PouchDB('membercourseprogress');
 	  MemberCourseProgress.replicate.from('http://127.0.0.1:5984/membercourseprogress',function(error, response){
 		if(error){
@@ -2092,6 +2104,10 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
+	  MemberCourseProgress.sync('http://127.0.0.1:5984/membercourseprogress', {
+  continuous: true,
+	  });
+
 		this.saveResources();	 
  },
  saveResources:function(){
@@ -2158,6 +2174,25 @@ dbinfo:function()
 {
     var Resources=new PouchDB('resources');
     Resources.info(function(err,info){console.log(info)})
+   //  Resources.gql({select: "*"}, function(err,info){
+//     console.log(err)
+//     console.log(info)
+//     })
+    var pouchdb;
+	PouchDB('http://127.0.0.1:5984/membercourseprogress', function(err, db) {
+   	pouchdb = db;
+   	console.log(err)
+   	console.log(db)
+  // Use pouchdb to call further functions
+    db.gql({select: "*", where: "'1'='1'"}, function(error, result){
+        console.log(error)
+        console.log(result)
+        if(!err){
+        // Use the results of the query here
+        alert("Here")
+        }
+      })
+      })
     var FeedBackDb=new PouchDB('feedback');
     FeedBackDb.info(function(err,info){console.log(info)})
 	var Members=new PouchDB('members');
