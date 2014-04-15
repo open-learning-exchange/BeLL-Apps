@@ -103,9 +103,10 @@ $(function () {
                     this.myModel.set("stepsStatus", sstatus)
                 }
                 sp[this.stepindex] = quizScore.toString()
+                console.log(this.stepIndex)
+                console.log(quizScore.toString())
                 this.myModel.set("stepsResult", sp)
                 this.myModel.save()
-                console.log(this.myModel)
                 if (this.pp <= quizScore) {
                     this.$el.append('</BR><p>You have Passed this Level</p>')
                 } else {
