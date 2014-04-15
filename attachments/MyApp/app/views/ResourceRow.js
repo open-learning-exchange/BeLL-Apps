@@ -3,6 +3,7 @@ $(function () {
     App.Views.ResourceRow = Backbone.View.extend({
 
         tagName: "tr",
+        id:null,
         admn: null,
         events: {
             "click .destroy": function (event) {
@@ -47,6 +48,25 @@ $(function () {
                	this.model.destroy()
                	alert("Resource Successfully deleted.")
                 event.preventDefault()
+            },
+            "click .removeFromCollection": function (event) {
+            		
+            		var tagId=window.location.href.split('#')[1].split('/')[1]
+              		var resTags=this.model.get('Tag')
+              		var	index=resTags.indexOf(tagId)
+              			if(index > -1)
+              			resTags.splice(index,1)
+              		
+              		var that=this
+              		this.model.set('Tag',resTags)
+              		
+              	 	this.model.save(null,{success:function(response,revInfo){
+              		    
+              		    that.remove()
+              		    alert('Resource Is Removed From Collectsion')
+              		
+              		}})
+   
             },
                         
             "click .hides": function (event) {
@@ -313,6 +333,12 @@ $(function () {
 			else
 			{
 				vars.Manager = 0
+			}
+			if(this.displayCollec_Resources==true){
+			   vars.removeFormCollection=1
+			}
+			else{
+			   vars.removeFormCollection=0
 			}
 			this.$el.append(this.template(vars))
 

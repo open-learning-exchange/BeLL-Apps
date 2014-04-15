@@ -142,7 +142,7 @@ $(function () {
 										$('#invitationdiv').hide()
 									}, 1000);
 
-									location.reload()
+									$('.form .field-Tag select').multiselect('refresh')
 								}
 								else
 								{

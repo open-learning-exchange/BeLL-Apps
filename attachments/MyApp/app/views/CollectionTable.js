@@ -6,12 +6,12 @@ $(function() {
 	display:false,
     className: "table table-striped",
 	addOne: function(model){
-      var collectionRow = new App.Views.CollectionRow({model: model})
-      collectionRow.display=this.display
-      collectionRow.render()  
-      this.$el.append(collectionRow.el)
+      	 var collectionRow = new App.Views.CollectionRow({model: model})
+      		 collectionRow.display=this.display
+      		 collectionRow.render()  
+      	this.$el.append(collectionRow.el)
     },
- events : {
+    events : {
 		"click .clickonalphabets" : function(e)
 		{
 			this.collection.skip = 0
@@ -33,11 +33,41 @@ $(function() {
 			{
 				this.render()
 			}
-		}
+		},
+		"click #mergeCollection" :function(e){
+		   this.displayMergeForm()
+		},
+	},
+	displayMergeForm:function(){
+	
+	          $('#invitationdiv').fadeIn(1000)
+                document.getElementById('cont').style.opacity = 0.1
+                document.getElementById('nav').style.opacity = 0.1
+                $('#invitationdiv').show()
+                $('#invitationdiv').html('<h5>Select Collections<h5><br>')
+                $('#invitationdiv').append('<label>Name </label><input id="collectionName" type="text"></input>')
+                var viewText='<select multiple="true" style="width:500px" id="selectCollections">'
+                    this.collection.each(function(coll){
+                         viewText+='<option value="'+coll.get('_id')+'">'+coll.get('CollectionName')+'</option>'
+                    
+                    })
+                viewText+='</select>'
+                
+                $('#invitationdiv').append(viewText)
+                $('#invitationdiv select').multiselect().multiselectfilter()
+                $('#invitationdiv select').multiselect('uncheckAll')
+               
+                $('#invitationdiv').append('<br><br>') 
+                $('#invitationdiv').append('<button class="btn btn-success" id="#continueMerging" onClick="continueMerging()">Continue Merging</button>')
+	
 	},
     addAll: function(){
     
-    	this.$el.html("<tr><th colspan='4'>Collections</th></tr>")
+    	var header="<tr><th colspan='6'>Collections"
+            if(this.display==true)
+              header+="<a id='mergeCollection' style='margin-left:20px' class='btn btn-info small'>Merge</a>"
+    	      header+="</th></tr>"
+    	this.$el.html(header)
 				var viewText="<tr></tr>"
 			
 				viewText+="<tr><td colspan=7>"
@@ -53,6 +83,7 @@ $(function() {
 				this.$el.append(viewText)
     	
   		this.collection.each(this.addOne, this)
+  		
     },
 
     render: function() {

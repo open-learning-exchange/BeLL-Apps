@@ -53,12 +53,12 @@ $(function() {
       Level:{
         title:'Levels',
         type:'Select',
-        options: ['All','Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional'],
+        options: ['Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional'],
       },
       Tag:{
             title:'Collection',
             type:'Select',
- 			options:['Add New']
+ 			options:[]
       },
       Medium:{
         type: 'Select',
