@@ -410,9 +410,12 @@ var test=new App.Models.CourseInvitation()
            $("select[class='bbf-year']").attr("disabled", true);
 
            $('.form .field-subject select').multiselect().multiselectfilter();
+           $('.form .field-subject select').multiselect('uncheckAll')
+           
            $('.form .field-Level select').multiselect().multiselectfilter();
-         // $('.form .field-Tag select').attr("multiple", true);
-           //$('.form .field-Tag select').multiselect();
+           $('.form .field-Level select').multiselect('uncheckAll')
+           
+           $('.form .field-Tag select').attr("multiple", true);
            $('.form .field-Tag select').click(function () {
                context.AddNewSelect(this.value)
            });
@@ -420,12 +423,15 @@ var test=new App.Models.CourseInvitation()
                context.EditTag(this.value)
            });
            var identifier = '.form .field-Tag select'
+           
            this.RenderTagSelect(identifier)
-           $('.form .field-Tag select').multiselect();
-           if(resource.id==undefined)
+           $('.form .field-Tag select').multiselect().multiselectfilter();
+           $('.form .field-Tag select').multiselect("uncheckAll");
+  
+          if(resource.id==undefined)
            {
                $(".form .field-Tag select").find('option').removeAttr("selected");
-               $("'.form .field-Level select").find('option').removeAttr("selected");
+               $(".form .field-Level select").find('option').removeAttr("selected");
                $(".form .field-subject select").find('option').removeAttr("selected");
 
            }
@@ -437,8 +443,11 @@ var test=new App.Models.CourseInvitation()
                    {
                        $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
                     }
-                   $('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
+                   //$('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
                }
+               
+               $('.form .field-Tag select').multiselect("refresh");
+               
                if(resource.get('subject')==null){
                    $(".form .field-subject select").find('option').removeAttr("selected");
                }
@@ -1725,7 +1734,7 @@ var test=new App.Models.CourseInvitation()
 								collection: collections
 							})
 							collectionTableView.render()
-							App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a></p></span>')
+							App.$el.children('.body').html('<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a></p></span>')
 
 							App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">Collections</a></p>')
 
@@ -1784,6 +1793,64 @@ var test=new App.Models.CourseInvitation()
 
 
 				},
+	mergecollection:function(collectionIdes,collectionText){
+	
+	
+	     for(var i=0 ; i < collectionIdes.length ; i++)
+	     {
+	        var collModel=new App.Models.CollectionList({_id:collectionIdes[i]})
+	           collModel.fetch({success:function(res){   
+	               res.destroy()
+	           }})
+	      }
+
+	    var resColl=new App.Collections.Resources()
+	        resColl.collectionName=JSON.stringify(collectionIdes)
+	        resColl.fetch({success:function(res){
+	                
+	                var collectionModel=new App.Models.CollectionList()
+	                    collectionModel.set('CollectionName',collectionText)
+	                    collectionModel.set('Description',"")
+	                    collectionModel.set('IsMajor',true)
+	                    collectionModel.set('NesttedUnder','--Select--')
+	                    collectionModel.set('AddedBy',$.cookie('Member.login'))
+	                    collectionModel.set('AddedDate',new Date())
+	                    collectionModel.set('show',true)
+	                    collectionModel.save(null,{success:function(responceCollec,revInfo){
+	                       
+	                        var newCollId=revInfo.id
+	                        
+							res.each(function(model){
+							      resourceTags=model.get('Tag')
+							      if(Array.isArray(resourceTags))
+							      {	
+							    	for(var i=0 ; i < collectionIdes.length ; i++)
+						          		if(resourceTags.indexOf(collectionIdes[i]) != -1){ 
+						          		    var index=resourceTags.indexOf(collectionIdes[i])
+						               		resourceTags.splice(index,1)
+						                  }
+						             resourceTags.push(newCollId)
+						             model.set('Tag',resourceTags) 
+						             model.save()
+						            } 
+			    
+							 })
+	                        alert('Model is Saved')
+	                         document.getElementById('cont').style.opacity = 1
+                              document.getElementById('nav').style.opacity = 1
+                             $('#invitationdiv').hide()
+	                        
+	                   }})
+
+	        
+	        		
+	        
+	        
+	        }})
+	
+	
+	},			
+				
 	viewAllFeedback: function () {
             feed = new App.Collections.siteFeedbacks()
             feed.fetch({
@@ -1822,10 +1889,11 @@ var test=new App.Models.CourseInvitation()
                         collection: resources
                     })
                     //console.log(App.collectionlist)
+                resourcesTableView.displayCollec_Resources=true    
 				resourcesTableView.collections=App.collectionslist	
                 resourcesTableView.isManager = roles.indexOf("Manager")
                 resourcesTableView.render()
-                    App.$el.children('.body').html('<p><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
+                    App.$el.children('.body').html('<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
 
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
                      

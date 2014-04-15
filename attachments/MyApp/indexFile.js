@@ -574,9 +574,27 @@ function showRequestForm(modl){
   }
 function AddColletcion()
   {
-  App.Router.AddNewSelect("Add New")
+    App.Router.AddNewSelect("Add New")
   }
  function EditColletcion(value)
   {
   App.Router.EditTag(value)
+  } 
+  function continueMerging(){
+  
+     var collections=$('#selectCollections').val()
+     var collectionText=$('#collectionName').val()
+     
+     if(collections)
+     {
+        if(collections.length <2)
+          alert('Please select 2 or more than 2 items to merge')
+        else if(collectionText=="")
+          alert('Collection Name can not be Empty')
+        else
+         App.Router.mergecollection(collections,collectionText)
+     }
+     else
+       alert('Please Select Collections to Merge')
+     
   } 

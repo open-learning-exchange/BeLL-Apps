@@ -66,6 +66,7 @@ $(function() {
   addOne: function(model){
       var resourceRowView = new App.Views.ResourceRow({model: model,admin:this.isAdmin})
       resourceRowView.isManager = this.isManager
+      resourceRowView.displayCollec_Resources=this.displayCollec_Resources
      
       resourceRowView.collections = this.collections
       
@@ -87,21 +88,27 @@ $(function() {
       this.collection.forEach(this.addOne, this)
     },
     render: function() {
-    	this.$el.html("")
-    	if(this.removeAlphabet==undefined){
-    		var viewText="<tr></tr>"
-    	viewText+="<tr><td colspan=7>"
-    	viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
-    	var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	   for(var i=0; i<str.length; i++)
-	   {
-	      var nextChar = str.charAt(i);
-	      viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-	   }
-	   viewText+="</td></tr>"
-	   this.$el.append(viewText)
+				
+	   if(this.displayCollec_Resources!=true){
+				
+				this.$el.html("")
+				if(this.removeAlphabet==undefined){
+						var viewText="<tr></tr>"
+					viewText+="<tr><td colspan=7>"
+					viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
+					var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		
+				   for(var i=0; i<str.length; i++)
+				   {
+					  var nextChar = str.charAt(i);
+					  viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+				   }
+				   viewText+="</td></tr>"
+				   this.$el.append(viewText)
 	   
-    	}
+				}
+		 }		
+	   
 	   this.$el.append('<br/><br/>')
        this.$el.append("<tr><th style='width: 430px;'>Title</th><th colspan='6'>Actions</th></tr>")
        this.addAll()
@@ -112,22 +119,28 @@ $(function() {
       {
       	text+='<a class="btn btn-success" id="backButton" >Back</a>&nbsp;&nbsp;'
       }
-       text+='<a class="btn btn-success" id="nextButton">Next</a></td></tr>'
+       
+     if(this.collection.length>=20)
+       text+='<a class="btn btn-success" id="nextButton">Next</a>'
+      
+      text+='</td></tr>'
       this.$el.append(text)
      
       
-      
-      var pageBottom="<tr><td colspan=7>"
-       var looplength=528/20
-       for(var i=0; i<looplength; i++)
-	   {
-	      if(i==0)
-	      pageBottom+='<a  class="pageNumber" value="'+i*20+'">Home</a>&nbsp&nbsp'
-	      else
-	      pageBottom+='<a  class="pageNumber" value="'+i*20+'">'+i+'</a>&nbsp&nbsp'
-	   }
-	    pageBottom+="</td></tr>"
-       this.$el.append(pageBottom)
+      if(this.displayCollec_Resources!=true)
+      {
+		  var pageBottom="<tr><td colspan=7>"
+		   var looplength=528/20
+		   for(var i=0; i<looplength; i++)
+		   {
+			  if(i==0)
+			  pageBottom+='<a  class="pageNumber" value="'+i*20+'">Home</a>&nbsp&nbsp'
+			  else
+			  pageBottom+='<a  class="pageNumber" value="'+i*20+'">'+i+'</a>&nbsp&nbsp'
+		   }
+			pageBottom+="</td></tr>"
+		   this.$el.append(pageBottom)
+      }
     }
 
   })

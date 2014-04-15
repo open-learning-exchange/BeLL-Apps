@@ -9,6 +9,9 @@ $(function () {
             "click .save": "saveForm",
             "click #cancel": function () {
                 window.history.back()
+            },
+             "click #add_newCoellection": function () {
+                App.Router.AddNewSelect('Add New')
             }
         },
 
@@ -18,6 +21,7 @@ $(function () {
             var vars = {}
 
             // prepare the header
+			
 
             if (_.has(this.model, 'id')) {
                 vars.header = 'Details "' + this.model.get('title') + '"';
@@ -65,6 +69,7 @@ $(function () {
             this.$el.html(this.template(vars))
             // @todo this is hackey, should be the following line or assigned to vars.form
             $('.fields').html(this.form.el)
+            this.$el.append('<button class="btn btn-success" id="add_newCoellection" >Add New</button>')
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
 
