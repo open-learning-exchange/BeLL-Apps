@@ -57,7 +57,7 @@ $(function () {
               	JSONsteps=doc
               	var ssids = context.modl.get("stepsIds")
 				var index = ssids.indexOf(e.currentTarget.value)
-				var temp = new App.Views.takeQuizView({
+				var temp = new App.Views.offlinetakeQuizView({
 					questions: JSONsteps.questions,
 					answers: JSONsteps.answers,
 					options: JSONsteps.qoptions,
@@ -74,11 +74,14 @@ $(function () {
             }
             else
             {
-            	JSONsteps=step.toJSON()
-            	
-				var ssids = context.modl.get("stepsIds")
+            
+            	var CourseStep=new PouchDB('coursestep');
+				CourseStep.get(e.currentTarget.value, function(err, doc) {
+        					
+              	JSONsteps=doc
+              	var ssids = context.modl.get("stepsIds")
 				var index = ssids.indexOf(e.currentTarget.value)
-				var temp = new App.Views.takeQuizView({
+				var temp = new App.Views.offlinetakeQuizView({
 					questions: JSONsteps.questions,
 					answers: JSONsteps.answers,
 					options: JSONsteps.qoptions,
@@ -88,8 +91,28 @@ $(function () {
 				})
 				temp.render()
 				$('div.takeQuizDiv').html(temp.el)
+				});
+        				 
+				
 
-			
+            
+            // 
+//             	JSONsteps=step.toJSON()
+//             	
+// 				var ssids = context.modl.get("stepsIds")
+// 				var index = ssids.indexOf(e.currentTarget.value)
+// 				var temp = new App.Views.takeQuizView({
+// 					questions: JSONsteps.questions,
+// 					answers: JSONsteps.answers,
+// 					options: JSONsteps.qoptions,
+// 					passP: JSONsteps.passingPercentage,
+// 					resultModel: context.modl,
+// 					stepIndex: index
+// 				})
+// 				temp.render()
+// 				$('div.takeQuizDiv').html(temp.el)
+// 
+// 			
             }
         },
 
