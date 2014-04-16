@@ -2033,86 +2033,25 @@ var test=new App.Models.CourseInvitation()
             loggedIn.fetch({
                 async: false
             })
+       var URL=null     
       var login = loggedIn.get("login")        
-      
-      var FeedBackDb=new PouchDB('feedback');
-	  FeedBackDb.replicate.from('http://127.0.0.1:5984/feedback',function(error, response){
-		if(error){
-		console.log("feedback replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated feedback :" + response)
-		}
-
-	  });
-	 FeedBackDb.replicate.to('http://127.0.0.1:5984/feedback',function(error, response){
-		if(error){
-		console.log("feedback replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated feedback :" + response)
-		}
-
-	  });
-	 var Members=new PouchDB('members');
-		  Members.replicate.from('http://127.0.0.1:5984/members',function(error, response){
-			if(error){
-			console.log("members replication error :"+error)
-			}
-			else{
-			  console.log("Successfully replicated members :" + response)
-			}
-
-		  });
-		  Members.replicate.to('http://127.0.0.1:5984/members',function(error, response){
-			if(error){
-			console.log("members replication error :"+error)
-			}
-			else{
-			  console.log("Successfully replicated members :" + response)
-			}
-
-		  });
-       var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-	  ResourceFrequencyDB.replicate.from('http://127.0.0.1:5984/resourcefrequency',function(error, response){
-		if(error){
-		console.log("ResourceFrequencyDB replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-		}
-
-	  }); 
-	  ResourceFrequencyDB.replicate.to('http://127.0.0.1:5984/resourcefrequency',function(error, response){
-		if(error){
-		console.log("ResourceFrequencyDB replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-		}
-
-	  });
-	  var CourseStep=new PouchDB('coursestep');
-	  CourseStep.replicate.from('http://127.0.0.1:5984/coursestep',function(error, response){
-		if(error){
-		console.log("coursestep replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated coursestep :" + response)
-		}
-
-	  });
-	  CourseStep.replicate.to('http://127.0.0.1:5984/coursestep',function(error, response){
-		if(error){
-		console.log("coursestep replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated coursestep :" + response)
-		}
-
-	  });
-	  var MemberCourseProgress=new PouchDB('membercourseprogress');
-	  MemberCourseProgress.replicate.from('http://127.0.0.1:5984/membercourseprogress',{continuous: true},function(error, response){
+      var hostUrl = Backbone.history.location.href
+            hostUrl = hostUrl.split('/')
+            var hostName=hostUrl[2].split('.')
+      var MemberCourseProgress=new PouchDB('membercourseprogress');
+      //condition to check cloudant or local
+      if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/))
+      {
+      //not cloudant
+      	URL='http://'+hostUrl[2]
+      }
+      else
+      {
+      //cloudant
+      	URL='http://'+hostName[0]+':oleoleole@'+hostUrl[2]
+      }
+      console.log(URL)
+	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',{continuous: true},function(error, response){
 		if(error){
 		console.log("membercourseprogress replication error :"+error)
 		}
@@ -2123,7 +2062,7 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });													  
-	  MemberCourseProgress.replicate.to('http://127.0.0.1:5984/membercourseprogress',{continuous: true},function(error, response){
+	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',{continuous: true},function(error, response){
 		if(error){
 		console.log("membercourseprogress replication error :"+error)
 		}
@@ -2132,7 +2071,83 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-	this.saveResources();	 
+      // var FeedBackDb=new PouchDB('feedback');
+// 	  FeedBackDb.replicate.from('http://oledemo:oleoleole@oledemo.cloudant.com/feedback',function(error, response){
+// 		if(error){
+// 		console.log("feedback replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated feedback :" + response)
+// 		}
+// 
+// 	  });
+// 	 FeedBackDb.replicate.to('http://oledemo:oleoleole@oledemo.cloudant.com/feedback',function(error, response){
+// 		if(error){
+// 		console.log("feedback replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated feedback :" + response)
+// 		}
+// 
+// 	  });
+// 	 var Members=new PouchDB('members');
+// 		  Members.replicate.from('http://oledemo:oleoleole@oledemo.cloudant.com/members',function(error, response){
+// 			if(error){
+// 			console.log("members replication error :"+error)
+// 			}
+// 			else{
+// 			  console.log("Successfully replicated members :" + response)
+// 			}
+// 
+// 		  });
+// 		  Members.replicate.to('http://oledemo:oleoleole@oledemo.cloudant.com/members',function(error, response){
+// 			if(error){
+// 			console.log("members replication error :"+error)
+// 			}
+// 			else{
+// 			  console.log("Successfully replicated members :" + response)
+// 			}
+// 
+// 		  });
+//        var ResourceFrequencyDB=new PouchDB('resourcefrequency');
+// 	  ResourceFrequencyDB.replicate.from('http://oledemo:oleoleole@oledemo.cloudant.com/resourcefrequency',function(error, response){
+// 		if(error){
+// 		console.log("ResourceFrequencyDB replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
+// 		}
+// 
+// 	  }); 
+// 	  ResourceFrequencyDB.replicate.to('http://oledemo:oleoleole@oledemo.cloudant.com/resourcefrequency',function(error, response){
+// 		if(error){
+// 		console.log("ResourceFrequencyDB replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
+// 		}
+// 
+// 	  });
+// 	  var CourseStep=new PouchDB('coursestep');
+// 	  CourseStep.replicate.from('http://oledemo:oleoleole@oledemo.cloudant.com/coursestep',function(error, response){
+// 		if(error){
+// 		console.log("coursestep replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated coursestep :" + response)
+// 		}
+// 
+// 	  });
+// 	  CourseStep.replicate.to('http://oledemo:oleoleole@oledemo.cloudant.com/coursestep',function(error, response){
+// 		if(error){
+// 		console.log("coursestep replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated coursestep :" + response)
+// 		}
+// 
+// 	  });
+// 	this.saveResources();	 
  },
  getCollectionViaMapReduce:function(){
  
