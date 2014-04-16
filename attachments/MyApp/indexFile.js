@@ -597,4 +597,11 @@ function AddColletcion()
      else
        alert('Please Select Collections to Merge')
      
+  }
+  function cancelMerging(){
+  
+  
+  document.getElementById('cont').style.opacity = 1
+                document.getElementById('nav').style.opacity = 1
+                $('#invitationdiv').hide()
   } 

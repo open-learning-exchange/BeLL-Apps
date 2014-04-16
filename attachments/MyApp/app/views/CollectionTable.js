@@ -44,22 +44,24 @@ $(function() {
                 document.getElementById('cont').style.opacity = 0.1
                 document.getElementById('nav').style.opacity = 0.1
                 $('#invitationdiv').show()
-                $('#invitationdiv').html('<h5>Select Collections<h5><br>')
-                $('#invitationdiv').append('<label>Name </label><input id="collectionName" type="text"></input>')
-                var viewText='<select multiple="true" style="width:500px" id="selectCollections">'
+                $('#invitationdiv').html('<h5 style="margin-left:40px;margin-top:40px">Select Collections to Merge<h5>')
+
+                var viewText='<p style="margin-left:20px;"><label style="margin-left:20px"><b>Collections</b></label><select multiple="true" style="width:400px;" id="selectCollections">'
                     this.collection.each(function(coll){
                          viewText+='<option value="'+coll.get('_id')+'">'+coll.get('CollectionName')+'</option>'
                     
                     })
-                viewText+='</select>'
+                viewText+='</select></p>'
                 
                 $('#invitationdiv').append(viewText)
+                
+                $('#invitationdiv').append('<br><label style="margin-left:40px"><b>Name</b></label><input id="collectionName" type="text"></input>')
                 $('#invitationdiv select').multiselect().multiselectfilter()
                 $('#invitationdiv select').multiselect('uncheckAll')
                
                 $('#invitationdiv').append('<br><br>') 
-                $('#invitationdiv').append('<button class="btn btn-success" id="#continueMerging" onClick="continueMerging()">Continue Merging</button>')
-	
+                $('#invitationdiv').append('<button class="btn btn-success" style="margin-left:40px" id="continueMerging" onClick="continueMerging()">Continue</button>')
+                $('#invitationdiv').append('<button class="btn btn-danger" style="margin-left:20px"  id="cancelMerging" onClick="cancelMerging()">Cancel</button>')
 	},
     addAll: function(){
     

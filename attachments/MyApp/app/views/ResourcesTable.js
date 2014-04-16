@@ -127,20 +127,35 @@ $(function() {
       this.$el.append(text)
      
       
-      if(this.displayCollec_Resources!=true)
-      {
-		  var pageBottom="<tr><td colspan=7>"
-		   var looplength=528/20
-		   for(var i=0; i<looplength; i++)
-		   {
-			  if(i==0)
-			  pageBottom+='<a  class="pageNumber" value="'+i*20+'">Home</a>&nbsp&nbsp'
-			  else
-			  pageBottom+='<a  class="pageNumber" value="'+i*20+'">'+i+'</a>&nbsp&nbsp'
-		   }
-			pageBottom+="</td></tr>"
-		   this.$el.append(pageBottom)
-      }
+      
+      var resourceLength;
+      var context=this
+      
+      $.ajax({
+    			url : '/resources/_design/bell/_view/count?group=false',
+    			type : 'GET',
+    			dataType : "json",
+    			success : function(json) {
+    			   resourceLength=json.rows[0].value
+    	           if(context.displayCollec_Resources!=true)
+      				{
+					  var pageBottom="<tr><td colspan=7>"
+					   var looplength=resourceLength/20
+					   for(var i=0; i<looplength; i++)
+					   {
+						  if(i==0)
+						  pageBottom+='<a  class="pageNumber" value="'+i*20+'">Home</a>&nbsp&nbsp'
+						  else
+						  pageBottom+='<a  class="pageNumber" value="'+i*20+'">'+i+'</a>&nbsp&nbsp'
+					   }
+						pageBottom+="</td></tr>"
+					   context.$el.append(pageBottom)
+				   }
+    			
+    			}
+  			 })
+
+      
     }
 
   })
