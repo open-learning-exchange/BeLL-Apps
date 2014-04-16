@@ -42,8 +42,9 @@ $(function () {
 
         quiz: function (e) {
 			var context=this
+			var id = e.currentTarget.value
             step = new App.Models.CourseStep({
-                _id: e.currentTarget.value
+                _id: id
             })
             step.fetch({
                 async: false
@@ -55,9 +56,9 @@ $(function () {
 				CourseStep.get(e.currentTarget.value, function(err, doc) {
         					
               	JSONsteps=doc
-              	var ssids = context.modl.get("stepsIds")
-				var index = ssids.indexOf(e.currentTarget.value)
-				var temp = new App.Views.offlinetakeQuizView({
+              	var ssids = context.modl.stepsIds
+				var index = ssids.indexOf(id)
+				var temp = new App.Views.takeQuizView({
 					questions: JSONsteps.questions,
 					answers: JSONsteps.answers,
 					options: JSONsteps.qoptions,
@@ -68,20 +69,14 @@ $(function () {
 				temp.render()
 				$('div.takeQuizDiv').html(temp.el)
 				});
-        				 
-				
-
             }
             else
             {
-            
-            	var CourseStep=new PouchDB('coursestep');
-				CourseStep.get(e.currentTarget.value, function(err, doc) {
-        					
-              	JSONsteps=doc
-              	var ssids = context.modl.get("stepsIds")
-				var index = ssids.indexOf(e.currentTarget.value)
-				var temp = new App.Views.offlinetakeQuizView({
+            	JSONsteps=step.toJSON()
+            	
+				var ssids = context.modl.stepsIds
+				var index = ssids.indexOf(id)
+				var temp = new App.Views.takeQuizView({
 					questions: JSONsteps.questions,
 					answers: JSONsteps.answers,
 					options: JSONsteps.qoptions,
@@ -91,28 +86,8 @@ $(function () {
 				})
 				temp.render()
 				$('div.takeQuizDiv').html(temp.el)
-				});
-        				 
-				
 
-            
-            // 
-//             	JSONsteps=step.toJSON()
-//             	
-// 				var ssids = context.modl.get("stepsIds")
-// 				var index = ssids.indexOf(e.currentTarget.value)
-// 				var temp = new App.Views.takeQuizView({
-// 					questions: JSONsteps.questions,
-// 					answers: JSONsteps.answers,
-// 					options: JSONsteps.qoptions,
-// 					passP: JSONsteps.passingPercentage,
-// 					resultModel: context.modl,
-// 					stepIndex: index
-// 				})
-// 				temp.render()
-// 				$('div.takeQuizDiv').html(temp.el)
-// 
-// 			
+			
             }
         },
 
@@ -168,7 +143,9 @@ $(function () {
                 this.vars.outComes = ['Quiz']
             }
             else if(this.vars.outComes instanceof Array)
-            {}
+            {
+            
+            }
             else{
             var temp=this.vars.outComes
                this.vars.outComes=new Array()
@@ -179,9 +156,9 @@ $(function () {
             
             
             var index = 0
-            var sstatus = this.modl.get("stepsStatus")
-            var ssids = this.modl.get("stepsIds")
-            var sr = this.modl.get("stepsResult")
+            var sstatus = this.modl.stepsStatus
+            var ssids = this.modl.stepsIds
+            var sr = this.modl.stepsResult
 
             while (index < sstatus.length && ssids[index] != this.vars._id) {
                 index++
@@ -217,33 +194,85 @@ $(function () {
             
         },
 
-        setAllResults: function () {
-            var res = new App.Collections.membercourseprogresses()
-            res.courseId = this.collection.first().get("courseId")
-            res.memberId = $.cookie('Member._id')
+setAllResults: function () {
+       	 	var context=this
+        	var memId=$.cookie('Member._id')
+        	var couId=this.collection.first().get("courseId")
+        
+        	var MemberCourseProgress=new PouchDB('membercourseprogress');
+   	   		MemberCourseProgress.query({map:function(doc){
+            	 if(doc.memberId && doc.courseId){
+               		emit([doc.memberId,doc.courseId],doc)
+         		 }
+   			}
+   			},{key:[memId,couId]},function(err,res){
+  				 //if successfully retrive records from pouchDB
+		   if(!err)
+		   {
+		   context.modl=res.rows[0].value
+					console.log(context.modl)
+					var PassedSteps = 0
+					var totalSteps = 0
+					if (res.length != 0) {
+						PassedSteps = 0
+						var sstatus = context.modl.stepsStatus
+						totalSteps = sstatus.length
+						while (PassedSteps < totalSteps && sstatus[PassedSteps] != '0') {
+							PassedSteps++
+						}
+					}
+					 context.addAll()
+					 $("#accordion")
+                        .accordion({
+                            header: "h3",
+                            heightStyle: "content" 
+                        })
+                        .sortable({
+                            axis: "y",
+                            handle: "h3",
+                            stop: function (event, ui) {
+                                // IE doesn't register the blur when sorting
+                                // so trigger focusout handlers to remove .ui-state-focus
+                                ui.item.children("h3").triggerHandler("focusout");
+                            }
+                        });
+			
+		   }
+		   });       
+   },
+//Before pouchDB work this function is used   
+/*settingArgs:function(){
+var memId=$.cookie('Member._id')
+var couId=this.collection.first().get("courseId")
+        
+var res = new App.Collections.membercourseprogresses()
+            res.courseId = couId
+            res.memberId = memId
             res.fetch({
                 async: false
             })
+            console.log(res.toJSON())
             var PassedSteps = 0
             var totalSteps = 0
             if (res.length != 0) {
                 this.modl = res.first()
+                this.modl=this.modl.toJSON()
                 PassedSteps = 0
-                var sstatus = this.modl.get("stepsStatus")
+                var sstatus = this.modl.stepsStatus
                 totalSteps = sstatus.length
                 while (PassedSteps < totalSteps && sstatus[PassedSteps] != '0') {
                     PassedSteps++
                 }
             }
-        },
-
+        this.addAll()
+},
+*/
         render: function () {
 
             if (this.collection.length < 1) {
                 this.$el.append('<p style="font-weight:900;">No data related to selected course found</p>')
             } else {
                 this.setAllResults()
-                this.addAll()
             }
 
         }

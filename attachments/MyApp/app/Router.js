@@ -830,20 +830,7 @@ var test=new App.Models.CourseInvitation()
                     levelsTable.courseId=courseId
                     levelsTable.render()
                     App.$el.children('.body').append(levelsTable.el)
-                    $("#accordion")
-                        .accordion({
-                            header: "h3",
-                            heightStyle: "content" 
-                        })
-                        .sortable({
-                            axis: "y",
-                            handle: "h3",
-                            stop: function (event, ui) {
-                                // IE doesn't register the blur when sorting
-                                // so trigger focusout handlers to remove .ui-state-focus
-                                ui.item.children("h3").triggerHandler("focusout");
-                            }
-                        });
+                    
                 }
             })
         },
@@ -2051,7 +2038,7 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-	 FeedBackDb.replicate.to('http://127.0.0.1:5984/feedback',{continuous: true},function(error, response){
+	 FeedBackDb.replicate.to('http://127.0.0.1:5984/feedback',function(error, response){
 		if(error){
 		console.log("feedback replication error :"+error)
 		}
@@ -2070,7 +2057,7 @@ var test=new App.Models.CourseInvitation()
 			}
 
 		  });
-		  Members.replicate.to('http://127.0.0.1:5984/members',{continuous: true},function(error, response){
+		  Members.replicate.to('http://127.0.0.1:5984/members',function(error, response){
 			if(error){
 			console.log("members replication error :"+error)
 			}
@@ -2089,7 +2076,7 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  }); 
-	  ResourceFrequencyDB.replicate.to('http://127.0.0.1:5984/resourcefrequency',{continuous: true},function(error, response){
+	  ResourceFrequencyDB.replicate.to('http://127.0.0.1:5984/resourcefrequency',function(error, response){
 		if(error){
 		console.log("ResourceFrequencyDB replication error :"+error)
 		}
@@ -2108,7 +2095,7 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-	  CourseStep.replicate.to('http://127.0.0.1:5984/coursestep',{continuous: true},function(error, response){
+	  CourseStep.replicate.to('http://127.0.0.1:5984/coursestep',function(error, response){
 		if(error){
 		console.log("coursestep replication error :"+error)
 		}
@@ -2118,15 +2105,17 @@ var test=new App.Models.CourseInvitation()
 
 	  });
 	  var MemberCourseProgress=new PouchDB('membercourseprogress');
-	  MemberCourseProgress.replicate.from('http://127.0.0.1:5984/membercourseprogress',function(error, response){
+	  MemberCourseProgress.replicate.from('http://127.0.0.1:5984/membercourseprogress',{continuous: true},function(error, response){
 		if(error){
 		console.log("membercourseprogress replication error :"+error)
 		}
 		else{
+				alert("Saved")
+
 		  console.log("Successfully replicated membercourseprogress :" + response)
 		}
 
-	  });
+	  });													  
 	  MemberCourseProgress.replicate.to('http://127.0.0.1:5984/membercourseprogress',{continuous: true},function(error, response){
 		if(error){
 		console.log("membercourseprogress replication error :"+error)
@@ -2213,25 +2202,6 @@ dbinfo:function()
 {
     var Resources=new PouchDB('resources');
     Resources.info(function(err,info){console.log(info)})
-   //  Resources.gql({select: "*"}, function(err,info){
-//     console.log(err)
-//     console.log(info)
-//     })
-    var pouchdb;
-	PouchDB('http://127.0.0.1:5984/membercourseprogress', function(err, db) {
-   	pouchdb = db;
-   	console.log(err)
-   	console.log(db)
-  // Use pouchdb to call further functions
-    db.gql({select: "*", where: "'1'='1'"}, function(error, result){
-        console.log(error)
-        console.log(result)
-        if(!err){
-        // Use the results of the query here
-        alert("Here")
-        }
-      })
-      })
     var FeedBackDb=new PouchDB('feedback');
     FeedBackDb.info(function(err,info){console.log(info)})
 	var Members=new PouchDB('members');
@@ -2240,6 +2210,9 @@ dbinfo:function()
 	ResourceFrequencyDB.info(function(err,info){console.log(info)})
 	var CourseStep=new PouchDB('coursestep');
 	CourseStep.info(function(err,info){console.log(info)})
+	var MemberCourseProgress=new PouchDB('membercourseprogress');
+	MemberCourseProgress.info(function(err,info){console.log(info)})
+	
 
 
 },
