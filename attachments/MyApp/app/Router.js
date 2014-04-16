@@ -411,11 +411,15 @@ var test=new App.Models.CourseInvitation()
            $("select[class='bbf-month']").attr("disabled", true);
            $("select[class='bbf-year']").attr("disabled", true);
 
+           $('.form .field-subject select').attr("multiple", true);
            $('.form .field-subject select').multiselect().multiselectfilter();
            $('.form .field-subject select').multiselect('uncheckAll')
+           $('.form .field-subject select').multiselect('refresh')
            
+           $('.form .field-Level select').attr("multiple", true);
            $('.form .field-Level select').multiselect().multiselectfilter();
            $('.form .field-Level select').multiselect('uncheckAll')
+           $('.form .field-Level select').multiselect('refresh')
            
            $('.form .field-Tag select').attr("multiple", true);
            $('.form .field-Tag select').click(function () {
@@ -1837,10 +1841,11 @@ var test=new App.Models.CourseInvitation()
 						            } 
 			    
 							 })
-	                        alert('Model is Saved')
+	                        alert('Collections Merge Successfully')
 	                         document.getElementById('cont').style.opacity = 1
                               document.getElementById('nav').style.opacity = 1
                              $('#invitationdiv').hide()
+                             location.reload()
 	                        
 	                   }})
 
@@ -2142,13 +2147,19 @@ var test=new App.Models.CourseInvitation()
  },
  getCollectionViaMapReduce:function(){
  
-   var MemberCourseProgress=new PouchDB('membercourseprogress');
+ 
+        var memId="f37b6913a1260218466278728605f3bd"
+        //$.cookie('Member._id')
+        var couId="6a5d800116068da3049ab8fff50062e0"
+        //this.collection.first().get("courseId")
+        
+        var MemberCourseProgress=new PouchDB('membercourseprogress');
    	   MemberCourseProgress.query({map:function(doc){
-             if(doc.id){
-               emit(doc,true)
+             if(doc.memberId && doc.courseId){
+               emit([doc.memberId,doc.courseId],doc)
          }
    }
-   },function(err,res){
+   },{key:[memId,couId]},function(err,res){
    
    		console.log(res)
    		console.log(err)

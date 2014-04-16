@@ -218,6 +218,26 @@ $(function () {
         },
 
         setAllResults: function () {
+        f37b6913a1260218466278728605f3bd
+        var memId=$.cookie('Member._id')
+        var couId=this.collection.first().get("courseId")
+        
+        var MemberCourseProgress=new PouchDB('membercourseprogress');
+   	   MemberCourseProgress.query({map:function(doc){
+             if(doc.memberId && doc.courseId){
+               emit([doc.memberId,doc.courseId],doc)
+         }
+   }
+   },{key:[memId,couId]},function(err,res){
+   
+   		console.log(res)
+   		console.log(err)
+   		alert('this is responce')
+   
+   
+   });
+        
+        
             var res = new App.Collections.membercourseprogresses()
             res.courseId = this.collection.first().get("courseId")
             res.memberId = $.cookie('Member._id')
