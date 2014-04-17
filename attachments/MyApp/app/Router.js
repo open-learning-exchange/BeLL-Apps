@@ -2048,7 +2048,6 @@ var test=new App.Models.CourseInvitation()
       //cloudant
       	URL='http://'+hostName[0]+':oleoleole@'+hostUrl[2]
       }
-      console.log(URL)
 	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
 		if(error){
 		console.log("membercourseprogress replication error :"+error)
@@ -2086,68 +2085,69 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-      
-	 var Members=new PouchDB('members');
-		  Members.replicate.from( URL +'/members',function(error, response){
-			if(error){
-			console.log("members replication error :"+error)
-			}
-			else{
-			  console.log("Successfully replicated members :" + response)
-			}
-
-		  });
-		  Members.replicate.to(URL+'/members',function(error, response){
-			if(error){
-			console.log("members replication error :"+error)
-			}
-			else{
-			  console.log("Successfully replicated members :" + response)
-			}
-
-		  });
-       var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-	  ResourceFrequencyDB.replicate.from(URL+'/resourcefrequency',function(error, response){
-		if(error){
-		console.log("ResourceFrequencyDB replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-		}
-
-	  }); 
-	  ResourceFrequencyDB.replicate.to(URL+'/resourcefrequency',function(error, response){
-		if(error){
-		console.log("ResourceFrequencyDB replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-		}
-
-	  });
-	  var CourseStep=new PouchDB('coursestep');
-	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
-		if(error){
-		console.log("coursestep replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated coursestep :" + response)
-		}
-
-	  });
-	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
-		if(error){
-		console.log("coursestep replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated coursestep :" + response)
-		}
-
-	  });
-	this.saveResources();	 
+//       
+// 	 var Members=new PouchDB('members');
+// 		  Members.replicate.from( URL +'/members',function(error, response){
+// 			if(error){
+// 			console.log("members replication error :"+error)
+// 			}
+// 			else{
+// 			  console.log("Successfully replicated members :" + response)
+// 			}
+// 
+// 		  });
+// 		  Members.replicate.to(URL+'/members',function(error, response){
+// 			if(error){
+// 			console.log("members replication error :"+error)
+// 			}
+// 			else{
+// 			  console.log("Successfully replicated members :" + response)
+// 			}
+// 
+// 		  });
+//        var ResourceFrequencyDB=new PouchDB('resourcefrequency');
+// 	  ResourceFrequencyDB.replicate.from(URL+'/resourcefrequency',function(error, response){
+// 		if(error){
+// 		console.log("ResourceFrequencyDB replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
+// 		}
+// 
+// 	  }); 
+// 	  ResourceFrequencyDB.replicate.to(URL+'/resourcefrequency',function(error, response){
+// 		if(error){
+// 		console.log("ResourceFrequencyDB replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
+// 		}
+// 
+// 	  });
+	  // var CourseStep=new PouchDB('coursestep');
+// 	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
+// 		if(error){
+// 		console.log("coursestep replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated coursestep :" + response)
+// 		}
+// 
+// 	  });
+// 	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
+// 		if(error){
+// 		console.log("coursestep replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated coursestep :" + response)
+// 		}
+// 
+// 	  });
+	this.saveResources(URL);	 
  },
- saveResources:function(){
+ saveResources:function(URL){
  				 var Resources=new PouchDB('resources');
+ 				 var Saving
  				 var shelfitems=new App.Collections.shelfResource()
       			shelfitems.compile=true
 				  shelfitems.once('sync', function() {
@@ -2155,20 +2155,56 @@ var test=new App.Models.CourseInvitation()
 					var resId=mem.get('resourceId')
 					var resource=new App.Models.Resource({_id:resId})
                     resource.fetch({success:function(resp){
-                    Resources.put(resource.toJSON(),resource.toJSON()._id,resource.toJSON()._rev,function(err,response){
-					if(err)
-					{
-						console.log("Can't save Resources"+err)
-					}
-					else{
-					console.log("Resources saved!"+response)
-					}
+                            var resModel=resp.toJSON()
+                            
+                            Resources.get(resModel._id,function(err,resdoc){
+                            		
+                            		if(!err){
+                            		     console.log(resdoc)
+                            		     //alert('check doc in pouchdb')
+                            		}else{
+                            		  console.log(err)
+                            		}              
+                            })
+                            
+                            
+                            console.log(resModel)
+							
+							var myjson
+						    if(!resModel.sum || !resModel.timesRated){
+						 
+								 myjson={
+                                	sum:0,
+                                  	timesRated:0
+                             	}
+					
+							}
+							else
+							{
+								myjson={
+                                	  sum:resModel.sum,
+                                  	timesRated:resModel.timesRated
+                             	}
+							}
+	                       console.log(myjson)
+							
+						    Resources.put(myjson,resModel._id,resModel._rev,function(err,response){
+							
+							if(err){
+								console.log("Can't save Resources"+err)
+								alert("Error")
+							}
+							else{
+							    console.log("Resources saved!"+response)
+							    alert("Success")
+							}
+						   })
+										 
+						}
 					})
-                                         
-                    }
-					})
-				  })				  
-				  Resources.replicate.to('http://127.0.0.1:5984/resources',{continuous: true},function(error, response){
+				  })			
+				  	  
+		Resources.replicate.to(URL+'/resources',function(error, response){
 		if(error){
 		console.log("Resources replication error :"+error)
 		}
@@ -2207,6 +2243,20 @@ var test=new App.Models.CourseInvitation()
  	console.log(err)
  	else 
 	console.log("Successfully Destroy ResourceFrequency"+info)
+	});
+	var membercourseprogress=new PouchDB('membercourseprogress');
+	membercourseprogress.destroy(function(err, info) {
+	if(err)
+ 	console.log(err)
+ 	else 
+	console.log("Successfully Destroy membercourseprogress"+info)
+	});
+	var coursestep=new PouchDB('coursestep');
+	coursestep.destroy(function(err, info) {
+	if(err)
+ 	console.log(err)
+ 	else 
+	console.log("Successfully Destroy coursestep"+info)
 	});
 },
 dbinfo:function()
