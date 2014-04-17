@@ -2149,17 +2149,18 @@ var test=new App.Models.CourseInvitation()
  
  				 var Resources=new PouchDB('resources');
  				 var Saving
- 				 var shelfitems=new App.Collections.shelfResource()
-      			 shelfitems.compile=true
-				 shelfitems.once('sync', function() {
-					
-					_.each(shelfitems.models, function(mem) {
-					
-					var resId=mem.get('resourceId')
-					var resource=new App.Models.Resource({_id:resId})
-					
-                    resource.fetch({success:function(resp){
-                           
+ 				 var Groups = new App.Collections.MemberGroups()
+          		Groups.memberId = $.cookie('Member._id')
+				Groups.once('sync', function() {
+				      _.each(Groups.models, function(group) {
+					  		levels = new App.Collections.CourseLevels()
+                            levels.groupId = group.id
+                            levels.fetch({async:false})
+                            levels.each(function(level){
+                               var resources=level.get('resourceId')
+                              _.each(resources,function(res){
+                                     var resource=new App.Models.Resource({_id:res})
+                                         resource.fetch({success:function(resp){
                             var resModel=resp.toJSON()
                                 console.log(resModel)
                             Resources.get(resModel._id,function(err,resdoc){
@@ -2167,9 +2168,16 @@ var test=new App.Models.CourseInvitation()
                             		if(!err){
                             		     console.log('Sum   '+resModel.sum +'    '+ resdoc.sum)
                             		     console.log('timesRated   '+resModel.timesRated +'    '+ resdoc.timesRated)
+                            		     if(!resModel.sum || !resModel.timesRated)
+                            		     {
+                            		     resource.set('sum',0)
+                            		     resource.set('timesRated',0)
                             		     
+                            		     }
+                            		     else{
                             		     resource.set('sum',parseInt(resModel.sum)+parseInt(resdoc.sum))
                             		     resource.set('timesRated',parseInt(resModel.timesRated)+parseInt(resdoc.timesRated))
+                            		     }
                             		     resource.save(null,{success:function(rupdatedModel,revisoions){
                             		           Resources.put({
     										  		sum:0,
@@ -2186,11 +2194,14 @@ var test=new App.Models.CourseInvitation()
                             		     })
                             		}              
                             })										 
-						}
-					})
-				  })			
-		})
-		 shelfitems.fetch()
+                                         }})
+                                        
+                              })
+                               
+                            })
+					})  
+				  })
+		  Groups.fetch()		
  },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');
