@@ -2146,6 +2146,7 @@ var test=new App.Models.CourseInvitation()
 	this.saveResources(URL);	 
  },
  saveResources:function(URL){
+ 
  				 var Resources=new PouchDB('resources');
  				 var Saving
  				 var Groups = new App.Collections.MemberGroups()
@@ -2160,85 +2161,40 @@ var test=new App.Models.CourseInvitation()
                               _.each(resources,function(res){
                                      var resource=new App.Models.Resource({_id:res})
                                          resource.fetch({success:function(resp){
-                                            /*
-                                            resource fetching
-                                            
-                                            
-                                            
-                                            */
-                                            
+                            var resModel=resp.toJSON()
+                                console.log(resModel)
+                            Resources.get(resModel._id,function(err,resdoc){
+                            		
+                            		if(!err){
+                            		     console.log('Sum   '+resModel.sum +'    '+ resdoc.sum)
+                            		     console.log('timesRated   '+resModel.timesRated +'    '+ resdoc.timesRated)
+                            		     
+                            		     resource.set('sum',parseInt(resModel.sum)+parseInt(resdoc.sum))
+                            		     resource.set('timesRated',parseInt(resModel.timesRated)+parseInt(resdoc.timesRated))
+                            		     resource.save(null,{success:function(rupdatedModel,revisoions){
+                            		           Resources.put({
+    										  		sum:0,
+    										  		timesRated: 0
+                            		     		},resdoc._id,resdoc._rev,function(error,info){
+                            		     		
+                            		     		})
+                            		     }})
+                            		}else{
+                            		    Resources.post({
+                            		          _id: resModel._id,
+    										  sum:0,
+    										  timesRated: 0
+                            		     })
+                            		}              
+                            })										 
                                          }})
                                         
                               })
                                
                             })
 					})  
-					  App.trigger('compile:CommunityReport')
 				  })
-		  Groups.fetch()		 
-// 				  shelfitems.once('sync', function() {
-// 					_.each(shelfitems.models, function(mem) {
-// 					var resId=mem.get('resourceId')
-// 					var resource=new App.Models.Resource({_id:resId})
-//                     resource.fetch({success:function(resp){
-//                             var resModel=resp.toJSON()
-//                             
-//                             Resources.get(resModel._id,function(err,resdoc){
-//                             		
-//                             		if(!err){
-//                             		     console.log(resdoc)
-//                             		}else{
-//                             		  console.log(err)
-//                             		}              
-//                             })
-//                             
-//                             
-//                             console.log(resModel)
-// 							
-// 							var myjson
-// 						    if(!resModel.sum || !resModel.timesRated){
-// 						 
-// 								 myjson={
-//                                 	sum:0,
-//                                   	timesRated:0
-//                              	}
-// 					
-// 							}
-// 							else
-// 							{
-// 								myjson={
-//                                 	  sum:resModel.sum,
-//                                   	timesRated:resModel.timesRated
-//                              	}
-// 							}
-// 	                       console.log(myjson)
-// 							
-// 						    Resources.put(myjson,resModel._id,resModel._rev,function(err,response){
-// 							
-// 							if(err){
-// 								console.log("Can't save Resources"+err)
-// 								alert("Error")
-// 							}
-// 							else{
-// 							    console.log("Resources saved!"+response)
-// 							    alert("Success")
-// 							}
-// 						   })
-// 										 
-// 						}
-// 					})
-// 				  })			
-// 				  	  
-// 		Resources.replicate.to(URL+'/resources',function(error, response){
-// 		if(error){
-// 		console.log("Resources replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated resources :" + response)
-// 		}
-// 	  });
-// 		})
-// 		 shelfitems.fetch()
+		  Groups.fetch()		
  },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');
