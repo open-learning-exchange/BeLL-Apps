@@ -57,19 +57,17 @@ $(function () {
                     async: false
                 })
                 var lengthoffeedbacks = flength.length
-                console.log("lengthoffeedbacks" + lengthoffeedbacks)
-                console.log(this.user_rating)
+               // console.log("lengthoffeedbacks" + lengthoffeedbacks)
+                //console.log(this.user_rating)
+                
                 this.model.on('sync', function () {
                
 					var Resources=new PouchDB('resources');
-					var resModel=that.model.toJSON();
-
-					Resources.get(resModel._id,function(err,resdoc){
+					var resId=that.model.get("resourceId")
+										
+					Resources.get(resId,function(err,resdoc){
 									
-										if(!err){
-											 //console.log('Sum   '+resModel.sum +'    '+ resdoc.sum)
-											 //console.log('timesRated   '+resModel.timesRated +'    '+ resdoc.timesRated)  
-												
+										if(!err){										
 												var numRating=parseInt(resdoc.timesRated)
 												    numRating++
 												var sumRating=parseInt(resdoc.sum)+parseInt(that.user_rating)
@@ -77,17 +75,16 @@ $(function () {
 														sum:sumRating,
 														timesRated: numRating
 													},resdoc._id,resdoc._rev,function(error,info){
-												       console.log(error)
-												       console.log(info)
-												       alert('in call back function')
+													
 													})
 										}else{
 											Resources.post({
-												  _id: resModel._id,
+												  _id: resId._id,
 												  sum:parseInt(that.user_rating),
 												  timesRated: 1
 											 })
-										}              
+										} 
+									alert('Rating is successfully saved')	             
 								})			
 				 
                  
