@@ -96,15 +96,30 @@ $(function () {
                 console.log(quizScore)
                 this.$el.append('<div class="quizText"><h4>You Scored ' + Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')
                 this.$el.append('<div class="quizActions" ><button class="btn btn-info" id="finishPressed">Finish</button></div>')
-                var sstatus = this.myModel.get("stepsStatus")
-                var sp = this.myModel.get("stepsResult")
+                var sstatus = this.myModel.stepsStatus
+                var sp = this.myModel.stepsResult
                 if (this.pp <= quizScore) {
                     sstatus[this.stepindex] = "1"
-                    this.myModel.set("stepsStatus", sstatus)
+                    this.myModel.stepsStatus= sstatus
                 }
                 sp[this.stepindex] = quizScore.toString()
-                this.myModel.set("stepsResult", sp)
-                this.myModel.save()
+                this.myModel.stepsResult = sp
+
+                var MemberCourseProgress=new PouchDB('membercourseprogress');
+                
+                MemberCourseProgress.put(this.myModel, this.myModel._id, this.myModel._rev, function(err,info){
+                if(!err)
+                {
+                console.log("Result Saved!")
+                }
+                else{
+                console.log(err)
+                
+                console.log("Not Saved")
+                }
+                })
+                
+                //this.myModel.save()
                 console.log(this.myModel)
                 if (this.pp <= quizScore) {
                     this.$el.append('</BR><p>You have Passed this Level</p>')
