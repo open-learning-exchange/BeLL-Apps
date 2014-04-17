@@ -2168,9 +2168,16 @@ var test=new App.Models.CourseInvitation()
                             		if(!err){
                             		     console.log('Sum   '+resModel.sum +'    '+ resdoc.sum)
                             		     console.log('timesRated   '+resModel.timesRated +'    '+ resdoc.timesRated)
+                            		     if(!resModel.sum || !resModel.timesRated)
+                            		     {
+                            		     resource.set('sum',0)
+                            		     resource.set('timesRated',0)
                             		     
+                            		     }
+                            		     else{
                             		     resource.set('sum',parseInt(resModel.sum)+parseInt(resdoc.sum))
                             		     resource.set('timesRated',parseInt(resModel.timesRated)+parseInt(resdoc.timesRated))
+                            		     }
                             		     resource.save(null,{success:function(rupdatedModel,revisoions){
                             		           Resources.put({
     										  		sum:0,
