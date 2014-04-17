@@ -60,25 +60,56 @@ $(function () {
                 console.log("lengthoffeedbacks" + lengthoffeedbacks)
                 console.log(this.user_rating)
                 this.model.on('sync', function () {
-                    var rmodel = new App.Models.Resource({
-                        "_id": that.model.get("resourceId")
-                    })
-                    rmodel.fetch({
-                        success: function () {
-                            var avgr = rmodel.get("sum")
-                            if(avgr==null)
-                            {
-                            	avgr = parseInt(that.user_rating)       
-                            }
-                            else{
-                            	avgr = parseInt(avgr) + parseInt(that.user_rating)
-                            }
-                            rmodel.set("sum", parseInt(avgr))
-                            rmodel.set("timesRated", lengthoffeedbacks + 1)
-                            rmodel.save()
-                        }
-                    })
-                })
+               
+					var Resources=new PouchDB('resources');
+					var resModel=that.model.toJSON();
+
+					Resources.get(resModel._id,function(err,resdoc){
+									
+										if(!err){
+											 //console.log('Sum   '+resModel.sum +'    '+ resdoc.sum)
+											 //console.log('timesRated   '+resModel.timesRated +'    '+ resdoc.timesRated)  
+												
+												var numRating=parseInt(resdoc.timesRated)
+												    numRating++
+												var sumRating=parseInt(resdoc.sum)+parseInt(that.user_rating)
+												   Resources.put({
+														sum:sumRating,
+														timesRated: numRating
+													},resdoc._id,resdoc._rev,function(error,info){
+												       console.log(error)
+												       console.log(info)
+												       alert('in call back function')
+													})
+										}else{
+											Resources.post({
+												  _id: resModel._id,
+												  sum:parseInt(that.user_rating),
+												  timesRated: 1
+											 })
+										}              
+								})			
+				 
+                 
+                    // var rmodel = new App.Models.Resource({
+//                         "_id": that.model.get("resourceId")
+//                     })
+//                     rmodel.fetch({
+//                         success: function () {
+//                             var avgr = rmodel.get("sum")
+//                             if(avgr==null)
+//                             {
+//                             	avgr = parseInt(that.user_rating)       
+//                             }
+//                             else{
+//                             	avgr = parseInt(avgr) + parseInt(that.user_rating)
+//                             }
+//                             rmodel.set("sum", parseInt(avgr))
+//                             rmodel.set("timesRated", lengthoffeedbacks + 1)
+//                             rmodel.save()
+//                         }
+//                     })
+               })
                 this.model.save()
                 var resourcefreq = new App.Collections.ResourcesFrequency()
                 resourcefreq.memberID = $.cookie('Member._id')
