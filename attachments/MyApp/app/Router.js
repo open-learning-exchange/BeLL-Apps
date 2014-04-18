@@ -2109,7 +2109,7 @@ var test=new App.Models.CourseInvitation()
 
 	  });
 	  var FeedBackDb=new PouchDB('feedback');
-	  FeedBackDb.replicate.from(URL+'/feedback',function(error, response){
+	       FeedBackDb.replicate.to(URL+'/feedback',function(error, response){
 		if(error){
 		console.log("FeedBackDb replication error :"+error)
 		}
@@ -2117,17 +2117,19 @@ var test=new App.Models.CourseInvitation()
 		  console.log("Successfully replicated FeedBackDb :" + response)
 		}
 
-	  });													  
-	  FeedBackDb.replicate.to(URL+'/feedback',function(error, response){
-		if(error){
-		console.log("FeedBackDb replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated FeedBackDb :" + response)
-		}
-
-	  });
-//       
+	  }); 
+      this.saveFrequency(URL);
+// 
+//  FeedBackDb.replicate.from(URL+'/feedback',function(error, response){
+// 		if(error){
+// 		console.log("FeedBackDb replication error :"+error)
+// 		}
+// 		else{
+// 		  console.log("Successfully replicated FeedBackDb :" + response)
+// 		}
+// 
+// 	  });													  
+// 	  
 // 	 var Members=new PouchDB('members');
 // 		  Members.replicate.from( URL +'/members',function(error, response){
 // 			if(error){
@@ -2147,25 +2149,6 @@ var test=new App.Models.CourseInvitation()
 // 			}
 // 
 // 		  });
-//        var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-// 	  ResourceFrequencyDB.replicate.from(URL+'/resourcefrequency',function(error, response){
-// 		if(error){
-// 		console.log("ResourceFrequencyDB replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-// 		}
-// 
-// 	  }); 
-// 	  ResourceFrequencyDB.replicate.to(URL+'/resourcefrequency',function(error, response){
-// 		if(error){
-// 		console.log("ResourceFrequencyDB replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-// 		}
-// 
-// 	  });
 	  // var CourseStep=new PouchDB('coursestep');
 // 	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
 // 		if(error){
@@ -2244,6 +2227,36 @@ var test=new App.Models.CourseInvitation()
 					})  
 				  })
 		  Groups.fetch()		
+ },
+ saveFrequency:function(URL){
+ 			if($.cookie('Member._id'))
+ 			{
+ 				var ResourceFrequencyDB=new PouchDB('resourcefrequency');
+				var resourcefreq = new App.Collections.ResourcesFrequency()
+				resourcefreq.memberID = $.cookie('Member._id')
+				resourcefreq.fetch({
+					async: false
+				})
+				console.log(resourcefreq.toJSON())
+			var myjson=resourcefreq.first().toJSON()
+				ResourceFrequencyDB.put(myjson,myjson._id,myjson._rev,function(error,info){
+				
+					if(error){
+							console.log("ResourceFrequencyDB replication error :"+error)
+						}else{
+				  			console.log("Successfully replicated ResourceFrequencyDB :" + info)
+						}
+				})
+				
+	  ResourceFrequencyDB.replicate.to(URL+'/resourcefrequency',function(error, response){
+						if(error){
+							console.log("ResourceFrequencyDB replication error :"+error)
+						}else{
+				  			console.log("Successfully replicated ResourceFrequencyDB :" + response)
+						}
+
+	             });
+ 			}
  },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');

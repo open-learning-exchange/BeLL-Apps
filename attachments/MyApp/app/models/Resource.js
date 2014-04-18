@@ -65,8 +65,8 @@ $(function() {
         options: [ 'Text', 'Graphic/Pictures', 'Audio/Music/Book ', 'Video']
       },
       openWith:{
-        type: 'Select',
-        options: [ 'Just download','HTML','PDF.js','Flow Video Player','BeLL Video Book Player','Native Video' ]
+        type: 'Select', 
+        options: [{ val:  'Just download', label:  'Just download' },{ val: 'HTML', label: 'HTML' },{ val: 'PDF.js', label: 'PDF' },{ val:  'Just download', label:  'Audio (MP3)' },{ val: 'Flow Video Player', label: 'Video (MP4, FLV)' },{ val: 'BeLL Video Book Player', label: 'Video Book (webm+json)' },{ val: 'Native Video', label: 'Native Video' } ]
       },
      uploadDate:'Date',
       averageRating :'Text',
