@@ -2085,6 +2085,26 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
+	         var ResourceFrequencyDB=new PouchDB('resourcefrequency');
+	  ResourceFrequencyDB.replicate.from(URL+'/resourcefrequency',function(error, response){
+		if(error){
+		console.log("ResourceFrequencyDB replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
+		}
+
+	  }); 
+	  ResourceFrequencyDB.replicate.to(URL+'/resourcefrequency',function(error, response){
+		if(error){
+		console.log("ResourceFrequencyDB replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
+		}
+
+	  });
+
 //       
 // 	 var Members=new PouchDB('members');
 // 		  Members.replicate.from( URL +'/members',function(error, response){
@@ -2105,25 +2125,6 @@ var test=new App.Models.CourseInvitation()
 // 			}
 // 
 // 		  });
-//        var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-// 	  ResourceFrequencyDB.replicate.from(URL+'/resourcefrequency',function(error, response){
-// 		if(error){
-// 		console.log("ResourceFrequencyDB replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-// 		}
-// 
-// 	  }); 
-// 	  ResourceFrequencyDB.replicate.to(URL+'/resourcefrequency',function(error, response){
-// 		if(error){
-// 		console.log("ResourceFrequencyDB replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated ResourceFrequencyDB :" + response)
-// 		}
-// 
-// 	  });
 	  // var CourseStep=new PouchDB('coursestep');
 // 	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
 // 		if(error){
