@@ -54,6 +54,7 @@ $(function(){
             'members': 'Members',
             
             'reports': 'Reports',
+            'reports/sync' : 'syncReports',
     	    'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
             
@@ -1187,7 +1188,7 @@ var test=new App.Models.CourseInvitation()
             resourcesTableView.render()
              App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a></p>')
 			}
 			var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
@@ -1197,6 +1198,42 @@ var test=new App.Models.CourseInvitation()
 			App.$el.children('.body').append('<h4><span style="color:gray;">'+temp+'</span> | Reports</h4>')
             App.$el.children('.body').append(resourcesTableView.el)
             App.stopActivityIndicator()
+
+        },
+        syncReports:function(){
+        
+         var configurationModel=new App.Collections.Configurations()
+		     configurationModel.fetch({success:function(res){
+		     
+					        var conf=res.first()
+					        console.log(conf)
+					        var nationName=conf.get('nationName')
+					        var nationURL=conf.get('nationUrl')
+					        
+					        //console.log('http://'+ nationName +':oleoleole@'+ nationURL + ':5984/reports')
+							$.ajax({
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json; charset=utf-8'
+								},
+								type: 'POST',
+								url: '/_replicate',
+								dataType: 'json',
+								data: JSON.stringify({
+									"source": "reports",
+									"target": 'http://'+ nationName +':oleoleole@'+ nationURL + ':5984/reports'
+								}),
+								success: function (response) {
+
+								},
+								async: false
+							})
+					 
+				 }})
+    
+  			  App.stopActivityIndicator()   
+  			        
+             alert('here is syncing')
 
         },
         ReportForm: function (reportId) {
