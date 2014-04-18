@@ -1202,6 +1202,7 @@ var test=new App.Models.CourseInvitation()
         },
         syncReports:function(){
         
+              App.startActivityIndicator()
          var configurationModel=new App.Collections.Configurations()
 		     configurationModel.fetch({success:function(res){
 		     
@@ -1210,7 +1211,7 @@ var test=new App.Models.CourseInvitation()
 					        var nationName=conf.get('nationName')
 					        var nationURL=conf.get('nationUrl')
 					        
-					        //console.log('http://'+ nationName +':oleoleole@'+ nationURL + ':5984/reports')
+					        console.log('http://'+ nationName +':oleoleole@'+ nationURL + ':5984/communityreports')
 							$.ajax({
 								headers: {
 									'Accept': 'application/json',
@@ -1220,20 +1221,24 @@ var test=new App.Models.CourseInvitation()
 								url: '/_replicate',
 								dataType: 'json',
 								data: JSON.stringify({
-									"source": "reports",
-									"target": 'http://'+ nationName +':oleoleole@'+ nationURL + ':5984/reports'
+									"source": "communityreports",
+									"target": 'http://'+ nationName +':oleoleole@'+ nationURL + ':5984/communityreports'
 								}),
 								success: function (response) {
-
+                                            App.stopActivityIndicator()
+                                            alert('sync successfully ')
+                                            Backbone.history.navigate('reports',{trigger: true})
 								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) { 
+								            App.stopActivityIndicator()
+                    						alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    						Backbone.history.navigate('reports', {trigger: true}) 
+                					}, 
 								async: false
 							})
 					 
 				 }})
-    
-  			  App.stopActivityIndicator()   
-  			        
-             alert('here is syncing')
+
 
         },
         ReportForm: function (reportId) {
