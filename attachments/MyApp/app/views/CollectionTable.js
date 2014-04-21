@@ -35,7 +35,15 @@ $(function() {
 			}
 		},
 		"click #mergeCollection" :function(e){
-		   this.displayMergeForm()
+		    this.displayMergeForm()
+		},
+		"click #nextButton" :function(e){
+		    this.collection.skip += 20
+			this.collection.fetch({async:false})
+			if(this.collection.length>0)
+			{
+				this.render()
+			}
 		},
 	},
 	displayMergeForm:function(){
@@ -78,13 +86,18 @@ $(function() {
 			
 		  		for(var i=0; i<str.length; i++)
 		   		{
-			  		var nextChar = str.charAt(i);
+			  	    var nextChar = str.charAt(i);
 			 	 	viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 		   		}
 				viewText+="</td></tr>"
 				this.$el.append(viewText)
     	
   		this.collection.each(this.addOne, this)
+  		if(this.collection.length <= 20)
+  		{
+  		  this.$el.append('<tr><td><button onClick="nextButton">Next</buttton></td></tr>')
+  		
+  		}
   		
     },
 

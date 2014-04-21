@@ -95,6 +95,9 @@ $(function () {
 								
 						var freqmodel = response.rows[0].doc
 						var index = freqmodel.resourceID.indexOf(that.model.get('resourceId').toString())
+						console.log(freqmodel.resourceID)
+						console.log(index)
+						console.log(that.model.get('resourceId'))
 						if (index != -1) {
 								var freq = freqmodel.reviewed
 								freq[index] = freq[index] + 1
@@ -177,37 +180,7 @@ $(function () {
 //                })
 //  this.model.save()
 //   var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-                var resourcefreq = new App.Collections.ResourcesFrequency()
-                resourcefreq.memberID = $.cookie('Member._id')
-                resourcefreq.fetch({
-                    async: false
-                })
-                var freqmodel = resourcefreq.first()
-                console.log(freqmodel.toJSON())
-                var index = freqmodel.get("resourceID").indexOf(that.model.get("resourceId").toString())
-                console.log(index)
-                if (index != -1) {
-                    var freq = freqmodel.get('reviewed')
-                    freq[index] = freq[index] + 1
-                    freqmodel.set('reviewed',freq[index])
-                    freqmodel.save()
-                    
-                }
-                //				var member = new App.Models.Member({
-                //                     _id: $.cookie('Member._id')
-                //                 })
-                //                 member.fetch({
-                //                     async: false
-                //                })            
-                //                var pending=[]
-                //                pending=member.get("pendingReviews")
-                //                var index=pending.indexOf(that.model.get("resourceId"))
-                //                if(index>-1){
-                //                	pending.splice(index,1)
-                //                	member.set("pendingReviews",pending)
-                //                	member.save()
-            
-                    $('#externalDiv').hide()
+            $('#externalDiv').hide()
             }
 
         },

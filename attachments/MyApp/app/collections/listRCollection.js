@@ -5,12 +5,11 @@ $(function() {
   
 	url: function() {
      
-     if(this.skip==0 && this.startkey!="")
-            return App.Server + '/collectionlist/_design/bell/_view/sortCollection?include_docs=true&startkey="'+this.startkey+'"&limit=20&skip='+this.skip
-        
-     else if(this.skip==0 && this.startkey=="")
+     if(this.skip==0 && this.startkey=="")
         	return App.Server + '/collectionlist/_design/bell/_view/allrecords?include_docs=true'
-        	   	
+     else if(this.startkey!="")
+            return App.Server + '/collectionlist/_design/bell/_view/sortCollection?include_docs=true&startkey="'+this.startkey+'"&limit=20&skip='+this.skip	
+               	   	
      else if(this.major==true)
             return App.Server + '/collectionlist/_design/bell/_view/majorcatagory?include_docs=true'
      
