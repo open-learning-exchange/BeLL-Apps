@@ -63,6 +63,7 @@ $(function() {
     },
 
     render: function() {
+    this.collection.skip=0
       this.addAll()
     }
 

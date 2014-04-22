@@ -365,7 +365,6 @@ var test=new App.Models.CourseInvitation()
 							  while(App.collectionslist.length==0){
 								 alert("Retriving records")
 							 }
-							 console.log(App.collectionslist.length)
 							 resourcesTableView.collections=App.collectionslist	
                      		 resourcesTableView.render()
                      		App.$el.children('.body').append(resourcesTableView.el)
@@ -586,7 +585,6 @@ var test=new App.Models.CourseInvitation()
                         collection: groups
                     })
                     groupsTable.render()
-
                     var button = '<p id="library-top-buttons">'
                     button += '<a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
                     button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
