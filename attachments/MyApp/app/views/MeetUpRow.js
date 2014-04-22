@@ -29,7 +29,9 @@ $(function () {
                 vars.creator = 1
             } else {
                 vars.creator = 0
-            }            
+            }
+                    
+             if(vars._id!='_design/bell')
             this.$el.append(_.template(this.template, vars))
         }
 
