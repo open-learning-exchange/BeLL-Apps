@@ -334,7 +334,6 @@ $(function () {
 
 			},
         RenderTagSelect: function (iden) {
-		
 	    var collections = new App.Collections.listRCollection()
 	    collections.major = true
 	    collections.fetch({

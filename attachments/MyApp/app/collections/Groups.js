@@ -3,7 +3,8 @@ $(function() {
   App.Collections.Groups = Backbone.Collection.extend({
 
     url:function(){
-         if(this.skip)
+    
+         if(this.skip!=undefined)
           return  App.Server + '/groups/_all_docs?include_docs=true&limit=20&skip='+this.skip
          else
           return  App.Server + '/groups/_all_docs?include_docs=true'

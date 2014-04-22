@@ -10,7 +10,7 @@ $(function() {
 		"click #backButton": function (e) {
 			if(this.collection.skip>0)
 			{
-				this.collection.skip = this.collection.skip-20
+				this.collection.skip = parseInt(this.collection.skip)-20
 			}
 			this.collection.fetch({async:false})
 			if(this.collection.length>0)
@@ -19,7 +19,7 @@ $(function() {
 			}
 		},
 		"click #nextButton": function (e){
-			this.collection.skip = this.collection.skip+20
+			this.collection.skip = parseInt(this.collection.skip)+20
 			this.collection.fetch({async:false})
 			if(this.collection.length>0)
 			{
@@ -130,8 +130,9 @@ $(function() {
       
       var resourceLength;
       var context=this
-      
-      $.ajax({
+      if(this.removeAlphabet==undefined)
+      {
+	      $.ajax({
     			url : '/resources/_design/bell/_view/count?group=false',
     			type : 'GET',
     			dataType : "json",
@@ -155,6 +156,9 @@ $(function() {
     			}
   			 })
 
+      }
+      
+      
       
     }
 
