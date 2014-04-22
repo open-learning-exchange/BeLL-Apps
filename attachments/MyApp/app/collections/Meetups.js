@@ -2,7 +2,12 @@ $(function() {
 
   App.Collections.Meetups = Backbone.Collection.extend({
 
-    url: App.Server + '/meetups/_all_docs?include_docs=true',
+     url:function(){
+         if(this.skip)
+          return  App.Server + '/meetups/_all_docs?include_docs=true&limit=20&skip='+this.skip
+         else
+          return  App.Server + '/meetups/_all_docs?include_docs=true'
+     },
 
     parse: function(response) {
       var docs = _.map(response.rows, function(row) {
