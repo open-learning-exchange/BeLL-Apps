@@ -2,8 +2,12 @@ $(function() {
 
   App.Collections.Groups = Backbone.Collection.extend({
 
-    url: App.Server + '/groups/_all_docs?include_docs=true',
-
+    url:function(){
+         if(this.skip)
+          return  App.Server + '/groups/_all_docs?include_docs=true&limit=20&skip='+this.skip
+         else
+          return  App.Server + '/groups/_all_docs?include_docs=true'
+     },
     parse: function(response) {
       var docs = _.map(response.rows, function(row) {
         return row.doc

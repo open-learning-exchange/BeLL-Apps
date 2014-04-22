@@ -87,8 +87,8 @@ $(function () {
 											}
 	
 								})
-                //Send the updated model to the server
-                
+ //Send the updated model to the server
+                 
 //                 var ResourceFrequencyDB=new PouchDB('resourcefrequency');
 //                 ResourceFrequencyDB.allDocs({include_docs: true}, function(err, response) {
 //                 		console.log(response.rows[0].doc.reviewed)
