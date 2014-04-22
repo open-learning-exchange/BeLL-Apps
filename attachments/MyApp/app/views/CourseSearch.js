@@ -53,7 +53,6 @@ $(function () {
                             $('.body').append(SearchSpans.el)
                         }
                         else{
-                        alert('test')
                                 $('#not-found').html("No Such Record Exist");
                                 $('#not-found').show()
                         }

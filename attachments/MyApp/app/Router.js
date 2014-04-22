@@ -3,7 +3,8 @@ $(function(){
    App.Router=new(Backbone.Router.extend({
        
       
-      routes:{'': 'MemberLogin',
+      routes:{
+            '': 'MemberLogin',
             'dashboard': 'Dashboard',
             'ereader':'eReader',
             'login': 'MemberLogin',
@@ -361,11 +362,9 @@ var test=new App.Models.CourseInvitation()
 					}
 					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
                     
-							 while(App.collectionslist.length==0)
-							 {
+							  while(App.collectionslist.length==0){
 								 alert("Retriving records")
 							 }
-							
 							 console.log(App.collectionslist.length)
 							 resourcesTableView.collections=App.collectionslist	
                      		 resourcesTableView.render()

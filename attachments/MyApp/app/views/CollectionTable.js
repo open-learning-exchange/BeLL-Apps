@@ -5,6 +5,11 @@ $(function() {
 	id:"collectionTable",
 	display:false,
     className: "table table-striped",
+    initialize:function(options){
+    	
+    //consoe.log(options)
+    ///alert('here in collection table')
+    },
 	addOne: function(model){
       	 var collectionRow = new App.Views.CollectionRow({model: model})
       		 collectionRow.display=this.display
@@ -18,19 +23,16 @@ $(function() {
 			var val = $(e.target).text()
 			this.collection.startkey = val
 			this.collection.fetch({async:false})
-			if(this.collection.length>0)
-			{
+			if(this.collection.length>0){
 				this.render()
-			}
-			
+			}	
 		},
 		"click #allresources" : function(e)
 		{
 			this.collection.startkey = ""
 			this.collection.skip = 0
 			this.collection.fetch({async:false})
-			if(this.collection.length>0)
-			{
+			if(this.collection.length>0){
 				this.render()
 			}
 		},
@@ -40,11 +42,18 @@ $(function() {
 		"click #nextButton" :function(e){
 		    this.collection.skip += 20
 			this.collection.fetch({async:false})
-			if(this.collection.length>0)
-			{
+			if(this.collection.length>0){
 				this.render()
 			}
 		},
+		"click #preButton" :function(e){
+		    this.collection.skip -= 20
+			this.collection.fetch({async:false})
+			if(this.collection.length>0){
+				this.render()
+			}
+		},
+		
 	},
 	displayMergeForm:function(){
 	
@@ -92,12 +101,21 @@ $(function() {
 				viewText+="</td></tr>"
 				this.$el.append(viewText)
     	
+    	
+    	  
   		this.collection.each(this.addOne, this)
-  		if(this.collection.length <= 20)
+  		
+  		var nextPre='<tr><td>'
+  		if(this.collection.length >= 20)
   		{
-  		  this.$el.append('<tr><td><button onClick="nextButton">Next</buttton></td></tr>')
+  		  if(this.collection.skip>=20)
+  		   nextPre+='<button class="btn btn-success" id="preButton">Back</buttton>'
+  		  
+  		  nextPre+='<button class="btn btn-success" id="nextButton">Next</buttton>'
   		
   		}
+  		nextPre+='</td></tr>'
+  		this.$el.append(nextPre)
   		
     },
 
