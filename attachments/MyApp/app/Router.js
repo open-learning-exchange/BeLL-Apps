@@ -412,14 +412,14 @@ var test=new App.Models.CourseInvitation()
 
            $('.form .field-subject select').attr("multiple", true);
            $('.form .field-subject select').multiselect().multiselectfilter();
-           $('.form .field-subject select').multiselect('uncheckAll')
-           $('.form .field-subject select').multiselect('refresh')
            
            $('.form .field-Level select').attr("multiple", true);
            $('.form .field-Level select').multiselect().multiselectfilter();
-           $('.form .field-Level select').multiselect('uncheckAll')
-           $('.form .field-Level select').multiselect('refresh')
-           
+           if(resource.id==undefined)
+           {
+           		$('.form .field-Level select').multiselect('uncheckAll');
+			   $('.form .field-subject select').multiselect('uncheckAll')           
+           }
            $('.form .field-Tag select').attr("multiple", true);
            $('.form .field-Tag select').click(function () {
                context.AddNewSelect(this.value)
@@ -432,15 +432,11 @@ var test=new App.Models.CourseInvitation()
            this.RenderTagSelect(identifier)
            $('.form .field-Tag select').multiselect().multiselectfilter();
            $('.form .field-Tag select').multiselect("uncheckAll");
+           
   
-          if(resource.id==undefined)
-           {
-               $(".form .field-Tag select").find('option').removeAttr("selected");
-               $(".form .field-Level select").find('option').removeAttr("selected");
-               $(".form .field-subject select").find('option').removeAttr("selected");
-
-           }
+          
            if (resource.id) {
+               $('.form .field-subject select').multiselect("refresh");
                if(resource.get('Tag'))
                {
                    var total = resource.get('Tag').length
@@ -448,11 +444,9 @@ var test=new App.Models.CourseInvitation()
                    {
                        $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
                     }
+                    $('.form .field-Tag select').multiselect("refresh");
                    //$('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
                }
-               
-               $('.form .field-Tag select').multiselect("refresh");
-               
                if(resource.get('subject')==null){
                    $(".form .field-subject select").find('option').removeAttr("selected");
                }
@@ -2079,7 +2073,7 @@ var test=new App.Models.CourseInvitation()
             hostUrl = hostUrl.split('/')
             var hostName=hostUrl[2].split('.')
       var MemberCourseProgress=new PouchDB('membercourseprogress');
-      //condition to check cloudant or local
+      //condition to check cloudant.com or an IP address 
       if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/))
       {
       //not cloudant
@@ -2234,10 +2228,8 @@ var test=new App.Models.CourseInvitation()
  				var ResourceFrequencyDB=new PouchDB('resourcefrequency');
 				var resourcefreq = new App.Collections.ResourcesFrequency()
 				resourcefreq.memberID = $.cookie('Member._id')
-				resourcefreq.fetch({
-					async: false
-				})
-				console.log(resourcefreq.toJSON())
+				resourcefreq.fetch(null,{success:function(doc,rev){
+								console.log(resourcefreq.toJSON())
 			var myjson=resourcefreq.first().toJSON()
 				ResourceFrequencyDB.put(myjson,myjson._id,myjson._rev,function(error,info){
 				
@@ -2248,6 +2240,8 @@ var test=new App.Models.CourseInvitation()
 						}
 				})
 				
+				}})
+
 	  ResourceFrequencyDB.replicate.to(URL+'/resourcefrequency',function(error, response){
 						if(error){
 							console.log("ResourceFrequencyDB replication error :"+error)
