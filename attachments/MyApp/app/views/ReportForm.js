@@ -22,9 +22,23 @@ $(function () {
 
                 vars.header = 'Title "' + this.model.get('title') + '"'
                 vars.hidesave = true
+                var tempAttachments = this.model.get('_attachments');
+                var fields = _.map(
+                    _.pairs(tempAttachments),
+                    function(pair) {
+                        return {
+                            key: pair[0],
+                            value: pair[1]
+                        };
+                    }
+                );
+                vars.resourceAttachments = fields;
+            
             } else {
                 vars.header = 'New Report'
                 vars.hidesave = false
+				vars.resourceAttachments="No File Selected.";
+
             }
 
             // prepare the form
@@ -65,6 +79,8 @@ $(function () {
             // @todo validate 
             //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
             // Put the form's input into the model in memory
+            
+            
             var addtoDb = true
             var previousTitle = this.model.get("title")
             var newTitle
@@ -132,18 +148,9 @@ $(function () {
                                             new_res.set("articleDate", that.model.get("articleDate"))
                                             new_res.set("addedBy", that.model.get("addedBy"))
                                             new_res.set("openWith", that.model.get("openWith"))
-                                            new_res.set("subject", that.model.get("subject"))
-                                            new_res.set("Level", that.model.get("Level"))
-                                            new_res.set("fromLevel", that.model.get("fromLevel"))
-                                            new_res.set("toLevel", that.model.get("toLevel"))
-                                            new_res.set("Tag", that.model.get("Tag"))
-                                            new_res.set("author", that.model.get("author"))
                                             new_res.set("openWhichFile", that.model.get("openWhichFile"))
                                             new_res.set("uploadDate", that.model.get("uploadDate"))
                                             new_res.set("openUrl", that.model.get("openUrl"))
-                                            new_res.set("averageRating", that.model.get("averageRating"))
-                                            new_res.set("sum", 0)
-                                            new_res.set("timesRated", 0)
                                             new_res.save()
                                             new_res.on('sync', function () {
                                                 new_res.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
