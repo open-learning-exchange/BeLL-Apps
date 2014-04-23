@@ -2307,8 +2307,6 @@ dbinfo:function()
 	MemberCourseProgress.info(function(err,info){console.log(info)})
 },
     CompileManifest: function() {
-    
-      this.deletePouchDB()
       App.startActivityIndicator()
 	  // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()
@@ -2546,6 +2544,7 @@ dbinfo:function()
       // Start the process
       resources.fetch()
       this.PochDB()
+      App.stopActivityIndicator()
     }
               
    }))
