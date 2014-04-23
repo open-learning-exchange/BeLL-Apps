@@ -208,7 +208,10 @@ setAllResults: function () {
   				 
 		   if(!err)
 		   {
-		   context.modl=res.rows[0].value
+		   
+		            console.log('here is a problem')
+		            context.modl=res.rows[0].value
+					
 					console.log(context.modl)
 					var PassedSteps = 0
 					var totalSteps = 0

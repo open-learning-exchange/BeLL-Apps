@@ -21,6 +21,9 @@ $(function () {
             res.fetch({
                 async: false
             })
+            
+            console.log(res);
+            
             var modl = ""
             var PassedSteps = 0
             var totalSteps = 0
@@ -36,6 +39,8 @@ $(function () {
                     temp++
                 }
             }
+            console.log(modl)
+            console.log('here is Group Span')
             if (totalSteps != 0) {
                 vars.yes = '<br>(' + PassedSteps + '/' + totalSteps + ')'
             } else {

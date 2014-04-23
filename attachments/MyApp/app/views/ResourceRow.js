@@ -63,7 +63,7 @@ $(function () {
               	 	this.model.save(null,{success:function(response,revInfo){
               		    
               		    that.remove()
-              		    alert('Resource Is Removed From Collectsion')
+              		    alert('Removed Successfully From Collection')
               		
               		}})
    

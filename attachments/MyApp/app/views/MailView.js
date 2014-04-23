@@ -417,8 +417,38 @@ $(function () {
         	var course = new App.Models.Group();
         	course.id = courseId
         	course.fetch({async:false})
-        	course.get('members').push(mailView.inViewModel.get('senderId'))
-        	course.save()
+            var memId=mailView.inViewModel.get('senderId')
+        	course.get('members').push(memId)
+        	course.save(null,{success:function(model,idRev){
+        	   
+        	    var memprogress = new App.Models.membercourseprogress()
+                                var csteps = new App.Collections.coursesteps();
+                                var stepsids = new Array()
+                                var stepsres = new Array()
+                                var stepsstatus = new Array()
+                                csteps.courseId = idRev.id
+                                csteps.fetch({
+                                    success: function () {
+                                        csteps.each(function (m) {
+                                            stepsids.push(m.get("_id"))
+                                            stepsres.push("0")
+                                            stepsstatus.push("0")
+                                        })
+                                        memprogress.set("stepsIds", stepsids)
+                                        memprogress.set("memberId",memId)
+                                        memprogress.set("stepsResult", stepsres)
+                                        memprogress.set("stepsStatus", stepsstatus)
+                                        memprogress.set("courseId", csteps.courseId)
+                                        memprogress.save({
+                                            success: function () {
+                                            alert('saved')
+                                            }
+                                        })
+
+                                    }
+                                })
+        	
+        	}})
         	var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
             body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this request.</div>"

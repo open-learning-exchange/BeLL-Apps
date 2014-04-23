@@ -6,49 +6,34 @@ $(function() {
     
     model: App.Models.Resource,
     url: function () { 
-    	if(this.collectionName)
-    	{
+    	if(this.collectionName){
     		//return App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&key="' + this.collectionName + '"'
-    		if(this.skip>=0)
-    		{
+    		if(this.skip>=0){
     			return App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&limit=20&skip='+this.skip +'&keys=' + this.collectionName 
-    		}
-    		else
-    		{
+    		}else{
     			return App.Server + '/resources/_design/bell/_view/listCollection?include_docs=true&keys=' + this.collectionName
     		}
     	}
-    	else if(this.skip>=0)
-    	{
+    	else if(this.skip>=0){
     		//return App.Server + '/resources/_all_docs?include_docs=true&limit=20&skip='+this.skip 
-    		if(this.startkey && this.startkey!="")
-    		{
-    		//alert('result resource')
+    		if(this.startkey && this.startkey!=""){
     			return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&startkey="'+this.startkey+'"&limit=20&skip='+this.skip
-    		}
-    		else
-    		{
+    		}else{
     			return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&limit=20&skip='+this.skip
     		}
     	}
-    	else if(this.title)
-    		{
+    	else if(this.title){
     			return App.Server + '/resources/_design/bell/_view/resourceOnTtile?include_docs=true&key="' + this.title +'"'
     			//return App.Server + '/shelf/_design/bell/_view/getShelfItemWithResourceId?key="' +this.resourceId+ '"&include_docs=true'
-    		}
-    	else
-    	{
+    		}else{
     		return App.Server + '/resources/_all_docs?include_docs=true'
     	}
     },
     initialize: function (a) {
   		
-    	if (a && a.collectionName)
-    	{
+    	if (a && a.collectionName){
     		this.collectionName = a.collectionName 
-        }
-        else if(a && a.skip>=0)
-        {
+        }else if(a && a.skip>=0){
         	this.skip = a.skip 
         }
    },
