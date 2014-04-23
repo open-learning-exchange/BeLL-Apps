@@ -130,10 +130,6 @@ $(function () {
                			}
                 }
              }
-             
-             
-             
-             
             this.vars = model.toJSON()
         
             if (!this.vars.outComes)
@@ -207,6 +203,9 @@ setAllResults: function () {
    			}
    			},{key:[memId,couId]},function(err,res){
   				 //if successfully retrive records from pouchDB
+  				 console.log(res)
+  				 console.log(err)
+  				 
 		   if(!err)
 		   {
 		   
@@ -252,7 +251,6 @@ var res = new App.Collections.membercourseprogresses()
             res.courseId = couId
             res.memberId = memId
         setAllResults: function () {
-        f37b6913a1260218466278728605f3bd
         var memId=$.cookie('Member._id')
         var couId=this.collection.first().get("courseId")
         

@@ -4,6 +4,7 @@ $(function () {
 
         //settings
         Server: '',
+        password:'oleoleole',
         wheel: null,
 
         //Backbone Structure
