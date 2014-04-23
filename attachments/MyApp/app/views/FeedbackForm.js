@@ -20,12 +20,8 @@ $(function () {
             this.form.fields['rating'].$el.hide()
             this.form.fields['memberId'].$el.hide()
             this.form.fields['resourceId'].$el.hide()
-
-
             var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">Save</a>')
             $btnAddToshelf = $('<button class="btn btn-success" id="addtoshelf" onclick=addToshelf("' + this.model.get('resourceId') + '","' + escape(this.rtitle) + '") style="margin-left:10px">Add To My Library</button>')
-
-
             this.$el.append($button)
             this.$el.append($btnAddToshelf)
         },
@@ -87,6 +83,7 @@ $(function () {
 											}
 	
 								})
+						$('#externalDiv').hide()
  //Send the updated model to the server
                  
 //                 var ResourceFrequencyDB=new PouchDB('resourcefrequency');
@@ -208,7 +205,6 @@ $(function () {
                 //                	member.set("pendingReviews",pending)
                 //                	member.save()
             
-                    $('#externalDiv').hide()
             }
 
         },

@@ -2308,6 +2308,7 @@ dbinfo:function()
 },
     CompileManifest: function() {
       App.startActivityIndicator()
+      this.PochDB()
 	  // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()
       var apps = new App.Collections.Apps()
@@ -2543,7 +2544,6 @@ dbinfo:function()
 
       // Start the process
       resources.fetch()
-      this.PochDB()
       App.stopActivityIndicator()
     }
               
