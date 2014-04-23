@@ -1200,9 +1200,7 @@ var test=new App.Models.CourseInvitation()
 					        var conf=res.first()
 					        console.log(conf)
 					        var nationName=conf.get('nationName')
-					        var nationURL=conf.get('nationUrl')
-					        
-					        console.log('http://'+ nationName +':oleoleole@'+ nationURL + ':5984/communityreports')
+					        var nationURL=conf.get('nationUrl')					        
 							$.ajax({
 								headers: {
 									'Accept': 'application/json',
@@ -1213,7 +1211,7 @@ var test=new App.Models.CourseInvitation()
 								dataType: 'json',
 								data: JSON.stringify({
 									"source": "communityreports",
-									"target": 'http://'+ nationName +':oleoleole@'+ nationURL + ':5984/communityreports'
+									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + ':5984/communityreports'
 								}),
 								success: function (response) {
                                             App.stopActivityIndicator()
@@ -2004,7 +2002,7 @@ var test=new App.Models.CourseInvitation()
     			var msg = ''
     			
             $.ajax({
-    			url : 'http://'+ nationName +':oleoleole@'+nationURL+':5984/communities/_all_docs?include_docs=true',
+    			url : 'http://'+ nationName +':'+App.password+'@'+nationURL+':5984/communities/_all_docs?include_docs=true',
     			type : 'GET',
     			dataType : "jsonp",
     			success : function(json) {
@@ -2035,7 +2033,7 @@ var test=new App.Models.CourseInvitation()
         },
         synchCommunityWithURL : function(communityurl,communityname) 
         {
-        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources')
+        	console.log('http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources')
         	$.ajax({
             	headers: {
                 	'Accept': 'application/json',
@@ -2046,7 +2044,7 @@ var test=new App.Models.CourseInvitation()
                 dataType: 'json',
                 data: JSON.stringify({
                 	"source": "resources",
-                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/resources'
+                    "target": 'http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources'
             	}),
                 success: function (response) {
 
@@ -2079,7 +2077,7 @@ var test=new App.Models.CourseInvitation()
       else
       {
       //cloudant
-      	URL='http://'+hostName[0]+':oleoleole@'+hostUrl[2]
+      	URL='http://'+hostName[0]+':'+App.password+'@'+hostUrl[2]
       }
 	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
 		if(error){
@@ -2309,7 +2307,10 @@ dbinfo:function()
 	MemberCourseProgress.info(function(err,info){console.log(info)})
 },
     CompileManifest: function() {
-      // The resources we'll need to inject into the manifest file
+    
+      this.deletePouchDB()
+      App.startActivityIndicator()
+	  // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()
       var apps = new App.Collections.Apps()
       var config=new App.Collections.Configurations()
@@ -2544,6 +2545,7 @@ dbinfo:function()
 
       // Start the process
       resources.fetch()
+      this.PochDB()
     }
               
    }))
