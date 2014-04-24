@@ -1,10 +1,9 @@
 .table-striped{
 	
 	text-align:center;
-	 width:550px;
+	width:550px;
   	font:verdana;
-  		margin-left: 5%;
-	width: 90%;
+	width: 98%;
 	margin-right: 5%;
 	border-collapse: collapse;
 	table-layout: fixed; 
@@ -14,14 +13,14 @@
 }
 
 .table-striped td{
-	font-size:21px;
+	font-size:14px;
 	color : 00235E;
 	border-left: 1px solid #000;
 	border-right: 1px solid #000;
 	word-wrap: break-word;
 }
 .table-striped tr{
-	line-height: 52px;
+	line-height: 30px;
 }
 .table-striped a{
 	background: #1ABC9C;
@@ -103,7 +102,7 @@ font-family: verdana;
 word-wrap:break-word;
 }
 
-.badge-box
+.meetup-box
 {
 background-color: #2f816f;
 border-right: 2px solid white;
@@ -169,7 +168,7 @@ bbf-form ul{border: 5px solid dotted;}
 }
 
 .signup-form .bbf-editor  input {
-    height: 25px;
+    height: 20px;
 }
 
 .signup-form .bbf-error  {
@@ -210,6 +209,7 @@ margin-top:-10px;
 
 .resourceDetail{
 	width: 50%;
+	margin: 0px auto;
 }
 
 .btn.open.btn-success {
@@ -442,12 +442,12 @@ textarea[name="comment"]
     border: 2px solid #000000;
     border-radius: 20px;
     font-weight: 900px;
-    height: 243px;
+    height: auto;
     left: 10%;
     overflow: hidden;
     padding: 10px;
     position: fixed;
-    top: 40%;
+    top: 20%;
     width: 80%;
     z-index: 2;
 }
@@ -558,4 +558,3 @@ border:none;
 	color:white;
 	margin:0px auto;
 }
-

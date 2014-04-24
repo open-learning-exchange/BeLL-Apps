@@ -2,28 +2,38 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8"  manifest="/cache.manifest">
   <title>Bell LMS</title>
   <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
   <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
   <link href="vendor/morris.css" rel="stylesheet" media="screen" />
   <link rel="stylesheet" href="app/app.css"/>
+  <link rel="stylesheet" href="app/flat-ui.css"/>
+  <link rel="stylesheet" href="app/navStyle.css"/>
   <link rel="stylesheet" href="vendor/chosen.css"/>
   <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
   <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
   <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
+  <link rel="stylesheet" href="vendor/backbone-ui.css"/>
   
   
-
+  <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.filter.css"/>
+   <link rel="stylesheet" href="vendor/jQuery-multiselect/style1.css"/>
+  <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.css"/>
+   
   <!--
     DEPENDENCIES
   -->
-
+  
+ 
+  
+  <script src="vendor/Spin.js"></script>
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/spectrum.js"></script>
   <script src="vendor/underscore-1.4.4.js"></script>
   <script src="vendor/backbone-1.0.0.js"></script>
+  <script src="vendor/backbone-ui.js"></script>
   <script src="vendor/backbone-forms.js"></script>
   <script src="/_utils/script/json2.js"></script>
   <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
@@ -43,8 +53,11 @@
   <script src="vendor/jquery.timepicker.js"></script>
   <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
   <script src="vendor/jquery-ui.multidatespicker.js"></script>
+ <script src="jquery.popupoverlay.js"></script>
+ <script src="vender/moment.min.js"></script>
 
-
+ <script src="vendor/jQuery-multiselect/jquery.multiselect.js"></script>
+  <script src="vendor/jQuery-multiselect/jquery.multiselect.filter.js"></script>
   <!--
     App
   -->
@@ -71,6 +84,17 @@
   <script src="app/models/CourseSchedule.js"></script>
   <script src="app/models/reportComment.js"></script>
   <script src="app/models/Mail.js"></script>
+  <script src="app/models/CommunityReportComment.js"></script>
+  <script src="app/models/CommunityReport.js"></script>
+  <script src="app/models/CommunityCode.js"></script>
+  <script src="app/models/ResourceFrequency.js"></script>
+  <script src="app/models/AssignmentPaper.js"></script>
+  <script src="app/models/MeetUp.js"></script>
+  <script src="app/models/UserMeetups.js"></script>
+  <script src="app/models/InviMeetup.js"></script>
+  <script src="app/models/CollectionList.js"></script>
+  <script src="app/models/Publication.js"></script>
+  <script src="app/models/Configuration.js"></script>
 
   
    
@@ -93,9 +117,23 @@
   <script src="app/collections/EntityInvitation.js"></script>
   <script src="app/collections/Requests.js"></script>
   <script src="app/collections/reportsComment.js"></script>
+   <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/CourseScheduleByCourse.js"></script>
-  
-  <!---- Views -->
+  <script src="app/collections/courseprogressallmembers.js"></script>
+  <script src="app/collections/CommunityReportComments.js"></script>
+  <script src="app/collections/Reports.js"></script>
+  <script src="app/collections/CommunityCode.js"></script>
+  <script src="app/collections/shelfResource.js"></script>
+  <script src="app/collections/ResourcesFrequency.js"></script>
+   <script src="app/collections/AssignmentPapers.js"></script>
+   <script src="app/collections/Meetups.js"></script>
+  <script src="app/collections/UserMeetups.js"></script>
+   <script src="app/collections/Configurations.js"></script>
+   
+  <script src="app/collections/listRCollection.js"></script>
+  <script src="app/collections/Publication.js"></script>
+   
+  <!-- Views -->
   <script src="app/views/GroupForm.js"></script>
   <script src="app/views/BecomeMemberForm.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -114,8 +152,8 @@
   <script src="app/views/AssignWeekOfResourcesToGroupTable.js"></script>
   <script src="app/views/AssignResourceToGroupRow.js"></script>
   <script src="app/views/InvitationForm.js"></script>
-    <script src="app/views/CourseSchedule.js"></script>
-     <script src="app/views/addComment.js"></script>
+  <script src="app/views/CourseSchedule.js"></script>
+  <script src="app/views/addComment.js"></script>
   <!-- Level Views -->
   <script src="app/views/LevelsTable.js"></script>
   <script src="app/views/LevelRow.js"></script>
@@ -147,10 +185,44 @@
   <script src="app/views/CourseScheduleForm.js"></script>
   <script src="app/views/CourseSchedule.js"></script>
   <script src="app/views/ResourceSearch.js"></script>
+  <script src="app/views/CourseSearch.js"></script>
   
+  <!-- Report     -->
+  <script src="app/views/CommunityReportCommentView.js"></script>
+  <script src="app/views/ReportsTable.js"></script>
+  <script src="app/views/ReportsRow.js"></script>
+  <script src="app/views/ReportForm.js"></script>
+  <script src="app/views/GroupView.js"></script>
+  <script src="app/views/CourseStepsView.js"></script>
+  <script src="app/views/ListCollectionView.js"></script>
+  <script src="app/views/CollectionTable.js"></script>
+  <script src="app/views/CollectionRow.js"></script>
+   <!-- MeetUps     -->
+    <script src="app/views/MeetUpForm.js"></script>
+    <script src="app/views/MeetUpRow.js"></script>
+    <script src="app/views/MeetUpTable.js"></script>
+    <script src="app/views/meetupView.js"></script>
+    <script src="app/views/MeetupInvitation.js"></script>
+    <script src="app/views/navBarView.js"></script>
+  
+  <!-- Publications-->
+   <script src="app/views/Publication.js"></script>
+   <script src="app/views/PublicationResourceRow.js"></script>
+   <script src="app/views/PublicationResourceTable.js"></script>
+   
+   <script src="app/views/PublicationRow.js"></script>
+   <script src="app/views/PublicationTable.js"></script>
+   
+   
   <!-- ALL Code Regarding the Search Function -->
+  
+  
   <script>
+  
+ 
+  
   var searchText = "";
+  var searchType ='';
   var skip = 0;    //Variable used to skip the number of records been fetched before.
   var enablenext=0;
   var searchRecordsPerPage = 5;
@@ -159,7 +231,7 @@
   var lastpage = false;
   var grpId;
   var levelrevId;
-  url="unknown"
+  url="unknown";
   var tagFilter = new Array() ; 
   var subjectFilter = new Array() ;
   var ratingFilter = new Array();
@@ -187,10 +259,9 @@
       "List_CalendarEvents":18,
   }  
   
-  function ListAllResources()
-  {
-     App.Router.Resources();
-  }
+ 
+        
+
   function showFeedbackForm()
   {
 	  App.renderFeedback()
@@ -211,6 +282,9 @@
 	  App.renderRequest(modl)
   }
   
+  function addToshelf(rId,title){
+     App.Router.AddToshelf(rId,title)
+  }
   
   function selectAllSearchResult()
   {
@@ -220,26 +294,52 @@
   }
   function showSearchView()
   {
+  	 $('#not-found').hide()
       App.Router.SearchBell(grpId,levelrevId,0);
 
   }
-  function searchResources()
+  function backtoSearchView()
   {
-      skip = 0;
-      popAll();
-      lastpage = false;
-      App.Router.SearchResult();
-      $('#previous_button').remove()
-      $('#searchText').focus();
-      $("#searchText").val(searchText)
+     $('#not-found').hide()
+     searchText=''
+     App.Router.bellResourceSearch();
+  
   }
   function ResourceSearch()
   {
     skip = 0;
-  	searchText = $("#searchText").val();
-    App.Router.ResourceSearch();
+  	searchText = $("#searchText").val()
+  	searchType= $('#searchtype').val()
+  	
+    App.Router.ResourceSearch()
   
   }
+  function AddColletcion()
+  {
+  App.Router.AddNewSelect("Add New")
+  }
+  function EditColletcion(value)
+  {
+  App.Router.EditTag(value)
+  }
+   function ListAllResources()
+  {
+     App.Router.Resources()
+  }
+  
+  function CourseSearch()
+  {
+    //alert("COURSE SEARCH");
+    skip = 0;
+  	searchText = $("#searchText").val();
+    App.Router.GroupSearch();
+  
+  }
+   function ListAllCourses()
+  {
+     App.Router.Groups()
+  }
+  
   function searchCourses()
   {
       skip = 0;
@@ -297,15 +397,15 @@
 
     function showSubjectCheckBoxes()
   {
-        var subjects = ['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)'];
+    var subjects = ['Agriculture','Business and Finance','Fine Arts','Food and Nutrition','Geography','Health and Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics and Government','Reference','Religion','Science','Social Sciences','Sports','Technology'];
   	var length = subjects.length;
-  	var htmlString = "<h4>Subject</h4>" ; 
+  	var htmlString = "<label style='font-size:16px'><b>Subject</b></label><br>" ;
+  	    htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>" ; 
   	for(var i=0 ; i<length ; i++)
-  	{
-  		htmlString = htmlString + '<input id="subject' + (i+1) + '" type="checkbox" name="subject" value="' + subjects[i] +'">' ;   
-        htmlString = htmlString + '<label for="subject' + (i+1) + '">' + subjects[i] + '</label>' ;  
-        htmlString = htmlString + '<br>' ; 
+  	{	
+  		htmlString = htmlString + '<option id="subject' + (i+1) + '" value="' + subjects[i] +'">'+subjects[i]+'</option>' ;    
   	}
+  	   htmlString+='</select>'
   	$("#SubjectCheckboxes").html(htmlString);
  
   }
@@ -360,24 +460,23 @@
   </script>
 
 
-  <script type="text/template" id="template-app">
-    <div id="debug"></div>
-<div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
-    <div class="navbar navbar-inverse navbar-fixed-top" id="nav">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">BeLL LMS</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
+   <script type="text/template" id="template-app">
 
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
+    <div id="debug">
+		<div id="comments">
+			
+		</div>    
+
+   
+    </div>
+     <div id="popup-spinning"></div>
+<div id="invitationSuperDiv">
+	<div id="invitationdiv">
+	</div>
+</div>
+    <div id='nav' class="navbar navbar-inverse" id="top-nav">
+        <div class="container">
+    
       </div>
     </div>
 
@@ -393,32 +492,40 @@
     -->
   <script type="text/template" id="template-form-file">
     <table class="table table-striped">
-      <th> 
-        <h2>
+      <tr>
+      <td colspan="2">
+      <%if(header.length<=40){%>
+        <h2 style="width:25em;word-wrap:break-word;">
           <%= header %>
-        </h2> 
-      </th>
+          </h2> 
+          <%}else{%>
+        <h4 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h4>
+        <%}%>  
+        
+        </td>
+      </tr>
       <tr>
         <td colspan="2" class="fields">
           <!-- The first form that will be submitted without the file -->
           <%= form %>
         </td>
       </tr>
-      <tr>
-        <td colspan="2">
+      <tr id='attachments-tablerow'>
+        <td colspan="">
+        <label id="selectedResources"></label>
           <!-- The Second form that will be submitted containing the file -->
-          <form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
+          <form method="post" id="fileAttachment"> <label for="_attachments">Upload Resource(s)</label><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>
           <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
-        </td>
+          </td>
       </tr>
       <tr>
         <td>
-        <% if(hidesave == false) { %>
           <div class="save btn btn-success" name="save">
             Save
           </div>
-        <% } %>
-		<a class="btn btn-danger" id="cancel">Cancel</a>
+        <a class="btn btn-danger" id="cancel">Cancel</a>
         </td>
         <td class="status">
           <!-- status goes here -->
@@ -444,87 +551,65 @@
 
 
 <script type="text/template" id="template-nav-logged-in">
-   <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
-    </li>
-    <li>
-      <a href="#courses" ><i class="icon-flag icon-white"></i> Courses <b><i class="icon-list"></i></b></a>
-    <!--  <ul class="dropdown-menu">
-        <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
-        <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
-        <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
-        <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>
-      </ul> -->
-    </li>
-    <li class="dropdown">
-      <a href="#"><i class="icon-book icon-white"></i> Meetup <i class="icon-list"></i></a>
-     <!-- <ul class="dropdown-menu">
-        <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
-         <li><a><i class="icon-list"></i>Add a new MeetUp</a></li>
-        <li><a><i class="icon-plus"></i>List Meetups</a></li>
-      </ul> -->
-    </li>
-    <li class="dropdown">
-      <a href="#members"><i class="icon-user icon-white"></i> Members <i class="icon-list"></i></a>
-   <!--  <ul class="dropdown-menu">
-        <li><a href="#members"><i class="icon-list"></i> List Members</a></li>
-        <li><a href="#member/add"><i class="icon-plus"></i> Add a new Member</a></li>
-      </ul>
-     -->
-   </li>
-
-   <li class="dropdown">
-      <a href="#resources"><i class="icon-book icon-white"></i> Resources <i class="icon-list"></i></a>
-    <!--  <ul class="dropdown-menu">
-        <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
-        <li><a href="#resource/add"><i class="icon-plus"></i> Add a new Resource</a></li>
-        <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
-      </ul>
-      -->
-    </li>
-	
-    
-<!--	<li> 
-      <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
-    </li>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
-      <ul class="dropdown-menu">
-
-        <li> 
-          <a href="#compile/">Compile all Apps and all Resources for Syncing</a>
-        </li>
-        <li> 
-          <a href="#compile/week">Compile Apps and this weeks Assigned Resources for Syncing</a>
-        </li>
-
-      </ul> -->
-    </li>
-   <li> 
-      <a onclick = "showFeedbackForm()">
-        <i class="icon-pencil icon-white"></i> Feedback
+<!--  <li> 
+      <a href="../lms/index.html#login">
+         Community
       </a>
     </li>
-      <li> 
-      <a href="#logout">
-        <i class="icon-plane icon-white"></i> Log out
-      </a>
-    </li>
-  </script>
-
-  <script type="text/template" id="template-nav-log-in"> 
+   -->
     <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
-    </li>
-
+      <a href="../personal/index.html#dashboard">
+      <%= languageDict['Dashboard'] %>
+      </a>
+    </li> 
     <li> 
-      <a href="/devices/_design/all/update.html"><i class="icon-download-alt icon-white"></i> Install BeLL Apps on this device</a>
-    </li>
-    <li  style="float:right;"> 
-      <a onclick = "showFeedbackForm()">
-        <i class="fui-cmd"></i> Feedback
+      <a href="#ereader">
+      <%= languageDict['e-Readers'] %>
+       
       </a>
     </li>
+    <li> 
+      <a href="../lms/index.html#resources">
+      <%= languageDict['Library'] %>
+       
+      </a>
+    </li>
+     <li> 
+      <a href="../lms/index.html#courses">
+      <%= languageDict['Courses'] %>
+       
+      </a>
+    </li>
+    <li> 
+      <a href="../lms/index.html#meetups">
+      <%= languageDict['Meetups'] %>
+       
+      </a>
+    </li>
+     <li> 
+      <a href="../lms/index.html#members">
+      <%= languageDict['Members'] %>
+       
+      </a>
+    </li>
+    <li> 
+      <a href="#reports">
+      <%= languageDict['Reports'] %>
+      
+      </a>
+    </li> 
+     <li> 
+      <a onclick = "showFeedbackForm()">
+      <%= languageDict['Feedback'] %>
+        
+      </a>
+    </li>
+    <li> 
+      <a href= "#logout">
+      <%= languageDict['Logout'] %>
+      </a>
+    </li>	
+
   </script>
 
 
@@ -567,7 +652,33 @@
     <table class="table table-striped">
     </table>
   </script>
-
+<script type="text/html" id="template-PublicationRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+      <td>
+        <span style="font-weight:900; font-size:16px;"><%= IssueNo %></BR></span>
+      </td>
+      <td>
+       <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:100px "><%= editorName %></p></BR></span>
+      </td>
+      <td>
+        <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:300px "><%= editorEmail %></p></BR></span>
+      </td>
+      <td>
+      <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:150px "><%= editorPhone %></p></BR></span>
+      </td>
+      <td>
+    	<a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
+        Details
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        Delete
+      </a>
+      </td>
+  </script>
   <script type="text/html" id="template-AssignResourceToGroupRow">
     <td>
     <%if(resource.title){ %>
@@ -606,31 +717,39 @@
 
  <script type="text/html" id="template-GroupRow">
     <td>
-      <%= name %>
+      <%= CourseTitle %>
     </td> 
 
     <td>
     <%if(isAdmin==1||isLeader==1){%>
-      <a role='button' class='btn' href='#course/manage/<%= _id %>'> 
-        <i class="icon-list"></i> Manage
+      <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'> 
+        <i class="icon-wrench icon-white"></i> Manage
       </a>
    	<%}%>
     </td>
     
     <td>
-      <a role='button' class='btn' href='#course/report/<%= _id %>/<%= name %>'> 
-        <i class="icon-signal"></i> Progress
+      <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'> 
+       View Course
       </a>
+    </td>
+    
+    <td>
+    <%if(viewProgress==1){%>
+      <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'> 
+        <i class="icon-signal icon-white"></i> Progress
+      </a>
+      <%}%>
     </td>
 
 <!--   <td>
-      <a role='button' class='btn' href='#course/edit/<%= _id %>'> 
+      <a role='button' class='btn btn-inverse' href='#course/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
     </td> -->
     
    <!-- <td>
-      <a role='button' class='btn' href='#resource/invite/<%= _id %>/<%= name %>/<%= kind %>'> 
+      <a role='button' class='btn btn-inverse' href='#resource/invite/<%= _id %>/<%= CourseTitle %>/<%= kind %>'> 
         <i class="icon-edit"></i> Invite
       </a>
     </td> -->
@@ -638,11 +757,43 @@
     <td>
 	<%if(isAdmin==1||isLeader==1){%>
       <a class='destroy btn btn-danger' href='#'>
-        <i class='icon-remove'></i> Delete
+        <i class='icon-remove icon-white'></i> Delete
       </a>
     <%}%>
     </td> 
+    <% if(courseId!=null){%>
+    <td><input type="checkbox" name="addCourse" value='<%= _id %>'>Add </td>
+    <%}%>
+  </script>
+  
+  <script type="text/html" id="template-MeetUpRow">
+    <td>
+      <%= title %>
+    </td> 
+
+   
+    <td>
+      <a role='button' class='btn btn-warning' href='#meetup/details/<%= _id %>/<%= title %>'> 
+       View Meetup
+      </a>
+    </td>
     
+    <td>
+    <%if(creator){%>
+      <a role='button' class='btn btn-inverse' href='#meetup/manage/<%= _id %>'> 
+        <i class="icon-wrench icon-white"></i> Manage
+      </a>
+      <%}%>
+    </td>
+
+    <td>
+     <%if(creator){%>
+      <a class='destroy btn btn-danger' href='#meetup/delete/<%= _id %>'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      <%}%>
+    </td> 
+ 
   </script>
   
   <script type="text/html" id="template-LevelRow">
@@ -665,6 +816,9 @@
 
   <script type="text/html" id="template-MemberRow">
     <td>
+      <div id="Image"><img width="60px" height="90px" src="<%= src %>" id="userImage"></div>
+    </td> 
+    <td>
       <%= firstName %> <%= lastName %>
     </td> 
 	<td>
@@ -675,8 +829,12 @@
     </td>  
 
     <td>
+      <%= login %>.<%= community_code %>@olebell.org
+    </td>  
+
+    <td>
     <% if(showedit == true){ %>
-      <a role='button' class='btn' href='#member/edit/<%= _id %>'> 
+      <a role='button' class='btn btn-inverse' href='#member/edit/<%= _id %>'> 
         <i class="icon-edit"></i> Edit
       </a>
       <% } %>
@@ -701,9 +859,14 @@
 
 
   <script type="text/html" id="template-ResourceRow">
-    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
-    <td>
-        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+  
+  <%if(Manager==1){%>
+  
+    	<% if(!hidden){ %>
+    	<% if(title){ %>
+  <td>
+        <p style="width:500px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
     <% for(var i=0;i<5;i++){
         if(i < averageRating){  
     %>
@@ -712,37 +875,107 @@
           <img src="star-off.png" style="height:17px"/>
       <% }}%>&nbsp;(<%=totalRatings%>)
   </td>
-    </td>
-    
-    
-    <td>
-      <a class='resFeedBack btn' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
-        <i class='icon-eye-open'></i> Open
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
       </a>
     </td>
-   
-    <td>
-      <a class='btn' href='/apps/_design/bell/bell-resource-router/index.html#download/<%= _id %>' target="_blank">
-        <i class='icon-download'></i> Download
+   <td>
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
       </a>
     </td>
+  
     <td>
-      <a class='btn' href='#resource/edit/<%= _id %>'>
-        <i class='icon-pencil'></i> View
-      </a>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
     </td>
-    <td>
-      <a class='btn' href='#resource/feedback/<%= _id %>'>
+   <td>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
        Feedback
       </a>
     </td>
     <td>
-    <%if(admn==1){%>
       <a class='btn btn-danger destroy'>
-        <i class='icon-remove'></i> Delete
+        <i class='icon-remove icon-white'></i> Delete
       </a>
+      </td>
+        <td>
+        <a  class="btn btn-danger hides" style="width: 66px;">
+        <i class='icon-pencil icon-white'></i>Hide
+      </a> 
+      </td>
       <%}%>
+      <%}else{%>
+      <% if(title){ %>
+  <td>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= title %></BR></span>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
     </td>
+   <td>
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
+      </a>
+    </td>
+  
+    <td>
+	 <button class='btn btn-inverse disabled'>Add to My Library</button>
+    </td>
+     <td>
+      <button class='btn btn-inverse disabled' > <i class='icon-pencil icon-white'></i>
+       Feedback
+      </button>
+    </td>
+    <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      </td>
+      <td>
+	<a class='btn btn-warning unhide'>
+        <i class='icon-pencil icon-white'></i>Unhide
+      </a>
+      </td> 
+      <%}%>
+    <%}%>
+     <%}%>
+    <%if(Manager!=1 &&!hidden){%>
+    <% if(title){ %>
+     <td>
+        <p style="width:280px; font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="width:500px; font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+     <td>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= title %>")'>Add to My Library</button>
+    </td>
+   <td>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
+       Feedback
+      </a>
+    </td>
+    <%}%>
     <%}%>
   </script>
   
@@ -756,27 +989,58 @@
 <div id="search">
 <div class="row">
     <div class="col-lg-5">
-        <div class="form-group search-Box">
-           <h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>
-            <span><button class="btn btn-info" onclick = "searchResources()">Search</button></span></h4>
-        </div>
-        <br/>
-     <div class="checkbox">  
-        <h4>Tag</h4>
-        <input id="check1" type="checkbox" name="tag" value="News">  
-        <label for="check1">News</label>  
-        <br>  
-        <input id="check2" type="checkbox" name="tag" value="Fiction">  
-        <label for="check2">Fiction</label> 
-         <br>  
-        <input id="check3" type="checkbox" name="tag" value="Non Fiction">  
-        <label for="check3">Non Fiction</label>  
+       <!-- <div class="form-group search-Box">
+            <label style='font-size:16px'></label><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;"></input>
+            <label style='font-size:bold'><b>Author</b></label><input style="height:24px; " type='Text' placeholder="Author Name" id='Author-name'></input>
+        </div> -->
+     <div class="checkbox-subject" id="SubjectCheckboxes">  
+     </div>
+     <div class="right-column-search">
+     <label style='font-size:16px'><b>Collections</b></label><br>
+     <div class="Collection-search"> 
+         <select id="multiselect-collections-search" multiple="multiple" style="width: 370px;">
+         <%for(i=0;i<tags.length;i++){%>
+            <option value=<%=tags[i]._id%>><%=tags[i].CollectionName%></option>
+         <%}%>
+         </select>
     </div>
+    
+    <div class="levels-search"> 
+    
+     <label style='font-size:16px'><b>Level</b></label><br>
+     <select  name="Level" id="multiselect-levels-search" multiple="multiple" style="width: 370px;">
+   	  		<option>Early Education</option>
+    	 	<option>Lower Primary</option>
+     		<option>Upper Primary</option>
+     		<option>Lower Secondary</option>
+     		<option>Upper Secondary</option>
+     		<option>Undergraduate</option>
+     		<option>Graduate</option>
+     		<option>Professional</option>
+     </select>
+        
+    </div>
+    <div class="medium-search"> 
+     <label style='font-size:16px'><b>Medium</b></label><br>
+     
+     <select name="Medium"  id="multiselect-medium-search" multiple="multiple" style="width: 370px;">
+    	  <option>Text</option>
+     	  <option>Graphic/Pictures</option>
+     	  <option>Audio/Music/Book </option>
+     	  <option>Video</option>
+     </select>
+        
+        
+    </div>
+   <!-- <div class="language-search"> 
+     <label style='font-size:16px'><b>Language</b></label><br>
+     
+    <input style="width: 351px;" type='Text' placeholder="Language" id='Language-filter'></input>
+        
+    </div> -->
 
-       <div class="checkbox-subject" id="SubjectCheckboxes">  
-       </div>
        <div id="rating_checkboxes">
-       		<h4>Rating</h4>
+       		<label style='font-size:16px'><b>Rating</b></label><br>
        		<input id="star5" type="checkbox" name="star" value="5" onchange="changeRatingImage('rating5_',5)">  
         	<img src="star-off.png" class="filter_star_img" id="rating5_1"><img src="star-off.png" class="filter_star_img" id="rating5_2"><img src="star-off.png" class="filter_star_img" id="rating5_3"><img src="star-off.png" class="filter_star_img" id="rating5_4"><img src="star-off.png" class="filter_star_img" id="rating5_5"><br/>
         	
@@ -791,10 +1055,13 @@
        		
        		<input id="star1" type="checkbox" name="star" value="1" onchange="changeRatingImage('rating1_',1)">  
         	<img src="star-off.png" class="filter_star_img" id="rating1_1">
-  		</div>
+  		</div> 
+  		
     </div>
+    
     <br/>
-   
+    <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
+    </div>
     </div>
 </div>
 <div class="search-result-header">
@@ -802,7 +1069,7 @@
     <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
 </div>
 <br>
-    <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+    <button class="btn btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
 
 <br/><br/>
     <table id="srch"> 
@@ -815,23 +1082,33 @@
                     <table class="search-bottom-nav-table">
                        <tr>
                           <td class="previous-button-container">
-                               <button class="btn btn-hg btn-primary" id="previous_button" onclick = "previousPageButtonPressed()"><  Previous</button>
+                               <button class="btn btn-primary" id="previous_button" onclick = "previousPageButtonPressed()"><  Previous</button>
                           </td>  
                           <td class="next-button-container">
-                               <button class="btn btn-hg btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next  ></button>
+                               <button class="btn btn-primary" id="next_button" onclick = "nextPageButtonPressed()">Next  ></button>
  
                           </td>
                         </tr>
                     </table>
                     <br/><br/>
-                    <button class="btn btn-hg btn-primary" onclick = "showSearchView()">Return to Search</button>
+                     <%if(Publications==true) {%>
+                     <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
                     <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
-                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
-                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Home</button>
+                    <button class="btn btn-success" id='addRestoPub'>Add To Publication</button>
+                    <button class="btn btn-success" onclick = "document.location.href='../nation/index.html#publication'">Back</button>
+                     
+                     <%}else{ %>
+                    <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
+                    <button class="btn btn-success" onclick = "document.location.href='#courses'">Home</button>
+                    <%}%>
 </div>
 </script>
 <script type="text/html" id="template-CourseSchedule">
     <div id="scheduleDiv">
+    
+    <br>
     <div id="durationDiv">
           <table>
           <tr>
@@ -928,7 +1205,7 @@
     <h4>Result for:&nbsp;<input class="form-control" type="text" placeholder="Search" value="" size="30" id="searchText2" style="height:24px;margin-top:1%;"></input></h4>
 </div>
 <br>
-    <button class="btn btn-hg btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+    <button class="btn btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
 
 <br/><br/>
     <table id="srch"> 
@@ -941,19 +1218,19 @@
                     <table class="search-bottom-nav-table">
                        <tr>
                           <td class="previous-button-container">
-                               <button class="btn btn-hg btn-primary" id="previous_button" onclick = "previousPageButtonPressedC()"><  Previous</button>
+                               <button class="btn btn-primary" id="previous_button" onclick = "previousPageButtonPressedC()"><  Previous</button>
                           </td>  
                           <td class="next-button-container">
-                               <button class="btn btn-hg btn-primary" id="next_button" onclick = "nextPageButtonPressedC()">Next  ></button>
+                               <button class="btn btn-primary" id="next_button" onclick = "nextPageButtonPressedC()">Next  ></button>
  
                           </td>
                         </tr>
                     </table>
                     <br/><br/>
-                    <button class="btn btn-hg btn-primary" onclick = "showSearchView()">Return to Search</button>
-                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
-                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#assign-to-default-courses'">Add To Default Courses</button>
-                    <button class="btn btn-hg btn-success" onclick = "document.location.href='#courses'">Home</button>
+                    <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-success" onclick = "document.location.href='#assign-to-default-courses'">Add To Default Courses</button>
+                    <button class="btn btn-success" onclick = "document.location.href='#courses'">Home</button>
 </div>
 </script>
 
@@ -968,16 +1245,38 @@
         <label for="<%= _id %>">
     		<font class="search-result-title" ><%= title %></font>
     		-
-                <%= description %>
+                <% %>
                  &nbsp;by&nbsp;
                 <%= author %>
-    	</label></td><td><%= Tag %></td>
+    	</label></td><td><% %></td>
         <% }else{ %>
           <label for="<%= _id %>">
     		<font class="search-result-title" ><%= name %></font>
           </label></td>
         <% } %>
 </script>
+<script type="text/html" id="template-PubResourceRow">
+  
+
+  <td>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= title %></BR></span>
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+    <td>
+      <a class='btn btn-warning movetolibrary'>Move to Library
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Remove
+      </a>
+      </td>
+    
+  </script>
 <script type="text/template" id="make-Quiz">
 <div id="quiz-body">
 <br/>
@@ -1001,10 +1300,10 @@ Courses | <%= courseTitle %>
 </div>
 </div>
 <br/>
-<button class="btn btn-hg btn-primary" id="prev-question" >Previous Question</button>
-<button class="btn btn-hg btn-primary" id="next-question" >Next Question</button>
-<button class="btn btn-hg btn-success" id="save-quiz" >Save Quiz</button>
-<button class="btn btn-hg btn-danger" id="cancel-quiz" >Cancel</button>
+<button class="btn btn-primary" id="prev-question" >Previous Question</button>
+<button class="btn btn-primary" id="next-question" >Next Question</button>
+<button class="btn btn-success" id="save-quiz" >Save Quiz</button>
+<button class="btn btn-danger" id="cancel-quiz" >Cancel</button>
 
 </div>
 </script>
@@ -1061,17 +1360,77 @@ Please become a Member and explore both the Community Learning Management System
 
  <B> Note: </B>The BeLL system is under continuous development and is upgraded almost daily.  Feel free to return frequently to see the changes that have been made and give us feedback on them.  </div>
 <br/>
- <button class="btn btn-hg btn-success" onclick = "document.location.href='#login'">Sign In</button>
- &nbsp;&nbsp;<button class="btn btn-hg btn-success" onclick = "document.location.href='#becomemember'">Become A Member</button>
+ <button class="btn btn-success" onclick = "document.location.href='#login'">Sign In</button>
+ &nbsp;&nbsp;<button class="btn btn-success" onclick = "document.location.href='#becomemember'">Become A Member</button>
 </script>
 
 <script type="text/template" id="template-login">
 <div style="position:absolute;margin-top:-1%;margin-left:-14%;width:7%;"><img src="img/ole.png" /></div>
 <span style="margin-left:5%;font-size:31px;">Welcome to the</span><br/><br/>
 <span style="margin-left:4%;font-size:37px;">Community BeLL</span><br/><br/>
-<span style="margin-left:1%;font-size:25px;">Pre-release version (1.0.4)</span><br/>
+<span style="margin-left:1%;font-size:25px;">Pre-release version (<%=versionNO%>)</span><br/>
 <span style="margin-left:3%;font-size:25px;">Basic e-Learning Library</span><br/><br/><br/>
 </script>
+<!-- Report template -->
+<script type="text/html" id="template-ReportRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+    
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+      </td>
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= author %></BR></span>
+      </td>
+    </td>
+    
+       <td>
+    <%=views%>
+    </td>
+    <td>
+
+      <a id="open" class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/community/<%= _id %>' target="_blank">
+       Open
+      </a>
+    </td>
+ 
+    <td>
+      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
+    </td>
+   
+    <td>
+    	<%if(isManager>-1){%>
+    	<td>
+    	<a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+        Details
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        Delete
+      </a>
+      </td>
+      <%}%>
+    </td>
+    <%}%>
+  </script>
+  <!-- Collection template -->
+<script type="text/html" id="template-CollectionRow">
+    <td  id=<%=_id%> >
+    <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>  
+    </td>
+    <td>
+    <%if(display==true){%>
+    
+    <button onclick="EditColletcion('<%=_id%>')"><i class="icon-edit pull-right"></i></button>
+    <%}%>
+    </td>
+      </script>
+
 <script type="text/html" id="template-siteReviewRownoAdmin">
   	 	<%  if(Resolved=="0"){%>
 			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
@@ -1081,7 +1440,14 @@ Please become a Member and explore both the Community Learning Management System
 		<%}%>
   </script>
   
-    
+    <script type="text/template" id="template-Publication"> 
+    <div id='listPublication-head'> 
+    <p class='heading' style="font-size: 20px;"> 
+     </p>
+      </div>
+
+	<div style='width:940px;margin:0 auto' id='listReq'></div>
+  </script> 
    <script type="text/html" id="template-siteReviewRowAdmin">
   	 	<%  if(Resolved=="0"){%>
 			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>

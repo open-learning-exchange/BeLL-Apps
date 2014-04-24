@@ -1,11 +1,12 @@
 
 
 $(function() {
- var resource_url = $.url().fparam("url")
-
+// var resource_url = $.url().fparam("url")
+var resource_url = 'example-book/kevins-birthday.webmsd.webm.cuepoints.json' ; 
+var video_url = 'example-book/kevins-birthday.webmsd.webm';
  // Get the cuepoints JSON file for this video file @todo If the metadata doesn't exist, set up
  // some sensible defaults to fall back on.
- $.getJSON(resource_url + ".cuepoints.json", function(data) {
+ $.getJSON(resource_url , function(data) {
 
     // Set the size of the player for the user's screen
     // setInterval(function() { using an interval doesn't work as well as you would expect...
@@ -16,7 +17,7 @@ $(function() {
     // }, 1000)
 
     // Set the video
-    $(".player video").html("<source type='video/webm' src='" + resource_url + "'/>")
+    $(".player video").html("<source type='video/webm' src='" + video_url + "'/>")
 
     // Set page turn cuepoints for flowplayer
     $(".player").attr("data-cuepoints", JSON.stringify(data))
@@ -54,18 +55,21 @@ flowplayer(function(api, root) {
     if(destinationPage > lastPage) {
       // Go back to the beginning
       destinationPage = 0
+      currentPage = 0
       nextPage = 1
       previousPage = lastPage
     }
     else if (destinationPage < 0) {
       // Go to the last page
       destinationPage = lastPage
+      currentPage = lastPage
       nextPage = 0
       previousPage = lastPage - 1
     }
     else if (destinationPage < lastPage)  {
       // proceed 
       nextPage = destinationPage + 1
+      currentPage = destinationPage
       previousPage = destinationPage - 1
     }
 
@@ -76,9 +80,9 @@ flowplayer(function(api, root) {
     $(".fp-cuepoint").removeClass("current-page")
 
     // Set the links
-    $(".fp-cuepoint" + previousPage).text("<").addClass("previous-page")
-    $(".fp-cuepoint" + destinationPage).html("<div class='page-number'>Page <h2>" + (destinationPage + 1 + "</h2></div>")).addClass("current-page")
-    $(".fp-cuepoint" + nextPage).text(">").addClass("next-page")
+     $(".fp-cuepoint" + lastPage).text("<").addClass("previous-page")
+    $(".fp-cuepoint" + currentPage).html("<div class='page-number'>Page <h2>" + (currentPage + 1 + "</h2></div>")).addClass("current-page")
+    $(".fp-cuepoint" + (currentPage + 1)).text(">").addClass("next-page")
 
   // when a video is loaded and ready to play
   }).bind("ready", function() {

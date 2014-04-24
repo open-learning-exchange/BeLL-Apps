@@ -33,7 +33,7 @@ $(function() {
        password: {validators: ['required']},
        phone: 'Text',
        email:'Text',
-       birthLanguage :'Text',
+       language :'Text',
        BirthDate:  'Date',
 	   visits : 'Text',
 	   Gender: {
@@ -124,7 +124,6 @@ $(function() {
                 // Submit the form with the attachment
                  url: "/"+ input_db +"/"+ input_id,
                  success: function(response) {
-                   console.log('file submitted successfully')
                    model.trigger('savedAttachment')                        
                  }
               })

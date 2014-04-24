@@ -11,9 +11,9 @@
 
   <style>
   * {
-    border: 0px;
-    margin: 0px;
-    padding: 0px;
+    	border: 0px;
+    	margin: 0px;
+    	padding: 0px;
   }
   </style>
 
@@ -26,12 +26,13 @@
        style="display:block;width:1000px;height:501px"  
        id="player"> 
     </a>
- 
+    
   </body>
 
   <script language="JavaScript">
       $(document).ready(function() {
         var resource_url = $.url().fparam("url")
+            alert(resource_url)
         $("a#player").attr("href", resource_url)
         flowplayer("player", "flowplayer_flowplayer-3.2.14.swf");
       });

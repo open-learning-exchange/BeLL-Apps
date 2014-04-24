@@ -21,7 +21,7 @@
 }
 
 .form li {
-  margin:10px -1px 17px;
+
 }
 
 .form .bbf-radio li, .form .bbf-checkboxes li {
@@ -63,7 +63,7 @@
 
     color: #000000;
     font-family: verdana;
-    width: 75%;
+    width: 940px;
 border-radius: 20px 20px 20px 20px;
 }
 
@@ -79,11 +79,20 @@ padding-left: 22px;
 	
 }
 
-
 .search-Box
 {
-	margin-left: 12%;
-	margin-top: 3%;
+	margin-top: 0%;
+}
+#search-button{
+margin-left: 22%;
+
+}
+.collection-search{
+  border: 1px solid gray;
+  width:300px:
+  height:200px;
+  overflow: scroll;
+
 }
 label {
     display: inline-block;
@@ -116,8 +125,9 @@ input[type=checkbox]:checked + label:before {
 }
 .checkbox-subject
 {
-	margin-left:40%;
-	margin-top:-12%;
+}
+.right-column-search{
+
 }
 .checkbox-length
 {
@@ -166,7 +176,7 @@ input[type=checkbox]:checked + label:before {
 }
 #quiz-body
 {
-	margin-left:-14%;
+	margin-left:14%;
 }
 #options-table
 {
@@ -174,8 +184,6 @@ input[type=checkbox]:checked + label:before {
     margin-top: 15px;
     position: absolute;
 }
-
-
 
 #Radio-margin
 {
@@ -279,33 +287,26 @@ border-bottom:1px solid black;
   margin-left: -1%;
   width: 883px;
 }
+
+#resourceform {
+  background-color: #F3F3F3;
+  border-radius: 37px;
+  margin-bottom: -1%;
+  margin-left: -1%;
+  width: 883px;
+}
 #groupform [name="description"]{
-  height: 80px;
-    width: 702px;
+ height: 120px;
+    width: 456px;
 }
 
-#groupform .bbf-field.field-leaderEmail{
-    margin-left: 250px;
-     margin-top: -82px;
-     position: relative;
-    
-}
-#groupform .bbf-field.field-courseLeader{
-     margin-top: -18px;
-}
-#groupform .bbf-field.field-leaderPhone{
-    margin-left: 500px;
-    margin-top: -84px;
-    position: relative;
-    
-}
 #groupform .bbf-field.field-foregroundColor{
     margin-left: 147px;
-    margin-top: -73px;
+    margin-top: -56px;
     position: relative;
 }
 #groupform .bbf-field.field-backgroundColor{
-    margin-top: -17px;
+    margin-top: -5px;
 }
 #invitationForm{
   color:white;
@@ -320,33 +321,28 @@ border-bottom:1px solid black;
     z-index: 2;
     margin-left:10%;
     overflow: scroll;
-    height: 40%;
+    height: 60%;
 }
 #groupform .bbf-field.field-levels{
     margin-left: 236px;
     margin-top: -85px;
     width: 621px;
 }
-#groupform .bbf-field.field-description{
-   margin-top:-21px; 
+#groupform .bbf-field .field-description{
+   margin-top:-10px; 
 }
 #groupform .bbf-field.field-levels.bbf-editor > ul > li{
    margin-left:-16px; 
 }
 #inviteMemberButton{
   
-  margin-left: 660px;
-    margin-top: -850px;
 }
 #ProgressButton{
- margin-left: 541px;
-    margin-top: -922px;
 
 }
 #rating_checkboxes
 {
 	margin-left:0px;
-	margin-top:-422px;
 }
 .filter_star_img
 {
@@ -397,12 +393,18 @@ font-weight: bold;
 	margin-left: 43%;
 
 }
+.checkDisplay
+{
+	display: block;
+}
 
 
 /* course Schedule */
 #coursescheduleButton {
-    margin-left: 321px;
-    margin-top: -917px;
+    position: absolute;
+	top: 96px;
+	left: 436px;
+
 }
 
 #durationDiv, #TypeDiv{
@@ -484,28 +486,30 @@ margin-left: 33%;
 
 /******************MEMBER FORM CSS **************************/
 #memberform .bbf-field.field-lastName{
- margin-left: 481px;
- margin-top: -83px; 
+ margin-left: 239px;
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-middleNames{
- margin-left: 239px;
- margin-top: -83px; 
+ 
+ margin-left: 481px;
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-password{
  margin-left: 239px;
- margin-top: -84px; 
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-email{
  margin-left: 239px;
- margin-top: -84px; 
+ margin-top: -66px; 
 }
-#memberform .bbf-field.field-birthLanguage{
+#memberform .bbf-field.field-language{
  margin-left: 481px;
- margin-top: -84px; 
+ margin-top: -66px; 
 }
 #memberform .bbf-field.field-levels{
- margin-left: 239px;
- margin-top: -84px; 
+   margin-left: 239px;
+   margin-top: -67px;
+
 }
 #underconstruction {
     height: 400px;
@@ -513,3 +517,107 @@ margin-left: 33%;
     width: 400px;
 }
 /******************/
+#popup-spinning {
+    position: fixed;
+    top: 45%;
+    left:45%;
+}
+/******************course Details ********************/
+#courseSteps-heading{
+    color: #404040;
+}
+#courseName-heading{
+   color: #404040;
+}
+
+/***************/
+.form  .field-languageOfInstruction{
+    margin-left: 259px;
+    margin-top: -64px;
+}
+
+.form .field-subjectLevel{
+    margin-left: 259px;
+    margin-top: -64px;
+}
+.form .field-Publisher
+{
+margin-left: 450px;
+    margin-top: -64px
+}.form .field-Year
+{
+margin-left: 450px;
+    margin-top: -64px
+}
+
+#invitationForm .bbf-form .field-Description
+{
+
+margin-left: 259px;
+    margin-top: -64px;
+}
+#invitationForm .bbf-form .field-AddedBy
+{
+
+margin-left: 259px;
+    margin-top: -64px;
+}
+.MajorCategory
+{
+    font-weight:bold;
+}
+.form .field-endDate
+{
+margin-left: 259px;
+    margin-top: -64px;
+
+}
+.form .field-Level
+{
+margin-left: 224px;
+    margin-top: -114px
+} 
+.form .field-Tag {
+    margin-left: 450px;
+    margin-top: -114px;
+}
+.form .field-openWith{
+    margin-left: 450px;
+    margin-top: -65px;
+}
+.form .field-method{
+    margin-left: 514px;
+    margin-top: -165px;
+}
+.form .field-location{
+ margin-left: 514px;
+    margin-top: -64px;
+}
+.form .field-memberLimit{
+   margin-left: 514px;
+    margin-top: -64px;
+}
+.form .field-frequency{
+     margin-left: 526px;
+    margin-top: -63px;
+}
+.form .field-endTime{
+margin-left: 259px;
+    margin-top: -64px;
+}
+.form .field-stepGoals{
+      margin-left: 259px;
+    margin-top: -96px;
+}
+.form .field-stepMethod{
+      margin-left: 259px;
+    margin-top: -64px;
+}
+.form .field-outComes{
+      margin-left: 259px;
+    margin-top: -64px;
+}
+.Graphbutton
+{
+	position: relative;
+}

@@ -10,18 +10,33 @@ $(function() {
           : App.Server + '/meetups/' + this.id // For READ
       }
       else {
-        var url = App.Server + '/report' // for CREATE
+        var url = App.Server + '/meetups' // for CREATE
       }
       
       return url
     },
+    defaults: {
+      kind: "Meetup"
+    },
+
 
  schema: {
       title: 'Text',
       description: 'TextArea',
-      schedule: 'Date',
+      startDate: 'Text',
+      endDate: 'Text',
+      reoccuring: {
+        type: 'Radio',
+        options: ['Daily', 'Weekly']
+      },
+     Day: {
+        type: 'Checkboxes',
+        options: ['Saturday', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
+      },
+      startTime: 'Text',
+      endTime:'Text',
       category: { type: 'Select', options: ['ICT', 'First Time' , 'Mothers' , 'General' , 'E Learning','Farming','Academic Discussion','Academic Help','Awareness'] },
-      location: 'Text',
+      meetupLocation: 'Text',
     }
     
 }) 

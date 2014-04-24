@@ -21,24 +21,46 @@ $(function() {
     },
 
     schema: {
-      name: 'Text',
-      levels: {
-        type: 'Checkboxes',
-        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','Higher']
-      },
-      description:'TextArea',
-      courseLeader:{
+      CourseTitle: 'Text',
+      languageOfInstruction: 'Text',
+      memberLimit: 'Text',
+     courseLeader:{
             type:'Select',
             options:null,
       },
-      leaderEmail:'Text',
-      leaderPhone:'Text',
-      members: {
+        description:'TextArea',
+        
+       method:'Text',
+      gradeLevel: {
+        type: 'Select',
+        options: ['Pre-K','K','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','College','Post-Grad']
+      },
+      subjectLevel: {
+        type: 'Select',
+        options: ['Beginner', 'Intermediate', 'Advanced', 'Expert']
+      },  
+      startDate: 'Text',
+      endDate: 'Text',
+       frequency: {
+        type: 'Radio',
+        options: ['Daily', 'Weekly']
+      },
+      Day: {
+        type: 'Checkboxes',
+        options: ['Saturday', 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
+      },
+       startTime: 'Text',
+      endTime: 'Text',
+     location: 'Text',
+      
+     backgroundColor: 'Text',
+      foregroundColor: 'Text',
+      
+     members: {
         type: 'Checkboxes',
         options: null // Populate this when instantiating
       },
-      backgroundColor: 'Text',
-      foregroundColor: 'Text'
+      
     },
 
   }) 

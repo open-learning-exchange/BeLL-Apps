@@ -5,7 +5,22 @@ $(function() {
     idAttribute: "_id",
 
     url: function() {
-      if (_.has(this, 'id')) {
+    if(this.pubResource==true)
+    {
+    
+    	  if (_.has(this, 'id')) {
+        var url = (_.has(this.toJSON(), '_rev'))
+          ? App.Server + '/pubresources/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
+          : App.Server + '/pubresources/' + this.id // For READ
+      }
+      else {
+        var url = App.Server + '/pubresources' // for CREATE
+      }
+    
+    }
+    else
+    {
+    	  if (_.has(this, 'id')) {
         var url = (_.has(this.toJSON(), '_rev'))
           ? App.Server + '/resources/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
           : App.Server + '/resources/' + this.id // For READ
@@ -13,6 +28,8 @@ $(function() {
       else {
         var url = App.Server + '/resources' // for CREATE
       }
+    
+    }
       return url
     },
 
@@ -21,45 +38,41 @@ $(function() {
     },
 
     schema: {
-      addedBy:'Text',
-      title: 'Text',
-      description: 'Text',
-      articleDate: 'Date',
-      openWith:{
-        type: 'Select',
-        options: [ 'Just download', 'HTML', 'PDF.js', 'Flow Video Player', 'BeLL Video Book Player', 'Native Video' ]
-      },
+         title: 'Text',
+       author:{title:'Author/Editor',type:'Text'},  // Author Field is required when adding the resource with tag news else no need for that.
+     Publisher: 'Text',
+      language: {title:'Languages',type:'Text'},
+     
+      Year: 'Text',
+      
       subject:{
+        title:'Subjects',
         type:'Select',
-        options:['AGR (Agriculture)','BUS (Business and Finance)','FAS (Fine Arts)','FNU (Food and Nutrition)','GEO (Geography)','HMD (Health & Medicine)','HIS (History)','HDV (Human Development)','LAN (Languages)','LAW (Law)','LEA (Learning)','LIT (Literature)','MAT (Math)','MUS (Music)','POL (Politics & Government)','REF (Reference)','REL (Religion)','SCI (Science)','SOC (Social Sciences)','SPO (Sports)','TEC (Technology)','EN (Environment)']
+        options:['Agriculture','Business and Finance','Environment','Fine Arts','Food and Nutrition','Geography','Health & Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics & Government','Reference','Religion','Science','Social Sciences','Sports','Technology']
       },
       Level:{
+        title:'Levels',
         type:'Select',
-        options: ['Range','All']
-      },
-      fromLevel:{
-          type :'Select',
-          options:['1','2','3','4','5','6','7','8','9','10','11','12']
-      },
-      toLevel:{
-          type :'Select',
-          options:['1','2','3','4','5','6','7','8','9','10','11','12']
+        options: ['All','Early Education','Lower Primary','Upper Primary','Lower Secondary','Upper Secondary','Undergraduate','Graduate','Professional'],
       },
       Tag:{
+            title:'Collection',
             type:'Select',
-            options:['News','Fiction','Non Fiction']
+ 			options:['Add New']
       },
-      author:'Text',  // Author Field is required when adding the resource with tag news else no need for that.
-      // For Resources with more than one and where one open file must be specified
-     openWhichFile: 'Text',
+      Medium:{
+        type: 'Select',
+        options: [ 'Text', 'Graphic/Pictures', 'Audio/Music/Book ', 'Video']
+      },
+      openWith:{
+        type: 'Select',
+        options: [ 'Just download','HTML','PDF.js','Flow Video Player','BeLL Video Book Player','Native Video' ]
+      },
      uploadDate:'Date',
-     // override everything, just open a specific URL
-      openUrl: 'Text',
       averageRating :'Text',
+      articleDate: {title:'Date Added to Library',type:'Date'},
+      addedBy:'Text',
     },
- 
-    
-    
     
     saveAttachment: function(formEl, fileEl, revEl) {
 
@@ -103,22 +116,22 @@ $(function() {
             $(formEl).ajaxSubmit({
               url: server + "/"+ input_db +"/"+ input_id,
               success: function(response) {
-                
                 model.trigger('savedAttachment')
+                alert("Resource Successfully added")
+               App.stopActivityIndicator()
               },
               error : function(response){
-                  alert("Error")
+              alert("Error")
+              App.stopActivityIndicator()
               },
             })
           }
-
         }, // End success, we have a Doc
     handleError: function( s, xhr, status, e ) {
     // If a local callback was specified, fire it
        if ( s.error ) {
               s.error.call( s.context || window, xhr, status, e );
        }
-
     // Fire the global callback
          if ( s.global ) {
                (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );

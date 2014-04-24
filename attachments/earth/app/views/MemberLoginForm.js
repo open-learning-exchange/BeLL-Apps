@@ -36,7 +36,7 @@ $(function() {
       
       
       $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + username + '"', function(response) {
-      console.log(response)
+      console.log("MemberLoginForm::response: " + response.rows);
       
       if(response.rows[0]){
         if(response.total_rows > 0 && response.rows[0].doc.password == password) {
@@ -50,11 +50,13 @@ $(function() {
                     alert("You are not authorized to sign in")
               }
               else{
+                  alert("Here");
                  memberLoginForm.trigger('success:login')
               }
             }
             else {
-              memberLoginForm.trigger('success:login')
+                alert("Here");
+                memberLoginForm.trigger('success:login')
             }
           }
           else{

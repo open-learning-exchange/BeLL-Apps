@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"  manifest="/cache.manifest">
+  <title>Bell MyApp</title>
+<link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+  <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
+
+  <link href="vendor/spectrum.css" rel="stylesheet" media="screen" />
+
+  <link rel="stylesheet" href="app/app.css"/>
+  <link rel="stylesheet" href="app/navStyle.css"/>
+  <link rel="stylesheet" href="app/fullcalendar.css"/>
+  <link rel="stylesheet" href="app/flat-ui.css"/>
+  <link rel="stylesheet" href="app/morris.css"/>
+  <link rel="stylesheet" href="app/jqueryui.css"/>
+  <link rel="stylesheet" href="app/Home.css"/>
+  <link rel="stylesheet" href="app/tabl.css"/>
+  
+  <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
+  <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
+  <link rel="stylesheet" href="vendor/backbone-ui.css"/>
+  
+  
+  <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.filter.css"/>
+  <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.css"/>
+   
+  <!--
+    DEPENDENCIES
+  -->
+  
+  <script src="vendor/Spin.js"></script>
+  <script src="vendor/jquery-1.7.2.js"></script>
+  <script src="app/raphael.js"></script>
+  <script src="vendor/jquery-ui.js"></script>
+  <script src="vendor/jquery-ui.custom.min.js"></script>
+  <script src="vendor/fullcalendar.min.js"></script>
+  <script src="vendor/jquery.timepicker.js"></script>
+  <script src="vendor/Spin.js"></script>
+  <script src="vendor/spectrum.js"></script>
+  <script src="vendor/underscore-1.4.4.js"></script>
+  <script src="vendor/backbone-1.0.0.js"></script>
+  <script src="vendor/backbone-ui.js"></script>
+  <script src="vendor/backbone-forms.js"></script>
+  <script src="/_utils/script/json2.js"></script>
+  <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
+  <script src="vendor/jquery.form.js"></script>
+  <script src="vendor/sha1.js"></script>
+  <script src="vendor/moment.min.js"></script>
+  <script src="vendor/jquery.couch.js"></script>
+  <script src="vendor/jquery.cookie.js"></script>
+  <script src="vendor/backbone.couchdb.js"></script>
+  <script src="vendor/html-encode.js"></script>
+  <script src="vendor/jquery.url.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="vendor/jquery.raty.js"></script>
+  <script src="vendor/raphael.js"></script>
+  <script src="vendor/morris.js"></script>
+  <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
+  <script src="vendor/jquery-ui.multidatespicker.js"></script>
+  <script src="jquery.popupoverlay.js"></script>
+  <script src="vender/moment.min.js"></script>
+  <script src="vendor/jQuery-multiselect/jquery.multiselect.js"></script>
+  <script src="vendor/jQuery-multiselect/jquery.multiselect.filter.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="vendor/pouchdb-2.1.0.js"></script>
+  <script type="text/javascript" src="js/ui.multiselect.js"></script>
+   <!-- html-templates -->
+  <link rel="text" href="app/templates/templates.txt"/>
+  
+  <!-- App -->
+  <script src="app/App.js"></script>
+  
+  <!-- App-Router -->
+  <script src="app/Router.js"></script>
+ 
+  <!-- app-models -->
+  
+  <script src="app/models/Resource.js"></script>
+  <script src="app/models/Group.js"></script>
+  <script src="app/models/Assignment.js"></script>
+  <script src="app/models/Feedback.js"></script>
+  <script src="app/models/Calendar.js"></script>
+  <script src="app/models/report.js"></script>
+  <script src="app/models/Mail.js"></script>
+  <script src="app/models/membercourseprogress.js"></script>
+  <script src="app/models/CourseSchedule.js"></script>
+  <script src="app/models/AssignmentPaper.js"></script>
+  <script src="app/models/UserMeetup.js"></script>
+  <script src="app/models/ReleaseNotes.js"></script>
+  <script src="app/models/Member.js"></script>
+  <script src="app/models/Credentials.js"></script>
+  <script src="app/models/App.js"></script>
+  <script src="app/models/Shelf.js"></script>
+  <script src="app/models/Invitation.js"></script>
+  <script src="app/models/CourseStep.js"></script>
+  <script src="app/models/InviFormModel.js"></script>
+  <script src="app/models/ExploreBell.js"></script>
+  <script src="app/models/request.js"></script>
+  <script src="app/models/Community.js"></script>
+  <script src="app/models/reportComment.js"></script>
+  <script src="app/models/CommunityReportComment.js"></script>
+  <script src="app/models/CommunityReport.js"></script>
+  <script src="app/models/ResourceFrequency.js"></script>
+  <script src="app/models/MeetUp.js"></script>
+  <script src="app/models/UserMeetups.js"></script>
+  <script src="app/models/Publication.js"></script>
+  <script src="app/models/Configuration.js"></script>
+  <script src='app/models/CollectionList.js'></script>
+  <script src='app/models/InviMeetup.js'></script>
+  <script src='app/models/Language.js'></script>
+  <script src='app/models/CourseInvitation.js'></script>
+  
+  
+  
+  
+  <!-- App Collection  -->
+   <script src="app/collections/listRCollection.js"></script>
+  <script src="app/collections/Groups.js"></script>
+  <script src="app/collections/coursesteps.js"></script>
+  <script src="app/collections/MemberGroups.js"></script>
+  <script src="app/collections/GroupAssignments.js"></script>
+  <script src="app/collections/NewsResources.js"></script>
+  <script src="app/collections/Members.js"></script>
+  <script src="app/collections/SearchResource.js"></script>
+  <script src="app/collections/Calendars.js"></script>
+  <script src="app/collections/siteFeedbacks.js"></script>
+  <script src="app/collections/membercourseprogresses.js"></script>
+  <script src="app/collections/memberprogressallcourses.js"></script>
+  <script src="app/collections/AllInviteMember.js"></script>
+  <script src="app/collections/Mails.js"></script>
+  <script src="app/collections/MailUnopened.js"></script>
+  <script src="app/collections/reportsComment.js"></script>
+  <script src="app/collections/CourseScheduleByCourse.js"></script>
+  <script src="app/collections/shelfResource.js"></script>
+  <script src="app/collections/UserMeetups.js"></script>
+  <script src="app/collections/Configurations.js"></script>
+  <script src="app/collections/Resources.js"></script>
+  <script src="app/collections/Apps.js"></script>
+  <script src="app/collections/GroupAssignmentsByDate.js"></script>
+  <script src="app/collections/AssignmentsByDate.js"></script>
+  <script src="app/collections/ResourceFeedback.js"></script>
+  <script src="app/collections/CourseLevels.js"></script>
+  <script src="app/collections/SearchCourses.js"></script>
+  <script src="app/collections/StepResultsbyCourse.js"></script>
+  <script src="app/collections/leadermembers.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/Communities.js"></script>
+  <script src="app/collections/EntityInvitation.js"></script>
+  <script src="app/collections/Requests.js"></script>
+  <script src="app/collections/courseprogressallmembers.js"></script>
+  <script src="app/collections/CommunityReportComments.js"></script>
+  <script src="app/collections/Reports.js"></script>
+  <script src="app/collections/ResourcesFrequency.js"></script>
+   <script src="app/collections/AssignmentPapers.js"></script>
+   <script src="app/collections/Meetups.js"></script>
+  <script src="app/collections/listRCollection.js"></script>
+  <script src="app/collections/Publication.js"></script>
+   <script src="app/collections/Languages.js"></script>
+  <script src='app/collections/CourseInvitations.js'></script>
+
+   <!-- app-Views -->
+  <script src="app/views/MemberLoginForm.js"></script>
+  <script src="app/views/navBarView.js"></script>
+  <script src="app/views/MemberForm.js"></script>
+  <script src="app/views/siteFeedback.js"></script>
+  <script src='app/views/Dashboard.js'></script>
+  <script src="app/views/GroupSpan.js"></script>
+  <script src='app/views/GroupsSpans.js'></script>
+  <script src="app/views/ShelfSpan.js"></script>
+  <script src='app/views/ShelfSpans.js'></script>
+  <script src="app/views/MeetupSpan.js"></script>
+  <script src='app/views/MeetupSpans.js'></script>
+  <script src="app/views/TutorSpan.js"></script>
+  <script src='app/views/TutorsSpans.js'></script>
+  <script src='app/views/ResourcesTable.js'></script>
+  <script src='app/views/ResourceRow.js'></script>
+  <script src='app/views/ResourcesDetail.js'></script>
+  <script src='app/views/ResourceForm.js'></script>
+  <script src='app/views/Search.js'></script>
+   <script src="app/views/SearchSpan.js"></script>
+  <script src="app/views/SearchSpans.js"></script>
+  
+  <script src='app/views/RequestView.js'></script>
+  
+  <script src='app/views/FeedbackTable.js'></script>
+  <script src='app/views/FeedbackRow.js'></script>
+  <script src='app/views/FeedbackForm.js'></script>
+  
+  
+  <script src='app/views/GroupsTable.js'></script>
+  <script src='app/views/GroupRow.js'></script>
+  <script src='app/views/GroupForm.js'></script>
+  <script src='app/views/GroupView.js'></script>
+  <script src='app/views/CourseStepsView.js'></script>
+  <script src='app/views/BecomeMemberForm.js'></script>
+  <script src='app/views/CoursesStudentsProgress.js'></script>
+  <script src='app/views/CourseInfoView.js'></script>
+  <script src='app/views/GroupMembers.js'></script>
+  <script src="app/views/InvitationForm.js"></script>
+  <script src="app/views/CourseSearch.js"></script>
+  
+  <script src="app/views/QuizView.js"></script>
+   <script src="app/views/takeQuizView.js"></script>
+   <script src="app/views/offlinetakeQuizView.js"></script>
+   
+  <script src='app/views/LevelForm.js'></script>
+  <script src='app/views/LevelDetail.js'></script>
+  <script src='app/views/LevelsTable.js'></script>
+  <script src='app/views/LevelRow.js'></script>
+  <script src='app/views/MeetUpTable.js'></script>
+  <script src='app/views/meetupView.js'></script>
+  <script src='app/views/MeetupDetails.js'></script>
+  
+  <script src='app/views/MeetUpRow.js'></script>
+  <script src='app/views/MeetUpForm.js'></script>
+  
+  <script src='app/views/MembersTable.js'></script>
+  <script src='app/views/MemberRow.js'></script>
+  
+  
+  <script src='app/views/ReportsRow.js'></script>
+  <script src='app/views/ReportsTable.js'></script>
+  <script src='app/views/ReportForm.js'></script>
+  <script src='app/views/CommunityReportCommentView.js'></script>
+  
+  <script src='app/views/CourseLevelsTable.js'></script>
+  <script src='app/views/ResourceForm.js'></script>
+  <script src='app/views/MeetupInvitation.js'></script>
+  
+
+  <script src='app/views/MailView.js'></script>
+  
+  <script src='app/views/CoursesChartProgress.js'></script>
+  
+  <script src='app/views/CalendarForm.js'></script>
+  <script src='app/views/EventInfo.js'></script>
+  
+  <script src="app/views/CollectionTable.js"></script>
+  <script src="app/views/CollectionRow.js"></script>
+  <script src="app/views/ListCollectionView.js"></script>
+  
+    <script src="app/views/siteFeedbackPage.js"></script>
+  <script src="app/views/siteFeedbackPageRow.js"></script>
+  
+  <script src="app/views/RequestTable.js"></script>
+  <script src="app/views/RequestRow.js"></script>
+  
+  <script src="app/views/Configurations.js"></script>
+  
+
+  <!-- javaScript -->
+  
+  <script src='indexFile.js'></script>
+  
+  
+
+  <script type='text/template' id='template-app'>
+ 	 <div id="emailCompose" class="well" style="display: none;">
+
+		<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+		<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+		<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+		<div class="mailbody">
+			<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+			<button class="emailCompose_close btn btn-default">Close</button>
+			<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+		</div>
+
+     </div>
+  
+    <div class="takeQuizDiv" id="tQuizDiv"></div>
+    <div id="externalDiv"></div>
+     <div id="debug">
+		<div id="comments">
+			
+		</div>    
+
+   
+    </div>
+    <div id="popup-spinning"></div>
+    <div id="invitationSuperDiv">
+  	 	<div id="invitationdiv"></div>
+    </div>
+
+    <div id='nav' class="navbar navbar-inverse" id="top-nav"style="margin: 4px 0px 0px 0px;">
+        <div class="container"></div> 
+    </div>
+	
+    <!-- Body -->
+   
+    <div class="body" id="cont">
+      <!-- Content -->
+    </div>
+</script>
+<script type="text/template" id="template-nav-logged-in"> 
+  <!--  <li> 
+      <a href="../lms/index.html#login">
+         Community
+      </a>
+    </li>
+   -->
+    <li> 
+      <a href="#">
+      <%= languageDict['Dashboard'] %>
+      </a>
+    </li> 
+    <li> 
+      <a href="#ereader">
+      <%= languageDict['e-Readers'] %>
+      </a>
+    </li>
+    <li> 
+      <a href="#resources">
+      <%= languageDict['Library'] %>
+      </a>
+    </li>
+     <li> 
+      <a href="#courses">
+      <%= languageDict['Courses'] %>
+      </a>
+    </li>
+    <li> 
+      <a href="#meetups">
+      <%= languageDict['Meetups'] %>
+      </a>
+    </li>
+     <li> 
+      <a href="#members">
+      <%= languageDict['Members'] %>
+      </a>
+    </li>
+    <li> 
+      <a href="#reports">
+      <%= languageDict['Reports'] %>
+      </a>
+    </li> 
+     <li> 
+      <a onclick = "showFeedbackForm()">
+      <%= languageDict['Feedback'] %>
+      </a>
+    </li>
+    <li> 
+      <a href= "#logout">
+      <%= languageDict['Logout'] %>
+      </a>
+    </li>	
+  </script>
+
+<script type="text/template" id="template-nav-log-in"> 
+    <li> 
+      <a href="#login">
+      My Home - v<%=versionNO%>
+      </a>
+    </li>   
+    <li> 
+      <a onclick = "showFeedbackForm()">
+        Feedback
+      </a>
+    </li>
+    
+</script>
+<script type="text/html" id="template-Dashboard">
+    <div id="dashboard">
+		<table class="header-table" style="border-collapse: separate;">
+			<tr class="imageRow">
+			 <td rowspan="2" class="imageData">
+				<!--	<img id="header-image" src="img/header_slice.png" /> -->
+		 			<img src="img/agnes.jpeg" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:55px;height: 105px; width: 105px;"/>
+			 </td>
+			</tr>
+			<tr>
+			 <td class="left">
+					<div class="bellLocation"></div>
+					<div class="name"></div>
+					<div class="visits">  </div>
+			 </td>
+			 <td class="right">	
+					<div class="now" ></div>
+			 </td>	
+			</tr>
+		</table>	
+
+      <div id="page-body">
+        <table class="stu-nav-table" style="border-collapse: separate;">
+        <tr class="stu-nav-tube">
+					<td class="stu-nav-title-shelf stu-nav-title"><%= languageDict['My Library'] %></td>
+					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="ur" class="inner-table" >	
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+	  	  </tr>
+        	<tr class="stu-nav-tube">
+            	<td class="stu-nav-title">
+            		<a href="#courses/barchart"><%= languageDict['My Courses Progress'] %></a>
+            	</td>
+            	<td class="scrollable-courses">      
+					<div class="inner">
+		    			<table id="cc" class="inner-table">
+                    	</table>
+                  	</div>
+             	</td>     
+         		<td class="stu-nav-option-empty"></td>
+           </tr>
+		  <tr class="stu-nav-tube">
+					<td class="stu-nav-title-badges stu-nav-title"><%= languageDict['My Meetups'] %></td>
+					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="meetUpTable" class="inner-table" >	
+				
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+		 </tr>
+	  	  <tr class="stu-nav-tube">
+					<td class="stu-nav-title-tuter stu-nav-title"><%= languageDict['My Tutors'] %></td>
+					<td class="scrollable-tutor">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="tutorTable" class="inner-table" >	
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+	  	  </tr>
+	  </table>		
+	</div>
+	
+      
+		<table class="page-bottom-navtable" style="border-collapse: separate;">
+			<tr>
+			
+				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calender'] %></button></td> 
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
+				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
+				<!-- <td></td> -->
+				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
+			</tr>
+			</table> 
+		</div>
+            </div>
+
+       		<div id="showReleaseNotes" style="display: none;">
+       		<br/><h3>Release Notes</h3>
+       		<br/>
+       		<textarea id="shownotes"  style="width: 599px; height: 96px;resize: none;" disabled></textarea><br/>
+       		</div>
+            
+     
+  </script>
+  <script type="text/html" id="template-GroupSpan">
+      <div class="displayCourse" style='background-color:<%= backgroundColor %>;'> 
+        <a href='#usercourse/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '> 
+          <%= name %><%=yes%>
+        </a>
+     </div>
+  </script>
+  
+  <script type="text/html" id="template-ShelfSpan">
+      <div class="displayCourse"> 
+        <a href='#resources/detail/<%= _id %>'> 
+            <%= title %>
+        </a>
+     </div>
+</script>
+
+<script type="text/html" id="template-Tutor">
+      <div class="displayCourse"> 
+        <a href='#member/<%= _id %>'> 
+            <%= leaderEmail %>
+        </a>
+     </div>
+</script>
+<script type="text/html" id="template-Meetup">
+      <div class="displayCourse"> 
+        <a href='#usermeetup/detail/<%= meetupId %>/<%=meetupTitle%>'> 
+            <%= meetupTitle %>
+        </a>
+     </div>
+</script>
+<script type="text/html" id="template-ResourceRow">
+  
+  <%if(Manager==1){%>
+  
+    	<% if(!hidden){ %>
+    	<% if(title){ %>
+  <td>
+        <p style=" font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style=" font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+   <td>
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
+      </a>
+    </td>
+  
+    <td>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
+    </td>
+   <td>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
+       Feedback
+      </a>
+    </td>
+    <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      </td>
+      <% if(removeFormCollection==1) {%>
+      	<td>
+      		<a class='btn btn-danger removeFromCollection'>
+      		  <i class='icon-remove icon-white'></i> Remove
+      		</a>
+      	</td>
+      	<%}%>
+        <td>
+        <a  class="btn btn-danger hides" style="width: 66px;">
+        <i class='icon-pencil icon-white'></i>Hide
+      </a> 
+      </td>
+      <%}%>
+      <%}else{%>
+      <% if(title){ %>
+  <td>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= title %></BR></span>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+   <td>
+      <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        View Details
+      </a>
+    </td>
+  
+    <td>
+	 <button class='btn btn-inverse disabled'>Add to My Library</button>
+    </td>
+     <td>
+      <button class='btn btn-inverse disabled' > <i class='icon-pencil icon-white'></i>
+       Feedback
+      </button>
+    </td>
+    <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      </td>
+      <td>
+	<a class='btn btn-warning unhide'>
+        <i class='icon-pencil icon-white'></i>Unhide
+      </a>
+      </td> 
+      <%}%>
+    <%}%>
+     <%}%>
+    <%if(Manager!=1 &&!hidden){%>
+    <% if(title){ %>
+     <td>
+        <p style="font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+        <p style="font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+    <% for(var i=0;i<5;i++){
+        if(i < averageRating){  
+    %>
+        <img src="star-on.png" style="height:17px"/>
+      <%}else{ %>
+          <img src="star-off.png" style="height:17px"/>
+      <% }}%>&nbsp;(<%=totalRatings%>)
+  </td>
+   <td>
+      <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <i class='icon-eye-open icon-white'></i> Open
+      </a>
+    </td>
+     <td>
+	 <button class='btn btn-inverse' onclick='addToshelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
+    </td>
+   <td>
+      <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
+       Feedback
+      </a>
+    </td>
+    <%}%>
+    <%}%>
+  </script>
+   <script type="text/html" id="template-GroupRow">
+    <td>
+      <%= CourseTitle %>
+    </td> 
+
+    <td>
+    <%if(isAdmin==1||isLeader==1){%>
+      <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'> 
+        <i class="icon-wrench icon-white"></i> Manage
+      </a>
+   	<%}%>
+    </td>
+    
+    <td>
+      <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'> 
+       View Course
+      </a>
+    </td>
+    
+    <td>
+    <%if(viewProgress==1){%>
+      <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'> 
+        <i class="icon-signal icon-white"></i> Progress
+      </a>
+      <%}%>
+    </td>
+
+<!--   <td>
+      <a role='button' class='btn btn-inverse' href='#course/edit/<%= _id %>'> 
+        <i class="icon-edit"></i> Edit
+      </a>
+    </td> -->
+    
+   <!-- <td>
+      <a role='button' class='btn btn-inverse' href='#resource/invite/<%= _id %>/<%= CourseTitle %>/<%= kind %>'> 
+        <i class="icon-edit"></i> Invite
+      </a>
+    </td> -->
+
+    <td>
+	<%if(isAdmin==1||isLeader==1){%>
+      <a class='destroy btn btn-danger' href='#'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+    <%}%>
+    </td> 
+    <% if(courseId!=null){%>
+    <td><input type="checkbox" name="addCourse" value='<%= _id %>'>Add </td>
+    <%}%>
+  </script>
+  <script type="text/html" id="template-LevelRow">
+    <td>
+     <input type="radio" name="stepRow" />&nbsp;&nbsp;Step <%= step %> : <%= title %>  
+    </td> 
+   <td>
+      <a role='button' class='btn btn-info' href='#level/view/<%= _id %>/<%= _rev %>'> 
+        <i class="icon-edit"></i> View Details
+      </a>
+    </td>    
+
+    <td>
+      <a class='destroyStep btn btn-danger' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    </td>
+
+  </script>
+<script type="text/html" id="template-MeetUpRow">
+    <td>
+      <%= title %>
+    </td> 
+
+   
+    <td>
+      <a role='button' class='btn btn-warning' href='#meetup/details/<%= _id %>/<%= title %>'> 
+       View Meetup
+      </a>
+    </td>
+    
+    <td>
+    <%if(creator){%>
+      <a role='button' class='btn btn-inverse' href='#meetup/manage/<%= _id %>'> 
+        <i class="icon-wrench icon-white"></i> Manage
+      </a>
+      <%}%>
+    </td>
+
+    <td>
+     <%if(creator){%>
+      <a class='destroy btn btn-danger' href='#meetup/delete/<%= _id %>'>
+        <i class='icon-remove icon-white'></i> Delete
+      </a>
+      <%}%>
+    </td> 
+ 
+  </script>
+  <script type="text/html" id="template-MemberRow">
+    <td>
+      <div id="Image"><img width="60px" height="90px" src="<%= src %>" id="userImage"></div>
+    </td> 
+    <td>
+      <%= firstName %> <%= lastName %>
+    </td> 
+	<td>
+	<%= visits %>
+	</td>
+    <td>
+      <%= email %>
+    </td>  
+
+    <td>
+      <%= login %>.<%= community_code %>@olebell.org
+    </td>  
+
+    <td>
+    <% if(showedit == true){ %>
+      <a role='button' class='btn btn-inverse' href='#member/edit/<%= _id %>'> 
+        <i class="icon-edit"></i> Edit
+      </a>
+      <% } %>
+    <% if(showdelete == true){ %>
+      <a class='destroy btn btn-danger' href='#'>
+        <i class='icon-remove'></i> Delete
+      </a>
+    <% } %>
+    </td>
+    
+ </script>
+ <script type="text/html" id="template-ReportRow">
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+      </td>
+    
+    <% if(title){ %>  // Added A View In the Resources Db with Id _Design/Bell had to place title with Null else it gives me ReferenceError
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= title %></BR></span>
+      </td>
+    
+    <td>
+        <span style="font-weight:900; font-size:16px;"><%= author %></BR></span>
+      </td>
+    </td>
+    
+       <td>
+    <%=views%>
+    </td>
+    <td>
+
+      <a id="open" class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/community/<%= _id %>' target="_blank">
+       Open
+      </a>
+    </td>
+ 
+    <td>
+      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
+    </td>
+   
+    <td>
+    	<%if(isManager>-1){%>
+    	<td>
+    	<a href="#reports/edit/<%= _id %>" class="btn btn-warning">
+        Details
+      </a>
+      </td>
+      <td>
+      <a class='btn btn-danger destroy'>
+        Delete
+      </a>
+      </td>
+      <%}%>
+    </td>
+    <%}%>
+  </script>
+  <script type="text/template" id="template-form-file">
+    <table class="table table-striped">
+      <tr>
+      <td colspan="2">
+      <%if(header.length<=40){%>
+        <h2 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h2> 
+          <%}else{%>
+        <h4 style="width:25em;word-wrap:break-word;">
+          <%= header %>
+          </h4>
+        <%}%>  
+        
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="fields">
+          <!-- The first form that will be submitted without the file -->
+          <%= form %>
+        </td>
+      </tr>
+      <tr id='attachments-tablerow'>
+        <td colspan="">
+        <label id="selectedResources"></label>
+          <!-- The Second form that will be submitted containing the file -->
+          <form method="post" id="fileAttachment"> 
+          <label for="_attachments">Upload Resource(s)</label>
+          <input type="file" name="_attachments" id="_attachments" multiple="multiple" label=" :" /> 
+          <input class="rev" type="hidden" name="_rev">
+			  <label>
+				  <%
+				  if(resourceAttachments)
+				  _(resourceAttachments).each(function(field) {%> &nbsp&nbsp&nbsp<%= field.key%> <%}); %>
+				  </label>
+          </form>
+          <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
+
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="save btn btn-success" name="save">
+            Save
+          </div>
+        <a class="btn btn-danger" id="cancel">Cancel</a>
+        </td>
+        <td class="status">
+          <!-- status goes here -->
+        </td>
+      </tr>
+    </table>
+  </script>
+  <script type="text/html" id="template-courseLevelsTable">
+  
+	<h3 class="bigheader"><div style="width:95%">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <% if(status == "1") { %>
+            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
+        <% } %>
+        </div>
+        </h3>
+
+  	<div>
+		<table class="Course-table">
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Description</br>
+                          </td>
+                        </tr>
+                        <tr class="level-section-data"> 
+                          <td colspan="3">
+                            <%=description%>
+                          </td>
+                        </tr>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Instructions</br>
+                          </td>
+                        </tr>
+                        
+                        <% for (var i=0; i<attachmentNames.length; i++){%>
+                         	<tr class="level-section-data">  
+								<td><b><%=i+1%></b></td>
+                                <td><%= attachmentNames[i] %> &nbsp&nbsp</td>
+								<td>
+									<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank">Open</a>
+								</td>
+							</tr>
+						<% } %>
+
+                       <tr class="level-section-title" id="r_items">
+                          <td colspan="3">
+                            Resources</br>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                          <%for (var i=0; i<resourceId.length; i++){%>
+                          
+                         <tr class="level-section-data">  
+				<td>
+                                      <b><%=i+1%></b>
+                                </td>
+                                <td>
+						<%= resourceTitles[i] %> &nbsp&nbsp
+				</td>
+				<td>
+						<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+				</td>
+			</tr>
+                          <%}%>
+                      <%for (var i=0; i<outComes.length; i++){%>
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            <%=outComes[i]%></br>
+                          </td>
+                        </tr>
+                      
+                         <tr class="level-section-data"> 
+				<td colspan="2">
+					
+						Passing Percentage:<b><%=passingPercentage%>%<br></b>
+						Allowed Errors:<b><%=allowedErrors%></b>
+                                                
+                                </td>
+                                <td>
+                                                <%if (questions!=null){%>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                                                <%}else{%>
+                                                  <button class='btn btn-disabled'>Take <%=outComes[i]%></button>
+                                                <%}%>
+                                    <div class="mailsubject">
+                                    	<form method="post" id="fileAttachment<%=_id%>">
+	                                    	<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" /> 
+	                                    	<input class="rev" type="hidden" name="_rev">
+	                                    	
+	                                    	<input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+	                                    	<input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
+	                                    	<input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
+	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -60px;margin-left:140px" />
+
+                                    	</form>
+                                    </div>
+					
+				</td>
+				
+                      </tr>
+                    <%}%>
+              </table>
+	</div>
+
+  </script>
+  <script type="text/template" id="template-mail">
+   <div id="mailActions" >
+		<b style="color:black; font-size:25px;">Inbox
+		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
+		<button class="btn btn-primary" id="unread-mails">Unread</button>
+		<button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton">Compose</button>
+		<span class="new_mails"></span>
+		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
+		</b>
+		</div>
+		<div id="errorMessage">
+		<p style="color:red;margin-left:10%">* No Unread Email.</p>
+		</div>
+		<table id="inbox_mails" ></table>
+		
+
+		<!-- popup window for compose message -->
+<div id="emailCompose" class="well" style="display: none;">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	 <!--<div class="mailsubject"><form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form></div> -->
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+
+</div>
+
+	
+		
+</script>
+<script type="text/template" id="template-view-mail">
+
+<div style="margin-left:10%">	
+	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()" id="replyMailButton">Reply</button><% if(isAttachment==1){ %>&nbsp;&nbsp<a role='button' class='btn btn-primary' href=<%= attchmentURL %> target="_blank">Attachment</a><%}%></div>
+		<br/>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"></span></b></span>
+
+		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
+		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp;<%= firstName %>&nbsp;<%= lastName %> &nbsp; (<%= email %>)  </div>
+		<div id="mail-body" style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
+		</div>
+	
+	<br/>
+</div>
+
+</script>
+<script type="text/html" id="template-FeedbackRow">
+    <td>
+      <%= comment %>
+    </td> 
+
+    <td>
+	<%=rating%>
+  </td>
+
+  </script>
+  <script type="text/html" id="template-Search">
+<div id="search">
+<div class="row">
+    <div class="col-lg-5">
+       <div class="form-group search-Box">
+            <label style='font-size:16px'><b>Key Word</b></label><br><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
+        </div>
+        
+     <div class="checkbox-subject" id="SubjectCheckboxes">  
+     </div>
+     <div class="right-column-search">
+     <label style='font-size:16px'><b>Collections</b></label><br>
+     <div class="Collection-search"> 
+         <select id="multiselect-collections-search" multiple="multiple" style="width: 370px;">
+         <%for(i=0;i<tags.length;i++){%>
+            <option value=<%=tags[i]._id%>><%=tags[i].CollectionName%></option>
+         <%}%>
+         </select>
+    </div>
+    
+    <div class="levels-search"> 
+    
+     <label style='font-size:16px'><b>Level</b></label><br>
+     <select  name="Level" id="multiselect-levels-search" multiple="multiple" style="width: 370px;">
+   	  		<option>Early Education</option>
+    	 	<option>Lower Primary</option>
+     		<option>Upper Primary</option>
+     		<option>Lower Secondary</option>
+     		<option>Upper Secondary</option>
+     		<option>Undergraduate</option>
+     		<option>Graduate</option>
+     		<option>Professional</option>
+     </select>
+        
+    </div>
+    <div class="medium-search"> 
+     <label style='font-size:16px'><b>Medium</b></label><br>
+     
+     <select name="Medium"  id="multiselect-medium-search" multiple="multiple" style="width: 370px;">
+    	  <option>Text</option>
+     	  <option>Graphic/Pictures</option>
+     	  <option>Audio/Music/Book </option>
+     	  <option>Video</option>
+     </select>
+        
+        
+    </div>
+   <!-- <div class="language-search"> 
+     <label style='font-size:16px'><b>Language</b></label><br>
+     
+    <input style="width: 351px;" type='Text' placeholder="Language" id='Language-filter'></input>
+        
+    </div> -->
+
+       <div id="rating_checkboxes">
+       		<label style='font-size:16px'><b>Rating</b></label><br>
+       		<input id="star5" type="checkbox" name="star" value="5" onchange="changeRatingImage('rating5_',5)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating5_1"><img src="star-off.png" class="filter_star_img" id="rating5_2"><img src="star-off.png" class="filter_star_img" id="rating5_3"><img src="star-off.png" class="filter_star_img" id="rating5_4"><img src="star-off.png" class="filter_star_img" id="rating5_5"><br/>
+        	
+        	<input id="star4" type="checkbox" name="star" value="4" onchange="changeRatingImage('rating4_',4)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating4_1"><img src="star-off.png" class="filter_star_img" id="rating4_2"><img src="star-off.png" class="filter_star_img" id="rating4_5"><img src="star-off.png" class="filter_star_img" id="rating4_4"><br/>
+        	
+        	<input id="star3" type="checkbox" name="star" value="3" onchange="changeRatingImage('rating3_',3)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating3_1"><img src="star-off.png" class="filter_star_img" id="rating3_2"><img src="star-off.png" class="filter_star_img" id="rating3_3"><br/>
+       		
+       		<input id="star2" type="checkbox" name="star" value="2" onchange="changeRatingImage('rating2_',2)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating2_1"><img src="star-off.png" class="filter_star_img" id="rating2_2"><br>
+       		
+       		<input id="star1" type="checkbox" name="star" value="1" onchange="changeRatingImage('rating1_',1)">  
+        	<img src="star-off.png" class="filter_star_img" id="rating1_1">
+  		</div> 
+  		
+    </div>
+    
+    <br/>
+    <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
+    </div>
+    </div>
+</div>
+<div class="search-result-header">
+    <h3 class="search-result-h3">Search Results</h3>
+</div>
+<br>
+    <button class="btn btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+
+<br/><br/>
+    <table id="srch"> 
+    </table>
+<div id="not-found" style="color:red; margin-left:34%; font-size:20px;"></div>
+</div>
+		    <div class="search-bottom-nav">
+		    <br/>
+
+                    <table class="search-bottom-nav-table">
+                       <tr>
+                          <td class="previous-button-container">
+                          <button class="btn btn-primary" id="previous_button" ><  Previous</button>
+                          </td>  
+                          <td class="next-button-container">
+                               <button class="btn btn-primary" id="next_button" >Next  ></button>
+                          </td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                     <%if(Publications==true) {%>
+                     <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-success" id='addRestoPub'>Add To Publication</button>
+                    <button class="btn btn-success" onclick = "document.location.href='../nation/index.html#publication'">Back</button>
+                     
+                     <%}else{ %>
+                    <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+                    <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
+                    <button class="btn btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
+                    <button class="btn btn-success" onclick = "document.location.href='#courses'">Home</button>
+                    <%}%>
+</div>
+</script>
+<script type="text/html" id="template-Search-box">
+    <% if(title != "CourseSearchBox") { %>
+      <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
+    <% } else if(name !="ResourceSearchBox"){ %>
+      <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>">
+    <% } %>
+  
+    	<%if(Tag != "CourseSearchBox") { %>
+        <label for="<%= _id %>">
+    		<font class="search-result-title" ><%= title %></font>
+    		-
+                <% %>
+                 &nbsp;by&nbsp;
+                <%= author %>
+    	</label></td><td><% %></td>
+        <% }else{ %>
+          <label for="<%= _id %>">
+    		<font class="search-result-title" ><%= name %></font>
+          </label></td>
+        <% } %>
+</script>
+<script type="text/template" id="make-Quiz">
+		<div id="quiz-body">
+		<br/>
+		Courses | <%= courseTitle %>
+		<h4 id="new-quiz">New Quiz</h4>
+		<div id="question-area">
+			<div id="question-no">Question 1: </div>
+			<div id="question-box"><textarea rows="3"  style="width:100%;height:100%" id="quizQuestion" placeholder="Enter your question here" ></textarea><br/></div>
+		</div>
+		<div id="option-area">
+		<br/>
+		&nbsp;&nbsp;Response Options:<br/>
+		&nbsp;&nbsp;(Identify the right response)
+		<div id="options-table">
+		<table style="border-spacing: 36px 0px;border-collapse:separate;">
+		<tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1" placeholder="Option A" /></td>
+		<td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2" placeholder="Option B" /></td></tr>
+		<tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3" placeholder="Option C" /></td>
+		<td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4" placeholder="Option D" /></td></tr>
+		<tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5" placeholder="Option E" /></td></tr></table>
+		</div>
+		</div>
+		<br/>
+		<button class="btn btn-primary" id="prev-question" >Previous Question</button>
+		<button class="btn btn-primary" id="next-question" >Next Question</button>
+		<button class="btn btn-success" id="save-quiz" >Save Quiz</button>
+		<button class="btn btn-danger" id="cancel-quiz" >Cancel</button>
+
+		</div>
+</script>
+<script type="text/html" id="template-CollectionRow">
+    <td  id=<%=_id%> >
+    <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>  
+    </td>
+    <td>
+    <%if(display==true){%>
+    
+    <button onclick="EditColletcion('<%=_id%>')"><i class="icon-edit pull-right"></i></button>
+    <%}%>
+    </td>
+ </script>
+<script type="text/html" id="template-siteReviewRownoAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
+  
+    
+   <script type="text/html" id="template-siteReviewRowAdmin">
+  	 	<%  if(Resolved=="0"){%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+	   <%} 
+		else {%>
+			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+		<%}%>
+  </script>
+ <script type="text/html" id="template-RequestRow">
+    <td><%=name%></td>
+    <td><%=type%></td>
+    <td><%=request%></td>
+  </script>
+
+</head>
+
+<body>
+</body>
+
+  <!-- 
+    START THE APP
+  -->
+
+ <script>
+    $(document).ready(function() {
+      App.start()
+    })
+ </script>
+
+</html>

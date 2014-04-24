@@ -1,10 +1,25 @@
 
 #dashboard
 {
-    height: 471px;
+    height: 600px;
     width: 950px;
 	overflow: hidden;
 }
+
+#viewCourseMembers {
+    background-color: rgb(177, 177, 177);
+    border-radius: 20px;
+    position: fixed;
+    top: 20%;
+    width: 65%;
+    z-index: 2;
+    margin-left: 10%;
+    overflow: scroll;
+    height: 40%;
+}
+
+
+
 .imageData {
     width: 112px;
 }
@@ -30,7 +45,7 @@ background-color:#E1E1E1;
 }
 #page-body
 {
-	height: 290px;
+	height: 400px;
 }
 .stu-nav-tube
 {
@@ -41,7 +56,7 @@ border: 5px solid black;
 	 padding-top: 12px;
 	font-weight: 900;
 }
-.stu-nav-table
+.stu-nav-table  
 {
 padding:5 5 0 5;	
 width:100%;	
@@ -52,7 +67,6 @@ padding-top:5px;
 {
 width: 943px;
 height:50px;	
-padding-top:0px;
 margin-bottom: 50px;
 }
 
@@ -263,10 +277,6 @@ width:100%;
 	    font-weight: 900;
 }
 
-.navbar-inverse .nav > li > a {
-line-height:1px;
-}
-
 .login-form > .bbf-form{
  
     height: 191px;
@@ -310,7 +320,8 @@ line-height:1px;
 .navbar-inverse .nav > li > a
 {
 	border: none;
-	
+	font-size: 15px;
+	padding: 16px 20px 15px 0px;	
 }
 a{color:white;}
 
@@ -498,7 +509,7 @@ text-align:right;
 	margin-left: 400px;
 	margin-top: -145px;
 }
-.signup-form .field-birthLanguage
+.signup-form .field-language
 {
 	margin-left: 195px;
 	margin-top: 40px;
@@ -593,7 +604,7 @@ margin-left:35%;
 .well
 {
 	background-color : white;
-	width : 25%;
+	width: 35%;
 	height : 60%
 }
 .newEmailDiv
@@ -665,4 +676,36 @@ margin-left:35%;
     height: 400px;
     margin-left: 32%;
     width: 400px;
+}
+.systemUpdate {
+color: Red;
+background-color: lightgrey;
+font-weight: bold;
+margin-left: 2%;
+margin-top: 2px;
+}
+.tutor-box {
+    background-color: #8A4C80;
+    border-right: 2px solid #FFFFFF;
+    font-family: verdana;
+    word-wrap: break-word;
+}
+#meetUpTable{
+    background-color: #8A4C80;
+    border-right: 2px solid #FFFFFF;
+    font-family: verdana;
+    word-wrap: break-word;
+
+}
+.bbf-form .field-endDate
+{
+margin-left: 259px;
+    margin-top: -50px
+
+}
+.bbf-form .field-endTime
+{
+margin-left: 259px;
+    margin-top: -50px
+
 }

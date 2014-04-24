@@ -2,14 +2,15 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" manifest="/cache.manifest">
   <title>Personal BeLL</title>
   <link rel="stylesheet" href="app/flat-ui.css"/>
   <link rel="stylesheet" href="app/fullcalendar.css"/>
-    <link rel="stylesheet" href="app/morris.css"/>
+  <link rel="stylesheet" href="app/morris.css"/>
   <link rel="stylesheet" href="app/jqueryui.css" />
-    <link rel="stylesheet" href="app/Home.css"/>
+  <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/tabl.css"/>
+  <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
    
 
 <!--
@@ -38,6 +39,7 @@
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
   <script src="app/morris.js"></script>
+  <script src="vendor/jquery.timepicker.js"></script>
   
 
   <!--
@@ -58,10 +60,17 @@
   <script src="app/models/CourseStep.js"></script>
   <script src="app/models/report.js"></script>
   <script src="app/models/Mail.js"></script>
-	<script src="app/models/membercourseprogress.js"></script>
-<script src="app/models/reportComment.js"></script>
+  <script src="app/models/membercourseprogress.js"></script>
+  <script src="app/models/reportComment.js"></script>
   <script src="app/models/CourseSchedule.js"></script>
-
+  <script src="app/models/CommunityCode.js"></script>
+  <script src="app/models/AssignmentPaper.js"></script>
+  <script src="app/models/UserMeetup.js"></script>
+  <script src="app/models/MeetUp.js"></script>
+  <script src="app/models/ReleaseNotes.js"></script>
+  <script src="app/models/Configuration.js"></script>
+  
+  
   <script src="app/collections/Groups.js"></script>
   <script src="app/collections/coursesteps.js"></script>
   <script src="app/collections/MemberGroups.js"></script>
@@ -76,17 +85,17 @@
   <script src="app/collections/AllInviteMember.js"></script>
   <script src="app/collections/Mails.js"></script>
   <script src="app/collections/MailUnopened.js"></script>
-
+  <script src="app/collections/courseprogressallmembers.js"></script>
   <script src="app/collections/ScriptCollection.js"></script>
-	<script src="app/collections/reportsComment.js"></script>
+  <script src="app/collections/reportsComment.js"></script>
 
   <script src="app/collections/CourseScheduleByCourse.js"></script>
   <script src="app/collections/ScriptCollection.js"></script>
-  
+  <script src="app/collections/CommunityCode.js"></script>
+  <script src="app/collections/shelfResource.js"></script>
+  <script src="app/collections/UserMeetups.js"></script>
+  <script src="app/collections/Configurations.js"></script>
 
-
-    
-  
   <script src="app/views/GroupRow.js"></script>
   <script src="app/views/GroupsTable.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -116,219 +125,57 @@
   <script src="app/views/siteFeedbackPage.js"></script>
   <script src="app/views/siteFeedbackPageRow.js"></script>
   <script src="app/views/MailView.js"></script>
+  <script src="app/views/EventInfo.js"></script>
 
-   <script src="app/views/addComment.js"></script>
+  <script src="app/views/addComment.js"></script>
 
   <script src="app/views/CourseInfoView.js"></script>
+  
+  <script src="app/views/TutorsSpans.js"></script>
+  <script src="app/views/TutorSpan.js"></script>
+  
+  <script src="app/views/GroupMembers.js"></script>
+
+  <script src="app/views/MeetupSpan.js"></script>
+  <script src="app/views/MeetupSpans.js"></script>
+  <script src="app/views/MeetupDetails.js"></script>
    
   <!--
   overlay poput script
   -->
   <script src="jquery.popupoverlay.js"></script>
+  <script src="MediaStreamRecorder1.js"> </script>
   <!-- 
     Templates 
   -->
 
-<script>
-var searchText = "";
-var skip = 0;    //Variable used to skip the number of records been fetched before.
-var enablenext=0;
-var searchRecordsPerPage = 2;
-var limitofRecords = 5;
-var skipStack = new Array()
-var numberOfNotificattions="."
- url="unknown";
-var lastpage = false
-var mailView;
-function showFeedbackForm(){
-	  App.renderFeedback()
-		if(document.getElementById('site-feedback').style.visibility!='visible'){
-		$('#site-feedback').animate({height:'320px'})
-		document.getElementById('site-feedback').style.visibility='visible'
-		}
-		else{
-		$('#site-feedback').animate({height:'toggle'})
-		}
-}
+<script src='indexFile.js'></script>
 
-function searchResources()
-{
-	skip = 0;
-        popAll();
-	lastpage = false;
-        App.Router.SearchResult();
-         $('#previous_button').remove()
-	$('#searchText').focus();
-	$("#searchText").val(searchText)
-}
-function popAll()
-{
-      while(skipStack.length > 0 )
-      {
-            skipStack.pop();        
-      }
-}
-function nextPageButtonPressed()
-{
-    App.Router.SearchResult();
-    $("#searchText").val(searchText);
-}
-function previousPageButtonPressed(){
-      
-        if(skipStack.length > 1)
-        {
-          skipStack.pop();
-          skip = skipStack.pop();
-          App.Router.SearchResult();
-          $("#searchText").val(searchText);
-        }
-        else
-        {
-             $('#previous_button').remove()
-        }
-}
+<script type="text/template" id="template-sendMail-CourseMember">
 
-function onFocus(obj) { 
-      var end = obj.value.length; 
-      if(obj.setSelectionRange) 
-      obj.setSelectionRange(end, end); 
-}
+  
 
-function showComposePopup()
-{
-	$('#emailCompose').popup({
-        horizontal: 'right',
-        vertical: 'bottom',
-        background : false,
-        blur : false,
-        scrolllock : true
-
-    });
-	$('#emailCompose').popup('show');
-}
-function sendMail()
-{
-	var rec = $("#recipients").val();
-	var subject = $("#subject").val();
-	var mailBody = $("textarea#mailbodytexarea").val();
-	if(rec=="" )
-	{
-		alert("Please enter recipient.");
-	}
-	else if(subject=="")
-	{
-		alert("Please enter subject.");
-	}
-	else if(mailBody=="")
-	{
-		alert("Please enter message.");
-	}
-	else
-	{
-		$.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + rec + '"', function(response) {
-      		if(response.rows[0]){
-      			var currentdate = new Date();
-      			var id = response.rows[0].doc._id
-      			var mail = new App.Models.Mail();
-      			mail.set("senderId",$.cookie('Member._id'));
-      			mail.set("receiverId",id);
-      			mail.set("subject",subject);
-      			mail.set("body",mailBody);
-      			mail.set("status","0");
-      			mail.set("type","mail");
-      			mail.set("sentDate",currentdate);
-      			//console.log(mail)
-      			mail.save();
-      			alert("Mail successfully send.")
-      			$('#emailCompose').popup('hide');
-      		}
-      		else
-      		{
-      			alert("Invalid mail address")
-      		}
-		});
-		
-	}
-
-}
-function getScheduleDatesForCourse(startDate,endDate,days)
-{
-	//startDate = new Date(2008, 2, 4);
-	//endDate = new Date(2009, 2, 4);
-	//var days = new Array(1,2,3)
-	//alert(startDate + ' ' +endDate + ' ' +days)
-	var day = startDate.getDay() ;
-	var scheduleDates = new Array();
-	while(startDate<endDate || startDate.valueOf()==endDate.valueOf())
-	{
-		day = startDate.getDay() ;	
-		var tempDate =new Date(startDate.valueOf()) ;
-		for(var i=0; i<days.length ; i++)
-		{
-			if(day<=days[i])
-			{
-				var t = startDate.getDate()+(days[i]-day)
-				tempDate.setDate(t)
-				//alert(day + ' ' + days[i] + ' ' + t + ' ' + tempDate)
-				if(tempDate<endDate || tempDate.valueOf()==endDate.valueOf())
-				{
-					var sdate = new Date(tempDate.valueOf())
-					scheduleDates.push(sdate)
-				}
-				else
-				{
-					//endDate.setHours(tempDate.getHours())
-					if(tempDate.valueOf()==endDate.valueOf())
-					{
-						var sdate = new Date(tempDate.valueOf())
-						scheduleDates.push(sdate)
-					}
-					else
-					{
-						break;
-					}
-				}
-			}
-		}
-		startDate.setDate(startDate.getDate()+(7-startDate.getDay()))
-	}
-	return scheduleDates;
-	
-}
-function convertTo24Hour(time) {
-    var hours = parseInt(time.substr(0, 2));
-    return hours;
-    if(time.indexOf('am') != -1 && hours == 12) {
-        time = time.replace('12', '0');
-    }
-    if(time.indexOf('pm')  != -1 && hours < 12) {
-        time = time.replace(hours, (hours + 12));
-    }
-    return time.replace(/(am|pm)/, '');
-}
-$(window).scroll(function () {
-  var $menu = $('#addEvent'),
-      scrollpos = $(window).scrollTop();
-  if (scrollpos >= 118) {
-      $menu.css( {
-        "top" : "0",
-        "position": "fixed",
-      });
-  } else {
-      $menu.css( {
-        "position": "fixed",
-        "top" : "68px",
-      });
-  }
-});
 
 </script>
-
 	
   <script type="text/template" id="template-app">  
+  <div id="emailCompose" class="well" style="display: none;">
+
+	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
+	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
+	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	<div class="mailbody">
+		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
+		<button class="emailCompose_close btn btn-default">Close</button>
+		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
+	</div>
+
+</div>
+  
   <div class="takeQuizDiv" id="tQuizDiv"></div>
   <div id="externalDiv"></div>
   <div id="debug"></div>
+  
   <div class="navbar navbar-inverse" id="top-nav">
   <div class="navbar-header">
     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
@@ -432,47 +279,47 @@ $(window).scroll(function () {
    -->
     <li> 
       <a href="#">
-      Personal
+      <%= languageDict['Dashboard'] %>
       </a>
     </li> 
     <li> 
       <a href="#ereader">
-       e-Readers
+      <%= languageDict['e-Readers'] %>
       </a>
     </li>
     <li> 
-      <a href="#">
-       Resources
+      <a href="../lms/index.html#resources">
+      <%= languageDict['Library'] %>
       </a>
     </li>
      <li> 
-      <a href="#">
-       Courses
+      <a href="../lms/index.html#courses">
+      <%= languageDict['Courses'] %>
       </a>
     </li>
     <li> 
-      <a href="#">
-       Meetups
+      <a href="../lms/index.html#meetups">
+      <%= languageDict['Meetups'] %>
       </a>
     </li>
      <li> 
       <a href="../lms/index.html#members">
-       Members
+      <%= languageDict['Members'] %>
       </a>
     </li>
     <li> 
-      <a href="#info">
-      Reports
+      <a href="../lms/index.html#reports">
+      <%= languageDict['Reports'] %>
       </a>
     </li> 
      <li> 
       <a onclick = "showFeedbackForm()">
-        Feedback
+      <%= languageDict['Feedback'] %>
       </a>
     </li>
     <li> 
       <a href= "#logout">
-        Logout
+      <%= languageDict['Logout'] %>
       </a>
     </li>	
   </script>
@@ -484,7 +331,7 @@ $(window).scroll(function () {
   <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#login">
-      Personal BeLL - v1.0.0
+      DashBoard - v<%=versionNO%>
       </a>
     </li>
  
@@ -534,7 +381,23 @@ $(window).scroll(function () {
                             <%=description%>
                           </td>
                         </tr>
-                       <tr class="level-section-title">
+                        <tr class="level-section-title">
+                          <td colspan="3">
+                            Instructions</br>
+                          </td>
+                        </tr>
+                        
+                        <% for (var i=0; i<attachmentNames.length; i++){%>
+                         	<tr class="level-section-data">  
+								<td><b><%=i+1%></b></td>
+                                <td><%= attachmentNames[i] %> &nbsp&nbsp</td>
+								<td>
+									<a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank">Open</a>
+								</td>
+							</tr>
+						<% } %>
+
+                       <tr class="level-section-title" id="r_items">
                           <td colspan="3">
                             Resources</br>
                           </td>
@@ -543,6 +406,7 @@ $(window).scroll(function () {
                         
                         
                           <%for (var i=0; i<resourceId.length; i++){%>
+                          
                          <tr class="level-section-data">  
 				<td>
                                       <b><%=i+1%></b>
@@ -555,10 +419,10 @@ $(window).scroll(function () {
 				</td>
 			</tr>
                           <%}%>
-                      
+                      <%for (var i=0; i<outComes.length; i++){%>
                         <tr class="level-section-title">
                           <td colspan="3">
-                            Quiz</br>
+                            <%=outComes[i]%></br>
                           </td>
                         </tr>
                       
@@ -571,14 +435,27 @@ $(window).scroll(function () {
                                 </td>
                                 <td>
                                                 <%if (questions!=null){%>
-                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take Quiz</button>
+                                                  <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
                                                 <%}else{%>
-                                                  <button class='btn btn-disabled'>Take Quiz</button>
+                                                  <button class='btn btn-disabled'>Take <%=outComes[i]%></button>
                                                 <%}%>
+                                    <div class="mailsubject">
+                                    	<form method="post" id="fileAttachment<%=_id%>">
+	                                    	<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" /> 
+	                                    	<input class="rev" type="hidden" name="_rev">
+	                                    	
+	                                    	<input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+	                                    	<input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
+	                                    	<input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
+	                                  <input class='btn btn-primary' type="button" value="Upload <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -43px;margin-left:140px" />
+
+                                    	</form>
+                                    </div>
 					
 				</td>
 				
                       </tr>
+                    <%}%>
               </table>
 	</div>
 
@@ -654,6 +531,21 @@ $(window).scroll(function () {
      </div>
 </script>
 
+<script type="text/html" id="template-Tutor">
+      <div class="displayCourse"> 
+        <a href='#member/<%= _id %>'> 
+            <%= leaderEmail %>
+        </a>
+     </div>
+</script>
+<script type="text/html" id="template-Meetup">
+      <div class="displayCourse"> 
+        <a href='#meetup/detail/<%= meetupId %>/<%=meetupTitle%>'> 
+            <%= meetupTitle %>
+        </a>
+     </div>
+</script>
+
 <script type="text/html" id="template-Search">
 <div id="search">
 <div class="row">
@@ -719,9 +611,19 @@ $(window).scroll(function () {
 
       <div id="page-body">
         <table class="stu-nav-table">
+        <tr class="stu-nav-tube">
+					<td class="stu-nav-title-shelf stu-nav-title"><%= languageDict['My Library'] %></td>
+					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+						<div class="inner">
+							<table id="ur" class="inner-table" >	
+							</table>
+						</div>
+					</td>
+					<td class="stu-nav-option-empty"></td>
+	  	  </tr>
         	<tr class="stu-nav-tube">
             	<td class="stu-nav-title">
-            		<a href="#courses/barchart">  My Courses Progress</a>
+            		<a href="#courses/barchart"><%= languageDict['My Courses Progress'] %></a>
             	</td>
             	<td class="scrollable-courses">      
 					<div class="inner">
@@ -732,25 +634,21 @@ $(window).scroll(function () {
          		<td class="stu-nav-option-empty"></td>
            </tr>
 		  <tr class="stu-nav-tube">
-					<td class="stu-nav-title-badges stu-nav-title">My Meetups</td>
+					<td class="stu-nav-title-badges stu-nav-title"><%= languageDict['My Meetups'] %></td>
 					<td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
-							<table class="inner-table">
-								<tr>
-									<td class="badge-box">
-									No Meetups
-									</td>
-								</tr>
+							<table id="meetUpTable" class="inner-table" >	
+				
 							</table>
 						</div>
 					</td>
 					<td class="stu-nav-option-empty"></td>
 		 </tr>
-		<tr class="stu-nav-tube">
-					<td class="stu-nav-title-shelf stu-nav-title">My Shelf</td>
-					<td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
+	  	  <tr class="stu-nav-tube">
+					<td class="stu-nav-title-tuter stu-nav-title"><%= languageDict['My Tutors'] %></td>
+					<td class="scrollable-tutor">      <!-- SCROLLABLE DIV-->
 						<div class="inner">
-							<table id="ur" class="inner-table" >	
+							<table id="tutorTable" class="inner-table" >	
 							</table>
 						</div>
 					</td>
@@ -763,10 +661,10 @@ $(window).scroll(function () {
 		<table class="page-bottom-navtable">
 			<tr>
 			
-				<td><button class="btn btn-hg btn-primary">Badges</button></td>
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'">News Feed</button></td>
-				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'">Calender</button></td> 
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'">Email(<%=mails%>)</button></td>
+				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
+				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calender'] %></button></td> 
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
 				<!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
 				<!-- <td></td> -->
 				<!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
@@ -774,6 +672,14 @@ $(window).scroll(function () {
 			</table> 
 		</div>
             </div>
+
+       		<div id="showReleaseNotes" style="display: none;">
+       		<br/><h3>Release Notes</h3>
+       		<br/>
+       		<textarea id="shownotes"  style="width: 599px; height: 96px;resize: none;" disabled></textarea><br/>
+       		</div>
+            
+     
   </script>
   
   
@@ -782,18 +688,24 @@ $(window).scroll(function () {
 		<b style="color:black; font-size:25px;">Inbox
 		<button class="btn btn-primary" id="all-mails" style="width:80px"> All </button>
 		<button class="btn btn-primary" id="unread-mails">Unread</button>
+		<button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton">Compose</button>
 		<span class="new_mails"></span>
 		<span style="float:right;"><input id="search-text" type="text" placeholder="Search Messages" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail">Go</button></span>
 		</b>
 		</div>
+		<div id="errorMessage">
+		<p style="color:red;margin-left:10%">* No Unread Email.</p>
+		</div>
 		<table id="inbox_mails" ></table>
 		
+
 		<!-- popup window for compose message -->
 <div id="emailCompose" class="well" style="display: none;">
 
 	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
 	<div class="mailrecipients"><input type="text" placeholder="Recipients" id="recipients"/></div>
 	<div class="mailsubject"><input type="text" placeholder="Subject" id="subject" /></div>
+	 <!--<div class="mailsubject"><form method="post" id="fileAttachment"><input type="file" name="_attachments" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form></div> -->
 	<div class="mailbody">
 		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
 		<button class="emailCompose_close btn btn-default">Close</button>
@@ -809,29 +721,18 @@ $(window).scroll(function () {
 
 <div style="margin-left:10%">	
 	<div style='height:47px'><textarea style="resize:none;border:none;width:46%;font-weight: bolder;font-size: 25px;height:60px;" readonly="readonly"><%= subject %></textarea></div>
-		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()">Reply</button></div>
+		<div style="margin-left: 42%;margin-top: -2%;position: absolute;"><button class="btn btn-info" id="backpage" >Back</button>&nbsp;&nbsp;<button class="btn deleteBtn btn-danger" value="<%= modelNo %>"  >Delete</button>&nbsp;&nbsp;<button class="btn btn-primary" onclick="showComposePopup()" id="replyMailButton">Reply</button><% if(isAttachment==1){ %>&nbsp;&nbsp<a role='button' class='btn btn-primary' href=<%= attchmentURL %> target="_blank">Attachment</a><%}%></div>
 		<br/>
-		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"</span></b></span>
+		<span style="width:59%; word-wrap:break-word;"><b style="color:black; font-size:19px;"><span style="color:#8C8C8C;"></span></b></span>
 
 		<div style="width: 59%;height: 299px;background: rgb(221, 221, 221);margin-top: 1%;">
-		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp; <%= firstName %> &nbsp; <%= lastName %>  </div>
+		<div style="width: 49%;padding: 12px;background: white;position: absolute;margin-top: 6px;margin-left: 10px;border: solid 1px;border-radius: 11px;"> &nbsp; From:&nbsp;<%= firstName %>&nbsp;<%= lastName %> &nbsp; (<%= email %>)  </div>
 		<div id="mail-body" style="background: white;margin-top: 56px;position: absolute;margin-left: 9px;width: 50%;height: 231px;border: solid 1px;border-radius: 11px;padding-left:12px;"><br/><%=body%></div>
 		</div>
 	
 	<br/>
 </div>
-<div id="emailCompose" class="well" style="display: none;">
 
-	<div class="newEmailDiv">&nbsp;&nbsp;New Message</div>
-	<div class="mailrecipients"><input type="text" value="<%= login %>" placeholder="Recipients" id="recipients"/></div>
-	<div class="mailsubject"><input type="text" value="Re: <%= subject %>" placeholder="Subject" id="subject" /></div>
-	<div class="mailbody">
-		<textarea id="mailbodytexarea" name="mailbodytexarea"></textarea><br/>
-		<button class="emailCompose_close btn btn-default">Close</button>
-		<button class="emailCompose_send btn btn-primary" onClick="sendMail()">Send</button>
-	</div>
-
-</div>
 </script>
 
 
@@ -882,6 +783,7 @@ $(document).ready(function () {
     $(document).ready(function() {
       App.start()
       $('#emailCompose').popup('hide');
+     // $('#MakeMailForMembers').popup('hide');
      })
   </script>
 

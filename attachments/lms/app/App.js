@@ -1,11 +1,11 @@
-$(function() {
+ $(function() {
 
 
   App = new (Backbone.View.extend({
 
     // Settings
     Server: '',
-
+	wheel: null,
     // Backbone structure
     Models: {},
     Views: {},
@@ -95,7 +95,28 @@ $(function() {
      * files to.
      *
      */
+     
+     
+	startActivityIndicator:function(){
+		var target = document.getElementById("popup-spinning");
+		if(App.wheel==null){
+			App.wheel = new Spinner({lines: 12,length: 20,trail: 40,width:5,radius: 50,speed:2, color: "#34495E"}).spin(target);
+		}
+		else{
+			App.wheel.spin(target)
+		}
+		//document.getElementById('cont').style.visibility='hidden'
+	},
+	stopActivityIndicator:function(){
+	    window.setTimeout(function(){
+			document.getElementById('cont').style.visibility='visible'
+			App.wheel.stop()
 
+		},1000)
+
+	},
+	
+	
     compileManifest: function(bundles, targetDocURL) {
 
       //
