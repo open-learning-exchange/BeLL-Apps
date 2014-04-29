@@ -105,8 +105,6 @@ $(function () {
   		var logdb=new PouchDB('activitylogs')
       	var currentdate = new Date();
     	var logdate = this.getFormattedDate(currentdate)
-    	alert(logdate)
-    	return
         logdb.query({map:function(doc){
 					 if(doc.logDate){
 						emit(doc.logDate,doc)
@@ -157,8 +155,8 @@ getFormattedDate:function(date) {
 				 resourcesIds:[],
 				 male_visits:0,
 				 female_visits:0,
-				 male:[],
-				 female:[],
+				 male_timesRated:[],
+				 female_timesRated:[],
 				 male_rating:[],
 				 female_rating:[]
 			}
