@@ -4,7 +4,7 @@ $(function() {
     tagName: "table",
 
     className: "btable btable-striped",
-
+    
     addOne: function(model){
       var memberRow = new App.Views.MemberRow({model: model})
       memberRow.isadmin = this.isadmin
@@ -29,6 +29,9 @@ $(function() {
     this.$el.html("<tr><th>Photo</th><th>Name</th><th>Visits</th><th>Email</th><th>Bell-Email</th><th>Actions</th></tr>")
       // @todo this does not work as expected, either of the lines
       // _.each(this.collection.models, this.addOne())
+      
+      console.log(this.collection)
+      
       this.collection.each(this.addOne, this)
       
       var groupLength;
