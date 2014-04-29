@@ -80,6 +80,7 @@ $(function(){
 			
 			'compile': 'CompileManifest',
 			'dbInfo':'dbinfo',
+			'weeklyreports':'WeeklyReports',
 			
 },
 addCourseInvi:function(){
@@ -1111,7 +1112,6 @@ var test=new App.Models.CourseInvitation()
 
         },
         deleteMeetUp:function(meetupId){
-        
        var  UserMeetups = new App.Collections.UserMeetups()
             UserMeetups.meetupId=meetupId
             UserMeetups.fetch({async:false})
@@ -1125,7 +1125,6 @@ var test=new App.Models.CourseInvitation()
                Backbone.history.navigate('meetups', {
                         trigger: true
                     })
-        
         },
     Members: function () {
     
@@ -2290,6 +2289,14 @@ var test=new App.Models.CourseInvitation()
  	else 
 	console.log("Successfully Destroy coursestep"+info)
 	});
+	
+	var activitylogs=new PouchDB('activitylogs');
+	activitylogs.destroy(function(err, info) {
+	if(err)
+ 	console.log(err)
+ 	else 
+	console.log("Successfully Destroy activitylogs"+info)
+	});
 },
 dbinfo:function()
 {
@@ -2305,6 +2312,8 @@ dbinfo:function()
 	CourseStep.info(function(err,info){console.log(info)})
 	var MemberCourseProgress=new PouchDB('membercourseprogress');
 	MemberCourseProgress.info(function(err,info){console.log(info)})
+	var activitylogs=new PouchDB('activitylogs');
+	activitylogs.info(function(err,info){console.log(info)})
 },
     CompileManifest: function() {
     
@@ -2546,7 +2555,46 @@ dbinfo:function()
       // Start the process
       resources.fetch()
       this.PochDB()
-    }
+    },
+    WeeklyReports:function(){
+    
+      	var logdb=new PouchDB('activitylogs')
+      	var currentdate = new Date();
+    	var logdate = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear()
+		
+		//sample document post
+
+		// var docJson={
+// 			 logDate: logdate,
+// 			 resourcesIds:['HungryCaterPiller'],
+// 			 male:[1],
+// 			 female:[0],
+// 			 rating:[5],
+// 		}
+// 		logdb.post(docJson, function (err, response) { 
+// 						console.log(err)
+// 						console.log(response)
+// 						alert('successfully post')
+// 		});
+				
+        logdb.query({map:function(doc){
+					 if(doc.logDate){
+						emit(doc.logDate,doc)
+					 }
+				}
+   			},{key:logdate},function(err,res){
+				if(!err){
+				     if(res.length!==0){
+				        alert('Length is not Zero')
+				     }else{
+				   		alert('length is zero')
+				    }	   
+                }
+		   });       
+        
+    },
               
    }))
   

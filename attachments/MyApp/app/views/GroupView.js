@@ -7,7 +7,7 @@ $(function() {
 	roles:null,
 	events: {
 		"click #admissionButton" : function (e){
-			alert('asdfasdf')
+			
 		}
 	},
     render: function() {

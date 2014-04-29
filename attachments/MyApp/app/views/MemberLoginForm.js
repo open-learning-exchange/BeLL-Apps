@@ -53,6 +53,8 @@ $(function () {
                             member.set("visits", vis)
                             member.once('sync', function () {})
                             
+                            memberLoginForm.logActivity(member)
+                            
                                 var date = new Date()
                                 $.cookie('Member.login', member.get('login'), {
                                     path: "/apps/_design/bell"
@@ -97,6 +99,88 @@ $(function () {
                 }
             }});
         },
+    logActivity:function(member){
+        
+        var that=this
+  		var logdb=new PouchDB('activitylogs')
+      	var currentdate = new Date();
+    	var logdate = this.getFormattedDate(currentdate)
+    	alert(logdate)
+    	return
+        logdb.query({map:function(doc){
+					 if(doc.logDate){
+						emit(doc.logDate,doc)
+					 }
+				}
+   			},{key:logdate},function(err,res){
+   					 
+				if(!err){
+				     if(res.total_rows!=0){
+				          logModel=res.rows[0].value
+				          that.UpdatejSONlog(member,logModel,logdb)
+				     }else{
+				   		 that.createJsonlog(member,logdate,logdb)
+				    }	   
+                }
+		   });       
+		   
+    },
+    UpdatejSONlog:function(member,model,logdb){
+	            console.log(model)
+			if(member.get('Gender')=='Male') {
+				 visits=parseInt(model.male_visits)
+				 visits++
+				 model.male_visits=visits
+				}
+			else{
+				 visits=parseInt(model.female_visits)
+				 visits++
+				 model.female_visits=visits
+			}
+			logdb.put(model,function(reponce){
+				alert('successfully updated')
+			})
+			console.log(model)
+    },
+getFormattedDate:function(date) {
+  		   var year = date.getFullYear();
+  		   var month = (1 + date.getMonth()).toString();
+               month = month.length > 1 ? month : '0' + month;
+  		   var day = date.getDate().toString();
+  		       day = day.length > 1 ? day : '0' + day;
+       return  month + '/' + day + '/' + year;
+},
+    createJsonlog:function(member,logdate,logdb){
+
+		var docJson={		
+				 logDate: logdate,
+				 resourcesIds:[],
+				 male_visits:0,
+				 female_visits:0,
+				 male:[],
+				 female:[],
+				 male_rating:[],
+				 female_rating:[]
+			}
+			alert(docJson.male_visits)
+			
+			if(member.get('Gender')=='Male') {
+						 	visits=parseInt(docJson.male_visits)
+						 	visits++
+						 	docJson.male_visits=visits
+						}
+						else{
+					 		visits=parseInt(docJson.female_visits)
+							visits++
+					     	docJson.female_visits=visits
+						}
+			logdb.post(docJson, function (err, response) { 
+  						console.log(err)
+ 						console.log(response)
+						alert('successfully post')
+ 		});
+    },
+    
     })
 
 })
