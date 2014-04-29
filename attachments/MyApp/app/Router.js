@@ -80,6 +80,9 @@ $(function(){
 			
 			'compile': 'CompileManifest',
 			'dbInfo':'dbinfo',
+			'removecache':'UpdateManifest',
+			'logreports':'LogQuery',
+			'reportsActivity':'LogActivity'
 			
 },
 addCourseInvi:function(){
@@ -105,7 +108,16 @@ var test=new App.Models.CourseInvitation()
             this.bind("all", this.startUpStuff)
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.renderNav)
+            //this.bind("all",this.checkForUpdates)
         },
+      /*onUpdateReady: function () {
+          alert('found new version!');
+      },
+      checkForUpdates: function () {
+          window.applicationCache.addEventListener('updateready', function(){
+          alert('found new version!');
+          },false);
+      },*/
         eReader:function(){
            // alert('match with ereader')
         },
@@ -2247,6 +2259,81 @@ var test=new App.Models.CourseInvitation()
 	             });
  			}
  },
+ LogQuery:function(){
+		var log = new App.Views.LogQuery()
+		log.render()
+		App.$el.children('.body').html(log.el)
+		$("#community-select").multiselect({
+					multiple: false,
+					header: "Select A Community",
+					noneSelectedText: "Select A Community",
+					selectedList: 1
+				 });
+		$('#start-date').datepicker({
+               todayHighlight: true
+            });
+        $('#end-date').datepicker({
+               todayHighlight: true
+            });
+ }, 
+ LogActivity:function(){
+		var rpt = new App.Views.ActivityReport()
+		var staticData={
+  "Registered_Members":
+    {
+    "male":233,
+    "female":321
+    },
+  "Visits":{"cumulative": 206,"male": 106, "female": 100}, 
+  "Most_Freq_Open":
+  [
+    {
+    "resourceName":"asdf",
+    "timesOpenedCumulative":15,
+    "timesOpenedByMales": 7,
+    "timesOpenedByFemales": 8,
+    "avgRatingCumulative":4.5,
+    "avgRatingByMales": 4.1,
+    "avgRatingByFemales": 4.9
+    }, {
+    "resourceName":"asdfasf",
+    "timesOpenedCumulative":17,
+    "timesOpenedByMales": 7,
+    "timesOpenedByFemales": 10,
+    "avgRatingCumulative":4.5,
+    "avgRatingByMales": 4.1,
+    "avgRatingByFemales": 4.9
+    }
+  ],
+  "Highest_Rated": 
+  [
+    {
+    "resourceName": "qwerty",
+    "timesOpenedCumulative":15,
+    "timesOpenedByMales": 7,
+    "timesOpenedByFemales": 8,
+    "avgRatingCumulative":4.5,
+    "avgRatingByMales": 4.1,
+    "avgRatingByFemales": 4.9
+    }
+  ],
+  "Lowest_Rated": 
+  [
+    {
+    "resourceName": "lkjh",
+    "timesOpenedCumulative":150,
+    "timesOpenedByMales": 70,
+    "timesOpenedByFemales": 80,
+    "avgRatingCumulative":2.2,
+    "avgRatingByMales": 3.0,
+    "avgRatingByFemales": 1.0
+    }
+  ]
+};
+		rpt.data=staticData;
+		rpt.render()
+		App.$el.children('.body').html(rpt.el)
+ },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');
  	Resources.destroy(function(err,info){
@@ -2308,7 +2395,6 @@ dbinfo:function()
 },
     CompileManifest: function() {
       App.startActivityIndicator()
-      this.PochDB()
 	  // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()
       var apps = new App.Collections.Apps()
@@ -2349,12 +2435,6 @@ dbinfo:function()
       
       // Compile the new manifest file and save it to devices/all
       resources.on('sync', function() {
-        _.each(resources.models, function(resource) {
-          if(resource.get('kind') == 'Resource' && resource.get('_attachments')) {
-            _.each(resource.get('_attachments'), function(value, key, list) {
-            })
-          }
-        })
         App.trigger('compile:resourceListReady')
       })
 
@@ -2444,9 +2524,7 @@ dbinfo:function()
 					
 					  replace += encodeURI('/meetups/_all_docs?include_docs=true')+'\n'
 					  replace += encodeURI('/usermeetups/_design/bell/_view/getUsermeetups?key="' + memId + '"&include_docs=true')+'\n'
-					  replace += encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="'+memName+'"')+'\n'
-					 console.log(encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="'+memName+'"')+'\n')
-					  
+					  replace += encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="'+memName+'"')+'\n'					  
 	                  _.each(Meetups.models, function(meetup) {
 					  		replace += encodeURI('/meetups/'+meetup.id)+'\n'
 					  		
@@ -2545,6 +2623,34 @@ dbinfo:function()
       // Start the process
       resources.fetch()
       App.stopActivityIndicator()
+    },
+    UpdateManifest:function(){
+     // The URL of the device where we'll store transformed files
+      var deviceURL = '/devices/_design/all'
+      // The location of the default files we'll tranform
+      var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
+       // URLs to save transformed files to      
+      var transformedManifestURL = deviceURL + '/manifest.appcache'
+      // The string to find in the default manifest file that we'll replace with Resources
+      var find = '{replace me}'
+      var replace = '# Compiled at ' + new Date().getTime() + '\n'
+      
+      // Compile the new manifest file and save it to devices/all
+     
+
+        $.get(defaultManifestURL, function(defaultManifest) {
+          var transformedManifest = defaultManifest.replace(find, replace)
+          $.getJSON(deviceURL, function(deviceDoc){
+            var xhr = new XMLHttpRequest()
+            xhr.open('PUT', transformedManifestURL + '?rev=' + deviceDoc._rev, true)
+            xhr.onload = function(response) { 
+            }
+            xhr.setRequestHeader("Content-type", "text/cache-manifest" );
+            xhr.send(new Blob([transformedManifest], {type: 'text/plain'}))
+          })
+        })
+      
+     
     }
               
    }))

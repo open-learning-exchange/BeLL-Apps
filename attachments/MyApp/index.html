@@ -247,8 +247,8 @@
   <script src="app/views/RequestRow.js"></script>
   
   <script src="app/views/Configurations.js"></script>
-  
-
+  <script src="app/views/LogQuery.js"></script>
+  <script src="app/views/ActivityReport.js"></script>
   <!-- javaScript -->
   
   <script src='indexFile.js'></script>
@@ -1202,9 +1202,121 @@
     <td><%=request%></td>
   </script>
 
+<script type="text/html" id="template-LogQuery">
+ <div class="logquery-community">    
+     <select  name="Level" id="community-select" multiple="multiple" style="width: 340px;">
+   	  		<option>Dagahera</option>
+    	 	<option>Hagadera</option>
+     		<option>Ifo</option>
+     		<option>Somalia</option>
+     </select>
+        <div id="logquery-date">
+			<label style='font-size:16px;'><b>Start Date</b></label>
+			<input type="date" id="start-date"  style='width: 75px;'><br><br>
+			<label style='font-size:16px;'><b>End Date</b></label>
+			&nbsp;&nbsp;<input type="date" id="end-date" style='width: 75px;'>
+		</div>
+		<button id="report_button" class="btn btn-success">Generate Report</button>
+  </div>
+</script>
+<script type="text/html" id="template-ActivityReport">
+ <h4>
+<span style="color:gray;">Community</span>
+| Activity Report
+</h4>
+<p>
+<span style="color:gray;">Period(mm/dd/yyyy): </span> 04/28/2014 - 05/03/2014
+</p>
+ <table class="table table-striped">
+ <tr>
+ <th></th>
+ <th >Total</th>
+<th >Male</th>
+<th colspan="2">Female</th>
+ </tr>
+ <tr>
+	<td>
+	Registered Members 
+	</td>
+	<td>
+	<%=
+	Registered_Members.female+Registered_Members.male
+	%> 
+	</td>
+	<td>
+	<%=
+	Registered_Members.male
+	%> 
+	</td>
+	<td colspan="2">
+	<%=
+	Registered_Members.female
+	%> 
+	</td>
+ </tr>
+ <tr>
+ 	<td>Visits Of Week</td>
+ 	<td><%=
+ 	Visits.male+Visits.female
+ 	%></td>
+ 	<td><%=
+ 	Visits.male
+ 	%></td>
+ 	<td colspan="2"><%=
+ 	Visits.female
+ 	%></td>
+ </tr>
+ <tr>
+ 	<th>
+ 		Most Frequently Opened
+ 	</th>
+ 	
+ 	<th>
+ 		Total
+ 	</th>
+ 	
+ 	<th>
+		Male
+	</th>
+ 	
+ 	<th>
+ 		Female
+ 	</th>
+ 	
+ 	<th>
+		Average Rating
+	</th>
+ </tr>
+ 
+ <tr>
+ 	<td>
+	Omer 	</td>
+ 	
+ 	<td>
+50 	</td>
+ 	
+ 	<td>
+25	</td>
+ 	
+ 	<td>
+ 		25
+ 	</td>
+ 	
+ 	<td>
+4.2	</td>
+ </tr>
+ <tr>
+ 	<td>
+ 		Most Frequently Opened
+ 	</td>
+ </tr>
+ </table>
+</script>
+
 </head>
 
 <body>
+
 </body>
 
   <!-- 
