@@ -620,6 +620,16 @@ margin-left: 259px;
 {
 	position: relative;
 }
+.logquery-community{
+	margin: 35px 0 0 35px;
+}
+#logquery-date{
+margin-top: 20px;
+}
+#report_button{
+margin-top: 20px;
+margin-left: 190px;
+}
 #add_newCoellection{
 
 margin-left: 714px;
