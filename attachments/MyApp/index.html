@@ -1221,11 +1221,11 @@
 </script>
 <script type="text/html" id="template-ActivityReport">
  <h4>
-<span style="color:gray;">Community</span>
+<span style="color:gray;"><%= CommunityName %> Community</span>
 | Activity Report
 </h4>
 <p>
-<span style="color:gray;">Period(mm/dd/yyyy): </span> 04/28/2014 - 05/03/2014
+<span style="color:gray;">Period(mm/dd/yyyy): </span> <%= startDate %> - <%= endDate %>
 </p>
  <table class="table table-striped">
  <tr>
@@ -1304,11 +1304,6 @@
  	
  	<td>
 4.2	</td>
- </tr>
- <tr>
- 	<td>
- 		Most Frequently Opened
- 	</td>
  </tr>
  </table>
 </script>

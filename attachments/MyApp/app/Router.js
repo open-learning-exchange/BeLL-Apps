@@ -2276,7 +2276,7 @@ var test=new App.Models.CourseInvitation()
                todayHighlight: true
             });
  }, 
- LogActivity:function(){
+ LogActivity:function(CommunityName,startDate,endDate){
 		var rpt = new App.Views.ActivityReport()
 		var staticData={
   "Registered_Members":
@@ -2330,7 +2330,11 @@ var test=new App.Models.CourseInvitation()
     }
   ]
 };
+		
 		rpt.data=staticData;
+		rpt.startDate=startDate
+		rpt.endDate=endDate
+		rpt.CommunityName=CommunityName
 		rpt.render()
 		App.$el.children('.body').html(rpt.el)
  },
