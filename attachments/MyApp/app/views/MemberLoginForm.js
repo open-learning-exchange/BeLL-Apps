@@ -158,7 +158,10 @@ getFormattedDate:function(date) {
 				 male_timesRated:[],
 				 female_timesRated:[],
 				 male_rating:[],
-				 female_rating:[]
+				 female_rating:[],
+				 resources_opened:[],
+				 male_opened:[],
+				 female_opened:[]
 			}
 			alert(docJson.male_visits)
 			

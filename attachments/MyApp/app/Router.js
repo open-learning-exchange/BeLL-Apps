@@ -806,8 +806,8 @@ var test=new App.Models.CourseInvitation()
                memberModel.fetch({async: false})
             
           var  ccSteps = new App.Collections.coursesteps()
-                ccSteps.courseId = courseId
-                ccSteps.fetch({async:false})
+               ccSteps.courseId = courseId
+               ccSteps.fetch({async:false})
 
           var GroupDetailsView=new App.Views.GroupView({model:courseModel})
               GroupDetailsView.courseLeader=memberModel
@@ -2664,6 +2664,21 @@ dbinfo:function()
      WeeklyReports:function(){
     
       	var logdb=new PouchDB('activitylogs')
+      	
+      	    logdb.allDocs({include_docs: true},
+      	               function(err, response) { 
+      	                  var collection=response.rows
+      	                  for(i=0;i<response.total_rows;i++){
+      	                      logDate=collection[i].doc.logDate
+      	                      
+      	                     
+      	                  }
+      	    });
+      	
+      	return 
+      	
+      	
+      	
       	var currentdate = new Date();
     	var logdate = currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
