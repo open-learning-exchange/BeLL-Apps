@@ -1223,8 +1223,12 @@ var test=new App.Models.CourseInvitation()
             resourcesTableView.render()
              App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a></p>')
+            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a><a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a></p>')
 			}
+			else{
+			App.$el.children('.body').append('<p "><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
+			}
+			
 			var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
             if(temp.length==0){
@@ -2307,8 +2311,23 @@ var test=new App.Models.CourseInvitation()
                todayHighlight: true
             });
  }, 
+ changeDateFormat:function(date)
+ {
+ var datePart = date.match(/\d+/g),month = datePart[0], day = datePart[1], year = datePart[2];
+  return year+'/'+month+'/'+day;
+ },
  LogActivity:function(CommunityName,startDate,endDate){
 		var rpt = new App.Views.ActivityReport()
+		
+		var logData=new App.Collections.ActivityLog()
+		logData.startkey=this.changeDateFormat(startDate)
+		logData.endkey=this.changeDateFormat(endDate)
+		logData.fetch({
+		async:false
+		})
+		console.log(logData)
+		var logModelForReport;
+		
 		var staticData={
   "Registered_Members":
     {
@@ -2363,6 +2382,7 @@ var test=new App.Models.CourseInvitation()
 };
 		
 		rpt.data=staticData;
+		console.log(staticData)
 		rpt.startDate=startDate
 		rpt.endDate=endDate
 		rpt.CommunityName=CommunityName
