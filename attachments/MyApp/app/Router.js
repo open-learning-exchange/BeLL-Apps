@@ -194,7 +194,6 @@ var test=new App.Models.CourseInvitation()
       
       },  
       MemberLogin: function () {
-      
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -2205,7 +2204,6 @@ var test=new App.Models.CourseInvitation()
 	this.saveResources(URL);	 
  },
  saveResources:function(URL){
- 
  				 var Resources=new PouchDB('resources');
  				 var Saving
  				 var Groups = new App.Collections.MemberGroups()
@@ -2701,22 +2699,6 @@ dbinfo:function()
     	var logdate = currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
                 + currentdate.getFullYear()
-		
-		//sample document post
-
-		// var docJson={
-// 			 logDate: logdate,
-// 			 resourcesIds:['HungryCaterPiller'],
-// 			 male:[1],
-// 			 female:[0],
-// 			 rating:[5],
-// 		}
-// 		logdb.post(docJson, function (err, response) { 
-// 						console.log(err)
-// 						console.log(response)
-// 						alert('successfully post')
-// 		});
-				
         logdb.query({map:function(doc){
 					 if(doc.logDate){
 						emit(doc.logDate,doc)
