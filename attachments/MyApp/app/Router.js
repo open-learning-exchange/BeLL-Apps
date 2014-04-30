@@ -50,8 +50,7 @@ $(function(){
             'meetup/manage/:meetUpId':'Meetup',
             
             'configuration/add':'Configure',
-            
-            
+            'search-bell/:publicationId': 'SearchPresources',
             'members': 'Members',
             
             'reports': 'Reports',
@@ -588,6 +587,41 @@ var test=new App.Models.CourseInvitation()
             }})
             
 
+        },
+        SearchPresources: function (publicationId) {
+
+            var publications = new App.Models.Publication({
+                "_id": publicationId
+            })
+            publications.fetch({
+                success: function () {
+                    
+                    var search = new App.Views.Search()
+                    grpId = publicationId
+                    search.addResource=true
+                    search.Publications=true
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
+                    $("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+                },async:false
+            })
         },
         Groups: function () {
          App.startActivityIndicator()
@@ -2278,11 +2312,6 @@ var test=new App.Models.CourseInvitation()
  LogActivity:function(CommunityName,startDate,endDate){
 		var rpt = new App.Views.ActivityReport()
 		var staticData={
-  "Registered_Members":
-    {
-    "male":233,
-    "female":321
-    },
   "Visits":{"cumulative": 206,"male": 106, "female": 100}, 
   "Most_Freq_Open":
   [
