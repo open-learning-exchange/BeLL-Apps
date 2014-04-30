@@ -59,10 +59,12 @@ $(function () {
 											if(!err){
 												var Resources=new PouchDB('resources');
 												var resId=that.model.get("resourceId")
-										
+												console.log(resId)
 												Resources.get(resId,function(err,resdoc){
-									
-																	if(!err){										
+																	console.log(err)
+																	console.log(resdoc)
+																	if(!err){	
+																										
 																			var numRating=parseInt(resdoc.timesRated)
 																				numRating++
 																			var sumRating=parseInt(resdoc.sum)+parseInt(that.user_rating)
@@ -70,6 +72,8 @@ $(function () {
 																					sum:sumRating,
 																					timesRated: numRating
 																				},resdoc._id,resdoc._rev,function(error,info){
+																				console.log(error)
+																				console.log(info)
 													
 																				})
 																	}else{
@@ -77,12 +81,13 @@ $(function () {
 																			  _id: resId._id,
 																			  sum:parseInt(that.user_rating),
 																			  timesRated: 1
+																		 },function(error,info){
+																		 console.log(error)
+																		 console.log(info)
 																		 })
 																	} 
 																alert('Rating is successfully saved')	             
 															})			
-				 
-				 
 												console.log(info)
 											}else{
 												console.log(err)
@@ -238,7 +243,6 @@ logActivity:function(member,feedbackModel){
 		   
     },
 UpdatejSONlog:function(member,logModel,logdb,feedbackModel){
-
 			console.log(feedbackModel)
 			memRating=parseInt(feedbackModel.get('rating'))
             var resId=feedbackModel.get('resourceId')

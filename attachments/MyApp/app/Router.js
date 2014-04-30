@@ -50,8 +50,7 @@ $(function(){
             'meetup/manage/:meetUpId':'Meetup',
             
             'configuration/add':'Configure',
-            
-            
+            'search-bell/:publicationId': 'SearchPresources',
             'members': 'Members',
             
             'reports': 'Reports',
@@ -195,7 +194,6 @@ var test=new App.Models.CourseInvitation()
       
       },  
       MemberLogin: function () {
-      
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -588,6 +586,41 @@ var test=new App.Models.CourseInvitation()
             }})
             
 
+        },
+        SearchPresources: function (publicationId) {
+
+            var publications = new App.Models.Publication({
+                "_id": publicationId
+            })
+            publications.fetch({
+                success: function () {
+                    
+                    var search = new App.Views.Search()
+                    grpId = publicationId
+                    search.addResource=true
+                    search.Publications=true
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
+                    $("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+                },async:false
+            })
         },
         Groups: function () {
          App.startActivityIndicator()
@@ -1190,8 +1223,12 @@ var test=new App.Models.CourseInvitation()
             resourcesTableView.render()
              App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a></p>')
+            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a><a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a></p>')
 			}
+			else{
+			App.$el.children('.body').append('<p "><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
+			}
+			
 			var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
             if(temp.length==0){
@@ -2171,7 +2208,6 @@ var test=new App.Models.CourseInvitation()
 	this.saveResources(URL);	 
  },
  saveResources:function(URL){
- 
  				 var Resources=new PouchDB('resources');
  				 var Saving
  				 var Groups = new App.Collections.MemberGroups()
@@ -2275,39 +2311,54 @@ var test=new App.Models.CourseInvitation()
                todayHighlight: true
             });
  }, 
- LogActivity:function(){
+ changeDateFormat:function(date)
+ {
+ var datePart = date.match(/\d+/g),month = datePart[0], day = datePart[1], year = datePart[2];
+  return year+'/'+month+'/'+day;
+ },
+ LogActivity:function(CommunityName,startDate,endDate){
 		var rpt = new App.Views.ActivityReport()
+		
+		var logData=new App.Collections.ActivityLog()
+		logData.startkey=this.changeDateFormat(startDate)
+		logData.endkey=this.changeDateFormat(endDate)
+		logData.fetch({
+		async:false
+		})
+		console.log(logData)
+		var logModelForReport;
+		
 		var staticData={
   "Registered_Members":
     {
     "male":233,
     "female":321
     },
-  "Visits":{"cumulative": 206,"male": 106, "female": 100}, 
+  "Visits":{"cumulative": 206,"male": 106, "female": 100},
   "Most_Freq_Open":
   [
     {
-    "resourceName":"asdf",
+    "resourceName":"Hungry Caterpillar",
     "timesOpenedCumulative":15,
     "timesOpenedByMales": 7,
     "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.5,
+    "avgRatingCumulative":4.3,
     "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
+    "avgRatingByFemales": 4.5
     }, {
-    "resourceName":"asdfasf",
+    "resourceName":"Color me Physics",
     "timesOpenedCumulative":17,
     "timesOpenedByMales": 7,
     "timesOpenedByFemales": 10,
-    "avgRatingCumulative":4.5,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
+    "avgRatingCumulative":3.5,
+    "avgRatingByMales": 3.1,
+    "avgRatingByFemales": 3.9
     }
   ],
   "Highest_Rated": 
   [
     {
-    "resourceName": "qwerty",
+    "resourceName": "Aesop's Fables",
     "timesOpenedCumulative":15,
     "timesOpenedByMales": 7,
     "timesOpenedByFemales": 8,
@@ -2319,7 +2370,7 @@ var test=new App.Models.CourseInvitation()
   "Lowest_Rated": 
   [
     {
-    "resourceName": "lkjh",
+    "resourceName": "Snow White and the 7 Dwarfs",
     "timesOpenedCumulative":150,
     "timesOpenedByMales": 70,
     "timesOpenedByFemales": 80,
@@ -2329,7 +2380,12 @@ var test=new App.Models.CourseInvitation()
     }
   ]
 };
+		
 		rpt.data=staticData;
+		console.log(staticData)
+		rpt.startDate=startDate
+		rpt.endDate=endDate
+		rpt.CommunityName=CommunityName
 		rpt.render()
 		App.$el.children('.body').html(rpt.el)
  },
@@ -2683,22 +2739,6 @@ dbinfo:function()
     	var logdate = currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
                 + currentdate.getFullYear()
-		
-		//sample document post
-
-		// var docJson={
-// 			 logDate: logdate,
-// 			 resourcesIds:['HungryCaterPiller'],
-// 			 male:[1],
-// 			 female:[0],
-// 			 rating:[5],
-// 		}
-// 		logdb.post(docJson, function (err, response) { 
-// 						console.log(err)
-// 						console.log(response)
-// 						alert('successfully post')
-// 		});
-				
         logdb.query({map:function(doc){
 					 if(doc.logDate){
 						emit(doc.logDate,doc)
