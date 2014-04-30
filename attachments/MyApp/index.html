@@ -1227,83 +1227,82 @@
 <span style="color:gray;">Period(mm/dd/yyyy): </span> <%= startDate %> - <%= endDate %>
 </p>
  <table class="table table-striped">
- <tr>
- <th></th>
- <th >Total</th>
-<th >Male</th>
-<th colspan="2">Female</th>
- </tr>
- <tr>
-	<td>
-	Registered Members 
-	</td>
-	<td>
-	<%=
-	MaleMembers+FemaleMembers
-	%> 
-	</td>
-	<td>
-	<%=
-	MaleMembers
-	%> 
-	</td>
-	<td colspan="2">
-	<%=
-	FemaleMembers	
-	%> 
-	</td>
- </tr>
- <tr>
- 	<td>Visits Of Week</td>
- 	<td><%=
- 	Visits.male+Visits.female
- 	%></td>
- 	<td><%=
- 	Visits.male
- 	%></td>
- 	<td colspan="2"><%=
- 	Visits.female
- 	%></td>
- </tr>
- <tr>
- 	<th>
- 		Most Frequently Opened
- 	</th>
- 	
- 	<th>
- 		Total
- 	</th>
- 	
- 	<th>
-		Male
-	</th>
- 	
- 	<th>
- 		Female
- 	</th>
- 	
- 	<th>
-		Average Rating
-	</th>
- </tr>
- 
- <tr>
- 	<td>
-	Omer 	</td>
- 	
- 	<td>
-50 	</td>
- 	
- 	<td>
-25	</td>
- 	
- 	<td>
- 		25
- 	</td>
- 	
- 	<td>
-4.2	</td>
- </tr>
+     <tr>
+        <th></th>
+        <th >Total</th>
+        <th >Male</th>
+        <th colspan="2">Female</th>
+     </tr>
+     <tr>
+         <td>
+             Registered Members
+         </td>
+         <td>
+             <%=
+             MaleMembers+FemaleMembers
+             %>
+         </td>
+         <td>
+             <%=
+             MaleMembers
+             %>
+         </td>
+         <td colspan="2">
+             <%=
+             FemaleMembers
+             %>
+         </td>
+     </tr>
+     <tr>
+        <td>Visits Of Week</td>
+        <td><%=Visits.male+Visits.female%></td>
+        <td><%=Visits.male%></td>
+        <td colspan="2"><%=Visits.female%></td>
+     </tr>
+     <tr>
+         <th colspan="4"></th>
+        <th>Average Rating</th>
+     </tr>
+     <tr>
+         <th colspan="5">Most Frequently Opened</th>
+     </tr>
+     <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
+     <% _.each(Most_Freq_Open, function(resource){ %>
+         <tr>
+             <td><%=resource.resourceName%></td>
+             <td><%=resource.timesOpenedCumulative%></td>
+             <td><%=resource.timesOpenedByMales%></td>
+             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.avgRatingCumulative%></td>
+         </tr>
+     <% }); %>
+     <tr>
+        <th colspan="5">Highest Rated</th>
+     </tr>
+     <% _.each(Highest_Rated, function(resource){ %>
+         <tr>
+             <td><%=resource.resourceName%></td>
+             <td><%=resource.timesOpenedCumulative%></td>
+             <td><%=resource.timesOpenedByMales%></td>
+             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.avgRatingCumulative%></td>
+         </tr>
+     <% }); %>
+     <tr>
+         <th colspan="5">Lowest Rated</th>
+     </tr>
+     <% _.each(Lowest_Rated, function(resource){ %>
+         <tr>
+             <td><%=resource.resourceName%></td>
+             <td><%=resource.timesOpenedCumulative%></td>
+             <td><%=resource.timesOpenedByMales%></td>
+             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.avgRatingCumulative%></td>
+         </tr>
+     <% }); %>
+
+
+
  </table>
 </script>
 

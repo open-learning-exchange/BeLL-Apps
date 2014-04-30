@@ -2310,31 +2310,36 @@ var test=new App.Models.CourseInvitation()
  LogActivity:function(CommunityName,startDate,endDate){
 		var rpt = new App.Views.ActivityReport()
 		var staticData={
-  "Visits":{"cumulative": 206,"male": 106, "female": 100}, 
+  "Registered_Members":
+    {
+    "male":233,
+    "female":321
+    },
+  "Visits":{"cumulative": 206,"male": 106, "female": 100},
   "Most_Freq_Open":
   [
     {
-    "resourceName":"asdf",
+    "resourceName":"Hungry Caterpillar",
     "timesOpenedCumulative":15,
     "timesOpenedByMales": 7,
     "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.5,
+    "avgRatingCumulative":4.3,
     "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
+    "avgRatingByFemales": 4.5
     }, {
-    "resourceName":"asdfasf",
+    "resourceName":"Color me Physics",
     "timesOpenedCumulative":17,
     "timesOpenedByMales": 7,
     "timesOpenedByFemales": 10,
-    "avgRatingCumulative":4.5,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
+    "avgRatingCumulative":3.5,
+    "avgRatingByMales": 3.1,
+    "avgRatingByFemales": 3.9
     }
   ],
   "Highest_Rated": 
   [
     {
-    "resourceName": "qwerty",
+    "resourceName": "Aesop's Fables",
     "timesOpenedCumulative":15,
     "timesOpenedByMales": 7,
     "timesOpenedByFemales": 8,
@@ -2346,7 +2351,7 @@ var test=new App.Models.CourseInvitation()
   "Lowest_Rated": 
   [
     {
-    "resourceName": "lkjh",
+    "resourceName": "Snow White and the 7 Dwarfs",
     "timesOpenedCumulative":150,
     "timesOpenedByMales": 70,
     "timesOpenedByFemales": 80,
