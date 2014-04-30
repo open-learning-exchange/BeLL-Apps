@@ -50,8 +50,7 @@ $(function(){
             'meetup/manage/:meetUpId':'Meetup',
             
             'configuration/add':'Configure',
-            
-            
+            'search-bell/:publicationId': 'SearchPresources',
             'members': 'Members',
             
             'reports': 'Reports',
@@ -80,6 +79,7 @@ $(function(){
 			
 			'compile': 'CompileManifest',
 			'dbInfo':'dbinfo',
+			'weeklyreports':'WeeklyReports',
 			'removecache':'UpdateManifest',
 			'logreports':'LogQuery',
 			'reportsActivity':'LogActivity'
@@ -587,6 +587,41 @@ var test=new App.Models.CourseInvitation()
             }})
             
 
+        },
+        SearchPresources: function (publicationId) {
+
+            var publications = new App.Models.Publication({
+                "_id": publicationId
+            })
+            publications.fetch({
+                success: function () {
+                    
+                    var search = new App.Views.Search()
+                    grpId = publicationId
+                    search.addResource=true
+                    search.Publications=true
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
+                    $("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+                },async:false
+            })
         },
         Groups: function () {
          App.startActivityIndicator()
@@ -1123,7 +1158,6 @@ var test=new App.Models.CourseInvitation()
 
         },
         deleteMeetUp:function(meetupId){
-        
        var  UserMeetups = new App.Collections.UserMeetups()
             UserMeetups.meetupId=meetupId
             UserMeetups.fetch({async:false})
@@ -1137,7 +1171,6 @@ var test=new App.Models.CourseInvitation()
                Backbone.history.navigate('meetups', {
                         trigger: true
                     })
-        
         },
     Members: function () {
     
@@ -2276,14 +2309,9 @@ var test=new App.Models.CourseInvitation()
                todayHighlight: true
             });
  }, 
- LogActivity:function(){
+ LogActivity:function(CommunityName,startDate,endDate){
 		var rpt = new App.Views.ActivityReport()
 		var staticData={
-  "Registered_Members":
-    {
-    "male":233,
-    "female":321
-    },
   "Visits":{"cumulative": 206,"male": 106, "female": 100}, 
   "Most_Freq_Open":
   [
@@ -2330,7 +2358,11 @@ var test=new App.Models.CourseInvitation()
     }
   ]
 };
+		
 		rpt.data=staticData;
+		rpt.startDate=startDate
+		rpt.endDate=endDate
+		rpt.CommunityName=CommunityName
 		rpt.render()
 		App.$el.children('.body').html(rpt.el)
  },
@@ -2377,6 +2409,14 @@ var test=new App.Models.CourseInvitation()
  	else 
 	console.log("Successfully Destroy coursestep"+info)
 	});
+	
+	var activitylogs=new PouchDB('activitylogs');
+	activitylogs.destroy(function(err, info) {
+	if(err)
+ 	console.log(err)
+ 	else 
+	console.log("Successfully Destroy activitylogs"+info)
+	});
 },
 dbinfo:function()
 {
@@ -2392,8 +2432,10 @@ dbinfo:function()
 	CourseStep.info(function(err,info){console.log(info)})
 	var MemberCourseProgress=new PouchDB('membercourseprogress');
 	MemberCourseProgress.info(function(err,info){console.log(info)})
+	var activitylogs=new PouchDB('activitylogs');
+	activitylogs.info(function(err,info){console.log(info)})
 },
-    CompileManifest: function() {
+ CompileManifest: function() {
       App.startActivityIndicator()
 	  // The resources we'll need to inject into the manifest file
       var resources = new App.Collections.Resources()
@@ -2651,7 +2693,46 @@ dbinfo:function()
         })
       
      
-    }
+    },
+     WeeklyReports:function(){
+    
+      	var logdb=new PouchDB('activitylogs')
+      	var currentdate = new Date();
+    	var logdate = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear()
+		
+		//sample document post
+
+		// var docJson={
+// 			 logDate: logdate,
+// 			 resourcesIds:['HungryCaterPiller'],
+// 			 male:[1],
+// 			 female:[0],
+// 			 rating:[5],
+// 		}
+// 		logdb.post(docJson, function (err, response) { 
+// 						console.log(err)
+// 						console.log(response)
+// 						alert('successfully post')
+// 		});
+				
+        logdb.query({map:function(doc){
+					 if(doc.logDate){
+						emit(doc.logDate,doc)
+					 }
+				}
+   			},{key:logdate},function(err,res){
+				if(!err){
+				     if(res.length!==0){
+				        alert('Length is not Zero')
+				     }else{
+				   		alert('length is zero')
+				    }	   
+                }
+		   });       
+        
+    },
               
    }))
   

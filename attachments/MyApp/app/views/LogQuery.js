@@ -6,6 +6,7 @@ $(function () {
             "click #report_button" : function(e){
 				if($("#community-select").val() && $("#start-date").val() && $("#end-date").val()){
 					console.log("community: " + $("#community-select").val() + "\t" + "Start-Date: " + $("#start-date").val() + "    " + "End-Date: " + $("#end-date").val());
+					App.Router.LogActivity($("#community-select").val(),$("#start-date").val(),$("#end-date").val())
 				}
 				else{
 					console.log("At least one of the criteria for report is missing");
