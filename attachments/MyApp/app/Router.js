@@ -2312,7 +2312,12 @@ var test=new App.Models.CourseInvitation()
  LogActivity:function(CommunityName,startDate,endDate){
 		var rpt = new App.Views.ActivityReport()
 		var staticData={
-  "Visits":{"cumulative": 206,"male": 106, "female": 100}, 
+  "Registered_Members":
+    {
+    "male":233,
+    "female":321
+    },
+  "Visits":{"cumulative": 206,"male": 106, "female": 100},
   "Most_Freq_Open":
   [
     {

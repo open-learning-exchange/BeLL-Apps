@@ -1221,18 +1221,13 @@
 </script>
 <script type="text/html" id="template-ActivityReport">
  <h4>
-<<<<<<< HEAD
-<span style="color:#807c80;">Community</span>
-=======
 <span style="color:gray;"><%= CommunityName %> Community</span>
->>>>>>> 3bd57334dcce783dccb51700fa088acd911e42be
 | Activity Report
 </h4>
 <p>
 <span style="color:gray;">Period(mm/dd/yyyy): </span> <%= startDate %> - <%= endDate %>
 </p>
  <table class="table table-striped">
-<<<<<<< HEAD
      <tr>
         <th></th>
         <th >Total</th>
@@ -1240,10 +1235,24 @@
         <th colspan="2">Female</th>
      </tr>
      <tr>
-        <td>Registered Members</td>
-        <td><%=Registered_Members.female+Registered_Members.male%></td>
-        <td><%=Registered_Members.male%></td>
-        <td colspan="2"><%=Registered_Members.female%></td>
+         <td>
+             Registered Members
+         </td>
+         <td>
+             <%=
+             MaleMembers+FemaleMembers
+             %>
+         </td>
+         <td>
+             <%=
+             MaleMembers
+             %>
+         </td>
+         <td colspan="2">
+             <%=
+             FemaleMembers
+             %>
+         </td>
      </tr>
      <tr>
         <td>Visits Of Week</td>
@@ -1292,85 +1301,9 @@
              <td><%=resource.avgRatingCumulative%></td>
          </tr>
      <% }); %>
-=======
- <tr>
- <th></th>
- <th >Total</th>
-<th >Male</th>
-<th colspan="2">Female</th>
- </tr>
- <tr>
-	<td>
-	Registered Members 
-	</td>
-	<td>
-	<%=
-	MaleMembers+FemaleMembers
-	%> 
-	</td>
-	<td>
-	<%=
-	MaleMembers
-	%> 
-	</td>
-	<td colspan="2">
-	<%=
-	FemaleMembers	
-	%> 
-	</td>
- </tr>
- <tr>
- 	<td>Visits Of Week</td>
- 	<td><%=
- 	Visits.male+Visits.female
- 	%></td>
- 	<td><%=
- 	Visits.male
- 	%></td>
- 	<td colspan="2"><%=
- 	Visits.female
- 	%></td>
- </tr>
- <tr>
- 	<th>
- 		Most Frequently Opened
- 	</th>
- 	
- 	<th>
- 		Total
- 	</th>
- 	
- 	<th>
-		Male
-	</th>
- 	
- 	<th>
- 		Female
- 	</th>
- 	
- 	<th>
-		Average Rating
-	</th>
- </tr>
- 
- <tr>
- 	<td>
-	Omer 	</td>
- 	
- 	<td>
-50 	</td>
- 	
- 	<td>
-25	</td>
- 	
- 	<td>
- 		25
- 	</td>
- 	
- 	<td>
-4.2	</td>
- </tr>
->>>>>>> 3bd57334dcce783dccb51700fa088acd911e42be
+
+
+
  </table>
 </script>
 
