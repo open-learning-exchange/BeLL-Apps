@@ -136,7 +136,6 @@ $(function () {
 				 model.female_visits=visits
 			}
 			logdb.put(model,function(reponce){
-				alert('successfully updated')
 			})
 			console.log(model)
     },
@@ -163,7 +162,6 @@ getFormattedDate:function(date) {
 				 male_opened:[],
 				 female_opened:[]
 			}
-			alert(docJson.male_visits)
 			
 			if(member.get('Gender')=='Male') {
 						 	visits=parseInt(docJson.male_visits)
@@ -178,7 +176,6 @@ getFormattedDate:function(date) {
 			logdb.post(docJson, function (err, response) { 
   						console.log(err)
  						console.log(response)
-						alert('successfully post')
  		});
     },
     

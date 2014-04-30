@@ -2325,9 +2325,13 @@ var test=new App.Models.CourseInvitation()
 		logData.fetch({
 		async:false
 		})
-		console.log(logData)
+		/*console.log(logData)
 		var logModelForReport;
-		
+		logData.each(function (logDoc){
+// 			console.log(logDoc.toJSON());
+			logModelForReport.Visits.male += logDoc.get("male_visits");
+			logModelForReport.Visits.female += logDoc.get("female_visits");
+		});*/		
 		var staticData={
   "Registered_Members":
     {
