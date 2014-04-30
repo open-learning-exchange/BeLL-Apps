@@ -2720,40 +2720,130 @@ dbinfo:function()
      WeeklyReports:function(){
     
       	var logdb=new PouchDB('activitylogs')
-      	
+        var that=this
       	    logdb.allDocs({include_docs: true},
       	               function(err, response) { 
       	                  var collection=response.rows
       	                  for(i=0;i<response.total_rows;i++){
-      	                      logDate=collection[i].doc.logDate
+      	                      activitylog=collection[i].doc
+      	                      activitylogDate=activitylog.logDate
+      	                      var logModel=new App.Collections.ActivityLog()
+      	                          logModel.logDate=activitylogDate
+      	                          logModel.fetch({success:function(res,resInfo){
+      	                             	 console.log(res)
+      	                             	 if(res.length==0){
+      	                             	     that.createLogs(activitylog)
+      	                             	 }else{
+      	                             	     logsonServer=res.first()
+      	                             	     that.updateLogs(activitylog,logsonServer)
+      	                             	 }         
+      	                          },
+      	                          error:function(err){
+      	                          
+      	                          }})
       	                      
       	                     
       	                  }
-      	    });
-      	
-      	return 
-      	
-      	
-      	
-      	var currentdate = new Date();
-    	var logdate = currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear()
-        logdb.query({map:function(doc){
-					 if(doc.logDate){
-						emit(doc.logDate,doc)
-					 }
-				}
-   			},{key:logdate},function(err,res){
-				if(!err){
-				     if(res.length!==0){
-				        alert('Length is not Zero')
-				     }else{
-				   		alert('length is zero')
-				    }	   
-                }
-		   });       
+      	    });    
         
+    },
+    createLogs:function(activitylog){
+    
+			var dailylogModel=new App.Models.DailyLog()
+				delete activitylog._rev
+				delete activitylog._id
+				console.log(activitylog)
+				dailylogModel.set(activitylog)
+   
+				dailylogModel.save(null,{success:function(res,resInfo){
+					console.log(res)
+					alert('success to create Model for activity')
+				}})
+
+    },
+    updateLogs:function(activitylog,logsonServer){
+               
+               var activitylog_resRated = activitylog.resourcesIds
+               var activitylog_resOpened = activitylog.resources_opened
+               
+               var logsonServer_resRated = logsonServer.get('resourcesIds')
+               var logsonServer_resOpened = logsonServer.get('resources_opened')
+               
+               var logsonServer_male_visits = logsonServer.get('male_visits')
+               var logsonServer_female_visits = logsonServer.get('female_visits')
+               
+               var logsonServer_male_rating = logsonServer.get('male_rating')
+               var logsonServer_female_rating = logsonServer.get('female_rating')
+               
+               var logsonServer_male_timesRated = logsonServer.get('male_timesRated')
+               var logsonServer_female_timesRated = logsonServer.get('female_timesRated')
+               
+               var logsonServer_male_opened = logsonServer.get('male_opened')
+               var logsonServer_female_opened = logsonServer.get('female_opened')
+        
+                console.log(logsonServer_resRated)
+                console.log(logsonServer_resOpened)
+                console.log(logsonServer_male_visits)
+                console.log(logsonServer_female_visits)
+                console.log(logsonServer_male_rating)
+                console.log(logsonServer_female_rating)
+                console.log(logsonServer_male_timesRated)
+                console.log(logsonServer_female_timesRated)
+                console.log(logsonServer_male_opened)
+                console.log(logsonServer_female_opened)
+                
+                logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
+                logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
+                
+               for(i=0 ; i < activitylog_resRated.length ; i++){
+                     resId=activitylog_resRated[i]
+                     index=logsonServer_resRated.indexOf(resId)
+                     alert('index'+index)
+                     if(index==-1){
+                     
+                            logsonServer_resRated.push(resId)
+                            logsonServer_male_rating.push(activitylog.male_rating[i])
+                            logsonServer_female_rating.push(activitylog.female_rating[i])
+                            logsonServer_male_timesRated.push(activitylog.male_timesRated[i])
+                            logsonServer_female_timesRated.push(activitylog.female_timesRated[i])
+                            
+                     }else{ 
+                     
+                            logsonServer_male_rating[index] = parseInt(logsonServer_male_rating[index]) + parseInt(activitylog.male_rating[i])
+                            logsonServer_female_rating[index] = parseInt(logsonServer_female_rating[index]) + parseInt(activitylog.female_rating[i])
+                            logsonServer_male_timesRated[index] = parseInt(logsonServer_male_timesRated[index]) + parseInt(activitylog.male_timesRated[i])
+                            logsonServer_female_timesRated[index] = parseInt(logsonServer_female_timesRated[index]) + parseInt(activitylog.female_timesRated[i])
+                     }        
+                  alert('rated')
+               }
+               for(i=0 ; i < activitylog_resOpened.length ; i++){
+                    resId=activitylog_resOpened[i]
+                    index=logsonServer_resOpened.indexOf(resId)
+                    if(index==-1){
+                             logsonServer_resOpened.push(resId)
+                             logsonServer_male_opened.push(activitylog.male_opened[i])
+                             logsonServer_female_opened.push(activitylog.female_opened[i])
+                     }else{
+                             logsonServer_male_opened[index] = parseInt(logsonServer_male_opened[index]) + parseInt(activitylog.male_opened[i])
+                             logsonServer_female_opened[index]=parseInt(logsonServer_female_opened[index])+parseInt(activitylog.female_opened[i])
+                     }
+                  alert('opened')
+               
+               }
+                
+                console.log(logsonServer_resRated)
+                console.log(logsonServer_resOpened)
+                console.log(logsonServer_male_visits)
+                console.log(logsonServer_female_visits)
+                console.log(logsonServer_male_rating)
+                console.log(logsonServer_female_rating)
+                console.log(logsonServer_male_timesRated)
+                console.log(logsonServer_female_timesRated)
+                console.log(logsonServer_male_opened)
+                console.log(logsonServer_female_opened)
+              
+               alert('in update logs function')
+      
     },
               
    }))
