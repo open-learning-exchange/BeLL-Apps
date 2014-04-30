@@ -30,7 +30,6 @@ $(function () {
             event.preventDefault()
             this.setForm()
         },
-
         setUserRating: function (ur) {
             this.user_rating = ur
         },
@@ -45,9 +44,16 @@ $(function () {
                 }
                 this.form.setValue('rating', this.user_rating)
                 this.form.commit()
-                 var that = this
-                
-                
+                var that = this
+               
+                var feedbackModel=that.model
+                var member=new App.Models.Member()
+                    member.set('_id', $.cookie('Member._id'))
+                    member.fetch({success:function(upModel,upRev){
+                   			console.log(upModel)
+                            that.logActivity(upModel,feedbackModel)
+                    
+                    }})
 								var FeedBackDb=new PouchDB('feedback');
 								FeedBackDb.post(that.model.toJSON(),function(err,info){
 											if(!err){
@@ -84,6 +90,7 @@ $(function () {
 	
 								})
 						$('#externalDiv').hide()
+						
  //Send the updated model to the server
                  
 //                 var ResourceFrequencyDB=new PouchDB('resourcefrequency');
@@ -208,7 +215,70 @@ $(function () {
             }
 
         },
+logActivity:function(member,feedbackModel){
+        
+        var that=this
+  		var logdb=new PouchDB('activitylogs')
+      	var currentdate = new Date();
+    	var logdate = this.getFormattedDate(currentdate)
+        logdb.query({map:function(doc){
+					 if(doc.logDate){
+						emit(doc.logDate,doc)
+					 }
+				}
+   			},{key:logdate},function(err,res){
+   					 
+				if(!err){
+				     if(res.total_rows!=0){
+				          logModel=res.rows[0].value
+				          that.UpdatejSONlog(member,logModel,logdb,feedbackModel)
+				     }   
+                }
+		   });       
+		   
+    },
+UpdatejSONlog:function(member,logModel,logdb,feedbackModel){
 
+			console.log(feedbackModel)
+			memRating=parseInt(feedbackModel.get('rating'))
+            var resId=feedbackModel.get('resourceId')
+            var index=logModel.resourcesIds.indexOf(resId)
+	        if(index==-1){
+	                logModel.resourcesIds.push(resId)
+	                if(member.get('Gender')=='Male') {
+	                      logModel.male_rating.push(memRating)
+	                      logModel.female_rating.push(0)
+	                      logModel.male_timesRated.push(1)
+	                      logModel.female_timesRated.push(0)
+ 					}else{
+ 					      logModel.male_rating.push(0)
+	                      logModel.female_rating.push(memRating)
+	                      logModel.male_timesRated.push(0)
+	                      logModel.female_timesRated.push(1)
+ 					}
+	             }
+	             else{
+	                if(member.get('Gender')=='Male') {
+	                      logModel.male_rating[index]=parseInt(logModel.male_rating[index])+memRating
+	                      logModel.male_timesRated[index]=(parseInt(logModel.male_timesRated[index]))+1
+ 					}else{
+	                      logModel.female_rating[index]=parseInt(logModel.female_rating[index])+memRating
+	                      logModel.female_timesRated[index]=(parseInt(logModel.female_timesRated[index]))+1
+ 					}   
+	             }
+			logdb.put(logModel,function(reponce){
+	     		console.log(reponce)
+		   })
+			console.log(logModel)
+    },
+getFormattedDate:function(date) {
+  		   var year = date.getFullYear();
+  		   var month = (1 + date.getMonth()).toString();
+               month = month.length > 1 ? month : '0' + month;
+  		   var day = date.getDate().toString();
+  		       day = day.length > 1 ? day : '0' + day;
+       return  month + '/' + day + '/' + year;
+},
 
     })
 
