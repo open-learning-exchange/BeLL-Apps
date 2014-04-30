@@ -136,7 +136,7 @@ $(function () {
 				 model.female_visits=visits
 			}
 			logdb.put(model,function(reponce){
-				alert('successfully updated')
+				alert('Download app update now')
 			})
 			console.log(model)
     },
