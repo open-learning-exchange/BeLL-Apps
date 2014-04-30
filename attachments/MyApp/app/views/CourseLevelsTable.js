@@ -16,7 +16,9 @@ $(function () {
                     async: false
                 })
                 var pending = []
-                pending = member.get("pendingReviews")
+                if(member.get("pendingReviews")){
+                   pending = member.get("pendingReviews")
+                }
                 pending.push(resid)
                 member.set("pendingReviews", pending)
                 member.save()
