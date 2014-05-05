@@ -2818,7 +2818,7 @@ dbinfo:function()
                             logsonServer_male_timesRated[index] = parseInt(logsonServer_male_timesRated[index]) + parseInt(activitylog.male_timesRated[i])
                             logsonServer_female_timesRated[index] = parseInt(logsonServer_female_timesRated[index]) + parseInt(activitylog.female_timesRated[i])
                      }        
-                  alert('rated')
+                  //alert('rated')
                }
                for(i=0 ; i < activitylog_resOpened.length ; i++){
                     resId=activitylog_resOpened[i]
@@ -2831,10 +2831,31 @@ dbinfo:function()
                              logsonServer_male_opened[index] = parseInt(logsonServer_male_opened[index]) + parseInt(activitylog.male_opened[i])
                              logsonServer_female_opened[index]=parseInt(logsonServer_female_opened[index])+parseInt(activitylog.female_opened[i])
                      }
-                  alert('opened')
+                  //alert('opened')
                
                }
-                
+               
+               logsonServer.set('resourcesIds' , logsonServer_resRated)
+               logsonServer.set('resources_opened' , logsonServer_resOpened)
+               logsonServer.set('male_visits' , logsonServer_male_visits)
+               logsonServer.set('female_visits' , logsonServer_female_visits)
+               logsonServer.set('male_rating' , logsonServer_male_rating)
+               logsonServer.set('female_rating' , logsonServer_female_rating)
+               logsonServer.set('male_timesRated' , logsonServer_male_timesRated)
+               logsonServer.set('female_timesRated' , logsonServer_female_timesRated)
+               logsonServer.set('male_opened' , logsonServer_male_opened)
+               logsonServer.set('female_opened' , logsonServer_female_opened)
+               
+               var logdb=new PouchDB('activitylogs')
+               logsonServer.save({success:function(model,modelInfo){
+                      activitylogs.destroy(function(err, info) {
+							if(err)
+								console.log(err)
+							else 
+							 console.log("Successfully Destroy activitylogs"+info)
+						});
+               }})
+               
                 console.log(logsonServer_resRated)
                 console.log(logsonServer_resOpened)
                 console.log(logsonServer_male_visits)
