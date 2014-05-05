@@ -2316,83 +2316,6 @@ var test=new App.Models.CourseInvitation()
  var datePart = date.match(/\d+/g),month = datePart[0], day = datePart[1], year = datePart[2];
   return year+'/'+month+'/'+day;
  },
- LogActivity:function(CommunityName,startDate,endDate){
-		var rpt = new App.Views.ActivityReport()
-		
-		var logData=new App.Collections.ActivityLog()
-		logData.startkey=this.changeDateFormat(startDate)
-		logData.endkey=this.changeDateFormat(endDate)
-		logData.fetch({
-		async:false
-		})
-		/*console.log(logData)
-		var logModelForReport;
-		logData.each(function (logDoc){
-// 			console.log(logDoc.toJSON());
-			logModelForReport.Visits.male += logDoc.get("male_visits");
-			logModelForReport.Visits.female += logDoc.get("female_visits");
-		});*/		
-		var staticData={
-  "Registered_Members":
-    {
-    "male":233,
-    "female":321
-    },
-  "Visits":{"cumulative": 206,"male": 106, "female": 100},
-  "Most_Freq_Open":
-  [
-    {
-    "resourceName":"Hungry Caterpillar",
-    "timesOpenedCumulative":15,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.3,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.5
-    }, {
-    "resourceName":"Color me Physics",
-    "timesOpenedCumulative":17,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 10,
-    "avgRatingCumulative":3.5,
-    "avgRatingByMales": 3.1,
-    "avgRatingByFemales": 3.9
-    }
-  ],
-  "Highest_Rated": 
-  [
-    {
-    "resourceName": "Aesop's Fables",
-    "timesOpenedCumulative":15,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.5,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
-    }
-  ],
-  "Lowest_Rated": 
-  [
-    {
-    "resourceName": "Snow White and the 7 Dwarfs",
-    "timesOpenedCumulative":150,
-    "timesOpenedByMales": 70,
-    "timesOpenedByFemales": 80,
-    "avgRatingCumulative":2.2,
-    "avgRatingByMales": 3.0,
-    "avgRatingByFemales": 1.0
-    }
-  ]
-};
-		
-		rpt.data=staticData;
-		console.log(staticData)
-		rpt.startDate=startDate
-		rpt.endDate=endDate
-		rpt.CommunityName=CommunityName
-		rpt.render()
-		App.$el.children('.body').html(rpt.el)
- },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');
  	Resources.destroy(function(err,info){
@@ -2849,7 +2772,281 @@ dbinfo:function()
                alert('in update logs function')
       
     },
-              
+       LogActivity:function(CommunityName,startDate,endDate){
+           var rpt = new App.Views.ActivityReport()
+
+           var logData=new App.Collections.ActivityLog()
+           logData.startkey=this.changeDateFormat(startDate)
+           logData.endkey=this.changeDateFormat(endDate)
+           logData.fetch({
+               async:false
+           })
+           console.log(logData);
+//           var logModelForReport={
+//               "Registered_Members":
+//               {
+//                   "male":0,
+//                   "female":0
+//               },
+//               "Visits":{"cumulative": 0,"male": 0, "female": 0},
+//               "Opened_Resources":[],
+//               "Highest_Rated":[],
+//               "Lowest_Rated":[]
+//           };
+
+            var logReport=logData.first();
+
+            var report_resRated = logReport.get('resourcesIds')
+            var report_resOpened = logReport.get('resources_opened')
+            var report_male_visits = logReport.get('male_visits')
+            var report_female_visits = logReport.get('female_visits')
+            var report_male_rating = logReport.get('male_rating')
+            var report_female_rating = logReport.get('female_rating')
+            var report_male_timesRated = logReport.get('male_timesRated')
+            var report_female_timesRated = logReport.get('female_timesRated')
+            var report_male_opened = logReport.get('male_opened')
+            var report_female_opened = logReport.get('female_opened')
+
+
+           console.log(report_resRated);
+           console.log(report_resOpened);
+           console.log(report_male_visits);
+           console.log(report_female_visits);
+           console.log(report_male_rating);
+           console.log(report_female_rating);
+           console.log(report_male_timesRated);
+           console.log(report_female_timesRated);
+           console.log(report_male_opened);
+           console.log(report_female_opened);
+
+//alert('check')
+
+            logData.each(function (logDoc,index){
+                // console.log(logDoc)
+
+                //logModelForReport.Visits.male = parseInt(logModelForReport.Visits.male) + parseInt(logDoc.get("male_visits"));
+               // logModelForReport.Visits.female = parseInt(logModelForReport.Visits.female )+ parseInt(logDoc.get("female_visits"));
+              //  logModelForReport.Opened_Resources.resourceids
+                   if(index>0){
+                       // add visits to prev total
+                       report_male_visits += logDoc.get('male_visits');
+                       report_female_visits += logDoc.get('female_visits');
+                       resourcesIds=logDoc.get('resourcesIds');
+                       resourcesOpened=logDoc.get('resources_opened');
+
+                       for(var i = 0; i < resourcesIds.length ; i++){
+                           resId=resourcesIds[i]
+                           index=report_resRated.indexOf(resId)
+                           if(index==-1){
+                               report_resRated.push(resId);
+                               report_male_rating.push(logDoc.get('male_rating')[i])
+                               report_female_rating.push(logDoc.get('female_rating')[i]);
+                               report_male_timesRated.push(logDoc.get('male_timesRated')[i]);
+                               report_female_timesRated.push(logDoc.get('female_timesRated')[i])
+
+                           }else{
+
+                               report_male_rating[index] = report_male_rating[index] + logDoc.get('male_rating')[i];
+                               report_female_rating[index] = report_female_rating[index] + logDoc.get('female_rating')[i];
+                               report_male_timesRated[index] = report_male_timesRated[index] + logDoc.get('male_timesRated')[i];
+                               report_female_timesRated[index] = report_female_timesRated[index] + logDoc.get('female_timesRated')[i];
+
+                           }
+                       }
+                       for(var i=0 ; i < resourcesOpened.length ; i++){
+                           resId=resourcesOpened[i]
+                           index=report_resOpened.indexOf(resId)
+                           if(index==-1){
+                               report_resOpened.push(resId)
+                               report_male_opened.push(logDoc.get('male_opened')[i])
+                               report_female_opened.push(logDoc.get('female_opened')[i])
+                           }else{
+                               report_male_opened[index] = report_male_opened[index] + logDoc.get('male_opened')[i]
+                               report_female_opened[index] = report_female_opened[index] + logDoc.get('female_opened')[i]
+                           }
+
+                       }
+
+
+                   }
+            });
+
+           console.log(report_male_visits);
+           console.log(report_female_visits);
+           console.log(report_resRated);
+           console.log(report_male_rating);
+           console.log(report_female_rating);
+           console.log(report_male_timesRated);
+           console.log(report_female_timesRated);
+           console.log(report_resOpened);
+           console.log(report_male_opened);
+           console.log(report_female_opened);
+
+           // find most frequently opened resources
+           var times_opened_cumulative = [], Most_Freq_Opened = [];
+           for (var i = 0; i < report_resOpened.length; i++) {
+               times_opened_cumulative.push(report_male_opened[i] + report_female_opened[i]);
+           }
+           //
+           var indices = [];
+           var topCount = 5;
+           if (times_opened_cumulative.length >= topCount) {
+               indices = this.findIndicesOfMax(times_opened_cumulative, topCount);
+           }
+           else {
+               indices = this.findIndicesOfMax(times_opened_cumulative, times_opened_cumulative.length);
+           }
+           // fill up most_freq_opened array
+           var timesRatedTotalForThisResource, sumOfRatingsForThisResource;
+           if (times_opened_cumulative.length > 0) {
+               var most_freq_res_entry, indexFound;
+               for (var i = 0; i < indices.length; i++) {
+                   // create most freq opened resource entry and push it into Most_Freq_Opened array
+                   most_freq_res_entry = {
+                       "resourceName": report_resOpened[indices[i]],
+                       "timesOpenedCumulative": times_opened_cumulative[indices[i]],
+                       "timesOpenedByMales": report_male_opened[indices[i]],
+                       "timesOpenedByFemales": report_female_opened[indices[i]]
+                   };
+                   if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
+                       most_freq_res_entry["avgRatingCumulative"] = "N/A";
+                       most_freq_res_entry["avgRatingByMales"] = "N/A";
+                       most_freq_res_entry["avgRatingByFemales"] = "N/A";
+                       most_freq_res_entry["timesRatedByMales"] = "N/A";
+                       most_freq_res_entry["timesRatedByFemales"] = "N/A";
+                       most_freq_res_entry["timesRatedCumulative"] = "N/A";
+                   }
+                   else {
+                       timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
+                       sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
+                       most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100)/100;
+                       most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
+                       most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
+                       most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
+                       most_freq_res_entry["timesRatedByFemales"] = report_female_timesRated[indexFound];
+                       most_freq_res_entry["timesRatedCumulative"] = timesRatedTotalForThisResource;
+                   }
+                   Most_Freq_Opened.push(most_freq_res_entry);
+               }
+           }
+
+           // find highest rated resources
+           var resources_rated_cumulative = [], Highest_Rated_Resources = [], Lowest_Rated_Resources = [];
+           var lowestHowMany = 5;
+           for (var i = 0; i < report_resRated.length; i++) {
+               timesRatedTotalForThisResource = report_male_timesRated[i] + report_female_timesRated[i];
+               sumOfRatingsForThisResource = report_male_rating[i] + report_female_rating[i];
+               resources_rated_cumulative.push(sumOfRatingsForThisResource / timesRatedTotalForThisResource);
+           }
+           var indicesHighestRated = [], indicesLowestRated = [];
+           if (resources_rated_cumulative.length >= topCount) {
+               indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, topCount);
+               indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, lowestHowMany);
+           }
+           else {
+               indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, resources_rated_cumulative.length);
+               indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, resources_rated_cumulative.length);
+           }
+           if (resources_rated_cumulative.length > 0) {
+               var entry_rated_highest, entry_rated_lowest;
+               // fill up Highest_Rated_resources list
+               for (var i = 0; i < indicesHighestRated.length; i++) {
+                   timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
+                   // create highest rated resource entry and push it into Highest_Rated_Resources array
+                   entry_rated_highest = {
+                       "resourceName": report_resRated[indicesHighestRated[i]],
+                       "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100)/100,
+                       "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
+                       "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
+                       "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
+                       "timesRatedByFemales": report_female_timesRated[indicesHighestRated[i]],
+                       "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
+                   };
+                   if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
+                       entry_rated_highest["timesOpenedByMales"] = "N/A";
+                       entry_rated_highest["timesOpenedByFemales"] = "N/A";
+                       entry_rated_highest["timesOpenedCumulative"] = "N/A";
+                   }
+                   else {
+                       entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
+                       entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                       entry_rated_highest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                   }
+                   Highest_Rated_Resources.push(entry_rated_highest);
+               }
+               // fill up Lowest_Rated_resources list
+               for (var i = 0; i < indicesLowestRated.length; i++) {
+                   timesRatedTotalForThisResource = report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]];
+                   // create lowest rated resource entry and push it into Lowest_Rated_Resources array
+                   entry_rated_lowest = {
+                       "resourceName": report_resRated[indicesLowestRated[i]],
+                       "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100)/100,
+                       "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
+                       "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
+                       "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
+                       "timesRatedByFemales": report_female_timesRated[indicesLowestRated[i]],
+                       "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
+                   };
+                   if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
+                       entry_rated_lowest["timesOpenedByMales"] = "N/A";
+                       entry_rated_lowest["timesOpenedByFemales"] = "N/A";
+                       entry_rated_lowest["timesOpenedCumulative"] = "N/A";
+                   }
+                   else {
+                       entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
+                       entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                       entry_rated_lowest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                   }
+                   Lowest_Rated_Resources.push(entry_rated_lowest);
+               }
+           }
+           console.log("---------------");
+           console.log(Highest_Rated_Resources);
+         //  logModelForReport.Visits.cumulative = logModelForReport.Visits.male + logModelForReport.Visits.female;
+          // console.log(logModelForReport);
+           var staticData={
+               "Visits":{"male": 106, "female": 100},
+               "Most_Freq_Open": Most_Freq_Opened,
+               "Highest_Rated": Highest_Rated_Resources,
+               "Lowest_Rated": Lowest_Rated_Resources
+           };
+
+           rpt.data=staticData;
+           console.log(staticData)
+           rpt.startDate=startDate
+           rpt.endDate=endDate
+           rpt.CommunityName=CommunityName
+           rpt.render()
+           App.$el.children('.body').html(rpt.el)
+       },
+       findIndicesOfMax: function (inp, count) {
+            var outp = [];
+            for (var i = 0; i < inp.length; i++) {
+                outp.push(i); // add index to output array
+                if (outp.length > count) {
+                    outp.sort(function(a, b) { return inp[b] - inp[a]; }); // descending sort the output array
+                    outp.pop(); // remove the last index (index of smallest element in output array)
+                }
+            }
+            if (inp.length <= count) {
+                outp.sort(function(a, b) { return inp[b] - inp[a]; });
+            }
+            return outp;
+       },
+       findIndicesOfMin: function (inp, count) {
+           var outp = [];
+           for (var i = 0; i < inp.length; i++) {
+               outp.push(i); // add index to output array
+               if (outp.length > count) {
+                   outp.sort(function(a, b) { return inp[a] - inp[b]; }); // descending sort the output array
+                   outp.pop(); // remove the last index (index of smallest element in output array)
+               }
+           }
+           if (inp.length <= count) {
+               outp.sort(function(a, b) { return inp[a] - inp[b]; });
+           }
+           return outp;
+       }
    }))
   
 

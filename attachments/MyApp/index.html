@@ -1232,25 +1232,10 @@
         <th >Male</th>
         <th colspan="2">Female</th>
      </tr>
-     <tr>
-         <td>
-             Registered Members
-         </td>
-         <td>
-             <%=
-             MaleMembers+FemaleMembers
-             %>
-         </td>
-         <td>
-             <%=
-             MaleMembers
-             %>
-         </td>
-         <td colspan="2">
-             <%=
-             FemaleMembers
-             %>
-         </td>
+     <tr><td>Registered Members</td>
+         <td><%=MaleMembers+FemaleMembers%></td>
+         <td><%=MaleMembers%></td>
+         <td colspan="2"><%=FemaleMembers%></td>
      </tr>
      <tr>
         <td>Visits Of Week</td>
@@ -1261,6 +1246,7 @@
      <tr>
          <th colspan="4"></th>
         <th>Average Rating</th>
+        <th colspan="6">Times Rated</th>
      </tr>
      <tr>
          <th colspan="5">Most Frequently Opened</th>
@@ -1273,6 +1259,7 @@
              <td><%=resource.timesOpenedByMales%></td>
              <td><%=resource.timesOpenedByFemales%></td>
              <td><%=resource.avgRatingCumulative%></td>
+             <td><%=resource.timesRatedCumulative%></td>
          </tr>
      <% }); %>
      <tr>
@@ -1285,6 +1272,7 @@
              <td><%=resource.timesOpenedByMales%></td>
              <td><%=resource.timesOpenedByFemales%></td>
              <td><%=resource.avgRatingCumulative%></td>
+             <td><%=resource.timesRatedCumulative%></td>
          </tr>
      <% }); %>
      <tr>
@@ -1297,9 +1285,13 @@
              <td><%=resource.timesOpenedByMales%></td>
              <td><%=resource.timesOpenedByFemales%></td>
              <td><%=resource.avgRatingCumulative%></td>
+             <% if (resource.timesRatedCumulative === "N/A") { %>
+                <td><%=resource.timesRatedCumulative%></td>
+             <% } else { %>
+                <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
+             <% } %>
          </tr>
      <% }); %>
-
 
 
  </table>
