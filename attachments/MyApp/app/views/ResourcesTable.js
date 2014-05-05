@@ -94,14 +94,14 @@ $(function() {
 				this.$el.html("")
 				if(this.removeAlphabet==undefined){
 						var viewText="<tr></tr>"
-					viewText+="<tr><td colspan=7>"
-					viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
+					viewText+="<tr><td colspan=7  style='cursor:default' >"
+					viewText+='<a  id="allresources">#</a>&nbsp;&nbsp;'
 					var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		
 				   for(var i=0; i<str.length; i++)
 				   {
 					  var nextChar = str.charAt(i);
-					  viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+					  viewText+='<a  class="clickonalphabets"  value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 				   }
 				   viewText+="</td></tr>"
 				   this.$el.append(viewText)
