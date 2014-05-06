@@ -360,8 +360,9 @@ var test=new App.Models.CourseInvitation()
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
                        
-                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
-                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
+                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>';
+                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>';
+                        btnText+='<button style="margin-left:10px; width: 150px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>'
                     App.$el.children('.body').html(btnText)
                     
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
@@ -371,7 +372,6 @@ var test=new App.Models.CourseInvitation()
 						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
 					}
-					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
                     
 							  while(App.collectionslist.length==0){
 								 alert("Retriving records")
