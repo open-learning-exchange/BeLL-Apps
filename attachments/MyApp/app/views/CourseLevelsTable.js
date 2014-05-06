@@ -242,6 +242,10 @@ setAllResults: function () {
                         });
 			
 		   }
+		   else{
+		   console.log(err)
+		   alert("Here")
+		   }
 		   });       
    },
 //Before pouchDB work this function is used   

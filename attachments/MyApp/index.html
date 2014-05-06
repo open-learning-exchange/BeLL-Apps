@@ -1230,26 +1230,26 @@
         <th></th>
         <th >Total</th>
         <th >Male</th>
-        <th colspan="2">Female</th>
+        <th colspan="3">Female</th>
      </tr>
      <tr><td>Registered Members</td>
          <td><%=MaleMembers+FemaleMembers%></td>
          <td><%=MaleMembers%></td>
-         <td colspan="2"><%=FemaleMembers%></td>
+         <td colspan="3"><%=FemaleMembers%></td>
      </tr>
      <tr>
         <td>Visits Of Week</td>
         <td><%=Visits.male+Visits.female%></td>
         <td><%=Visits.male%></td>
-        <td colspan="2"><%=Visits.female%></td>
+        <td colspan="3"><%=Visits.female%></td>
      </tr>
      <tr>
          <th colspan="4"></th>
         <th>Average Rating</th>
-        <th colspan="6">Times Rated</th>
+        <th >Times Rated</th>
      </tr>
      <tr>
-         <th colspan="5">Most Frequently Opened</th>
+         <th colspan="6">Most Frequently Opened</th>
      </tr>
      <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
      <% _.each(Most_Freq_Open, function(resource){ %>
@@ -1263,7 +1263,7 @@
          </tr>
      <% }); %>
      <tr>
-        <th colspan="5">Highest Rated</th>
+        <th colspan="6">Highest Rated</th>
      </tr>
      <% _.each(Highest_Rated, function(resource){ %>
          <tr>
@@ -1276,7 +1276,7 @@
          </tr>
      <% }); %>
      <tr>
-         <th colspan="5">Lowest Rated</th>
+         <th colspan="6">Lowest Rated</th>
      </tr>
      <% _.each(Lowest_Rated, function(resource){ %>
          <tr>

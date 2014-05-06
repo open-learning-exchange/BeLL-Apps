@@ -2132,13 +2132,13 @@ var test=new App.Models.CourseInvitation()
 		console.log("membercourseprogress replication error :"+error)
 		}
 		else{
-		  console.log("Successfully replicated membercourseprogress :" + response)
+		  console.log("Successfully replicated to local membercourseprogress :" + response)
 		}
 
 	  });													  
-	  MemberCourseProgress.replicate.to(URL+'/feedback',function(error, response){
+	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
 		if(error){
-		console.log("membercourseprogress replication error :"+error)
+		console.log("membercourseprogress replication to server error :"+error)
 		}
 		else{
 		  console.log("Successfully replicated membercourseprogress :" + response)
@@ -2156,8 +2156,8 @@ var test=new App.Models.CourseInvitation()
 
 	  }); 
       this.saveFrequency(URL);
-// 
-//  FeedBackDb.replicate.from(URL+'/feedback',function(error, response){
+
+ // FeedBackDb.replicate.from(URL+'/feedback',function(error, response){
 // 		if(error){
 // 		console.log("FeedBackDb replication error :"+error)
 // 		}
@@ -2186,25 +2186,25 @@ var test=new App.Models.CourseInvitation()
 // 			}
 // 
 // 		  });
-	  // var CourseStep=new PouchDB('coursestep');
-// 	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
-// 		if(error){
-// 		console.log("coursestep replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated coursestep :" + response)
-// 		}
-// 
-// 	  });
-// 	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
-// 		if(error){
-// 		console.log("coursestep replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated coursestep :" + response)
-// 		}
-// 
-// 	  });
+	 var CourseStep=new PouchDB('coursestep');
+	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
+		if(error){
+		console.log("coursestep replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated coursestep :" + response)
+		}
+
+	  });
+	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
+		if(error){
+		console.log("coursestep replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated coursestep :" + response)
+		}
+
+	  });
 	this.saveResources(URL);	 
  },
  saveResources:function(URL){
@@ -2381,7 +2381,9 @@ dbinfo:function()
 	var CourseStep=new PouchDB('coursestep');
 	CourseStep.info(function(err,info){console.log(info)})
 	var MemberCourseProgress=new PouchDB('membercourseprogress');
-	MemberCourseProgress.info(function(err,info){console.log(info)})
+	MemberCourseProgress.info(function(err,info){console.log(info)
+	console.log(err)
+	})
 	var activitylogs=new PouchDB('activitylogs');
 	activitylogs.info(function(err,info){console.log(info)})
 },
@@ -2892,16 +2894,7 @@ dbinfo:function()
                    }
             });
 
-           console.log(report_male_visits);
-           console.log(report_female_visits);
-           console.log(report_resRated);
-           console.log(report_male_rating);
-           console.log(report_female_rating);
-           console.log(report_male_timesRated);
-           console.log(report_female_timesRated);
-           console.log(report_resOpened);
-           console.log(report_male_opened);
-           console.log(report_female_opened);
+           
 
            // find most frequently opened resources
            var times_opened_cumulative = [], Most_Freq_Opened = [];
@@ -3023,8 +3016,7 @@ dbinfo:function()
            }
            console.log("---------------");
            console.log(Highest_Rated_Resources);
-         //  logModelForReport.Visits.cumulative = logModelForReport.Visits.male + logModelForReport.Visits.female;
-          // console.log(logModelForReport);
+        
            var staticData={
                "Visits":{"male": 106, "female": 100},
                "Most_Freq_Open": Most_Freq_Opened,
