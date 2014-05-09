@@ -1203,10 +1203,9 @@
 <script type="text/html" id="template-LogQuery">
  <div class="logquery-community">    
      <select  name="Level" id="community-select" multiple="multiple" style="width: 340px;">
-   	  		<option>Dagahera</option>
-    	 	<option>Hagadera</option>
-     		<option>Ifo</option>
-     		<option>Somalia</option>
+   	  		<option value="demo">Demo</option>
+   	  		<option value="all">All Reports</option>
+   	  		
      </select>
         <div id="logquery-date">
 			<label style='font-size:16px;'><b>Start Date</b></label>
@@ -1225,6 +1224,7 @@
 <p>
 <span style="color:gray;">Period(mm/dd/yyyy): </span> <%= startDate %> - <%= endDate %>
 </p>
+
  <table class="table table-striped">
      <tr>
         <th></th>
