@@ -373,10 +373,6 @@ var test=new App.Models.CourseInvitation()
 						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
 					}
-                    
-							  while(App.collectionslist.length==0){
-								 alert("Retriving records")
-							 }
 							 resourcesTableView.collections=App.collectionslist	
                      		 resourcesTableView.render()
                      		App.$el.children('.body').append(resourcesTableView.el)
@@ -2855,6 +2851,9 @@ dbinfo:function()
                async:false
            })
            var logReport=logData.first();
+           if(logReport==undefined){
+           alert("No Activity Logged .")
+           }
             var report_resRated = logReport.get('resourcesIds')
             var report_resOpened = [];
             if(logReport.get('resources_opened')){

@@ -50,7 +50,8 @@ $(function () {
         },
         synchResCommunityWithURL : function(communityurl,communityname,res) 
         {
-        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources')
+        	
+        	console.log('http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/pubresources')
         	$.ajax({
             	headers: {
                 	'Accept': 'application/json',
@@ -61,7 +62,7 @@ $(function () {
                 dataType: 'json',
                 data: JSON.stringify({
                 	"source": "resources",
-                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/pubresources',
+                    "target": 'http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/pubresources',
                     "doc_ids":res
             	}),
                 success: function (response) {
@@ -72,7 +73,9 @@ $(function () {
         },
         synchPubCommunityWithURL : function(communityurl,communityname,pId) 
         {
-        	console.log('http://'+ communityname +':oleoleole@'+ communityurl + ':5984/recpublication')
+        	
+        	
+        	console.log('http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/recpublication')
         	$.ajax({
             	headers: {
                 	'Accept': 'application/json',
@@ -83,7 +86,7 @@ $(function () {
                 dataType: 'json',
                 data: JSON.stringify({
                 	"source": "publications",
-                    "target": 'http://'+ communityname +':oleoleole@'+ communityurl + ':5984/recpublication',
+                    "target": 'http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/recpublication',
                     "doc_ids":pId
             	}),
                 success: function (response) {

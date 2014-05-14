@@ -36,7 +36,6 @@ $(function () {
                                     context.vars.FemaleMembers = json.rows[0].value
                                 }
                                 else{
-                                    alert("Here")
                                     context.vars.FemaleMembers = 0;
                                 }
                                 context.vars.startDate = context.startDate

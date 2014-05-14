@@ -1159,7 +1159,12 @@ height:100%;
     border-radius: 84px;
     border: 2px solid #000000;
 }
-
+#sync{
+margin-left: 10px;
+}
+#configbutton{
+margin-left: 10px;
+}
 #emailCompose_background {
     -webkit-transition: all 0.3s;
        -moz-transition: all 0.3s;

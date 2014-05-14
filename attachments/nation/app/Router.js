@@ -21,8 +21,8 @@ $(function ()
 			'publication/add': 'PublicationForm',
 			'configuration' : 'Configuration',
 			'publication/add/:publicationId': 'PublicationForm',
-			'publicationdetail/:publicationId': 'PublicationDetails'
-		},
+			'publicationdetail/:publicationId': 'PublicationDetails'		
+			},
 
 		initialize: function ()
 		{
@@ -170,7 +170,7 @@ $(function ()
 		
 		    App.$el.children('.body').html('')
 		    App.$el.children('.body').append('<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>')
-		
+		    App.$el.children('.body').append('<button class="btn btn-hg btn-primary" onclick=SyncDbSelect() id="sync">Sync With Nation</button>')
 		},
 		CommunityForm: function (CommunityId)
 		{
@@ -540,8 +540,7 @@ $(function ()
 				})
 				i++
 			})
-			var publicationresTable = new App.Views.PublicationResourceTable(
-			{
+			var publicationresTable = new App.Views.PublicationResourceTable({
 				collection: coll
 			})
 			publicationresTable.Id = publicationId
@@ -636,6 +635,14 @@ $(function ()
 			
 
 	},
+	SyncDbSelect:function(){
+	        $('#invitationdiv').fadeIn(1000)
+	        var inviteForm = new App.Views.listSyncDbView()
+ 	        
+ 	        inviteForm.render()
+ 	        $('#invitationdiv').html('&nbsp')
+	    	$('#invitationdiv').append(inviteForm.el)
+	}
 	}))
 
 })

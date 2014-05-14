@@ -5,7 +5,7 @@ $(function() {
 
     // Settings
     Server: '',
-
+	password:'oleoleole',
     // Backbone structure
     Models: {},
     Views: {},
