@@ -135,7 +135,7 @@ $(function () {
                     if (isEdit == undefined) {
                         this.model.set("sum", 0)
                     } else {
-                        this.model.set("title", previousTitle)
+                        this.model.set("title", newTitle)
                     }
                     this.model.save(null, {
                         success: function () {

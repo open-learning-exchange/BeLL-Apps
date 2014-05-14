@@ -1203,10 +1203,9 @@
 <script type="text/html" id="template-LogQuery">
  <div class="logquery-community">    
      <select  name="Level" id="community-select" multiple="multiple" style="width: 340px;">
-   	  		<option>Dagahera</option>
-    	 	<option>Hagadera</option>
-     		<option>Ifo</option>
-     		<option>Somalia</option>
+   	  		<option value="demo">Demo</option>
+   	  		<option value="all">All Reports</option>
+   	  		
      </select>
         <div id="logquery-date">
 			<label style='font-size:16px;'><b>Start Date</b></label>
@@ -1225,45 +1224,32 @@
 <p>
 <span style="color:gray;">Period(mm/dd/yyyy): </span> <%= startDate %> - <%= endDate %>
 </p>
+
  <table class="table table-striped">
      <tr>
         <th></th>
         <th >Total</th>
         <th >Male</th>
-        <th colspan="2">Female</th>
+        <th colspan="3">Female</th>
      </tr>
-     <tr>
-         <td>
-             Registered Members
-         </td>
-         <td>
-             <%=
-             MaleMembers+FemaleMembers
-             %>
-         </td>
-         <td>
-             <%=
-             MaleMembers
-             %>
-         </td>
-         <td colspan="2">
-             <%=
-             FemaleMembers
-             %>
-         </td>
+     <tr><td>Registered Members</td>
+         <td><%=MaleMembers+FemaleMembers%></td>
+         <td><%=MaleMembers%></td>
+         <td colspan="3"><%=FemaleMembers%></td>
      </tr>
      <tr>
         <td>Visits Of Week</td>
         <td><%=Visits.male+Visits.female%></td>
         <td><%=Visits.male%></td>
-        <td colspan="2"><%=Visits.female%></td>
+        <td colspan="3"><%=Visits.female%></td>
      </tr>
      <tr>
          <th colspan="4"></th>
         <th>Average Rating</th>
+        <th >Times Rated</th>
      </tr>
      <tr>
-         <th colspan="5">Most Frequently Opened</th>
+         <th colspan="6">Most Frequently Opened</th>
      </tr>
      <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
      <% _.each(Most_Freq_Open, function(resource){ %>
@@ -1273,10 +1259,11 @@
              <td><%=resource.timesOpenedByMales%></td>
              <td><%=resource.timesOpenedByFemales%></td>
              <td><%=resource.avgRatingCumulative%></td>
+             <td><%=resource.timesRatedCumulative%></td>
          </tr>
      <% }); %>
      <tr>
-        <th colspan="5">Highest Rated</th>
+        <th colspan="6">Highest Rated</th>
      </tr>
      <% _.each(Highest_Rated, function(resource){ %>
          <tr>
@@ -1285,10 +1272,11 @@
              <td><%=resource.timesOpenedByMales%></td>
              <td><%=resource.timesOpenedByFemales%></td>
              <td><%=resource.avgRatingCumulative%></td>
+             <td><%=resource.timesRatedCumulative%></td>
          </tr>
      <% }); %>
      <tr>
-         <th colspan="5">Lowest Rated</th>
+         <th colspan="6">Lowest Rated</th>
      </tr>
      <% _.each(Lowest_Rated, function(resource){ %>
          <tr>
@@ -1297,9 +1285,13 @@
              <td><%=resource.timesOpenedByMales%></td>
              <td><%=resource.timesOpenedByFemales%></td>
              <td><%=resource.avgRatingCumulative%></td>
+             <% if (resource.timesRatedCumulative === "N/A") { %>
+                <td><%=resource.timesRatedCumulative%></td>
+             <% } else { %>
+                <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
+             <% } %>
          </tr>
      <% }); %>
-
 
 
  </table>

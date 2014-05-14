@@ -700,6 +700,10 @@ margin-top: 2px;
     word-wrap: break-word;
 
 }
+#syncReport{
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
 .bbf-form .field-endDate
 {
 margin-left: 259px;

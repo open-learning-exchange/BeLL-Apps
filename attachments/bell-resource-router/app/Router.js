@@ -30,11 +30,43 @@ LogactivityAndOpen:function(resourceId){
 				     if(res.total_rows!=0){
 				          logModel=res.rows[0].value
 				          that.UpdatejSONlog(member,logModel,logdb,resourceId)
-				          that.open(resourceId)
-				     }   
+				        
+				     }else{
+				          that.createJsonlog(member,logdate,logdb,resourceId)
+				     } 
                 }
+				  that.open(resourceId)
 		   });       
 		   
+    },
+createJsonlog:function(member,logdate,logdb,resourceId){
+
+		var docJson={		
+				 logDate: logdate,
+				 resourcesIds:[],
+				 male_visits:0,
+				 female_visits:0,
+				 male_timesRated:[],
+				 female_timesRated:[],
+				 male_rating:[],
+				 female_rating:[],
+				 resources_opened:[],
+				 male_opened:[],
+				 female_opened:[]
+			}
+			docJson.resources_opened.push(resourceId)
+			if(member.get('Gender')=='Male') {
+						 	docJson.male_opened.push(1)
+						 	docJson.female_opened.push(0)
+						}
+						else{
+					 		docJson.male_opened.push(0)
+						 	docJson.female_opened.push(1)
+						}
+			logdb.post(docJson, function (err, response) { 
+  						console.log(err)
+ 						console.log(response)
+ 		});
     },
 UpdatejSONlog:function(member,logModel,logdb,resourceId){
             var resId=resourceId

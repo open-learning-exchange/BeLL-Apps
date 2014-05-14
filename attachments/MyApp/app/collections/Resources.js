@@ -25,7 +25,11 @@ $(function() {
     	else if(this.title){
     			return App.Server + '/resources/_design/bell/_view/resourceOnTtile?include_docs=true&key="' + this.title +'"'
     			//return App.Server + '/shelf/_design/bell/_view/getShelfItemWithResourceId?key="' +this.resourceId+ '"&include_docs=true'
-    		}else{
+    	}
+    	else if(this.ides){
+    			return App.Server + '/resources/_design/bell/_view/resourceName?include_docs=true&keys=' + this.resIds
+    	}
+    	else{
     		return App.Server + '/resources/_all_docs?include_docs=true'
     	}
     },

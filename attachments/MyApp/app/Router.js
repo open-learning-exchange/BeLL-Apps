@@ -82,6 +82,7 @@ $(function(){
 			'weeklyreports':'WeeklyReports',
 			'removecache':'UpdateManifest',
 			'logreports':'LogQuery',
+			'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity'
 			
 },
@@ -360,8 +361,9 @@ var test=new App.Models.CourseInvitation()
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
                        
-                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
-                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
+                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>';
+                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>';
+                        btnText+='<button style="margin-left:10px; width: 150px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>'
                     App.$el.children('.body').html(btnText)
                     
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
@@ -371,7 +373,6 @@ var test=new App.Models.CourseInvitation()
 						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
 					}
-					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
                     
 							  while(App.collectionslist.length==0){
 								 alert("Retriving records")
@@ -1226,7 +1227,7 @@ var test=new App.Models.CourseInvitation()
             App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a><a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a></p>')
 			}
 			else{
-			App.$el.children('.body').append('<p "><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
+				App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
 			}
 			
 			var temp = $.url().attr("host").split(".")
@@ -1701,6 +1702,7 @@ var test=new App.Models.CourseInvitation()
             App.$el.children('.body').append(modelForm.el)
             modelForm.render()
         },
+        //also used for collection editing from collection listing page
 	EditTag: function (value) {
 	    var roles = this.getRoles()
 	    if (roles.indexOf("Manager") > -1) {
@@ -2116,6 +2118,7 @@ var test=new App.Models.CourseInvitation()
             hostUrl = hostUrl.split('/')
             var hostName=hostUrl[2].split('.')
       var MemberCourseProgress=new PouchDB('membercourseprogress');
+      var configurations= new PouchDB('configurations')
       //condition to check cloudant.com or an IP address 
       if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/))
       {
@@ -2132,13 +2135,22 @@ var test=new App.Models.CourseInvitation()
 		console.log("membercourseprogress replication error :"+error)
 		}
 		else{
-		  console.log("Successfully replicated membercourseprogress :" + response)
+		  console.log("Successfully replicated to local membercourseprogress :" + response)
+		}
+
+	  });	
+	  configurations.replicate.from(URL+'/configurations',function(error, response){
+		if(error){
+		console.log("configurations replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated to local configurations :" + response)
 		}
 
 	  });													  
-	  MemberCourseProgress.replicate.to(URL+'/feedback',function(error, response){
+	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
 		if(error){
-		console.log("membercourseprogress replication error :"+error)
+		console.log("membercourseprogress replication to server error :"+error)
 		}
 		else{
 		  console.log("Successfully replicated membercourseprogress :" + response)
@@ -2155,57 +2167,29 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  }); 
-      this.saveFrequency(URL);
-// 
-//  FeedBackDb.replicate.from(URL+'/feedback',function(error, response){
-// 		if(error){
-// 		console.log("FeedBackDb replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated FeedBackDb :" + response)
-// 		}
-// 
-// 	  });													  
-// 	  
-// 	 var Members=new PouchDB('members');
-// 		  Members.replicate.from( URL +'/members',function(error, response){
-// 			if(error){
-// 			console.log("members replication error :"+error)
-// 			}
-// 			else{
-// 			  console.log("Successfully replicated members :" + response)
-// 			}
-// 
-// 		  });
-// 		  Members.replicate.to(URL+'/members',function(error, response){
-// 			if(error){
-// 			console.log("members replication error :"+error)
-// 			}
-// 			else{
-// 			  console.log("Successfully replicated members :" + response)
-// 			}
-// 
-// 		  });
-	  // var CourseStep=new PouchDB('coursestep');
-// 	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
-// 		if(error){
-// 		console.log("coursestep replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated coursestep :" + response)
-// 		}
-// 
-// 	  });
-// 	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
-// 		if(error){
-// 		console.log("coursestep replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated coursestep :" + response)
-// 		}
-// 
-// 	  });
-	this.saveResources(URL);	 
+
+	 var CourseStep=new PouchDB('coursestep');
+	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
+		if(error){
+		console.log("coursestep replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated coursestep :" + response)
+		}
+
+	  });
+	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
+		if(error){
+		console.log("coursestep replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated coursestep :" + response)
+		}
+
+	  });
+	this.saveFrequency(URL);
+	this.saveResources(URL);
+	this.WeeklyReports();	 
  },
  saveResources:function(URL){
  				 var Resources=new PouchDB('resources');
@@ -2295,15 +2279,36 @@ var test=new App.Models.CourseInvitation()
  			}
  },
  LogQuery:function(){
+ 
+        var type="community"
+        var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var config=new configurations()
+    	        config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+    		if( cofigINJSON.rows[0].doc.type){
+    		    type=cofigINJSON.rows[0].doc.type
+    		}
 		var log = new App.Views.LogQuery()
+		log.type=type
 		log.render()
 		App.$el.children('.body').html(log.el)
+		//currently hiding for all kind of communities and nations.
+		$("#community-select").hide()
+		/*if(type=='community'){
+		$("#community-select").hide()
+		}
+		if(type=='nation'){
 		$("#community-select").multiselect({
 					multiple: false,
 					header: "Select A Community",
 					noneSelectedText: "Select A Community",
 					selectedList: 1
 				 });
+		}*/
 		$('#start-date').datepicker({
                todayHighlight: true
             });
@@ -2315,83 +2320,6 @@ var test=new App.Models.CourseInvitation()
  {
  var datePart = date.match(/\d+/g),month = datePart[0], day = datePart[1], year = datePart[2];
   return year+'/'+month+'/'+day;
- },
- LogActivity:function(CommunityName,startDate,endDate){
-		var rpt = new App.Views.ActivityReport()
-		
-		var logData=new App.Collections.ActivityLog()
-		logData.startkey=this.changeDateFormat(startDate)
-		logData.endkey=this.changeDateFormat(endDate)
-		logData.fetch({
-		async:false
-		})
-		/*console.log(logData)
-		var logModelForReport;
-		logData.each(function (logDoc){
-// 			console.log(logDoc.toJSON());
-			logModelForReport.Visits.male += logDoc.get("male_visits");
-			logModelForReport.Visits.female += logDoc.get("female_visits");
-		});*/		
-		var staticData={
-  "Registered_Members":
-    {
-    "male":233,
-    "female":321
-    },
-  "Visits":{"cumulative": 206,"male": 106, "female": 100},
-  "Most_Freq_Open":
-  [
-    {
-    "resourceName":"Hungry Caterpillar",
-    "timesOpenedCumulative":15,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.3,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.5
-    }, {
-    "resourceName":"Color me Physics",
-    "timesOpenedCumulative":17,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 10,
-    "avgRatingCumulative":3.5,
-    "avgRatingByMales": 3.1,
-    "avgRatingByFemales": 3.9
-    }
-  ],
-  "Highest_Rated": 
-  [
-    {
-    "resourceName": "Aesop's Fables",
-    "timesOpenedCumulative":15,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.5,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
-    }
-  ],
-  "Lowest_Rated": 
-  [
-    {
-    "resourceName": "Snow White and the 7 Dwarfs",
-    "timesOpenedCumulative":150,
-    "timesOpenedByMales": 70,
-    "timesOpenedByFemales": 80,
-    "avgRatingCumulative":2.2,
-    "avgRatingByMales": 3.0,
-    "avgRatingByFemales": 1.0
-    }
-  ]
-};
-		
-		rpt.data=staticData;
-		console.log(staticData)
-		rpt.startDate=startDate
-		rpt.endDate=endDate
-		rpt.CommunityName=CommunityName
-		rpt.render()
-		App.$el.children('.body').html(rpt.el)
  },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');
@@ -2444,6 +2372,7 @@ var test=new App.Models.CourseInvitation()
  	else 
 	console.log("Successfully Destroy activitylogs"+info)
 	});
+	return true
 },
 dbinfo:function()
 {
@@ -2458,7 +2387,9 @@ dbinfo:function()
 	var CourseStep=new PouchDB('coursestep');
 	CourseStep.info(function(err,info){console.log(info)})
 	var MemberCourseProgress=new PouchDB('membercourseprogress');
-	MemberCourseProgress.info(function(err,info){console.log(info)})
+	MemberCourseProgress.info(function(err,info){console.log(info)
+	console.log(err)
+	})
 	var activitylogs=new PouchDB('activitylogs');
 	activitylogs.info(function(err,info){console.log(info)})
 },
@@ -2740,6 +2671,7 @@ dbinfo:function()
       	                             	 }else{
       	                             	     logsonServer=res.first()
       	                             	     that.updateLogs(activitylog,logsonServer)
+      	                             	     alert('logs on server and local')
       	                             	 }         
       	                          },
       	                          error:function(err){
@@ -2753,6 +2685,12 @@ dbinfo:function()
     },
     createLogs:function(activitylog){
     
+            var toDelete_id=activitylog._id
+            var toDelete_rev=activitylog._rev
+            var logdb=new PouchDB('activitylogs')
+             
+            //alert('here in create log function')
+
 			var dailylogModel=new App.Models.DailyLog()
 				delete activitylog._rev
 				delete activitylog._id
@@ -2760,33 +2698,79 @@ dbinfo:function()
 				dailylogModel.set(activitylog)
    
 				dailylogModel.save(null,{success:function(res,resInfo){
-					console.log(res)
-					alert('success to create Model for activity')
+  						logdb.remove(toDelete_id, toDelete_rev, function(err, response) { 
+  						   if(err){
+  						      console.log(err)
+  						      //alert('error')
+  						   }else{
+  						   
+  						      //alert('deleted after creating')
+  						   }
+					   });
 				}})
 
     },
     updateLogs:function(activitylog,logsonServer){
+    		   var activitylog_resRated=0;
+               if(activitylog.resourcesIds){
+               activitylog_resRated = activitylog.resourcesIds
+               }
+               var activitylog_resOpened =0;
+               if( activitylog.resources_opened){
+               activitylog_resOpened = activitylog.resources_opened
+               }
+               var logsonServer_resRated =0;
+               if( logsonServer.get('resourcesIds')){
+               logsonServer_resRated = logsonServer.get('resourcesIds')
+               }
+               var logsonServer_resOpened = 0;
+               if(logsonServer.get('resources_opened')){
+               	logsonServer_resOpened=logsonServer.get('resources_opened')
+               }
                
-               var activitylog_resRated = activitylog.resourcesIds
-               var activitylog_resOpened = activitylog.resources_opened
-               var logsonServer_resRated = logsonServer.get('resourcesIds')
-               var logsonServer_resOpened = logsonServer.get('resources_opened')
-               var logsonServer_male_visits = logsonServer.get('male_visits')
-               var logsonServer_female_visits = logsonServer.get('female_visits')
-               var logsonServer_male_rating = logsonServer.get('male_rating')
-               var logsonServer_female_rating = logsonServer.get('female_rating')
-               var logsonServer_male_timesRated = logsonServer.get('male_timesRated')
-               var logsonServer_female_timesRated = logsonServer.get('female_timesRated')
-               var logsonServer_male_opened = logsonServer.get('male_opened')
-               var logsonServer_female_opened = logsonServer.get('female_opened')
+               var logsonServer_male_visits = 0;
+               if(logsonServer.get('male_visits')){
+               	logsonServer_male_visits=logsonServer.get('male_visits')
+               }
+               var logsonServer_female_visits = 0;
+               if(logsonServer.get('female_visits')){
+               	logsonServer_female_visits=logsonServer.get('female_visits')
+               
+               }
+               var logsonServer_male_rating = 0;
+               if(logsonServer.get('male_rating')){
+               	logsonServer_male_rating=logsonServer.get('male_rating')
+               }
+               var logsonServer_female_rating = 0;
+               if(logsonServer.get('female_rating')){
+                logsonServer_female_rating = logsonServer.get('female_rating')
+               }
+               
+               var logsonServer_male_timesRated = 0;
+               if(logsonServer.get('male_timesRated')){
+               	logsonServer_male_timesRated = logsonServer.get('male_timesRated')
+               }
+               var logsonServer_female_timesRated = 0;
+               if(logsonServer.get('female_timesRated')){
+               	logsonServer_female_timesRated = logsonServer.get('female_timesRated')
+               }
+               
+               var logsonServer_male_opened = 0;
+               if(logsonServer.get('male_opened')){
+               	logsonServer_male_opened= logsonServer.get('male_opened')
+               } 
+               var logsonServer_female_opened = 0;
+               if(logsonServer.get('female_opened')){
+               	logsonServer_female_opened = logsonServer.get('female_opened')
+               }
         
-                   logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
-                   logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
+                logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
+                logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
                 
                for(i=0 ; i < activitylog_resRated.length ; i++){
                      resId=activitylog_resRated[i]
                      index=logsonServer_resRated.indexOf(resId)
-                     alert('index'+index)
+                     //alert('index'+index)
                      if(index==-1){
                      
                             logsonServer_resRated.push(resId)
@@ -2815,7 +2799,7 @@ dbinfo:function()
                              logsonServer_female_opened[index]=parseInt(logsonServer_female_opened[index])+parseInt(activitylog.female_opened[i])
                      }
                }
-               
+               //alert('in update logs')
                logsonServer.set('resourcesIds' , logsonServer_resRated)
                logsonServer.set('resources_opened' , logsonServer_resOpened)
                logsonServer.set('male_visits' , logsonServer_male_visits)
@@ -2828,17 +2812,354 @@ dbinfo:function()
                logsonServer.set('female_opened' , logsonServer_female_opened)
                
                var logdb=new PouchDB('activitylogs')
-               logsonServer.save({success:function(model,modelInfo){
-                      activitylogs.destroy(function(err, info) {
+               logsonServer.save(null,{success:function(model,modelInfo){
+               //alert('save function')
+                      logdb.remove(activitylog,function(err, info) {
 							if(err)
 								console.log(err)
 							else 
 							 console.log("Successfully Destroy activitylogs"+info)
+							 //alert('delete')
 						});
                }})
       
     },
+       LogActivity:function(CommunityName,startDate,endDate){
+       	   var rpt = new App.Views.ActivityReport()
+           var type="community"
+           var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var config=new configurations()
+    	        config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+    		if( cofigINJSON.rows[0].doc.type){
+    		    type=cofigINJSON.rows[0].doc.type
+    		}
+    		
+           var logData=new App.Collections.ActivityLog()
+           logData.startkey=this.changeDateFormat(startDate)
+           logData.endkey=this.changeDateFormat(endDate)
+           if(CommunityName!='all')
+           logData.name=CommunityName
+           logData.fetch({
+               async:false
+           })
+           var logReport=logData.first();
+            var report_resRated = logReport.get('resourcesIds')
+            var report_resOpened = [];
+            if(logReport.get('resources_opened')){
+            report_resOpened = logReport.get('resources_opened')
+            }
+            var report_male_visits = 0;
+            if(logReport.get('male_visits')){
+            report_male_visits=logReport.get('male_visits')
+            }
+            var report_female_visits = 0;
+            if(logReport.get('female_visits')){
+             report_female_visits=logReport.get('female_visits')
+            } 
+            var report_male_rating = []
+            if(logReport.get('male_rating')){
+            report_male_rating = logReport.get('male_rating')
+            }
+            var report_female_rating =[];
+            if(logReport.get('female_rating')){
+            report_female_rating = logReport.get('female_rating')
+            } 
+            var report_male_timesRated = [];
+            if(logReport.get('male_timesRated')){
+            report_male_timesRated = logReport.get('male_timesRated')
+            }
+            var report_female_timesRated = [];
+            if(logReport.get('female_timesRated')){
+            report_female_timesRated = logReport.get('female_timesRated')
+            }
+            var report_male_opened =[]
+            if(logReport.get('male_opened')){
+             report_male_opened = logReport.get('male_opened')
+            } 
+            var report_female_opened = []
+            if(logReport.get('female_opened')){
+            report_female_opened = logReport.get('female_opened')
+            }
+
+            logData.each(function (logDoc,index){
               
+                   if(index>0){
+                       // add visits to prev total
+                       report_male_visits += logDoc.get('male_visits');
+                       report_female_visits += logDoc.get('female_visits');
+                       resourcesIds=logDoc.get('resourcesIds');
+                       resourcesOpened=logDoc.get('resources_opened');
+
+                       for(var i = 0; i < resourcesIds.length ; i++){
+                           resId=resourcesIds[i]
+                           index=report_resRated.indexOf(resId)
+                           if(index==-1){
+                               report_resRated.push(resId);
+                               report_male_rating.push(logDoc.get('male_rating')[i])
+                               report_female_rating.push(logDoc.get('female_rating')[i]);
+                               report_male_timesRated.push(logDoc.get('male_timesRated')[i]);
+                               report_female_timesRated.push(logDoc.get('female_timesRated')[i])
+
+                           }else{
+
+                               report_male_rating[index] = report_male_rating[index] + logDoc.get('male_rating')[i];
+                               report_female_rating[index] = report_female_rating[index] + logDoc.get('female_rating')[i];
+                               report_male_timesRated[index] = report_male_timesRated[index] + logDoc.get('male_timesRated')[i];
+                               report_female_timesRated[index] = report_female_timesRated[index] + logDoc.get('female_timesRated')[i];
+
+                           }
+                       }
+                       if(resourcesOpened)
+                       for(var i=0 ; i < resourcesOpened.length ; i++){
+                           resId=resourcesOpened[i]
+                           index=report_resOpened.indexOf(resId)
+                           if(index==-1){
+                               report_resOpened.push(resId)
+                               report_male_opened.push(logDoc.get('male_opened')[i])
+                               report_female_opened.push(logDoc.get('female_opened')[i])
+                           }else{
+                               report_male_opened[index] = report_male_opened[index] + logDoc.get('male_opened')[i]
+                               report_female_opened[index] = report_female_opened[index] + logDoc.get('female_opened')[i]
+                           }
+
+                       }
+
+
+                   }
+            });
+
+           
+
+           // find most frequently opened resources
+           var times_opened_cumulative = [], Most_Freq_Opened = [];
+           for (var i = 0; i < report_resOpened.length; i++) {
+               times_opened_cumulative.push(report_male_opened[i] + report_female_opened[i]);
+           }
+           //
+           var indices = [];
+           var topCount = 5;
+           if (times_opened_cumulative.length >= topCount) {
+               indices = this.findIndicesOfMax(times_opened_cumulative, topCount);
+           }
+           else {
+               indices = this.findIndicesOfMax(times_opened_cumulative, times_opened_cumulative.length);
+           }
+           // fill up most_freq_opened array
+           var timesRatedTotalForThisResource, sumOfRatingsForThisResource;
+           if (times_opened_cumulative.length > 0) {
+               var most_freq_res_entry, indexFound;
+               for (var i = 0; i < indices.length; i++) {
+               	var res=new App.Models.Resource({_id:report_resOpened[indices[i]]})
+                       res.fetch({
+                          async:false
+                       })
+                  	var name=res.get('title')
+                  
+                   // create most freq opened resource entry and push it into Most_Freq_Opened array
+                   most_freq_res_entry = {
+                       "resourceName":	name ,
+                       "timesOpenedCumulative": times_opened_cumulative[indices[i]],
+                       "timesOpenedByMales": report_male_opened[indices[i]],
+                       "timesOpenedByFemales": report_female_opened[indices[i]]
+                   };
+                   if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
+                       most_freq_res_entry["avgRatingCumulative"] = "N/A";
+                       most_freq_res_entry["avgRatingByMales"] = "N/A";
+                       most_freq_res_entry["avgRatingByFemales"] = "N/A";
+                       most_freq_res_entry["timesRatedByMales"] = "N/A";
+                       most_freq_res_entry["timesRatedByFemales"] = "N/A";
+                       most_freq_res_entry["timesRatedCumulative"] = "N/A";
+                   }
+                   else {
+                       timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
+                       sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
+                       most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100)/100;
+                       most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
+                       most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
+                       most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
+                       most_freq_res_entry["timesRatedByFemales"] = report_female_timesRated[indexFound];
+                       most_freq_res_entry["timesRatedCumulative"] = timesRatedTotalForThisResource;
+                   }
+                   Most_Freq_Opened.push(most_freq_res_entry);
+               }
+           }
+
+           // find highest rated resources
+           var resources_rated_cumulative = [], Highest_Rated_Resources = [], Lowest_Rated_Resources = [];
+           var lowestHowMany = 5;
+           for (var i = 0; i < report_resRated.length; i++) {
+               timesRatedTotalForThisResource = report_male_timesRated[i] + report_female_timesRated[i];
+               sumOfRatingsForThisResource = report_male_rating[i] + report_female_rating[i];
+               resources_rated_cumulative.push(sumOfRatingsForThisResource / timesRatedTotalForThisResource);
+           }
+           var indicesHighestRated = [], indicesLowestRated = [];
+           if (resources_rated_cumulative.length >= topCount) {
+               indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, topCount);
+               indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, lowestHowMany);
+           }
+           else {
+               indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, resources_rated_cumulative.length);
+               indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, resources_rated_cumulative.length);
+           }
+           if (resources_rated_cumulative.length > 0) {
+               var entry_rated_highest, entry_rated_lowest;
+               // fill up Highest_Rated_resources list
+               for (var i = 0; i < indicesHighestRated.length; i++) {
+               	var res=new App.Models.Resource({_id:report_resRated[indicesHighestRated[i]]})
+                       res.fetch({
+                          async:false
+                       })
+                  	var name=res.get('title')
+                   timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
+                   // create highest rated resource entry and push it into Highest_Rated_Resources array
+                   entry_rated_highest = {
+                       "resourceName": name,
+                       "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100)/100,
+                       "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
+                       "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
+                       "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
+                       "timesRatedByFemales": report_female_timesRated[indicesHighestRated[i]],
+                       "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
+                   };
+                   if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
+                       entry_rated_highest["timesOpenedByMales"] = "N/A";
+                       entry_rated_highest["timesOpenedByFemales"] = "N/A";
+                       entry_rated_highest["timesOpenedCumulative"] = "N/A";
+                   }
+                   else {
+                       entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
+                       entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                       entry_rated_highest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                   }
+                   Highest_Rated_Resources.push(entry_rated_highest);
+               }
+               // fill up Lowest_Rated_resources list
+               for (var i = 0; i < indicesLowestRated.length; i++) {
+                   timesRatedTotalForThisResource = report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]];
+                   // create lowest rated resource entry and push it into Lowest_Rated_Resources array
+                   	var res=new App.Models.Resource({_id:report_resRated[indicesLowestRated[i]]})
+                       res.fetch({
+                          async:false
+                       })
+                  	var name=res.get('title')
+                  
+                   entry_rated_lowest = {
+                       "resourceName": name,
+                       "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100)/100,
+                       "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
+                       "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
+                       "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
+                       "timesRatedByFemales": report_female_timesRated[indicesLowestRated[i]],
+                       "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
+                   };
+                   if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
+                       entry_rated_lowest["timesOpenedByMales"] = "N/A";
+                       entry_rated_lowest["timesOpenedByFemales"] = "N/A";
+                       entry_rated_lowest["timesOpenedCumulative"] = "N/A";
+                   }
+                   else {
+                       entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
+                       entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                       entry_rated_lowest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                   }
+                   Lowest_Rated_Resources.push(entry_rated_lowest);
+               }
+           }
+           console.log(Highest_Rated_Resources);
+        
+           var staticData={
+               "Visits":{"male": report_male_visits, "female": report_female_visits},
+               "Most_Freq_Open": Most_Freq_Opened,
+               "Highest_Rated": Highest_Rated_Resources,
+               "Lowest_Rated": Lowest_Rated_Resources
+           };
+
+           rpt.data=staticData;
+           rpt.startDate=startDate
+           rpt.endDate=endDate
+           rpt.CommunityName=CommunityName
+           rpt.render()
+           var roles=this.getRoles()
+    		if( (roles.indexOf("Leader")==-1&&roles.indexOf("SuperManager")==-1&&roles.indexOf("Manager")==-1) ||type=="nation"){
+    	   		App.$el.children('.body').html(rpt.el)
+            	
+      		}
+      		else{
+      		App.$el.children('.body').html("<button class='btn btn-success' id='syncReport'>Sync Activity Reports To Nation</button>")
+      		App.$el.children('.body').append(rpt.el)
+           
+      		}
+       },
+       syncLogActivitiy:function(){
+        
+              App.startActivityIndicator()
+         var configurationModel=new App.Collections.Configurations()
+		     configurationModel.fetch({success:function(res){
+		     
+					        var conf=res.first()
+					        console.log(conf)
+					        var nationName=conf.get('nationName')
+					        var nationURL=conf.get('nationUrl')					        
+							$.ajax({
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json; charset=utf-8'
+								},
+								type: 'POST',
+								url: '/_replicate',
+								dataType: 'json',
+								data: JSON.stringify({
+									"source": "activitylog",
+									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + '/activitylog'
+								}),
+								success: function (response) {
+                                            App.stopActivityIndicator()
+                                            alert("Successfully Replicated Reports")
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) { 
+								            App.stopActivityIndicator()
+								            alert("Error (Try Later)")
+                					}, 
+								async: false
+							})
+					 
+				 }})
+
+
+        },
+       findIndicesOfMax: function (inp, count) {
+            var outp = [];
+            for (var i = 0; i < inp.length; i++) {
+                outp.push(i); // add index to output array
+                if (outp.length > count) {
+                    outp.sort(function(a, b) { return inp[b] - inp[a]; }); // descending sort the output array
+                    outp.pop(); // remove the last index (index of smallest element in output array)
+                }
+            }
+            if (inp.length <= count) {
+                outp.sort(function(a, b) { return inp[b] - inp[a]; });
+            }
+            return outp;
+       },
+       findIndicesOfMin: function (inp, count) {
+           var outp = [];
+           for (var i = 0; i < inp.length; i++) {
+               outp.push(i); // add index to output array
+               if (outp.length > count) {
+                   outp.sort(function(a, b) { return inp[a] - inp[b]; }); // descending sort the output array
+                   outp.pop(); // remove the last index (index of smallest element in output array)
+               }
+           }
+           if (inp.length <= count) {
+               outp.sort(function(a, b) { return inp[a] - inp[b]; });
+           }
+           return outp;
+       }
    }))
   
 

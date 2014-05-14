@@ -237,7 +237,7 @@ logActivity:function(member,feedbackModel){
 				     if(res.total_rows!=0){
 				          logModel=res.rows[0].value
 				          that.UpdatejSONlog(member,logModel,logdb,feedbackModel)
-				     }   
+				     }
                 }
 		   });       
 		   

@@ -3,14 +3,18 @@ $(function () {
 	App.Views.ActivityReport = Backbone.View.extend({
 		vars: {},
 		events: {
-
-		},
+            "click #syncReport" : function(e){
+					App.Router.syncLogActivitiy()
+            }
+        },
 		template: $('#template-ActivityReport').html(),
 		initialize: function () {
 
 		},
 		render: function () {
 			var context = this;
+			
+        	
 			$.ajax({
 				url: '/members/_design/bell/_view/MaleCount?group=false',
 				type: 'GET',
@@ -39,6 +43,7 @@ $(function () {
                                 context.vars.endDate = context.endDate
                                 context.vars.CommunityName = context.CommunityName
                                 context.$el.html(_.template(context.template, context.vars));
+                                 
                             }
                         })
 
