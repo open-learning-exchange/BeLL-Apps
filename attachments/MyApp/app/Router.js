@@ -2769,35 +2769,19 @@ dbinfo:function()
                
                var activitylog_resRated = activitylog.resourcesIds
                var activitylog_resOpened = activitylog.resources_opened
-               
                var logsonServer_resRated = logsonServer.get('resourcesIds')
                var logsonServer_resOpened = logsonServer.get('resources_opened')
-               
                var logsonServer_male_visits = logsonServer.get('male_visits')
                var logsonServer_female_visits = logsonServer.get('female_visits')
-               
                var logsonServer_male_rating = logsonServer.get('male_rating')
                var logsonServer_female_rating = logsonServer.get('female_rating')
-               
                var logsonServer_male_timesRated = logsonServer.get('male_timesRated')
                var logsonServer_female_timesRated = logsonServer.get('female_timesRated')
-               
                var logsonServer_male_opened = logsonServer.get('male_opened')
                var logsonServer_female_opened = logsonServer.get('female_opened')
         
-                console.log(logsonServer_resRated)
-                console.log(logsonServer_resOpened)
-                console.log(logsonServer_male_visits)
-                console.log(logsonServer_female_visits)
-                console.log(logsonServer_male_rating)
-                console.log(logsonServer_female_rating)
-                console.log(logsonServer_male_timesRated)
-                console.log(logsonServer_female_timesRated)
-                console.log(logsonServer_male_opened)
-                console.log(logsonServer_female_opened)
-                
-                logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
-                logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
+                   logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
+                   logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
                 
                for(i=0 ; i < activitylog_resRated.length ; i++){
                      resId=activitylog_resRated[i]
@@ -2818,7 +2802,6 @@ dbinfo:function()
                             logsonServer_male_timesRated[index] = parseInt(logsonServer_male_timesRated[index]) + parseInt(activitylog.male_timesRated[i])
                             logsonServer_female_timesRated[index] = parseInt(logsonServer_female_timesRated[index]) + parseInt(activitylog.female_timesRated[i])
                      }        
-                  //alert('rated')
                }
                for(i=0 ; i < activitylog_resOpened.length ; i++){
                     resId=activitylog_resOpened[i]
@@ -2831,8 +2814,6 @@ dbinfo:function()
                              logsonServer_male_opened[index] = parseInt(logsonServer_male_opened[index]) + parseInt(activitylog.male_opened[i])
                              logsonServer_female_opened[index]=parseInt(logsonServer_female_opened[index])+parseInt(activitylog.female_opened[i])
                      }
-                  //alert('opened')
-               
                }
                
                logsonServer.set('resourcesIds' , logsonServer_resRated)
@@ -2855,19 +2836,6 @@ dbinfo:function()
 							 console.log("Successfully Destroy activitylogs"+info)
 						});
                }})
-               
-                console.log(logsonServer_resRated)
-                console.log(logsonServer_resOpened)
-                console.log(logsonServer_male_visits)
-                console.log(logsonServer_female_visits)
-                console.log(logsonServer_male_rating)
-                console.log(logsonServer_female_rating)
-                console.log(logsonServer_male_timesRated)
-                console.log(logsonServer_female_timesRated)
-                console.log(logsonServer_male_opened)
-                console.log(logsonServer_female_opened)
-              
-               alert('in update logs function')
       
     },
               
