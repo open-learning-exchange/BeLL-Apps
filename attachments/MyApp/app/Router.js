@@ -54,7 +54,7 @@ $(function(){
             'members': 'Members',
             
             'reports': 'Reports',
-            'reports/sync' : 'syncReports',
+            // added to new page   'reports/sync' : 'syncReports',
     	    'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
             
@@ -1220,7 +1220,9 @@ var test=new App.Models.CourseInvitation()
             resourcesTableView.render()
              App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a><a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a></p>')
+            	//<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
+            	App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a></p>')
+			
 			}
 			else{
 				App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
@@ -1236,6 +1238,9 @@ var test=new App.Models.CourseInvitation()
             App.stopActivityIndicator()
 
         },
+        
+        /*
+        Removed because this function is moved in nation all sync in one page
         syncReports:function(){
         
               App.startActivityIndicator()
@@ -1274,7 +1279,7 @@ var test=new App.Models.CourseInvitation()
 				 }})
 
 
-        },
+        },*/
         ReportForm: function (reportId) {
             var report = (reportId) ? new App.Models.CommunityReport({
                 _id: reportId
@@ -2275,7 +2280,6 @@ var test=new App.Models.CourseInvitation()
  			}
  },
  LogQuery:function(){
- 
         var type="community"
         var configurations=Backbone.Collection.extend({
 

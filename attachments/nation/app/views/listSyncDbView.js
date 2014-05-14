@@ -55,7 +55,7 @@ $(function () {
 						context.syncReports()
 					}
 					if ($(this).val()=='Application'){
-			
+						context.checkAvailableUpdates()
 					}
 				}
             })    
@@ -217,6 +217,149 @@ $(function () {
 
 
         },
+        //following function compare version numbers.
+		/*<li>0 if the versions are equal</li>
+		A negative integer iff v1 < v2
+		A positive integer iff v1 > v2
+		NaN if either version string is in the wrong format*/
+
+		versionCompare: function (v1, v2, options) {
+			var lexicographical = options && options.lexicographical;
+			zeroExtend = options && options.zeroExtend;
+			v1parts = v1.split('.');
+			v2parts = v2.split('.');
+
+			function isValidPart(x) {
+				return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x);
+			}
+
+			if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
+				return NaN;
+			}
+
+			if (zeroExtend) {
+				while (v1parts.length < v2parts.length) v1parts.push("0");
+				while (v2parts.length < v1parts.length) v2parts.push("0");
+			}
+
+			if (!lexicographical) {
+				v1parts = v1parts.map(Number);
+				v2parts = v2parts.map(Number);
+			}
+
+			for (var i = 0; i < v1parts.length; ++i) {
+				if (v2parts.length == i) {
+					return 1;
+				}
+
+				if (v1parts[i] == v2parts[i]) {
+					continue;
+				}
+				else if (v1parts[i] > v2parts[i]) {
+					return 1;
+				}
+				else {
+					return -1;
+				}
+			}
+
+			if (v1parts.length != v2parts.length) {
+				return -1;
+			}
+
+			return 0;
+		},
+		checkAvailableUpdates: function () {
+			var context = this;
+			var configuration;
+			var configurationModel=new App.Collections.Configurations()
+				configurationModel.fetch({success:function(res){
+		     			configuration=res.first()
+		     								 
+				 },async: false})
+			var nationName = configuration.get("nationName")
+			var nationURL = configuration.get("nationUrl")
+			var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true'
+
+			// console.log(nationConfig)
+			// alert('check')
+			//alert('http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true')
+			$.ajax({
+				url: nationConfigURL,
+				type: 'GET',
+				dataType: "jsonp",
+				success: function (json) {
+					var nationConfig = json.rows[0].doc
+					nationConfigJson = nationConfig
+					if (typeof nationConfig.version === 'undefined') {
+						/////No version found in nation
+					}
+					else if (nationConfig.version == configuration.get('version')) {
+						///No updatea availabe
+					}
+					else {
+						if(context.versionCompare(nationConfig.version, configuration.get('version'))<0){
+							console.log("Nation is at low level")
+						}
+						else if (context.versionCompare(nationConfig.version, configuration.get('version'))>0) {
+						context.updateApp()
+						}
+						else{
+						console.log("Nation is uptodate")
+						}
+					}
+				}
+			})
+			return;
+		},
+		updateApp:function(){
+		
+				var configurations = Backbone.Collection.extend({
+					url: App.Server + '/configurations/_all_docs?include_docs=true'
+				})
+				var config = new configurations()
+				config.fetch({
+					async: false
+				})
+				var currentConfig = config.first().toJSON().rows[0].doc
+				currentConfig.version = this.latestVersion
+				var nationName = currentConfig.nationName
+				var nationURL = currentConfig.nationUrl
+				$.ajax({
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json; charset=utf-8'
+					},
+					type: 'POST',
+					url: '/_replicate',
+					dataType: 'json',
+					data: JSON.stringify({
+						"source": 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/apps',
+						"target": "apps"
+					}),
+					success: function (response) {
+						console.log(response)
+					},
+					async: false
+				})
+
+				$.ajax({
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'multipart/form-data'
+					},
+					type: 'PUT',
+					url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
+					dataType: 'json',
+					data: JSON.stringify(currentConfig),
+					success: function (response) {
+						console.log(response)
+						alert("Successfully updated to latest version.")
+					},
+					async: false
+				})
+			
+		},
     })
 
 })
