@@ -3,9 +3,10 @@ $(function () {
 	App.Views.ActivityReport = Backbone.View.extend({
 		vars: {},
 		events: {
+			/* Sync moved to nation
             "click #syncReport" : function(e){
 					App.Router.syncLogActivitiy()
-            }
+            }*/
         },
 		template: $('#template-ActivityReport').html(),
 		initialize: function () {
@@ -36,7 +37,6 @@ $(function () {
                                     context.vars.FemaleMembers = json.rows[0].value
                                 }
                                 else{
-                                    alert("Here")
                                     context.vars.FemaleMembers = 0;
                                 }
                                 context.vars.startDate = context.startDate
