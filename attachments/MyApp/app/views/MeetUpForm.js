@@ -137,7 +137,7 @@ $(function () {
                     	that.MemberInvite(responce)
                    }
                    else{
-                   var userMeetup=new App.Collections.UserMeetup()
+                   var userMeetup=new App.Collections.UserMeetups()
                        userMeetup.meetupId=responce.get('id')
                        userMeetup.memberId=$.cookie('Member._id')
                        userMeetup.fetch({async:false})
@@ -146,10 +146,11 @@ $(function () {
                           res.set('meetupTitle',responce.get('title'))
                           res.save()
                           alert('Updated Successfully')
-                          Backbone.history.navigate('meetups', {
+                          
+                       }
+                       Backbone.history.navigate('meetups', {
                   				  trigger: true
                 		  })
-                       }
                    } 
                     
                 }})

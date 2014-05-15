@@ -2671,7 +2671,6 @@ dbinfo:function()
       	                             	 }else{
       	                             	     logsonServer=res.first()
       	                             	     that.updateLogs(activitylog,logsonServer)
-      	                             	     alert('logs on server and local')
       	                             	 }         
       	                          },
       	                          error:function(err){
@@ -2711,6 +2710,7 @@ dbinfo:function()
 
     },
     updateLogs:function(activitylog,logsonServer){
+    
     		   var activitylog_resRated=0;
                if(activitylog.resourcesIds){
                activitylog_resRated = activitylog.resourcesIds
@@ -3097,7 +3097,7 @@ dbinfo:function()
        },
        syncLogActivitiy:function(){
         
-              App.startActivityIndicator()
+             App.startActivityIndicator()
          var configurationModel=new App.Collections.Configurations()
 		     configurationModel.fetch({success:function(res){
 		     
