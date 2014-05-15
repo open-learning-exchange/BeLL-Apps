@@ -3,9 +3,10 @@ $(function () {
 	App.Views.ActivityReport = Backbone.View.extend({
 		vars: {},
 		events: {
+			/* Sync moved to nation
             "click #syncReport" : function(e){
 					App.Router.syncLogActivitiy()
-            }
+            }*/
         },
 		template: $('#template-ActivityReport').html(),
 		initialize: function () {

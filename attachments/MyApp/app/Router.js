@@ -21,7 +21,6 @@ $(function(){
             'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
             'assign-to-level': 'AssignResourcetoLevel',
-            
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
             'course/details/:courseId/:courseName':'courseDetails',
@@ -82,7 +81,7 @@ $(function(){
 			'weeklyreports':'WeeklyReports',
 			'removecache':'UpdateManifest',
 			'logreports':'LogQuery',
-			'syncLog':'syncLogActivitiy',
+			// Not required 'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity'
 			
 },
@@ -367,12 +366,12 @@ var test=new App.Models.CourseInvitation()
                     App.$el.children('.body').html(btnText)
                     
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
-                     
+                     /*Added to nation sync part
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') ){
 					//App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
 						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
-					}
+					}*/
 							 resourcesTableView.collections=App.collectionslist	
                      		 resourcesTableView.render()
                      		App.$el.children('.body').append(resourcesTableView.el)
@@ -2024,6 +2023,7 @@ var test=new App.Models.CourseInvitation()
             colView.render()
             App.$el.children('.body').append(colView.el)
         },
+        /* Aded in the Nation
        Replicate: function () {
         
           App.startActivityIndicator()
@@ -2081,7 +2081,7 @@ var test=new App.Models.CourseInvitation()
     			}
   			 })
   			App.stopActivityIndicator()
-        },
+        },*/
         synchCommunityWithURL : function(communityurl,communityname) 
         {
         	console.log('http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources')
@@ -3094,6 +3094,8 @@ dbinfo:function()
            rpt.endDate=endDate
            rpt.CommunityName=CommunityName
            rpt.render()
+           App.$el.children('.body').html(rpt.el)
+           /* After moving sync to nation
            var roles=this.getRoles()
     		if( (roles.indexOf("Leader")==-1&&roles.indexOf("SuperManager")==-1&&roles.indexOf("Manager")==-1) ||type=="nation"){
     	   		App.$el.children('.body').html(rpt.el)
@@ -3103,8 +3105,9 @@ dbinfo:function()
       		App.$el.children('.body').html("<button class='btn btn-success' id='syncReport'>Sync Activity Reports To Nation</button>")
       		App.$el.children('.body').append(rpt.el)
            
-      		}
+      		}*/
        },
+       /*Moved to nation
        syncLogActivitiy:function(){
         
               App.startActivityIndicator()
@@ -3141,7 +3144,7 @@ dbinfo:function()
 				 }})
 
 
-        },
+        },*/
        findIndicesOfMax: function (inp, count) {
             var outp = [];
             for (var i = 0; i < inp.length; i++) {
