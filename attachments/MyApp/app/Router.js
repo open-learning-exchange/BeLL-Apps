@@ -2660,8 +2660,7 @@ dbinfo:function()
       	                             	 }else{
       	                             	     logsonServer=res.first()
       	                             	     that.updateLogs(activitylog,logsonServer)
-      	                             	     alert('logs on server and local')
-      	                             	 }         
+       	                             	 }         
       	                          },
       	                          error:function(err){
       	                          
