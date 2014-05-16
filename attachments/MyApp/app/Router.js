@@ -11,7 +11,6 @@ $(function(){
             'logout': 'MemberLogout',
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
-            
             'resources': 'Resources',
             'resource/add': 'ResourceForm',
             'resource/edit/:resourceId': 'ResourceForm',
@@ -32,12 +31,10 @@ $(function(){
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
             'course/members/:courseId':'GroupMembers',
-            
             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
-            
              'collection':'Collection',
              'listCollection/:collectionId':'ListCollection',
             'listCollection/:collectionId/:collectionName':'ListCollection',
@@ -46,36 +43,28 @@ $(function(){
             'meetup/delete/:MeetupId':'deleteMeetUp',
             'usermeetup/detail/:meetupId/:title':'Meetup_Detail',
             'meetup/details/:meetupId/:title': 'usermeetupDetails',
-            'meetup/manage/:meetUpId':'Meetup',
-            
+            'meetup/manage/:meetUpId':'Meetup',            
             'configuration/add':'Configure',
             'search-bell/:publicationId': 'SearchPresources',
             'members': 'Members',
-            
             'reports': 'Reports',
             // added to new page   'reports/sync' : 'syncReports',
     	    'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
-            
             'mail': 'email',
             'newsfeed': 'NewsFeed',
-            
             'courses/barchart': 'CoursesBarChart',
-            
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
             'calendar/event/:eid': 'calendaar',
             'calendar-event/edit/:eid': 'EditEvent',
-            
             'siteFeedback': 'viewAllFeedback',
-            
             'myRequests': 'myRequests',
             'AllRequests': 'AllRequests',
             'replicateResources': 'Replicate',
 			'savingPochDB' : 'PochDB',	
 			'deletePouchDB': 'deletePouchDB',
 			'course/invitations/add': 'addCourseInvi',
-			
 			'compile': 'CompileManifest',
 			'dbInfo':'dbinfo',
 			'weeklyreports':'WeeklyReports',
@@ -84,7 +73,7 @@ $(function(){
 			// Not required 'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity'
 			
-},
+},   
 addCourseInvi:function(){
 
 var test=new App.Models.CourseInvitation()
