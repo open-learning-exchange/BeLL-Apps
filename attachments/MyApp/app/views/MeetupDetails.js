@@ -44,10 +44,13 @@ $(function () {
                 
             console.log(vars)
             
-            this.$el.append("<tr><td>Title</td><td>" + vars.title + "</td></tr>")
-            this.$el.append("<tr><td>Description</td><td>" + vars.description + "</td></tr>")
-            this.$el.append("<tr><td>Date</td><td>" + vars.schedule + "</td></tr>")
-            this.$el.append("<tr><td>Time</td><td>" + vars.Time + "</td></tr>")
+            this.$el.append('<tr><td><b>Title  </b></td><td>' + vars.title + '   ('+vars.category+')</td></tr>')  
+            this.$el.append('<tr><td><b>Category  </b></td><td>' +vars.category +'</td></tr>')
+            this.$el.append('<tr><td><b>Description </b></td><td>' + vars.description + '</td></tr>')
+            this.$el.append('<tr><td><b>Location </b></td><td>' + vars.meetupLocation + '</td></tr>')
+            this.$el.append('<tr><td><b>Date </b></td><td>' + vars.startDate+' --- '+vars.endDate + '</td></tr>')
+            this.$el.append('<tr><td><b>Time </b></td><td>' + vars.startTime+' --- '+vars.endTime+ '</td></tr>')
+        
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyMeetupItem">Unjoin</button></td></tr>')
 
         },

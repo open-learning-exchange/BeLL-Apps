@@ -2660,7 +2660,7 @@ dbinfo:function()
       	                             	 }else{
       	                             	     logsonServer=res.first()
       	                             	     that.updateLogs(activitylog,logsonServer)
-       	                             	 }         
+      	                             	 }         
       	                          },
       	                          error:function(err){
       	                          
@@ -2699,6 +2699,7 @@ dbinfo:function()
 
     },
     updateLogs:function(activitylog,logsonServer){
+    
     		   var activitylog_resRated=0;
                if(activitylog.resourcesIds){
                activitylog_resRated = activitylog.resourcesIds
@@ -2707,7 +2708,6 @@ dbinfo:function()
                if( activitylog.resources_opened){
                activitylog_resOpened = activitylog.resources_opened
                }
-               
                var logsonServer_resRated =0;
                if( logsonServer.get('resourcesIds')){
                logsonServer_resRated = logsonServer.get('resourcesIds')
@@ -2775,7 +2775,6 @@ dbinfo:function()
                             logsonServer_male_timesRated[index] = parseInt(logsonServer_male_timesRated[index]) + parseInt(activitylog.male_timesRated[i])
                             logsonServer_female_timesRated[index] = parseInt(logsonServer_female_timesRated[index]) + parseInt(activitylog.female_timesRated[i])
                      }        
-                  //alert('rated')
                }
                for(i=0 ; i < activitylog_resOpened.length ; i++){
                     resId=activitylog_resOpened[i]
@@ -2788,8 +2787,6 @@ dbinfo:function()
                              logsonServer_male_opened[index] = parseInt(logsonServer_male_opened[index]) + parseInt(activitylog.male_opened[i])
                              logsonServer_female_opened[index]=parseInt(logsonServer_female_opened[index])+parseInt(activitylog.female_opened[i])
                      }
-                  //alert('opened')
-               
                }
                //alert('in update logs')
                logsonServer.set('resourcesIds' , logsonServer_resRated)
@@ -2814,9 +2811,6 @@ dbinfo:function()
 							 //alert('delete')
 						});
                }})
-               
-                
-               //alert('in update logs function')
       
     },
        LogActivity:function(CommunityName,startDate,endDate){
@@ -3098,7 +3092,7 @@ dbinfo:function()
        /*Moved to nation
        syncLogActivitiy:function(){
         
-              App.startActivityIndicator()
+             App.startActivityIndicator()
          var configurationModel=new App.Collections.Configurations()
 		     configurationModel.fetch({success:function(res){
 		     
