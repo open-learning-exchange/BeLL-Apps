@@ -130,6 +130,8 @@ $(function () {
 			var dashboard = this
 			this.vars.mails = 0
 			var clanguage = App.configuration.get("currentLanguage")
+			console.log(App.languageDict)
+			console.log(clanguage)
 			this.vars.languageDict = App.languageDict;
 
 			this.vars.imgURL = "img/header_slice.png"

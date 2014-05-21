@@ -2751,9 +2751,10 @@ var TextLayerBuilder = function textLayerBuilder(textLayerDiv, pageIdx) {
 document.addEventListener('DOMContentLoaded', function webViewerLoad(evt) {
   PDFView.initialize();
   var params = PDFView.parseQueryString(document.location.search.substring(1));
-
+	
 //#if !(FIREFOX || MOZCENTRAL)
   var file = params.file || DEFAULT_URL;
+//   alert("file : "+file)
 //#else
 //var file = window.location.toString()
 //#endif
@@ -2770,8 +2771,10 @@ document.addEventListener('DOMContentLoaded', function webViewerLoad(evt) {
 
   // Special debugging flags in the hash section of the URL.
   var hash = document.location.hash.substring(1);
+  
+  alert("Hash: "+hash)
   var hashParams = PDFView.parseQueryString(hash);
-
+// 	alert("hash"+hashParams)
   if ('disableWorker' in hashParams)
     PDFJS.disableWorker = (hashParams['disableWorker'] === 'true');
 
@@ -2936,6 +2939,7 @@ document.addEventListener('DOMContentLoaded', function webViewerLoad(evt) {
   }
   if(params.db && params.docId && params.file) {
     console.log(params.db + '/' + params.docId + '/' + params.file)
+    alert("stop and observe params on console");
     Pouch(params.db, function(err, db) {
       db.getAttachment(params.docId, params.file, function(err, res) { 
         var file = window.URL.createObjectURL(res)
@@ -2958,6 +2962,8 @@ document.addEventListener('DOMContentLoaded', function webViewerLoad(evt) {
     })
   }
   else {
+  
+  	alert("else....?????: " + params.file);
     //#if (FIREFOX || MOZCENTRAL)
     //if (FirefoxCom.requestSync('getLoadingType') == 'passive') {
     //  PDFView.setTitleUsingUrl(file);

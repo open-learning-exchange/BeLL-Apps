@@ -37,7 +37,6 @@ LogactivityAndOpen:function(resourceId){
                 }
 				  that.open(resourceId)
 		   });       
-		   
     },
 createJsonlog:function(member,logdate,logdb,resourceId){
 
