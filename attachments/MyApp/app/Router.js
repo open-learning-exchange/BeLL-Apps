@@ -332,6 +332,7 @@ var test=new App.Models.CourseInvitation()
             
         },
         Resources: function () {
+        
             App.startActivityIndicator()
             var context=this
             var resourcesTableView
@@ -2363,8 +2364,7 @@ var test=new App.Models.CourseInvitation()
 	});
 	return true
 },
-dbinfo:function()
-{
+dbinfo:function() {
     var Resources=new PouchDB('resources');
     Resources.info(function(err,info){console.log(info)})
     var FeedBackDb=new PouchDB('feedback');
