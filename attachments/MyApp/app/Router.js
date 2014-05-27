@@ -1884,8 +1884,7 @@ var test=new App.Models.CourseInvitation()
 	                        
 							res.each(function(model){
 							      resourceTags=model.get('Tag')
-							      if(Array.isArray(resourceTags))
-							      {	
+							      if(Array.isArray(resourceTags)){	
 							    	for(var i=0 ; i < collectionIdes.length ; i++)
 						          		if(resourceTags.indexOf(collectionIdes[i]) != -1){ 
 						          		    var index=resourceTags.indexOf(collectionIdes[i])
