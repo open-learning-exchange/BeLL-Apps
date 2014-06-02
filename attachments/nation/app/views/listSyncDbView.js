@@ -93,8 +93,7 @@ $(function () {
     			App.$el.children('.body').html('Please Wait…')
     			var waitMsg = ''
     			var msg = ''
-    			
-            $.ajax({
+             $.ajax({
     			url : 'http://'+ nationName +':'+App.password+'@'+nationURL+':5984/communities/_all_docs?include_docs=true',
     			type : 'GET',
     			dataType : "jsonp",

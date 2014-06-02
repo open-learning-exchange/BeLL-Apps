@@ -69,8 +69,8 @@ $(function () {
                         }
                     })
                 }
+                
                 if (addtoDb) {
-                    this.model.save()
                     alert("Issue Saved!")
                     window.location.href='#publication'
                 }
