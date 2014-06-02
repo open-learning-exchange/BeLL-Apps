@@ -5,7 +5,7 @@ $(function () {
         className: "form",
         id: 'groupform',
         prevmemlist: null,
-        btnText:'Continue',
+        btnText: 'Continue',
         events: {
             "click #sformButton": "setForm",
             "click #uformButton": "setForm",
@@ -18,7 +18,7 @@ $(function () {
 
 
         },
-       
+
         CourseSchedule: function () {
             var form = new App.Views.CourseScheduleForm()
             form.courseId = this.model.id
@@ -94,31 +94,31 @@ $(function () {
                 alert("Specify course description first")
             }
         },
-        getRoles:function(){
-        
-        var member = new App.Models.Member()
-                member.id = $.cookie('Member._id')
-                member.fetch({
-                    async: false
-                })
-          return member.get('roles')
-        
+        getRoles: function () {
+
+            var member = new App.Models.Member()
+            member.id = $.cookie('Member._id')
+            member.fetch({
+                async: false
+            })
+            return member.get('roles')
+
         },
         render: function () {
-        
+
             $('#invitationdiv').hide()
             // members is required for the form's members field
             var groupForm = this
             if (this.model.get("_id") != undefined) {
                 this.prevmemlist = this.model.get("members")
-               this.model.on({
-  						"change:statDate": this.sendMail,
-  						"change:endDate": this.sendMail,
-  						"change:startTime": this.sendMail,
-  						"change:endTime": this.sendMail,
-  						"change:location": this.sendMail
-						});
-					
+                this.model.on({
+                    "change:statDate": this.sendMail,
+                    "change:endDate": this.sendMail,
+                    "change:startTime": this.sendMail,
+                    "change:endTime": this.sendMail,
+                    "change:location": this.sendMail
+                });
+
             }
             if (!this.model.get("languageOfInstruction")) {
                 this.model.set("languageOfInstruction", "")
@@ -143,17 +143,17 @@ $(function () {
 
 
                     groupForm.model.schema.courseLeader.options = optns
-                         
+
                     groupForm.form = new Backbone.Form({
                         model: groupForm.model
                     })
                     groupForm.$el.append(groupForm.form.render().el)
-                    
+
                     groupForm.form.fields['members'].$el.hide()
-                     if (groupForm.model.get("_id") == undefined) {
-                         groupForm.form.fields['Day'].$el.hide()
-                     }
-                    
+                    if (groupForm.model.get("_id") == undefined) {
+                        groupForm.form.fields['Day'].$el.hide()
+                    }
+
                     $('.field-backgroundColor input').spectrum({
                         clickoutFiresChange: true,
                         preferredFormat: 'hex'
@@ -166,7 +166,7 @@ $(function () {
                     var $sbutton = $('<a class="group btn btn-success" id="sformButton">Continue</button>')
                     var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">Update</button>')
 
-                    var $button = $('<a style="margin-left:52%;margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">Invite Member</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/'+groupForm.model.get("_id")+'"> Members</a>')
+                    var $button = $('<a style="margin-left:52%;margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> Progress</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">Invite Member</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + groupForm.model.get("_id") + '"> Members</a>')
                     if (groupForm.model.get("_id") != undefined) {
                         groupForm.$el.prepend($button)
                         groupForm.$el.append($ubutton)
@@ -176,7 +176,7 @@ $(function () {
 
                     groupForm.$el.append("<a class='btn btn-danger' style='margin-left : 20px;' id='cancel'>Cancel</a>")
                 },
-                async:false
+                async: false
             })
 
         },
@@ -196,9 +196,9 @@ $(function () {
                 })
             })
             // Put the form's input into the model in memory
-           var previousLeader=this.model.get('courseLeader')
+            var previousLeader = this.model.get('courseLeader')
             this.form.commit()
-            this.model.set("name",this.model.get("CourseTitle"))
+            this.model.set("name", this.model.get("CourseTitle"))
             // Send the updated model to the server
             if (this.model.get("_id") == undefined) {
 
@@ -207,13 +207,13 @@ $(function () {
             } else {
                 this.model.set("members", this.prevmemlist)
             }
-            if (this.model.get('CourseTitle').length==0) {
+            if (this.model.get('CourseTitle').length == 0) {
                 alert("Course Title is missing")
             }
             //            else if (this.model.get("courseLeader") == 0000) {
             //                alert("Select Course Leader")
             //            } 
-           else if (this.model.get("description").length == 0) {
+            else if (this.model.get("description").length == 0) {
                 alert("Course description is missing")
             } else {
                 var member = new App.Models.Member()
@@ -225,21 +225,20 @@ $(function () {
                     member.get('roles').push("Leader")
                     member.save()
                 }
-                
-                 var leader=this.model.get('courseLeader')
-                 
-                 courseMembers=this.model.get('members') 
-                 index=courseMembers.indexOf(previousLeader)
-                 if(index!=-1)
-                  courseMembers.splice(index,1)
 
-                if(index=courseMembers.indexOf(leader)==-1)
-                {
-                   courseMembers.push(leader)
+                var leader = this.model.get('courseLeader')
+
+                courseMembers = this.model.get('members')
+                index = courseMembers.indexOf(previousLeader)
+                if (index != -1)
+                    courseMembers.splice(index, 1)
+
+                if (index = courseMembers.indexOf(leader) == -1) {
+                    courseMembers.push(leader)
                 }
                 this.model.set("members", courseMembers)
-                  
-            
+
+
                 this.model.save(null, {
                     success: function (e) {
                         if (newEntery == 1) {
@@ -264,7 +263,7 @@ $(function () {
                             })
                             //alert(groupModel.get("rev"))
                             that.model.set("_rev", groupModel.get("_rev"))
-                            
+
                             alert("Course successfully Updated.")
                         }
 
@@ -272,33 +271,33 @@ $(function () {
                 })
             }
         },
-         sendMail:function(e){
-         
-           memberList=e._previousAttributes.members
-           
-           for (var i = 0; i < memberList.length; i++) {
+        sendMail: function (e) {
+
+            memberList = e._previousAttributes.members
+
+            for (var i = 0; i < memberList.length; i++) {
                 var mem = new App.Models.Member({
                     _id: memberList[i]
                 })
                 mem.fetch({
                     async: false
                 })
-         
-          		var currentdate = new Date();
-				var mail = new App.Models.Mail();
-				mail.set("senderId",$.cookie('Member._id'));
-				mail.set("receiverId",mem.get("_id"));
-				mail.set("subject","Change of Course Schedule | " + e.get("name") );
-				var mailText="<b>Schedule is changed </b><br><br>New Schedule is:<br> Duration:   " + e.get('startDate') + '  to  '+e.get('endDate')+'<br>'
-                    mailText+="Timing:        "+e.get('startTime')+'  to  '+e.get('endTime')
-                    mailText+="<br>Locatoin:      "+e.get('location')				
- 				mail.set("body",mailText);
-				mail.set("status","0");
-				mail.set("type","mail");
-				mail.set("sentDate",currentdate);
-				mail.save()
-			}
-			
+
+                var currentdate = new Date();
+                var mail = new App.Models.Mail();
+                mail.set("senderId", $.cookie('Member._id'));
+                mail.set("receiverId", mem.get("_id"));
+                mail.set("subject", "Change of Course Schedule | " + e.get("name"));
+                var mailText = "<b>Schedule is changed </b><br><br>New Schedule is:<br> Duration:   " + e.get('startDate') + '  to  ' + e.get('endDate') + '<br>'
+                mailText += "Timing:        " + e.get('startTime') + '  to  ' + e.get('endTime')
+                mailText += "<br>Locatoin:      " + e.get('location')
+                mail.set("body", mailText);
+                mail.set("status", "0");
+                mail.set("type", "mail");
+                mail.set("sentDate", currentdate);
+                mail.save()
+            }
+
         },
 
 

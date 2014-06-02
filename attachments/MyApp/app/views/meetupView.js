@@ -43,17 +43,16 @@ MemberInvite: function () {
         },
         joinMeetUp:function(){
         
-         var UMeetup=new App.Collections.UserMeetups()
+            var UMeetup=new App.Collections.UserMeetups()
                 UMeetup.memberId=$.cookie('Member._id')
                 UMeetup.meetupId=this.model.get('_id')
                   
                 UMeetup.fetch({async:false}) 
-             if(UMeetup.length>0)
-             {
-                 alert("Your have already joined this Meetup")
-                 return 
-             }
-        
+                if(UMeetup.length>0) {
+                   alert("Your have already joined this Meetup")
+                   return 
+                }
+
         
           var UserMeetUp=new App.Models.UserMeetup()
           UserMeetUp.set('memberId',$.cookie('Member._id'))

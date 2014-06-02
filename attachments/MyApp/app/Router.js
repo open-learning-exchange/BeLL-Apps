@@ -38,8 +38,8 @@ $(function(){
             'savedesc/:lid': 'saveDescprition',
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
             
-             'collection':'Collection',
-             'listCollection/:collectionId':'ListCollection',
+            'collection':'Collection',
+            'listCollection/:collectionId':'ListCollection',
             'listCollection/:collectionId/:collectionName':'ListCollection',
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',

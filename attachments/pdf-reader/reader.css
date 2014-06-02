@@ -1,0 +1,121 @@
+
+* {
+	margin: 0px;
+	font-weight: bold;
+	padding: 0px;
+}
+
+body {
+	background: black;
+}
+
+.cache {
+	display: none;
+}
+
+a:link, a:visited {
+	color: black;
+}
+a:hover {
+	color: yellow;
+}
+
+.nav {
+	padding: 0px;
+	margin: 0px;
+	clear: both;
+	text-align: center;
+}
+.loading {
+	padding: 10px;
+}
+.nav a {
+	padding: 0px;
+	text-decoration: none;
+	font-size: 100px;
+	width: 30%;
+	margin: 0px;
+	clear: none;
+}
+.nav a.next {
+	float: right;
+	right: 0px;
+	background-color: green;
+}
+.nav a.previous {
+	float: left;
+	left:0px;
+	background-color: red;
+}
+.nav .page {
+	font-size: 15px;
+}
+.nav .page-number {
+	width: 39%;
+}
+.nav a.page-number:link, .nav a.page-number:visited {
+	text-align: center;
+	color: white;
+	float: right;
+	clear: none;
+	font-size: 80px;
+}
+.nav a.page-number:hover {
+	color: yellow;
+}
+
+.nav a.library {
+	width: 30%;
+	float: right;
+	color: white;
+	clear: none;
+}
+
+.to-library {
+	width: 100%;
+	float: left;
+	text-align: center;
+	margin: 20px;
+}
+
+a.to-library:visited,
+a.to-library:link,
+a.to-library:hover,		
+.nav a.library:visited,
+.nav a.library:link,
+.nav a.library:hover {
+	color: white;
+	font-size: 40px;
+	text-decoration: none;
+}
+
+.view {
+	background: url(ajax-loader.gif) no-repeat center top;
+	clear: both;
+	padding: 0px;
+	margin:0px;
+	height: 1024px;
+}
+
+.loading {
+	font-size: 50px;
+	background: black;
+	color: yellow;
+	margin: 20px;
+}
+
+form.go-to {
+	display: none;
+	float: left;
+	width: 100%;
+}
+form.go-to input.input-page {
+	font-size: 50px;
+	width: 80%;
+	float: left;
+}
+form.go-to input.submit-page {
+	font-size:50px;
+	width:19%;
+	float: right;
+}
