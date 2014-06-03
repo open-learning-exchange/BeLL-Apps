@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="jquery.min.js"></script>
+	<script src="jquery.url.js"></script>
+	<script src="jquery-ui-1.8.23.custom.min.js"></script>
+	<script src="/_utils/script/jquery.couch.js?0.11.0"></script>	
+	<script src="reader.js"></script>
+	<link type="text/css" rel="stylesheet" href="reader.css">
+
+<body>
+
+	<div class="nav">
+		<a class="previous" href="#previous"> < </a>
+		<a class="next" href="#next"> > </a>	
+		<a class="page-number" href="#page-number"></a>
+	</div>
+
+	<form class="go-to" id="go-to" action="index.html" method="get">
+		<input type="text" value="" placeholder="" id="page" name="submit_page" class="input-page">
+		<input type="submit" value="Go" class="submit-page" aria-disabled="false">
+	</form>
+
+	<div class="view" style="">
+		<!--div class="loading">Loading...</div -->
+	</div>
+
+	<div class="nav">
+		<a class="previous" href="#previous"> < </a>
+		<a class="next" href="#next"> > </a>	
+		<a class="page-number" href="#page-number"></a>
+	</div>
+
+	<form class="go-to" id="go-to" action="index.html" method="get">
+		<input type="text" value="" placeholder="" id="page" name="submit_page" class="input-page">
+		<input type="submit" value="Go" class="submit-page" aria-disabled="false">
+	</form>
+
+	<a class="to-library" href="#library"><img width="50" src="images/childrens-library-white.png" alt="back to library"> back to my library</a>
+
+	<div class="cache"></div>
+</body>
+
+</html>
