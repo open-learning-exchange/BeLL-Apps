@@ -71,7 +71,8 @@ $(function(){
 			'removecache':'UpdateManifest',
 			'logreports':'LogQuery',
 			// Not required 'syncLog':'syncLogActivitiy',
-			'reportsActivity':'LogActivity'
+			'reportsActivity':'LogActivity',
+			'setbit' : 'setNeedOptimizedBit'
 			
 },   
 addCourseInvi:function(){
@@ -3153,6 +3154,28 @@ dbinfo:function() {
                outp.sort(function(a, b) { return inp[a] - inp[b]; });
            }
            return outp;
+       },
+      setNeedOptimizedBit: function () {
+
+       	var count = 0;
+       	var resources = new App.Collections.Resources()
+       	resources.fetch({
+       		async: false
+       	})
+       	resources.each(function (m) {
+       		if (m.get('openWith') === 'PDF.js') {
+       		if(m.get('need_optimization')==undefined){
+       			m.set({
+       				'need_optimization': true
+       			})
+       			m.save()
+       			console.log(count)
+       			count++
+       		}
+       		}
+       	})
+
+
        }
    }))
   
