@@ -1,20 +1,27 @@
+	var pages = [] ;
 	(function($) {
 
 		var url = $.url()
 	    
 	    var file=url.param("doc")
 	    var docId=file
-	    
+	    if(file==undefined){
+			file=$(location).attr('href');	    
+	    	console.log(file)
+	    }
 	    if(file.indexOf('/')!=-1){
 	      var vars=file.split('/')
 	          docId=vars[2]
+	        
 	    }	    
         
         var dbName='resources'
 			
 		
 		// @todo If there is not doc defined, show a dialog for giving us a doc ID.
-
+			if(!docId){
+				alert("Document is missing")
+			}
 		// Get the attached pages from the document in couchdb
 
 		var doc = $.couch.db(dbName).openDoc(docId, {
@@ -24,11 +31,8 @@
 					return false
 				})
 				
-				// Set the "go to library" URL
-				
-				$(".to-library").attr('href', "/" +  url.segment(1) + "/_design/bell/MyApp/index.html#resources")
 
-        		var pages = [] 
+        		
 				// Only put files in the pages directory into the pages array
 				$.each(doc._attachments, function (key, value) {
 				    //  console.log(key)
@@ -38,7 +42,10 @@
 					// }
 				})
 				pages.sort()
-
+				$('#page').attr('max', pages.length);
+				// Set the "go to library" URL
+				
+				$(".to-library").attr('href', "/" +  url.segment(1) + "/_design/bell/MyApp/index.html#resources")
 				//
 				// Display the page
 				//
@@ -46,9 +53,12 @@
 				if(url.param("page")) {
 					thisPage = parseInt(url.param("page"))
 				}
-				if(url.param("submit_page")) {
-					thisPage = parseInt(url.param("submit_page")) - 1
-				}
+				
+// 				Removed submit_page code and write my own code for Go to pages functionality
+// 				if(url.param("submit_page")) {
+// 					thisPage = parseInt(url.param("submit_page")) - 1
+// 					alert(thisPage)
+// 				}
 
 				// @todo Setting width to 100% works fine when the image is less than the 
 				// screen width but will probably mess up your image if it is greater.
@@ -78,7 +88,7 @@
 					}
 				}
 				$('a.page-number').hide()
-				$('a.page-number').html("<div class='page'>page</div>" + readPage)
+				$('a.page-number').html("<div class='page'>page</div>" + readPage + ' / ' + pages.length)
 				$('a.page-number').fadeIn()
 
 				// Set up the next and previous URLs	
@@ -89,28 +99,38 @@
 				}else {
 					nextPage = thisPage + 1
 				}
-
-				if(thisPage == 0) {
-					previousPage = pages.length
-				}else {
 					previousPage = thisPage - 1
-				}
 				
 				// Set the URLs
-				
+				if(thisPage>=(pages.length-1)){
+				$(".next").removeAttr('href');
+				$( ".next" ).hover(function() {
+  					 $( this ).fadeTo( "slow", 0.3 );
+				});
+				}
+				else{
 				$("a.next").attr("href", url.attr("path") + "?slide=right&page=" + nextPage).click(function() {
 					$(".view img").hide("slide", { direction: "left" }, 250);
 					$(".page-number").fadeOut(300)
 					setTimeout(function(){window.location.assign(url.attr("path") + "?slide=right&page=" + nextPage + "&doc=" + docId)},300)
 					return false
 				})
-				$("a.previous").attr("href", url.attr("path") + "?slide=left&page=" + previousPage).click(function() {
+				}
+				if(thisPage<=0){
+				$(".previous").removeAttr('href');
+				$( ".previous" ).hover(function() {
+  					 $( this ).fadeTo( "slow", 0.3 );
+				});
+				}
+				else{
+					$("a.previous").attr("href", url.attr("path") + "?slide=left&page=" + previousPage).click(function() {
 					$(".view img").hide("slide", { direction: "right" }, 250);
 					$(".page-number").fadeOut(750)
 					setTimeout(function(){window.location.assign(url.attr("path") + "?slide=left&page=" + previousPage + "&doc=" + docId)},300)
 					return false
 				})
-
+				}
+				
 				// Cache the next and previous page
 				
 				$(".cache").append('<img width="100%" src="/' + dbName+ '/' + docId + '/' + pages[previousPage] + '">');
