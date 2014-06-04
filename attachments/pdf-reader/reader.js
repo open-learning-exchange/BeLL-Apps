@@ -32,10 +32,9 @@
 				// Only put files in the pages directory into the pages array
 				$.each(doc._attachments, function (key, value) {
 				    //  console.log(key)
-				    pages.push(key)
-					// if(key.indexOf("pages/") === 0) {
-					//	pages.push(key)
-					// }
+			          if(key.indexOf("page-") === 0) {
+						pages.push(key)
+					 }
 				})
 				pages.sort()
 
