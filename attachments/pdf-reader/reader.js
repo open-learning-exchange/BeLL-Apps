@@ -36,7 +36,7 @@
 				// Only put files in the pages directory into the pages array
 				$.each(doc._attachments, function (key, value) {
 				    //  console.log(key)
-			          if(key.indexOf("page-") === 0) {
+			          if(key.indexOf("page") == 0) {
 						pages.push(key)
 					 }
 				})
@@ -53,7 +53,7 @@
 					thisPage = parseInt(url.param("page"))
 				}
 				
-// 				Removed submit_page code and write my own code for Go to pages functionality
+// 				Removed submit_page code and write GoTo page function in app.html
 // 				if(url.param("submit_page")) {
 // 					thisPage = parseInt(url.param("submit_page")) - 1
 // 					alert(thisPage)
