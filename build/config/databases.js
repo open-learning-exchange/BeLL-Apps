@@ -1,1 +1,1 @@
-module.exports = ["actions","apps","assignments","calendar","community","communityreports","courseschedule","coursestep","facilities","feedback","groups","install","invitations","mail","membercourseprogress","report","resources","shelf","stepresults","sync"]  
+module.exports = ["actions",'members',"apps","assignments",'resources',"calendar","community","communityreports","courseschedule","coursestep","facilities","feedback","groups","install","invitations","mail","membercourseprogress","report","resources","shelf","stepresults","sync"] 

@@ -140,7 +140,7 @@ $(function() {
     			   resourceLength=json.rows[0].value
     	           if(context.displayCollec_Resources!=true)
       				{
-					  var pageBottom="<tr><td colspan=7>"
+					  var pageBottom="<tr><td colspan=7><p style='width: 940px; word-wrap: break-word;'>"
 					   var looplength=resourceLength/20
 					   for(var i=0; i<looplength; i++)
 					   {
@@ -149,7 +149,7 @@ $(function() {
 						  else
 						  pageBottom+='<a  class="pageNumber" value="'+i*20+'">'+i+'</a>&nbsp&nbsp'
 					   }
-						pageBottom+="</td></tr>"
+						pageBottom+="</p></td></tr>"
 					   context.$el.append(pageBottom)
 				   }
     			

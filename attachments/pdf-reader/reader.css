@@ -23,6 +23,7 @@ a:hover {
 .nav {
 	padding: 0px;
 	margin: 0px;
+	margin-top: 0.5%;
 	clear: both;
 	text-align: center;
 }
@@ -90,7 +91,7 @@ a.to-library:hover,
 }
 
 .view {
-	background: url(ajax-loader.gif) no-repeat center top;
+	 background: url(ajax-loader.gif) no-repeat center top;
 	clear: both;
 	padding: 0px;
 	margin:0px;
