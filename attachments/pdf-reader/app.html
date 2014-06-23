@@ -19,40 +19,21 @@
 
 <script>
 	function GoToPage() {
-	var newPageNumber = $('#page').val()
-	var prevURL = $(location).attr('href')
-	if (newPageNumber>0 & newPageNumber<=pages.length) {
-		newPageNumber--;
-		
-		var newURL = prevURL.replace(/(page=)[^\&]+/, '$1' + newPageNumber);
-		if (newURL == prevURL) {
-			var docId
-			var url = $.url()
-			var file = url.param("doc")
-			if (file.indexOf('/') != -1) {
-				var vars = file.split('/')
-				docId = vars[2]
-			}
-
-			$(".view img").hide("slide", {
-				direction: "left"
-			}, 250);
-			$(".page-number").fadeOut(300)
-			setTimeout(function () {
-			
-				newURL=(url.attr("path") + "?slide=right&page=" + newPageNumber + "&doc=" + docId)
-				window.location = newURL
-			}, 300)
+		var newPageNumber = $('#top_input').val()
+		if (!newPageNumber) {
+			newPageNumber = $('#bottom_input').val()
 		}
-		else{
+		var prevURL = $(location).attr('href')
+		if (newPageNumber > 0 & newPageNumber <= pages.length) {
+			newPageNumber--;
+			var newURL = prevURL.replace(/(page=)[^\&]+/, '$1' + newPageNumber);
 			window.location = newURL
-		}
 
+		}
+		else {
+			return false;
+		}
 	}
-	else{
-		return false;	
-	}
-}
 </script>
 	<div class="nav">
 		<a class="previous" href="#previous"> < </a>
@@ -60,9 +41,9 @@
 		<a class="page-number" href="#page-number"></a>
 	</div>
 
-	<form action="JavaScript:GoToPage()" class="go-to" id="go-to" method="get" >
-		<input type="number" value="" Required placeholder="Page No." id="page" name="submit_page" class="input-page" min="1">
-		<input type="submit" value="Go" class="submit-page" aria-disabled="false" onclick="GoToPage()">
+	<form action="JavaScript:GoToPage()" class="go-to" method="get" >
+		<input type="number" value="" Required placeholder="Page No." name="submit_page" class="input-page" min="1" id='top_input'>
+		<input type="submit" value="Go" class="submit-page" aria-disabled="false">
 	</form>
 
 	<div class="view" style="display: block;height: 75%;">
@@ -75,9 +56,9 @@
 		<a class="page-number" href="#page-number"></a>
 	</div>
 
-	<form action="JavaScript:GoToPage()" class="go-to" id="go-to" method="get" >
-		<input type="number" value="" Required placeholder="Page No." id="page" name="submit_page" class="input-page" min="1">
-		<input type="submit" value="Go" class="submit-page" aria-disabled="false" onclick="GoToPage()">
+	<form action="JavaScript:GoToPage()" class="go-to" method="get" >
+		<input type="number" value="" Required placeholder="Page No." name="submit_page" class="input-page" min="1" id='bottom_input'>
+		<input type="submit" value="Go" class="submit-page" aria-disabled="false">
 	</form>
 
 	<a class="to-library" href="#library"><img width="50" src="images/childrens-library-white.png" alt="back to library"> back to my library</a>

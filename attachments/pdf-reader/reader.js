@@ -1,5 +1,5 @@
-	var pages = [];
-// Sorting on numbers extracting from attachment names 1,2,3 from page-1,page-2,page-3
+var pages = [];
+	// Sorting on numbers extracting from attachment names 1,2,3 from page-1,page-2,page-3
 	function mySort(arr) {
 		var regex = /page\-([0-9]+)/;
 
@@ -52,21 +52,20 @@
 
 				// Only put files in the pages directory into the pages array
 				$.each(doc._attachments, function (key, value) {
-					//  console.log(key)
-					if (key.indexOf("page-") == 0) {
-						pages.push(key)
-					}
-				})
-				//pages.sort()
+						//  console.log(key)
+						if (key.indexOf("page-") == 0) {
+							pages.push(key)
+						}
+					})
+					//pages.sort()
 				mySort(pages)
-				console.log(pages)
-				$('#page').attr('max', pages.length);
+				$('.input-page').attr('max', pages.length);
 				// Set the "go to library" URL
 
 				$(".to-library").attr('href', "/" + url.segment(1) + "/_design/bell/MyApp/index.html#resources")
-				//
-				// Display the page
-				//
+					//
+					// Display the page
+					//
 				var thisPage = 0
 				if (url.param("page")) {
 					thisPage = parseInt(url.param("page"))
@@ -127,35 +126,35 @@
 				}
 				else {
 					$("a.next").attr("href", url.attr("path") + "?slide=right&page=" + nextPage).click(function () {
-//					Ajax conversion testing
-// 					$('.view').css('background-image', 'url(ajax-loader.gif)  no-repeat center top;');
-// 					var xmlhttp;
-// 											if (window.XMLHttpRequest)
-// 											  {// code for IE7+, Firefox, Chrome, Opera, Safari
-// 											  xmlhttp=new XMLHttpRequest();
-// 											  }
-// 											else
-// 											  {// code for IE6, IE5
-// 						 					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-// 						 					  }
-// 						 					xmlhttp.onreadystatechange=function()
-// 						 					  {
-// 						 					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-// 						 						{
-// 						 						//$(".view img").hide("slide", { direction: "left" }, 250);
-// 						 	 					$(".page-number").fadeOut(200)
-// 						 	 					$('.view').css('background-image', 'none');
-// 						 	 					$('img').attr('src', "/" + dbName + "/" + docId + "/" + pages[nextPage])
-// 						 	 					nextPage++
-// 						 	 					previousPage++
-// 						 	 					thisPage++
-// 						 	 					$('a.page-number').html("<div class='page'>page</div>" + (thisPage+1) + ' / ' + pages.length)
-// 						 	 					$(".page-number").fadeIn(200)
-// 						 						}
-// 						 					  }
-// 						 					xmlhttp.open("GET", "/" + dbName + "/" + docId + "/" + pages[nextPage],true);
-// 						 					xmlhttp.send();
-						$(".view img").css('visibility','hidden',"slide", {
+						//					Ajax conversion testing
+						// 					$('.view').css('background-image', 'url(ajax-loader.gif)  no-repeat center top;');
+						// 					var xmlhttp;
+						// 											if (window.XMLHttpRequest)
+						// 											  {// code for IE7+, Firefox, Chrome, Opera, Safari
+						// 											  xmlhttp=new XMLHttpRequest();
+						// 											  }
+						// 											else
+						// 											  {// code for IE6, IE5
+						// 						 					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+						// 						 					  }
+						// 						 					xmlhttp.onreadystatechange=function()
+						// 						 					  {
+						// 						 					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+						// 						 						{
+						// 						 						//$(".view img").hide("slide", { direction: "left" }, 250);
+						// 						 	 					$(".page-number").fadeOut(200)
+						// 						 	 					$('.view').css('background-image', 'none');
+						// 						 	 					$('img').attr('src', "/" + dbName + "/" + docId + "/" + pages[nextPage])
+						// 						 	 					nextPage++
+						// 						 	 					previousPage++
+						// 						 	 					thisPage++
+						// 						 	 					$('a.page-number').html("<div class='page'>page</div>" + (thisPage+1) + ' / ' + pages.length)
+						// 						 	 					$(".page-number").fadeIn(200)
+						// 						 						}
+						// 						 					  }
+						// 						 					xmlhttp.open("GET", "/" + dbName + "/" + docId + "/" + pages[nextPage],true);
+						// 						 					xmlhttp.send();
+						$(".view img").css('visibility', 'hidden', "slide", {
 							direction: "left"
 						}, 150);
 						$(".page-number").fadeOut(300)
@@ -173,7 +172,7 @@
 				}
 				else {
 					$("a.previous").attr("href", url.attr("path") + "?slide=left&page=" + previousPage).click(function () {
-						$(".view img").css('visibility','hidden',"slide", {
+						$(".view img").css('visibility', 'hidden', "slide", {
 							direction: "right"
 						}, 150);
 						$(".page-number").fadeOut(300)
