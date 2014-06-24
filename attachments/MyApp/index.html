@@ -613,7 +613,7 @@
       <%= CourseTitle %>
     </td> 
 
-    <td>
+<td>
     <%if(isAdmin==1||isLeader==1){%>
       <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'> 
         <i class="icon-wrench icon-white"></i> Manage
@@ -621,6 +621,7 @@
    	<%}%>
     </td>
     
+
     <td>
       <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'> 
        View Course
@@ -688,7 +689,7 @@
     </td>
     
     <td>
-    <%if(creator){%>
+    <%if(creator){ %>
       <a role='button' class='btn btn-inverse' href='#meetup/manage/<%= _id %>'> 
         <i class="icon-wrench icon-white"></i> Manage
       </a>

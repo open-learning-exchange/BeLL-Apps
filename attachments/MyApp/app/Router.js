@@ -688,9 +688,10 @@ var test=new App.Models.CourseInvitation()
         	var course = new App.Models.Group();
         	course.id = cId
         	course.fetch({async:false})
-        	
             App.$el.children('.body').html("<h2> " + cname + "</h2>")
-            App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
+        	if (course.get('courseLeader') != undefined && course.get('courseLeader') == $.cookie('Member._id') || roles.indexOf("Manager") != -1){
+        		App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
+        	}    
             App.$el.children('.body').append("<div id='graph'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
             

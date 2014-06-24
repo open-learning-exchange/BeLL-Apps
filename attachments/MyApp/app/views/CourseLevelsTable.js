@@ -211,7 +211,10 @@ setAllResults: function () {
 		   if(!err)
 		   {
 		   
-		            console.log('here is a problem')
+		            if(res.rows[0]==undefined)
+		            {
+						location.reload();
+		            }
 		            context.modl=res.rows[0].value
 					
 					console.log(context.modl)
@@ -244,7 +247,6 @@ setAllResults: function () {
 		   }
 		   else{
 		   console.log(err)
-		   alert("Here")
 		   }
 		   });       
    },
