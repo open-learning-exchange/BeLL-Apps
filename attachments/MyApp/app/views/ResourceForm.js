@@ -88,7 +88,7 @@ $(function () {
             
              if(this.model.get('openWith')=='PDF.js'){
             this.model.set('need_optimization',true)
-            console.log(this.model.toJSON())
+                  console.log(this.model.toJSON())
             }
             // Send the updated model to the server
             newTitle = this.model.get("title")
@@ -112,11 +112,12 @@ $(function () {
             
              else {
                 $('#gressImage').show();
-                this.model.set(' uploadDate', new Date().getTime()) 
+                this.model.set('uploadDate', new Date().getTime()) 
                 if (isEdit == undefined) {
                     var that = this
                     var checkTitle = new App.Collections.Resources()
                     checkTitle.title=that.model.get("title")
+                    
                     checkTitle.fetch({
                         async: false
                     })
@@ -132,27 +133,13 @@ $(function () {
                     if (isEdit == undefined) {
                         this.model.set("sum", 0)
                     } 
+                    console.log(this.model)
                     this.model.save(null, {
                         success: function () {
                             that.model.unset('_attachments')
                             if ($('input[type="file"]').val()) {
                                 if (isEdit != undefined) {
                                     if (previousTitle != newTitle) {
-                                     var titleMatch = false
-                                        var checkTitle = new App.Collections.Resources()
-										checkTitle.title=that.model.get("title")
-										checkTitle.fetch({
-											async: false
-										})
-										checkTitle=checkTitle.first()
-										if(checkTitle!=undefined)
-										if (checkTitle.toJSON().title!=undefined) {
-												 alert("Title already exist")
-												titleMatch = true
-											 }
-                                       
-                                        if (!titleMatch) {
-                                            
                                             var new_res = new App.Models.Resource()
                                             new_res.set("title", newTitle)
                                             new_res.set("description", that.model.get("description"))
@@ -181,9 +168,7 @@ $(function () {
                                                     $('#progressImage').hide();
                                                 }, new_res)
                                             })
-                                        } else {
-                                            alert("Resource title Already exist")
-                                        }
+                                            
                                     } else {
                                         alert("Cannot update model due to identical title")
                                         window.location.reload()
@@ -208,7 +193,6 @@ $(function () {
         },
 
         statusLoading: function () {
-            alert("asdf")
             this.$el.children('.status').html('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
         }
 
