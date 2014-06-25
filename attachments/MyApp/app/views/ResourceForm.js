@@ -169,14 +169,14 @@ $(function () {
                                                 }, new_res)
                                             })
                                             
-                                    } else {
-                                        alert("Cannot update model due to identical title")
-                                        window.location.reload()
-                                    }
-                                } else {
+                                    }//  else {
+//                                         alert("Cannot update model due to identical title")
+//                                         
+//                                     }
+                                } // else {
                                     App.startActivityIndicator()
                                     that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
-                                }
+//                                 }
                             } else {
                                 that.model.trigger('processed')
                             }
