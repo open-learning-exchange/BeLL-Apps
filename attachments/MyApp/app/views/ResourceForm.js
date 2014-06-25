@@ -83,34 +83,64 @@ $(function () {
             var previousTitle = this.model.get("title")
             var newTitle
             var isEdit = this.model.get("_id")
-            
+            var formContext=this
             this.form.commit()
             
              if(this.model.get('openWith')=='PDF.js'){
-            this.model.set('need_optimization',true)
-                  console.log(this.model.toJSON())
+				this.model.set('need_optimization',true)
             }
             // Send the updated model to the server
             newTitle = this.model.get("title")
             var that = this
            
+            
+           
             if (this.model.get("title").length == 0) {
                 alert("Resource Title is missing")
-            }
-            else if(this.model.get("subject") == null)
-            {
+            } else if(this.model.get("subject") == null) {
                 alert("Resource Subject is missing")
-            }
-            else if(this.model.get("Level") == null)
-            {
+            } else if(this.model.get("Level") == null){
                 alert("Resource Level is missing")
-            }
-            else if(this.model.get("Tag") == null)
-            {
+            } else if(this.model.get("Tag") == null){
                 alert("Resource Tag is missing")
+            } else {
+				  $('#gressImage').show();
+				  if(isEdit){
+			         this.model.save(null, {success:function(res){
+							formContext.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
+							alert("Resource Updated Successfully")
+						 }
+				  }else{
+					 if(!this.titleMatch()){
+						 this.model.set("sum", 0)
+						 this.model.set("timesRated", 0)
+						 this.model.save(null, {success:function(res){
+							formContext.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
+						 }
+						})
+					  }
+				  }  
             }
-            
-             else {
+          this.model.on('savedAttachment', function () {
+                                this.trigger('processed')
+                                $('#progressImage').hide();
+                            }, that.model)  
+
+        },
+        titleMatch:function(){
+         var checkTitle = new App.Collections.Resources()
+                    checkTitle.title=that.model.get("title")
+                    checkTitle.fetch({async: false})
+                    checkTitle=checkTitle.first()
+                    if(checkTitle!=undefined)
+                    if (checkTitle.toJSON().title!=undefined) {
+                             alert("Title already exist")
+                             return true
+                         }
+             return false            
+        },
+        testting:function(){
+        
                 $('#gressImage').show();
                 this.model.set('uploadDate', new Date().getTime()) 
                 if (isEdit == undefined) {
@@ -188,10 +218,9 @@ $(function () {
                         }
                     })
                 }
-            }
-
+            
+        
         },
-
         statusLoading: function () {
             this.$el.children('.status').html('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
         }
