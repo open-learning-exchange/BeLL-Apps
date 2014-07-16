@@ -3170,10 +3170,11 @@ dbinfo:function() {
        				'need_optimization': true
        			})
        			m.save()
-       			console.log(count)
+       			console.log("Done")
+       		}
+       		}
+       		console.log(count)
        			count++
-       		}
-       		}
        	})
 
 

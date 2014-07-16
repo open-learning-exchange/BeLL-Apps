@@ -26,9 +26,17 @@
 		var prevURL = $(location).attr('href')
 		if (newPageNumber > 0 & newPageNumber <= pages.length) {
 			newPageNumber--;
-			var newURL = prevURL.replace(/(page=)[^\&]+/, '$1' + newPageNumber);
-			window.location = newURL
-
+			if(prevURL.indexOf("page=")>-1){
+				var newURL = prevURL.replace(/(page=)[^\&]+/, '$1' + newPageNumber);
+				window.location = newURL
+			}
+			else{
+				var url = $.url()
+				var file = url.param("doc")
+				var docId = file
+				window.location.assign(url.attr("path") + "?slide=right&page=" + newPageNumber + "&doc=" + docId)
+			}
+			
 		}
 		else {
 			return false;

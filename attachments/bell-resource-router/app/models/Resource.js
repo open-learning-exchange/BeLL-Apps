@@ -19,8 +19,8 @@ $(function() {
     openWithMap: {
       'HTML': '',
       'Just download': '',
-      //'PDF.js': '/apps/_design/bell/pdf.js/viewer.html#file=',
-      'PDF.js': '/apps/_design/bell/pdf-reader/app.html?doc=',
+      'PDF.js': '/apps/_design/bell/pdf.js/viewer.html#file=',
+      'Bell-Reader': '/apps/_design/bell/pdf-reader/app.html?doc=',
       'Flow Video Player': '/apps/_design/bell/FlowPlayer/index.html#url=',
       'BeLL Video Book Player': '/apps/_design/bell/bell-video-book-player/index.html#',
       'Native Video':''
