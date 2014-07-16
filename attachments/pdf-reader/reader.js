@@ -129,41 +129,41 @@ var pages = [];
 						//					Ajax conversion testing
 											//$("#book_page").hide()
 
-											var xmlhttp;
-											if (window.XMLHttpRequest)
-											  {// code for IE7+, Firefox, Chrome, Opera, Safari
-											  xmlhttp=new XMLHttpRequest();
-											  }
-											else
-											  {// code for IE6, IE5
-						 					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-						 					  }
-						 					xmlhttp.onreadystatechange=function()
-						 					  {
-						 					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-						 						{
-						 						//$("#book_page").show()
-
-						 						//$(".view img").hide("slide", { direction: "left" }, 250);
-						 						
-						 	 					$(".page-number").fadeOut(100)
-						 	 					$('#book_page').attr('src', "/" + dbName + "/" + docId + "/" + pages[nextPage])
-						 	 					nextPage++
-						 	 					previousPage++
-						 	 					thisPage++
-						 	 					$('a.page-number').html("<div class='page'>page</div>" + (thisPage+1) + ' / ' + pages.length)
-						 	 					$(".page-number").fadeIn(100)
-						 						}
-						 					  }
-						 					xmlhttp.open("GET", "/" + dbName + "/" + docId + "/" + pages[nextPage],true);
-						 					xmlhttp.send();
-						// $(".view img").css('visibility', 'hidden', "slide", {
-// 							direction: "left"
-// 						}, 150);
-// 						$(".page-number").fadeOut(300)
-// 						setTimeout(function () {
-// 							window.location.assign(url.attr("path") + "?slide=right&page=" + nextPage + "&doc=" + docId)
-// 						}, 150)
+						// 					var xmlhttp;
+// 											if (window.XMLHttpRequest)
+// 											  {// code for IE7+, Firefox, Chrome, Opera, Safari
+// 											  xmlhttp=new XMLHttpRequest();
+// 											  }
+// 											else
+// 											  {// code for IE6, IE5
+// 						 					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+// 						 					  }
+// 						 					xmlhttp.onreadystatechange=function()
+// 						 					  {
+// 						 					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+// 						 						{
+// 						 						//$("#book_page").show()
+// 
+// 						 						//$(".view img").hide("slide", { direction: "left" }, 250);
+// 						 						
+// 						 	 					$(".page-number").fadeOut(100)
+// 						 	 					$('#book_page').attr('src', "/" + dbName + "/" + docId + "/" + pages[nextPage])
+// 						 	 					nextPage++
+// 						 	 					previousPage++
+// 						 	 					thisPage++
+// 						 	 					$('a.page-number').html("<div class='page'>page</div>" + (thisPage+1) + ' / ' + pages.length)
+// 						 	 					$(".page-number").fadeIn(100)
+// 						 						}
+// 						 					  }
+// 						 					xmlhttp.open("GET", "/" + dbName + "/" + docId + "/" + pages[nextPage],true);
+// 						 					xmlhttp.send();
+						$(".view img").css('visibility', 'hidden', "slide", {
+							direction: "left"
+						}, 150);
+						$(".page-number").fadeOut(300)
+						setTimeout(function () {
+							window.location.assign(url.attr("path") + "?slide=right&page=" + nextPage + "&doc=" + docId)
+						}, 150)
 						return false
 					})
 				}
