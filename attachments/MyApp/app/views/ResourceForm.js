@@ -110,6 +110,7 @@ $(function () {
 							formContext.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
 							alert("Resource Updated Successfully")
 						 }
+					})
 				  }else{
 					 if(!this.titleMatch()){
 						 this.model.set("sum", 0)

@@ -200,7 +200,7 @@ $(function () {
 					Details = '<b>Language </b>' + vars.language + " , "
 			if (vars.subject != undefined)
 			{
-				Details = Details + "<b>Subject('s) </b>"
+				Details = Details + "<b>Subject(s) </b>"
 				if ($.isArray(vars.subject))
 				{
 					for (var i = 0; i < vars.subject.length; i++)
@@ -219,7 +219,7 @@ $(function () {
 			}
 			if (vars.Level != undefined)
 			{
-				Details = Details + "<b>Level('s) </b>"
+				Details = Details + "<b>Level(s) </b>"
 				if ($.isArray(vars.Level))
 				{
 					for (var i = 0; i < vars.Level.length; i++)
@@ -246,7 +246,9 @@ $(function () {
 			}
 			if (vars.Tag != undefined)
 			{
-
+			    console.log(vars)
+                console.log(vars.Tag)
+                
 				Details = Details + "<b>Collection </b>"
 				//console.log(this.collections)
 				if ($.isArray(vars.Tag))

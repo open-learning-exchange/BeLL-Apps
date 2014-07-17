@@ -52,7 +52,10 @@ $(function(){
     	    'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
             'mail': 'email',
+            
             'newsfeed': 'NewsFeed',
+            'badges' :'Badges',
+            
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
@@ -72,7 +75,8 @@ $(function(){
 			'logreports':'LogQuery',
 			// Not required 'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity',
-			'setbit' : 'setNeedOptimizedBit'
+			'setbit' : 'setNeedOptimizedBit',
+			
 			
 },   
 addCourseInvi:function(){
@@ -110,6 +114,13 @@ var test=new App.Models.CourseInvitation()
       },*/
         eReader:function(){
            // alert('match with ereader')
+            this.underConstruction()
+        },
+        Badges:function(){
+            this.underConstruction()
+        },
+        underConstruction:function(){
+            App.$el.children('.body').html('<div style="margin:0 auto"><h4>This Functionality is under Construction</h4></div>')
         },
         startUpStuff: function () {
         
@@ -1169,7 +1180,8 @@ var test=new App.Models.CourseInvitation()
             var cofigINJSON=currentConfig.toJSON()
         
     	    
-    	    code=cofigINJSON.code       
+    	    code=cofigINJSON.code
+    	    nationName=cofigINJSON.nationName       
             
             var roles = this.getRoles()
             members = new App.Collections.Members()
@@ -1178,7 +1190,7 @@ var test=new App.Models.CourseInvitation()
                     membersTable = new App.Views.MembersTable({
                         collection: members
                     })
-                    membersTable.community_code=code
+                    membersTable.community_code=code+nationName.substring(3,5)
                     if (roles.indexOf("Manager") > -1) {
                         membersTable.isadmin = true
                     } else {
@@ -1976,17 +1988,19 @@ var test=new App.Models.CourseInvitation()
         },
 
      NewsFeed: function () {
-            var resources = new App.Collections.NewsResources()
-            resources.fetch({
-                success: function () {
-                    var resourcesTableView = new App.Views.ResourcesTable({
-                        collection: resources
-                    })
-                    resourcesTableView.render()
-                    App.$el.children('.body').html("&nbsp")
-                    App.$el.children('.body').append(resourcesTableView.el)
-                }
-            })
+     
+          this.underConstruction()
+           //  var resources = new App.Collections.NewsResources()
+//             resources.fetch({
+//                 success: function () {
+//                     var resourcesTableView = new App.Views.ResourcesTable({
+//                         collection: resources
+//                     })
+//                     resourcesTableView.render()
+//                     App.$el.children('.body').html("&nbsp")
+//                     App.$el.children('.body').append(resourcesTableView.el)
+//                 }
+//             })
         }, 
      AllRequests: function () {
             App.$el.children('.body').html('&nbsp')

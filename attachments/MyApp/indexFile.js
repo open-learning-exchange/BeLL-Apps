@@ -161,20 +161,27 @@ function sendMail()
 	var invalidIndex = new Array()
 	var mailingList =new Array()
 	mailingList=rec.split(',')
+	
 	for(var i=0; i<mailingList.length ; i++)
 	{
 		var mailadd = mailingList[i]
-	
+	    
 		if(validateEmail(mailadd))
 		{	
 			if(mailadd!="mycommunity@olebell.org")
 			{
+			    
 				var temp = (mailadd.split('@')[0]).split('.')
+				 
 				if(temp.length>0)
 				{
 					var code = temp[temp.length-1]
+					
+				  console.log(scode+"    "+code)
+					
 					if(code==scode && mailadd.split('@')[1]=='olebell.org')
 					{
+					//alert('valid mail')
 						///valid email address
 					}
 					else
