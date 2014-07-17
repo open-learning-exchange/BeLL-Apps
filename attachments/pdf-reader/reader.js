@@ -104,6 +104,7 @@ var pages = [];
 				}
 				$('a.page-number').hide()
 				$('a.page-number').html("<div class='page'>page</div>" + readPage + ' / ' + pages.length)
+				$('a.page-number').append('<img src="mag_glass4.png" alt="Search"style="margin-left: 35px;" height="42" width="42">')
 				$('a.page-number').fadeIn()
 
 				// Set up the next and previous URLs	
