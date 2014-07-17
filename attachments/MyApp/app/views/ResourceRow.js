@@ -246,9 +246,6 @@ $(function () {
 			}
 			if (vars.Tag != undefined)
 			{
-			    console.log(vars)
-                console.log(vars.Tag)
-                
 				Details = Details + "<b>Collection </b>"
 				//console.log(this.collections)
 				if ($.isArray(vars.Tag))

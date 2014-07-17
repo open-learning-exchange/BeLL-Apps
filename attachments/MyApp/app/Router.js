@@ -281,7 +281,7 @@ var test=new App.Models.CourseInvitation()
                 
             } else {
                 App.$el.children('.body').html('<h3>Add ' + label + '</h3>')
-            }
+                }
             App.$el.children('.body').append(modelForm.el)
            // Bind form events for when Group is ready
             model.once('Model:ready', function () {
@@ -297,6 +297,10 @@ var test=new App.Models.CourseInvitation()
                 $('.form .field-startDate input').datepicker({
                todayHighlight: true
             });
+            $('.form .field-firstName input').attr('maxlength','25');
+            $('.form .field-lastName input').attr('maxlength','25');
+            $('.form .field-middleNames input').attr('maxlength','25');
+            $('.form .field-login input').attr('maxlength','25');
             $('.form .field-endDate input').datepicker({
                todayHighlight: true
             });
@@ -364,7 +368,7 @@ var test=new App.Models.CourseInvitation()
                        
                     var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>';
                         btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>';
-                        btnText+='<button style="margin-left:10px; width: 150px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>'
+                        btnText+='<button style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
                     App.$el.children('.body').html(btnText)
                     
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
@@ -3184,10 +3188,11 @@ dbinfo:function() {
        				'need_optimization': true
        			})
        			m.save()
-       			console.log(count)
+       			console.log("Done")
+       		}
+       		}
+       		console.log(count)
        			count++
-       		}
-       		}
        	})
 
 

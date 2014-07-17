@@ -82,12 +82,12 @@ var pages = [];
 				// In cases where window.width < image.width we'll need to set the viewport
 				// so that it rests with the full image width in view on load.  Haven't
 				// had any luck making this work as of yet using the meta tags.
-
-
 				$(".view").append('<img id="book_page" width="100%" src="/' + dbName + '/' + docId + '/' + pages[thisPage] + '">').show("slide", {
 					direction: url.param("slide")
 				}, 500);
-
+				$( "#book_page" ).load(function() {
+				console.log("Loaded");
+				});
 				// Display the page number
 
 				var readPage = thisPage + 1
@@ -104,6 +104,7 @@ var pages = [];
 				}
 				$('a.page-number').hide()
 				$('a.page-number').html("<div class='page'>page</div>" + readPage + ' / ' + pages.length)
+				$('a.page-number').append('<img src="mag_glass4.png" alt="Search"style="margin-left: 35px;" height="42" width="42">')
 				$('a.page-number').fadeIn()
 
 				// Set up the next and previous URLs	
@@ -127,33 +128,36 @@ var pages = [];
 				else {
 					$("a.next").attr("href", url.attr("path") + "?slide=right&page=" + nextPage).click(function () {
 						//					Ajax conversion testing
-						// 					$('.view').css('background-image', 'url(ajax-loader.gif)  no-repeat center top;');
+											//$("#book_page").hide()
+
 						// 					var xmlhttp;
-						// 											if (window.XMLHttpRequest)
-						// 											  {// code for IE7+, Firefox, Chrome, Opera, Safari
-						// 											  xmlhttp=new XMLHttpRequest();
-						// 											  }
-						// 											else
-						// 											  {// code for IE6, IE5
-						// 						 					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-						// 						 					  }
-						// 						 					xmlhttp.onreadystatechange=function()
-						// 						 					  {
-						// 						 					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-						// 						 						{
-						// 						 						//$(".view img").hide("slide", { direction: "left" }, 250);
-						// 						 	 					$(".page-number").fadeOut(200)
-						// 						 	 					$('.view').css('background-image', 'none');
-						// 						 	 					$('img').attr('src', "/" + dbName + "/" + docId + "/" + pages[nextPage])
-						// 						 	 					nextPage++
-						// 						 	 					previousPage++
-						// 						 	 					thisPage++
-						// 						 	 					$('a.page-number').html("<div class='page'>page</div>" + (thisPage+1) + ' / ' + pages.length)
-						// 						 	 					$(".page-number").fadeIn(200)
-						// 						 						}
-						// 						 					  }
-						// 						 					xmlhttp.open("GET", "/" + dbName + "/" + docId + "/" + pages[nextPage],true);
-						// 						 					xmlhttp.send();
+// 											if (window.XMLHttpRequest)
+// 											  {// code for IE7+, Firefox, Chrome, Opera, Safari
+// 											  xmlhttp=new XMLHttpRequest();
+// 											  }
+// 											else
+// 											  {// code for IE6, IE5
+// 						 					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+// 						 					  }
+// 						 					xmlhttp.onreadystatechange=function()
+// 						 					  {
+// 						 					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+// 						 						{
+// 						 						//$("#book_page").show()
+// 
+// 						 						//$(".view img").hide("slide", { direction: "left" }, 250);
+// 						 						
+// 						 	 					$(".page-number").fadeOut(100)
+// 						 	 					$('#book_page').attr('src', "/" + dbName + "/" + docId + "/" + pages[nextPage])
+// 						 	 					nextPage++
+// 						 	 					previousPage++
+// 						 	 					thisPage++
+// 						 	 					$('a.page-number').html("<div class='page'>page</div>" + (thisPage+1) + ' / ' + pages.length)
+// 						 	 					$(".page-number").fadeIn(100)
+// 						 						}
+// 						 					  }
+// 						 					xmlhttp.open("GET", "/" + dbName + "/" + docId + "/" + pages[nextPage],true);
+// 						 					xmlhttp.send();
 						$(".view img").css('visibility', 'hidden', "slide", {
 							direction: "left"
 						}, 150);

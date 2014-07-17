@@ -75,7 +75,7 @@ $(function () {
                     val: 'PDF.js',
                     label: 'PDF'
                 }, {
-                    val: 'Just download',
+                    val: 'MP3',
                     label: 'Audio (MP3)'
                 }, {
                     val: 'Flow Video Player',
