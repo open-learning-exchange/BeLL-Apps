@@ -21,6 +21,8 @@ $(function () {
 				currentConfig.version = this.latestVersion
 				var nationName = currentConfig.nationName
 				var nationURL = currentConfig.nationUrl
+				
+
 				$.ajax({
 					headers: {
 						'Accept': 'application/json',
@@ -30,11 +32,12 @@ $(function () {
 					url: '/_replicate',
 					dataType: 'json',
 					data: JSON.stringify({
-						"source": 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/apps',
+					    "source": 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/apps',
 						"target": "apps"
 					}),
 					success: function (response) {
 						console.log(response)
+						alert('successfully updated')
 					},
 					async: false
 				})
@@ -193,11 +196,12 @@ $(function () {
 				document.getElementById("imgurl").src = attchmentURL
 			}
 			var temp = $.url().data.attr.host.split(".")
-			temp = temp[0].substring(3)
+			temp = temp[0].substring(3)	
 			if (temp == "") {
 				temp = "local "
 			}
-			temp = temp + " Community Bell"
+			temp=temp.charAt(0).toUpperCase() + temp.slice(1);
+			temp = temp + " Community BeLL"
 			$('.bellLocation').html(temp)
 			if (!member.get('visits')) {
 				member.set('visits', 1)
@@ -246,6 +250,7 @@ $(function () {
 			// console.log(nationConfig)
 			// alert('check')
 			//alert('http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true')
+			
 			$.ajax({
 				url: nationConfigURL,
 				type: 'GET',

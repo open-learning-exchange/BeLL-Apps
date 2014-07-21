@@ -2,7 +2,7 @@ $(function() {
   App.Router = new (Backbone.Router.extend({
 
     routes: {
-      'open/:resourceId' : 'open', 
+      'open/:resourceId' : 'LogactivityAndOpen', 
       'openreport/:level/:reportId' : 'openReport', 
       'download/:resourceId' : 'download', 
     },
