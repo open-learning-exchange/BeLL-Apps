@@ -75,7 +75,7 @@ $(function(){
 			'logreports':'LogQuery',
 			// Not required 'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity',
-			'setbit' : 'setNeedOptimizedBit',
+			'setbit' : 'setNeedOptimizedBit'
 			
 			
 },   
