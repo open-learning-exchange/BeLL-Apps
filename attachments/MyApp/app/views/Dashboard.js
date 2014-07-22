@@ -22,7 +22,7 @@ $(function () {
 				var nationName = currentConfig.nationName
 				var nationURL = currentConfig.nationUrl
 				
-
+				App.startActivityIndicator()
 				$.ajax({
 					headers: {
 						'Accept': 'application/json',
@@ -36,27 +36,34 @@ $(function () {
 						"target": "apps"
 					}),
 					success: function (response) {
-						console.log(response)
-						alert('successfully updated')
+						$.ajax({
+							
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'multipart/form-data'
+							},
+							type: 'PUT',
+							url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
+							dataType: 'json',
+							data: JSON.stringify(currentConfig),
+							success: function (response) {
+							         alert("Successfully updated.")
+							         location.reload();
+							 },
+							 
+							async: false
+						})
+					      App.stopActivityIndicator()
+					      
+					},
+					error: function(){
+					      App.stopActivityIndicator()
+					      alert("Not Replicated!")
 					},
 					async: false
 				})
 
-				$.ajax({
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'multipart/form-data'
-					},
-					type: 'PUT',
-					url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
-					dataType: 'json',
-					data: JSON.stringify(currentConfig),
-					success: function (response) {
-						console.log(response)
-						alert("Successfully updated to latest version.")
-					},
-					async: false
-				})
+				
 			},
 			"click #showReleaseNotesDiv": function (e) {
 				if ($('#releaseVersion').css('display') == 'none') {
