@@ -210,7 +210,10 @@ setAllResults: function () {
   				 
 		   if(!err)
 		   {
-		   
+		   		     if(res.rows[0]==undefined){
+						location.reload();
+		            }
+
 		            context.modl=res.rows[0].value
 					
 					console.log(context.modl)
