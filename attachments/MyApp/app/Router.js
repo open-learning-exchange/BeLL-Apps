@@ -75,7 +75,8 @@ $(function(){
 			'logreports':'LogQuery',
 			// Not required 'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity',
-			'setbit' : 'setNeedOptimizedBit'
+			'setbit' : 'setNeedOptimizedBit',
+			'CompileAppManifest' : 'CompileAppManifest'
 			
 			
 },   
@@ -822,12 +823,13 @@ var test=new App.Models.CourseInvitation()
                courseModel.fetch({async:false})
     
            var courseLeader = courseModel.get('courseLeader')
+           var courseName = courseModel.get('name')
            var courseMembers = courseModel.get('members')
         	
           var button = '<br><a href="#courses"><button class="btn btn-success">Back to courses</button></a>'
           if(courseMembers && courseMembers.indexOf($.cookie('Member._id'))==-1)
           {
-          	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton">Admission</button><br/><br/>'
+          	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("'+courseLeader+'","'+encodeURI(courseName)+'","'+courseId+'")>Admission</button><br/><br/>'
           }
           else
           {
@@ -2400,6 +2402,45 @@ dbinfo:function() {
 	})
 	var activitylogs=new PouchDB('activitylogs');
 	activitylogs.info(function(err,info){console.log(info)})
+},
+CompileAppManifest:function(){
+
+    var apps = new App.Collections.Apps()
+    var find = '{replace me}'
+    var replace = '# Compiled at ' + new Date().getTime() + '\n'
+    var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
+    var appsURL = '/apps/_design/bell'
+    var transformedManifestURL = appsURL + '/manifest.appcache'
+    
+    apps.once('sync', function() {
+          _.each(apps.models, function(app) {
+            _.each(app.get('_attachments'), function(value, key, list) {
+              replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
+            })
+          })
+          App.trigger('compile:appsListReady')
+        })
+    apps.fetch()
+    
+    App.once('compile:appsListReady', function() {
+
+        $.get(defaultManifestURL, function(defaultManifest) {
+          var transformedManifest = defaultManifest.replace(find, replace)
+			 $.getJSON(appsURL, function(appsDoc){
+				var xhr = new XMLHttpRequest()
+				xhr.open('PUT', transformedManifestURL + '?rev=' + appsDoc._rev, true)
+				xhr.onload = function(response) { 
+				  App.trigger('compile:done')
+				}
+				xhr.setRequestHeader("Content-type", "text/cache-manifest" );
+				xhr.send(new Blob([transformedManifest], {type: 'text/plain'}))
+			  })
+        })
+      })
+   App.once('compile:done', function() {
+        alert('menifist file is creted in Bell-apps')
+      })
+
 },
  CompileManifest: function() {
       App.startActivityIndicator()

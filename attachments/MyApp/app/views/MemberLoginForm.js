@@ -147,6 +147,7 @@ getFormattedDate:function(date) {
 				 male_timesRated:[],
 				 female_timesRated:[],
 				 male_rating:[],
+				 community:App.configuration.get('code'),
 				 female_rating:[],
 				 resources_opened:[],
 				 male_opened:[],

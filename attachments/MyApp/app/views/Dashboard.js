@@ -32,7 +32,7 @@ $(function () {
 					url: '/_replicate',
 					dataType: 'json',
 					data: JSON.stringify({
-					    "source": 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/apps',
+					    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
 						"target": "apps"
 					}),
 					success: function (response) {

@@ -26,6 +26,8 @@ LogactivityAndOpen:function(resourceId){
 					 }
 				}
    			},{key:logdate},function(err,res){
+   			     
+   			    that.open(resourceId)
 				if(!err){
 				     if(res.total_rows!=0){
 				          logModel=res.rows[0].value
@@ -35,11 +37,20 @@ LogactivityAndOpen:function(resourceId){
 				          that.createJsonlog(member,logdate,logdb,resourceId)
 				     } 
                 }
-				  that.open(resourceId)
+				  
 		   });       
     },
 createJsonlog:function(member,logdate,logdb,resourceId){
-
+               var configurations = Backbone.Collection.extend({
+					url: App.Server + '/configurations/_all_docs?include_docs=true'
+				})
+				var config = new configurations()
+				config.fetch({
+					async: false
+				})
+				console.log(config)
+				var currentConfig = config.first().toJSON().rows[0].doc
+				
 		var docJson={		
 				 logDate: logdate,
 				 resourcesIds:[],
@@ -48,6 +59,7 @@ createJsonlog:function(member,logdate,logdb,resourceId){
 				 male_timesRated:[],
 				 female_timesRated:[],
 				 male_rating:[],
+				 community:currentConfig.code,
 				 female_rating:[],
 				 resources_opened:[],
 				 male_opened:[],
@@ -114,7 +126,7 @@ getFormattedDate:function(date) {
           openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + resource.get('openWhichFile')
         }
         else {
-             if(_.keys(resource.get('_attachments'))[1])
+             if(_.keys(resource.get('_attachments'))[1] && resource.get('openWith')!='Bell-Reader')
                 {
                  secondAttch+='/resources/' + resource.id + '/'+_.keys(resource.get('_attachments'))[1]
              }

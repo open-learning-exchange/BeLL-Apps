@@ -24,7 +24,6 @@ $(function () {
         },
         
         start: function () {
-                	
            
 			App.Router.PochDB()
             this.$el.html(_.template(this.template))

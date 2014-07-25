@@ -33,21 +33,7 @@ $(function() {
             
             this.$el.append('<tr><td><b>Location </b></td><td>' + courseInfo.location + '</td></tr>')
             
-            $(document).on('Notification:submitButtonClicked', function (e) { 
-            	var currentdate = new Date();
-            	var mail = new App.Models.Mail();
-      			mail.set("senderId",$.cookie('Member._id'));
-      			mail.set("receiverId",that.model.get('courseLeader'));
-      			mail.set("subject","Course Admission Request | " + that.model.get('name'));
-      			mail.set("body",'Admission request recieved from user \"' + $.cookie('Member.login') + '\" in ' + that.model.get('name') + ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.get('_id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.get('id') + '" >Reject</button>');
-      			mail.set("status","0");
-      			mail.set("type","admissionRequest");
-      			mail.set("sentDate",currentdate);
-      			mail.save()
-      			alert("Admission request successfully sent to this course leader.")
-      			
-      			
-   			});
+           // $(document).on('Notification:submitButtonClicked', function (e) {});
           
     }
   })
