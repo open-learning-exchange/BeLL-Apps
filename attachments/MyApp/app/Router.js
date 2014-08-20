@@ -76,10 +76,38 @@ $(function(){
 			// Not required 'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity',
 			'setbit' : 'setNeedOptimizedBit',
-			'CompileAppManifest' : 'CompileAppManifest'
+			'CompileAppManifest' : 'CompileAppManifest',
+          'cummunityManage':'cummunityManage',
+          'configuration': 'Configuration'
 			
 			
-},   
+},
+cummunityManage: function() {
+
+   App.$el.children('.body').html('')
+   App.$el.children('.body').append('<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>')
+   App.$el.children('.body').append('<button class="btn btn-hg btn-primary" onclick=SyncDbSelect() id="sync">Sync With Nation</button>')
+},
+Configuration: function() {
+   var config = new App.Collections.Configurations()
+   config.fetch({
+       async: false
+   })
+   var configuration = config.first()
+   var configView = new App.Views.ConfigurationView()
+   configView.model = configuration
+   configView.render()
+   App.$el.children('.body').html(configView.el)
+
+},
+SyncDbSelect: function() {
+   $('#invitationdiv').fadeIn(1000)
+   var inviteForm = new App.Views.listSyncDbView()
+
+   inviteForm.render()
+   $('#invitationdiv').html('&nbsp')
+   $('#invitationdiv').append(inviteForm.el)
+},
 addCourseInvi:function(){
 
 var test=new App.Models.CourseInvitation()
@@ -2320,16 +2348,21 @@ var test=new App.Models.CourseInvitation()
 					selectedList: 1
 				 });
 		}*/
+//         $.datepicker.setDefaults({
+//             dateFormat: 'mm-dd-yy'
+//         });
 		$('#start-date').datepicker({
+               dateFormat: "yy-mm-dd",
                todayHighlight: true
             });
         $('#end-date').datepicker({
+               dateFormat: "yy-mm-dd",
                todayHighlight: true
             });
  }, 
  changeDateFormat:function(date)
  {
- var datePart = date.match(/\d+/g),month = datePart[0], day = datePart[1], year = datePart[2];
+ var datePart = date.match(/\d+/g), year = datePart[0], month = datePart[1], day = datePart[2];
   return year+'/'+month+'/'+day;
  },
  deletePouchDB:function(){
@@ -2415,7 +2448,7 @@ CompileAppManifest:function(){
     apps.once('sync', function() {
           _.each(apps.models, function(app) {
             _.each(app.get('_attachments'), function(value, key, list) {
-              replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
+              if (key !== "manifest.appcache") replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
             })
           })
           App.trigger('compile:appsListReady')
@@ -2703,59 +2736,84 @@ CompileAppManifest:function(){
     },
      WeeklyReports:function(){
     
-      	var logdb=new PouchDB('activitylogs')
-        var that=this
-      	    logdb.allDocs({include_docs: true},
-      	               function(err, response) { 
-      	                  var collection=response.rows
-      	                  for(i=0;i<response.total_rows;i++){
-      	                      activitylog=collection[i].doc
-      	                      activitylogDate=activitylog.logDate
-      	                      var logModel=new App.Collections.ActivityLog()
-      	                          logModel.logDate=activitylogDate
-      	                          logModel.fetch({success:function(res,resInfo){
-      	                             	 console.log(res)
-      	                             	 if(res.length==0){
-      	                             	     that.createLogs(activitylog)
-      	                             	 }else{
-      	                             	     logsonServer=res.first()
-      	                             	     that.updateLogs(activitylog,logsonServer)
-      	                             	 }         
-      	                          },
-      	                          error:function(err){
-      	                          
-      	                          }})
-      	                      
-      	                     
-      	                  }
-      	    });    
+        var logdb = new PouchDB('activitylogs');
+        var that = this;
+        logdb.allDocs({include_docs: true},
+            function(err, response) {
+                if (!err) {
+                    var collection = response.rows; // all docs from PouchDB's 'activitylogs' db
+                    for (var i = 0; i < response.total_rows; i++) { // if # of rows is zero, then
+                        // PouchDB's activitylogs db has no docs in it to sync to CouchDB's activitylog db
+                        activitylog = collection[i].doc;
+                        activitylogDate = activitylog.logDate;
+                        var logModel = new App.Collections.ActivityLog();
+                        logModel.logDate = activitylogDate;
+
+                        logModel.fetch( {success: function(res, resInfo) {
+//                         console.log(res)
+//                         alert("sdads");
+                            if(res.length == 0){ // CouchDB's activitylog db has ZERO (or NO) documents with attrib "logDate"
+                                // having value == collection[i].doc.logDate, so a new activitylog doc will be added to CouchDB
+                                // having same json as that of collection[i].doc's (pointed to by 'activitylog' var above)
+                                // from PouchDB's activitylogs db.
+                                that.createLogs(activitylog);
+                            } else { // Couchdb's activitylog db does have atleast one doc having attrib "logDate" with a
+                                // value == collection[i].doc.logDate
+                                logsonServer = res.first();
+                                that.updateLogs(activitylog, logsonServer);
+                            }
+                        },
+                            error: function(err) {
+                                console.log("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
+//                                alert("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
+                            }});
+                    }
+                } else {
+                    console.log("Error fetching documents of 'activitylogs' db in PouchDB. Please try again or refresh page.");
+//                    alert("Error fetching documents of 'activitylogs' db in PouchDB. Please try again or refresh page.");
+                }
+            }
+        );
         
     },
     createLogs:function(activitylog){
-    
-            var toDelete_id=activitylog._id
-            var toDelete_rev=activitylog._rev
-            var logdb=new PouchDB('activitylogs')
-             
-            //alert('here in create log function')
 
-			var dailylogModel=new App.Models.DailyLog()
-				delete activitylog._rev
-				delete activitylog._id
-				console.log(activitylog)
-				dailylogModel.set(activitylog)
-   
-				dailylogModel.save(null,{success:function(res,resInfo){
-  						logdb.remove(toDelete_id, toDelete_rev, function(err, response) { 
-  						   if(err){
-  						      console.log(err)
-  						      //alert('error')
-  						   }else{
-  						   
-  						      //alert('deleted after creating')
-  						   }
-					   });
-				}})
+            var toDelete_id = activitylog._id;
+            var toDelete_rev = activitylog._rev;
+            var logdb=new PouchDB('activitylogs');
+            //alert('here in create log function')
+			var dailylogModel = new App.Models.DailyLog();
+            var dailyLog = activitylog;
+//            delete activitylog._rev;
+//            delete activitylog._id;
+//				console.log(activitylog);
+//            dailylogModel.set(activitylog); community
+
+            dailylogModel.set('logDate' , activitylog.logDate);
+            dailylogModel.set('community' , activitylog.community);
+            dailylogModel.set('resourcesIds' , activitylog.resourcesIds)
+            dailylogModel.set('resources_opened' , activitylog.resources_opened)
+            dailylogModel.set('male_visits' , activitylog.male_visits)
+            dailylogModel.set('female_visits' , activitylog.female_visits)
+            dailylogModel.set('male_rating' , activitylog.male_rating)
+            dailylogModel.set('female_rating' , activitylog.female_rating)
+            dailylogModel.set('male_timesRated' , activitylog.male_timesRated)
+            dailylogModel.set('female_timesRated' , activitylog.female_timesRated)
+            dailylogModel.set('male_opened' , activitylog.male_opened)
+            dailylogModel.set('female_opened' , activitylog.female_opened)
+
+            dailylogModel.save(null,{success:function(res,resInfo){
+                logdb.remove(activitylog, function(err, response) {
+                   if(err){
+                        console.log(err)
+                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
+                   }else{
+//                        console.log('mainRouter:: createLogs:: removed Pouch doc successfully: ');
+//                        console.log(response);
+//                        alert('mainRouter:: createLogs:: removed Pouch doc successfully');
+                   }
+               });
+            }});
 
     },
     updateLogs:function(activitylog,logsonServer){
@@ -2862,15 +2920,21 @@ CompileAppManifest:function(){
                
                var logdb=new PouchDB('activitylogs')
                logsonServer.save(null,{success:function(model,modelInfo){
+                   console.log("MyAppRouter:: updateLogs:: successfully updated (community) CouchDB with activitylog from Pouch");
                //alert('save function')
                       logdb.remove(activitylog,function(err, info) {
-							if(err)
-								console.log(err)
-							else 
-							 console.log("Successfully Destroy activitylogs"+info)
-							 //alert('delete')
-						});
-               }})
+							if(err){
+                                console.log("MyAppRouter:: updateLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB");
+                                console.log(err);
+//                                alert("MyAppRouter:: updateLogs:: could NOT Remove couch doc");
+                            } else {
+                                console.log("MyAppRouter:: updateLogs:: Successfully deleted Pouch activitylog doc after it had been synced with community CouchDB");
+//                                console.log(info);
+//                                alert('MyAppRouter:: updateLogs:: Successfully Deleted pouch doc')
+                            }
+
+					  });
+               }});
       
     },
        LogActivity:function(CommunityName,startDate,endDate){

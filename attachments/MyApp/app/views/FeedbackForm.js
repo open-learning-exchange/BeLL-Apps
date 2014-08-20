@@ -50,8 +50,9 @@ $(function () {
                 var member=new App.Models.Member()
                     member.set('_id', $.cookie('Member._id'))
                     member.fetch({success:function(upModel,upRev){
-                   			console.log(upModel)
-                            that.logActivity(upModel,feedbackModel)
+//                   			console.log(upModel)
+
+                            that.logActivity(upModel,feedbackModel);
                     
                     }})
 								var FeedBackDb=new PouchDB('feedback');
@@ -225,56 +226,126 @@ logActivity:function(member,feedbackModel){
         var that=this
   		var logdb=new PouchDB('activitylogs')
       	var currentdate = new Date();
-    	var logdate = this.getFormattedDate(currentdate)
-        logdb.query({map:function(doc){
-					 if(doc.logDate){
-						emit(doc.logDate,doc)
-					 }
-				}
-   			},{key:logdate},function(err,res){
-   					 
-				if(!err){
-				     if(res.total_rows!=0){
-				          logModel=res.rows[0].value
-				          that.UpdatejSONlog(member,logModel,logdb,feedbackModel)
-				     }
-                }
-		   });       
+    	var logdate = this.getFormattedDate(currentdate);
+
+        logdb.get(logdate, function(err, logModel) {
+            if (!err) {
+    //            console.log("logModel: ");
+    //            console.log(logModel);
+    //            alert("yeeyyyyyy");
+                that.UpdatejSONlog(member, logModel, logdb, feedbackModel, logdate);
+            } else {
+                that.createJsonlog(member, logdate, logdb, feedbackModel);
+            }
+        });
+
+//        logdb.query({map:function(doc){
+//					 if(doc.logDate){
+//						emit(doc.logDate,doc)
+//					 }
+//				}
+//   			},{key:logdate},function(err,res){
+//
+//				if(!err){
+//				     if(res.total_rows!=0){
+//				          logModel=res.rows[0].value
+//				          that.UpdatejSONlog(member,logModel,logdb,feedbackModel)
+//				     }else{
+//				          that.createJsonlog(logdate,member,logdb,feedbackModel)
+//
+//				     }
+//                }
+//		   });
 		   
     },
-UpdatejSONlog:function(member,logModel,logdb,feedbackModel){
+createJsonlog:function(member, logdate, logdb, feedbackModel){
+        var that = this;
+		var docJson = {
+             logDate: logdate,
+             resourcesIds:[],
+             male_visits:0,
+             female_visits:0,
+             male_timesRated:[],
+             female_timesRated:[],
+             male_rating:[],
+             community:App.configuration.get('code'),
+             female_rating:[],
+             resources_opened:[],
+             male_opened:[],
+             female_opened:[]
+        };
+
+        logdb.put(docJson, logdate, function(err, response) {
+            if (!err) {
+                console.log("FeedbackForm:: createJsonlog:: created activity log in pouchdb for today..");
+                logdb.get(logdate, function(err, logModel) {
+                    if (!err) {
+                        that.UpdatejSONlog(member, logModel, logdb, feedbackModel, logdate);
+                    } else {
+                        console.log("FeedbackForm:: createJsonlog:: Error fetching activitylog doc from Pouch after creating it");
+//                        alert("FeedbackForm:: createJsonlog:: Error fetching activitylog doc from Pouch after creating it");
+                    }
+                });
+    //                    alert("FeedbackForm:: createJsonlog:: created activity log in pouchdb for today..");
+            } else {
+                console.log("FeedbackForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
+                console.log(err);
+    //                    alert("error creating/pushing activity log doc in pouchdb..");
+            }
+        });
+
+//			logdb.post(docJson, function (err, response) {
+//			             logdb.get(response.id, function(err, doc) {
+//			                that.UpdatejSONlog(member,doc,logdb,feedbackModel)
+//			             });
+// 		   });
+			
+},
+UpdatejSONlog:function(member, logModel, logdb, feedbackModel, logdate){
 			console.log(feedbackModel)
-			memRating=parseInt(feedbackModel.get('rating'))
-            var resId=feedbackModel.get('resourceId')
-            var index=logModel.resourcesIds.indexOf(resId)
-	        if(index==-1){
-	                logModel.resourcesIds.push(resId)
-	                if(member.get('Gender')=='Male') {
-	                      logModel.male_rating.push(memRating)
-	                      logModel.female_rating.push(0)
-	                      logModel.male_timesRated.push(1)
-	                      logModel.female_timesRated.push(0)
- 					}else{
- 					      logModel.male_rating.push(0)
-	                      logModel.female_rating.push(memRating)
-	                      logModel.male_timesRated.push(0)
-	                      logModel.female_timesRated.push(1)
- 					}
-	             }
-	             else{
-	                if(member.get('Gender')=='Male') {
-	                      logModel.male_rating[index]=parseInt(logModel.male_rating[index])+memRating
-	                      logModel.male_timesRated[index]=(parseInt(logModel.male_timesRated[index]))+1
- 					}else{
-	                      logModel.female_rating[index]=parseInt(logModel.female_rating[index])+memRating
-	                      logModel.female_timesRated[index]=(parseInt(logModel.female_timesRated[index]))+1
- 					}   
-	             }
-			logdb.put(logModel,function(reponce){
-	     		console.log(reponce)
-		   })
-			console.log(logModel)
+			memRating = parseInt(feedbackModel.get('rating'))
+            var resId = feedbackModel.get('resourceId')
+            var index = logModel.resourcesIds.indexOf(resId)
+	        if(index == -1){
+                logModel.resourcesIds.push(resId)
+                if(member.get('Gender')=='Male') {
+                      logModel.male_rating.push(memRating)
+                      logModel.female_rating.push(0)
+                      logModel.male_timesRated.push(1)
+                      logModel.female_timesRated.push(0)
+                }else{
+                      logModel.male_rating.push(0)
+                      logModel.female_rating.push(memRating)
+                      logModel.male_timesRated.push(0)
+                      logModel.female_timesRated.push(1)
+                }
+            }
+            else{
+                if(member.get('Gender')=='Male') {
+                      logModel.male_rating[index]=parseInt(logModel.male_rating[index])+memRating
+                      logModel.male_timesRated[index]=(parseInt(logModel.male_timesRated[index]))+1
+                }else{
+                      logModel.female_rating[index]=parseInt(logModel.female_rating[index])+memRating
+                      logModel.female_timesRated[index]=(parseInt(logModel.female_timesRated[index]))+1
+                }
+            }
+
+            logdb.put(logModel, logdate, logModel._rev, function(err, response) {
+                if (!err) {
+                    console.log("FeedbackForm:: UpdatejSONlog:: updated daily log from pouchdb for today..");
+                } else {
+                    console.log("FeedbackForm:: UpdatejSONlog:: err making update to record");
+                    console.log(err);
+//                    alert("err making update to record");
+                }
+            });
+
+//			logdb.put(logModel,function(reponce){
+//	     		console.log(reponce)
+//		   })
+//			console.log(logModel)
     },
+
 getFormattedDate:function(date) {
   		   var year = date.getFullYear();
   		   var month = (1 + date.getMonth()).toString();
@@ -282,7 +353,7 @@ getFormattedDate:function(date) {
   		   var day = date.getDate().toString();
   		       day = day.length > 1 ? day : '0' + day;
        return  month + '/' + day + '/' + year;
-},
+}
 
     })
 

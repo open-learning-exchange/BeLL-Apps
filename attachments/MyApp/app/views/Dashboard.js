@@ -140,6 +140,7 @@ $(function () {
 			var dashboard = this
 			this.vars.mails = 0
 			var clanguage = App.configuration.get("currentLanguage")
+            var typeofBell=App.configuration.get("type")
 			console.log(App.languageDict)
 			console.log(clanguage)
 			this.vars.languageDict = App.languageDict;
@@ -237,7 +238,12 @@ $(function () {
 				if (temp1 == 1) {
 					roles = roles + ",&nbsp;"
 				}
-				roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
+                if(typeofBell=='nation'){
+                    roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
+                }
+                else {
+                    roles = roles + '<a href="#cummunityManage">Manager</a>'
+                }
 			}
 			$('.visits').html(temp)
 			$('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
@@ -339,7 +345,7 @@ $(function () {
 			}
 
 			return 0;
-		},
+		}
 	})
 
 })

@@ -9,7 +9,9 @@ $(function () {
             communityName=$("#community-select").val()
             }
 				if( $("#start-date").val() && $("#end-date").val()){
-					console.log("community: " + $("#community-select").val() + "\t" + "Start-Date: " + $("#start-date").val() + "    " + "End-Date: " + $("#end-date").val());
+					console.log("community: " + $("#community-select").val() + "\t" +
+                        "Start-Date: " + $("#start-date").val() + "    " +
+                        "End-Date: " + $("#end-date").val());
 					App.Router.LogActivity(communityName,$("#start-date").val(),$("#end-date").val())
 				}
 				else{

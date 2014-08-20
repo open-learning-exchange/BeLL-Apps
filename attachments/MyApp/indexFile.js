@@ -11,6 +11,10 @@ var numberOfNotificattions="."
  url="unknown";
 var lastpage = false
 var mailView;
+
+function SyncDbSelect(){
+    App.Router.SyncDbSelect()
+}
 function showFeedbackForm(){
 	  App.renderFeedback()
 		if(document.getElementById('site-feedback').style.visibility!='visible'){

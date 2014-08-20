@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html manifest="../manifest.appcache" lang="en">
 <head>
-  <meta charset="utf-8"  manifest="/cache.manifest">
   <title>Bell MyApp</title>
 <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
   <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
@@ -159,6 +158,8 @@
   <script src='app/collections/ActivityLog.js'></script>
 
    <!-- app-Views -->
+  <script src="app/views/ConfigurationView.js"></script>
+  <script src="app/views/listSyncDbView.js"></script>
   <script src="app/views/MemberLoginForm.js"></script>
   <script src="app/views/navBarView.js"></script>
   <script src="app/views/MemberForm.js"></script>
@@ -251,8 +252,19 @@
   <!-- javaScript -->
   
   <script src='indexFile.js'></script>
-  
-  
+
+  <!-- template for configurations, used by configuration view -->
+  <script type="text/template" id="template-Configuration">
+      <h5>&nbsp;&nbsp;Set Community Language </h5>
+      &nbsp;&nbsp;<select id="languageSelection">
+          <option value="" selected><%= currentLanguage %></option>
+          <option value="">----------------</option>
+          <% for (var i=0; i<availableLanguages.length; i++){%>
+          <option value="<%= availableLanguages[i] %>"><%= availableLanguages[i] %> </option>
+          <% } %>
+      </select>
+
+  </script>
 
   <script type='text/template' id='template-app'>
  	 <div id="emailCompose" class="well" style="display: none;">
@@ -1209,10 +1221,10 @@
    	  		
      </select>
         <div id="logquery-date">
-			<label style='font-size:16px;'><b>Start Date</b></label>
-			<input type="date" id="start-date"  style='width: 75px;'><br><br>
-			<label style='font-size:16px;'><b>End Date</b></label>
-			&nbsp;&nbsp;<input type="date" id="end-date" style='width: 75px;'>
+			<label style='font-size:16px;'><b>Start Date</b>&nbsp;(YYYY:MM:DD)</label>
+			<input type="date" id="start-date"  style='width: 150px;'><br><br>
+			<label style='font-size:16px;'><b>End Date</b>&nbsp;(YYYY:MM:DD)</label>
+			&nbsp;&nbsp;<input type="date" id="end-date" style='width: 150px;'>
 		</div>
 		<button id="report_button" class="btn btn-success">Generate Report</button>
   </div>
@@ -1223,7 +1235,7 @@
 | Activity Report
 </h4>
 <p>
-<span style="color:gray;">Period(mm/dd/yyyy): </span> <%= startDate %> - <%= endDate %>
+<span style="color:gray;">Period&nbsp;(YYYY:MM:DD) </span> <%= startDate %>&nbsp;to&nbsp;<%= endDate %>
 </p>
 
  <table class="table table-striped">
@@ -1249,19 +1261,21 @@
         <th>Average Rating</th>
         <th >Times Rated</th>
      </tr>
+     <!-- @todo Recording of opening resources is broken.  -->
      <tr>
          <th colspan="6">Most Frequently Opened</th>
      </tr>
+
      <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
      <% _.each(Most_Freq_Open, function(resource){ %>
-         <tr>
-             <td><%=resource.resourceName%></td>
-             <td><%=resource.timesOpenedCumulative%></td>
-             <td><%=resource.timesOpenedByMales%></td>
-             <td><%=resource.timesOpenedByFemales%></td>
-             <td><%=resource.avgRatingCumulative%></td>
-             <td><%=resource.timesRatedCumulative%></td>
-         </tr>
+     <tr>
+         <td><%=resource.resourceName%></td>
+         <td><%=resource.timesOpenedCumulative%></td>
+         <td><%=resource.timesOpenedByMales%></td>
+         <td><%=resource.timesOpenedByFemales%></td>
+         <td><%=resource.avgRatingCumulative%></td>
+         <td><%=resource.timesRatedCumulative%></td>
+     </tr>
      <% }); %>
      <tr>
         <th colspan="6">Highest Rated</th>
@@ -1269,9 +1283,9 @@
      <% _.each(Highest_Rated, function(resource){ %>
          <tr>
              <td><%=resource.resourceName%></td>
-             <td><%=resource.timesOpenedCumulative%></td>
-             <td><%=resource.timesOpenedByMales%></td>
-             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.timesRatedByCumulative%></td>
+             <td><%=resource.timesRatedByMales%></td>
+             <td><%=resource.timesRatedByFemales%></td>
              <td><%=resource.avgRatingCumulative%></td>
              <td><%=resource.timesRatedCumulative%></td>
          </tr>
@@ -1282,9 +1296,9 @@
      <% _.each(Lowest_Rated, function(resource){ %>
          <tr>
              <td><%=resource.resourceName%></td>
-             <td><%=resource.timesOpenedCumulative%></td>
-             <td><%=resource.timesOpenedByMales%></td>
-             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.timesRatedByCumulative%></td>  <!-- timesOpenedCumulative -->
+             <td><%=resource.timesRatedByMales%></td>     <!-- timesOpenedByMales -->
+             <td><%=resource.timesRatedByFemales%></td>   <!-- timesOpenedByFemales -->
              <td><%=resource.avgRatingCumulative%></td>
              <% if (resource.timesRatedCumulative === "N/A") { %>
                 <td><%=resource.timesRatedCumulative%></td>
