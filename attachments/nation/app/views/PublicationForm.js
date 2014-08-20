@@ -139,8 +139,8 @@ $(function () {
                      allpub=allpub.first()
                     if(allpub!=undefined)
                     if (allpub.toJSON().IssueNo!=undefined) {
-                    alert("IssueNo already exist")
-                    showcourse=false
+                          alert("IssueNo already exist")
+                          showcourse=false
                     }
                   
                 }
@@ -148,7 +148,7 @@ $(function () {
             if(showcourse)
             {
             		this.model.save(null,{success:function(e){
-		 				 window.location.href = '../MyApp/index.html#courses/'+e.toJSON().id;
+		 				   window.location.href = '#courses/'+e.toJSON().id;
 		 				 }
 		  			})
 		  

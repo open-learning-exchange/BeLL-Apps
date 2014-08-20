@@ -86,6 +86,11 @@
      <script src="app/collections/CourseRequest.js"></script>
      <script src="app/collections/ResourceRequest.js"></script>
      <script src="app/collections/NationReportComments.js"></script>
+     <script src="app/collections/Course.js"></script>
+     <script src="app/collections/Resources.js"></script>
+     
+     
+     
      <!-- Views  -->
      
      
@@ -116,6 +121,7 @@
   	<script src="app/views/GroupsTable.js"></script>
   	<script src="app/views/GroupsRow.js"></script>
   	<script src="app/views/listSyncDbView.js"></script>
+  	<script src="app/views/courseSeach.js"></script>
   	
   	<script src="app/Router.js"></script>
      
@@ -316,11 +322,12 @@
     
   </script>
   <script type="text/template" id="template-Publication"> 
-    <div id='listPublication-head'> 
+
     <p class='heading' style="font-size: 20px;"> 
-    <a href='#publication' class="publicationFont" style='color:#1ABC9C' >List Issues</a>  |   <a href='#publication/add' class="publicationFont">Add Issue</a>
-     </p>
-      </div>
+       <h3>Publications 
+         <a href='#publication/add' class="btn btn-success publicationFont">Add Issue</a>
+       <h3>
+    </p>
 
 	<div style='width:940px;margin:0 auto' id='listReq'></div>
   </script>
