@@ -31,11 +31,6 @@ font-size: 13px;
   float: left;
   clear: both;
 }
-  
-.form .btn {
-  margin: 5px 0px 20px 20px;
-}
-
 .form .progress {
   float:left;
   margin-top: 9px;

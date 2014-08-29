@@ -267,7 +267,7 @@ $(function () {
             publication.save()
             publication.on('sync', function () {
                 alert("Your Resources have been added successfully")
-                window.location='../nation/index.html#publication/add/'+publication.get('_id')
+                window.location='../nation/index.html#publicationdetail/'+publication.get('_id')
             })
 
         

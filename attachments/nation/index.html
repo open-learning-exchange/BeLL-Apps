@@ -86,7 +86,7 @@
      <script src="app/collections/CourseRequest.js"></script>
      <script src="app/collections/ResourceRequest.js"></script>
      <script src="app/collections/NationReportComments.js"></script>
-     <script src="app/collections/Course.js"></script>
+     <script src="app/collections/Courses.js"></script>
      <script src="app/collections/Resources.js"></script>
      
      
@@ -119,12 +119,14 @@
 	<script src="app/views/listCommunityView.js"></script>
   	<script src="app/views/GroupView.js"></script>
   	<script src="app/views/GroupsTable.js"></script>
-  	<script src="app/views/GroupsRow.js"></script>
+  	<script src="app/views/GroupRow.js"></script>
   	<script src="app/views/listSyncDbView.js"></script>
   	<script src="app/views/courseSeach.js"></script>
+  	<script src="app/views/PublicationCoursesTable.js"></script>
+  	<script src="app/views/PublicationCourseRow.js"></script>
   	
   	<script src="app/Router.js"></script>
-     
+     App.Views.GroupRow
   	
   	<script>
   	 var limitofRecords = 5;
@@ -141,8 +143,8 @@
 		$('#site-feedback').animate({height:'toggle'})
 		}
 		}
-		function SelectCommunity(res,pId){
-  			App.Router.SelectCommunities(res,pId)
+		function SelectCommunity(pId){
+  			App.Router.SelectCommunities(pId)
   		}
   		function SyncDbSelect(){
   			App.Router.SyncDbSelect()
@@ -201,6 +203,35 @@
      
    </script>
    
+   <script type="text/html" id="template-GroupRow">
+    <td>
+       <%= CourseTitle %>
+    </td> 
+
+    <td>
+        <a role='button' class='btn btn-inverse addtoPublication' name='<%=_id %>'> 
+         Add
+       </a>
+    </td>
+    <td>
+      
+    </td>
+  </script>
+   
+   
+   <script type="text/html" id="template-publication-CourseRow">
+   
+   <td>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= CourseTitle %></BR></span>
+  </td>
+    <td>
+      <a class='btn btn-danger destroy'>
+        <i class='icon-remove icon-white'></i> Remove
+      </a>
+      </td>
+
+  </script>
+  
    <script type="text/template" id="template-nav-log-in"> 
     <li> 
       <a href="#login">
@@ -741,26 +772,7 @@
           <%= form %>
         </td>
       </tr>
-      <tr>
-       <%if(rlength>0){%>
-        <td colspan="1">
-          <button class="btn btn-success" id="AddResPublication">Add Resources</button>
-           <button  style="width: 128px;" class="btn btn-success" id="AddCoursePublication">Add Course</button>
-        </td>
-       
-        <td>
-        <p>
-         Total Resources: <%=rlength%>
-        </p>
-        </td>
-        <%}else{%>
-        <td colspan="2">
-          <button class="btn btn-success" id="AddResPublication">Add Resources</button>
-          <button  style="width: 128px;" class="btn btn-success" id="AddCoursePublication">Add Course</button>
-        </td> 
-        <%}%>
-      </tr>
-      
+      <tr>    
       <tr>
         <td>
           <div class="save btn btn-success" name="save">

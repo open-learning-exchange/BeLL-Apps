@@ -15,17 +15,13 @@ $(function () {
         template: _.template($('#template-form-file').html()),
 
         render: function () {
+    
             var vars = {}
-
-            // prepare the header
-
+            
             if (_.has(this.model, 'id')) {
-
-                vars.header = 'Publication Issue : "' + this.model.get('IssueNo') + '"'
-                
+                vars.header = 'Publication Issue : "' + this.model.get('IssueNo') + '"'   
             } else {
-                vars.header = 'New Publication Issue'
-                
+                vars.header = 'New Publication Issue'     
             }
 
             // prepare the form
@@ -36,9 +32,11 @@ $(function () {
             vars.rlength=this.rlength
             this.form.render()
             this.$el.html(this.template(vars))
+            
             $('.fields').html(this.form.el)
             $('.form .field-resources').hide();
             $('#progressImage').hide();
+            
             return this
         },
 
@@ -48,15 +46,8 @@ $(function () {
             this.form.commit()
             if (this.model.get("IssueNo")==undefined) {
                 alert("Publication Issue is missing")
-            } 
-           
-            else if(this.rlength <= 0)
-            {
-            	alert("Please add resource('s)")
-            }
-            else {
-                 if (isEdit == undefined) {
-                   
+            } else {
+                 if (isEdit == undefined) {         
                     var that = this
                     var allres = new App.Collections.Publication()
                     allres.fetch({
@@ -71,8 +62,12 @@ $(function () {
                 }
                 
                 if (addtoDb) {
-                    alert("Issue Saved!")
-                    window.location.href='#publication'
+                    this.form.commit()
+                    this.model.save(null,{success:function(e){
+                           alert("Issue Saved!")
+		 				   window.location.href = '#publicationdetail/'+e.toJSON().id;
+		 				 }
+		  			})
                 }
             }
 
@@ -81,8 +76,6 @@ $(function () {
 		  var showsearch=true
 		  var isEdit = this.model.get("_id")
 		  this.form.commit()
-		  this.model.set({"kind":'ResourcePublication'})
-		  console.log(this.model.toJSON())
 		  if (this.model.get("IssueNo")==undefined) {
                 alert("Publication Issue is missing")
                 showsearch=false
@@ -120,10 +113,8 @@ $(function () {
 		  var myCourses=new Array()
 		  var isEdit = this.model.get("_id")
 		  this.form.commit()
-		  this.model.unset("resources", { silent: true });
+		 // this.model.unset("resources", { silent: true });
 		  this.model.set({"courses":myCourses})
-		  this.model.set({"kind":'CoursePublication'})
-		  console.log(this.model.toJSON())
 		  if (this.model.get("IssueNo")==undefined) {
                 alert("Publication Issue is missing")
                 showcourse=false

@@ -4,7 +4,7 @@ $(function() {
     
     model: App.Models.Resource,
     url: function () {
-              if(this.keys)
+              if(this.keys!='undefined')
     			return App.Server + '/resources/_all_docs?include_docs=true&keys=[' + this.keys + ']'
     		  else	
     		    return App.Server + '/resources/_all_docs?include_docs=true'

@@ -1,22 +1,12 @@
 $(function() {
 
-  // We're getting _all_docs instead of a Resources view because we're not putting
-  // views in Collection databases. We'll mapreduce client side.
   App.Collections.Publication = Backbone.Collection.extend({
     
     model: App.Models.Publication,
-
+    
     url: function() {
-    if(this.getlast==true)
-    {
-    	//return App.Server + '/recpublication/_changes?include_docs=true&descending=true&limit=2'
-    	return App.Server + '/recpublication/_all_docs?include_docs=true'
-
-    }
-      else{
-      	return App.Server + '/recpublication/_all_docs?include_docs=true'
-      }
-      
+    	var Url= this.Server + '/publications/_all_docs?include_docs=true&keys=[' + this.keys + ']'  
+    	return Url
     },
     
     parse: function(response) {

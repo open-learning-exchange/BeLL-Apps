@@ -99,7 +99,8 @@ $(function() {
         },
         addCourses: function(publicationId) {
             var seachForm = new App.Views.courseSeach()
-            seachForm.render()
+            seachForm.publicationId=publicationId
+            seachForm.render()  
             App.$el.children('.body').html(seachForm.el)
 
         },
@@ -395,68 +396,52 @@ $(function() {
         },
         PublicationDetails: function(publicationId) {
         
-            var publicationObject = new App.Models.Publication({
-                _id: publicationId
-            })
-            publicationObject.fetch({
-                async: false
-            })
-            var coll = Array()
-            // if (publicationObject.get('kind') == 'CoursePublication') {
-// 
-//                 var i = 0
-//                 var courses = publicationObject.get('courses')
-//                 var myJsonString = JSON.stringify(courses)
-//                 _.each(courses, function() {
-//                     var Pcourse = new App.Models.Group({
-//                         _id: (courses[i])
-//                     })
-//                     Pcourse.fetch({
-//                         success: function(response) {
-//                             coll.push(Pcourse)
-//                             var data = response.toJSON()
-//                         },
-//                         async: false
-//                     })
-//                     i++
-//                 })
-//                 groupsTable = new App.Views.GroupsTable({
-//                     collection: coll
-//                 })
-//                 var button = ''
-//                 console.log(coll)
-//                     /*
-// 			Tuesday 11 march 2014
-// 			Resume from view the added courses in Publication  dddd
-// 			 Render GroupTable GroupRow their tables and customise them(GroupRow,GroupTable,Group View added)
-// 			*/
-//             } else {
-
-                var publicationIds = Array()
+				var publicationObject = new App.Models.Publication({
+					_id: publicationId
+				})
+				publicationObject.fetch({
+					async: false
+				})
                 var resources = publicationObject.get('resources')
-                    publicationIds.push(publicationId)
-                var myJsonString = JSON.stringify(resources)
-                var jSonId = JSON.stringify(publicationIds)
-                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-success" style="float:left;margin-left:20px" onclick=SelectCommunity(' + myJsonString + ',' + jSonId + ')>Send Publication</button></div>')
+                var courses = publicationObject.get('courses')
+                            
+                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/'+publicationId+'">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick=SelectCommunity("' + publicationId + '")>Send Publication</button></div>')
                 
                 var resIdes=''
                  _.each(resources, function(item) {
                     resIdes +='"' + item + '",'
                  })
-                 resIdes = resIdes.substring(0, resIdes.length - 1);
-                 
-                var resourcesColl = new App.Collections.Resources()
+                 if(resIdes!='')
+                  resIdes = resIdes.substring(0, resIdes.length - 1);
+                  
+            var resourcesColl = new App.Collections.Resources()
                 resourcesColl.keys= encodeURI(resIdes)
-                resourcesColl.fetch({
-                 async:false
-                });
+                resourcesColl.fetch({async:false });
                 var publicationresTable = new App.Views.PublicationResourceTable({
                     collection: resourcesColl
                 })
                 publicationresTable.Id = publicationId
                 publicationresTable.render()
                 App.$el.children('.body').append(publicationresTable.el)
-           // }
+                
+                 var coursesIdes=''
+                 _.each(courses, function(item) {
+                    coursesIdes +='"' + item + '",'
+                 })
+                 if(coursesIdes!='')
+                  coursesIdes = coursesIdes.substring(0, coursesIdes.length - 1);
+                  
+           var coursesColl = new App.Collections.Courses()
+                coursesColl.keys= encodeURI(coursesIdes)
+                coursesColl.fetch({
+                 async:false
+                });
+                var publicationcourseTable = new App.Views.PublicationCoursesTable({
+                    collection: coursesColl
+                })
+                publicationcourseTable.Id = publicationId
+                publicationcourseTable.render()
+                App.$el.children('.body').append(publicationcourseTable.el)
 
         },
 
@@ -513,11 +498,9 @@ $(function() {
 
 
         },
-        SelectCommunities: function(res, pId) {
-            console.log(pId)
+        SelectCommunities: function(pId) {
             $('#invitationdiv').fadeIn(1000)
             var inviteForm = new App.Views.listCommunityView()
-            inviteForm.res = res
             inviteForm.pId = pId
             inviteForm.render()
             $('#invitationdiv').html('&nbsp')
