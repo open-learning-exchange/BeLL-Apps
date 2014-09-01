@@ -15,6 +15,7 @@ $(function () {
             
         },
         render: function () {
+        
            // here we willn check the any new updated 
             this.$el.html('')
             nName=App.configuration.get('nationName')
@@ -35,7 +36,7 @@ $(function () {
 				      publications.push(row.doc.publicationId)
 				    
 				    })
-				   htmlreferance.append('<a class="btn btn-success" id="newPublication" href="#publications/'+publications+'">Publications ('+json.rows.length+')</a>')
+				   htmlreferance.append('<a class="btn systemUpdate" id="newPublication" href="#publications/'+publications+'">Publications ('+json.rows.length+')</a>')
 				  
 				}
 			})
