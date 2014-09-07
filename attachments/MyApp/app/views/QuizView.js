@@ -138,6 +138,7 @@ $(function () {
             }
         },
         validQuestionAndOptions: function () {
+           var check=0 
             if (typeof $('textarea#quizQuestion').val() === 'undefined' || $('textarea#quizQuestion').val() == '') {
                 return false
             } else if (typeof $('#option1').val() === 'undefined' || $('#option1').val() == '') {
@@ -145,11 +146,11 @@ $(function () {
             } else if (typeof $('#option2').val() === 'undefined' || $('#option2').val() == '') {
                 return false
             } else if (typeof $('#option3').val() === 'undefined' || $('#option3').val() == '') {
-                return false
+                return true
             } else if (typeof $('#option4').val() === 'undefined' || $('#option4').val() == '') {
-                return false
+                return true
             } else if (typeof $('#option5').val() === 'undefined' || $('#option5').val() == '') {
-                return false
+                return true
             } else if (typeof $('input[name=options]:checked').val() === 'undefined' || $('input[name=options]:checked').val() == '') {
                 return false
             } else {

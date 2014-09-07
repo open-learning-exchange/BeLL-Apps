@@ -272,7 +272,7 @@ function sendMail()
 					mailId = member.get('login')
 					sendSingleMail(mailId,mailBody,subject,mailingList)
     			});
-    			alert("Mail successfully send.")
+    			alert("Mail successfully sent.")
 				return
 		}
 		for(var i=0;i<mailingList.length;i++)
@@ -289,7 +289,7 @@ function sendMail()
 	     	sendSingleMail(mailId,mailBody,subject,mailingList)
 		
 	   }
-	   alert("Mail successfully send.")
+	   alert("Mail successfully sent.")
 	   $('#MakeMailForMembers').popup('hide');
 	}
 

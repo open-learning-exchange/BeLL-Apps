@@ -2234,8 +2234,8 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-	this.saveFrequency(URL);
-	this.saveResources(URL);
+	// this.saveFrequency(URL);
+	// this.saveResources(URL);
 	this.WeeklyReports();	 
  },
  saveResources:function(URL){
