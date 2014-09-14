@@ -196,15 +196,14 @@ $(function () {
 			})
 			// Put the form's input into the model in memory
 		var previousLeader = this.model.get('courseLeader')
-		this.form.commit()
+		    this.form.commit()
 		this.model.set("name", this.model.get("CourseTitle"))
 			// Send the updated model to the server
 		if (this.model.get("_id") == undefined) {
 
 			newEntery = 1
 			this.model.set("members", [$.cookie('Member._id')])
-		}
-		else {
+		}else {
 			this.model.set("members", this.prevmemlist)
 		}
 		if (this.model.get('CourseTitle').length == 0) {

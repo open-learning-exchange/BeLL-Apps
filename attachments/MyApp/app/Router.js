@@ -702,7 +702,7 @@ var test=new App.Models.CourseInvitation()
                     App.$el.children('.body').html(quiz.el)
                     quiz.render()
                     if (levelInfo.get("questions")) {
-                        quiz.displayQuestionInView(0)
+                        quiz.displayQuestionsInView()
                     }
                 }
             })
@@ -1212,42 +1212,10 @@ var test=new App.Models.CourseInvitation()
                     })
         },
     Members: function () {
-    
-            App.startActivityIndicator()
-            
-    	 	var config=new App.Collections.Configurations()
-    	     config.fetch({async:false})
-    	    var currentConfig=config.first()
-            var cofigINJSON=currentConfig.toJSON()
-        
-    	    
-    	    code=cofigINJSON.code
-    	    nationName=cofigINJSON.nationName       
-            
-            var roles = this.getRoles()
-            members = new App.Collections.Members()
-            members.fetch({
-                success: function () {
-                    membersTable = new App.Views.MembersTable({
-                        collection: members
-                    })
-                    membersTable.community_code=code+nationName.substring(3,5)
-                    if (roles.indexOf("Manager") > -1) {
-                        membersTable.isadmin = true
-                    } else {
-                        membersTable.isadmin = false
-                    }
-                    membersTable.render()
-
-
-                    App.$el.children('.body').html('<h3>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h3>')
-
-
-                    App.$el.children('.body').append(membersTable.el)
-                }
-            })
-                      App.stopActivityIndicator()
-        },
+        var membersView=new App.Views.MembersView()
+            membersView.render();
+        App.$el.children('.body').html(membersView.el)
+    },
         Reports: function () {
         
             App.startActivityIndicator()
@@ -1473,13 +1441,14 @@ var test=new App.Models.CourseInvitation()
     	    var currentConfig=config.first()
             var cofigINJSON=currentConfig.toJSON()    	    
     	    code=cofigINJSON.code
+    	    Bellname=cofigINJSON.nationName
             var mymail = new App.Collections.Mails({
                 skip: 0
             })
             mymail.fetch({
                 async: false
             })
-            var mailview = new App.Views.MailView({collection: mymail,community_code:code})
+            var mailview = new App.Views.MailView({collection: mymail,community_code:code,nationName:Bellname})
             mailview.render()
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)

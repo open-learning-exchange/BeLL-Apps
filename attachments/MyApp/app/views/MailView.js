@@ -16,11 +16,13 @@ $(function () {
 
         events: {
             "click #replyMailButton": function (e) {
-                if (this.vars.mailingList) {
-                    $("#recipients").val(this.vars.mailingList)
-                } else {
+           // console.log(this.vars)
+           // alert('this is vaarr')
+               // if (this.vars.mailingList) {
+                  //  $("#recipients").val(this.vars.mailingList)
+               // } else {
                     $("#recipients").val(this.vars.login)
-                }
+                //}
                 $("#subject").val("Re : " + this.vars.subject)
                 $("#mailbodytexarea").val("")
             },
@@ -249,7 +251,7 @@ $(function () {
             console.log(e)
             model.save()
             mailView.vars = model.toJSON()
-            console.log(mailView.vars)
+            
             var member = new App.Models.Member()
             member.id = model.get('senderId')
             member.fetch({
@@ -257,7 +259,7 @@ $(function () {
             })
             mailView.vars.firstName = member.get('firstName')
             mailView.vars.lastName = member.get('lastName')
-            mailView.vars.email = member.get('login') + '.' + mailView.code + '@olebell.org'
+            mailView.vars.email = member.get('login') + '.' + mailView.code+mailView.nationName.substring(3,5)+ '@olebell.org'
             mailView.vars.modelNo = modelNo
             mailView.vars.login = mailView.vars.email
             if (attachmentName != "") {
@@ -279,7 +281,7 @@ $(function () {
         },
         initialize: function (args) {
             this.code = args.community_code
-            console.log(this.code)
+            this.nationName=args.nationName
             this.modelNo = 0
             skip = 0
             this.unopen = true

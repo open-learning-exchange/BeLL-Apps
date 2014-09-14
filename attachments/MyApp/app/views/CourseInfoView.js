@@ -20,14 +20,15 @@ $(function () {
         render: function () {
             var courseInfo = this.model.toJSON()
             var leaderInfo = this.leader.toJSON()
+            
 
             this.$el.append('<tr><td>Name : </td><td>' + courseInfo.name + '</td></tr>')
-            this.$el.append('<tr><td>Levels : </td><td>' + courseInfo.levels + '</td></tr>')
+            this.$el.append('<tr><td>Levels : </td><td>' + courseInfo.subjectLevel + '</td></tr>')
             this.$el.append('<tr><td>Description : </td><td>' + courseInfo.description + '</td></tr>')
 
             this.$el.append('<tr><td>Leader Name: </td><td>' + leaderInfo.firstName + ' ' + leaderInfo.lastName + '</td></tr>')
-            this.$el.append('<tr><td>Leader Email : </td><td>' + courseInfo.leaderEmail + '</td></tr>')
-            this.$el.append('<tr><td>Leader Phone Number : </td><td>' + courseInfo.leaderPhone + '</td></tr>')
+            this.$el.append('<tr><td>Leader Email : </td><td>' + leaderInfo.email + '</td></tr>')
+            this.$el.append('<tr><td>Leader Phone Number : </td><td>' + leaderInfo.phone + '</td></tr>')
             var bgcolor = ''
             var fgcolor = ''
             if (courseInfo.backgroundColor == '')

@@ -277,11 +277,10 @@ function sendMail()
 		}
 		for(var i=0;i<mailingList.length;i++)
 		{
-	    	if(mailingList[i].indexOf('@olebell.org')!=-1)
-		 	{
-		 		var names=mailingList[i].split(".")
-		 		console.log(names[0])
-				mailId=names[0]
+	    	if(mailingList[i].indexOf('@olebell.org')!=-1){
+	    	
+		    var firstPart=mailingList[i].split("@")
+		 	    mailId=firstPart[0].substring(0,firstPart[0].lastIndexOf("."))
 		 	}
 		 	else{
 		   		mailId=mailingList[i]
@@ -332,7 +331,7 @@ function sendSingleMail(mailId,mailBody,subject,mailingList)
       		}
       		else
       		{
-      			alert("Invalid mail address"+mailId)
+      			alert("Invalid mail address "+mailId)
       		}
 
 		});

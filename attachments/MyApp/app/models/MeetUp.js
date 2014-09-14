@@ -25,7 +25,7 @@ $(function() {
       description: 'TextArea',
       startDate: 'Text',
       endDate: 'Text',
-      reoccuring: {
+      recurring: {
         type: 'Radio',
         options: ['Daily', 'Weekly']
       },
