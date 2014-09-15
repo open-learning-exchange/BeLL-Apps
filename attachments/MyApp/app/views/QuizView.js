@@ -8,7 +8,6 @@ $(function () {
         questionOptions: null,
         answers: null,
         currentQuestion: null,
-        //completeQuestions: null,
         events: {
             "click .EditQuestiontoView":"EditQuestiontoView",
             'click #delete-quiz-question':"deleteQuestion",
@@ -60,9 +59,7 @@ $(function () {
              if (!this.validQuestionAndOptions()) {
                     alert('invalid inputs')
                 } else {
-                         //this.completeQuestions[this.currentQuestion] = true
                         this.saveQuestionAndOptions()
-                        this.currentQuestion++
                         $("#question-no").html("Question :")
                         $('textarea#quizQuestion').val("")
                         $('#option1').val("")
@@ -110,10 +107,15 @@ $(function () {
 		   for(var questionNumber=0;questionNumber<this.quizQuestions.length;questionNumber++){
 		      this.AddQuestiontoView(questionNumber)
 		   }
+// 		   console.log(this.quizQuestions)
+// 		   console.log(this.questionOptions.length)
+// 		   console.log(this.answers.length)
+// 		   console.log(this.quizQuestions.length)
+
 		   this.currentQuestion=this.quizQuestions.length
 		},
         AddQuestiontoView: function (questionNumber) {
-           var html='<tr><td colspan="6"><h6>Question# '+(questionNumber+1)+'&nbsp&nbsp<a name='+questionNumber+' class="EditQuestiontoView btn btn-info">Edit</a></h6>'+this.quizQuestions[questionNumber]+'</td></tr>'
+           var html='<tr><td colspan="6"><h6>Question# '+(questionNumber+1)+'&nbsp&nbsp<a name='+questionNumber+' class="EditQuestiontoView btn btn-info">Edit</a>&nbsp&nbsp<button value="'+questionNumber+'" class="btn btn-danger" id="delete-quiz-question" >Delete</button></h6>'+this.quizQuestions[questionNumber]+'</td></tr>'
                html+='<tr>'
                html+='<td><b>Options</b></td>'
                html+='<td>'+this.questionOptions[questionNumber * 5]+'</td>'
@@ -133,13 +135,12 @@ $(function () {
             $('#question-div').appendTo("#"+this.currentQuestion);
             $('#save-edit-question').show()
             $('#cancel-edit-question').show()
-            $('#delete-quiz-question').show()
             
             $('#save-new-question').hide()
             $('#cancel-new-question').hide()
         },
         deleteQuestion: function (e) {
-            this.currentQuestion=e.currentTarget.name       
+            this.currentQuestion=e.currentTarget.value       
             this.quizQuestions.splice(this.currentQuestion, 1);
             this.questionOptions.splice(this.currentQuestion * 5,5)          
             this.answers.splice(this.currentQuestion,1)
@@ -178,7 +179,6 @@ $(function () {
             this.$el.html(_.template(this.template, this.vars))
             $('#save-edit-question').hide()
             $('#cancel-edit-question').hide()
-            $('#delete-quiz-question').hide()
             
         },
     })
