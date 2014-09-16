@@ -32,5 +32,20 @@ $(function () {
             },
 
     })
+    App.Models.sendPublication = Backbone.Model.extend({
+
+        idAttribute: "_id",
+
+        url: function () {
+            if (_.has(this, 'id')) {
+                var url = (_.has(this.toJSON(), '_rev')) ? App.Server + '/publicationdistribution/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
+                : App.Server + '/publicationdistribution/' + this.id // For READ
+            } else {
+                var url = App.Server + '/publicationdistribution' // for CREATE
+            }
+            return url
+        }
+
+    })
 
 })

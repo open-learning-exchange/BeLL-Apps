@@ -5,9 +5,11 @@ $(function() {
     model: App.Models.Group,
     url: function () {
               if(this.seachText)
-    			return App.Server + '/Groups/_design/bell/_view/courseSearch?include_docs=true&keys=' + this.seachText
+    			return App.Server + '/groups/_design/bell/_view/courseSearch?include_docs=true&key=' + this.seachText
+    		  else if(this.keys!=undefined)
+    		    return App.Server + '/groups/_all_docs?include_docs=true&keys=[' + this.keys + ']'
     		  else	
-    		    return App.Server + '/Groups/_all_docs?include_docs=true'
+    		    return App.Server + '/groups/_all_docs?include_docs=true&limit=20'
    
     },
     parse: function(response) {

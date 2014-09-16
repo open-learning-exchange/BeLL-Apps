@@ -58,6 +58,7 @@ $(function() {
       	validators : ['required']
       },
       outComes: {
+        title: 'Outcomes',
         type: 'Checkboxes',
         options: ['Paper', 'Quiz']
       },

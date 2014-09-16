@@ -77,36 +77,43 @@ $(function(){
 			'reportsActivity':'LogActivity',
 			'setbit' : 'setNeedOptimizedBit',
 			'CompileAppManifest' : 'CompileAppManifest',
-          'cummunityManage':'cummunityManage',
-          'configuration': 'Configuration'
+            'cummunityManage':'cummunityManage',
+            'publications/:publicationIdes' :'Publications',
 			
 			
+},
+Publications:function(publicationIdes){
+
+ publicationIdes=publicationIdes.split(',')
+                 var keys=''
+                 _.each(publicationIdes, function(item) {
+                    keys +='"' + item + '",'
+                 })
+                 if(keys!='')
+                  keys = keys.substring(0, keys.length - 1);
+                  
+                  console.log(keys)
+    nName=App.configuration.get('nationName')
+    pass=App.password
+    nUrl=App.configuration.get('nationUrl')
+    currentBellName=App.configuration.get('name')
+var DbUrl='http://'+nName+':'+pass+'@'+nUrl
+var completeUrl=DbUrl+'/publications/_all_docs?include_docs=true&keys=[' + keys + ']'
+
+
+var PublicationsView= new App.Views.PublicationTable()
+PublicationsView.Url=completeUrl
+PublicationsView.render()
+App.$el.children('.body').html('<h3>Publications</h3>')
+App.$el.children('.body').append(PublicationsView.el)
+
 },
 cummunityManage: function() {
 
-   App.$el.children('.body').html('')
-   App.$el.children('.body').append('<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>')
-   App.$el.children('.body').append('<button class="btn btn-hg btn-primary" onclick=SyncDbSelect() id="sync">Sync With Nation</button>')
-},
-Configuration: function() {
-   var config = new App.Collections.Configurations()
-   config.fetch({
-       async: false
-   })
-   var configuration = config.first()
-   var configView = new App.Views.ConfigurationView()
-   configView.model = configuration
-   configView.render()
-   App.$el.children('.body').html(configView.el)
+   var manageCommunity=new App.Views.ManageCommunity()
+       manageCommunity.render()
+       App.$el.children('.body').html(manageCommunity.el)
 
-},
-SyncDbSelect: function() {
-   $('#invitationdiv').fadeIn(1000)
-   var inviteForm = new App.Views.listSyncDbView()
-
-   inviteForm.render()
-   $('#invitationdiv').html('&nbsp')
-   $('#invitationdiv').append(inviteForm.el)
 },
 addCourseInvi:function(){
 
@@ -695,7 +702,7 @@ var test=new App.Models.CourseInvitation()
                     App.$el.children('.body').html(quiz.el)
                     quiz.render()
                     if (levelInfo.get("questions")) {
-                        quiz.displayQuestionInView(0)
+                        quiz.displayQuestionsInView()
                     }
                 }
             })
@@ -1205,42 +1212,10 @@ var test=new App.Models.CourseInvitation()
                     })
         },
     Members: function () {
-    
-            App.startActivityIndicator()
-            
-    	 	var config=new App.Collections.Configurations()
-    	     config.fetch({async:false})
-    	    var currentConfig=config.first()
-            var cofigINJSON=currentConfig.toJSON()
-        
-    	    
-    	    code=cofigINJSON.code
-    	    nationName=cofigINJSON.nationName       
-            
-            var roles = this.getRoles()
-            members = new App.Collections.Members()
-            members.fetch({
-                success: function () {
-                    membersTable = new App.Views.MembersTable({
-                        collection: members
-                    })
-                    membersTable.community_code=code+nationName.substring(3,5)
-                    if (roles.indexOf("Manager") > -1) {
-                        membersTable.isadmin = true
-                    } else {
-                        membersTable.isadmin = false
-                    }
-                    membersTable.render()
-
-
-                    App.$el.children('.body').html('<h3>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h3>')
-
-
-                    App.$el.children('.body').append(membersTable.el)
-                }
-            })
-                      App.stopActivityIndicator()
-        },
+        var membersView=new App.Views.MembersView()
+            membersView.render();
+        App.$el.children('.body').html(membersView.el)
+    },
         Reports: function () {
         
             App.startActivityIndicator()
@@ -1466,13 +1441,14 @@ var test=new App.Models.CourseInvitation()
     	    var currentConfig=config.first()
             var cofigINJSON=currentConfig.toJSON()    	    
     	    code=cofigINJSON.code
+    	    Bellname=cofigINJSON.nationName
             var mymail = new App.Collections.Mails({
                 skip: 0
             })
             mymail.fetch({
                 async: false
             })
-            var mailview = new App.Views.MailView({collection: mymail,community_code:code})
+            var mailview = new App.Views.MailView({collection: mymail,community_code:code,nationName:Bellname})
             mailview.render()
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)
@@ -2227,8 +2203,8 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  });
-	this.saveFrequency(URL);
-	this.saveResources(URL);
+	// this.saveFrequency(URL);
+	// this.saveResources(URL);
 	this.WeeklyReports();	 
  },
  saveResources:function(URL){

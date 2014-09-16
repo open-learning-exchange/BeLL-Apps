@@ -62,11 +62,11 @@ $(function() {
           }
         }
         else {
-          alert('Login or Pass incorrect.')
+          alert('Login or Password Incorrect')
         }
       }
       else {
-        alert('Login or Pass incorrect.')
+        alert('Login or Password Incorrect')
       }
     });
     },

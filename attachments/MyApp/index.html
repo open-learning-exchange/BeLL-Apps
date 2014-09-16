@@ -216,6 +216,7 @@
   <script src='app/views/MeetUpForm.js'></script>
   
   <script src='app/views/MembersTable.js'></script>
+  <script src='app/views/MembersView.js'></script>
   <script src='app/views/MemberRow.js'></script>
   
   
@@ -249,6 +250,10 @@
   <script src="app/views/Configurations.js"></script>
   <script src="app/views/LogQuery.js"></script>
   <script src="app/views/ActivityReport.js"></script>
+  <script src="app/views/ManageCommunity.js"></script>
+  <script src="app/views/PublicationTable.js"></script>
+  
+  
   <!-- javaScript -->
   
   <script src='indexFile.js'></script>
@@ -701,7 +706,7 @@
     </td>
     
     <td>
-    <%if(creator){ %>
+    <%if(creator || isAdmin){ %>
       <a role='button' class='btn btn-inverse' href='#meetup/manage/<%= _id %>'> 
         <i class="icon-wrench icon-white"></i> Manage
       </a>
@@ -709,7 +714,7 @@
     </td>
 
     <td>
-     <%if(creator){%>
+     <%if(creator || isAdmin){%>
       <a class='destroy btn btn-danger' href='#meetup/delete/<%= _id %>'>
         <i class='icon-remove icon-white'></i> Delete
       </a>
@@ -722,7 +727,10 @@
       <div id="Image"><img width="60px" height="90px" src="<%= src %>" id="userImage"></div>
     </td> 
     <td>
-      <%= firstName %> <%= lastName %>
+      <%= lastName %>
+    </td> 
+    <td>
+      <%= firstName %> 
     </td> 
 	<td>
 	<%= visits %>
@@ -1153,28 +1161,37 @@
 		<br/>
 		Courses | <%= courseTitle %>
 		<h4 id="new-quiz">New Quiz</h4>
-		<div id="question-area">
-			<div id="question-no">Question 1: </div>
-			<div id="question-box"><textarea rows="3"  style="width:100%;height:100%" id="quizQuestion" placeholder="Enter your question here" ></textarea><br/></div>
-		</div>
-		<div id="option-area">
-		<br/>
-		&nbsp;&nbsp;Response Options:<br/>
-		&nbsp;&nbsp;(Identify the right response)
-		<div id="options-table">
-		<table style="border-spacing: 36px 0px;border-collapse:separate;">
-		<tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1" placeholder="Option A" /></td>
-		<td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2" placeholder="Option B" /></td></tr>
-		<tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3" placeholder="Option C" /></td>
-		<td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4" placeholder="Option D" /></td></tr>
-		<tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5" placeholder="Option E" /></td></tr></table>
-		</div>
-		</div>
-		<br/>
-		<button class="btn btn-primary" id="prev-question" >Previous Question</button>
-		<button class="btn btn-primary" id="next-question" >Next Question</button>
+		<table class='table' id="listofquestions">
+		</table>
 		<button class="btn btn-success" id="save-quiz" >Save Quiz</button>
 		<button class="btn btn-danger" id="cancel-quiz" >Cancel</button>
+		<div id='question-div'>
+			<div id="question-area">
+				<div id="question-no">Question : </div>
+				<div id="question-box"><textarea rows="3"  spellcheck="true" style="width:100%;height:100%" id="quizQuestion" placeholder="Enter your question here" ></textarea><br/></div>
+			</div>
+			<div id="option-area">
+			<br/>
+			&nbsp;&nbsp;Response Options:<br/>
+			&nbsp;&nbsp;(Identify the right response)
+			<div id="options-table">
+			<table style="border-spacing: 36px 0px;border-collapse:separate;">
+			<tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1" placeholder="Option A" /></td>
+			<td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2" placeholder="Option B" /></td></tr>
+			<tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3" placeholder="Option C" /></td>
+			<td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4" placeholder="Option D" /></td></tr>
+			<tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5" placeholder="Option E" /></td></tr></table>
+			</div>
+			</div>
+		<br/>
+		<button class="btn btn-primary" id="save-new-question" >Add Question</button>
+		<button class="btn btn-danger" id="cancel-new-question" >Cancel</button>
+		
+		<button class="btn btn-primary" id="save-edit-question" >Save</button>
+		<button class="btn btn-danger" id="cancel-edit-question" >Cancel</button>
+
+		</div>
+		
 
 		</div>
 </script>

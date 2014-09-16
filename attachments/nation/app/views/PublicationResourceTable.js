@@ -20,6 +20,8 @@ $(function() {
 
     addAll: function(){
     this.$el.append('<tr><th>Resource Title</th><th colspan="2">Actions</th></tr>')
+    if(this.collection.length==0)
+        this.$el.append('<tr><td colspan="2"> No Resource in this publication <td></tr>')
     this.collection.forEach(this.addOne, this)
     },
 

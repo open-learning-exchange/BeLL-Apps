@@ -23,23 +23,35 @@ $(function () {
                 this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
         },
         syncData: function(){
-        	App.startActivityIndicator()
-			console.log(this.pId)
-        	alert("Sending data")
         	var selectedValues = $('#comselect').val();
-    		if(selectedValues.length>0)
-    		{
+        	if(!selectedValues){
+    		    alert('Please select Community first')	 
+    		    return
+    		 } 
+    		 App.startActivityIndicator()
+    		 var sendPub=new Array()		 
+    		 
+    		if(selectedValues.length>0){
     			for (var i = 0; i < selectedValues.length; i++) {
-    			var communityUrl=selectedValues[i]
-    			var communityName=$("#comselect option[value='"+selectedValues[i]+"']").text()
-				this.synchPubCommunityWithURL(communityUrl,communityName,this.pId)
-				this.synchResCommunityWithURL(communityUrl,communityName,this.res)
-				}
-    		
+					var cUrl=selectedValues[i]
+					var cName=$("#comselect option[value='"+selectedValues[i]+"']").text()
+					   sendPub.push({
+								 communityUrl:cUrl,
+								 communityName:cName,
+								 publicationId:this.pId,
+								 Viewed:false
+							})
+				}	
+			$.couch.db("publicationdistribution").bulkSave({"docs":sendPub }, {
+					success: function(data) {
+						console.log(data);
+					},
+					error: function(status) {
+						console.log(status);
+					}
+				});	
     		}
-    		
-    		console.log(selectedValues)
-    		
+    
     		$("#list option[value='2']").text()
         	$('#invitationdiv').fadeOut(1000)
             setTimeout(function () {

@@ -74,6 +74,9 @@ $(function () {
                 }, {
                     val: 'PDF.js',
                     label: 'PDF'
+                },{
+                    val: 'Bell-Reader',
+                    label: 'Bell-Reader'
                 }, {
                     val: 'MP3',
                     label: 'Audio (MP3)'
