@@ -18,8 +18,6 @@ $(function() {
      var temp=Backbone.history.location.href
      temp=temp.split('#')
     
-    console.log(temp[1])
-    
     this.data={uRL:temp[1]}
     console.log(this.$el)
 	this.$el.append(this.template(this.data))

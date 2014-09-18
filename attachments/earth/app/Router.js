@@ -20,12 +20,12 @@ $(function(){
 		
 	renderNav: function(){
    		 if($.cookie('Member._id')){
-         var na=new App.Views.navBarView({isLoggedIn:'1'})
-     	 }   
-     	 else{
+            var na=new App.Views.navBarView({isLoggedIn:'1'})
+     	 }else{
      		var na=new App.Views.navBarView({isLoggedIn:'0'})
      	 }
-     	  $('div.nav-collapse').html(na.el)
+     	 console.log($('div.navbar-collapse'))
+     	 $('div.navbar-collapse').html(na.el)
      	      // App.badge()
        },
        
@@ -36,9 +36,7 @@ $(function(){
 	  				
            // Set up
      			 var model = new App.Models[className]()
-     			 var modelForm = new App.Views[className + 'Form']({model: model})
-     			 
-     			 
+     			 var modelForm = new App.Views[className + 'Form']({model: model}) 
      			 App.$el.children('.body').html('') 
             // Bind form to the DOM 
       			//  if (modelId) {
@@ -136,16 +134,16 @@ $(function(){
     
     },
     addMembers:function(){
-   		 alert('add members')
+   	  alert('add members')
     },
     addResource:function(){
       alert('add resource')
     },
     listResources:function(){
-    	 alert('add listResources')
+      alert('add listResources')
     }
     
-	}))
+ }))
 	 
 })
 

@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.takeQuizView = Backbone.View.extend({
         Questions: {},
@@ -12,20 +12,20 @@ $(function () {
         id: 'questionForm',
         mymodel: null,
         events: {
-            "click #exitPressed": function (e) {
+            "click #exitPressed": function(e) {
                 $('div.takeQuizDiv').hide()
                 document.getElementById('cont').style.opacity = "1";
                 document.getElementById('nav').style.opacity = "1";
             },
-            "click #finishPressed": function (e) {
+            "click #finishPressed": function(e) {
                 $('div.takeQuizDiv').hide()
                 location.reload()
-                document.getElementById('main-body').style.opacity = "1";
-                document.getElementById('top-nav').style.opacity = "1";
+                document.getElementById('cont').style.opacity = "1";
+                document.getElementById('nav').style.opacity = "1";
 
             },
 
-            "click #nextPressed": function (e) {
+            "click #nextPressed": function(e) {
                 if ($("input:radio[name='optn']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='optn']:checked").val()))
                     console.log(this.Givenanswers)
@@ -42,7 +42,7 @@ $(function () {
         },
 
 
-        initialize: function () {
+        initialize: function() {
             this.Correctanswers = this.options.answers
             this.Questions = this.options.questions
             this.Optns = this.options.options
@@ -53,6 +53,20 @@ $(function () {
             this.myModel = this.options.resultModel
             this.stepindex = this.options.stepIndex
             this.Givenanswers = []
+            
+            console.log('==============================')
+            console.log(this.Correctanswers,"Correctanswers")
+            console.log(this.Questions,"Questions")
+            console.log(this.Optns,"Optns")
+            console.log(this.stepId,"stepId")
+            console.log(this.TotalCount,"TotalCount")
+            console.log(this.pp,"pp")
+            console.log(this.myModel,"myModel")
+            console.log(this.stepindex,"stepindex")
+            console.log(this.Givenanswers,"Givenanswers")
+            console.log('==============================')
+            
+            
         },
         /*
     animateIn:function(){
@@ -74,12 +88,12 @@ $(function () {
      	$('div.takeQuizDiv').animate({left:'125%'},1000)
      },
      */
-        renderQuestion: function () {
+        renderQuestion: function() {
             console.log((this.index + 1))
             console.log(this.TotalCount)
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
-                var temp = this.index * 5
+                    var temp = this.index * 5
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="Progress" style="float:right;"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')
@@ -100,27 +114,27 @@ $(function () {
                 var sp = this.myModel.stepsResult
                 if (this.pp <= quizScore) {
                     sstatus[this.stepindex] = "1"
-                    this.myModel.stepsStatus= sstatus
+                    this.myModel.stepsStatus = sstatus
                 }
                 sp[this.stepindex] = quizScore.toString()
                 this.myModel.stepsResult = sp
 
-                var MemberCourseProgress=new PouchDB('membercourseprogress');
-                
-                MemberCourseProgress.put(this.myModel, this.myModel._id, this.myModel._rev, function(err,info){
-                if(!err)
-                {
-                console.log("Result Saved!")
-                }
-                else{
-                console.log(err)
-                
-                console.log("Not Saved")
-                }
+                var MemberCourseProgress = new PouchDB('membercourseprogress');
+
+                MemberCourseProgress.put(this.myModel, this.myModel._id, this.myModel._rev, function(err, info) {
+                    if (!err) {
+                        console.log("Result Saved!")
+                        MemberCourseProgress.get(info.id, function(err, otherDoc) {
+							  console.log(otherDoc)
+							});
+
+                    } else {
+                        console.log(err)
+
+                        console.log("Not Saved")
+                    }
                 })
                 
-                //this.myModel.save()
-                console.log(this.myModel)
                 if (this.pp <= quizScore) {
                     this.$el.append('</BR><p>You have Passed this Level</p>')
                 } else {
@@ -130,13 +144,13 @@ $(function () {
             }
         },
 
-        start: function () {
+        start: function() {
             $('div.takeQuizDiv').show()
-            // this.animateIn()
+                // this.animateIn()
             this.renderQuestion()
         },
 
-        render: function () {
+        render: function() {
             document.getElementById('cont').style.opacity = "0.1";
             document.getElementById('nav').style.opacity = "0.1";
             this.start()

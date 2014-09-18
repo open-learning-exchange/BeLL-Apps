@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
+<head>
   <meta charset="utf-8">
   
   <title>Bell Earth</title>
@@ -14,13 +14,9 @@
     <link rel="stylesheet" href="app/Home.css"/>
   <link rel="stylesheet" href="app/style.css"/>
    
-   
-  <!-- <link rel="stylesheet" href="a/tabl.css"/> -->
-  <!--  <link rel="stylesheet" href="app/tabl.css"/> -->
+ <!--  <link rel="stylesheet" href="app/tabl.css"/>  -->
 
-<!--
-    DEPENDENCIES
-  -->
+  <!-- DEPENDENCIES -->
  
   <script src="vendor/jquery-1.7.2.js"></script>
   <script src="vendor/jquery-ui.js"></script>
@@ -45,41 +41,33 @@
   <script src="vendor/jquery-ui.custom.min.js"></script>
   <script src="vendor/fullcalendar.min.js"></script>
       <!-- -->
-  
-  
-      <script src="app/App.js"></script>
+  <script src="app/App.js"></script>
       
       
-      
-      
-  
     <!-- Models  -->
     
-     <script src="app/models/Nation.js"></script>
-     <script src="app/models/Credentials.js"></script>
+  <script src="app/models/Nation.js"></script>
+  <script src="app/models/Credentials.js"></script>
      
-      <!--Collection  -->
+  <!--Collection  -->
      
-     <script src="app/collections/Nations.js"></script>
+  <script src="app/collections/Nations.js"></script>
      
-     <!-- Views  -->
+  <!-- Views  -->
      
      
-     <script src="app/views/NationForm.js"></script>
-     <script src="app/views/navBarView.js"></script>
-     <script src="app/views/MemberLoginForm.js"></script>
-    
-     <script src="app/views/NationsTable.js"></script>
-     <script src="app/views/NationRow.js"></script>
+  <script src="app/views/NationForm.js"></script>
+  <script src="app/views/navBarView.js"></script>
+  <script src="app/views/MemberLoginForm.js"></script>
+  <script src="app/views/NationsTable.js"></script>
+  <script src="app/views/NationRow.js"></script>
      
-   
-    
-  	<script src="app/Router.js"></script>
+  <script src="app/Router.js"></script>
   	
   	
-    <!--templates -->
+<!--templates -->
     
-    <script type='text/template' id='template-login'>
+<script type='text/template' id='template-login'>
     <p style='text-align:center;font-size:20px'>Welcome to Earth Bell <br> The Billion Kids' Basic e-Learning Library</p>
      <div style='height:250px;border-top:1px solid gray;border-bottom:1px solid gray;width:100%;margin:100px auto;background-color:#eee' id='Login-form'>
          <div style='width:940px;margin:0 auto'>
@@ -97,114 +85,70 @@
           		 </div>
           </form>
      </div>  
-    </script>
-     
-    <script type="text/template" id="template-app">  
-       <div class="navbar navbar-inverse navbar-fixed-top" id="nav">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">BeLL Earth</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Body -->
-    <div class="container body" id="cont">
-      <!-- Content -->
-    </div>
-     
-   </script>
-   
-   <script type="text/template" id="template-nav-log-in"> 
+</script>
+<!-- app template -->
+<script type="text/template" id="template-app">  
     
-  </script>
-   
-   
-   
-   <script type="text/template" id="template-nav-logged-in"> 
-   <div id="invitationSuperDiv"><div id="invitationdiv"></div></div>
-   
-  <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag icon-white"></i> Courses <b class="caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a href="#courses"><i class="icon-list"></i> List Courses</a></li>
-        <li><a href="#course/add"><i class="icon-plus"></i> Add a new Course</a></li>
-        <li><a onclick= "showRequestForm('Course')"><i class="icon-tint"></i> Request Course</a></li>
-        <!--<li><a href="#course/default"><i class=" icon-shopping-cart"></i> Default Courses</a></li>-->
-      </ul>
-    </li>
+       <div id="popup-spinning"></div>
+       <div class="navbar navbar-inverse" id="top-nav">    
+     	  <div class="navbar-collapse collapse" id="nav-collapse-01">   
+     	 </div>      
+      </div>	
+        <!-- Body -->  
+      <div class="container body" id="main-body">
+         <!-- Content -->
+      </div>
 
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> Members <b class="caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a href="#members"><i class="icon-list"></i> List Members</a></li>
-        <li><a href="#member/add"><i class="icon-plus"></i> Add a new Member</a></li>
-      </ul>
-    </li>
-
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Resources <b class="caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a href="#resources"><i class="icon-list"></i> List Resources</a></li>
-        <li><a href="#resource/add"><i class="icon-plus"></i> Add a new Resource</a></li>
-        <li><a onclick= "showRequestForm('Resource')"><i class="icon-tint"></i> Request Resource</a></li>
-      </ul>
-    </li>
-	<li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Meetup<b class="caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a onclick= "showRequestForm('Meetup')"><i class="icon-tint"></i> Request Meetup</a></li>
-      </ul>
-    </li>
+</script>
+<!-- navbar without loging -->   
+<script type="text/template" id="template-nav-log-in"> 
+</script>
+<!-- navbar after loging -->      
+<script type="text/template" id="template-nav-logged-in"> 
+    
     <li> 
-      <a href="../personal/index.html"><i class="icon-briefcase icon-white"></i> Personal BeLL</a>
-    </li>
-	<li> 
-      <a href="#myRequests"><i class="icon-tint icon-white"></i> My Requests</a>
-    </li>
-   <!-- <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Install <b class="caret"></b></a>
-      <ul class="dropdown-menu">
-
-        <li> 
-          <a href="#compile/">Compile all Apps and all Resources for Syncing</a>
-        </li>
-        <li> 
-          <a href="#compile/week">Compile Apps and this weeks Assigned Resources for Syncing</a>
-        </li>
-
-      </ul> -->
-    </li>
-
-
-    <li> 
-      <a href="#logout">
-        <i class="icon-plane icon-white"></i> Log out
+      <a href="#listCommunity">
+         Communities
       </a>
-    </li>
-    <li  style="float:right;"> 
+    </li> 
+    <li> 
+      <a href="#publication">
+        Publications
+      </a>
+    </li> 
+    <li> 
+      <a href="#request">
+         Requests
+      </a>
+    </li> 
+    <li> 
+      <a href="#">
+        Databases
+      </a>
+    </li> 
+    <li> 
+      <a href="#reports">
+        Reports
+      </a>
+    </li> 
+    <li> 
       <a onclick = "showFeedbackForm()">
-        <i class="icon-pencil icon-white"></i> Feedback
+        Feedback
       </a>
-    </li>
-  </script>
+     </li> 
+	<li> 
+      <a href="../MyApp/index.html#dashboard">
+        Dashboard
+      </a>
+    </li> 
+</script>
   
-  <script type="text/html" id="template-listNationTop">
+<script type="text/html" id="template-listNationTop">
      
-  </script>
+</script>
 
  
-   <script type="text/template" id="template-addNation">
+ <script type="text/template" id="template-addNation">
    <div id='addNation-heading'>
       <p>
        <p class='heading'> <a href=''>Earth Bell</a>  |   <a href=''><%if(edit==true){%>Manage Nation<%}else{%>Add Nation<%}%></a>    </p>
@@ -305,21 +249,19 @@
              
          </form>
        </div>
-   </script>  
+</script>  
 
-
+<-- End Of templates -->
     
-    <-- End Of templates -->
-    
-    </head>
+</head>
     
     
-    <body>
+<body>
         
-    </body>
-  <script>
-   $(document).ready(function() {
-      App.start()
-    })
-  </script>
+</body>
+<script>
+$(document).ready(function() {
+   App.start()
+ })
+ </script>
 </html>

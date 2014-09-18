@@ -33,18 +33,14 @@ $(function() {
         : false
         
       
-      
       if(!loggedIn && $.url().attr('fragment')) {
         // We want to abort this page load so there isn't a race condition with whatever 
         // url is being requested and the loading of the login page.
-        
-        alert('first')
+
     	 window.location = $.url().attr('path') // returns url with no fragment
       }
       else if (!loggedIn && !$.url().attr('fragment')) {
        // No Routes are being triggered, it's safe to start history and move to login route.
-       
-        alert('2')
         App.Router.renderNav()
       //  $('ul.nav').html($('#template-nav-log-in').html())
         Backbone.history.start({pushState: false})
@@ -52,26 +48,15 @@ $(function() {
       }
       else if (loggedIn && !$.url().attr('fragment')) {
      	 // We're logged in but have no where to go, default to the teams page.  
-     	 
-     	 alert('3') 
         App.Router.renderNav()
         Backbone.history.start({pushState: false})    
         Backbone.history.navigate('nations', {trigger: true})
       	  
-      }
-      else {
-      
-      alert('last')
-      
+      }else {
       	App.Router.renderNav()
         Backbone.history.start({pushState: false})
       }
 
-      // Start the constant syncing of data
-      //App.syncDatabases()
-      //App.updateAppCacheStatus()
-      //setInterval(App.syncDatabases, 10000)
-      //setInterval(App.updateAppCacheStatus, 10000)
 
     },
 }))

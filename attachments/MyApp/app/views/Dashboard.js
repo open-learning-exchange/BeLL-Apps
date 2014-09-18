@@ -242,7 +242,7 @@ $(function () {
                     roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
                 }
                 else {
-                    roles = roles + '<a href="#cummunityManage">Manager</a>'
+                    roles = roles + '<a href="#communityManage">Manager</a>'
                 }
 			}
 			$('.visits').html(temp)
