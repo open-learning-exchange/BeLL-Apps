@@ -2079,9 +2079,11 @@ var test=new App.Models.CourseInvitation()
       if(hostName[0].indexOf('cloudant')!=-1){
            // cloudant
            URL='http://'+hostName[0]+':'+App.password+'@'+hostUrl[2]
-      }else{
+      }else if(hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/)){
            //other couchdbes that have no username and password
            URL='http://'+hostUrl[2]
+      }else{
+          URL='http://ole:'+App.password+'@'+hostUrl[2]
       }
       
 	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
