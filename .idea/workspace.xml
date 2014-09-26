@@ -2,36 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cda64795-6652-4456-915d-27b79754cbcd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/img/earth_glob.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/views/MemberForm.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/collections/Members.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/models/NationApplication.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/views/NationApplicationRow.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/views/NationApplicationView.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/views/NationApplicationsTable.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attachments/earth/app/views/PendingNationApplicationsView.js" />
       <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\badger.css" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\badger.js" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\fullcalendar.min.js" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\gcal.js" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\jquery-ui.custom.min.js" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\jquery-ui.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/App.js" afterPath="$PROJECT_DIR$/attachments/earth/app/App.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/models/Credentials.js" afterPath="$PROJECT_DIR$/attachments/earth/app/models/Credentials.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/Home.css" afterPath="$PROJECT_DIR$/attachments/earth/app/Home.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/views/MemberLoginForm.js" afterPath="$PROJECT_DIR$/attachments/earth/app/views/MemberLoginForm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/views/NationForm.js" afterPath="$PROJECT_DIR$/attachments/earth/app/views/NationForm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/views/NationRow.js" afterPath="$PROJECT_DIR$/attachments/earth/app/views/NationRow.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/Router.js" afterPath="$PROJECT_DIR$/attachments/earth/app/Router.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/app.css" afterPath="$PROJECT_DIR$/attachments/earth/app/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/vendor/backbone-pouch.js" afterPath="$PROJECT_DIR$/attachments/earth/vendor/backbone-pouch.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/vendor/bootstrap/css/bootstrap.css" afterPath="$PROJECT_DIR$/attachments/earth/vendor/bootstrap/css/bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/index.html" afterPath="$PROJECT_DIR$/attachments/earth/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/views/navBarView.js" afterPath="$PROJECT_DIR$/attachments/earth/app/views/navBarView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/vendor/pouchdb-nightly.js" afterPath="$PROJECT_DIR$/attachments/earth/vendor/pouchdb-nightly.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/style.css" afterPath="$PROJECT_DIR$/attachments/earth/app/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/tabl.css" afterPath="$PROJECT_DIR$/attachments/earth/app/tabl.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OLE-LMS-Refactor.iws" />
@@ -110,7 +86,7 @@
       <file leaf-file-name="Router.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/attachments/earth/app/Router.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.79882526" vertical-offset="2601" max-vertical-offset="11917">
+            <state vertical-scroll-proportion="0.72393537" vertical-offset="2652" max-vertical-offset="11917">
               <caret line="185" column="14" selection-start-line="185" selection-start-column="14" selection-end-line="185" selection-end-column="14" />
               <folding>
                 <marker date="1411715497480" expanded="false" signature="8707:8718" placeholder="..." />
@@ -264,72 +240,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OLE-LMS-Refactor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BeLL-Apps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="attachments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="earth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OLE-LMS-Refactor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BeLL-Apps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="attachments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="earth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OLE-LMS-Refactor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BeLL-Apps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="attachments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="earth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="collections" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -418,14 +328,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.032214765" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="22" y="387" width="1396" height="85" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20630373" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20630373" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -862,7 +772,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/attachments/earth/app/Router.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.79882526" vertical-offset="2601" max-vertical-offset="11917">
+        <state vertical-scroll-proportion="0.72393537" vertical-offset="2652" max-vertical-offset="11917">
           <caret line="185" column="14" selection-start-line="185" selection-start-column="14" selection-end-line="185" selection-end-column="14" />
           <folding>
             <marker date="1411715497480" expanded="false" signature="8707:8718" placeholder="..." />
