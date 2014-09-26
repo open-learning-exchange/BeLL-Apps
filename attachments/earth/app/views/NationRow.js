@@ -22,7 +22,7 @@ $(function() {
 
     render: function () {
          var Nation=this.model;
-     	 var row="<td>"+ Nation.get('Name')+ "</td><td>"+Nation.get('Url')+"</td><td>45</td><td>     <a role='button' class='btn' href='#nation/"+ Nation.get('_id') +"'> Manage Nation</a> <a role='button' class='btn' href='#nation/"+ Nation.get('_id') +"'> Reports</a></td>";
+     	 var row="<td>"+ Nation.get('Name')+ "</td><td>"+Nation.get('Url')+"</td><td>0</td><td>     <a role='button' class='btn' href='#nation/"+ Nation.get('_id') +"'> Manage Nation</a> <a role='button' class='btn' href='#nation/"+ Nation.get('_id') +"'> Reports</a></td>";
      	 this.$el.append(row);
 
     }
