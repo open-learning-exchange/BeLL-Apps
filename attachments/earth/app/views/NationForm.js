@@ -60,7 +60,7 @@ $(function() {
 	   
       	var that = this
       	var $button = $('<button class="addNation-btn btn btn-success" id="formButton">'+buttonText+'</button>')
-      	$('#nationFrom').html($('#nationFrom') + $button)
+//      	$('#nationFrom').html($('#nationFrom') + $button)
       	this.$el.append($button)
    
     },
@@ -88,22 +88,17 @@ $(function() {
           		 AuthName:$('#auth-name').val(),
           		 AuthDate:$('#auth-date').val(),
           });
-          console.log(this.form);
-           
-          console.log(this.model.commit)
+
           this.model.save(null, {
-    success: function (model, response) {
-        console.log("success");
-    },
-    error: function (model, response) {
-        console.log("error");
-    }
-});
-    	  this.model.save()
-    	  alert("Added Successfully")
-    	  Backbone.history.navigate('nations', {trigger: true})
-       		
-//        		}
+            success: function (model, response) {
+                alert("Added Successfully")
+                Backbone.history.navigate('nations', {trigger: true})
+            },
+            error: function (model, response) {
+                console.log("error");
+            }
+        });
+
        }
 
   })

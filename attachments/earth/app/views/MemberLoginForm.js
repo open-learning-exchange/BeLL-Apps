@@ -13,62 +13,65 @@ $(function() {
     render: function() {
       // create the form
       this.$el.html(_.template(this.template, this.vars))
-     // this.form = new Backbone.Form({model:this.model})
-      //$('#Login-form',this.$el).append(this.form.render().el)
+      // this.form = new Backbone.Form({model:this.model})
+      // $('#Login-form',this.$el).append(this.form.render().el)
       // give the form a submit button
-      var $button = $('<a class="btn btn-success" id="formButton">Sign In</button>')
+      var $button = $('<button class="btn btn-success" id="formButton" style="background-color:#34495e; font-weight:700" >Sign In</button>')
       $('#submit-button',this.$el).append($button)
     },
 
     setFormFromEnterKey: function(event) {
       event.preventDefault()
-      this.setForm()
+//      this.setForm()
     },
 
     setForm: function() {
       var memberLoginForm = this
-      //this.form.commit()
-      //var credentials = this.form.model
       var username=$('#username').val()
       var password=$('#password').val()
-      console.log(username)
-      console.log(password)
-      
-      
       $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + username + '"', function(response) {
-      console.log("MemberLoginForm::response: " + response.rows);
-      
       if(response.rows[0]){
+          console.log("response: ");
+        console.log(response);
         if(response.total_rows > 0 && response.rows[0].doc.password == password) {
           if(response.rows[0].doc.status == "active"){
-          //cookies are stored for /apps/_design/bell (same url for personal and lms)
-            $.cookie("Member.login", response.rows[0].doc.login, {path: "/apps/_design/bell"});
-          	$.cookie("Member._id", response.rows[0].doc._id, {path: "/apps/_design/bell"});
-          	
+            var date = new Date();
+            //cookies are stored for /apps/_design/bell (same url for personal and lms)
+          	$.cookie('Member.login', response.rows[0].doc.login, {
+                                    path: "/apps/_design/bell"
+                                })
+            $.cookie('Member._id', response.rows[0].doc._id, {
+                                    path: "/apps/_design/bell"
+                                })
+            $.cookie('Member.expTime', date, {
+                                    path: "/apps/_design/bell"
+                                })
+            // save user's roles in cookie as well
+            $.cookie('Member.roles', response.rows[0].doc.roles, {
+               path: "/apps/_design/bell"
+            })
             if ($.inArray('student', response.rows[0].doc.roles) != -1) {
               if(response.rows[0].doc.roles.length < 2){
-                    alert("You are not authorized to sign in")
+                    alert("You are not authorized to sign in");
               }
               else{
-                  alert("Here");
-                 memberLoginForm.trigger('success:login')
+                 memberLoginForm.trigger('success:login');
               }
             }
             else {
-                alert("Here");
-                memberLoginForm.trigger('success:login')
+              memberLoginForm.trigger('success:login');
             }
           }
           else{
-            alert("Your account is deactivated")
+            alert("Your account is deactivated");
           }
         }
         else {
-          alert('Login or Pass incorrect.')
+          alert('Password Incorrect');
         }
       }
       else {
-        alert('Login or Pass incorrect.')
+        alert('Login Incorrect');
       }
     });
     },
