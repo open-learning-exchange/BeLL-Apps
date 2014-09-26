@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cda64795-6652-4456-915d-27b79754cbcd" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\badger.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\badger.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\fullcalendar.min.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\gcal.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\jquery-ui.custom.min.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\omer.yousaf\BeLL-Apps\attachments\earth\vendor\jquery-ui.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/App.js" afterPath="$PROJECT_DIR$/attachments/earth/app/App.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/CourseLevelsTable.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/CourseLevelsTable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/Dashboard.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/Dashboard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/LevelsTable.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/LevelsTable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/MailView.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/MailView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/Router.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/Router.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/Router.js" afterPath="$PROJECT_DIR$/attachments/earth/app/Router.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/index.html" afterPath="$PROJECT_DIR$/attachments/earth/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/views/navBarView.js" afterPath="$PROJECT_DIR$/attachments/earth/app/views/navBarView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/takeQuizView.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/takeQuizView.js" />
     </list>
     <ignored path="OLE-LMS-Refactor.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,11 +47,9 @@
       <file leaf-file-name="NationApplicationsCollection.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+            <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="459">
               <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-              <folding>
-                <element signature="e#0#47#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -76,30 +77,40 @@
       <file leaf-file-name="NationApplicationsTable.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationsTable.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+            <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="663">
               <caret line="30" column="2" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Router.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Router.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attachments/earth/app/Router.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72393537" vertical-offset="2652" max-vertical-offset="11917">
-              <caret line="185" column="14" selection-start-line="185" selection-start-column="14" selection-end-line="185" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="11269" max-vertical-offset="11951">
+              <caret line="685" column="10" selection-start-line="685" selection-start-column="10" selection-end-line="685" selection-end-column="10" />
               <folding>
-                <marker date="1411715497480" expanded="false" signature="8707:8718" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="18086:18099" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="18217:18242" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="18515:18528" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="18604:18629" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="20697:20708" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="22763:22778" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="22791:22802" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="22893:22909" placeholder="..." />
-                <marker date="1411715497480" expanded="false" signature="23158:23185" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="8708:8719" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="18087:18100" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="18218:18243" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="18516:18529" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="18605:18630" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="20698:20709" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="22764:22779" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="22792:22803" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="22894:22910" placeholder="..." />
+                <marker date="1411720714552" expanded="false" signature="23159:23186" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="App.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/earth/app/App.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="954" max-vertical-offset="1649">
+              <caret line="85" column="6" selection-start-line="85" selection-start-column="6" selection-end-line="85" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -107,8 +118,18 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attachments/earth/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-52.96154" vertical-offset="0" max-vertical-offset="14960">
-              <caret line="81" column="62" selection-start-line="81" selection-start-column="62" selection-end-line="81" selection-end-column="62" />
+            <state vertical-scroll-proportion="-11.5" vertical-offset="14236" max-vertical-offset="14892">
+              <caret line="855" column="11" selection-start-line="855" selection-start-column="11" selection-end-line="855" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="navBarView.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/navBarView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5381295" vertical-offset="0" max-vertical-offset="695">
+              <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -117,20 +138,8 @@
       <file leaf-file-name="PendingNationApplicationsView.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/PendingNationApplicationsView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="493">
               <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
-              <folding>
-                <element signature="e#0#47#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Nations.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/Nations.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
-              <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -154,13 +163,11 @@
         <option value="$PROJECT_DIR$/attachments/MyApp/app/views/MemberLoginForm.js" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/attachments/MyApp/app/Router.js" />
-        <option value="$PROJECT_DIR$/attachments/earth/app/views/navBarView.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/MemberForm.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/models/CountrySignUp.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/NationApplicationsTable.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/PendingNationApplicationsView.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/NationApplicationRow.js" />
-        <option value="$PROJECT_DIR$/attachments/earth/app/App.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/NationForm.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/NationRow.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/tabl.css" />
@@ -169,9 +176,11 @@
         <option value="$PROJECT_DIR$/attachments/earth/app/collections/temp.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/models/NationApplication.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/NationApplicationView.js" />
-        <option value="$PROJECT_DIR$/attachments/earth/app/Router.js" />
-        <option value="$PROJECT_DIR$/attachments/earth/index.html" />
         <option value="$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js" />
+        <option value="$PROJECT_DIR$/attachments/earth/app/Router.js" />
+        <option value="$PROJECT_DIR$/attachments/earth/app/App.js" />
+        <option value="$PROJECT_DIR$/attachments/earth/index.html" />
+        <option value="$PROJECT_DIR$/attachments/earth/app/views/navBarView.js" />
       </list>
     </option>
   </component>
@@ -207,7 +216,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -240,8 +248,75 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OLE-LMS-Refactor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BeLL-Apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="attachments" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="earth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OLE-LMS-Refactor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BeLL-Apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="attachments" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="earth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OLE-LMS-Refactor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BeLL-Apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="attachments" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="earth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -258,14 +333,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -276,14 +343,12 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="CucumberJavaScriptRunConfigurationType" factoryName="Cucumber.js">
-      <option name="cucumberJsArguments" />
-      <option name="executablePath" />
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
       <option name="filePath" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
-      <envs />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
@@ -291,6 +356,16 @@
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="Chrome" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaScriptRunConfigurationType" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" />
+      <option name="executablePath" />
+      <option name="filePath" />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -328,14 +403,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.032214765" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="22" y="387" width="1396" height="85" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20630373" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20916906" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -344,6 +418,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -364,9 +439,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24960254" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -545,13 +620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/navBarView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
-          <caret line="30" column="2" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/MemberForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3808">
@@ -602,14 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683">
-          <caret line="56" column="42" selection-start-line="56" selection-start-column="42" selection-end-line="56" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1904">
@@ -621,7 +681,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5945485" vertical-offset="59" max-vertical-offset="646">
           <caret line="24" column="86" selection-start-line="24" selection-start-column="86" selection-end-line="24" selection-end-column="86" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -643,7 +702,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
           <caret line="11" column="66" selection-start-line="11" selection-start-column="61" selection-end-line="11" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -680,7 +738,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="20553">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -688,7 +745,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
           <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -704,9 +760,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30706075" vertical-offset="119" max-vertical-offset="1479">
           <caret line="18" column="119" selection-start-line="18" selection-start-column="119" selection-end-line="18" selection-end-column="119" />
-          <folding>
-            <marker date="1411713456571" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -714,9 +768,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
           <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#47#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -744,14 +796,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-52.96154" vertical-offset="0" max-vertical-offset="14960">
-          <caret line="81" column="62" selection-start-line="81" selection-start-column="62" selection-end-line="81" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/Members.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
@@ -764,28 +808,50 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#47#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/attachments/earth/app/Router.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72393537" vertical-offset="2652" max-vertical-offset="11917">
-          <caret line="185" column="14" selection-start-line="185" selection-start-column="14" selection-end-line="185" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="11269" max-vertical-offset="11951">
+          <caret line="685" column="10" selection-start-line="685" selection-start-column="10" selection-end-line="685" selection-end-column="10" />
           <folding>
-            <marker date="1411715497480" expanded="false" signature="8707:8718" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="18086:18099" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="18217:18242" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="18515:18528" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="18604:18629" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="20697:20708" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="22763:22778" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="22791:22802" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="22893:22909" placeholder="..." />
-            <marker date="1411715497480" expanded="false" signature="23158:23185" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="8708:8719" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="18087:18100" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="18218:18243" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="18516:18529" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="18605:18630" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="20698:20709" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="22764:22779" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="22792:22803" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="22894:22910" placeholder="..." />
+            <marker date="1411720714552" expanded="false" signature="23159:23186" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/earth/app/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="954" max-vertical-offset="1649">
+          <caret line="85" column="6" selection-start-line="85" selection-start-column="6" selection-end-line="85" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/earth/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.5" vertical-offset="14236" max-vertical-offset="14892">
+          <caret line="855" column="11" selection-start-line="855" selection-start-column="11" selection-end-line="855" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/navBarView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5381295" vertical-offset="0" max-vertical-offset="695">
+          <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>

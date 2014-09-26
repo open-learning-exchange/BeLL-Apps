@@ -56,8 +56,10 @@ $(function () {
             {
             	var CourseStep=new PouchDB('coursestep');
 				CourseStep.get(e.currentTarget.value, function(err, doc) {
-        					
+				
+				console.log(doc)
               	JSONsteps=doc
+              	          	
               	var ssids = context.modl.stepsIds
 				var index = ssids.indexOf(id)
 				var temp = new App.Views.takeQuizView({
@@ -75,7 +77,7 @@ $(function () {
             else
             {
             	JSONsteps=step.toJSON()
-            	
+              	
 				var ssids = context.modl.stepsIds
 				var index = ssids.indexOf(id)
 				var temp = new App.Views.takeQuizView({
@@ -101,63 +103,53 @@ $(function () {
         },
 
         addOne: function (model) {            
-            var upto=0
-            if (model.get("resourceTitles")) {
-            
-            max = model.get("resourceTitles").length
-                for (var i = 0; i < max; i++) {
-                var rtitle = model.get("resourceTitles")
-            var rid = model.get("resourceId")
-                    var r = new App.Models.Resource({
-                        "_id": rid[upto]
-                    })
-                    r.fetch({
-                        async: false
-                    })
-                    if(r.get("hidden")==true)
-                    {
-                    	
-                    	var index = model.get("resourceId").indexOf(r.get("_id").toString())
-                    	
-               			if(index!=-1)
-               			{
-               				model.get("resourceId").splice(index,1)
-               				model.get("resourceTitles").splice(index,1)
-               			}
-               			
-                    		
-                    }
-                    else{
-               			upto++
-               			}
-                }
-             }
+           //  var upto=0
+//            if (model.get("resourceTitles")) {    
+//                 max = model.get("resourceTitles").length
+//                 
+//                 for (var i = 0; i < max; i++) {
+//                   var rtitle = model.get("resourceTitles")
+//                   var rid = model.get("resourceId")
+//                     var r = new App.Models.Resource({
+//                         "_id": rid[upto]
+//                     })
+//                     r.fetch({
+//                         async: false
+//                     })
+//                     if(r.get("hidden")==true)
+//                     {
+//                     	var index = model.get("resourceId").indexOf(r.get("_id").toString())  	
+//                			if(index!=-1){
+//                				model.get("resourceId").splice(index,1)
+//                				model.get("resourceTitles").splice(index,1)
+//                			}
+//                					
+//                     }else{
+//                			upto++
+//                		}
+//                 }
+//              }
             this.vars = model.toJSON()
         
-            if (!this.vars.outComes)
-            {
+            if (!this.vars.outComes) {
+            
                 this.vars.outComes = ''
-            if (this.vars.questions && this.vars.questions.length > 0)
+             if (this.vars.questions && this.vars.questions.length > 0)
                 this.vars.outComes = ['Quiz']
             }
-            else if(this.vars.outComes instanceof Array)
-            {
-            
-            }
+            else if(this.vars.outComes instanceof Array){}
             else{
-            var temp=this.vars.outComes
-               this.vars.outComes=new Array()
-               this.vars.outComes[0]=temp 
+               var temp=this.vars.outComes
+                   this.vars.outComes=new Array()
+                   this.vars.outComes[0]=temp 
           
             }
-            
-            
             
             var index = 0
             var sstatus = this.modl.stepsStatus
             var ssids = this.modl.stepsIds
             var sr = this.modl.stepsResult
-
+            
             while (index < sstatus.length && ssids[index] != this.vars._id) {
                 index++
             }
@@ -225,7 +217,6 @@ setAllResults: function () {
 		   
 		   		    }else{
 		   		       context.renderaccordian(res.rows[0].value);
-		   		    
 		   		    }     
 			
 		   }
@@ -237,7 +228,6 @@ setAllResults: function () {
    renderaccordian:function(model){
                    var context=this
                    context.modl=model
-                   console.log(context.modl)
                    
 					var PassedSteps = 0
 					var totalSteps = 0

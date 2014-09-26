@@ -35,7 +35,6 @@ $(function() {
         : false
         
       
-      
       if(!loggedIn && $.url().attr('fragment')) {
         // We want to abort this page load so there isn't a race condition with whatever 
         // url is being requested and the loading of the login page.
@@ -65,7 +64,6 @@ $(function() {
         Backbone.history.start({pushState: false})
       }
 
-   
     },
      
 	startActivityIndicator:function(){

@@ -452,7 +452,8 @@ $(function () {
         	
         	}})
         	var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-            body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+            //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+            body = 'Admission request recieved from user "a" has been Accepted<br>'
             body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this request.</div>"
             
             mailView.inViewModel.save()
@@ -462,7 +463,7 @@ $(function () {
   			mail.set("senderId",$.cookie('Member._id'));
   			mail.set("receiverId",mailView.inViewModel.get('senderId'));
   			mail.set("subject","Admission Request Accepted | " + course.get('name'));
-  			mail.set("body","Your admission request for \"" + course.get('name') + "\" accepted by the course leader.");
+  			mail.set("body","Your admission request for \"" + course.get('name') + "\" has been accepted by the course leader.");
   			mail.set("status","0");
   			mail.set("type","mail");
   			mail.set("sentDate",currentdate);
@@ -477,7 +478,8 @@ $(function () {
         	course.fetch({async:false})
         	
         	var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-            body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+            //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+            body = 'Admission request recieved from user "a" has been Rejected<br>'
             body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have rejected this request.</div>"
             
             var currentdate = new Date();
@@ -485,7 +487,7 @@ $(function () {
   			mail.set("senderId",$.cookie('Member._id'));
   			mail.set("receiverId",mailView.inViewModel.get('senderId'));
   			mail.set("subject","Admission Request Rejected | " + courseId.get('name'));
-  			mail.set("body","Your admission request for \"" + courseId.get('name') + "\" rejected by the course leader.");
+  			mail.set("body","Your admission request for \"" + courseId.get('name') + "\" has been rejected by the course leader.");
   			mail.set("status","0");
   			mail.set("type","mail");
   			mail.set("sentDate",currentdate);
