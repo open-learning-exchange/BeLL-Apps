@@ -45,7 +45,7 @@ $(function () {
                 	member = members.first()
                     if (member && member.get('password') == credentials.get('password')) {
                         if (member.get('status') == "active") {
-                            //UPDATING MEMBER VISITIS
+                            //UPDATING MEMBER VISITS
                             App.member = member
                             var vis = parseInt(member.get("visits"))
                             vis++
@@ -63,6 +63,9 @@ $(function () {
                                     path: "/apps/_design/bell"
                                 })
                                 $.cookie('Member.expTime', date, {
+                                    path: "/apps/_design/bell"
+                                })
+                                $.cookie('Member.roles', member.get('roles'), {
                                     path: "/apps/_design/bell"
                                 })
                                 

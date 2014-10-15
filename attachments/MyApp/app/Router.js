@@ -217,6 +217,9 @@ var test=new App.Models.CourseInvitation()
             $.removeCookie('Member.expTime', {
                 path: "/apps/_design/bell"
             })
+            $.removeCookie('Member.roles', {
+              path: "/apps/_design/bell"
+            });
 
         },
         

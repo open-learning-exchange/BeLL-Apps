@@ -58,10 +58,18 @@ $(function () {
             {
             	 var member = new App.Models.Member()
             	 member.set('_id', $.cookie('Member._id'))
-            	 member.fetch({
-                	async: false
-                })
-                App.member = member
+                 member.fetch({
+                    async: false, // by default it is true
+                    success: function(){
+                        App.member = member;
+                    },
+                    error: function(){
+                        App.Router.expireSession();
+                        Backbone.history.stop();
+                        App.start();
+                    }
+                 });
+                 App.member = member;
             }
         },
 

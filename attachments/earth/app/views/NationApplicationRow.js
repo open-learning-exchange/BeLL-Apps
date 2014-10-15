@@ -22,7 +22,8 @@ $(function() {
 
     render: function () {
          var Nation=this.model;
-        console.log(Nation)
+//         console.log(Nation);
+//         console.log(Nation.id);
      	 var row="<td>"+Nation.get("organization").name+"</td><td>"+Nation.get("primaryContact").name+"</td><td><a class='btn btn-primary' href='#nationApplication/"+Nation.get('_id')+"'> View </a></td>";
      	 this.$el.append(row);
 
