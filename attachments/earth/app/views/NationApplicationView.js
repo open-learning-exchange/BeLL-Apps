@@ -19,6 +19,9 @@ $(function() {
             var $button = $('<button class="addNation-btn btn btn-success" id="formButton">Submit</button>');
             this.$el.append($button);
         },
+        turnApplicationSubmittedByDisplayOn: function () {
+            this.form.fields['submittedBy'].$el.show();
+        },
         turnApplicationStatusDisplayOn: function () {
 
 //            this.form.model.get('decision').status = "Pending Approval";

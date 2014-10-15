@@ -47,9 +47,9 @@ $(function() {
                                     path: "/apps/_design/bell"
                                 })
             // save user's roles in cookie as well
-            $.cookie('Member.roles', response.rows[0].doc.roles, {
-               path: "/apps/_design/bell"
-            })
+//            $.cookie('Member.roles', response.rows[0].doc.roles, {
+//               path: "/apps/_design/bell"
+//            })
             if ($.inArray('student', response.rows[0].doc.roles) != -1) {
               if(response.rows[0].doc.roles.length < 2){
                     alert("You are not authorized to sign in");

@@ -76,8 +76,8 @@ _.each(settings.databases, function(database) {
 exec('couchapp push ../app.js ' + settings.couchurl + '/apps', puts);
 
 // Create default admin member
-exec('curl -XPUT ' + settings.couchurl + '/members/ce82280dc54a3e4beffd2d1efa00c4e6 -d \'{"login":"admin","kind":"Member", "roles": ["Manager"], "firstName": "Default", "lastName": "Admin", "password":"password", "status": "active"}\'', puts) 
-
+ exec('curl -XPUT ' + settings.couchurl + '/members/ce82280dc54a3e4beffd2d1efa00c4e6 -d \'{"login":"admin","kind":"Member", "roles": ["Manager"], "firstName": "Default", "lastName": "Admin", "password":"password", "status": "active"}\'', puts) 
+alert("inside install file in BeLL-Apps build folder");
 if(program.mapfile) {
   console.log('installing using the map at %s', program.mapFile);
   replicatorInstaller.start(settings)

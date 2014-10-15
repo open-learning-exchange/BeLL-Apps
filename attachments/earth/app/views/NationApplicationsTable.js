@@ -9,9 +9,12 @@ $(function() {
     vars:{},
     
     addOne: function(model){
-      var Row = new App.Views.NationApplicationRow({model: model})
-          Row.render()
-      this.$el.append(Row.el)
+        if (model.get("organization") != undefined) {
+            var Row = new App.Views.NationApplicationRow({model: model})
+            Row.render()
+            this.$el.append(Row.el)
+        }
+
     },
 
     addAll: function(){

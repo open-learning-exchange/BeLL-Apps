@@ -36,6 +36,8 @@ $(function() {
             countryModel.fetch({async:false})
             var formModel = new App.Views.NationApplicationView({model:countryModel});
             formModel.render();
+            formModel.turnApplicationSubmittedByDisplayOn();
+            formModel.turnApplicationStatusDisplayOn();
             App.$el.children('.body').html(formModel.el);
         },
         viewPendingApplications: function () {

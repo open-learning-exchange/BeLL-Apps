@@ -11,7 +11,10 @@ $(function () {
 
         parse: function(response) {
             var docs = _.map(response.rows, function(row) {
-                return row.doc
+                if (row.doc.organization != undefined) {
+                    console.log("afasd");
+                    return row.doc
+                }
             })
             return docs
         },

@@ -195,13 +195,10 @@ var test=new App.Models.CourseInvitation()
                     $.cookie('Member.expTime', date, {
                         path: "/apps/_design/bell"
                     })
-                    $.cookie('Member.expTime', date, {
-                        path: "/apps/_design/bell"
-                    })
                 } else {
-                    this.expireSession()
-                    Backbone.history.stop()
-                    App.start()
+                    this.expireSession();
+                    Backbone.history.stop();
+                    App.start();
 
                 }
             }
@@ -214,20 +211,23 @@ var test=new App.Models.CourseInvitation()
             $.removeCookie('Member._id', {
                 path: "/apps/_design/bell"
             })   
-            $.removeCookie('Member.expTime', {
+            $.removeCookie('Member.roles', {
                 path: "/apps/_design/bell"
+            })
+            $.removeCookie('Member.expTime', {
+              path: "/apps/_design/bell"
             })
 
         },
         
       Configure:function(){
       
-           conModel = new App.Models.Configuration()
+            var conModel = new App.Models.Configuration();
             var conForm = new App.Views.Configurations({
                 model: conModel
             })
-            conForm.render()
-            App.$el.children('.body').html(conForm.el)
+            conForm.render();
+            App.$el.children('.body').html(conForm.el);
       
       },  
       MemberLogin: function () {
@@ -238,7 +238,7 @@ var test=new App.Models.CourseInvitation()
                 })
                 return
             }
-            credentials = new App.Models.Credentials()
+            var credentials = new App.Models.Credentials();
             var memberLoginForm = new App.Views.MemberLoginForm({
                 model: credentials
             })
@@ -247,9 +247,10 @@ var test=new App.Models.CourseInvitation()
                     trigger: true
                 })
             })
-            memberLoginForm.render()
-            App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>')
-            App.$el.children('.body').append(memberLoginForm.el)
+            memberLoginForm.render();
+            App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>');
+            App.$el.children('.body').append(memberLoginForm.el);
+
         },
         MemberLogout: function () {
 

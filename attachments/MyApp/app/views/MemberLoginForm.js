@@ -42,7 +42,7 @@ $(function () {
             members.login = credentials.get('login')
             members.fetch({success:function(){
                 if (members.length>0) {
-                	member = members.first()
+                	member = members.first();
                     if (member && member.get('password') == credentials.get('password')) {
                         if (member.get('status') == "active") {
                             //UPDATING MEMBER VISITIS
@@ -55,26 +55,35 @@ $(function () {
 
                             memberLoginForm.logActivity(member)
                             
-                                var date = new Date()
-                                $.cookie('Member.login', member.get('login'), {
-                                    path: "/apps/_design/bell"
-                                })
-                                $.cookie('Member._id', member.get('_id'), {
-                                    path: "/apps/_design/bell"
-                                })
-                                $.cookie('Member.expTime', date, {
-                                    path: "/apps/_design/bell"
-                                })
-                                
-                                if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1)
-              						{
-              						 //$('#nav').hide()
-              						 Backbone.history.navigate('configuration/add', {trigger: true})
-              						}
-              					else 
-              					     memberLoginForm.trigger('success:login')
+                            var date = new Date()
+                            $.cookie('Member.login', member.get('login'), {
+                                path: "/apps/_design/bell"
+                            })
+                            $.cookie('Member._id', member.get('_id'), {
+                                path: "/apps/_design/bell"
+                            })
+                            $.cookie('Member.expTime', date, {
+                                path: "/apps/_design/bell"
+                            })
+                            $.cookie('Member.roles', member.get('roles'), {
+                                path: "/apps/_design/bell"
+                            })
+                            // warn the admin user if they have not changed default password after installation
+                            if (member.get('login') === "admin") {
+                                if (member.get('password') === 'password') {
+                                    alert("Please change the password for this admin account for better security of the account and the application.");
+                                }
+                            }
+                            if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1){
+                                //$('#nav').hide()
+                                Backbone.history.navigate('configuration/add', {trigger: true});
+                            }
+                            else {
+                                memberLoginForm.trigger('success:login');
+                            }
+
               				
-							console.log(member.toJSON())
+//							console.log(member.toJSON())
                             member.save(null,{ success: function(doc,rev){
               				}})
               				

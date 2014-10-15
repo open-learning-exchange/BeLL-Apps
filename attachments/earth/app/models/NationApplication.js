@@ -64,6 +64,13 @@ $(function() {
                     phone: {type: 'Text'}
                 }
             },
+            submittedBy: {
+                type: 'Object',
+                subSchema: {
+                    memberId: {type: 'Text'},
+                    date: {type: 'Text'}
+                }
+            },
             decision: {
                 type: 'Object',
                 subSchema: {
@@ -73,14 +80,8 @@ $(function() {
                     authorizedBy: {type: 'Text'},
                     date: {type: 'Text'}
                 }
-            },
-            submittedBy: {
-                type: 'Object',
-                subSchema: {
-                    memberId: {type: 'Text'},
-                    date: {type: 'Text'}
-                }
             }
+
         },
         validate: function (schemaVars) {
 //            var errors = null;
