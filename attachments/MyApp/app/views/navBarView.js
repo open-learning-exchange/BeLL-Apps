@@ -60,8 +60,8 @@ $(function () {
             	 member.set('_id', $.cookie('Member._id'))
             	 member.fetch({
                      async: false, // by default it is true
-                     success: function(){
-                         App.member = member;
+                     success: function(model, response){
+                         App.member = model;
                      },
                      error: function(){
                          App.Router.expireSession();

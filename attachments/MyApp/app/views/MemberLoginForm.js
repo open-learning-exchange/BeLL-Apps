@@ -45,7 +45,7 @@ $(function () {
                 	member = members.first();
                     if (member && member.get('password') == credentials.get('password')) {
                         if (member.get('status') == "active") {
-                            //UPDATING MEMBER VISITIS
+                            //UPDATING MEMBER VISITS
                             App.member = member
                             var vis = parseInt(member.get("visits"))
                             vis++
