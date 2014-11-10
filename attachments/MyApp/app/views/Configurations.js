@@ -34,11 +34,23 @@ $(function () {
             con.set('type',Config.get('type'));
             con.save(null,{ success: function(doc,rev){
                 alert('Configurations are Successfully Added');
-                Backbone.history.stop();
-                App.start();
                 Backbone.history.navigate('dashboard', {trigger: true});
-                location.reload();
-                        //$('#nav').show()
+//                var member = new App.Models.Member({"_id": $.cookie('Member._id')});
+//                member.fetch({async: false,
+//                    success: function () {
+//                        if ((member.get('login') === "admin") && (member.get('password') === 'password')) {
+//                            alert("Please change the password for this admin account for better security of the account and the application.");
+//                            Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
+//                        } else {
+//                            Backbone.history.navigate('dashboard', {trigger: true});
+//                            location.reload();
+//                        }
+//                    },
+//                    error: function() {
+//                        Backbone.history.navigate('dashboard', {trigger: true});
+//                        location.reload();
+//                    }
+//                });
             }});
     	    	
 

@@ -52,6 +52,8 @@ $(function () {
                             member.set("visits", vis)
                             member.once('sync', function () {})
 
+                            member.save(null,{ success: function(doc,rev){
+                            }})
 
                             memberLoginForm.logActivity(member)
                             
@@ -68,24 +70,27 @@ $(function () {
                             $.cookie('Member.roles', member.get('roles'), {
                                 path: "/apps/_design/bell"
                             })
-                            // warn the admin user if they have not changed default password after installation
-                            if (member.get('login') === "admin") {
-                                if (member.get('password') === 'password') {
-                                    alert("Please change the password for this admin account for better security of the account and the application.");
-                                }
-                            }
+
                             if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1){
                                 //$('#nav').hide()
                                 Backbone.history.navigate('configuration/add', {trigger: true});
-                            }
-                            else {
-                                memberLoginForm.trigger('success:login');
+                                return;
                             }
 
-              				
+
+                            // warn the admin user if they have not changed default password after installation
+//                            if ((member.get('login') === "admin") && (member.get('password') === 'password')) {
+//                                    alert("Please change the password for this admin account for better security of the account and the application.");
+////                                    var fragment = 'member/edit/' +
+//                                    Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
+//
+//                            }
+//
+//                            else {
+                                memberLoginForm.trigger('success:login');
+                           // }
 //							console.log(member.toJSON())
-                            member.save(null,{ success: function(doc,rev){
-              				}})
+
               				
   
                         } else {

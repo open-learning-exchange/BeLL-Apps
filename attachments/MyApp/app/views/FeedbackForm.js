@@ -60,6 +60,7 @@ $(function () {
 											if(!err){
 												var Resources=new PouchDB('resources');
 												var resId=that.model.get("resourceId")
+
 												console.log(resId)
 												Resources.get(resId,function(err,resdoc){
 																	console.log(err)
@@ -79,7 +80,7 @@ $(function () {
 																				})
 																	}else{
 																		Resources.post({
-																			  _id: resId._id,
+																			  _id: resId,
 																			  sum:parseInt(that.user_rating),
 																			  timesRated: 1
 																		 },function(error,info){

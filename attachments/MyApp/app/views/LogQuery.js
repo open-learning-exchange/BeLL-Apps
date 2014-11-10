@@ -4,7 +4,7 @@ $(function () {
 
 		events: {
             "click #report_button" : function(e){
-            var communityName="Local"
+            var communityName="Open BeLL"
             if($("#community-select").val()){
             communityName=$("#community-select").val()
             }

@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cda64795-6652-4456-915d-27b79754cbcd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js" afterPath="$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js" />
+    <list default="true" id="cda64795-6652-4456-915d-27b79754cbcd" name="Default" comment="Correcting the couchdb query to fetch nationapllication records from db, filtering out the design doc.">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/Configurations.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/Configurations.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/CourseLevelsTable.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/CourseLevelsTable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/FeedbackForm.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/FeedbackForm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/GroupForm.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/GroupForm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/LogQuery.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/LogQuery.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/MemberLoginForm.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/MemberLoginForm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/Router.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/Router.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/index.html" afterPath="$PROJECT_DIR$/attachments/MyApp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attachments/MyApp/app/views/takeQuizView.js" afterPath="$PROJECT_DIR$/attachments/MyApp/app/views/takeQuizView.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OLE-LMS-Refactor.iws" />
@@ -29,117 +37,160 @@
       <file leaf-file-name="Router.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/Router.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1360" max-vertical-offset="54944">
-              <caret line="80" column="39" selection-start-line="80" selection-start-column="39" selection-end-line="80" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.82371795" vertical-offset="34948" max-vertical-offset="55794">
+              <caret line="2086" column="34" selection-start-line="2086" selection-start-column="34" selection-end-line="2086" selection-end-column="34" />
               <folding>
-                <marker date="1413366480705" expanded="false" signature="5976:5989" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="14519:14534" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="14651:14667" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="14801:14818" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="14936:14954" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="15150:15178" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="15207:15263" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="15328:15343" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="26013:26025" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="26104:26120" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="26244:26255" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="26328:26354" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="26381:26397" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="35971:35999" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="43222:43232" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="44427:44439" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="45407:45422" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="45550:45566" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="45679:45695" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="45803:45814" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="45901:45927" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="45954:45970" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="46397:46413" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="50284:50299" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="50378:50394" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="50531:50564" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="50862:50873" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="56825:56836" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="57718:57728" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="57759:57771" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="57863:57878" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="57905:57920" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="60809:60834" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="74162:74177" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="74257:74273" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="74421:74449" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="74478:74493" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="74558:74614" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="74824:74855" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="75081:75108" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81005:81020" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81100:81116" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81211:81222" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81303:81332" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81361:81417" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81482:81497" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81765:81792" placeholder="..." />
-                <marker date="1413366480705" expanded="false" signature="81981:82067" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="6033:6046" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="14619:14634" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="14751:14767" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="14901:14918" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="15036:15054" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="15250:15278" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="15307:15363" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="15428:15443" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="26113:26125" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="26204:26220" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="26344:26355" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="26428:26454" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="26481:26497" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="36072:36100" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="43322:43332" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="44527:44539" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="45507:45522" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="45650:45666" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="45779:45795" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="45903:45914" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="46001:46027" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="46054:46070" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="46497:46513" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="50384:50399" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="50478:50494" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="50631:50664" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="50962:50973" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="56925:56936" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="57818:57828" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="57859:57871" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="57963:57978" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="58005:58020" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="60909:60934" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="74262:74277" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="74357:74373" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="74521:74549" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="74578:74593" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="74658:74714" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="74924:74955" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="75181:75208" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="81105:81120" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="81200:81216" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="81311:81322" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="81403:81432" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="81461:81517" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="81582:81597" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="81865:81892" placeholder="..." />
+                <marker date="1415600838203" expanded="true" signature="82081:82167" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NationApplicationsCollection.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js">
+      <file leaf-file-name="ListCollectionView.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ListCollectionView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="510">
-              <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2567" max-vertical-offset="2924">
+              <caret line="151" column="26" selection-start-line="151" selection-start-column="26" selection-end-line="151" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Members.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/Members.js">
+      <file leaf-file-name="ReportsTable.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ReportsTable.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
-              <caret line="0" column="15" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="663">
+              <caret line="8" column="14" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NationApplicationView.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationView.js">
+      <file leaf-file-name="ResourcesTable.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ResourcesTable.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1088">
-              <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NationApplicationsTable.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationsTable.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="714">
-              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Router.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attachments/earth/app/Router.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="11645" max-vertical-offset="11985">
-              <caret line="685" column="10" selection-start-line="685" selection-start-column="10" selection-end-line="685" selection-end-column="10" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="908" max-vertical-offset="2958">
+              <caret line="59" column="10" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
+              <folding>
+                <marker date="1407484469991" expanded="false" signature="2430:2444" placeholder="..." />
+                <marker date="1407484469991" expanded="false" signature="2926:2939" placeholder="..." />
+                <marker date="1407484469991" expanded="false" signature="3791:3827" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="App.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attachments/earth/app/App.js">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="954" max-vertical-offset="1649">
-              <caret line="85" column="6" selection-start-line="85" selection-start-column="6" selection-end-line="85" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1197" max-vertical-offset="3570">
+              <caret line="84" column="37" selection-start-line="84" selection-start-column="37" selection-end-line="84" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Spin.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/vendor/Spin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="install" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build/install">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="1530">
+              <caret line="51" column="57" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CollectionTable.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/CollectionTable.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1649" max-vertical-offset="2703">
+              <caret line="97" column="49" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
+              <folding>
+                <marker date="1405489520500" expanded="false" signature="1696:1728" placeholder="..." />
+                <marker date="1405489520500" expanded="false" signature="1805:1822" placeholder="..." />
+                <marker date="1405489520500" expanded="false" signature="1838:1854" placeholder="..." />
+                <marker date="1405489520500" expanded="false" signature="1913:1925" placeholder="..." />
+                <marker date="1405489520500" expanded="false" signature="2357:2373" placeholder="..." />
+                <marker date="1405489520500" expanded="false" signature="2745:2761" placeholder="..." />
+                <marker date="1405489520500" expanded="false" signature="2914:2930" placeholder="..." />
+                <marker date="1405489520500" expanded="false" signature="3168:3184" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4805" max-vertical-offset="23018">
+              <caret line="296" column="35" selection-start-line="295" selection-start-column="10" selection-end-line="296" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CollectionList.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/CollectionList.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="782">
+              <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -159,7 +210,6 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/attachments/MyApp/app/views/ActivityReport.js" />
-        <option value="$PROJECT_DIR$/attachments/MyApp/index.html" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/MemberForm.js" />
         <option value="$PROJECT_DIR$/attachments/earth/app/models/CountrySignUp.js" />
@@ -172,6 +222,17 @@
         <option value="$PROJECT_DIR$/attachments/earth/app/App.js" />
         <option value="$PROJECT_DIR$/attachments/earth/index.html" />
         <option value="$PROJECT_DIR$/attachments/earth/app/views/navBarView.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/takeQuizView.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/App.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/FeedbackForm.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/CourseLevelsTable.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/LogQuery.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/index.html" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/GroupForm.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/MemberLoginForm.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/Configurations.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/views/StarterData.js" />
+        <option value="$PROJECT_DIR$/attachments/MyApp/app/Router.js" />
       </list>
     </option>
   </component>
@@ -207,7 +268,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -236,6 +296,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="build" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OLE-LMS-Refactor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BeLL-Apps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="attachments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -254,7 +328,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="earth" />
+              <option name="myItemId" value="MyApp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -272,46 +346,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="earth" />
+              <option name="myItemId" value="MyApp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OLE-LMS-Refactor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BeLL-Apps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="attachments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="earth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/BeLL-Apps" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="false" />
   </component>
@@ -324,14 +373,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -342,14 +383,12 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="CucumberJavaScriptRunConfigurationType" factoryName="Cucumber.js">
-      <option name="cucumberJsArguments" />
-      <option name="executablePath" />
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
       <option name="filePath" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
-      <envs />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
@@ -357,6 +396,16 @@
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="Chrome" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaScriptRunConfigurationType" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" />
+      <option name="executablePath" />
+      <option name="filePath" />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -389,18 +438,22 @@
       <created>1410882266766</created>
       <updated>1410882266766</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Correcting the couchdb query to fetch nationapllication records from db, filtering out the design doc.">
+      <created>1413366832723</created>
+      <updated>1413366832723</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.032214765" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="22" y="387" width="1396" height="85" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.60268456" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="22" y="387" width="1396" height="85" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21203439" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22636104" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -409,7 +462,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49395972" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -421,7 +474,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.032214765" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="22" y="387" width="1396" height="85" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22818792" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20268457" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -430,7 +483,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31017193" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21776505" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -452,7 +505,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Resolving conflict before merging Refactoring with origin/Refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Resolving conflict before merging Refactoring with origin/Refactoring" />
+    <MESSAGE value="Correcting the couchdb query to fetch nationapllication records from db, filtering out the design doc." />
+    <option name="LAST_COMMIT_MESSAGE" value="Correcting the couchdb query to fetch nationapllication records from db, filtering out the design doc." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -463,404 +517,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/LogQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="38758" max-vertical-offset="45305">
-          <caret line="2304" column="27" selection-start-line="2304" selection-start-column="27" selection-end-line="2304" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/LogQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="20785" max-vertical-offset="22355">
-          <caret line="1276" column="14" selection-start-line="1276" selection-start-column="14" selection-end-line="1276" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/Router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="38758" max-vertical-offset="45305">
-          <caret line="2304" column="27" selection-start-line="2304" selection-start-column="27" selection-end-line="2304" selection-end-column="27" />
-          <folding>
-            <marker date="1413366480705" expanded="false" signature="5976:5989" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14519:14534" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14651:14667" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14801:14818" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14936:14954" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="15150:15178" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="15207:15263" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="15328:15343" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26013:26025" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26104:26120" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26244:26255" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26328:26354" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26381:26397" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="35971:35999" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="43222:43232" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="44427:44439" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45407:45422" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45550:45566" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45679:45695" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45803:45814" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45901:45927" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45954:45970" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="46397:46413" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50284:50299" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50378:50394" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50531:50564" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50862:50873" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="56825:56836" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57718:57728" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57759:57771" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57863:57878" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57905:57920" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="60809:60834" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74162:74177" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74257:74273" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74421:74449" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74478:74493" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74558:74614" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74824:74855" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="75081:75108" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81005:81020" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81100:81116" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81211:81222" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81303:81332" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81361:81417" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81482:81497" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81765:81792" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81981:82067" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ReportForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="4403">
-          <caret line="195" column="40" selection-start-line="195" selection-start-column="40" selection-end-line="195" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/models/Nation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1649">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/MemberForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3808">
-          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/MemberForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3808">
-          <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/models/Credentials.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
-          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/LevelForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.2825174" vertical-offset="0" max-vertical-offset="2703">
-          <caret line="96" column="7" selection-start-line="96" selection-start-column="7" selection-end-line="96" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/GroupView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1904">
-          <caret line="18" column="9" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationRow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5945485" vertical-offset="59" max-vertical-offset="646">
-          <caret line="24" column="86" selection-start-line="24" selection-start-column="86" selection-end-line="24" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationsTable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49403748" vertical-offset="33" max-vertical-offset="663">
-          <caret line="19" column="38" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/Resources.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1105">
-          <caret line="11" column="66" selection-start-line="11" selection-start-column="61" selection-end-line="11" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/app.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10948">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/Home.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12342">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/tabl.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8959">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/Nations.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
-          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/models/Member.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="2550">
-          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/MemberForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
-          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/app.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3908046" vertical-offset="0" max-vertical-offset="9078">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/MemberLoginForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="3672">
-          <caret line="37" column="30" selection-start-line="37" selection-start-column="30" selection-end-line="37" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/Credentials.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70749277" vertical-offset="954" max-vertical-offset="1649">
-          <caret line="85" column="6" selection-start-line="85" selection-start-column="6" selection-end-line="85" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/PendingNationApplicationsView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21338913" vertical-offset="0" max-vertical-offset="717">
-          <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-          <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationsTable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
-          <caret line="21" column="54" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationRow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6036932" vertical-offset="0" max-vertical-offset="704">
-          <caret line="25" column="28" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="467" max-vertical-offset="23018">
-          <caret line="49" column="29" selection-start-line="49" selection-start-column="29" selection-end-line="49" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/Members.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="969">
-          <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationRow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-          <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/Resources.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46388444" vertical-offset="0" max-vertical-offset="623">
-          <caret line="17" column="33" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/vendor/fullcalendar.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29310346" vertical-offset="0" max-vertical-offset="136">
-          <caret line="6" column="8066" selection-start-line="6" selection-start-column="8066" selection-end-line="6" selection-end-column="8066" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/CollectionList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/listRCollection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
-          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/navBarView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
-          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/models/Member.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32452276" vertical-offset="459" max-vertical-offset="2550">
-          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/Member.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4743025" vertical-offset="0" max-vertical-offset="2448">
-          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ConfigurationView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3908046" vertical-offset="0" max-vertical-offset="9078">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/MemberLoginForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30706075" vertical-offset="119" max-vertical-offset="1479">
-          <caret line="18" column="119" selection-start-line="18" selection-start-column="119" selection-end-line="18" selection-end-column="119" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/PendingNationApplicationsView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
-          <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationsTable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="714">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/models/NationApplication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="717" max-vertical-offset="2006">
-          <caret line="80" column="39" selection-start-line="80" selection-start-column="39" selection-end-line="80" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/models/NationApplication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1037">
-          <caret line="40" column="59" selection-start-line="40" selection-start-column="59" selection-end-line="40" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/Members.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
-          <caret line="0" column="15" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/collections/NationApplicationsCollection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/Router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="11269" max-vertical-offset="11951">
-          <caret line="685" column="10" selection-start-line="685" selection-start-column="10" selection-end-line="685" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attachments/earth/app/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="954" max-vertical-offset="1649">
-          <caret line="85" column="6" selection-start-line="85" selection-start-column="6" selection-end-line="85" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attachments/earth/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.5" vertical-offset="14236" max-vertical-offset="14892">
           <caret line="855" column="11" selection-start-line="855" selection-start-column="11" selection-end-line="855" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -871,59 +531,420 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/Groups.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="833">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/NationApplicationView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1088">
+          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/GroupMembers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1377" max-vertical-offset="2176">
+          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/StepResultsbyCourse.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="27" column="31" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/courseprogressallmembers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="543">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/Resource.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1351" max-vertical-offset="3383">
+          <caret line="94" column="34" selection-start-line="94" selection-start-column="34" selection-end-line="94" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/CourseStep.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="2159">
+          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/CoursesChartProgress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1219" max-vertical-offset="2091">
+          <caret line="73" column="58" selection-start-line="73" selection-start-column="58" selection-end-line="73" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/FeedbackForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="700" max-vertical-offset="6222">
+          <caret line="82" column="88" selection-start-line="82" selection-start-column="88" selection-end-line="82" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/common.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2046" max-vertical-offset="8772">
+          <caret line="132" column="18" selection-start-line="132" selection-start-column="18" selection-end-line="132" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/LogQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ActivityReport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/CourseLevelsTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3063" max-vertical-offset="5236">
+          <caret line="199" column="69" selection-start-line="199" selection-start-column="69" selection-end-line="199" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/Member.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46541786" vertical-offset="0" max-vertical-offset="2448">
+          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/leadermembers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/CourseLevels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/coursesteps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/MailView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7151" max-vertical-offset="9418">
+          <caret line="432" column="33" selection-start-line="432" selection-start-column="33" selection-end-line="432" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/membercourseprogress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/membercourseprogresses.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/MemberLoginForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6240822" vertical-offset="1377" max-vertical-offset="3910">
+          <caret line="106" column="33" selection-start-line="106" selection-start-column="33" selection-end-line="106" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/Publication.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="935">
+          <caret line="13" column="70" selection-start-line="13" selection-start-column="70" selection-end-line="13" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/Group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="356" max-vertical-offset="1258">
+          <caret line="41" column="24" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/PublicationCourseRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.63129973" vertical-offset="255" max-vertical-offset="833">
+          <caret line="29" column="18" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/earth/app/views/ConfigurationView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2254642" vertical-offset="0" max-vertical-offset="952">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/Configurations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3983517" vertical-offset="52" max-vertical-offset="1139">
+          <caret line="33" column="47" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/GroupForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74725276" vertical-offset="0" max-vertical-offset="6137">
+          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/GroupRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.697802" vertical-offset="1710" max-vertical-offset="2074">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/Dashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.626373" vertical-offset="5688" max-vertical-offset="6052">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/QuizView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37168142" vertical-offset="521" max-vertical-offset="3247">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/takeQuizView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2720">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ResourceForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="640" max-vertical-offset="3009">
+          <caret line="47" column="16" selection-start-line="47" selection-start-column="16" selection-end-line="47" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/nation/app/views/navBarView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.03826955" vertical-offset="96" max-vertical-offset="697">
+          <caret line="7" column="39" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/nation/app/views/PublicationRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20798668" vertical-offset="215" max-vertical-offset="816">
+          <caret line="20" column="67" selection-start-line="20" selection-start-column="67" selection-end-line="20" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/Search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2024" max-vertical-offset="4811">
+          <caret line="139" column="12" selection-start-line="139" selection-start-column="12" selection-end-line="139" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/Resources.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="1105">
+          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/CollectionRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+          <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/indexFile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9937" max-vertical-offset="10812">
+          <caret line="600" column="21" selection-start-line="600" selection-start-column="21" selection-end-line="600" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/collections/listRCollection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <caret line="32" column="37" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/models/CollectionList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/CollectionTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2703">
+          <caret line="97" column="49" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
+          <folding>
+            <marker date="1405489520500" expanded="false" signature="1696:1728" placeholder="..." />
+            <marker date="1405489520500" expanded="false" signature="1805:1822" placeholder="..." />
+            <marker date="1405489520500" expanded="false" signature="1838:1854" placeholder="..." />
+            <marker date="1405489520500" expanded="false" signature="1913:1925" placeholder="..." />
+            <marker date="1405489520500" expanded="false" signature="2357:2373" placeholder="..." />
+            <marker date="1405489520500" expanded="false" signature="2745:2761" placeholder="..." />
+            <marker date="1405489520500" expanded="false" signature="2914:2930" placeholder="..." />
+            <marker date="1405489520500" expanded="false" signature="3168:3184" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ListCollectionView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2219" max-vertical-offset="2924">
+          <caret line="151" column="26" selection-start-line="151" selection-start-column="26" selection-end-line="151" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ReportsTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="663">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/views/ResourcesTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="908" max-vertical-offset="2958">
+          <caret line="59" column="10" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
+          <folding>
+            <marker date="1407484469991" expanded="false" signature="2430:2444" placeholder="..." />
+            <marker date="1407484469991" expanded="false" signature="2926:2939" placeholder="..." />
+            <marker date="1407484469991" expanded="false" signature="3791:3827" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4805" max-vertical-offset="23018">
+          <caret line="296" column="35" selection-start-line="295" selection-start-column="10" selection-end-line="296" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1197" max-vertical-offset="3570">
+          <caret line="84" column="37" selection-start-line="84" selection-start-column="37" selection-end-line="84" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attachments/MyApp/vendor/Spin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="681">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/install">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="1530">
+          <caret line="51" column="57" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/attachments/MyApp/app/Router.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1360" max-vertical-offset="54944">
-          <caret line="80" column="39" selection-start-line="80" selection-start-column="39" selection-end-line="80" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.82371795" vertical-offset="34948" max-vertical-offset="55794">
+          <caret line="2086" column="34" selection-start-line="2086" selection-start-column="34" selection-end-line="2086" selection-end-column="34" />
           <folding>
-            <marker date="1413366480705" expanded="false" signature="5976:5989" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14519:14534" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14651:14667" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14801:14818" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="14936:14954" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="15150:15178" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="15207:15263" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="15328:15343" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26013:26025" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26104:26120" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26244:26255" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26328:26354" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="26381:26397" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="35971:35999" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="43222:43232" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="44427:44439" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45407:45422" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45550:45566" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45679:45695" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45803:45814" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45901:45927" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="45954:45970" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="46397:46413" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50284:50299" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50378:50394" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50531:50564" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="50862:50873" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="56825:56836" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57718:57728" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57759:57771" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57863:57878" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="57905:57920" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="60809:60834" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74162:74177" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74257:74273" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74421:74449" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74478:74493" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74558:74614" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="74824:74855" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="75081:75108" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81005:81020" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81100:81116" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81211:81222" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81303:81332" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81361:81417" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81482:81497" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81765:81792" placeholder="..." />
-            <marker date="1413366480705" expanded="false" signature="81981:82067" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="6033:6046" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="14619:14634" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="14751:14767" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="14901:14918" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="15036:15054" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="15250:15278" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="15307:15363" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="15428:15443" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="26113:26125" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="26204:26220" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="26344:26355" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="26428:26454" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="26481:26497" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="36072:36100" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="43322:43332" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="44527:44539" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="45507:45522" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="45650:45666" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="45779:45795" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="45903:45914" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="46001:46027" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="46054:46070" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="46497:46513" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="50384:50399" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="50478:50494" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="50631:50664" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="50962:50973" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="56925:56936" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="57818:57828" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="57859:57871" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="57963:57978" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="58005:58020" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="60909:60934" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="74262:74277" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="74357:74373" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="74521:74549" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="74578:74593" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="74658:74714" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="74924:74955" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="75181:75208" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="81105:81120" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="81200:81216" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="81311:81322" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="81403:81432" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="81461:81517" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="81582:81597" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="81865:81892" placeholder="..." />
+            <marker date="1415600838203" expanded="true" signature="82081:82167" placeholder="..." />
           </folding>
         </state>
       </provider>

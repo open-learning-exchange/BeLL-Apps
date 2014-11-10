@@ -82,64 +82,64 @@ $(function(){
 			
 			
 },
-Publications:function(publicationIdes){
 
- publicationIdes=publicationIdes.split(',')
-                 var keys=''
-                 _.each(publicationIdes, function(item) {
-                    keys +='"' + item + '",'
-                 })
-                 if(keys!='')
-                  keys = keys.substring(0, keys.length - 1);
-                  
-                  console.log(keys)
-    nName=App.configuration.get('nationName')
-    pass=App.password
-    nUrl=App.configuration.get('nationUrl')
-    currentBellName=App.configuration.get('name')
-var DbUrl='http://'+nName+':'+pass+'@'+nUrl
-var completeUrl=DbUrl+'/publications/_all_docs?include_docs=true&keys=[' + keys + ']'
+    Publications:function(publicationIdes){
 
+        publicationIdes=publicationIdes.split(',')
+        var keys=''
+        _.each(publicationIdes, function(item) {
+        keys +='"' + item + '",'
+        })
+        if(keys!='')
+        keys = keys.substring(0, keys.length - 1);
 
-var PublicationsView= new App.Views.PublicationTable()
-PublicationsView.Url=completeUrl
-PublicationsView.render()
-App.$el.children('.body').html('<h3>Publications</h3>')
-App.$el.children('.body').append(PublicationsView.el)
+        console.log(keys)
+        nName=App.configuration.get('nationName')
+        pass=App.password
+        nUrl=App.configuration.get('nationUrl')
+        currentBellName=App.configuration.get('name')
+        var DbUrl='http://'+nName+':'+pass+'@'+nUrl
+        var completeUrl=DbUrl+'/publications/_all_docs?include_docs=true&keys=[' + keys + ']'
 
-},
-communityManage: function() {
+        var PublicationsView= new App.Views.PublicationTable()
+        PublicationsView.Url=completeUrl
+        PublicationsView.render()
+        App.$el.children('.body').html('<h3>Publications</h3>')
+        App.$el.children('.body').append(PublicationsView.el)
 
-   var manageCommunity=new App.Views.ManageCommunity()
+    },
+    communityManage: function() {
+
+       var manageCommunity=new App.Views.ManageCommunity()
        manageCommunity.render()
        App.$el.children('.body').html(manageCommunity.el)
 
-},
-addCourseInvi:function(){
+    },
+    addCourseInvi:function(){
 
-var test=new App.Models.CourseInvitation()
-    test.set('courseId','test')
-    test.set('userId','test')
-    test.save(null,{success:function(error,response){
-        console.log(response)
-        alert('success')
-    }
-    
-    })
+        var test=new App.Models.CourseInvitation()
+        test.set('courseId','test')
+        test.set('userId','test')
+        test.save(null,{success:function(error,response){
+            console.log(response)
+            alert('success')
+        }
 
- var collection=new App.Collections.CourseInvitations()
-    collection.courseId='test'
-    collection.fetch({async:false},{success:function(res){
-    	console.log(res)
-    }})
+        })
 
-},
-      initialize: function () {
-            this.bind("all", this.startUpStuff)
-            this.bind("all", this.checkLoggedIn)
-            this.bind("all", this.renderNav)
-            //this.bind("all",this.checkForUpdates)
-        },
+        var collection=new App.Collections.CourseInvitations()
+        collection.courseId='test'
+        collection.fetch({async:false},{success:function(res){
+            console.log(res)
+        }})
+
+    },
+    initialize: function () {
+        this.bind("all", this.startUpStuff)
+        this.bind("all", this.checkLoggedIn)
+        this.bind("all", this.renderNav)
+        //this.bind("all",this.checkForUpdates)
+    },
       /*onUpdateReady: function () {
           alert('found new version!');
       },
@@ -298,9 +298,9 @@ var test=new App.Models.CourseInvitation()
             this.modelForm('Member', 'Member', memberId, 'login')
         },
 
-        modelForm: function (className, label, modelId, reroute) {
+        modelForm: function (className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
-            var context =this
+            var context = this;
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
@@ -765,7 +765,7 @@ var test=new App.Models.CourseInvitation()
         
         ManageCourse: function (groupId) {
         
-           var that=this
+            var that=this
             levels = new App.Collections.CourseLevels()
             levels.groupId = groupId
 
@@ -908,7 +908,7 @@ var test=new App.Models.CourseInvitation()
                     App.$el.children('.body').html('&nbsp')
                     App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/'+courseId+'" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
                     var levelsTable = new App.Views.CourseLevelsTable({
-                        collection: ccSteps,
+                        collection: ccSteps
                     })
                     levelsTable.courseId=courseId
                     levelsTable.render()
@@ -2063,10 +2063,10 @@ var test=new App.Models.CourseInvitation()
             hostUrl = hostUrl.split('/')
             var hostName=hostUrl[2].split('.')
             
-      var MemberCourseProgress=new PouchDB('membercourseprogress');
-      var configurations= new PouchDB('configurations');
+//      var MemberCourseProgress=new PouchDB('membercourseprogress');
+//      var configurations= new PouchDB('configurations');
       var FeedBackDb=new PouchDB('feedback');
-      var CourseStep=new PouchDB('coursestep');
+//      var CourseStep=new PouchDB('coursestep');
       
       //condition to check cloudant.com or an IP address 
      //  if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/)){
@@ -2084,57 +2084,107 @@ var test=new App.Models.CourseInvitation()
            //other couchdbes that have no username and password
            URL='http://'+hostUrl[2]
       }else{
-          URL='http://ole:'+App.password+'@'+hostUrl[2]
+          URL='http://'+hostUrl[2]
       }
-      
-	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
-			if(error){
-			   console.log("membercourseprogress replication error :"+error)
-			}else{
-			   console.log("Successfully replicated to local membercourseprogress :" + response)
-			}
-	  });	
-	  configurations.replicate.from(URL+'/configurations',function(error, response){
-			if(error){
-				console.log("configurations replication error :"+error)
-			}else{
-				console.log("Successfully replicated to local configurations :" + response)
-			}
-	  });													  
-	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
-			if(error){
-				console.log("membercourseprogress replication to server error :"+error)
-			}else{
-				console.log("Successfully replicated membercourseprogress :" + response)
-			}
-	  });
-	  FeedBackDb.replicate.to(URL+'/feedback',function(error, response){
-			if(error){
-			    console.log("FeedBackDb replication error :"+error)
-			}else{
-			   console.log("Successfully replicated FeedBackDb :" + response)
-			}
-	  }); 
 
-	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
-			if(error){
-			    console.log("coursestep replication error :"+error)
-			}else{
-			    console.log("Successfully replicated coursestep :" + response)
-			}
+//     configurations.replicate.from(URL+'/configurations',function(error, response){
+//         if(error){
+//             console.log("configurations replication error :"+error)
+//         }else{
+//             console.log("Successfully replicated to local configurations :" + response)
+//         }
+//     });
+     FeedBackDb.replicate.to(URL+'/feedback',function(error, response){
+         if(error){
+             console.log("FeedBackDb replication error :"+error)
+         }else{
+             console.log("Successfully replicated FeedBackDb :" + response)
+         }
+     });
+//	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
+//			if(error){
+//			   console.log("membercourseprogress replication error :"+error)
+//			}else{
+//			   console.log("Successfully replicated to local membercourseprogress :" + response)
+//			}
+//	  });
 
-	  });
-	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
-			if(error){
-			    console.log("coursestep replication error :"+error)
-			}else{
-			   console.log("Successfully replicated coursestep :" + response)
-			}
-	  });
+//	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
+//			if(error){
+//				console.log("membercourseprogress replication to server error :"+error)
+//			}else{
+//				console.log("Successfully replicated membercourseprogress :" + response)
+//			}
+//	  });
+
+
+//	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
+//			if(error){
+//			    console.log("coursestep replication error :"+error)
+//			}else{
+//			    console.log("Successfully replicated coursestep :" + response)
+//			}
+//
+//	  });
+//	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
+//			if(error){
+//			    console.log("coursestep replication error :"+error)
+//			}else{
+//			   console.log("Successfully replicated coursestep :" + response)
+//			}
+//	  });
 	// this.saveFrequency(URL);
-	// this.saveResources(URL);
+    this.syncResourceFeedback();
 	this.WeeklyReports();	 
  },
+
+ syncResourceFeedback:function(){
+     var pouchResources=new PouchDB('resources');
+     pouchResources.allDocs({include_docs: true},function(err,response){
+                    console.log(response)
+         _.each(response.rows,function(pouchDoc){
+
+             var resId=pouchDoc.doc._id
+             var couchResource=new App.Models.Resource({_id:resId})
+             couchResource.fetch({success:function(){
+
+                      if(couchResource.get('sum')==undefined || couchResource.get('timesRated')==undefined) {
+                          couchResource.set('sum',0)
+                          couchResource.set('timesRated',0)
+                         }else{
+                          couchResource.set('sum',parseInt(couchResource.get('sum'))+parseInt(pouchDoc.doc.sum))
+                          couchResource.set('timesRated',parseInt(couchResource.get('timesRated'))+parseInt(pouchDoc.doc.timesRated))
+                         }
+                         couchResource.save(null,{success:function(updatedModel,revisions){
+                             pouchResources.put({
+                                 sum:0,
+                                 timesRated: 0
+                             },pouchDoc.doc._id, pouchDoc.doc._rev, function(err, info) {
+                                 if (!err) {
+                                     console.log(info)
+                                 }else{
+                                     console.log(err)
+                                 }
+                             });
+
+                             pouchResources.remove(pouchDoc.doc._id, pouchDoc.doc._rev, function(err, removeResponse) {
+                                 if (!err) {
+                                     console.log(removeResponse)
+                                 }else{
+                                     console.log(err)
+                                 }
+                             });
+
+                         }})
+
+             }})
+
+         })
+
+     })
+
+ }   ,
+
  saveResources:function(URL){
  				var Resources=new PouchDB('resources');
  				var Saving
@@ -2723,7 +2773,7 @@ CompileAppManifest:function(){
                 logdb.remove(activitylog, function(err, response) {
                    if(err){
                         console.log(err)
-                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
+//                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
                    }else{
 //                        console.log('mainRouter:: createLogs:: removed Pouch doc successfully: ');
 //                        console.log(response);

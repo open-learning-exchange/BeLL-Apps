@@ -123,8 +123,8 @@ $(function () {
             if (!this.model.get("languageOfInstruction")) {
                 this.model.set("languageOfInstruction", "")
             }
-            this.model.schema.members.options = []
-            var memberList = new App.Collections.leadermembers()
+            this.model.schema.members.options = [];
+            var memberList = new App.Collections.leadermembers();
             memberList.fetch({
                 success: function () {
                     //create the form
@@ -145,7 +145,7 @@ $(function () {
                     groupForm.model.schema.courseLeader.options = optns
 
                     groupForm.form = new Backbone.Form({
-                        model: groupForm.model
+                        model: groupForm.model                  // groupForm.model is a 'Group' model instance. 'Group' is basically a course
                     })
                     groupForm.$el.append(groupForm.form.render().el)
 
@@ -226,16 +226,18 @@ $(function () {
 				member.save()
 			}
 
+            var isNewLeaderAlreadyCourseMember = false;
 			var leader = this.model.get('courseLeader')
-
-			courseMembers = this.model.get('members')
-			index = courseMembers.indexOf(previousLeader)
-			if (index != -1)
-				courseMembers.splice(index, 1)
-
-			if (index = courseMembers.indexOf(leader) == -1) {
+			var courseMembers = this.model.get('members')
+			var index = courseMembers.indexOf(previousLeader)
+//			if (index != -1) {
+//                courseMembers.splice(index, 1); // membercourseprogress for previous leader not deleted. y?
+//            }
+			if (courseMembers.indexOf(leader) == -1) { // new leader is not a member of the course already
 				courseMembers.push(leader)
-			}
+			} else {
+                isNewLeaderAlreadyCourseMember = true;
+            }
 			this.model.set("members", courseMembers)
 			console.log()
 			var context = this
@@ -243,12 +245,11 @@ $(function () {
 			this.model.save(null, {
 				success: function (e) {
 					console.log(context.model.get('courseLeader'))
-
+                    var memprogress = new App.Models.membercourseprogress();
+                    var stepsids = new Array();
+                    var stepsres = new Array();
+                    var stepsstatus = new Array();
 					if (newEntery == 1) {
-						var memprogress = new App.Models.membercourseprogress()
-						var stepsids = new Array()
-						var stepsres = new Array()
-						var stepsstatus = new Array()
 						memprogress.set("stepsIds", stepsids)
 						memprogress.set("memberId", $.cookie("Member._id"))
 						memprogress.set("stepsResult", stepsres)
@@ -257,10 +258,6 @@ $(function () {
 						memprogress.save()
 						//0000 is value for --select-- 
 						if (context.model.get('courseLeader') != $.cookie("Member._id")&&context.model.get('courseLeader')!='0000') {
-							var memprogress = new App.Models.membercourseprogress()
-							var stepsids = new Array()
-							var stepsres = new Array()
-							var stepsstatus = new Array()
 							memprogress.set("stepsIds", stepsids)
 							memprogress.set("memberId",context.model.get('courseLeader') )
 							memprogress.set("stepsResult", stepsres)
@@ -270,7 +267,45 @@ $(function () {
 						}
 						alert("Course successfully Created.")
 					}
-					else {
+					else { // the course already exists
+
+                        if ( (leader !== previousLeader) && (isNewLeaderAlreadyCourseMember === false) ) {
+                            // if the newly chosen leader is different from previous one and he/she is also from outside the course, i-e
+                            // he/she was not a member of course before being selected as its leader, then two things should happen:
+//                            // (i) previous-leader's membercourseprogress doc should be deleted
+//                            var memberProgress = new App.Collections.membercourseprogresses();
+//                            memberProgress.courseId = context.model.get("_id");
+//                            memberProgress.memberId = previousLeader;
+//                            memberProgress.fetch({
+//                                async: false
+//                            });
+//                            memberProgress.each(function (m) {
+//                                m.destroy();
+//                            });
+                            // (ii) new-leader's membercourseprogress doc should be created and initialised with default values
+                            var csteps = new App.Collections.coursesteps();
+                            csteps.courseId = context.model.get("_id"); // courseId
+                            csteps.fetch({
+                                success: function () {
+                                    csteps.each(function (m) {
+                                        stepsids.push(m.get("_id"))
+                                        stepsres.push("0")
+                                        stepsstatus.push("0")
+                                    })
+                                    memprogress.set("stepsIds", stepsids)
+                                    memprogress.set("memberId", leader)
+                                    memprogress.set("stepsResult", stepsres)
+                                    memprogress.set("stepsStatus", stepsstatus)
+                                    memprogress.set("courseId", csteps.courseId)
+                                    memprogress.save({
+                                        success: function () {
+                                            alert('saved')
+                                        }
+                                    })
+                                }
+                            });
+                        }
+
 						//alert(that.model.get("_id"))
 						///to get the latest rev.id 
 						var groupModel = new App.Models.Group()
@@ -280,10 +315,8 @@ $(function () {
 							})
 							//alert(groupModel.get("rev"))
 						that.model.set("_rev", groupModel.get("_rev"))
-
 						alert("Course successfully Updated.")
 					}
-
 				}
 			})
 		}
