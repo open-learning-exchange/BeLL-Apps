@@ -73,25 +73,35 @@ $(function () {
 			return this
 		},
         saveUpdatedWelcomeVideoForm: function() {
+            // mark this resource with welcome-video flag
+            if(this.model.get("isWelcomeVideo") === undefined){
+                this.model.set("isWelcomeVideo", true);
+            }
+            this.form.commit();
+            this.model.set("Level", null);
+            this.model.set("subject", null);
             var formContext = this;
             // id a new video file has been linked/uploaded, change the "addedBy" field to have the name of the current user
             // if no new file has been linked/uploaded, don't take any action
             var uploadedFileName = $('input[type="file"]').val();
-            if (uploadedFileName) {
-                formContext.model.unset('_attachments');
-                App.startActivityIndicator();
-                // set the handler for successful response on processing the video update form
-                this.model.on('savedAttachment', function () {
-                    App.stopActivityIndicator();
-                    this.trigger('processed')
-                }, formContext.model);
-                formContext.model.saveAttachment("#fileAttachment", "#_attachments", "#fileAttachment .rev");
-                this.form.fields['addedBy'].setValue($.cookie('Member.login'));
-            }
-            else {
-                return;
-            }
-
+            this.model.save(null, {
+                success: function (res) {
+                    if (uploadedFileName) {
+                        formContext.model.unset('_attachments');
+                        App.startActivityIndicator();
+                        // set the handler for successful response on processing the video update form
+                        formContext.model.on('savedAttachment', function () {
+                            App.stopActivityIndicator();
+                            this.trigger('processed');
+                        }, formContext.model);
+                        formContext.model.saveAttachment("#fileAttachment", "#_attachments", "#fileAttachment .rev");
+                        formContext.form.fields['addedBy'].setValue($.cookie('Member.login'));
+                    }
+                    else {
+                        return;
+                    }
+                }
+            });
         },
         renderAddOrUploadWelcomeVideoForm: function() {
             var formHeader = $('<h3> Edit Welcome Video Form </h3><br><br><br><br>');
@@ -108,8 +118,6 @@ $(function () {
             this.form.fields['addedBy'].editor.el.disabled = true;
             this.form.fields['uploadDate'].$el.show();
             this.form.fields['openWith'].$el.show();
-            // add a label followed by input box/button for allowing uploading of new welcome video, followed by label anming the
-            // name of the video currently being used as welcome video
 //            this.$el.append('<label for="_attachments">Upload Welcome Video</label>');
 //            this.$el.append('<input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" />');
             // get attachments of welcome video doc
@@ -128,15 +136,12 @@ $(function () {
                 this.$el.append(label);
             }
             this.$el.append('<br><br>');
-
+            // add a label followed by input box/button for allowing uploading of new welcome video, followed by label anming the
+            // name of the video currently being used as welcome video
             this.$el.append('<form method="post" id="fileAttachment"></form>');
             this.$el.find("#fileAttachment").append('<label for="_attachments">Upload Welcome Video</label>');
             this.$el.find("#fileAttachment").append('<input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" multiple="multiple" label=" :" />');
             this.$el.find("#fileAttachment").append('<input class="rev" type="hidden" name="_rev">');
-
-
-
-//            this.$el.append('<div id="tmp1"></div> <div id="tmp2"></div> <div id="tmp3"></div>');
             this.$el.append('<button class="addNation-btn btn btn-success" id="saveUpdatedWelcomeVideoForm">Submit</button>');
             this.$el.append('<a class="btn btn-danger" id="cancel">Cancel</a>');
         },
