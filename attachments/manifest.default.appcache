@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# 2013-09-24-v1
+
+# Explicitly cached entries
+
+# for KA Exercises
+
+# Apps and Resources
+
+{replace me}
+
+# offline.html will be displayed if the user is offline
+FALLBACK:
+/apps/_design/bell/personal/index.html
+# / /offline.html
+
+
+# All other resources (e.g. sites) require the user to be online. 
+NETWORK:
+*
+
+# Additional resources to cache
+# CACHE:
+# images/logo1.png
