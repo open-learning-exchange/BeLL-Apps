@@ -7,10 +7,31 @@ $(function () {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #formButton2": "signup"
+            "click #formButton2": "signup",
+            "click #welcomeButton": "showWelcomeVideo"
         },
 
         render: function () {
+            var context = this;
+            var welcomeResources = new App.Collections.Resources();
+            welcomeResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo');
+            welcomeResources.fetch({
+                success: function () {
+                    if(welcomeResources.length > 0) {
+                        var welcomeResourceId = welcomeResources.models[0].attributes.id;
+                        // display "watch welcome video" button
+                        var hrefWelcomeVid = "/apps/_design/bell/bell-resource-router/index.html#openres/" + welcomeResourceId;
+//                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" href="hmmm" target="_blank" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
+                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video" href="hmmm" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
+                        context.$el.append($buttonWelcome);
+                        context.$el.find("#welcomeButton").attr( "href", "dummy.mp4");// <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
+                    }
+                },
+                error: function () {
+                    console.log("Error in fetching welcome video doc from db");
+                },
+                async: false
+            });
             // create the form
             this.form = new Backbone.Form({
                 model: this.model
@@ -21,6 +42,10 @@ $(function () {
             var $button2 = $('<div class="signup-div" ><a style="margin-left: -4px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">Become A Member</button></div>')
             this.$el.append($button)
             this.$el.append($button2)
+        },
+
+        showWelcomeVideo: function() {
+
         },
 
         setFormFromEnterKey: function (event) {

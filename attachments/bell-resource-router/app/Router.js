@@ -4,7 +4,8 @@ $(function() {
     routes: {
       'open/:resourceId' : 'LogactivityAndOpen',
       'openreport/:level/:reportId' : 'openReport', 
-      'download/:resourceId' : 'download'
+      'download/:resourceId' : 'download',
+      'openres/:id': 'open'
     },
 LogactivityAndOpen:function(resourceId){
         var memId=$.cookie('Member._id')
@@ -15,6 +16,7 @@ LogactivityAndOpen:function(resourceId){
 		var member=new Member()
 		    member.fetch({async:false})
 
+        alert("openin resource");
 
         var that=this
   		var logdb=new PouchDB('activitylogs')

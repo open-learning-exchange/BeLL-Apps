@@ -4,6 +4,7 @@ $(function(){
        
       
       routes:{
+            'updatewelcomevideo': 'addOrUpdateWelcomeVideoDoc',
             '': 'MemberLogin',
             'dashboard': 'Dashboard',
             'ereader':'eReader',
@@ -82,7 +83,38 @@ $(function(){
 			
 			
 },
-
+    addOrUpdateWelcomeVideoDoc: function() {
+        // fetch existing welcome video doc if there is any
+        var welcomeVideoResources = new App.Collections.Resources();
+        welcomeVideoResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo?include_docs=true');
+        welcomeVideoResources.fetch({
+            success: function () {
+            },
+            error: function () {
+                alert("router:: addOrUpdateWelcomeVideoDoc:: error fetching welcome resources");
+            },
+            async: false
+        });
+        var resourceId, welcomeVidResource;
+        if (welcomeVideoResources.length > 0) {
+            welcomeVidResource = welcomeVideoResources.models[0];
+        }
+        var resource = (welcomeVidResource) ? welcomeVidResource : new App.Models.Resource();
+        resource.on('processed', function () {
+            Backbone.history.navigate('dashboard', {
+                trigger: true
+            })
+        });
+        var resourceFormView = new App.Views.ResourceForm({
+            model: resource
+        });
+        if (resource.id) {
+            resourceFormView.renderAddOrUploadWelcomeVideoForm();
+        } else {
+            resourceFormView.renderAddOrUploadWelcomeVideoForm();
+        }
+        App.$el.children('.body').html(resourceFormView.el);
+    },
     Publications:function(publicationIdes){
 
         publicationIdes=publicationIdes.split(',')

@@ -41,11 +41,19 @@ $(function() {
         	this.skip = a.skip 
         }
    },
+      setUrl: function(newUrl) {
+          this.url = newUrl;
+      },
 
     parse: function(response) {
       var models = []
       _.each(response.rows, function(row) {
-        models.push(row.doc)
+          if (row.doc) {
+              models.push(row.doc);
+          } else {
+              models.push(row);
+          }
+
       });
       return models
     },
