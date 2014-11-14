@@ -94,14 +94,14 @@ $(function() {
 				this.$el.html("")
 				if(this.removeAlphabet==undefined){
 						var viewText="<tr></tr>"
-					viewText+="<tr><td colspan=7>"
-					viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
+					viewText+="<tr><td colspan=7  style='cursor:default' >"
+					viewText+='<a  id="allresources">#</a>&nbsp;&nbsp;'
 					var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		
 				   for(var i=0; i<str.length; i++)
 				   {
 					  var nextChar = str.charAt(i);
-					  viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+					  viewText+='<a  class="clickonalphabets"  value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 				   }
 				   viewText+="</td></tr>"
 				   this.$el.append(viewText)
@@ -140,7 +140,7 @@ $(function() {
     			   resourceLength=json.rows[0].value
     	           if(context.displayCollec_Resources!=true)
       				{
-					  var pageBottom="<tr><td colspan=7>"
+					  var pageBottom="<tr><td colspan=7><p style='width: 940px; word-wrap: break-word;'>"
 					   var looplength=resourceLength/20
 					   for(var i=0; i<looplength; i++)
 					   {
@@ -149,7 +149,7 @@ $(function() {
 						  else
 						  pageBottom+='<a  class="pageNumber" value="'+i*20+'">'+i+'</a>&nbsp&nbsp'
 					   }
-						pageBottom+="</td></tr>"
+						pageBottom+="</p></td></tr>"
 					   context.$el.append(pageBottom)
 				   }
     			

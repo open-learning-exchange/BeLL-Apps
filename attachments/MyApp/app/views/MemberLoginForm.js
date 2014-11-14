@@ -34,7 +34,6 @@ $(function () {
             })
         },
 	setForm: function () {
-// 	 		var Members=new PouchDB('members');
             var memberLoginForm = this
             this.form.commit()
             var credentials = this.form.model
@@ -78,16 +77,7 @@ $(function () {
                             member.save(null,{ success: function(doc,rev){
               				}})
               				
-              				
-//         				Members.get(member.get('_id'), function(err, doc) {
-//         					
-// 							Members.put(member.toJSON(),function(err,info){
-//               				console.log(err)
-//               				console.log(info)
-//               				})
-//               				console.log(doc)
-//         				 });
-
+  
                         } else {
                             alert("Your Account Is Deactivated")
                         }
@@ -158,9 +148,12 @@ getFormattedDate:function(date) {
 				 male_timesRated:[],
 				 female_timesRated:[],
 				 male_rating:[],
-				 female_rating:[]
+				 community:App.configuration.get('code'),
+				 female_rating:[],
+				 resources_opened:[],
+				 male_opened:[],
+				 female_opened:[]
 			}
-			alert(docJson.male_visits)
 			
 			if(member.get('Gender')=='Male') {
 						 	visits=parseInt(docJson.male_visits)
@@ -175,7 +168,6 @@ getFormattedDate:function(date) {
 			logdb.post(docJson, function (err, response) { 
   						console.log(err)
  						console.log(response)
-						alert('successfully post')
  		});
     },
     

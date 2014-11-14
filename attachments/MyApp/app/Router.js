@@ -11,7 +11,6 @@ $(function(){
             'logout': 'MemberLogout',
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
-            
             'resources': 'Resources',
             'resource/add': 'ResourceForm',
             'resource/edit/:resourceId': 'ResourceForm',
@@ -21,7 +20,6 @@ $(function(){
             'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
             'assign-to-level': 'AssignResourcetoLevel',
-            
             'courses': 'Groups',
             'course/manage/:groupId': 'ManageCourse',
             'course/details/:courseId/:courseName':'courseDetails',
@@ -33,59 +31,55 @@ $(function(){
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
             'course/members/:courseId':'GroupMembers',
-            
             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
             'create-quiz/:lid/:rid/:title': 'CreateQuiz',
-            
-             'collection':'Collection',
-             'listCollection/:collectionId':'ListCollection',
+            'collection':'Collection',
+            'listCollection/:collectionId':'ListCollection',
             'listCollection/:collectionId/:collectionName':'ListCollection',
             'meetups':'ListMeetups',
             'meetup/add':'Meetup',
             'meetup/delete/:MeetupId':'deleteMeetUp',
             'usermeetup/detail/:meetupId/:title':'Meetup_Detail',
             'meetup/details/:meetupId/:title': 'usermeetupDetails',
-            'meetup/manage/:meetUpId':'Meetup',
-            
+            'meetup/manage/:meetUpId':'Meetup',            
             'configuration/add':'Configure',
-            
-            
+            'search-bell/:publicationId': 'SearchPresources',
             'members': 'Members',
-            
             'reports': 'Reports',
-            'reports/sync' : 'syncReports',
+            // added to new page   'reports/sync' : 'syncReports',
     	    'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
-            
             'mail': 'email',
+            
             'newsfeed': 'NewsFeed',
+            'badges' :'Badges',
             
             'courses/barchart': 'CoursesBarChart',
-            
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
             'calendar/event/:eid': 'calendaar',
             'calendar-event/edit/:eid': 'EditEvent',
-            
             'siteFeedback': 'viewAllFeedback',
-            
             'myRequests': 'myRequests',
             'AllRequests': 'AllRequests',
             'replicateResources': 'Replicate',
 			'savingPochDB' : 'PochDB',	
 			'deletePouchDB': 'deletePouchDB',
 			'course/invitations/add': 'addCourseInvi',
-			
 			'compile': 'CompileManifest',
 			'dbInfo':'dbinfo',
 			'weeklyreports':'WeeklyReports',
 			'removecache':'UpdateManifest',
 			'logreports':'LogQuery',
-			'reportsActivity':'LogActivity'
+			// Not required 'syncLog':'syncLogActivitiy',
+			'reportsActivity':'LogActivity',
+			'setbit' : 'setNeedOptimizedBit',
+			'CompileAppManifest' : 'CompileAppManifest'
 			
-},
+			
+},   
 addCourseInvi:function(){
 
 var test=new App.Models.CourseInvitation()
@@ -121,6 +115,13 @@ var test=new App.Models.CourseInvitation()
       },*/
         eReader:function(){
            // alert('match with ereader')
+            this.underConstruction()
+        },
+        Badges:function(){
+            this.underConstruction()
+        },
+        underConstruction:function(){
+            App.$el.children('.body').html('<div style="margin:0 auto"><h4>This Functionality is under Construction</h4></div>')
         },
         startUpStuff: function () {
         
@@ -195,7 +196,6 @@ var test=new App.Models.CourseInvitation()
       
       },  
       MemberLogin: function () {
-      
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -282,7 +282,7 @@ var test=new App.Models.CourseInvitation()
                 
             } else {
                 App.$el.children('.body').html('<h3>Add ' + label + '</h3>')
-            }
+                }
             App.$el.children('.body').append(modelForm.el)
            // Bind form events for when Group is ready
             model.once('Model:ready', function () {
@@ -298,6 +298,10 @@ var test=new App.Models.CourseInvitation()
                 $('.form .field-startDate input').datepicker({
                todayHighlight: true
             });
+            $('.form .field-firstName input').attr('maxlength','25');
+            $('.form .field-lastName input').attr('maxlength','25');
+            $('.form .field-middleNames input').attr('maxlength','25');
+            $('.form .field-login input').attr('maxlength','25');
             $('.form .field-endDate input').datepicker({
                todayHighlight: true
             });
@@ -345,6 +349,7 @@ var test=new App.Models.CourseInvitation()
             
         },
         Resources: function () {
+        
             App.startActivityIndicator()
             var context=this
             var resourcesTableView
@@ -362,22 +367,18 @@ var test=new App.Models.CourseInvitation()
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager")
                        
-                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>'
-                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>'
+                    var btnText='<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a>';
+                        btnText+='<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a>';
+                        btnText+='<button style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
                     App.$el.children('.body').html(btnText)
                     
                     App.$el.children('.body').append('<p style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a></p>')
-                     
+                     /*Added to nation sync part
                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') ){
 					//App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
 						App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
                      
-					}
-					 App.$el.children('.body').append('<button style="margin-top:-64px;margin-left:20px;float: right;" class="btn btn-info" onclick="document.location.href=\'#resource/search\'">Search</button>')
-                    
-							  while(App.collectionslist.length==0){
-								 alert("Retriving records")
-							 }
+					}*/
 							 resourcesTableView.collections=App.collectionslist	
                      		 resourcesTableView.render()
                      		App.$el.children('.body').append(resourcesTableView.el)
@@ -589,6 +590,41 @@ var test=new App.Models.CourseInvitation()
             
 
         },
+        SearchPresources: function (publicationId) {
+
+            var publications = new App.Models.Publication({
+                "_id": publicationId
+            })
+            publications.fetch({
+                success: function () {
+                    
+                    var search = new App.Views.Search()
+                    grpId = publicationId
+                    search.addResource=true
+                    search.Publications=true
+                    App.$el.children('.body').html(search.el)
+                    search.render()
+                    $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect().multiselectfilter();
+					$("#multiselect-medium-search").multiselect({
+  					    multiple: false,
+   					    header: "Select an option",
+   					    noneSelectedText: "Select an Option",
+   					    selectedList: 1
+				     });
+						
+						
+						
+                    $("#srch").hide()
+                    $(".search-bottom-nav").hide()
+                    $(".search-result-header").hide()
+                    $("#selectAllButton").hide()
+                    showSubjectCheckBoxes()
+                    
+                    $("#multiselect-subject-search").multiselect().multiselectfilter();
+                },async:false
+            })
+        },
         Groups: function () {
          App.startActivityIndicator()
             groups = new App.Collections.Groups()
@@ -668,9 +704,10 @@ var test=new App.Models.CourseInvitation()
         	var course = new App.Models.Group();
         	course.id = cId
         	course.fetch({async:false})
-        	
             App.$el.children('.body').html("<h2> " + cname + "</h2>")
-            App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
+        	if (course.get('courseLeader') != undefined && course.get('courseLeader') == $.cookie('Member._id') || roles.indexOf("Manager") != -1){
+        		App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
+        	}    
             App.$el.children('.body').append("<div id='graph'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
             
@@ -786,12 +823,13 @@ var test=new App.Models.CourseInvitation()
                courseModel.fetch({async:false})
     
            var courseLeader = courseModel.get('courseLeader')
+           var courseName = courseModel.get('name')
            var courseMembers = courseModel.get('members')
         	
           var button = '<br><a href="#courses"><button class="btn btn-success">Back to courses</button></a>'
           if(courseMembers && courseMembers.indexOf($.cookie('Member._id'))==-1)
           {
-          	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton">Admission</button><br/><br/>'
+          	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("'+courseLeader+'","'+encodeURI(courseName)+'","'+courseId+'")>Admission</button><br/><br/>'
           }
           else
           {
@@ -806,8 +844,8 @@ var test=new App.Models.CourseInvitation()
                memberModel.fetch({async: false})
             
           var  ccSteps = new App.Collections.coursesteps()
-                ccSteps.courseId = courseId
-                ccSteps.fetch({async:false})
+               ccSteps.courseId = courseId
+               ccSteps.fetch({async:false})
 
           var GroupDetailsView=new App.Views.GroupView({model:courseModel})
               GroupDetailsView.courseLeader=memberModel
@@ -1148,7 +1186,8 @@ var test=new App.Models.CourseInvitation()
             var cofigINJSON=currentConfig.toJSON()
         
     	    
-    	    code=cofigINJSON.code       
+    	    code=cofigINJSON.code
+    	    nationName=cofigINJSON.nationName       
             
             var roles = this.getRoles()
             members = new App.Collections.Members()
@@ -1157,7 +1196,7 @@ var test=new App.Models.CourseInvitation()
                     membersTable = new App.Views.MembersTable({
                         collection: members
                     })
-                    membersTable.community_code=code
+                    membersTable.community_code=code+nationName.substring(3,5)
                     if (roles.indexOf("Manager") > -1) {
                         membersTable.isadmin = true
                     } else {
@@ -1190,8 +1229,14 @@ var test=new App.Models.CourseInvitation()
             resourcesTableView.render()
              App.$el.children('.body').html('')
             if(roles.indexOf("Manager")>-1){
-            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a></p>')
+            	//<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
+            	App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a></p>')
+			
 			}
+			else{
+				App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
+			}
+			
 			var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
             if(temp.length==0){
@@ -1202,6 +1247,9 @@ var test=new App.Models.CourseInvitation()
             App.stopActivityIndicator()
 
         },
+        
+        /*
+        Removed because this function is moved in nation all sync in one page
         syncReports:function(){
         
               App.startActivityIndicator()
@@ -1240,7 +1288,7 @@ var test=new App.Models.CourseInvitation()
 				 }})
 
 
-        },
+        },*/
         ReportForm: function (reportId) {
             var report = (reportId) ? new App.Models.CommunityReport({
                 _id: reportId
@@ -1664,6 +1712,7 @@ var test=new App.Models.CourseInvitation()
             App.$el.children('.body').append(modelForm.el)
             modelForm.render()
         },
+        //also used for collection editing from collection listing page
 	EditTag: function (value) {
 	    var roles = this.getRoles()
 	    if (roles.indexOf("Manager") > -1) {
@@ -1855,8 +1904,7 @@ var test=new App.Models.CourseInvitation()
 	                        
 							res.each(function(model){
 							      resourceTags=model.get('Tag')
-							      if(Array.isArray(resourceTags))
-							      {	
+							      if(Array.isArray(resourceTags)){	
 							    	for(var i=0 ; i < collectionIdes.length ; i++)
 						          		if(resourceTags.indexOf(collectionIdes[i]) != -1){ 
 						          		    var index=resourceTags.indexOf(collectionIdes[i])
@@ -1946,17 +1994,19 @@ var test=new App.Models.CourseInvitation()
         },
 
      NewsFeed: function () {
-            var resources = new App.Collections.NewsResources()
-            resources.fetch({
-                success: function () {
-                    var resourcesTableView = new App.Views.ResourcesTable({
-                        collection: resources
-                    })
-                    resourcesTableView.render()
-                    App.$el.children('.body').html("&nbsp")
-                    App.$el.children('.body').append(resourcesTableView.el)
-                }
-            })
+     
+          this.underConstruction()
+           //  var resources = new App.Collections.NewsResources()
+//             resources.fetch({
+//                 success: function () {
+//                     var resourcesTableView = new App.Views.ResourcesTable({
+//                         collection: resources
+//                     })
+//                     resourcesTableView.render()
+//                     App.$el.children('.body').html("&nbsp")
+//                     App.$el.children('.body').append(resourcesTableView.el)
+//                 }
+//             })
         }, 
      AllRequests: function () {
             App.$el.children('.body').html('&nbsp')
@@ -1984,6 +2034,7 @@ var test=new App.Models.CourseInvitation()
             colView.render()
             App.$el.children('.body').append(colView.el)
         },
+        /* Aded in the Nation
        Replicate: function () {
         
           App.startActivityIndicator()
@@ -2041,7 +2092,7 @@ var test=new App.Models.CourseInvitation()
     			}
   			 })
   			App.stopActivityIndicator()
-        },
+        },*/
         synchCommunityWithURL : function(communityurl,communityname) 
         {
         	console.log('http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources')
@@ -2079,6 +2130,7 @@ var test=new App.Models.CourseInvitation()
             hostUrl = hostUrl.split('/')
             var hostName=hostUrl[2].split('.')
       var MemberCourseProgress=new PouchDB('membercourseprogress');
+      var configurations= new PouchDB('configurations')
       //condition to check cloudant.com or an IP address 
       if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/))
       {
@@ -2095,13 +2147,22 @@ var test=new App.Models.CourseInvitation()
 		console.log("membercourseprogress replication error :"+error)
 		}
 		else{
-		  console.log("Successfully replicated membercourseprogress :" + response)
+		  console.log("Successfully replicated to local membercourseprogress :" + response)
+		}
+
+	  });	
+	  configurations.replicate.from(URL+'/configurations',function(error, response){
+		if(error){
+		console.log("configurations replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated to local configurations :" + response)
 		}
 
 	  });													  
-	  MemberCourseProgress.replicate.to(URL+'/feedback',function(error, response){
+	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
 		if(error){
-		console.log("membercourseprogress replication error :"+error)
+		console.log("membercourseprogress replication to server error :"+error)
 		}
 		else{
 		  console.log("Successfully replicated membercourseprogress :" + response)
@@ -2118,60 +2179,31 @@ var test=new App.Models.CourseInvitation()
 		}
 
 	  }); 
-      this.saveFrequency(URL);
-// 
-//  FeedBackDb.replicate.from(URL+'/feedback',function(error, response){
-// 		if(error){
-// 		console.log("FeedBackDb replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated FeedBackDb :" + response)
-// 		}
-// 
-// 	  });													  
-// 	  
-// 	 var Members=new PouchDB('members');
-// 		  Members.replicate.from( URL +'/members',function(error, response){
-// 			if(error){
-// 			console.log("members replication error :"+error)
-// 			}
-// 			else{
-// 			  console.log("Successfully replicated members :" + response)
-// 			}
-// 
-// 		  });
-// 		  Members.replicate.to(URL+'/members',function(error, response){
-// 			if(error){
-// 			console.log("members replication error :"+error)
-// 			}
-// 			else{
-// 			  console.log("Successfully replicated members :" + response)
-// 			}
-// 
-// 		  });
-	  // var CourseStep=new PouchDB('coursestep');
-// 	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
-// 		if(error){
-// 		console.log("coursestep replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated coursestep :" + response)
-// 		}
-// 
-// 	  });
-// 	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
-// 		if(error){
-// 		console.log("coursestep replication error :"+error)
-// 		}
-// 		else{
-// 		  console.log("Successfully replicated coursestep :" + response)
-// 		}
-// 
-// 	  });
-	this.saveResources(URL);	 
+
+	 var CourseStep=new PouchDB('coursestep');
+	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
+		if(error){
+		console.log("coursestep replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated coursestep :" + response)
+		}
+
+	  });
+	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
+		if(error){
+		console.log("coursestep replication error :"+error)
+		}
+		else{
+		  console.log("Successfully replicated coursestep :" + response)
+		}
+
+	  });
+	this.saveFrequency(URL);
+	this.saveResources(URL);
+	this.WeeklyReports();	 
  },
  saveResources:function(URL){
- 
  				 var Resources=new PouchDB('resources');
  				 var Saving
  				 var Groups = new App.Collections.MemberGroups()
@@ -2259,15 +2291,35 @@ var test=new App.Models.CourseInvitation()
  			}
  },
  LogQuery:function(){
+        var type="community"
+        var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var config=new configurations()
+    	        config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+    		if( cofigINJSON.rows[0].doc.type){
+    		    type=cofigINJSON.rows[0].doc.type
+    		}
 		var log = new App.Views.LogQuery()
+		log.type=type
 		log.render()
 		App.$el.children('.body').html(log.el)
+		//currently hiding for all kind of communities and nations.
+		$("#community-select").hide()
+		/*if(type=='community'){
+		$("#community-select").hide()
+		}
+		if(type=='nation'){
 		$("#community-select").multiselect({
 					multiple: false,
 					header: "Select A Community",
 					noneSelectedText: "Select A Community",
 					selectedList: 1
 				 });
+		}*/
 		$('#start-date').datepicker({
                todayHighlight: true
             });
@@ -2275,63 +2327,10 @@ var test=new App.Models.CourseInvitation()
                todayHighlight: true
             });
  }, 
- LogActivity:function(){
-		var rpt = new App.Views.ActivityReport()
-		var staticData={
-  "Registered_Members":
-    {
-    "male":233,
-    "female":321
-    },
-  "Visits":{"cumulative": 206,"male": 106, "female": 100}, 
-  "Most_Freq_Open":
-  [
-    {
-    "resourceName":"asdf",
-    "timesOpenedCumulative":15,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.5,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
-    }, {
-    "resourceName":"asdfasf",
-    "timesOpenedCumulative":17,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 10,
-    "avgRatingCumulative":4.5,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
-    }
-  ],
-  "Highest_Rated": 
-  [
-    {
-    "resourceName": "qwerty",
-    "timesOpenedCumulative":15,
-    "timesOpenedByMales": 7,
-    "timesOpenedByFemales": 8,
-    "avgRatingCumulative":4.5,
-    "avgRatingByMales": 4.1,
-    "avgRatingByFemales": 4.9
-    }
-  ],
-  "Lowest_Rated": 
-  [
-    {
-    "resourceName": "lkjh",
-    "timesOpenedCumulative":150,
-    "timesOpenedByMales": 70,
-    "timesOpenedByFemales": 80,
-    "avgRatingCumulative":2.2,
-    "avgRatingByMales": 3.0,
-    "avgRatingByFemales": 1.0
-    }
-  ]
-};
-		rpt.data=staticData;
-		rpt.render()
-		App.$el.children('.body').html(rpt.el)
+ changeDateFormat:function(date)
+ {
+ var datePart = date.match(/\d+/g),month = datePart[0], day = datePart[1], year = datePart[2];
+  return year+'/'+month+'/'+day;
  },
  deletePouchDB:function(){
     var Resources=new PouchDB('resources');
@@ -2384,9 +2383,9 @@ var test=new App.Models.CourseInvitation()
  	else 
 	console.log("Successfully Destroy activitylogs"+info)
 	});
+	return true
 },
-dbinfo:function()
-{
+dbinfo:function() {
     var Resources=new PouchDB('resources');
     Resources.info(function(err,info){console.log(info)})
     var FeedBackDb=new PouchDB('feedback');
@@ -2398,9 +2397,50 @@ dbinfo:function()
 	var CourseStep=new PouchDB('coursestep');
 	CourseStep.info(function(err,info){console.log(info)})
 	var MemberCourseProgress=new PouchDB('membercourseprogress');
-	MemberCourseProgress.info(function(err,info){console.log(info)})
+	MemberCourseProgress.info(function(err,info){console.log(info)
+	console.log(err)
+	})
 	var activitylogs=new PouchDB('activitylogs');
 	activitylogs.info(function(err,info){console.log(info)})
+},
+CompileAppManifest:function(){
+
+    var apps = new App.Collections.Apps()
+    var find = '{replace me}'
+    var replace = '# Compiled at ' + new Date().getTime() + '\n'
+    var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
+    var appsURL = '/apps/_design/bell'
+    var transformedManifestURL = appsURL + '/manifest.appcache'
+    
+    apps.once('sync', function() {
+          _.each(apps.models, function(app) {
+            _.each(app.get('_attachments'), function(value, key, list) {
+              replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
+            })
+          })
+          App.trigger('compile:appsListReady')
+        })
+    apps.fetch()
+    
+    App.once('compile:appsListReady', function() {
+
+        $.get(defaultManifestURL, function(defaultManifest) {
+          var transformedManifest = defaultManifest.replace(find, replace)
+			 $.getJSON(appsURL, function(appsDoc){
+				var xhr = new XMLHttpRequest()
+				xhr.open('PUT', transformedManifestURL + '?rev=' + appsDoc._rev, true)
+				xhr.onload = function(response) { 
+				  App.trigger('compile:done')
+				}
+				xhr.setRequestHeader("Content-type", "text/cache-manifest" );
+				xhr.send(new Blob([transformedManifest], {type: 'text/plain'}))
+			  })
+        })
+      })
+   App.once('compile:done', function() {
+        alert('menifist file is creted in Bell-apps')
+      })
+
 },
  CompileManifest: function() {
       App.startActivityIndicator()
@@ -2664,43 +2704,540 @@ dbinfo:function()
      WeeklyReports:function(){
     
       	var logdb=new PouchDB('activitylogs')
-      	var currentdate = new Date();
-    	var logdate = currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear()
-		
-		//sample document post
-
-		// var docJson={
-// 			 logDate: logdate,
-// 			 resourcesIds:['HungryCaterPiller'],
-// 			 male:[1],
-// 			 female:[0],
-// 			 rating:[5],
-// 		}
-// 		logdb.post(docJson, function (err, response) { 
-// 						console.log(err)
-// 						console.log(response)
-// 						alert('successfully post')
-// 		});
-				
-        logdb.query({map:function(doc){
-					 if(doc.logDate){
-						emit(doc.logDate,doc)
-					 }
-				}
-   			},{key:logdate},function(err,res){
-				if(!err){
-				     if(res.length!==0){
-				        alert('Length is not Zero')
-				     }else{
-				   		alert('length is zero')
-				    }	   
-                }
-		   });       
+        var that=this
+      	    logdb.allDocs({include_docs: true},
+      	               function(err, response) { 
+      	                  var collection=response.rows
+      	                  for(i=0;i<response.total_rows;i++){
+      	                      activitylog=collection[i].doc
+      	                      activitylogDate=activitylog.logDate
+      	                      var logModel=new App.Collections.ActivityLog()
+      	                          logModel.logDate=activitylogDate
+      	                          logModel.fetch({success:function(res,resInfo){
+      	                             	 console.log(res)
+      	                             	 if(res.length==0){
+      	                             	     that.createLogs(activitylog)
+      	                             	 }else{
+      	                             	     logsonServer=res.first()
+      	                             	     that.updateLogs(activitylog,logsonServer)
+      	                             	 }         
+      	                          },
+      	                          error:function(err){
+      	                          
+      	                          }})
+      	                      
+      	                     
+      	                  }
+      	    });    
         
     },
+    createLogs:function(activitylog){
+    
+            var toDelete_id=activitylog._id
+            var toDelete_rev=activitylog._rev
+            var logdb=new PouchDB('activitylogs')
+             
+            //alert('here in create log function')
+
+			var dailylogModel=new App.Models.DailyLog()
+				delete activitylog._rev
+				delete activitylog._id
+				console.log(activitylog)
+				dailylogModel.set(activitylog)
+   
+				dailylogModel.save(null,{success:function(res,resInfo){
+  						logdb.remove(toDelete_id, toDelete_rev, function(err, response) { 
+  						   if(err){
+  						      console.log(err)
+  						      //alert('error')
+  						   }else{
+  						   
+  						      //alert('deleted after creating')
+  						   }
+					   });
+				}})
+
+    },
+    updateLogs:function(activitylog,logsonServer){
+    
+    		   var activitylog_resRated=0;
+               if(activitylog.resourcesIds){
+               activitylog_resRated = activitylog.resourcesIds
+               }
+               var activitylog_resOpened =0;
+               if( activitylog.resources_opened){
+               activitylog_resOpened = activitylog.resources_opened
+               }
+               var logsonServer_resRated =0;
+               if( logsonServer.get('resourcesIds')){
+               logsonServer_resRated = logsonServer.get('resourcesIds')
+               }
+               var logsonServer_resOpened = 0;
+               if(logsonServer.get('resources_opened')){
+               	logsonServer_resOpened=logsonServer.get('resources_opened')
+               }
+               
+               var logsonServer_male_visits = 0;
+               if(logsonServer.get('male_visits')){
+               	logsonServer_male_visits=logsonServer.get('male_visits')
+               }
+               var logsonServer_female_visits = 0;
+               if(logsonServer.get('female_visits')){
+               	logsonServer_female_visits=logsonServer.get('female_visits')
+               
+               }
+               var logsonServer_male_rating = 0;
+               if(logsonServer.get('male_rating')){
+               	logsonServer_male_rating=logsonServer.get('male_rating')
+               }
+               var logsonServer_female_rating = 0;
+               if(logsonServer.get('female_rating')){
+                logsonServer_female_rating = logsonServer.get('female_rating')
+               }
+               
+               var logsonServer_male_timesRated = 0;
+               if(logsonServer.get('male_timesRated')){
+               	logsonServer_male_timesRated = logsonServer.get('male_timesRated')
+               }
+               var logsonServer_female_timesRated = 0;
+               if(logsonServer.get('female_timesRated')){
+               	logsonServer_female_timesRated = logsonServer.get('female_timesRated')
+               }
+               
+               var logsonServer_male_opened = 0;
+               if(logsonServer.get('male_opened')){
+               	logsonServer_male_opened= logsonServer.get('male_opened')
+               } 
+               var logsonServer_female_opened = 0;
+               if(logsonServer.get('female_opened')){
+               	logsonServer_female_opened = logsonServer.get('female_opened')
+               }
+        
+                logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
+                logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
+                
+               for(i=0 ; i < activitylog_resRated.length ; i++){
+                     resId=activitylog_resRated[i]
+                     index=logsonServer_resRated.indexOf(resId)
+                     //alert('index'+index)
+                     if(index==-1){
+                     
+                            logsonServer_resRated.push(resId)
+                            logsonServer_male_rating.push(activitylog.male_rating[i])
+                            logsonServer_female_rating.push(activitylog.female_rating[i])
+                            logsonServer_male_timesRated.push(activitylog.male_timesRated[i])
+                            logsonServer_female_timesRated.push(activitylog.female_timesRated[i])
+                            
+                     }else{ 
+                     
+                            logsonServer_male_rating[index] = parseInt(logsonServer_male_rating[index]) + parseInt(activitylog.male_rating[i])
+                            logsonServer_female_rating[index] = parseInt(logsonServer_female_rating[index]) + parseInt(activitylog.female_rating[i])
+                            logsonServer_male_timesRated[index] = parseInt(logsonServer_male_timesRated[index]) + parseInt(activitylog.male_timesRated[i])
+                            logsonServer_female_timesRated[index] = parseInt(logsonServer_female_timesRated[index]) + parseInt(activitylog.female_timesRated[i])
+                     }        
+               }
+               for(i=0 ; i < activitylog_resOpened.length ; i++){
+                    resId=activitylog_resOpened[i]
+                    index=logsonServer_resOpened.indexOf(resId)
+                    if(index==-1){
+                             logsonServer_resOpened.push(resId)
+                             logsonServer_male_opened.push(activitylog.male_opened[i])
+                             logsonServer_female_opened.push(activitylog.female_opened[i])
+                     }else{
+                             logsonServer_male_opened[index] = parseInt(logsonServer_male_opened[index]) + parseInt(activitylog.male_opened[i])
+                             logsonServer_female_opened[index]=parseInt(logsonServer_female_opened[index])+parseInt(activitylog.female_opened[i])
+                     }
+               }
+               //alert('in update logs')
+               logsonServer.set('resourcesIds' , logsonServer_resRated)
+               logsonServer.set('resources_opened' , logsonServer_resOpened)
+               logsonServer.set('male_visits' , logsonServer_male_visits)
+               logsonServer.set('female_visits' , logsonServer_female_visits)
+               logsonServer.set('male_rating' , logsonServer_male_rating)
+               logsonServer.set('female_rating' , logsonServer_female_rating)
+               logsonServer.set('male_timesRated' , logsonServer_male_timesRated)
+               logsonServer.set('female_timesRated' , logsonServer_female_timesRated)
+               logsonServer.set('male_opened' , logsonServer_male_opened)
+               logsonServer.set('female_opened' , logsonServer_female_opened)
+               
+               var logdb=new PouchDB('activitylogs')
+               logsonServer.save(null,{success:function(model,modelInfo){
+               //alert('save function')
+                      logdb.remove(activitylog,function(err, info) {
+							if(err)
+								console.log(err)
+							else 
+							 console.log("Successfully Destroy activitylogs"+info)
+							 //alert('delete')
+						});
+               }})
+      
+    },
+       LogActivity:function(CommunityName,startDate,endDate){
+       	   var rpt = new App.Views.ActivityReport()
+           var type="community"
+           var configurations=Backbone.Collection.extend({
+
+    				url: App.Server + '/configurations/_all_docs?include_docs=true'
+    		})	
+    	    var config=new configurations()
+    	        config.fetch({async:false})
+    	    var currentConfig=config.first()
+            var cofigINJSON=currentConfig.toJSON()
+    		if( cofigINJSON.rows[0].doc.type){
+    		    type=cofigINJSON.rows[0].doc.type
+    		}
+    		
+           var logData=new App.Collections.ActivityLog()
+           logData.startkey=this.changeDateFormat(startDate)
+           logData.endkey=this.changeDateFormat(endDate)
+           if(CommunityName!='all')
+           logData.name=CommunityName
+           logData.fetch({
+               async:false
+           })
+           var logReport=logData.first();
+           if(logReport==undefined){
+           alert("No Activity Logged .")
+           }
+            var report_resRated = logReport.get('resourcesIds')
+            var report_resOpened = [];
+            if(logReport.get('resources_opened')){
+            report_resOpened = logReport.get('resources_opened')
+            }
+            var report_male_visits = 0;
+            if(logReport.get('male_visits')){
+            report_male_visits=logReport.get('male_visits')
+            }
+            var report_female_visits = 0;
+            if(logReport.get('female_visits')){
+             report_female_visits=logReport.get('female_visits')
+            } 
+            var report_male_rating = []
+            if(logReport.get('male_rating')){
+            report_male_rating = logReport.get('male_rating')
+            }
+            var report_female_rating =[];
+            if(logReport.get('female_rating')){
+            report_female_rating = logReport.get('female_rating')
+            } 
+            var report_male_timesRated = [];
+            if(logReport.get('male_timesRated')){
+            report_male_timesRated = logReport.get('male_timesRated')
+            }
+            var report_female_timesRated = [];
+            if(logReport.get('female_timesRated')){
+            report_female_timesRated = logReport.get('female_timesRated')
+            }
+            var report_male_opened =[]
+            if(logReport.get('male_opened')){
+             report_male_opened = logReport.get('male_opened')
+            } 
+            var report_female_opened = []
+            if(logReport.get('female_opened')){
+            report_female_opened = logReport.get('female_opened')
+            }
+
+            logData.each(function (logDoc,index){
               
+                   if(index>0){
+                       // add visits to prev total
+                       report_male_visits += logDoc.get('male_visits');
+                       report_female_visits += logDoc.get('female_visits');
+                       resourcesIds=logDoc.get('resourcesIds');
+                       resourcesOpened=logDoc.get('resources_opened');
+
+                       for(var i = 0; i < resourcesIds.length ; i++){
+                           resId=resourcesIds[i]
+                           index=report_resRated.indexOf(resId)
+                           if(index==-1){
+                               report_resRated.push(resId);
+                               report_male_rating.push(logDoc.get('male_rating')[i])
+                               report_female_rating.push(logDoc.get('female_rating')[i]);
+                               report_male_timesRated.push(logDoc.get('male_timesRated')[i]);
+                               report_female_timesRated.push(logDoc.get('female_timesRated')[i])
+
+                           }else{
+
+                               report_male_rating[index] = report_male_rating[index] + logDoc.get('male_rating')[i];
+                               report_female_rating[index] = report_female_rating[index] + logDoc.get('female_rating')[i];
+                               report_male_timesRated[index] = report_male_timesRated[index] + logDoc.get('male_timesRated')[i];
+                               report_female_timesRated[index] = report_female_timesRated[index] + logDoc.get('female_timesRated')[i];
+
+                           }
+                       }
+                       if(resourcesOpened)
+                       for(var i=0 ; i < resourcesOpened.length ; i++){
+                           resId=resourcesOpened[i]
+                           index=report_resOpened.indexOf(resId)
+                           if(index==-1){
+                               report_resOpened.push(resId)
+                               report_male_opened.push(logDoc.get('male_opened')[i])
+                               report_female_opened.push(logDoc.get('female_opened')[i])
+                           }else{
+                               report_male_opened[index] = report_male_opened[index] + logDoc.get('male_opened')[i]
+                               report_female_opened[index] = report_female_opened[index] + logDoc.get('female_opened')[i]
+                           }
+
+                       }
+
+
+                   }
+            });
+
+           
+
+           // find most frequently opened resources
+           var times_opened_cumulative = [], Most_Freq_Opened = [];
+           for (var i = 0; i < report_resOpened.length; i++) {
+               times_opened_cumulative.push(report_male_opened[i] + report_female_opened[i]);
+           }
+           //
+           var indices = [];
+           var topCount = 5;
+           if (times_opened_cumulative.length >= topCount) {
+               indices = this.findIndicesOfMax(times_opened_cumulative, topCount);
+           }
+           else {
+               indices = this.findIndicesOfMax(times_opened_cumulative, times_opened_cumulative.length);
+           }
+           // fill up most_freq_opened array
+           var timesRatedTotalForThisResource, sumOfRatingsForThisResource;
+           if (times_opened_cumulative.length > 0) {
+               var most_freq_res_entry, indexFound;
+               for (var i = 0; i < indices.length; i++) {
+               	var res=new App.Models.Resource({_id:report_resOpened[indices[i]]})
+                       res.fetch({
+                          async:false
+                       })
+                  	var name=res.get('title')
+                  
+                   // create most freq opened resource entry and push it into Most_Freq_Opened array
+                   most_freq_res_entry = {
+                       "resourceName":	name ,
+                       "timesOpenedCumulative": times_opened_cumulative[indices[i]],
+                       "timesOpenedByMales": report_male_opened[indices[i]],
+                       "timesOpenedByFemales": report_female_opened[indices[i]]
+                   };
+                   if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
+                       most_freq_res_entry["avgRatingCumulative"] = "N/A";
+                       most_freq_res_entry["avgRatingByMales"] = "N/A";
+                       most_freq_res_entry["avgRatingByFemales"] = "N/A";
+                       most_freq_res_entry["timesRatedByMales"] = "N/A";
+                       most_freq_res_entry["timesRatedByFemales"] = "N/A";
+                       most_freq_res_entry["timesRatedCumulative"] = "N/A";
+                   }
+                   else {
+                       timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
+                       sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
+                       most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100)/100;
+                       most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
+                       most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
+                       most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
+                       most_freq_res_entry["timesRatedByFemales"] = report_female_timesRated[indexFound];
+                       most_freq_res_entry["timesRatedCumulative"] = timesRatedTotalForThisResource;
+                   }
+                   Most_Freq_Opened.push(most_freq_res_entry);
+               }
+           }
+
+           // find highest rated resources
+           var resources_rated_cumulative = [], Highest_Rated_Resources = [], Lowest_Rated_Resources = [];
+           var lowestHowMany = 5;
+           for (var i = 0; i < report_resRated.length; i++) {
+               timesRatedTotalForThisResource = report_male_timesRated[i] + report_female_timesRated[i];
+               sumOfRatingsForThisResource = report_male_rating[i] + report_female_rating[i];
+               resources_rated_cumulative.push(sumOfRatingsForThisResource / timesRatedTotalForThisResource);
+           }
+           var indicesHighestRated = [], indicesLowestRated = [];
+           if (resources_rated_cumulative.length >= topCount) {
+               indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, topCount);
+               indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, lowestHowMany);
+           }
+           else {
+               indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, resources_rated_cumulative.length);
+               indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, resources_rated_cumulative.length);
+           }
+           if (resources_rated_cumulative.length > 0) {
+               var entry_rated_highest, entry_rated_lowest;
+               // fill up Highest_Rated_resources list
+               for (var i = 0; i < indicesHighestRated.length; i++) {
+               	var res=new App.Models.Resource({_id:report_resRated[indicesHighestRated[i]]})
+                       res.fetch({
+                          async:false
+                       })
+                  	var name=res.get('title')
+                   timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
+                   // create highest rated resource entry and push it into Highest_Rated_Resources array
+                   entry_rated_highest = {
+                       "resourceName": name,
+                       "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100)/100,
+                       "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
+                       "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
+                       "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
+                       "timesRatedByFemales": report_female_timesRated[indicesHighestRated[i]],
+                       "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
+                   };
+                   if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
+                       entry_rated_highest["timesOpenedByMales"] = "N/A";
+                       entry_rated_highest["timesOpenedByFemales"] = "N/A";
+                       entry_rated_highest["timesOpenedCumulative"] = "N/A";
+                   }
+                   else {
+                       entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
+                       entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                       entry_rated_highest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                   }
+                   Highest_Rated_Resources.push(entry_rated_highest);
+               }
+               // fill up Lowest_Rated_resources list
+               for (var i = 0; i < indicesLowestRated.length; i++) {
+                   timesRatedTotalForThisResource = report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]];
+                   // create lowest rated resource entry and push it into Lowest_Rated_Resources array
+                   	var res=new App.Models.Resource({_id:report_resRated[indicesLowestRated[i]]})
+                       res.fetch({
+                          async:false
+                       })
+                  	var name=res.get('title')
+                  
+                   entry_rated_lowest = {
+                       "resourceName": name,
+                       "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100)/100,
+                       "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
+                       "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
+                       "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
+                       "timesRatedByFemales": report_female_timesRated[indicesLowestRated[i]],
+                       "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
+                   };
+                   if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
+                       entry_rated_lowest["timesOpenedByMales"] = "N/A";
+                       entry_rated_lowest["timesOpenedByFemales"] = "N/A";
+                       entry_rated_lowest["timesOpenedCumulative"] = "N/A";
+                   }
+                   else {
+                       entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
+                       entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                       entry_rated_lowest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                   }
+                   Lowest_Rated_Resources.push(entry_rated_lowest);
+               }
+           }
+           console.log(Highest_Rated_Resources);
+        
+           var staticData={
+               "Visits":{"male": report_male_visits, "female": report_female_visits},
+               "Most_Freq_Open": Most_Freq_Opened,
+               "Highest_Rated": Highest_Rated_Resources,
+               "Lowest_Rated": Lowest_Rated_Resources
+           };
+
+           rpt.data=staticData;
+           rpt.startDate=startDate
+           rpt.endDate=endDate
+           rpt.CommunityName=CommunityName
+           rpt.render()
+           App.$el.children('.body').html(rpt.el)
+           /* After moving sync to nation
+           var roles=this.getRoles()
+    		if( (roles.indexOf("Leader")==-1&&roles.indexOf("SuperManager")==-1&&roles.indexOf("Manager")==-1) ||type=="nation"){
+    	   		App.$el.children('.body').html(rpt.el)
+            	
+      		}
+      		else{
+      		App.$el.children('.body').html("<button class='btn btn-success' id='syncReport'>Sync Activity Reports To Nation</button>")
+      		App.$el.children('.body').append(rpt.el)
+           
+      		}*/
+       },
+       /*Moved to nation
+       syncLogActivitiy:function(){
+        
+             App.startActivityIndicator()
+         var configurationModel=new App.Collections.Configurations()
+		     configurationModel.fetch({success:function(res){
+		     
+					        var conf=res.first()
+					        console.log(conf)
+					        var nationName=conf.get('nationName')
+					        var nationURL=conf.get('nationUrl')					        
+							$.ajax({
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json; charset=utf-8'
+								},
+								type: 'POST',
+								url: '/_replicate',
+								dataType: 'json',
+								data: JSON.stringify({
+									"source": "activitylog",
+									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + '/activitylog'
+								}),
+								success: function (response) {
+                                            App.stopActivityIndicator()
+                                            alert("Successfully Replicated Reports")
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) { 
+								            App.stopActivityIndicator()
+								            alert("Error (Try Later)")
+                					}, 
+								async: false
+							})
+					 
+				 }})
+
+
+        },*/
+       findIndicesOfMax: function (inp, count) {
+            var outp = [];
+            for (var i = 0; i < inp.length; i++) {
+                outp.push(i); // add index to output array
+                if (outp.length > count) {
+                    outp.sort(function(a, b) { return inp[b] - inp[a]; }); // descending sort the output array
+                    outp.pop(); // remove the last index (index of smallest element in output array)
+                }
+            }
+            if (inp.length <= count) {
+                outp.sort(function(a, b) { return inp[b] - inp[a]; });
+            }
+            return outp;
+       },
+       findIndicesOfMin: function (inp, count) {
+           var outp = [];
+           for (var i = 0; i < inp.length; i++) {
+               outp.push(i); // add index to output array
+               if (outp.length > count) {
+                   outp.sort(function(a, b) { return inp[a] - inp[b]; }); // descending sort the output array
+                   outp.pop(); // remove the last index (index of smallest element in output array)
+               }
+           }
+           if (inp.length <= count) {
+               outp.sort(function(a, b) { return inp[a] - inp[b]; });
+           }
+           return outp;
+       },
+      setNeedOptimizedBit: function () {
+
+       	var count = 0;
+       	var resources = new App.Collections.Resources()
+       	resources.fetch({
+       		async: false
+       	})
+       	resources.each(function (m) {
+       		if (m.get('openWith') === 'PDF.js') {
+       		if(m.get('need_optimization')==undefined){
+       			m.set({
+       				'need_optimization': true
+       			})
+       			m.save()
+       			console.log("Done")
+       		}
+       		}
+       		console.log(count)
+       			count++
+       	})
+
+
+       }
    }))
   
 

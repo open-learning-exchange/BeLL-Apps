@@ -35,7 +35,8 @@ $(function () {
         },
 
         render: function () {
-            this.addAll()
+            //this.addAll()
+             $('#tutorTable').append("<td class='course-box'> functionality is under construction </td>")
         }  
 
     })

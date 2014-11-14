@@ -62,7 +62,7 @@ $(function () {
             this.$el.append('<br/><br/><div class="form-field" ><input name="PageUrl" id="PageUrl" type="text"></div>')
             this.$el.append('<div class="form-field" style="margin-left:23px;"><input name="priority" value="urgent" id="priority" type="checkbox"><label for="priority">urgent</label></div>')
             this.$el.append('<div class="form-field" style="margin-top: -19px;margin-left: 115px;"> <input type="radio" name="category" value="Bug">&nbsp Bug &nbsp&nbsp&nbsp<input type="radio" name="category" value="Question">&nbsp Question &nbsp&nbsp&nbsp<input type="radio" name="category" value="Suggestion">&nbsp Suggestion &nbsp&nbsp&nbsp</div><br/><br/>')
-            this.$el.append('<div class="form-field" style="margin-left:23px;"><textarea †rows="7" type="text" name="comment" id="comment"></textarea></div>')
+            this.$el.append('<div class="form-field" style="margin-left:23px;"><textarea †rows="7" type="text" name="comment" placeholder="Give us your feedback on the current page ... " id="comment"></textarea></div>')
             this.$el.append('<div class="form-field"><input name="Resolved" id="Resolved" type="text"></div>')
             this.$el.append('<div class="form-field"><input name="memberLogin" id="memberLogin" type="text"></div>')
             this.$el.append('<div class="form-field"><input name="time" id="time" type="text"></div>')

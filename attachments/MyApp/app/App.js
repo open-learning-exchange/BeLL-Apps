@@ -24,7 +24,8 @@ $(function () {
         },
         
         start: function () {
-        	App.Router.PochDB()
+           
+			App.Router.PochDB()
             this.$el.html(_.template(this.template))
             var loggedIn = ($.cookie('Member._id')) ? true : false
             App.collectionslist = new App.Collections.listRCollection()
@@ -57,7 +58,6 @@ $(function () {
                     pushState: false
                 })
             }
-
             // Start the constant syncing of data
             //App.syncDatabases()
             //App.updateAppCacheStatus()

@@ -28,6 +28,7 @@ $(function() {
       
       Description:'TextArea',
       NesttedUnder:{
+       title: 'Nested Under',
             type:'Select',
  			options:['--Select--']
       },

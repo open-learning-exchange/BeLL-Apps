@@ -7,6 +7,7 @@ $(function() {
     Models: {},
     Views: {},
     Collections: {},
+    Server: '',
     Vars: {}, // A place to persist variables in the session
 
     start: function(){

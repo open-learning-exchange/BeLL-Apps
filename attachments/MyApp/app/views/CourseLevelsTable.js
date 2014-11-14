@@ -16,7 +16,9 @@ $(function () {
                     async: false
                 })
                 var pending = []
-                pending = member.get("pendingReviews")
+                if(member.get("pendingReviews")){
+                   pending = member.get("pendingReviews")
+                }
                 pending.push(resid)
                 member.set("pendingReviews", pending)
                 member.save()
@@ -208,21 +210,45 @@ setAllResults: function () {
   				 
 		   if(!err)
 		   {
+		   		if(res.total_rows==0){
+	
+						 $.ajax({
+							type: 'GET',
+							url:  App.Server + '/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + memId + '","' + couId + '"]&include_docs=true',
+							dataType: 'json',
+							success: function (response) {
+				                context.renderaccordian(response.rows[0].doc);
+							 },
+							 data: {},
+							 async: false
+						 });
 		   
-		            console.log('here is a problem')
-		            context.modl=res.rows[0].value
-					
-					console.log(context.modl)
+		   		    }else{
+		   		       context.renderaccordian(res.rows[0].value);
+		   		    
+		   		    }     
+			
+		   }
+		   else{
+		   console.log(err)
+		   }
+		   });       
+   },
+   renderaccordian:function(model){
+                   var context=this
+                   context.modl=model
+                   console.log(context.modl)
+                   
 					var PassedSteps = 0
 					var totalSteps = 0
-					if (res.length != 0) {
+					//if (res.length != 0) {
 						PassedSteps = 0
 						var sstatus = context.modl.stepsStatus
 						totalSteps = sstatus.length
 						while (PassedSteps < totalSteps && sstatus[PassedSteps] != '0') {
 							PassedSteps++
 						}
-					}
+				//	}
 					 context.addAll()
 					 $("#accordion")
                         .accordion({
@@ -238,10 +264,11 @@ setAllResults: function () {
                                 ui.item.children("h3").triggerHandler("focusout");
                             }
                         });
-			
-		   }
-		   });       
+   
+   
+   
    },
+   
 //Before pouchDB work this function is used   
 /*settingArgs:function(){
 var memId=$.cookie('Member._id')

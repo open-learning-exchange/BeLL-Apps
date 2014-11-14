@@ -115,6 +115,7 @@
   	<script src="app/views/GroupView.js"></script>
   	<script src="app/views/GroupsTable.js"></script>
   	<script src="app/views/GroupsRow.js"></script>
+  	<script src="app/views/listSyncDbView.js"></script>
   	
   	<script src="app/Router.js"></script>
      
@@ -134,9 +135,11 @@
 		$('#site-feedback').animate({height:'toggle'})
 		}
 		}
-		function SelectCommunity(res,pId)
-  		{
+		function SelectCommunity(res,pId){
   			App.Router.SelectCommunities(res,pId)
+  		}
+  		function SyncDbSelect(){
+  			App.Router.SyncDbSelect()
   		}
   	</script>
     <!--templates -->
@@ -170,8 +173,9 @@
    
     </div>
 <div id="invitationSuperDiv">
-	<div id="invitationdiv">
-	</div>
+  	 	<div id="invitationdiv" style="display: block;">
+  	 	
+  	 	</div>
 </div>
        <div class="takeQuizDiv" id="tQuizDiv"></div>
         <div id="popup-spinning"></div>

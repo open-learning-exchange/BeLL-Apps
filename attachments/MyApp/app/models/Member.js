@@ -24,7 +24,6 @@ $(function() {
     toString: function() {
       return this.get('login') + ': ' + this.get('firstName') + ' ' + this.get('lastName')
     },
-
   schema: {
        firstName: {validators: ['required']},
        lastName: {validators: ['required']},

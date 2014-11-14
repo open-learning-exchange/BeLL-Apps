@@ -21,8 +21,8 @@ $(function ()
 			'publication/add': 'PublicationForm',
 			'configuration' : 'Configuration',
 			'publication/add/:publicationId': 'PublicationForm',
-			'publicationdetail/:publicationId': 'PublicationDetails'
-		},
+			'publicationdetail/:publicationId': 'PublicationDetails'		
+			},
 
 		initialize: function ()
 		{
@@ -170,7 +170,7 @@ $(function ()
 		
 		    App.$el.children('.body').html('')
 		    App.$el.children('.body').append('<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>')
-		
+		    App.$el.children('.body').append('<button class="btn btn-hg btn-primary" onclick=SyncDbSelect() id="sync">Sync With Nation</button>')
 		},
 		CommunityForm: function (CommunityId)
 		{
@@ -268,7 +268,7 @@ $(function ()
 			})
 			memberLoginForm.once('success:login', function ()
 			{
-				window.location.href = "../personal/index.html#dashboard";
+				window.location.href = "../MyApp/index.html#dashboard";
 				//Backbone.history.navigate('listCommunity', {trigger: true})
 			})
 			memberLoginForm.render()
@@ -521,7 +521,7 @@ $(function ()
 			publicationIds.push(publicationId)
 			var myJsonString = JSON.stringify(resources)
 			var jSonId=JSON.stringify(publicationIds)
-			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../lms/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-success" style="float:left;margin-left:20px" onclick=SelectCommunity('+myJsonString+','+jSonId+')>Send Publication</button></div>')
+			App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationObject.get('_id') + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-success" style="float:left;margin-left:20px" onclick=SelectCommunity('+myJsonString+','+jSonId+')>Send Publication</button></div>')
 			var i = 0
 			_.each(resources, function ()
 			{
@@ -540,8 +540,7 @@ $(function ()
 				})
 				i++
 			})
-			var publicationresTable = new App.Views.PublicationResourceTable(
-			{
+			var publicationresTable = new App.Views.PublicationResourceTable({
 				collection: coll
 			})
 			publicationresTable.Id = publicationId
@@ -636,6 +635,14 @@ $(function ()
 			
 
 	},
+	SyncDbSelect:function(){
+	        $('#invitationdiv').fadeIn(1000)
+	        var inviteForm = new App.Views.listSyncDbView()
+ 	        
+ 	        inviteForm.render()
+ 	        $('#invitationdiv').html('&nbsp')
+	    	$('#invitationdiv').append(inviteForm.el)
+	}
 	}))
 
 })

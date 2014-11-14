@@ -21,6 +21,23 @@ function showFeedbackForm(){
 		$('#site-feedback').animate({height:'toggle'})
 		}
 }
+function sendAdminRequest(courseLeader,courseName,courseId){
+
+		var currentdate = new Date();
+		var mail = new App.Models.Mail();
+		mail.set("senderId",$.cookie('Member._id'));
+		mail.set("receiverId",courseLeader);
+		mail.set("subject","Course Admission Request | " + decodeURI(courseName));
+		mail.set("body",'Admission request recieved from user \"' + $.cookie('Member.login') + '\" in ' +decodeURI( courseName) + ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >Reject</button>');
+		mail.set("status","0");
+		mail.set("type","admissionRequest");
+		mail.set("sentDate",currentdate);
+		mail.save()
+		$('#admissionButton').hide()
+		alert("Admission request successfully sent to this course leader.")
+		
+
+}
 
 function searchResources()
 {
@@ -161,20 +178,27 @@ function sendMail()
 	var invalidIndex = new Array()
 	var mailingList =new Array()
 	mailingList=rec.split(',')
+	
 	for(var i=0; i<mailingList.length ; i++)
 	{
 		var mailadd = mailingList[i]
-	
+	    
 		if(validateEmail(mailadd))
 		{	
 			if(mailadd!="mycommunity@olebell.org")
 			{
+			    
 				var temp = (mailadd.split('@')[0]).split('.')
+				 
 				if(temp.length>0)
 				{
 					var code = temp[temp.length-1]
+					
+				  console.log(scode+"    "+code)
+					
 					if(code==scode && mailadd.split('@')[1]=='olebell.org')
 					{
+					//alert('valid mail')
 						///valid email address
 					}
 					else
@@ -452,7 +476,7 @@ function addToshelf(rId,title){
   }
   function showSubjectCheckBoxes()
   {
-    var subjects = ['Agriculture','Business and Finance','Fine Arts','Food and Nutrition','Geography','Health and Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics and Government','Reference','Religion','Science','Social Sciences','Sports','Technology'];
+    var subjects = ['Agriculture','Arts','Business and Finance','Food and Nutrition','Geography','Health and Medicine','History','Human Development','Languages','Law','Learning','Literature','Math','Music','Politics and Government','Reference','Religion','Science','Social Sciences','Sports','Technology'];
   	var length = subjects.length;
   	var htmlString = "<label style='font-size:16px'><b>Subject</b></label><br>" ;
   	    htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>" ; 

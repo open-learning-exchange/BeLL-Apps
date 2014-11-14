@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="jquery.min.js"></script>
+	<script src="jquery.url.js"></script>
+	<script src="jquery-ui-1.8.23.custom.min.js"></script>
+	<script src="jquery.couch.js"></script>	
+	<script src="reader.js"></script>	
+
+	<link type="text/css" rel="stylesheet" href="reader.css">
+
+<body>
+<!--Following script is written for Go to specific page option-->
+
+<script>
+	function GoToPage() {
+		var newPageNumber = $('#top_input').val()
+		if (!newPageNumber) {
+			newPageNumber = $('#bottom_input').val()
+		}
+		var prevURL = $(location).attr('href')
+		if (newPageNumber > 0 & newPageNumber <= pages.length) {
+			newPageNumber--;
+			if(prevURL.indexOf("page=")>-1){
+				var newURL = prevURL.replace(/(page=)[^\&]+/, '$1' + newPageNumber);
+				window.location = newURL
+			}
+			else{
+				var url = $.url()
+				var file = url.param("doc")
+				var docId = file
+				window.location.assign(url.attr("path") + "?slide=right&page=" + newPageNumber + "&doc=" + docId)
+			}
+			
+		}
+		else {
+			return false;
+		}
+	}
+</script>
+	<div class="nav">
+		<a class="previous" href="#previous"> < </a>
+		<a class="next" href="#next"> > </a>	
+		<a class="page-number" href="#page-number">  </a>
+	</div>
+
+	<form action="JavaScript:GoToPage()" class="go-to" method="get" >
+		<input type="number" value="" Required placeholder="Page No." name="submit_page" class="input-page" min="1" id='top_input'>
+		<input type="submit" value="Go" class="submit-page" aria-disabled="false">
+	</form>
+
+	<div class="view" style="display: block;height: 75%;">
+		<!--div class="loading">Loading...</div -->
+	</div>
+
+	<div class="nav">
+		<a class="previous" href="#previous"> < </a>
+		<a class="next" href="#next"> > </a>	
+		<a class="page-number" href="#page-number"></a>
+	</div>
+
+	<form action="JavaScript:GoToPage()" class="go-to" method="get" >
+		<input type="number" value="" Required placeholder="Page No." name="submit_page" class="input-page" min="1" id='bottom_input'>
+		<input type="submit" value="Go" class="submit-page" aria-disabled="false">
+	</form>
+
+	<a class="to-library" href="#library"><img width="50" src="images/childrens-library-white.png" alt="back to library"> back to my library</a>
+
+	<div class="cache"></div>
+</body>
+
+</html> 

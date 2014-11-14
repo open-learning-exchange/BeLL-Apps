@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html manifest="../manifest.appcache" lang="en">
 <head>
   <meta charset="utf-8"  manifest="/cache.manifest">
   <title>Bell MyApp</title>
@@ -110,10 +110,8 @@
   <script src='app/models/InviMeetup.js'></script>
   <script src='app/models/Language.js'></script>
   <script src='app/models/CourseInvitation.js'></script>
-  
-  
-  
-  
+  <script src='app/models/DailyLog.js'></script>
+
   <!-- App Collection  -->
    <script src="app/collections/listRCollection.js"></script>
   <script src="app/collections/Groups.js"></script>
@@ -158,6 +156,7 @@
   <script src="app/collections/Publication.js"></script>
    <script src="app/collections/Languages.js"></script>
   <script src='app/collections/CourseInvitations.js'></script>
+  <script src='app/collections/ActivityLog.js'></script>
 
    <!-- app-Views -->
   <script src="app/views/MemberLoginForm.js"></script>
@@ -433,7 +432,7 @@
 		<table class="page-bottom-navtable" style="border-collapse: separate;">
 			<tr>
 			
-				<td><button class="btn btn-hg btn-primary"><%= languageDict['Badges'] %></button></td>
+				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict['Badges'] %></button></td>
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
 				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calender'] %></button></td> 
 				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
@@ -486,7 +485,6 @@
 <script type="text/html" id="template-ResourceRow">
   
   <%if(Manager==1){%>
-  
     	<% if(!hidden){ %>
     	<% if(title){ %>
   <td>
@@ -615,7 +613,7 @@
       <%= CourseTitle %>
     </td> 
 
-    <td>
+<td>
     <%if(isAdmin==1||isLeader==1){%>
       <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'> 
         <i class="icon-wrench icon-white"></i> Manage
@@ -623,6 +621,7 @@
    	<%}%>
     </td>
     
+
     <td>
       <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'> 
        View Course
@@ -690,7 +689,7 @@
     </td>
     
     <td>
-    <%if(creator){%>
+    <%if(creator){ %>
       <a role='button' class='btn btn-inverse' href='#meetup/manage/<%= _id %>'> 
         <i class="icon-wrench icon-white"></i> Manage
       </a>
@@ -812,7 +811,7 @@
           <!-- The Second form that will be submitted containing the file -->
           <form method="post" id="fileAttachment"> 
           <label for="_attachments">Upload Resource(s)</label>
-          <input type="file" name="_attachments" id="_attachments" multiple="multiple" label=" :" /> 
+          <input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" multiple="multiple" label=" :" /> 
           <input class="rev" type="hidden" name="_rev">
 			  <label>
 				  <%
@@ -1205,10 +1204,9 @@
 <script type="text/html" id="template-LogQuery">
  <div class="logquery-community">    
      <select  name="Level" id="community-select" multiple="multiple" style="width: 340px;">
-   	  		<option>Dagahera</option>
-    	 	<option>Hagadera</option>
-     		<option>Ifo</option>
-     		<option>Somalia</option>
+   	  		<option value="demo">Demo</option>
+   	  		<option value="all">All Reports</option>
+   	  		
      </select>
         <div id="logquery-date">
 			<label style='font-size:16px;'><b>Start Date</b></label>
@@ -1221,95 +1219,82 @@
 </script>
 <script type="text/html" id="template-ActivityReport">
  <h4>
-<span style="color:gray;">Community</span>
+<span style="color:gray;"><%= CommunityName %> Community</span>
 | Activity Report
 </h4>
 <p>
-<span style="color:gray;">Period(mm/dd/yyyy): </span> 04/28/2014 - 05/03/2014
+<span style="color:gray;">Period(mm/dd/yyyy): </span> <%= startDate %> - <%= endDate %>
 </p>
+
  <table class="table table-striped">
- <tr>
- <th></th>
- <th >Total</th>
-<th >Male</th>
-<th colspan="2">Female</th>
- </tr>
- <tr>
-	<td>
-	Registered Members 
-	</td>
-	<td>
-	<%=
-	Registered_Members.female+Registered_Members.male
-	%> 
-	</td>
-	<td>
-	<%=
-	Registered_Members.male
-	%> 
-	</td>
-	<td colspan="2">
-	<%=
-	Registered_Members.female
-	%> 
-	</td>
- </tr>
- <tr>
- 	<td>Visits Of Week</td>
- 	<td><%=
- 	Visits.male+Visits.female
- 	%></td>
- 	<td><%=
- 	Visits.male
- 	%></td>
- 	<td colspan="2"><%=
- 	Visits.female
- 	%></td>
- </tr>
- <tr>
- 	<th>
- 		Most Frequently Opened
- 	</th>
- 	
- 	<th>
- 		Total
- 	</th>
- 	
- 	<th>
-		Male
-	</th>
- 	
- 	<th>
- 		Female
- 	</th>
- 	
- 	<th>
-		Average Rating
-	</th>
- </tr>
- 
- <tr>
- 	<td>
-	Omer 	</td>
- 	
- 	<td>
-50 	</td>
- 	
- 	<td>
-25	</td>
- 	
- 	<td>
- 		25
- 	</td>
- 	
- 	<td>
-4.2	</td>
- </tr>
- <tr>
- 	<td>
- 		Most Frequently Opened
- 	</td>
- </tr>
+     <tr>
+        <th></th>
+        <th >Total</th>
+        <th >Male</th>
+        <th colspan="3">Female</th>
+     </tr>
+     <tr><td>Registered Members</td>
+         <td><%=MaleMembers+FemaleMembers%></td>
+         <td><%=MaleMembers%></td>
+         <td colspan="3"><%=FemaleMembers%></td>
+     </tr>
+     <tr>
+        <td>Visits Of Week</td>
+        <td><%=Visits.male+Visits.female%></td>
+        <td><%=Visits.male%></td>
+        <td colspan="3"><%=Visits.female%></td>
+     </tr>
+     <tr>
+         <th colspan="4"></th>
+        <th>Average Rating</th>
+        <th >Times Rated</th>
+     </tr>
+     <tr>
+         <th colspan="6">Most Frequently Opened</th>
+     </tr>
+     <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
+     <% _.each(Most_Freq_Open, function(resource){ %>
+         <tr>
+             <td><%=resource.resourceName%></td>
+             <td><%=resource.timesOpenedCumulative%></td>
+             <td><%=resource.timesOpenedByMales%></td>
+             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.avgRatingCumulative%></td>
+             <td><%=resource.timesRatedCumulative%></td>
+         </tr>
+     <% }); %>
+     <tr>
+        <th colspan="6">Highest Rated</th>
+     </tr>
+     <% _.each(Highest_Rated, function(resource){ %>
+         <tr>
+             <td><%=resource.resourceName%></td>
+             <td><%=resource.timesOpenedCumulative%></td>
+             <td><%=resource.timesOpenedByMales%></td>
+             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.avgRatingCumulative%></td>
+             <td><%=resource.timesRatedCumulative%></td>
+         </tr>
+     <% }); %>
+     <tr>
+         <th colspan="6">Lowest Rated</th>
+     </tr>
+     <% _.each(Lowest_Rated, function(resource){ %>
+         <tr>
+             <td><%=resource.resourceName%></td>
+             <td><%=resource.timesOpenedCumulative%></td>
+             <td><%=resource.timesOpenedByMales%></td>
+             <td><%=resource.timesOpenedByFemales%></td>
+             <td><%=resource.avgRatingCumulative%></td>
+             <% if (resource.timesRatedCumulative === "N/A") { %>
+                <td><%=resource.timesRatedCumulative%></td>
+             <% } else { %>
+                <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
+             <% } %>
+         </tr>
+     <% }); %>
+
+
  </table>
 </script>
 

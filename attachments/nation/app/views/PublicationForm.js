@@ -69,8 +69,8 @@ $(function () {
                         }
                     })
                 }
+                
                 if (addtoDb) {
-                    this.model.save()
                     alert("Issue Saved!")
                     window.location.href='#publication'
                 }
@@ -107,7 +107,7 @@ $(function () {
             if(showsearch)
             {
             		this.model.save(null,{success:function(e){
-		 				 window.location.href = '../lms/index.html#search-bell/'+e.toJSON().id;
+		 				 window.location.href = '../MyApp/index.html#search-bell/'+e.toJSON().id;
 		 				 }
 		  			})
 		  
@@ -148,7 +148,7 @@ $(function () {
             if(showcourse)
             {
             		this.model.save(null,{success:function(e){
-		 				 window.location.href = '../lms/index.html#courses/'+e.toJSON().id;
+		 				 window.location.href = '../MyApp/index.html#courses/'+e.toJSON().id;
 		 				 }
 		  			})
 		  
