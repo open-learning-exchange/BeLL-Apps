@@ -94,7 +94,7 @@ $(function () {
 
         },
         renderAddOrUploadWelcomeVideoForm: function() {
-            var formHeader = $('<h3> Edit Welcome Video Form </h3><br>');
+            var formHeader = $('<h3> Edit Welcome Video Form </h3><br><br><br><br>');
             this.$el.append(formHeader);
             this.form = new Backbone.Form({
                 model: this.model
@@ -107,6 +107,7 @@ $(function () {
             this.form.fields['addedBy'].$el.show();
             this.form.fields['addedBy'].editor.el.disabled = true;
             this.form.fields['uploadDate'].$el.show();
+            this.form.fields['openWith'].$el.show();
             // add a label followed by input box/button for allowing uploading of new welcome video, followed by label anming the
             // name of the video currently being used as welcome video
 //            this.$el.append('<label for="_attachments">Upload Welcome Video</label>');

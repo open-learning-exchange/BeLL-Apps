@@ -248,6 +248,11 @@ $(function () {
 			$('.visits').html(temp)
 			$('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
 			dashboard.checkAvailableUpdates(member.get('roles'), dashboard)
+            if($.cookie('Member.login') === "admin") {
+                var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'">Update Welcome Video</button>');
+                dashboard.$el.append($buttonWelcome);
+            }
+
 			//dashboard.$el.append('<div id="updates"></div>')
 		},
 		checkAvailableUpdates: function (roles, dashboard) {
