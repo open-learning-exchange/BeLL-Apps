@@ -80,7 +80,12 @@ $(function () {
             if (uploadedFileName) {
                 formContext.model.unset('_attachments');
                 App.startActivityIndicator();
-                formContext.model.saveAttachment("#tmp1", "#tmp2", "#tmp3");
+                // set the handler for successful response on processing the video update form
+                this.model.on('savedAttachment', function () {
+                    App.stopActivityIndicator();
+                    this.trigger('processed')
+                }, formContext.model);
+                formContext.model.saveAttachment("#fileAttachment", "#_attachments", "#fileAttachment .rev");
                 this.form.fields['addedBy'].setValue($.cookie('Member.login'));
             }
             else {
@@ -104,8 +109,8 @@ $(function () {
             this.form.fields['uploadDate'].$el.show();
             // add a label followed by input box/button for allowing uploading of new welcome video, followed by label anming the
             // name of the video currently being used as welcome video
-            this.$el.append('<label for="_attachments">Upload Welcome Video</label>');
-            this.$el.append('<input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" />');
+//            this.$el.append('<label for="_attachments">Upload Welcome Video</label>');
+//            this.$el.append('<input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" />');
             // get attachments of welcome video doc
             var tempAttachments = this.model.get('_attachments');
             var fields = _.map(
@@ -122,7 +127,15 @@ $(function () {
                 this.$el.append(label);
             }
             this.$el.append('<br><br>');
-            this.$el.append('<div id="tmp1"></div> <div id="tmp2"></div> <div id="tmp3"></div>');
+
+            this.$el.append('<form method="post" id="fileAttachment"></form>');
+            this.$el.find("#fileAttachment").append('<label for="_attachments">Upload Welcome Video</label>');
+            this.$el.find("#fileAttachment").append('<input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" multiple="multiple" label=" :" />');
+            this.$el.find("#fileAttachment").append('<input class="rev" type="hidden" name="_rev">');
+
+
+
+//            this.$el.append('<div id="tmp1"></div> <div id="tmp2"></div> <div id="tmp3"></div>');
             this.$el.append('<button class="addNation-btn btn btn-success" id="saveUpdatedWelcomeVideoForm">Submit</button>');
             this.$el.append('<a class="btn btn-danger" id="cancel">Cancel</a>');
         },

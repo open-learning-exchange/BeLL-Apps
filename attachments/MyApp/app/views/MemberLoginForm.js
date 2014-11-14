@@ -22,9 +22,9 @@ $(function () {
                         // display "watch welcome video" button
                         var hrefWelcomeVid = "/apps/_design/bell/bell-resource-router/index.html#openres/" + welcomeResourceId;
 //                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" href="hmmm" target="_blank" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
-                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video" href="hmmm" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
+                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
                         context.$el.append($buttonWelcome);
-                        context.$el.find("#welcomeButton").attr( "href", "dummy.mp4");// <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
+                        context.$el.find("#welcomeButton").attr( "href", hrefWelcomeVid);// <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
                     }
                 },
                 error: function () {
