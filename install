@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var sys = require('sys')
+var exec = require('child_process').exec;
+var _ = require('underscore')
+var request = require('request')
+var program = require('commander');
+var fs = require('fs')
+function puts(error, stdout, stderr) { sys.puts(stdout) } 
+
+// Increase the ulimit so the entire directory of attachments can be uploaded
+exec('launchctl limit maxfiles 10056 10056', puts)
+exec('ulimit -n 10056', puts)
+
+program
+  .version('0.0.1')
+  .option('-c, --couchurl [couchurl]', '', 'http://username:password@examblebell.ole.org')
+  .parse(process.argv);
+
+var defaultAdminMember = require('./config/defaultAdminMember')
+var databases = require('./config/databases')
+var nano = require('nano')(program.couchurl)
+
+function start() {
+  installDatabases()
+}
+
+// Step 1: Install databases
+var a = 0
+function installDatabases() {
+  var database = databases[a]
+  if (a !== databases.length) { 
+    console.log("creating database " + database)
+    nano.db.create(database, function(err, body) {
+      if (err) console.log(err)
+      a++
+      return installDatabases()
+    })
+  }
+  else {
+    return installDbs()
+  }
+}
+
+// Step 2: Install views in corresponding databases
+var b = 0
+function installDbs() {
+  var database = databases[b]
+  if (b !== databases.length) {
+    console.log("Inserting views for the " + database + " database")
+    exec('couchapp push ./databases/' + database + '.js ' + program.couchurl + '/' + database, function(error, stdout, stderr) { 
+      if (error) console.log(error); 
+      if (stderr) console.log(stderr);
+      console.log(stdout)
+      b++
+      installDbs()
+    })
+  }
+  else {
+    createDefaultAdminMember()
+  }
+}
+
+// Step 4: Create default admin member
+function createDefaultAdminMember() {
+  var members = nano.db.use('members')
+  members.insert(defaultAdminMember, function(err, res) {
+    if (err) return console.log(err)
+    done()  
+  })  
+} 
+
+function done() {
+  console.log('done!')
+}
+
+start()

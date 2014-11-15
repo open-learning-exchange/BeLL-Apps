@@ -1,0 +1,9 @@
+module.exports = {
+  "login":"admin",
+  "kind":"Member", 
+  "roles": ["Manager"], 
+  "firstName": "Default", 
+  "lastName": "Admin", 
+  "password":"password", 
+  "status": "active"
+} 
