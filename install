@@ -5,59 +5,66 @@
  */
 
 var sys = require('sys')
-var exec = require('child_process').exec;
-var _ = require('underscore')
-var request = require('request')
-var program = require('commander');
 var fs = require('fs')
-function puts(error, stdout, stderr) { sys.puts(stdout) } 
-
-// Increase the ulimit so the entire directory of attachments can be uploaded
-exec('launchctl limit maxfiles 10056 10056', puts)
-exec('ulimit -n 10056', puts)
-
+var exec = require('child_process').exec;
+var program = require('commander');
+var databases = []
 program
-  .version('0.0.1')
-  .option('-c, --couchurl [couchurl]', '', 'http://username:password@examblebell.ole.org')
+  .version('0.0.2')
   .parse(process.argv);
-
-var defaultAdminMember = require('./config/defaultAdminMember')
-var databases = require('./config/databases')
-var nano = require('nano')(program.couchurl)
+if (!program.args[0]) return console.log('No CouchDB URL provided. Quiting now.')
+var couchUrl = program.args[0]
+var nano = require('nano')(couchUrl)
 
 function start() {
-  installDatabases()
+  increaseLimits()
 }
 
-// Step 1: Install databases
+// Increase Limits so couchapp push works correctly
+function increaseLimits() {
+  exec('sudo launchctl limit maxfiles 10056 10056', function doneWithLaunchCtl() {
+    exec('sudo ulimit -n 10056', function doneWithUlimit() {
+      return getListOfDatabases()
+    }) 
+  })
+}
+
+function getListOfDatabases() {
+  fs.readdir('./databases', function doneReadDir(err, files) {
+    files.forEach(function addFile(element, index, array) {
+      databases.push(element.substr(0, element.length-3))
+    })
+    installDatabases()
+  })
+}
+
 var a = 0
 function installDatabases() {
   var database = databases[a]
   if (a !== databases.length) { 
     console.log("creating database " + database)
     nano.db.create(database, function(err, body) {
-      if (err) console.log(err)
+      if (err && err.error !== "file_exists") console.log(err)
       a++
       return installDatabases()
     })
   }
   else {
-    return installDbs()
+    return installDesignDocs()
   }
 }
 
-// Step 2: Install views in corresponding databases
 var b = 0
-function installDbs() {
+function installDesignDocs() {
   var database = databases[b]
   if (b !== databases.length) {
     console.log("Inserting views for the " + database + " database")
-    exec('couchapp push ./databases/' + database + '.js ' + program.couchurl + '/' + database, function(error, stdout, stderr) { 
+    exec('couchapp push ./databases/' + database + '.js ' + couchUrl + '/' + database, function(error, stdout, stderr) { 
       if (error) console.log(error); 
       if (stderr) console.log(stderr);
       console.log(stdout)
       b++
-      installDbs()
+      installDesignDocs()
     })
   }
   else {
@@ -65,17 +72,35 @@ function installDbs() {
   }
 }
 
-// Step 4: Create default admin member
 function createDefaultAdminMember() {
-  var members = nano.db.use('members')
-  members.insert(defaultAdminMember, function(err, res) {
-    if (err) return console.log(err)
-    done()  
-  })  
+  nano.db.get('members', function(err, body) {
+    if (err) console.log(err)
+    // Cancel if there are already members in the database
+    if (body.doc_count > 1) return done()
+    console.log('Creating a default admin member of admin:password')
+    var members = nano.db.use('members')
+    var defaultAdminMember = {
+      "login":"admin",
+      "kind":"Member", 
+      "roles": ["Manager"], 
+      "firstName": "Default", 
+      "lastName": "Admin", 
+      "password":"password", 
+      "status": "active"
+    }
+    members.insert(defaultAdminMember, function(err, res) {
+      if (err) return console.log(err)
+      done()  
+    })  
+  })
 } 
 
 function done() {
   console.log('done!')
 }
+
+//
+// Trigger Start 
+//
 
 start()

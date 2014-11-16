@@ -109,17 +109,18 @@ ddoc.views = {
   },
   resourceName: {
     map: function(doc) {
-      if(doc.title)
+      if(doc.title) {
         emit(doc._id, doc.title);
       }
     }
   },
   resourceOnTtile: {
     map: function(doc) {
-      if(doc.title)
+      if(doc.title) {
         emit(doc.title, doc._id);
+      }
     }
-  }
+  },
   resourceswithstartkey: {
     map: function (doc) {
       if (doc.title) {
