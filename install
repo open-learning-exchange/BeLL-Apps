@@ -22,8 +22,8 @@ function start() {
 
 // Increase Limits so couchapp push works correctly
 function increaseLimits() {
-  exec('sudo launchctl limit maxfiles 10056 10056', function doneWithLaunchCtl() {
-    exec('sudo ulimit -n 10056', function doneWithUlimit() {
+  exec('sudo launchctl limit maxfiles 150056 150056', function doneWithLaunchCtl() {
+    exec('sudo ulimit -n 150056', function doneWithUlimit() {
       return getListOfDatabases()
     }) 
   })
@@ -58,8 +58,8 @@ var b = 0
 function installDesignDocs() {
   var database = databases[b]
   if (b !== databases.length) {
-    console.log("Inserting views for the " + database + " database")
-    exec('couchapp push ./databases/' + database + '.js ' + couchUrl + '/' + database, function(error, stdout, stderr) { 
+    console.log("Inserting design docs for the " + database + " database")
+    exec('sudo launchctl limit maxfiles 150056 150056;sudo ulimit -n 150056; sudo couchapp push ./databases/' + database + '.js ' + couchUrl + '/' + database, function(error, stdout, stderr) { 
       if (error) console.log(error); 
       if (stderr) console.log(stderr);
       console.log(stdout)
