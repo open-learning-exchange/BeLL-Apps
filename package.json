@@ -10,8 +10,8 @@
   "dependencies": {
     "couchapp": ">= 0.10.0",
     "underscore": ">= 1.5.2",
+    "nano": "6.0.1",
     "request": ">= 2.27.0"
-    
   },
   "engines": { "node": ">= 0.3.0" }
 }
