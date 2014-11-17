@@ -134,6 +134,13 @@ ddoc.views = {
         emit(doc.title, true)
       }
     }
+  },
+  welcomeVideo: { 
+    map: function (doc) {
+      if (doc.isWelcomeVideo) {
+        emit(doc._id, true)
+      }
+    }
   }
 }
 
