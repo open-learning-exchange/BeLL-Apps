@@ -16,7 +16,7 @@ LogactivityAndOpen:function(resourceId){
 		var member=new Member()
 		    member.fetch({async:false})
 
-        alert("openin resource");
+//        alert("openin resource");
 
         var that=this
   		var logdb=new PouchDB('activitylogs')
