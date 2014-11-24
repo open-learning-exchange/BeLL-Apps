@@ -4,6 +4,7 @@ $(function(){
        
       
       routes:{
+            'updatewelcomevideo': 'addOrUpdateWelcomeVideoDoc',
             '': 'MemberLogin',
             'dashboard': 'Dashboard',
             'ereader':'eReader',
@@ -76,35 +77,101 @@ $(function(){
 			// Not required 'syncLog':'syncLogActivitiy',
 			'reportsActivity':'LogActivity',
 			'setbit' : 'setNeedOptimizedBit',
-			'CompileAppManifest' : 'CompileAppManifest'
+			'CompileAppManifest' : 'CompileAppManifest',
+            'communityManage':'communityManage',
+            'publications/:publicationIdes' :'Publications',
 			
 			
-},   
-addCourseInvi:function(){
-
-var test=new App.Models.CourseInvitation()
-    test.set('courseId','test')
-    test.set('userId','test')
-    test.save(null,{success:function(error,response){
-        console.log(response)
-        alert('success')
-    }
-    
-    })
-
- var collection=new App.Collections.CourseInvitations()
-    collection.courseId='test'
-    collection.fetch({async:false},{success:function(res){
-    	console.log(res)
-    }})
-
 },
-      initialize: function () {
-            this.bind("all", this.startUpStuff)
-            this.bind("all", this.checkLoggedIn)
-            this.bind("all", this.renderNav)
-            //this.bind("all",this.checkForUpdates)
-        },
+    addOrUpdateWelcomeVideoDoc: function() {
+        // fetch existing welcome video doc if there is any
+        var welcomeVideoResources = new App.Collections.Resources();
+        welcomeVideoResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo?include_docs=true');
+        welcomeVideoResources.fetch({
+            success: function () {
+            },
+            error: function () {
+                alert("router:: addOrUpdateWelcomeVideoDoc:: error fetching welcome resources");
+            },
+            async: false
+        });
+        var resourceId, welcomeVidResource;
+        if (welcomeVideoResources.length > 0) {
+            welcomeVidResource = welcomeVideoResources.models[0];
+        }
+        var resource = (welcomeVidResource) ? welcomeVidResource : new App.Models.Resource();
+        resource.on('processed', function () {
+            Backbone.history.navigate('dashboard', {
+                trigger: true
+            })
+        });
+        var resourceFormView = new App.Views.ResourceForm({
+            model: resource
+        });
+        if (resource.id) {
+            resourceFormView.renderAddOrUploadWelcomeVideoForm();
+        } else {
+            resourceFormView.renderAddOrUploadWelcomeVideoForm();
+        }
+        App.$el.children('.body').html(resourceFormView.el);
+    },
+    Publications:function(publicationIdes){
+
+        publicationIdes=publicationIdes.split(',')
+        var keys=''
+        _.each(publicationIdes, function(item) {
+        keys +='"' + item + '",'
+        })
+        if(keys!='')
+        keys = keys.substring(0, keys.length - 1);
+
+        console.log(keys)
+        nName=App.configuration.get('nationName')
+        pass=App.password
+        nUrl=App.configuration.get('nationUrl')
+        currentBellName=App.configuration.get('name')
+        var DbUrl='http://'+nName+':'+pass+'@'+nUrl
+        var completeUrl=DbUrl+'/publications/_all_docs?include_docs=true&keys=[' + keys + ']'
+
+        var PublicationsView= new App.Views.PublicationTable()
+        PublicationsView.Url=completeUrl
+        PublicationsView.render()
+        App.$el.children('.body').html('<h3>Publications</h3>')
+        App.$el.children('.body').append(PublicationsView.el)
+
+    },
+    communityManage: function() {
+
+       var manageCommunity=new App.Views.ManageCommunity()
+       manageCommunity.render()
+       App.$el.children('.body').html(manageCommunity.el)
+
+    },
+    addCourseInvi:function(){
+
+        var test=new App.Models.CourseInvitation()
+        test.set('courseId','test')
+        test.set('userId','test')
+        test.save(null,{success:function(error,response){
+            console.log(response)
+            alert('success')
+        }
+
+        })
+
+        var collection=new App.Collections.CourseInvitations()
+        collection.courseId='test'
+        collection.fetch({async:false},{success:function(res){
+            console.log(res)
+        }})
+
+    },
+    initialize: function () {
+        this.bind("all", this.startUpStuff)
+        this.bind("all", this.checkLoggedIn)
+        this.bind("all", this.renderNav)
+        //this.bind("all",this.checkForUpdates)
+    },
       /*onUpdateReady: function () {
           alert('found new version!');
       },
@@ -160,13 +227,10 @@ var test=new App.Models.CourseInvitation()
                     $.cookie('Member.expTime', date, {
                         path: "/apps/_design/bell"
                     })
-                    $.cookie('Member.expTime', date, {
-                        path: "/apps/_design/bell"
-                    })
                 } else {
-                    this.expireSession()
-                    Backbone.history.stop()
-                    App.start()
+                    this.expireSession();
+                    Backbone.history.stop();
+                    App.start();
 
                 }
             }
@@ -179,20 +243,23 @@ var test=new App.Models.CourseInvitation()
             $.removeCookie('Member._id', {
                 path: "/apps/_design/bell"
             })   
-            $.removeCookie('Member.expTime', {
+            $.removeCookie('Member.roles', {
                 path: "/apps/_design/bell"
+            })
+            $.removeCookie('Member.expTime', {
+              path: "/apps/_design/bell"
             })
 
         },
         
       Configure:function(){
       
-           conModel = new App.Models.Configuration()
+            var conModel = new App.Models.Configuration();
             var conForm = new App.Views.Configurations({
                 model: conModel
             })
-            conForm.render()
-            App.$el.children('.body').html(conForm.el)
+            conForm.render();
+            App.$el.children('.body').html(conForm.el);
       
       },  
       MemberLogin: function () {
@@ -203,7 +270,7 @@ var test=new App.Models.CourseInvitation()
                 })
                 return
             }
-            credentials = new App.Models.Credentials()
+            var credentials = new App.Models.Credentials();
             var memberLoginForm = new App.Views.MemberLoginForm({
                 model: credentials
             })
@@ -212,9 +279,10 @@ var test=new App.Models.CourseInvitation()
                     trigger: true
                 })
             })
-            memberLoginForm.render()
-            App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>')
-            App.$el.children('.body').append(memberLoginForm.el)
+            memberLoginForm.render();
+            App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>');
+            App.$el.children('.body').append(memberLoginForm.el);
+
         },
         MemberLogout: function () {
 
@@ -262,9 +330,9 @@ var test=new App.Models.CourseInvitation()
             this.modelForm('Member', 'Member', memberId, 'login')
         },
 
-        modelForm: function (className, label, modelId, reroute) {
+        modelForm: function (className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
-            var context =this
+            var context = this;
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
@@ -667,7 +735,7 @@ var test=new App.Models.CourseInvitation()
                     App.$el.children('.body').html(quiz.el)
                     quiz.render()
                     if (levelInfo.get("questions")) {
-                        quiz.displayQuestionInView(0)
+                        quiz.displayQuestionsInView()
                     }
                 }
             })
@@ -729,7 +797,7 @@ var test=new App.Models.CourseInvitation()
         
         ManageCourse: function (groupId) {
         
-           var that=this
+            var that=this
             levels = new App.Collections.CourseLevels()
             levels.groupId = groupId
 
@@ -872,7 +940,7 @@ var test=new App.Models.CourseInvitation()
                     App.$el.children('.body').html('&nbsp')
                     App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/'+courseId+'" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
                     var levelsTable = new App.Views.CourseLevelsTable({
-                        collection: ccSteps,
+                        collection: ccSteps
                     })
                     levelsTable.courseId=courseId
                     levelsTable.render()
@@ -1177,42 +1245,10 @@ var test=new App.Models.CourseInvitation()
                     })
         },
     Members: function () {
-    
-            App.startActivityIndicator()
-            
-    	 	var config=new App.Collections.Configurations()
-    	     config.fetch({async:false})
-    	    var currentConfig=config.first()
-            var cofigINJSON=currentConfig.toJSON()
-        
-    	    
-    	    code=cofigINJSON.code
-    	    nationName=cofigINJSON.nationName       
-            
-            var roles = this.getRoles()
-            members = new App.Collections.Members()
-            members.fetch({
-                success: function () {
-                    membersTable = new App.Views.MembersTable({
-                        collection: members
-                    })
-                    membersTable.community_code=code+nationName.substring(3,5)
-                    if (roles.indexOf("Manager") > -1) {
-                        membersTable.isadmin = true
-                    } else {
-                        membersTable.isadmin = false
-                    }
-                    membersTable.render()
-
-
-                    App.$el.children('.body').html('<h3>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h3>')
-
-
-                    App.$el.children('.body').append(membersTable.el)
-                }
-            })
-                      App.stopActivityIndicator()
-        },
+        var membersView=new App.Views.MembersView()
+            membersView.render();
+        App.$el.children('.body').html(membersView.el)
+    },
         Reports: function () {
         
             App.startActivityIndicator()
@@ -1438,13 +1474,14 @@ var test=new App.Models.CourseInvitation()
     	    var currentConfig=config.first()
             var cofigINJSON=currentConfig.toJSON()    	    
     	    code=cofigINJSON.code
+    	    Bellname=cofigINJSON.nationName
             var mymail = new App.Collections.Mails({
                 skip: 0
             })
             mymail.fetch({
                 async: false
             })
-            var mailview = new App.Views.MailView({collection: mymail,community_code:code})
+            var mailview = new App.Views.MailView({collection: mymail,community_code:code,nationName:Bellname})
             mailview.render()
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)
@@ -1992,128 +2029,56 @@ var test=new App.Models.CourseInvitation()
             })
             App.stopActivityIndicator()
         },
+ NewsFeed: function () {
+	  this.underConstruction()
+	}, 
+ AllRequests: function () {
+		App.$el.children('.body').html('&nbsp')
+		var col = new App.Collections.Requests()
+		col.fetch({
+			async: false
+		})
+		var colView = new App.Views.RequestTable({
+			collection: col
+		})
+		colView.render()
+		App.$el.children('.body').append(colView.el)
+	},
+	myRequests: function () {
+		App.$el.children('.body').html('&nbsp')
+		var col = new App.Collections.Requests({
+			memberId: ($.cookie('Member._id'))
+		})
+		col.fetch({
+			async: false
+		})
+		var colView = new App.Views.RequestTable({
+			collection: col
+		})
+		colView.render()
+		App.$el.children('.body').append(colView.el)
+	},
+	synchCommunityWithURL : function(communityurl,communityname) 
+	{
+		console.log('http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources')
+		$.ajax({
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json; charset=utf-8'
+			},
+			type: 'POST',
+			url: '/_replicate',
+			dataType: 'json',
+			data: JSON.stringify({
+				"source": "resources",
+				"target": 'http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources'
+			}),
+			success: function (response) {
 
-     NewsFeed: function () {
-     
-          this.underConstruction()
-           //  var resources = new App.Collections.NewsResources()
-//             resources.fetch({
-//                 success: function () {
-//                     var resourcesTableView = new App.Views.ResourcesTable({
-//                         collection: resources
-//                     })
-//                     resourcesTableView.render()
-//                     App.$el.children('.body').html("&nbsp")
-//                     App.$el.children('.body').append(resourcesTableView.el)
-//                 }
-//             })
-        }, 
-     AllRequests: function () {
-            App.$el.children('.body').html('&nbsp')
-            var col = new App.Collections.Requests()
-            col.fetch({
-                async: false
-            })
-            var colView = new App.Views.RequestTable({
-                collection: col
-            })
-            colView.render()
-            App.$el.children('.body').append(colView.el)
-        },
-        myRequests: function () {
-            App.$el.children('.body').html('&nbsp')
-            var col = new App.Collections.Requests({
-                memberId: ($.cookie('Member._id'))
-            })
-            col.fetch({
-                async: false
-            })
-            var colView = new App.Views.RequestTable({
-                collection: col
-            })
-            colView.render()
-            App.$el.children('.body').append(colView.el)
-        },
-        /* Aded in the Nation
-       Replicate: function () {
-        
-          App.startActivityIndicator()
-          
-           var that = this
-           var temp = $.url().attr("host").split(".")
-           var currentHost=$.url().attr("host")
-           
-           var nationURL=''
-           var nationName=''
-           var type=''
-    
-    	    var configurations=Backbone.Collection.extend({
-
-    				url: App.Server + '/configurations/_all_docs?include_docs=true'
-    		})	
-    	    var config=new configurations()
-    	      config.fetch({async:false})
-    	    var currentConfig=config.first()
-            var cofigINJSON=currentConfig.toJSON()
-    
-    	        type=cofigINJSON.rows[0].doc.type
-				nationURL=cofigINJSON.rows[0].doc.nationUrl
-    	        nationName=cofigINJSON.rows[0].doc.nationName
-    			App.$el.children('.body').html('Please Wait…')
-    			var waitMsg = ''
-    			var msg = ''
-    			
-            $.ajax({
-    			url : 'http://'+ nationName +':'+App.password+'@'+nationURL+':5984/communities/_all_docs?include_docs=true',
-    			type : 'GET',
-    			dataType : "jsonp",
-    			success : function(json) {
-    				for(var i=0 ; i<json.rows.length ; i++)
-    				{
-    					var community = json.rows[i]
-    					var communityurl = community.doc.url
-    					var communityname = community.doc.name
-    					msg = waitMsg
-    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
-    					App.$el.children('.body').html(waitMsg)
-    					that.synchCommunityWithURL(communityurl,communityname)
-    					waitMsg = msg
-    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.'
-    					App.$el.children('.body').html(waitMsg)
-      				}
-      				if(type!="nation")
-      				{
-      					msg = waitMsg
-    					waitMsg = waitMsg + '<br>Replicating to ' + communityname + '. Please wait…'
-    					that.synchCommunityWithURL(nationURL,nationName)
-    					waitMsg = msg
-    					waitMsg = waitMsg + '<br>Replication to ' + communityname + ' is complete.<br>Replication completed.'	
-      				}
-    			}
-  			 })
-  			App.stopActivityIndicator()
-        },*/
-        synchCommunityWithURL : function(communityurl,communityname) 
-        {
-        	console.log('http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources')
-        	$.ajax({
-            	headers: {
-                	'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-            	type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                	"source": "resources",
-                    "target": 'http://'+ communityname +':'+App.password+'@'+ communityurl + ':5984/resources'
-            	}),
-                success: function (response) {
-
-                },
-                async: false
-            })
-     },         
+			},
+			async: false
+		})
+ },         
  PochDB:function(){
  	  var memId=$.cookie('Member._id')
       var memName=$.cookie('Member.login')
@@ -2124,89 +2089,138 @@ var test=new App.Models.CourseInvitation()
             loggedIn.fetch({
                 async: false
             })
-       var URL=null     
+      var URL=null     
       var login = loggedIn.get("login")        
       var hostUrl = Backbone.history.location.href
             hostUrl = hostUrl.split('/')
             var hostName=hostUrl[2].split('.')
-      var MemberCourseProgress=new PouchDB('membercourseprogress');
-      var configurations= new PouchDB('configurations')
+            
+//      var MemberCourseProgress=new PouchDB('membercourseprogress');
+//      var configurations= new PouchDB('configurations');
+      var FeedBackDb=new PouchDB('feedback');
+//      var CourseStep=new PouchDB('coursestep');
+      
       //condition to check cloudant.com or an IP address 
-      if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/))
-      {
-      //not cloudant
-      	URL='http://'+hostUrl[2]
+     //  if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/)){
+//             //not cloudant
+//       	    URL='http://'+hostUrl[2]
+//       }else{
+//             //cloudant
+//         	URL='http://'+hostName[0]+':'+App.password+'@'+hostUrl[2]
+//       }
+      
+      if(hostName[0].indexOf('cloudant')!=-1){
+           // cloudant
+           URL='http://'+hostName[0]+':'+App.password+'@'+hostUrl[2]
+      }else if(hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/)){
+           //other couchdbes that have no username and password
+           URL='http://'+hostUrl[2]
+      }else{
+          URL='http://'+hostUrl[2]
       }
-      else
-      {
-      //cloudant
-      	URL='http://'+hostName[0]+':'+App.password+'@'+hostUrl[2]
-      }
-	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
-		if(error){
-		console.log("membercourseprogress replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated to local membercourseprogress :" + response)
-		}
 
-	  });	
-	  configurations.replicate.from(URL+'/configurations',function(error, response){
-		if(error){
-		console.log("configurations replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated to local configurations :" + response)
-		}
+//     configurations.replicate.from(URL+'/configurations',function(error, response){
+//         if(error){
+//             console.log("configurations replication error :"+error)
+//         }else{
+//             console.log("Successfully replicated to local configurations :" + response)
+//         }
+//     });
+     FeedBackDb.replicate.to(URL+'/feedback',function(error, response){
+         if(error){
+             console.log("FeedBackDb replication error :"+error)
+         }else{
+             console.log("Successfully replicated FeedBackDb :" + response)
+         }
+     });
+//	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
+//			if(error){
+//			   console.log("membercourseprogress replication error :"+error)
+//			}else{
+//			   console.log("Successfully replicated to local membercourseprogress :" + response)
+//			}
+//	  });
 
-	  });													  
-	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
-		if(error){
-		console.log("membercourseprogress replication to server error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated membercourseprogress :" + response)
-		}
+//	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
+//			if(error){
+//				console.log("membercourseprogress replication to server error :"+error)
+//			}else{
+//				console.log("Successfully replicated membercourseprogress :" + response)
+//			}
+//	  });
 
-	  });
-	  var FeedBackDb=new PouchDB('feedback');
-	       FeedBackDb.replicate.to(URL+'/feedback',function(error, response){
-		if(error){
-		console.log("FeedBackDb replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated FeedBackDb :" + response)
-		}
 
-	  }); 
-
-	 var CourseStep=new PouchDB('coursestep');
-	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
-		if(error){
-		console.log("coursestep replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated coursestep :" + response)
-		}
-
-	  });
-	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
-		if(error){
-		console.log("coursestep replication error :"+error)
-		}
-		else{
-		  console.log("Successfully replicated coursestep :" + response)
-		}
-
-	  });
-	this.saveFrequency(URL);
-	this.saveResources(URL);
+//	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
+//			if(error){
+//			    console.log("coursestep replication error :"+error)
+//			}else{
+//			    console.log("Successfully replicated coursestep :" + response)
+//			}
+//
+//	  });
+//	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
+//			if(error){
+//			    console.log("coursestep replication error :"+error)
+//			}else{
+//			   console.log("Successfully replicated coursestep :" + response)
+//			}
+//	  });
+	// this.saveFrequency(URL);
+    this.syncResourceFeedback();
 	this.WeeklyReports();	 
  },
+
+ syncResourceFeedback:function(){
+     var pouchResources=new PouchDB('resources');
+     pouchResources.allDocs({include_docs: true},function(err,response){
+                    console.log(response)
+         _.each(response.rows,function(pouchDoc){
+
+             var resId=pouchDoc.doc._id
+             var couchResource=new App.Models.Resource({_id:resId})
+             couchResource.fetch({success:function(){
+
+                      if(couchResource.get('sum')==undefined || couchResource.get('timesRated')==undefined) {
+                          couchResource.set('sum',0)
+                          couchResource.set('timesRated',0)
+                         }else{
+                          couchResource.set('sum',parseInt(couchResource.get('sum'))+parseInt(pouchDoc.doc.sum))
+                          couchResource.set('timesRated',parseInt(couchResource.get('timesRated'))+parseInt(pouchDoc.doc.timesRated))
+                         }
+                         couchResource.save(null,{success:function(updatedModel,revisions){
+                             pouchResources.put({
+                                 sum:0,
+                                 timesRated: 0
+                             },pouchDoc.doc._id, pouchDoc.doc._rev, function(err, info) {
+                                 if (!err) {
+                                     console.log(info)
+                                 }else{
+                                     console.log(err)
+                                 }
+                             });
+
+                             pouchResources.remove(pouchDoc.doc._id, pouchDoc.doc._rev, function(err, removeResponse) {
+                                 if (!err) {
+                                     console.log(removeResponse)
+                                 }else{
+                                     console.log(err)
+                                 }
+                             });
+
+                         }})
+
+             }})
+
+         })
+
+     })
+
+ }   ,
+
  saveResources:function(URL){
- 				 var Resources=new PouchDB('resources');
- 				 var Saving
- 				 var Groups = new App.Collections.MemberGroups()
+ 				var Resources=new PouchDB('resources');
+ 				var Saving
+ 				var Groups = new App.Collections.MemberGroups()
           		Groups.memberId = $.cookie('Member._id')
 				Groups.once('sync', function() {
 				      _.each(Groups.models, function(group) {
@@ -2320,89 +2334,107 @@ var test=new App.Models.CourseInvitation()
 					selectedList: 1
 				 });
 		}*/
+//         $.datepicker.setDefaults({
+//             dateFormat: 'mm-dd-yy'
+//         });
 		$('#start-date').datepicker({
+               dateFormat: "yy-mm-dd",
                todayHighlight: true
             });
         $('#end-date').datepicker({
+               dateFormat: "yy-mm-dd",
                todayHighlight: true
             });
  }, 
- changeDateFormat:function(date)
- {
- var datePart = date.match(/\d+/g),month = datePart[0], day = datePart[1], year = datePart[2];
-  return year+'/'+month+'/'+day;
+ changeDateFormat:function(date){
+ 
+    var datePart = date.match(/\d+/g), year = datePart[0], month = datePart[1], day = datePart[2];
+    return year+'/'+month+'/'+day;
  },
- deletePouchDB:function(){
-    var Resources=new PouchDB('resources');
- 	Resources.destroy(function(err,info){
- 	if(err)
- 	console.log(err)
- 	else
- 	console.log("deleted successfully " + info)
- 	})
-    var FeedBackDb=new PouchDB('feedback');
-	FeedBackDb.destroy(function(err, info) {
-	if(err)
- 	console.log(err)
- 	else
-	console.log("Successfully Deleted feedback"+info)
-	});
-    var Members=new PouchDB('members');
-	Members.destroy(function(err, info) { 
-	if(err)
- 	console.log(err)
- 	else
-		console.log("Successfully Deleted members"+info)
-	});
-	var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-	ResourceFrequencyDB.destroy(function(err, info) {
-	if(err)
- 	console.log(err)
- 	else 
-	console.log("Successfully Destroy ResourceFrequency"+info)
-	});
-	var membercourseprogress=new PouchDB('membercourseprogress');
-	membercourseprogress.destroy(function(err, info) {
-	if(err)
- 	console.log(err)
- 	else 
-	console.log("Successfully Destroy membercourseprogress"+info)
-	});
-	var coursestep=new PouchDB('coursestep');
-	coursestep.destroy(function(err, info) {
-	if(err)
- 	console.log(err)
- 	else 
-	console.log("Successfully Destroy coursestep"+info)
-	});
-	
-	var activitylogs=new PouchDB('activitylogs');
-	activitylogs.destroy(function(err, info) {
-	if(err)
- 	console.log(err)
- 	else 
-	console.log("Successfully Destroy activitylogs"+info)
-	});
-	return true
-},
-dbinfo:function() {
-    var Resources=new PouchDB('resources');
-    Resources.info(function(err,info){console.log(info)})
-    var FeedBackDb=new PouchDB('feedback');
-    FeedBackDb.info(function(err,info){console.log(info)})
-	var Members=new PouchDB('members');
-	Members.info(function(err,info){console.log(info)})
-	var ResourceFrequencyDB=new PouchDB('resourcefrequency');
-	ResourceFrequencyDB.info(function(err,info){console.log(info)})
-	var CourseStep=new PouchDB('coursestep');
-	CourseStep.info(function(err,info){console.log(info)})
-	var MemberCourseProgress=new PouchDB('membercourseprogress');
-	MemberCourseProgress.info(function(err,info){console.log(info)
-	console.log(err)
-	})
-	var activitylogs=new PouchDB('activitylogs');
-	activitylogs.info(function(err,info){console.log(info)})
-},
+ deletePouchDB: function() {
+         var Resources = new PouchDB('resources');
+         Resources.destroy(function(err, info) {
+             if (err)
+                 console.log(err)
+             else
+                 console.log("deleted successfully " + info)
+         })
+         var FeedBackDb = new PouchDB('feedback');
+         FeedBackDb.destroy(function(err, info) {
+             if (err)
+                 console.log(err)
+             else
+                 console.log("Successfully Deleted feedback" + info)
+         });
+         var Members = new PouchDB('members');
+         Members.destroy(function(err, info) {
+             if (err)
+                 console.log(err)
+             else
+                 console.log("Successfully Deleted members" + info)
+         });
+         var ResourceFrequencyDB = new PouchDB('resourcefrequency');
+         ResourceFrequencyDB.destroy(function(err, info) {
+             if (err)
+                 console.log(err)
+             else
+                 console.log("Successfully Destroy ResourceFrequency" + info)
+         });
+         var membercourseprogress = new PouchDB('membercourseprogress');
+         membercourseprogress.destroy(function(err, info) {
+             if (err)
+                 console.log(err)
+             else
+                 console.log("Successfully Destroy membercourseprogress" + info)
+         });
+         var coursestep = new PouchDB('coursestep');
+         coursestep.destroy(function(err, info) {
+             if (err)
+                 console.log(err)
+             else
+                 console.log("Successfully Destroy coursestep" + info)
+         });
+
+         var activitylogs = new PouchDB('activitylogs');
+         activitylogs.destroy(function(err, info) {
+             if (err)
+                 console.log(err)
+             else
+                 console.log("Successfully Destroy activitylogs" + info)
+         });
+         return true
+ },
+dbinfo: function() {
+         var Resources = new PouchDB('resources');
+         Resources.info(function(err, info) {
+             console.log(info)
+         })
+         var FeedBackDb = new PouchDB('feedback');
+         FeedBackDb.info(function(err, info) {
+             console.log(info)
+         })
+         var Members = new PouchDB('members');
+         Members.info(function(err, info) {
+             console.log(info)
+         })
+         var ResourceFrequencyDB = new PouchDB('resourcefrequency');
+         ResourceFrequencyDB.info(function(err, info) {
+             console.log(info)
+         })
+         var CourseStep = new PouchDB('coursestep');
+         CourseStep.info(function(err, info) {
+             console.log(info)
+         })
+         var MemberCourseProgress = new PouchDB('membercourseprogress');
+         MemberCourseProgress.info(function(err, info) {
+             console.log(info)
+             console.log(err)
+         })
+         var activitylogs = new PouchDB('activitylogs');
+         activitylogs.info(function(err, info) {
+             console.log(info)
+         })
+ },
 CompileAppManifest:function(){
 
     var apps = new App.Collections.Apps()
@@ -2415,7 +2447,7 @@ CompileAppManifest:function(){
     apps.once('sync', function() {
           _.each(apps.models, function(app) {
             _.each(app.get('_attachments'), function(value, key, list) {
-              replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
+              if (key !== "manifest.appcache") replace += encodeURI('/apps/' + app.id + '/' + key) + '\n'
             })
           })
           App.trigger('compile:appsListReady')
@@ -2703,59 +2735,84 @@ CompileAppManifest:function(){
     },
      WeeklyReports:function(){
     
-      	var logdb=new PouchDB('activitylogs')
-        var that=this
-      	    logdb.allDocs({include_docs: true},
-      	               function(err, response) { 
-      	                  var collection=response.rows
-      	                  for(i=0;i<response.total_rows;i++){
-      	                      activitylog=collection[i].doc
-      	                      activitylogDate=activitylog.logDate
-      	                      var logModel=new App.Collections.ActivityLog()
-      	                          logModel.logDate=activitylogDate
-      	                          logModel.fetch({success:function(res,resInfo){
-      	                             	 console.log(res)
-      	                             	 if(res.length==0){
-      	                             	     that.createLogs(activitylog)
-      	                             	 }else{
-      	                             	     logsonServer=res.first()
-      	                             	     that.updateLogs(activitylog,logsonServer)
-      	                             	 }         
-      	                          },
-      	                          error:function(err){
-      	                          
-      	                          }})
-      	                      
-      	                     
-      	                  }
-      	    });    
+        var logdb = new PouchDB('activitylogs');
+        var that = this;
+        logdb.allDocs({include_docs: true},
+            function(err, response) {
+                if (!err) {
+                    var collection = response.rows; // all docs from PouchDB's 'activitylogs' db
+                    for (var i = 0; i < response.total_rows; i++) { // if # of rows is zero, then
+                        // PouchDB's activitylogs db has no docs in it to sync to CouchDB's activitylog db
+                        activitylog = collection[i].doc;
+                        activitylogDate = activitylog.logDate;
+                        var logModel = new App.Collections.ActivityLog();
+                        logModel.logDate = activitylogDate;
+
+                        logModel.fetch( {success: function(res, resInfo) {
+//                         console.log(res)
+//                         alert("sdads");
+                            if(res.length == 0){ // CouchDB's activitylog db has ZERO (or NO) documents with attrib "logDate"
+                                // having value == collection[i].doc.logDate, so a new activitylog doc will be added to CouchDB
+                                // having same json as that of collection[i].doc's (pointed to by 'activitylog' var above)
+                                // from PouchDB's activitylogs db.
+                                that.createLogs(activitylog);
+                            } else { // Couchdb's activitylog db does have atleast one doc having attrib "logDate" with a
+                                // value == collection[i].doc.logDate
+                                logsonServer = res.first();
+                                that.updateLogs(activitylog, logsonServer);
+                            }
+                        },
+                            error: function(err) {
+                                console.log("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
+//                                alert("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
+                            }});
+                    }
+                } else {
+                    console.log("Error fetching documents of 'activitylogs' db in PouchDB. Please try again or refresh page.");
+//                    alert("Error fetching documents of 'activitylogs' db in PouchDB. Please try again or refresh page.");
+                }
+            }
+        );
         
     },
     createLogs:function(activitylog){
-    
-            var toDelete_id=activitylog._id
-            var toDelete_rev=activitylog._rev
-            var logdb=new PouchDB('activitylogs')
-             
-            //alert('here in create log function')
 
-			var dailylogModel=new App.Models.DailyLog()
-				delete activitylog._rev
-				delete activitylog._id
-				console.log(activitylog)
-				dailylogModel.set(activitylog)
-   
-				dailylogModel.save(null,{success:function(res,resInfo){
-  						logdb.remove(toDelete_id, toDelete_rev, function(err, response) { 
-  						   if(err){
-  						      console.log(err)
-  						      //alert('error')
-  						   }else{
-  						   
-  						      //alert('deleted after creating')
-  						   }
-					   });
-				}})
+            var toDelete_id = activitylog._id;
+            var toDelete_rev = activitylog._rev;
+            var logdb=new PouchDB('activitylogs');
+            //alert('here in create log function')
+			var dailylogModel = new App.Models.DailyLog();
+            var dailyLog = activitylog;
+//            delete activitylog._rev;
+//            delete activitylog._id;
+//				console.log(activitylog);
+//            dailylogModel.set(activitylog); community
+
+            dailylogModel.set('logDate' , activitylog.logDate);
+            dailylogModel.set('community' , activitylog.community);
+            dailylogModel.set('resourcesIds' , activitylog.resourcesIds)
+            dailylogModel.set('resources_opened' , activitylog.resources_opened)
+            dailylogModel.set('male_visits' , activitylog.male_visits)
+            dailylogModel.set('female_visits' , activitylog.female_visits)
+            dailylogModel.set('male_rating' , activitylog.male_rating)
+            dailylogModel.set('female_rating' , activitylog.female_rating)
+            dailylogModel.set('male_timesRated' , activitylog.male_timesRated)
+            dailylogModel.set('female_timesRated' , activitylog.female_timesRated)
+            dailylogModel.set('male_opened' , activitylog.male_opened)
+            dailylogModel.set('female_opened' , activitylog.female_opened)
+
+            dailylogModel.save(null,{success:function(res,resInfo){
+                logdb.remove(activitylog, function(err, response) {
+                   if(err){
+                        console.log(err)
+//                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
+                   }else{
+//                        console.log('mainRouter:: createLogs:: removed Pouch doc successfully: ');
+//                        console.log(response);
+//                        alert('mainRouter:: createLogs:: removed Pouch doc successfully');
+                   }
+               });
+            }});
 
     },
     updateLogs:function(activitylog,logsonServer){
@@ -2862,15 +2919,21 @@ CompileAppManifest:function(){
                
                var logdb=new PouchDB('activitylogs')
                logsonServer.save(null,{success:function(model,modelInfo){
+                   console.log("MyAppRouter:: updateLogs:: successfully updated (community) CouchDB with activitylog from Pouch");
                //alert('save function')
                       logdb.remove(activitylog,function(err, info) {
-							if(err)
-								console.log(err)
-							else 
-							 console.log("Successfully Destroy activitylogs"+info)
-							 //alert('delete')
-						});
-               }})
+							if(err){
+                                console.log("MyAppRouter:: updateLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB");
+                                console.log(err);
+//                                alert("MyAppRouter:: updateLogs:: could NOT Remove couch doc");
+                            } else {
+                                console.log("MyAppRouter:: updateLogs:: Successfully deleted Pouch activitylog doc after it had been synced with community CouchDB");
+//                                console.log(info);
+//                                alert('MyAppRouter:: updateLogs:: Successfully Deleted pouch doc')
+                            }
+
+					  });
+               }});
       
     },
        LogActivity:function(CommunityName,startDate,endDate){

@@ -1,3 +1,9 @@
+#glob_img{
+    height: 340px;
+    margin-left: 96px;
+    margin-top: -287px;
+    width: 340px;
+}
 #header {
   position: relative;
   bottom: -20px;
@@ -31,11 +37,6 @@ font-size: 13px;
   float: left;
   clear: both;
 }
-  
-.form .btn {
-  margin: 5px 0px 20px 20px;
-}
-
 .form .progress {
   float:left;
   margin-top: 9px;

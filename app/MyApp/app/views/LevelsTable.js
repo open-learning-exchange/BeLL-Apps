@@ -117,8 +117,6 @@ $(function () {
                 for (var i = stepNo; i < that.collection.models.length; i++) {
                     that.collection.models[i].set('step', i)
                     that.updateModel(that.collection.models[i])
-                    //that.collection.models[i].save({ async: false })
-                    //alert(that.collection.models[i].get('step'))
                 }
                 alert("Step successfully deleted.")
                 that.collection.models.splice(stepNo - 1, 1)
@@ -126,8 +124,6 @@ $(function () {
                     $('#moveup').hide()
                     $('#movedown').hide()
                     $('#Rearrange').hide()
-                    alert('asdf')
-
                 }
                 $("#addstep").attr("onClick", "document.location.href=\'#level/add/" + that.groupId + "/nolevel/" + that.collection.models.length + "\' ");
                 location.reload()

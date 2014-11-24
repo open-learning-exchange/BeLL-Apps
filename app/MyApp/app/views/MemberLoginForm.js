@@ -7,10 +7,31 @@ $(function () {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #formButton2": "signup"
+            "click #formButton2": "signup",
+            "click #welcomeButton": "showWelcomeVideo"
         },
 
         render: function () {
+            var context = this;
+            var welcomeResources = new App.Collections.Resources();
+            welcomeResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo');
+            welcomeResources.fetch({
+                success: function () {
+                    if(welcomeResources.length > 0) {
+                        var welcomeResourceId = welcomeResources.models[0].attributes.id;
+                        // display "watch welcome video" button
+                        var hrefWelcomeVid = "/apps/_design/bell/bell-resource-router/index.html#openres/" + welcomeResourceId;
+//                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" href="hmmm" target="_blank" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
+                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
+                        context.$el.append($buttonWelcome);
+                        context.$el.find("#welcomeButton").attr( "href", hrefWelcomeVid);// <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
+                    }
+                },
+                error: function () {
+                    console.log("Error in fetching welcome video doc from db");
+                },
+                async: false
+            });
             // create the form
             this.form = new Backbone.Form({
                 model: this.model
@@ -21,6 +42,10 @@ $(function () {
             var $button2 = $('<div class="signup-div" ><a style="margin-left: -4px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">Become A Member</button></div>')
             this.$el.append($button)
             this.$el.append($button2)
+        },
+
+        showWelcomeVideo: function() {
+
         },
 
         setFormFromEnterKey: function (event) {
@@ -42,93 +67,130 @@ $(function () {
             members.login = credentials.get('login')
             members.fetch({success:function(){
                 if (members.length>0) {
-                	member = members.first()
+                	member = members.first();
                     if (member && member.get('password') == credentials.get('password')) {
                         if (member.get('status') == "active") {
-                            //UPDATING MEMBER VISITIS
+                            //UPDATING MEMBER VISITS
                             App.member = member
                             var vis = parseInt(member.get("visits"))
                             vis++
                             member.set("visits", vis)
                             member.once('sync', function () {})
-                            
+
+                            member.save(null,{ success: function(doc,rev){
+                            }})
+
                             memberLoginForm.logActivity(member)
                             
-                                var date = new Date()
-                                $.cookie('Member.login', member.get('login'), {
-                                    path: "/apps/_design/bell"
-                                })
-                                $.cookie('Member._id', member.get('_id'), {
-                                    path: "/apps/_design/bell"
-                                })
-                                $.cookie('Member.expTime', date, {
-                                    path: "/apps/_design/bell"
-                                })
-                                
-                                if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1)
-              						{
-              						 //$('#nav').hide()
-              						 Backbone.history.navigate('configuration/add', {trigger: true})
-              						}
-              					else 
-              					     memberLoginForm.trigger('success:login')
-              				
-							console.log(member.toJSON())
-                            member.save(null,{ success: function(doc,rev){
-              				}})
+                            var date = new Date()
+                            $.cookie('Member.login', member.get('login'), {
+                                path: "/apps/_design/bell"
+                            })
+                            $.cookie('Member._id', member.get('_id'), {
+                                path: "/apps/_design/bell"
+                            })
+                            $.cookie('Member.expTime', date, {
+                                path: "/apps/_design/bell"
+                            })
+                            $.cookie('Member.roles', member.get('roles'), {
+                                path: "/apps/_design/bell"
+                            })
+
+                            if(parseInt(member.get('visits'))==1 && member.get('roles').indexOf('SuperManager')!=-1){
+                                //$('#nav').hide()
+                                Backbone.history.navigate('configuration/add', {trigger: true});
+                                return;
+                            }
+
+
+                            // warn the admin user if they have not changed default password after installation
+//                            if ((member.get('login') === "admin") && (member.get('password') === 'password')) {
+//                                    alert("Please change the password for this admin account for better security of the account and the application.");
+////                                    var fragment = 'member/edit/' +
+//                                    Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
+//
+//                            }
+//
+//                            else {
+                                memberLoginForm.trigger('success:login');
+                           // }
+//							console.log(member.toJSON())
+
               				
   
                         } else {
                             alert("Your Account Is Deactivated")
                         }
                     } else {
-                        alert('Login or Pass incorrect.')
+                        alert('Login or Password Incorrect')
                     }
                 } else {
-                    alert('Login or Pass incorrect.')
+                    alert('Login or Password Incorrect.')
                 }
             }});
         },
     logActivity:function(member){
         
-        var that=this
-  		var logdb=new PouchDB('activitylogs')
+        var that=this;
+  		var logdb=new PouchDB('activitylogs');
       	var currentdate = new Date();
-    	var logdate = this.getFormattedDate(currentdate)
-        logdb.query({map:function(doc){
-					 if(doc.logDate){
-						emit(doc.logDate,doc)
-					 }
-				}
-   			},{key:logdate},function(err,res){
-   					 
-				if(!err){
-				     if(res.total_rows!=0){
-				          logModel=res.rows[0].value
-				          that.UpdatejSONlog(member,logModel,logdb)
-				     }else{
-				   		 that.createJsonlog(member,logdate,logdb)
-				    }	   
-                }
-		   });       
+    	var logdate = this.getFormattedDate(currentdate);
+
+        logdb.get(logdate, function(err, logModel) {
+            if (!err) {
+                //            console.log("logModel: ");
+                //            console.log(logModel);
+                //            alert("yeeyyyyyy");
+                that.UpdatejSONlog(member, logModel, logdb, logdate);
+            } else {
+                that.createJsonlog(member, logdate, logdb);
+            }
+        });
+
+//        logdb.query({map:function(doc){
+//					 if(doc.logDate){
+//						emit(doc.logDate,doc)
+//					 }
+//				}
+//   			},{key:logdate},function(err,res){
+//
+//				if(!err){
+//				     if(res.total_rows!=0){
+//				          logModel=res.rows[0].value
+//				          that.UpdatejSONlog(member,logModel,logdb)
+//				     }else{
+//				   		 that.createJsonlog(member,logdate,logdb)
+//				    }
+//                }
+//		   });
 		   
     },
-    UpdatejSONlog:function(member,model,logdb){
-	            console.log(model)
+    UpdatejSONlog:function(member, logModel, logdb, logdate){
+//	            console.log(logModel)
 			if(member.get('Gender')=='Male') {
-				 visits=parseInt(model.male_visits)
+				 visits=parseInt(logModel.male_visits)
 				 visits++
-				 model.male_visits=visits
+                logModel.male_visits=visits
 				}
 			else{
-				 visits=parseInt(model.female_visits)
+				 visits=parseInt(logModel.female_visits)
 				 visits++
-				 model.female_visits=visits
+                logModel.female_visits=visits
 			}
-			logdb.put(model,function(reponce){
-				alert('Download app update now')
-			})
-			console.log(model)
+
+            logdb.put(logModel, logdate, logModel._rev, function(err, response) { // _id: logdate, _rev: logModel._rev
+                if (!err) {
+                    console.log("FeedbackForm:: UpdatejSONlog:: updated daily log from pouchdb for today..");
+                } else {
+                    console.log("FeedbackForm:: UpdatejSONlog:: err making update to record");
+                    console.log(err);
+//                    alert("err making update to record");
+                }
+            });
+
+//			logdb.put(model,function(reponce){
+//			})
+//			console.log(model)
     },
 getFormattedDate:function(date) {
   		   var year = date.getFullYear();
@@ -138,7 +200,7 @@ getFormattedDate:function(date) {
   		       day = day.length > 1 ? day : '0' + day;
        return  month + '/' + day + '/' + year;
 },
-    createJsonlog:function(member,logdate,logdb){
+createJsonlog:function(member,logdate,logdb){
 
 		var docJson={		
 				 logDate: logdate,
@@ -156,20 +218,31 @@ getFormattedDate:function(date) {
 			}
 			
 			if(member.get('Gender')=='Male') {
-						 	visits=parseInt(docJson.male_visits)
-						 	visits++
-						 	docJson.male_visits=visits
-						}
-						else{
-					 		visits=parseInt(docJson.female_visits)
-							visits++
-					     	docJson.female_visits=visits
-						}
-			logdb.post(docJson, function (err, response) { 
-  						console.log(err)
- 						console.log(response)
- 		});
-    },
+                visits=parseInt(docJson.male_visits)
+                visits++
+                docJson.male_visits=visits
+            }
+            else{
+                visits=parseInt(docJson.female_visits)
+                visits++
+                docJson.female_visits=visits
+            }
+
+            logdb.put(docJson, logdate, function(err, response) {
+                if (!err) {
+                    console.log("MemberLoginForm:: createJsonlog:: created activity log in pouchdb for today..");
+                } else {
+                    console.log("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
+                    console.log(err);
+//                    alert("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
+                }
+            });
+
+//			logdb.post(docJson, function (err, response) {
+//  						console.log(err)
+// 						console.log(response)
+// 		});
+    }
     
     })
 

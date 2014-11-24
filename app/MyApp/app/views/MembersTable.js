@@ -26,7 +26,7 @@ $(function() {
     },
 
     addAll: function(){
-    this.$el.html("<tr><th>Photo</th><th>Name</th><th>Visits</th><th>Email</th><th>Bell-Email</th><th>Actions</th></tr>")
+    this.$el.html("<tr><th>Photo</th><th>Last Name</th><th>First Name</th><th>Visits</th><th>Email</th><th>Bell-Email</th><th>Actions</th></tr>")
       // @todo this does not work as expected, either of the lines
       // _.each(this.collection.models, this.addOne())
       

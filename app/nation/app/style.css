@@ -4,7 +4,6 @@
 .heading a{font-size:18px;color:white;text-decoration:none}
 #addNation-heading{width:100%;height:50px;background-color:#235279}
 #listcommunity-head,#listRequest-head,#listPublication-head{width:100%;height:60px;background-color:#235279}
-#addComm{margin-left:200px}
 #nationForm-container{background-color:#fff}
 #top-from{padding:1%;background-color:#d8d8d8}
 #top-from input{height:30px;width:350px;border:1px solid gray;border-radius:5px}

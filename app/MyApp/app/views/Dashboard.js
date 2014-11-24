@@ -140,6 +140,7 @@ $(function () {
 			var dashboard = this
 			this.vars.mails = 0
 			var clanguage = App.configuration.get("currentLanguage")
+            var typeofBell=App.configuration.get("type")
 			console.log(App.languageDict)
 			console.log(clanguage)
 			this.vars.languageDict = App.languageDict;
@@ -237,11 +238,21 @@ $(function () {
 				if (temp1 == 1) {
 					roles = roles + ",&nbsp;"
 				}
-				roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
+                if(typeofBell=='nation'){
+                    roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
+                }
+                else {
+                    roles = roles + '<a href="#communityManage">Manager</a>'
+                }
 			}
 			$('.visits').html(temp)
 			$('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
 			dashboard.checkAvailableUpdates(member.get('roles'), dashboard)
+            if($.cookie('Member.login') === "admin") {
+                var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'">Update Welcome Video</button>');
+                dashboard.$el.append($buttonWelcome);
+            }
+
 			//dashboard.$el.append('<div id="updates"></div>')
 		},
 		checkAvailableUpdates: function (roles, dashboard) {
@@ -339,7 +350,7 @@ $(function () {
 			}
 
 			return 0;
-		},
+		}
 	})
 
 })

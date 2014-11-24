@@ -32,7 +32,6 @@
   <script language="JavaScript">
       $(document).ready(function() {
         var resource_url = $.url().fparam("url")
-            alert(resource_url)
         $("a#player").attr("href", resource_url)
         flowplayer("player", "flowplayer_flowplayer-3.2.14.swf");
       });

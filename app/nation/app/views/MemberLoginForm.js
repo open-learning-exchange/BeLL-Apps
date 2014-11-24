@@ -16,7 +16,7 @@ $(function() {
      // this.form = new Backbone.Form({model:this.model})
       //$('#Login-form',this.$el).append(this.form.render().el)
       // give the form a submit button
-      var $button = $('<button class="btn btn-success" id="formButton">Sign In</button>')
+      var $button = $('<button class="btn btn-success" style="background-color:#34495e" id="formButton">Sign In</button>')
       $('#submit-button',this.$el).append($button)
     },
 
@@ -62,11 +62,11 @@ $(function() {
           }
         }
         else {
-          alert('Login or Pass incorrect.')
+          alert('Login or Password Incorrect')
         }
       }
       else {
-        alert('Login or Pass incorrect.')
+        alert('Login or Password Incorrect')
       }
     });
     },
