@@ -22,11 +22,12 @@ function start() {
 
 // Increase Limits so couchapp push works correctly
 function increaseLimits() {
-  exec('sudo launchctl limit maxfiles 150056 150056', function doneWithLaunchCtl() {
-    exec('sudo ulimit -n 150056', function doneWithUlimit() {
-      return getListOfDatabases()
-    }) 
-  })
+    getListOfDatabases();
+//  exec('sudo launchctl limit maxfiles 150056 150056', function doneWithLaunchCtl() {
+//    exec('sudo ulimit -n 150056', function doneWithUlimit() {
+//      return getListOfDatabases()
+//    })
+//  })
 }
 
 function getListOfDatabases() {
@@ -59,7 +60,7 @@ function installDesignDocs() {
   var database = databases[b]
   if (b !== databases.length) {
     console.log("Inserting design docs for the " + database + " database")
-    exec('sudo launchctl limit maxfiles 150056 150056;sudo ulimit -n 150056; sudo couchapp push ./databases/' + database + '.js ' + couchUrl + '/' + database, function(error, stdout, stderr) { 
+    exec('node_modules/.bin/couchapp push ./databases/' + database + '.js ' + couchUrl + '/' + database, function(error, stdout, stderr) {
       if (error) console.log(error); 
       if (stderr) console.log(stderr);
       console.log(stdout)
@@ -80,16 +81,41 @@ function createDefaultAdminMember() {
     console.log('Creating a default admin member of admin:password')
     var members = nano.db.use('members')
     var defaultAdminMember = {
-      "login":"admin",
-      "kind":"Member", 
-      "roles": ["Manager"], 
-      "firstName": "Default", 
-      "lastName": "Admin", 
-      "password":"password", 
-      "status": "active"
+        "_id": "ce82280dc54a3e4beffd2d1efa00c4e6",
+        "login":"admin",
+        "kind":"Member",
+        "roles": ["Manager", "SuperManager"],
+        "firstName": "Default",
+        "lastName": "Admin",
+        "password":"password",
+        "status": "active",
+        "email": "admin.somalia@olebell.org",
+        "visits": 0
     }
-    members.insert(defaultAdminMember, function(err, res) {
-      if (err) return console.log(err)
+    var configurationsDoc = {"name":"olesomalia","nationName":"olenation","code":"so","type":"nation","nationUrl":"olenation.cloudant.com","version":"0.10.0","notes":"this is testing .....asdf","availableLanguages":["English","French","Arabic","Urdu"],"currentLanguage":"English"};
+    var languagesDoc =
+    {"English":{"Dashboard":"My Home","e-Readers":"e-Readers","Library":"Library","Courses":"Courses","Meetups":"Meetups","Members":"Members","Reports":"Reports","Feedback":"Feedback","Logout":"Logout","My Library":"My Library","My Courses Progress":"My Courses Progress","My Meetups":"My Meetups","My Tutors":"My Tutors","Badges":"Badges","News Feed":"News Feed","Calender":"Calendar","Email":"Email"},"French":{"Dashboard":"Tableau de bord","e-Readers":"e-lecteurs","Library":"libaray","Courses":"cours","Meetups":"meetups","Members":"membres","Reports":"rapports","Feedback":"Commentaires","Logout":"Déconnexion","My Library":"Ma bibliothèque","My Courses Progress":"Mes cours Progrès","My Meetups":"Mes rencontres Meetup","My Tutors":"Mes tuteurs","Badges":"insignes","News Feed":"Nouvelles RSS","Calender":"Calendrier","Email":"email"},"Arabic":{"Dashboard":"لوحة أجهزة القياس","e-Readers":"البريد القراء","Library":"لمكتبة","Courses":"دورات","Meetups":"اجتماعات و","Members":"أعضاء","Reports":"تقارير","Feedback":"ردود الفعل","Logout":"الخروج","My Library":"مكتبتي","My Courses Progress":"بلدي دورات التقدم","My Meetups":"بلدي الاجتماع","My Tutors":"مدرسيك","Badges":"شارات","News Feed":"أخبار الأعلاف","Calender":"التقويم","Email":"البريد الإلكتروني"},"Urdu":{"Dashboard":"ڈیش بورڈ","e-Readers":"ای قارئین","Library":"لائبریری","Courses":"کورسز","Meetups":"اجلاس","Members":"اراکین","Reports":"رپورٹیں","Feedback":"آپ کی رائے","Logout":"لاگ آؤٹ","My Library":"میری لائبریری","My Courses Progress":"میرے کورسز پیش رفت","My Meetups":"میری میٹنگ","My Tutors":"میرا ٹیوٹر","Badges":"بلے","News Feed":"خبریں","Calender":"کیلنڈر","Email":"ای میل"}};
+      members.insert(defaultAdminMember, function(err, res) {
+      if (err)
+          return console.log(err)
+      else {
+          var configurations = nano.db.use('configurations');
+          configurations.insert(configurationsDoc, function(err, res) {
+              if(err) {
+                  console.log(err);
+              } else {
+                  var languages = nano.db.use('languages');
+                  languages.insert(languagesDoc, function(err, res) {
+                      if(err) {
+                          console.log(err);
+                      } else {
+                          alert("installation complete!!!");
+                      }
+                  });
+              }
+          });
+      }
+
       done()  
     })  
   })
