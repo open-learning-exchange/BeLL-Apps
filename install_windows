@@ -17,17 +17,7 @@ var couchUrl = program.args[0]
 var nano = require('nano')(couchUrl)
 
 function start() {
-//  increaseLimits()
     getListOfDatabases()
-}
-
-// Increase Limits so couchapp push works correctly
-function increaseLimits() {
-  exec('sudo launchctl limit maxfiles 150056 150056', function doneWithLaunchCtl() {
-    exec('sudo ulimit -n 150056', function doneWithUlimit() {
-      return getListOfDatabases()
-    })
-  })
 }
 
 function getListOfDatabases() {
