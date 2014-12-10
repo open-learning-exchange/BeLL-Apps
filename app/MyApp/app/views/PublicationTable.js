@@ -46,7 +46,7 @@ $(function () {
 				
         },
         synResources:function(nationUrl,nationName,resourcesIdes,IssueNo){
-            console.log('http://'+ nationName +':'+App.password+'@'+ nationUrl + ':5984/resources')
+            console.log('http://'+ nationName +':'+App.password+'@'+ nationUrl + '/resources')
 				$.ajax({
 					headers: {
 						'Accept': 'application/json',
@@ -56,7 +56,7 @@ $(function () {
 					url: '/_replicate',
 					dataType: 'json',
 					data: JSON.stringify({
-						"source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + ':5984/resources',
+						"source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/resources',
 						"target": 'resources',
 						'doc_ids': resourcesIdes
 					}),
@@ -67,7 +67,7 @@ $(function () {
 				})
         },
         syncCourses:function(nationUrl,nationName,coursesIdes,IssueNo){
-             console.log('http://'+ nationName +':'+App.password+'@'+ nationUrl + ':5984/groups')
+             console.log('http://'+ nationName +':'+App.password+'@'+ nationUrl + '/groups')
 				$.ajax({
 					headers: {
 						'Accept': 'application/json',
@@ -77,7 +77,7 @@ $(function () {
 					url: '/_replicate',
 					dataType: 'json',
 					data: JSON.stringify({
-						"source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + ':5984/groups',
+						"source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/groups',
 						"target": 'groups',
 						'doc_ids': coursesIdes
 					}),
