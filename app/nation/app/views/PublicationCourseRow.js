@@ -12,11 +12,20 @@ $(function () {
 			publicationObject.fetch({
 			async:false
 			}) 
-			var courses=publicationObject.get('courses')
-			var index=courses.indexOf(this.model.get('_id'))
-			if (index > -1) {
- 			   courses.splice(index, 1);
-			} 
+			var courses=publicationObject.get('courses');
+
+            for (var j in courses) {
+              if (courses[j]['courseID'] === this.model.get('_id')) {// if courseId matches with id of an already added course's id, return
+                  courses.splice(j, 1);
+                  break;
+              }
+            }
+
+
+//			var index=courses.indexOf(this.model.get('_id'))
+//			if (index > -1) {
+// 			   courses.splice(index, 1);
+//			}
 			this.$el.hide()
 			
 			publicationObject.set({'courses':courses})

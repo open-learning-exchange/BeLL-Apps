@@ -137,7 +137,9 @@ $(function() {
     			type : 'GET',
     			dataType : "json",
     			success : function(json) {
-    			   resourceLength=json.rows[0].value
+                   if (json.rows[0]) {
+                       resourceLength=json.rows[0].value;
+                   }
     	           if(context.displayCollec_Resources!=true)
       				{
 					  var pageBottom="<tr><td colspan=7><p style='width: 940px; word-wrap: break-word;'>"

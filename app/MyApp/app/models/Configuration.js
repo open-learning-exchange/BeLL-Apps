@@ -36,6 +36,19 @@ $(function() {
             nationUrl:{
                 type:'Text',
                 validators: ['required']
+            },
+            version: {
+                type:'Text'
+            },
+            notes: {
+                type:'Text'
+            },
+            availableLanguages: {
+                type: 'Select',
+                options: ["English", "French", "Arabic", "Urdu"]
+            },
+            currentLanguage: {
+                type:'Text'
             }
         }
   })

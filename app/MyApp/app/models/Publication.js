@@ -39,12 +39,13 @@ $(function () {
             editorEmail:'Text',
             editorPhone:'Text',
             resources:{
-            type:'Select',
-            options:[]
-            
+                type:'Select',
+                options:[]
             }
-            },
-
+        },
+        setUrl: function(newUrl) {
+            this.url = newUrl;
+        }
     })
 
 })

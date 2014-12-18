@@ -34,15 +34,26 @@ $(function() {
 
         },
         Configuration: function() {
-            var config = new App.Collections.Configurations()
-            config.fetch({
+//            var config = new App.Collections.Configurations()
+//            config.fetch({
+//                async: false
+//            })
+//            var configuration = config.first()
+//            var configView = new App.Views.ConfigurationView()
+//            configView.model = configuration
+//            configView.render()
+
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
                 async: false
+            });
+            var configModel = configCollection.first();
+            var configForm = new App.Views.Configurations({
+                model: configModel
             })
-            var configuration = config.first()
-            var configView = new App.Views.ConfigurationView()
-            configView.model = configuration
-            configView.render()
-            App.$el.children('.body').html(configView.el)
+            configForm.render();
+
+            App.$el.children('.body').html(configForm.el)
 
         },
         renderNav: function() {
@@ -426,7 +437,7 @@ $(function() {
                 
                  var coursesIdes=''
                  _.each(courses, function(item) {
-                    coursesIdes +='"' + item + '",'
+                    coursesIdes +='"' + item['courseID'] + '",'
                  })
                  if(coursesIdes!='')
                   coursesIdes = coursesIdes.substring(0, coursesIdes.length - 1);

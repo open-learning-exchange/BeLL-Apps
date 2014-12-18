@@ -79,7 +79,7 @@ $(function(){
 			'setbit' : 'setNeedOptimizedBit',
 			'CompileAppManifest' : 'CompileAppManifest',
             'communityManage':'communityManage',
-            'publications/:publicationIdes' :'Publications',
+            'publications/:community' :'Publications',
 			
 			
 },
@@ -116,36 +116,31 @@ $(function(){
         App.$el.children('.body').html(resourceFormView.el);
     },
     Publications:function(publicationIdes){
-
-        publicationIdes=publicationIdes.split(',')
-        var keys=''
-        _.each(publicationIdes, function(item) {
-        keys +='"' + item + '",'
-        })
-        if(keys!='')
-        keys = keys.substring(0, keys.length - 1);
-
-        console.log(keys)
-        nName=App.configuration.get('nationName')
-        pass=App.password
-        nUrl=App.configuration.get('nationUrl')
-        currentBellName=App.configuration.get('name')
-        var DbUrl='http://'+nName+':'+pass+'@'+nUrl
-        var completeUrl=DbUrl+'/publications/_all_docs?include_docs=true&keys=[' + keys + ']'
-
-        var PublicationsView= new App.Views.PublicationTable()
-        PublicationsView.Url=completeUrl
-        PublicationsView.render()
-        App.$el.children('.body').html('<h3>Publications</h3>')
-        App.$el.children('.body').append(PublicationsView.el)
-
+//        publicationIdes=publicationIdes.split(',');
+//        var keys='';
+//        _.each(publicationIdes, function(item) {
+//            keys +='"' + item + '",';
+//        })
+//        if(keys!='') {
+//            keys = keys.substring(0, keys.length - 1);
+//        }
+//        console.log(keys);
+//        var nName=App.configuration.get('nationName');
+//        var pass=App.password;
+//        var nUrl=App.configuration.get('nationUrl');
+//        var currentBellName=App.configuration.get('name');
+//        var DbUrl='http://'+nName+':'+pass+'@'+nUrl;
+//        var completeUrl=DbUrl+'/publications/_all_docs?include_docs=true&keys=[' + keys + ']';
+        var PublicationsView= new App.Views.PublicationTable();
+//        PublicationsView.Url=completeUrl;
+        PublicationsView.render();
+        App.$el.children('.body').html('<h3>Publications</h3>');
+        App.$el.children('.body').append(PublicationsView.el);
     },
     communityManage: function() {
-
        var manageCommunity=new App.Views.ManageCommunity()
        manageCommunity.render()
        App.$el.children('.body').html(manageCommunity.el)
-
     },
     addCourseInvi:function(){
 
