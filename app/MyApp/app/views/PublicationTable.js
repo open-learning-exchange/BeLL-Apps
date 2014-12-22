@@ -16,7 +16,6 @@ $(function () {
                 this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><a name="' +model._id +
                     '" class="synPublication btn btn-info">Sync publication</a><label>&nbsp&nbspNot Synced</label></td></tr>');
             }
-
         },
         events:{
           "click .synPublication": 'synPublication'
