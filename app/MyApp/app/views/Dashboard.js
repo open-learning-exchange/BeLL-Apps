@@ -263,7 +263,7 @@ $(function () {
 			var configuration = App.configuration
 			var nationName = configuration.get("nationName")
 			var nationURL = configuration.get("nationUrl")
-			var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true'
+			var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true'
 
 			// console.log(nationConfig)
 			// alert('check')
@@ -284,7 +284,7 @@ $(function () {
 					}
 					else {
 						if(context.versionCompare(nationConfig.version, configuration.get('version'))<0){
-							console.log("Nation is at low level")
+							console.log("Nation has lower application version than that of your community application")
 						}
 						else if (context.versionCompare(nationConfig.version, configuration.get('version'))>0) {
 							dashboard.latestVersion = nationConfig.version
@@ -295,9 +295,12 @@ $(function () {
 						console.log("Nation is uptodate")
 						}
 					}
-				}
-			})
-			return;
+				},
+                error: function(jqXHR, status, errorThrown){
+                    console.log('Error fetching application version from nation "' + configuration.nationName + '"');
+                    console.log(status);      console.log(errorThrown);
+                }
+			});
 		},
 		//following function compare version numbers.
 		/*<li>0 if the versions are equal</li>

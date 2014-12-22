@@ -33,6 +33,7 @@ $(function () {
             con.set('code',Config.get('code'));
             con.set('type',Config.get('type'));
             con.set('notes',Config.get('notes'));
+            con.set('version',Config.get('version'));
 //            con.set('currentLanguage',Config.get('availableLanguages'));
             con.save(null,{ success: function(doc,rev){
                 alert('Configurations are Successfully Added');

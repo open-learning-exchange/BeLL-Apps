@@ -5,10 +5,15 @@ $(function() {
     model: App.Models.Publication,
     
     url: function() {
-    	var Url= this.Server + '/publications/_all_docs?include_docs=true&keys=[' + this.keys + ']'  
+    	var Url= App.Server + '/publications/_all_docs?include_docs=true&keys=[' + this.keys + ']'
     	return Url
     },
-    
+    setUrl: function (newUrl) {
+        this.url = newUrl;
+    },
+    setKeys: function(newKeys) {
+        this.keys = newKeys;
+    },
     parse: function(response) {
       var models = []
       _.each(response.rows, function(row) {

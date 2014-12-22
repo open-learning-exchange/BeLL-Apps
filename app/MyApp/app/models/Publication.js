@@ -42,6 +42,11 @@ $(function () {
                 type:'Select',
                 options:[]
             }
+//            ,
+//            resources:{
+//                type:'Select',
+//                options:[]
+//            }
         },
         setUrl: function(newUrl) {
             this.url = newUrl;

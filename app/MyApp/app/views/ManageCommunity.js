@@ -41,12 +41,38 @@ $(function () {
 				type: 'GET',
 				dataType: 'jsonp',
 				success: function (json) {
-				    var publications = [];
-				    _.each(json.rows,function(row){
-				      publications.push(row.doc.publicationId)
+                    var publicationDistribDocsFromNation = [], tempKeys = [];
+                    _.each(json.rows,function(row){
+                        publicationDistribDocsFromNation.push(row.doc);
+                        tempKeys.push(row.doc.publicationId);
+                    });
+                    // fetch all publications from local/community server to see how many of the publications from nation are new ones
+                    var newPublicationsCount = 0;
+                    var publicationCollection = new App.Collections.Publication();
+//                    publicationCollection.setKeys(tempKeys);
+                    var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+                    publicationCollection.setUrl(tempUrl);
+                    publicationCollection.fetch({
+                        success: function () {
+                            var alreadySyncedPublications = publicationCollection.models;
+                            for (var i in publicationDistribDocsFromNation){
+                                // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+                                // count
+                                var index = alreadySyncedPublications.map(function(element) {
+//                                    console.log("hmm");
+                                    return element.get('_id');
+                                }).indexOf(publicationDistribDocsFromNation[i].publicationId);
+                                if (index > -1) {
+                                    // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+                                    // local server
+                                } else {
+                                    newPublicationsCount++;
+                                }
+                            }
+                            htmlreferance.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-'+currentBellName+'">Publications (new '+newPublicationsCount+')</a>')
+                        }
+                    });
 
-				    })
-				    htmlreferance.append('<a class="btn systemUpdate" id="newPublication" href="#publications/'+currentBellName+'">Publications ('+json.rows.length+')</a>')
 				},
                 error: function(jqXHR, status, errorThrown){
                     console.log(jqXHR);
