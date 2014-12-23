@@ -204,12 +204,16 @@ $(function () {
 				document.getElementById("imgurl").src = attchmentURL
 			}
 			var temp = $.url().data.attr.host.split(".")
-			temp = temp[0].substring(3)	
+			temp = temp[0];
 			if (temp == "") {
 				temp = "local "
 			}
 			temp=temp.charAt(0).toUpperCase() + temp.slice(1);
-			temp = temp + " Community BeLL"
+            if (typeofBell === "nation") {
+                temp = temp + " Nation BeLL"
+            } else {
+                temp = temp + " Community BeLL"
+            }
 			$('.bellLocation').html(temp)
 			if (!member.get('visits')) {
 				member.set('visits', 1)
