@@ -1,2 +1,2 @@
-{"name":"olesomalia","nationName":"olenation","code":"so","type":"nation","nationUrl":"olenation.cloudant.com","version":"0.19.0","notes":"this is testing .....asdf","availableLanguages":["English","French","Arabic","Urdu"],"currentLanguage":"English"}
+{"name":"olesomalia","nationName":"olenation","code":"so","type":"nation","nationUrl":"olenation.cloudant.com","version":"0.11.1","notes":"this is testing .....asdf","availableLanguages":["English","French","Arabic","Urdu"],"currentLanguage":"English"}
 
