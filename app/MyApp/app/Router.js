@@ -2799,7 +2799,8 @@ CompileAppManifest:function(){
             dailylogModel.save(null,{success:function(res,resInfo){
                 logdb.remove(activitylog, function(err, response) {
                    if(err){
-                        console.log(err)
+                        console.log('MyAppRouter:: createLogs:: error: could NOT Remove pouch doc');
+                        console.log(err);
 //                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
                    }else{
 //                        console.log('mainRouter:: createLogs:: removed Pouch doc successfully: ');

@@ -58,7 +58,7 @@ $(function () {
                 trigger: true
             })
         },
-	setForm: function () {
+	    setForm: function () {
             var memberLoginForm = this
             this.form.commit()
             var credentials = this.form.model
@@ -115,9 +115,6 @@ $(function () {
                                 memberLoginForm.trigger('success:login');
                            // }
 //							console.log(member.toJSON())
-
-              				
-  
                         } else {
                             alert("Your Account Is Deactivated")
                         }
@@ -129,80 +126,53 @@ $(function () {
                 }
             }});
         },
-    logActivity:function(member){
-        
-        var that=this;
-  		var logdb=new PouchDB('activitylogs');
-      	var currentdate = new Date();
-    	var logdate = this.getFormattedDate(currentdate);
-
-        logdb.get(logdate, function(err, logModel) {
-            if (!err) {
-                //            console.log("logModel: ");
-                //            console.log(logModel);
-                //            alert("yeeyyyyyy");
-                that.UpdatejSONlog(member, logModel, logdb, logdate);
-            } else {
-                that.createJsonlog(member, logdate, logdb);
-            }
-        });
-
-//        logdb.query({map:function(doc){
-//					 if(doc.logDate){
-//						emit(doc.logDate,doc)
-//					 }
-//				}
-//   			},{key:logdate},function(err,res){
-//
-//				if(!err){
-//				     if(res.total_rows!=0){
-//				          logModel=res.rows[0].value
-//				          that.UpdatejSONlog(member,logModel,logdb)
-//				     }else{
-//				   		 that.createJsonlog(member,logdate,logdb)
-//				    }
-//                }
-//		   });
-		   
-    },
-    UpdatejSONlog:function(member, logModel, logdb, logdate){
-//	            console.log(logModel)
+        logActivity:function(member){
+            var that=this;
+            var logdb=new PouchDB('activitylogs');
+            var currentdate = new Date();
+            var logdate = this.getFormattedDate(currentdate);
+            logdb.get(logdate, function(err, logModel) {
+                if (!err) {
+                    //            console.log("logModel: ");
+                    //            console.log(logModel);
+                    //            alert("yeeyyyyyy");
+                    that.UpdatejSONlog(member, logModel, logdb, logdate);
+                } else {
+                    that.createJsonlog(member, logdate, logdb);
+                }
+            });
+        },
+        UpdatejSONlog:function(member, logModel, logdb, logdate){
 			if(member.get('Gender')=='Male') {
-				 visits=parseInt(logModel.male_visits)
+				 var visits=parseInt(logModel.male_visits)
 				 visits++
                 logModel.male_visits=visits
 				}
 			else{
-				 visits=parseInt(logModel.female_visits)
+				 var visits=parseInt(logModel.female_visits)
 				 visits++
                 logModel.female_visits=visits
 			}
-
             logdb.put(logModel, logdate, logModel._rev, function(err, response) { // _id: logdate, _rev: logModel._rev
                 if (!err) {
-                    console.log("FeedbackForm:: UpdatejSONlog:: updated daily log from pouchdb for today..");
+                    console.log("MemberLoginForm:: updated daily log from pouchdb for today..");
                 } else {
-                    console.log("FeedbackForm:: UpdatejSONlog:: err making update to record");
+                    console.log("MemberLoginForm:: UpdatejSONlog:: err making update to record");
                     console.log(err);
 //                    alert("err making update to record");
                 }
             });
-
-//			logdb.put(model,function(reponce){
-//			})
-//			console.log(model)
-    },
-getFormattedDate:function(date) {
+        },
+        getFormattedDate:function(date) {
   		   var year = date.getFullYear();
   		   var month = (1 + date.getMonth()).toString();
                month = month.length > 1 ? month : '0' + month;
   		   var day = date.getDate().toString();
   		       day = day.length > 1 ? day : '0' + day;
-       return  month + '/' + day + '/' + year;
-},
-createJsonlog:function(member,logdate,logdb){
-
-		var docJson={		
+           return  month + '/' + day + '/' + year;
+        },
+        createJsonlog:function(member,logdate,logdb){
+		    var docJson={
 				 logDate: logdate,
 				 resourcesIds:[],
 				 male_visits:0,
@@ -216,34 +186,25 @@ createJsonlog:function(member,logdate,logdb){
 				 male_opened:[],
 				 female_opened:[]
 			}
-			
 			if(member.get('Gender')=='Male') {
-                visits=parseInt(docJson.male_visits)
+                var visits=parseInt(docJson.male_visits)
                 visits++
                 docJson.male_visits=visits
             }
             else{
-                visits=parseInt(docJson.female_visits)
+                var visits=parseInt(docJson.female_visits)
                 visits++
                 docJson.female_visits=visits
             }
-
             logdb.put(docJson, logdate, function(err, response) {
                 if (!err) {
-                    console.log("MemberLoginForm:: createJsonlog:: created activity log in pouchdb for today..");
+                    console.log("MemberLoginForm:: created activity log in pouchdb for today..");
                 } else {
                     console.log("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
                     console.log(err);
 //                    alert("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
                 }
             });
-
-//			logdb.post(docJson, function (err, response) {
-//  						console.log(err)
-// 						console.log(response)
-// 		});
-    }
-    
+        }
     })
-
 })

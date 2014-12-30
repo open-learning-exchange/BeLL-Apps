@@ -96,7 +96,7 @@ createJsonlog: function(member, logdate, logdb, resourceId){
 
             logdb.put(docJson, logdate, function(err, response) {
                 if (!err) {
-//                    console.log("created activity log in pouchdb for today..");
+                    console.log("Resource-Router: created activity log in pouchdb for today..");
 //                    alert("created activity log in pouchdb for today..");
                     context.open(resourceId);
                 } else {

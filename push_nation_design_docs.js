@@ -14,8 +14,7 @@ var couchUrl = program.args[0]
 var nano = require('nano')(couchUrl)
 
 function start() {
-    updateNationCouchVersion();
-//    getListOfDatabases()
+    getListOfDatabases()
 }
 
 function getListOfDatabases() {
@@ -67,7 +66,7 @@ function updateNationCouchVersion() {
                                 });
                             });
                         }
-                });
+                    });
                 }
             });
         }
