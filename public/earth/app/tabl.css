@@ -1,0 +1,23 @@
+.addNation-from{width:600px;height:700px;background-color:red}
+.bbf-error{color:red}
+.addNation-heading{margin-left:30%;text-decoration:underline}
+.addNation-btn{color:red}
+input{height:20px;border-radius: 5px;}
+.field-Url{margin-left:50%;margin-top:-50px}
+
+.bbf-form  .field-address{
+    margin-left: 326px;
+    margin-top: -66px;
+}
+.bbf-form .field-verifyEmail{
+ margin-left: 326px;
+ margin-top: -66px;
+}
+.bbf-form .field-bellName{
+    margin-left: 326px;
+    margin-top: -66px;
+}
+.bbf-form .field-authorizedBy{
+    margin-left: 326px;
+    margin-top: -66px;
+}

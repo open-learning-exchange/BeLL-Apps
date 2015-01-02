@@ -1,28 +1,87 @@
- var couchapp = require('couchapp')
-  , path = require('path')
-  ;
+var express = require('express')
+var http = require('http')
+var path = require('path')
+var passport = require('passport')
+var LocalStrategy = require('passport-local').Strategy
 
-ddoc = 
-  { _id:'_design/bell'
-  , rewrites : 
-    [ {from:"/", to:'index.html'}
-    , {from:"/api", to:'../../'}
-    , {from:"/api/*", to:'../../*'}
-    , {from:"/*", to:'*'}
-    ]
+//==================================================================
+// Define the strategy to be used by PassportJS
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    // @todo Tie this authentication to the members database in CouchDB
+    if (username === "admin" && password === "admin") // stupid example
+      return done(null, {name: "admin"})
+
+    return done(null, false, { message: 'Incorrect username.' })
   }
-  ;
+))
 
-ddoc.views = {
+// Serialized and deserialized methods when got from session
+passport.serializeUser(function(user, done) {
+    done(null, user)
+})
 
+passport.deserializeUser(function(user, done) {
+    done(null, user)
+})
+
+//==================================================================
+// Start express application
+var app = express()
+
+// all environments
+app.set('port', process.env.PORT || 3000)
+app.use(express.favicon())
+app.use(express.logger('dev'))
+app.use(express.cookieParser()) 
+app.use(express.bodyParser())
+app.use(express.methodOverride())
+app.use(express.session({ secret: 'securedsession' }))
+app.use(passport.initialize()) // Add passport initialization
+app.use(passport.session())    // Add passport initialization
+app.use(app.router)
+app.use(express.static(path.join(__dirname, 'public')))
+
+// development only
+if ('development' == app.get('env')) {
+  app.use(express.errorHandler())
 }
 
-ddoc.validate_doc_update = function (newDoc, oldDoc, userCtx) {   
-  if (newDoc._deleted === true && userCtx.roles.indexOf('_admin') === -1) {
-    throw "Only admin can delete documents on this database.";
-  } 
-}
+//==================================================================
+// api 
 
-couchapp.loadAttachments(ddoc, path.join(__dirname, 'attachments'));
+// @todo this will only work for GET operations, need to also do DELETE,
+// PUT, and POST.
+// http://stackoverflow.com/questions/18728039/express-req-pipe-does-not-work
+app.get('/api/*', function(req, res) {
+  var auth = require('api/' + req.route.shift())
+  auth(req, res, function() {
+    var apiUrl = 'http://localhost:5984';
+    var url = apiUrl + req.url;
+    req.pipe(request(url).pipe(res));
+  })
+})
 
-module.exports = ddoc;
+//==================================================================
+
+//==================================================================
+// route to test if the user is logged in or not
+app.get('/loggedin', function(req, res) {
+  res.send(req.isAuthenticated() ? req.user : '0')
+})
+
+// route to log in
+app.post('/login', passport.authenticate('local'), function(req, res) {
+  res.send(req.user)
+})
+
+// route to log out
+app.post('/logout', function(req, res){
+  req.logOut()
+  res.send(200)
+})
+//==================================================================
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'))
+})
