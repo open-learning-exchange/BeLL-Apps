@@ -54,8 +54,8 @@ if ('development' == app.get('env')) {
 // PUT, and POST.
 // http://stackoverflow.com/questions/18728039/express-req-pipe-does-not-work
 app.get('/api/*', function(req, res) {
-  var auth = require('api/' + req.route.shift())
-  auth(req, res, function() {
+  var endpoint = require('api/' + req.path[1])
+  endpoint.auth(req, res, function() {
     var apiUrl = 'http://localhost:5984';
     var url = apiUrl + req.url;
     req.pipe(request(url).pipe(res));
