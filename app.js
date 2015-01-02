@@ -47,6 +47,8 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler())
 }
 
+
+
 //==================================================================
 // api 
 
@@ -64,8 +66,11 @@ app.get('/api/*', function(req, res) {
 
 //==================================================================
 
+
+
 //==================================================================
-// route to test if the user is logged in or not
+// session routes
+
 app.get('/loggedin', function(req, res) {
   res.send(req.isAuthenticated() ? req.user : '0')
 })
@@ -81,6 +86,69 @@ app.post('/logout', function(req, res){
   res.send(200)
 })
 //==================================================================
+
+
+
+
+//==================================================================
+// updater routes
+
+var getAvailableUpdates = require('./lib/GetAvailableUpdates.js')
+
+app.get('/get-available-updates', function(req, res) {
+  getAvailableUpdates(function(err, updates) {
+    if (err) return log('GetAvailableUpdates', err)
+    res.send(JSON.stringify(updates))
+  })
+})
+
+app.get('/run-available-updates', function(req, res) {
+
+  var availableUpdates
+
+  var a = function() {
+    getAvailableUpdates(function(err, results){
+      if (err) return log('GetAvailableUpdates', err)
+      if (results.length == 0) return res.send('Nothing to do')
+      availableUpdates = results
+      b()
+    })
+  }
+
+  // Compile a list of availableUpdates's, require them in, and run them sequentially
+  var b = function() {
+    if (availableUpdates.length < 1) {
+      // nothing availableUpdates
+      return
+    }
+    else {
+      var i = 0
+      // recursively run updates 
+      function process(callback) {
+        if(i == availableUpdates.length) {
+          // we're all done
+          res.send('ok')
+        }
+        else {
+          var update = require(__dirname + '/scripts/' + availableUpdates[i].script)
+          update(function() {
+            i++
+            process()
+          })
+        }
+      }
+      process()
+    }           
+  }
+  
+ 
+
+  a()
+
+})
+
+//==================================================================
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'))
