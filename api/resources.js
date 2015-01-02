@@ -3,9 +3,16 @@ var couchapp = require('couchapp')
   , path = require('path')
   ;
 
-ddoc =  { _id:'_design/bell' }
+endpoint =  { _id:'_design/bell' }
 
-ddoc.views = {
+endpoint.auth = = function(req, res, next){
+  if (!req.isAuthenticated()) 
+    res.send(401)
+  else
+    next()
+}
+
+endpoint.views = {
   NewsResources: {
     map: function (doc) {
       if (doc.title) {
@@ -158,4 +165,4 @@ ddoc.views = {
   }
 }
 
-module.exports = ddoc;
+module.exports = endpoint;
