@@ -14,7 +14,7 @@ $(function() {
             })
             return docs
         },                                                                                     
-    model: App.Models.DailyLog,
+    model: App.Models.DailyLog
     
   })
 

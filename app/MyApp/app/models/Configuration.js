@@ -29,6 +29,7 @@ $(function() {
                 options: ['community', 'nation'],
                 validators: ['required']
             },
+            region: 'Text',
             nationName:{
                 type:'Text',
                 validators: ['required']

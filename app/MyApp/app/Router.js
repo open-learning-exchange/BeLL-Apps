@@ -49,6 +49,7 @@ $(function(){
             'search-bell/:publicationId': 'SearchPresources',
             'members': 'Members',
             'reports': 'Reports',
+            'trendreport': 'trendReport',
             // added to new page   'reports/sync' : 'syncReports',
     	    'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
@@ -1244,41 +1245,434 @@ $(function(){
             membersView.render();
         App.$el.children('.body').html(membersView.el)
     },
-        Reports: function () {
-        
-            App.startActivityIndicator()
-            
-            var roles =this.getRoles()
-            var reports = new App.Collections.Reports()
-            reports.fetch({
-                async: false
-            })
-            var resourcesTableView = new App.Views.ReportsTable({
-                collection: reports
-            })
-            resourcesTableView.isManager = roles.indexOf("Manager")
-            resourcesTableView.render()
-             App.$el.children('.body').html('')
-            if(roles.indexOf("Manager")>-1){
-            	//<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
-            	App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a><a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a></p>')
-			
-			}
-			else{
-				App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
-			}
-			
-			var temp = $.url().attr("host").split(".")
-            temp = temp[0].substring(3)
-            if(temp.length==0){
-            temp="Community"
-            }
-			App.$el.children('.body').append('<h4><span style="color:gray;">'+temp+'</span> | Reports</h4>')
-            App.$el.children('.body').append(resourcesTableView.el)
-            App.stopActivityIndicator()
+    Reports: function () {
 
-        },
-        
+        App.startActivityIndicator()
+
+        var roles =this.getRoles()
+        var reports = new App.Collections.Reports()
+        reports.fetch({
+            async: false
+        })
+        var resourcesTableView = new App.Views.ReportsTable({
+            collection: reports
+        })
+        resourcesTableView.isManager = roles.indexOf("Manager")
+        resourcesTableView.render()
+         App.$el.children('.body').html('')
+        if(roles.indexOf("Manager")>-1){
+            //<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
+            App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a>' +
+                '<a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a>' +
+                '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
+
+        }
+        else{
+            App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
+        }
+
+        var temp = $.url().attr("host").split(".")
+        temp = temp[0].substring(3)
+        if(temp.length==0){
+        temp="Community"
+        }
+        App.$el.children('.body').append('<h4><span style="color:gray;">'+temp+'</span> | Reports</h4>')
+        App.$el.children('.body').append(resourcesTableView.el)
+        App.stopActivityIndicator()
+
+    },
+    turnDateToYYYYMMDDFormat: function (date) {
+        // GET YYYY, MM AND DD FROM THE DATE OBJECT
+        var yyyy = date.getFullYear().toString();
+        var mm = (date.getMonth()+1).toString();
+        var dd  = date.getDate().toString();
+        // CONVERT mm AND dd INTO chars
+        var mmChars = mm.split('');
+        var ddChars = dd.split('');
+        // CONCAT THE STRINGS IN YYYY-MM-DD FORMAT
+        var dateString = yyyy + '/' + ( mmChars.length===2 ? mm : "0" + mmChars[0] ) + '/' + ( ddChars.length===2 ? dd : "0" + ddChars[0] );
+        return dateString;
+    },
+    aggregateDataForTrendReport: function (CommunityName, logData) {
+//            var type="community"
+//            var configurations=Backbone.Collection.extend({
+//                url: App.Server + '/configurations/_all_docs?include_docs=true'
+//            })
+//            var config=new configurations()
+//            config.fetch({async:false})
+//            var currentConfig=config.first()
+//            var cofigINJSON=currentConfig.toJSON()
+//            if( cofigINJSON.rows[0].doc.type){
+//                type=cofigINJSON.rows[0].doc.type
+//            }
+//            var logData=new App.Collections.ActivityLog()
+//            logData.startkey = this.changeDateFormat(startDate)
+//            logData.endkey = this.changeDateFormat(endDate)
+//            if(CommunityName!='all') {
+//                logData.name=CommunityName
+//            }
+//            logData.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
+//                // end keys rather than logdate to fetch activitylog docs from the db
+//                async:false
+//            })
+            // now we will assign values from first of the activitylog records, returned for the period from startDate to
+            // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
+            // records into these variables and then just display them in the output
+            if (logData.length < 1) {
+                var staticData={
+                    "Visits":{"male": 0, "female": 0},
+                    "Most_Freq_Open": [],
+                    "Highest_Rated": [],
+                    "Lowest_Rated": []
+                };
+                return staticData;
+            }
+            var logReport=logData[0];
+            if(logReport==undefined){
+                alert("No Activity Logged for this period")
+            }
+            var report_resRated = logReport.get('resourcesIds')
+            var report_resOpened = [];
+            if(logReport.get('resources_opened')){
+                report_resOpened = logReport.get('resources_opened')
+            }
+            var report_male_visits = 0;
+            if(logReport.get('male_visits')){
+                report_male_visits=logReport.get('male_visits')
+            }
+            var report_female_visits = 0;
+            if(logReport.get('female_visits')){
+                report_female_visits=logReport.get('female_visits')
+            }
+            var report_male_rating = []
+            if(logReport.get('male_rating')){
+                report_male_rating = logReport.get('male_rating')
+            }
+            var report_female_rating =[];
+            if(logReport.get('female_rating')){
+                report_female_rating = logReport.get('female_rating')
+            }
+            var report_male_timesRated = [];
+            if(logReport.get('male_timesRated')){
+                report_male_timesRated = logReport.get('male_timesRated')
+            }
+            var report_female_timesRated = [];
+            if(logReport.get('female_timesRated')){
+                report_female_timesRated = logReport.get('female_timesRated')
+            }
+            var report_male_opened =[]
+            if(logReport.get('male_opened')){
+                report_male_opened = logReport.get('male_opened')
+            }
+            var report_female_opened = []
+            if(logReport.get('female_opened')){
+                report_female_opened = logReport.get('female_opened')
+            }
+            for (var index = 0; index < logData.length; index++) {
+//            logData.each(function (logDoc,index){
+                if(index>0){
+                    var logDoc = logData[index];
+                    // add visits to prev total
+                    report_male_visits += logDoc.get('male_visits');
+                    report_female_visits += logDoc.get('female_visits');
+                    var resourcesIds=logDoc.get('resourcesIds');
+                    var resourcesOpened=logDoc.get('resources_opened');
+                    for(var i = 0; i < resourcesIds.length ; i++){
+                        var resId = resourcesIds[i]
+                        var resourceIndex = report_resRated.indexOf(resId)
+                        if(resourceIndex == -1){
+                            report_resRated.push(resId);
+                            report_male_rating.push(logDoc.get('male_rating')[i])
+                            report_female_rating.push(logDoc.get('female_rating')[i]);
+                            report_male_timesRated.push(logDoc.get('male_timesRated')[i]);
+                            report_female_timesRated.push(logDoc.get('female_timesRated')[i]);
+                        }else{
+                            report_male_rating[resourceIndex] = report_male_rating[resourceIndex] + logDoc.get('male_rating')[i];
+                            report_female_rating[resourceIndex] = report_female_rating[resourceIndex] + logDoc.get('female_rating')[i];
+                            report_male_timesRated[resourceIndex] = report_male_timesRated[resourceIndex] + logDoc.get('male_timesRated')[i];
+                            report_female_timesRated[resourceIndex] = report_female_timesRated[resourceIndex] + logDoc.get('female_timesRated')[i];
+                        }
+                    }
+                    if(resourcesOpened)
+                        for(var i=0 ; i < resourcesOpened.length ; i++){
+                            var resId = resourcesOpened[i]
+                            var resourceIndex = report_resOpened.indexOf(resId)
+                            if(resourceIndex == -1){
+                                report_resOpened.push(resId)
+                                report_male_opened.push(logDoc.get('male_opened')[i])
+                                report_female_opened.push(logDoc.get('female_opened')[i])
+                            }else{
+                                report_male_opened[resourceIndex] = report_male_opened[resourceIndex] + logDoc.get('male_opened')[i]
+                                report_female_opened[resourceIndex] = report_female_opened[resourceIndex] + logDoc.get('female_opened')[i]
+                            }
+                        }
+                }
+            }
+            // find most frequently opened resources
+            var times_opened_cumulative = [], Most_Freq_Opened = [];
+            for (var i = 0; i < report_resOpened.length; i++) {
+                times_opened_cumulative.push(report_male_opened[i] + report_female_opened[i]);
+            }
+            var indices = [];
+            var topCount = 5;
+            if (times_opened_cumulative.length >= topCount) {
+                indices = this.findIndicesOfMax(times_opened_cumulative, topCount);
+            }
+            else {
+                indices = this.findIndicesOfMax(times_opened_cumulative, times_opened_cumulative.length);
+            }
+            // fill up most_freq_opened array
+            var timesRatedTotalForThisResource, sumOfRatingsForThisResource;
+            if (times_opened_cumulative.length > 0) {
+                var most_freq_res_entry, indexFound;
+                for (var i = 0; i < indices.length; i++) {
+                    var res=new App.Models.Resource({_id:report_resOpened[indices[i]]});
+                    res.fetch({
+                        async:false
+                    });
+                    var name=res.get('title');
+                    // create most freq opened resource entry and push it into Most_Freq_Opened array
+                    most_freq_res_entry = {
+                        "resourceName":	name ,
+                        "timesOpenedCumulative": times_opened_cumulative[indices[i]],
+                        "timesOpenedByMales": report_male_opened[indices[i]],
+                        "timesOpenedByFemales": report_female_opened[indices[i]]
+                    };
+                    if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
+                        most_freq_res_entry["avgRatingCumulative"] = "N/A";
+                        most_freq_res_entry["avgRatingByMales"] = "N/A";
+                        most_freq_res_entry["avgRatingByFemales"] = "N/A";
+                        most_freq_res_entry["timesRatedByMales"] = "N/A";
+                        most_freq_res_entry["timesRatedByFemales"] = "N/A";
+                        most_freq_res_entry["timesRatedCumulative"] = "N/A";
+                    }
+                    else {
+                        timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
+                        sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
+                        most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100)/100;
+                        most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
+                        most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
+                        most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
+                        most_freq_res_entry["timesRatedByFemales"] = report_female_timesRated[indexFound];
+                        most_freq_res_entry["timesRatedCumulative"] = timesRatedTotalForThisResource;
+                    }
+                    Most_Freq_Opened.push(most_freq_res_entry);
+                }
+            }
+
+            // find highest rated resources
+            var resources_rated_cumulative = [], Highest_Rated_Resources = [], Lowest_Rated_Resources = [];
+            var lowestHowMany = 5;
+            for (var i = 0; i < report_resRated.length; i++) {
+                timesRatedTotalForThisResource = report_male_timesRated[i] + report_female_timesRated[i];
+                sumOfRatingsForThisResource = report_male_rating[i] + report_female_rating[i];
+                resources_rated_cumulative.push(sumOfRatingsForThisResource / timesRatedTotalForThisResource);
+            }
+            var indicesHighestRated = [], indicesLowestRated = [];
+            if (resources_rated_cumulative.length >= topCount) {
+                indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, topCount);
+                indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, lowestHowMany);
+            }
+            else {
+                indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, resources_rated_cumulative.length);
+                indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, resources_rated_cumulative.length);
+            }
+            if (resources_rated_cumulative.length > 0) {
+                var entry_rated_highest, entry_rated_lowest;
+                // fill up Highest_Rated_resources list
+                for (var i = 0; i < indicesHighestRated.length; i++) {
+                    var res=new App.Models.Resource({_id:report_resRated[indicesHighestRated[i]]});
+                    res.fetch({
+                        async:false
+                    });
+                    var name=res.get('title');
+                    timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
+                    // create highest rated resource entry and push it into Highest_Rated_Resources array
+                    entry_rated_highest = {
+                        "resourceName": name,
+                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100)/100,
+                        "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
+                        "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
+                        "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
+                        "timesRatedByFemales": report_female_timesRated[indicesHighestRated[i]],
+                        "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
+                    };
+                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
+                        entry_rated_highest["timesOpenedByMales"] = "N/A";
+                        entry_rated_highest["timesOpenedByFemales"] = "N/A";
+                        entry_rated_highest["timesOpenedCumulative"] = "N/A";
+                    }
+                    else {
+                        entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
+                        entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                        entry_rated_highest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                    }
+                    Highest_Rated_Resources.push(entry_rated_highest);
+                }
+                // fill up Lowest_Rated_resources list
+                for (var i = 0; i < indicesLowestRated.length; i++) {
+                    timesRatedTotalForThisResource = report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]];
+                    // create lowest rated resource entry and push it into Lowest_Rated_Resources array
+                    var res=new App.Models.Resource({_id:report_resRated[indicesLowestRated[i]]})
+                    res.fetch({
+                        async:false
+                    })
+                    var name=res.get('title')
+
+                    entry_rated_lowest = {
+                        "resourceName": name,
+                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100)/100,
+                        "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
+                        "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
+                        "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
+                        "timesRatedByFemales": report_female_timesRated[indicesLowestRated[i]],
+                        "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
+                    };
+                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
+                        entry_rated_lowest["timesOpenedByMales"] = "N/A";
+                        entry_rated_lowest["timesOpenedByFemales"] = "N/A";
+                        entry_rated_lowest["timesOpenedCumulative"] = "N/A";
+                    }
+                    else {
+                        entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
+                        entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
+                        entry_rated_lowest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
+                    }
+                    Lowest_Rated_Resources.push(entry_rated_lowest);
+                }
+            }
+            console.log(Highest_Rated_Resources);
+
+            var staticData={
+                "Visits":{"male": report_male_visits, "female": report_female_visits},
+                "Most_Freq_Open": Most_Freq_Opened,
+                "Highest_Rated": Highest_Rated_Resources,
+                "Lowest_Rated": Lowest_Rated_Resources
+            };
+            return staticData;
+    },
+    turnDateFromMMDDYYYYToYYYYMMDDFormat: function (date) {
+        var datePart = date.match(/\d+/g), month = datePart[0], day = datePart[1], year = datePart[2];
+        return year+'/'+month+'/'+day;
+    },
+    trendReport: function () {
+        var context = this;
+        App.$el.children('.body').html('');
+        $( '<div id="trend-report-form"></div>' ).appendTo( App.$el.children('.body') );
+        var label = $("<label>").text('Trend report ending: ');
+        $( '#trend-report-form').append(label);
+        var input = $('<input type="text">').attr({id: 'dateSelect', name: 'dateSelect'});  input.width(75);
+        input.appendTo(label);
+        $( '#dateSelect').datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,//this option for allowing user to select month
+            changeYear: true //this option for allowing user to select from year range
+        });
+        var button = $('<input type="button">').attr({id: 'submit', name: 'submit', class: "btn btn-success", value: 'Generate Report'});
+        $( '#trend-report-form').append(button);
+        button.click(function(){
+            var dateChosen = $('#dateSelect').val();
+            if (dateChosen) {
+                // compute the month start date corresponding to the date chosen by user as the ending date for trend report
+                var endDateForTrendReport = $('#dateSelect').datepicker( "getDate" ); // selected date turned into javascript 'Date' format
+                var lastMonthStartDate = new Date( endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1 );
+                var secondLastMonthEndDate = new Date( lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(),
+                    ( lastMonthStartDate.getDate() - 1 ) );
+                var secondLastMonthStartDate = new Date( secondLastMonthEndDate.getFullYear(), secondLastMonthEndDate.getMonth(), 1 );
+                var thirdLastMonthEndDate = new Date( secondLastMonthStartDate.getFullYear(), secondLastMonthStartDate.getMonth(),
+                    ( secondLastMonthStartDate.getDate() - 1 ) );
+                var thirdLastMonthStartDate = new Date( thirdLastMonthEndDate.getFullYear(), thirdLastMonthEndDate.getMonth(), 1 );
+                var fourthLastMonthEndDate = new Date( thirdLastMonthStartDate.getFullYear(), thirdLastMonthStartDate.getMonth(),
+                    ( thirdLastMonthStartDate.getDate() - 1 ) );
+                var fourthLastMonthStartDate = new Date( fourthLastMonthEndDate.getFullYear(), fourthLastMonthEndDate.getMonth(), 1 );
+                var fifthLastMonthEndDate = new Date( fourthLastMonthStartDate.getFullYear(), fourthLastMonthStartDate.getMonth(),
+                    ( fourthLastMonthStartDate.getDate() - 1 ) );
+                var fifthLastMonthStartDate = new Date( fifthLastMonthEndDate.getFullYear(), fifthLastMonthEndDate.getMonth(), 1 );
+                var sixthLastMonthEndDate = new Date( fifthLastMonthStartDate.getFullYear(), fifthLastMonthStartDate.getMonth(),
+                    ( fifthLastMonthStartDate.getDate() - 1 ) );
+                var sixthLastMonthStartDate = new Date( sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1 );
+                // create start and end dates for past five months
+//                alert(endDateForTrendReport + "\n" + lastMonthStartDate + "\n" + secondLastMonthEndDate + "\n" +
+//                    secondLastMonthStartDate + "\n" + thirdLastMonthEndDate + "\n" + thirdLastMonthStartDate + "\n" +
+//                    fourthLastMonthEndDate + "\n" + fourthLastMonthStartDate + "\n" + fifthLastMonthEndDate + "\n" +
+//                    fifthLastMonthStartDate + "\n" + sixthLastMonthEndDate + "\n" + sixthLastMonthStartDate + "\n" );
+
+//                var staticData={
+//                    "Visits":{"male": report_male_visits, "female": report_female_visits},
+//                    "Most_Freq_Open": Most_Freq_Opened,
+//                    "Highest_Rated": Highest_Rated_Resources,
+//                    "Lowest_Rated": Lowest_Rated_Resources
+//                };
+                var activityDataColl = new App.Collections.ActivityLog();
+                activityDataColl.startkey = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate) );
+                activityDataColl.endkey = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
+                activityDataColl.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
+                    // end keys rather than logdate to fetch activitylog docs from the db
+                    async:false
+                });
+                activityDataColl.toJSON();
+                console.log(activityDataColl);
+                // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
+                var endingMonthActivityData = [], secondLastMonthActivityData = [], thirddLastMonthActivityData = [],
+                    fourthLastMonthActivityData = [], fifthLastMonthActivityData = [], sixthLastMonthActivityData = [];
+                for (var i in activityDataColl.models) {
+                    var modelKey = context.turnDateFromMMDDYYYYToYYYYMMDDFormat(activityDataColl.models[i].get('logDate'));
+                    var min = context.turnDateToYYYYMMDDFormat(lastMonthStartDate);
+                    var max = context.turnDateToYYYYMMDDFormat(endDateForTrendReport);
+                    if ( (modelKey >= context.turnDateToYYYYMMDDFormat(lastMonthStartDate)) &&
+                                (modelKey <= context.turnDateToYYYYMMDDFormat(endDateForTrendReport)) ) {
+                        endingMonthActivityData.push(activityDataColl.models[i]);
+                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(secondLastMonthStartDate)) &&
+                                (modelKey <= context.turnDateToYYYYMMDDFormat(secondLastMonthEndDate)) ) {
+                        secondLastMonthActivityData.push(activityDataColl.models[i]);
+                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(thirdLastMonthStartDate)) &&
+                                (modelKey <= context.turnDateToYYYYMMDDFormat(thirdLastMonthEndDate)) ) {
+                        thirddLastMonthActivityData.push(activityDataColl.models[i]);
+                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(fourthLastMonthStartDate)) &&
+                                (modelKey <= context.turnDateToYYYYMMDDFormat(fourthLastMonthEndDate)) ) {
+                        fourthLastMonthActivityData.push(activityDataColl.models[i]);
+                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(fifthLastMonthStartDate)) &&
+                                (modelKey <= context.turnDateToYYYYMMDDFormat(fifthLastMonthEndDate)) ) {
+                        fifthLastMonthActivityData.push(activityDataColl.models[i]);
+                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate)) &&
+                                (modelKey <= context.turnDateToYYYYMMDDFormat(sixthLastMonthEndDate)) ) {
+                        sixthLastMonthActivityData.push(activityDataColl.models[i]);
+                    }
+                }
+                var lastMonthDataset = context.aggregateDataForTrendReport('communityX', endingMonthActivityData);
+                var secondLastMonthDataset = context.aggregateDataForTrendReport('communityX', secondLastMonthActivityData);
+                var thirdLastMonthDataset = context.aggregateDataForTrendReport('communityX', thirddLastMonthActivityData);
+                var fourthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fourthLastMonthActivityData);
+                var fifthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fifthLastMonthActivityData);
+                var sixthLastMonthDataset = context.aggregateDataForTrendReport('communityX', sixthLastMonthActivityData);
+                console.log(lastMonthDataset);
+                var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                                   "November", "December" ];
+                var arrayOfData = [
+                    [ [ lastMonthDataset.Visits['male'], lastMonthDataset.Visits['female'] ] ,
+                                                         monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear() ],
+                    [[ secondLastMonthDataset.Visits['male'], secondLastMonthDataset.Visits['female'] ] ,
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear()],
+                    [[ thirdLastMonthDataset.Visits['male'], thirdLastMonthDataset.Visits['female'] ] ,
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear()],
+                    [[ fourthLastMonthDataset.Visits['male'], fourthLastMonthDataset.Visits['female'] ] ,
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear()],
+                    [[ fifthLastMonthDataset.Visits['male'], fifthLastMonthDataset.Visits['female'] ] ,
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear()],
+                    [[ sixthLastMonthDataset.Visits['male'], sixthLastMonthDataset.Visits['female'] ] ,
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear()],
+                ];
+                $( '<div id="trend-report-div"></div>' ).appendTo( App.$el.children('.body') );
+                $('#trend-report-div').jqBarGraph({ data: arrayOfData, type: 'multi', colors: ['#97D95C', '#437346']  });
+            } else {
+                alert("You must choose a date to proceed");
+            }
+        });
+    },
+    isWithinRange: function (value, rangeMin, rangeMax) {
+
+    },
+
         /*
         Removed because this function is moved in nation all sync in one page
         syncReports:function(){
@@ -2300,24 +2694,23 @@ $(function(){
  			}
  },
  LogQuery:function(){
-        var type="community"
-        var configurations=Backbone.Collection.extend({
-
-    				url: App.Server + '/configurations/_all_docs?include_docs=true'
-    		})	
-    	    var config=new configurations()
-    	        config.fetch({async:false})
-    	    var currentConfig=config.first()
-            var cofigINJSON=currentConfig.toJSON()
-    		if( cofigINJSON.rows[0].doc.type){
-    		    type=cofigINJSON.rows[0].doc.type
-    		}
-		var log = new App.Views.LogQuery()
-		log.type=type
-		log.render()
-		App.$el.children('.body').html(log.el)
+        var type = "community";
+        var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+        });
+        var config = new configurations();
+        config.fetch({async:false});
+        var currentConfig = config.first();
+        var cofigINJSON = currentConfig.toJSON();
+        if( cofigINJSON.rows[0].doc.type){
+            type = cofigINJSON.rows[0].doc.type
+        }
+		var log = new App.Views.LogQuery();
+		log.type = type;
+		log.render();
+		App.$el.children('.body').html(log.el);
 		//currently hiding for all kind of communities and nations.
-		$("#community-select").hide()
+		$("#community-select").hide();
 		/*if(type=='community'){
 		$("#community-select").hide()
 		}
@@ -2333,16 +2726,15 @@ $(function(){
 //             dateFormat: 'mm-dd-yy'
 //         });
 		$('#start-date').datepicker({
-               dateFormat: "yy-mm-dd",
-               todayHighlight: true
-            });
+           dateFormat: "yy-mm-dd",
+           todayHighlight: true
+        });
         $('#end-date').datepicker({
-               dateFormat: "yy-mm-dd",
-               todayHighlight: true
-            });
+           dateFormat: "yy-mm-dd",
+           todayHighlight: true
+        });
  }, 
  changeDateFormat:function(date){
- 
     var datePart = date.match(/\d+/g), year = datePart[0], month = datePart[1], day = datePart[2];
     return year+'/'+month+'/'+day;
  },
@@ -2729,7 +3121,6 @@ CompileAppManifest:function(){
      
     },
      WeeklyReports:function(){
-    
         var logdb = new PouchDB('activitylogs');
         var that = this;
         logdb.allDocs({include_docs: true},
@@ -2738,29 +3129,30 @@ CompileAppManifest:function(){
                     var collection = response.rows; // all docs from PouchDB's 'activitylogs' db
                     for (var i = 0; i < response.total_rows; i++) { // if # of rows is zero, then
                         // PouchDB's activitylogs db has no docs in it to sync to CouchDB's activitylog db
-                        activitylog = collection[i].doc;
-                        activitylogDate = activitylog.logDate;
+                        var activitylog = collection[i].doc;
+                        var activitylogDate = activitylog.logDate;
                         var logModel = new App.Collections.ActivityLog();
                         logModel.logDate = activitylogDate;
-
-                        logModel.fetch( {success: function(res, resInfo) {
-//                         console.log(res)
-//                         alert("sdads");
-                            if(res.length == 0){ // CouchDB's activitylog db has ZERO (or NO) documents with attrib "logDate"
-                                // having value == collection[i].doc.logDate, so a new activitylog doc will be added to CouchDB
-                                // having same json as that of collection[i].doc's (pointed to by 'activitylog' var above)
-                                // from PouchDB's activitylogs db.
-                                that.createLogs(activitylog);
-                            } else { // Couchdb's activitylog db does have atleast one doc having attrib "logDate" with a
-                                // value == collection[i].doc.logDate
-                                logsonServer = res.first();
-                                that.updateLogs(activitylog, logsonServer);
-                            }
-                        },
+                        logModel.fetch( {
+                            success: function(res, resInfo) {
+    //                         console.log(res)
+    //                         alert("sdads");
+                                if(res.length == 0){ // CouchDB's activitylog db has ZERO (or NO) documents with attrib "logDate"
+                                    // having value == collection[i].doc.logDate, so a new activitylog doc will be added to CouchDB
+                                    // having same json as that of collection[i].doc's (pointed to by 'activitylog' var above)
+                                    // from PouchDB's activitylogs db.
+                                    that.createLogs(activitylog);
+                                } else { // Couchdb's activitylog db does have atleast one doc having attrib "logDate" with a
+                                    // value == collection[i].doc.logDate
+                                    var logsonServer = res.first();
+                                    that.updateLogs(activitylog, logsonServer);
+                                }
+                            },
                             error: function(err) {
                                 console.log("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
-//                                alert("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
-                            }});
+    //                                alert("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
+                            }
+                        });
                     }
                 } else {
                     console.log("Error fetching documents of 'activitylogs' db in PouchDB. Please try again or refresh page.");
@@ -2799,7 +3191,7 @@ CompileAppManifest:function(){
             dailylogModel.save(null,{success:function(res,resInfo){
                 logdb.remove(activitylog, function(err, response) {
                    if(err){
-                        console.log('MyAppRouter:: createLogs:: error: could NOT Remove pouch doc');
+                        console.log('MyAppRouter:: createLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB');
                         console.log(err);
 //                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
                    }else{
@@ -2868,21 +3260,18 @@ CompileAppManifest:function(){
         
                 logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
                 logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
-                
-               for(i=0 ; i < activitylog_resRated.length ; i++){
+               var resId, index;
+               for(var i=0 ; i < activitylog_resRated.length ; i++){
                      resId=activitylog_resRated[i]
                      index=logsonServer_resRated.indexOf(resId)
                      //alert('index'+index)
                      if(index==-1){
-                     
                             logsonServer_resRated.push(resId)
                             logsonServer_male_rating.push(activitylog.male_rating[i])
                             logsonServer_female_rating.push(activitylog.female_rating[i])
                             logsonServer_male_timesRated.push(activitylog.male_timesRated[i])
                             logsonServer_female_timesRated.push(activitylog.female_timesRated[i])
-                            
-                     }else{ 
-                     
+                     }else{
                             logsonServer_male_rating[index] = parseInt(logsonServer_male_rating[index]) + parseInt(activitylog.male_rating[i])
                             logsonServer_female_rating[index] = parseInt(logsonServer_female_rating[index]) + parseInt(activitylog.female_rating[i])
                             logsonServer_male_timesRated[index] = parseInt(logsonServer_male_timesRated[index]) + parseInt(activitylog.male_timesRated[i])
@@ -2914,8 +3303,9 @@ CompileAppManifest:function(){
                logsonServer.set('female_opened' , logsonServer_female_opened)
                
                var logdb=new PouchDB('activitylogs')
-               logsonServer.save(null,{success:function(model,modelInfo){
-                   console.log("MyAppRouter:: updateLogs:: successfully updated (community) CouchDB with activitylog from Pouch");
+               logsonServer.save(null,{
+                   success:function(model,modelInfo){
+//                   console.log("MyAppRouter:: updateLogs:: successfully updated (community) CouchDB with activitylog from Pouch");
                //alert('save function')
                       logdb.remove(activitylog,function(err, info) {
 							if(err){
@@ -2923,7 +3313,7 @@ CompileAppManifest:function(){
                                 console.log(err);
 //                                alert("MyAppRouter:: updateLogs:: could NOT Remove couch doc");
                             } else {
-                                console.log("MyAppRouter:: updateLogs:: Successfully deleted Pouch activitylog doc after it had been synced with community CouchDB");
+//                                console.log("MyAppRouter:: updateLogs:: Successfully deleted Pouch activitylog doc after it had been synced with community CouchDB");
 //                                console.log(info);
 //                                alert('MyAppRouter:: updateLogs:: Successfully Deleted pouch doc')
                             }
@@ -2936,76 +3326,77 @@ CompileAppManifest:function(){
        	   var rpt = new App.Views.ActivityReport()
            var type="community"
            var configurations=Backbone.Collection.extend({
-
     				url: App.Server + '/configurations/_all_docs?include_docs=true'
-    		})	
-    	    var config=new configurations()
-    	        config.fetch({async:false})
-    	    var currentConfig=config.first()
-            var cofigINJSON=currentConfig.toJSON()
-    		if( cofigINJSON.rows[0].doc.type){
-    		    type=cofigINJSON.rows[0].doc.type
-    		}
-    		
+    	   })
+    	   var config=new configurations()
+           config.fetch({async:false})
+    	   var currentConfig=config.first()
+           var cofigINJSON=currentConfig.toJSON()
+    	   if( cofigINJSON.rows[0].doc.type){
+    		   type=cofigINJSON.rows[0].doc.type
+    	   }
            var logData=new App.Collections.ActivityLog()
            logData.startkey=this.changeDateFormat(startDate)
            logData.endkey=this.changeDateFormat(endDate)
-           if(CommunityName!='all')
-           logData.name=CommunityName
-           logData.fetch({
+           if(CommunityName!='all') {
+               logData.name=CommunityName
+           }
+           logData.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
+                          // end keys rather than logdate to fetch activitylog docs from the db
                async:false
            })
+           // now we will assign values from first of the activitylog records, returned for the period from startDate to
+           // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
+           // records into these variables and then just display them in the output
            var logReport=logData.first();
            if(logReport==undefined){
-           alert("No Activity Logged .")
+                alert("No Activity Logged for this period")
            }
             var report_resRated = logReport.get('resourcesIds')
             var report_resOpened = [];
             if(logReport.get('resources_opened')){
-            report_resOpened = logReport.get('resources_opened')
+                report_resOpened = logReport.get('resources_opened')
             }
             var report_male_visits = 0;
             if(logReport.get('male_visits')){
-            report_male_visits=logReport.get('male_visits')
+                report_male_visits=logReport.get('male_visits')
             }
             var report_female_visits = 0;
             if(logReport.get('female_visits')){
-             report_female_visits=logReport.get('female_visits')
+                report_female_visits=logReport.get('female_visits')
             } 
             var report_male_rating = []
             if(logReport.get('male_rating')){
-            report_male_rating = logReport.get('male_rating')
+                report_male_rating = logReport.get('male_rating')
             }
             var report_female_rating =[];
             if(logReport.get('female_rating')){
-            report_female_rating = logReport.get('female_rating')
+                report_female_rating = logReport.get('female_rating')
             } 
             var report_male_timesRated = [];
             if(logReport.get('male_timesRated')){
-            report_male_timesRated = logReport.get('male_timesRated')
+                report_male_timesRated = logReport.get('male_timesRated')
             }
             var report_female_timesRated = [];
             if(logReport.get('female_timesRated')){
-            report_female_timesRated = logReport.get('female_timesRated')
+                report_female_timesRated = logReport.get('female_timesRated')
             }
             var report_male_opened =[]
             if(logReport.get('male_opened')){
-             report_male_opened = logReport.get('male_opened')
+                report_male_opened = logReport.get('male_opened')
             } 
             var report_female_opened = []
             if(logReport.get('female_opened')){
-            report_female_opened = logReport.get('female_opened')
+                report_female_opened = logReport.get('female_opened')
             }
 
             logData.each(function (logDoc,index){
-              
                    if(index>0){
                        // add visits to prev total
                        report_male_visits += logDoc.get('male_visits');
                        report_female_visits += logDoc.get('female_visits');
                        resourcesIds=logDoc.get('resourcesIds');
                        resourcesOpened=logDoc.get('resources_opened');
-
                        for(var i = 0; i < resourcesIds.length ; i++){
                            resId=resourcesIds[i]
                            index=report_resRated.indexOf(resId)
@@ -3014,15 +3405,12 @@ CompileAppManifest:function(){
                                report_male_rating.push(logDoc.get('male_rating')[i])
                                report_female_rating.push(logDoc.get('female_rating')[i]);
                                report_male_timesRated.push(logDoc.get('male_timesRated')[i]);
-                               report_female_timesRated.push(logDoc.get('female_timesRated')[i])
-
+                               report_female_timesRated.push(logDoc.get('female_timesRated')[i]);
                            }else{
-
                                report_male_rating[index] = report_male_rating[index] + logDoc.get('male_rating')[i];
                                report_female_rating[index] = report_female_rating[index] + logDoc.get('female_rating')[i];
                                report_male_timesRated[index] = report_male_timesRated[index] + logDoc.get('male_timesRated')[i];
                                report_female_timesRated[index] = report_female_timesRated[index] + logDoc.get('female_timesRated')[i];
-
                            }
                        }
                        if(resourcesOpened)
@@ -3037,10 +3425,7 @@ CompileAppManifest:function(){
                                report_male_opened[index] = report_male_opened[index] + logDoc.get('male_opened')[i]
                                report_female_opened[index] = report_female_opened[index] + logDoc.get('female_opened')[i]
                            }
-
                        }
-
-
                    }
             });
 
@@ -3065,12 +3450,11 @@ CompileAppManifest:function(){
            if (times_opened_cumulative.length > 0) {
                var most_freq_res_entry, indexFound;
                for (var i = 0; i < indices.length; i++) {
-               	var res=new App.Models.Resource({_id:report_resOpened[indices[i]]})
-                       res.fetch({
-                          async:false
-                       })
-                  	var name=res.get('title')
-                  
+               	    var res=new App.Models.Resource({_id:report_resOpened[indices[i]]});
+                    res.fetch({
+                        async:false
+                    });
+                  	var name=res.get('title');
                    // create most freq opened resource entry and push it into Most_Freq_Opened array
                    most_freq_res_entry = {
                        "resourceName":	name ,
@@ -3121,11 +3505,11 @@ CompileAppManifest:function(){
                var entry_rated_highest, entry_rated_lowest;
                // fill up Highest_Rated_resources list
                for (var i = 0; i < indicesHighestRated.length; i++) {
-               	var res=new App.Models.Resource({_id:report_resRated[indicesHighestRated[i]]})
-                       res.fetch({
-                          async:false
-                       })
-                  	var name=res.get('title')
+               	   var res=new App.Models.Resource({_id:report_resRated[indicesHighestRated[i]]});
+                   res.fetch({
+                      async:false
+                   });
+                   var name=res.get('title');
                    timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
                    // create highest rated resource entry and push it into Highest_Rated_Resources array
                    entry_rated_highest = {
@@ -3275,7 +3659,6 @@ CompileAppManifest:function(){
            return outp;
        },
       setNeedOptimizedBit: function () {
-
        	var count = 0;
        	var resources = new App.Collections.Resources()
        	resources.fetch({
@@ -3283,22 +3666,19 @@ CompileAppManifest:function(){
        	})
        	resources.each(function (m) {
        		if (m.get('openWith') === 'PDF.js') {
-       		if(m.get('need_optimization')==undefined){
-       			m.set({
-       				'need_optimization': true
-       			})
-       			m.save()
-       			console.log("Done")
-       		}
+                if(m.get('need_optimization')==undefined){
+                    m.set({
+                        'need_optimization': true
+                    })
+                    m.save()
+                    console.log("Done")
+                }
        		}
        		console.log(count)
-       			count++
+            count++
        	})
+      }
 
-
-       }
    }))
-  
-
 
 })

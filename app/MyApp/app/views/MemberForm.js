@@ -109,6 +109,7 @@ $(function () {
                 attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
                 document.getElementById("memberImage").src = attchmentURL
             }
+
         },
 
         validImageTypeCheck: function (img) {
@@ -131,8 +132,13 @@ $(function () {
         },
 
         setForm: function () {
-        if($('#ptManager').attr('checked')) {
-        this.model.toJSON().roles.push("Manager")
+        if($('#ptManager').attr('checked')) { // if promote to manager checkbox is ticked
+            // then add the 'Manager' role to his/her roles array only if this person is not a manager already. following check added
+            // by Omer Yousaf on 16 Jan, 2015.
+            var index = this.model.toJSON().roles.indexOf('Manager');
+            if(index < 0) { // 'Manager' does not exist in his/her roles array
+                this.model.toJSON().roles.push("Manager");
+            }
         }
         else
         {
@@ -148,10 +154,26 @@ $(function () {
             }
             // Put the form's input into the model in memory 
             if (this.validImageTypeCheck($('input[type="file"]'))) {
+                // assign community, region and nation attribs in member model values from configuration doc
+                var configurations = Backbone.Collection.extend({
+                    url: App.Server + '/configurations/_all_docs?include_docs=true'
+                });
+                var config = new configurations();
+                config.fetch({
+                    async: false
+                });
+                console.log('---***********---');
+                console.log(config);
+                console.log(config.first().toJSON());
+                var configsDoc = config.first().toJSON().rows[0].doc;
+
                 this.form.setValue({
-                    status: "active"
-                })
-                this.form.commit()
+                    status: "active",
+                    community: configsDoc.code,
+                    region: configsDoc.region,
+                    nation: configsDoc.nationName
+                });
+                this.form.commit();
                 // Send the updated model to the server
                 if ($.inArray("lead", this.model.get("roles")) == -1) {
                     that.model.set("yearsOfTeaching", null)
@@ -170,32 +192,41 @@ $(function () {
                         async: false
                     })
                     existing=existing.first()
-								if(existing!=undefined)
-									if (existing.toJSON().login!=undefined) {
-                            			alert("Login already exist")
-                            			addMem = false
-                        				}
+                    if(existing!=undefined) {
+                        if (existing.toJSON().login != undefined) {
+                            alert("Login already exist")
+                            addMem = false
+                        }
+                    }
                 }
                 if (addMem) {
-
                     this.model.save(null, {
                         success: function () {
                             that.model.unset('_attachments')
                             if ($('input[type="file"]').val()) {
                                 that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                             } else {
+                                if (that.model.attributes._rev == undefined) { // if true then its a new member signup
+                                    // so capture this in activity logging
+
+                                    alert("Successfully Registered!!!");
+                                } else {
+                                    alert("Successfully Updated!!!");
+                                }
                                 Backbone.history.navigate('members', {
                                     trigger: true
                                 })
                             }
                             that.model.on('savedAttachment', function () {
-                                if (that.model.attributes._rev == undefined) {
-                                    alert("Successfully Registered!!!")
+                                if (that.model.attributes._rev == undefined) { // if true then its a new member signup
+                                    // so capture this in activity logging
+
+                                    alert("Successfully Registered!!!");
                                     Backbone.history.navigate('members', {
                                         trigger: true
                                     })
                                 } else {
-                                    alert("Successfully Updated!!!")
+                                    alert("Successfully Updated!!!");
                                     Backbone.history.navigate('members', {
                                         trigger: true
                                     })
@@ -208,12 +239,8 @@ $(function () {
                         }
                     })
                 }
-
-
             }
         },
-
-
     })
 
 })

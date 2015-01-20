@@ -57,6 +57,9 @@ $(function() {
         type:'Checkboxes',
         options:['Pre-k','Grades(1-12)','Higher Education','Completed Higer Education','Masters','Doctrate','Other Professional Degree']
       },
+      community: 'Text',
+      region: 'Text',
+      nation: 'Text'
     },
   saveAttachment: function(formEl, fileEl, revEl) {
       // Work with this doc in the files database
