@@ -28,8 +28,9 @@ $(function () {
             currentBellName=App.configuration.get('name')
             var htmlreferance=this.$el
             
-            this.$el.append('<a id="configuration"><button class="btn btn-primary" id="configbutton">Configurations</button></a>')
-            this.$el.append('<button class="SyncDbSelect btn btn-primary" id="sync">Sync With Nation</button>')
+            this.$el.append('<div style="padding: 20px 20px 0px 20px; float: left;"> <a id="configuration"><button class="btn btn-primary" id="configbutton">Configurations</button></a> </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button class="SyncDbSelect btn btn-primary" id="sync">Sync With Nation</button>  </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a class="btn btn-primary" href="#publications/for-' + App.configuration.get('name') + '">Publications</a>  </div>')  
         },
         syncDbs:function(e){  
             alert('this is sync db function in community manage')
