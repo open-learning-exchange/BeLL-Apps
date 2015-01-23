@@ -269,10 +269,15 @@ $(function () {
 			var nationURL = configuration.get("nationUrl")
 			var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true'
 
-			// console.log(nationConfig)
-			// alert('check')
-			//alert('http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true')
-			
+            nName=App.configuration.get('nationName')
+            pass=App.password
+            nUrl=App.configuration.get('nationUrl')
+            currentBellName=App.configuration.get('name')
+            var htmlreferance=this.$el
+            
+            var DbUrl='http://'+nName+':'+pass+'@'+nUrl+'/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["'+currentBellName+'",'+false+']'
+            
+
 			$.ajax({
 				url: nationConfigURL,
 				type: 'GET',
@@ -292,7 +297,7 @@ $(function () {
 						}
 						else if (context.versionCompare(nationConfig.version, configuration.get('version'))>0) {
 							dashboard.latestVersion = nationConfig.version
-							dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + '). Press to update. </button>')
+							dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + ') </button>')
 							dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">View Release Notes </button>')
 						}
 						else{
@@ -303,6 +308,51 @@ $(function () {
                 error: function(jqXHR, status, errorThrown){
                     console.log('Error fetching application version from nation "' + configuration.nationName + '"');
                     console.log(status);      console.log(errorThrown);
+                }
+			});
+			
+			// make sure the couchdb that is being requested in this ajax call has its 'allow_jsonp' property set to true in the
+            // 'httpd' section of couchdb configurations. Otherwise, the server couchdb will not respond as required by jsonp format
+            $.ajax({
+				url: DbUrl,
+				type: 'GET',
+				dataType: 'jsonp',
+				success: function (json) {
+                    var publicationDistribDocsFromNation = [], tempKeys = [];
+                    _.each(json.rows,function(row){
+                        publicationDistribDocsFromNation.push(row.doc);
+                        tempKeys.push(row.doc.publicationId);
+                    });
+                    // fetch all publications from local/community server to see how many of the publications from nation are new ones
+                    var newPublicationsCount = 0;
+                    var publicationCollection = new App.Collections.Publication();
+                    var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+                    publicationCollection.setUrl(tempUrl);
+                    publicationCollection.fetch({
+                        success: function () {
+                            var alreadySyncedPublications = publicationCollection.models;
+                            for (var i in publicationDistribDocsFromNation){
+                                // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+                                // count
+                                var index = alreadySyncedPublications.map(function(element) {
+                                    return element.get('_id');
+                                }).indexOf(publicationDistribDocsFromNation[i].publicationId);
+                                if (index > -1) {
+                                    // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+                                    // local server
+                                } else {
+                                    newPublicationsCount++;
+                                }
+                            }
+                            if(newPublicationsCount > 0)
+                            	dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-'+currentBellName+'">Publications (new '+newPublicationsCount+')</a>')
+                        }
+                    });
+				},
+                error: function(jqXHR, status, errorThrown){
+                    console.log(jqXHR);
+                    console.log(status);
+                    console.log(errorThrown);
                 }
 			});
 		},

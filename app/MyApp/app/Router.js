@@ -1646,8 +1646,8 @@ $(function(){
                 var fifthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fifthLastMonthActivityData);
                 var sixthLastMonthDataset = context.aggregateDataForTrendReport('communityX', sixthLastMonthActivityData);
                 console.log(lastMonthDataset);
-                var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                                   "November", "December" ];
+                var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+                                   "Nov", "Dec" ];
                 var arrayOfData = [
                     [ [ lastMonthDataset.Visits['male'], lastMonthDataset.Visits['female'] ] ,
                                                          monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear() ],
