@@ -44,7 +44,7 @@ At the moment, Community BeLL codebases and National BeLL codebases are the same
 `git clone git@github.com:open-learning-exchange/BeLL-Apps.git;`, then add a release note to `BeLL-Apps/app/CHANGELOG.txt`, then run ...
 ```
 cd BeLL-Apps;
-git add apps/CHANGELOG.txt;
+git add app/CHANGELOG.txt;
 git commit -m "Added CHANGELOG message for v0.12.3";
 git push;
 git tag v0.12.3;

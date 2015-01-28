@@ -1,3 +1,7 @@
+BeLL Apps v0.11.15
+-----------------------
+- This is an other test
+
 BeLL Apps v0.11.14
 -----------------------
 - This is a test
