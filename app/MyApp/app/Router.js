@@ -372,12 +372,12 @@ $(function(){
   				
             $('.form .field-startTime input').timepicker({
                 'minTime': '8:00am',
-                'maxTime': '12:30am',
+                'maxTime': '12:30am'
             });
   				
             $('.form .field-endTime input').timepicker({
                'minTime': '8:00am',
-                'maxTime': '12:30am',            
+                'maxTime': '12:30am'
             
             });
             
@@ -624,7 +624,7 @@ $(function(){
             //var rids = new Array()
             //var rtitle = new Array()
             var cstep = new App.Models.CourseStep({
-                "_id": grpId,
+                "_id": grpId
             })
             cstep.fetch({
                 async: false
@@ -824,13 +824,13 @@ $(function(){
   				
             $('.form .field-startTime input').timepicker({
               'minTime': '8:00am',
-                'maxTime': '12:30am',
+                'maxTime': '12:30am'
             
             });
   				
             $('.form .field-endTime input').timepicker({
                 'minTime': '8:00am',
-                'maxTime': '12:30am',
+                'maxTime': '12:30am'
             
             });
             
@@ -1093,7 +1093,7 @@ $(function(){
         },
         ViewLevel: function (lid, rid) {
             var levelInfo = new App.Models.CourseStep({
-                "_id": lid,
+                "_id": lid
               //  "_rev": rid
             })
             var that = this
@@ -1200,11 +1200,11 @@ $(function(){
             
             $('.form .field-startTime input').timepicker({
                'minTime': '8:00am',
-                'maxTime': '12:30am',
+                'maxTime': '12:30am'
             })
             $('.form .field-endTime input').timepicker({
                  'minTime': '8:00am',
-                'maxTime': '12:30am',
+                'maxTime': '12:30am'
             })
             $('.form .field-startDate input').datepicker({
                todayHighlight: true
@@ -2175,7 +2175,7 @@ $(function(){
                         })
                         return false
                     },
-                    events: temp2,
+                    events: temp2
                 });
 
 
@@ -2194,11 +2194,11 @@ $(function(){
             modelForm.render()
             $('.bbf-form .field-startTime input').timepicker({
                 'minTime': '8:00am',
-                'maxTime': '12:30am',
+                'maxTime': '12:30am'
             })
             $('.bbf-form .field-endTime input').timepicker({
                 'minTime': '8:00am',
-                'maxTime': '12:30am',
+                'maxTime': '12:30am'
             })
             $('.bbf-form .field-startDate input').datepicker({
                todayHighlight: true
