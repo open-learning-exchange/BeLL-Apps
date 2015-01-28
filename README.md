@@ -6,10 +6,10 @@ The BeLL Apps consist of a number of media players that revolve around an LMS at
 
 ## Prerequisite for installing Bell-App
 To successfully install BellApp, one would need 4 things in a flash-drive
-    1) node-v0.10.26-x86.msi
-    2) setup-couchdb-1.5.0_R16B02.exe
-    3) Bell-Apps (node install_windows curl)
-    4) Data-Builder (run the script, launch-app.bat)
+    1. node-v0.10.26-x86.msi
+    2. setup-couchdb-1.5.0_R16B02.exe
+    3. Bell-Apps (node install_windows curl)
+    4. Data-Builder (run the script, launch-app.bat)
 
 ## Installing the BellApp
 The build tool is created to install BeLLApp on all operating systems. The build tool sits inside the BellApp and assumes that the nodejs and the couchDB are installed prior to installing BellApp
@@ -30,7 +30,7 @@ The build tool is created to install BeLLApp on all operating systems. The build
 			This will create content for the installed Bell-App.
 
 
-## How to's
+## How to's for Nation BeLL Administrators
 
 ### @todo Create a new Nation BeLL
 
