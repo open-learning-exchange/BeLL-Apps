@@ -1,0 +1,3 @@
+BeLL Apps v0.11.13
+-----------------------
+- Added CHANGELOG.txt so we can quickly see that code was updated on Community BeLLs
