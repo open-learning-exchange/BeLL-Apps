@@ -1,0 +1,12 @@
+{
+    "name":"somaliabell",
+    "nationName":"somaliabell",
+    "code":"so",
+    "type":"nation",
+    "nationUrl":"somaliabell.ole.com",
+    "version":"0.11.12",
+    "notes":"this is testing .....asdf",
+    "availableLanguages":["English","French","Arabic","Urdu"],
+    "currentLanguage":"English"
+}
+

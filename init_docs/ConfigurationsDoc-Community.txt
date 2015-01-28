@@ -1,0 +1,12 @@
+{
+    "name":"NBS",
+    "nationName":"olenation",
+    "code":"so",
+    "type":"community",
+    "nationUrl":"olenation.cloudant.com",
+    "version":"0.11.12",
+    "notes":"this is testing .....asdf",
+    "availableLanguages":["English","French","Arabic","Urdu"],
+    "currentLanguage":"English"
+}
+

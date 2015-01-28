@@ -257,6 +257,7 @@
 <script src="app/views/ManageCommunity.js"></script>
 <script src="app/views/PublicationTable.js"></script>
 
+<script src="app/views/TrendActivityReport.js"></script>
 
 <!-- javaScript -->
 
@@ -1329,6 +1330,89 @@
         </tr>
         <% }); %>
 
+
+    </table>
+</script>
+
+<script type="text/html" id="template-TrendActivityReport">
+    <h4>
+        Trend Activity Report (Previous Six Months)
+    </h4>
+    <p>
+        <span style="color:gray;">Period&nbsp;(YYYY:MM:DD) </span> <%= startDate %>&nbsp;to&nbsp;<%= endDate %>
+    </p>
+
+   <!-- <div id="trend-report-div-new-memberships" style="float: left;"></div>
+    <div id="trend-report-div-visits"  style="float: left;"></div>
+    <div><br/> <br/></div>
+    -->
+
+    <table class="table table-striped">
+        <tr>
+            <th colspan="3"><div id="trend-report-div-new-memberships" ></div></th>
+            <th colspan="3"><div id="trend-report-div-visits" ></div></th>
+        </tr>
+        <tr>
+            <th >Most Frequently Opened</th>
+            <th >Total</th>
+            <th >Male</th>
+            <th >Female</th>
+            <th>Average Rating</th>
+            <th >Times Rated</th>
+        </tr>
+        <!-- @todo Recording of opening resources is broken.  -->
+
+        <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
+        <% _.each(Most_Freq_Open, function(resource){ %>
+        <tr>
+            <td><%=resource.resourceName%></td>
+            <td><%=resource.timesOpenedCumulative%></td>
+            <td><%=resource.timesOpenedByMales%></td>
+            <td><%=resource.timesOpenedByFemales%></td>
+            <td><%=resource.avgRatingCumulative%></td>
+            <td><%=resource.timesRatedCumulative%></td>
+        </tr>
+        <% }); %>
+        <tr>
+            <th >Highest Rated</th>
+            <th >Total</th>
+            <th >Male</th>
+            <th >Female</th>
+            <th>Average Rating</th>
+            <th >Times Rated</th>
+        </tr>
+        <% _.each(Highest_Rated, function(resource){ %>
+        <tr>
+            <td><%=resource.resourceName%></td>
+            <td><%=resource.timesRatedByCumulative%></td>
+            <td><%=resource.timesRatedByMales%></td>
+            <td><%=resource.timesRatedByFemales%></td>
+            <td><%=resource.avgRatingCumulative%></td>
+            <td><%=resource.timesRatedCumulative%></td>
+        </tr>
+        <% }); %>
+        <tr>
+            <th >Lowest Rated</th>
+            <th >Total</th>
+            <th >Male</th>
+            <th >Female</th>
+            <th>Average Rating</th>
+            <th >Times Rated</th>
+        </tr>
+        <% _.each(Lowest_Rated, function(resource){ %>
+        <tr>
+            <td><%=resource.resourceName%></td>
+            <td><%=resource.timesRatedByCumulative%></td>  <!-- timesOpenedCumulative -->
+            <td><%=resource.timesRatedByMales%></td>     <!-- timesOpenedByMales -->
+            <td><%=resource.timesRatedByFemales%></td>   <!-- timesOpenedByFemales -->
+            <td><%=resource.avgRatingCumulative%></td>
+            <% if (resource.timesRatedCumulative === "N/A") { %>
+            <td><%=resource.timesRatedCumulative%></td>
+            <% } else { %>
+            <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
+            <% } %>
+        </tr>
+        <% }); %>
 
     </table>
 </script>

@@ -15,20 +15,21 @@ $(function() {
       
       return url
     },
- schema: {
-  "logDate": "Text",
-   "female_visits": 'number',
-   "male_visits": 'number',
-   "resourcesIds": [],
-   "female_rating": [],
-   "female_timesRated": [],
-   "male_rating": [],
-   "male_timesRated": [],
-   "resources_opened": [],
-   "female_opened": [],
-   "male_opened": []
+    schema: {
+        "logDate": "Text",
+        "female_visits": 'number',
+        "male_visits": 'number',
+        "female_new_signups": 'number',
+        "male_new_signups": 'number',
+        "resourcesIds": [],
+        "female_rating": [],
+        "female_timesRated": [],
+        "male_rating": [],
+        "male_timesRated": [],
+        "resources_opened": [],
+        "female_opened": [],
+        "male_opened": []
     }
-    
 }) 
 
 })

@@ -55,7 +55,7 @@ function updateNationCouchVersion() {
                     configsDb.get(key, function (error, configDoc) {
                         if(!error) {
                             var obj;
-                            fs.readFile('init_docs/ConfigurationsDoc.txt', 'utf8', function (err, data) {
+                            fs.readFile('init_docs/ConfigurationsDoc-Nation.txt', 'utf8', function (err, data) {
                                 if (err) throw err;
                                 obj = JSON.parse(data);
                                 var oldVersion = configDoc.version;

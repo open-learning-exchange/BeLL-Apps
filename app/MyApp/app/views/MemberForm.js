@@ -132,27 +132,27 @@ $(function () {
         },
 
         setForm: function () {
-        if($('#ptManager').attr('checked')) { // if promote to manager checkbox is ticked
-            // then add the 'Manager' role to his/her roles array only if this person is not a manager already. following check added
-            // by Omer Yousaf on 16 Jan, 2015.
-            var index = this.model.toJSON().roles.indexOf('Manager');
-            if(index < 0) { // 'Manager' does not exist in his/her roles array
-                this.model.toJSON().roles.push("Manager");
+            if($('#ptManager').attr('checked')) { // if promote to manager checkbox is ticked
+                // then add the 'Manager' role to his/her roles array only if this person is not a manager already. following check added
+                // by Omer Yousaf on 16 Jan, 2015.
+                var index = this.model.toJSON().roles.indexOf('Manager');
+                if(index < 0) { // 'Manager' does not exist in his/her roles array
+                    this.model.toJSON().roles.push("Manager");
+                }
             }
-        }
-        else
-        {
-        	var index=this.model.toJSON().roles.indexOf('Manager')
-        	if(index>-1)
-        	{
-        		 this.model.toJSON().roles.splice(index,1)
-        	}
-        }
-        var that = this
+            else
+            {
+                var index=this.model.toJSON().roles.indexOf('Manager')
+                if(index>-1)
+                {
+                     this.model.toJSON().roles.splice(index,1)
+                }
+            }
+            var that = this;
             if (this.form.validate() != null) {
                 return
             }
-            // Put the form's input into the model in memory 
+            // Put the form's input into the model in memory
             if (this.validImageTypeCheck($('input[type="file"]'))) {
                 // assign community, region and nation attribs in member model values from configuration doc
                 var configurations = Backbone.Collection.extend({
@@ -200,6 +200,7 @@ $(function () {
                     }
                 }
                 if (addMem) {
+                    var memberModel = this.model;
                     this.model.save(null, {
                         success: function () {
                             that.model.unset('_attachments')
@@ -208,8 +209,16 @@ $(function () {
                             } else {
                                 if (that.model.attributes._rev == undefined) { // if true then its a new member signup
                                     // so capture this in activity logging
-
-                                    alert("Successfully Registered!!!");
+                                    var pouchActivityLogDb = new PouchDB('activitylogs');
+                                    var currentdate = new Date();
+                                    var logdate = that.getFormattedDate(currentdate);
+                                    pouchActivityLogDb.get(logdate, function(err, pouchActivityLogRec) {
+                                        if (!err) {
+                                            that.UpdatejSONlog(logdate, pouchActivityLogRec, memberModel, pouchActivityLogDb);
+                                        } else {
+                                            that.createJsonlog(logdate, configsDoc, memberModel, pouchActivityLogDb);
+                                        }
+                                    });
                                 } else {
                                     alert("Successfully Updated!!!");
                                 }
@@ -220,11 +229,17 @@ $(function () {
                             that.model.on('savedAttachment', function () {
                                 if (that.model.attributes._rev == undefined) { // if true then its a new member signup
                                     // so capture this in activity logging
-
-                                    alert("Successfully Registered!!!");
-                                    Backbone.history.navigate('members', {
-                                        trigger: true
-                                    })
+                                    // so capture this in activity logging
+                                    var pouchActivityLogDb = new PouchDB('activitylogs');
+                                    var currentdate = new Date();
+                                    var logdate = that.getFormattedDate(currentdate);
+                                    pouchActivityLogDb.get(logdate, function(err, pouchActivityLogRec) {
+                                        if (!err) {
+                                            that.UpdatejSONlog(logdate, pouchActivityLogRec, memberModel, pouchActivityLogDb);
+                                        } else {
+                                            that.createJsonlog(logdate, configsDoc, memberModel, pouchActivityLogDb);
+                                        }
+                                    });
                                 } else {
                                     alert("Successfully Updated!!!");
                                     Backbone.history.navigate('members', {
@@ -241,6 +256,69 @@ $(function () {
                 }
             }
         },
+
+        getFormattedDate:function(date) {
+            var year = date.getFullYear();
+            var month = (1 + date.getMonth()).toString();
+            month = month.length > 1 ? month : '0' + month;
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+            return  month + '/' + day + '/' + year;
+        },
+
+        createJsonlog: function(logdate, configsDoc, member, pouchActivityLogDb) {
+            var docJson = {
+                logDate: logdate,
+                resourcesIds: [],
+                male_visits: 0,
+                female_visits: 0,
+                female_new_signups: 0,
+                male_new_signups: 0,
+                male_timesRated: [],
+                female_timesRated: [],
+                male_rating: [],
+                community: configsDoc.code,
+                female_rating: [],
+                resources_opened: [],
+                male_opened: [],
+                female_opened: []
+            }
+            if (member.get('Gender') == 'Male') {
+                docJson.male_new_signups = 1;
+            } else {
+                docJson.female_new_signups = 1;
+            }
+            pouchActivityLogDb.put(docJson, logdate, function (err, response) {
+                if (!err) {
+                    console.log("created activity log in pouchdb for today.. i-e " + logdate);
+                    console.log(response);
+                } else {
+                    console.log("MyApp::MemberForm.js (view):: createJsonlog: error creating activity log doc in pouchdb..");
+                    console.log(err);
+                }
+                alert("Successfully Registered!!!");
+                Backbone.history.navigate('members', {
+                    trigger: true
+                });
+            });
+        },
+
+        UpdatejSONlog:function(logdate, pouchActivityLogRec, member, pouchActivityLogDb){
+            if (member.get('Gender') == 'Male') {
+                pouchActivityLogRec.male_new_signups = parseInt( ( (pouchActivityLogRec.male_new_signups) ? pouchActivityLogRec.male_new_signups : 0 ) ) + 1;
+            } else {
+                pouchActivityLogRec.female_new_signups = parseInt( ( (pouchActivityLogRec.female_new_signups) ? pouchActivityLogRec.female_new_signups : 0 ) ) + 1;
+            }
+            pouchActivityLogDb.put( pouchActivityLogRec, logdate, pouchActivityLogRec._rev, function(err, response) {
+                if (!err) {
+                    console.log("updated activity log in pouchdb for today.. i-e " + logdate);
+                    console.log(response);
+                } else {
+                    console.log("MyApp::MemberForm.js (view):: UpdatejSONlog: err making update to record");
+                    console.log(err);
+                }
+            });
+        }
     })
 
 })

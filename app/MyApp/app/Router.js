@@ -249,7 +249,7 @@ $(function(){
         },
         
       Configure:function(){
-      
+
             var conModel = new App.Models.Configuration();
             var conForm = new App.Views.Configurations({
                 model: conModel
@@ -1321,6 +1321,7 @@ $(function(){
             if (logData.length < 1) {
                 var staticData={
                     "Visits":{"male": 0, "female": 0},
+                    "New_Signups": {"male": 0, "female": 0},
                     "Most_Freq_Open": [],
                     "Highest_Rated": [],
                     "Lowest_Rated": []
@@ -1331,40 +1332,44 @@ $(function(){
             if(logReport==undefined){
                 alert("No Activity Logged for this period")
             }
-            var report_resRated = logReport.get('resourcesIds')
-            var report_resOpened = [];
+            var report_resRated = [], report_resOpened = [], report_male_visits = 0, report_female_visits = 0, report_male_new_signups = 0,
+                report_female_new_signups = 0, report_male_rating = [], report_female_rating =[], report_male_timesRated = [],
+                report_female_timesRated = [], report_male_opened = [], report_female_opened = [];
+            if(logReport.get('resourcesIds')) {
+                report_resRated = logReport.get('resourcesIds');
+            }
             if(logReport.get('resources_opened')){
                 report_resOpened = logReport.get('resources_opened')
             }
-            var report_male_visits = 0;
             if(logReport.get('male_visits')){
                 report_male_visits=logReport.get('male_visits')
             }
-            var report_female_visits = 0;
             if(logReport.get('female_visits')){
                 report_female_visits=logReport.get('female_visits')
             }
-            var report_male_rating = []
+
+            if(logReport.get('male_new_signups')){
+                report_male_new_signups = logReport.get('male_new_signups')
+            }
+            if(logReport.get('female_new_signups')){
+                report_female_new_signups = logReport.get('female_new_signups')
+            }
+
             if(logReport.get('male_rating')){
                 report_male_rating = logReport.get('male_rating')
             }
-            var report_female_rating =[];
             if(logReport.get('female_rating')){
                 report_female_rating = logReport.get('female_rating')
             }
-            var report_male_timesRated = [];
             if(logReport.get('male_timesRated')){
                 report_male_timesRated = logReport.get('male_timesRated')
             }
-            var report_female_timesRated = [];
             if(logReport.get('female_timesRated')){
                 report_female_timesRated = logReport.get('female_timesRated')
             }
-            var report_male_opened =[]
             if(logReport.get('male_opened')){
                 report_male_opened = logReport.get('male_opened')
             }
-            var report_female_opened = []
             if(logReport.get('female_opened')){
                 report_female_opened = logReport.get('female_opened')
             }
@@ -1375,6 +1380,11 @@ $(function(){
                     // add visits to prev total
                     report_male_visits += logDoc.get('male_visits');
                     report_female_visits += logDoc.get('female_visits');
+
+                    // add new member signups count to prev total
+                    report_male_new_signups += ( (logDoc.get('male_new_signups')) ? logDoc.get('male_new_signups') : 0 );
+                    report_female_new_signups += ( (logDoc.get('female_new_signups')) ? logDoc.get('female_new_signups') : 0 );
+
                     var resourcesIds=logDoc.get('resourcesIds');
                     var resourcesOpened=logDoc.get('resources_opened');
                     for(var i = 0; i < resourcesIds.length ; i++){
@@ -1541,10 +1551,9 @@ $(function(){
                     Lowest_Rated_Resources.push(entry_rated_lowest);
                 }
             }
-            console.log(Highest_Rated_Resources);
-
             var staticData={
                 "Visits":{"male": report_male_visits, "female": report_female_visits},
+                "New_Signups": {"male": report_male_new_signups, "female": report_female_new_signups},
                 "Most_Freq_Open": Most_Freq_Opened,
                 "Highest_Rated": Highest_Rated_Resources,
                 "Lowest_Rated": Lowest_Rated_Resources
@@ -1554,6 +1563,32 @@ $(function(){
     turnDateFromMMDDYYYYToYYYYMMDDFormat: function (date) {
         var datePart = date.match(/\d+/g), month = datePart[0], day = datePart[1], year = datePart[2];
         return year+'/'+month+'/'+day;
+    },
+    getRegisteredMembersCount: function (callback) {
+        var maleMembers = 0, femaleMembers = 0;
+        $.ajax({
+            url: '/members/_design/bell/_view/MaleCount?group=false',
+            type: 'GET',
+            dataType: "json",
+            async: false,
+            success: function (json) {
+                if (json.rows[0]) {
+                    maleMembers = json.rows[0].value
+                }
+                $.ajax({
+                    url: '/members/_design/bell/_view/FemaleCount?group=false',
+                    type: 'GET',
+                    dataType: "json",
+                    async: false,
+                    success: function (json) {
+                        if(json.rows[0]){
+                            femaleMembers = json.rows[0].value;
+                            callback(maleMembers, femaleMembers);
+                        }
+                    }
+                })
+            }
+        })
     },
     trendReport: function () {
         var context = this;
@@ -1591,6 +1626,7 @@ $(function(){
                 var sixthLastMonthEndDate = new Date( fifthLastMonthStartDate.getFullYear(), fifthLastMonthStartDate.getMonth(),
                     ( fifthLastMonthStartDate.getDate() - 1 ) );
                 var sixthLastMonthStartDate = new Date( sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1 );
+
                 // create start and end dates for past five months
 //                alert(endDateForTrendReport + "\n" + lastMonthStartDate + "\n" + secondLastMonthEndDate + "\n" +
 //                    secondLastMonthStartDate + "\n" + thirdLastMonthEndDate + "\n" + thirdLastMonthStartDate + "\n" +
@@ -1611,9 +1647,8 @@ $(function(){
                     async:false
                 });
                 activityDataColl.toJSON();
-                console.log(activityDataColl);
                 // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
-                var endingMonthActivityData = [], secondLastMonthActivityData = [], thirddLastMonthActivityData = [],
+                var endingMonthActivityData = [], secondLastMonthActivityData = [], thirdLastMonthActivityData = [],
                     fourthLastMonthActivityData = [], fifthLastMonthActivityData = [], sixthLastMonthActivityData = [];
                 for (var i in activityDataColl.models) {
                     var modelKey = context.turnDateFromMMDDYYYYToYYYYMMDDFormat(activityDataColl.models[i].get('logDate'));
@@ -1627,7 +1662,7 @@ $(function(){
                         secondLastMonthActivityData.push(activityDataColl.models[i]);
                     } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(thirdLastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(thirdLastMonthEndDate)) ) {
-                        thirddLastMonthActivityData.push(activityDataColl.models[i]);
+                        thirdLastMonthActivityData.push(activityDataColl.models[i]);
                     } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(fourthLastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(fourthLastMonthEndDate)) ) {
                         fourthLastMonthActivityData.push(activityDataColl.models[i]);
@@ -1641,29 +1676,91 @@ $(function(){
                 }
                 var lastMonthDataset = context.aggregateDataForTrendReport('communityX', endingMonthActivityData);
                 var secondLastMonthDataset = context.aggregateDataForTrendReport('communityX', secondLastMonthActivityData);
-                var thirdLastMonthDataset = context.aggregateDataForTrendReport('communityX', thirddLastMonthActivityData);
+                var thirdLastMonthDataset = context.aggregateDataForTrendReport('communityX', thirdLastMonthActivityData);
                 var fourthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fourthLastMonthActivityData);
                 var fifthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fifthLastMonthActivityData);
                 var sixthLastMonthDataset = context.aggregateDataForTrendReport('communityX', sixthLastMonthActivityData);
+                var aggregateDataset = context.aggregateDataForTrendReport('communityX', activityDataColl.models);
                 console.log(lastMonthDataset);
-                var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                                   "November", "December" ];
+                var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+                var last_month_visits_male = lastMonthDataset.Visits['male'];   var last_month_visits_female = lastMonthDataset.Visits['female'];
+                var second_last_month_visits_male = secondLastMonthDataset.Visits['male'];  var second_last_month_visits_female = secondLastMonthDataset.Visits['female'];
+                var third_last_month_visits_male = thirdLastMonthDataset.Visits['male'];  var third_last_month_visits_female = thirdLastMonthDataset.Visits['female'];
+                var fourth_last_month_visits_male = fourthLastMonthDataset.Visits['male'];   var fourth_last_month_visits_female = fourthLastMonthDataset.Visits['female'];
+                var fifth_last_month_visits_male = fifthLastMonthDataset.Visits['male'];   var fifth_last_month_visits_female = fifthLastMonthDataset.Visits['female'];
+                var sixth_last_month_visits_male = sixthLastMonthDataset.Visits['male'];   var sixth_last_month_visits_female = sixthLastMonthDataset.Visits['female'];
+
                 var arrayOfData = [
-                    [ [ lastMonthDataset.Visits['male'], lastMonthDataset.Visits['female'] ] ,
+                    [ [ last_month_visits_male, last_month_visits_female, (last_month_visits_male + last_month_visits_female) ] ,
                                                          monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear() ],
-                    [[ secondLastMonthDataset.Visits['male'], secondLastMonthDataset.Visits['female'] ] ,
+
+                    [[ second_last_month_visits_male, second_last_month_visits_female, eval(second_last_month_visits_male + second_last_month_visits_female) ] ,
                             monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear()],
-                    [[ thirdLastMonthDataset.Visits['male'], thirdLastMonthDataset.Visits['female'] ] ,
+
+                    [[ third_last_month_visits_male, third_last_month_visits_female, eval(third_last_month_visits_male + third_last_month_visits_female) ] ,
                             monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear()],
-                    [[ fourthLastMonthDataset.Visits['male'], fourthLastMonthDataset.Visits['female'] ] ,
+
+                    [[ fourth_last_month_visits_male, fourth_last_month_visits_female, eval(fourth_last_month_visits_male + fourth_last_month_visits_female) ] ,
                             monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear()],
-                    [[ fifthLastMonthDataset.Visits['male'], fifthLastMonthDataset.Visits['female'] ] ,
+
+                    [[ fifth_last_month_visits_male, fifth_last_month_visits_female, eval(fifth_last_month_visits_male + fifth_last_month_visits_female) ] ,
                             monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear()],
-                    [[ sixthLastMonthDataset.Visits['male'], sixthLastMonthDataset.Visits['female'] ] ,
-                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear()],
+
+                    [[ sixth_last_month_visits_male, sixth_last_month_visits_female, eval(sixth_last_month_visits_male + sixth_last_month_visits_female) ] ,
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear()]
                 ];
-                $( '<div id="trend-report-div"></div>' ).appendTo( App.$el.children('.body') );
-                $('#trend-report-div').jqBarGraph({ data: arrayOfData, type: 'multi', colors: ['#97D95C', '#437346']  });
+                // show registered members at end of each month falling in duration of this report
+                var totalRegisteredMembers = {male: 0, female: 0};
+                context.getRegisteredMembersCount(function(param1, param2) {
+                    totalRegisteredMembers['male'] = param1;
+                    totalRegisteredMembers['female'] = param2;
+                });
+                var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - secondLastMonthDataset.New_Signups['male'],
+                    female: totalRegisteredMembers['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
+                registeredMembersTillSecondLastMonthEnd['total'] = registeredMembersTillSecondLastMonthEnd['male'] + registeredMembersTillSecondLastMonthEnd['female'];
+                var registeredMembersTillThirdLastMonthEnd = {male: registeredMembersTillSecondLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillSecondLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
+                registeredMembersTillThirdLastMonthEnd['total'] = registeredMembersTillThirdLastMonthEnd['male'] + registeredMembersTillThirdLastMonthEnd['female'];
+                var registeredMembersTillFourthLastMonthEnd = {male: registeredMembersTillThirdLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillThirdLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
+                registeredMembersTillFourthLastMonthEnd['total'] = registeredMembersTillFourthLastMonthEnd['male'] + registeredMembersTillFourthLastMonthEnd['female'];
+                var registeredMembersTillFifthLastMonthEnd = {male: registeredMembersTillFourthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillFourthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
+                registeredMembersTillFifthLastMonthEnd['total'] = registeredMembersTillFifthLastMonthEnd['male'] + registeredMembersTillFifthLastMonthEnd['female'];
+                var registeredMembersTillSixthLastMonthEnd = {male: registeredMembersTillFifthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillFifthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
+                registeredMembersTillSixthLastMonthEnd['total'] = registeredMembersTillSixthLastMonthEnd['male'] + registeredMembersTillSixthLastMonthEnd['female'];
+
+                var arrayOfDataForNewMemberships = [
+                    [ [ totalRegisteredMembers['male'], totalRegisteredMembers['female'], (totalRegisteredMembers['male'] + totalRegisteredMembers['female']) ] ,
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear() ],
+                    [[ registeredMembersTillSecondLastMonthEnd['male'], registeredMembersTillSecondLastMonthEnd['female'], registeredMembersTillSecondLastMonthEnd['total'] ] ,
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear()],
+                    [[ registeredMembersTillThirdLastMonthEnd['male'], registeredMembersTillThirdLastMonthEnd['female'], registeredMembersTillThirdLastMonthEnd['total'] ] ,
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear()],
+                    [[ registeredMembersTillFourthLastMonthEnd['male'], registeredMembersTillFourthLastMonthEnd['female'], registeredMembersTillFourthLastMonthEnd['total'] ] ,
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear()],
+                    [[ registeredMembersTillFifthLastMonthEnd['male'], registeredMembersTillFifthLastMonthEnd['female'], registeredMembersTillFifthLastMonthEnd['total'] ] ,
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear()],
+                    [[ registeredMembersTillSixthLastMonthEnd['male'], registeredMembersTillSixthLastMonthEnd['female'], registeredMembersTillSixthLastMonthEnd['total'] ] ,
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear()]
+                ];
+                var trendActivityReportView = new App.Views.TrendActivityReport();
+                trendActivityReportView.data = aggregateDataset;
+                trendActivityReportView.startDate = activityDataColl.startkey;
+                trendActivityReportView.endDate = activityDataColl.endkey;
+//                trendActivityReportView.CommunityName = CommunityName;
+                trendActivityReportView.render();
+                App.$el.children('.body').html(trendActivityReportView.el);
+                //$( '<div id="trend-report-div-new-memberships"></div>' ).appendTo( App.$el.children('.body') );
+                $('#trend-report-div-new-memberships').jqBarGraph({ data: arrayOfDataForNewMemberships, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'], legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Registered Members' });
+                //$( '<br/> <br/><div id="trend-report-div-visits"></div>' ).appendTo( App.$el.children('.body') );
+                $('#trend-report-div-visits').jqBarGraph({ data: arrayOfData, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'] , legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Member Visits'  });
+                /*
+                 "Most_Freq_Open": Most_Freq_Opened,
+                 "Highest_Rated": Highest_Rated_Resources,
+                 "Lowest_Rated": Lowest_Rated_Resources*/
+
             } else {
                 alert("You must choose a date to proceed");
             }
@@ -3129,8 +3226,8 @@ CompileAppManifest:function(){
                     var collection = response.rows; // all docs from PouchDB's 'activitylogs' db
                     for (var i = 0; i < response.total_rows; i++) { // if # of rows is zero, then
                         // PouchDB's activitylogs db has no docs in it to sync to CouchDB's activitylog db
-                        var activitylog = collection[i].doc;
-                        var activitylogDate = activitylog.logDate;
+                        var pouchActivityLogDoc = collection[i].doc;
+                        var activitylogDate = pouchActivityLogDoc.logDate;
                         var logModel = new App.Collections.ActivityLog();
                         logModel.logDate = activitylogDate;
                         logModel.fetch( {
@@ -3141,11 +3238,11 @@ CompileAppManifest:function(){
                                     // having value == collection[i].doc.logDate, so a new activitylog doc will be added to CouchDB
                                     // having same json as that of collection[i].doc's (pointed to by 'activitylog' var above)
                                     // from PouchDB's activitylogs db.
-                                    that.createLogs(activitylog);
+                                    that.createLogs(pouchActivityLogDoc);
                                 } else { // Couchdb's activitylog db does have atleast one doc having attrib "logDate" with a
                                     // value == collection[i].doc.logDate
                                     var logsonServer = res.first();
-                                    that.updateLogs(activitylog, logsonServer);
+                                    that.updateLogs(pouchActivityLogDoc, logsonServer);
                                 }
                             },
                             error: function(err) {
@@ -3181,6 +3278,10 @@ CompileAppManifest:function(){
             dailylogModel.set('resources_opened' , activitylog.resources_opened)
             dailylogModel.set('male_visits' , activitylog.male_visits)
             dailylogModel.set('female_visits' , activitylog.female_visits)
+
+            dailylogModel.set('female_new_signups' , ( (activitylog.female_new_signups) ? activitylog.female_new_signups : 0 ) )
+            dailylogModel.set('male_new_signups' , ( (activitylog.male_new_signups) ? activitylog.male_new_signups : 0 ) )
+
             dailylogModel.set('male_rating' , activitylog.male_rating)
             dailylogModel.set('female_rating' , activitylog.female_rating)
             dailylogModel.set('male_timesRated' , activitylog.male_timesRated)
@@ -3204,63 +3305,58 @@ CompileAppManifest:function(){
 
     },
     updateLogs:function(activitylog,logsonServer){
-    
-    		   var activitylog_resRated=0;
+    		   var activitylog_resRated= 0, activitylog_resOpened = 0;
+               var logsonServer_resRated = 0, logsonServer_resOpened = 0, logsonServer_male_visits = 0, logsonServer_female_visits = 0,
+                   logsonServer_female_new_signups = 0, logsonServer_male_new_signups = 0,
+                   logsonServer_male_rating = 0, logsonServer_female_rating = 0, logsonServer_male_timesRated = 0,
+                   logsonServer_female_timesRated = 0, logsonServer_male_opened = 0, logsonServer_female_opened = 0;
                if(activitylog.resourcesIds){
-               activitylog_resRated = activitylog.resourcesIds
+                    activitylog_resRated = activitylog.resourcesIds
                }
-               var activitylog_resOpened =0;
                if( activitylog.resources_opened){
-               activitylog_resOpened = activitylog.resources_opened
+                    activitylog_resOpened = activitylog.resources_opened
                }
-               var logsonServer_resRated =0;
                if( logsonServer.get('resourcesIds')){
-               logsonServer_resRated = logsonServer.get('resourcesIds')
+                    logsonServer_resRated = logsonServer.get('resourcesIds')
                }
-               var logsonServer_resOpened = 0;
                if(logsonServer.get('resources_opened')){
-               	logsonServer_resOpened=logsonServer.get('resources_opened')
+               	    logsonServer_resOpened=logsonServer.get('resources_opened')
                }
-               
-               var logsonServer_male_visits = 0;
                if(logsonServer.get('male_visits')){
-               	logsonServer_male_visits=logsonServer.get('male_visits')
+                	logsonServer_male_visits=logsonServer.get('male_visits')
                }
-               var logsonServer_female_visits = 0;
                if(logsonServer.get('female_visits')){
-               	logsonServer_female_visits=logsonServer.get('female_visits')
-               
+               	    logsonServer_female_visits=logsonServer.get('female_visits')
                }
-               var logsonServer_male_rating = 0;
+
+               logsonServer_male_new_signups = ( ( logsonServer.get('male_new_signups') ) ? logsonServer.get('male_new_signups') : 0 );
+               logsonServer_female_new_signups = ( ( logsonServer.get('female_new_signups') ) ? logsonServer.get('female_new_signups') : 0 );
+
                if(logsonServer.get('male_rating')){
-               	logsonServer_male_rating=logsonServer.get('male_rating')
+               	    logsonServer_male_rating=logsonServer.get('male_rating')
                }
-               var logsonServer_female_rating = 0;
                if(logsonServer.get('female_rating')){
-                logsonServer_female_rating = logsonServer.get('female_rating')
+                    logsonServer_female_rating = logsonServer.get('female_rating')
                }
-               
-               var logsonServer_male_timesRated = 0;
                if(logsonServer.get('male_timesRated')){
-               	logsonServer_male_timesRated = logsonServer.get('male_timesRated')
+               	    logsonServer_male_timesRated = logsonServer.get('male_timesRated')
                }
-               var logsonServer_female_timesRated = 0;
                if(logsonServer.get('female_timesRated')){
-               	logsonServer_female_timesRated = logsonServer.get('female_timesRated')
+               	    logsonServer_female_timesRated = logsonServer.get('female_timesRated')
                }
-               
-               var logsonServer_male_opened = 0;
                if(logsonServer.get('male_opened')){
-               	logsonServer_male_opened= logsonServer.get('male_opened')
-               } 
-               var logsonServer_female_opened = 0;
-               if(logsonServer.get('female_opened')){
-               	logsonServer_female_opened = logsonServer.get('female_opened')
+               	    logsonServer_male_opened= logsonServer.get('male_opened')
                }
-        
-                logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits)
-                logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits)
-               var resId, index;
+               if(logsonServer.get('female_opened')){
+               	    logsonServer_female_opened = logsonServer.get('female_opened')
+               }
+               logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits);
+               logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits);
+
+               logsonServer_male_new_signups = parseInt(logsonServer_male_new_signups) + parseInt( ( (activitylog.male_new_signups) ? activitylog.male_new_signups : 0 ) );
+               logsonServer_female_new_signups = parseInt(logsonServer_female_new_signups) + parseInt( ( (activitylog.female_new_signups) ? activitylog.female_new_signups : 0 ) );
+
+        var resId, index;
                for(var i=0 ; i < activitylog_resRated.length ; i++){
                      resId=activitylog_resRated[i]
                      index=logsonServer_resRated.indexOf(resId)
@@ -3291,17 +3387,21 @@ CompileAppManifest:function(){
                      }
                }
                //alert('in update logs')
-               logsonServer.set('resourcesIds' , logsonServer_resRated)
-               logsonServer.set('resources_opened' , logsonServer_resOpened)
-               logsonServer.set('male_visits' , logsonServer_male_visits)
-               logsonServer.set('female_visits' , logsonServer_female_visits)
-               logsonServer.set('male_rating' , logsonServer_male_rating)
-               logsonServer.set('female_rating' , logsonServer_female_rating)
-               logsonServer.set('male_timesRated' , logsonServer_male_timesRated)
-               logsonServer.set('female_timesRated' , logsonServer_female_timesRated)
-               logsonServer.set('male_opened' , logsonServer_male_opened)
-               logsonServer.set('female_opened' , logsonServer_female_opened)
-               
+               logsonServer.set('resourcesIds' , logsonServer_resRated);
+               logsonServer.set('resources_opened' , logsonServer_resOpened);
+               logsonServer.set('male_visits' , logsonServer_male_visits);
+               logsonServer.set('female_visits' , logsonServer_female_visits);
+
+               logsonServer.set('male_new_signups' , logsonServer_male_new_signups);
+               logsonServer.set('female_new_signups' , logsonServer_female_new_signups);
+
+
+               logsonServer.set('male_rating' , logsonServer_male_rating);
+               logsonServer.set('female_rating' , logsonServer_female_rating);
+               logsonServer.set('male_timesRated' , logsonServer_male_timesRated);
+               logsonServer.set('female_timesRated' , logsonServer_female_timesRated);
+               logsonServer.set('male_opened' , logsonServer_male_opened);
+               logsonServer.set('female_opened' , logsonServer_female_opened);
                var logdb=new PouchDB('activitylogs')
                logsonServer.save(null,{
                    success:function(model,modelInfo){
@@ -3309,7 +3409,7 @@ CompileAppManifest:function(){
                //alert('save function')
                       logdb.remove(activitylog,function(err, info) {
 							if(err){
-                                console.log("MyAppRouter:: updateLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB");
+                                console.log("MyAppRouter:: updateLogs:: Failed to delete Pouch activitylog doc after it is synced i-e its data pushed to (community) CouchDB");
                                 console.log(err);
 //                                alert("MyAppRouter:: updateLogs:: could NOT Remove couch doc");
                             } else {
@@ -3317,10 +3417,8 @@ CompileAppManifest:function(){
 //                                console.log(info);
 //                                alert('MyAppRouter:: updateLogs:: Successfully Deleted pouch doc')
                             }
-
 					  });
                }});
-      
     },
        LogActivity:function(CommunityName,startDate,endDate){
        	   var rpt = new App.Views.ActivityReport()

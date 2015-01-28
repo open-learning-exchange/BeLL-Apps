@@ -72,6 +72,8 @@ createJsonlog: function(member, logdate, logdb, resourceId){
 				 resourcesIds:[],
 				 male_visits:0,
 				 female_visits:0,
+                 female_new_signups: 0,
+                 male_new_signups: 0,
 				 male_timesRated:[],
 				 female_timesRated:[],
 				 male_rating:[],
