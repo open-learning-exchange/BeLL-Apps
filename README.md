@@ -36,11 +36,11 @@ The build tool is created to install BeLLApp on all operating systems. The build
 
 ###  @todo Create a Windows Installer from latest BeLL Apps tag, build a default content set using Data Builder,  use the resulting installer to install on a Community BeLL, and pair the new Community BeLL with a specific Nation BeLL
 
-### Send a BeLL Apps update to Community BeLLs through a National BeLL
+### Send a BeLL Apps update to Community BeLLs through a Nation BeLL
 At the moment, Community BeLL codebases and National BeLL codebases are the same.
  So, to push a new update to Community BeLLs, the National BeLL codebase needs to be updated first and then the Community BeLLs can receive it.
 
-- Create a code tag in the BeLL-Apps repository
+- Create a code tag in the BeLL-Apps repository, example `git clone git@github.com:open-learning-exchange/BeLL-Apps.git; git tag 0.12.3; git push --tags;`
 - Download the [tag's release from GitHub](https://github.com/open-learning-exchange/BeLL-Apps/tags) onto a Windows machine that has Node.js installed
 - Unzip and run the file located at `/update_nation/update_nation_app.bat` with parameter of your target National BeLL's Couch URL. ex. `./update_nation_app.bat http://username:password@somaliabell.ole.org`
 - Log into the BeLL Apps UI on the Natinal BeLL and change the version number in configuration screen. Log in, click "manager", click "configurations", there you will find "Version" field. Increment that number, and then click "Submit configurations".
