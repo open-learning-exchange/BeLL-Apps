@@ -45,7 +45,7 @@ At the moment, Community BeLL codebases and National BeLL codebases are the same
 - Unzip and run the file located at `/update_nation/update_nation_app.bat` with parameter of your target National BeLL's Couch URL. ex. `./update_nation_app.bat http://username:password@somaliabell.ole.org`
 - Log into the BeLL Apps UI on the Natinal BeLL and change the version number in configuration screen. Log in, click "manager", click "configurations", there you will find "Version" field. Increment that number, and then click "Submit configurations".
 - Log into BeLL Apps UI on Community BeLL with a user with role "super manager", this is probably your BeLL Admin user. On the Dashboard, look at the bottom and you will (hopefully) find an "Apply update" button.
-- Verify on the community bell that we see a new version number and an code change (depends on what changed).
+- Verify on the community bell that we see a new version number and an code change by checking for the `CHANGELOG.txt` file for a matching tag number. You can chech this in your browser by going to`http://your-community-bell-url/apps/_design/bell/CHANGELOG.txt`.
 
 ### @todo Publish an Issue from a Nation BeLL, recieve that Issue from a Community BeLL, and inspect that new Issue on the Community BeLL by reading, watching, and rating resources
 
