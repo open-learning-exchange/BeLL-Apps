@@ -40,7 +40,16 @@ The build tool is created to install BeLLApp on all operating systems. The build
 At the moment, Community BeLL codebases and National BeLL codebases are the same.
  So, to push a new update to Community BeLLs, the National BeLL codebase needs to be updated first and then the Community BeLLs can receive it.
 
-- Create a code tag in the BeLL-Apps repository, example `git clone git@github.com:open-learning-exchange/BeLL-Apps.git;`, then add a release note to `BeLL-Apps/app/CHANGELOG.txt`, then `cd BeLL-Apps; git tag 0.12.3; git push --tags;`
+- Create a code tag in the BeLL-Apps repository by running (from Mac or Linux probably)
+`git clone git@github.com:open-learning-exchange/BeLL-Apps.git;`, then add a release note to `BeLL-Apps/app/CHANGELOG.txt`, then run ...
+```
+cd BeLL-Apps;
+git add apps/CHANGELOG.txt;
+git commit -m "Added CHANGELOG message for v0.12.3";
+git push;
+git tag v0.12.3;
+git push --tags;
+```
 - Download the [tag's release from GitHub](https://github.com/open-learning-exchange/BeLL-Apps/tags) onto a Windows machine that has Node.js installed
 - Unzip and run the file located at `/update_nation/update_nation_app.bat` with parameter of your target National BeLL's Couch URL. ex. `./update_nation_app.bat http://username:password@somaliabell.ole.org`
 - Log into the BeLL Apps UI on the Natinal BeLL and change the version number in configuration screen. Log in, click "manager", click "configurations", there you will find "Version" field. Increment that number, and then click "Submit configurations".
