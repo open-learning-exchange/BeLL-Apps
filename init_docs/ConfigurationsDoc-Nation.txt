@@ -4,7 +4,7 @@
     "code":"so",
     "type":"nation",
     "nationUrl":"somaliabell.ole.com",
-    "version":"0.11.12",
+    "version":"0.11.17",
     "notes":"this is testing .....asdf",
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
