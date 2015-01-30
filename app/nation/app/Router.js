@@ -522,7 +522,7 @@ $(function() {
             })
             Communities.each(
                 function(log) {
-                    $('#comselect').append("<option value='" + log.get('Url') + "'>" + log.get('Name') + "</option>")
+                    $('#comselect').append("<option value='" + log.get('Name') + "'>" + log.get('Name') + "</option>")
                 })
 
         },
