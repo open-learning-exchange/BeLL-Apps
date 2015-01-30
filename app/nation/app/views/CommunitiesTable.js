@@ -9,9 +9,11 @@ $(function() {
     vars:{},
     
     addOne: function(model){
-      var CommunityRow = new App.Views.CommunityRow({model: model})
-      CommunityRow.render()  
-     this.$el.append(CommunityRow.el)
+        if (model.get('_id') !== '_design/bell') { // only render if its NOT a design doc
+            var CommunityRow = new App.Views.CommunityRow({model: model})
+            CommunityRow.render()
+            this.$el.append(CommunityRow.el)
+        }
     },
 
     addAll: function(){
@@ -22,7 +24,7 @@ $(function() {
 
     render: function() {
     
-     this.$el.append('<tr><th>Community-Name</th><th>#Members</th><th colspan="2">Actions</th></tr>')
+     this.$el.append('<tr><th>Community-Name</th><th colspan="2">Actions</th></tr>')
       this.addAll()
     }
 

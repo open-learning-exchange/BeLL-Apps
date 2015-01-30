@@ -23,11 +23,11 @@ $(function() {
     },
 
     render: function () {
-      
-     var community=this.model;
-     	 var row="<td>"+ community.get('Name')+ "</td><td>45</td><td><a role='button' class='btn btn-info' href='#addCommunity/"+ community.get('_id') +"'> <i class='icon-pencil icon-white'></i>Edit</a></td>";
-     	 this.$el.append(row);
-
+        var community=this.model;
+        var row = "<td>"+ community.get('Name')+ "</td><td><a role='button' class='btn btn-info' href='#addCommunity/"+
+                        community.get('_id') +"'> <i class='icon-pencil icon-white'></i>Edit</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/"+
+            community.get('_id') +"'> <i class='icon-remove icon-white'></i>Delete</a></td>";
+        this.$el.append(row);
     }
 
   })
