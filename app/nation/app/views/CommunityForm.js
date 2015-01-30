@@ -70,15 +70,54 @@ $(function() {
           		 UrgentName:$('#urg-name').val(),
           		 UrgentPhone:$('#urg-phone').val(),
           		 AuthName:$('#auth-name').val(),
-          		 AuthDate:$('#auth-date').val(),
+          		 AuthDate:$('#auth-date').val()
           });
-        
-           
-          this.model.save()
-            alert("Successfully Saved")
-            App.startActivityIndicator()
-            Backbone.history.navigate('listCommunity',{trigger:true});
-            App.stopActivityIndicator()		 
+
+        var context = this;
+        $.ajax({
+            url: '/community/_design/bell/_view/isDuplicateName?include_docs=true&key="'+context.model.get('Name')+'"',
+            type: 'GET',
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                // assumption: if control falls to the success function result.rows will never be undefined. it will value of an array
+                if (result.rows.length > 1) { // if more than one community records with same 'Name' i-e duplicate community Name found in DB
+                    alert("Community has duplicates in the database. Please delete other copies and retry.");
+                    return;
+                }
+                else if (result.rows.length === 0) { // if no duplicates found in DB
+                    context.model.save();
+                    alert("Successfully Saved");
+                    App.startActivityIndicator();
+                    Backbone.history.navigate('listCommunity',{trigger:true});
+                    App.stopActivityIndicator();
+                }
+                else { // result.rows.length = 1. one duplicate has been found in db but we need to check sth more, this is not enough
+                    // the key, community 'Name' passed into the view did find a matching community and returned it
+                    // but we must ensure that the community in DB is not the same i-e both of these do not belong to same community record/document
+                    var duplicateCommunityInDB = result.rows[0].doc;
+                    if( (context.model.id) && (context.model.id === duplicateCommunityInDB._id) ) {
+                        // its the same community with some edit(s). not a new one which is has same name as another existing community
+//                            alert("Same community edit");
+                        context.model.save();
+                        alert("Successfully Saved");
+                        App.startActivityIndicator();
+                        Backbone.history.navigate('listCommunity',{trigger:true});
+                        App.stopActivityIndicator();
+                    } else {
+                        alert("Community 'Name' you entered is a duplicate. Please try again with a different name.");
+                    }
+                }
+            }, error: function() {
+                alert("There was an error in getting a response from the server. Please try again.");
+            }
+        });
+
+//            context.model.save()
+//            alert("Successfully Saved")
+//            App.startActivityIndicator()
+//            Backbone.history.navigate('listCommunity',{trigger:true});
+//            App.stopActivityIndicator()
                          /*    $.ajax({
                         headers: {
                             'Accept': 'application/json',
