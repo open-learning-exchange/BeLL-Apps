@@ -453,7 +453,7 @@ $(function () {
         	}})
         	var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-            body = 'Admission request recieved from user "a" has been Accepted<br>'
+            body = 'Admission request received from user "a" has been Accepted<br>'
             body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this request.</div>"
             
             mailView.inViewModel.save()
@@ -479,7 +479,7 @@ $(function () {
         	
         	var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-            body = 'Admission request recieved from user "a" has been Rejected<br>'
+            body = 'Admission request received from user "a" has been Rejected<br>'
             body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have rejected this request.</div>"
             
             var currentdate = new Date();

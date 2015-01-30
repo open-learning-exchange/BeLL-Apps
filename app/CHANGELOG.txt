@@ -1,0 +1,15 @@
+BeLL Apps v0.11.16
+-----------------------
+- This is an other test
+
+BeLL Apps v0.11.15
+-----------------------
+- This is an other test
+
+BeLL Apps v0.11.14
+-----------------------
+- This is a test
+
+BeLL Apps v0.11.13
+-----------------------
+- Added CHANGELOG.txt so we can quickly see that code was updated on Community BeLLs
