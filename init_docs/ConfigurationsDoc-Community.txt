@@ -1,11 +1,11 @@
 {
-    "name":"NBS",
-    "nationName":"olenation",
-    "code":"so",
+    "name”:”Community-name”,
+    "nationName”:”somaliabell”,
+    "code”:”community-name-in-small-lettercase”,
     "type":"community",
-    "nationUrl":"olenation.cloudant.com",
-    "version":"0.11.12",
-    "notes":"this is testing .....asdf",
+    "nationUrl”:”somaliabell.ole.org:5987”,
+    "version":"0.11.17”,
+    "notes”:”Dadab Community Bell”,
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
 }
