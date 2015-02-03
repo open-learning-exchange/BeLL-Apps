@@ -1,0 +1,19 @@
+{
+  "name": "update-nation",
+  "description": "A tool for updating the BeLL app at a nation BeLL server",
+  "version": "0.0.1",
+  "author": "Omer Yousaf <u.yusaf@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/open-learning-exchange/bell-apps.git"
+  },
+  "dependencies": {
+    "commander": "2.5.0",
+    "couchapp": ">= 0.10.0",
+    "fs": "0.0.2",
+    "nano": "6.0.1"
+  },
+  "engines": {
+    "node": ">= 0.3.0"
+  }
+}
