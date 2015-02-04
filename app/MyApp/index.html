@@ -65,6 +65,7 @@
 <script src="vendor/pouchdb-2.1.0.js"></script>
 <script type="text/javascript" src="js/ui.multiselect.js"></script>
 <script src="vendor/jqBarGraph.js"></script>
+<script src="vendor/highcharts.js"></script>
 <!--<script type="text/javascript" src="vendor/html5lightbox/jquery.js"></script>-->
 
 <script src="vendor/html5lightbox/html5lightbox.js"></script>
@@ -1342,16 +1343,12 @@
         <span style="color:gray;">Period&nbsp;(YYYY:MM:DD) </span> <%= startDate %>&nbsp;to&nbsp;<%= endDate %>
     </p>
 
-   <!-- <div id="trend-report-div-new-memberships" style="float: left;"></div>
-    <div id="trend-report-div-visits"  style="float: left;"></div>
-    <div><br/> <br/></div>
-    -->
-
+    <div id="trend-report-div-new-memberships" style="width: 49.5%; float: left"></div>
+    <div id="trend-report-div-visits" style="width: 49.5%; float: right"></div>
+    <h4>
+        Facts and Figures
+    </h4>
     <table class="table table-striped">
-        <tr>
-            <th colspan="3"><div id="trend-report-div-new-memberships" ></div></th>
-            <th colspan="3"><div id="trend-report-div-visits" ></div></th>
-        </tr>
         <tr>
             <th >Most Frequently Opened</th>
             <th >Total</th>
