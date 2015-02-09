@@ -50,7 +50,8 @@
   <script src="vendor/jquery.timepicker.js"></script>
   <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
   <script src="vendor/jquery-ui.multidatespicker.js"></script>
- <script src="jquery.popupoverlay.js"></script>
+  <script src="jquery.popupoverlay.js"></script>
+  <script src="vendor/highcharts.js"></script>
 
   
       <!-- -->
@@ -63,6 +64,7 @@
       
   
     <!-- Models  -->
+     <script src="app/models/DailyLog.js"></script>
      <script src="app/models/Configuration.js"></script>
      <script src="app/models/Community.js"></script>
      <script src="app/models/CourseStep.js"></script>
@@ -78,6 +80,7 @@
       <script src="app/models/Group.js"></script>
      
       <!-- Collections  -->
+     <script src="app/collections/ActivityLog.js"></script>
      <script src="app/collections/Configurations.js"></script>
      <script src="app/collections/Community.js"></script>
      <script src="app/collections/CourseLevels.js"></script>
@@ -94,8 +97,8 @@
      
      
      <!-- Views  -->
-     
-     
+
+     <script src="app/views/TrendActivityReport.js"></script>
      <script src="app/views/CommunityForm.js"></script>
      <script src="app/views/ConfigurationView.js"></script>
      <script src="app/views/navBarView.js"></script>
@@ -153,6 +156,83 @@
   		}
   	</script>
     <!--templates -->
+
+    <script type="text/html" id="template-TrendActivityReport">
+      <h4>
+          Trend Activity Report ( <span id="communityName"></span> )
+      </h4>
+
+      <div id="trend-report-div-new-memberships" style="width: 49.5%; float: left"></div>
+      <div id="trend-report-div-visits" style="width: 49.5%; float: right"></div>
+      <h4>
+          Facts and Figures
+      </h4>
+      <table class="table table-striped">
+          <tr>
+              <th >Most Frequently Opened</th>
+              <th >Total</th>
+              <th >Male</th>
+              <th >Female</th>
+              <th>Average Rating</th>
+              <th >Times Rated</th>
+          </tr>
+          <!-- @todo Recording of opening resources is broken.  -->
+
+          <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
+          <% _.each(Most_Freq_Open, function(resource){ %>
+          <tr>
+              <td><%=resource.resourceName%></td>
+              <td><%=resource.timesOpenedCumulative%></td>
+              <td><%=resource.timesOpenedByMales%></td>
+              <td><%=resource.timesOpenedByFemales%></td>
+              <td><%=resource.avgRatingCumulative%></td>
+              <td><%=resource.timesRatedCumulative%></td>
+          </tr>
+          <% }); %>
+          <tr>
+              <th >Highest Rated</th>
+              <th >Total</th>
+              <th >Male</th>
+              <th >Female</th>
+              <th>Average Rating</th>
+              <th >Times Rated</th>
+          </tr>
+          <% _.each(Highest_Rated, function(resource){ %>
+          <tr>
+              <td><%=resource.resourceName%></td>
+              <td><%=resource.timesRatedByCumulative%></td>
+              <td><%=resource.timesRatedByMales%></td>
+              <td><%=resource.timesRatedByFemales%></td>
+              <td><%=resource.avgRatingCumulative%></td>
+              <td><%=resource.timesRatedCumulative%></td>
+          </tr>
+          <% }); %>
+          <tr>
+              <th >Lowest Rated</th>
+              <th >Total</th>
+              <th >Male</th>
+              <th >Female</th>
+              <th>Average Rating</th>
+              <th >Times Rated</th>
+          </tr>
+          <% _.each(Lowest_Rated, function(resource){ %>
+          <tr>
+              <td><%=resource.resourceName%></td>
+              <td><%=resource.timesRatedByCumulative%></td>  <!-- timesOpenedCumulative -->
+              <td><%=resource.timesRatedByMales%></td>     <!-- timesOpenedByMales -->
+              <td><%=resource.timesRatedByFemales%></td>   <!-- timesOpenedByFemales -->
+              <td><%=resource.avgRatingCumulative%></td>
+              <% if (resource.timesRatedCumulative === "N/A") { %>
+              <td><%=resource.timesRatedCumulative%></td>
+              <% } else { %>
+              <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
+              <% } %>
+          </tr>
+          <% }); %>
+
+      </table>
+    </script>
+
     <script type='text/template' id='template-login'>
     <p style='text-align:center;font-size:27px'>Welcome to Nation Bell <br> The Billion Kids' Basic e-Learning Library</p>
      <div style='height:250px;border-top:1px solid gray;border-bottom:1px solid gray;width:100%;margin:100px auto;background-color:#eee' id='Login-form'>

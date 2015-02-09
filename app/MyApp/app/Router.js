@@ -1686,20 +1686,6 @@ $(function(){
                 var fifth_last_month_visits_male = fifthLastMonthDataset.Visits['male'];   var fifth_last_month_visits_female = fifthLastMonthDataset.Visits['female'];
                 var sixth_last_month_visits_male = sixthLastMonthDataset.Visits['male'];   var sixth_last_month_visits_female = sixthLastMonthDataset.Visits['female'];
 
-                var arrayOfData = [
-                    [[ sixth_last_month_visits_male, sixth_last_month_visits_female, eval(sixth_last_month_visits_male + sixth_last_month_visits_female) ] ,
-                        monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear()],              
-                    [[ fifth_last_month_visits_male, fifth_last_month_visits_female, eval(fifth_last_month_visits_male + fifth_last_month_visits_female) ] ,
-                        monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear()],
-                    [[ fourth_last_month_visits_male, fourth_last_month_visits_female, eval(fourth_last_month_visits_male + fourth_last_month_visits_female) ] ,
-                        monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear()],
-                    [[ third_last_month_visits_male, third_last_month_visits_female, eval(third_last_month_visits_male + third_last_month_visits_female) ] ,
-                        monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear()],
-                    [[ second_last_month_visits_male, second_last_month_visits_female, eval(second_last_month_visits_male + second_last_month_visits_female) ] ,
-                        monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear()],
-                    [ [ last_month_visits_male, last_month_visits_female, (last_month_visits_male + last_month_visits_female) ] ,
-                        monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()]
-                ];
                 // show registered members at end of each month falling in duration of this report
                 var totalRegisteredMembers = {male: 0, female: 0};
                 context.getRegisteredMembersCount(function(param1, param2) {
@@ -1722,21 +1708,6 @@ $(function(){
                     female: registeredMembersTillFifthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
                 registeredMembersTillSixthLastMonthEnd['total'] = registeredMembersTillSixthLastMonthEnd['male'] + registeredMembersTillSixthLastMonthEnd['female'];
 
-                var arrayOfDataForNewMemberships = [
-                    [[ registeredMembersTillSixthLastMonthEnd['male'], registeredMembersTillSixthLastMonthEnd['female'], registeredMembersTillSixthLastMonthEnd['total'] ] ,
-                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear()],
-                    [[ registeredMembersTillFifthLastMonthEnd['male'], registeredMembersTillFifthLastMonthEnd['female'], registeredMembersTillFifthLastMonthEnd['total'] ] ,
-                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear()],
-                    [[ registeredMembersTillFourthLastMonthEnd['male'], registeredMembersTillFourthLastMonthEnd['female'], registeredMembersTillFourthLastMonthEnd['total'] ] ,
-                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear()],
-                    [[ registeredMembersTillThirdLastMonthEnd['male'], registeredMembersTillThirdLastMonthEnd['female'], registeredMembersTillThirdLastMonthEnd['total'] ] ,
-                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear()],
-                    [[ registeredMembersTillSecondLastMonthEnd['male'], registeredMembersTillSecondLastMonthEnd['female'], registeredMembersTillSecondLastMonthEnd['total'] ] ,
-                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear()],
-                    [ [ totalRegisteredMembers['male'], totalRegisteredMembers['female'], (totalRegisteredMembers['male'] + totalRegisteredMembers['female']) ] ,
-                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear() ]
-                    
-                ];
                 var trendActivityReportView = new App.Views.TrendActivityReport();
                 trendActivityReportView.data = aggregateDataset;
                 trendActivityReportView.startDate = activityDataColl.startkey;
