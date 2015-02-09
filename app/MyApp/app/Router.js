@@ -1596,12 +1596,18 @@ $(function(){
         $( '<div id="trend-report-form"></div>' ).appendTo( App.$el.children('.body') );
         var label = $("<label>").text('Trend report ending: ');
         $( '#trend-report-form').append(label);
-        var input = $('<input type="text">').attr({id: 'dateSelect', name: 'dateSelect'});  input.width(75);
+        var today = new Date();
+        var input = $('<input type="text">').attr({
+            id: 'dateSelect', 
+            name: 'dateSelect', 
+            value: today.getFullYear().toString() + '-' + ((today.getMonth()) < 9? '0' + (today.getMonth() + 1): (today.getMonth() + 1))  + '-' + ((today.getDate()) < 9? '0' + today.getDate(): today.getDate())
+        });  
+        input.width(85);
         input.appendTo(label);
         $( '#dateSelect').datepicker({
             dateFormat: "yy-mm-dd",
             changeMonth: true,//this option for allowing user to select month
-            changeYear: true //this option for allowing user to select from year range
+            changeYear: true, //this option for allowing user to select from year range
         });
         var button = $('<input type="button">').attr({id: 'submit', name: 'submit', class: "btn btn-success", value: 'Generate Report'});
         $( '#trend-report-form').append(button);
@@ -1627,18 +1633,6 @@ $(function(){
                     ( fifthLastMonthStartDate.getDate() - 1 ) );
                 var sixthLastMonthStartDate = new Date( sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1 );
 
-                // create start and end dates for past five months
-//                alert(endDateForTrendReport + "\n" + lastMonthStartDate + "\n" + secondLastMonthEndDate + "\n" +
-//                    secondLastMonthStartDate + "\n" + thirdLastMonthEndDate + "\n" + thirdLastMonthStartDate + "\n" +
-//                    fourthLastMonthEndDate + "\n" + fourthLastMonthStartDate + "\n" + fifthLastMonthEndDate + "\n" +
-//                    fifthLastMonthStartDate + "\n" + sixthLastMonthEndDate + "\n" + sixthLastMonthStartDate + "\n" );
-
-//                var staticData={
-//                    "Visits":{"male": report_male_visits, "female": report_female_visits},
-//                    "Most_Freq_Open": Most_Freq_Opened,
-//                    "Highest_Rated": Highest_Rated_Resources,
-//                    "Lowest_Rated": Lowest_Rated_Resources
-//                };
                 var activityDataColl = new App.Collections.ActivityLog();
                 activityDataColl.startkey = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate) );
                 activityDataColl.endkey = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
@@ -1682,7 +1676,9 @@ $(function(){
                 var sixthLastMonthDataset = context.aggregateDataForTrendReport('communityX', sixthLastMonthActivityData);
                 var aggregateDataset = context.aggregateDataForTrendReport('communityX', activityDataColl.models);
                 console.log(lastMonthDataset);
+                
                 var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+                
                 var last_month_visits_male = lastMonthDataset.Visits['male'];   var last_month_visits_female = lastMonthDataset.Visits['female'];
                 var second_last_month_visits_male = secondLastMonthDataset.Visits['male'];  var second_last_month_visits_female = secondLastMonthDataset.Visits['female'];
                 var third_last_month_visits_male = thirdLastMonthDataset.Visits['male'];  var third_last_month_visits_female = thirdLastMonthDataset.Visits['female'];
@@ -1749,9 +1745,150 @@ $(function(){
                 trendActivityReportView.render();
                 App.$el.children('.body').html(trendActivityReportView.el);
                 //$( '<div id="trend-report-div-new-memberships"></div>' ).appendTo( App.$el.children('.body') );
-                $('#trend-report-div-new-memberships').jqBarGraph({ data: arrayOfDataForNewMemberships, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'], legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Registered Members' });
+                $('#trend-report-div-new-memberships').highcharts({
+                    chart: {
+                        type: 'column',
+                        borderColor: '#999999',
+                        borderWidth: 2,
+                        borderRadius: 10
+                    },
+                    title: {
+                        text: 'Cumulative Registered Members'
+                    },
+                    xAxis: {
+                        categories: [
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "Members Count"
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Males',
+                        data: [
+                            registeredMembersTillSixthLastMonthEnd['male'],
+                            registeredMembersTillFifthLastMonthEnd['male'],
+                            registeredMembersTillFourthLastMonthEnd['male'],
+                            registeredMembersTillThirdLastMonthEnd['male'],
+                            registeredMembersTillSecondLastMonthEnd['male'],
+                            totalRegisteredMembers['male']]
+                    }, {
+                        name: 'Females',
+                        data: [
+                            registeredMembersTillSixthLastMonthEnd['female'],
+                            registeredMembersTillFifthLastMonthEnd['female'],
+                            registeredMembersTillFourthLastMonthEnd['female'],
+                            registeredMembersTillThirdLastMonthEnd['female'],
+                            registeredMembersTillSecondLastMonthEnd['female'],
+                            totalRegisteredMembers['female']]
+                    }, {
+                        name: 'Total',
+                        data: [
+                            registeredMembersTillSixthLastMonthEnd['total'],
+                            registeredMembersTillFifthLastMonthEnd['total'],
+                            registeredMembersTillFourthLastMonthEnd['total'],
+                            registeredMembersTillThirdLastMonthEnd['total'],
+                            registeredMembersTillSecondLastMonthEnd['total'],
+                            totalRegisteredMembers['male'] + totalRegisteredMembers['female']]
+                    }]
+                });
+
+                $('#trend-report-div-visits').highcharts({
+                    chart: {
+                        type: 'column',
+                        borderColor: '#999999',
+                        borderWidth: 2,
+                        borderRadius: 10
+                    },
+                    title: {
+                        text: 'Members Visited'
+                    },
+                    xAxis: {
+                        categories: [
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "Members Count"
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Males',
+                        data: [
+                            sixthLastMonthDataset.Visits['male'],
+                            fifthLastMonthDataset.Visits['male'],
+                            fourthLastMonthDataset.Visits['male'],
+                            thirdLastMonthDataset.Visits['male'],
+                            secondLastMonthDataset.Visits['male'],
+                            lastMonthDataset.Visits['male']]
+                    }, {
+                        name: 'Females',
+                        data: [
+                            sixthLastMonthDataset.Visits['female'],
+                            fifthLastMonthDataset.Visits['female'],
+                            fourthLastMonthDataset.Visits['female'],
+                            thirdLastMonthDataset.Visits['female'],
+                            secondLastMonthDataset.Visits['female'],
+                            lastMonthDataset.Visits['female']]
+                    }, {
+                        name: 'Total',
+                        data: [
+                            sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
+                            fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
+                            fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
+                            thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
+                            secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
+                            lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']]
+                    }]
+                });
+
+
+                //$('#trend-report-div-new-memberships').jqBarGraph({ data: arrayOfDataForNewMemberships, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'], legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Registered Members' });
                 //$( '<br/> <br/><div id="trend-report-div-visits"></div>' ).appendTo( App.$el.children('.body') );
-                $('#trend-report-div-visits').jqBarGraph({ data: arrayOfData, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'] , legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Member Visits'  });
+                //$('#trend-report-div-visits').jqBarGraph({ data: arrayOfData, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'] , legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Member Visits'  });
                 /*
                  "Most_Freq_Open": Most_Freq_Opened,
                  "Highest_Rated": Highest_Rated_Resources,
