@@ -210,8 +210,7 @@ $(function () {
 								},
 								error: function(XMLHttpRequest, textStatus, errorThrown) { 
 								            alert("Error (Try Later)")
-                					}, 
-								async: false
+                                }
 							})
 					 
 				 }})

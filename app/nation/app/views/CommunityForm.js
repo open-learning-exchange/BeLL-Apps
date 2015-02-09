@@ -23,7 +23,8 @@ $(function() {
 	  				buttonText="Update"
 	  			
 	  			$('#nation-name').val(Nation.get('Name'))
-	  			$('#nation-url').val(Nation.get('Url'))
+                $('#community-code').val(Nation.get('Code'))
+                $('#nation-url').val(Nation.get('Url'))
 	  			$('#org-name').val(Nation.get('SponserName'))
 	  			$('#org-sponseraddress').val(Nation.get('SponserAddress'))
 	  			$('#org-firstname').val(Nation.get('ContactFirstname'))
@@ -52,6 +53,7 @@ $(function() {
     setForm:function(){
           this.model.set({
          		 Name:$('#nation-name').val(),
+                 Code:$('#community-code').val(),
           		 Url:$('#nation-url').val(),
           		 SponserName:$('#org-name').val(),
           		 SponserAddress:$('#org-sponseraddress').val(),

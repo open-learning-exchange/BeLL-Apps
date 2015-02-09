@@ -35,7 +35,7 @@ ddoc.views = {
   },
   Members: {
     map: function (doc) {
-      if (doc.kind == 'Member') {
+      if (doc && doc.kind == 'Member') {
         emit(doc._id, true)
       }
     }

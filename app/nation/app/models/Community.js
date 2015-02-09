@@ -25,6 +25,9 @@ $(function() {
        	Name: {	type:'Text',
        			validators: ['required']
        		  },
+        Code: {	type:'Text',
+            validators: ['required']
+        },
         Url: {	type:'Text',
        			validators: ['required']
        		  },

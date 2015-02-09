@@ -19,6 +19,13 @@ ddoc.views = {
                 emit(doc.Url, true);
             }
         }
+    },
+    getAllCommunityNames: {
+        map: function(doc) {
+            if(doc && doc.Name){
+                emit(doc.Name, doc.Code);
+            }
+        }
     }
 }
 

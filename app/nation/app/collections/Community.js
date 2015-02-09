@@ -11,6 +11,9 @@ $(function() {
 			this.url= App.Server + '/community/_all_docs?include_docs=true'
 		}
 	},
+    setUrl: function(url){
+        this.url = url;
+    },
     parse: function(response) {
       var docs = _.map(response.rows, function(row) {
         return row.doc

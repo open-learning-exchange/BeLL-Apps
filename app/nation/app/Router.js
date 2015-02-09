@@ -19,7 +19,8 @@ $(function() {
             'configuration': 'Configuration',
             'publication/add/:publicationId': 'PublicationForm',
             'publicationdetail/:publicationId': 'PublicationDetails',
-            'courses/:publicationId': "addCourses"
+            'courses/:publicationId': "addCourses",
+            'trendreport':"TrendReport"
         },
 
         initialize: function() {
@@ -32,6 +33,22 @@ $(function() {
             $('#invitationdiv').hide()
             $('#debug').hide()
 
+        },
+        turnDateToYYYYMMDDFormat: function (date) {
+            // GET YYYY, MM AND DD FROM THE DATE OBJECT
+            var yyyy = date.getFullYear().toString();
+            var mm = (date.getMonth()+1).toString();
+            var dd  = date.getDate().toString();
+            // CONVERT mm AND dd INTO chars
+            var mmChars = mm.split('');
+            var ddChars = dd.split('');
+            // CONCAT THE STRINGS IN YYYY-MM-DD FORMAT
+            var dateString = yyyy + '/' + ( mmChars.length===2 ? mm : "0" + mmChars[0] ) + '/' + ( ddChars.length===2 ? dd : "0" + ddChars[0] );
+            return dateString;
+        },
+        changeDateFormat:function(date){
+            var datePart = date.match(/\d+/g), year = datePart[0], month = datePart[1], day = datePart[2];
+            return year+'/'+month+'/'+day;
         },
         Configuration: function() {
 //            var config = new App.Collections.Configurations()
@@ -56,6 +73,79 @@ $(function() {
             App.$el.children('.body').html(configForm.el)
 
         },
+        TrendReport: function(){
+            var context = this;
+            App.$el.children('.body').html('');
+            $( '<div id="trend-report-form" style="height: auto"></div>' ).appendTo( App.$el.children('.body') );
+
+            var select = $("<select id='communitySelector'>");
+
+            var label = $("<label>").text('Select Community: ');
+            $( '#trend-report-form').append(label);
+
+            var communityNames = [];
+            $.ajax({
+                type: 'GET',
+                url: '/community/_design/bell/_view/getAllCommunityNames',
+                dataType: 'json',
+                success: function (response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        communityNames[i]= response.rows[i].value;
+                        select.append("<option value=" + communityNames[i] + ">" +  response.rows[i].key + "</option>");
+                    }
+                },
+                data: {},
+                async: false
+            });
+
+            $( '#trend-report-form').append(select);
+
+            var button = $('<input type="button" style="height: 100%">').attr({id: 'submit', name: 'submit', class:'btn btn-success' , value: 'Generate Report'});
+            $( '#trend-report-form').append(button);
+
+            button.click(function() {
+                var communityChosen = $('#communitySelector').val();
+
+                var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
+                var lastMonthStartDate = new Date( endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1 );
+                var secondLastMonthEndDate = new Date( lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(),
+                    ( lastMonthStartDate.getDate() - 1 ) );
+                var secondLastMonthStartDate = new Date( secondLastMonthEndDate.getFullYear(), secondLastMonthEndDate.getMonth(), 1 );
+                var thirdLastMonthEndDate = new Date( secondLastMonthStartDate.getFullYear(), secondLastMonthStartDate.getMonth(),
+                    ( secondLastMonthStartDate.getDate() - 1 ) );
+                var thirdLastMonthStartDate = new Date( thirdLastMonthEndDate.getFullYear(), thirdLastMonthEndDate.getMonth(), 1 );
+                var fourthLastMonthEndDate = new Date( thirdLastMonthStartDate.getFullYear(), thirdLastMonthStartDate.getMonth(),
+                    ( thirdLastMonthStartDate.getDate() - 1 ) );
+                var fourthLastMonthStartDate = new Date( fourthLastMonthEndDate.getFullYear(), fourthLastMonthEndDate.getMonth(), 1 );
+                var fifthLastMonthEndDate = new Date( fourthLastMonthStartDate.getFullYear(), fourthLastMonthStartDate.getMonth(),
+                    ( fourthLastMonthStartDate.getDate() - 1 ) );
+                var fifthLastMonthStartDate = new Date( fifthLastMonthEndDate.getFullYear(), fifthLastMonthEndDate.getMonth(), 1 );
+                var sixthLastMonthEndDate = new Date( fifthLastMonthStartDate.getFullYear(), fifthLastMonthStartDate.getMonth(),
+                    ( fifthLastMonthStartDate.getDate() - 1 ) );
+                var sixthLastMonthStartDate = new Date( sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1 );
+                var startDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate) );
+                var endDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+communityChosen+'","'+startDate+'"]&endkey=["'+
+                                                                                                                communityChosen+'","'+endDate+'"]',
+                    dataType: 'json',
+                    success: function (response) {
+                        for (var i = 0; i < response.rows.length; i++) {
+                            communityNames[i]= response.rows[i].value;
+                            select.append("<option value=" + communityNames[i] + ">" +  response.rows[i].key + "</option>");
+                        }
+                    },
+                    data: {},
+                    async: false
+                });
+
+
+
+            });
+        }
+        ,
         renderNav: function() {
             var con = this.getConfigurations()
             if ($.cookie('Member._id')) {
@@ -351,7 +441,8 @@ $(function() {
             resourcesTableView.render()
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
-                App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a></p>')
+                App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a>' +
+                '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
             }
             var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
