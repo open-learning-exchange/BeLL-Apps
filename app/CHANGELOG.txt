@@ -1,3 +1,8 @@
+BeLL Apps 0.11.24
+-----------------------
+- Added community-wise trend activity report generation at nation BeLL.
+- Fixed some bugs related to trend activity reporting.
+
 BeLL Apps 0.11.21
 -----------------------
 - This to test that the Dadaab communities can receive app updates.

@@ -4,7 +4,7 @@
     "code":"community-name-in-small-lettercase",
     "type":"community",
     "nationUrl":"somaliabell.ole.org:5987",
-    "version":"0.11.23",
+    "version":"0.11.24",
     "notes":"Dadab Community Bell",
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
