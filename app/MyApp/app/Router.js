@@ -1583,8 +1583,8 @@ $(function(){
                     success: function (json) {
                         if(json.rows[0]){
                             femaleMembers = json.rows[0].value;
-                            callback(maleMembers, femaleMembers);
                         }
+                        callback(maleMembers, femaleMembers);
                     }
                 })
             }

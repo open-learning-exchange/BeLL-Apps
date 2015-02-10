@@ -391,8 +391,8 @@ $(function() {
                         success: function (json) {
                             if(json.rows[0]){
                                 femaleMembers = json.rows[0].value;
-                                callback(maleMembers, femaleMembers);
                             }
+                            callback(maleMembers, femaleMembers);
                         }
                     })
                 }
@@ -608,7 +608,7 @@ $(function() {
                         borderRadius: 10
                     },
                     title: {
-                        text: 'Members Visited'
+                        text: 'Member Visits'
                     },
                     xAxis: {
                         categories: [
@@ -623,7 +623,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Members Count"
+                            text: "Visits Count"
                         }
                     },
                     tooltip: {
