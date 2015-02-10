@@ -428,8 +428,11 @@ $(function() {
             var button = $('<input type="button" style="height: 100%">').attr({id: 'submit', name: 'submit', class:'btn btn-success' , value: 'Generate Report'});
             $( '#trend-report-form').append(button);
 
+            var communityName= "";
+
             button.click(function() {
                 var communityChosen = $('#communitySelector').val();
+                communityName = $('#communitySelector option:selected').text();
 
                 var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
                 var lastMonthStartDate = new Date( endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1 );
@@ -451,9 +454,6 @@ $(function() {
                 var startDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate) );
                 var endDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
 
-
-//                var activityDataColl = {models: []};
-
                 var activityDataColl = new App.Collections.ActivityLog();
                 var urlTemp = 'http://127.0.0.1:5984/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+communityChosen+'","'+startDate+'"]&endkey=["'+
                                                                                                                             communityChosen+'","'+endDate+'"]';
@@ -463,31 +463,13 @@ $(function() {
                     async:false
                 });
                 activityDataColl.toJSON();
-//                $.ajax({
-//                    type: 'GET',
-//                    url: '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+communityChosen+'","'+startDate+'"]&endkey=["'+
-//                                                                                                                communityChosen+'","'+endDate+'"]',
-//                    dataType: 'json',
-//                    success: function (response) {
-//                        activityDataColl = response.toJSON();
-////                        for (var i = 0; i < response.rows.length; i++) {
-////                            activityDataColl.models[i] = response.rows[i].doc;
-////                        }
-//                    }, error: function (err) {
-//                        console.log("error fetching data for chosen community"); console.log("err");
-//                    },
-//                    data: {},
-//                    async: false
-//                });
 
-//                activityDataColl = activityDataColl.toJSON();
                 // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
                 var endingMonthActivityData = [], secondLastMonthActivityData = [], thirdLastMonthActivityData = [],
                     fourthLastMonthActivityData = [], fifthLastMonthActivityData = [], sixthLastMonthActivityData = [];
                 for (var i in activityDataColl.models) {
                     var modelKey = context.turnDateFromMMDDYYYYToYYYYMMDDFormat(activityDataColl.models[i].get('logDate'));
-                    var min = context.turnDateToYYYYMMDDFormat(lastMonthStartDate);
-                    var max = context.turnDateToYYYYMMDDFormat(endDateForTrendReport);
+
                     if ( (modelKey >= context.turnDateToYYYYMMDDFormat(lastMonthStartDate)) &&
                         (modelKey <= context.turnDateToYYYYMMDDFormat(endDateForTrendReport)) ) {
                         endingMonthActivityData.push(activityDataColl.models[i]);
@@ -515,16 +497,8 @@ $(function() {
                 var fifthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fifthLastMonthActivityData);
                 var sixthLastMonthDataset = context.aggregateDataForTrendReport('communityX', sixthLastMonthActivityData);
                 var aggregateDataset = context.aggregateDataForTrendReport('communityX', activityDataColl.models);
-                console.log(lastMonthDataset);
 
                 var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-
-                var last_month_visits_male = lastMonthDataset.Visits['male'];   var last_month_visits_female = lastMonthDataset.Visits['female'];
-                var second_last_month_visits_male = secondLastMonthDataset.Visits['male'];  var second_last_month_visits_female = secondLastMonthDataset.Visits['female'];
-                var third_last_month_visits_male = thirdLastMonthDataset.Visits['male'];  var third_last_month_visits_female = thirdLastMonthDataset.Visits['female'];
-                var fourth_last_month_visits_male = fourthLastMonthDataset.Visits['male'];   var fourth_last_month_visits_female = fourthLastMonthDataset.Visits['female'];
-                var fifth_last_month_visits_male = fifthLastMonthDataset.Visits['male'];   var fifth_last_month_visits_female = fifthLastMonthDataset.Visits['female'];
-                var sixth_last_month_visits_male = sixthLastMonthDataset.Visits['male'];   var sixth_last_month_visits_female = sixthLastMonthDataset.Visits['female'];
 
                 // show registered members at end of each month falling in duration of this report
                 var totalRegisteredMembers = {male: 0, female: 0};
@@ -552,10 +526,10 @@ $(function() {
                 trendActivityReportView.data = aggregateDataset;
                 trendActivityReportView.startDate = activityDataColl.startkey;
                 trendActivityReportView.endDate = activityDataColl.endkey;
-                trendActivityReportView.CommunityName = activityDataColl.CommunityName;
+                trendActivityReportView.CommunityName = communityName;
                 trendActivityReportView.render();
                 App.$el.children('.body').html(trendActivityReportView.el);
-                //$( '<div id="trend-report-div-new-memberships"></div>' ).appendTo( App.$el.children('.body') );
+
                 $('#trend-report-div-new-memberships').highcharts({
                     chart: {
                         type: 'column',
