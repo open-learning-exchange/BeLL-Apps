@@ -41,7 +41,7 @@ function installDesignDocs() {
             installDesignDocs()
         });
     } else {
-//        updateNationCouchVersion();
+        updateNationCouchVersion();
     }
 }
 
