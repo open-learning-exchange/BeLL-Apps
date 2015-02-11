@@ -1705,8 +1705,6 @@ $(function(){
                 registeredMembersTillFifthLastMonthEnd['total'] = registeredMembersTillFifthLastMonthEnd['male'] + registeredMembersTillFifthLastMonthEnd['female'];
                 registeredMembersTillSixthLastMonthEnd['total'] = registeredMembersTillSixthLastMonthEnd['male'] + registeredMembersTillSixthLastMonthEnd['female'];
 
-
-
                 var trendActivityReportView = new App.Views.TrendActivityReport();
                 trendActivityReportView.data = aggregateDataset;
                 trendActivityReportView.startDate = activityDataColl.startkey;
