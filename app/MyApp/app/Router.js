@@ -1685,8 +1685,10 @@ $(function(){
                     totalRegisteredMembers['male'] = param1;
                     totalRegisteredMembers['female'] = param2;
                 });
-                var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - LastMonthDataset.New_Signups['male'],
-                    female: totalRegisteredMembers['female'] - LastMonthDataset.New_Signups['female'], total: 0};
+
+                var registeredMembersTillNow = {male: totalRegisteredMembers['male'], female: totalRegisteredMembers['female'], total: 0};
+                var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - lastMonthDataset.New_Signups['male'],
+                    female: totalRegisteredMembers['female'] - lastMonthDataset.New_Signups['female'], total: 0};
                 var registeredMembersTillThirdLastMonthEnd = {male: registeredMembersTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
                     female: registeredMembersTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
                 var registeredMembersTillFourthLastMonthEnd = {male: registeredMembersTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
