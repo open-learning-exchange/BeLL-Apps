@@ -222,10 +222,10 @@ $(function () {
                                     });
                                 } else {
                                     alert("Successfully Updated!!!");
+                                    Backbone.history.navigate('members', {
+                                        trigger: true
+                                    });
                                 }
-                                Backbone.history.navigate('members', {
-                                    trigger: true
-                                })
                             }
                             that.model.on('savedAttachment', function () {
                                 if (that.model.attributes._rev == undefined) { // if true then its a new member signup
@@ -247,10 +247,6 @@ $(function () {
                                         trigger: true
                                     })
                                 }
-                                $('#progressImage').hide();
-                                Backbone.history.navigate('members', {
-                                    trigger: true
-                                })
                             }, that.model)
                         }
                     })
@@ -318,6 +314,10 @@ $(function () {
                     console.log("MyApp::MemberForm.js (view):: UpdatejSONlog: err making update to record");
                     console.log(err);
                 }
+                alert("Successfully Registered!!!");
+                Backbone.history.navigate('members', {
+                    trigger: true
+                });
             });
         }
     })
