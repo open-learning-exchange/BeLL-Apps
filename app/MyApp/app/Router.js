@@ -2091,7 +2091,7 @@ $(function(){
             chart.render()
             App.$el.children('.body').append(chart.el)
         },
-        AddToshelf:function(rId,title){
+        AddToShelf:function(rId,title){
       
       		 var memberShelfResource=new App.Collections.shelfResource() 
              memberShelfResource.resourceId=rId

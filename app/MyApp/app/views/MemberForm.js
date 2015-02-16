@@ -207,8 +207,9 @@ $(function () {
                             if ($('input[type="file"]').val()) {
                                 that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                             } else {
-                                if (that.model.attributes._rev == undefined) { // if true then its a new member signup
-                                    // so capture this in activity logging
+                                if (that.model.attributes._rev == undefined) {
+                                // if true then its a new member signup
+                                // so capture this in activity logging
                                     var pouchActivityLogDb = new PouchDB('activitylogs');
                                     var currentdate = new Date();
                                     var logdate = that.getFormattedDate(currentdate);
