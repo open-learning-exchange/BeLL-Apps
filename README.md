@@ -48,24 +48,26 @@ The build tool is created to install BeLLApp on all operating systems. The build
 
 ### Set up new Community BeLL on specific Nation BeLL
 - Login with admin credentials to the specific Nation BeLL that the Community BeLL is being paired with.
-- Click "Manager", then "Click for more" underneath "Recently Added Communities", and then click "Add Community".
+- Click "Manager" on the Dashboard, then "Click for more" underneath "Recently Added Communities", and then click "Add Community".
 - Fill out the form in its entirety, but the following fields need to be filled out as specified:
-	- Name (at very top): 	[insert community name]
-	- Url:			[insert nation.region.community  i.e., somalia.dadaab.ifo]
+	- Name (at very top): 	[insert Community name, i.e., Ifo]
+	- Code:			[insert community name, i.e., ifo]
+	- Url:			[insert community name, i.e., ifo]
 	- ID (Bell Manager):	admin
-	- Password:		password
+	- Password:		[insert a password, i.e., the usual password for Administrators]
 - Click "Save".
 
 ### Pair a Community BeLL with a specific Nation BeLL
 - Open to the newly installed Community Bell by double clicking the "My Bell" icon located on the desktop.
-- Login with admin credentials and system will route to configuration window that requires the following fields:
-	- Name:			[insert community name]
-	- Code:			[insert community name? - confirm with Adnan since we were previously using "so" based on what was shown in the demo screencast]
+- Login with admin credentials and system will route to Configurations window (this can also be found by clicking "Manager" on the Dashboard and then clicking "Configurations") that requires the following fields:
+	- Name:			[insert Community name, i.e., Ifo]
+	- Code:			[insert community name, i.e., ifo]
 	- Type:			community
-	- Nation Name:		[example: somaliabell]
-	- Nation Url:		[example: somaliabell.ole.org:5987]
+	- Region:		[insert Region name within the Nation, i.e., Dadaab]
+	- Nation Name:		[insert nation name, i.e., somaliabell]
+	- Nation Url:		[insert nation url, i.e., somaliabell.ole.org:5987]
 	- Version:		(Leave it as it is)
-	- Notes:			[example: Ifo Community Bell]
+	- Notes:		[insert brief description of community, i.e., Ifo Community BeLL]
 	- Available Languages:	(Leave it as it is)
 	- Current Language:	English
 - Click "Submit Configurations".
@@ -74,7 +76,7 @@ The build tool is created to install BeLLApp on all operating systems. The build
 At the moment, Community BeLL codebases and National BeLL codebases are the same.
  So, to push a new update to Community BeLLs, the National BeLL codebase needs to be updated first and then the Community BeLLs can receive it.
 
-- Create a code tag in the BeLL-Apps repository by running (from Mac or Linux probably)
+- Create a code tag in the BeLL-Apps repository by running (from Mac [terminal] or Linux probably)
 `git clone git@github.com:open-learning-exchange/BeLL-Apps.git;`, then add a release note to `BeLL-Apps/app/CHANGELOG.txt`, then run ...
 ```
 cd BeLL-Apps;
@@ -86,20 +88,22 @@ git push --tags;
 ```
 - Download the [tag's release from GitHub](https://github.com/open-learning-exchange/BeLL-Apps/tags) onto a Windows machine that has Node.js installed
 - Unzip, start the `Node command prompt`, `cd` into the directory you unzipped, `cd` into `update_nation` `update_nation_app.bat` with parameter of your target National BeLL's Couch URL. ex. `./update_nation_app.bat http://username:password@some-couchdb.ole.org:port` (replace username, password, some-couchdb, and port with correct info)
-- Log into the BeLL Apps UI on the Natinal BeLL and change the version number in configuration screen. Log in, click "manager", click "configurations", there you will find "Version" field. Increment that number, and then click "Submit configurations".
-- Log into BeLL Apps UI on Community BeLL with a user with role "super manager", this is probably your BeLL Admin user. On the Dashboard, look at the bottom and you will (hopefully) find an "Apply update" button.
+- Log into the BeLL Apps UI on the National BeLL and change the version number in configuration screen. Log in, click "Manager", click "Configurations", there you will find "Version" field. Increment that number, and then click "Submit Configurations".
+- Log into BeLL Apps UI on Community BeLL with a user with role "super manager", this is probably your BeLL Admin user. On the Dashboard, look at the bottom and you will (hopefully) find a "System Update Available (v0.xx.xx)" button.
 - Verify on the community bell that we see a new version number and a code change by checking for the `CHANGELOG.txt` file for a matching tag number. You can check this in your browser by going to `http://your-community-bell-url/apps/_design/bell/CHANGELOG.txt`.
 
 ### Publish an Issue from a Nation BeLL
-- Click "Manager" on the Dashboard of the Nation BeLL, then click "Click for more" underneath "New Issues of Publications", and click "Add Issue".
+- Login to the Nation BeLL with admin credentials and click "Manager" on the Dashboard, then click "Click for more" underneath "New Issues of Publications".
+- Make note of the number for the last Issue No. and click "Add Issue".
 - Fill out the fields and ensure that the "Issue No." is the next sequential number (do not use negative numbers or zero) and click "Save".
 - Click "Add Resource", search for and then select the resource(s), and click "Add To Publication". The same can be done for courses by clicking "Add Course".
 - Click "Send Publication" and select the community and click "Send". Multiple communities can be selected by using the "Control" button on your keyboard.
 
 ### Receive Published Issue on a Community BeLL
-- Refresh your Community BeLL Dashboard and you should see a new button at the bottom of the Dashboard called "Publications (new 1)". This button can also be found by clicking on "Manager" and then "Publications". If more than one publication was sent to the community, the number 1 will be replaced by however many publications were sent.
+- When connected to the Internet, log in to the Community BeLL as Admin and scroll to the bottom of the Dashboard
+- You should see a new button at the bottom of the Dashboard called "Publications (new 1)". This button can also be found by clicking on "Manager" and then "Publications". If more than one publication was sent to the community, the number 1 will be replaced by however many publications were sent.
 - Click on the "Publications" button and the publications that have not been synced with the community will have the text "Not Synced" next to the "Sync publication" button. Things to keep in mind:
-	- For now, the size of the publications being sent to communities with poor internet connectivity and slow laptop processing speed (i.e., Dadaab communities) should not exceed 100 MB.
+	- For now, the size of the publications being sent to communities with poor internet connectivity and slow laptop processing speed (i.e., Dadaab communities) should not exceed 100 MB (update this number after further QA).
 	- Once the publication has been synced, the "Not Synced" text will remain until the page is refreshed.
 
 ### Inspect the new Issue on the Community BeLL by reading, watching, and rating resources
@@ -107,4 +111,4 @@ git push --tags;
 - If courses were included in the new Issue, navigate to the Courses and work through the course steps and open resources to ensure they are functioning properly.
 - Note that for now, there is no way for the Community to identify the items included in the new Issue so a list or screenshot of the Issue items should be provided by the Nation BeLL Manager sending the publication.
 
-### @todo Community BeLL pushes activity data to a National BeLL
+### @todo Community BeLL pushes activity data to Nation BeLL

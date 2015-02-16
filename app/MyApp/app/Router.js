@@ -1679,33 +1679,30 @@ $(function(){
                 
                 var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
                 
-                var last_month_visits_male = lastMonthDataset.Visits['male'];   var last_month_visits_female = lastMonthDataset.Visits['female'];
-                var second_last_month_visits_male = secondLastMonthDataset.Visits['male'];  var second_last_month_visits_female = secondLastMonthDataset.Visits['female'];
-                var third_last_month_visits_male = thirdLastMonthDataset.Visits['male'];  var third_last_month_visits_female = thirdLastMonthDataset.Visits['female'];
-                var fourth_last_month_visits_male = fourthLastMonthDataset.Visits['male'];   var fourth_last_month_visits_female = fourthLastMonthDataset.Visits['female'];
-                var fifth_last_month_visits_male = fifthLastMonthDataset.Visits['male'];   var fifth_last_month_visits_female = fifthLastMonthDataset.Visits['female'];
-                var sixth_last_month_visits_male = sixthLastMonthDataset.Visits['male'];   var sixth_last_month_visits_female = sixthLastMonthDataset.Visits['female'];
-
                 // show registered members at end of each month falling in duration of this report
                 var totalRegisteredMembers = {male: 0, female: 0};
                 context.getRegisteredMembersCount(function(param1, param2) {
                     totalRegisteredMembers['male'] = param1;
                     totalRegisteredMembers['female'] = param2;
                 });
-                var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - secondLastMonthDataset.New_Signups['male'],
-                    female: totalRegisteredMembers['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
+
+                var registeredMembersTillNow = {male: totalRegisteredMembers['male'], female: totalRegisteredMembers['female'], total: 0};
+                var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - lastMonthDataset.New_Signups['male'],
+                    female: totalRegisteredMembers['female'] - lastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersTillThirdLastMonthEnd = {male: registeredMembersTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersTillFourthLastMonthEnd = {male: registeredMembersTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersTillFifthLastMonthEnd = {male: registeredMembersTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersTillSixthLastMonthEnd = {male: registeredMembersTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
+                
+                registeredMembersTillNow['total'] = totalRegisteredMembers['male'] + totalRegisteredMembers['female'];
                 registeredMembersTillSecondLastMonthEnd['total'] = registeredMembersTillSecondLastMonthEnd['male'] + registeredMembersTillSecondLastMonthEnd['female'];
-                var registeredMembersTillThirdLastMonthEnd = {male: registeredMembersTillSecondLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillSecondLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
                 registeredMembersTillThirdLastMonthEnd['total'] = registeredMembersTillThirdLastMonthEnd['male'] + registeredMembersTillThirdLastMonthEnd['female'];
-                var registeredMembersTillFourthLastMonthEnd = {male: registeredMembersTillThirdLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillThirdLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
                 registeredMembersTillFourthLastMonthEnd['total'] = registeredMembersTillFourthLastMonthEnd['male'] + registeredMembersTillFourthLastMonthEnd['female'];
-                var registeredMembersTillFifthLastMonthEnd = {male: registeredMembersTillFourthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillFourthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
                 registeredMembersTillFifthLastMonthEnd['total'] = registeredMembersTillFifthLastMonthEnd['male'] + registeredMembersTillFifthLastMonthEnd['female'];
-                var registeredMembersTillSixthLastMonthEnd = {male: registeredMembersTillFifthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillFifthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
                 registeredMembersTillSixthLastMonthEnd['total'] = registeredMembersTillSixthLastMonthEnd['male'] + registeredMembersTillSixthLastMonthEnd['female'];
 
                 var trendActivityReportView = new App.Views.TrendActivityReport();
@@ -1782,7 +1779,7 @@ $(function(){
                             registeredMembersTillFourthLastMonthEnd['total'],
                             registeredMembersTillThirdLastMonthEnd['total'],
                             registeredMembersTillSecondLastMonthEnd['total'],
-                            totalRegisteredMembers['male'] + totalRegisteredMembers['female']]
+                            registeredMembersTillNow['total']]
                     }]
                 });
 
@@ -1809,7 +1806,7 @@ $(function(){
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Members Count"
+                            text: "Visits Count"
                         }
                     },
                     tooltip: {

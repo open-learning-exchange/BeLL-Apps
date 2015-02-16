@@ -80,7 +80,6 @@ function createDefaultAdminMember() {
     console.log('Creating a default admin member of admin:password')
     var members = nano.db.use('members')
     var defaultAdminMember = {
-        "_id": "ce82280dc54a3e4beffd2d1efa00c4e6",
         "login":"admin",
         "kind":"Member",
         "roles": ["Manager", "SuperManager"],
