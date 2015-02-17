@@ -20,6 +20,7 @@ $(function () {
             this.form.fields['rating'].$el.hide();
             this.form.fields['memberId'].$el.hide();
             this.form.fields['resourceId'].$el.hide();
+            this.form.fields['communityCode'].$el.hide();
             var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">Save</a>');
             $btnAddToShelf = $('<button class="btn btn-success" id="addtoshelf" onclick=addToShelf("' + this.model.get('resourceId') + '","' + escape(this.rtitle) + '") style="margin-left:10px">Add To My Library</button>');
             this.$el.append($button);
@@ -43,6 +44,8 @@ $(function () {
                     this.form.setValue('comment', 'No Comment');
                 }
                 this.form.setValue('rating', this.user_rating);
+                this.form.setValue('communityCode',App.configuration.get('code'));
+
                 this.form.commit();
                 var that = this;
                
@@ -86,7 +89,12 @@ $(function () {
                                 )
                             }
                             alert('Rating is successfully saved')
-                        })
+                        });
+
+
+
+
+
                         console.log(info);
                     }else{
                         console.log(err);
