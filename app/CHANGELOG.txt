@@ -1,3 +1,13 @@
+BeLL Apps 0.11.26
+-----------------------
+- Added "Resources without Collections"
+- Merged Dogi's Fork in Bell-Installer-For-Windows
+- Fixed PDF Optimizer skipping documents issue
+- Fixed install.bat (':' means labels and '::' means comments - I have removed unnecessary things )
+- Updated version number to v0.11.26
+- Fixed the Bug of Wrong Frequently Opened Figures
+- Added Application Feedback Syncing
+
 BeLL Apps 0.11.25
 -----------------------
 - Fixed the Cumulative Registered Members Count in Trend Activity Report
