@@ -4,8 +4,8 @@
     "code":"somalia",
     "type":"nation",
     "nationUrl":"somaliabell.ole.org:5987",
-    "version":"0.11.24",
-    "notes":"Somalia Nation Bell",
+    "version":"0.11.26",
+    "notes":"Nation Bell",
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
 }
