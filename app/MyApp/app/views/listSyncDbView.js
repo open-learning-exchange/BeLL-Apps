@@ -153,118 +153,76 @@ $(function () {
             })
      },
        syncReports:function(){
-        
-              App.startActivityIndicator()
-         var configurationModel=new App.Collections.Configurations()
-		     configurationModel.fetch({success:function(res){
-		     
-					        var conf=res.first()
-					        console.log(conf)
-					        var nationName=conf.get('nationName')
-					        var nationURL=conf.get('nationUrl')					        
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": "communityreports",
-									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + ':5984/communityreports'
-								}),
-								success: function (response) {
-                                            App.stopActivityIndicator()
-                                            alert('sync successfully ')
-                                            Backbone.history.navigate('reports',{trigger: true})
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) { 
-								            App.stopActivityIndicator()
-                    						alert("Status: " + textStatus); alert("Error: " + errorThrown);
-                    						Backbone.history.navigate('reports', {trigger: true}) 
-                					}, 
-								async: false
-							})
-					 
-				 }})
 
-
+           $.ajax({
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json; charset=utf-8'
+               },
+               type: 'POST',
+               url: '/_replicate',
+               dataType: 'json',
+               data: JSON.stringify({
+                   "source": "communityreports",
+                   "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/communityreports'
+               }),
+               success: function (response) {
+                   alert("Successfully Replicated Application Feedbacks")
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert("Error (Try Later)")
+               }
+           })
         }, 
-       syncLogActivitiy:function(){ 
-         var configurationModel=new App.Collections.Configurations()
-		     configurationModel.fetch({success:function(res){
-		     
-					        var conf=res.first()
-					        console.log(conf)
-					        var nationName=conf.get('nationName')
-					        var nationURL=conf.get('nationUrl')					        
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": "activitylog",
-									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + '/activitylog'
-								}),
-								success: function (response) {
-                                            alert("Successfully Replicated Reports")
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) { 
-								            alert("Error (Try Later)")
-                                }
-							})
-					 
-				 }})
+       syncLogActivitiy:function(){
+           $.ajax({
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json; charset=utf-8'
+               },
+               type: 'POST',
+               url: '/_replicate',
+               dataType: 'json',
+               data: JSON.stringify({
+                   "source": "activitylog",
+                   "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/activitylog'
+               }),
+               success: function (response) {
+                   alert("Successfully Replicated Application Feedbacks")
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert("Error (Try Later)")
+               }
+           })
 
 
         },
 
         syncResourcesFeedbacks:function(){
-            var configurationModel=new App.Collections.Configurations()
-            configurationModel.fetch({success:function(res){
-
-                var conf=res.first()
-                console.log(conf)
-                var nationName=conf.get('nationName')
-                var nationURL=conf.get('nationUrl')
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json; charset=utf-8'
-                    },
-                    type: 'POST',
-                    url: '/_replicate',
-                    dataType: 'json',
-                    data: JSON.stringify({
-                        "source": "feedback",
-                        "target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + '/feedback'
-                    }),
-                    success: function (response) {
-                        alert("Successfully Replicated Resources Feedbacks")
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Error (Try Later)")
-                    }
-                })
-
-            }})
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": "feedback",
+                    "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/feedback'
+                }),
+                success: function (response) {
+                    alert("Successfully Replicated Application Feedbacks")
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Error (Try Later)")
+                }
+            })
 
 
         },
 
         syncApplicationFeedbacks:function(){
-            var configurationModel=new App.Collections.Configurations()
-            configurationModel.fetch({success:function(res){
-
-                var conf=res.first()
-                console.log(conf)
-                var nationName=conf.get('nationName')
-                var nationURL=conf.get('nationUrl')
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -275,7 +233,7 @@ $(function () {
                     dataType: 'json',
                     data: JSON.stringify({
                         "source": "report",
-                        "target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + '/report'
+                        "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/report'
                     }),
                     success: function (response) {
                         alert("Successfully Replicated Application Feedbacks")
@@ -284,10 +242,6 @@ $(function () {
                         alert("Error (Try Later)")
                     }
                 })
-
-            }})
-
-
         },
 
         //following function compare version numbers.
