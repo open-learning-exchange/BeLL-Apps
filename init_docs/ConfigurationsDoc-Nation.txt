@@ -1,9 +1,9 @@
 {
-    "name":"Somalia",
-    "nationName":"somaliabell",
-    "code":"somalia",
+    "name":"NationBell",
+    "nationName":"nationbell-qa",
+    "code":"nationbell",
     "type":"nation",
-    "nationUrl":"somaliabell.ole.org:5987",
+    "nationUrl":"nationbell-qa.ole.org:5986",
     "version":"0.11.26",
     "notes":"Nation Bell",
     "availableLanguages":["English","French","Arabic","Urdu"],
