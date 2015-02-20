@@ -27,7 +27,8 @@ $(function() {
       category: { type: 'Select', options: ['Bug' , 'Question' ,'Suggestion'] },
       priority: { type: 'Checkboxes',options: ['urgent']},
       memberLogin: 'Text',
-      time: 'Text'
+      time: 'Text',
+      communityCode: 'Text'
     }
 
 

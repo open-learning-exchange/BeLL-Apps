@@ -41,7 +41,8 @@ $(function () {
                     PageUrl: "Personal:" + temp[1],
                     Resolved: '0',
                     memberLogin: $.cookie('Member.login'),
-                    time: now.toString()
+                    time: now.toString(),
+                    communityCode: App.configuration.get('code')
                 })
                 this.model.save()
                 alert("Feedback Successfully Sent")
