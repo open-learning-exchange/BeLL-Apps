@@ -8,6 +8,9 @@ $(function() {
  
            return App.Server + '/activitylog/_design/bell/_view/getDocumentByDate?include_docs=true&startkey="'+this.startkey+'"&endkey="'+this.endkey+'"'
     },
+    setUrl: function(url) {
+      this.url = url;
+    },
     parse: function (response) {
             var docs = _.map(response.rows, function (row) {
                 return row.doc
