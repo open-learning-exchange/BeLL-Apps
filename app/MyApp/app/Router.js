@@ -1335,72 +1335,72 @@ $(function(){
             var report_resRated = [], report_resOpened = [], report_male_visits = 0, report_female_visits = 0, report_male_new_signups = 0,
                 report_female_new_signups = 0, report_male_rating = [], report_female_rating =[], report_male_timesRated = [],
                 report_female_timesRated = [], report_male_opened = [], report_female_opened = [];
-            if(logReport.get('resourcesIds')) {
-                report_resRated = logReport.get('resourcesIds');
+            if(logReport.resourcesIds) {
+                report_resRated = logReport.resourcesIds;
             }
-            if(logReport.get('resources_opened')){
-                report_resOpened = logReport.get('resources_opened')
+            if(logReport.resources_opened){
+                report_resOpened = logReport.resources_opened
             }
-            if(logReport.get('male_visits')){
-                report_male_visits=logReport.get('male_visits')
+            if(logReport.male_visits){
+                report_male_visits=logReport.male_visits
             }
-            if(logReport.get('female_visits')){
-                report_female_visits=logReport.get('female_visits')
-            }
-
-            if(logReport.get('male_new_signups')){
-                report_male_new_signups = logReport.get('male_new_signups')
-            }
-            if(logReport.get('female_new_signups')){
-                report_female_new_signups = logReport.get('female_new_signups')
+            if(logReport.female_visits){
+                report_female_visits=logReport.female_visits
             }
 
-            if(logReport.get('male_rating')){
-                report_male_rating = logReport.get('male_rating')
+            if(logReport.male_new_signups){
+                report_male_new_signups = logReport.male_new_signups
             }
-            if(logReport.get('female_rating')){
-                report_female_rating = logReport.get('female_rating')
+            if(logReport.female_new_signups){
+                report_female_new_signups = logReport.female_new_signups
             }
-            if(logReport.get('male_timesRated')){
-                report_male_timesRated = logReport.get('male_timesRated')
+
+            if(logReport.male_rating){
+                report_male_rating = logReport.male_rating
             }
-            if(logReport.get('female_timesRated')){
-                report_female_timesRated = logReport.get('female_timesRated')
+            if(logReport.female_rating){
+                report_female_rating = logReport.female_rating
             }
-            if(logReport.get('male_opened')){
-                report_male_opened = logReport.get('male_opened')
+            if(logReport.male_timesRated){
+                report_male_timesRated = logReport.male_timesRated
             }
-            if(logReport.get('female_opened')){
-                report_female_opened = logReport.get('female_opened')
+            if(logReport.female_timesRated){
+                report_female_timesRated = logReport.female_timesRated
+            }
+            if(logReport.male_opened){
+                report_male_opened = logReport.male_opened
+            }
+            if(logReport.female_opened){
+                report_female_opened = logReport.female_opened
             }
             for (var index = 0; index < logData.length; index++) {
 //            logData.each(function (logDoc,index){
                 if(index>0){
                     var logDoc = logData[index];
                     // add visits to prev total
-                    report_male_visits += logDoc.get('male_visits');
-                    report_female_visits += logDoc.get('female_visits');
+                    report_male_visits += logDoc.male_visits;
+                    report_female_visits += logDoc.female_visits;
 
                     // add new member signups count to prev total
-                    report_male_new_signups += ( (logDoc.get('male_new_signups')) ? logDoc.get('male_new_signups') : 0 );
-                    report_female_new_signups += ( (logDoc.get('female_new_signups')) ? logDoc.get('female_new_signups') : 0 );
+                    report_male_new_signups += ( logDoc.male_new_signups ? logDoc.male_new_signups : 0 );
+                    report_female_new_signups += ( logDoc.female_new_signups ? logDoc.female_new_signups : 0 );
 
-                    var resourcesIds=logDoc.get('resourcesIds');
-                    var resourcesOpened=logDoc.get('resources_opened');
+                    var resourcesIds=logDoc.resourcesIds;
+                    var resourcesOpened=logDoc.resources_opened;
                     for(var i = 0; i < resourcesIds.length ; i++){
                         var resId = resourcesIds[i]
                         var resourceIndex = report_resRated.indexOf(resId)
                         if(resourceIndex == -1){
                             report_resRated.push(resId);
-                            report_male_rating.push(logDoc.get('male_rating')[i])
-                            report_female_rating.push(logDoc.get('female_rating')[i]);
-                            report_male_timesRated.push(logDoc.get('male_timesRated')[i]);
-                            report_female_timesRated.push(logDoc.get('female_timesRated')[i]);
+                            report_male_rating.push(logDoc.male_rating[i])
+                            report_female_rating.push(logDoc.female_rating[i]);
+                            report_male_timesRated.push(logDoc.male_timesRated[i]);
+                            report_female_timesRated.push(logDoc.female_timesRated[i]);
                         }else{
-                            report_male_rating[resourceIndex] = report_male_rating[resourceIndex] + logDoc.get('male_rating')[i];
-                            report_female_rating[resourceIndex] = report_female_rating[resourceIndex] + logDoc.get('female_rating')[i];
-                            report_male_timesRated[resourceIndex] = report_male_timesRated[resourceIndex] + logDoc.get('male_timesRated')[i];
-                            report_female_timesRated[resourceIndex] = report_female_timesRated[resourceIndex] + logDoc.get('female_timesRated')[i];
+                            report_male_rating[resourceIndex] = report_male_rating[resourceIndex] + logDoc.male_rating[i];
+                            report_female_rating[resourceIndex] = report_female_rating[resourceIndex] + logDoc.female_rating[i];
+                            report_male_timesRated[resourceIndex] = report_male_timesRated[resourceIndex] + logDoc.male_timesRated[i];
+                            report_female_timesRated[resourceIndex] = report_female_timesRated[resourceIndex] + logDoc.female_timesRated[i];
                         }
                     }
                     if(resourcesOpened)
@@ -1409,11 +1409,11 @@ $(function(){
                             var resourceIndex = report_resOpened.indexOf(resId)
                             if(resourceIndex == -1){
                                 report_resOpened.push(resId)
-                                report_male_opened.push(logDoc.get('male_opened')[i])
-                                report_female_opened.push(logDoc.get('female_opened')[i])
+                                report_male_opened.push(logDoc.male_opened[i])
+                                report_female_opened.push(logDoc.female_opened[i])
                             }else{
-                                report_male_opened[resourceIndex] = report_male_opened[resourceIndex] + logDoc.get('male_opened')[i]
-                                report_female_opened[resourceIndex] = report_female_opened[resourceIndex] + logDoc.get('female_opened')[i]
+                                report_male_opened[resourceIndex] = report_male_opened[resourceIndex] + logDoc.male_opened[i]
+                                report_female_opened[resourceIndex] = report_female_opened[resourceIndex] + logDoc.female_opened[i]
                             }
                         }
                 }
@@ -1650,22 +1650,22 @@ $(function(){
                     var max = context.turnDateToYYYYMMDDFormat(endDateForTrendReport);
                     if ( (modelKey >= context.turnDateToYYYYMMDDFormat(lastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(endDateForTrendReport)) ) {
-                        endingMonthActivityData.push(activityDataColl.models[i]);
+                        endingMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(secondLastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(secondLastMonthEndDate)) ) {
-                        secondLastMonthActivityData.push(activityDataColl.models[i]);
+                        secondLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(thirdLastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(thirdLastMonthEndDate)) ) {
-                        thirdLastMonthActivityData.push(activityDataColl.models[i]);
+                        thirdLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(fourthLastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(fourthLastMonthEndDate)) ) {
-                        fourthLastMonthActivityData.push(activityDataColl.models[i]);
+                        fourthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(fifthLastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(fifthLastMonthEndDate)) ) {
-                        fifthLastMonthActivityData.push(activityDataColl.models[i]);
+                        fifthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(sixthLastMonthEndDate)) ) {
-                        sixthLastMonthActivityData.push(activityDataColl.models[i]);
+                        sixthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     }
                 }
                 var lastMonthDataset = context.aggregateDataForTrendReport('communityX', endingMonthActivityData);
@@ -1674,7 +1674,7 @@ $(function(){
                 var fourthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fourthLastMonthActivityData);
                 var fifthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fifthLastMonthActivityData);
                 var sixthLastMonthDataset = context.aggregateDataForTrendReport('communityX', sixthLastMonthActivityData);
-                var aggregateDataset = context.aggregateDataForTrendReport('communityX', activityDataColl.models);
+                var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
                 console.log(lastMonthDataset);
                 
                 var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
@@ -2091,7 +2091,7 @@ $(function(){
             chart.render()
             App.$el.children('.body').append(chart.el)
         },
-        AddToshelf:function(rId,title){
+        AddToShelf:function(rId,title){
       
       		 var memberShelfResource=new App.Collections.shelfResource() 
              memberShelfResource.resourceId=rId

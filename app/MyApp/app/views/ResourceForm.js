@@ -169,9 +169,7 @@ $(function () {
 			else if (this.model.get("Level") == null) {
 				alert("Resource Level is missing")
 			}
-			else if (this.model.get("Tag") == null) {
-				alert("Resource Tag is missing")
-			}
+
 			else {
 				if (isEdit) {
 					var addtoDb = true

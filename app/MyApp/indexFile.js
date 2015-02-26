@@ -471,8 +471,8 @@ function startRecording()
             var audiosContainer = document.getElementById('audios-container');
             var index = 1;
 }
-function addToshelf(rId,title){
-     App.Router.AddToshelf(rId,title)
+function addToShelf(rId,title){
+     App.Router.AddToShelf(rId,title)
   }
   function showSubjectCheckBoxes()
   {

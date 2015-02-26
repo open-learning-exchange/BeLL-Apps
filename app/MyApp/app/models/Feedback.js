@@ -24,7 +24,8 @@ $(function() {
       rating: 'Text',
       comment: 'TextArea',
       resourceId: 'Text',
-      memberId: 'Text'
+      memberId: 'Text',
+      communityCode: 'Text'
     }
 
   }) 

@@ -55,7 +55,7 @@ $(function () {
            configForm.render();
 
 		   this.$el.html(configForm.el);
-       },
+       }
 
     })
 

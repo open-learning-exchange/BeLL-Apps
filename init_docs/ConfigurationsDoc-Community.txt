@@ -1,11 +1,11 @@
 {
-    "name":"Community-name",
-    "nationName":"somaliabell",
-    "code":"community-name-in-small-lettercase",
+    "name":"TestCommunity",
+    "nationName":"nationbell-qa",
+    "code":"testcommunity",
     "type":"community",
-    "nationUrl":"somaliabell.ole.org:5987",
-    "version":"0.11.24",
-    "notes":"Dadab Community Bell",
+    "nationUrl":"nationbell-qa.ole.org:5986",
+    "version":"0.11.26",
+    "notes":"Community Bell",
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
 }

@@ -20,7 +20,7 @@ $(function () {
                 
                // <input type="checkbox" value="Resources" name="syncData">Resources<br>
                //<input type="checkbox" value="Application" name="syncData" >Application<br><br><br>
-                var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br>')
+                var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">Resources Feedbacks<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">Application Feedbacks<br>')
                 
                 this.$el.append($button)
                 this.$el.append('<button class="btn btn-info" id="selectAll" style="width:110px">Select All</button><button style="margin-left:10px; width:110px" class="btn btn-success" id="formButton" style="width:110px">Send</button>')
@@ -56,6 +56,12 @@ $(function () {
 					else if($(this).val()=='Reports'){
 						context.syncReports()
 					}
+                    else if($(this).val()=='ResourcesFeedbacks'){
+                        context.syncResourcesFeedbacks()
+                    }
+                    else if($(this).val()=='ApplicationFeedbacks'){
+                        context.syncApplicationFeedbacks()
+                    }
 					if ($(this).val()=='Application'){
 						context.checkAvailableUpdates()
 					}
@@ -147,76 +153,97 @@ $(function () {
             })
      },
        syncReports:function(){
-        
-              App.startActivityIndicator()
-         var configurationModel=new App.Collections.Configurations()
-		     configurationModel.fetch({success:function(res){
-		     
-					        var conf=res.first()
-					        console.log(conf)
-					        var nationName=conf.get('nationName')
-					        var nationURL=conf.get('nationUrl')					        
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": "communityreports",
-									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + ':5984/communityreports'
-								}),
-								success: function (response) {
-                                            App.stopActivityIndicator()
-                                            alert('sync successfully ')
-                                            Backbone.history.navigate('reports',{trigger: true})
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) { 
-								            App.stopActivityIndicator()
-                    						alert("Status: " + textStatus); alert("Error: " + errorThrown);
-                    						Backbone.history.navigate('reports', {trigger: true}) 
-                					}, 
-								async: false
-							})
-					 
-				 }})
 
-
+           $.ajax({
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json; charset=utf-8'
+               },
+               type: 'POST',
+               url: '/_replicate',
+               dataType: 'json',
+               data: JSON.stringify({
+                   "source": "communityreports",
+                   "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/communityreports'
+               }),
+               success: function (response) {
+                   alert("Successfully Replicated Application Feedbacks")
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert("Error (Try Later)")
+               }
+           })
         }, 
-       syncLogActivitiy:function(){ 
-         var configurationModel=new App.Collections.Configurations()
-		     configurationModel.fetch({success:function(res){
-		     
-					        var conf=res.first()
-					        console.log(conf)
-					        var nationName=conf.get('nationName')
-					        var nationURL=conf.get('nationUrl')					        
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": "activitylog",
-									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + '/activitylog'
-								}),
-								success: function (response) {
-                                            alert("Successfully Replicated Reports")
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) { 
-								            alert("Error (Try Later)")
-                                }
-							})
-					 
-				 }})
+       syncLogActivitiy:function(){
+           $.ajax({
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json; charset=utf-8'
+               },
+               type: 'POST',
+               url: '/_replicate',
+               dataType: 'json',
+               data: JSON.stringify({
+                   "source": "activitylog",
+                   "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/activitylog'
+               }),
+               success: function (response) {
+                   alert("Successfully Replicated Application Feedbacks")
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert("Error (Try Later)")
+               }
+           })
 
 
         },
+
+        syncResourcesFeedbacks:function(){
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": "feedback",
+                    "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/feedback'
+                }),
+                success: function (response) {
+                    alert("Successfully Replicated Application Feedbacks")
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Error (Try Later)")
+                }
+            })
+
+
+        },
+
+        syncApplicationFeedbacks:function(){
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    type: 'POST',
+                    url: '/_replicate',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        "source": "report",
+                        "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/report'
+                    }),
+                    success: function (response) {
+                        alert("Successfully Replicated Application Feedbacks")
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Error (Try Later)")
+                    }
+                })
+        },
+
         //following function compare version numbers.
 		/*<li>0 if the versions are equal</li>
 		A negative integer iff v1 < v2
