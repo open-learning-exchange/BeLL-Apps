@@ -372,10 +372,10 @@ $(function() {
             App.$el.children('.body').html(configForm.el)
 
         },
-        getRegisteredMembersCount: function (callback) {
+        getRegisteredMembersCount: function (communityChosen, callback) {
             var maleMembers = 0, femaleMembers = 0;
             $.ajax({
-                url: '/members/_design/bell/_view/MaleCount?group=false',
+                url: '/activitylog/_design/bell/_view/GetMaleCountByCommunity?key="' + communityChosen + '"' ,
                 type: 'GET',
                 dataType: "json",
                 async: false,
@@ -384,7 +384,7 @@ $(function() {
                         maleMembers = json.rows[0].value
                     }
                     $.ajax({
-                        url: '/members/_design/bell/_view/FemaleCount?group=false',
+                        url: '/activitylog/_design/bell/_view/GetFemaleCountByCommunity?key="' + communityChosen + '"' ,
                         type: 'GET',
                         dataType: "json",
                         async: false,
@@ -502,7 +502,7 @@ $(function() {
 
                 // show registered members at end of each month falling in duration of this report
                 var totalRegisteredMembers = {male: 0, female: 0};
-                context.getRegisteredMembersCount(function(param1, param2) {
+                context.getRegisteredMembersCount(communityChosen, function(param1, param2) {
                     totalRegisteredMembers['male'] = param1;
                     totalRegisteredMembers['female'] = param2;
                 });

@@ -1567,7 +1567,7 @@ $(function(){
     getRegisteredMembersCount: function (callback) {
         var maleMembers = 0, femaleMembers = 0;
         $.ajax({
-            url: '/members/_design/bell/_view/MaleCount?group=false',
+            url: '/activitylog/_design/bell/_view/GetMaleCountByCommunity?key="' + App.configuration.get('code') + '"' ,
             type: 'GET',
             dataType: "json",
             async: false,
@@ -1576,7 +1576,7 @@ $(function(){
                     maleMembers = json.rows[0].value
                 }
                 $.ajax({
-                    url: '/members/_design/bell/_view/FemaleCount?group=false',
+                    url: '/activitylog/_design/bell/_view/GetFemaleCountByCommunity?key="' + App.configuration.get('code') + '"' ,
                     type: 'GET',
                     dataType: "json",
                     async: false,
@@ -1632,15 +1632,19 @@ $(function(){
                 var sixthLastMonthEndDate = new Date( fifthLastMonthStartDate.getFullYear(), fifthLastMonthStartDate.getMonth(),
                     ( fifthLastMonthStartDate.getDate() - 1 ) );
                 var sixthLastMonthStartDate = new Date( sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1 );
+                var startDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate) );
+                var endDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
 
                 var activityDataColl = new App.Collections.ActivityLog();
-                activityDataColl.startkey = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate) );
-                activityDataColl.endkey = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
+                var urlTemp = 'http://127.0.0.1:5984/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+App.configuration.get('code')+'","'+startDate+'"]&endkey=["'+
+                    App.configuration.get('code')+'","'+endDate+'"]';
+                activityDataColl.setUrl(urlTemp);
                 activityDataColl.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
                     // end keys rather than logdate to fetch activitylog docs from the db
                     async:false
                 });
                 activityDataColl.toJSON();
+
                 // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
                 var endingMonthActivityData = [], secondLastMonthActivityData = [], thirdLastMonthActivityData = [],
                     fourthLastMonthActivityData = [], fifthLastMonthActivityData = [], sixthLastMonthActivityData = [];
