@@ -14,10 +14,13 @@ $(function() {
       },
       parse: function (response) {
 
-          var docs = _.map(response.rows, function (row) {
-              return row.doc
-          })
-          return docs
+          var models = []
+          _.each(response.rows, function(row) {
+              if (row.doc._id != '_design/bell') {
+                  models.push(row.doc);
+              }
+          });
+          return models;
       },
 
 
