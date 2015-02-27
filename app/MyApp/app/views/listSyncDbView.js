@@ -167,7 +167,7 @@ $(function () {
                    "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/communityreports'
                }),
                success: function (response) {
-                   alert("Successfully Replicated Application Feedbacks")
+                   alert("Successfully Replicated Reports")
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert("Error (Try Later)")
@@ -188,7 +188,7 @@ $(function () {
                    "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/activitylog'
                }),
                success: function (response) {
-                   alert("Successfully Replicated Application Feedbacks")
+                   alert("Successfully Replicated Activity Log")
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert("Error (Try Later)")
@@ -212,7 +212,7 @@ $(function () {
                     "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/feedback'
                 }),
                 success: function (response) {
-                    alert("Successfully Replicated Application Feedbacks")
+                    alert("Successfully Replicated Resources Feedbacks")
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("Error (Try Later)")
