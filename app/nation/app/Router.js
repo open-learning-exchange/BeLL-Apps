@@ -455,7 +455,7 @@ $(function() {
                 var endDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
 
                 var activityDataColl = new App.Collections.ActivityLog();
-                var urlTemp = 'http://127.0.0.1:5984/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+communityChosen+'","'+startDate+'"]&endkey=["'+
+                var urlTemp = App.Server + '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+communityChosen+'","'+startDate+'"]&endkey=["'+
                                                                                                                             communityChosen+'","'+endDate+'"]';
                 activityDataColl.setUrl(urlTemp);
                 activityDataColl.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
