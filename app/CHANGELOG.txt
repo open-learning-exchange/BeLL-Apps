@@ -1,3 +1,7 @@
+BeLL Apps 0.11.30
+-----------------------
+- This Release will make the application to also pull Activitylog DegisnDocs while getting Application Update from nation (This feature is for this specific release only)
+
 BeLL Apps 0.11.29
 -----------------------
 - Fixes in Trend Report at Nation-bell
