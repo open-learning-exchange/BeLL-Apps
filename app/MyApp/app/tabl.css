@@ -93,7 +93,7 @@ word-wrap:break-word;
 {
     background-color: #1ABC9C;
 }
-.btn.btn-success.addtoshelf{
+.btn.btn-success.AddToShelf{
     font-size: 15px;
     padding-left: 10%;
     margin-top: 9px;
@@ -111,7 +111,7 @@ word-wrap:break-word;
     color:white;
     background-color: #34495E;
 }
-bbf-form ul{border: 5px solid dotted;}
+bbf-form ul{border: 5px solid;}
 
 .login-form .field-login label, .login-form .field-password label
 {font-size: 22px;}
@@ -124,7 +124,7 @@ bbf-form ul{border: 5px solid dotted;}
 .page-bottom-navtable td
 {
 	width: 40px;
-	border 2px solid red;
+	border: 2px solid transparent;
 }
 .signup-form > .bbf-form{
     background-color: #34495E;
@@ -392,7 +392,6 @@ textarea[name="comment"]
     position: relative;
     width: 100%;
 }
-}
 .Graphbutton{
     float: left;
     margin-top: 20px;
@@ -402,7 +401,7 @@ textarea[name="comment"]
     background-color: #34495E;
     border: 2px solid #000000;
     border-radius: 20px;
-    font-weight: 900px;
+    font-weight: 900;
     height: auto;
     left: 10%;
     overflow: hidden;
@@ -415,7 +414,7 @@ textarea[name="comment"]
 
 #externalDiv fieldset{
 border:none;
-font-weight: 900px;
+font-weight: 900;
 }
 #externalDiv > form {
     margin-bottom: 48px;

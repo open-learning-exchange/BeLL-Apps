@@ -80,7 +80,7 @@ $(function(){
 			'setbit' : 'setNeedOptimizedBit',
 			'CompileAppManifest' : 'CompileAppManifest',
             'communityManage':'communityManage',
-            'publications/:community' :'Publications',
+            'publications/:community' :'Publications'
 			
 			
 },
@@ -1607,7 +1607,7 @@ $(function(){
         $( '#dateSelect').datepicker({
             dateFormat: "yy-mm-dd",
             changeMonth: true,//this option for allowing user to select month
-            changeYear: true, //this option for allowing user to select from year range
+            changeYear: true //this option for allowing user to select from year range
         });
         var button = $('<input type="button">').attr({id: 'submit', name: 'submit', class: "btn btn-success", value: 'Generate Report'});
         $( '#trend-report-form').append(button);
@@ -2096,29 +2096,25 @@ $(function(){
             App.$el.children('.body').append(chart.el)
         },
         AddToShelf:function(rId,title){
-      
-      		 var memberShelfResource=new App.Collections.shelfResource() 
-             memberShelfResource.resourceId=rId
-             memberShelfResource.memberId=$.cookie('Member._id') 
-             memberShelfResource.fetch({async:false})
-      if(memberShelfResource.length==0){
-      		
-          var shelfItem=new App.Models.Shelf()
-              shelfItem.set('memberId',$.cookie('Member._id'))
-              shelfItem.set('resourceId',rId)
-              shelfItem.set('resourceTitle',unescape(title))
-              //Adding the Selected Resource to the Shelf Hash(Dictionary)
-              shelfItem.save(null, {
-            	  success: function(model,response,options) {}
-              });
-       		  alert('Successfully Add To Shelf')
-       		 }
-       else{
-      		   alert('Already in Shelf')
-       }
-     
-      
-    },
+      		var memberShelfResource=new App.Collections.shelfResource()
+            memberShelfResource.resourceId=rId
+            memberShelfResource.memberId=$.cookie('Member._id')
+            memberShelfResource.fetch({async:false})
+            if(memberShelfResource.length==0){
+                var shelfItem=new App.Models.Shelf()
+                shelfItem.set('memberId',$.cookie('Member._id'))
+                shelfItem.set('resourceId',rId)
+                shelfItem.set('resourceTitle',unescape(title))
+                //Adding the Selected Resource to the Shelf Hash(Dictionary)
+                shelfItem.save(null, {
+            	    success: function(model,response,options) {}
+                });
+                alert('Successfully Add To Shelf')
+       		}
+            else{
+      		    alert('Already in Shelf')
+            }
+        },
     CalendarFunction:function(){
     
 
@@ -3397,7 +3393,7 @@ CompileAppManifest:function(){
             dailylogModel.save(null,{success:function(res,resInfo){
                 logdb.remove(activitylog, function(err, response) {
                    if(err){
-                        console.log('MyAppRouter:: createLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB');
+                        console.log('MyApp:: createLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB');
                         console.log(err);
 //                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
                    }else{

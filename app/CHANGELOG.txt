@@ -1,3 +1,8 @@
+BeLL Apps 0.11.31
+-----------------------
+- This Release provides the BugFix for "BookShelf"
+- Bell-Installer now pushes same design-docs as install-windows script
+
 BeLL Apps 0.11.30
 -----------------------
 - This Release will make the application to also pull Activitylog DegisnDocs while getting Application Update from nation (This feature is for this specific release only)

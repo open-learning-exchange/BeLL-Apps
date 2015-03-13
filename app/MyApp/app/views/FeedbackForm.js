@@ -6,7 +6,7 @@ $(function () {
         user_rating: 'null',
         events: {
             "click #formButton": "setForm",
-            //"click #addtoshelf": "setForm",
+            //"click #AddToShelf": "setForm",
             "submit form": "setFormFromEnterKey"
         },
 
@@ -22,7 +22,7 @@ $(function () {
             this.form.fields['resourceId'].$el.hide();
             this.form.fields['communityCode'].$el.hide();
             var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">Save</a>');
-            $btnAddToShelf = $('<button class="btn btn-success" id="addtoshelf" onclick=addToShelf("' + this.model.get('resourceId') + '","' + escape(this.rtitle) + '") style="margin-left:10px">Add To My Library</button>');
+            $btnAddToShelf = $('<button class="btn btn-success" id="AddToShelf" onclick=AddToShelf("' + this.model.get('resourceId') + '","' + escape(this.rtitle) + '") style="margin-left:10px">Add To My Library</button>');
             this.$el.append($button);
             this.$el.append($btnAddToShelf);
         },
