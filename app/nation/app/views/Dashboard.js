@@ -73,7 +73,7 @@ $(function () {
                     roles = roles + "Manager"
                 }
                 $('.visits').html(temp)
-                $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="../personal/index.html#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
+                $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="../MyApp/index.html#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
             })
             member.fetch()
 

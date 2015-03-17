@@ -1,3 +1,10 @@
+BeLL Apps 0.11.32
+-----------------------
+- Bell-Installer Build.bat timeout increased (to 15 seconds)
+- Issue of Firefox not being opened automatically fixed in Bell-Installer
+- Fixed the Member_Edit at NationBell (Gear Sign after the Manager)
+- Fixed the install_windows script
+
 BeLL Apps 0.11.31
 -----------------------
 - This Release provides the BugFix for "BookShelf"
