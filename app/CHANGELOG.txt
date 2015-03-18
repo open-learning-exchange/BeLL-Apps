@@ -1,3 +1,7 @@
+BeLL Apps 0.11.33
+-----------------------
+- First day ActivityLog logging dummy communityCode Issue Resolved
+
 BeLL Apps 0.11.32
 -----------------------
 - Bell-Installer Build.bat timeout increased (to 15 seconds)

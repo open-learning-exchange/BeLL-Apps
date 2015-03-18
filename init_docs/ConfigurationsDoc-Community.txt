@@ -4,7 +4,7 @@
     "code":"testcommunity",
     "type":"community",
     "nationUrl":"nationbell-qa.ole.org:5986",
-    "version":"0.11.32",
+    "version":"0.11.33",
     "notes":"Community Bell",
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
