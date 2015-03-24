@@ -47,8 +47,8 @@ $(function() {
       }
       else if (!loggedIn && !$.url().attr('fragment')) {
        // No Routes are being triggered, it's safe to start history and move to login route.
-        Backbone.history.start({pushState: false})
-        Backbone.history.navigate('login', {trigger: true})
+          Backbone.history.start({pushState: false})
+          window.location.href = "../MyApp/index.html#login";
       }
       else if (loggedIn && !$.url().attr('fragment')) {
      
