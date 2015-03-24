@@ -49,7 +49,7 @@ var b = 0
 function installDesignDocs() {
     var database = databases[b]
         if (b !== databases.length) {
-            if(database != "communities" || database != "languages" || database != "configurations"){
+            if(database != "communities" && database != "languages" && database != "configurations"){
                 console.log("Inserting design docs for the " + database + " database");
                 var docToPush = 'databases\\' + database + '.js';
                 var targetDb = couchUrl + '/' + database;
