@@ -47,7 +47,13 @@ $(function () {
 							dataType: 'json',
 							data: JSON.stringify(currentConfig),
 							success: function (response) {
-                                $.ajax({
+                       			console.log("Configurations Updated")
+							 },
+							 
+							async: false
+						})
+
+						$.ajax({
                                     headers: {
                                         'Accept': 'application/json',
                                         'Content-Type': 'application/json; charset=utf-8'
@@ -66,10 +72,7 @@ $(function () {
                                     },
                                     async: false
                                 })
-							 },
-							 
-							async: false
-						})
+
 					      App.stopActivityIndicator()
 					      
 					},
