@@ -511,13 +511,13 @@ margin-left: 33%;
    margin-left: 480px;
    margin-top: -64px;
 }
-#c46_BirthDate.bbf-date select.bbf-date{
+#memberform .bbf-date select.bbf-date{
     width: 50px;
 }
-#c46_BirthDate.bbf-date select.bbf-month{
+#memberform .bbf-date select.bbf-month{
     width: 80px;
 }
-#c46_BirthDate.bbf-date select.bbf-year{
+#memberform .bbf-date select.bbf-year{
     width: 80px;
 }
 #memberform .bbf-field.field-Gender{
