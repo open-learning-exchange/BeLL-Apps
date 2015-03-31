@@ -195,9 +195,11 @@ $(function () {
 			var vars = this.model.toJSON()
 			//console.log(vars)
 			var Details = ""
-			if (vars.language != undefined)
-				if (vars.language.length > 0)
-					Details = '<b>Language </b>' + vars.language + " , "
+			if (vars.language != undefined) {
+                if (vars.language.length > 0) {
+                    Details = '<b>Language </b>' + vars.language + " , "
+                }
+            }
 			if (vars.subject != undefined)
 			{
 				Details = Details + "<b>Subject(s) </b>"
@@ -244,76 +246,55 @@ $(function () {
 				Details = Details + vars.openWith + ' , '
 
 			}
-			if (vars.Tag != undefined)
-			{
-				Details = Details + "<b>Collection </b>"
-				//console.log(this.collections)
-				if ($.isArray(vars.Tag))
-				{
-					for (var i = 0; i < vars.Tag.length; i++)
-					{
-						if (this.collections.get(vars.Tag[i])!=undefined)
-							Details = Details + this.collections.get(vars.Tag[i]).toJSON().CollectionName + " / "
-							// else
-// 							{
-// 								var tag=new App.Models.CollectionList()
-// 							}
-					}
-				}
-				else
-				{
-					if (vars.Tag != 'Add New')
-						Details = Details + vars.Tag + ' / '
-				}
 
-			}
-			Details = Details.substring(0, Details.length - 3)
-			vars.Details = Details
+            if(vars.author != undefined && vars.author != ""){
+                Details = Details+ "<b>Author </b>" + vars.author + ' , '
+            }
+
+            if(vars.Year != undefined && vars.Year != ""){
+                Details = Details+ "<b>Year </b>" + vars.Year + ' , '
+            }
+
+            if(vars.Publisher != undefined && vars.Publisher != ""){
+                Details = Details+ "<b>Publisher/Attribution </b>" + vars.Publisher + ' , '
+            }
+
+            if(vars.linkToLicense != undefined && vars.linkToLicense != ""){
+                Details = Details+ "<b>Link To License </b>" + vars.linkToLicense + ' , '
+            }
+
+            if (vars.Tag != undefined)
+            {
+                //console.log(this.collections)
+                if ($.isArray(vars.Tag))
+                {
+                    if(vars.Tag.length > 0)
+                        Details = Details + "<b>Collection </b>"
+
+                    for (var i = 0; i < vars.Tag.length; i++)
+                    {
+                        if (this.collections.get(vars.Tag[i])!=undefined)
+                            Details = Details + this.collections.get(vars.Tag[i]).toJSON().CollectionName + " / "
+                    }
+                }
+                else
+                {
+                    if (vars.Tag != 'Add New')
+                        Details = Details+ "<b>Collection </b>" + vars.Tag + ' / '
+                }
+
+            }
+            Details = Details.substring(0, Details.length - 3)
+            Details = Details + ' , '
+
+            Details = Details.substring(0, Details.length - 3)
+
+            vars.Details = Details
 			if (vars.hidden == undefined)
 			{
 				vars.hidden = false
 			}
-			//vars.avgRating = Math.round(parseFloat(vars.averageRating))
-			/*var resourceFeedback = new App.Collections.ResourceFeedback()
-      resourceFeedback.resourceId = this.model.get("_id")
-      resourceFeedback.fetch({async:false})
-      var averageRating = 0
-      var sum = 0
-      var that = this
-      vars.totalRatings = resourceFeedback.length
-      resourceFeedback.each(function(m){
-          sum = sum + parseInt(m.get("rating"))
-      })
-      averageRating = Math.round(sum/resourceFeedback.length)
-      if(!isNaN(averageRating)){
-        this.model.set("averageRating",parseInt(averageRating))
-      }
-      else{
-        this.model.set("averageRating",0)
-      }
-      this.model.on('sync',function(){
-          that.$el.append(that.template(vars))      
-      }) 
-      this.model.save()
-      */
-			//      var flength = new App.Collections.ResourceFeedback()
-			//                flength.resourceId = this.model.get("_id")
-			//                flength.fetch({
-			//                    async: false
-			//               	})
-			//       var s = 0
-			//      flength.each(function(m){
-			//      	s = s + parseInt(m.get("rating"))
-			//      })
-			//      console.log('check : ' + s + ' ' + this.model.get("sum") + ' ' + flength.length +  ' ' + this.model.get("timesRated"))
-			//      this.model.set("sum",s.toString())
-			//      this.model.set("timesRated",flength.length.toString())
-			//      this.model.save()
-			//      if(s!=parseInt(this.model.get("sum")) && flength.length == parseInt(this.model.get("timesRated")) )
-			//      {
-			//      	this.model.set("sum",s.toString())
-			//      	this.model.save()
-			//      }
+
 			if (this.model.get("sum") != 0)
 			{
 				vars.totalRatings = this.model.get("timesRated")
@@ -342,7 +323,7 @@ $(function () {
 			this.$el.append(this.template(vars))
 
 
-		},
+		}
 
 
     })
