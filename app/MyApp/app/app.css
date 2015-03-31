@@ -487,32 +487,43 @@ margin-left: 33%;
 
 /******************MEMBER FORM CSS **************************/
 #memberform .bbf-field.field-lastName{
- margin-left: 239px;
- margin-top: -66px; 
+ margin-left: 240px;
+ margin-top: -64px;
 }
 #memberform .bbf-field.field-middleNames{
  
- margin-left: 481px;
- margin-top: -66px; 
+ margin-left: 480px;
+ margin-top: -64px;
 }
 #memberform .bbf-field.field-password{
- margin-left: 239px;
- margin-top: -66px; 
+ margin-left: 240px;
+ margin-top: -64px;
 }
 #memberform .bbf-field.field-email{
- margin-left: 239px;
- margin-top: -66px; 
+ margin-left: 240px;
+ margin-top: -64px;
 }
 #memberform .bbf-field.field-language{
- margin-left: 481px;
- margin-top: -66px; 
+ margin-left: 480px;
+ margin-top: -64px;
 }
 #memberform .bbf-field.field-levels{
-   margin-left: 239px;
-   margin-top: -67px;
-
+   margin-left: 480px;
+   margin-top: -64px;
 }
-
+#c46_BirthDate.bbf-date select.bbf-date{
+    width: 50px;
+}
+#c46_BirthDate.bbf-date select.bbf-month{
+    width: 80px;
+}
+#c46_BirthDate.bbf-date select.bbf-year{
+    width: 80px;
+}
+#memberform .bbf-field.field-Gender{
+    margin-left: 240px;
+    margin-top: -64px;
+}
 #memberform .bbf-field.field-region {
     margin-left: 240px;
     margin-top: -64px;
@@ -522,7 +533,6 @@ margin-left: 33%;
     margin-left: 480px;
     margin-top: -64px;
 }
-
 #underconstruction {
     height: 400px;
     margin-left: 32%;
