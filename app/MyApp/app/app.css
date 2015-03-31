@@ -552,7 +552,7 @@ margin-left: 33%;
    color: #404040;
 }
 
-/***************/
+/************** Add/Update Resource *****************/
 .form  .field-languageOfInstruction{
     margin-left: 259px;
     margin-top: -64px;
@@ -564,20 +564,31 @@ margin-left: 33%;
 }
 .form .field-Publisher
 {
-margin-left: 450px;
-    margin-top: -64px
-}.form .field-Year
+}
+
+.form .field-linkToLicense{
+    margin-left: 240px;
+    margin-top: -65px;
+}
+
+.form .field-Year
 {
-margin-left: 450px;
-    margin-top: -64px
+    margin-left: 240px;
+    margin-top: -130px;
+}
+
+.form .field-language
+{
+    margin-left: 480px;
+    margin-top: -130px;
 }
 
 #invitationForm .bbf-form .field-Description
 {
-
-margin-left: 259px;
+    margin-left: 259px;
     margin-top: -64px;
 }
+
 #invitationForm .bbf-form .field-AddedBy
 {
 
@@ -590,21 +601,22 @@ margin-left: 259px;
 }
 .form .field-endDate
 {
-margin-left: 259px;
+    margin-left: 259px;
     margin-top: -64px;
-
 }
 .form .field-Level
 {
-margin-left: 224px;
-    margin-top: -51px
-} 
-.form .field-Tag {
-    margin-left: 450px;
-    margin-top: -51px;
+    margin-left: 240px;
+    margin-top: -50px;
 }
+
+.form .field-Tag {
+    margin-left: 480px;
+    margin-top: -50px;
+}
+
 .form .field-openWith{
-    margin-left: 450px;
+    margin-left: 240px;
     margin-top: -65px;
 }
 .form .field-method{
@@ -636,9 +648,23 @@ margin-left: 259px;
     margin-top: -64px;
 }
 .form .field-outComes{
-      margin-left: 259px;
+    margin-left: 259px;
     margin-top: -64px;
 }
+
+.form .field-Medium{
+    margin-top: 10px;
+}
+
+.form .bbf-field select.bbf-month{
+    margin-left: 15px;
+}
+
+.form .bbf-field select.bbf-year{
+    margin-left: 15px;
+}
+
+
 .Graphbutton
 {
 
@@ -653,8 +679,8 @@ margin-top: 20px;
 margin-top: 20px;
 margin-left: 190px;
 }
-#add_newCoellection{
-
-margin-left: 714px;
-    margin-top: -854px;
+#add_newCoellection
+{
+    margin-left: 750px;
+    margin-top: -868px;
 }

@@ -36,13 +36,21 @@ $(function () {
                 title: 'Author/Editor',
                 type: 'Text'
             }, // Author Field is required when adding the resource with tag news else no need for that.
-            Publisher: 'Text',
+
+            Publisher: {
+                title: 'Publisher/Attribution',
+                type: 'Text'},
             language: {
                 title: 'Languages',
                 type: 'Text'
             },
 
             Year: 'Text',
+
+            linkToLicense: {
+                title: 'Link To License',
+                type: 'Text'
+            },
 
             subject: {
                 title: 'Subjects',
