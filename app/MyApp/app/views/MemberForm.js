@@ -69,6 +69,15 @@ $(function () {
             this.form.fields['subjectSpecialization'].$el.hide()
             this.form.fields['forGrades'].$el.hide()
             this.form.fields['visits'].$el.hide()
+
+            this.form.setValue({ community: App.configuration.get("name"),
+                                 region: App.configuration.get("region"),
+                                 nation: App.configuration.get("nationName")})
+
+            $("input[name='community']").attr("disabled", true);
+            $("input[name='region']").attr("disabled", true);
+            $("input[name='nation']").attr("disabled", true);
+
             var $imgt = "<p id='imageText' style='margin-left: -100px;margin-top: 37px;'>Add Photo</p>"
             if (this.model.id != undefined) {
                 buttonText = "Update"

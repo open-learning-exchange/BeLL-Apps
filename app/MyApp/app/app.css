@@ -656,12 +656,21 @@ margin-left: 259px;
     margin-top: 10px;
 }
 
+.form .bbf-field select.bbf-date{
+    width: 50px;
+}
+
 .form .bbf-field select.bbf-month{
-    margin-left: 15px;
+    width: 80px;
 }
 
 .form .bbf-field select.bbf-year{
-    margin-left: 15px;
+    width: 80px;
+}
+
+.form .bbf-field.field-addedBy{
+    margin-left: 240px;
+    margin-top: -65px;
 }
 
 
