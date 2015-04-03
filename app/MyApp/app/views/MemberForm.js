@@ -78,33 +78,33 @@ $(function () {
             $("input[name='region']").attr("disabled", true);
             $("input[name='nation']").attr("disabled", true);
 
-            var $imgt = "<p id='imageText' style='margin-left: -100px;margin-top: 37px;'>Add Photo</p>"
+
+            var $imgt = "<p id='imageText' style='margin-top: 15px;'></p>"
             if (this.model.id != undefined) {
                 buttonText = "Update"
-                
+
                 $("input[name='login']").attr("disabled", true);
-                $imgt = "<p id='imageText'>Edit Photo</p>"
             } else {
                 buttonText = "Register"
             }
             // give the form a submit button
-            var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel">Cancel</button></div>')
+            var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">Cancel</button></div>')
             //this.$el.append($button)
-            var $upload = $('<form method="post" id="fileAttachment" style="margin: 60px 0px 0px 150px;"><input type="file" name="_attachments" style=" margin-top: 28px;" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
+            var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments" style="margin-left: 170px;" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
             var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
             this.$el.append($img)
             this.$el.append($upload)
              this.$el.append($button)
             if (this.model.id != undefined) {
                 if (this.model.get("status") == "active") {
-                    $(".signup-submit").append('<a class="btn btn-danger" id="deactive" href="#">Resign</a>')
+                    $(".signup-submit").append('<a class="btn btn-danger" id="deactive" href="#" style="margin-top: 10px;">Resign</a>')
                 } else {
- 					$(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-left:212px; margin-top:-75px;" href="#">Reinstate</a>')
+ 					$(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-top: 10px;" href="#">Reinstate</a>')
                 }
                 var logUserroles = this.getRoles(false)
             	 if (logUserroles.indexOf("SuperManager") > -1) {
             	 		var thisUser=this.getRoles(this.model.id)
-            	 		 $('#memberform').append('<div style="margin-left: 510px;margin-top: -145px;"><input id="ptManager" type="checkbox" ><label for="ptManager">Promote To Manager</label></div>')
+            	 		 $('#memberform').append('<div style="margin-left: 170px;margin-top: -40px;"><input id="ptManager" type="checkbox" ><label for="ptManager">Promote To Manager</label></div>')
             	 		if(thisUser.indexOf("Manager")>-1)
                        		{
                        			$('#ptManager').prop('checked', true);

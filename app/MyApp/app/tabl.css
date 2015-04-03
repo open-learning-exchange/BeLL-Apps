@@ -147,8 +147,8 @@ bbf-form ul{border: 5px solid;}
     color:red;
 }
 .signup-submit {
-    margin-top: 35px;
-     margin-bottom: 50px;
+    margin-top: -25px;
+    margin-left: 440px;
 }
 .signup-btn.btn {
     background-color: #1ABC9C;
