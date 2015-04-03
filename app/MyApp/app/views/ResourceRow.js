@@ -195,11 +195,22 @@ $(function () {
 			var vars = this.model.toJSON()
 			//console.log(vars)
 			var Details = ""
-			if (vars.language != undefined) {
-                if (vars.language.length > 0) {
-                    Details = '<b>Language </b>' + vars.language + " , "
-                }
+
+            if(vars.author != undefined && vars.author != ""){
+                Details = Details+ "<b>Author </b>" + vars.author + ' , '
             }
+
+            if(vars.Year != undefined && vars.Year != ""){
+                Details = Details+ "<b>Year </b>" + vars.Year + ' , '
+            }
+
+            if (vars.openWith != undefined)
+            {
+                Details = Details + "<b>Media </b>"
+                Details = Details + vars.openWith + ' , '
+
+            }
+
 			if (vars.subject != undefined)
 			{
 				Details = Details + "<b>Subject(s) </b>"
@@ -219,6 +230,7 @@ $(function () {
 				Details = Details.substring(0, Details.length - 3)
 				Details = Details + ' , '
 			}
+
 			if (vars.Level != undefined)
 			{
 				Details = Details + "<b>Level(s) </b>"
@@ -240,23 +252,15 @@ $(function () {
 				Details = Details + ' , '
 
 			}
-			if (vars.openWith != undefined)
-			{
-				Details = Details + "<b>Media </b>"
-				Details = Details + vars.openWith + ' , '
-
-			}
-
-            if(vars.author != undefined && vars.author != ""){
-                Details = Details+ "<b>Author </b>" + vars.author + ' , '
-            }
-
-            if(vars.Year != undefined && vars.Year != ""){
-                Details = Details+ "<b>Year </b>" + vars.Year + ' , '
-            }
 
             if(vars.Publisher != undefined && vars.Publisher != ""){
                 Details = Details+ "<b>Publisher/Attribution </b>" + vars.Publisher + ' , '
+            }
+
+            if (vars.language != undefined) {
+                if (vars.language.length > 0) {
+                    Details = Details + '<b>Language </b>' + vars.language + " , "
+                }
             }
 
             if(vars.linkToLicense != undefined && vars.linkToLicense != ""){
@@ -282,7 +286,6 @@ $(function () {
                     if (vars.Tag != 'Add New')
                         Details = Details+ "<b>Collection </b>" + vars.Tag + ' / '
                 }
-
             }
             Details = Details.substring(0, Details.length - 3)
             Details = Details + ' , '
