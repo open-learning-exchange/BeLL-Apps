@@ -1,10 +1,10 @@
 {
     "name":"NationBell",
-    "nationName":"nationbell-qa",
+    "nationName":"earthbell",
     "code":"nationbell",
     "type":"nation",
-    "nationUrl":"nationbell-qa.ole.org:5986",
-    "version":"0.11.37",
+    "nationUrl":"earthbell.ole.org:5989",
+    "version":"0.11.38",
     "notes":"Nation Bell",
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
