@@ -143,7 +143,8 @@ $(function () {
             			var freq = freqmodel.get('frequency')
             			freq[index] = freq[index] + 1
             			freqmodel.save()
-            			if(freq[index]%5!=0)
+                        // Ask for Feedback every time the resource is opened
+            			if(freq[index]%1!=0)
             			{
             				return
             			}
