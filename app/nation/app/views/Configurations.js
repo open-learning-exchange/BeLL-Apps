@@ -8,14 +8,11 @@ $(function () {
         events: {
             "click #formButton": "setForm"
         },
-
         render: function () {
             this.form = new Backbone.Form({
                 model: this.model
             })
             this.$el.append(this.form.render().el);
-            this.form.fields['nationName'].$el.hide();
-            this.form.fields['nationUrl'].$el.hide();
             this.$el.append('<a style="margin-left:2px" class="btn btn-success" id="formButton">Submit Configurations </a>');
         },
         setForm:function(){
@@ -40,11 +37,6 @@ $(function () {
                 alert('Configurations are Successfully Added');
                 Backbone.history.navigate('dashboard', {trigger: true});
             }});
-    	    	
-
-        
         }
-
     })
-
 })

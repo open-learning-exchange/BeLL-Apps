@@ -143,10 +143,6 @@ $(function () {
             			var freq = freqmodel.get('frequency')
             			freq[index] = freq[index] + 1
             			freqmodel.save()
-            			if(freq[index]%5!=0)
-            			{
-            				return
-            			}
             		}
             		else
             		{
@@ -211,6 +207,12 @@ $(function () {
 
             }
 
+            if (vars.language != undefined) {
+                if (vars.language.length > 0) {
+                    Details = Details + '<b>Language </b>' + vars.language + " , "
+                }
+            }
+
 			if (vars.subject != undefined)
 			{
 				Details = Details + "<b>Subject(s) </b>"
@@ -255,12 +257,6 @@ $(function () {
 
             if(vars.Publisher != undefined && vars.Publisher != ""){
                 Details = Details+ "<b>Publisher/Attribution </b>" + vars.Publisher + ' , '
-            }
-
-            if (vars.language != undefined) {
-                if (vars.language.length > 0) {
-                    Details = Details + '<b>Language </b>' + vars.language + " , "
-                }
             }
 
             if(vars.linkToLicense != undefined && vars.linkToLicense != ""){
