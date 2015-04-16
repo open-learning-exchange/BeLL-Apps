@@ -2032,6 +2032,7 @@ $(function(){
                             registeredMembersFromMembersDbTillNow['total']]
                     }]
                 });
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 $('#trend-report-div-new-memberships').highcharts({
                     chart: {
                         type: 'column',
@@ -2125,7 +2126,7 @@ $(function(){
                             registeredMembersTillNow['total']]
                     }]
                 });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 $('#trend-report-div-visits').highcharts({
                     chart: {
                         type: 'column',
@@ -2220,7 +2221,7 @@ $(function(){
                             lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']]
                     }]
                 });
-//////////////////////////////////////////////////////////////New Members This Month//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////New Members This Month////////////////////////////////////
                 $('#trend-report-div-new-members-this-month').highcharts({
                     chart: {
                         type: 'column',
@@ -2315,8 +2316,8 @@ $(function(){
                             lastMonthDataset.New_Signups['male'] + lastMonthDataset.New_Signups['female']]
                     }]
                 });
-                //////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////Total Member Visits//////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////Total Member Visits///////////////////////////////////////////////////
                 $('#trend-report-div-total-member-visits').highcharts({
                     chart: {
                         type: 'column',
@@ -2412,14 +2413,7 @@ $(function(){
                             membersVisitsTillNow['total']]
                     }]
                 });
-                /////////////////////////////////////////////////////////////////////////////
-                //$('#trend-report-div-new-memberships').jqBarGraph({ data: arrayOfDataForNewMemberships, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'], legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Registered Members' });
-                //$( '<br/> <br/><div id="trend-report-div-visits"></div>' ).appendTo( App.$el.children('.body') );
-                //$('#trend-report-div-visits').jqBarGraph({ data: arrayOfData, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'] , legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Member Visits'  });
-                /*
-                 "Most_Freq_Open": Most_Freq_Opened,
-                 "Highest_Rated": Highest_Rated_Resources,
-                 "Lowest_Rated": Lowest_Rated_Resources*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             } else {
                 alert("You must choose a date to proceed");
