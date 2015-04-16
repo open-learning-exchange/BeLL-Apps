@@ -1590,6 +1590,60 @@ $(function(){
             }
         })
     },
+       getRegisteredMembersCountFromMembersDB: function (callback) {
+           var maleMembers = 0, femaleMembers = 0;
+           $.ajax({
+               url: '/members/_design/bell/_view/MaleCountByCommunity?key="' + App.configuration.get('code') + '"' ,
+               type: 'GET',
+               dataType: "json",
+               async: false,
+               success: function (json) {
+                   if (json.rows[0]) {
+                       maleMembers = json.rows[0].value
+                   }
+                   $.ajax({
+                       url: '/members/_design/bell/_view/FemaleCountByCommunity?key="' + App.configuration.get('code') + '"' ,
+                       type: 'GET',
+                       dataType: "json",
+                       async: false,
+                       success: function (json) {
+                           if(json.rows[0]){
+                               femaleMembers = json.rows[0].value;
+                           }
+                           callback(maleMembers, femaleMembers);
+                       }
+                   })
+               }
+           })
+       },
+       ////////////Total Member Visits///////
+       getTotalMemberVisits: function (callback) {
+           var maleVisits = 0, femaleVisits = 0;
+           $.ajax({
+               url: '/activitylog/_design/bell/_view/GetMaleVisitsByCommunity?key="' + App.configuration.get('code') + '"' ,
+               type: 'GET',
+               dataType: "json",
+               async: false,
+               success: function (json) {
+                   if (json.rows[0]) {
+                       maleVisits = json.rows[0].value
+                   }
+                   $.ajax({
+                       url: '/activitylog/_design/bell/_view/GetFemaleVisitsByCommunity?key="' + App.configuration.get('code') + '"' ,
+                       type: 'GET',
+                       dataType: "json",
+                       async: false,
+                       success: function (json) {
+                           if(json.rows[0]){
+                               femaleVisits = json.rows[0].value;
+                           }
+                           callback(maleVisits, femaleVisits);
+                       }
+                   })
+               }
+           })
+       },
+       ///////////////////////////////////////////
     trendReport: function () {
         var context = this;
         App.$el.children('.body').html('');
@@ -1743,6 +1797,20 @@ $(function(){
                     totalRegisteredMembers['female'] = param2;
                 });
 
+                var totalRegisteredMembersFromMembersDb =  {male: 0, female: 0};
+                context.getRegisteredMembersCountFromMembersDB (function(param1, param2) {
+                    totalRegisteredMembersFromMembersDb['male'] = param1;
+                    totalRegisteredMembersFromMembersDb['female'] = param2;
+                });
+/////////Total Visits/////////////////////////////////////////////
+                var totalMemberVisits =  {male: 0, female: 0};
+                context.getTotalMemberVisits (function(param1, param2) {
+                    totalMemberVisits['male'] = param1;
+                    totalMemberVisits['female'] = param2;
+                });
+
+
+
                 var registeredMembersTillNow = {male: totalRegisteredMembers['male'], female: totalRegisteredMembers['female'], total: 0};
                 var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - lastMonthDataset.New_Signups['male'],
                     female: totalRegisteredMembers['female'] - lastMonthDataset.New_Signups['female'], total: 0};
@@ -1767,7 +1835,7 @@ $(function(){
                 var registeredMembersTillTwelfthLastMonthEnd = {male: registeredMembersTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
                     female: registeredMembersTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
                 
-                registeredMembersTillNow['total'] = totalRegisteredMembers['male'] + totalRegisteredMembers['female'];
+                registeredMembersTillNow['total'] = registeredMembersTillNow['male'] + registeredMembersTillNow['female'];
                 registeredMembersTillSecondLastMonthEnd['total'] = registeredMembersTillSecondLastMonthEnd['male'] + registeredMembersTillSecondLastMonthEnd['female'];
                 registeredMembersTillThirdLastMonthEnd['total'] = registeredMembersTillThirdLastMonthEnd['male'] + registeredMembersTillThirdLastMonthEnd['female'];
                 registeredMembersTillFourthLastMonthEnd['total'] = registeredMembersTillFourthLastMonthEnd['male'] + registeredMembersTillFourthLastMonthEnd['female'];
@@ -1780,8 +1848,88 @@ $(function(){
                 registeredMembersTillTenthLastMonthEnd['total'] = registeredMembersTillTenthLastMonthEnd['male'] + registeredMembersTillTenthLastMonthEnd['female'];
                 registeredMembersTillEleventhLastMonthEnd['total'] = registeredMembersTillEleventhLastMonthEnd['male'] + registeredMembersTillEleventhLastMonthEnd['female'];
                 registeredMembersTillTwelfthLastMonthEnd['total'] = registeredMembersTillTwelfthLastMonthEnd['male'] + registeredMembersTillTwelfthLastMonthEnd['female'];
+                ///////////////////////////////////////////Total Members
+                var registeredMembersFromMembersDbTillNow = {male: totalRegisteredMembersFromMembersDb['male'], female: totalRegisteredMembersFromMembersDb['female'], total: 0};
+                var registeredMembersFromMembersDbTillSecondLastMonthEnd = {male: totalRegisteredMembersFromMembersDb['male'] - lastMonthDataset.New_Signups['male'],
+                    female: totalRegisteredMembersFromMembersDb['female'] - lastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillThirdLastMonthEnd = {male: registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillFourthLastMonthEnd = {male: registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillFifthLastMonthEnd = {male: registeredMembersFromMembersDbTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillSixthLastMonthEnd = {male: registeredMembersFromMembersDbTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillSeventhLastMonthEnd = {male: registeredMembersFromMembersDbTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillEighthLastMonthEnd = {male: registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillNinthLastMonthEnd = {male: registeredMembersFromMembersDbTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillTenthLastMonthEnd = {male: registeredMembersFromMembersDbTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillEleventhLastMonthEnd = {male: registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillTwelfthLastMonthEnd = {male: registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
+
+                registeredMembersFromMembersDbTillNow['total'] = registeredMembersFromMembersDbTillNow['male'] + registeredMembersFromMembersDbTillNow['female'];
+                registeredMembersFromMembersDbTillSecondLastMonthEnd['total'] = registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] + registeredMembersFromMembersDbTillSecondLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillThirdLastMonthEnd['total'] = registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] + registeredMembersFromMembersDbTillThirdLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillFourthLastMonthEnd['total'] = registeredMembersFromMembersDbTillFourthLastMonthEnd['male'] + registeredMembersFromMembersDbTillFourthLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillFifthLastMonthEnd['total'] = registeredMembersFromMembersDbTillFifthLastMonthEnd['male'] + registeredMembersFromMembersDbTillFifthLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillSixthLastMonthEnd['total'] = registeredMembersFromMembersDbTillSixthLastMonthEnd['male'] + registeredMembersFromMembersDbTillSixthLastMonthEnd['female'];
+
+                registeredMembersFromMembersDbTillSeventhLastMonthEnd['total'] = registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'] + registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillEighthLastMonthEnd['total'] = registeredMembersFromMembersDbTillEighthLastMonthEnd['male'] + registeredMembersFromMembersDbTillEighthLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillNinthLastMonthEnd['total'] = registeredMembersFromMembersDbTillNinthLastMonthEnd['male'] + registeredMembersFromMembersDbTillNinthLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillTenthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTenthLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'] = registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] + registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'];
+                registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'];
 
 
+
+                ////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////Total Member Visits/////////////////////////////////////////
+                var membersVisitsTillNow = {male: totalMemberVisits['male'], female: totalMemberVisits['female'], total: 0};
+                var membersVisitsTillSecondLastMonthEnd = {male: totalMemberVisits['male'] - lastMonthDataset.Visits['male'],
+                    female: totalMemberVisits['female'] - lastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillThirdLastMonthEnd = {male: membersVisitsTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillFourthLastMonthEnd = {male: membersVisitsTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillFifthLastMonthEnd = {male: membersVisitsTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillSixthLastMonthEnd = {male: membersVisitsTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillSeventhLastMonthEnd = {male: membersVisitsTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillEighthLastMonthEnd = {male: membersVisitsTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillNinthLastMonthEnd = {male: membersVisitsTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.New_Signups['male'],
+                    female:membersVisitsTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillTenthLastMonthEnd = {male: membersVisitsTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillEleventhLastMonthEnd = {male:membersVisitsTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillTwelfthLastMonthEnd = {male: membersVisitsTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
+                    female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
+
+                membersVisitsTillNow['total'] = membersVisitsTillNow['male'] + membersVisitsTillNow['female'];
+                membersVisitsTillSecondLastMonthEnd['total'] = membersVisitsTillSecondLastMonthEnd['male'] + membersVisitsTillSecondLastMonthEnd['female'];
+                membersVisitsTillThirdLastMonthEnd['total'] = membersVisitsTillThirdLastMonthEnd['male'] + membersVisitsTillThirdLastMonthEnd['female'];
+                membersVisitsTillFourthLastMonthEnd['total'] = membersVisitsTillFourthLastMonthEnd['male'] + membersVisitsTillFourthLastMonthEnd['female'];
+                membersVisitsTillFifthLastMonthEnd['total'] = membersVisitsTillFifthLastMonthEnd['male'] + membersVisitsTillFifthLastMonthEnd['female'];
+                membersVisitsTillSixthLastMonthEnd['total'] = membersVisitsTillSixthLastMonthEnd['male'] + membersVisitsTillSixthLastMonthEnd['female'];
+
+                membersVisitsTillSeventhLastMonthEnd['total'] = membersVisitsTillSeventhLastMonthEnd['male'] + membersVisitsTillSeventhLastMonthEnd['female'];
+                membersVisitsTillEighthLastMonthEnd['total'] = membersVisitsTillEighthLastMonthEnd['male'] + membersVisitsTillEighthLastMonthEnd['female'];
+                membersVisitsTillNinthLastMonthEnd['total'] = membersVisitsTillNinthLastMonthEnd['male'] + membersVisitsTillNinthLastMonthEnd['female'];
+                membersVisitsTillTenthLastMonthEnd['total'] = membersVisitsTillTenthLastMonthEnd['male'] + membersVisitsTillTenthLastMonthEnd['female'];
+                membersVisitsTillEleventhLastMonthEnd['total'] = membersVisitsTillEleventhLastMonthEnd['male'] + membersVisitsTillEleventhLastMonthEnd['female'];
+                membersVisitsTillTwelfthLastMonthEnd['total'] = membersVisitsTillTwelfthLastMonthEnd['male'] + membersVisitsTillTwelfthLastMonthEnd['female'];
+
+                /////////////////////////////////////////////////////////////////////////////////////////////
 
                 var trendActivityReportView = new App.Views.TrendActivityReport();
                 trendActivityReportView.data = aggregateDataset;
@@ -1791,6 +1939,99 @@ $(function(){
                 trendActivityReportView.render();
                 App.$el.children('.body').html(trendActivityReportView.el);
                 //$( '<div id="trend-report-div-new-memberships"></div>' ).appendTo( App.$el.children('.body') );
+                $('#trend-report-div-total-members').highcharts({
+                    chart: {
+                        type: 'column',
+                        borderColor: '#999999',
+                        borderWidth: 2,
+                        borderRadius: 10
+                    },
+                    title: {
+                        text: 'Total Members'
+                    },
+                    xAxis: {
+                        categories: [
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "Members Count"
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Males',
+                        data: [
+                            registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillTenthLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillNinthLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillEighthLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillSixthLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillFifthLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillFourthLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillThirdLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillSecondLastMonthEnd['male'],
+                            registeredMembersFromMembersDbTillNow['male']]
+                    }, {
+                        name: 'Females',
+                        data: [
+                            registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillTenthLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillNinthLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillEighthLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillSixthLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillFifthLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillFourthLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillThirdLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillSecondLastMonthEnd['female'],
+                            registeredMembersFromMembersDbTillNow['female']]
+                    }, {
+                        name: 'Total',
+                        data: [
+                            registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillTenthLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillNinthLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillEighthLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillSeventhLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillSixthLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillFifthLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillFourthLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillThirdLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillSecondLastMonthEnd['total'],
+                            registeredMembersFromMembersDbTillNow['total']]
+                    }]
+                });
                 $('#trend-report-div-new-memberships').highcharts({
                     chart: {
                         type: 'column',
@@ -1979,8 +2220,199 @@ $(function(){
                             lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']]
                     }]
                 });
+//////////////////////////////////////////////////////////////New Members This Month//////////////////////////////////////////////////////////////
+                $('#trend-report-div-new-members-this-month').highcharts({
+                    chart: {
+                        type: 'column',
+                        borderColor: '#999999',
+                        borderWidth: 2,
+                        borderRadius: 10
+                    },
+                    title: {
+                        text: 'New Members This Month'
+                    },
+                    xAxis: {
+                        categories: [
 
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "Member Count"
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Males',
+                        data: [
+                            twelfthLastMonthDataset.New_Signups['male'],
+                            eleventhLastMonthDataset.New_Signups['male'],
+                            tenthLastMonthDataset.New_Signups['male'],
+                            ninthLastMonthDataset.New_Signups['male'],
+                            eighthLastMonthDataset.New_Signups['male'],
+                            seventhLastMonthDataset.New_Signups['male'],
+                            sixthLastMonthDataset.New_Signups['male'],
+                            fifthLastMonthDataset.New_Signups['male'],
+                            fourthLastMonthDataset.New_Signups['male'],
+                            thirdLastMonthDataset.New_Signups['male'],
+                            secondLastMonthDataset.New_Signups['male'],
+                            lastMonthDataset.New_Signups['male']]
+                    }, {
+                        name: 'Females',
+                        data: [
+                            twelfthLastMonthDataset.New_Signups['female'],
+                            eleventhLastMonthDataset.New_Signups['female'],
+                            tenthLastMonthDataset.New_Signups['female'],
+                            ninthLastMonthDataset.New_Signups['female'],
+                            eighthLastMonthDataset.New_Signups['female'],
+                            seventhLastMonthDataset.New_Signups['female'],
+                            sixthLastMonthDataset.New_Signups['female'],
+                            fifthLastMonthDataset.New_Signups['female'],
+                            fourthLastMonthDataset.New_Signups['female'],
+                            thirdLastMonthDataset.New_Signups['female'],
+                            secondLastMonthDataset.New_Signups['female'],
+                            lastMonthDataset.New_Signups['female']]
+                    }, {
+                        name: 'Total',
+                        data: [
+                            twelfthLastMonthDataset.New_Signups['male'] +  twelfthLastMonthDataset.New_Signups['female'],
+                            eleventhLastMonthDataset.New_Signups['male'] + eleventhLastMonthDataset.New_Signups['female'],
+                            tenthLastMonthDataset.New_Signups['male'] + tenthLastMonthDataset.New_Signups['female'],
+                            ninthLastMonthDataset.New_Signups['male'] +  ninthLastMonthDataset.New_Signups['female'],
+                            eighthLastMonthDataset.New_Signups['male'] +  eighthLastMonthDataset.New_Signups['female'],
+                            seventhLastMonthDataset.New_Signups['male'] + seventhLastMonthDataset.New_Signups['female'],
+                            sixthLastMonthDataset.New_Signups['male'] + sixthLastMonthDataset.New_Signups['female'],
+                            fifthLastMonthDataset.New_Signups['male'] + fifthLastMonthDataset.New_Signups['female'],
+                            fourthLastMonthDataset.New_Signups['male'] + fourthLastMonthDataset.New_Signups['female'],
+                            thirdLastMonthDataset.New_Signups['male'] + thirdLastMonthDataset.New_Signups['female'],
+                            secondLastMonthDataset.New_Signups['male'] + secondLastMonthDataset.New_Signups['female'],
+                            lastMonthDataset.New_Signups['male'] + lastMonthDataset.New_Signups['female']]
+                    }]
+                });
+                //////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////Total Member Visits//////////////////////////////////////////////////////
+                $('#trend-report-div-total-member-visits').highcharts({
+                    chart: {
+                        type: 'column',
+                        borderColor: '#999999',
+                        borderWidth: 2,
+                        borderRadius: 10
+                    },
+                    title: {
+                        text: 'Total Visits'
+                    },
+                    xAxis: {
+                        categories: [
 
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: "Visits Count"
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Males',
+                        data: [
+
+                            membersVisitsTillTwelfthLastMonthEnd['male'],
+                            membersVisitsTillEleventhLastMonthEnd['male'],
+                            membersVisitsTillTenthLastMonthEnd['male'],
+                            membersVisitsTillNinthLastMonthEnd['male'],
+                            membersVisitsTillEighthLastMonthEnd['male'],
+                            membersVisitsTillSeventhLastMonthEnd['male'],
+                            membersVisitsTillSixthLastMonthEnd['male'],
+                            membersVisitsTillFifthLastMonthEnd['male'],
+                            membersVisitsTillFourthLastMonthEnd['male'],
+                            membersVisitsTillThirdLastMonthEnd['male'],
+                            membersVisitsTillSecondLastMonthEnd['male'],
+                            membersVisitsTillNow['male']]
+                    }, {
+                        name: 'Females',
+                        data: [
+                            membersVisitsTillTwelfthLastMonthEnd['female'],
+                            membersVisitsTillEleventhLastMonthEnd['female'],
+                            membersVisitsTillTenthLastMonthEnd['female'],
+                            membersVisitsTillNinthLastMonthEnd['female'],
+                            membersVisitsTillEighthLastMonthEnd['female'],
+                            membersVisitsTillSeventhLastMonthEnd['female'],
+                            membersVisitsTillSixthLastMonthEnd['female'],
+                            membersVisitsTillFifthLastMonthEnd['female'],
+                            membersVisitsTillFourthLastMonthEnd['female'],
+                            membersVisitsTillThirdLastMonthEnd['female'],
+                            membersVisitsTillSecondLastMonthEnd['female'],
+                            membersVisitsTillNow['female']]
+                    }, {
+                        name: 'Total',
+                        data: [
+                            membersVisitsTillTwelfthLastMonthEnd['total'],
+                            membersVisitsTillEleventhLastMonthEnd['total'],
+                            membersVisitsTillTenthLastMonthEnd['total'],
+                            membersVisitsTillNinthLastMonthEnd['total'],
+                            membersVisitsTillEighthLastMonthEnd['total'],
+                            membersVisitsTillSeventhLastMonthEnd['total'],
+                            membersVisitsTillSixthLastMonthEnd['total'],
+                            membersVisitsTillFifthLastMonthEnd['total'],
+                            membersVisitsTillFourthLastMonthEnd['total'],
+                            membersVisitsTillThirdLastMonthEnd['total'],
+                            membersVisitsTillSecondLastMonthEnd['total'],
+                            membersVisitsTillNow['total']]
+                    }]
+                });
+                /////////////////////////////////////////////////////////////////////////////
                 //$('#trend-report-div-new-memberships').jqBarGraph({ data: arrayOfDataForNewMemberships, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'], legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Registered Members' });
                 //$( '<br/> <br/><div id="trend-report-div-visits"></div>' ).appendTo( App.$el.children('.body') );
                 //$('#trend-report-div-visits').jqBarGraph({ data: arrayOfData, type: 'multi', colors: ['#0000ff','#ff0000', '#00ff00'] , legends:['Male', 'Female', 'Total'], legend: true, lines : true, showValuesColor: '#000', width: '100%', height: '300px', title: 'Member Visits'  });
