@@ -52,6 +52,28 @@ ddoc.views = {
         reduce: function(keys, values) {
             return sum(values);
         }
+    },
+    GetMaleVisitsByCommunity: {
+        map: function (doc) {
+            if (doc && doc.community) {
+                emit(doc.community, doc.male_visits)
+            }
+        },
+        reduce: function (keys, values) {
+            return sum(values);
+        }
+
+    },
+    GetFemaleVisitsByCommunity: {
+        map: function (doc) {
+            if (doc && doc.community) {
+                emit(doc.community, doc.female_visits)
+            }
+        },
+        reduce: function (keys, values) {
+            return sum(values);
+        }
+
     }
 }
 
