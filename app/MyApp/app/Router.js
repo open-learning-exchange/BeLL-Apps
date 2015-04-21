@@ -1321,7 +1321,8 @@ $(function(){
                     "New_Signups": {"male": 0, "female": 0},
                     "Most_Freq_Open": [],
                     "Highest_Rated": [],
-                    "Lowest_Rated": []
+                    "Lowest_Rated": [],
+                    "ResourceViews": { "male": 0, "female":0}
                 };
                 return staticData;
             }
@@ -1400,7 +1401,7 @@ $(function(){
                             report_female_timesRated[resourceIndex] = report_female_timesRated[resourceIndex] + logDoc.female_timesRated[i];
                         }
                     }
-                    if(resourcesOpened)
+                    if(resourcesOpened){
                         for(var i=0 ; i < resourcesOpened.length ; i++){
                             var resId = resourcesOpened[i]
                             var resourceIndex = report_resOpened.indexOf(resId)
@@ -1413,7 +1414,19 @@ $(function(){
                                 report_female_opened[resourceIndex] = report_female_opened[resourceIndex] + logDoc.female_opened[i]
                             }
                         }
+                    }
+
                 }
+            }
+            var femaleOpenedCount = 0;
+            for ( var i = 0; i < report_female_opened.length ; i++) {
+                femaleOpenedCount += report_female_opened[i] ;
+
+            }
+            var maleOpenedCount = 0;
+            for ( var i = 0; i < report_male_opened.length ; i++) {
+                maleOpenedCount += report_male_opened[i] ;
+
             }
             // find most frequently opened resources
             var times_opened_cumulative = [], Most_Freq_Opened = [];
@@ -1553,7 +1566,8 @@ $(function(){
                 "New_Signups": {"male": report_male_new_signups, "female": report_female_new_signups},
                 "Most_Freq_Open": Most_Freq_Opened,
                 "Highest_Rated": Highest_Rated_Resources,
-                "Lowest_Rated": Lowest_Rated_Resources
+                "Lowest_Rated": Lowest_Rated_Resources,
+                "ResourceViews": { "male": maleOpenedCount, "female":femaleOpenedCount}
             };
             return staticData;
     },
@@ -1641,6 +1655,7 @@ $(function(){
            })
        },
        ///////////////////////////////////////////
+
     trendReport: function () {
         var context = this;
         App.$el.children('.body').html('');
@@ -1806,8 +1821,6 @@ $(function(){
                     totalMemberVisits['female'] = param2;
                 });
 
-
-
                 var registeredMembersTillNow = {male: totalRegisteredMembers['male'], female: totalRegisteredMembers['female'], total: 0};
                 var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - lastMonthDataset.New_Signups['male'],
                     female: totalRegisteredMembers['female'] - lastMonthDataset.New_Signups['female'], total: 0};
@@ -1891,26 +1904,26 @@ $(function(){
                 var membersVisitsTillNow = {male: totalMemberVisits['male'], female: totalMemberVisits['female'], total: 0};
                 var membersVisitsTillSecondLastMonthEnd = {male: totalMemberVisits['male'] - lastMonthDataset.Visits['male'],
                     female: totalMemberVisits['female'] - lastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillThirdLastMonthEnd = {male: membersVisitsTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillFourthLastMonthEnd = {male: membersVisitsTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillFifthLastMonthEnd = {male: membersVisitsTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillSixthLastMonthEnd = {male: membersVisitsTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillSeventhLastMonthEnd = {male: membersVisitsTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillEighthLastMonthEnd = {male: membersVisitsTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillNinthLastMonthEnd = {male: membersVisitsTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.New_Signups['male'],
-                    female:membersVisitsTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillTenthLastMonthEnd = {male: membersVisitsTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillEleventhLastMonthEnd = {male:membersVisitsTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'], total: 0};
-                var membersVisitsTillTwelfthLastMonthEnd = {male: membersVisitsTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
-                    female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
+                var membersVisitsTillThirdLastMonthEnd = {male: membersVisitsTillSecondLastMonthEnd['male'] - secondLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillSecondLastMonthEnd['female'] - secondLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillFourthLastMonthEnd = {male: membersVisitsTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillFifthLastMonthEnd = {male: membersVisitsTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillSixthLastMonthEnd = {male: membersVisitsTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillSeventhLastMonthEnd = {male: membersVisitsTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillEighthLastMonthEnd = {male: membersVisitsTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillNinthLastMonthEnd = {male: membersVisitsTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.Visits['male'],
+                    female:membersVisitsTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillTenthLastMonthEnd = {male: membersVisitsTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillEleventhLastMonthEnd = {male:membersVisitsTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.Visits['female'], total: 0};
+                var membersVisitsTillTwelfthLastMonthEnd = {male: membersVisitsTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.Visits['female'], total: 0};
 
                 membersVisitsTillNow['total'] = membersVisitsTillNow['male'] + membersVisitsTillNow['female'];
                 membersVisitsTillSecondLastMonthEnd['total'] = membersVisitsTillSecondLastMonthEnd['male'] + membersVisitsTillSecondLastMonthEnd['female'];
@@ -1926,7 +1939,7 @@ $(function(){
                 membersVisitsTillEleventhLastMonthEnd['total'] = membersVisitsTillEleventhLastMonthEnd['male'] + membersVisitsTillEleventhLastMonthEnd['female'];
                 membersVisitsTillTwelfthLastMonthEnd['total'] = membersVisitsTillTwelfthLastMonthEnd['male'] + membersVisitsTillTwelfthLastMonthEnd['female'];
 
-                /////////////////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////////////////////////////////////////////////////////////////////
 
                 var trendActivityReportView = new App.Views.TrendActivityReport();
                 trendActivityReportView.data = aggregateDataset;
@@ -2219,7 +2232,7 @@ $(function(){
                     }]
                 });
 //////////////////////////////////////////////////////////////New Members This Month////////////////////////////////////
-                $('#trend-report-div-new-members-this-month').highcharts({
+                $('#trend-report-div-total-resource-views-this-month').highcharts({
                     chart: {
                         type: 'column',
                         borderColor: '#999999',
@@ -2227,7 +2240,7 @@ $(function(){
                         borderRadius: 10
                     },
                     title: {
-                        text: 'New Members This Month'
+                        text: 'Total Resource Views This Month'
                     },
                     xAxis: {
                         categories: [
@@ -2249,7 +2262,7 @@ $(function(){
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Member Count"
+                            text: "Resource count"
                         }
                     },
                     tooltip: {
@@ -2269,48 +2282,48 @@ $(function(){
                     series: [{
                         name: 'Males',
                         data: [
-                            twelfthLastMonthDataset.New_Signups['male'],
-                            eleventhLastMonthDataset.New_Signups['male'],
-                            tenthLastMonthDataset.New_Signups['male'],
-                            ninthLastMonthDataset.New_Signups['male'],
-                            eighthLastMonthDataset.New_Signups['male'],
-                            seventhLastMonthDataset.New_Signups['male'],
-                            sixthLastMonthDataset.New_Signups['male'],
-                            fifthLastMonthDataset.New_Signups['male'],
-                            fourthLastMonthDataset.New_Signups['male'],
-                            thirdLastMonthDataset.New_Signups['male'],
-                            secondLastMonthDataset.New_Signups['male'],
-                            lastMonthDataset.New_Signups['male']]
+                            twelfthLastMonthDataset.ResourceViews['male'],
+                            eleventhLastMonthDataset.ResourceViews['male'],
+                            tenthLastMonthDataset.ResourceViews['male'],
+                            ninthLastMonthDataset.ResourceViews['male'],
+                            eighthLastMonthDataset.ResourceViews['male'],
+                            seventhLastMonthDataset.ResourceViews['male'],
+                            sixthLastMonthDataset.ResourceViews['male'],
+                            fifthLastMonthDataset.ResourceViews['male'],
+                            fourthLastMonthDataset.ResourceViews['male'],
+                            thirdLastMonthDataset.ResourceViews['male'],
+                            secondLastMonthDataset.ResourceViews['male'],
+                            lastMonthDataset.ResourceViews['male']]
                     }, {
                         name: 'Females',
                         data: [
-                            twelfthLastMonthDataset.New_Signups['female'],
-                            eleventhLastMonthDataset.New_Signups['female'],
-                            tenthLastMonthDataset.New_Signups['female'],
-                            ninthLastMonthDataset.New_Signups['female'],
-                            eighthLastMonthDataset.New_Signups['female'],
-                            seventhLastMonthDataset.New_Signups['female'],
-                            sixthLastMonthDataset.New_Signups['female'],
-                            fifthLastMonthDataset.New_Signups['female'],
-                            fourthLastMonthDataset.New_Signups['female'],
-                            thirdLastMonthDataset.New_Signups['female'],
-                            secondLastMonthDataset.New_Signups['female'],
-                            lastMonthDataset.New_Signups['female']]
+                            twelfthLastMonthDataset.ResourceViews['female'],
+                            eleventhLastMonthDataset.ResourceViews['female'],
+                            tenthLastMonthDataset.ResourceViews['female'],
+                            ninthLastMonthDataset.ResourceViews['female'],
+                            eighthLastMonthDataset.ResourceViews['female'],
+                            seventhLastMonthDataset.ResourceViews['female'],
+                            sixthLastMonthDataset.ResourceViews['female'],
+                            fifthLastMonthDataset.ResourceViews['female'],
+                            fourthLastMonthDataset.ResourceViews['female'],
+                            thirdLastMonthDataset.ResourceViews['female'],
+                            secondLastMonthDataset.ResourceViews['female'],
+                            lastMonthDataset.ResourceViews['female']]
                     }, {
                         name: 'Total',
                         data: [
-                            twelfthLastMonthDataset.New_Signups['male'] +  twelfthLastMonthDataset.New_Signups['female'],
-                            eleventhLastMonthDataset.New_Signups['male'] + eleventhLastMonthDataset.New_Signups['female'],
-                            tenthLastMonthDataset.New_Signups['male'] + tenthLastMonthDataset.New_Signups['female'],
-                            ninthLastMonthDataset.New_Signups['male'] +  ninthLastMonthDataset.New_Signups['female'],
-                            eighthLastMonthDataset.New_Signups['male'] +  eighthLastMonthDataset.New_Signups['female'],
-                            seventhLastMonthDataset.New_Signups['male'] + seventhLastMonthDataset.New_Signups['female'],
-                            sixthLastMonthDataset.New_Signups['male'] + sixthLastMonthDataset.New_Signups['female'],
-                            fifthLastMonthDataset.New_Signups['male'] + fifthLastMonthDataset.New_Signups['female'],
-                            fourthLastMonthDataset.New_Signups['male'] + fourthLastMonthDataset.New_Signups['female'],
-                            thirdLastMonthDataset.New_Signups['male'] + thirdLastMonthDataset.New_Signups['female'],
-                            secondLastMonthDataset.New_Signups['male'] + secondLastMonthDataset.New_Signups['female'],
-                            lastMonthDataset.New_Signups['male'] + lastMonthDataset.New_Signups['female']]
+                            twelfthLastMonthDataset.ResourceViews['male'] +  twelfthLastMonthDataset.ResourceViews['female'],
+                            eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
+                            tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
+                            ninthLastMonthDataset.ResourceViews['male'] +  ninthLastMonthDataset.ResourceViews['female'],
+                            eighthLastMonthDataset.ResourceViews['male'] +  eighthLastMonthDataset.ResourceViews['female'],
+                            seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
+                            sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
+                            fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
+                            fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
+                            thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
+                            secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
+                            lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']]
                     }]
                 });
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
