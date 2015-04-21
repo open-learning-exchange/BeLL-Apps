@@ -73,6 +73,46 @@ $(function () {
                                     async: false
                                 })
 
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/members',
+                                "target": "members",
+                                "doc_ids": ["_design/bell"]
+                            }),
+                            success: function(response){
+                                alert("Successfully updated.")
+                                location.reload();
+                            },
+                            async: false
+                        })
+
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/collectionlist',
+                                "target": "collectionlist",
+                                "doc_ids": ["_design/bell"]
+                            }),
+                            success: function(response){
+                                alert("Successfully updated.")
+                                location.reload();
+                            },
+                            async: false
+                        })
+
 					      App.stopActivityIndicator()
 					      
 					},
