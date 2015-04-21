@@ -118,8 +118,6 @@ $(function () {
             this.form.fields['addedBy'].editor.el.disabled = true;
             this.form.fields['uploadDate'].$el.show();
             this.form.fields['openWith'].$el.show();
-//            this.$el.append('<label for="_attachments">Upload Welcome Video</label>');
-//            this.$el.append('<input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" />');
             // get attachments of welcome video doc
             var tempAttachments = this.model.get('_attachments');
             var fields = _.map(

@@ -96,7 +96,7 @@ $(function(){
             },
             async: false
         });
-        var resourceId, welcomeVidResource;
+        var welcomeVidResource;
         if (welcomeVideoResources.length > 0) {
             welcomeVidResource = welcomeVideoResources.models[0];
         }
@@ -109,11 +109,8 @@ $(function(){
         var resourceFormView = new App.Views.ResourceForm({
             model: resource
         });
-        if (resource.id) {
-            resourceFormView.renderAddOrUploadWelcomeVideoForm();
-        } else {
-            resourceFormView.renderAddOrUploadWelcomeVideoForm();
-        }
+
+        resourceFormView.renderAddOrUploadWelcomeVideoForm();
         App.$el.children('.body').html(resourceFormView.el);
     },
     Publications:function(publicationIdes){
