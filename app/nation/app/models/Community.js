@@ -18,7 +18,10 @@ $(function() {
     },
 
     defaults: {
-      kind: "Community"
+        kind: "Community",
+        lastAppUpdateDate: " - " ,
+        version: " - ",
+        lastActivitiesSyncDate: " - "
     },
 
     schema: {
@@ -85,9 +88,8 @@ $(function() {
        		  },
         AuthDate: {	type:'Text',
        			validators: ['required']
-       		  },	  	  
-       		  	  
-    },
+       		  }
+    }
 
   }) 
 

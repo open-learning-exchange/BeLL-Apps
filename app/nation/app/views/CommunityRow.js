@@ -24,7 +24,7 @@ $(function() {
 
     render: function () {
         var community=this.model;
-        var row = "<td>"+ community.get('Name')+ "</td><td><a role='button' class='btn btn-info' href='#addCommunity/"+
+        var row = "<td>"+ community.get('Name')+ "</td><td>"+ community.get('lastAppUpdateDate')+ "</td><td>"+ community.get('version')+ "</td><td>"+ community.get('lastActivitiesSyncDate')+ "</td><td><a role='button' class='btn btn-info' href='#addCommunity/"+
                         community.get('_id') +"'> <i class='icon-pencil icon-white'></i>Edit</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/"+
             community.get('_id') +"'> <i class='icon-remove icon-white'></i>Delete</a></td>";
         this.$el.append(row);

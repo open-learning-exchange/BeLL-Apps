@@ -23,6 +23,8 @@ $(function () {
 				var nationURL = currentConfig.nationUrl
 				
 				App.startActivityIndicator()
+
+                // Replicate Application Code from Nation to Community
 				$.ajax({
 					headers: {
 						'Accept': 'application/json',
@@ -35,8 +37,11 @@ $(function () {
 					    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
 						"target": "apps"
 					}),
+                    async: false ,
 					success: function (response) {
-						$.ajax({
+
+                        // Update version Number in Configuration of Community
+						/*$.ajax({
 							
 							headers: {
 								'Accept': 'application/json',
@@ -51,27 +56,28 @@ $(function () {
 							 },
 							 
 							async: false
-						})
+						});*/
+
+                        //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
 
 						$.ajax({
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json; charset=utf-8'
-                                    },
-                                    type: 'POST',
-                                    url: '/_replicate',
-                                    dataType: 'json',
-                                    data: JSON.stringify({
-                                        "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/activitylog',
-                                        "target": "activitylog",
-                                        "doc_ids": ["_design/bell"]
-                                    }),
-                                    success: function(response){
-							            alert("Successfully updated.")
-							            location.reload();
-                                    },
-                                    async: false
-                                })
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/activitylog',
+                                "target": "activitylog",
+                                "doc_ids": ["_design/bell"]
+                            }),
+                            success: function(response){
+                                console.log("ActivityLog DesignDocs successfully updated.");
+                            },
+                            async: false
+                        });
 
                         $.ajax({
                             headers: {
@@ -87,11 +93,10 @@ $(function () {
                                 "doc_ids": ["_design/bell"]
                             }),
                             success: function(response){
-                                alert("Successfully updated.")
-                                location.reload();
+                                console.log("Members DesignDocs successfully updated.");
                             },
                             async: false
-                        })
+                        });
 
                         $.ajax({
                             headers: {
@@ -107,20 +112,78 @@ $(function () {
                                 "doc_ids": ["_design/bell"]
                             }),
                             success: function(response){
-                                alert("Successfully updated.")
-                                location.reload();
+                                console.log("CollectionList DesignDocs successfully updated.");
                             },
                             async: false
-                        })
+                        });
 
-					      App.stopActivityIndicator()
+                        // Update LastAppUpdateDate at Nation's Community Records
+                        $.ajax({
+                            url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"',
+                            type: 'GET',
+                            dataType: 'jsonp',
+                            success: function(result){
+
+                                console.log(result);
+                                var communityModel = result.rows[0].value;
+
+                                var date = new Date();
+                                var year = date.getFullYear();
+                                var month = (1 + date.getMonth()).toString();
+                                month = month.length > 1 ? month : '0' + month;
+                                var day = date.getDate().toString();
+                                day = day.length > 1 ? day : '0' + day;
+                                var formattedDate = month + '-' + day + '-' + year;
+
+                                /*$.ajax({
+                                    url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_update/in-place/' + communityModelId + '?field=lastAppUpdateDate&value=' + formattedDate,
+                                    type: 'PUT',
+                                    //contentType: 'application/json',
+                                    dataType: 'json',
+                                    success: function(){
+                                        alert("Successfull : " + 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_update/in-place/' + communityModelId + '?field=lastAppUpdateDate&value=' + formattedDate);
+                                    },
+                                    error: function(){
+                                        alert("Failed : " + 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_update/in-place/' + communityModelId + '?field=lastAppUpdateDate&value=' + formattedDate);
+                                    }
+                                });*/
+
+                                communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
+
+                                communityModel.version = currentConfig.version;
+                                alert("Request start here")
+                                $.ajax({
+                                   // headers: {"X-HTTP-Method-Override": "PUT"},
+                                    url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/' + communityModel._id + '?rev=' + communityModel._rev,
+                                    //dataType: 'json',
+                                    contentType: 'application/json',
+                                    crossDomain: 'true',
+                                    type:'POST',
+                                    data: JSON.stringify('{"lastAppUpdateDate": "' + communityModel.lastAppUpdateDate + '", "version": "' + communityModel.version + '" }'),
+                                    //data: communityModel.lastAppUpdateDate,
+                                    success: function (response) {
+                                        console.log(response)
+                                        alert("Successfully Updated the Community Record")
+                                    },
+                                    error: function (){
+                                        console.log ("Community Record at Nation Update Failed");
+                                    }
+                                })
+
+                            },
+                            error: function(){
+                                console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                            }
+                        });
+
+                        App.stopActivityIndicator();
+                        //location.reload();
 					      
 					},
 					error: function(){
 					      App.stopActivityIndicator()
 					      alert("Not Replicated!")
-					},
-					async: false
+					}
 				})
 
 				
