@@ -17,7 +17,7 @@ $(function() {
       else if(this.major==false)
             return App.Server + '/collectionlist/_design/bell/_view/subcategory?include_docs=true'
       else
-           return App.Server + '/collectionlist/_design/bell/_view/allrecords?include_docs=true&limit=20'
+           return App.Server + '/collectionlist/_design/bell/_view/allrecords?include_docs=true'
     },
     parse: function(response) {
       
