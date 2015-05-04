@@ -188,7 +188,41 @@ $(function () {
                    "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/activitylog'
                }),
                success: function (response) {
-                   alert("Successfully Replicated Activity Log")
+                   $.ajax({
+                       url: 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"',
+                       type: 'GET',
+                       dataType: 'json',
+                       success: function(result){
+
+                           console.log(result);
+                           var communityModel = result.rows[0].value;
+
+                           var date = new Date();
+                           var year = date.getFullYear();
+                           var month = (1 + date.getMonth()).toString();
+                           month = month.length > 1 ? month : '0' + month;
+                           var day = date.getDate().toString();
+                           day = day.length > 1 ? day : '0' + day;
+                           var formattedDate = month + '-' + day + '-' + year;
+
+                           communityModel.lastActivitiesSyncDate = month + '/' + day + '/' + year;
+
+                           $.ajax({
+                               url: 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/' + communityModel._id + '?rev=' + communityModel._rev,
+                               type: 'PUT',
+                               contentType: 'application/json',
+                               dataType: 'json',
+                               data: JSON.stringify(communityModel),
+                               success: function(){
+                                   console.log("Activity Logs Successfully Synced!");
+                               }
+                           });
+                       },
+                       error: function(){
+                           console.log('http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                       }
+                   });
+
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert("Error (Try Later)")
