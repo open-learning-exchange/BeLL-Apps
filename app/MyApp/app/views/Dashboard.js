@@ -118,6 +118,26 @@ $(function () {
                             async: false
                         });
 
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                                "target": "community",
+                                "doc_ids": ["_design/bell"]
+                            }),
+                            success: function(response){
+                                console.log("CollectionList DesignDocs successfully updated.");
+                            },
+                            async: false
+                        });
+
+
                         // Update LastAppUpdateDate at Nation's Community Records
                         $.ajax({
                             url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"',
