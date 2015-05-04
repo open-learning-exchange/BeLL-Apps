@@ -26,6 +26,12 @@ ddoc.views = {
                 emit(doc.Name, doc.Code);
             }
         }
+    },
+    getCommunityByCode:{
+        map: function(doc) {
+                if(doc && doc.Code)
+                    emit(doc.Code, doc);
+            }
     }
 }
 
