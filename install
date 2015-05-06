@@ -58,14 +58,20 @@ var b = 0
 function installDesignDocs() {
   var database = databases[b]
   if (b !== databases.length) {
-    console.log("Inserting design docs for the " + database + " database")
-    exec('node_modules/.bin/couchapp push ./databases/' + database + '.js ' + couchUrl + '/' + database, function(error, stdout, stderr) {
-      if (error) console.log(error); 
-      if (stderr) console.log(stderr);
-      console.log(stdout)
-      b++
-      installDesignDocs()
-    })
+      if (database != "communities" && database != "languages" && database != "configurations") {
+          console.log("Inserting design docs for the " + database + " database")
+          exec('node_modules/.bin/couchapp push ./databases/' + database + '.js ' + couchUrl + '/' + database, function (error, stdout, stderr) {
+              if (error) console.log(error);
+              if (stderr) console.log(stderr);
+              console.log(stdout)
+              b++
+              installDesignDocs()
+          })
+      }
+      else{
+          b++
+          installDesignDocs()
+      }
   }
   else {
     createDefaultAdminMember()
