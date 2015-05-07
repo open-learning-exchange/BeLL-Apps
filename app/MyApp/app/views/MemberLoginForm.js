@@ -73,7 +73,12 @@ $(function () {
                             //UPDATING MEMBER VISITS
                             App.member = member
                             var vis = parseInt(member.get("visits"))
+                            var superMgrIndex =  member.get('roles').indexOf('SuperManager');
+                            alert(superMgrIndex );
+                          //  alert(member.get('roles')[superMgrIndex ] == "SuperManager");
+                           if (superMgrIndex == -1) {
                             vis++
+                      }
                             member.set("visits", vis)
                             member.once('sync', function () {})
 
@@ -143,14 +148,22 @@ $(function () {
             });
         },
         UpdatejSONlog:function(member, logModel, logdb, logdate){
-			if(member.get('Gender')=='Male') {
+            var superMgrIndex =  member.get('roles').indexOf('SuperManager');
+			if(member.get('Gender')=='Male'  ) {
 				 var visits=parseInt(logModel.male_visits)
-				 visits++
+              //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1 ) {
+                    visits++
+                }
                 logModel.male_visits=visits
 				}
+
 			else{
 				 var visits=parseInt(logModel.female_visits)
-				 visits++
+              //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1 ) {
+                    visits++
+                }
                 logModel.female_visits=visits
 			}
             logdb.put(logModel, logdate, logModel._rev, function(err, response) { // _id: logdate, _rev: logModel._rev
@@ -172,6 +185,8 @@ $(function () {
            return  month + '/' + day + '/' + year;
         },
         createJsonlog:function(member,logdate,logdb){
+            var superMgrIndex =  member.get('roles').indexOf('SuperManager');
+            alert(superMgrIndex);
 		    var docJson={
 				 logDate: logdate,
 				 resourcesIds:[],
@@ -187,13 +202,21 @@ $(function () {
 				 female_opened:[]
 			}
 			if(member.get('Gender')=='Male') {
+
                 var visits=parseInt(docJson.male_visits)
-                visits++
+              //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1 ) {
+                    visits++
+                }
                 docJson.male_visits=visits
             }
             else{
+
                 var visits=parseInt(docJson.female_visits)
-                visits++
+            //    if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1 ) {
+                    visits++
+                }
                 docJson.female_visits=visits
             }
             logdb.put(docJson, logdate, function(err, response) {
