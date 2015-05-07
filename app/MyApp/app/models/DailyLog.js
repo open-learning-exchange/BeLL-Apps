@@ -28,7 +28,8 @@ $(function() {
         "male_timesRated": [],
         "resources_opened": [],
         "female_opened": [],
-        "male_opened": []
+        "male_opened": [],
+        "community"  : "Text"
     }
 }) 
 

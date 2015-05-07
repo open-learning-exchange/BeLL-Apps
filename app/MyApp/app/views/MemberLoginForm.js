@@ -73,12 +73,7 @@ $(function () {
                             //UPDATING MEMBER VISITS
                             App.member = member
                             var vis = parseInt(member.get("visits"))
-                            var superMgrIndex =  member.get('roles').indexOf('SuperManager');
-                            alert(superMgrIndex );
-                          //  alert(member.get('roles')[superMgrIndex ] == "SuperManager");
-                           if (superMgrIndex == -1) {
                             vis++
-                      }
                             member.set("visits", vis)
                             member.once('sync', function () {})
 
@@ -156,7 +151,7 @@ $(function () {
                     visits++
                 }
                 logModel.male_visits=visits
-				}
+                }
 
 			else{
 				 var visits=parseInt(logModel.female_visits)
@@ -166,6 +161,8 @@ $(function () {
                 }
                 logModel.female_visits=visits
 			}
+            logModel.community = App.configuration.get("code");
+
             logdb.put(logModel, logdate, logModel._rev, function(err, response) { // _id: logdate, _rev: logModel._rev
                 if (!err) {
                     console.log("MemberLoginForm:: updated daily log from pouchdb for today..");
@@ -219,6 +216,7 @@ $(function () {
                 }
                 docJson.female_visits=visits
             }
+                   docJson.community = App.configuration.get('code'),
             logdb.put(docJson, logdate, function(err, response) {
                 if (!err) {
                     console.log("MemberLoginForm:: created activity log in pouchdb for today..");
