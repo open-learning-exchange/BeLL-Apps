@@ -183,7 +183,7 @@ $(function () {
         },
         createJsonlog:function(member,logdate,logdb){
             var superMgrIndex =  member.get('roles').indexOf('SuperManager');
-            alert(superMgrIndex);
+           // alert(superMgrIndex);
 		    var docJson={
 				 logDate: logdate,
 				 resourcesIds:[],
