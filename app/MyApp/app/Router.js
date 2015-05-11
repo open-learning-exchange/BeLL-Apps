@@ -1682,6 +1682,7 @@ $(function(){
             if (dateChosen) {
                 // compute the month start date corresponding to the date chosen by user as the ending date for trend report
                 var endDateForTrendReport = $('#dateSelect').datepicker( "getDate" ); // selected date turned into javascript 'Date' format
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 var lastMonthStartDate = new Date( endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1 );
                 var secondLastMonthEndDate = new Date( lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(),
                     ( lastMonthStartDate.getDate() - 1 ) );
@@ -1698,53 +1699,53 @@ $(function(){
                 var sixthLastMonthEndDate = new Date( fifthLastMonthStartDate.getFullYear(), fifthLastMonthStartDate.getMonth(),
                     ( fifthLastMonthStartDate.getDate() - 1 ) );
                 var sixthLastMonthStartDate = new Date( sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1 );
-
                 var seventhLastMonthEndDate = new Date(  sixthLastMonthStartDate.getFullYear(),  sixthLastMonthStartDate.getMonth(),
                     ( sixthLastMonthStartDate.getDate() - 1 ) );
                 var seventhLastMonthStartDate = new Date( seventhLastMonthEndDate.getFullYear(), seventhLastMonthEndDate.getMonth(), 1 );
-
                 var eighthLastMonthEndDate = new Date( seventhLastMonthStartDate.getFullYear(), seventhLastMonthStartDate.getMonth(),
                     ( seventhLastMonthStartDate.getDate() - 1 ) );
                 var eighthLastMonthStartDate = new Date( eighthLastMonthEndDate.getFullYear(), eighthLastMonthEndDate.getMonth(), 1 );
-
                 var ninthLastMonthEndDate = new Date(eighthLastMonthStartDate.getFullYear(), eighthLastMonthStartDate.getMonth(),
                     ( eighthLastMonthStartDate.getDate() - 1 ) );
                 var ninthLastMonthStartDate = new Date( ninthLastMonthEndDate.getFullYear(), ninthLastMonthEndDate.getMonth(), 1 );
-
                 var tenthLastMonthEndDate = new Date( ninthLastMonthStartDate.getFullYear(), ninthLastMonthStartDate.getMonth(),
                     ( ninthLastMonthStartDate.getDate() - 1 ) );
                 var tenthLastMonthStartDate = new Date( tenthLastMonthEndDate.getFullYear(), tenthLastMonthEndDate.getMonth(), 1 );
-
                 var eleventhLastMonthEndDate = new Date( tenthLastMonthStartDate.getFullYear(), tenthLastMonthStartDate.getMonth(),
                     ( fifthLastMonthStartDate.getDate() - 1 ) );
                 var eleventhLastMonthStartDate = new Date( eleventhLastMonthEndDate.getFullYear(), eleventhLastMonthEndDate.getMonth(), 1 );
-
                 var twelfthLastMonthEndDate = new Date( eleventhLastMonthStartDate.getFullYear(), eleventhLastMonthStartDate.getMonth(),
                     ( eleventhLastMonthStartDate.getDate() - 1 ) );
                 var twelfthLastMonthStartDate = new Date( twelfthLastMonthEndDate.getFullYear(), twelfthLastMonthEndDate.getMonth(), 1 );
 
                 var startDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(twelfthLastMonthStartDate) );
                 var endDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 var activityDataColl = new App.Collections.ActivityLog();
                 var urlTemp = App.Server + '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+App.configuration.get('code')+'","'+startDate+'"]&endkey=["'+
                     App.configuration.get('code')+'","'+endDate+'"]';
+
                 activityDataColl.setUrl(urlTemp);
                 activityDataColl.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
                     // end keys rather than logdate to fetch activitylog docs from the db
                     async:false
                 });
                 activityDataColl.toJSON();
-
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
+              //  ********************************************************************************************************
                 var endingMonthActivityData = [], secondLastMonthActivityData = [], thirdLastMonthActivityData = [],
                     fourthLastMonthActivityData = [], fifthLastMonthActivityData = [], sixthLastMonthActivityData = [],
                     seventhLastMonthActivityData = [], eighthLastMonthActivityData = [], ninthLastMonthActivityData = [],
                     tenthLastMonthActivityData = [], eleventhLastMonthActivityData = [], twelfthLastMonthActivityData = [];
+              //  ********************************************************************************************************
                 for (var i in activityDataColl.models) {
+
                     var modelKey = context.turnDateFromMMDDYYYYToYYYYMMDDFormat(activityDataColl.models[i].get('logDate'));
                     var min = context.turnDateToYYYYMMDDFormat(lastMonthStartDate);
                     var max = context.turnDateToYYYYMMDDFormat(endDateForTrendReport);
+
                     if ( (modelKey >= context.turnDateToYYYYMMDDFormat(lastMonthStartDate)) &&
                                 (modelKey <= context.turnDateToYYYYMMDDFormat(endDateForTrendReport)) ) {
                         endingMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
@@ -1783,13 +1784,13 @@ $(function(){
                         twelfthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     }
                 }
+              //  ********************************************************************************************************
                 var lastMonthDataset = context.aggregateDataForTrendReport('communityX', endingMonthActivityData);
                 var secondLastMonthDataset = context.aggregateDataForTrendReport('communityX', secondLastMonthActivityData);
                 var thirdLastMonthDataset = context.aggregateDataForTrendReport('communityX', thirdLastMonthActivityData);
                 var fourthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fourthLastMonthActivityData);
                 var fifthLastMonthDataset = context.aggregateDataForTrendReport('communityX', fifthLastMonthActivityData);
                 var sixthLastMonthDataset = context.aggregateDataForTrendReport('communityX', sixthLastMonthActivityData);
-
                 var seventhLastMonthDataset = context.aggregateDataForTrendReport('communityX', seventhLastMonthActivityData);
                 var eighthLastMonthDataset = context.aggregateDataForTrendReport('communityX', eighthLastMonthActivityData);
                 var ninthLastMonthDataset = context.aggregateDataForTrendReport('communityX', ninthLastMonthActivityData);
@@ -1799,28 +1800,30 @@ $(function(){
 
                 var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
                 console.log(lastMonthDataset);
-                
+              //  ********************************************************************************************************
                 var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-                
+            //   ********************************************************************************************************
                 // show registered members at end of each month falling in duration of this report
                 var totalRegisteredMembers = {male: 0, female: 0};
                 context.getRegisteredMembersCount(function(param1, param2) {
                     totalRegisteredMembers['male'] = param1;
                     totalRegisteredMembers['female'] = param2;
                 });
-
+             //  ********************************************************************************************************
                 var totalRegisteredMembersFromMembersDb =  {male: 0, female: 0};
                 context.getRegisteredMembersCountFromMembersDB (function(param1, param2) {
                     totalRegisteredMembersFromMembersDb['male'] = param1;
                     totalRegisteredMembersFromMembersDb['female'] = param2;
                 });
-/////////Total Visits/////////////////////////////////////////////
+             //  ********************************************************************************************************
+               ///////////////////////////////////////////////Total Visits/////////////////////////////////////////////
                 var totalMemberVisits =  {male: 0, female: 0};
                 context.getTotalMemberVisits (function(param1, param2) {
                     totalMemberVisits['male'] = param1;
                     totalMemberVisits['female'] = param2;
                 });
-
+               /////////////////////////////////////////////////////////////////////////////////////////////////////////
+              //  ********************************************************************************************************
                 var registeredMembersTillNow = {male: totalRegisteredMembers['male'], female: totalRegisteredMembers['female'], total: 0};
                 var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - lastMonthDataset.New_Signups['male'],
                     female: totalRegisteredMembers['female'] - lastMonthDataset.New_Signups['female'], total: 0};
@@ -1844,21 +1847,22 @@ $(function(){
                     female: registeredMembersTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'], total: 0};
                 var registeredMembersTillTwelfthLastMonthEnd = {male: registeredMembersTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
                     female: registeredMembersTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
-                
+              //  ********************************************************************************************************
                 registeredMembersTillNow['total'] = registeredMembersTillNow['male'] + registeredMembersTillNow['female'];
                 registeredMembersTillSecondLastMonthEnd['total'] = registeredMembersTillSecondLastMonthEnd['male'] + registeredMembersTillSecondLastMonthEnd['female'];
                 registeredMembersTillThirdLastMonthEnd['total'] = registeredMembersTillThirdLastMonthEnd['male'] + registeredMembersTillThirdLastMonthEnd['female'];
                 registeredMembersTillFourthLastMonthEnd['total'] = registeredMembersTillFourthLastMonthEnd['male'] + registeredMembersTillFourthLastMonthEnd['female'];
                 registeredMembersTillFifthLastMonthEnd['total'] = registeredMembersTillFifthLastMonthEnd['male'] + registeredMembersTillFifthLastMonthEnd['female'];
                 registeredMembersTillSixthLastMonthEnd['total'] = registeredMembersTillSixthLastMonthEnd['male'] + registeredMembersTillSixthLastMonthEnd['female'];
-
                 registeredMembersTillSeventhLastMonthEnd['total'] = registeredMembersTillSeventhLastMonthEnd['male'] + registeredMembersTillSeventhLastMonthEnd['female'];
                 registeredMembersTillEighthLastMonthEnd['total'] = registeredMembersTillEighthLastMonthEnd['male'] + registeredMembersTillEighthLastMonthEnd['female'];
                 registeredMembersTillNinthLastMonthEnd['total'] = registeredMembersTillNinthLastMonthEnd['male'] + registeredMembersTillNinthLastMonthEnd['female'];
                 registeredMembersTillTenthLastMonthEnd['total'] = registeredMembersTillTenthLastMonthEnd['male'] + registeredMembersTillTenthLastMonthEnd['female'];
                 registeredMembersTillEleventhLastMonthEnd['total'] = registeredMembersTillEleventhLastMonthEnd['male'] + registeredMembersTillEleventhLastMonthEnd['female'];
                 registeredMembersTillTwelfthLastMonthEnd['total'] = registeredMembersTillTwelfthLastMonthEnd['male'] + registeredMembersTillTwelfthLastMonthEnd['female'];
-                ///////////////////////////////////////////Total Members
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+             //  ********************************************************************************************************
+                ///////////////////////////////////////////Total Members//////////////////////////////////////////////////
                 var registeredMembersFromMembersDbTillNow = {male: totalRegisteredMembersFromMembersDb['male'], female: totalRegisteredMembersFromMembersDb['female'], total: 0};
                 var registeredMembersFromMembersDbTillSecondLastMonthEnd = {male: totalRegisteredMembersFromMembersDb['male'] - lastMonthDataset.New_Signups['male'],
                     female: totalRegisteredMembersFromMembersDb['female'] - lastMonthDataset.New_Signups['female'], total: 0};
@@ -1882,24 +1886,21 @@ $(function(){
                     female: registeredMembersFromMembersDbTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'], total: 0};
                 var registeredMembersFromMembersDbTillTwelfthLastMonthEnd = {male: registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
                     female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
-
+             //  ********************************************************************************************************
                 registeredMembersFromMembersDbTillNow['total'] = registeredMembersFromMembersDbTillNow['male'] + registeredMembersFromMembersDbTillNow['female'];
                 registeredMembersFromMembersDbTillSecondLastMonthEnd['total'] = registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] + registeredMembersFromMembersDbTillSecondLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillThirdLastMonthEnd['total'] = registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] + registeredMembersFromMembersDbTillThirdLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillFourthLastMonthEnd['total'] = registeredMembersFromMembersDbTillFourthLastMonthEnd['male'] + registeredMembersFromMembersDbTillFourthLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillFifthLastMonthEnd['total'] = registeredMembersFromMembersDbTillFifthLastMonthEnd['male'] + registeredMembersFromMembersDbTillFifthLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillSixthLastMonthEnd['total'] = registeredMembersFromMembersDbTillSixthLastMonthEnd['male'] + registeredMembersFromMembersDbTillSixthLastMonthEnd['female'];
-
                 registeredMembersFromMembersDbTillSeventhLastMonthEnd['total'] = registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'] + registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillEighthLastMonthEnd['total'] = registeredMembersFromMembersDbTillEighthLastMonthEnd['male'] + registeredMembersFromMembersDbTillEighthLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillNinthLastMonthEnd['total'] = registeredMembersFromMembersDbTillNinthLastMonthEnd['male'] + registeredMembersFromMembersDbTillNinthLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillTenthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTenthLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'] = registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] + registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'];
-
-
-
-                ////////////////////////////////////////////////////////////////////////////////////
+             //  ********************************************************************************************************
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////Total Member Visits/////////////////////////////////////////
                 var membersVisitsTillNow = {male: totalMemberVisits['male'], female: totalMemberVisits['female'], total: 0};
                 var membersVisitsTillSecondLastMonthEnd = {male: totalMemberVisits['male'] - lastMonthDataset.Visits['male'],
@@ -1924,23 +1925,23 @@ $(function(){
                     female: membersVisitsTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.Visits['female'], total: 0};
                 var membersVisitsTillTwelfthLastMonthEnd = {male: membersVisitsTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.Visits['male'],
                     female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.Visits['female'], total: 0};
-
+             //  ********************************************************************************************************
                 membersVisitsTillNow['total'] = membersVisitsTillNow['male'] + membersVisitsTillNow['female'];
                 membersVisitsTillSecondLastMonthEnd['total'] = membersVisitsTillSecondLastMonthEnd['male'] + membersVisitsTillSecondLastMonthEnd['female'];
                 membersVisitsTillThirdLastMonthEnd['total'] = membersVisitsTillThirdLastMonthEnd['male'] + membersVisitsTillThirdLastMonthEnd['female'];
                 membersVisitsTillFourthLastMonthEnd['total'] = membersVisitsTillFourthLastMonthEnd['male'] + membersVisitsTillFourthLastMonthEnd['female'];
                 membersVisitsTillFifthLastMonthEnd['total'] = membersVisitsTillFifthLastMonthEnd['male'] + membersVisitsTillFifthLastMonthEnd['female'];
                 membersVisitsTillSixthLastMonthEnd['total'] = membersVisitsTillSixthLastMonthEnd['male'] + membersVisitsTillSixthLastMonthEnd['female'];
-
                 membersVisitsTillSeventhLastMonthEnd['total'] = membersVisitsTillSeventhLastMonthEnd['male'] + membersVisitsTillSeventhLastMonthEnd['female'];
                 membersVisitsTillEighthLastMonthEnd['total'] = membersVisitsTillEighthLastMonthEnd['male'] + membersVisitsTillEighthLastMonthEnd['female'];
                 membersVisitsTillNinthLastMonthEnd['total'] = membersVisitsTillNinthLastMonthEnd['male'] + membersVisitsTillNinthLastMonthEnd['female'];
                 membersVisitsTillTenthLastMonthEnd['total'] = membersVisitsTillTenthLastMonthEnd['male'] + membersVisitsTillTenthLastMonthEnd['female'];
                 membersVisitsTillEleventhLastMonthEnd['total'] = membersVisitsTillEleventhLastMonthEnd['male'] + membersVisitsTillEleventhLastMonthEnd['female'];
                 membersVisitsTillTwelfthLastMonthEnd['total'] = membersVisitsTillTwelfthLastMonthEnd['male'] + membersVisitsTillTwelfthLastMonthEnd['female'];
-
                 //////////////////////////////////////////////////////////////////////////////////////////////
-
+               // ********************************************************************************************************
+                                       // TrendActivityReport View from TrendActivityReport.js
+              //  ********************************************************************************************************
                 var trendActivityReportView = new App.Views.TrendActivityReport();
                 trendActivityReportView.data = aggregateDataset;
                 trendActivityReportView.startDate = activityDataColl.startkey;
@@ -1948,7 +1949,14 @@ $(function(){
 //                trendActivityReportView.CommunityName = CommunityName;
                 trendActivityReportView.render();
                 App.$el.children('.body').html(trendActivityReportView.el);
+               //  ********************************************************************************************************
                 //$( '<div id="trend-report-div-new-memberships"></div>' ).appendTo( App.$el.children('.body') );
+                //  ********************************************************************************************************
+                                                 //Trend Report Graphs Started
+                //  ********************************************************************************************************
+                //  ********************************************************************************************************
+                                                //Total Members
+                //  ********************************************************************************************************
                 $('#trend-report-div-total-members').highcharts({
                     chart: {
                         type: 'column',
@@ -2042,7 +2050,10 @@ $(function(){
                             registeredMembersFromMembersDbTillNow['total']]
                     }]
                 });
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //  ********************************************************************************************************
+                //  ********************************************************************************************************
+                                                     //Active Members This Month
+                //  ********************************************************************************************************
                 $('#trend-report-div-new-memberships').highcharts({
                     chart: {
                         type: 'column',
@@ -2136,7 +2147,10 @@ $(function(){
                             registeredMembersTillNow['total']]
                     }]
                 });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //  ********************************************************************************************************
+                //  ********************************************************************************************************
+                                                     //Total Member Visits This Month
+                //  ********************************************************************************************************
                 $('#trend-report-div-visits').highcharts({
                     chart: {
                         type: 'column',
@@ -2231,7 +2245,11 @@ $(function(){
                             lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']]
                     }]
                 });
-//////////////////////////////////////////////////////////////New Members This Month////////////////////////////////////
+                //  ******************************************************************************************************
+                // /////////////////////////////////////////////New Members This Month?////////////////////////////////////
+                //  ********************************************************************************************************
+                                       //   Total Resource Views This Month
+                //  ********************************************************************************************************
                 $('#trend-report-div-total-resource-views-this-month').highcharts({
                     chart: {
                         type: 'column',
@@ -2326,8 +2344,10 @@ $(function(){
                             lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']]
                     }]
                 });
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////Total Member Visits///////////////////////////////////////////////////
+                //  ********************************************************************************************************
+                //  ********************************************************************************************************
+                                             //Total Member Visits
+                //  ********************************************************************************************************
                 $('#trend-report-div-total-member-visits').highcharts({
                     chart: {
                         type: 'column',
@@ -2423,7 +2443,7 @@ $(function(){
                             membersVisitsTillNow['total']]
                     }]
                 });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //  ********************************************************************************************************
 
             } else {
                 alert("You must choose a date to proceed");
