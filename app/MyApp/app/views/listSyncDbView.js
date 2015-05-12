@@ -188,40 +188,80 @@ $(function () {
                    "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/activitylog'
                }),
                success: function (response) {
-                   $.ajax({
-                       url: 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"',
-                       type: 'GET',
-                       dataType: 'json',
-                       success: function(result){
+				   $.ajax({
+					   url:'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+					   type: 'GET',
+					   dataType: 'jsonp',
+					   success: function(result){
+						   var communityModel = result.rows[0].value;
+						   var communityModelId = result.rows[0].id;
+						   //Replicate from Nation to Community
+						   $.ajax({
+							   headers: {
+								   'Accept': 'application/json',
+								   'Content-Type': 'application/json; charset=utf-8'
+							   },
+							   type: 'POST',
+							   url: '/_replicate',
+							   dataType: 'json',
+							   data: JSON.stringify({
+								   "source": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
+								   "target": "community",
+								   "doc_ids": [communityModelId]
+							   }),
+							   success: function(response){
+								   console.log("Successfully Replicated.");
+								   var date = new Date();
+								   var year = date.getFullYear();
+								   var month = (1 + date.getMonth()).toString();
+								   month = month.length > 1 ? month : '0' + month;
+								   var day = date.getDate().toString();
+								   day = day.length > 1 ? day : '0' + day;
+								   var formattedDate = month + '-' + day + '-' + year;
+								   communityModel.lastActivitiesSyncDate = month + '/' + day + '/' + year;
+								   //Update the record in Community db at Community Level
+								   $.ajax({
 
-                           console.log(result);
-                           var communityModel = result.rows[0].value;
+									   headers: {
+										   'Accept': 'application/json',
+										   'Content-Type': 'multipart/form-data'
+									   },
+									   type: 'PUT',
+									   url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+									   dataType: 'json',
+									   data: JSON.stringify(communityModel),
+									   success: function (response) {
+										   //Replicate from Community to Nation
+										   $.ajax({
+											   headers: {
+												   'Accept': 'application/json',
+												   'Content-Type': 'application/json; charset=utf-8'
+											   },
+											   type: 'POST',
+											   url: '/_replicate',
+											   dataType: 'json',
+											   data: JSON.stringify({
+												   "source": "community",
+												   "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
+												   "doc_ids": [communityModelId]
+											   }),
+											   success: function(response){
+												   console.log("Successfully Replicated.");
+											   },
+											   async: false
+										   });
+									   },
 
-                           var date = new Date();
-                           var year = date.getFullYear();
-                           var month = (1 + date.getMonth()).toString();
-                           month = month.length > 1 ? month : '0' + month;
-                           var day = date.getDate().toString();
-                           day = day.length > 1 ? day : '0' + day;
-                           var formattedDate = month + '-' + day + '-' + year;
-
-                           communityModel.lastActivitiesSyncDate = month + '/' + day + '/' + year;
-
-                           $.ajax({
-                               url: 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/' + communityModel._id + '?rev=' + communityModel._rev,
-                               type: 'PUT',
-                               contentType: 'application/json',
-                               dataType: 'json',
-                               data: JSON.stringify(communityModel),
-                               success: function(){
-                                   console.log("Activity Logs Successfully Synced!");
-                               }
-                           });
-                       },
-                       error: function(){
-                           console.log('http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
-                       }
-                   });
+									   async: false
+								   });
+							   },
+							   async: false
+						   });
+					   },
+					   error: function(){
+						   console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+					   }
+				   });
 
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
