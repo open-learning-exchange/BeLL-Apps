@@ -1,8 +1,8 @@
 $(function () {
 
+	window.isActivityLogChecked = false;
     App.Views.listSyncDbView = Backbone.View.extend({
-
-        id: "invitationForm",
+		id: "invitationForm",
 
         events: {
             "click #cancelButton": "hidediv",
@@ -42,7 +42,7 @@ $(function () {
       		
       		}
         },
-        syncData: function(){
+        syncData: function() {
         	var context=this
         	App.startActivityIndicator()
         	$("input[name='syncData']").each(function () {
@@ -51,6 +51,7 @@ $(function () {
 						context.ReplicateResource()
 					}
 					else if($(this).val()=='ActivityReports'){
+						isActivityLogChecked = true;
 						context.syncLogActivitiy()
 					}
 					else if($(this).val()=='Reports'){
@@ -71,8 +72,6 @@ $(function () {
             setTimeout(function () {
                 $('#invitationdiv').hide()
             }, 1000);
-            App.stopActivityIndicator()
-
         },
        ReplicateResource: function () {
         
@@ -129,7 +128,6 @@ $(function () {
       				}
     			}
   			 })
-  			App.stopActivityIndicator()
         },
         synchCommunityWithURL : function(communityurl,communityname) 
         {
@@ -168,13 +166,16 @@ $(function () {
                }),
                success: function (response) {
                    alert("Successfully Replicated Reports")
+				   if(isActivityLogChecked == false) {
+					   App.stopActivityIndicator();
+				   }
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert("Error (Try Later)")
                }
            })
         }, 
-       syncLogActivitiy:function(){
+       syncLogActivitiy:function() {
            $.ajax({
                headers: {
                    'Accept': 'application/json',
@@ -246,7 +247,8 @@ $(function () {
 												   "doc_ids": [communityModelId]
 											   }),
 											   success: function(response){
-												   console.log("Successfully Replicated.");
+												   alert("Successfully Replicated Log Activity Reports")
+												   App.stopActivityIndicator();
 											   },
 											   async: false
 										   });
@@ -287,6 +289,9 @@ $(function () {
                 }),
                 success: function (response) {
                     alert("Successfully Replicated Resources Feedbacks")
+					if(isActivityLogChecked == false) {
+						App.stopActivityIndicator();
+					}
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("Error (Try Later)")
@@ -311,6 +316,9 @@ $(function () {
                     }),
                     success: function (response) {
                         alert("Successfully Replicated Application Feedbacks")
+						if(isActivityLogChecked == false) {
+							App.stopActivityIndicator();
+						}
                     },
                     error: function(XMLHttpRequest, textStatus, errorThrown) {
                         alert("Error (Try Later)")

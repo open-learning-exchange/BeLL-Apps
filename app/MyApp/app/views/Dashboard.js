@@ -199,7 +199,9 @@ $(function () {
 														"doc_ids": [communityModelId]
 													}),
 													success: function(response){
-														console.log("Successfully Replicated.");
+														//console.log("Successfully Replicated.");
+														alert("Updated Successfully");
+														window.location.reload(false);
 													},
 													async: false
 												});
@@ -212,7 +214,7 @@ $(function () {
 								});
                             },
                             error: function(){
-                                console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                               console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
                             }
                         });
 
