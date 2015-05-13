@@ -21,7 +21,8 @@ $(function() {
         kind: "Community",
         lastAppUpdateDate: " - " ,
         version: " - ",
-        lastActivitiesSyncDate: " - "
+        lastActivitiesSyncDate: " - ",
+		lastPublicationSyncDate: " - "
     },
 
     schema: {

@@ -114,23 +114,7 @@ $(function(){
         App.$el.children('.body').html(resourceFormView.el);
     },
     Publications:function(publicationIdes){
-//        publicationIdes=publicationIdes.split(',');
-//        var keys='';
-//        _.each(publicationIdes, function(item) {
-//            keys +='"' + item + '",';
-//        })
-//        if(keys!='') {
-//            keys = keys.substring(0, keys.length - 1);
-//        }
-//        console.log(keys);
-//        var nName=App.configuration.get('nationName');
-//        var pass=App.password;
-//        var nUrl=App.configuration.get('nationUrl');
-//        var currentBellName=App.configuration.get('name');
-//        var DbUrl='http://'+nName+':'+pass+'@'+nUrl;
-//        var completeUrl=DbUrl+'/publications/_all_docs?include_docs=true&keys=[' + keys + ']';
         var PublicationsView= new App.Views.PublicationTable();
-//        PublicationsView.Url=completeUrl;
         PublicationsView.render();
         App.$el.children('.body').html('<h3>Publications</h3>');
         App.$el.children('.body').append(PublicationsView.el);
@@ -165,14 +149,6 @@ $(function(){
         this.bind("all", this.renderNav)
         //this.bind("all",this.checkForUpdates)
     },
-      /*onUpdateReady: function () {
-          alert('found new version!');
-      },
-      checkForUpdates: function () {
-          window.applicationCache.addEventListener('updateready', function(){
-          alert('found new version!');
-          },false);
-      },*/
         eReader:function(){
            // alert('match with ereader')
             this.underConstruction()
@@ -1291,27 +1267,6 @@ $(function(){
         return dateString;
     },
     aggregateDataForTrendReport: function (CommunityName, logData) {
-//            var type="community"
-//            var configurations=Backbone.Collection.extend({
-//                url: App.Server + '/configurations/_all_docs?include_docs=true'
-//            })
-//            var config=new configurations()
-//            config.fetch({async:false})
-//            var currentConfig=config.first()
-//            var cofigINJSON=currentConfig.toJSON()
-//            if( cofigINJSON.rows[0].doc.type){
-//                type=cofigINJSON.rows[0].doc.type
-//            }
-//            var logData=new App.Collections.ActivityLog()
-//            logData.startkey = this.changeDateFormat(startDate)
-//            logData.endkey = this.changeDateFormat(endDate)
-//            if(CommunityName!='all') {
-//                logData.name=CommunityName
-//            }
-//            logData.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
-//                // end keys rather than logdate to fetch activitylog docs from the db
-//                async:false
-//            })
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
@@ -2017,7 +1972,8 @@ $(function(){
                             registeredMembersFromMembersDbTillFourthLastMonthEnd['male'],
                             registeredMembersFromMembersDbTillThirdLastMonthEnd['male'],
                             registeredMembersFromMembersDbTillSecondLastMonthEnd['male'],
-                            registeredMembersFromMembersDbTillNow['male']]
+                            registeredMembersFromMembersDbTillNow['male']],
+                        color: '#33ccff'
                     }, {
                         name: 'Females',
                         data: [
@@ -2032,7 +1988,8 @@ $(function(){
                             registeredMembersFromMembersDbTillFourthLastMonthEnd['female'],
                             registeredMembersFromMembersDbTillThirdLastMonthEnd['female'],
                             registeredMembersFromMembersDbTillSecondLastMonthEnd['female'],
-                            registeredMembersFromMembersDbTillNow['female']]
+                            registeredMembersFromMembersDbTillNow['female']],
+                        color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
@@ -2047,7 +2004,8 @@ $(function(){
                             registeredMembersFromMembersDbTillFourthLastMonthEnd['total'],
                             registeredMembersFromMembersDbTillThirdLastMonthEnd['total'],
                             registeredMembersFromMembersDbTillSecondLastMonthEnd['total'],
-                            registeredMembersFromMembersDbTillNow['total']]
+                            registeredMembersFromMembersDbTillNow['total']],
+                        color: '#ff9900'
                     }]
                 });
                 //  ********************************************************************************************************
@@ -2114,7 +2072,8 @@ $(function(){
                             registeredMembersTillFourthLastMonthEnd['male'],
                             registeredMembersTillThirdLastMonthEnd['male'],
                             registeredMembersTillSecondLastMonthEnd['male'],
-                            totalRegisteredMembers['male']]
+                            totalRegisteredMembers['male']],
+                        color: '#33ccff'
                     }, {
                         name: 'Females',
                         data: [
@@ -2129,7 +2088,8 @@ $(function(){
                             registeredMembersTillFourthLastMonthEnd['female'],
                             registeredMembersTillThirdLastMonthEnd['female'],
                             registeredMembersTillSecondLastMonthEnd['female'],
-                            totalRegisteredMembers['female']]
+                            totalRegisteredMembers['female']],
+                        color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
@@ -2144,7 +2104,8 @@ $(function(){
                             registeredMembersTillFourthLastMonthEnd['total'],
                             registeredMembersTillThirdLastMonthEnd['total'],
                             registeredMembersTillSecondLastMonthEnd['total'],
-                            registeredMembersTillNow['total']]
+                            registeredMembersTillNow['total']],
+                        color: '#ff9900'
                     }]
                 });
                 //  ********************************************************************************************************
@@ -2212,7 +2173,8 @@ $(function(){
                             fourthLastMonthDataset.Visits['male'],
                             thirdLastMonthDataset.Visits['male'],
                             secondLastMonthDataset.Visits['male'],
-                            lastMonthDataset.Visits['male']]
+                            lastMonthDataset.Visits['male']],
+                        color: '#33ccff'
                     }, {
                         name: 'Females',
                         data: [
@@ -2227,7 +2189,8 @@ $(function(){
                             fourthLastMonthDataset.Visits['female'],
                             thirdLastMonthDataset.Visits['female'],
                             secondLastMonthDataset.Visits['female'],
-                            lastMonthDataset.Visits['female']]
+                            lastMonthDataset.Visits['female']],
+                        color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
@@ -2242,7 +2205,8 @@ $(function(){
                             fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
                             thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
                             secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
-                            lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']]
+                            lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']],
+                        color: '#ff9900'
                     }]
                 });
                 //  ******************************************************************************************************
@@ -2311,7 +2275,8 @@ $(function(){
                             fourthLastMonthDataset.ResourceViews['male'],
                             thirdLastMonthDataset.ResourceViews['male'],
                             secondLastMonthDataset.ResourceViews['male'],
-                            lastMonthDataset.ResourceViews['male']]
+                            lastMonthDataset.ResourceViews['male']],
+                        color: '#33ccff'
                     }, {
                         name: 'Females',
                         data: [
@@ -2326,7 +2291,8 @@ $(function(){
                             fourthLastMonthDataset.ResourceViews['female'],
                             thirdLastMonthDataset.ResourceViews['female'],
                             secondLastMonthDataset.ResourceViews['female'],
-                            lastMonthDataset.ResourceViews['female']]
+                            lastMonthDataset.ResourceViews['female']],
+                        color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
@@ -2341,7 +2307,8 @@ $(function(){
                             fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
                             thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
                             secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
-                            lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']]
+                            lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']],
+                        color: '#ff9900'
                     }]
                 });
                 //  ********************************************************************************************************
@@ -2410,7 +2377,8 @@ $(function(){
                             membersVisitsTillFourthLastMonthEnd['male'],
                             membersVisitsTillThirdLastMonthEnd['male'],
                             membersVisitsTillSecondLastMonthEnd['male'],
-                            membersVisitsTillNow['male']]
+                            membersVisitsTillNow['male']],
+                        color: '#33ccff'
                     }, {
                         name: 'Females',
                         data: [
@@ -2425,7 +2393,8 @@ $(function(){
                             membersVisitsTillFourthLastMonthEnd['female'],
                             membersVisitsTillThirdLastMonthEnd['female'],
                             membersVisitsTillSecondLastMonthEnd['female'],
-                            membersVisitsTillNow['female']]
+                            membersVisitsTillNow['female']],
+                        color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
@@ -2440,7 +2409,8 @@ $(function(){
                             membersVisitsTillFourthLastMonthEnd['total'],
                             membersVisitsTillThirdLastMonthEnd['total'],
                             membersVisitsTillSecondLastMonthEnd['total'],
-                            membersVisitsTillNow['total']]
+                            membersVisitsTillNow['total']],
+                        color: '#ff9900'
                     }]
                 });
                 //  ********************************************************************************************************
@@ -2453,48 +2423,6 @@ $(function(){
     isWithinRange: function (value, rangeMin, rangeMax) {
 
     },
-
-        /*
-        Removed because this function is moved in nation all sync in one page
-        syncReports:function(){
-        
-              App.startActivityIndicator()
-         var configurationModel=new App.Collections.Configurations()
-		     configurationModel.fetch({success:function(res){
-		     
-					        var conf=res.first()
-					        console.log(conf)
-					        var nationName=conf.get('nationName')
-					        var nationURL=conf.get('nationUrl')					        
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": "communityreports",
-									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + ':5984/communityreports'
-								}),
-								success: function (response) {
-                                            App.stopActivityIndicator()
-                                            alert('sync successfully ')
-                                            Backbone.history.navigate('reports',{trigger: true})
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) { 
-								            App.stopActivityIndicator()
-                    						alert("Status: " + textStatus); alert("Error: " + errorThrown);
-                    						Backbone.history.navigate('reports', {trigger: true}) 
-                					}, 
-								async: false
-							})
-					 
-				 }})
-
-
-        },*/
         ReportForm: function (reportId) {
             var report = (reportId) ? new App.Models.CommunityReport({
                 _id: reportId
@@ -3260,21 +3188,7 @@ $(function(){
       var hostUrl = Backbone.history.location.href
             hostUrl = hostUrl.split('/')
             var hostName=hostUrl[2].split('.')
-            
-//      var MemberCourseProgress=new PouchDB('membercourseprogress');
-//      var configurations= new PouchDB('configurations');
       var FeedBackDb=new PouchDB('feedback');
-//      var CourseStep=new PouchDB('coursestep');
-      
-      //condition to check cloudant.com or an IP address 
-     //  if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/)){
-//             //not cloudant
-//       	    URL='http://'+hostUrl[2]
-//       }else{
-//             //cloudant
-//         	URL='http://'+hostName[0]+':'+App.password+'@'+hostUrl[2]
-//       }
-      
       if(hostName[0].indexOf('cloudant')!=-1){
            // cloudant
            URL='http://'+hostName[0]+':'+App.password+'@'+hostUrl[2]
@@ -3284,14 +3198,6 @@ $(function(){
       }else{
           URL='http://'+hostUrl[2]
       }
-
-//     configurations.replicate.from(URL+'/configurations',function(error, response){
-//         if(error){
-//             console.log("configurations replication error :"+error)
-//         }else{
-//             console.log("Successfully replicated to local configurations :" + response)
-//         }
-//     });
      FeedBackDb.replicate.to(URL+'/feedback',function(error, response){
          if(error){
              console.log("FeedBackDb replication error :"+error)
@@ -3299,39 +3205,6 @@ $(function(){
              console.log("Successfully replicated FeedBackDb :" + response)
          }
      });
-//	  MemberCourseProgress.replicate.from(URL+'/membercourseprogress',function(error, response){
-//			if(error){
-//			   console.log("membercourseprogress replication error :"+error)
-//			}else{
-//			   console.log("Successfully replicated to local membercourseprogress :" + response)
-//			}
-//	  });
-
-//	  MemberCourseProgress.replicate.to(URL+'/membercourseprogress',function(error, response){
-//			if(error){
-//				console.log("membercourseprogress replication to server error :"+error)
-//			}else{
-//				console.log("Successfully replicated membercourseprogress :" + response)
-//			}
-//	  });
-
-
-//	  CourseStep.replicate.from(URL+'/coursestep',function(error, response){
-//			if(error){
-//			    console.log("coursestep replication error :"+error)
-//			}else{
-//			    console.log("Successfully replicated coursestep :" + response)
-//			}
-//
-//	  });
-//	  CourseStep.replicate.to(URL+'/coursestep',function(error, response){
-//			if(error){
-//			    console.log("coursestep replication error :"+error)
-//			}else{
-//			   console.log("Successfully replicated coursestep :" + response)
-//			}
-//	  });
-	// this.saveFrequency(URL);
     this.syncResourceFeedback();
 	this.WeeklyReports();	 
  },
@@ -3488,20 +3361,6 @@ $(function(){
 		App.$el.children('.body').html(log.el);
 		//currently hiding for all kind of communities and nations.
 		$("#community-select").hide();
-		/*if(type=='community'){
-		$("#community-select").hide()
-		}
-		if(type=='nation'){
-		$("#community-select").multiselect({
-					multiple: false,
-					header: "Select A Community",
-					noneSelectedText: "Select A Community",
-					selectedList: 1
-				 });
-		}*/
-//         $.datepicker.setDefaults({
-//             dateFormat: 'mm-dd-yy'
-//         });
 		$('#start-date').datepicker({
            dateFormat: "yy-mm-dd",
            todayHighlight: true
@@ -3947,11 +3806,6 @@ CompileAppManifest:function(){
             //alert('here in create log function')
 			var dailylogModel = new App.Models.DailyLog();
             var dailyLog = activitylog;
-//            delete activitylog._rev;
-//            delete activitylog._id;
-//				console.log(activitylog);
-//            dailylogModel.set(activitylog); community
-
             dailylogModel.set('logDate' , activitylog.logDate);
             dailylogModel.set('community' , activitylog.community);
             dailylogModel.set('resourcesIds' , activitylog.resourcesIds)
@@ -3974,11 +3828,7 @@ CompileAppManifest:function(){
                    if(err){
                         console.log('MyApp:: createLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB');
                         console.log(err);
-//                        alert('mainRouter:: createLogs:: error: could NOT Remove pouch doc');
                    }else{
-//                        console.log('mainRouter:: createLogs:: removed Pouch doc successfully: ');
-//                        console.log(response);
-//                        alert('mainRouter:: createLogs:: removed Pouch doc successfully');
                    }
                });
             }});
@@ -4085,17 +3935,11 @@ CompileAppManifest:function(){
                var logdb=new PouchDB('activitylogs')
                logsonServer.save(null,{
                    success:function(model,modelInfo){
-//                   console.log("MyAppRouter:: updateLogs:: successfully updated (community) CouchDB with activitylog from Pouch");
-               //alert('save function')
                       logdb.remove(activitylog,function(err, info) {
 							if(err){
                                 console.log("MyAppRouter:: updateLogs:: Failed to delete Pouch activitylog doc after it is synced i-e its data pushed to (community) CouchDB");
                                 console.log(err);
-//                                alert("MyAppRouter:: updateLogs:: could NOT Remove couch doc");
                             } else {
-//                                console.log("MyAppRouter:: updateLogs:: Successfully deleted Pouch activitylog doc after it had been synced with community CouchDB");
-//                                console.log(info);
-//                                alert('MyAppRouter:: updateLogs:: Successfully Deleted pouch doc')
                             }
 					  });
                }});
@@ -4119,8 +3963,7 @@ CompileAppManifest:function(){
            if(CommunityName!='all') {
                logData.name=CommunityName
            }
-           logData.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
-                          // end keys rather than logdate to fetch activitylog docs from the db
+           logData.fetch({
                async:false
            })
            // now we will assign values from first of the activitylog records, returned for the period from startDate to
@@ -4358,56 +4201,7 @@ CompileAppManifest:function(){
            rpt.CommunityName=CommunityName
            rpt.render()
            App.$el.children('.body').html(rpt.el)
-           /* After moving sync to nation
-           var roles=this.getRoles()
-    		if( (roles.indexOf("Leader")==-1&&roles.indexOf("SuperManager")==-1&&roles.indexOf("Manager")==-1) ||type=="nation"){
-    	   		App.$el.children('.body').html(rpt.el)
-            	
-      		}
-      		else{
-      		App.$el.children('.body').html("<button class='btn btn-success' id='syncReport'>Sync Activity Reports To Nation</button>")
-      		App.$el.children('.body').append(rpt.el)
-           
-      		}*/
        },
-       /*Moved to nation
-       syncLogActivitiy:function(){
-        
-             App.startActivityIndicator()
-         var configurationModel=new App.Collections.Configurations()
-		     configurationModel.fetch({success:function(res){
-		     
-					        var conf=res.first()
-					        console.log(conf)
-					        var nationName=conf.get('nationName')
-					        var nationURL=conf.get('nationUrl')					        
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": "activitylog",
-									"target": 'http://'+ nationName +':'+App.password+'@'+ nationURL + '/activitylog'
-								}),
-								success: function (response) {
-                                            App.stopActivityIndicator()
-                                            alert("Successfully Replicated Reports")
-								},
-								error: function(XMLHttpRequest, textStatus, errorThrown) { 
-								            App.stopActivityIndicator()
-								            alert("Error (Try Later)")
-                					}, 
-								async: false
-							})
-					 
-				 }})
-
-
-        },*/
        findIndicesOfMax: function (inp, count) {
             var outp = [];
             for (var i = 0; i < inp.length; i++) {
