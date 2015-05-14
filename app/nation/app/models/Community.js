@@ -22,7 +22,7 @@ $(function() {
         lastAppUpdateDate: " - " ,
         version: " - ",
         lastActivitiesSyncDate: " - ",
-		lastPublicationSyncDate: " - "
+		lastPublicationsSyncDate: " - "
     },
 
     schema: {
