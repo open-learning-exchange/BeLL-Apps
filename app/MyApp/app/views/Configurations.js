@@ -31,6 +31,7 @@ $(function () {
             con.set('code',Config.get('code'));
             con.set('type',Config.get('type'));
             con.set('notes',Config.get('notes'));
+            con.set('region', Config.get('region'));
             con.save(null,{ success: function(doc,rev){
 
                 App.configuration = con;
