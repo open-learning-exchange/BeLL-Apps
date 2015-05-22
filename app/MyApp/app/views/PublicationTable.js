@@ -8,7 +8,6 @@
             add: function (publicationDistribID, model, isAlreadySynced) {
                 // carry the publication in a variable global to this (PublicationTable) view for use in event handling
                 this.collectionInfo[model._id]= model; //[model.resources,model.courses,model.IssueNo]
-    //           console.log(this.collectionInfo);
                 if (isAlreadySynced) {
                     this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><a name="' +model._id +
                         '" class="synPublication btn btn-info">Sync publication</a></td></tr>');
@@ -58,7 +57,6 @@
                                                 var index = alreadySyncedPublications.map(function(element) {
                                                     return element.get('_id');
                                                 }).indexOf(publicationFromNation._id);
-    //                                            if (publicationToPubDistributionMap[publicationFromNation.get('_id')]) {
                                                 var nationPublicationDistributionDocId = publicationToPubDistributionMap[publicationFromNation._id];
                                                 var isAlreadySynced = false;
                                                 if (index > -1) { // its a new or yet-to-be-synced publication from nation, so display it as new
@@ -67,7 +65,6 @@
                                                 } else { // its an already synced publication. display it without the new/unsynced mark
                                                     that.add(nationPublicationDistributionDocId, publicationFromNation, isAlreadySynced);
                                                 }
-    //                                            }
                                             });
                                         }
                                     });
@@ -114,22 +111,9 @@
                 console.log('http://'+ nationName +':'+App.password+'@'+ nationUrl + '/resources');
                 console.log(cumulativeResourceIDs);
                 App.startActivityIndicator();
-                $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json; charset=utf-8'
-                    },
-                    type: 'POST',
-                    url: '/_replicate',
-                    dataType: 'json',
-                    data: JSON.stringify({
-                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/resources',
-                        "target": 'resources',
-                        'doc_ids': cumulativeResourceIDs
-                    }),
-                    success: function (response) {
-                        console.log(response);
-                        alert('Publication "'+IssueNo+'" Resources successfully synced');
+                $.couch.db("tempresources").create({
+                    success: function(data) {
+                        console.log(data);
                         $.ajax({
                             headers: {
                                 'Accept': 'application/json',
@@ -139,12 +123,60 @@
                             url: '/_replicate',
                             dataType: 'json',
                             data: JSON.stringify({
-                                "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/groups',
-                                "target": 'groups',
-                                'doc_ids': cumulativeCourseIDs
+                                "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/resources',
+                                "target": 'tempresources',
+                                'doc_ids': cumulativeResourceIDs
                             }),
+                            async: false,
                             success: function (response) {
-    //						 console.log(response);
+                                console.log(response);
+                                //Resource Rating work here.
+                                $.ajax({
+                                    url: '/tempresources/_all_docs?include_docs=true',
+                                    type:  'GET',
+                                    dataType: 'json',
+                                    success: function (resResult) {
+                                        var result = resResult.rows;
+                                        var tempResult = [];
+                                        for (var i = 0; i<result.length; i++){
+                                            result[i].doc.sum = 0;
+                                            result[i].doc.timesRated = 0;
+                                            tempResult.push(result[i].doc);
+                                        }
+                                        $.couch.db('tempresources').bulkSave({"docs": tempResult},{
+                                                success: function(data) {
+                                                    $.couch.replicate("tempresources", "resources", {
+                                                        success: function(data) {
+                                                            alert("Resources successfully synced");
+                                                            $.couch.db("tempresources").drop({
+                                                                success: function(data) {
+                                                                    console.log(data);
+                                                                },
+                                                                error: function(status) {
+                                                                    console.log(status);
+                                                                }
+                                                            });
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status);
+                                                        }
+                                                    }, {
+                                                        create_target: true
+                                                    });
+                                                },
+                                                error: function(status) {
+                                                    alert("Error!");
+                                                }
+                                            }
+                                        );
+                                    },
+                                    error: function() {
+                                        alert("Unable to get resources.");
+                                    },
+                                    async: false
+                                });
+                                //End of Resource Rating work.
+                                alert('Publication "'+IssueNo+'" Resources successfully synced');
                                 $.ajax({
                                     headers: {
                                         'Accept': 'application/json',
@@ -154,120 +186,136 @@
                                     url: '/_replicate',
                                     dataType: 'json',
                                     data: JSON.stringify({
-                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/coursestep',
-                                        "target": 'coursestep',
-                                        'doc_ids': cumulativeCourseStepIDs
+                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/groups',
+                                        "target": 'groups',
+                                        'doc_ids': cumulativeCourseIDs
                                     }),
                                     success: function (response) {
-                                        // mark this publication as synced at community couchdb. ideally, we should inform the nation about it as well
-                                        // but currently we are only able to make get requests cross-domain (from community application to nation couchdb
-                                        // in our case) and informing the nation couchdb will probably require a cross-domain put or post request to work.
-                                        $.couch.db("publications").saveDoc(publicationToSync, {
-                                            success: function (response) {
-                                                console.log("adding publication# " + publicationToSync.IssueNo + " doc at community for bookkeeping");
-                                                console.log(response);
-                                            },
-                                            error: function (jqXHR, textStatus, errorThrown) {
-                                                console.log(errorThrown);
-                                            }
-                                        });
-                                        //My code for lastPublicationsSyncDate
-                                        // Update LastAppUpdateDate at Nation's Community Records
                                         $.ajax({
-                                            url:'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
-                                            type: 'GET',
-                                            dataType: 'jsonp',
-                                            success: function(result){
-                                                var communityModel = result.rows[0].value;
-                                                var communityModelId = result.rows[0].id;
-                                                //Replicate from Nation to Community
-                                                $.ajax({
-                                                    headers: {
-                                                        'Accept': 'application/json',
-                                                        'Content-Type': 'application/json; charset=utf-8'
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json; charset=utf-8'
+                                            },
+                                            type: 'POST',
+                                            url: '/_replicate',
+                                            dataType: 'json',
+                                            data: JSON.stringify({
+                                                "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/coursestep',
+                                                "target": 'coursestep',
+                                                'doc_ids': cumulativeCourseStepIDs
+                                            }),
+                                            success: function (response) {
+                                                // mark this publication as synced at community couchdb. ideally, we should inform the nation about it as well
+                                                // but currently we are only able to make get requests cross-domain (from community application to nation couchdb
+                                                // in our case) and informing the nation couchdb will probably require a cross-domain put or post request to work.
+                                                $.couch.db("publications").saveDoc(publicationToSync, {
+                                                    success: function (response) {
+                                                        console.log("adding publication# " + publicationToSync.IssueNo + " doc at community for bookkeeping");
+                                                        console.log(response);
                                                     },
-                                                    type: 'POST',
-                                                    url: '/_replicate',
-                                                    dataType: 'json',
-                                                    data: JSON.stringify({
-                                                        "source": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
-                                                        "target": "community",
-                                                        "doc_ids": [communityModelId]
-                                                    }),
-                                                    success: function(response){
-                                                        console.log("Successfully Replicated.");
-                                                        var date = new Date();
-                                                        var year = date.getFullYear();
-                                                        var month = (1 + date.getMonth()).toString();
-                                                        month = month.length > 1 ? month : '0' + month;
-                                                        var day = date.getDate().toString();
-                                                        day = day.length > 1 ? day : '0' + day;
-                                                        var formattedDate = month + '-' + day + '-' + year;
-                                                        communityModel.lastPublicationsSyncDate = month + '/' + day + '/' + year;
-                                                        //Update the record in Community db at Community Level
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        console.log(errorThrown);
+                                                    }
+                                                });
+                                                //My code for lastPublicationsSyncDate
+                                                // Update LastAppUpdateDate at Nation's Community Records
+                                                $.ajax({
+                                                    url:'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                                                    type: 'GET',
+                                                    dataType: 'jsonp',
+                                                    success: function(result){
+                                                        var communityModel = result.rows[0].value;
+                                                        var communityModelId = result.rows[0].id;
+                                                        //Replicate from Nation to Community
                                                         $.ajax({
-
                                                             headers: {
                                                                 'Accept': 'application/json',
-                                                                'Content-Type': 'multipart/form-data'
+                                                                'Content-Type': 'application/json; charset=utf-8'
                                                             },
-                                                            type: 'PUT',
-                                                            url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                                                            type: 'POST',
+                                                            url: '/_replicate',
                                                             dataType: 'json',
-                                                            data: JSON.stringify(communityModel),
-                                                            success: function (response) {
-                                                                //Replicate from Community to Nation
+                                                            data: JSON.stringify({
+                                                                "source": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
+                                                                "target": "community",
+                                                                "doc_ids": [communityModelId]
+                                                            }),
+                                                            success: function(response){
+                                                                console.log("Successfully Replicated.");
+                                                                var date = new Date();
+                                                                var year = date.getFullYear();
+                                                                var month = (1 + date.getMonth()).toString();
+                                                                month = month.length > 1 ? month : '0' + month;
+                                                                var day = date.getDate().toString();
+                                                                day = day.length > 1 ? day : '0' + day;
+                                                                var formattedDate = month + '-' + day + '-' + year;
+                                                                communityModel.lastPublicationsSyncDate = month + '/' + day + '/' + year;
+                                                                //Update the record in Community db at Community Level
                                                                 $.ajax({
+
                                                                     headers: {
                                                                         'Accept': 'application/json',
-                                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                                        'Content-Type': 'multipart/form-data'
                                                                     },
-                                                                    type: 'POST',
-                                                                    url: '/_replicate',
+                                                                    type: 'PUT',
+                                                                    url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
                                                                     dataType: 'json',
-                                                                    data: JSON.stringify({
-                                                                        "source": "community",
-                                                                        "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
-                                                                        "doc_ids": [communityModelId]
-                                                                    }),
-                                                                    success: function(response){
-                                                                        alert("Successfully Replicated Publications.")
-                                                                        App.stopActivityIndicator();
+                                                                    data: JSON.stringify(communityModel),
+                                                                    success: function (response) {
+                                                                        //Replicate from Community to Nation
+                                                                        $.ajax({
+                                                                            headers: {
+                                                                                'Accept': 'application/json',
+                                                                                'Content-Type': 'application/json; charset=utf-8'
+                                                                            },
+                                                                            type: 'POST',
+                                                                            url: '/_replicate',
+                                                                            dataType: 'json',
+                                                                            data: JSON.stringify({
+                                                                                "source": "community",
+                                                                                "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
+                                                                                "doc_ids": [communityModelId]
+                                                                            }),
+                                                                            success: function(response){
+                                                                                alert("Successfully Replicated Publications.")
+                                                                                App.stopActivityIndicator();
+                                                                            },
+                                                                            async: false
+                                                                        });
                                                                     },
+
                                                                     async: false
                                                                 });
                                                             },
-
                                                             async: false
                                                         });
                                                     },
-                                                    async: false
+                                                    error: function(){
+                                                        console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                                                    }
                                                 });
+                                                //End of my code.
                                             },
-                                            error: function(){
-                                                console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                                            error: function(jqXHR, status, errorThrown){
+                                                console.log('Error syncing/replicating Publication "'+IssueNo+'" course-steps');
+                                                console.log(status);      console.log(errorThrown);
+                                                App.stopActivityIndicator();     alert('Failed to sync course-steps');
                                             }
                                         });
-                                        //End of my code.
                                     },
                                     error: function(jqXHR, status, errorThrown){
-                                        console.log('Error syncing/replicating Publication "'+IssueNo+'" course-steps');
-                                        console.log(status);      console.log(errorThrown);
-                                        App.stopActivityIndicator();     alert('Failed to sync course-steps');
+                                        console.log('Error syncing/replicating Publication "'+IssueNo+'" courses');
+                                        console.log(status);   console.log(errorThrown);
+                                        App.stopActivityIndicator();      alert('Failed to sync courses');
                                     }
-                                });
+                                })
                             },
                             error: function(jqXHR, status, errorThrown){
-                                console.log('Error syncing/replicating Publication "'+IssueNo+'" courses');
-                                console.log(status);   console.log(errorThrown);
-                                App.stopActivityIndicator();      alert('Failed to sync courses');
+                                console.log('Error syncing/replicating Publication "'+IssueNo+'" resources');
+                                console.log(status);    console.log(errorThrown);
+                                App.stopActivityIndicator();      alert('Failed to sync resources');
                             }
-                        })
-                    },
-                    error: function(jqXHR, status, errorThrown){
-                        console.log('Error syncing/replicating Publication "'+IssueNo+'" resources');
-                        console.log(status);    console.log(errorThrown);
-                        App.stopActivityIndicator();      alert('Failed to sync resources');
+                        });
                     }
                 });
             },
