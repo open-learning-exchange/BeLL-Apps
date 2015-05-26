@@ -1038,7 +1038,10 @@
                     <div class="Collection-search">
                         <select id="multiselect-collections-search" multiple="multiple" style="width: 370px;">
                             <%for(i=0;i<tags.length;i++){%>
+                            <!-- to exclude deleted collection list -->
+                            <% if (tags[i].show ) {%>
                             <option value=<%=tags[i]._id%>><%=tags[i].CollectionName%></option>
+                            <%}%>
                             <%}%>
                         </select>
                     </div>
