@@ -41,8 +41,20 @@ $(function () {
                 title: 'Publisher/Attribution',
                 type: 'Text'},
             language: {
-                title: 'Languages',
-                type: 'Text'
+                type: 'Select',
+                options: [{
+                    val: 'English',
+                    label: 'English'
+                }, {
+                    val: 'Urdu',
+                    label: 'Urdu'
+                },{
+                    val: 'French',
+                    label: 'French'
+                }, {
+                    val: 'Arabic',
+                    label: 'Arabic'
+                }]
             },
 
             Year: 'Text',
@@ -99,6 +111,21 @@ $(function () {
                     label: 'Native Video'
                 }]
             },
+            //*********************************************************************************************************
+            resourceFor: {
+                type: 'Select',
+                options: [{
+                    val: 'Default',
+                    label: 'Default'
+                }, {
+                    val: 'Leader',
+                    label: 'Leader'
+                },{
+                    val: 'Learner',
+                    label: 'Learner'
+                }]
+            },
+            //*********************************************************************************************************
             uploadDate: 'Date',
             averageRating: 'Text',
             articleDate: {

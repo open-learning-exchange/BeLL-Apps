@@ -263,6 +263,10 @@ $(function () {
                 Details = Details+ "<b>Link To License </b>" + vars.linkToLicense + ' , '
             }
 
+            if(vars.resourceFor != undefined && vars.resourceFor != "") {
+                Details = Details + "<b> Resource For </b>" + vars.resourceFor + ' , '
+            }
+
             if (vars.Tag != undefined)
             {
                 //console.log(this.collections)

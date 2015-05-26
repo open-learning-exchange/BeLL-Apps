@@ -118,6 +118,7 @@ $(function () {
             this.form.fields['addedBy'].editor.el.disabled = true;
             this.form.fields['uploadDate'].$el.show();
             this.form.fields['openWith'].$el.show();
+            this.form.fields['resourceFor'].$el.show();
             // get attachments of welcome video doc
             var tempAttachments = this.model.get('_attachments');
             var fields = _.map(

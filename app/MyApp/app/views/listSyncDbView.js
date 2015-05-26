@@ -20,7 +20,8 @@ $(function () {
                 
                // <input type="checkbox" value="Resources" name="syncData">Resources<br>
                //<input type="checkbox" value="Application" name="syncData" >Application<br><br><br>
-                var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">Resources Feedbacks<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">Application Feedbacks<br>')
+            // added "Members Db" checkbox
+                var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">Resources Feedbacks<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">Application Feedbacks<br><input type="checkbox" value="MembersDb" name="syncData">Members Database<br>')
                 
                 this.$el.append($button)
                 this.$el.append('<button class="btn btn-info" id="selectAll" style="width:110px">Select All</button><button style="margin-left:10px; width:110px" class="btn btn-success" id="formButton" style="width:110px">Send</button>')
@@ -63,6 +64,12 @@ $(function () {
                     else if($(this).val()=='ApplicationFeedbacks'){
                         context.syncApplicationFeedbacks()
                     }
+        //**************************************************************************************************
+                    //Replicate Members db from community to nation
+                    else if($(this).val()=='MembersDb'){
+                        context.syncMembersDb()
+                    }
+        //**************************************************************************************************
 					if ($(this).val()=='Application'){
 						context.checkAvailableUpdates()
 					}
@@ -325,7 +332,47 @@ $(function () {
                     }
                 })
         },
-
+  //******************************************************************************************************************
+        //Replicate Members Db from community to nation
+        syncMembersDb:function(){
+            /*$.couch.replicate("members", 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/members' , "filter:_design/bell/adminFilter", {
+                success: function(data) {
+                    alert("Members database replicated successfully.");
+                    if(isActivityLogChecked == false) {
+                        App.stopActivityIndicator();
+                    }
+                },
+                error: function(status) {
+                    alert("Members database replication failed.");
+                }
+            }, {
+                create_target: true
+            });*/
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": "members",
+                    "target": 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/members',
+                    "filter":"bell/adminFilter"
+                }),
+                success: function (response) {
+                    alert("Members database replicated.")
+                    if(isActivityLogChecked == false) {
+                        App.stopActivityIndicator();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Error (Try Later)")
+                }
+            })
+        },
+        //*************************************************************************************************************
         //following function compare version numbers.
 		/*<li>0 if the versions are equal</li>
 		A negative integer iff v1 < v2
