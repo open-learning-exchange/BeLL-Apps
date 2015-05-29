@@ -7,47 +7,47 @@ $(function () {
         admn: null,
         events: {
             "click .destroy": function (event) {
-            	var that = this
-                ////Deleting from the resource
-                var shelfResources = new App.Collections.shelfResource()
-                shelfResources.deleteResource = 1
-                shelfResources.resourceId = this.model.get("_id")
-                shelfResources.fetch({async : false})
-                var model;
-				while (model = shelfResources.first()) {
-  					model.destroy();
-				}
-               	//////Deleting resources feedback
-               	var resourcesFeedback = new App.Collections.ResourceFeedback()
-               	resourcesFeedback.resourceId = this.model.get("_id")
-               	resourcesFeedback.fetch({async:false})
-               	while (model = resourcesFeedback.first()) {
-  					model.destroy();
-				}
-               	//////Deleting resources from course setp
-               	var courseSteps = new App.Collections.coursesteps()
-               	courseSteps.getAll = 1
-               	courseSteps.resourceId = this.model.get("_id")
-               	courseSteps.fetch({async:false})
-               	courseSteps.each(function(m){
-               		
-               		if(!m.get("resourceId"))
-               		{
-               			m.set("resourceId",[])
-               		}
-               		var index = m.get("resourceId").indexOf(that.model.get("_id").toString())
-               		if(index!=-1)
-               		{
-               			m.get("resourceId").splice(index,1)
-               			m.get("resourceTitles").splice(index,1)
-               			m.save()
-               		}
-               		
-               	})
+                 if (confirm('Are you sure you want to delete this resource?')) {
+                     var that = this
+                     ////Deleting from the resource
+                     var shelfResources = new App.Collections.shelfResource()
+                     shelfResources.deleteResource = 1
+                     shelfResources.resourceId = this.model.get("_id")
+                     shelfResources.fetch({async: false})
+                     var model;
+                     while (model = shelfResources.first()) {
+                         model.destroy();
+                     }
+                     //////Deleting resources feedback
+                     var resourcesFeedback = new App.Collections.ResourceFeedback()
+                     resourcesFeedback.resourceId = this.model.get("_id")
+                     resourcesFeedback.fetch({async: false})
+                     while (model = resourcesFeedback.first()) {
+                         model.destroy();
+                     }
+                     //////Deleting resources from course setp
+                     var courseSteps = new App.Collections.coursesteps()
+                     courseSteps.getAll = 1
+                     courseSteps.resourceId = this.model.get("_id")
+                     courseSteps.fetch({async: false})
+                     courseSteps.each(function (m) {
 
-               	this.model.destroy()
-               	alert("Resource Successfully deleted.")
-                event.preventDefault()
+                         if (!m.get("resourceId")) {
+                             m.set("resourceId", [])
+                         }
+                         var index = m.get("resourceId").indexOf(that.model.get("_id").toString())
+                         if (index != -1) {
+                             m.get("resourceId").splice(index, 1)
+                             m.get("resourceTitles").splice(index, 1)
+                             m.save()
+                         }
+
+                     })
+
+                     this.model.destroy()
+                     alert("Resource Successfully deleted.")
+                     event.preventDefault()
+                 }
             },
             "click .removeFromCollection": function (event) {
             		
