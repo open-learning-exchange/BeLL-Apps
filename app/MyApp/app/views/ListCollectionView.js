@@ -34,8 +34,7 @@ $(function () {
         $('.form .field-Tag select option[value=' + this.model.get("_id") + "]").remove();
         $('#'+this.model.get("_id")).parent('tr').remove()
         this.model.set({'show':false})
-        this.model.save()
-        location.reload()
+        this.model.save({success: location.reload()})
         },
         render: function () {
             var inviteForm = this
