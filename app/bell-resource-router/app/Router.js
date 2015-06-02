@@ -57,6 +57,7 @@ LogactivityAndOpen:function(resourceId){
 //		   });
     },
 createJsonlog: function(member, logdate, logdb, resourceId){
+    var superMgrIndex =  member.get('roles').indexOf('SuperManager');
                var configurations = Backbone.Collection.extend({
 					url: App.Server + '/configurations/_all_docs?include_docs=true'
 				})
@@ -85,11 +86,23 @@ createJsonlog: function(member, logdate, logdb, resourceId){
 			}
 			docJson.resources_opened.push(resourceId)
 			if(member.get('Gender')=='Male') {
-                docJson.male_opened.push(1)
-                docJson.female_opened.push(0)
+                if (superMgrIndex == -1 ) {
+                    docJson.male_opened.push(1)
+                    docJson.female_opened.push(0)
+                }
+                else {
+                    docJson.male_opened.push(0)
+                    docJson.female_opened.push(0)
+                }
             } else {
-                docJson.male_opened.push(0)
-                docJson.female_opened.push(1)
+                if (superMgrIndex == -1 ) {
+                    docJson.male_opened.push(0)
+                    docJson.female_opened.push(1)
+                }
+                else {
+                    docJson.male_opened.push(0)
+                    docJson.female_opened.push(0)
+                }
             }
 
 //            this.open(resourceId);
@@ -121,23 +134,41 @@ createJsonlog: function(member, logdate, logdb, resourceId){
 //		    });
     },
 UpdatejSONlog:function(member, logModel, logdb, resourceId, logdate){
-            var resId = resourceId;
+    var superMgrIndex =  member.get('roles').indexOf('SuperManager');
+    var resId = resourceId;
 //            alert("buuuurrrrrrrr");
             var index = logModel.resources_opened.indexOf(resId);
-	        if(index==-1){
+	        if(index==-1) {
                 logModel.resources_opened.push(resId)
-                if(member.get('Gender')=='Male') {
-                      logModel.male_opened.push(1)
-                      logModel.female_opened.push(0)
-                }else{
-                      logModel.male_opened.push(0)
-                      logModel.female_opened.push(1)
+                if (member.get('Gender') == 'Male') {
+                    if (superMgrIndex == -1) {
+                        logModel.male_opened.push(1)
+                        logModel.female_opened.push(0)
+                    } else {
+                        logModel.male_opened.push(0)
+                        logModel.female_opened.push(0)
+                    }
+                } else {
+
+                    if (superMgrIndex == -1) {
+                        logModel.male_opened.push(0)
+                        logModel.female_opened.push(1)
+                    } else {
+                        logModel.male_opened.push(0)
+                        logModel.female_opened.push(0)
+                    }
                 }
-            } else {
+            }
+            else {
                 if(member.get('Gender')=='Male') {
-                      logModel.male_opened[index]=(parseInt(logModel.male_opened[index]))+1
-                }else{
-                      logModel.female_opened[index]=(parseInt(logModel.female_opened[index]))+1
+                    if (superMgrIndex == -1) {
+                        logModel.male_opened[index] = (parseInt(logModel.male_opened[index])) + 1
+                    }
+                }
+                else{
+                    if (superMgrIndex == -1) {
+                        logModel.female_opened[index] = (parseInt(logModel.female_opened[index])) + 1
+                    }
                 }
             }
 
@@ -218,8 +249,7 @@ getFormattedDate:function(date) {
               	      
           openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + _.keys(resource.get('_attachments'))[0]
     }
-         
-         window.location=openUrl+secondAttch
+          window.location=openUrl+secondAttch
       })
       resource.fetch()
       

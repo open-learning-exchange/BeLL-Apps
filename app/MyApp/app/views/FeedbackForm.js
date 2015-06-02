@@ -153,6 +153,7 @@ $(function () {
         },
 
         UpdatejSONlog:function(member, logModel, logdb, feedbackModel, logdate){
+            var superMgrIndex =  member.get('roles').indexOf('SuperManager');
 			console.log(feedbackModel);
 			memRating = parseInt(feedbackModel.get('rating'));
             var resId = feedbackModel.get('resourceId');
@@ -160,24 +161,44 @@ $(function () {
 	        if(index == -1){
                 logModel.resourcesIds.push(resId);
                 if(member.get('Gender')=='Male') {
-                      logModel.male_rating.push(memRating);
-                      logModel.female_rating.push(0);
-                      logModel.male_timesRated.push(1);
-                      logModel.female_timesRated.push(0);
+                    if (superMgrIndex == -1 ) {
+                        logModel.male_rating.push(memRating);
+                        logModel.female_rating.push(0);
+                        logModel.male_timesRated.push(1);
+                        logModel.female_timesRated.push(0);
+                    }
+                    else {
+                        logModel.male_rating.push(0);
+                        logModel.female_rating.push(0);
+                        logModel.male_timesRated.push(0);
+                        logModel.female_timesRated.push(0);
+                    }
                 }else{
-                      logModel.male_rating.push(0);
-                      logModel.female_rating.push(memRating);
-                      logModel.male_timesRated.push(0);
-                      logModel.female_timesRated.push(1);
+                    if (superMgrIndex == -1 ) {
+                        logModel.male_rating.push(0);
+                        logModel.female_rating.push(memRating);
+                        logModel.male_timesRated.push(0);
+                        logModel.female_timesRated.push(1);
+                    }
+                    else {
+                        logModel.male_rating.push(0);
+                        logModel.female_rating.push(0);
+                        logModel.male_timesRated.push(0);
+                        logModel.female_timesRated.push(0);
+                    }
                 }
             }
             else{
                 if(member.get('Gender')=='Male') {
-                      logModel.male_rating[index]=parseInt(logModel.male_rating[index])+memRating;
-                      logModel.male_timesRated[index]=(parseInt(logModel.male_timesRated[index]))+1;
+                    if (superMgrIndex == -1 ) {
+                        logModel.male_rating[index] = parseInt(logModel.male_rating[index]) + memRating;
+                        logModel.male_timesRated[index] = (parseInt(logModel.male_timesRated[index])) + 1;
+                    }
                 }else{
-                      logModel.female_rating[index]=parseInt(logModel.female_rating[index])+memRating;
-                      logModel.female_timesRated[index]=(parseInt(logModel.female_timesRated[index]))+1;
+                    if (superMgrIndex == -1 ) {
+                        logModel.female_rating[index] = parseInt(logModel.female_rating[index]) + memRating;
+                        logModel.female_timesRated[index] = (parseInt(logModel.female_timesRated[index])) + 1;
+                    }
                 }
             }
 

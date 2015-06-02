@@ -1270,6 +1270,13 @@ $(function(){
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
+         //  var superMgrIndex =  member.get('roles').indexOf('SuperManager');
+        //*********************************************************************
+        /*var roles =this.getRoles();
+        var SuperMgrIndex = roles.indexOf("SuperManager");
+
+        if( -1){*/
+        //*********************************************************************
             if (logData.length < 1) {
                 var staticData={
                     "Visits":{"male": 0, "female": 0},
@@ -1424,7 +1431,9 @@ $(function(){
                     else {
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
+
                         most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100)/100;
+
                         most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
                         most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
                         most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
@@ -3798,7 +3807,7 @@ CompileAppManifest:function(){
         );
         
     },
-    createLogs:function(activitylog){
+    createLogs:function(    activitylog){
 
             var toDelete_id = activitylog._id;
             var toDelete_rev = activitylog._rev;
