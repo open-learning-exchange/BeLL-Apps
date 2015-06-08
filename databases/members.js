@@ -80,4 +80,14 @@ ddoc.views = {
 
     }
 }
+ddoc.filters = {
+    adminFilter: function(doc, req) {
+           if (doc.firstName =="Default" && doc.lastName == "Admin") {
+                 return false;
+           }  else {
+               return true;
+           }
+    }
+}
+
 module.exports = ddoc;
