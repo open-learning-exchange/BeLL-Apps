@@ -29,7 +29,10 @@ $(function() {
         "resources_opened": [],
         "female_opened": [],
         "male_opened": [],
-        "community"  : "Text"
+        "community"  : "Text",
+        "male_deleted_count": 'number',
+        "female_deleted_count": 'number'
+
     }
 }) 
 
