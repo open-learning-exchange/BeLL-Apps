@@ -1281,6 +1281,7 @@ $(function(){
                 var staticData={
                     "Visits":{"male": 0, "female": 0},
                     "New_Signups": {"male": 0, "female": 0},
+                    "Deleted": {"male": 0, "female": 0},
                     "Most_Freq_Open": [],
                     "Highest_Rated": [],
                     "Lowest_Rated": [],
@@ -1295,6 +1296,7 @@ $(function(){
             var report_resRated = [], report_resOpened = [], report_male_visits = 0, report_female_visits = 0, report_male_new_signups = 0,
                 report_female_new_signups = 0, report_male_rating = [], report_female_rating =[], report_male_timesRated = [],
                 report_female_timesRated = [], report_male_opened = [], report_female_opened = [];
+        var report_female_deleted = 0, report_male_deleted = 0;
             if(logReport.resourcesIds) {
                 report_resRated = logReport.resourcesIds;
             }
@@ -1314,7 +1316,6 @@ $(function(){
             if(logReport.female_new_signups){
                 report_female_new_signups = logReport.female_new_signups
             }
-
             if(logReport.male_rating){
                 report_male_rating = logReport.male_rating
             }
@@ -1333,6 +1334,13 @@ $(function(){
             if(logReport.female_opened){
                 report_female_opened = logReport.female_opened
             }
+        if(logReport.male_deleted_count){
+            report_male_deleted = logReport.male_deleted_count
+        }
+        if(logReport.female_deleted_count){
+            report_female_deleted = logReport.female_deleted_count
+        }
+
             for (var index = 0; index < logData.length; index++) {
 //            logData.each(function (logDoc,index){
                 if(index>0){
@@ -1344,7 +1352,8 @@ $(function(){
                     // add new member signups count to prev total
                     report_male_new_signups += ( logDoc.male_new_signups ? logDoc.male_new_signups : 0 );
                     report_female_new_signups += ( logDoc.female_new_signups ? logDoc.female_new_signups : 0 );
-
+                    report_female_deleted += (logDoc.female_deleted_count ? logDoc.female_deleted_count : 0 );
+                    report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0 );
                     var resourcesIds=logDoc.resourcesIds;
                     var resourcesOpened=logDoc.resources_opened;
                     for(var i = 0; i < resourcesIds.length ; i++){
@@ -1528,6 +1537,7 @@ $(function(){
             var staticData={
                 "Visits":{"male": report_male_visits, "female": report_female_visits},
                 "New_Signups": {"male": report_male_new_signups, "female": report_female_new_signups},
+                "Deleted": {"male": report_male_deleted, "female": report_female_deleted},
                 "Most_Freq_Open": Most_Freq_Opened,
                 "Highest_Rated": Highest_Rated_Resources,
                 "Lowest_Rated": Lowest_Rated_Resources,
@@ -1828,28 +1838,28 @@ $(function(){
              //  ********************************************************************************************************
                 ///////////////////////////////////////////Total Members//////////////////////////////////////////////////
                 var registeredMembersFromMembersDbTillNow = {male: totalRegisteredMembersFromMembersDb['male'], female: totalRegisteredMembersFromMembersDb['female'], total: 0};
-                var registeredMembersFromMembersDbTillSecondLastMonthEnd = {male: totalRegisteredMembersFromMembersDb['male'] - lastMonthDataset.New_Signups['male'],
-                    female: totalRegisteredMembersFromMembersDb['female'] - lastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillThirdLastMonthEnd = {male: registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillFourthLastMonthEnd = {male: registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillFifthLastMonthEnd = {male: registeredMembersFromMembersDbTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillSixthLastMonthEnd = {male: registeredMembersFromMembersDbTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillSeventhLastMonthEnd = {male: registeredMembersFromMembersDbTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillEighthLastMonthEnd = {male: registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillNinthLastMonthEnd = {male: registeredMembersFromMembersDbTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillTenthLastMonthEnd = {male: registeredMembersFromMembersDbTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillEleventhLastMonthEnd = {male: registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersFromMembersDbTillTwelfthLastMonthEnd = {male: registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
+                var registeredMembersFromMembersDbTillSecondLastMonthEnd = {male: totalRegisteredMembersFromMembersDb['male'] - (lastMonthDataset.New_Signups['male'] - lastMonthDataset.Deleted['male']),
+                    female: totalRegisteredMembersFromMembersDb['female'] - (lastMonthDataset.New_Signups['female'] - lastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillThirdLastMonthEnd = {male: registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] - (secondLastMonthDataset.New_Signups['male'] - secondLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillSecondLastMonthEnd['female'] - (secondLastMonthDataset.New_Signups['female'] - secondLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillFourthLastMonthEnd = {male: registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] - (thirdLastMonthDataset.New_Signups['male'] - thirdLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillThirdLastMonthEnd['female'] - (thirdLastMonthDataset.New_Signups['female'] - thirdLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillFifthLastMonthEnd = {male: registeredMembersFromMembersDbTillFourthLastMonthEnd['male'] - (fourthLastMonthDataset.New_Signups['male'] - fourthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillFourthLastMonthEnd['female'] - (fourthLastMonthDataset.New_Signups['female'] - fourthLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillSixthLastMonthEnd = {male: registeredMembersFromMembersDbTillFifthLastMonthEnd['male'] - (fifthLastMonthDataset.New_Signups['male'] - fifthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillFifthLastMonthEnd['female'] - (fifthLastMonthDataset.New_Signups['female'] - fifthLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillSeventhLastMonthEnd = {male: registeredMembersFromMembersDbTillSixthLastMonthEnd['male'] - (sixthLastMonthDataset.New_Signups['male'] - sixthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillSixthLastMonthEnd['female'] - (sixthLastMonthDataset.New_Signups['female'] - sixthLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillEighthLastMonthEnd = {male: registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'] - (seventhLastMonthDataset.New_Signups['male'] - seventhLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'] - (seventhLastMonthDataset.New_Signups['female'] - seventhLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillNinthLastMonthEnd = {male: registeredMembersFromMembersDbTillEighthLastMonthEnd['male'] - (eighthLastMonthDataset.New_Signups['male'] - eighthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillEighthLastMonthEnd['female'] - (eighthLastMonthDataset.New_Signups['female'] - eighthLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillTenthLastMonthEnd = {male: registeredMembersFromMembersDbTillNinthLastMonthEnd['male'] - (ninthLastMonthDataset.New_Signups['male'] - ninthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillNinthLastMonthEnd['female'] - (ninthLastMonthDataset.New_Signups['female'] - ninthLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillEleventhLastMonthEnd = {male: registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] - (tenthLastMonthDataset.New_Signups['male'] - tenthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillTenthLastMonthEnd['female'] - (tenthLastMonthDataset.New_Signups['female'] - tenthLastMonthDataset.Deleted['female']), total: 0};
+                var registeredMembersFromMembersDbTillTwelfthLastMonthEnd = {male: registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] - (eleventhLastMonthDataset.New_Signups['male'] - eleventhLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - (eleventhLastMonthDataset.New_Signups['female'] - eleventhLastMonthDataset.Deleted['female']), total: 0};
              //  ********************************************************************************************************
                 registeredMembersFromMembersDbTillNow['total'] = registeredMembersFromMembersDbTillNow['male'] + registeredMembersFromMembersDbTillNow['female'];
                 registeredMembersFromMembersDbTillSecondLastMonthEnd['total'] = registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] + registeredMembersFromMembersDbTillSecondLastMonthEnd['female'];
@@ -3831,6 +3841,8 @@ CompileAppManifest:function(){
             dailylogModel.set('female_timesRated' , activitylog.female_timesRated)
             dailylogModel.set('male_opened' , activitylog.male_opened)
             dailylogModel.set('female_opened' , activitylog.female_opened)
+            dailylogModel.set('male_deleted_count' , activitylog.male_deleted_count)
+            dailylogModel.set('female_deleted_count' , activitylog.female_deleted_count)
 
             dailylogModel.save(null,{success:function(res,resInfo){
                 logdb.remove(activitylog, function(err, response) {
@@ -3845,6 +3857,8 @@ CompileAppManifest:function(){
     },
     updateLogs:function(activitylog,logsonServer){
     		   var activitylog_resRated= 0, activitylog_resOpened = 0;
+               var activitylog_male_deleted_count = 0, activitylog_female_deleted_count = 0;
+        var logsonServer_male_deleted_count = 0, logsonServer_female_deleted_count = 0;
                var logsonServer_resRated = 0, logsonServer_resOpened = 0, logsonServer_male_visits = 0, logsonServer_female_visits = 0,
                    logsonServer_female_new_signups = 0, logsonServer_male_new_signups = 0,
                    logsonServer_male_rating = 0, logsonServer_female_rating = 0, logsonServer_male_timesRated = 0,
@@ -3889,12 +3903,19 @@ CompileAppManifest:function(){
                if(logsonServer.get('female_opened')){
                	    logsonServer_female_opened = logsonServer.get('female_opened')
                }
+        if(logsonServer.get('male_deleted_count')){
+            logsonServer_male_deleted_count= logsonServer.get('male_deleted_count')
+        }
+        if(logsonServer.get('female_deleted_count')){
+            logsonServer_female_deleted_count = logsonServer.get('female_deleted_count')
+        }
                logsonServer_male_visits=parseInt(logsonServer_male_visits)+parseInt(activitylog.male_visits);
                logsonServer_female_visits=parseInt(logsonServer_female_visits)+parseInt(activitylog.female_visits);
 
                logsonServer_male_new_signups = parseInt(logsonServer_male_new_signups) + parseInt( ( (activitylog.male_new_signups) ? activitylog.male_new_signups : 0 ) );
                logsonServer_female_new_signups = parseInt(logsonServer_female_new_signups) + parseInt( ( (activitylog.female_new_signups) ? activitylog.female_new_signups : 0 ) );
-
+        logsonServer_female_deleted_count = parseInt(logsonServer_female_deleted_count) + parseInt((activitylog.female_deleted_count) ? activitylog.female_deleted_count : 0 );
+        logsonServer_male_deleted_count = parseInt(logsonServer_male_deleted_count) + parseInt((activitylog.male_deleted_count) ? activitylog.male_deleted_count : 0 );
         var resId, index;
                for(var i=0 ; i < activitylog_resRated.length ; i++){
                      resId=activitylog_resRated[i]
@@ -3941,6 +3962,8 @@ CompileAppManifest:function(){
                logsonServer.set('female_timesRated' , logsonServer_female_timesRated);
                logsonServer.set('male_opened' , logsonServer_male_opened);
                logsonServer.set('female_opened' , logsonServer_female_opened);
+       logsonServer.set('male_deleted_count' , logsonServer_male_deleted_count);
+        logsonServer.set('female_deleted_count' , logsonServer_female_deleted_count);
                var logdb=new PouchDB('activitylogs')
                logsonServer.save(null,{
                    success:function(model,modelInfo){

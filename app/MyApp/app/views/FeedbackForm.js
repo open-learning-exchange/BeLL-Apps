@@ -133,7 +133,9 @@ $(function () {
                  female_rating:[],
                  resources_opened:[],
                  male_opened:[],
-                 female_opened:[]
+                 female_opened:[],
+                male_deleted_count:0,
+                female_deleted_count:0
             };
             logdb.put(docJson, logdate, function(err, response) {
                 if (!err) {

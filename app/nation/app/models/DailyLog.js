@@ -16,6 +16,8 @@ $(function() {
       return url
     },
     schema: {
+        "male_deleted_count": 'number',
+        "female_deleted_count": 'number',
         "logDate": "Text",
         "female_visits": 'number',
         "male_visits": 'number',

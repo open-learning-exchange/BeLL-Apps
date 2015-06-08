@@ -17,8 +17,8 @@ $(function () {
             var docJson={
                 logDate: logdate,
                 resourcesIds:[],
-                male_visits:9,
-                female_visits:10,
+                male_visits:0,
+                female_visits:0,
                 male_timesRated:[],
                 female_timesRated:[],
                 male_rating:[],
@@ -32,9 +32,11 @@ $(function () {
             }
             if(gender=='Male') {
                 docJson.male_deleted_count = parseInt( ( (docJson.male_deleted_count) ? docJson.male_deleted_count : 0 ) ) + 1;
+                docJson.female_deleted_count = parseInt( ( (docJson.female_deleted_count) ? docJson.female_deleted_count : 0 ) ) + 0;
             }
             else{
                 docJson.female_deleted_count = parseInt( ( (docJson.female_deleted_count) ? docJson.female_deleted_count : 0 ) ) + 1;
+                docJson.male_deleted_count = parseInt( ( (docJson.male_deleted_count) ? docJson.male_deleted_count : 0 ) ) + 0;
             }
             docJson.community = App.configuration.get('code'),
                 logdb.put(docJson, logdate, function(err, response) {
@@ -49,11 +51,13 @@ $(function () {
 
         UpdatejSONlog: function(logdb, logdate,logModel,gender){
             if(gender=='Male'  ) {
-                logModel.male_deleted_count = parseInt( ( (logModel.male_deleted_count) ? logModel.male_deleted_count : 0 ) ) + 1;
+                logModel.male_deleted_count = parseInt( ( (logModel.male_deleted_count) ? logModel.male_deleted_count : 0) ) + 1;
+                logModel.female_deleted_count = parseInt( ( (logModel.female_deleted_count) ? logModel.female_deleted_count : 0 ) ) + 0;
             }
 
             else{
                 logModel.female_deleted_count = parseInt( ( (logModel.female_deleted_count) ? logModel.female_deleted_count : 0 ) ) + 1;
+                logModel.male_deleted_count = parseInt( ( (logModel.male_deleted_count) ? logModel.male_deleted_count : 0 ) ) + 0;
             }
             logModel.community = App.configuration.get("code");
 
@@ -73,7 +77,7 @@ $(function () {
                 var logdb=new PouchDB('activitylogs');
                 var currentdate = new Date();
                 var logdate = that.getFormattedDate(currentdate);
-                var gender = this.model._previousAttributes.Gender;
+                var gender = this.model.get("Gender");
                 logdb.get(logdate, function(err, logModel) {
                     if (!err) {
                         that.UpdatejSONlog(logdb, logdate,logModel,gender);
