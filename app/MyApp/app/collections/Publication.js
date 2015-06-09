@@ -1,18 +1,18 @@
 $(function() {
 
   App.Collections.Publication = Backbone.Collection.extend({
-    
+
     model: App.Models.Publication,
-    
+
     url: function() {
-    	var Url= App.Server + '/publications/_all_docs?include_docs=true&keys=[' + this.keys + ']'
-    	return Url
+      var Url = App.Server + '/publications/_all_docs?include_docs=true&keys=[' + this.keys + ']'
+      return Url
     },
-    setUrl: function (newUrl) {
-        this.url = newUrl;
+    setUrl: function(newUrl) {
+      this.url = newUrl;
     },
     setKeys: function(newKeys) {
-        this.keys = newKeys;
+      this.keys = newKeys;
     },
     parse: function(response) {
       var models = []
@@ -25,7 +25,7 @@ $(function() {
       var issueNo = model.get('IssueNo')
       if (issueNo) return issueNo
     }
-  
+
   })
 
 })
