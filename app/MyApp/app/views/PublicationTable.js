@@ -156,15 +156,33 @@
                                                                     console.log(status);
                                                                 }
                                                             });
+                                                            alert('Publication "'+IssueNo+'" Resources successfully synced');
                                                         },
                                                         error: function(status) {
                                                             console.log(status);
+                                                            alert("Unable to sync Resources");
+                                                            $.couch.db("tempresources").drop({
+                                                                success: function(data) {
+                                                                    console.log(data);
+                                                                },
+                                                                error: function(status) {
+                                                                    console.log(status);
+                                                                }
+                                                            });
                                                         }
                                                     }, {
                                                         create_target: true
                                                     });
                                                 },
                                                 error: function(status) {
+                                                    $.couch.db("tempresources").drop({
+                                                        success: function(data) {
+                                                            console.log(data);
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status);
+                                                        }
+                                                    });
                                                     alert("Error!");
                                                 }
                                             }
@@ -172,11 +190,19 @@
                                     },
                                     error: function() {
                                         alert("Unable to get resources.");
+                                        $.couch.db("tempresources").drop({
+                                            success: function(data) {
+                                                console.log(data);
+                                            },
+                                            error: function(status) {
+                                                console.log(status);
+                                            }
+                                        });
                                     },
                                     async: false
                                 });
                                 //End of Resource Rating work.
-                                alert('Publication "'+IssueNo+'" Resources successfully synced');
+                                //alert('Publication "'+IssueNo+'" Resources successfully synced');
                                 $.ajax({
                                     headers: {
                                         'Accept': 'application/json',
@@ -313,7 +339,16 @@
                             error: function(jqXHR, status, errorThrown){
                                 console.log('Error syncing/replicating Publication "'+IssueNo+'" resources');
                                 console.log(status);    console.log(errorThrown);
-                                App.stopActivityIndicator();      alert('Failed to sync resources');
+                                $.couch.db("tempresources").drop({
+                                    success: function(data) {
+                                        console.log(data);
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    }
+                                });
+                                App.stopActivityIndicator();
+                                alert('Failed to sync resources');
                             }
                         });
                     }
