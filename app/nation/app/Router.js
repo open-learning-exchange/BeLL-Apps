@@ -20,7 +20,7 @@ $(function() {
             'publication/add/:publicationId': 'PublicationForm',
             'publicationdetail/:publicationId': 'PublicationDetails',
             'courses/:publicationId': "addCourses",
-            'trendreport':"TrendReport"
+            'trendreport': "TrendReport"
         },
 
         initialize: function() {
@@ -34,142 +34,172 @@ $(function() {
             $('#debug').hide()
 
         },
-        findIndicesOfMax: function (inp, count) {
+        findIndicesOfMax: function(inp, count) {
             var outp = [];
             for (var i = 0; i < inp.length; i++) {
                 outp.push(i); // add index to output array
                 if (outp.length > count) {
-                    outp.sort(function(a, b) { return inp[b] - inp[a]; }); // descending sort the output array
+                    outp.sort(function(a, b) {
+                        return inp[b] - inp[a];
+                    }); // descending sort the output array
                     outp.pop(); // remove the last index (index of smallest element in output array)
                 }
             }
             if (inp.length <= count) {
-                outp.sort(function(a, b) { return inp[b] - inp[a]; });
+                outp.sort(function(a, b) {
+                    return inp[b] - inp[a];
+                });
             }
             return outp;
         },
-        findIndicesOfMin: function (inp, count) {
+        findIndicesOfMin: function(inp, count) {
             var outp = [];
             for (var i = 0; i < inp.length; i++) {
                 outp.push(i); // add index to output array
                 if (outp.length > count) {
-                    outp.sort(function(a, b) { return inp[a] - inp[b]; }); // descending sort the output array
+                    outp.sort(function(a, b) {
+                        return inp[a] - inp[b];
+                    }); // descending sort the output array
                     outp.pop(); // remove the last index (index of smallest element in output array)
                 }
             }
             if (inp.length <= count) {
-                outp.sort(function(a, b) { return inp[a] - inp[b]; });
+                outp.sort(function(a, b) {
+                    return inp[a] - inp[b];
+                });
             }
             return outp;
         },
-        aggregateDataForTrendReport: function (CommunityName, logData) {
+        aggregateDataForTrendReport: function(CommunityName, logData) {
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
             if (logData.length < 1) {
-                var staticData={
-                    "Visits":{"male": 0, "female": 0},
-                    "New_Signups": {"male": 0, "female": 0},
-                    "Deleted": {"male": 0, "female": 0},
+                var staticData = {
+                    "Visits": {
+                        "male": 0,
+                        "female": 0
+                    },
+                    "New_Signups": {
+                        "male": 0,
+                        "female": 0
+                    },
+                    "Deleted": {
+                        "male": 0,
+                        "female": 0
+                    },
                     "Most_Freq_Open": [],
                     "Highest_Rated": [],
                     "Lowest_Rated": [],
-                    "ResourceViews": { "male": 0, "female":0}
+                    "ResourceViews": {
+                        "male": 0,
+                        "female": 0
+                    }
                 };
                 return staticData;
             }
-            var logReport=logData[0];
-            if(logReport==undefined){
+            var logReport = logData[0];
+            if (logReport == undefined) {
                 alert("No Activity Logged for this period")
             }
-            var report_resRated = [], report_resOpened = [], report_male_visits = 0, report_female_visits = 0, report_male_new_signups = 0,
-                report_female_new_signups = 0, report_male_rating = [], report_female_rating =[], report_male_timesRated = [],
-                report_female_timesRated = [], report_male_opened = [], report_female_opened = [];
-            var report_female_deleted = 0, report_male_deleted = 0;
-            if(logReport.resourcesIds) {
+            var report_resRated = [],
+                report_resOpened = [],
+                report_male_visits = 0,
+                report_female_visits = 0,
+                report_male_new_signups = 0,
+                report_female_new_signups = 0,
+                report_male_rating = [],
+                report_female_rating = [],
+                report_male_timesRated = [],
+                report_female_timesRated = [],
+                report_male_opened = [],
+                report_female_opened = [];
+            var report_female_deleted = 0,
+                report_male_deleted = 0;
+            if (logReport.resourcesIds) {
                 report_resRated = logReport.resourcesIds;
             }
-            if(logReport.resources_opened){
+            if (logReport.resources_opened) {
                 report_resOpened = logReport.resources_opened
             }
-            if(logReport.male_visits){
-                report_male_visits=logReport.male_visits
+            if (logReport.male_visits) {
+                report_male_visits = logReport.male_visits
             }
-            if(logReport.female_visits){
-                report_female_visits=logReport.female_visits
+            if (logReport.female_visits) {
+                report_female_visits = logReport.female_visits
             }
 
-            if(logReport.male_new_signups){
+            if (logReport.male_new_signups) {
                 report_male_new_signups = logReport.male_new_signups
             }
-            if(logReport.female_new_signups){
+            if (logReport.female_new_signups) {
                 report_female_new_signups = logReport.female_new_signups
             }
 
-            if(logReport.male_rating){
+            if (logReport.male_rating) {
                 report_male_rating = logReport.male_rating
             }
-            if(logReport.female_rating){
+            if (logReport.female_rating) {
                 report_female_rating = logReport.female_rating
             }
-            if(logReport.male_timesRated){
+            if (logReport.male_timesRated) {
                 report_male_timesRated = logReport.male_timesRated
             }
-            if(logReport.female_timesRated){
+            if (logReport.female_timesRated) {
                 report_female_timesRated = logReport.female_timesRated
             }
-            if(logReport.male_opened){
+            if (logReport.male_opened) {
                 report_male_opened = logReport.male_opened
             }
-            if(logReport.female_opened){
+            if (logReport.female_opened) {
                 report_female_opened = logReport.female_opened
             }
-            if(logReport.male_deleted_count){
+            if (logReport.male_deleted_count) {
                 report_male_deleted = logReport.male_deleted_count
             }
-            if(logReport.female_deleted_count){
+            if (logReport.female_deleted_count) {
                 report_female_deleted = logReport.female_deleted_count
             }
             for (var index = 0; index < logData.length; index++) {
-                if(index>0){
+                if (index > 0) {
                     var logDoc = logData[index];
                     // add visits to prev total
                     report_male_visits += logDoc.male_visits;
                     report_female_visits += logDoc.female_visits;
 
                     // add new member signups count to prev total
-                    report_male_new_signups += ( (logDoc.male_new_signups) ? logDoc.male_new_signups : 0 );
-                    report_female_new_signups += ( (logDoc.female_new_signups) ? logDoc.female_new_signups : 0 );
-                    report_female_deleted += (logDoc.female_deleted_count ? logDoc.female_deleted_count : 0 );
-                    report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0 );
+                    report_male_new_signups += ((logDoc.male_new_signups) ? logDoc.male_new_signups : 0);
+                    report_female_new_signups += ((logDoc.female_new_signups) ? logDoc.female_new_signups : 0);
+                    report_female_deleted += (logDoc.female_deleted_count ? logDoc.female_deleted_count : 0);
+                    report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0);
 
-                    var resourcesIds=logDoc.resourcesIds;
-                    var resourcesOpened=logDoc.resources_opened;
-                    for(var i = 0; i < resourcesIds.length ; i++){
+                    var resourcesIds = logDoc.resourcesIds;
+                    var resourcesOpened = logDoc.resources_opened;
+                    for (var i = 0; i < resourcesIds.length; i++) {
                         var resId = resourcesIds[i]
                         var resourceIndex = report_resRated.indexOf(resId)
-                        if(resourceIndex == -1){
+                        if (resourceIndex == -1) {
                             report_resRated.push(resId);
                             report_male_rating.push(logDoc.male_rating[i])
                             report_female_rating.push(logDoc.female_rating[i]);
                             report_male_timesRated.push(logDoc.male_timesRated[i]);
                             report_female_timesRated.push(logDoc.female_timesRated[i]);
-                        }else{
+                        } else {
                             report_male_rating[resourceIndex] = report_male_rating[resourceIndex] + logDoc.male_rating[i];
                             report_female_rating[resourceIndex] = report_female_rating[resourceIndex] + logDoc.female_rating[i];
                             report_male_timesRated[resourceIndex] = report_male_timesRated[resourceIndex] + logDoc.male_timesRated[i];
                             report_female_timesRated[resourceIndex] = report_female_timesRated[resourceIndex] + logDoc.female_timesRated[i];
                         }
                     }
-                    if(resourcesOpened){
-                        for(var i=0 ; i < resourcesOpened.length ; i++){
+                    if (resourcesOpened) {
+                        for (var i = 0; i < resourcesOpened.length; i++) {
                             var resId = resourcesOpened[i]
                             var resourceIndex = report_resOpened.indexOf(resId)
-                            if(resourceIndex == -1){
+                            if (resourceIndex == -1) {
                                 report_resOpened.push(resId)
                                 report_male_opened.push(logDoc.male_opened[i])
                                 report_female_opened.push(logDoc.female_opened[i])
-                            }else{
+                            } else {
                                 report_male_opened[resourceIndex] = report_male_opened[resourceIndex] + logDoc.male_opened[i]
                                 report_female_opened[resourceIndex] = report_female_opened[resourceIndex] + logDoc.female_opened[i]
                             }
@@ -178,17 +208,18 @@ $(function() {
                 }
             }
             var femaleOpenedCount = 0;
-            for ( var i = 0; i < report_female_opened.length ; i++) {
-                femaleOpenedCount += report_female_opened[i] ;
+            for (var i = 0; i < report_female_opened.length; i++) {
+                femaleOpenedCount += report_female_opened[i];
 
             }
             var maleOpenedCount = 0;
-            for ( var i = 0; i < report_male_opened.length ; i++) {
-                maleOpenedCount += report_male_opened[i] ;
+            for (var i = 0; i < report_male_opened.length; i++) {
+                maleOpenedCount += report_male_opened[i];
 
             }
             // find most frequently opened resources
-            var times_opened_cumulative = [], Most_Freq_Opened = [];
+            var times_opened_cumulative = [],
+                Most_Freq_Opened = [];
             for (var i = 0; i < report_resOpened.length; i++) {
                 times_opened_cumulative.push(report_male_opened[i] + report_female_opened[i]);
             }
@@ -196,8 +227,7 @@ $(function() {
             var topCount = 5;
             if (times_opened_cumulative.length >= topCount) {
                 indices = this.findIndicesOfMax(times_opened_cumulative, topCount);
-            }
-            else {
+            } else {
                 indices = this.findIndicesOfMax(times_opened_cumulative, times_opened_cumulative.length);
             }
             // fill up most_freq_opened array
@@ -205,14 +235,16 @@ $(function() {
             if (times_opened_cumulative.length > 0) {
                 var most_freq_res_entry, indexFound;
                 for (var i = 0; i < indices.length; i++) {
-                    var res=new App.Models.Resource({_id:report_resOpened[indices[i]]});
-                    res.fetch({
-                        async:false
+                    var res = new App.Models.Resource({
+                        _id: report_resOpened[indices[i]]
                     });
-                    var name=res.get('title');
+                    res.fetch({
+                        async: false
+                    });
+                    var name = res.get('title');
                     // create most freq opened resource entry and push it into Most_Freq_Opened array
                     most_freq_res_entry = {
-                        "resourceName":	name ,
+                        "resourceName": name,
                         "timesOpenedCumulative": times_opened_cumulative[indices[i]],
                         "timesOpenedByMales": report_male_opened[indices[i]],
                         "timesOpenedByFemales": report_female_opened[indices[i]]
@@ -224,11 +256,10 @@ $(function() {
                         most_freq_res_entry["timesRatedByMales"] = "N/A";
                         most_freq_res_entry["timesRatedByFemales"] = "N/A";
                         most_freq_res_entry["timesRatedCumulative"] = "N/A";
-                    }
-                    else {
+                    } else {
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
-                        most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100)/100;
+                        most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
                         most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
                         most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
                         most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
@@ -240,19 +271,21 @@ $(function() {
             }
 
             // find highest rated resources
-            var resources_rated_cumulative = [], Highest_Rated_Resources = [], Lowest_Rated_Resources = [];
+            var resources_rated_cumulative = [],
+                Highest_Rated_Resources = [],
+                Lowest_Rated_Resources = [];
             var lowestHowMany = 5;
             for (var i = 0; i < report_resRated.length; i++) {
                 timesRatedTotalForThisResource = report_male_timesRated[i] + report_female_timesRated[i];
                 sumOfRatingsForThisResource = report_male_rating[i] + report_female_rating[i];
                 resources_rated_cumulative.push(sumOfRatingsForThisResource / timesRatedTotalForThisResource);
             }
-            var indicesHighestRated = [], indicesLowestRated = [];
+            var indicesHighestRated = [],
+                indicesLowestRated = [];
             if (resources_rated_cumulative.length >= topCount) {
                 indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, topCount);
                 indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, lowestHowMany);
-            }
-            else {
+            } else {
                 indicesHighestRated = this.findIndicesOfMax(resources_rated_cumulative, resources_rated_cumulative.length);
                 indicesLowestRated = this.findIndicesOfMin(resources_rated_cumulative, resources_rated_cumulative.length);
             }
@@ -260,16 +293,18 @@ $(function() {
                 var entry_rated_highest, entry_rated_lowest;
                 // fill up Highest_Rated_resources list
                 for (var i = 0; i < indicesHighestRated.length; i++) {
-                    var res=new App.Models.Resource({_id:report_resRated[indicesHighestRated[i]]});
-                    res.fetch({
-                        async:false
+                    var res = new App.Models.Resource({
+                        _id: report_resRated[indicesHighestRated[i]]
                     });
-                    var name=res.get('title');
+                    res.fetch({
+                        async: false
+                    });
+                    var name = res.get('title');
                     timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
                     // create highest rated resource entry and push it into Highest_Rated_Resources array
                     entry_rated_highest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100)/100,
+                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100,
                         "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
@@ -280,8 +315,7 @@ $(function() {
                         entry_rated_highest["timesOpenedByMales"] = "N/A";
                         entry_rated_highest["timesOpenedByFemales"] = "N/A";
                         entry_rated_highest["timesOpenedCumulative"] = "N/A";
-                    }
-                    else {
+                    } else {
                         entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
                         entry_rated_highest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
@@ -292,15 +326,17 @@ $(function() {
                 for (var i = 0; i < indicesLowestRated.length; i++) {
                     timesRatedTotalForThisResource = report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]];
                     // create lowest rated resource entry and push it into Lowest_Rated_Resources array
-                    var res=new App.Models.Resource({_id:report_resRated[indicesLowestRated[i]]})
-                    res.fetch({
-                        async:false
+                    var res = new App.Models.Resource({
+                        _id: report_resRated[indicesLowestRated[i]]
                     })
-                    var name=res.get('title')
+                    res.fetch({
+                        async: false
+                    })
+                    var name = res.get('title')
 
                     entry_rated_lowest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100)/100,
+                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100,
                         "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
@@ -311,8 +347,7 @@ $(function() {
                         entry_rated_lowest["timesOpenedByMales"] = "N/A";
                         entry_rated_lowest["timesOpenedByFemales"] = "N/A";
                         entry_rated_lowest["timesOpenedCumulative"] = "N/A";
-                    }
-                    else {
+                    } else {
                         entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
                         entry_rated_lowest["timesOpenedCumulative"] = times_opened_cumulative[indexFound];
@@ -320,36 +355,54 @@ $(function() {
                     Lowest_Rated_Resources.push(entry_rated_lowest);
                 }
             }
-            var staticData={
-                "Visits":{"male": report_male_visits, "female": report_female_visits},
-                "New_Signups": {"male": report_male_new_signups, "female": report_female_new_signups},
-                "Deleted": {"male": report_male_deleted, "female": report_female_deleted},
+            var staticData = {
+                "Visits": {
+                    "male": report_male_visits,
+                    "female": report_female_visits
+                },
+                "New_Signups": {
+                    "male": report_male_new_signups,
+                    "female": report_female_new_signups
+                },
+                "Deleted": {
+                    "male": report_male_deleted,
+                    "female": report_female_deleted
+                },
                 "Most_Freq_Open": Most_Freq_Opened,
                 "Highest_Rated": Highest_Rated_Resources,
                 "Lowest_Rated": Lowest_Rated_Resources,
-                "ResourceViews": { "male": maleOpenedCount, "female":femaleOpenedCount}
+                "ResourceViews": {
+                    "male": maleOpenedCount,
+                    "female": femaleOpenedCount
+                }
             };
             return staticData;
         },
-        turnDateFromMMDDYYYYToYYYYMMDDFormat: function (date) {
-            var datePart = date.match(/\d+/g), month = datePart[0], day = datePart[1], year = datePart[2];
-            return year+'/'+month+'/'+day;
+        turnDateFromMMDDYYYYToYYYYMMDDFormat: function(date) {
+            var datePart = date.match(/\d+/g),
+                month = datePart[0],
+                day = datePart[1],
+                year = datePart[2];
+            return year + '/' + month + '/' + day;
         },
-        turnDateToYYYYMMDDFormat: function (date) {
+        turnDateToYYYYMMDDFormat: function(date) {
             // GET YYYY, MM AND DD FROM THE DATE OBJECT
             var yyyy = date.getFullYear().toString();
-            var mm = (date.getMonth()+1).toString();
-            var dd  = date.getDate().toString();
+            var mm = (date.getMonth() + 1).toString();
+            var dd = date.getDate().toString();
             // CONVERT mm AND dd INTO chars
             var mmChars = mm.split('');
             var ddChars = dd.split('');
             // CONCAT THE STRINGS IN YYYY-MM-DD FORMAT
-            var dateString = yyyy + '/' + ( mmChars.length===2 ? mm : "0" + mmChars[0] ) + '/' + ( ddChars.length===2 ? dd : "0" + ddChars[0] );
+            var dateString = yyyy + '/' + (mmChars.length === 2 ? mm : "0" + mmChars[0]) + '/' + (ddChars.length === 2 ? dd : "0" + ddChars[0]);
             return dateString;
         },
-        changeDateFormat:function(date){
-            var datePart = date.match(/\d+/g), year = datePart[0], month = datePart[1], day = datePart[2];
-            return year+'/'+month+'/'+day;
+        changeDateFormat: function(date) {
+            var datePart = date.match(/\d+/g),
+                year = datePart[0],
+                month = datePart[1],
+                day = datePart[2];
+            return year + '/' + month + '/' + day;
         },
         Configuration: function() {
 
@@ -366,24 +419,25 @@ $(function() {
             App.$el.children('.body').html(configForm.el)
 
         },
-        getRegisteredMembersCount: function (communityChosen, callback) {
-            var maleMembers = 0, femaleMembers = 0;
+        getRegisteredMembersCount: function(communityChosen, callback) {
+            var maleMembers = 0,
+                femaleMembers = 0;
             $.ajax({
-                url: '/activitylog/_design/bell/_view/GetMaleCountByCommunity?key="' + communityChosen + '"' ,
+                url: '/activitylog/_design/bell/_view/GetMaleCountByCommunity?key="' + communityChosen + '"',
                 type: 'GET',
                 dataType: "json",
                 async: false,
-                success: function (json) {
+                success: function(json) {
                     if (json.rows[0]) {
                         maleMembers = json.rows[0].value
                     }
                     $.ajax({
-                        url: '/activitylog/_design/bell/_view/GetFemaleCountByCommunity?key="' + communityChosen + '"' ,
+                        url: '/activitylog/_design/bell/_view/GetFemaleCountByCommunity?key="' + communityChosen + '"',
                         type: 'GET',
                         dataType: "json",
                         async: false,
-                        success: function (json) {
-                            if(json.rows[0]){
+                        success: function(json) {
+                            if (json.rows[0]) {
                                 femaleMembers = json.rows[0].value;
                             }
                             callback(maleMembers, femaleMembers);
@@ -392,51 +446,53 @@ $(function() {
                 }
             })
         },
-        getRegisteredMembersCountFromMembersDB: function (communityChosen, callback) {
-        var maleMembers = 0, femaleMembers = 0;
-        $.ajax({
-            url: '/members/_design/bell/_view/MaleCountByCommunity?key="' + communityChosen + '"' ,
-            type: 'GET',
-            dataType: "json",
-            async: false,
-            success: function (json) {
-                if (json.rows[0]) {
-                    maleMembers = json.rows[0].value
-                }
-                $.ajax({
-                    url: '/members/_design/bell/_view/FemaleCountByCommunity?key="' + communityChosen + '"' ,
-                    type: 'GET',
-                    dataType: "json",
-                    async: false,
-                    success: function (json) {
-                        if(json.rows[0]){
-                            femaleMembers = json.rows[0].value;
-                        }
-                        callback(maleMembers, femaleMembers);
-                    }
-                })
-            }
-        })
-    },
-        ////////////Total Member Visits///////
-        getTotalMemberVisits: function (communityChosen, callback) {
-            var maleVisits = 0, femaleVisits = 0;
+        getRegisteredMembersCountFromMembersDB: function(communityChosen, callback) {
+            var maleMembers = 0,
+                femaleMembers = 0;
             $.ajax({
-                url: '/activitylog/_design/bell/_view/GetMaleVisitsByCommunity?key="' + communityChosen + '"' ,
+                url: '/members/_design/bell/_view/MaleCountByCommunity?key="' + communityChosen + '"',
                 type: 'GET',
                 dataType: "json",
                 async: false,
-                success: function (json) {
+                success: function(json) {
+                    if (json.rows[0]) {
+                        maleMembers = json.rows[0].value
+                    }
+                    $.ajax({
+                        url: '/members/_design/bell/_view/FemaleCountByCommunity?key="' + communityChosen + '"',
+                        type: 'GET',
+                        dataType: "json",
+                        async: false,
+                        success: function(json) {
+                            if (json.rows[0]) {
+                                femaleMembers = json.rows[0].value;
+                            }
+                            callback(maleMembers, femaleMembers);
+                        }
+                    })
+                }
+            })
+        },
+        ////////////Total Member Visits///////
+        getTotalMemberVisits: function(communityChosen, callback) {
+            var maleVisits = 0,
+                femaleVisits = 0;
+            $.ajax({
+                url: '/activitylog/_design/bell/_view/GetMaleVisitsByCommunity?key="' + communityChosen + '"',
+                type: 'GET',
+                dataType: "json",
+                async: false,
+                success: function(json) {
                     if (json.rows[0]) {
                         maleVisits = json.rows[0].value
                     }
                     $.ajax({
-                        url: '/activitylog/_design/bell/_view/GetFemaleVisitsByCommunity?key="' + communityChosen + '"' ,
+                        url: '/activitylog/_design/bell/_view/GetFemaleVisitsByCommunity?key="' + communityChosen + '"',
                         type: 'GET',
                         dataType: "json",
                         async: false,
-                        success: function (json) {
-                            if(json.rows[0]){
+                        success: function(json) {
+                            if (json.rows[0]) {
                                 femaleVisits = json.rows[0].value;
                             }
                             callback(maleVisits, femaleVisits);
@@ -446,142 +502,144 @@ $(function() {
             })
         },
         ///////////////////////////////////////////
-        TrendReport: function(){
+        TrendReport: function() {
             var context = this;
             App.$el.children('.body').html('');
-            $( '<div id="trend-report-form" style="height: auto"></div>' ).appendTo( App.$el.children('.body') );
+            $('<div id="trend-report-form" style="height: auto"></div>').appendTo(App.$el.children('.body'));
 
             var select = $("<select id='communitySelector'>");
 
             var label = $("<label>").text('Select Community: ');
-            $( '#trend-report-form').append(label);
+            $('#trend-report-form').append(label);
 
             var communityNames = [];
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getAllCommunityNames',
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        communityNames[i]= response.rows[i].value;
-                        select.append("<option value=" + communityNames[i] + ">" +  response.rows[i].key + "</option>");
+                        communityNames[i] = response.rows[i].value;
+                        select.append("<option value=" + communityNames[i] + ">" + response.rows[i].key + "</option>");
                     }
                 },
                 data: {},
                 async: false
             });
 
-            $( '#trend-report-form').append(select);
+            $('#trend-report-form').append(select);
 
-            var button = $('<input type="button" style="height: 100%">').attr({id: 'submit', name: 'submit', class:'btn btn-success' , value: 'Generate Report'});
-            $( '#trend-report-form').append(button);
+            var button = $('<input type="button" style="height: 100%">').attr({
+                id: 'submit',
+                name: 'submit',
+                class: 'btn btn-success',
+                value: 'Generate Report'
+            });
+            $('#trend-report-form').append(button);
 
-            var communityName= "";
+            var communityName = "";
 
             button.click(function() {
                 var communityChosen = $('#communitySelector').val();
                 communityName = $('#communitySelector option:selected').text();
 
                 var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
-               /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                var lastMonthStartDate = new Date( endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1 );
-                var secondLastMonthEndDate = new Date( lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(),
-                    ( lastMonthStartDate.getDate() - 1 ) );
-                var secondLastMonthStartDate = new Date( secondLastMonthEndDate.getFullYear(), secondLastMonthEndDate.getMonth(), 1 );
-                var thirdLastMonthEndDate = new Date( secondLastMonthStartDate.getFullYear(), secondLastMonthStartDate.getMonth(),
-                    ( secondLastMonthStartDate.getDate() - 1 ) );
-                var thirdLastMonthStartDate = new Date( thirdLastMonthEndDate.getFullYear(), thirdLastMonthEndDate.getMonth(), 1 );
-                var fourthLastMonthEndDate = new Date( thirdLastMonthStartDate.getFullYear(), thirdLastMonthStartDate.getMonth(),
-                    ( thirdLastMonthStartDate.getDate() - 1 ) );
-                var fourthLastMonthStartDate = new Date( fourthLastMonthEndDate.getFullYear(), fourthLastMonthEndDate.getMonth(), 1 );
-                var fifthLastMonthEndDate = new Date( fourthLastMonthStartDate.getFullYear(), fourthLastMonthStartDate.getMonth(),
-                    ( fourthLastMonthStartDate.getDate() - 1 ) );
-                var fifthLastMonthStartDate = new Date( fifthLastMonthEndDate.getFullYear(), fifthLastMonthEndDate.getMonth(), 1 );
-                var sixthLastMonthEndDate = new Date( fifthLastMonthStartDate.getFullYear(), fifthLastMonthStartDate.getMonth(),
-                    ( fifthLastMonthStartDate.getDate() - 1 ) );
-                var sixthLastMonthStartDate = new Date( sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1 );
-                var seventhLastMonthEndDate = new Date(  sixthLastMonthStartDate.getFullYear(),  sixthLastMonthStartDate.getMonth(),
-                    ( sixthLastMonthStartDate.getDate() - 1 ) );
-                var seventhLastMonthStartDate = new Date( seventhLastMonthEndDate.getFullYear(), seventhLastMonthEndDate.getMonth(), 1 );
-                var eighthLastMonthEndDate = new Date( seventhLastMonthStartDate.getFullYear(), seventhLastMonthStartDate.getMonth(),
-                    ( seventhLastMonthStartDate.getDate() - 1 ) );
-                var eighthLastMonthStartDate = new Date( eighthLastMonthEndDate.getFullYear(), eighthLastMonthEndDate.getMonth(), 1 );
-                var ninthLastMonthEndDate = new Date(eighthLastMonthStartDate.getFullYear(), eighthLastMonthStartDate.getMonth(),
-                    ( eighthLastMonthStartDate.getDate() - 1 ) );
-                var ninthLastMonthStartDate = new Date( ninthLastMonthEndDate.getFullYear(), ninthLastMonthEndDate.getMonth(), 1 );
-                var tenthLastMonthEndDate = new Date( ninthLastMonthStartDate.getFullYear(), ninthLastMonthStartDate.getMonth(),
-                    ( ninthLastMonthStartDate.getDate() - 1 ) );
-                var tenthLastMonthStartDate = new Date( tenthLastMonthEndDate.getFullYear(), tenthLastMonthEndDate.getMonth(), 1 );
-                var eleventhLastMonthEndDate = new Date( tenthLastMonthStartDate.getFullYear(), tenthLastMonthStartDate.getMonth(),
-                    ( fifthLastMonthStartDate.getDate() - 1 ) );
-                var eleventhLastMonthStartDate = new Date( eleventhLastMonthEndDate.getFullYear(), eleventhLastMonthEndDate.getMonth(), 1 );
-                var twelfthLastMonthEndDate = new Date( eleventhLastMonthStartDate.getFullYear(), eleventhLastMonthStartDate.getMonth(),
-                    ( eleventhLastMonthStartDate.getDate() - 1 ) );
-                var twelfthLastMonthStartDate = new Date( twelfthLastMonthEndDate.getFullYear(), twelfthLastMonthEndDate.getMonth(), 1 );
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////
+                var lastMonthStartDate = new Date(endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1);
+                var secondLastMonthEndDate = new Date(lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(), (lastMonthStartDate.getDate() - 1));
+                var secondLastMonthStartDate = new Date(secondLastMonthEndDate.getFullYear(), secondLastMonthEndDate.getMonth(), 1);
+                var thirdLastMonthEndDate = new Date(secondLastMonthStartDate.getFullYear(), secondLastMonthStartDate.getMonth(), (secondLastMonthStartDate.getDate() - 1));
+                var thirdLastMonthStartDate = new Date(thirdLastMonthEndDate.getFullYear(), thirdLastMonthEndDate.getMonth(), 1);
+                var fourthLastMonthEndDate = new Date(thirdLastMonthStartDate.getFullYear(), thirdLastMonthStartDate.getMonth(), (thirdLastMonthStartDate.getDate() - 1));
+                var fourthLastMonthStartDate = new Date(fourthLastMonthEndDate.getFullYear(), fourthLastMonthEndDate.getMonth(), 1);
+                var fifthLastMonthEndDate = new Date(fourthLastMonthStartDate.getFullYear(), fourthLastMonthStartDate.getMonth(), (fourthLastMonthStartDate.getDate() - 1));
+                var fifthLastMonthStartDate = new Date(fifthLastMonthEndDate.getFullYear(), fifthLastMonthEndDate.getMonth(), 1);
+                var sixthLastMonthEndDate = new Date(fifthLastMonthStartDate.getFullYear(), fifthLastMonthStartDate.getMonth(), (fifthLastMonthStartDate.getDate() - 1));
+                var sixthLastMonthStartDate = new Date(sixthLastMonthEndDate.getFullYear(), sixthLastMonthEndDate.getMonth(), 1);
+                var seventhLastMonthEndDate = new Date(sixthLastMonthStartDate.getFullYear(), sixthLastMonthStartDate.getMonth(), (sixthLastMonthStartDate.getDate() - 1));
+                var seventhLastMonthStartDate = new Date(seventhLastMonthEndDate.getFullYear(), seventhLastMonthEndDate.getMonth(), 1);
+                var eighthLastMonthEndDate = new Date(seventhLastMonthStartDate.getFullYear(), seventhLastMonthStartDate.getMonth(), (seventhLastMonthStartDate.getDate() - 1));
+                var eighthLastMonthStartDate = new Date(eighthLastMonthEndDate.getFullYear(), eighthLastMonthEndDate.getMonth(), 1);
+                var ninthLastMonthEndDate = new Date(eighthLastMonthStartDate.getFullYear(), eighthLastMonthStartDate.getMonth(), (eighthLastMonthStartDate.getDate() - 1));
+                var ninthLastMonthStartDate = new Date(ninthLastMonthEndDate.getFullYear(), ninthLastMonthEndDate.getMonth(), 1);
+                var tenthLastMonthEndDate = new Date(ninthLastMonthStartDate.getFullYear(), ninthLastMonthStartDate.getMonth(), (ninthLastMonthStartDate.getDate() - 1));
+                var tenthLastMonthStartDate = new Date(tenthLastMonthEndDate.getFullYear(), tenthLastMonthEndDate.getMonth(), 1);
+                var eleventhLastMonthEndDate = new Date(tenthLastMonthStartDate.getFullYear(), tenthLastMonthStartDate.getMonth(), (fifthLastMonthStartDate.getDate() - 1));
+                var eleventhLastMonthStartDate = new Date(eleventhLastMonthEndDate.getFullYear(), eleventhLastMonthEndDate.getMonth(), 1);
+                var twelfthLastMonthEndDate = new Date(eleventhLastMonthStartDate.getFullYear(), eleventhLastMonthStartDate.getMonth(), (eleventhLastMonthStartDate.getDate() - 1));
+                var twelfthLastMonthStartDate = new Date(twelfthLastMonthEndDate.getFullYear(), twelfthLastMonthEndDate.getMonth(), 1);
 
-                var startDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(twelfthLastMonthStartDate) );
-                var endDate = context.changeDateFormat( context.turnDateToYYYYMMDDFormat(endDateForTrendReport) );
+                var startDate = context.changeDateFormat(context.turnDateToYYYYMMDDFormat(twelfthLastMonthStartDate));
+                var endDate = context.changeDateFormat(context.turnDateToYYYYMMDDFormat(endDateForTrendReport));
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 var activityDataColl = new App.Collections.ActivityLog();
-                var urlTemp = App.Server + '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["'+communityChosen+'","'+startDate+'"]&endkey=["'+
-                                                                                                                            communityChosen+'","'+endDate+'"]';
+                var urlTemp = App.Server + '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["' + communityChosen + '","' + startDate + '"]&endkey=["' +
+                    communityChosen + '","' + endDate + '"]';
                 activityDataColl.setUrl(urlTemp);
                 activityDataColl.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
                     // end keys rather than logdate to fetch activitylog docs from the db
-                    async:false
+                    async: false
                 });
                 activityDataColl.toJSON();
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
-               // ********************************************************************************************************
-                var endingMonthActivityData = [], secondLastMonthActivityData = [], thirdLastMonthActivityData = [],
-                    fourthLastMonthActivityData = [], fifthLastMonthActivityData = [], sixthLastMonthActivityData = [],
-                    seventhLastMonthActivityData = [], eighthLastMonthActivityData = [], ninthLastMonthActivityData = [],
-                    tenthLastMonthActivityData = [], eleventhLastMonthActivityData = [], twelfthLastMonthActivityData = [];
-              //  ********************************************************************************************************
+                // ********************************************************************************************************
+                var endingMonthActivityData = [],
+                    secondLastMonthActivityData = [],
+                    thirdLastMonthActivityData = [],
+                    fourthLastMonthActivityData = [],
+                    fifthLastMonthActivityData = [],
+                    sixthLastMonthActivityData = [],
+                    seventhLastMonthActivityData = [],
+                    eighthLastMonthActivityData = [],
+                    ninthLastMonthActivityData = [],
+                    tenthLastMonthActivityData = [],
+                    eleventhLastMonthActivityData = [],
+                    twelfthLastMonthActivityData = [];
+                //  ********************************************************************************************************
                 for (var i in activityDataColl.models) {
                     var modelKey = context.turnDateFromMMDDYYYYToYYYYMMDDFormat(activityDataColl.models[i].get('logDate'));
 
-                    if ( (modelKey >= context.turnDateToYYYYMMDDFormat(lastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(endDateForTrendReport)) ) {
+                    if ((modelKey >= context.turnDateToYYYYMMDDFormat(lastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(endDateForTrendReport))) {
                         endingMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(secondLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(secondLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(secondLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(secondLastMonthEndDate))) {
                         secondLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(thirdLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(thirdLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(thirdLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(thirdLastMonthEndDate))) {
                         thirdLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(fourthLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(fourthLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(fourthLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(fourthLastMonthEndDate))) {
                         fourthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(fifthLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(fifthLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(fifthLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(fifthLastMonthEndDate))) {
                         fifthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(sixthLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(sixthLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(sixthLastMonthEndDate))) {
                         sixthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    }else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(seventhLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(seventhLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(seventhLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(seventhLastMonthEndDate))) {
                         seventhLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    }  else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(eighthLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(eighthLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(eighthLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(eighthLastMonthEndDate))) {
                         eighthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(ninthLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(ninthLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(ninthLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(ninthLastMonthEndDate))) {
                         ninthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(tenthLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(tenthLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(tenthLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(tenthLastMonthEndDate))) {
                         tenthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(eleventhLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(eleventhLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(eleventhLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(eleventhLastMonthEndDate))) {
                         eleventhLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
-                    } else if ( (modelKey >= context.turnDateToYYYYMMDDFormat(twelfthLastMonthStartDate)) &&
-                        (modelKey <= context.turnDateToYYYYMMDDFormat(twelfthLastMonthEndDate)) ) {
+                    } else if ((modelKey >= context.turnDateToYYYYMMDDFormat(twelfthLastMonthStartDate)) &&
+                        (modelKey <= context.turnDateToYYYYMMDDFormat(twelfthLastMonthEndDate))) {
                         twelfthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                     }
                 }
-              //  ********************************************************************************************************
+                //  ********************************************************************************************************
                 var lastMonthDataset = context.aggregateDataForTrendReport('communityX', endingMonthActivityData);
                 var secondLastMonthDataset = context.aggregateDataForTrendReport('communityX', secondLastMonthActivityData);
                 var thirdLastMonthDataset = context.aggregateDataForTrendReport('communityX', thirdLastMonthActivityData);
@@ -597,56 +655,102 @@ $(function() {
 
                 var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
                 console.log(lastMonthDataset);
-              //  ********************************************************************************************************
-                var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-              //  ********************************************************************************************************
+                //  ********************************************************************************************************
+                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                //  ********************************************************************************************************
                 // show registered members at end of each month falling in duration of this report
-                var totalRegisteredMembers = {male: 0, female: 0};
+                var totalRegisteredMembers = {
+                    male: 0,
+                    female: 0
+                };
                 context.getRegisteredMembersCount(communityChosen, function(param1, param2) {
                     totalRegisteredMembers['male'] = param1;
                     totalRegisteredMembers['female'] = param2;
                 });
-              //  ********************************************************************************************************
+                //  ********************************************************************************************************
                 //////////////////////////////////Registered Members from Members db 11 may 2015 ///////////////////////
-                var totalRegisteredMembersFromMembersDb =  {male: 0, female: 0};
-                context.getRegisteredMembersCountFromMembersDB (communityChosen, function(param1, param2) {
+                var totalRegisteredMembersFromMembersDb = {
+                    male: 0,
+                    female: 0
+                };
+                context.getRegisteredMembersCountFromMembersDB(communityChosen, function(param1, param2) {
                     totalRegisteredMembersFromMembersDb['male'] = param1;
                     totalRegisteredMembersFromMembersDb['female'] = param2;
                 });
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-              //  ********************************************************************************************************
+                //  ********************************************************************************************************
                 ///////////////////////////////////////////////Total Visits/////////////////////////////////////////////
-                var totalMemberVisits =  {male: 0, female: 0};
-                context.getTotalMemberVisits (communityChosen, function(param1, param2) {
+                var totalMemberVisits = {
+                    male: 0,
+                    female: 0
+                };
+                context.getTotalMemberVisits(communityChosen, function(param1, param2) {
                     totalMemberVisits['male'] = param1;
                     totalMemberVisits['female'] = param2;
                 });
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-              //  ********************************************************************************************************
-                var registeredMembersTillNow = {male: totalRegisteredMembers['male'], female: totalRegisteredMembers['female'], total: 0};
-                var registeredMembersTillSecondLastMonthEnd = {male: totalRegisteredMembers['male'] - lastMonthDataset.New_Signups['male'],
-                    female: totalRegisteredMembers['female'] - lastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillThirdLastMonthEnd = {male: registeredMembersTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillFourthLastMonthEnd = {male: registeredMembersTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillFifthLastMonthEnd = {male: registeredMembersTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillSixthLastMonthEnd = {male: registeredMembersTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillSeventhLastMonthEnd = {male: registeredMembersTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillEighthLastMonthEnd = {male: registeredMembersTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillNinthLastMonthEnd = {male: registeredMembersTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillTenthLastMonthEnd = {male: registeredMembersTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillEleventhLastMonthEnd = {male: registeredMembersTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'], total: 0};
-                var registeredMembersTillTwelfthLastMonthEnd = {male: registeredMembersTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
-                    female: registeredMembersTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'], total: 0};
-              //  ********************************************************************************************************
+                //  ********************************************************************************************************
+                var registeredMembersTillNow = {
+                    male: totalRegisteredMembers['male'],
+                    female: totalRegisteredMembers['female'],
+                    total: 0
+                };
+                var registeredMembersTillSecondLastMonthEnd = {
+                    male: totalRegisteredMembers['male'] - lastMonthDataset.New_Signups['male'],
+                    female: totalRegisteredMembers['female'] - lastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillThirdLastMonthEnd = {
+                    male: registeredMembersTillSecondLastMonthEnd['male'] - secondLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillSecondLastMonthEnd['female'] - secondLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillFourthLastMonthEnd = {
+                    male: registeredMembersTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillFifthLastMonthEnd = {
+                    male: registeredMembersTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillSixthLastMonthEnd = {
+                    male: registeredMembersTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillSeventhLastMonthEnd = {
+                    male: registeredMembersTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillEighthLastMonthEnd = {
+                    male: registeredMembersTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillNinthLastMonthEnd = {
+                    male: registeredMembersTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillTenthLastMonthEnd = {
+                    male: registeredMembersTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillEleventhLastMonthEnd = {
+                    male: registeredMembersTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                var registeredMembersTillTwelfthLastMonthEnd = {
+                    male: registeredMembersTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.New_Signups['male'],
+                    female: registeredMembersTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'],
+                    total: 0
+                };
+                //  ********************************************************************************************************
                 registeredMembersTillNow['total'] = registeredMembersTillNow['male'] + registeredMembersTillNow['female'];
                 registeredMembersTillSecondLastMonthEnd['total'] = registeredMembersTillSecondLastMonthEnd['male'] + registeredMembersTillSecondLastMonthEnd['female'];
                 registeredMembersTillThirdLastMonthEnd['total'] = registeredMembersTillThirdLastMonthEnd['male'] + registeredMembersTillThirdLastMonthEnd['female'];
@@ -659,35 +763,72 @@ $(function() {
                 registeredMembersTillTenthLastMonthEnd['total'] = registeredMembersTillTenthLastMonthEnd['male'] + registeredMembersTillTenthLastMonthEnd['female'];
                 registeredMembersTillEleventhLastMonthEnd['total'] = registeredMembersTillEleventhLastMonthEnd['male'] + registeredMembersTillEleventhLastMonthEnd['female'];
                 registeredMembersTillTwelfthLastMonthEnd['total'] = registeredMembersTillTwelfthLastMonthEnd['male'] + registeredMembersTillTwelfthLastMonthEnd['female'];
-              //  ********************************************************************************************************
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////
-              //  ********************************************************************************************************
-                ///////////////////////////////////////////Total Members//////////////////////////////////////////////////
-                var registeredMembersFromMembersDbTillNow = {male: totalRegisteredMembersFromMembersDb['male'], female: totalRegisteredMembersFromMembersDb['female'], total: 0};
-                var registeredMembersFromMembersDbTillSecondLastMonthEnd = {male: totalRegisteredMembersFromMembersDb['male'] - (lastMonthDataset.New_Signups['male'] - lastMonthDataset.Deleted['male']),
-                    female: totalRegisteredMembersFromMembersDb['female'] - (lastMonthDataset.New_Signups['female'] - lastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillThirdLastMonthEnd = {male: registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] - (secondLastMonthDataset.New_Signups['male'] - secondLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillSecondLastMonthEnd['female'] - (secondLastMonthDataset.New_Signups['female'] - secondLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillFourthLastMonthEnd = {male: registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] - (thirdLastMonthDataset.New_Signups['male'] - thirdLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillThirdLastMonthEnd['female'] - (thirdLastMonthDataset.New_Signups['female'] - thirdLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillFifthLastMonthEnd = {male: registeredMembersFromMembersDbTillFourthLastMonthEnd['male'] - (fourthLastMonthDataset.New_Signups['male'] - fourthLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillFourthLastMonthEnd['female'] - (fourthLastMonthDataset.New_Signups['female'] - fourthLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillSixthLastMonthEnd = {male: registeredMembersFromMembersDbTillFifthLastMonthEnd['male'] - (fifthLastMonthDataset.New_Signups['male'] - fifthLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillFifthLastMonthEnd['female'] - (fifthLastMonthDataset.New_Signups['female'] - fifthLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillSeventhLastMonthEnd = {male: registeredMembersFromMembersDbTillSixthLastMonthEnd['male'] - (sixthLastMonthDataset.New_Signups['male'] - sixthLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillSixthLastMonthEnd['female'] - (sixthLastMonthDataset.New_Signups['female'] - sixthLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillEighthLastMonthEnd = {male: registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'] - (seventhLastMonthDataset.New_Signups['male'] - seventhLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'] - (seventhLastMonthDataset.New_Signups['female'] - seventhLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillNinthLastMonthEnd = {male: registeredMembersFromMembersDbTillEighthLastMonthEnd['male'] - (eighthLastMonthDataset.New_Signups['male'] - eighthLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillEighthLastMonthEnd['female'] - (eighthLastMonthDataset.New_Signups['female'] - eighthLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillTenthLastMonthEnd = {male: registeredMembersFromMembersDbTillNinthLastMonthEnd['male'] - (ninthLastMonthDataset.New_Signups['male'] - ninthLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillNinthLastMonthEnd['female'] - (ninthLastMonthDataset.New_Signups['female'] - ninthLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillEleventhLastMonthEnd = {male: registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] - (tenthLastMonthDataset.New_Signups['male'] - tenthLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillTenthLastMonthEnd['female'] - (tenthLastMonthDataset.New_Signups['female'] - tenthLastMonthDataset.Deleted['female']), total: 0};
-                var registeredMembersFromMembersDbTillTwelfthLastMonthEnd = {male: registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] - (eleventhLastMonthDataset.New_Signups['male'] - eleventhLastMonthDataset.Deleted['male']),
-                    female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - (eleventhLastMonthDataset.New_Signups['female'] - eleventhLastMonthDataset.Deleted['female']), total: 0};
                 //  ********************************************************************************************************
-              //  ********************************************************************************************************
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //  ********************************************************************************************************
+                ///////////////////////////////////////////Total Members//////////////////////////////////////////////////
+                var registeredMembersFromMembersDbTillNow = {
+                    male: totalRegisteredMembersFromMembersDb['male'],
+                    female: totalRegisteredMembersFromMembersDb['female'],
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillSecondLastMonthEnd = {
+                    male: totalRegisteredMembersFromMembersDb['male'] - (lastMonthDataset.New_Signups['male'] - lastMonthDataset.Deleted['male']),
+                    female: totalRegisteredMembersFromMembersDb['female'] - (lastMonthDataset.New_Signups['female'] - lastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillThirdLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] - (secondLastMonthDataset.New_Signups['male'] - secondLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillSecondLastMonthEnd['female'] - (secondLastMonthDataset.New_Signups['female'] - secondLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillFourthLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] - (thirdLastMonthDataset.New_Signups['male'] - thirdLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillThirdLastMonthEnd['female'] - (thirdLastMonthDataset.New_Signups['female'] - thirdLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillFifthLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillFourthLastMonthEnd['male'] - (fourthLastMonthDataset.New_Signups['male'] - fourthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillFourthLastMonthEnd['female'] - (fourthLastMonthDataset.New_Signups['female'] - fourthLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillSixthLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillFifthLastMonthEnd['male'] - (fifthLastMonthDataset.New_Signups['male'] - fifthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillFifthLastMonthEnd['female'] - (fifthLastMonthDataset.New_Signups['female'] - fifthLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillSeventhLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillSixthLastMonthEnd['male'] - (sixthLastMonthDataset.New_Signups['male'] - sixthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillSixthLastMonthEnd['female'] - (sixthLastMonthDataset.New_Signups['female'] - sixthLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillEighthLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillSeventhLastMonthEnd['male'] - (seventhLastMonthDataset.New_Signups['male'] - seventhLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillSeventhLastMonthEnd['female'] - (seventhLastMonthDataset.New_Signups['female'] - seventhLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillNinthLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillEighthLastMonthEnd['male'] - (eighthLastMonthDataset.New_Signups['male'] - eighthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillEighthLastMonthEnd['female'] - (eighthLastMonthDataset.New_Signups['female'] - eighthLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillTenthLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillNinthLastMonthEnd['male'] - (ninthLastMonthDataset.New_Signups['male'] - ninthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillNinthLastMonthEnd['female'] - (ninthLastMonthDataset.New_Signups['female'] - ninthLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillEleventhLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] - (tenthLastMonthDataset.New_Signups['male'] - tenthLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillTenthLastMonthEnd['female'] - (tenthLastMonthDataset.New_Signups['female'] - tenthLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                var registeredMembersFromMembersDbTillTwelfthLastMonthEnd = {
+                    male: registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] - (eleventhLastMonthDataset.New_Signups['male'] - eleventhLastMonthDataset.Deleted['male']),
+                    female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - (eleventhLastMonthDataset.New_Signups['female'] - eleventhLastMonthDataset.Deleted['female']),
+                    total: 0
+                };
+                //  ********************************************************************************************************
+                //  ********************************************************************************************************
                 registeredMembersFromMembersDbTillNow['total'] = registeredMembersFromMembersDbTillNow['male'] + registeredMembersFromMembersDbTillNow['female'];
                 registeredMembersFromMembersDbTillSecondLastMonthEnd['total'] = registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] + registeredMembersFromMembersDbTillSecondLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillThirdLastMonthEnd['total'] = registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] + registeredMembersFromMembersDbTillThirdLastMonthEnd['female'];
@@ -700,33 +841,70 @@ $(function() {
                 registeredMembersFromMembersDbTillTenthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTenthLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'] = registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] + registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'];
                 registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'];
-             //   ********************************************************************************************************
+                //   ********************************************************************************************************
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////Total Member Visits/////////////////////////////////////////
-                var membersVisitsTillNow = {male: totalMemberVisits['male'], female: totalMemberVisits['female'], total: 0};
-                var membersVisitsTillSecondLastMonthEnd = {male: totalMemberVisits['male'] - lastMonthDataset.Visits['male'],
-                    female: totalMemberVisits['female'] - lastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillThirdLastMonthEnd = {male: membersVisitsTillSecondLastMonthEnd['male'] - secondLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillSecondLastMonthEnd['female'] - secondLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillFourthLastMonthEnd = {male: membersVisitsTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillFifthLastMonthEnd = {male: membersVisitsTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillSixthLastMonthEnd = {male: membersVisitsTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillSeventhLastMonthEnd = {male: membersVisitsTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillEighthLastMonthEnd = {male: membersVisitsTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillNinthLastMonthEnd = {male: membersVisitsTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.Visits['male'],
-                    female:membersVisitsTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillTenthLastMonthEnd = {male: membersVisitsTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillEleventhLastMonthEnd = {male:membersVisitsTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.Visits['female'], total: 0};
-                var membersVisitsTillTwelfthLastMonthEnd = {male: membersVisitsTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.Visits['male'],
-                    female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.Visits['female'], total: 0};
-              //  ********************************************************************************************************
+                var membersVisitsTillNow = {
+                    male: totalMemberVisits['male'],
+                    female: totalMemberVisits['female'],
+                    total: 0
+                };
+                var membersVisitsTillSecondLastMonthEnd = {
+                    male: totalMemberVisits['male'] - lastMonthDataset.Visits['male'],
+                    female: totalMemberVisits['female'] - lastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillThirdLastMonthEnd = {
+                    male: membersVisitsTillSecondLastMonthEnd['male'] - secondLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillSecondLastMonthEnd['female'] - secondLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillFourthLastMonthEnd = {
+                    male: membersVisitsTillThirdLastMonthEnd['male'] - thirdLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillThirdLastMonthEnd['female'] - thirdLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillFifthLastMonthEnd = {
+                    male: membersVisitsTillFourthLastMonthEnd['male'] - fourthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillFourthLastMonthEnd['female'] - fourthLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillSixthLastMonthEnd = {
+                    male: membersVisitsTillFifthLastMonthEnd['male'] - fifthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillFifthLastMonthEnd['female'] - fifthLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillSeventhLastMonthEnd = {
+                    male: membersVisitsTillSixthLastMonthEnd['male'] - sixthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillSixthLastMonthEnd['female'] - sixthLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillEighthLastMonthEnd = {
+                    male: membersVisitsTillSeventhLastMonthEnd['male'] - seventhLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillSeventhLastMonthEnd['female'] - seventhLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillNinthLastMonthEnd = {
+                    male: membersVisitsTillEighthLastMonthEnd['male'] - eighthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillEighthLastMonthEnd['female'] - eighthLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillTenthLastMonthEnd = {
+                    male: membersVisitsTillNinthLastMonthEnd['male'] - ninthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillNinthLastMonthEnd['female'] - ninthLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillEleventhLastMonthEnd = {
+                    male: membersVisitsTillTenthLastMonthEnd['male'] - tenthLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillTenthLastMonthEnd['female'] - tenthLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                var membersVisitsTillTwelfthLastMonthEnd = {
+                    male: membersVisitsTillEleventhLastMonthEnd['male'] - eleventhLastMonthDataset.Visits['male'],
+                    female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.Visits['female'],
+                    total: 0
+                };
+                //  ********************************************************************************************************
                 membersVisitsTillNow['total'] = membersVisitsTillNow['male'] + membersVisitsTillNow['female'];
                 membersVisitsTillSecondLastMonthEnd['total'] = membersVisitsTillSecondLastMonthEnd['male'] + membersVisitsTillSecondLastMonthEnd['female'];
                 membersVisitsTillThirdLastMonthEnd['total'] = membersVisitsTillThirdLastMonthEnd['male'] + membersVisitsTillThirdLastMonthEnd['female'];
@@ -740,9 +918,9 @@ $(function() {
                 membersVisitsTillEleventhLastMonthEnd['total'] = membersVisitsTillEleventhLastMonthEnd['male'] + membersVisitsTillEleventhLastMonthEnd['female'];
                 membersVisitsTillTwelfthLastMonthEnd['total'] = membersVisitsTillTwelfthLastMonthEnd['male'] + membersVisitsTillTwelfthLastMonthEnd['female'];
                 //////////////////////////////////////////////////////////////////////////////////////////////
-              //  ********************************************************************************************************
-                                                    //   TrendActivityReport View : TrendActivityReport.js
-              //  ********************************************************************************************************
+                //  ********************************************************************************************************
+                //   TrendActivityReport View : TrendActivityReport.js
+                //  ********************************************************************************************************
                 var trendActivityReportView = new App.Views.TrendActivityReport();
                 trendActivityReportView.data = aggregateDataset;
                 trendActivityReportView.startDate = activityDataColl.startkey;
@@ -750,12 +928,12 @@ $(function() {
                 trendActivityReportView.CommunityName = communityName;
                 trendActivityReportView.render();
                 App.$el.children('.body').html(trendActivityReportView.el);
-               // ********************************************************************************************************
+                // ********************************************************************************************************
                 //  ********************************************************************************************************
-                                      //Trend Report Graphs Started
+                //Trend Report Graphs Started
                 //  ********************************************************************************************************
                 //  ********************************************************************************************************
-                                                //Total Members
+                //Total Members
                 //  ********************************************************************************************************
                 $('#trend-report-div-total-members').highcharts({
                     chart: {
@@ -817,7 +995,8 @@ $(function() {
                             registeredMembersFromMembersDbTillFourthLastMonthEnd['male'],
                             registeredMembersFromMembersDbTillThirdLastMonthEnd['male'],
                             registeredMembersFromMembersDbTillSecondLastMonthEnd['male'],
-                            registeredMembersFromMembersDbTillNow['male']],
+                            registeredMembersFromMembersDbTillNow['male']
+                        ],
                         color: '#33ccff'
                     }, {
                         name: 'Females',
@@ -833,7 +1012,8 @@ $(function() {
                             registeredMembersFromMembersDbTillFourthLastMonthEnd['female'],
                             registeredMembersFromMembersDbTillThirdLastMonthEnd['female'],
                             registeredMembersFromMembersDbTillSecondLastMonthEnd['female'],
-                            registeredMembersFromMembersDbTillNow['female']],
+                            registeredMembersFromMembersDbTillNow['female']
+                        ],
                         color: '#66ff66'
                     }, {
                         name: 'Total',
@@ -849,7 +1029,8 @@ $(function() {
                             registeredMembersFromMembersDbTillFourthLastMonthEnd['total'],
                             registeredMembersFromMembersDbTillThirdLastMonthEnd['total'],
                             registeredMembersFromMembersDbTillSecondLastMonthEnd['total'],
-                            registeredMembersFromMembersDbTillNow['total']],
+                            registeredMembersFromMembersDbTillNow['total']
+                        ],
                         color: '#ff9900'
                     }]
                 });
@@ -917,7 +1098,8 @@ $(function() {
                             registeredMembersTillFourthLastMonthEnd['male'],
                             registeredMembersTillThirdLastMonthEnd['male'],
                             registeredMembersTillSecondLastMonthEnd['male'],
-                            totalRegisteredMembers['male']],
+                            totalRegisteredMembers['male']
+                        ],
                         color: '#33ccff'
                     }, {
                         name: 'Females',
@@ -933,7 +1115,8 @@ $(function() {
                             registeredMembersTillFourthLastMonthEnd['female'],
                             registeredMembersTillThirdLastMonthEnd['female'],
                             registeredMembersTillSecondLastMonthEnd['female'],
-                            totalRegisteredMembers['female']],
+                            totalRegisteredMembers['female']
+                        ],
                         color: '#66ff66'
                     }, {
                         name: 'Total',
@@ -949,13 +1132,14 @@ $(function() {
                             registeredMembersTillFourthLastMonthEnd['total'],
                             registeredMembersTillThirdLastMonthEnd['total'],
                             registeredMembersTillSecondLastMonthEnd['total'],
-                            registeredMembersTillNow['total']],
+                            registeredMembersTillNow['total']
+                        ],
                         color: '#ff9900'
                     }]
                 });
                 //  ********************************************************************************************************
                 //  ********************************************************************************************************
-                                                 //Total Member Visits This Month
+                //Total Member Visits This Month
                 //  ********************************************************************************************************
                 $('#trend-report-div-visits').highcharts({
                     chart: {
@@ -1018,7 +1202,8 @@ $(function() {
                             fourthLastMonthDataset.Visits['male'],
                             thirdLastMonthDataset.Visits['male'],
                             secondLastMonthDataset.Visits['male'],
-                            lastMonthDataset.Visits['male']],
+                            lastMonthDataset.Visits['male']
+                        ],
                         color: '#33ccff'
                     }, {
                         name: 'Females',
@@ -1034,30 +1219,32 @@ $(function() {
                             fourthLastMonthDataset.Visits['female'],
                             thirdLastMonthDataset.Visits['female'],
                             secondLastMonthDataset.Visits['female'],
-                            lastMonthDataset.Visits['female']],
+                            lastMonthDataset.Visits['female']
+                        ],
                         color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
-                            twelfthLastMonthDataset.Visits['male'] +  twelfthLastMonthDataset.Visits['female'],
+                            twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
                             eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
                             tenthLastMonthDataset.Visits['male'] + tenthLastMonthDataset.Visits['female'],
-                            ninthLastMonthDataset.Visits['male'] +  ninthLastMonthDataset.Visits['female'],
-                            eighthLastMonthDataset.Visits['male'] +  eighthLastMonthDataset.Visits['female'],
+                            ninthLastMonthDataset.Visits['male'] + ninthLastMonthDataset.Visits['female'],
+                            eighthLastMonthDataset.Visits['male'] + eighthLastMonthDataset.Visits['female'],
                             seventhLastMonthDataset.Visits['male'] + seventhLastMonthDataset.Visits['female'],
                             sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
                             fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
                             fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
                             thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
                             secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
-                            lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']],
+                            lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']
+                        ],
                         color: '#ff9900'
                     }]
                 });
                 //  ******************************************************************************************************
                 // /////////////////////////////////////////////New Members This Month?////////////////////////////////////
                 //  ********************************************************************************************************
-                                             //   Total Resource Views This Month
+                //   Total Resource Views This Month
                 //  ********************************************************************************************************
                 $('#trend-report-div-total-resource-views-this-month').highcharts({
                     chart: {
@@ -1120,7 +1307,8 @@ $(function() {
                             fourthLastMonthDataset.ResourceViews['male'],
                             thirdLastMonthDataset.ResourceViews['male'],
                             secondLastMonthDataset.ResourceViews['male'],
-                            lastMonthDataset.ResourceViews['male']],
+                            lastMonthDataset.ResourceViews['male']
+                        ],
                         color: '#33ccff'
                     }, {
                         name: 'Females',
@@ -1136,29 +1324,31 @@ $(function() {
                             fourthLastMonthDataset.ResourceViews['female'],
                             thirdLastMonthDataset.ResourceViews['female'],
                             secondLastMonthDataset.ResourceViews['female'],
-                            lastMonthDataset.ResourceViews['female']],
+                            lastMonthDataset.ResourceViews['female']
+                        ],
                         color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
-                            twelfthLastMonthDataset.ResourceViews['male'] +  twelfthLastMonthDataset.ResourceViews['female'],
+                            twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
                             eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
                             tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
-                            ninthLastMonthDataset.ResourceViews['male'] +  ninthLastMonthDataset.ResourceViews['female'],
-                            eighthLastMonthDataset.ResourceViews['male'] +  eighthLastMonthDataset.ResourceViews['female'],
+                            ninthLastMonthDataset.ResourceViews['male'] + ninthLastMonthDataset.ResourceViews['female'],
+                            eighthLastMonthDataset.ResourceViews['male'] + eighthLastMonthDataset.ResourceViews['female'],
                             seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
                             sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
                             fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
                             fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
                             thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
                             secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
-                            lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']],
+                            lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']
+                        ],
                         color: '#ff9900'
                     }]
                 });
                 //  ********************************************************************************************************
                 //  ********************************************************************************************************
-                                                   //Total Member Visits
+                //Total Member Visits
                 //  ********************************************************************************************************
                 $('#trend-report-div-total-member-visits').highcharts({
                     chart: {
@@ -1222,7 +1412,8 @@ $(function() {
                             membersVisitsTillFourthLastMonthEnd['male'],
                             membersVisitsTillThirdLastMonthEnd['male'],
                             membersVisitsTillSecondLastMonthEnd['male'],
-                            membersVisitsTillNow['male']],
+                            membersVisitsTillNow['male']
+                        ],
                         color: '#33ccff'
                     }, {
                         name: 'Females',
@@ -1238,7 +1429,8 @@ $(function() {
                             membersVisitsTillFourthLastMonthEnd['female'],
                             membersVisitsTillThirdLastMonthEnd['female'],
                             membersVisitsTillSecondLastMonthEnd['female'],
-                            membersVisitsTillNow['female']],
+                            membersVisitsTillNow['female']
+                        ],
                         color: '#66ff66'
                     }, {
                         name: 'Total',
@@ -1254,15 +1446,15 @@ $(function() {
                             membersVisitsTillFourthLastMonthEnd['total'],
                             membersVisitsTillThirdLastMonthEnd['total'],
                             membersVisitsTillSecondLastMonthEnd['total'],
-                            membersVisitsTillNow['total']],
+                            membersVisitsTillNow['total']
+                        ],
                         color: '#ff9900'
                     }]
                 });
                 //  ********************************************************************************************************
 
             });
-        }
-        ,
+        },
         renderNav: function() {
             var con = this.getConfigurations()
             if ($.cookie('Member._id')) {
@@ -1276,7 +1468,7 @@ $(function() {
                 })
             }
             $('div.navbar-collapse').html(na.el)
-                // App.badge()
+            // App.badge()
         },
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
@@ -1289,7 +1481,7 @@ $(function() {
                 var expTime = $.cookie('Member.expTime')
                 var d = new Date(Date.parse(expTime))
                 var diff = Math.abs(new Date() - d)
-                    //alert(diff)
+                //alert(diff)
                 var expirationTime = 7200000
                 if (diff < expirationTime) {
                     var date = new Date()
@@ -1317,8 +1509,8 @@ $(function() {
         },
         addCourses: function(publicationId) {
             var seachForm = new App.Views.courseSeach()
-            seachForm.publicationId=publicationId
-            seachForm.render()  
+            seachForm.publicationId = publicationId
+            seachForm.render()
             App.$el.children('.body').html(seachForm.el)
 
         },
@@ -1399,12 +1591,12 @@ $(function() {
 
 
             App.$el.children('.body').html('')
-                // Bind form to the DOM 
+            // Bind form to the DOM
 
 
             App.$el.children('.body').append(modelForm.el)
 
-            //	.append($button) 
+            //	.append($button)
             // modelForm.render()
             // Bind form events for when Group is ready
 
@@ -1412,11 +1604,11 @@ $(function() {
 
 
                 modelForm.on(className + 'Form:done', function() {
-                        Backbone.history.navigate(reroute, {
-                            trigger: true
-                        })
+                    Backbone.history.navigate(reroute, {
+                        trigger: true
                     })
-                    // Set up the form
+                })
+                // Set up the form
                 modelForm.render()
             })
 
@@ -1614,53 +1806,55 @@ $(function() {
 
         },
         PublicationDetails: function(publicationId) {
-        
-				var publicationObject = new App.Models.Publication({
-					_id: publicationId
-				})
-				publicationObject.fetch({
-					async: false
-				})
-                var resources = publicationObject.get('resources')
-                var courses = publicationObject.get('courses')
-                            
-                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/'+publicationId+'">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick=SelectCommunity("' + publicationId + '")>Send Publication</button></div>')
-                
-                var resIdes=''
-                 _.each(resources, function(item) {
-                    resIdes +='"' + item + '",'
-                 })
-                 if(resIdes!='')
-                  resIdes = resIdes.substring(0, resIdes.length - 1);
-                  
+
+            var publicationObject = new App.Models.Publication({
+                _id: publicationId
+            })
+            publicationObject.fetch({
+                async: false
+            })
+            var resources = publicationObject.get('resources')
+            var courses = publicationObject.get('courses')
+
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick=SelectCommunity("' + publicationId + '")>Send Publication</button></div>')
+
+            var resIdes = ''
+            _.each(resources, function(item) {
+                resIdes += '"' + item + '",'
+            })
+            if (resIdes != '')
+                resIdes = resIdes.substring(0, resIdes.length - 1);
+
             var resourcesColl = new App.Collections.Resources()
-                resourcesColl.keys= encodeURI(resIdes)
-                resourcesColl.fetch({async:false });
-                var publicationresTable = new App.Views.PublicationResourceTable({
-                    collection: resourcesColl
-                })
-                publicationresTable.Id = publicationId
-                publicationresTable.render()
-                App.$el.children('.body').append(publicationresTable.el)
-                
-                 var coursesIdes=''
-                 _.each(courses, function(item) {
-                    coursesIdes +='"' + item['courseID'] + '",'
-                 })
-                 if(coursesIdes!='')
-                  coursesIdes = coursesIdes.substring(0, coursesIdes.length - 1);
-                  
-           var coursesColl = new App.Collections.Courses()
-                coursesColl.keys= encodeURI(coursesIdes)
-                coursesColl.fetch({
-                 async:false
-                });
-                var publicationcourseTable = new App.Views.PublicationCoursesTable({
-                    collection: coursesColl
-                })
-                publicationcourseTable.Id = publicationId
-                publicationcourseTable.render()
-                App.$el.children('.body').append(publicationcourseTable.el)
+            resourcesColl.keys = encodeURI(resIdes)
+            resourcesColl.fetch({
+                async: false
+            });
+            var publicationresTable = new App.Views.PublicationResourceTable({
+                collection: resourcesColl
+            })
+            publicationresTable.Id = publicationId
+            publicationresTable.render()
+            App.$el.children('.body').append(publicationresTable.el)
+
+            var coursesIdes = ''
+            _.each(courses, function(item) {
+                coursesIdes += '"' + item['courseID'] + '",'
+            })
+            if (coursesIdes != '')
+                coursesIdes = coursesIdes.substring(0, coursesIdes.length - 1);
+
+            var coursesColl = new App.Collections.Courses()
+            coursesColl.keys = encodeURI(coursesIdes)
+            coursesColl.fetch({
+                async: false
+            });
+            var publicationcourseTable = new App.Views.PublicationCoursesTable({
+                collection: coursesColl
+            })
+            publicationcourseTable.Id = publicationId
+            publicationcourseTable.render()
+            App.$el.children('.body').append(publicationcourseTable.el)
 
         },
 

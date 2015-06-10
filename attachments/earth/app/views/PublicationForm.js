@@ -1,27 +1,27 @@
-$(function () {
+$(function() {
 
     App.Views.PublicationForm = Backbone.View.extend({
 
         className: "form",
         events: {
             "click .save": "saveForm",
-            "click #AddResPublication":"searchres",
-            "click #AddCoursePublication":"listCourses",
-            "click #cancel": function () {
-              window.location.href='#publication'
+            "click #AddResPublication": "searchres",
+            "click #AddCoursePublication": "listCourses",
+            "click #cancel": function() {
+                window.location.href = '#publication'
             }
         },
 
         template: _.template($('#template-form-file').html()),
 
-        render: function () {
-    
+        render: function() {
+
             var vars = {}
-            
+
             if (_.has(this.model, 'id')) {
-                vars.header = 'Publication Issue : "' + this.model.get('IssueNo') + '"'   
+                vars.header = 'Publication Issue : "' + this.model.get('IssueNo') + '"'
             } else {
-                vars.header = 'New Publication Issue'     
+                vars.header = 'New Publication Issue'
             }
 
             // prepare the form
@@ -29,124 +29,124 @@ $(function () {
                 model: this.model
             })
             vars.form = ""
-            vars.rlength=this.rlength
+            vars.rlength = this.rlength
             this.form.render()
             this.$el.html(this.template(vars))
-            
+
             $('.fields').html(this.form.el)
             $('.form .field-resources').hide();
             $('#progressImage').hide();
-            
+
             return this
         },
 
-        saveForm: function () {
+        saveForm: function() {
             var isEdit = this.model.get("_id")
-            var addtoDb=true
+            var addtoDb = true
             this.form.commit()
-            if (this.model.get("IssueNo")==undefined) {
+            if (this.model.get("IssueNo") == undefined) {
                 alert("Publication Issue is missing")
             } else {
-                 if (isEdit == undefined) {         
+                if (isEdit == undefined) {
                     var that = this
                     var allres = new App.Collections.Publication()
                     allres.fetch({
                         async: false
                     })
-                    allres.each(function (m) {
+                    allres.each(function(m) {
                         if (that.model.get("IssueNo") == m.get("IssueNo")) {
                             alert("IssueNo already exist")
                             addtoDb = false
                         }
                     })
                 }
-                
+
                 if (addtoDb) {
                     this.form.commit()
-                    this.model.save(null,{success:function(e){
-                           alert("Issue Saved!")
-		 				   window.location.href = '#publicationdetail/'+e.toJSON().id;
-		 				 }
-		  			})
+                    this.model.save(null, {
+                        success: function(e) {
+                            alert("Issue Saved!")
+                            window.location.href = '#publicationdetail/' + e.toJSON().id;
+                        }
+                    })
                 }
             }
 
         },
-		searchres:function(){
-		  var showsearch=true
-		  var isEdit = this.model.get("_id")
-		  this.form.commit()
-		  if (this.model.get("IssueNo")==undefined) {
+        searchres: function() {
+            var showsearch = true
+            var isEdit = this.model.get("_id")
+            this.form.commit()
+            if (this.model.get("IssueNo") == undefined) {
                 alert("Publication Issue is missing")
-                showsearch=false
-            }
-            else {
-                 if (isEdit == undefined) {
+                showsearch = false
+            } else {
+                if (isEdit == undefined) {
                     var that = this
                     var allpub = new App.Collections.Publication()
-                    allpub.issue=this.model.get("IssueNo")
+                    allpub.issue = this.model.get("IssueNo")
                     allpub.fetch({
                         async: false
                     })
-                    allpub=allpub.first()
-                    if(allpub!=undefined)
-                    if (allpub.toJSON().IssueNo!=undefined) {
-                    alert("IssueNo already exist")
-                    showsearch=false
-                    }
-                  
+                    allpub = allpub.first()
+                    if (allpub != undefined)
+                        if (allpub.toJSON().IssueNo != undefined) {
+                            alert("IssueNo already exist")
+                            showsearch = false
+                        }
+
                 }
             }
-            if(showsearch)
-            {
-            		this.model.save(null,{success:function(e){
-		 				 window.location.href = '../MyApp/index.html#search-bell/'+e.toJSON().id;
-		 				 }
-		  			})
-		  
-            		
+            if (showsearch) {
+                this.model.save(null, {
+                    success: function(e) {
+                        window.location.href = '../MyApp/index.html#search-bell/' + e.toJSON().id;
+                    }
+                })
+
+
             }
-		},
-		listCourses: function()
-		{
-		  var showcourse=true
-		  var myCourses=new Array()
-		  var isEdit = this.model.get("_id")
-		  this.form.commit()
-		 // this.model.unset("resources", { silent: true });
-		  this.model.set({"courses":myCourses})
-		  if (this.model.get("IssueNo")==undefined) {
+        },
+        listCourses: function() {
+            var showcourse = true
+            var myCourses = new Array()
+            var isEdit = this.model.get("_id")
+            this.form.commit()
+            // this.model.unset("resources", { silent: true });
+            this.model.set({
+                "courses": myCourses
+            })
+            if (this.model.get("IssueNo") == undefined) {
                 alert("Publication Issue is missing")
-                showcourse=false
-            }
-            else {
-                 if (isEdit == undefined) {
+                showcourse = false
+            } else {
+                if (isEdit == undefined) {
                     var that = this
                     var allpub = new App.Collections.Publication()
-                    allpub.issue=this.model.get('IssueNo')
+                    allpub.issue = this.model.get('IssueNo')
                     allpub.fetch({
                         async: false
                     })
-                     allpub=allpub.first()
-                    if(allpub!=undefined)
-                    if (allpub.toJSON().IssueNo!=undefined) {
-                          alert("IssueNo already exist")
-                          showcourse=false
-                    }
-                  
+                    allpub = allpub.first()
+                    if (allpub != undefined)
+                        if (allpub.toJSON().IssueNo != undefined) {
+                            alert("IssueNo already exist")
+                            showcourse = false
+                        }
+
                 }
             }
-            if(showcourse)
-            {
-            		this.model.save(null,{success:function(e){
-		 				   window.location.href = '#courses/'+e.toJSON().id;
-		 				 }
-		  			})
-		  
-            		
+            if (showcourse) {
+                this.model.save(null, {
+                    success: function(e) {
+                        window.location.href = '#courses/' + e.toJSON().id;
+                    }
+                })
+
+
             }
-		},
-        statusLoading: function () {
+        },
+        statusLoading: function() {
             this.$el.children('.status').html('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
         }
 
