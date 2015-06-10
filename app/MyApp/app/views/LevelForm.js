@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.LevelForm = Backbone.View.extend({
 
@@ -7,17 +7,17 @@ $(function () {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            
-            "click #retrunBack" : function (e) {
-			history.back()    
-			},
-            "click #addresources" : function (e) {
-            	this.addResource = true
-            	this.setForm()
+
+            "click #retrunBack": function(e) {
+                history.back()
+            },
+            "click #addresources": function(e) {
+                this.addResource = true
+                this.setForm()
             },
         },
 
-        render: function () {
+        render: function() {
 
             // members is required for the form's members field
             var levelForm = this
@@ -40,14 +40,14 @@ $(function () {
 
         },
 
-        setFormFromEnterKey: function (event) {
+        setFormFromEnterKey: function(event) {
             event.preventDefault()
             this.setForm()
         },
 
-        setForm: function () {
+        setForm: function() {
             var that = this
-            this.model.once('sync', function () {
+            this.model.once('sync', function() {
                 var id = that.model.get("id")
                 var rid = that.model.get("rev")
                 var title = that.model.get("title")
@@ -57,33 +57,29 @@ $(function () {
                     var allcrs = new App.Collections.StepResultsbyCourse()
                     allcrs.courseId = that.model.get("courseId")
                     allcrs.fetch({
-                        success: function () {
-                        	allcrs.each(function (m) {
-	                            var sids = m.get("stepsIds")
-	                            var sresults = m.get("stepsResult")
-	                            var sstatus = m.get("stepsStatus")
-	                            sids.push(that.model.get("id"))
-	                            sresults.push("0")
-	                            sstatus.push("0")
-	                            m.set("stepsIds", sids)
-	                            m.set("stepsResult", sresults)
-	                            m.set("stepsStatus", sstatus)
-	                           	m.save()
-                          	})
+                        success: function() {
+                            allcrs.each(function(m) {
+                                var sids = m.get("stepsIds")
+                                var sresults = m.get("stepsResult")
+                                var sstatus = m.get("stepsStatus")
+                                sids.push(that.model.get("id"))
+                                sresults.push("0")
+                                sstatus.push("0")
+                                m.set("stepsIds", sids)
+                                m.set("stepsResult", sresults)
+                                m.set("stepsStatus", sstatus)
+                                m.save()
+                            })
                         }
                     })
-					if(that.addResource)
-					{
-						window.location.href = '#search-bell/' + id + '/' + rid
-					}
-					else
-                    {
-                    	Backbone.history.navigate('course/manage/' + that.model.get("courseId"), {
-                        	trigger: true
-                    	})
+                    if (that.addResource) {
+                        window.location.href = '#search-bell/' + id + '/' + rid
+                    } else {
+                        Backbone.history.navigate('course/manage/' + that.model.get("courseId"), {
+                            trigger: true
+                        })
                     }
-                } 
-                else {
+                } else {
                     Backbone.history.navigate('level/view/' + id + '/' + rid, {
                         trigger: true
                     })
@@ -92,15 +88,11 @@ $(function () {
             // Put the form's input into the model in memory
             this.form.commit()
             // Send the updated model to the server
-            if (isNaN(this.model.get("allowedErrors"))) 
-            {
+            if (isNaN(this.model.get("allowedErrors"))) {
                 alert("Not a valid Allowed Errors")
-            } 
-            else if (isNaN(this.model.get("step")))
-            {
+            } else if (isNaN(this.model.get("step"))) {
                 alert("Not a valid Step Number")
-            }
-            else {
+            } else {
                 if (!this.edit) {
                     this.model.set("questions", null)
                     this.model.set("answers", null)
@@ -118,19 +110,19 @@ $(function () {
                 levels = new App.Collections.CourseLevels()
                 levels.groupId = this.model.get("courseId")
                 levels.fetch({
-                    success: function () {
+                    success: function() {
                         levels.sort()
                         var done = true
 
                         if (that.edit) {
                             if (that.previousStep != that.model.get("step")) {
-                                levels.each(function (step) {
+                                levels.each(function(step) {
                                     if (step.get("step") == that.model.get("step"))
                                         done = false
                                 })
                             }
                         } else {
-                            levels.each(function (step) {
+                            levels.each(function(step) {
                                 if (step.get("step") == that.model.get("step")) {
                                     done = false
                                 }

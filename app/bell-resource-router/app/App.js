@@ -1,7 +1,7 @@
 $(function() {
 
 
-  App = new (Backbone.View.extend({
+  App = new(Backbone.View.extend({
 
     // Backbone structure
     Models: {},
@@ -10,9 +10,11 @@ $(function() {
     Server: '',
     Vars: {}, // A place to persist variables in the session
 
-    start: function(){
+    start: function() {
       // App body
-        Backbone.history.start({pushState: false})
+      Backbone.history.start({
+        pushState: false
+      })
     }
 
   }))

@@ -1,8 +1,7 @@
 /**
  * Created by omer.yousaf on 1/27/2015.
  */
-
-$(function () {
+$(function() {
 
     App.Views.TrendActivityReport = Backbone.View.extend({
         vars: {},
@@ -14,10 +13,10 @@ $(function () {
         },
         template: $('#template-TrendActivityReport').html(),
 
-        initialize: function () {
+        initialize: function() {
 
         },
-        render: function () {
+        render: function() {
             var context = this;
             context.vars = context.data
             context.vars.startDate = context.startDate

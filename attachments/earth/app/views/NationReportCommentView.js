@@ -1,11 +1,11 @@
-$(function () {
+$(function() {
 
     App.Views.NationReportCommentView = Backbone.View.extend({
 
         tagName: "div",
         id: "comment-feedback",
         cId: null,
-        initialize: function (e) {
+        initialize: function(e) {
             console.log(e)
             this.cId = e.NationReportId
             this.model = new App.Models.NationReportComment
@@ -16,11 +16,11 @@ $(function () {
             'click #submitFormButton': 'submit',
             'click #cancelFormButton': 'cancel'
         },
-        cancel: function () {
+        cancel: function() {
             $('#debug').hide()
             this.remove()
         },
-        submit: function () {
+        submit: function() {
             if (this.form.getValue("comment").length != 0) {
                 var now = new Date();
                 now.getDate()
@@ -51,12 +51,12 @@ $(function () {
             }
         },
 
-        addOne: function (modl) {
+        addOne: function(modl) {
             $('#comments').append('<div id=tile><b>Login:</b>' + modl.toJSON().memberLogin + '<br/><b>Time:</b>' + modl.toJSON().time + '<br/><b>Comment:</b>' + modl.toJSON().comment + '</div>')
             console.log(modl.toJSON())
         },
 
-        render: function () {
+        render: function() {
             $('#debug').show()
             this.$el.html('&nbsp;')
             $('#comments').html('&nbsp;')

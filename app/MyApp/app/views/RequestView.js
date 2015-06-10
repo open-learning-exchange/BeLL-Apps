@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.RequestView = Backbone.View.extend({
 
@@ -10,13 +10,13 @@ $(function () {
             "click #CancelButton": "cancelform",
             "click #ViewAllButton": "gotoRoute"
         },
-        gotoRoute: function () {
+        gotoRoute: function() {
             document.getElementById('nav').style.visibility = "visible"
             Backbone.history.navigate('AllRequests', {
                 trigger: true
             })
         },
-        cancelform: function () {
+        cancelform: function() {
             $('#site-request').animate({
                 height: 'toggle'
             })
@@ -24,38 +24,40 @@ $(function () {
                 request: ""
             })
             var that = this
-            setTimeout(function () {
+            setTimeout(function() {
                 that.remove()
             }, 1000)
             document.getElementById('nav').style.visibility = "visible"
         },
-        setForm: function () {
-             var configurations=Backbone.Collection.extend({
+        setForm: function() {
+            var configurations = Backbone.Collection.extend({
 
-    				url: App.Server + '/configurations/_all_docs?include_docs=true'
-    		})	
-    	    var config=new configurations()
-    	      config.fetch({async:false})
-    	    var currentConfig=config.first()
-            var cofigINJSON=currentConfig.toJSON()
-             var date1 = new Date()
-                console.log(date1)
-				var datestring = ("0" + (date1.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date1.getDate().toString()).substr(-2)  + "/" + (date1.getFullYear().toString()).substr(2)
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var currentConfig = config.first()
+            var cofigINJSON = currentConfig.toJSON()
+            var date1 = new Date()
+            console.log(date1)
+            var datestring = ("0" + (date1.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date1.getDate().toString()).substr(-2) + "/" + (date1.getFullYear().toString()).substr(2)
             if (this.form.getValue("request").length != 0) {
                 this.form.setValue({
                     status: '0'
                 })
                 this.form.setValue({
                     senderId: ($.cookie('Member._id'))
-                }) 
-                this.form.setValue({
-                     date:datestring 
                 })
                 this.form.setValue({
-                    sendFrom:cofigINJSON.rows[0].doc.type 
+                    date: datestring
                 })
                 this.form.setValue({
-                    sendFromName:cofigINJSON.rows[0].doc.name 
+                    sendFrom: cofigINJSON.rows[0].doc.type
+                })
+                this.form.setValue({
+                    sendFromName: cofigINJSON.rows[0].doc.name
                 })
                 this.form.setValue({
                     response: ""
@@ -75,13 +77,13 @@ $(function () {
                 height: 'toggle'
             })
             var that = this
-            setTimeout(function () {
+            setTimeout(function() {
                 that.remove()
             }, 1000)
             document.getElementById('nav').style.visibility = "visible"
         },
 
-        render: function () {
+        render: function() {
             document.getElementById('nav').style.visibility = "hidden"
             var modl = new App.Models.request()
             this.model = modl

@@ -1,20 +1,20 @@
+var couchapp = require('couchapp'),
+    path = require('path');
 
-var couchapp = require('couchapp')
-  , path = require('path')
-  ;
-
-ddoc =  { _id:'_design/bell' }
+ddoc = {
+    _id: '_design/bell'
+}
 
 ddoc.views = {
     isDuplicateName: {
-        map: function (doc) {
+        map: function(doc) {
             if (doc.Name) {
                 emit(doc.Name, true);
             }
         }
     },
     isDuplicateUrl: {
-        map: function (doc) {
+        map: function(doc) {
             if (doc.Url) {
                 emit(doc.Url, true);
             }
@@ -22,16 +22,16 @@ ddoc.views = {
     },
     getAllCommunityNames: {
         map: function(doc) {
-            if(doc && doc.Name){
+            if (doc && doc.Name) {
                 emit(doc.Name, doc.Code);
             }
         }
     },
-    getCommunityByCode:{
+    getCommunityByCode: {
         map: function(doc) {
-                if(doc && doc.Code)
-                    emit(doc.Code, doc);
-            }
+            if (doc && doc.Code)
+                emit(doc.Code, doc);
+        }
     }
 }
 

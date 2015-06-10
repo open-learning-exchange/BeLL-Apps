@@ -20,20 +20,21 @@ function start() {
 function getListOfDatabases() {
     fs.readdir('../databases', function doneReadDir(err, files) {
         files.forEach(function addFile(element, index, array) {
-            databases.push(element.substr(0, element.length-3))
+            databases.push(element.substr(0, element.length - 3))
         })
         installDesignDocs();
     })
 }
 
 var b = 0
+
 function installDesignDocs() {
     var database = databases[b]
     if (b !== databases.length) {
         console.log("Inserting design docs for the " + database + " database");
         var docToPush = 'databases\\' + database + '.js';
         var targetDb = couchUrl + '/' + database;
-        exec('pushDocToDb.bat "'+docToPush+'" "'+targetDb+'"', function(error, stdout, stderr) {
+        exec('pushDocToDb.bat "' + docToPush + '" "' + targetDb + '"', function(error, stdout, stderr) {
             if (error) console.log(error);
             if (stderr) console.log(stderr);
             console.log(stdout)
@@ -52,10 +53,10 @@ function updateNationCouchVersion() {
             body.rows.forEach(function(doc) {
                 if (doc.id !== '_design/bell') { // if its not a design doc, then update it
                     var key = doc.id;
-                    configsDb.get(key, function (error, configDoc) {
-                        if(!error) {
+                    configsDb.get(key, function(error, configDoc) {
+                        if (!error) {
                             var obj;
-                            fs.readFile('../init_docs/ConfigurationsDoc-Nation.txt', 'utf8', function (err, data) {
+                            fs.readFile('../init_docs/ConfigurationsDoc-Nation.txt', 'utf8', function(err, data) {
                                 if (err) throw err;
                                 obj = JSON.parse(data);
                                 var oldVersion = configDoc.version;
@@ -71,15 +72,15 @@ function updateNationCouchVersion() {
             });
         }
     });
-//    configsDb.get(key, function (error, existing) {
-//        if(!error) obj._rev = existing._rev;
-//        db.insert(obj, key, callback);
-//    });
-//    exec('configure_nation_couch.bat "'+couchUrl+'"', function(error, stdout, stderr) {
-//        if (error) console.log(error);
-//        if (stderr) console.log(stderr);
-////        console.log(stdout)
-//    });
+    //    configsDb.get(key, function (error, existing) {
+    //        if(!error) obj._rev = existing._rev;
+    //        db.insert(obj, key, callback);
+    //    });
+    //    exec('configure_nation_couch.bat "'+couchUrl+'"', function(error, stdout, stderr) {
+    //        if (error) console.log(error);
+    //        if (stderr) console.log(stderr);
+    ////        console.log(stdout)
+    //    });
 }
 
 start();

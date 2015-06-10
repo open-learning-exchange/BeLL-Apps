@@ -1,13 +1,13 @@
+var couchapp = require('couchapp'),
+    path = require('path');
 
-var couchapp = require('couchapp')
-  , path = require('path')
-  ;
-
-ddoc =  { _id:'_design/bell' }
+ddoc = {
+  _id: '_design/bell'
+}
 
 ddoc.views = {
   NewsResources: {
-    map: function (doc) {
+    map: function(doc) {
       if (doc.title) {
         emit(doc.Tag, true)
       }
@@ -15,9 +15,9 @@ ddoc.views = {
   },
   check_for_optimization: {
     map: function(doc) {
-      if((doc.need_optimization===true) && (doc.openWith == 'PDF.js')){
+      if ((doc.need_optimization === true) && (doc.openWith == 'PDF.js')) {
         emit(doc._id, doc);
-      } 
+      }
     }
   },
   count: {
@@ -29,7 +29,7 @@ ddoc.views = {
     }
   },
   listCollection: {
-    map: function (doc) {
+    map: function(doc) {
       if (doc.Tag && doc.kind == 'Resource') {
         if (Array.isArray(doc.Tag)) {
           if (doc.Tag.length > 0) {
@@ -37,8 +37,7 @@ ddoc.views = {
               emit(doc.Tag[idx], doc._id);
             }
           }
-        }
-        else {
+        } else {
           emit(doc.Tag, doc._id)
         }
       }
@@ -49,8 +48,7 @@ ddoc.views = {
               emit(doc.subject[idx], doc._id);
             }
           }
-        }
-        else {
+        } else {
           emit(doc.subject, doc._id)
         }
       }
@@ -61,8 +59,7 @@ ddoc.views = {
               emit(doc.Level[idx], doc._id);
             }
           }
-        }
-        else {
+        } else {
           emit(doc.Level, doc._id)
         }
       }
@@ -94,8 +91,7 @@ ddoc.views = {
               }
             }
           }
-        }
-        else {
+        } else {
           var authr = doc.author.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
           if (authr.length > 0) {
             for (var idx in authr) {
@@ -109,52 +105,52 @@ ddoc.views = {
   },
   resourceName: {
     map: function(doc) {
-      if(doc.title) {
+      if (doc.title) {
         emit(doc._id, doc.title);
       }
     }
   },
   resourceOnTtile: {
     map: function(doc) {
-      if(doc.title) {
+      if (doc.title) {
         emit(doc.title, doc._id);
       }
     }
   },
   resourceswithstartkey: {
-    map: function (doc) {
+    map: function(doc) {
       if (doc.title) {
         emit(doc.title, true)
       }
     }
   },
-  sortresources: { 
-    map: function (doc) {
+  sortresources: {
+    map: function(doc) {
       if (doc.title) {
         emit(doc.title, true)
       }
     }
   },
-  welcomeVideo: { 
-    map: function (doc) {
+  welcomeVideo: {
+    map: function(doc) {
       if (doc.isWelcomeVideo) {
         emit(doc._id, true)
       }
     }
   },
   searchResourcesBySubsetOfTitleWords: {
-     map: function (doc) {
-         if (doc.title) {
-             var txt = doc.title;
-             var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
-             if (prefix.length > 0) {
-                 for (var idx in prefix) {
-                     if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
-                         emit(prefix[idx], doc._id);
-                 }
-             }
-         }
-     }
+    map: function(doc) {
+      if (doc.title) {
+        var txt = doc.title;
+        var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+        if (prefix.length > 0) {
+          for (var idx in prefix) {
+            if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+              emit(prefix[idx], doc._id);
+          }
+        }
+      }
+    }
   }
 }
 

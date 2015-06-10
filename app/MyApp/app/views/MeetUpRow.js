@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.MeetUpRow = Backbone.View.extend({
 
@@ -8,12 +8,12 @@ $(function () {
 
         template: $("#template-MeetUpRow").html(),
 
-        initialize: function (e) {
+        initialize: function(e) {
             //this.model.on('destroy', this.remove, this)
             this.roles = e.roles
         },
 
-        render: function () {
+        render: function() {
 
             var vars = this.model.toJSON()
 
@@ -23,16 +23,16 @@ $(function () {
             } else {
                 vars.isAdmin = 0
             }
-            
-          
-          if (vars.creator && vars.creator==$.cookie('Member._id')) {
+
+
+            if (vars.creator && vars.creator == $.cookie('Member._id')) {
                 vars.creator = 1
             } else {
                 vars.creator = 0
             }
-                    
-             if(vars._id!='_design/bell')
-            this.$el.append(_.template(this.template, vars))
+
+            if (vars._id != '_design/bell')
+                this.$el.append(_.template(this.template, vars))
         }
 
     })

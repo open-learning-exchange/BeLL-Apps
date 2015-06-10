@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
     App.Views.LevelsTable = Backbone.View.extend({
 
         tagName: "table",
@@ -8,7 +8,7 @@ $(function () {
         className: "btable btable-striped",
 
         events: {
-            "click #Rearrange": function (e) {
+            "click #Rearrange": function(e) {
                 if ($("input[type='radio']").is(":visible")) {
                     $("#Rearrange").text('Rearrange')
                     for (var i = 0; i < this.changedSteps.length; i++) {
@@ -25,7 +25,7 @@ $(function () {
                     $("#movedown").show()
                 }
             },
-            "click #moveup": function (e) {
+            "click #moveup": function(e) {
                 var radio;
                 var i = 0;
                 var radioLevels = document.getElementsByName('stepRow');
@@ -61,7 +61,7 @@ $(function () {
                 }
                 //$("input[type='radio']").attr('checked',false)
             },
-            "click #movedown": function (e) {
+            "click #movedown": function(e) {
                 var radio;
                 var i = 0;
                 var radioLevels = document.getElementsByName('stepRow');
@@ -99,7 +99,7 @@ $(function () {
                 console.log(this.collection.models)
             }
         },
-        changeColumnHtml: function (stepNo, title, td, check) {
+        changeColumnHtml: function(stepNo, title, td, check) {
 
             if (check) {
                 $(td).html('<input type="radio" name="stepRow" checked="checked" />&nbsp;&nbsp;Step ' + stepNo + ' : ' + title)
@@ -107,12 +107,12 @@ $(function () {
                 $(td).html('<input type="radio" name="stepRow" />&nbsp;&nbsp;Step ' + stepNo + ' : ' + title)
             }
         },
-        addOne: function (model) {
+        addOne: function(model) {
             var that = this
             var lrow = new App.Views.LevelRow({
                 model: model
             })
-            lrow.on('levelDeleted', function () {
+            lrow.on('levelDeleted', function() {
                 var stepNo = lrow.model.get("step")
                 for (var i = stepNo; i < that.collection.models.length; i++) {
                     that.collection.models[i].set('step', i)
@@ -131,20 +131,20 @@ $(function () {
             lrow.render()
             this.$el.append(lrow.el)
         },
-        updateModel: function (model) {
+        updateModel: function(model) {
             model.save({
-                success: function () {}
+                success: function() {}
             })
         },
-        addAll: function () {
+        addAll: function() {
             // @todo this does not work as expected, either of the lines
             // _.each(this.collection.models, this.addOne())
             this.collection.each(this.addOne, this)
         },
-        initialize: function () {
+        initialize: function() {
             this.changedSteps = new Array()
         },
-        render: function () {
+        render: function() {
             this.$el.append('<br/><button class="btn btn-success" id="addstep"  onclick = "document.location.href=\'#level/add/' + this.groupId + '/nolevel/' + this.collection.models.length + '\' ">Add Step</button>')
             if (this.collection.models.length > 0) {
                 this.$el.append('&nbsp;&nbsp;&nbsp;<button class="btn btn-success" id="Rearrange" >Rearrange</button><br/><br/>')

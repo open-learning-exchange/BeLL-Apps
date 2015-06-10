@@ -1,9 +1,9 @@
-$(function () {
+$(function() {
     App.Views.GroupsSpans = Backbone.View.extend({
 
         tagName: "tr",
 
-        addOne: function (model) {
+        addOne: function(model) {
             var modelView = new App.Views.GroupSpan({
                 model: model
             })
@@ -11,7 +11,7 @@ $(function () {
             $('#cc').append(modelView.el)
         },
 
-        addAll: function () {
+        addAll: function() {
 
             if (this.collection.length != 0) {
                 this.collection.each(this.addOne, this)
@@ -21,9 +21,9 @@ $(function () {
             }
         },
 
-        render: function () {
+        render: function() {
             this.addAll()
-        }  
+        }
 
     })
 
