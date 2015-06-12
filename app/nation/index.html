@@ -203,7 +203,7 @@
           <% _.each(Highest_Rated, function(resource){ %>
           <tr>
               <td><%=resource.resourceName%></td>
-              <td><%=resource.timesRatedByCumulative%></td>
+              <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
               <td><%=resource.timesRatedByMales%></td>
               <td><%=resource.timesRatedByFemales%></td>
               <td><%=resource.avgRatingCumulative%></td>
@@ -221,7 +221,7 @@
           <% _.each(Lowest_Rated, function(resource){ %>
           <tr>
               <td><%=resource.resourceName%></td>
-              <td><%=resource.timesRatedByCumulative%></td>  <!-- timesOpenedCumulative -->
+              <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>  <!-- timesOpenedCumulative -->
               <td><%=resource.timesRatedByMales%></td>     <!-- timesOpenedByMales -->
               <td><%=resource.timesRatedByFemales%></td>   <!-- timesOpenedByFemales -->
               <td><%=resource.avgRatingCumulative%></td>
