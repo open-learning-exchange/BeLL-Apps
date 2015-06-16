@@ -81,10 +81,30 @@
                 });
             },
             synPublication:function(e){
+                var that = this;
                 var pubId = e.currentTarget.name;
                 var pubDistributionID = $(e.currentTarget).closest('tr').attr('id');
                 var publicationToSync = this.collectionInfo[pubId];
-                this.syncCourses(pubDistributionID, publicationToSync);
+                $.couch.allDbs({
+                    success: function(data) {
+                        if(data.indexOf('tempresources') != -1 ){
+                            $.couch.db("tempresources").drop({
+                                success: function(data) {
+                                    console.log(data);
+                                    that.syncCourses(pubDistributionID, publicationToSync);
+                                },
+                                error: function(status) {
+                                    console.log(status);
+                                }
+                            });
+                        }
+                        else {
+                            that.syncCourses(pubDistributionID, publicationToSync);
+                        }
+                    },
+                    async: false,
+                });
+                //this.syncCourses(pubDistributionID, publicationToSync);
             },
             syncCourses:function(pubDistributionID, publicationToSync){
                 var resourcesIdes = publicationToSync.resources, courses = publicationToSync.courses, IssueNo = publicationToSync.IssueNo;

@@ -46,15 +46,54 @@ $(function () {
                     val: 'English',
                     label: 'English'
                 }, {
-                    val: 'Urdu',
-                    label: 'Urdu'
+                    val: 'Spanish',
+                    label: 'Spanish'
                 },{
+                    val: 'Portuguese',
+                    label: 'Portuguese'
+                }, {
                     val: 'French',
                     label: 'French'
-                }, {
-                    val: 'Arabic',
-                    label: 'Arabic'
-                }]
+                },
+                    {
+                        val: 'Russian',
+                        label: 'Russian'
+                    }, {
+                        val: 'Chinese',
+                        label: 'Chinese'
+                    },{
+                        val: 'Arabic',
+                        label: 'Arabic'
+                    }, {
+                        val: 'Hindi',
+                        label: 'Hindi'
+                    },
+                    {
+                        val: 'Urdu',
+                        label: 'Urdu'
+                    }, {
+                        val: 'Punjabi',
+                        label: 'Punjabi'
+                    },{
+                        val: 'Nepali',
+                        label: 'Nepali'
+                    }, {
+                        val: 'Swahili',
+                        label: 'Swahili'
+                    },
+                    {
+                        val: 'Somali',
+                        label: 'Somali'
+                    }, {
+                        val: 'Kyrgyzstani',
+                        label: 'Kyrgyzstani'
+                    },{
+                        val: 'Asante',
+                        label: 'Asante'
+                    }, {
+                        val: 'Ewe',
+                        label: 'Ewe'
+                    }]
             },
 
             Year: 'Text',

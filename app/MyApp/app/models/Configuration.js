@@ -46,7 +46,8 @@ $(function() {
             },
             availableLanguages: {
                 type: 'Select',
-                options: ["English", "French", "Arabic", "Urdu"]
+                options: ["English","Spanish","Portuguese","French","Russian","Chinese","Arabic","Hindi",
+                    "Urdu","Punjabi","Nepali","Swahili","Somali","Kyrgyzstani","Asante","Ewe"]
             },
             currentLanguage: {
                 type:'Text'

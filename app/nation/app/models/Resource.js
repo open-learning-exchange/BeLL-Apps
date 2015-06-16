@@ -24,7 +24,61 @@ $(function() {
          title: 'Text',
        author:{title:'Author/Editor',type:'Text'},  // Author Field is required when adding the resource with tag news else no need for that.
      Publisher: 'Text',
-      language: {title:'Languages',type:'Text'},
+        language: {
+            type: 'Select',
+            options: [{
+                val: 'English',
+                label: 'English'
+            }, {
+                val: 'Spanish',
+                label: 'Spanish'
+            },{
+                val: 'Portuguese',
+                label: 'Portuguese'
+            }, {
+                val: 'French',
+                label: 'French'
+            },
+                {
+                    val: 'Russian',
+                    label: 'Russian'
+                }, {
+                    val: 'Chinese',
+                    label: 'Chinese'
+                },{
+                    val: 'Arabic',
+                    label: 'Arabic'
+                }, {
+                    val: 'Hindi',
+                    label: 'Hindi'
+                },
+                {
+                    val: 'Urdu',
+                    label: 'Urdu'
+                }, {
+                    val: 'Punjabi',
+                    label: 'Punjabi'
+                },{
+                    val: 'Nepali',
+                    label: 'Nepali'
+                }, {
+                    val: 'Swahili',
+                    label: 'Swahili'
+                },
+                {
+                    val: 'Somali',
+                    label: 'Somali'
+                }, {
+                    val: 'Kyrgyzstani',
+                    label: 'Kyrgyzstani'
+                },{
+                    val: 'Asante',
+                    label: 'Asante'
+                }, {
+                    val: 'Ewe',
+                    label: 'Ewe'
+                }]
+        },
      
       Year: 'Text',
       
