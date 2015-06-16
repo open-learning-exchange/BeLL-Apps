@@ -3,13 +3,10 @@ $(function() {
   App.Collections.coursesteps = Backbone.Collection.extend({
 
     url: function() {
-   	  if(this.getAll)
-   	  {
-   	  	return App.Server + '/coursestep/_all_docs?include_docs=true'
-   	  }
-      else
-      {
-      	return  App.Server + '/coursestep/_design/bell/_view/StepsData?key="' + this.courseId + '"&include_docs=true'
+      if (this.getAll) {
+        return App.Server + '/coursestep/_all_docs?include_docs=true'
+      } else {
+        return App.Server + '/coursestep/_design/bell/_view/StepsData?key="' + this.courseId + '"&include_docs=true'
       }
     },
 
@@ -19,9 +16,9 @@ $(function() {
       })
       return docs
     },
-     comparator: function(m){
-     	return m.get('step')
-     },
+    comparator: function(m) {
+      return m.get('step')
+    },
     model: App.Models.CourseStep,
 
   })

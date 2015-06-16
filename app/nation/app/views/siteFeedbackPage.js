@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.siteFeedbackPage = Backbone.View.extend({
 
@@ -17,7 +17,7 @@ $(function () {
             //console.log(e)
             //console.log(e.currentTarget.value)
             //},
-            "click #see-all": function (e) {
+            "click #see-all": function(e) {
                 this.applyFilters = "0"
                 while (skipStack.length > 0) {
                     skipStack.pop();
@@ -28,7 +28,7 @@ $(function () {
                 skipStack.push(skip)
                 this.fetchRecords()
             },
-            "click #switch": function (e) {
+            "click #switch": function(e) {
                 this.applyFilters = "1"
                 this.category = $('#select_category').val()
                 this.urgent = $('#select_urgent').val()
@@ -46,7 +46,7 @@ $(function () {
                 skipStack.push(skip)
                 this.fetchRecords()
             },
-            "click #search_feedback": function (e) {
+            "click #search_feedback": function(e) {
                 this.applyFilters = "0"
                 searchText = $("#searchText").val()
                 if (searchText != "") {
@@ -59,7 +59,7 @@ $(function () {
                     this.fetchRecords()
                 }
             },
-            "click #previousButton": function (e) {
+            "click #previousButton": function(e) {
                 if (skipStack.length > 1) {
                     skipStack.pop()
                     skip = skipStack.pop()
@@ -70,7 +70,7 @@ $(function () {
                     $("#previousButton").hide()
                 }
             },
-            "click #next_button": function (e) {
+            "click #next_button": function(e) {
 
                 skipStack.push(skip)
                 this.resultArray = []
@@ -78,7 +78,7 @@ $(function () {
             },
         },
 
-        initialize: function () {
+        initialize: function() {
             this.resultArray = []
             this.category = "Bug"
             this.Resolved = "1"
@@ -93,7 +93,7 @@ $(function () {
             }
         },
 
-        addAll: function () {
+        addAll: function() {
             this.$el.html('<h4>Keyword:&nbsp;<input class="form-control" type="text" placeholder="Search in comment" value="" size="30" id="searchText" style="height:24px;margin-top:1%;"></input>&nbsp;<span><button class="btn btn-info" id="search_feedback">Search</button>&nbsp;<button class="btn btn-info" id="see-all">See All</button></span>&nbsp;<img id="progress_img" src="vendor/progress.gif" width="3%"></h4><br/>')
             this.$el.append('<Select id="select_category"><option>Bug</option><option>Question</option><option>Suggestion</option></select>&nbsp;&nbsp<select id="select_status"><option>Unresolve</option><option>Resolved</option></select>&nbsp;&nbsp<select id="select_urgent"><option>Normal</option><option>Urgent</option></select>&nbsp;&nbsp<button class="btn btn-info" id="switch">Apply Filters</button><br/><br/>')
             this.$el.append('<th ><h4>Feedback</h4></th><th ><h4>Status</h4></th>')
@@ -103,7 +103,7 @@ $(function () {
             this.$el.append('<br/><br/><input type="button" class="btn btn-hg btn-primary" id="previousButton" value="< Previous"> &nbsp;&nbsp;&nbsp;<button class="btn btn-hg btn-primary" id="next_button" >Next  ></button>')
         },
 
-        addOne: function (model) {
+        addOne: function(model) {
             if (!model.get("category")) {
                 model.set("category", "Bug")
             }
@@ -118,7 +118,7 @@ $(function () {
             this.$el.append(revRow.el)
 
         },
-        render: function () {
+        render: function() {
             this.addAll()
             //alert('in render')
             if (skipStack.length <= 1) {
@@ -129,11 +129,11 @@ $(function () {
             }
             $("#progress_img").hide()
         },
-        fetchRecords: function () {
+        fetchRecords: function() {
             //$("#progress_img").show()
             var obj = this
             this.collection.fetch({
-                success: function () {
+                success: function() {
                     //alert(obj.resultArray.length + ' skip : ' + skip)
                     obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.collection.models, searchText))
                     //alert(obj.resultArray.length + ' skip : ' + skip)
@@ -154,11 +154,10 @@ $(function () {
                         }
                         //obj.render()
                         // $('#not-found').html("No Such Record Exist");
-                        //  $("#selectAllButton").hide() 
+                        //  $("#selectAllButton").hide()
                     }
                     var ResultCollection = new App.Collections.siteFeedbacks()
-                    if(obj.resultArray.length > 0)
-                    {
+                    if (obj.resultArray.length > 0) {
                         ResultCollection.set(obj.resultArray)
                         obj.collection = ResultCollection
                         obj.$el.html('')
@@ -169,15 +168,14 @@ $(function () {
 
         },
 
-        filterResult: function (model) {
-        
+        filterResult: function(model) {
+
             var temp = model.get("PageUrl")
-           if(!temp)
-            {
-               temp=''
+            if (!temp) {
+                temp = ''
             }
             var temp2 = temp.split('/')
-           // alert('test')
+            // alert('test')
             var ul = temp2[0]
             for (var i = 1; i < temp2.length; i++) {
                 if (temp2[i].length != 32) {
@@ -194,7 +192,7 @@ $(function () {
             }
         },
 
-        checkFilters: function (result) {
+        checkFilters: function(result) {
             console.log(result)
             if (this.filterResult(result)) {
                 if (this.applyFilters == "0") {
@@ -214,11 +212,11 @@ $(function () {
                 return false
             }
         },
-        searchInArray: function (resourceArray, searchText) {
+        searchInArray: function(resourceArray, searchText) {
             var that = this
             var resultArray = []
             var foundCount
-            _.each(resourceArray, function (result) {
+            _.each(resourceArray, function(result) {
                 if (result.get("comment") != null) {
                     skip++
 

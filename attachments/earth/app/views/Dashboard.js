@@ -1,18 +1,18 @@
-$(function () {
+$(function() {
 
     App.Views.Dashboard = Backbone.View.extend({
 
         template: $('#template-Dashboard').html(),
 
         vars: {},
-        render: function () {
-        	
-        	var config = new App.Collections.Configurations()
-             config.fetch({
-             	async: false
-             })
-             var configuration = config.first()
-        	
+        render: function() {
+
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false
+            })
+            var configuration = config.first()
+
             var dashboard = this
             this.vars.imgURL = "img/header_slice.png"
             var a = new App.Collections.MailUnopened({
@@ -23,14 +23,14 @@ $(function () {
             })
             this.vars.type = configuration.get("type")
             this.vars.mails = a.length
-			
+
             this.$el.html(_.template(this.template, this.vars))
             $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
             // Member Name
             var member = new App.Models.Member()
             member.id = $.cookie('Member._id')
 
-            member.on('sync', function () {
+            member.on('sync', function() {
                 var attchmentURL = '/members/' + member.id + '/'
                 if (typeof member.get('_attachments') !== 'undefined') {
                     attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
@@ -43,10 +43,9 @@ $(function () {
                 }
                 temp = temp + " Nation Bell"
                 $('.bellLocation').html(temp)
-                if(!member.get('visits'))
-                {
-                	member.set('visits',1)
-                	member.save()
+                if (!member.get('visits')) {
+                    member.set('visits', 1)
+                    member.save()
                 }
                 if (parseInt(member.get('visits')) == 0) {
                     temp = "Error!!"

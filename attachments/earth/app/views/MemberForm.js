@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.MemberForm = Backbone.View.extend({
 
@@ -8,55 +8,55 @@ $(function () {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #formButtonCancel": function () {
+            "click #formButtonCancel": function() {
                 window.history.back()
             },
-            "click #deactive": function (e) {
+            "click #deactive": function(e) {
                 e.preventDefault()
                 var that = this
-                this.model.on('sync', function () {
+                this.model.on('sync', function() {
                     location.reload();
                 })
                 this.model.save({
                     status: "deactive"
                 }, {
-                    success: function () {}
+                    success: function() {}
                 });
             },
-            "click #ptManager": function (e) {
-            
-               
+            "click #ptManager": function(e) {
+
+
             },
-            "click #active": function (e) {
+            "click #active": function(e) {
                 e.preventDefault()
                 var that = this
-                this.model.on('sync', function () {
+                this.model.on('sync', function() {
                     location.reload();
                 })
                 this.model.save({
                     status: "active"
                 }, {
-                    success: function () { /*this.model.fetch({async:false})*/ }
+                    success: function() { /*this.model.fetch({async:false})*/ }
                 });
             },
         },
-		getRoles:function(userId){
-        
+        getRoles: function(userId) {
+
             var user = (userId) ? new App.Models.Member({
                 "_id": userId
-            }): new App.Models.Member({
+            }) : new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
             user.fetch({
                 async: false
             })
             var roles = user.get("roles")
-            
+
             return roles
         },
 
 
-        render: function () {
+        render: function() {
             // create the form
             this.form = new Backbone.Form({
                 model: this.model
@@ -72,7 +72,7 @@ $(function () {
             var $imgt = "<p id='imageText' style='margin-left: -100px;margin-top: 37px;'>Add Photo</p>"
             if (this.model.id != undefined) {
                 buttonText = "Update"
-                
+
                 $("input[name='login']").attr("disabled", true);
                 $imgt = "<p id='imageText'>Edit Photo</p>"
             } else {
@@ -85,25 +85,24 @@ $(function () {
             var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
             this.$el.append($img)
             this.$el.append($upload)
-             this.$el.append($button)
+            this.$el.append($button)
             if (this.model.id != undefined) {
                 if (this.model.get("status") == "active") {
                     $(".signup-submit").append('<a class="btn btn-danger" id="deactive" href="#">Resign</a>')
                 } else {
- 					$(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-left:212px; margin-top:-75px;" href="#">Reinstate</a>')
+                    $(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-left:212px; margin-top:-75px;" href="#">Reinstate</a>')
                 }
                 var logUserroles = this.getRoles(false)
-            	 if (logUserroles.indexOf("SuperManager") > -1) {
-            	 		var thisUser=this.getRoles(this.model.id)
-            	 		 $('#memberform').append('<div style="margin-left: 510px;margin-top: -145px;"><input id="ptManager" type="checkbox" ><label for="ptManager">Promote To Manager</label></div>')
-            	 		if(thisUser.indexOf("Manager")>-1)
-                       		{
-                       			$('#ptManager').prop('checked', true);
-                       		}
-                        } 
+                if (logUserroles.indexOf("SuperManager") > -1) {
+                    var thisUser = this.getRoles(this.model.id)
+                    $('#memberform').append('<div style="margin-left: 510px;margin-top: -145px;"><input id="ptManager" type="checkbox" ><label for="ptManager">Promote To Manager</label></div>')
+                    if (thisUser.indexOf("Manager") > -1) {
+                        $('#ptManager').prop('checked', true);
+                    }
+                }
             }
-           
-            
+
+
             var attchmentURL = '/members/' + this.model.id + '/'
             if (typeof this.model.get('_attachments') !== 'undefined') {
                 attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
@@ -111,7 +110,7 @@ $(function () {
             }
         },
 
-        validImageTypeCheck: function (img) {
+        validImageTypeCheck: function(img) {
             if (img.val() == "") {
                 //alert("ERROR: No image selected \n\nPlease Select an Image File")
                 return 1
@@ -125,28 +124,25 @@ $(function () {
             return 0
         },
 
-        setFormFromEnterKey: function (event) {
+        setFormFromEnterKey: function(event) {
             event.preventDefault()
             this.setForm()
         },
 
-        setForm: function () {
-        if($('#ptManager').attr('checked')) {
-        this.model.toJSON().roles.push("Manager")
-        }
-        else
-        {
-        	var index=this.model.toJSON().roles.indexOf('Manager')
-        	if(index>-1)
-        	{
-        		 this.model.toJSON().roles.splice(index,1)
-        	}
-        }
-        var that = this
+        setForm: function() {
+            if ($('#ptManager').attr('checked')) {
+                this.model.toJSON().roles.push("Manager")
+            } else {
+                var index = this.model.toJSON().roles.indexOf('Manager')
+                if (index > -1) {
+                    this.model.toJSON().roles.splice(index, 1)
+                }
+            }
+            var that = this
             if (this.form.validate() != null) {
                 return
             }
-            // Put the form's input into the model in memory 
+            // Put the form's input into the model in memory
             if (this.validImageTypeCheck($('input[type="file"]'))) {
                 this.form.setValue({
                     status: "active"
@@ -165,21 +161,21 @@ $(function () {
                     this.model.set("roles", ["Learner"])
                     this.model.set("visits", 0)
                     var existing = new App.Collections.Members()
-                    existing.login=that.model.get("login")
+                    existing.login = that.model.get("login")
                     existing.fetch({
                         async: false
                     })
-                    existing=existing.first()
-								if(existing!=undefined)
-									if (existing.toJSON().login!=undefined) {
-                            			alert("Login already exist")
-                            			addMem = false
-                        				}
+                    existing = existing.first()
+                    if (existing != undefined)
+                        if (existing.toJSON().login != undefined) {
+                            alert("Login already exist")
+                            addMem = false
+                        }
                 }
                 if (addMem) {
 
                     this.model.save(null, {
-                        success: function () {
+                        success: function() {
                             that.model.unset('_attachments')
                             if ($('input[type="file"]').val()) {
                                 that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
@@ -188,7 +184,7 @@ $(function () {
                                     trigger: true
                                 })
                             }
-                            that.model.on('savedAttachment', function () {
+                            that.model.on('savedAttachment', function() {
                                 if (that.model.attributes._rev == undefined) {
                                     alert("Successfully Registered!!!")
                                     Backbone.history.navigate('members', {

@@ -1,29 +1,28 @@
 $(function() {
 
-  App.Collections.MailUnopened = Backbone.Collection.extend({
+	App.Collections.MailUnopened = Backbone.Collection.extend({
 
-	initialize: function(e){
-		if(e)
-		{
-		 if(e.receiverId){
-				this.url= App.Server + '/mail/_design/bell/_view/unopened?key="'+e.receiverId+'"'
+		initialize: function(e) {
+			if (e) {
+				if (e.receiverId) {
+					this.url = App.Server + '/mail/_design/bell/_view/unopened?key="' + e.receiverId + '"'
+				} else {
+					console.log(e)
+					console.log("unable to find receiverId in MailUnopened Collection")
+				}
 			}
-			else{console.log(e)
-				console.log("unable to find receiverId in MailUnopened Collection")
-			}
-		}
 
-	},
-	
-    parse: function(response) {
-      var docs = _.map(response.rows, function(row) {
-        return row.doc
-      })
-      return docs
-    },
-     
+		},
+
+		parse: function(response) {
+			var docs = _.map(response.rows, function(row) {
+				return row.doc
+			})
+			return docs
+		},
 
 
-  })
+
+	})
 
 })

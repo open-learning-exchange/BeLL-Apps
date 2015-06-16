@@ -5,18 +5,20 @@ $(function() {
 
     App.Views.PendingNationApplicationsView = Backbone.View.extend({
 
-        vars:{},
+        vars: {},
         events: {
             "click #formButton": "setForm"
         },
         render: function() {
             var nationApplications = new App.Collections['NationApplicationsCollection']();
             nationApplications.fetch({
-                     async:false
+                async: false
             });
-            var nationApplicationTable=new  App.Views.NationApplicationsTable({collection:nationApplications})
+            var nationApplicationTable = new App.Views.NationApplicationsTable({
+                collection: nationApplications
+            })
             nationApplicationTable.render()
-            this.$el.append( nationApplicationTable.el);
+            this.$el.append(nationApplicationTable.el);
         }
 
     })

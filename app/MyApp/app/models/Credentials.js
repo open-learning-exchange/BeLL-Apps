@@ -9,6 +9,6 @@ $(function() {
       password: 'Password'
     }
 
-  }) 
+  })
 
 })

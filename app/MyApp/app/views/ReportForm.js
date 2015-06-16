@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.ReportForm = Backbone.View.extend({
 
@@ -6,14 +6,14 @@ $(function () {
         hide: false,
         events: {
             "click .save": "saveForm",
-            "click #cancel": function () {
+            "click #cancel": function() {
                 window.history.back()
             }
         },
 
         template: _.template($('#template-form-file').html()),
 
-        render: function () {
+        render: function() {
             var vars = {}
 
             // prepare the header
@@ -33,11 +33,11 @@ $(function () {
                     }
                 );
                 vars.resourceAttachments = fields;
-            
+
             } else {
                 vars.header = 'New Report'
                 vars.hidesave = false
-				vars.resourceAttachments="No File Selected.";
+                vars.resourceAttachments = "No File Selected.";
 
             }
 
@@ -75,12 +75,12 @@ $(function () {
             return this
         },
 
-        saveForm: function () {
+        saveForm: function() {
             // @todo validate 
             //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
             // Put the form's input into the model in memory
-            
-            
+
+
             var addtoDb = true
             var previousTitle = this.model.get("title")
             var newTitle
@@ -112,7 +112,7 @@ $(function () {
                     allres.fetch({
                         async: false
                     })
-                    allres.each(function (m) {
+                    allres.each(function(m) {
                         if (that.model.get("title") == m.get("title")) {
                             alert("Title already exist")
                             addtoDb = false
@@ -126,7 +126,7 @@ $(function () {
                         this.model.set("title", previousTitle)
                     }
                     this.model.save(null, {
-                        success: function () {
+                        success: function() {
                             that.model.unset('_attachments')
                             if ($('input[type="file"]').val()) {
                                 if (isEdit != undefined) {
@@ -136,7 +136,7 @@ $(function () {
                                         allres.fetch({
                                             async: false
                                         })
-                                        allres.each(function (m) {
+                                        allres.each(function(m) {
                                             if (newTitle == m.get("title")) {
                                                 titleMatch = true
                                             }
@@ -152,9 +152,9 @@ $(function () {
                                             new_res.set("uploadDate", that.model.get("uploadDate"))
                                             new_res.set("openUrl", that.model.get("openUrl"))
                                             new_res.save()
-                                            new_res.on('sync', function () {
+                                            new_res.on('sync', function() {
                                                 new_res.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
-                                                new_res.on('savedAttachment', function () {
+                                                new_res.on('savedAttachment', function() {
                                                     alert("Resource Updated Successfully")
                                                     Backbone.history.navigate("#resources", {
                                                         trigger: true
@@ -176,7 +176,7 @@ $(function () {
                                 that.model.trigger('processed')
                             }
 
-                            that.model.on('savedAttachment', function () {
+                            that.model.on('savedAttachment', function() {
                                 this.trigger('processed')
                                 $('#progressImage').hide();
                             }, that.model)
@@ -187,7 +187,7 @@ $(function () {
 
         },
 
-        statusLoading: function () {
+        statusLoading: function() {
             alert("asdf")
             this.$el.children('.status').html('<div style="display:none" class="progress progress-striped active"> <div class="bar" style="width: 100%;"></div></div>')
         }

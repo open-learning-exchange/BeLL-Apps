@@ -1,7 +1,6 @@
 /*
  * Takes groupId, startDate, and endDate parameters
- */ 
-
+ */
 $(function() {
 
   App.Collections.AssignmentsByDate = Backbone.Collection.extend({
@@ -20,7 +19,7 @@ $(function() {
       })
       return docs
     },
-     
+
     model: App.Models.Assignment
 
   })

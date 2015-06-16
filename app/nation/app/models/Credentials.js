@@ -1,20 +1,20 @@
 $(function() {
 
-  App.Models.Credentials = Backbone.Model.extend({
+    App.Models.Credentials = Backbone.Model.extend({
 
-    idAttribute: "_id",
+        idAttribute: "_id",
 
-    schema: {
-      login: {
-              type: 'Text',
-              validators:['required']
-              },
-      password: {
-              	type: 'Password',
-              	validators:['required']
-              },        
-    }
+        schema: {
+            login: {
+                type: 'Text',
+                validators: ['required']
+            },
+            password: {
+                type: 'Password',
+                validators: ['required']
+            },
+        }
 
-  }) 
+    })
 
 })

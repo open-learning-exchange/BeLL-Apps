@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.siteFeedback = Backbone.View.extend({
 
@@ -6,25 +6,25 @@ $(function () {
         id: "site-feedback",
         authorName: null,
 
-        initialize: function () {},
+        initialize: function() {},
 
         events: {
             "click #formButton": "setForm",
             "click #CancelButton": "cancelform",
             "click #ViewAllButton": "gotoRoute"
         },
-        gotoRoute: function () {
+        gotoRoute: function() {
             Backbone.history.navigate('siteFeedback', {
                 trigger: true
             })
         },
-        cancelform: function () {
+        cancelform: function() {
             $('#site-feedback').animate({
                 height: 'toggle'
             })
             this.unsetForm()
         },
-        setForm: function () {
+        setForm: function() {
             if ($('#comment').val().length != 0 && $('input[name="category"]:checked').val()) {
                 var temp = Backbone.history.location.href
                 var now = new Date();
@@ -53,13 +53,13 @@ $(function () {
                 height: 'toggle'
             })
         },
-        unsetForm: function () {
+        unsetForm: function() {
             $('#comment', this.$el).val("")
             $('input[name="category"]').attr('checked', false)
             $("#priority").attr('checked', false)
         },
 
-        render: function () {
+        render: function() {
             this.$el.append('<br/><br/><div class="form-field" ><input name="PageUrl" id="PageUrl" type="text"></div>')
             this.$el.append('<div class="form-field" style="margin-left:23px;"><input name="priority" value="urgent" id="priority" type="checkbox"><label for="priority">urgent</label></div>')
             this.$el.append('<div class="form-field" style="margin-top: -19px;margin-left: 115px;"> <input type="radio" name="category" value="Bug">&nbsp Bug &nbsp&nbsp&nbsp<input type="radio" name="category" value="Question">&nbsp Question &nbsp&nbsp&nbsp<input type="radio" name="category" value="Suggestion">&nbsp Suggestion &nbsp&nbsp&nbsp</div><br/><br/>')

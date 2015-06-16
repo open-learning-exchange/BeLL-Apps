@@ -1,19 +1,19 @@
-$(function () {
+$(function() {
 
     App.Views.LevelRow = Backbone.View.extend({
 
         tagName: "tr",
 
         events: {
-            "click .destroyStep": function (e) {
+            "click .destroyStep": function(e) {
                 this.trigger('levelDeleted')
                 e.preventDefault()
                 var that = this
                 var courses = new App.Collections.StepResultsbyCourse()
                 courses.courseId = this.model.get("courseId")
                 courses.fetch({
-                    success: function () {
-                        courses.each(function (m) {
+                    success: function() {
+                        courses.each(function(m) {
                             var stepids = m.get("stepsIds")
                             var stepres = m.get("stepsResult")
                             var stepstatus = m.get("stepsStatus")
@@ -27,7 +27,7 @@ $(function () {
 
                             console.log(m.toJSON())
                             m.save({
-                                success: function () {
+                                success: function() {
                                     console.log("Model Updated")
                                 }
                             })
@@ -38,7 +38,7 @@ $(function () {
                 this.remove()
 
             },
-            "click .browse": function (e) {
+            "click .browse": function(e) {
                 e.preventDefault()
                 $('#modal').modal({
                     show: true
@@ -48,11 +48,11 @@ $(function () {
 
         template: $("#template-LevelRow").html(),
 
-        initialize: function () {
+        initialize: function() {
             //this.model.on('destroy', this.remove, this)
         },
 
-        render: function () {
+        render: function() {
             var vars = this.model.toJSON()
             this.$el.append(_.template(this.template, vars))
         }

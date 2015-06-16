@@ -1,9 +1,8 @@
-
 $(function() {
     App.Router = new(Backbone.Router.extend({
 
         routes: {
-//            'addCommunity': 'CommunityForm',
+            //            'addCommunity': 'CommunityForm',
             'nation/:nationId': 'NationForm',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
@@ -11,67 +10,79 @@ $(function() {
             'nation/add': 'NationForm',
             'dashboard': 'renderDashboard',
             'member/add': 'memberForm',
-            'nation-application':'openNationBellSectionForUser',
+            'nation-application': 'openNationBellSectionForUser',
             'view-pending-applications': 'viewPendingApplications',
             'nationApplication/:applicationId': 'viewApplication',
 
 
-//            'listCommunity': 'ListCommunity',
-//            'siteFeedback': 'viewAllFeedback',
-//            'dashboard': 'Dashboard',
-//            'request': 'commRequest',
-//            'earthrequest': 'earthRequest',
-//            'reports': 'Reports',
-//            'reports/edit/:resportId': 'ReportForm',
-//            'reports/add': 'ReportForm',
-//            'publication': 'Publication',
-//            'publication/add': 'PublicationForm',
-//            'configuration': 'Configuration',
-//            'publication/add/:publicationId': 'PublicationForm',
-//            'publicationdetail/:publicationId': 'PublicationDetails',
-//            'courses/:publicationId': "addCourses"
+            //            'listCommunity': 'ListCommunity',
+            //            'siteFeedback': 'viewAllFeedback',
+            //            'dashboard': 'Dashboard',
+            //            'request': 'commRequest',
+            //            'earthrequest': 'earthRequest',
+            //            'reports': 'Reports',
+            //            'reports/edit/:resportId': 'ReportForm',
+            //            'reports/add': 'ReportForm',
+            //            'publication': 'Publication',
+            //            'publication/add': 'PublicationForm',
+            //            'configuration': 'Configuration',
+            //            'publication/add/:publicationId': 'PublicationForm',
+            //            'publicationdetail/:publicationId': 'PublicationDetails',
+            //            'courses/:publicationId': "addCourses"
         },
-        viewApplication:function(applicationId){
-            var countryModel = new App.Models['NationApplication']({_id:applicationId});
-            countryModel.fetch({async:false})
-            var formModel = new App.Views.NationApplicationView({model:countryModel});
+        viewApplication: function(applicationId) {
+            var countryModel = new App.Models['NationApplication']({
+                _id: applicationId
+            });
+            countryModel.fetch({
+                async: false
+            })
+            var formModel = new App.Views.NationApplicationView({
+                model: countryModel
+            });
             formModel.render();
             formModel.turnApplicationSubmittedByDisplayOn();
             formModel.turnApplicationStatusDisplayOn();
             App.$el.children('.body').html(formModel.el);
         },
-        viewPendingApplications: function () {
+        viewPendingApplications: function() {
             var nationApplications = new App.Views.PendingNationApplicationsView();
-             nationApplications.render();
+            nationApplications.render();
             console.log(nationApplications.el);
             App.$el.children('.body').html(nationApplications.el);
         },
-        showSubmittedApplicationToUser: function (nationApplic) {
+        showSubmittedApplicationToUser: function(nationApplic) {
             // the arg nationApplic is a NationApplication model, and we are going to render it for the user who submitted this application
             // showing him the decision on the application
-            var formModel = new App.Views.NationApplicationView({model: nationApplic});
+            var formModel = new App.Views.NationApplicationView({
+                model: nationApplic
+            });
             formModel.render();
             formModel.turnApplicationStatusDisplayOn();
             formModel.makeFormSubmitButtonDisappear();
             App.$el.children('.body').html(formModel.el);
         },
-        showNewApplicationFormToUser: function () {
+        showNewApplicationFormToUser: function() {
             var nationModel = new App.Models['NationApplication']();
-            var nationApplicFormView = new App.Views.NationApplicationView({model: nationModel});
+            var nationApplicFormView = new App.Views.NationApplicationView({
+                model: nationModel
+            });
             nationApplicFormView.render();
             App.$el.children('.body').html(nationApplicFormView.el);
         },
-        openNationBellSectionForUser: function(){
+        openNationBellSectionForUser: function() {
             // if this user has already submitted an application, show it with the decision on that
             var memberHasPendingApplications = false;
             var nationApplications = new App.Collections['NationApplicationsCollection']();
             nationApplications.url = App.Server + '/nationapplication/_design/bell/_view/SubmittedByMember?include_docs=true&key="' +
-                                                    $.cookie('Member._id') + '"';
-            nationApplications.fetch({ async:false });
+            $.cookie('Member._id') + '"';
+            nationApplications.fetch({
+                async: false
+            });
             var nationApplic, pendingApplicId;
-            for(var i = 0; i < nationApplications.length; i++) {
+            for (var i = 0; i < nationApplications.length; i++) {
                 nationApplic = nationApplications.models[i];
-                if ( (nationApplic.get('submittedBy') != undefined) && ( nationApplic.get('submittedBy').memberId == $.cookie('Member._id')) ) { //
+                if ((nationApplic.get('submittedBy') != undefined) && (nationApplic.get('submittedBy').memberId == $.cookie('Member._id'))) { //
                     memberHasPendingApplications = true;
                     pendingApplicId = nationApplic.id;
                 }
@@ -82,9 +93,9 @@ $(function() {
                 this.showNewApplicationFormToUser();
             }
         },
-        memberSignup: function (className, label, modelId, reroute) {
+        memberSignup: function(className, label, modelId, reroute) {
             //cv Set up
-            var context =this
+            var context = this
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
@@ -97,7 +108,7 @@ $(function() {
                     async: false
                 })
 
-                App.$el.children('.body').html('<h3>Edit ' + label + ' | ' + model.get('firstName') + '  '+model.get('lastName') + '</h3>')
+                App.$el.children('.body').html('<h3>Edit ' + label + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
 
 
             } else {
@@ -105,9 +116,9 @@ $(function() {
             }
             App.$el.children('.body').append(modelForm.el)
             // Bind form events for when Group is ready
-            model.once('Model:ready', function () {
+            model.once('Model:ready', function() {
                 // when the users submits the form, the group will be processed
-                modelForm.on(className + 'Form:done', function () {
+                modelForm.on(className + 'Form:done', function() {
                     Backbone.history.navigate(reroute, {
                         trigger: true
                     })
@@ -118,10 +129,10 @@ $(function() {
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
                 });
-                $('.form .field-firstName input').attr('maxlength','25');
-                $('.form .field-lastName input').attr('maxlength','25');
-                $('.form .field-middleNames input').attr('maxlength','25');
-                $('.form .field-login input').attr('maxlength','25');
+                $('.form .field-firstName input').attr('maxlength', '25');
+                $('.form .field-lastName input').attr('maxlength', '25');
+                $('.form .field-middleNames input').attr('maxlength', '25');
+                $('.form .field-login input').attr('maxlength', '25');
                 $('.form .field-endDate input').datepicker({
                     todayHighlight: true
                 });
@@ -138,11 +149,9 @@ $(function() {
                 });
 
                 $('.form .field-frequency input').click(function() {
-                    if(this.value=='Weekly')
-                    {
+                    if (this.value == 'Weekly') {
                         $('.form .field-Day').show()
-                    }
-                    else{
+                    } else {
                         $('.form .field-Day').hide()
                     }
 
@@ -155,7 +164,7 @@ $(function() {
             // Set up the model for the form
             if (modelId) {
 
-                model.once('sync', function () {
+                model.once('sync', function() {
                     model.trigger('Model:ready')
                 })
                 model.fetch({
@@ -169,72 +178,81 @@ $(function() {
 
         },
 
-        memberForm: function (memberId) {
+        memberForm: function(memberId) {
             this.memberSignup('Member', 'Member', memberId, 'login');
         },
 
-        renderDashboard: function () {
+        renderDashboard: function() {
             $.cookie('Member._id');
             console.log("member kind: " + $.cookie('Member.roles'));
 
         },
 
-        modelForm:function(className, label, modelId, reroute){
+        modelForm: function(className, label, modelId, reroute) {
             var model = new App.Models[className]()
             model.once('Model:ready', function() {
                 // when the users submits the form, the group will be processed
                 modelForm.on(className + 'Form:done', function() {
-                    Backbone.history.navigate('nations', {trigger: true})
+                    Backbone.history.navigate('nations', {
+                        trigger: true
+                    })
                 })
             })
             if (modelId) {
                 model.id = modelId
-//                model.once('sync', function() {
-//                    model.trigger('Model:ready')
-//                })
-                model.fetch({async:false})
-            }
-            else {
-//                model.trigger('Model:ready')
+                //                model.once('sync', function() {
+                //                    model.trigger('Model:ready')
+                //                })
+                model.fetch({
+                    async: false
+                })
+            } else {
+                //                model.trigger('Model:ready')
             }
 
-            var modelForm = new App.Views[className + 'Form']({model: model})
+            var modelForm = new App.Views[className + 'Form']({
+                model: model
+            })
             App.$el.children('.body').html('')
             modelForm.render();
             App.$el.children('.body').append(modelForm.el);
-        } ,
+        },
 
         NationForm: function(nationId) {
-//            alert("NationForm:: start");
+            //            alert("NationForm:: start");
             this.modelForm('Nation', 'Nation', nationId, 'login');
         },
 
-        ListNations:function(){
+        ListNations: function() {
 
             var Nations = new App.Collections.Nations()
-            Nations.fetch({success: function() {
-                var NationsTable = new App.Views.NationsTable({collection: Nations})
-                NationsTable.render()
+            Nations.fetch({
+                success: function() {
+                    var NationsTable = new App.Views.NationsTable({
+                        collection: Nations
+                    })
+                    NationsTable.render()
 
-               var listNationTop="<a style='margin: 5px' class='btn btn-success test' href='#nation/add'>Add Nation</a>"
-//                listNationTop+="<div style='width:940px;margin:0 auto;background-color:#eee;height:110px'>"
-//                listNationTop+="<div style='padding:10px'>"
-//                listNationTop+="<button class='btn btn-success'>Nations</button>"
-//                listNationTop+="<button class='btn btn-success'>Courses</button>"
-//                listNationTop+="<button class='btn btn-success'>Resources</button>"
-//                listNationTop+="<button class='btn btn-success'>Members</button>"
-//                listNationTop+="<button class='btn btn-success'>Reports</button>"
-//                listNationTop+="<button style='float:right;clear:both;width:100px' class='btn btn-primary'>Personal Bell</button>"
-//                listNationTop+="<button style='float:right;clear:both;margin-top:10px;width:100px' class='btn btn-primary test'>Feedback</button>"
-//                listNationTop+="</div>"
-//
-//                listNationTop+="</div>"
-//                listNationTop+="<div style='width:940px;margin:0 auto' id='list-of-nations'></div>"
+                    var listNationTop = "<a style='margin: 5px' class='btn btn-success test' href='#nation/add'>Add Nation</a>"
+                    //                listNationTop+="<div style='width:940px;margin:0 auto;background-color:#eee;height:110px'>"
+                    //                listNationTop+="<div style='padding:10px'>"
+                    //                listNationTop+="<button class='btn btn-success'>Nations</button>"
+                    //                listNationTop+="<button class='btn btn-success'>Courses</button>"
+                    //                listNationTop+="<button class='btn btn-success'>Resources</button>"
+                    //                listNationTop+="<button class='btn btn-success'>Members</button>"
+                    //                listNationTop+="<button class='btn btn-success'>Reports</button>"
+                    //                listNationTop+="<button style='float:right;clear:both;width:100px' class='btn btn-primary'>Personal Bell</button>"
+                    //                listNationTop+="<button style='float:right;clear:both;margin-top:10px;width:100px' class='btn btn-primary test'>Feedback</button>"
+                    //                listNationTop+="</div>"
+                    //
+                    //                listNationTop+="</div>"
+                    //                listNationTop+="<div style='width:940px;margin:0 auto' id='list-of-nations'></div>"
 
-               App.$el.children('.body').html(listNationTop)
-               App.$el.children('.body').append(NationsTable.el)
+                    App.$el.children('.body').html(listNationTop)
+                    App.$el.children('.body').append(NationsTable.el)
 
-            }})
+                }
+            })
         },
         MemberLogin: function() {
             // Prevent this Route from completing if Member is logged in.
@@ -250,7 +268,7 @@ $(function() {
             })
             memberLoginForm.once('success:login', function() {
                 window.location.href = "#nations";
-//                Backbone.navigate('nations', {trigger: true})
+                //                Backbone.navigate('nations', {trigger: true})
             })
             memberLoginForm.render()
             App.$el.children('.body').html(memberLoginForm.el)
@@ -300,7 +318,7 @@ $(function() {
                 })
             }
             $('div.navbar-collapse').html(na.el)
-                // App.badge()
+            // App.badge()
         },
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
@@ -313,7 +331,7 @@ $(function() {
                 var expTime = $.cookie('Member.expTime')
                 var d = new Date(Date.parse(expTime))
                 var diff = Math.abs(new Date() - d)
-                    //alert(diff)
+                //alert(diff)
                 var expirationTime = 7200000
                 if (diff < expirationTime) {
                     var date = new Date()
@@ -341,8 +359,8 @@ $(function() {
         },
         addCourses: function(publicationId) {
             var seachForm = new App.Views.courseSeach()
-            seachForm.publicationId=publicationId
-            seachForm.render()  
+            seachForm.publicationId = publicationId
+            seachForm.render()
             App.$el.children('.body').html(seachForm.el)
 
         },
@@ -566,53 +584,55 @@ $(function() {
 
         },
         PublicationDetails: function(publicationId) {
-        
-				var publicationObject = new App.Models.Publication({
-					_id: publicationId
-				})
-				publicationObject.fetch({
-					async: false
-				})
-                var resources = publicationObject.get('resources')
-                var courses = publicationObject.get('courses')
-                            
-                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/'+publicationId+'">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick=SelectCommunity("' + publicationId + '")>Send Publication</button></div>')
-                
-                var resIdes=''
-                 _.each(resources, function(item) {
-                    resIdes +='"' + item + '",'
-                 })
-                 if(resIdes!='')
-                  resIdes = resIdes.substring(0, resIdes.length - 1);
-                  
+
+            var publicationObject = new App.Models.Publication({
+                _id: publicationId
+            })
+            publicationObject.fetch({
+                async: false
+            })
+            var resources = publicationObject.get('resources')
+            var courses = publicationObject.get('courses')
+
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick=SelectCommunity("' + publicationId + '")>Send Publication</button></div>')
+
+            var resIdes = ''
+            _.each(resources, function(item) {
+                resIdes += '"' + item + '",'
+            })
+            if (resIdes != '')
+                resIdes = resIdes.substring(0, resIdes.length - 1);
+
             var resourcesColl = new App.Collections.Resources()
-                resourcesColl.keys= encodeURI(resIdes)
-                resourcesColl.fetch({async:false });
-                var publicationresTable = new App.Views.PublicationResourceTable({
-                    collection: resourcesColl
-                })
-                publicationresTable.Id = publicationId
-                publicationresTable.render()
-                App.$el.children('.body').append(publicationresTable.el)
-                
-                 var coursesIdes=''
-                 _.each(courses, function(item) {
-                    coursesIdes +='"' + item + '",'
-                 })
-                 if(coursesIdes!='')
-                  coursesIdes = coursesIdes.substring(0, coursesIdes.length - 1);
-                  
-           var coursesColl = new App.Collections.Courses()
-                coursesColl.keys= encodeURI(coursesIdes)
-                coursesColl.fetch({
-                 async:false
-                });
-                var publicationcourseTable = new App.Views.PublicationCoursesTable({
-                    collection: coursesColl
-                })
-                publicationcourseTable.Id = publicationId
-                publicationcourseTable.render()
-                App.$el.children('.body').append(publicationcourseTable.el)
+            resourcesColl.keys = encodeURI(resIdes)
+            resourcesColl.fetch({
+                async: false
+            });
+            var publicationresTable = new App.Views.PublicationResourceTable({
+                collection: resourcesColl
+            })
+            publicationresTable.Id = publicationId
+            publicationresTable.render()
+            App.$el.children('.body').append(publicationresTable.el)
+
+            var coursesIdes = ''
+            _.each(courses, function(item) {
+                coursesIdes += '"' + item + '",'
+            })
+            if (coursesIdes != '')
+                coursesIdes = coursesIdes.substring(0, coursesIdes.length - 1);
+
+            var coursesColl = new App.Collections.Courses()
+            coursesColl.keys = encodeURI(coursesIdes)
+            coursesColl.fetch({
+                async: false
+            });
+            var publicationcourseTable = new App.Views.PublicationCoursesTable({
+                collection: coursesColl
+            })
+            publicationcourseTable.Id = publicationId
+            publicationcourseTable.render()
+            App.$el.children('.body').append(publicationcourseTable.el)
 
         },
 

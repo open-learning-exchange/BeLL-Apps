@@ -1,15 +1,15 @@
+var couchapp = require('couchapp'),
+    path = require('path');
 
-var couchapp = require('couchapp')
-  , path = require('path')
-  ;
-
-ddoc =  { _id:'_design/bell' }
+ddoc = {
+  _id: '_design/bell'
+}
 
 ddoc.views = {
   getPublications: {
     map: function(doc) {
-      if(doc.communityName)
-        emit([doc.communityName,doc.Viewed], true);
+      if (doc.communityName)
+        emit([doc.communityName, doc.Viewed], true);
     }
   }
 }

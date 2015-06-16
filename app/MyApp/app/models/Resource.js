@@ -39,7 +39,8 @@ $(function () {
 
             Publisher: {
                 title: 'Publisher/Attribution',
-                type: 'Text'},
+                type: 'Text'
+            },
             language: {
                 type: 'Select',
                 options: [{
@@ -51,7 +52,7 @@ $(function () {
                 },{
                     val: 'Portuguese',
                     label: 'Portuguese'
-                }, {
+                },{
                     val: 'French',
                     label: 'French'
                 },
@@ -61,9 +62,9 @@ $(function () {
                     }, {
                         val: 'Chinese',
                         label: 'Chinese'
-                    },{
-                        val: 'Arabic',
-                        label: 'Arabic'
+                }, {
+                    val: 'Arabic',
+                    label: 'Arabic'
                     }, {
                         val: 'Hindi',
                         label: 'Hindi'
@@ -93,7 +94,7 @@ $(function () {
                     }, {
                         val: 'Ewe',
                         label: 'Ewe'
-                    }]
+                }]
             },
 
             Year: 'Text',

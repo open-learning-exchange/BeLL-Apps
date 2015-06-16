@@ -6,10 +6,10 @@ $(function() {
 
     className: 'shelf-box',
 
-    template : $("#template-ShelfSpan").html(),
+    template: $("#template-ShelfSpan").html(),
 
-    render: function () {
-      
+    render: function() {
+
       var vars = this.model.toJSON()
       alert('test')
       console.log(vars)

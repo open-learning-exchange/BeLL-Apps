@@ -1,10 +1,10 @@
-$(function () {
+$(function() {
 
     App = new(Backbone.View.extend({
 
         //settings
         Server: '',
-        password:'oleoleole',
+        password: 'oleoleole',
         wheel: null,
 
         //Backbone Structure
@@ -13,7 +13,7 @@ $(function () {
         Collections: {},
         Vars: {}, // A place to persist variables in the session
         globalUrl: {},
-        collectionslist:null,
+        collectionslist: null,
         idss: [],
         bellLocation: "Pakistan",
         el: "body",
@@ -22,14 +22,14 @@ $(function () {
             // For the x button on the modal
             "click .close": "closeModal"
         },
-        
-        start: function () {
-           
-			App.Router.PochDB()
+
+        start: function() {
+
+            App.Router.PochDB()
             this.$el.html(_.template(this.template))
             var loggedIn = ($.cookie('Member._id')) ? true : false
             App.collectionslist = new App.Collections.listRCollection()
-			App.collectionslist.fetch()
+            App.collectionslist.fetch()
             if (!loggedIn && $.url().attr('fragment')) {
                 // We want to abort this page load so there isn't a race condition with whatever 
                 // url is being requested and the loading of the login page.
@@ -65,21 +65,25 @@ $(function () {
             //setInterval(App.updateAppCacheStatus, 10000)
 
         },
-        renderFeedback: function(){
-	  			var mymodels=new App.Models.report()
-	  			var na=new App.Views.siteFeedback({model: mymodels})
-	  			na.render()
-      			App.$el.children('.body').append(na.el)
-		},
-		renderRequest: function(kind){
-		var view=new App.Views.RequestView()
-		view.type=kind
-		view.render()
-		App.$el.children('.body').append(view.el) 
-			$('#site-request').animate({height:'302px'})
-			document.getElementById('site-request').style.visibility='visible'
-	},
-        startActivityIndicator: function () {
+        renderFeedback: function() {
+            var mymodels = new App.Models.report()
+            var na = new App.Views.siteFeedback({
+                model: mymodels
+            })
+            na.render()
+            App.$el.children('.body').append(na.el)
+        },
+        renderRequest: function(kind) {
+            var view = new App.Views.RequestView()
+            view.type = kind
+            view.render()
+            App.$el.children('.body').append(view.el)
+            $('#site-request').animate({
+                height: '302px'
+            })
+            document.getElementById('site-request').style.visibility = 'visible'
+        },
+        startActivityIndicator: function() {
             var target = document.getElementById("popup-spinning");
             if (App.wheel == null) {
                 App.wheel = new Spinner({
@@ -96,108 +100,112 @@ $(function () {
             }
             //document.getElementById('cont').style.visibility='hidden'
         },
-        stopActivityIndicator: function () {
-            window.setTimeout(function () {
+        stopActivityIndicator: function() {
+            window.setTimeout(function() {
                 document.getElementById('cont').style.visibility = 'visible'
                 App.wheel.stop()
 
             }, 1000)
 
         },
- compileManifest: function(bundles, targetDocURL) {
+        compileManifest: function(bundles, targetDocURL) {
 
-      //
-      // Setup
-      //
+            //
+            // Setup
+            //
 
-      // The location of the default files we'll tranform
-      var defaults = {
-        manifestFileURL : '/apps/_design/bell/manifest.default.appcache',
-        updateFileURL : '/apps/_design/bell/update.default.html'
-      }
-
-      // URLs to save transformed files to      
-      // The string to find in the default manifest file that we'll replace with Resources
-      var find = '{replace me}'
-      var replace = '# Compiled at ' + new Date().getTime() + '\n'
-
-
-      //
-      // Step 1
-      //
-      // Compile the bundles' docs into the replacement text
-
-      App.once('compileManifest:go', function() {
-        _.each(bundles, function(docs, db, list) {
-          _.each(docs, function(doc) {
-            // Make the doc's JSON available
-            replace += encodeURI('/' + db + '/' + doc._id) + '\n'
-            // Make the doc's attachments available
-            if(_.has(doc, '_attachments')) {
-              _.each(doc._attachments, function(value, key, list) {
-                replace += encodeURI('/' + db + '/' + doc._id + '/' + key) + '\n'
-              })
+            // The location of the default files we'll tranform
+            var defaults = {
+                manifestFileURL: '/apps/_design/bell/manifest.default.appcache',
+                updateFileURL: '/apps/_design/bell/update.default.html'
             }
-          })
-        })
-        App.trigger('compileManifest:replaceTextReady')
-      })
+
+            // URLs to save transformed files to      
+            // The string to find in the default manifest file that we'll replace with Resources
+            var find = '{replace me}'
+            var replace = '# Compiled at ' + new Date().getTime() + '\n'
 
 
-      //
-      // Step 2
-      //
-      // Get the default manifest, find and replace, and then save
-      // the new manifest.appcache to the targetDoc
+            //
+            // Step 1
+            //
+            // Compile the bundles' docs into the replacement text
 
-      App.once('compileManifest:replaceTextReady', function() {
-        $.get(defaults.manifestFileURL, function(defaultManifestEntries) {
-          var transformedManifestEntries = defaultManifestEntries.replace(find, replace)
-          $.getJSON(targetDocURL, function(targetDoc){
-            var xhr = new XMLHttpRequest()
-            xhr.open('PUT', targetDocURL + '/manifest.appcache?rev=' + targetDoc._rev, true)
-            xhr.onload = function(response) { 
-              App.trigger('compileManifest:compiled')
-            }
-            xhr.setRequestHeader("Content-type", "text/cache-manifest" );
-            xhr.send(new Blob([transformedManifestEntries], {type: 'text/plain'}))
-            // xhr.send(new Blob([transformedManifestEntries], {type: 'text/plain'}))
-          })
-        })
-      })
-
-
-      //
-      // Step 3
-      //
-      // When the manifest file is compiled and saved, save the update.html file 
-
-      App.once('compileManifest:compiled', function() {
-        $.get(defaults.updateFileURL, function(defaultUpdateHTML) {
-          // Modify the manifest URL to trigger a reload
-          transformedUpdateHTML = defaultUpdateHTML.replace('{time}', new Date().getTime()) 
-          // Get the targetDoc to get the current revision, then save it with 
-          // our transformedUpdateHTML
-          $.getJSON(targetDocURL, function(targetDoc){
-            var xhr = new XMLHttpRequest()
-            xhr.open('PUT',targetDocURL + '/update.html?rev=' + targetDoc._rev, true)
-            xhr.onload = function(response) { 
-              App.trigger('compileManifest:done')
-            }
-            xhr.setRequestHeader("Content-type", "text/html" );
-            xhr.send(new Blob([transformedUpdateHTML], {type: 'text/plain'}))
-          })
-        })
-      })
+            App.once('compileManifest:go', function() {
+                _.each(bundles, function(docs, db, list) {
+                    _.each(docs, function(doc) {
+                        // Make the doc's JSON available
+                        replace += encodeURI('/' + db + '/' + doc._id) + '\n'
+                        // Make the doc's attachments available
+                        if (_.has(doc, '_attachments')) {
+                            _.each(doc._attachments, function(value, key, list) {
+                                replace += encodeURI('/' + db + '/' + doc._id + '/' + key) + '\n'
+                            })
+                        }
+                    })
+                })
+                App.trigger('compileManifest:replaceTextReady')
+            })
 
 
-      //
-      // Go!
-      //
+            //
+            // Step 2
+            //
+            // Get the default manifest, find and replace, and then save
+            // the new manifest.appcache to the targetDoc
 
-      App.trigger('compileManifest:go')
+            App.once('compileManifest:replaceTextReady', function() {
+                $.get(defaults.manifestFileURL, function(defaultManifestEntries) {
+                    var transformedManifestEntries = defaultManifestEntries.replace(find, replace)
+                    $.getJSON(targetDocURL, function(targetDoc) {
+                        var xhr = new XMLHttpRequest()
+                        xhr.open('PUT', targetDocURL + '/manifest.appcache?rev=' + targetDoc._rev, true)
+                        xhr.onload = function(response) {
+                            App.trigger('compileManifest:compiled')
+                        }
+                        xhr.setRequestHeader("Content-type", "text/cache-manifest");
+                        xhr.send(new Blob([transformedManifestEntries], {
+                            type: 'text/plain'
+                        }))
+                        // xhr.send(new Blob([transformedManifestEntries], {type: 'text/plain'}))
+                    })
+                })
+            })
 
-    }
+
+            //
+            // Step 3
+            //
+            // When the manifest file is compiled and saved, save the update.html file 
+
+            App.once('compileManifest:compiled', function() {
+                $.get(defaults.updateFileURL, function(defaultUpdateHTML) {
+                    // Modify the manifest URL to trigger a reload
+                    transformedUpdateHTML = defaultUpdateHTML.replace('{time}', new Date().getTime())
+                    // Get the targetDoc to get the current revision, then save it with
+                    // our transformedUpdateHTML
+                    $.getJSON(targetDocURL, function(targetDoc) {
+                        var xhr = new XMLHttpRequest()
+                        xhr.open('PUT', targetDocURL + '/update.html?rev=' + targetDoc._rev, true)
+                        xhr.onload = function(response) {
+                            App.trigger('compileManifest:done')
+                        }
+                        xhr.setRequestHeader("Content-type", "text/html");
+                        xhr.send(new Blob([transformedUpdateHTML], {
+                            type: 'text/plain'
+                        }))
+                    })
+                })
+            })
+
+
+            //
+            // Go!
+            //
+
+            App.trigger('compileManifest:go')
+
+        }
 
     }))
 

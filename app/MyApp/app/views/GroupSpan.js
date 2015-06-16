@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.GroupSpan = Backbone.View.extend({
 
@@ -8,12 +8,11 @@ $(function () {
 
         template: $("#template-GroupSpan").html(),
 
-        render: function () {
-        	if(this.model.keys().length<5)
-        	{
-        		this.model.destroy()
-        		return
-        	}
+        render: function() {
+            if (this.model.keys().length < 5) {
+                this.model.destroy()
+                return
+            }
             var vars = this.model.toJSON()
             var res = new App.Collections.membercourseprogresses()
             res.courseId = vars._id

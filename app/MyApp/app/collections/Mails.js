@@ -1,8 +1,8 @@
-$(function () {
+$(function() {
 
     App.Collections.Mails = Backbone.Collection.extend({
 
-        initialize: function (e) {
+        initialize: function(e) {
             if (e) {
 
                 if (e.senderId) {
@@ -20,8 +20,8 @@ $(function () {
             }
         },
 
-        parse: function (response) {
-            var docs = _.map(response.rows, function (row) {
+        parse: function(response) {
+            var docs = _.map(response.rows, function(row) {
                 return row.doc
             })
             return docs

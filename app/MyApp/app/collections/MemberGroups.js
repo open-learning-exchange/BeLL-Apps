@@ -1,12 +1,12 @@
-$(function () {
+$(function() {
 
     App.Collections.MemberGroups = Backbone.Collection.extend({
 
-        url: function () {
+        url: function() {
             return App.Server + '/groups/_design/bell/_view/GetCourses?key="' + $.cookie('Member._id') + '"&include_docs=true'
         },
 
-        parse: function (results) {
+        parse: function(results) {
             var m = []
             var memberId = this.memberId
             var i
@@ -17,7 +17,7 @@ $(function () {
         },
 
         model: App.Models.Group,
-        comparator: function (model) {
+        comparator: function(model) {
             var title = model.get('name')
             if (title) return title.toLowerCase()
         }

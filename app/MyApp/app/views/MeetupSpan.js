@@ -6,10 +6,10 @@ $(function() {
 
     className: 'meetup-box',
 
-    template : $("#template-Meetup").html(),
+    template: $("#template-Meetup").html(),
 
-    render: function () {
-      
+    render: function() {
+
       var vars = this.model.toJSON()
       this.$el.append(_.template(this.template, vars))
     }

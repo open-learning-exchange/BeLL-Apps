@@ -22,15 +22,19 @@
             render: function () {
                 this.$el.html('<tr><th>Issue Number</th><th>Actions</th></tr>');
                 var that=this;
-                var nationName = App.configuration.get('nationName'), nationPassword = App.password;
-                var nationUrl = App.configuration.get('nationUrl'), currentBellName = App.configuration.get('name');
+            var nationName = App.configuration.get('nationName'),
+                nationPassword = App.password;
+            var nationUrl = App.configuration.get('nationUrl'),
+                currentBellName = App.configuration.get('name');
                 var DbUrl = 'http://' + nationName + ':' + nationPassword + '@' + nationUrl +
                             '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["'+currentBellName+'",'+false+']';
                 // make sure the couchdb that is being requested in this ajax call has its 'allow_jsonp' property set to true in the
                 // 'httpd' section of couchdb configurations. Otherwise, the server couchdb will not respond as required by jsonp format
                 // to send publication-distribution records from nation whose 'viewed' property is false
                 $.ajax({
-                    url: DbUrl,  type: 'GET',   dataType: 'jsonp',
+                url: DbUrl,
+                type: 'GET',
+                dataType: 'jsonp',
                     success: function (json) {
                         var keys='';
                         var publicationToPubDistributionMap = {};
@@ -43,7 +47,9 @@
                             var pubsForCommunityUrl = 'http://' + nationName + ':' + nationPassword + '@' + nationUrl +
                                 '/publications/_all_docs?include_docs=true&keys=[' + keys + ']';
                             $.ajax({
-                                url: pubsForCommunityUrl, type: 'GET',   dataType: 'jsonp',
+                            url: pubsForCommunityUrl,
+                            type: 'GET',
+                            dataType: 'jsonp',
                                 success: function (jsonNationPublications) {
                                     // fetch all publications from local/community server to see how many of the publications from nation are new ones
                                     var publicationCollection = new App.Collections.Publication();
@@ -70,13 +76,17 @@
                                     });
                                 },
                                 error: function(jqXHR, status, errorThrown){
-                                    console.log(jqXHR);   console.log(status);   console.log(errorThrown);
+                                console.log(jqXHR);
+                                console.log(status);
+                                console.log(errorThrown);
                                 }
                             });
                         }
                     },
                     error: function(jqXHR, status, errorThrown){
-                        console.log(jqXHR);   console.log(status);   console.log(errorThrown);
+                    console.log(jqXHR);
+                    console.log(status);
+                    console.log(errorThrown);
                     }
                 });
             },
@@ -107,10 +117,15 @@
                 //this.syncCourses(pubDistributionID, publicationToSync);
             },
             syncCourses:function(pubDistributionID, publicationToSync){
-                var resourcesIdes = publicationToSync.resources, courses = publicationToSync.courses, IssueNo = publicationToSync.IssueNo;
-                var nationUrl = App.configuration.get('nationUrl'), nationName = App.configuration.get('nationName');
+            var resourcesIdes = publicationToSync.resources,
+                courses = publicationToSync.courses,
+                IssueNo = publicationToSync.IssueNo;
+            var nationUrl = App.configuration.get('nationUrl'),
+                nationName = App.configuration.get('nationName');
                 // courses contains courseID and stepIDs(which contains stepID and resouceIDs(which contains ids of resources in the step))
-                var cumulativeCourseIDs = [], cumulativeCourseStepIDs = [], cumulativeResourceIDs = [];
+            var cumulativeCourseIDs = [],
+                cumulativeCourseStepIDs = [],
+                cumulativeResourceIDs = [];
                 for (var indexOfCourse in courses){
                     var courseInfo = courses[indexOfCourse];
                     cumulativeCourseIDs.push(courseInfo['courseID']);
@@ -163,7 +178,9 @@
                                             result[i].doc.timesRated = 0;
                                             tempResult.push(result[i].doc);
                                         }
-                                        $.couch.db('tempresources').bulkSave({"docs": tempResult},{
+                                    $.couch.db('tempresources').bulkSave({
+                                        "docs": tempResult
+                                    }, {
                                                 success: function(data) {
                                                     $.couch.replicate("tempresources", "resources", {
                                                         success: function(data) {
@@ -184,10 +201,10 @@
                                                             $.couch.db("tempresources").drop({
                                                                 success: function(data) {
                                                                     console.log(data);
-                                                                },
-                                                                error: function(status) {
-                                                                    console.log(status);
-                                                                }
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status);
+                                                        }
                                                             });
                                                         }
                                                     }, {
@@ -205,8 +222,7 @@
                                                     });
                                                     alert("Error!");
                                                 }
-                                            }
-                                        );
+                                    });
                                     },
                                     error: function() {
                                         alert("Unable to get resources.");
@@ -344,15 +360,19 @@
                                             },
                                             error: function(jqXHR, status, errorThrown){
                                                 console.log('Error syncing/replicating Publication "'+IssueNo+'" course-steps');
-                                                console.log(status);      console.log(errorThrown);
-                                                App.stopActivityIndicator();     alert('Failed to sync course-steps');
+                                            console.log(status);
+                                            console.log(errorThrown);
+                                            App.stopActivityIndicator();
+                                            alert('Failed to sync course-steps');
                                             }
                                         });
                                     },
                                     error: function(jqXHR, status, errorThrown){
                                         console.log('Error syncing/replicating Publication "'+IssueNo+'" courses');
-                                        console.log(status);   console.log(errorThrown);
-                                        App.stopActivityIndicator();      alert('Failed to sync courses');
+                                    console.log(status);
+                                    console.log(errorThrown);
+                                    App.stopActivityIndicator();
+                                    alert('Failed to sync courses');
                                     }
                                 })
                             },

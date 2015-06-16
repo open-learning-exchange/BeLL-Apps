@@ -53,47 +53,47 @@ $(function() {
             this.myModel = this.options.resultModel
             this.stepindex = this.options.stepIndex
             this.Givenanswers = []
-            
+
             console.log('==============================')
-            console.log(this.Correctanswers,"Correctanswers")
-            console.log(this.Questions,"Questions")
-            console.log(this.Optns,"Optns")
-            console.log(this.stepId,"stepId")
-            console.log(this.TotalCount,"TotalCount")
-            console.log(this.pp,"pp")
-            console.log(this.myModel,"myModel")
-            console.log(this.stepindex,"stepindex")
-            console.log(this.Givenanswers,"Givenanswers")
+            console.log(this.Correctanswers, "Correctanswers")
+            console.log(this.Questions, "Questions")
+            console.log(this.Optns, "Optns")
+            console.log(this.stepId, "stepId")
+            console.log(this.TotalCount, "TotalCount")
+            console.log(this.pp, "pp")
+            console.log(this.myModel, "myModel")
+            console.log(this.stepindex, "stepindex")
+            console.log(this.Givenanswers, "Givenanswers")
             console.log('==============================')
-            
-            
+
+
         },
         /*
-    animateIn:function(){
-      document.getElementById("tQuizDiv").style.left="-512%"
-   		$('div.takeQuizDiv').animate({left:'0%'},2000)
-   		if(this.index==-1)
-    	{
-    	 $('div.takeQuizDiv').animate({left:'2%'},100)
-    	 $('div.takeQuizDiv').animate({left:'-1.5%'},100)
-    	 $('div.takeQuizDiv').animate({left:'1.5%'},100) 
-    	 $('div.takeQuizDiv').animate({left:'-1%'},100)
-    	 $('div.takeQuizDiv').animate({left:'1%'},100)
-    	 $('div.takeQuizDiv').animate({left:'-0.5%'},100)
-    	 $('div.takeQuizDiv').animate({left:'0.5%'},100)
-    	 $('div.takeQuizDiv').animate({left:'0%'},100)
-    	}	 
-    },
-     animateOut:function(){
-     	$('div.takeQuizDiv').animate({left:'125%'},1000)
-     },
-     */
+         animateIn:function(){
+         document.getElementById("tQuizDiv").style.left="-512%"
+         $('div.takeQuizDiv').animate({left:'0%'},2000)
+         if(this.index==-1)
+         {
+         $('div.takeQuizDiv').animate({left:'2%'},100)
+         $('div.takeQuizDiv').animate({left:'-1.5%'},100)
+         $('div.takeQuizDiv').animate({left:'1.5%'},100)
+         $('div.takeQuizDiv').animate({left:'-1%'},100)
+         $('div.takeQuizDiv').animate({left:'1%'},100)
+         $('div.takeQuizDiv').animate({left:'-0.5%'},100)
+         $('div.takeQuizDiv').animate({left:'0.5%'},100)
+         $('div.takeQuizDiv').animate({left:'0%'},100)
+         }
+         },
+         animateOut:function(){
+         $('div.takeQuizDiv').animate({left:'125%'},1000)
+         },
+         */
         renderQuestion: function() {
             console.log((this.index + 1))
             console.log(this.TotalCount)
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
-                    var temp = this.index * 5
+                var temp = this.index * 5
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="Progress" style="float:right;"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')
@@ -114,15 +114,16 @@ $(function() {
                 var sp = this.myModel.get('stepsResult')
                 if (this.pp <= quizScore) {
                     sstatus[this.stepindex] = "1"
-                    this.myModel.set('stepsStatus',sstatus)
+                    this.myModel.set('stepsStatus', sstatus)
                 }
                 sp[this.stepindex] = quizScore.toString()
-                this.myModel.set('stepsResult',sp)
+                this.myModel.set('stepsResult', sp)
 
                 this.myModel.save(null, {
-                    success:function(res,revInfo){
-                       console.log("Result Saved!")
-                    },error:function(){
+                    success: function(res, revInfo) {
+                        console.log("Result Saved!")
+                    },
+                    error: function() {
                         console.log("Not Saved")
                     }
 
@@ -139,7 +140,7 @@ $(function() {
 
         start: function() {
             $('div.takeQuizDiv').show()
-                // this.animateIn()
+            // this.animateIn()
             this.renderQuestion()
         },
 

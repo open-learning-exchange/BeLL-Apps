@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.siteFeedbackPageRow = Backbone.View.extend({
         template0: $("#template-siteReviewRowAdmin").html(),
@@ -9,7 +9,7 @@ $(function () {
             "click #resolveButton": "resolve",
             "click #commentButton": "comment"
         },
-        comment: function (e) {
+        comment: function(e) {
             console.log(e.target.attributes[0].nodeValue)
             var coll = new App.Collections.reportsComment()
             coll.feedbackId = e.target.attributes[0].nodeValue
@@ -23,20 +23,20 @@ $(function () {
             viw.render()
             $('#debug').append(viw.el)
         },
-        resolve: function (e) {
+        resolve: function(e) {
             console.log(e)
             e.preventDefault()
-            this.model.on('sync', function () {
+            this.model.on('sync', function() {
                 location.reload();
             })
             this.model.save({
                 Resolved: "1"
             }, {
-                success: function () {}
+                success: function() {}
             });
         },
 
-        initialize: function () {
+        initialize: function() {
             if ($.cookie('Member.login') == 'admin') {
                 this.template = this.template0
             } else {
@@ -44,7 +44,7 @@ $(function () {
             }
         },
 
-        render: function () {
+        render: function() {
 
             var vars = this.model.toJSON()
             if (this.model.get("priority").length == 0) {
@@ -60,7 +60,7 @@ $(function () {
 
 })
 
-$(function () {
+$(function() {
 
     App.Views.siteFeedbackPageRow = Backbone.View.extend({
         template0: $("#template-siteReviewRowAdmin").html(),
@@ -71,7 +71,7 @@ $(function () {
             "click #resolveButton": "resolve",
             "click #commentButton": "comment"
         },
-        comment: function (e) {
+        comment: function(e) {
             console.log(e.target.attributes[0].nodeValue)
             var coll = new App.Collections.reportsComment()
             coll.feedbackId = e.target.attributes[0].nodeValue
@@ -85,20 +85,20 @@ $(function () {
             viw.render()
             $('#debug').append(viw.el)
         },
-        resolve: function (e) {
+        resolve: function(e) {
             console.log(e)
             e.preventDefault()
-            this.model.on('sync', function () {
+            this.model.on('sync', function() {
                 location.reload();
             })
             this.model.save({
                 Resolved: "1"
             }, {
-                success: function () {}
+                success: function() {}
             });
         },
 
-        initialize: function () {
+        initialize: function() {
             if ($.cookie('Member.login') == 'admin') {
                 this.template = this.template0
             } else {
@@ -106,7 +106,7 @@ $(function () {
             }
         },
 
-        render: function () {
+        render: function() {
 
             var vars = this.model.toJSON()
             if (this.model.get("priority").length == 0) {

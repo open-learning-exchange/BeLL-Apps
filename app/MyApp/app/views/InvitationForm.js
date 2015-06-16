@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.InvitationForm = Backbone.View.extend({
 
@@ -15,29 +15,29 @@ $(function () {
         entityId: null,
         type: null,
         senderId: null,
-        hidediv: function () {
+        hidediv: function() {
             $('#invitationdiv').fadeOut(1000)
             document.getElementById('cont').style.opacity = 1.0
             document.getElementById('nav').style.opacity = 1.0
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#invitationdiv').hide()
             }, 1000);
         },
-        SetParams: function (ti, e, t, s) {
+        SetParams: function(ti, e, t, s) {
             this.title = ti
             this.entityId = e
             this.type = t
             this.senderId = s
 
         },
-        render: function () {
+        render: function() {
 
             //members is required for the form's members field
             console.log(this.model)
             var members = new App.Collections.Members()
             var that = this
             var inviteForm = this
-            inviteForm.on('InvitationForm:MembersReady', function () {
+            inviteForm.on('InvitationForm:MembersReady', function() {
                 console.log(that.model.schema)
                 this.model.schema.members.options = members
                 // create the form
@@ -49,7 +49,7 @@ $(function () {
                 this.form.fields['levels'].$el.hide()
 
 
-                this.form.fields['invitationType'].$el.change(function () {
+                this.form.fields['invitationType'].$el.change(function() {
                     var val = that.form.fields['invitationType'].$el.find('option:selected').text()
                     if (val == "Members") {
                         that.form.fields['members'].$el.show()
@@ -70,7 +70,7 @@ $(function () {
             })
 
             // Get the group ready to process the form
-            members.once('sync', function () {
+            members.once('sync', function() {
                 inviteForm.trigger('InvitationForm:MembersReady')
 
             })
@@ -79,13 +79,13 @@ $(function () {
 
         },
 
-        setFormFromEnterKey: function (event) {
+        setFormFromEnterKey: function(event) {
             event.preventDefault()
             this.setForm()
         },
 
-        setForm: function () {
-       
+        setForm: function() {
+
             var member = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })
@@ -104,7 +104,7 @@ $(function () {
             var currentdate = new Date();
 
             if (this.model.get("invitationType") == "All") {
-                memberList.each(function (m) {
+                memberList.each(function(m) {
                     temp = new App.Models.Mail()
                     temp.set("senderId", that.model.senderId)
                     temp.set("receiverId", m.get("_id"))
@@ -126,7 +126,7 @@ $(function () {
                 })
 
             } else if (this.model.get("invitationType") == "Members") {
-                memberList.each(function (m) {
+                memberList.each(function(m) {
                     var that2 = that;
                     if (that.model.get("members").indexOf(m.get("_id")) > -1) {
                         temp = new App.Models.Mail()
@@ -152,7 +152,7 @@ $(function () {
             } else {
                 //Fetching The Members and then checking each levels whether they have the same level then incrementing the counnt and save
 
-                memberList.each(function (m) {
+                memberList.each(function(m) {
                     var member_level = m.get("levels")
                     if (that.model.get("levels").indexOf(member_level[0]) > -1) {
                         temp = new App.Models.Mail()
@@ -164,7 +164,7 @@ $(function () {
                         temp.set("type", "course-invitation")
                         temp.set("sendDate", currentdate)
                         temp.set("entityId", that.model.resId)
-                        //                  temp = new App.Models.Invitation()  
+                        //                  temp = new App.Models.Invitation()
                         //                  temp.set("title",that.title)
                         //                  temp.set("senderId",that.senderId)
                         //                  temp.set("senderName",member.get("firstName")+" "+member.get("lastName"))
@@ -176,12 +176,12 @@ $(function () {
                 });
 
             }
-            
+
             $('#invitationdiv').fadeOut(1000)
             alert("Invitation sent successfully")
             document.getElementById('cont').style.opacity = 1.0
             document.getElementById('nav').style.opacity = 1.0
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#invitationdiv').hide()
             }, 1000);
 
