@@ -23,7 +23,7 @@ ddoc.views = {
   collectionByName: {
     map: function(doc) {
       if (doc.CollectionName && doc.kind == 'CollectionList') {
-        emit(doc.CollectionName, doc);
+        emit(doc.CollectionName.toLowerCase(), doc);
       }
     }
   },

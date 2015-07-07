@@ -111,13 +111,35 @@ $(function() {
                     filters.push(parseInt(this.ratingFilter[i]))
                 }
             }
+            var prefix, temp_filters, temp_prefix;
             if (searchText != '') {
-                var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
-                for (var idx in prefix) {
-                    if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
-                        filters.push(prefix[idx])
-                }
+                // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
+                prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase()
+                /* Get Collection Id from collection list database by passing the name of collection*/
+                $.ajax({
+                    url: '/collectionlist/_design/bell/_view/collectionByName?_include_docs=true&key="' + prefix + '"',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(collResult) {
+                        console.log(collResult);
+                        if (collResult.rows.length > 0) {
+                            filters.push(collResult.rows[0].id);
+                            // console.log(id);
+                        }
+                    },
+                    error: function() {
+                        alert("Unable to get collections.");
+
+                    },
+                    async: false
+                });
+                /////////////////////////////////////////////////////
+                /* for (var idx in prefix) {
+                 if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                 filters.push(prefix[idx])
+                 }*/
             }
+            filters.push(prefix) /*Push keyword to the filters*/
             var fil = JSON.stringify(filters);
             console.log(fil)
             this.groupresult.skip = 0
@@ -125,6 +147,7 @@ $(function() {
             this.groupresult.fetch({
                 async: false
             })
+
             App.stopActivityIndicator()
             var obj = this
             if (obj.addResource == true) {

@@ -28,6 +28,40 @@ ddoc.views = {
       return sum(values);
     }
   },
+  //******************************************************************************************************
+  searchView: {
+    map: function(doc) {
+      if (doc.Tag && doc.kind == 'Resource') {
+        for (var i = 0; i < doc.Tag.length; i++) {
+          var tag = doc.Tag[i].toLowerCase();
+          emit(tag, true);
+        }
+      }
+      if (doc.subject && doc.kind == 'Resource') {
+        for (var i = 0; i < doc.subject.length; i++) {
+          var subject = doc.subject[i].toLowerCase();
+          emit(subject, true);
+        }
+      }
+      if (doc.title && doc.kind == 'Resource') {
+        var i = 0,
+            j, str;
+        var title = doc.title.toLowerCase();
+        emit(doc.title.toLowerCase(), true);
+      }
+      if (doc.Publisher) {
+        var prefix = doc.Publisher.toLowerCase();
+        emit(prefix, true);
+      }
+      if (doc.author) {
+        var txt = doc.author;
+        var prefix = txt.toLowerCase();
+        emit(prefix, true);
+      }
+    }
+
+  },
+  //******************************************************************************************************
   listCollection: {
     map: function(doc) {
       if (doc.Tag && doc.kind == 'Resource') {
