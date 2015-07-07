@@ -106,6 +106,11 @@ $(function() {
                     filters.push(this.mediumFilter[i])
                 }
             }
+            if (this.languageFilter && searchText.replace(" ", "") == '') {
+                for (var i = 0; i < this.languageFilter.length; i++) {
+                    filters.push(this.languageFilter[i])
+                }
+            }
             if (this.ratingFilter) {
                 for (var i = 0; i < this.ratingFilter.length; i++) {
                     filters.push(parseInt(this.ratingFilter[i]))
@@ -147,7 +152,24 @@ $(function() {
             this.groupresult.fetch({
                 async: false
             })
-
+            //Checking the AND Conditions here
+            if (this.languageFilter && this.groupresult.models.length > 0) {
+                var language = this.languageFilter[0];
+                var models = [];
+                for (var i = 0; i < this.groupresult.models.length; i++) {
+                    var tempRes = this.groupresult.models[i];
+                    if (tempRes.attributes.language == language) {
+                        models.push(tempRes);
+                    }
+                }
+                if (models.length == 0) {
+                    this.groupresult.models = models;
+                    this.groupresult.length = 0;
+                } else {
+                    this.groupresult.models = models;
+                }
+            }
+            //End of the checking AND Conditions here
             App.stopActivityIndicator()
             var obj = this
             if (obj.addResource == true) {

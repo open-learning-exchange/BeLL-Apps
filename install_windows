@@ -10,8 +10,8 @@ var exec = require('child_process').exec;
 var program = require('commander');
 var databases = []
 program
-  .version('0.0.2')
-  .parse(process.argv);
+    .version('0.0.2')
+    .parse(process.argv);
 if (!program.args[0]) return console.log('No CouchDB URL provided. Quiting now.')
 var couchUrl = program.args[0]
 var nano = require('nano')(couchUrl)
@@ -21,109 +21,281 @@ function start() {
 }
 
 function getListOfDatabases() {
-  fs.readdir('./databases', function doneReadDir(err, files) {
-    files.forEach(function addFile(element, index, array) {
-      databases.push(element.substr(0, element.length-3))
+    fs.readdir('./databases', function doneReadDir(err, files) {
+        files.forEach(function addFile(element, index, array) {
+            databases.push(element.substr(0, element.length - 3))
+        })
+        installDatabases()
     })
-    installDatabases()
-  })
 }
 
 var a = 0
+
 function installDatabases() {
-  var database = databases[a]
-  if (a !== databases.length) { 
-    console.log("creating database " + database)
-    nano.db.create(database, function(err, body) {
-      if (err && err.error !== "file_exists") console.log(err)
-      a++
-      return installDatabases()
-    })
-  }
-  else {
-    return installDesignDocs()
-  }
+    var database = databases[a]
+    if (a !== databases.length) {
+        console.log("creating database " + database)
+        nano.db.create(database, function(err, body) {
+            if (err && err.error !== "file_exists") console.log(err)
+            a++
+            return installDatabases()
+        })
+    } else {
+        return installDesignDocs()
+    }
 }
 
 var b = 0
+
 function installDesignDocs() {
     var database = databases[b]
-        if (b !== databases.length) {
-            if(database != "communities" && database != "languages" && database != "configurations"){
-                console.log("Inserting design docs for the " + database + " database");
-                var docToPush = 'databases\\' + database + '.js';
-                var targetDb = couchUrl + '/' + database;
-                exec('pushDocToDb.bat "'+docToPush+'" "'+targetDb+'"', function(error, stdout, stderr) {
-                    if (error) console.log(error); 
-                    if (stderr) console.log(stderr);
-                    console.log(stdout)
-                    b++
-                    installDesignDocs()
-                })
-            }
-            else{
+    if (b !== databases.length) {
+        if (database != "communities" && database != "languages" && database != "configurations") {
+            console.log("Inserting design docs for the " + database + " database");
+            var docToPush = 'databases\\' + database + '.js';
+            var targetDb = couchUrl + '/' + database;
+            exec('pushDocToDb.bat "' + docToPush + '" "' + targetDb + '"', function(error, stdout, stderr) {
+                if (error) console.log(error);
+                if (stderr) console.log(stderr);
+                console.log(stdout)
                 b++
                 installDesignDocs()
-            }
+            })
+        } else {
+            b++
+            installDesignDocs()
         }
-        else {
-            createDefaultAdminMember()
-        }
+    } else {
+        createDefaultAdminMember()
+        //createLanguages();
+    }
 }
 
 function createDefaultAdminMember() {
-  nano.db.get('members', function(err, body) {
-    if (err) console.log(err)
-    // Cancel if there are already members in the database
-    if (body.doc_count > 1) return done()
-    console.log('Creating a default admin member of admin:password')
-    var members = nano.db.use('members')
-    var defaultAdminMember = {
-        "login":"admin",
-        "kind":"Member",
-        "roles": ["Manager", "SuperManager"],
-        "firstName": "Default",
-        "lastName": "Admin",
-        "password":"password",
-        "Gender": "Male",
-        "status": "active",
-        "email": "admin.somalia@olebell.org",
-        "visits": 0
-    }
-//    var configurationsDoc = {"name":"olesomalia","nationName":"olenation","code":"so","type":"nation","nationUrl":"olenation.cloudant.com","version":"0.11.12","notes":"this is testing .....asdf","availableLanguages":["English","French","Arabic","Urdu"],"currentLanguage":"English"};
-    var languagesDoc =
-    {"English":{"Dashboard":"My Home","e-Readers":"e-Readers","Library":"Library","Courses":"Courses","Meetups":"Meetups","Members":"Members","Reports":"Reports","Feedback":"Feedback","Logout":"Logout","My Library":"My Library","My Courses Progress":"My Courses Progress","My Meetups":"My Meetups","My Tutors":"My Tutors","Badges":"Badges","News Feed":"News Feed","Calender":"Calendar","Email":"Email"},"French":{"Dashboard":"Tableau de bord","e-Readers":"e-lecteurs","Library":"libaray","Courses":"cours","Meetups":"meetups","Members":"membres","Reports":"rapports","Feedback":"Commentaires","Logout":"Déconnexion","My Library":"Ma bibliothèque","My Courses Progress":"Mes cours Progrès","My Meetups":"Mes rencontres Meetup","My Tutors":"Mes tuteurs","Badges":"insignes","News Feed":"Nouvelles RSS","Calender":"Calendrier","Email":"email"},"Arabic":{"Dashboard":"لوحة أجهزة القياس","e-Readers":"البريد القراء","Library":"لمكتبة","Courses":"دورات","Meetups":"اجتماعات و","Members":"أعضاء","Reports":"تقارير","Feedback":"ردود الفعل","Logout":"الخروج","My Library":"مكتبتي","My Courses Progress":"بلدي دورات التقدم","My Meetups":"بلدي الاجتماع","My Tutors":"مدرسيك","Badges":"شارات","News Feed":"أخبار الأعلاف","Calender":"التقويم","Email":"البريد الإلكتروني"},"Urdu":{"Dashboard":"ڈیش بورڈ","e-Readers":"ای قارئین","Library":"لائبریری","Courses":"کورسز","Meetups":"اجلاس","Members":"اراکین","Reports":"رپورٹیں","Feedback":"آپ کی رائے","Logout":"لاگ آؤٹ","My Library":"میری لائبریری","My Courses Progress":"میرے کورسز پیش رفت","My Meetups":"میری میٹنگ","My Tutors":"میرا ٹیوٹر","Badges":"بلے","News Feed":"خبریں","Calender":"کیلنڈر","Email":"ای میل"}};
-      members.insert(defaultAdminMember, function(err, res) {
-      if (err)
-          return console.log(err)
-      else {
-          var configurations = nano.db.use('configurations');
-          var configsDocPath = 'init_docs/ConfigurationsDoc-Nation.txt';
-          fs.readFile(configsDocPath, function(err, data) {
-              configurations.insert(data, function(err, res) {
-                  if(err) {
-                      console.log(err);
-                  } else {
-                      var languages = nano.db.use('languages');
-                      languages.insert(languagesDoc, function(err, res) {
-                          if(err) {
-                              console.log(err);
-                          } else {
-//                          alert("installation complete!!!");
-                          }
-                      });
-                  }
-              });
-          });
-      }
+    nano.db.get('members', function(err, body) {
+        if (err) console.log(err)
+        // Cancel if there are already members in the database
+        if (body.doc_count > 1) return done()
+        console.log('Creating a default admin member of admin:password')
+        var members = nano.db.use('members')
+        var defaultAdminMember = {
+            "login": "admin",
+            "kind": "Member",
+            "roles": ["Manager", "SuperManager"],
+            "firstName": "Default",
+            "lastName": "Admin",
+            "password": "password",
+            "Gender": "Male",
+            "status": "active",
+            "email": "admin.somalia@olebell.org",
+            "visits": 0
+        }
+        //    var configurationsDoc = {"name":"olesomalia","nationName":"olenation","code":"so","type":"nation","nationUrl":"olenation.cloudant.com","version":"0.11.12","notes":"this is testing .....asdf","availableLanguages":["English","French","Arabic","Urdu"],"currentLanguage":"English"};
+        var languagesDoc = {
+            "English": {
+                "Dashboard": "My Home",
+                "e-Readers": "e-Readers",
+                "Library": "Library",
+                "Courses": "Courses",
+                "Meetups": "Meetups",
+                "Members": "Members",
+                "Reports": "Reports",
+                "Feedback": "Feedback",
+                "Logout": "Logout",
+                "My Library": "My Library",
+                "My Courses Progress": "My Courses Progress",
+                "My Meetups": "My Meetups",
+                "My Tutors": "My Tutors",
+                "Badges": "Badges",
+                "News Feed": "News Feed",
+                "Calender": "Calendar",
+                "Email": "Email"
+            },
+            "French": {
+                "Dashboard": "Tableau de bord",
+                "e-Readers": "e-lecteurs",
+                "Library": "libaray",
+                "Courses": "cours",
+                "Meetups": "meetups",
+                "Members": "membres",
+                "Reports": "rapports",
+                "Feedback": "Commentaires",
+                "Logout": "Déconnexion",
+                "My Library": "Ma bibliothèque",
+                "My Courses Progress": "Mes cours Progrès",
+                "My Meetups": "Mes rencontres Meetup",
+                "My Tutors": "Mes tuteurs",
+                "Badges": "insignes",
+                "News Feed": "Nouvelles RSS",
+                "Calender": "Calendrier",
+                "Email": "email"
+            },
+            "Arabic": {
+                "Dashboard": "لوحة أجهزة القياس",
+                "e-Readers": "البريد القراء",
+                "Library": "لمكتبة",
+                "Courses": "دورات",
+                "Meetups": "اجتماعات و",
+                "Members": "أعضاء",
+                "Reports": "تقارير",
+                "Feedback": "ردود الفعل",
+                "Logout": "الخروج",
+                "My Library": "مكتبتي",
+                "My Courses Progress": "بلدي دورات التقدم",
+                "My Meetups": "بلدي الاجتماع",
+                "My Tutors": "مدرسيك",
+                "Badges": "شارات",
+                "News Feed": "أخبار الأعلاف",
+                "Calender": "التقويم",
+                "Email": "البريد الإلكتروني"
+            },
+            "Urdu": {
+                "Dashboard": "ڈیش بورڈ",
+                "e-Readers": "ای قارئین",
+                "Library": "لائبریری",
+                "Courses": "کورسز",
+                "Meetups": "اجلاس",
+                "Members": "اراکین",
+                "Reports": "رپورٹیں",
+                "Feedback": "آپ کی رائے",
+                "Logout": "لاگ آؤٹ",
+                "My Library": "میری لائبریری",
+                "My Courses Progress": "میرے کورسز پیش رفت",
+                "My Meetups": "میری میٹنگ",
+                "My Tutors": "میرا ٹیوٹر",
+                "Badges": "بلے",
+                "News Feed": "خبریں",
+                "Calender": "کیلنڈر",
+                "Email": "ای میل"
+            }
+        };
+        members.insert(defaultAdminMember, function(err, res) {
+            if (err)
+                return console.log(err)
+            else {
+                var configurations = nano.db.use('configurations');
+                var configsDocPath = 'init_docs/ConfigurationsDoc-Nation.txt';
+                fs.readFile(configsDocPath, function(err, data) {
+                    configurations.insert(data, function(err, res) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            var languages = nano.db.use('languages');
+                            languages.insert(languagesDoc, function(err, res) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    //                          alert("installation complete!!!");
+                                }
+                            });
+                        }
+                    });
+                });
+            }
 
-      done()  
-    })  
-  })
-} 
+            done()
+        })
+    })
+}
+
+/*function createLanguages() {
+ // Cancel if there are already lagug in the database
+ //if (body.doc_count > 1) return done()
+ console.log('Creating languages list in the database.')
+ var languages = nano.db.use('languages');
+ var english = {
+ "login":"English",
+ "type":"languageDoc"
+ };
+ var spanish = {
+ "login":"Spanish",
+ "type":"languageDoc"
+ };
+ var portuguese = {
+ "login":"Portuguese",
+ "type":"languageDoc"
+ };
+ var french = {
+ "login":"French",
+ "type":"languageDoc"
+ };
+ var russian = {
+ "login":"Russian",
+ "type":"languageDoc"
+ };
+ var chinese = {
+ "login":"Chinese",
+ "type":"languageDoc"
+ };
+ var arabic = {
+ "login":"Arabic",
+ "type":"languageDoc"
+ };
+ var hindi = {
+ "login":"Hindi",
+ "type":"languageDoc"
+ };
+ var urdu = {
+ "login":"Urdu",
+ "type":"languageDoc"
+ };
+ var punjabi = {
+ "login":"Punjabi",
+ "type":"languageDoc"
+ };
+ var nepali = {
+ "login":"Nepali",
+ "type":"languageDoc"
+ };
+ var swahili = {
+ "login":"Swahili",
+ "type":"languageDoc"
+ };
+ var somali = {
+ "login":"Somali",
+ "type":"languageDoc"
+ };
+ var kyrgyzstani = {
+ "login":"Kyrgyzstani",
+ "type":"languageDoc"
+ };
+ var asante = {
+ "login":"Asante",
+ "type":"languageDoc"
+ };
+ var ewe = {
+ "login":"Ewe",
+ "type":"languageDoc"
+ };
+ var languagesList = [];
+ languagesList.push(english);
+ languagesList.push(spanish);
+ languagesList.push(portuguese);
+ languagesList.push(french);
+ languagesList.push(russian);
+ languagesList.push(chinese);
+ languagesList.push(arabic);
+ languagesList.push(hindi);
+ languagesList.push(urdu);
+ languagesList.push(punjabi);
+ languagesList.push(nepali);
+ languagesList.push(swahili);
+ languagesList.push(somali);
+ languagesList.push(kyrgyzstani);
+ languagesList.push(asante);
+ languagesList.push(ewe);
+ for(var i = 0 ; i< languagesList.length ; i++) {
+ languages.insert(languagesList[i], function(err, res) {
+ if (err) {
+ return console.log(err)
+ }
+ done()
+ })
+ }
+ }*/
 
 function done() {
-  console.log('done!')
+    console.log('done!')
 }
 
 //

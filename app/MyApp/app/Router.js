@@ -525,6 +525,12 @@ $(function() {
                 noneSelectedText: "Select an Option",
                 selectedList: 1
             });
+            $("#search-language").multiselect({
+                multiple: false,
+                header: "Select an option",
+                noneSelectedText: "Select an Option",
+                selectedList: 1
+            });
 
             $("#srch").hide()
             $(".search-bottom-nav").hide()
@@ -572,6 +578,12 @@ $(function() {
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
                     $("#multiselect-medium-search").multiselect({
+                        multiple: false,
+                        header: "Select an option",
+                        noneSelectedText: "Select an Option",
+                        selectedList: 1
+                    });
+                    $("#search-language").multiselect({
                         multiple: false,
                         header: "Select an option",
                         noneSelectedText: "Select an Option",
@@ -649,6 +661,12 @@ $(function() {
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
                     $("#multiselect-medium-search").multiselect({
+                        multiple: false,
+                        header: "Select an option",
+                        noneSelectedText: "Select an Option",
+                        selectedList: 1
+                    });
+                    $("#search-language").multiselect({
                         multiple: false,
                         header: "Select an option",
                         noneSelectedText: "Select an Option",

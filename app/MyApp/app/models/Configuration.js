@@ -44,8 +44,9 @@ $(function() {
             },
             availableLanguages: {
                 type: 'Select',
-                options: ["English","Spanish","Portuguese","French","Russian","Chinese","Arabic","Hindi",
-                    "Urdu","Punjabi","Nepali","Swahili","Somali","Kyrgyzstani","Asante","Ewe"]
+                options: ["Arabic", "Asante", "Chinese", "English", "Ewe", "French", "Hindi", "Kyrgyzstani", "Nepali", "Portuguese", "Punjabi", "Russian",
+                    "Somali", "Spanish", "Swahili", "Urdu"
+                ]
             },
             currentLanguage: {
                 type: 'Text'
