@@ -32,9 +32,14 @@ ddoc.views = {
     searchView: {
         map: function(doc) {
             if (doc.Tag && doc.kind == 'Resource') {
-                for (var i = 0; i < doc.Tag.length; i++) {
-                    var tag = doc.Tag[i].toLowerCase();
-                    emit(tag, true);
+                if (Array.isArray(doc.Tag)) {
+                    if (doc.Tag.length > 0) {
+                        for (var idx in doc.Tag) {
+                            emit(doc.Tag[idx], doc._id);
+                        }
+                    }
+                } else {
+                    emit(doc.Tag, doc._id)
                 }
             }
             if (doc.subject && doc.kind == 'Resource') {
