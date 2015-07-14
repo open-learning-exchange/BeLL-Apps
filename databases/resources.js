@@ -76,6 +76,9 @@ ddoc.views = {
             if (doc.language && doc.kind == 'Resource') {
                 emit(doc.language, doc._id)
             }
+            if (doc.sum && doc.timesRated >= 1 && doc.kind == 'Resource') {
+                emit(Math.ceil(doc.sum / doc.timesRated), doc._id)
+            }
         }
 
     },
