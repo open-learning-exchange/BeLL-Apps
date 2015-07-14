@@ -84,11 +84,16 @@ $(function() {
             }
         },
         getSearchedRecords: function() {
-
+            var mapFilter = {};
             var filters = new Array()
-            if (this.collectionFilter) {
+            if (this.collectionFilter && searchText.replace(" ", "") == '' && !(this.subjectFilter)) {
                 for (var i = 0; i < this.collectionFilter.length; i++) {
                     filters.push(this.collectionFilter[i])
+                }
+            }
+            else {
+                if (this.collectionFilter && (searchText.replace(" ", "") != '' || this.subjectFilter)){
+                    mapFilter["Tag"] = this.collectionFilter;
                 }
             }
             if (this.subjectFilter) {
@@ -153,20 +158,32 @@ $(function() {
                 async: false
             })
             //Checking the AND Conditions here
-            if (this.languageFilter && this.groupresult.models.length > 0) {
-                var language = this.languageFilter[0];
-                var models = [];
-                for (var i = 0; i < this.groupresult.models.length; i++) {
-                    var tempRes = this.groupresult.models[i];
-                    if (tempRes.attributes.language == language) {
-                        models.push(tempRes);
-                    }
+            //Waqas
+            var resultModels;
+            if(mapFilter != null) {
+                if (this.groupresult.models.length > 0 && mapFilter != {}) {
+                    /*var language = mapFilter["language"];
+                     var models = [];
+                     for (var i = 0; i < this.groupresult.models.length; i++) {
+                     var tempRes = this.groupresult.models[i];
+                     if (tempRes.attributes.language == language) {
+                     models.push(tempRes);
+                     }
+                     }
+                     this.groupresult.models = models;
+                     if (models.length == 0) {
+                     this.groupresult.length = 0;
+                     }*/
+                    var tempResultModels = this.groupresult.models;
+                    resultModels = this.checkANDConditions(mapFilter , tempResultModels);
                 }
-                if (models.length == 0) {
-                    this.groupresult.models = models;
+            }
+            if(resultModels != null) {
+                this.groupresult.models = resultModels;
+                if(resultModels.length == 0) {
                     this.groupresult.length = 0;
                 } else {
-                    this.groupresult.models = models;
+                    this.groupresult.length = resultModels.length;
                 }
             }
             //End of the checking AND Conditions here
@@ -200,6 +217,32 @@ $(function() {
                 $('#srch').append(SearchResult.el)
             }
 
+        },
+        checkANDConditions: function(map_filter , resultModels) {
+            var matchedResults;
+            var models = [];
+            for(var i = 0 ; i < resultModels.length ; i++) {
+                matchedResults = [];
+                var model = resultModels[i];
+                for (var key in map_filter)
+                {
+                    var value = map_filter[key];
+                    if(Array.isArray(model.attributes[key])){
+                        var arrayValCheck = false;
+                        for(var j = 0 ; j < value.length ; j++) {
+                            var val = value[j];
+                            if(model.attributes[key].indexOf(val) > -1) {
+                                arrayValCheck = true;
+                            }
+                        }
+                        matchedResults.push(arrayValCheck);
+                    }
+                }
+                if(matchedResults.indexOf(false) == -1) {
+                    models.push(model);
+                }
+            }
+            return models;
         },
         addResourceToStepView: function() {
 
