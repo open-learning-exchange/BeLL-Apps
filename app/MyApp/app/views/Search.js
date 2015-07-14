@@ -90,9 +90,8 @@ $(function() {
                 for (var i = 0; i < this.collectionFilter.length; i++) {
                     filters.push(this.collectionFilter[i])
                 }
-            }
-            else {
-                if (this.collectionFilter && (searchText.replace(" ", "") != '' || this.subjectFilter)){
+            } else {
+                if (this.collectionFilter && (searchText.replace(" ", "") != '' || this.subjectFilter)) {
                     mapFilter["Tag"] = this.collectionFilter;
                 }
             }
@@ -100,8 +99,7 @@ $(function() {
                 for (var i = 0; i < this.subjectFilter.length; i++) {
                     filters.push(this.subjectFilter[i].toLowerCase())
                 }
-            }
-            else {
+            } else {
                 if (this.subjectFilter && searchText.replace(" ", "") != '') {
                     mapFilter["subject"] = this.subjectFilter;
                 }
@@ -110,9 +108,8 @@ $(function() {
                 for (var i = 0; i < this.levelFilter.length; i++) {
                     filters.push(this.levelFilter[i].toLowerCase())
                 }
-            }
-            else {
-                if (this.levelFilter && (this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)){
+            } else {
+                if (this.levelFilter && (this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)) {
                     mapFilter["Level"] = this.levelFilter;
                 }
             }
@@ -120,9 +117,8 @@ $(function() {
                 for (var i = 0; i < this.mediumFilter.length; i++) {
                     filters.push(this.mediumFilter[i].toLowerCase())
                 }
-            }
-            else {
-                if (this.mediumFilter && (this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)){
+            } else {
+                if (this.mediumFilter && (this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)) {
                     mapFilter["Medium"] = this.mediumFilter;
                 }
             }
@@ -131,7 +127,7 @@ $(function() {
                     filters.push(this.languageFilter[i])
                 }
             } else {
-                if (this.languageFilter && (searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)){
+                if (this.languageFilter && (searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)) {
                     mapFilter["language"] = this.languageFilter;
                 }
             }
@@ -139,9 +135,8 @@ $(function() {
                 for (var i = 0; i < this.ratingFilter.length; i++) {
                     filters.push(parseInt(this.ratingFilter[i]))
                 }
-            }
-            else {
-                if (this.ratingFilter.length > 0 && (this.mediumFilter || this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)){
+            } else {
+                if (this.ratingFilter.length > 0 && (this.mediumFilter || this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)) {
                     mapFilter["timesRated"] = this.ratingFilter;
                 }
             }
@@ -174,7 +169,7 @@ $(function() {
                  }*/
             }
 
-            if(prefix != null) {
+            if (prefix != null) {
                 filters.push(prefix)
             }
             var fil = JSON.stringify(filters);
@@ -187,7 +182,7 @@ $(function() {
             //Checking the AND Conditions here
             //Waqas
             var resultModels;
-            if(mapFilter != null) {
+            if (mapFilter != null) {
                 if (this.groupresult.models.length > 0 && mapFilter != {}) {
                     /*var language = mapFilter["language"];
                      var models = [];
@@ -202,12 +197,12 @@ $(function() {
                      this.groupresult.length = 0;
                      }*/
                     var tempResultModels = this.groupresult.models;
-                    resultModels = this.checkANDConditions(mapFilter , tempResultModels);
+                    resultModels = this.checkANDConditions(mapFilter, tempResultModels);
                 }
             }
-            if(resultModels != null) {
+            if (resultModels != null) {
                 this.groupresult.models = resultModels;
-                if(resultModels.length == 0) {
+                if (resultModels.length == 0) {
                     this.groupresult.length = 0;
                 } else {
                     this.groupresult.length = resultModels.length;
@@ -245,40 +240,37 @@ $(function() {
             }
 
         },
-        checkANDConditions: function(map_filter , resultModels) {
+        checkANDConditions: function(map_filter, resultModels) {
             var matchedResults;
             var models = [];
-            for(var i = 0 ; i < resultModels.length ; i++) {
+            for (var i = 0; i < resultModels.length; i++) {
                 matchedResults = [];
                 var model = resultModels[i];
-                for (var key in map_filter)
-                {
+                for (var key in map_filter) {
                     var value = map_filter[key];
-                    if(Array.isArray(model.attributes[key])){
+                    if (Array.isArray(model.attributes[key])) {
                         var arrayValCheck = false;
-                        for(var j = 0 ; j < value.length ; j++) {
+                        for (var j = 0; j < value.length; j++) {
                             var val = value[j];
-                            if(model.attributes[key].indexOf(val) > -1) {
+                            if (model.attributes[key].indexOf(val) > -1) {
                                 arrayValCheck = true;
                             }
                         }
                         matchedResults.push(arrayValCheck);
-                    }
-                    else {
-                        var stringValCheck= false;
-                        if(key != "timesRated") {
-                            for(var k = 0 ; k < value.length ; k++) {
+                    } else {
+                        var stringValCheck = false;
+                        if (key != "timesRated") {
+                            for (var k = 0; k < value.length; k++) {
                                 var val = value[k];
-                                if(model.attributes[key] == val) {
+                                if (model.attributes[key] == val) {
                                     stringValCheck = true;
                                 }
                             }
-                        }
-                        else {
-                            for(var k = 0 ; k < value.length ; k++) {
+                        } else {
+                            for (var k = 0; k < value.length; k++) {
                                 var val = value[k];
                                 var modelRating = Math.ceil(model.attributes.sum / model.attributes[key]);
-                                if(modelRating == val) {
+                                if (modelRating == val) {
                                     stringValCheck = true;
                                 }
                             }
@@ -286,7 +278,7 @@ $(function() {
                         matchedResults.push(stringValCheck);
                     }
                 }
-                if(matchedResults.indexOf(false) == -1) {
+                if (matchedResults.indexOf(false) == -1) {
                     models.push(model);
                 }
             }
