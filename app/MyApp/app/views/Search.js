@@ -126,12 +126,17 @@ $(function() {
                     filters.push(this.languageFilter[i])
                 }
             }
-            if (this.ratingFilter) {
+            if (this.ratingFilter.length > 0 && !(this.mediumFilter) && !(this.levelFilter) && !(this.languageFilter) && searchText.replace(" ", "") == '' && !(this.subjectFilter) && !(this.collectionFilter)) {
                 for (var i = 0; i < this.ratingFilter.length; i++) {
                     filters.push(parseInt(this.ratingFilter[i]))
                 }
             }
-            var prefix, temp_filters, temp_prefix;
+            else {
+                if (this.ratingFilter.length > 0 && (this.mediumFilter || this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)){
+                    mapFilter["timesRated"] = this.ratingFilter;
+                }
+            }
+            var prefix;
             if (searchText != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase()
@@ -159,7 +164,10 @@ $(function() {
                  filters.push(prefix[idx])
                  }*/
             }
-            filters.push(prefix) /*Push keyword to the filters*/
+
+            if(prefix != null) {
+                filters.push(prefix)
+            }
             var fil = JSON.stringify(filters);
             console.log(fil)
             this.groupresult.skip = 0
@@ -246,6 +254,27 @@ $(function() {
                             }
                         }
                         matchedResults.push(arrayValCheck);
+                    }
+                    else {
+                        var stringValCheck= false;
+                        if(key != "timesRated") {
+                            for(var k = 0 ; k < value.length ; k++) {
+                                var val = value[k];
+                                if(model.attributes[key] == val) {
+                                    stringValCheck = true;
+                                }
+                            }
+                        }
+                        else {
+                            for(var k = 0 ; k < value.length ; k++) {
+                                var val = value[k];
+                                var modelRating = Math.ceil(model.attributes.sum / model.attributes[key]);
+                                if(modelRating == val) {
+                                    stringValCheck = true;
+                                }
+                            }
+                        }
+                        matchedResults.push(stringValCheck);
                     }
                 }
                 if(matchedResults.indexOf(false) == -1) {
