@@ -96,9 +96,14 @@ $(function() {
                     mapFilter["Tag"] = this.collectionFilter;
                 }
             }
-            if (this.subjectFilter) {
+            if (this.subjectFilter && searchText.replace(" ", "") == '') {
                 for (var i = 0; i < this.subjectFilter.length; i++) {
-                    filters.push(this.subjectFilter[i])
+                    filters.push(this.subjectFilter[i].toLowerCase())
+                }
+            }
+            else {
+                if (this.subjectFilter && searchText.replace(" ", "") != '') {
+                    mapFilter["subject"] = this.subjectFilter;
                 }
             }
             if (this.levelFilter && !(this.languageFilter) && searchText.replace(" ", "") == '' && !(this.subjectFilter) && !(this.collectionFilter)) {
