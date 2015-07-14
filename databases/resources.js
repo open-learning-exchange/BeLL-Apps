@@ -48,6 +48,12 @@ ddoc.views = {
                     emit(subject, true);
                 }
             }
+            if (doc.Level && doc.kind == 'Resource') {
+                for (var i = 0; i < doc.Level.length; i++) {
+                    var level = doc.Level[i].toLowerCase();
+                    emit(level, true);
+                }
+            }
             if (doc.title && doc.kind == 'Resource') {
                 var i = 0,
                     j, str;
