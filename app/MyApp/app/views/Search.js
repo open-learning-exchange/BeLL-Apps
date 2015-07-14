@@ -111,9 +111,14 @@ $(function() {
                     mapFilter["Level"] = this.levelFilter;
                 }
             }
-            if (this.mediumFilter) {
+            if (this.mediumFilter && !(this.levelFilter) && !(this.languageFilter) && searchText.replace(" ", "") == '' && !(this.subjectFilter) && !(this.collectionFilter)) {
                 for (var i = 0; i < this.mediumFilter.length; i++) {
-                    filters.push(this.mediumFilter[i])
+                    filters.push(this.mediumFilter[i].toLowerCase())
+                }
+            }
+            else {
+                if (this.mediumFilter && (this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)){
+                    mapFilter["Medium"] = this.mediumFilter;
                 }
             }
             if (this.languageFilter && searchText.replace(" ", "") == '') {

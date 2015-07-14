@@ -69,6 +69,10 @@ ddoc.views = {
                 var prefix = txt.toLowerCase();
                 emit(prefix, true);
             }
+            if (doc.Medium && doc.kind == 'Resource') {
+                var medium = doc.Medium.toLowerCase();
+                emit(medium, doc._id)
+            }
             if (doc.language && doc.kind == 'Resource') {
                 emit(doc.language, doc._id)
             }
