@@ -121,9 +121,13 @@ $(function() {
                     mapFilter["Medium"] = this.mediumFilter;
                 }
             }
-            if (this.languageFilter && searchText.replace(" ", "") == '') {
+            if (this.languageFilter && searchText.replace(" ", "") == '' && !(this.subjectFilter) && !(this.collectionFilter)) {
                 for (var i = 0; i < this.languageFilter.length; i++) {
                     filters.push(this.languageFilter[i])
+                }
+            } else {
+                if (this.languageFilter && (searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)){
+                    mapFilter["language"] = this.languageFilter;
                 }
             }
             if (this.ratingFilter.length > 0 && !(this.mediumFilter) && !(this.levelFilter) && !(this.languageFilter) && searchText.replace(" ", "") == '' && !(this.subjectFilter) && !(this.collectionFilter)) {
