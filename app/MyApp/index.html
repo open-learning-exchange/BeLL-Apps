@@ -1040,7 +1040,15 @@
                             <%for(i=0;i<tags.length;i++){%>
                             <!-- to exclude deleted collection list -->
                             <% if (tags[i].show ) {%>
-                            <option value=<%=tags[i]._id%>><%=tags[i].CollectionName%></option>
+                            <% if (tags[i].IsMajor == true) {%>
+                            <option style="width: 370px;" value=<%=tags[i]._id%>><%=tags[i].CollectionName%></option>
+                            <%}%>
+                            <%for(j=i+1;j<tags.length;
+                            j++){%>
+                            <% if (tags[i]._id == tags[j].NesttedUnder ) {%>
+                            <option class="span7"  value=<%=tags[i]._id%>><%=tags[j].CollectionName%></option>
+                            <%}%>
+                            <%}%>
                             <%}%>
                             <%}%>
                         </select>

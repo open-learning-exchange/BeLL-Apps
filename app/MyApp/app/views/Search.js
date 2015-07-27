@@ -163,7 +163,9 @@ $(function() {
                     async: false
                 });
                 /////////////////////////////////////////////////////
-                /* for (var idx in prefix) {
+
+                /* prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
+                 for (var idx in prefix) {
                  if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
                  filters.push(prefix[idx])
                  }*/
