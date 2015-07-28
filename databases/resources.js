@@ -54,13 +54,7 @@ ddoc.views = {
                     emit(level, true);
                 }
             }
-            if (doc.title && doc.kind == 'Resource') {
-                var i = 0,
-                    j, str;
-                var title = doc.title.toLowerCase();
-                emit(doc.title.toLowerCase(), true);
-            }
-          /*   if (doc.title) {
+            if (doc.title) {
                 var txt = doc.title;
                 var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
                 if (prefix.length > 0) {
@@ -69,6 +63,12 @@ ddoc.views = {
                             emit(prefix[idx], doc._id);
                     }
                 }
+            }
+            /*if (doc.title && doc.kind == 'Resource') {
+                var i = 0,
+                    j, str;
+                var title = doc.title.toLowerCase();
+                emit(doc.title.toLowerCase(), true);
             }*/
             if (doc.Publisher) {
                 var prefix = doc.Publisher.toLowerCase();

@@ -162,13 +162,15 @@ $(function() {
                     },
                     async: false
                 });
-                /////////////////////////////////////////////////////
+                /****************************************************************************************/
 
-                /* prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
+                 prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                  for (var idx in prefix) {
                  if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
                  filters.push(prefix[idx])
-                 }*/
+                 }
+
+                /*****************************************************************************************************/
             }
 
             if (prefix != null) {
@@ -181,8 +183,7 @@ $(function() {
             this.groupresult.fetch({
                 async: false
             })
-            //Checking the AND Conditions here
-            //Waqas
+            //Checking the AND Conditions her
             var resultModels;
             if (mapFilter != null) {
                 if (this.groupresult.models.length > 0 && mapFilter != {}) {
