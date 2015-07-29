@@ -71,15 +71,39 @@ ddoc.views = {
                 emit(doc.title.toLowerCase(), true);
             }*/
 
-            if (doc.Publisher) {
+           /* if (doc.Publisher) {
                 var prefix = doc.Publisher.toLowerCase();
                 emit(prefix, true);
-            }
-          /*  if (doc.author) {
-                var txt = doc.author;
-                var prefix = txt.toLowerCase();
-                emit(prefix, true);
             } */
+            /********************************************************************************************************************************/
+            if (doc.Publisher && doc.kind == 'Resource') {
+                if (Array.isArray(doc.Publisher)) {
+                    pub = doc.Publisher
+                    for (var idnx in pub) {
+                        var prefix = pub[idnx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                        if (prefix.length > 0) {
+                            for (var idx in prefix) {
+                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                                    emit(prefix[idx], doc._id);
+                            }
+                        }
+                    }
+                } else {
+                    var publi = doc.Publisher.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                    if (publi.length > 0) {
+                        for (var idx in publi) {
+                            if (publi[idx] != ' ' && publi[idx] != "" && publi[idx] != "the" && publi[idx] != "an" && publi[idx] != "a")
+                                emit(publi[idx], doc._id);
+                        }
+                    }
+                }
+            }
+            /************************************************************************************************************************************/
+            /*  if (doc.author) {
+                  var txt = doc.author;
+                  var prefix = txt.toLowerCase();
+                  emit(prefix, true);
+              } */
             /********************************************************************************************************************************/
             if (doc.author && doc.kind == 'Resource') {
                 if (Array.isArray(doc.author)) {
