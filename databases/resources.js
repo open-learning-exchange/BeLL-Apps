@@ -70,15 +70,40 @@ ddoc.views = {
                 var title = doc.title.toLowerCase();
                 emit(doc.title.toLowerCase(), true);
             }*/
+
             if (doc.Publisher) {
                 var prefix = doc.Publisher.toLowerCase();
                 emit(prefix, true);
             }
-            if (doc.author) {
+          /*  if (doc.author) {
                 var txt = doc.author;
                 var prefix = txt.toLowerCase();
                 emit(prefix, true);
+            } */
+            /********************************************************************************************************************************/
+            if (doc.author && doc.kind == 'Resource') {
+                if (Array.isArray(doc.author)) {
+                    auth = doc.author
+                    for (var idnx in auth) {
+                        var prefix = auth[idnx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                        if (prefix.length > 0) {
+                            for (var idx in prefix) {
+                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                                    emit(prefix[idx], doc._id);
+                            }
+                        }
+                    }
+                } else {
+                    var authr = doc.author.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                    if (authr.length > 0) {
+                        for (var idx in authr) {
+                            if (authr[idx] != ' ' && authr[idx] != "" && authr[idx] != "the" && authr[idx] != "an" && authr[idx] != "a")
+                                emit(authr[idx], doc._id);
+                        }
+                    }
+                }
             }
+            /************************************************************************************************************************************/
             if (doc.Medium && doc.kind == 'Resource') {
                 var medium = doc.Medium.toLowerCase();
                 emit(medium, doc._id)
