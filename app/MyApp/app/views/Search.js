@@ -140,7 +140,7 @@ $(function() {
                     mapFilter["timesRated"] = this.ratingFilter;
                 }
             }
-            var prefix;
+            var prefix, prex;
             if (searchText != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase()
@@ -163,7 +163,10 @@ $(function() {
                     async: false
                 });
                 /****************************************************************************************/
-
+                prex = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase();
+                if (prex != null) {
+                    filters.push(prex)
+                }
                  prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                  for (var idx in prefix) {
                  if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
@@ -173,9 +176,7 @@ $(function() {
                 /*****************************************************************************************************/
             }
 
-            if (prefix != null) {
-                filters.push(prefix)
-            }
+
             var fil = JSON.stringify(filters);
             console.log(fil)
             this.groupresult.skip = 0
