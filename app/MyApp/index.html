@@ -1046,7 +1046,7 @@
                             <%for(j=i+1;j<tags.length;
                             j++){%>
                             <% if (tags[i]._id == tags[j].NesttedUnder ) {%>
-                            <option class="span7"  value=<%=tags[i]._id%>><%=tags[j].CollectionName%></option>
+                            <option class="span7"  value=<%=tags[j]._id%>><%=tags[j].CollectionName%></option>
                             <%}%>
                             <%}%>
                             <%}%>

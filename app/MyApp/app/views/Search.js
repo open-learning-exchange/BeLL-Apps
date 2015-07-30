@@ -287,6 +287,7 @@ $(function() {
             }
             return models;
         },
+
         addResourceToStepView: function() {
 
             var obj = this
