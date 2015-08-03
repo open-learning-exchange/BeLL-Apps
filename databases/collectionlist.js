@@ -20,13 +20,32 @@ ddoc.views = {
         emit(doc._id, doc);
     }
   },
+  /*************************************
+   * Get Collection by passing Name or Substring in NAme
+   */
   collectionByName: {
+
+    map: function(doc) {
+
+      if (doc.CollectionName && doc.kind == 'CollectionList') {
+        var prefix= doc.CollectionName.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+        if (prefix.length > 0) {
+          for (var idx in prefix) {
+            if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+              emit(prefix[idx], doc._id);
+          }
+        }
+        emit(doc.CollectionName.toLowerCase(), doc);
+      }
+    }
+  },
+  /*collectionByName: {
     map: function(doc) {
       if (doc.CollectionName && doc.kind == 'CollectionList') {
         emit(doc.CollectionName.toLowerCase(), doc);
       }
     }
-  },
+  },*/
   majorcatagory: {
     map: function(doc) {
       if (doc.show == true) {
