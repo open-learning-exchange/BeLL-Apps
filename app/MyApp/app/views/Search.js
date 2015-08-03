@@ -140,7 +140,7 @@ $(function() {
                     mapFilter["timesRated"] = this.ratingFilter;
                 }
             }
-            var prefix, prex;
+            var prefix, prex,searchTxt;
             if (searchText != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase()
@@ -163,16 +163,19 @@ $(function() {
                     async: false
                 });
                 /****************************************************************************************/
-                prex = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase();
-                if (prex != null) {
-                    filters.push(prex)
+                /****************************************************************************************/
+                searchTxt = searchText.replace(/[" "-]+/gi, "").toLowerCase()
+                if (searchTxt != null) {
+                    filters.push(searchTxt)
                 }
-                 prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
-                 for (var idx in prefix) {
-                 if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
-                 filters.push(prefix[idx])
-                 }
 
+                //prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
+                prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase()
+                prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                for (var idx in prefix) {
+                    if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                        filters.push(prefix[idx])
+                }
                 /*****************************************************************************************************/
             }
 

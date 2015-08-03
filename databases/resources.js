@@ -55,6 +55,7 @@ ddoc.views = {
                 for(var i = 0 ; i < doc.subject.length ; i++) {
                     var subject = doc.subject[i].toLowerCase();
                     emit(subject, true);
+                    emit(subject.replace(/[" "]+/gi, ""), doc);
                 }
                 for (var idx in doc.subject) {
                     var prefix= doc.subject[idx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
@@ -74,7 +75,8 @@ ddoc.views = {
             }
             if (doc.title) {
                 var txt = doc.title;
-                var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase();
+                prefix = prefix.replace(/[-]+/gi, " ").split(" ")
                 if (prefix.length > 0) {
                     for (var idx in prefix) {
                         if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
@@ -82,6 +84,16 @@ ddoc.views = {
                     }
                 }
             }
+            /*if (doc.title) {
+                var txt = doc.title;
+                var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                if (prefix.length > 0) {
+                    for (var idx in prefix) {
+                        if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                            emit(prefix[idx], doc._id);
+                    }
+                }
+            }*/
             /*if (doc.title && doc.kind == 'Resource') {
                 var i = 0,
                     j, str;
@@ -98,7 +110,7 @@ ddoc.views = {
                 if (Array.isArray(doc.Publisher)) {
                     pub = doc.Publisher
                     for (var idnx in pub) {
-                        var prefix = pub[idnx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                        var prefix = pub[idnx].replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
                         if (prefix.length > 0) {
                             for (var idx in prefix) {
                                 if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
@@ -107,7 +119,7 @@ ddoc.views = {
                         }
                     }
                 } else {
-                    var publi = doc.Publisher.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                    var publi = doc.Publisher.replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
                     if (publi.length > 0) {
                         for (var idx in publi) {
                             if (publi[idx] != ' ' && publi[idx] != "" && publi[idx] != "the" && publi[idx] != "an" && publi[idx] != "a")
@@ -115,6 +127,8 @@ ddoc.views = {
                         }
                     }
                 }
+                emit(doc.Publisher.replace(/[!(.,-;):]+/g, "").toLowerCase(), true);
+                emit(doc.Publisher.replace(/[!(.,-;):" "]+/g, "").toLowerCase(), true);
             }
             /************************************************************************************************************************************/
             /*  if (doc.author) {
@@ -144,6 +158,8 @@ ddoc.views = {
                         }
                     }
                 }
+                emit(doc.author.replace(/[!(.,-;):]+/g, "").toLowerCase(), true);
+                emit(doc.author.replace(/[!(.,-;):" "]+/g, "").toLowerCase(), true);
             }
             /************************************************************************************************************************************/
             if (doc.Medium && doc.kind == 'Resource') {

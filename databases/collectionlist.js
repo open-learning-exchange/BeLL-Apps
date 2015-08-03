@@ -28,7 +28,8 @@ ddoc.views = {
     map: function(doc) {
 
       if (doc.CollectionName && doc.kind == 'CollectionList') {
-        var prefix= doc.CollectionName.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+        var prefix= doc.CollectionName.replace(/[!(.,-;):]+/g, "").toLowerCase();
+        prefix = prefix.replace(/[-]+/gi, " ").split(" ")
         if (prefix.length > 0) {
           for (var idx in prefix) {
             if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
@@ -36,6 +37,7 @@ ddoc.views = {
           }
         }
         emit(doc.CollectionName.toLowerCase(), doc);
+          emit(doc.CollectionName.replace(/[-]+/gi, " ").toLowerCase(), doc);
       }
     }
   },
