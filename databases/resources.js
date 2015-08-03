@@ -42,10 +42,28 @@ ddoc.views = {
                     emit(doc.Tag, doc._id)
                 }
             }
-            if (doc.subject && doc.kind == 'Resource') {
+          /*  if (doc.subject && doc.kind == 'Resource') {
                 for (var i = 0; i < doc.subject.length; i++) {
                     var subject = doc.subject[i].toLowerCase();
                     emit(subject, true);
+                }
+            }*/
+            /*****************************************************
+             * Subject view has been changed
+             */
+            if (doc.subject && doc.kind == 'Resource') {
+                for(var i = 0 ; i < doc.subject.length ; i++) {
+                    var subject = doc.subject[i].toLowerCase();
+                    emit(subject, true);
+                }
+                for (var idx in doc.subject) {
+                    var prefix= doc.subject[idx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                    if (prefix.length > 0) {
+                        for (var idx in prefix) {
+                            if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                                emit(prefix[idx], doc._id);
+                        }
+                    }
                 }
             }
             if (doc.Level && doc.kind == 'Resource') {
