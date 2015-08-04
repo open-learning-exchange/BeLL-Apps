@@ -140,10 +140,10 @@ $(function() {
                     mapFilter["timesRated"] = this.ratingFilter;
                 }
             }
-            var prefix, prex,searchTxt;
+            var prefix, prex,searchTxt,searchText_Coll_Id;
             if (searchText != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
-                prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase()
+                prefix = searchText.replace(/[!(.,'";):&]+/gi, "").toLowerCase()
                 /* Get Collection Id from collection list database by passing the name of collection*/
                 $.ajax({
                     url: '/collectionlist/_design/bell/_view/collectionByName?_include_docs=true&key="' + prefix + '"',
@@ -152,7 +152,8 @@ $(function() {
                     success: function(collResult) {
                         console.log(collResult);
                         if (collResult.rows.length > 0) {
-                            filters.push(collResult.rows[0].id);
+                            searchText_Coll_Id = collResult.rows[0].id;
+                            filters.push(searchText_Coll_Id);
                             // console.log(id);
                         }
                     },
@@ -170,7 +171,7 @@ $(function() {
                 }
 
                 //prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
-                prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase()
+                prefix = searchText.replace(/[!(.,;'"):&]+/gi, "").toLowerCase()
                 prefix = prefix.replace(/[-]+/gi, " ").split(" ")
                 for (var idx in prefix) {
                     if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
@@ -187,10 +188,10 @@ $(function() {
             this.groupresult.fetch({
                 async: false
             })
-            //Checking the AND Conditions her
+            //Checking the AND Conditions here
             var resultModels;
-            if (mapFilter != null) {
-                if (this.groupresult.models.length > 0 && mapFilter != {}) {
+            //if (mapFilter != null) {
+                if (this.groupresult.models.length > 0 && !this.isEmpty(mapFilter)) {
                     /*var language = mapFilter["language"];
                      var models = [];
                      for (var i = 0; i < this.groupresult.models.length; i++) {
@@ -206,6 +207,16 @@ $(function() {
                     var tempResultModels = this.groupresult.models;
                     resultModels = this.checkANDConditions(mapFilter, tempResultModels);
                 }
+            //}
+            if (this.groupresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
+                var tempSearchText = searchText.replace(/[!(.,;'"):&]+/gi, "").toLowerCase();
+                var searchTextArray = [];
+                searchTextArray.push(tempSearchText);
+                var tempResultModels = this.groupresult.models;
+                if(searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
+                    searchTextArray.push(searchText_Coll_Id);
+                }
+                resultModels = this.checkSearchTextCompleteMatch(searchTextArray, tempResultModels);
             }
             if (resultModels != null) {
                 this.groupresult.models = resultModels;
@@ -247,6 +258,14 @@ $(function() {
             }
 
         },
+        isEmpty: function(map) {
+            for (var key in map) {
+                if (map.hasOwnProperty(key)) {
+                    return false;
+                }
+            }
+            return true;
+        },
         checkANDConditions: function(map_filter, resultModels) {
             var matchedResults;
             var models = [];
@@ -286,6 +305,47 @@ $(function() {
                     }
                 }
                 if (matchedResults.indexOf(false) == -1) {
+                    models.push(model);
+                }
+            }
+            return models;
+        },
+        checkSearchTextCompleteMatch: function(search_text, resultModels) {
+            var matchedResults;
+            var models = [];
+            for (var i = 0; i < resultModels.length; i++) {
+                matchedResults = [];
+                var model = resultModels[i];
+                if(model.attributes.title.toLowerCase().indexOf(search_text[0]) > -1
+                    || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
+                    || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                    matchedResults.push(true);
+                }
+                if(model.attributes.Publisher.toLowerCase().indexOf(search_text[0]) > -1
+                    || model.attributes.Publisher.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
+                    || model.attributes.Publisher.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                    matchedResults.push(true);
+                }
+                if(model.attributes.author.toLowerCase().indexOf(search_text[0]) > -1
+                    || model.attributes.author.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
+                    || model.attributes.author.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                    matchedResults.push(true);
+                }
+                for(var j = 0 ; j < model.attributes.subject.length ; j++) {
+                    if(model.attributes.subject[j].toLowerCase().indexOf(search_text[0]) > -1
+                        || model.attributes.subject[j].replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
+                        || model.attributes.subject[j].replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                        matchedResults.push(true);
+                    }
+                }
+                if(search_text.length > 1 && model.attributes.Tag) {
+                    for(var k = 0 ; k < model.attributes.Tag.length ; k++) {
+                        if(model.attributes.Tag[k].indexOf(search_text[1]) > -1) {
+                            matchedResults.push(true);
+                        }
+                    }
+                }
+                if (matchedResults.indexOf(true) > -1) {
                     models.push(model);
                 }
             }
