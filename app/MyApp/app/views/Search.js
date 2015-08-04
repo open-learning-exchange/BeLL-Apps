@@ -141,9 +141,9 @@ $(function() {
                 }
             }
             var prefix, prex,searchTxt,searchText_Coll_Id;
-            if (searchText != '') {
+            if (searchText.trim() != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
-                prefix = searchText.replace(/[!(.,'";):&]+/gi, "").toLowerCase()
+                prefix = searchText.trim().replace(/[!(.,'";):&]+/gi, "").toLowerCase()
                 /* Get Collection Id from collection list database by passing the name of collection*/
                 $.ajax({
                     url: '/collectionlist/_design/bell/_view/collectionByName?_include_docs=true&key="' + prefix + '"',
@@ -165,13 +165,16 @@ $(function() {
                 });
                 /****************************************************************************************/
                 /****************************************************************************************/
-                searchTxt = searchText.replace(/[" "-]+/gi, "").toLowerCase()
+                searchTxt = searchText.trim().replace(/[" "-]+/gi, "").toLowerCase()
                 if (searchTxt != null) {
                     filters.push(searchTxt)
                 }
-
+                prex = searchText.trim().replace(/[!(.,;):&]+/gi, "").toLowerCase();
+                if (prex != null) {
+                    filters.push(prex)
+                }
                 //prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
-                prefix = searchText.replace(/[!(.,;'"):&]+/gi, "").toLowerCase()
+                prefix = searchText.trim().replace(/[!(.,;'"):&]+/gi, "").toLowerCase();
                 prefix = prefix.replace(/[-]+/gi, " ").split(" ")
                 for (var idx in prefix) {
                     if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
@@ -208,10 +211,10 @@ $(function() {
                     resultModels = this.checkANDConditions(mapFilter, tempResultModels);
                 }
             //}
-            if (this.groupresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
-                var tempSearchText = searchText.replace(/[!(.,;'"):&]+/gi, "").toLowerCase();
+            if (this.groupresult.models.length > 0 && searchText.trim() != '' && this.isEmpty(mapFilter)) {
+                var tempSearchText = searchText.trim().replace(/[!(.,;'"):&]+/gi, "").toLowerCase();
                 var searchTextArray = [];
-                searchTextArray.push(tempSearchText);
+                searchTextArray.push(tempSearchText.replace(/[!(.," "-;):]+/g, ""));
                 var tempResultModels = this.groupresult.models;
                 if(searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
                     searchTextArray.push(searchText_Coll_Id);
