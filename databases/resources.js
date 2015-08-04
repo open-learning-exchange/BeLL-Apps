@@ -75,15 +75,72 @@ ddoc.views = {
             }
             if (doc.title) {
                 var txt = doc.title;
-                var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase();
-                prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
+               // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
                 if (prefix.length > 0) {
                     for (var idx in prefix) {
                         if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
                             emit(prefix[idx], doc._id);
                     }
                 }
+                var pref = txt.replace(/[-]+/g, " ").toLowerCase().split(" ");
+                // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                if (pref.length > 0) {
+                    for (var idx in pref) {
+                        if (pref[idx] != ' ' && pref[idx] != "" && pref[idx] != "the" && pref[idx] != "an" && pref[idx] != "a")
+                            emit(pref[idx], doc._id);
+                    }
+                }
+
             }
+            /*****publisher ******** /
+
+             */
+            if (doc.Publisher) {
+                var txt = doc.Publisher;
+                var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
+                // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                if (prefix.length > 0) {
+                    for (var idx in prefix) {
+                        if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                            emit(prefix[idx], doc._id);
+                    }
+                }
+                var pref = txt.replace(/[-]+/g, " ").toLowerCase().split(" ");
+                // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                if (pref.length > 0) {
+                    for (var idx in pref) {
+                        if (pref[idx] != ' ' && pref[idx] != "" && pref[idx] != "the" && pref[idx] != "an" && pref[idx] != "a")
+                            emit(pref[idx], doc._id);
+                    }
+                }
+
+            }
+            /***** Author ****** /
+
+             */
+            if (doc.author) {
+                var txt = doc.author;
+                var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
+                // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                if (prefix.length > 0) {
+                    for (var idx in prefix) {
+                        if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                            emit(prefix[idx], doc._id);
+                    }
+                }
+                var pref = txt.replace(/[-]+/g, " ").toLowerCase().split(" ");
+                // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                if (pref.length > 0) {
+                    for (var idx in pref) {
+                        if (pref[idx] != ' ' && pref[idx] != "" && pref[idx] != "the" && pref[idx] != "an" && pref[idx] != "a")
+                            emit(pref[idx], doc._id);
+                    }
+                }
+
+            }
+
+
             /*if (doc.title) {
                 var txt = doc.title;
                 var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
@@ -106,9 +163,10 @@ ddoc.views = {
                 emit(prefix, true);
             } */
             /********************************************************************************************************************************/
-            if (doc.Publisher && doc.kind == 'Resource') {
+          /*  if (doc.Publisher && doc.kind == 'Resource') {
+                var txt = doc.Publisher
                 if (Array.isArray(doc.Publisher)) {
-                    pub = doc.Publisher
+                   var pub = doc.Publisher
                     for (var idnx in pub) {
                         var prefix = pub[idnx].replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
                         if (prefix.length > 0) {
@@ -126,9 +184,18 @@ ddoc.views = {
                                 emit(publi[idx], doc._id);
                         }
                     }
+                    var pref = txt.replace(/[-]+/g, " ").toLowerCase().split(" ");
+                    // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                    if (pref.length > 0) {
+                        for (var idx in pref) {
+                            if (pref[idx] != ' ' && pref[idx] != "" && pref[idx] != "the" && pref[idx] != "an" && pref[idx] != "a")
+                                emit(pref[idx], doc._id);
+                        }
+                    }
                 }
-                emit(doc.Publisher.replace(/[!(.,-;):]+/g, "").toLowerCase(), true);
-                emit(doc.Publisher.replace(/[!(.,-;):" "]+/g, "").toLowerCase(), true);
+               // emit(doc.Publisher.replace(/[!(.,-;):]+/g, "").toLowerCase(), true);
+              //  emit(doc.Publisher.replace(/[!(.,-;):" "]+/g, "").toLowerCase(), true);
+              //  emit(doc.Publisher.replace(/[-]+/g, " ").toLowerCase(), true);
             }
             /************************************************************************************************************************************/
             /*  if (doc.author) {
@@ -137,7 +204,7 @@ ddoc.views = {
                   emit(prefix, true);
               } */
             /********************************************************************************************************************************/
-            if (doc.author && doc.kind == 'Resource') {
+         /*   if (doc.author && doc.kind == 'Resource') {
                 if (Array.isArray(doc.author)) {
                     auth = doc.author
                     for (var idnx in auth) {
