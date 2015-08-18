@@ -213,10 +213,10 @@ $(function() {
                 var searchTextArray = [];
                 searchTextArray.push(tempSearchText);
                 var tempResultModels = this.groupresult.models;
-                if(searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
-                    searchTextArray.push(searchText_Coll_Id);
-                }
-                resultModels = this.checkSearchTextCompleteMatch(searchTextArray, tempResultModels);
+                //if(searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
+                //    searchTextArray.push(searchText_Coll_Id);
+                //}
+                //resultModels = this.checkSearchTextCompleteMatch(searchTextArray, tempResultModels);
             }
             if (resultModels != null) {
                 this.groupresult.models = resultModels;
