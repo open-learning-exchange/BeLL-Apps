@@ -436,7 +436,7 @@ function AddToShelf(rId, title) {
 }
 
 function showSubjectCheckBoxes() {
-    var subjects = ['Agriculture', 'Arts', 'Business and Finance', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology'];
+    var subjects = ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology'];
     var length = subjects.length;
     var htmlString = "<label style='font-size:16px'><b>Subject</b></label><br>";
     htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>";

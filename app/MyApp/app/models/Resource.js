@@ -104,7 +104,7 @@ $(function() {
             subject: {
                 title: 'Subjects',
                 type: 'Select',
-                options: ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health & Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics & Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology']
+                options: ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology']
             },
             Level: {
                 title: 'Levels',
