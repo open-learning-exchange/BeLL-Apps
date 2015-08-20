@@ -51,7 +51,7 @@ ddoc.views = {
             /*****************************************************
              * Subject view has been changed
              */
-            if (doc.subject && doc.kind == 'Resource') {
+            /*if (doc.subject && doc.kind == 'Resource') {
                 for(var i = 0 ; i < doc.subject.length ; i++) {
                     var subject = doc.subject[i].toLowerCase();
                     emit(subject, true);
@@ -66,6 +66,17 @@ ddoc.views = {
                         }
                     }
                 }
+            }*/
+            if (doc.subject && doc.kind == 'Resource') {
+                if (Array.isArray(doc.subject)) {
+                    if (doc.subject.length > 0) {
+                        for (var idx in doc.subject) {
+                            emit(doc.subject[idx].toLowerCase(), doc._id);
+                        }
+                    }
+                } else {
+                    emit(doc.subject.toLowerCase(), doc._id)
+                }
             }
             if (doc.Level && doc.kind == 'Resource') {
                 for (var i = 0; i < doc.Level.length; i++) {
@@ -73,7 +84,7 @@ ddoc.views = {
                     emit(level, true);
                 }
             }
-            if (doc.title) {
+            /*if (doc.title) {
                 var txt = doc.title;
                 var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
                // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
@@ -92,6 +103,17 @@ ddoc.views = {
                     }
                 }
 
+            }*/
+            if (doc.title) {
+                var txt = doc.title;
+                var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                if (prefix.length > 0) {
+                    for (var idx in prefix) {
+                        if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                            emit(prefix[idx], doc._id);
+                    }
+                }
+                emit(txt.replace(/[" "-]+/gi, "").toLowerCase(), doc._id);
             }
             /*****publisher ******** /
 

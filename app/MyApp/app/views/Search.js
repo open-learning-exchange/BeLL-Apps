@@ -144,6 +144,7 @@ $(function() {
             if (searchText != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,'";):&]+/gi, "").toLowerCase()
+                filters.push(prefix);
                 /* Get Collection Id from collection list database by passing the name of collection*/
                 $.ajax({
                     url: '/collectionlist/_design/bell/_view/collectionByName?_include_docs=true&key="' + prefix + '"',
@@ -172,9 +173,11 @@ $(function() {
 
                 //prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,;'"):&]+/gi, "").toLowerCase()
+                prex = prefix.replace(/[-]+/gi, " ");
+                filters.push(prex);
                 prefix = prefix.replace(/[-]+/gi, " ").split(" ")
                 for (var idx in prefix) {
-                    if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                    if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a" && prefix[idx] != "and" && prefix[idx] != "&")
                         filters.push(prefix[idx])
                 }
                 /*****************************************************************************************************/
