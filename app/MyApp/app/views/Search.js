@@ -140,7 +140,7 @@ $(function() {
                     mapFilter["timesRated"] = this.ratingFilter;
                 }
             }
-            var prefix, prex,searchTxt,searchText_Coll_Id;
+            var prefix, prex, searchTxt, searchText_Coll_Id;
             if (searchText != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,'";):&]+/gi, "").toLowerCase()
@@ -194,22 +194,22 @@ $(function() {
             //Checking the AND Conditions here
             var resultModels;
             //if (mapFilter != null) {
-                if (this.groupresult.models.length > 0 && !this.isEmpty(mapFilter)) {
-                    /*var language = mapFilter["language"];
-                     var models = [];
-                     for (var i = 0; i < this.groupresult.models.length; i++) {
-                     var tempRes = this.groupresult.models[i];
-                     if (tempRes.attributes.language == language) {
-                     models.push(tempRes);
-                     }
-                     }
-                     this.groupresult.models = models;
-                     if (models.length == 0) {
-                     this.groupresult.length = 0;
-                     }*/
-                    var tempResultModels = this.groupresult.models;
-                    resultModels = this.checkANDConditions(mapFilter, tempResultModels);
-                }
+            if (this.groupresult.models.length > 0 && !this.isEmpty(mapFilter)) {
+                /*var language = mapFilter["language"];
+                 var models = [];
+                 for (var i = 0; i < this.groupresult.models.length; i++) {
+                 var tempRes = this.groupresult.models[i];
+                 if (tempRes.attributes.language == language) {
+                 models.push(tempRes);
+                 }
+                 }
+                 this.groupresult.models = models;
+                 if (models.length == 0) {
+                 this.groupresult.length = 0;
+                 }*/
+                var tempResultModels = this.groupresult.models;
+                resultModels = this.checkANDConditions(mapFilter, tempResultModels);
+            }
             //}
             if (this.groupresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
                 var tempSearchText = searchText.replace(/[!(.,;'"):&]+/gi, "").toLowerCase();
@@ -319,31 +319,23 @@ $(function() {
             for (var i = 0; i < resultModels.length; i++) {
                 matchedResults = [];
                 var model = resultModels[i];
-                if(model.attributes.title.toLowerCase().indexOf(search_text[0]) > -1
-                    || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
-                    || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                if (model.attributes.title.toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
                     matchedResults.push(true);
                 }
-                if(model.attributes.Publisher.toLowerCase().indexOf(search_text[0]) > -1
-                    || model.attributes.Publisher.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
-                    || model.attributes.Publisher.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                if (model.attributes.Publisher.toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.Publisher.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.Publisher.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
                     matchedResults.push(true);
                 }
-                if(model.attributes.author.toLowerCase().indexOf(search_text[0]) > -1
-                    || model.attributes.author.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
-                    || model.attributes.author.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                if (model.attributes.author.toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.author.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.author.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
                     matchedResults.push(true);
                 }
-                for(var j = 0 ; j < model.attributes.subject.length ; j++) {
-                    if(model.attributes.subject[j].toLowerCase().indexOf(search_text[0]) > -1
-                        || model.attributes.subject[j].replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1
-                        || model.attributes.subject[j].replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
+                for (var j = 0; j < model.attributes.subject.length; j++) {
+                    if (model.attributes.subject[j].toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.subject[j].replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.subject[j].replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
                         matchedResults.push(true);
                     }
                 }
-                if(search_text.length > 1 && model.attributes.Tag) {
-                    for(var k = 0 ; k < model.attributes.Tag.length ; k++) {
-                        if(model.attributes.Tag[k].indexOf(search_text[1]) > -1) {
+                if (search_text.length > 1 && model.attributes.Tag) {
+                    for (var k = 0; k < model.attributes.Tag.length; k++) {
+                        if (model.attributes.Tag[k].indexOf(search_text[1]) > -1) {
                             matchedResults.push(true);
                         }
                     }
