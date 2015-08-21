@@ -109,7 +109,7 @@ ddoc.views = {
                 var prefix = txt.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
                 if (prefix.length > 0) {
                     for (var idx in prefix) {
-                        if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                        if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a" && prefix[idx] != "and" && prefix[idx] != "of" && prefix[idx] != "&" && prefix[idx] != "-")
                             emit(prefix[idx], doc._id);
                     }
                 }
@@ -145,7 +145,7 @@ ddoc.views = {
                         var prefix = auth[idnx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
                         if (prefix.length > 0) {
                             for (var idx in prefix) {
-                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a" && prefix[idx] != "&")
                                     emit(prefix[idx], doc._id);
                             }
                         }
@@ -154,7 +154,7 @@ ddoc.views = {
                     var authr = doc.author.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
                     if (authr.length > 0) {
                         for (var idx in authr) {
-                            if (authr[idx] != ' ' && authr[idx] != "" && authr[idx] != "the" && authr[idx] != "an" && authr[idx] != "a")
+                            if (authr[idx] != ' ' && authr[idx] != "" && authr[idx] != "the" && authr[idx] != "an" && authr[idx] != "a" && authr[idx] != "&")
                                 emit(authr[idx], doc._id);
                         }
                     }
@@ -167,7 +167,7 @@ ddoc.views = {
                         var prefix = pub[idnx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
                         if (prefix.length > 0) {
                             for (var idx in prefix) {
-                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a" && prefix[idx] != "&")
                                     emit(prefix[idx], doc._id);
                             }
                         }
@@ -176,7 +176,7 @@ ddoc.views = {
                     var publshr = doc.Publisher.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
                     if (publshr.length > 0) {
                         for (var idx in publshr) {
-                            if (publshr[idx] != ' ' && publshr[idx] != "" && publshr[idx] != "the" && publshr[idx] != "an" && publshr[idx] != "a")
+                            if (publshr[idx] != ' ' && publshr[idx] != "" && publshr[idx] != "the" && publshr[idx] != "an" && publshr[idx] != "a" && publshr[idx] != "&")
                                 emit(publshr[idx], doc._id);
                         }
                     }
