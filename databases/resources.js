@@ -118,7 +118,7 @@ ddoc.views = {
             /*****publisher ******** /
 
              */
-            if (doc.Publisher) {
+            /*if (doc.Publisher) {
                 var txt = doc.Publisher;
                 var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
                 // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
@@ -137,11 +137,55 @@ ddoc.views = {
                     }
                 }
 
+            }*/
+            if (doc.author && doc.kind == 'Resource') {
+                if (Array.isArray(doc.author)) {
+                    auth = doc.author
+                    for (var idnx in auth) {
+                        var prefix = auth[idnx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                        if (prefix.length > 0) {
+                            for (var idx in prefix) {
+                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                                    emit(prefix[idx], doc._id);
+                            }
+                        }
+                    }
+                } else {
+                    var authr = doc.author.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                    if (authr.length > 0) {
+                        for (var idx in authr) {
+                            if (authr[idx] != ' ' && authr[idx] != "" && authr[idx] != "the" && authr[idx] != "an" && authr[idx] != "a")
+                                emit(authr[idx], doc._id);
+                        }
+                    }
+                }
+            }
+            if (doc.Publisher && doc.kind == 'Resource') {
+                if (Array.isArray(doc.Publisher)) {
+                    var pub = doc.Publisher
+                    for (var idnx in pub) {
+                        var prefix = pub[idnx].replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                        if (prefix.length > 0) {
+                            for (var idx in prefix) {
+                                if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a")
+                                    emit(prefix[idx], doc._id);
+                            }
+                        }
+                    }
+                } else {
+                    var publshr = doc.Publisher.replace(/[!(.,;):]+/g, "").toLowerCase().split(" ");
+                    if (publshr.length > 0) {
+                        for (var idx in publshr) {
+                            if (publshr[idx] != ' ' && publshr[idx] != "" && publshr[idx] != "the" && publshr[idx] != "an" && publshr[idx] != "a")
+                                emit(publshr[idx], doc._id);
+                        }
+                    }
+                }
             }
             /***** Author ****** /
 
              */
-            if (doc.author) {
+            /*if (doc.author) {
                 var txt = doc.author;
                 var prefix = txt.replace(/[!(.,-;):]+/g, "").toLowerCase().split(" ");
                 // prefix = prefix.replace(/[-]+/gi, " ").split(" ")
@@ -160,7 +204,7 @@ ddoc.views = {
                     }
                 }
 
-            }
+            }*/
 
 
             /*if (doc.title) {
