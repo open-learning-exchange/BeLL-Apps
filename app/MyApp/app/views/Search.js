@@ -141,6 +141,7 @@ $(function() {
                 }
             }
             var prefix, prex, searchTxt, searchText_Coll_Id;
+            var searchTextArray = [];
             if (searchText != '') {
                 // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,'";):&]+/gi, "").toLowerCase()
@@ -176,6 +177,7 @@ $(function() {
                 prex = prefix.replace(/[-]+/gi, " ");
                 filters.push(prex);
                 prefix = prefix.replace(/[-]+/gi, " ").split(" ")
+                searchTextArray = prefix;
                 for (var idx in prefix) {
                     if (prefix[idx] != ' ' && prefix[idx] != "" && prefix[idx] != "the" && prefix[idx] != "an" && prefix[idx] != "a" && prefix[idx] != "and" && prefix[idx] != "&")
                         filters.push(prefix[idx])
@@ -212,14 +214,11 @@ $(function() {
             }
             //}
             if (this.groupresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
-                var tempSearchText = searchText.replace(/[!(.,;'"):&]+/gi, "").toLowerCase();
-                var searchTextArray = [];
-                searchTextArray.push(tempSearchText);
-                var tempResultModels = this.groupresult.models;
-                //if(searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
-                //    searchTextArray.push(searchText_Coll_Id);
-                //}
-                //resultModels = this.checkSearchTextCompleteMatch(searchTextArray, tempResultModels);
+            if(searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
+            var collection_id = searchText_Coll_Id;
+            }
+                var tempModels = this.groupresult.models;
+                resultModels = this.checkSearchTextCompleteMatch(searchTextArray,collection_id, tempModels);
             }
             if (resultModels != null) {
                 this.groupresult.models = resultModels;
@@ -313,32 +312,46 @@ $(function() {
             }
             return models;
         },
-        checkSearchTextCompleteMatch: function(search_text, resultModels) {
-            var matchedResults;
+        checkSearchTextCompleteMatch: function(search_text, coll_id, resultModels) {
+            var matchedResults, matchingTitle, matchingPublisher, matchingAuthor;
             var models = [];
             for (var i = 0; i < resultModels.length; i++) {
                 matchedResults = [];
+                matchingTitle = [];
+                matchingPublisher = [];
+                matchingAuthor = [];
                 var model = resultModels[i];
-                if (model.attributes.title.toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
-                    matchedResults.push(true);
-                }
-                if (model.attributes.Publisher.toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.Publisher.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.Publisher.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
-                    matchedResults.push(true);
-                }
-                if (model.attributes.author.toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.author.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.author.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
-                    matchedResults.push(true);
-                }
-                for (var j = 0; j < model.attributes.subject.length; j++) {
-                    if (model.attributes.subject[j].toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.subject[j].replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[0]) > -1 || model.attributes.subject[j].replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[0]) > -1) {
-                        matchedResults.push(true);
+                for(var st = 0 ; st < search_text.length ; st++) {
+                    if (model.attributes.title.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
+                        matchingTitle.push(true);
+                    } else {
+                        matchingTitle.push(false);
                     }
-                }
-                if (search_text.length > 1 && model.attributes.Tag) {
-                    for (var k = 0; k < model.attributes.Tag.length; k++) {
-                        if (model.attributes.Tag[k].indexOf(search_text[1]) > -1) {
+                    if (model.attributes.Publisher.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.Publisher.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.Publisher.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
+                        matchingPublisher.push(true);
+                    } else {
+                        matchingPublisher.push(false);
+                    }
+                    if (model.attributes.author.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.author.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.author.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
+                        matchingAuthor.push(true);
+                    } else {
+                        matchingAuthor.push(false);
+                    }
+                    for (var j = 0; j < model.attributes.subject.length; j++) {
+                        if (model.attributes.subject[j].toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.subject[j].replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.subject[j].replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
                             matchedResults.push(true);
                         }
                     }
+                    if (model.attributes.Tag) {
+                        for (var k = 0; k < model.attributes.Tag.length; k++) {
+                            if (model.attributes.Tag[k].indexOf(coll_id) > -1) {
+                                matchedResults.push(true);
+                            }
+                        }
+                    }
+                }
+                if (matchingTitle.indexOf(false) == -1 || matchingPublisher.indexOf(false) == -1 || matchingAuthor.indexOf(false) == -1) {
+                    matchedResults.push(true);
                 }
                 if (matchedResults.indexOf(true) > -1) {
                     models.push(model);
