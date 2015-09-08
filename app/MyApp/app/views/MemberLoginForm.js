@@ -5,12 +5,20 @@ $(function() {
         className: "form login-form",
 
         events: {
+            "keypress .bbf-form":"listenToEnterForSubmit",
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
             "click #formButton2": "signup",
             "click #welcomeButton": "showWelcomeVideo"
         },
-
+        listenToEnterForSubmit:function(event){
+              //  alert("event triggered");
+                if(event.keyCode==13)
+                {
+                //    alert("Enter Presseed");
+                    this.setForm();
+                }
+        },
         render: function() {
             var context = this;
             var welcomeResources = new App.Collections.Resources();
@@ -59,6 +67,7 @@ $(function() {
             })
         },
         setForm: function() {
+          // alert("set form called");
             var memberLoginForm = this
             this.form.commit()
             var credentials = this.form.model
