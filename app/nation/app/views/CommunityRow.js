@@ -6,10 +6,21 @@ $(function() {
 
         events: {
             "click .destroy": function(e) {
-                e.preventDefault()
-                this.model.destroy()
-                this.remove()
-            },
+
+                if (confirm('Are you sure you want to delete this resource?')) {
+                    e.preventDefault()
+                    this.model.destroy()
+                    this.remove()
+                }else{
+                    e.preventDefault()
+
+                    App.startActivityIndicator();
+                    Backbone.history.navigate('listCommunity', {
+                        trigger: true
+                    });
+                    App.stopActivityIndicator();
+                }
+                    },
             "click .browse": function(e) {
                 e.preventDefault()
                 $('#modal').modal({
@@ -26,6 +37,7 @@ $(function() {
 
         render: function() {
             var community = this.model;
+
             var row = "<td>" + community.get('Name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td><a role='button' class='btn btn-info' href='#addCommunity/" +
                 community.get('_id') + "'> <i class='icon-pencil icon-white'></i>Edit</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
                 community.get('_id') + "'> <i class='icon-remove icon-white'></i>Delete</a></td>";
