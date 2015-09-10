@@ -3,6 +3,7 @@ $(function() {
     App.Views.Search = Backbone.View.extend({
 
         events: {
+            "keypress #searchText":"SearchByEnter",
             "click #searchR": "searchResult",
             "click #addRestoPub": "addResourceToPublication",
             "click #next_button": function(e) {
@@ -64,7 +65,13 @@ $(function() {
             //this.groupresult = new App.Collections.SearchResource()
             this.groupresult = new App.Collections.Resources()
             this.resultArray = []
-            enablenext = 0
+            enablenext = 0;
+        },
+        SearchByEnter:function(e){
+            if(e.keyCode == 13)
+            {
+                ResourceSearch();
+            }
         },
         render: function() {
             var obj = this

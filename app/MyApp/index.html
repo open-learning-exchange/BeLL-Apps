@@ -1449,6 +1449,17 @@
 
     </table>
 </script>
+    <script>
+        setInterval("myFunction()",100);
+        function myFunction() {
+           var temp = $.url().data.attr.fragment;
+            if(temp == "resource/search") {
+                if(document.hasFocus()) {
+                    $('#searchText').focus();
+                }
+            }
+        }
+    </script>
 
 </head>
 
