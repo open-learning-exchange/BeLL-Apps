@@ -37,9 +37,9 @@ $(function() {
                     document.getElementById("imgurl").src = attchmentURL
                 }
                 var temp = $.url().data.attr.host.split(".")
-                temp = temp[0].substring(3)
-                if (temp == "") {
-                    temp = "local "
+                temp = temp[0];
+                if (temp.substring(0,3) == "127") {
+                    temp = "local"
                 }
                 temp = temp + " Nation Bell"
                 $('.bellLocation').html(temp)

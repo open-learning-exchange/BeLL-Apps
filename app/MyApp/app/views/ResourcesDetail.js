@@ -53,9 +53,9 @@ $(function() {
             }
             //if the model has the Attachments
             if (vars._attachments) {
-                this.$el.append("<tr><td>Attachement</td><td><a class='btn open' target='_blank' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "'>View</a></td></tr>")
+                this.$el.append("<tr><td>Attachment</td><td><a class='btn open' target='_blank' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "'>View</a></td></tr>")
             } else {
-                this.$el.append("<tr><td>Attachement</td><td>No Attachment</td></tr>")
+                this.$el.append("<tr><td>Attachment</td><td>No Attachment</td></tr>")
             }
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
 
