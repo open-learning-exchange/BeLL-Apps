@@ -264,6 +264,7 @@ $(function() {
             Backbone.history.navigate('login', {
                 trigger: true
             })
+            window.location.reload();
         },
         getRoles: function() {
 
@@ -2156,7 +2157,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Total Members'
+                            text: 'Total Registered Members Past 12 Months'   //Total Members Previously
                         },
                         xAxis: {
                             categories: [
@@ -2243,6 +2244,111 @@ $(function() {
                                 registeredMembersFromMembersDbTillThirdLastMonthEnd['total'],
                                 registeredMembersFromMembersDbTillSecondLastMonthEnd['total'],
                                 registeredMembersFromMembersDbTillNow['total']
+                            ],
+                            color: '#ff9900'
+                        }]
+                    });
+                    //  ********************************************************************************************************
+                    //  ********************************************************************************************************
+                    //Total Member Visits
+                    //  ********************************************************************************************************
+                    $('#trend-report-div-total-member-visits').highcharts({
+                        chart: {
+                            type: 'column',
+                            borderColor: '#999999',
+                            borderWidth: 2,
+                            borderRadius: 10
+                        },
+                        title: {
+                            text: 'Total Visits Past 12 Months'  // Total Visits
+                        },
+                        xAxis: {
+                            categories: [
+
+                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                            ]
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "Visits Count"
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [{
+                            name: 'Males',
+                            data: [
+
+                                membersVisitsTillTwelfthLastMonthEnd['male'],
+                                membersVisitsTillEleventhLastMonthEnd['male'],
+                                membersVisitsTillTenthLastMonthEnd['male'],
+                                membersVisitsTillNinthLastMonthEnd['male'],
+                                membersVisitsTillEighthLastMonthEnd['male'],
+                                membersVisitsTillSeventhLastMonthEnd['male'],
+                                membersVisitsTillSixthLastMonthEnd['male'],
+                                membersVisitsTillFifthLastMonthEnd['male'],
+                                membersVisitsTillFourthLastMonthEnd['male'],
+                                membersVisitsTillThirdLastMonthEnd['male'],
+                                membersVisitsTillSecondLastMonthEnd['male'],
+                                membersVisitsTillNow['male']
+                            ],
+                            color: '#33ccff'
+                        }, {
+                            name: 'Females',
+                            data: [
+                                membersVisitsTillTwelfthLastMonthEnd['female'],
+                                membersVisitsTillEleventhLastMonthEnd['female'],
+                                membersVisitsTillTenthLastMonthEnd['female'],
+                                membersVisitsTillNinthLastMonthEnd['female'],
+                                membersVisitsTillEighthLastMonthEnd['female'],
+                                membersVisitsTillSeventhLastMonthEnd['female'],
+                                membersVisitsTillSixthLastMonthEnd['female'],
+                                membersVisitsTillFifthLastMonthEnd['female'],
+                                membersVisitsTillFourthLastMonthEnd['female'],
+                                membersVisitsTillThirdLastMonthEnd['female'],
+                                membersVisitsTillSecondLastMonthEnd['female'],
+                                membersVisitsTillNow['female']
+                            ],
+                            color: '#66ff66'
+                        }, {
+                            name: 'Total',
+                            data: [
+                                membersVisitsTillTwelfthLastMonthEnd['total'],
+                                membersVisitsTillEleventhLastMonthEnd['total'],
+                                membersVisitsTillTenthLastMonthEnd['total'],
+                                membersVisitsTillNinthLastMonthEnd['total'],
+                                membersVisitsTillEighthLastMonthEnd['total'],
+                                membersVisitsTillSeventhLastMonthEnd['total'],
+                                membersVisitsTillSixthLastMonthEnd['total'],
+                                membersVisitsTillFifthLastMonthEnd['total'],
+                                membersVisitsTillFourthLastMonthEnd['total'],
+                                membersVisitsTillThirdLastMonthEnd['total'],
+                                membersVisitsTillSecondLastMonthEnd['total'],
+                                membersVisitsTillNow['total']
                             ],
                             color: '#ff9900'
                         }]
@@ -2560,111 +2666,7 @@ $(function() {
                         }]
                     });
                     //  ********************************************************************************************************
-                    //  ********************************************************************************************************
-                    //Total Member Visits
-                    //  ********************************************************************************************************
-                    $('#trend-report-div-total-member-visits').highcharts({
-                        chart: {
-                            type: 'column',
-                            borderColor: '#999999',
-                            borderWidth: 2,
-                            borderRadius: 10
-                        },
-                        title: {
-                            text: 'Total Visits'
-                        },
-                        xAxis: {
-                            categories: [
 
-                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
-                            ]
-                        },
-                        yAxis: {
-                            min: 0,
-                            title: {
-                                text: "Visits Count"
-                            }
-                        },
-                        tooltip: {
-                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
-                            footerFormat: '</table>',
-                            shared: true,
-                            useHTML: true
-                        },
-                        plotOptions: {
-                            column: {
-                                pointPadding: 0.2,
-                                borderWidth: 0
-                            }
-                        },
-                        series: [{
-                            name: 'Males',
-                            data: [
-
-                                membersVisitsTillTwelfthLastMonthEnd['male'],
-                                membersVisitsTillEleventhLastMonthEnd['male'],
-                                membersVisitsTillTenthLastMonthEnd['male'],
-                                membersVisitsTillNinthLastMonthEnd['male'],
-                                membersVisitsTillEighthLastMonthEnd['male'],
-                                membersVisitsTillSeventhLastMonthEnd['male'],
-                                membersVisitsTillSixthLastMonthEnd['male'],
-                                membersVisitsTillFifthLastMonthEnd['male'],
-                                membersVisitsTillFourthLastMonthEnd['male'],
-                                membersVisitsTillThirdLastMonthEnd['male'],
-                                membersVisitsTillSecondLastMonthEnd['male'],
-                                membersVisitsTillNow['male']
-                            ],
-                            color: '#33ccff'
-                        }, {
-                            name: 'Females',
-                            data: [
-                                membersVisitsTillTwelfthLastMonthEnd['female'],
-                                membersVisitsTillEleventhLastMonthEnd['female'],
-                                membersVisitsTillTenthLastMonthEnd['female'],
-                                membersVisitsTillNinthLastMonthEnd['female'],
-                                membersVisitsTillEighthLastMonthEnd['female'],
-                                membersVisitsTillSeventhLastMonthEnd['female'],
-                                membersVisitsTillSixthLastMonthEnd['female'],
-                                membersVisitsTillFifthLastMonthEnd['female'],
-                                membersVisitsTillFourthLastMonthEnd['female'],
-                                membersVisitsTillThirdLastMonthEnd['female'],
-                                membersVisitsTillSecondLastMonthEnd['female'],
-                                membersVisitsTillNow['female']
-                            ],
-                            color: '#66ff66'
-                        }, {
-                            name: 'Total',
-                            data: [
-                                membersVisitsTillTwelfthLastMonthEnd['total'],
-                                membersVisitsTillEleventhLastMonthEnd['total'],
-                                membersVisitsTillTenthLastMonthEnd['total'],
-                                membersVisitsTillNinthLastMonthEnd['total'],
-                                membersVisitsTillEighthLastMonthEnd['total'],
-                                membersVisitsTillSeventhLastMonthEnd['total'],
-                                membersVisitsTillSixthLastMonthEnd['total'],
-                                membersVisitsTillFifthLastMonthEnd['total'],
-                                membersVisitsTillFourthLastMonthEnd['total'],
-                                membersVisitsTillThirdLastMonthEnd['total'],
-                                membersVisitsTillSecondLastMonthEnd['total'],
-                                membersVisitsTillNow['total']
-                            ],
-                            color: '#ff9900'
-                        }]
-                    });
-                    //  ********************************************************************************************************
 
                 } else {
                     alert("You must choose a date to proceed");
