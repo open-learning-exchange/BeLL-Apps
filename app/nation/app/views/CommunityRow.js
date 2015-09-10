@@ -7,7 +7,7 @@ $(function() {
         events: {
             "click .destroy": function(e) {
 
-                if (confirm('Are you sure you want to delete this resource?')) {
+                if (confirm('Are you sure you want to delete this Community?')) {
                     e.preventDefault()
                     this.model.destroy()
                     this.remove()
