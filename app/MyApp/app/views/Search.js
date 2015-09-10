@@ -3,7 +3,7 @@ $(function() {
     App.Views.Search = Backbone.View.extend({
 
         events: {
-            "keypress #searchText":"SearchByEnter",
+            "keypress #searchText": "SearchByEnter",
             "click #searchR": "searchResult",
             "click #addRestoPub": "addResourceToPublication",
             "click #next_button": function(e) {
@@ -67,9 +67,8 @@ $(function() {
             this.resultArray = []
             enablenext = 0;
         },
-        SearchByEnter:function(e){
-            if(e.keyCode == 13)
-            {
+        SearchByEnter: function(e) {
+            if (e.keyCode == 13) {
                 ResourceSearch();
             }
         },
@@ -221,11 +220,11 @@ $(function() {
             }
             //}
             if (this.groupresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
-            if(searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
-            var collection_id = searchText_Coll_Id;
-            }
+                if (searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
+                    var collection_id = searchText_Coll_Id;
+                }
                 var tempModels = this.groupresult.models;
-                resultModels = this.checkSearchTextCompleteMatch(searchTextArray,collection_id, tempModels);
+                resultModels = this.checkSearchTextCompleteMatch(searchTextArray, collection_id, tempModels);
             }
             if (resultModels != null) {
                 this.groupresult.models = resultModels;
@@ -328,7 +327,7 @@ $(function() {
                 matchingPublisher = [];
                 matchingAuthor = [];
                 var model = resultModels[i];
-                for(var st = 0 ; st < search_text.length ; st++) {
+                for (var st = 0; st < search_text.length; st++) {
                     if (model.attributes.title.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
                         matchingTitle.push(true);
                     } else {
