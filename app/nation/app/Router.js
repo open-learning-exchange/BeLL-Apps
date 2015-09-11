@@ -1667,8 +1667,6 @@ $(function() {
             $.removeCookie('Member.expTime', {
                 path: "/apps/_design/bell"
             })
-
-
         },
         ListCommunity: function() {
             App.startActivityIndicator()
@@ -1679,7 +1677,7 @@ $(function() {
                         collection: Communities
                     })
                     CommunityTable.render()
-                    var listCommunity = "<h3> Communities  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>Add Community</a>  </h3>"
+                    var listCommunity = "<h3> Communities  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>Add Community</a>  </h3><p>*The Total Member Visits and Total Resource Views columns contain data of the current month only</p>"
 
                     listCommunity += "<div id='list-of-Communities'></div>"
 
