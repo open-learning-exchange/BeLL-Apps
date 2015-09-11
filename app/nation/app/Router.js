@@ -1227,17 +1227,17 @@ $(function() {
                         name: 'Total',
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['total'],
-                            registeredMembersTillEleventhLastMonthEnd['total'],
-                            registeredMembersTillTenthLastMonthEnd['total'],
-                            registeredMembersTillNinthLastMonthEnd['total'],
-                            registeredMembersTillEighthLastMonthEnd['total'],
-                            registeredMembersTillSeventhLastMonthEnd['total'],
-                            registeredMembersTillSixthLastMonthEnd['total'],
-                            registeredMembersTillFifthLastMonthEnd['total'],
-                            registeredMembersTillFourthLastMonthEnd['total'],
-                            registeredMembersTillThirdLastMonthEnd['total'],
-                            registeredMembersTillSecondLastMonthEnd['total'],
-                            registeredMembersTillNow['total']
+                            registeredMembersTillEleventhLastMonthEnd['total']-registeredMembersTillTwelfthLastMonthEnd['total'],
+                            registeredMembersTillTenthLastMonthEnd['total']-registeredMembersTillEleventhLastMonthEnd['total'],
+                            registeredMembersTillNinthLastMonthEnd['total']-registeredMembersTillTenthLastMonthEnd['total'],
+                            registeredMembersTillEighthLastMonthEnd['total']-registeredMembersTillNinthLastMonthEnd['total'],
+                            registeredMembersTillSeventhLastMonthEnd['total']-registeredMembersTillEighthLastMonthEnd['total'],
+                            registeredMembersTillSixthLastMonthEnd['total']-registeredMembersTillSeventhLastMonthEnd['total'],
+                            registeredMembersTillFifthLastMonthEnd['total']-registeredMembersTillSixthLastMonthEnd['total'],
+                            registeredMembersTillFourthLastMonthEnd['total']-registeredMembersTillFifthLastMonthEnd['total'],
+                            registeredMembersTillThirdLastMonthEnd['total']-registeredMembersTillFourthLastMonthEnd['total'],
+                            registeredMembersTillSecondLastMonthEnd['total']-registeredMembersTillThirdLastMonthEnd['total'],
+                            registeredMembersTillNow['total']-registeredMembersTillSecondLastMonthEnd['total']
                         ],
                         color: '#ff9900'
                     }]
