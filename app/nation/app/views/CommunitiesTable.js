@@ -26,7 +26,7 @@ $(function() {
 
         render: function() {
 
-            this.$el.append('<tr><th>Community-Name</th><th>Last App Update</th><th>Version No.</th><th>Last Activities Sync</th><th>Last Publications Sync</th><th colspan="2">Actions</th></tr>')
+            this.$el.append('<tr><th>Community</th><th>Last App <br>Update</th><th>Version No.</th><th>Last Publications <br>Sync</th><th>Last Activities <br>Sync</th><th>Total Member <br>Visits</th><th>Total Resource <br>Views</th></th><th colspan="2">Actions</th></tr>')
             this.addAll()
         }
 
