@@ -1132,7 +1132,7 @@
                 </div>
 
                 <br/>
-                <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
+                <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="Resour ceSearch()"<%}%>>Search</button></span></h4></div>
             </div>
         </div>
     </div>
@@ -1450,6 +1450,18 @@
 
     </table>
 </script>
+    <script>
+        setInterval("setFocusToKeywordFieldOnSearchPage()",100);
+        function setFocusToKeywordFieldOnSearchPage() {
+           var search_page = $.url().data.attr.fragment;
+            var addToPublication_search_page = search_page.indexOf("search-bell");
+            if(search_page == "resource/search" || addToPublication_search_page > -1) {
+                if(document.hasFocus()) {
+                    $('#searchText').focus();
+                }
+            }
+        }
+    </script>
 
 </head>
 
