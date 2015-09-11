@@ -69,7 +69,12 @@ $(function() {
         },
         SearchByEnter: function(e) {
             if (e.keyCode == 13) {
-                ResourceSearch();
+                if(this.vars.addResource == true) {
+                    this.searchResult();
+                }
+                else {
+                    ResourceSearch();
+                }
             }
         },
         render: function() {
