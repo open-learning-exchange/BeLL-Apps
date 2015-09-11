@@ -41,7 +41,7 @@ $(function() {
                 if (temp.substring(0,3) == "127") {
                     temp = "local"
                 }
-                temp = temp + " Nation Bell"
+                temp = temp.charAt(0).toUpperCase() + temp.slice(1) + " Nation Bell"
                 $('.bellLocation').html(temp)
                 if (!member.get('visits')) {
                     member.set('visits', 1)

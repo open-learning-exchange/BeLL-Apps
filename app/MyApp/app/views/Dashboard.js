@@ -370,14 +370,14 @@ $(function () {
 			}
 			var temp = $.url().data.attr.host.split(".")
 			temp = temp[0];
-			if (temp == "") {
-				temp = "local "
+			if (temp.substring(0,3) == "127") {
+				temp = "local"
 			}
 			temp=temp.charAt(0).toUpperCase() + temp.slice(1);
             if (typeofBell === "nation") {
-                temp = temp + " Nation BeLL"
+                temp = temp + " Nation Bell"
             } else {
-                temp = temp + " Community BeLL"
+                temp = temp + " Community Bell"
             }
 			$('.bellLocation').html(temp)
 			if (!member.get('visits')) {
