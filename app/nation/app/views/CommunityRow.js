@@ -11,7 +11,7 @@ $(function() {
                     e.preventDefault()
                     this.model.destroy()
                     this.remove()
-                }else{
+                } else {
                     e.preventDefault()
 
                     App.startActivityIndicator();
@@ -20,7 +20,7 @@ $(function() {
                     });
                     App.stopActivityIndicator();
                 }
-                    },
+            },
             "click .browse": function(e) {
                 e.preventDefault()
                 $('#modal').modal({
@@ -53,7 +53,7 @@ $(function() {
                 communityCode + '","' + endDate + '"]',
                 type: 'GET',
                 dataType: 'jsonp',
-                success: function (result) {
+                success: function(result) {
                     var memberVisits = 0;
                     var resourceViews = 0;
                     var activitylogModels;
@@ -61,7 +61,7 @@ $(function() {
                     if (activitylogModels.length > 0) {
                         memberVisits = 0;
                         resourceViews = 0;
-                        for(var i = 0; i < activitylogModels.length ; i++) {
+                        for (var i = 0; i < activitylogModels.length; i++) {
                             var femaleVisits = activitylogModels[i].value.female_visits;
                             var maleVisits = activitylogModels[i].value.male_visits;
                             console.log(femaleVisits + " " + maleVisits);
@@ -71,10 +71,10 @@ $(function() {
                             var male_opened = activitylogModels[i].value.male_opened;
                             var female_opened_count = 0;
                             var male_opened_count = 0;
-                            for(var j = 0 ; j < female_opened.length ; j++) {
+                            for (var j = 0; j < female_opened.length; j++) {
                                 female_opened_count = female_opened_count + female_opened[j];
                             }
-                            for(var k = 0 ; k < male_opened.length ; k++) {
+                            for (var k = 0; k < male_opened.length; k++) {
                                 male_opened_count = male_opened_count + male_opened[k];
                             }
                             resourceViews = resourceViews + female_opened_count + male_opened_count;
@@ -87,7 +87,7 @@ $(function() {
                         community.get('_id') + "'> <i class='icon-remove icon-white'></i>Delete</a></td>";
                     that.$el.append(row);
                 },
-                error: function(){
+                error: function() {
                     console.log("Unable to get communities list.");
                 }
             });
