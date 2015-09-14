@@ -264,7 +264,6 @@ $(function() {
             Backbone.history.navigate('login', {
                 trigger: true
             })
-            window.location.reload();
         },
         getRoles: function() {
 
