@@ -67,6 +67,18 @@ $(function() {
                             console.log(femaleVisits + " " + maleVisits);
                             memberVisits = memberVisits + femaleVisits + maleVisits;
                             console.log("Female Visits: " + femaleVisits + " " + "Male Visits: " + maleVisits + " " + "Total: " + femaleVisits + maleVisits);
+                            var female_opened = activitylogModels[i].value.female_opened;
+                            var male_opened = activitylogModels[i].value.male_opened;
+                            var female_opened_count = 0;
+                            var male_opened_count = 0;
+                            for(var j = 0 ; j < female_opened.length ; j++) {
+                                female_opened_count = female_opened_count + female_opened[j];
+                            }
+                            for(var k = 0 ; k < male_opened.length ; k++) {
+                                male_opened_count = male_opened_count + male_opened[k];
+                            }
+                            resourceViews = resourceViews + female_opened_count + male_opened_count;
+                            console.log("resource views: " + resourceViews);
                         }
                     }
                     var row = "<td>" + community.get('Name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
