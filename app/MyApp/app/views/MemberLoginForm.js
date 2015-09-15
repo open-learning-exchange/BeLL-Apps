@@ -74,7 +74,7 @@ $(function() {
                 success: function() {
                     if (members.length > 0) {
                         member = members.first();
-                        if (member && member.get('password') == credentials.get('password')) {
+                        if (member && member.get('password') == credentials.get('password') &&member.get('login') == credentials.get('login') ) {
                             if (member.get('status') == "active") {
                                 //UPDATING MEMBER VISITS
                                 App.member = member
