@@ -194,17 +194,22 @@ $(function() {
                     this.model.set("roles", ["Learner"])
                     this.model.set("visits", 0)
                     var existing = new App.Collections.Members()
+
                     existing.login = that.model.get("login")
                     existing.fetch({
-                        async: false
-                    })
-                    existing = existing.first()
-                    if (existing != undefined) {
-                        if (existing.toJSON().login != undefined) {
-                            alert("Login already exist")
-                            addMem = false
+                        async: false,
+                        success: function() {
+                            existing = existing.first()
+                            if (existing != undefined) {
+                                if (existing.toJSON().login != undefined) {
+                                    alert("Login already exist")
+                                    addMem = false
+                                }
+                            }
                         }
-                    }
+
+                    });
+
                 }
                 if (addMem) {
                     var memberModel = this.model;
