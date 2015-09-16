@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
 	App.Views.Dashboard = Backbone.View.extend({
 
@@ -9,27 +9,26 @@ $(function () {
 		latestVersion: null,
 		nationConfigJson: null,
 		events: {
-			"click #updateButton":'updateVersion' ,
-			"click #showReleaseNotesDiv": function (e) {
+			"click #updateButton": 'updateVersion',
+			"click #showReleaseNotesDiv": function(e) {
 				if ($('#releaseVersion').css('display') == 'none') {
-					$("#releaseVersion").slideDown("slow", function () {
+					$("#releaseVersion").slideDown("slow", function() {
 
 					});
-				}
-				else {
-					$("#releaseVersion").slideUp("slow", function () {
+				} else {
+					$("#releaseVersion").slideUp("slow", function() {
 						$('#appversion').val("")
 						$('#notes').val("")
 					});
 				}
 			},
-			"click #cancelnotes": function (e) {
-				$("#releaseVersion").slideUp("slow", function () {
+			"click #cancelnotes": function(e) {
+				$("#releaseVersion").slideUp("slow", function() {
 					$('#appversion').val("")
 					$('#notes').val("")
 				});
 			},
-			"click #savenotes": function (e) {
+			"click #savenotes": function(e) {
 				if ($('#appversion').val() == "") {
 					alert("Please enter version no.")
 					return
@@ -57,8 +56,8 @@ $(function () {
 				conTable.set('version', $('#appversion').val())
 				conTable.set('notes', $('#notes').val())
 				conTable.save(null, {
-					success: function (e) {
-						$("#releaseVersion").slideUp("slow", function () {
+					success: function(e) {
+						$("#releaseVersion").slideUp("slow", function() {
 							$('#appversion').val("")
 							$('#notes').val("")
 							alert('Notes successfully saved.')
@@ -68,19 +67,18 @@ $(function () {
 
 
 			},
-			"click #viewReleaseNotes": function (e) {
+			"click #viewReleaseNotes": function(e) {
 				if ($('#showReleaseNotes').css('display') == 'none') {
-					$("#showReleaseNotes").slideDown("slow", function () {
+					$("#showReleaseNotes").slideDown("slow", function() {
 						$("textarea#shownotes").val(nationConfigJson.notes)
 
 					});
-				}
-				else {
-					$("#showReleaseNotes").slideUp("slow", function () {});
+				} else {
+					$("#showReleaseNotes").slideUp("slow", function() {});
 				}
 			}
 		},
-		updateVersion : function (e) {
+		updateVersion: function(e) {
 			var that = this;
 			App.startActivityIndicator();
 
@@ -98,11 +96,11 @@ $(function () {
 
 			//Checking whether the community is registered with any nation or not.
 			$.ajax({
-				url:'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+				url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
 				type: 'GET',
 				dataType: 'jsonp',
-				success: function(result){
-					if(result.rows.length>0){
+				success: function(result) {
+					if (result.rows.length > 0) {
 						// Replicate Application Code from Nation to Community
 						$.ajax({
 							headers: {
@@ -116,8 +114,8 @@ $(function () {
 								"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
 								"target": "apps"
 							}),
-							async: false ,
-							success: function (response) {
+							async: false,
+							success: function(response) {
 
 								// Update version Number in Configuration of Community
 								$.ajax({
@@ -130,7 +128,7 @@ $(function () {
 									url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
 									dataType: 'json',
 									data: JSON.stringify(currentConfig),
-									success: function (response) {
+									success: function(response) {
 										console.log("Configurations Updated")
 									},
 
@@ -164,7 +162,7 @@ $(function () {
 								//that.updateDesignDocs("shelf");
 								//that.updateDesignDocs("usermeetups");
 							},
-							error: function(){
+							error: function() {
 								App.stopActivityIndicator()
 								alert("Not Replicated!")
 							}
@@ -187,7 +185,7 @@ $(function () {
 								"target": "community",
 								"doc_ids": [communityModelId]
 							}),
-							success: function(response){
+							success: function(response) {
 								console.log("Successfully Replicated.");
 								var date = new Date();
 								var year = date.getFullYear();
@@ -210,7 +208,7 @@ $(function () {
 									url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
 									dataType: 'json',
 									data: JSON.stringify(communityModel),
-									success: function (response) {
+									success: function(response) {
 										//Replicate from Community to Nation
 										$.ajax({
 											headers: {
@@ -225,7 +223,7 @@ $(function () {
 												"target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
 												"doc_ids": [communityModelId]
 											}),
-											success: function(response){
+											success: function(response) {
 												//console.log("Successfully Replicated.");
 												alert("Updated Successfully");
 												window.location.reload(false);
@@ -244,13 +242,13 @@ $(function () {
 						window.location.reload(false);
 					}
 				},
-				error: function(){
+				error: function() {
 					console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
 				}
 			});
 		},
 
-		updateDesignDocs : function(dbName) {
+		updateDesignDocs: function(dbName) {
 			var configurations = Backbone.Collection.extend({
 				url: App.Server + '/configurations/_all_docs?include_docs=true'
 			})
@@ -275,18 +273,18 @@ $(function () {
 					"target": dbName,
 					"doc_ids": ["_design/bell"]
 				}),
-				success: function(response){
+				success: function(response) {
 					console.log(dbName + " DesignDocs successfully updated.");
 				},
 				async: false
 			});
 		},
-		render: function () {
+		render: function() {
 
 			var dashboard = this
 			this.vars.mails = 0
 			var clanguage = App.configuration.get("currentLanguage")
-            var typeofBell=App.configuration.get("type")
+			var typeofBell = App.configuration.get("type")
 			console.log(App.languageDict)
 			console.log(clanguage)
 			this.vars.languageDict = App.languageDict;
@@ -304,7 +302,7 @@ $(function () {
 			groups = new App.Collections.MemberGroups()
 			groups.memberId = $.cookie('Member._id')
 			groups.fetch({
-				success: function (e) {
+				success: function(e) {
 					groupsSpans = new App.Views.GroupsSpans({
 						collection: groups
 					})
@@ -351,15 +349,15 @@ $(function () {
 			}
 			var temp = $.url().data.attr.host.split(".")
 			temp = temp[0];
-			if (temp.substring(0,3) == "127") {
+			if (temp.substring(0, 3) == "127") {
 				temp = "local"
 			}
-			temp=temp.charAt(0).toUpperCase() + temp.slice(1);
-            if (typeofBell === "nation") {
-                temp = temp + " Nation Bell"
-            } else {
-                temp = temp + " Community Bell"
-            }
+			temp = temp.charAt(0).toUpperCase() + temp.slice(1);
+			if (typeofBell === "nation") {
+				temp = temp + " Nation Bell"
+			} else {
+				temp = temp + " Community Bell"
+			}
 			$('.bellLocation').html(temp)
 			if (!member.get('visits')) {
 				member.set('visits', 1)
@@ -367,8 +365,7 @@ $(function () {
 			}
 			if (parseInt(member.get('visits')) == 0) {
 				temp = "Error!!"
-			}
-			else {
+			} else {
 				temp = member.get('visits') + " visits"
 			}
 			var roles = "&nbsp;-&nbsp;"
@@ -388,24 +385,23 @@ $(function () {
 				if (temp1 == 1) {
 					roles = roles + ",&nbsp;"
 				}
-                if(typeofBell=='nation'){
-                    roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
-                }
-                else {
-                    roles = roles + '<a href="#communityManage">Manager</a>'
-                }
+				if (typeofBell == 'nation') {
+					roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
+				} else {
+					roles = roles + '<a href="#communityManage">Manager</a>'
+				}
 			}
 			$('.visits').html(temp)
 			$('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
 			dashboard.checkAvailableUpdates(member.get('roles'), dashboard)
-            if($.cookie('Member.login') === "admin") {
-                var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'">Update Welcome Video</button>');
-                dashboard.$el.append($buttonWelcome);
-            }
+			if ($.cookie('Member.login') === "admin") {
+				var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'">Update Welcome Video</button>');
+				dashboard.$el.append($buttonWelcome);
+			}
 
 			//dashboard.$el.append('<div id="updates"></div>')
 		},
-		checkAvailableUpdates: function (roles, dashboard) {
+		checkAvailableUpdates: function(roles, dashboard) {
 			var context = this
 			if ($.inArray('Manager', roles) == -1) {
 				return
@@ -415,100 +411,98 @@ $(function () {
 			var nationURL = configuration.get("nationUrl")
 			var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true'
 
-            nName=App.configuration.get('nationName')
-            pass=App.password
-            nUrl=App.configuration.get('nationUrl')
-            currentBellName=App.configuration.get('name')
-            var htmlreferance=this.$el
-            
-            var DbUrl='http://'+nName+':'+pass+'@'+nUrl+'/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["'+currentBellName+'",'+false+']'
-            
+			nName = App.configuration.get('nationName')
+			pass = App.password
+			nUrl = App.configuration.get('nationUrl')
+			currentBellName = App.configuration.get('name')
+			var htmlreferance = this.$el
+
+			var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
+
 
 			$.ajax({
 				url: nationConfigURL,
 				type: 'GET',
 				dataType: "jsonp",
-				success: function (json) {
+				success: function(json) {
 					var nationConfig = json.rows[0].doc
 					nationConfigJson = nationConfig
 					if (typeof nationConfig.version === 'undefined') {
 						/////No version found in nation
-					}
-					else if (nationConfig.version == configuration.get('version')) {
+					} else if (nationConfig.version == configuration.get('version')) {
 						///No updatea availabe
-					}
-					else {
-						if(context.versionCompare(nationConfig.version, configuration.get('version'))<0){
+					} else {
+						if (context.versionCompare(nationConfig.version, configuration.get('version')) < 0) {
 							console.log("Nation has lower application version than that of your community application")
-						}
-						else if (context.versionCompare(nationConfig.version, configuration.get('version'))>0) {
+						} else if (context.versionCompare(nationConfig.version, configuration.get('version')) > 0) {
 							dashboard.latestVersion = nationConfig.version
 							dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + ') </button>')
 							dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">View Release Notes </button>')
-						}
-						else{
-						console.log("Nation is uptodate")
+						} else {
+							console.log("Nation is uptodate")
 						}
 					}
 				},
-                error: function(jqXHR, status, errorThrown){
-                    console.log('Error fetching application version from nation "' + configuration.nationName + '"');
-                    console.log(status);      console.log(errorThrown);
-                }
+				error: function(jqXHR, status, errorThrown) {
+					console.log('Error fetching application version from nation "' + configuration.nationName + '"');
+					console.log(status);
+					console.log(errorThrown);
+				}
 			});
-			
+
 			// make sure the couchdb that is being requested in this ajax call has its 'allow_jsonp' property set to true in the
-            // 'httpd' section of couchdb configurations. Otherwise, the server couchdb will not respond as required by jsonp format
-            $.ajax({
+			// 'httpd' section of couchdb configurations. Otherwise, the server couchdb will not respond as required by jsonp format
+			$.ajax({
 				url: DbUrl,
 				type: 'GET',
 				dataType: 'jsonp',
-				success: function (json) {
-                    var publicationDistribDocsFromNation = [], tempKeys = [];
-                    _.each(json.rows,function(row){
-                        publicationDistribDocsFromNation.push(row.doc);
-                        tempKeys.push(row.doc.publicationId);
-                    });
-                    // fetch all publications from local/community server to see how many of the publications from nation are new ones
-                    var newPublicationsCount = 0;
-                    var publicationCollection = new App.Collections.Publication();
-                    var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
-                    publicationCollection.setUrl(tempUrl);
-                    publicationCollection.fetch({
-                        success: function () {
-                            var alreadySyncedPublications = publicationCollection.models;
-                            for (var i in publicationDistribDocsFromNation){
-                                // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
-                                // count
-                                var index = alreadySyncedPublications.map(function(element) {
-                                    return element.get('_id');
-                                }).indexOf(publicationDistribDocsFromNation[i].publicationId);
-                                if (index > -1) {
-                                    // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
-                                    // local server
-                                } else {
-                                    newPublicationsCount++;
-                                }
-                            }
-                            if(newPublicationsCount > 0)
-                            	dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-'+currentBellName+'">Publications (new '+newPublicationsCount+')</a>')
-                        }
-                    });
+				success: function(json) {
+					var publicationDistribDocsFromNation = [],
+						tempKeys = [];
+					_.each(json.rows, function(row) {
+						publicationDistribDocsFromNation.push(row.doc);
+						tempKeys.push(row.doc.publicationId);
+					});
+					// fetch all publications from local/community server to see how many of the publications from nation are new ones
+					var newPublicationsCount = 0;
+					var publicationCollection = new App.Collections.Publication();
+					var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+					publicationCollection.setUrl(tempUrl);
+					publicationCollection.fetch({
+						success: function() {
+							var alreadySyncedPublications = publicationCollection.models;
+							for (var i in publicationDistribDocsFromNation) {
+								// if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+								// count
+								var index = alreadySyncedPublications.map(function(element) {
+									return element.get('_id');
+								}).indexOf(publicationDistribDocsFromNation[i].publicationId);
+								if (index > -1) {
+									// don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+									// local server
+								} else {
+									newPublicationsCount++;
+								}
+							}
+							if (newPublicationsCount > 0)
+								dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-' + currentBellName + '">Publications (new ' + newPublicationsCount + ')</a>')
+						}
+					});
 				},
-                error: function(jqXHR, status, errorThrown){
-                    console.log(jqXHR);
-                    console.log(status);
-                    console.log(errorThrown);
-                }
+				error: function(jqXHR, status, errorThrown) {
+					console.log(jqXHR);
+					console.log(status);
+					console.log(errorThrown);
+				}
 			});
 		},
 		//following function compare version numbers.
 		/*<li>0 if the versions are equal</li>
-		A negative integer iff v1 < v2
-		A positive integer iff v1 > v2
-		NaN if either version string is in the wrong format*/
+		 A negative integer iff v1 < v2
+		 A positive integer iff v1 > v2
+		 NaN if either version string is in the wrong format*/
 
-		versionCompare: function (v1, v2, options) {
+		versionCompare: function(v1, v2, options) {
 			var lexicographical = options && options.lexicographical;
 			zeroExtend = options && options.zeroExtend;
 			v1parts = v1.split('.');
@@ -539,11 +533,9 @@ $(function () {
 
 				if (v1parts[i] == v2parts[i]) {
 					continue;
-				}
-				else if (v1parts[i] > v2parts[i]) {
+				} else if (v1parts[i] > v2parts[i]) {
 					return 1;
-				}
-				else {
+				} else {
 					return -1;
 				}
 			}
