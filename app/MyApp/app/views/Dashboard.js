@@ -9,245 +9,7 @@ $(function () {
 		latestVersion: null,
 		nationConfigJson: null,
 		events: {
-			"click #updateButton": function (e) {
-
-                App.startActivityIndicator();
-
-                var configurations = Backbone.Collection.extend({
-					url: App.Server + '/configurations/_all_docs?include_docs=true'
-				})
-				var config = new configurations()
-				config.fetch({
-					async: false
-				})
-				var currentConfig = config.first().toJSON().rows[0].doc
-				currentConfig.version = this.latestVersion
-				var nationName = currentConfig.nationName
-				var nationURL = currentConfig.nationUrl
-
-				//Checking whether the community is registered with any nation or not.
-				$.ajax({
-					url:'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
-					type: 'GET',
-					dataType: 'jsonp',
-					success: function(result){
-						if(result.rows.length>0){
-							// Replicate Application Code from Nation to Community
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
-									"target": "apps"
-								}),
-								async: false ,
-								success: function (response) {
-
-									// Update version Number in Configuration of Community
-									$.ajax({
-
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'multipart/form-data'
-										},
-										type: 'PUT',
-										url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
-										dataType: 'json',
-										data: JSON.stringify(currentConfig),
-										success: function (response) {
-											console.log("Configurations Updated")
-										},
-
-										async: false
-									});
-
-									//////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
-
-									$.ajax({
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'application/json; charset=utf-8'
-										},
-										type: 'POST',
-										url: '/_replicate',
-										dataType: 'json',
-										data: JSON.stringify({
-											"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/activitylog',
-											"target": "activitylog",
-											"doc_ids": ["_design/bell"]
-										}),
-										success: function(response){
-											console.log("ActivityLog DesignDocs successfully updated.");
-										},
-										async: false
-									});
-
-									$.ajax({
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'application/json; charset=utf-8'
-										},
-										type: 'POST',
-										url: '/_replicate',
-										dataType: 'json',
-										data: JSON.stringify({
-											"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/members',
-											"target": "members",
-											"doc_ids": ["_design/bell"]
-										}),
-										success: function(response){
-											console.log("Members DesignDocs successfully updated.");
-										},
-										async: false
-									});
-
-									$.ajax({
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'application/json; charset=utf-8'
-										},
-										type: 'POST',
-										url: '/_replicate',
-										dataType: 'json',
-										data: JSON.stringify({
-											"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/collectionlist',
-											"target": "collectionlist",
-											"doc_ids": ["_design/bell"]
-										}),
-										success: function(response){
-											console.log("CollectionList DesignDocs successfully updated.");
-										},
-										async: false
-									});
-
-									$.ajax({
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'application/json; charset=utf-8'
-										},
-										type: 'POST',
-										url: '/_replicate',
-										dataType: 'json',
-										data: JSON.stringify({
-											"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-											"target": "community",
-											"doc_ids": ["_design/bell"]
-										}),
-										success: function(response){
-											console.log("Community DesignDocs successfully updated.");
-										},
-										async: false
-									});
-									$.ajax({
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'application/json; charset=utf-8'
-										},
-										type: 'POST',
-										url: '/_replicate',
-										dataType: 'json',
-										data: JSON.stringify({
-											"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/resources',
-											"target": "resources",
-											"doc_ids": ["_design/bell"]
-										}),
-										success: function(response){
-											console.log("Resources DesignDocs successfully updated.");
-										},
-										async: false
-									});
-
-								},
-								error: function(){
-									App.stopActivityIndicator()
-									alert("Not Replicated!")
-								}
-							});
-
-							// Update LastAppUpdateDate at Nation's Community Records
-							var communityModel = result.rows[0].value;
-							var communityModelId = result.rows[0].id;
-							//Replicate from Nation to Community
-							$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-									"target": "community",
-									"doc_ids": [communityModelId]
-								}),
-								success: function(response){
-									console.log("Successfully Replicated.");
-									var date = new Date();
-									var year = date.getFullYear();
-									var month = (1 + date.getMonth()).toString();
-									month = month.length > 1 ? month : '0' + month;
-									var day = date.getDate().toString();
-									day = day.length > 1 ? day : '0' + day;
-									var formattedDate = month + '-' + day + '-' + year;
-
-									communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
-									communityModel.version = currentConfig.version;
-									//Update the record in Community db at Community Level
-									$.ajax({
-
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'multipart/form-data'
-										},
-										type: 'PUT',
-										url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
-										dataType: 'json',
-										data: JSON.stringify(communityModel),
-										success: function (response) {
-											//Replicate from Community to Nation
-											$.ajax({
-												headers: {
-													'Accept': 'application/json',
-													'Content-Type': 'application/json; charset=utf-8'
-												},
-												type: 'POST',
-												url: '/_replicate',
-												dataType: 'json',
-												data: JSON.stringify({
-													"source": "community",
-													"target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-													"doc_ids": [communityModelId]
-												}),
-												success: function(response){
-													//console.log("Successfully Replicated.");
-													alert("Updated Successfully");
-													window.location.reload(false);
-												},
-												async: false
-											});
-										},
-
-										async: false
-									});
-								},
-								async: false
-							});
-						} else {
-							alert(" The community is not authorized to update until it is properly configured with a nation");
-							window.location.reload(false);
-						}
-					},
-					error: function(){
-						console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
-					}
-				});
-			},
+			"click #updateButton":'updateVersion' ,
 			"click #showReleaseNotesDiv": function (e) {
 				if ($('#releaseVersion').css('display') == 'none') {
 					$("#releaseVersion").slideDown("slow", function () {
@@ -317,6 +79,207 @@ $(function () {
 					$("#showReleaseNotes").slideUp("slow", function () {});
 				}
 			}
+		},
+		updateVersion : function (e) {
+			var that = this;
+			App.startActivityIndicator();
+
+			var configurations = Backbone.Collection.extend({
+				url: App.Server + '/configurations/_all_docs?include_docs=true'
+			})
+			var config = new configurations()
+			config.fetch({
+				async: false
+			})
+			var currentConfig = config.first().toJSON().rows[0].doc
+			currentConfig.version = this.latestVersion
+			var nationName = currentConfig.nationName
+			var nationURL = currentConfig.nationUrl
+
+			//Checking whether the community is registered with any nation or not.
+			$.ajax({
+				url:'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+				type: 'GET',
+				dataType: 'jsonp',
+				success: function(result){
+					if(result.rows.length>0){
+						// Replicate Application Code from Nation to Community
+						$.ajax({
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json; charset=utf-8'
+							},
+							type: 'POST',
+							url: '/_replicate',
+							dataType: 'json',
+							data: JSON.stringify({
+								"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
+								"target": "apps"
+							}),
+							async: false ,
+							success: function (response) {
+
+								// Update version Number in Configuration of Community
+								$.ajax({
+
+									headers: {
+										'Accept': 'application/json',
+										'Content-Type': 'multipart/form-data'
+									},
+									type: 'PUT',
+									url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
+									dataType: 'json',
+									data: JSON.stringify(currentConfig),
+									success: function (response) {
+										console.log("Configurations Updated")
+									},
+
+									async: false
+								});
+
+								//////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
+								that.updateDesignDocs("activitylog");
+								that.updateDesignDocs("members");
+								that.updateDesignDocs("collectionlist");
+								that.updateDesignDocs("community");
+								that.updateDesignDocs("resources");
+								that.updateDesignDocs("coursestep");
+								that.updateDesignDocs("groups");
+								that.updateDesignDocs("publications");
+								//that.updateDesignDocs("assignmentpaper");
+								//that.updateDesignDocs("assignments");
+								//that.updateDesignDocs("calendar");
+								//that.updateDesignDocs("communityreports");
+								//that.updateDesignDocs("courseschedule");
+								//that.updateDesignDocs("feedback");
+								//that.updateDesignDocs("invitations");
+								//that.updateDesignDocs("mail");
+								//that.updateDesignDocs("meetups");
+								//that.updateDesignDocs("membercourseprogress");
+								//that.updateDesignDocs("nationreports");
+								//that.updateDesignDocs("publicationdistribution");
+								//that.updateDesignDocs("report");
+								//that.updateDesignDocs("requests");
+								//that.updateDesignDocs("resourcefrequency");
+								//that.updateDesignDocs("shelf");
+								//that.updateDesignDocs("usermeetups");
+							},
+							error: function(){
+								App.stopActivityIndicator()
+								alert("Not Replicated!")
+							}
+						});
+
+						// Update LastAppUpdateDate at Nation's Community Records
+						var communityModel = result.rows[0].value;
+						var communityModelId = result.rows[0].id;
+						//Replicate from Nation to Community
+						$.ajax({
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json; charset=utf-8'
+							},
+							type: 'POST',
+							url: '/_replicate',
+							dataType: 'json',
+							data: JSON.stringify({
+								"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+								"target": "community",
+								"doc_ids": [communityModelId]
+							}),
+							success: function(response){
+								console.log("Successfully Replicated.");
+								var date = new Date();
+								var year = date.getFullYear();
+								var month = (1 + date.getMonth()).toString();
+								month = month.length > 1 ? month : '0' + month;
+								var day = date.getDate().toString();
+								day = day.length > 1 ? day : '0' + day;
+								var formattedDate = month + '-' + day + '-' + year;
+
+								communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
+								communityModel.version = currentConfig.version;
+								//Update the record in Community db at Community Level
+								$.ajax({
+
+									headers: {
+										'Accept': 'application/json',
+										'Content-Type': 'multipart/form-data'
+									},
+									type: 'PUT',
+									url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+									dataType: 'json',
+									data: JSON.stringify(communityModel),
+									success: function (response) {
+										//Replicate from Community to Nation
+										$.ajax({
+											headers: {
+												'Accept': 'application/json',
+												'Content-Type': 'application/json; charset=utf-8'
+											},
+											type: 'POST',
+											url: '/_replicate',
+											dataType: 'json',
+											data: JSON.stringify({
+												"source": "community",
+												"target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+												"doc_ids": [communityModelId]
+											}),
+											success: function(response){
+												//console.log("Successfully Replicated.");
+												alert("Updated Successfully");
+												window.location.reload(false);
+											},
+											async: false
+										});
+									},
+
+									async: false
+								});
+							},
+							async: false
+						});
+					} else {
+						alert(" The community is not authorized to update until it is properly configured with a nation");
+						window.location.reload(false);
+					}
+				},
+				error: function(){
+					console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+				}
+			});
+		},
+
+		updateDesignDocs : function(dbName) {
+			var configurations = Backbone.Collection.extend({
+				url: App.Server + '/configurations/_all_docs?include_docs=true'
+			})
+			var config = new configurations()
+			config.fetch({
+				async: false
+			})
+			var currentConfig = config.first().toJSON().rows[0].doc
+			currentConfig.version = this.latestVersion
+			var nationName = currentConfig.nationName
+			var nationURL = currentConfig.nationUrl
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/' + dbName,
+					"target": dbName,
+					"doc_ids": ["_design/bell"]
+				}),
+				success: function(response){
+					console.log(dbName + " DesignDocs successfully updated.");
+				},
+				async: false
+			});
 		},
 		render: function () {
 
