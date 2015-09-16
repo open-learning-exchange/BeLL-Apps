@@ -139,7 +139,25 @@ $(function () {
 											"doc_ids": ["_design/bell"]
 										}),
 										success: function(response){
-											console.log("CollectionList DesignDocs successfully updated.");
+											console.log("Community DesignDocs successfully updated.");
+										},
+										async: false
+									});
+									$.ajax({
+										headers: {
+											'Accept': 'application/json',
+											'Content-Type': 'application/json; charset=utf-8'
+										},
+										type: 'POST',
+										url: '/_replicate',
+										dataType: 'json',
+										data: JSON.stringify({
+											"source": 'http://' + nationName + ':oleoleole@' + nationURL + '/resources',
+											"target": "resources",
+											"doc_ids": ["_design/bell"]
+										}),
+										success: function(response){
+											console.log("Resources DesignDocs successfully updated.");
 										},
 										async: false
 									});
