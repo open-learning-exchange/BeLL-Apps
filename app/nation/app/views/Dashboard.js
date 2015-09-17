@@ -36,13 +36,32 @@ $(function() {
                     attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
                     document.getElementById("imgurl").src = attchmentURL
                 }
-                var temp = $.url().data.attr.host.split(".")
+              //////////////////////////////////////////Code Changes for Issue No.73///////////////////////////////////
+                var configuration;
+                var config = new App.Collections.Configurations()
+                config.fetch({
+                    async: false,
+                    success: function(){
+                        configuration = config.first().attributes.name;
+                    }
+                })
+                configuration=configuration.charAt(0).toUpperCase() + configuration.slice(1);
+                var typeofBell=config.first().attributes.type;
+                if (typeofBell === "nation") {
+                    configuration = configuration + " Nation Bell"
+                } else {
+                    configuration = configuration + " Community Bell"
+                }
+                $('.bellLocation').html(configuration);
+             
+                //////////////////////////////////////////////////////////////////////////////////////////////////////
+              /*  var temp = $.url().data.attr.host.split(".")
                 temp = temp[0];
                 if (temp.substring(0,3) == "127") {
                     temp = "local"
                 }
-                temp = temp.charAt(0).toUpperCase() + temp.slice(1) + " Nation Bell"
-                $('.bellLocation').html(temp)
+                temp = temp.charAt(0).toUpperCase() + temp.slice(1) + " Nation Bell"*/
+               // $('.bellLocation').html(bell_Name);
                 if (!member.get('visits')) {
                     member.set('visits', 1)
                     member.save()
