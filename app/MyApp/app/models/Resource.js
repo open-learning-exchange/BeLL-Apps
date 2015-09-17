@@ -162,6 +162,28 @@ $(function() {
                     label: 'Learner'
                 }]
             },
+            ///////////////////////////////////////////Code for adding a new Dropdown///////////////////////////////////
+            resourceType: {
+                type: 'Select',
+                options: [{
+                    val: 'Textbook',
+                    label: 'Textbook'
+                }, {
+                    val: 'Lesson Plan',
+                    label: 'Lesson Plan'
+                }, {
+                    val: 'Activities',
+                    label: 'Activities'
+                }, {
+                        val: 'Exercises',
+                        label: 'Exercises'
+                    },
+                    {
+                        val: 'Discussion Questions',
+                        label: 'Discussion Questions'
+                    }]
+            },
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //*********************************************************************************************************
             uploadDate: 'Date',
             averageRating: 'Text',
