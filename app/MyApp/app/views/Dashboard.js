@@ -144,6 +144,8 @@ $(function() {
 								that.updateDesignDocs("coursestep");
 								that.updateDesignDocs("groups");
 								that.updateDesignDocs("publications");
+								//Following are the list of db's on which design_docs are not updating,
+								// whenever the design_docs will be changed in a db,that db's call will be un-commented.
 								//that.updateDesignDocs("assignmentpaper");
 								//that.updateDesignDocs("assignments");
 								//that.updateDesignDocs("calendar");
