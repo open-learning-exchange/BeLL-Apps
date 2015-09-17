@@ -349,7 +349,23 @@ $(function() {
 				attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
 				document.getElementById("imgurl").src = attchmentURL
 			}
-			var temp = $.url().data.attr.host.split(".")
+            //////////////////////////////////////Issue No 73: Typo: Nation BeLL name (After) Getting Name from Configurations////////////////////////////////////
+            var currentConfig;
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false,
+                success:function(){
+                    currentConfig = config.first().toJSON().rows[0].doc;
+                }
+            })
+            var bell_Name = currentConfig.name;
+            var typeofBell=currentConfig.type;
+
+            //////////////////////////////////////code for Issue No#73 (before) getting name from URL///////////////////////////////////////////////////////////
+			/*var temp = $.url().data.attr.host.split(".")
 			temp = temp[0];
 			if (temp.substring(0, 3) == "127") {
 				temp = "local"
@@ -359,15 +375,23 @@ $(function() {
 				temp = temp + " Nation Bell"
 			} else {
 				temp = temp + " Community Bell"
+            }*/
+            //******************************************************************************************************************************************************
+            bell_Name=bell_Name.charAt(0).toUpperCase() + bell_Name.slice(1);
+            if (typeofBell === "nation") {
+                bell_Name = bell_Name + " Nation Bell"
+            } else {
+                bell_Name = bell_Name + " Community Bell"
 			}
-			$('.bellLocation').html(temp)
+            $('.bellLocation').html(bell_Name);
 			if (!member.get('visits')) {
 				member.set('visits', 1)
 				member.save()
 			}
 			if (parseInt(member.get('visits')) == 0) {
 				temp = "Error!!"
-			} else {
+			}
+			else {
 				temp = member.get('visits') + " visits"
 			}
 			var roles = "&nbsp;-&nbsp;"
@@ -389,7 +413,8 @@ $(function() {
 				}
 				if (typeofBell == 'nation') {
 					roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
-				} else {
+                }
+                else {
 					roles = roles + '<a href="#communityManage">Manager</a>'
 				}
 			}
