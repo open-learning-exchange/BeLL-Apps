@@ -11,22 +11,29 @@ $(function () {
         },
 
         render: function () {
+            var that = this;
             this.user_rating = 0;
             console.log(this.model);
             this.form = new Backbone.Form({
                 model: this.model
             });
+            var model = this.model;
             this.$el.append(this.form.render().el);
             this.form.fields['rating'].$el.hide();
             this.form.fields['memberId'].$el.hide();
             this.form.fields['resourceId'].$el.hide();
             this.form.fields['communityCode'].$el.hide();
             var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">Save</a>');
-            $btnAddToShelf = $('<button class="btn btn-success" id="AddToShelf" onclick=AddToShelf("' + this.model.get('resourceId') + '","' + escape(this.rtitle) + '") style="margin-left:10px">Add To My Library</button>');
+            $btnAddToShelf = $('<button class="btn btn-success" id="AddToShelf" style="margin-left:10px">Save And Add To My Library</button>');
             this.$el.append($button);
             this.$el.append($btnAddToShelf);
+            $btnAddToShelf.click(function() {
+                that.setForm();
+                if (that.user_rating > 0) {
+                    AddToShelfAndSaveFeedback(model.get('resourceId') , escape(that.rtitle));
+                }
+            });
         },
-
         setFormFromEnterKey: function (event) {
             event.preventDefault();
             this.setForm();
@@ -88,13 +95,11 @@ $(function () {
                                     }
                                 )
                             }
-                            alert('Rating is successfully saved')
+                            console.log('Rating is successfully saved')
+                            Backbone.history.navigate('resources', {
+                                trigger: true
+                            });
                         });
-
-
-
-
-
                         console.log(info);
                     }else{
                         console.log(err);
