@@ -388,7 +388,6 @@ $(function() {
 
         },
         Resources: function() {
-
             App.startActivityIndicator()
             var context = this
             var resourcesTableView
@@ -423,9 +422,6 @@ $(function() {
                     resourcesTableView.collections = App.collectionslist
                     resourcesTableView.render()
                     App.$el.children('.body').append(resourcesTableView.el)
-
-
-
                 }
             })
             App.stopActivityIndicator()
@@ -2893,9 +2889,31 @@ $(function() {
                 alert('Already in Shelf')
             }
         },
+        AddToShelfAndSaveFeedback: function(rId, title) {
+            var shelfResource = new App.Collections.shelfResource()
+            shelfResource.resourceId = rId
+            shelfResource.memberId = $.cookie('Member._id')
+            shelfResource.fetch({
+                async: false
+            })
+            if (shelfResource.length == 0) {
+                var shelfItem = new App.Models.Shelf()
+                shelfItem.set('memberId', $.cookie('Member._id'))
+                shelfItem.set('resourceId', rId)
+                shelfItem.set('resourceTitle', unescape(title))
+                //Adding the Selected Resource to the Shelf Hash(Dictionary)
+                shelfItem.save(null, {
+                    success: function(model, response, options) {}
+                });
+                alert('Successfully Saved Feedback and Add To Shelf')
+            } else {
+                alert('Successfully Saved Feedback,Resource Already in Shelf')
+            }
+            Backbone.history.navigate('resources', {
+                trigger: true
+            });
+        },
         CalendarFunction: function() {
-
-
             App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">Add Event</div><br/><br/>")
             App.$el.children('.body').append("<br/><br/><div id='calendar'></div>")
             $(document).ready(function() {
