@@ -271,6 +271,11 @@ $(function() {
 			if (vars.resourceFor != undefined && vars.resourceFor != "") {
 				Details = Details + "<b> Resource For </b>" + vars.resourceFor + ' , '
 			}
+            ////////////////////////////////////////////////Code for Issue No 60 Adding a drop-down////////////////////////////////
+            if (vars.resourceType != undefined && vars.resourceType != "") {
+                Details = Details + "<b> Resource Type </b>" + vars.resourceType + ' , '
+            }
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			if (vars.Tag != undefined) {
 				//console.log(this.collections)

@@ -158,10 +158,12 @@
     <!--templates -->
 
     <script type="text/html" id="template-TrendActivityReport">
-      <h4>
-          Trend Activity Report ( Community: <%= CommunityName %> )
-      </h4>
 
+      <h4>
+          <div><span align ="left">Trend Activity Report ( Community: <%= CommunityName %> )</span> <span align="right" style="position: absolute;display: inline-block;margin-right: 0px">Last Activities Sync Date: <%= lastActivitySyncDate %></span></div>
+      </h4>
+     <!--   issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+        Issue#80:Add Report button on the Communities page at nation-->
       <div id="trend-report-div-total-members" style = "padding:10px 10px 10px 10px; " ></div>
       <div id="trend-report-div-total-member-visits" style = "padding:10px 10px 10px 10px; " ></div>
       <div id="trend-report-div-new-memberships" style = "padding:10px 10px 10px 10px; " ></div>
@@ -634,7 +636,7 @@
                          <input placeholder="First Name" type="text" id="org-firstname" Required name="org-firstname" /><br />
                     </div>
                     <div class='form-field'>
-                         <input placeholder="Midlle Name" type="text" id="org-middlename" name="org-middlename" /><br />
+                         <input placeholder="Middle Name" type="text" id="org-middlename" name="org-middlename" /><br />
                     </div>
                     <div class='form-field'>
                          <input placeholder="Last Name" type="text" id="org-lastname" name="org-lastname" /><br />
@@ -655,7 +657,7 @@
                          <input placeholder="First Name" type="text" Required id="leader-firstname" name="leader-firstname" /><br />
                     </div>
                     <div class='form-field'>
-                       <input placeholder="Midlle Name" type="text" id="leader-middlename" name="leader-middlename" /><br />
+                       <input placeholder="Middle Name" type="text" id="leader-middlename" name="leader-middlename" /><br />
                     </div>
                     <div class='form-field'>
                          <input placeholder="Last Name" type="text" id="leader-lastname" name="leader-lastname" /><br />
