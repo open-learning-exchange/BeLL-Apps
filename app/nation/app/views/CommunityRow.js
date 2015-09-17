@@ -38,7 +38,13 @@ $(function() {
         render: function() {
             var that = this;
             var community = this.model;
+            var communityData = '';
             var communityCode = community.attributes.Code;
+            var communityName = community.get('Name');//Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
+            var communityDate = community.get('lastActivitiesSyncDate'); //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            var communitySyncdate = communityDate.split("/").join("-");
+            communityData = communityCode + "."+ communityName;
+            //alert(communitySyncdate);
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             var nationUrl = $.url().data.attr.authority;
@@ -81,8 +87,9 @@ $(function() {
                             console.log("resource views: " + resourceViews);
                         }
                     }
+                    // //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
                     var row = "<td>" + community.get('Name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                        "<td><a  class='btn btn-success' id='submit' href='#communityreport/"+community.get('Code')+"/"+community.get('Name')+"'>Generate Report</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#addCommunity/" +
+                        "<td><a  class='btn btn-success' id='submit' href='#communityreport/"+communitySyncdate+"/"+community.get("Name")+"/"+community.get('Code')+"'>Generate Report</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#addCommunity/" +
                         community.get('_id') + "'> <i class='icon-pencil icon-white'></i>Edit</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
                         community.get('_id') + "'> <i class='icon-remove icon-white'></i>Delete</a></td>";
                     that.$el.append(row);

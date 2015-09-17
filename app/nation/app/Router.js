@@ -21,7 +21,8 @@ $(function() {
             'publicationdetail/:publicationId': 'PublicationDetails',
             'courses/:publicationId': "addCourses",
             'trendreport': "TrendReport",
-            "communityreport/:communitycode/:communityname" : "communityReport"
+            "communityreport/:syncDate/:name/:code" : "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            //Issue#80:Add Report button on the Communities page at nation
         },
 
         initialize: function() {
@@ -502,14 +503,47 @@ $(function() {
                 }
             })
         },
+        //************************************************************************************************************
+        // Get community last sync date
+        //*************************************************************************************************************
+        lastSyncDateForCommunity: function(communityCode, callback) {
+           // alert("function lastSyncDateForCommunity");
+            var communityCode = communityCode;
+            var temp = $.url().data.attr.host.split(".")
+            var nationName = temp[0];
+            var nationUrl = $.url().data.attr.authority;
+            var communityLastActivitySyncDate = '';
+            $.ajax({
+                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + communityCode+'"',
+                type: 'GET',
+                dataType: 'jsonp',
+
+                success: function(result) {
+
+                    var communityModel = result.rows[0].value;
+                    var communityModelId = result.rows[0].id;
+                   // alert(communityModel.lastActivitiesSyncDate);
+                    communityLastActivitySyncDate = communityModel.lastActivitiesSyncDate;
+                    callback(communityLastActivitySyncDate);
+                },
+              //  error: function() {
+               //     console.log("Unable to get community's last sync date.");
+              //  }
+                async: false
+            });
+
+        },
         //*************************************************************************************************************
         //Trend Report for Communities page on nation (Start)
+        //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+        //Issue#80:Add Report button on the Communities page at nation
         //*************************************************************************************************************
-        communityReport: function (communityCode, communityName){
+        communityReport: function (communityLastSyncDate, communityName , communityCode){
             var context = this;
-         //   alert("Community code"+communityCode); to check for community code
-            var communityChosen = communityCode;
-            var communityName =  communityName;
+          // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
+            var communityChosen = communityCode ;
+            var communityName   =  communityName;
+            var communityLastActivitySyncDate = communityLastSyncDate;
 
             var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
             /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -889,15 +923,60 @@ $(function() {
             //  ********************************************************************************************************
             //   TrendActivityReport View : TrendActivityReport.js
             //  ********************************************************************************************************
-            var trendActivityReportView = new App.Views.TrendActivityReport();
+            ///////////////////////////////////
+            // ********************************************************************************************************
+            //last activity sync date
+            //  ********************************************************************************************************
+
+
+        /*    var communityCode = communityCode;
+            var temp = $.url().data.attr.host.split(".")
+            var nationName = temp[0];
+            var nationUrl = $.url().data.attr.authority;
+            /////////////////////////////////////////////////////////////
+            $.ajax({
+                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + communityCode+'"',
+                type: 'GET',
+                dataType: 'jsonp',
+
+                success: function(result) {
+
+                    var communityModel = result.rows[0].value;
+                    var communityModelId = result.rows[0].id;
+                    alert(communityModel.lastActivitiesSyncDate);
+                    communityLastActivitySyncDate = communityModel.lastActivitiesSyncDate;
+                    var trendActivityReportView = new App.Views.TrendActivityReport();
+                    trendActivityReportView.data = aggregateDataset;
+                    trendActivityReportView.startDate = activityDataColl.startkey;
+                    trendActivityReportView.endDate = activityDataColl.endkey;
+                    trendActivityReportView.CommunityName = communityName;
+                    trendActivityReportView.lastActivitySyncDate = communityLastActivitySyncDate;
+                    trendActivityReportView.render();
+                    App.$el.children('.body').html(trendActivityReportView.el);
+                },
+            async : false
+                error: function() {
+                    console.log("Unable to get community's last sync date.");
+                },
+
+            });
+            //***********************************************************************************************************
+          /*  context.lastSyncDateForCommunity(communityCode, function(param1) {
+                communityLastActivitySyncDate = param1;
+                 alert("called")
+            });*/
+            /////////////////////////////////////// */
+
+           var trendActivityReportView = new App.Views.TrendActivityReport();
             trendActivityReportView.data = aggregateDataset;
             trendActivityReportView.startDate = activityDataColl.startkey;
             trendActivityReportView.endDate = activityDataColl.endkey;
             trendActivityReportView.CommunityName = communityName;
+            trendActivityReportView.lastActivitySyncDate = communityLastActivitySyncDate;
             trendActivityReportView.render();
             App.$el.children('.body').html(trendActivityReportView.el);
-            // ********************************************************************************************************
-            //  ********************************************************************************************************
+
+            //***************************************************************************************************************
             //Trend Report Graphs Started
             //  ********************************************************************************************************
             //  ********************************************************************************************************
