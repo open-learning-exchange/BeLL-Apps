@@ -27,9 +27,45 @@ $(function() {
 				$('#invitationdiv').hide()
 			}, 1000);
 		},
+        deleteCollectionNameFromResources : function(idOfCollection){
+            alert("Calling AJAX");
+            $.ajax({
+                    url:'/resources/_design/bell/_view/resourceOnTag?_include_docs=true&key="' + idOfCollection + '"',
+                      
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resResult) {
+                        var result = resResult.rows;
+                        var tempResult = [];
+                        for (var i = 0; i < result.length; i++) {
+                            if(result[i].value.Tag.length>0) {
+                                var index=result[i].value.Tag.indexOf(idOfCollection);
+                                if(index>-1)
+                                {
+                                    result[i].value.Tag.splice(index, 1);
+                                }
+                            }
+                          //  result[i].doc.sum = 0;
+                            //result[i].doc.timesRated = 0;
+                            tempResult.push(result[i].value);
+
+                        }
+                        $.couch.db('resources').bulkSave({
+                            "docs": tempResult
+                        }, {
+                            success: function (data) {
+                                alert("Successfully pushed resources back");
+                            }
+                    });
+                    }
+                });
+
+        },
 		deleteRecord: function() {
 			$('.form .field-Tag select option[value=' + this.model.get("_id") + "]").remove();
-			$('#' + this.model.get("_id")).parent('tr').remove()
+			$('#' + this.model.get("_id")).parent('tr').remove();
+            this.deleteCollectionNameFromResources(this.model.get("_id"));
+            //Call from here method deleteCollectionNameFromResources/////////////////////////////////////
 			this.model.set({
 				'show': false
 			})

@@ -6,6 +6,12 @@ $(function() {
 		id: 'resourceform',
 		hide: false,
 		events: {
+            'keydown input[name="title"]':"getFocusForTitle",
+            'keydown input[name="author"]':"getFocusForAuthor",
+            'keydown input[name="Year"]':"getFocusForYear",
+            'keydown select[name="language"]':"getFocusForLanguage",
+            'keydown input[name="Publisher"]':"getFocusForPublisher",
+       
 			"click .save": "saveForm",
 			"click #cancel": function() {
 				window.history.back()
@@ -15,7 +21,88 @@ $(function() {
 			},
 			"click #saveUpdatedWelcomeVideoForm": "saveUpdatedWelcomeVideoForm"
 		},
+        getFocusForTitle : function(e){
 
+            if(e.keyCode==9) //tab is pressed
+            {
+                e.preventDefault();
+          
+                $.trim($('[name="title"]').val());
+            
+                $('[name="author"]').focus();
+            }
+        },
+
+        getFocusForAuthor : function(e){
+
+        
+            if(e.keyCode==9) //tab is pressed
+            {
+            
+                e.preventDefault();
+            
+                $.trim($('[name="author"]').val());
+               
+                $('[name="Year"]').focus();
+            }
+        },
+        getFocusForYear : function(e){
+
+       
+            if(e.keyCode==9) //tab is pressed
+            {
+              
+                e.preventDefault();
+              
+                $.trim($('[name="Year"]').val());
+            
+                $('[name="language"]').focus();
+            }
+        },
+        getFocusForLanguage : function(e){
+
+            if(e.keyCode==9) //tab is pressed
+            {
+             //  
+                e.preventDefault();
+             
+                $('[name="Publisher"]').focus();
+            }
+        },
+        getFocusForPublisher : function(e){
+
+            if(e.keyCode==9) //tab is pressed
+            {
+              
+                e.preventDefault();
+             
+                $('[name="linkToLicense"]').focus();
+            }
+        },
+        getFocusForLinkToLicense : function (e)
+        {
+
+            if(e.keyCode==9) //tab is pressed
+            {
+          
+                e.preventDefault();
+               
+                $.trim($('[name="Publisher"]').val());
+              
+                $('[name="resourceType"]').focus();
+            }
+        },
+        getFocusForResourceType : function (e)
+        {
+
+            if(e.keyCode==9) //tab is pressed
+            {
+    
+                e.preventDefault();
+          
+                $('[name="subject"]').focus();
+            }
+        },
 		template: _.template($('#template-form-file').html()),
 
 		render: function() {
@@ -68,7 +155,7 @@ $(function() {
 			this.$el.append('<button class="btn btn-success" id="add_newCoellection" >Add New</button>')
 			$('#progressImage').hide();
 			//$this.$el.children('.fields').html(this.form.el) // also not working
-
+            $('[name="title"]').focus();
 			return this
 		},
 		saveUpdatedWelcomeVideoForm: function() {
@@ -113,6 +200,7 @@ $(function() {
 				this.form.fields[field].$el.hide();
 			}
 			this.form.fields['addedBy'].$el.show();
+            this.form.fields['resourceType'].$el.show();
 			this.form.fields['addedBy'].editor.el.disabled = true;
 			this.form.fields['uploadDate'].$el.show();
 			this.form.fields['openWith'].$el.show();
