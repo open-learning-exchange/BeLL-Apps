@@ -40,10 +40,10 @@ $(function() {
             var community = this.model;
             var communityData = '';
             var communityCode = community.attributes.Code;
-            var communityName = community.get('Name');//Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
+            var communityName = community.get('Name'); //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
             var communityDate = community.get('lastActivitiesSyncDate'); //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             var communitySyncdate = communityDate.split("/").join("-");
-            communityData = communityCode + "."+ communityName;
+            communityData = communityCode + "." + communityName;
             //alert(communitySyncdate);
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
@@ -53,7 +53,7 @@ $(function() {
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
             var startDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(firstDay));
             var endDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(lastDay));
-            /////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
             $.ajax({
                 url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocByCommunityCodeWithValue?_include_docs=true&&startkey=["' + communityCode + '","' + startDate + '"]&endkey=["' +
                 communityCode + '","' + endDate + '"]',
@@ -89,7 +89,7 @@ $(function() {
                     }
                     // //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
                     var row = "<td>" + community.get('Name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                        "<td><a  class='btn btn-success' id='submit' href='#communityreport/"+communitySyncdate+"/"+community.get("Name")+"/"+community.get('Code')+"'>Generate Report</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#addCommunity/" +
+                        "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>Generate Report</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#addCommunity/" +
                         community.get('_id') + "'> <i class='icon-pencil icon-white'></i>Edit</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
                         community.get('_id') + "'> <i class='icon-remove icon-white'></i>Delete</a></td>";
                     that.$el.append(row);
