@@ -21,7 +21,7 @@ $(function() {
             'publicationdetail/:publicationId': 'PublicationDetails',
             'courses/:publicationId': "addCourses",
             'trendreport': "TrendReport",
-            "communityreport/:syncDate/:name/:code" : "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
         },
 
@@ -507,14 +507,14 @@ $(function() {
         // Get community last sync date
         //*************************************************************************************************************
         lastSyncDateForCommunity: function(communityCode, callback) {
-           // alert("function lastSyncDateForCommunity");
+            // alert("function lastSyncDateForCommunity");
             var communityCode = communityCode;
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             var nationUrl = $.url().data.attr.authority;
             var communityLastActivitySyncDate = '';
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + communityCode+'"',
+                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + communityCode + '"',
                 type: 'GET',
                 dataType: 'jsonp',
 
@@ -522,13 +522,13 @@ $(function() {
 
                     var communityModel = result.rows[0].value;
                     var communityModelId = result.rows[0].id;
-                   // alert(communityModel.lastActivitiesSyncDate);
+                    // alert(communityModel.lastActivitiesSyncDate);
                     communityLastActivitySyncDate = communityModel.lastActivitiesSyncDate;
                     callback(communityLastActivitySyncDate);
                 },
-              //  error: function() {
-               //     console.log("Unable to get community's last sync date.");
-              //  }
+                //  error: function() {
+                //     console.log("Unable to get community's last sync date.");
+                //  }
                 async: false
             });
 
@@ -538,11 +538,11 @@ $(function() {
         //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
         //Issue#80:Add Report button on the Communities page at nation
         //*************************************************************************************************************
-        communityReport: function (communityLastSyncDate, communityName , communityCode){
+        communityReport: function(communityLastSyncDate, communityName, communityCode) {
             var context = this;
-          // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
-            var communityChosen = communityCode ;
-            var communityName   =  communityName;
+            // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
+            var communityChosen = communityCode;
+            var communityName = communityName;
             var communityLastActivitySyncDate = communityLastSyncDate;
 
             var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
@@ -919,55 +919,22 @@ $(function() {
             membersVisitsTillTenthLastMonthEnd['total'] = membersVisitsTillTenthLastMonthEnd['male'] + membersVisitsTillTenthLastMonthEnd['female'];
             membersVisitsTillEleventhLastMonthEnd['total'] = membersVisitsTillEleventhLastMonthEnd['male'] + membersVisitsTillEleventhLastMonthEnd['female'];
             membersVisitsTillTwelfthLastMonthEnd['total'] = membersVisitsTillTwelfthLastMonthEnd['male'] + membersVisitsTillTwelfthLastMonthEnd['female'];
-            //////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             //  ********************************************************************************************************
             //   TrendActivityReport View : TrendActivityReport.js
             //  ********************************************************************************************************
-            ///////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             // ********************************************************************************************************
             //last activity sync date
             //  ********************************************************************************************************
-
-
-        /*    var communityCode = communityCode;
-            var temp = $.url().data.attr.host.split(".")
-            var nationName = temp[0];
-            var nationUrl = $.url().data.attr.authority;
-            /////////////////////////////////////////////////////////////
-            $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + communityCode+'"',
-                type: 'GET',
-                dataType: 'jsonp',
-
-                success: function(result) {
-
-                    var communityModel = result.rows[0].value;
-                    var communityModelId = result.rows[0].id;
-                    alert(communityModel.lastActivitiesSyncDate);
-                    communityLastActivitySyncDate = communityModel.lastActivitiesSyncDate;
-                    var trendActivityReportView = new App.Views.TrendActivityReport();
-                    trendActivityReportView.data = aggregateDataset;
-                    trendActivityReportView.startDate = activityDataColl.startkey;
-                    trendActivityReportView.endDate = activityDataColl.endkey;
-                    trendActivityReportView.CommunityName = communityName;
-                    trendActivityReportView.lastActivitySyncDate = communityLastActivitySyncDate;
-                    trendActivityReportView.render();
-                    App.$el.children('.body').html(trendActivityReportView.el);
-                },
-            async : false
-                error: function() {
-                    console.log("Unable to get community's last sync date.");
-                },
-
-            });
-            //***********************************************************************************************************
-          /*  context.lastSyncDateForCommunity(communityCode, function(param1) {
-                communityLastActivitySyncDate = param1;
-                 alert("called")
-            });*/
+            //**********************************************************************************************************
+            /*  context.lastSyncDateForCommunity(communityCode, function(param1) {
+             communityLastActivitySyncDate = param1;
+             alert("called")
+             });*/
             /////////////////////////////////////// */
 
-           var trendActivityReportView = new App.Views.TrendActivityReport();
+            var trendActivityReportView = new App.Views.TrendActivityReport();
             trendActivityReportView.data = aggregateDataset;
             trendActivityReportView.startDate = activityDataColl.startkey;
             trendActivityReportView.endDate = activityDataColl.endkey;
@@ -1240,51 +1207,51 @@ $(function() {
                     name: 'Males',
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['male'],
-                        registeredMembersTillEleventhLastMonthEnd['male']-registeredMembersTillTwelfthLastMonthEnd['male'],
-                        registeredMembersTillTenthLastMonthEnd['male']-registeredMembersTillEleventhLastMonthEnd['male'],
-                        registeredMembersTillNinthLastMonthEnd['male']-registeredMembersTillTenthLastMonthEnd['male'],
-                        registeredMembersTillEighthLastMonthEnd['male']- registeredMembersTillNinthLastMonthEnd['male'],
-                        registeredMembersTillSeventhLastMonthEnd['male']-registeredMembersTillEighthLastMonthEnd['male'],
-                        registeredMembersTillSixthLastMonthEnd['male']-registeredMembersTillSeventhLastMonthEnd['male'],
-                        registeredMembersTillFifthLastMonthEnd['male']-registeredMembersTillSixthLastMonthEnd['male'],
-                        registeredMembersTillFourthLastMonthEnd['male']-registeredMembersTillFifthLastMonthEnd['male'],
-                        registeredMembersTillThirdLastMonthEnd['male']-registeredMembersTillFourthLastMonthEnd['male'],
-                        registeredMembersTillSecondLastMonthEnd['male']- registeredMembersTillThirdLastMonthEnd['male'],
-                        totalRegisteredMembers['male']- registeredMembersTillSecondLastMonthEnd['male'],
+                        registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
+                        registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
+                        registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
+                        registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
+                        registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
+                        registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
+                        registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
+                        registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
+                        registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
+                        registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
+                        totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male'],
                     ],
                     color: '#33ccff'
                 }, {
                     name: 'Females',
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['female'],
-                        registeredMembersTillEleventhLastMonthEnd['female']-registeredMembersTillTwelfthLastMonthEnd['female'],
-                        registeredMembersTillTenthLastMonthEnd['female']-registeredMembersTillEleventhLastMonthEnd['female'],
-                        registeredMembersTillNinthLastMonthEnd['female']-registeredMembersTillTenthLastMonthEnd['female'],
-                        registeredMembersTillEighthLastMonthEnd['female']-registeredMembersTillNinthLastMonthEnd['female'],
-                        registeredMembersTillSeventhLastMonthEnd['female']-registeredMembersTillEighthLastMonthEnd['female'],
-                        registeredMembersTillSixthLastMonthEnd['female']-registeredMembersTillSeventhLastMonthEnd['female'],
-                        registeredMembersTillFifthLastMonthEnd['female']- registeredMembersTillSixthLastMonthEnd['female'],
-                        registeredMembersTillFourthLastMonthEnd['female']-registeredMembersTillFifthLastMonthEnd['female'],
-                        registeredMembersTillThirdLastMonthEnd['female']-registeredMembersTillFourthLastMonthEnd['female'],
-                        registeredMembersTillSecondLastMonthEnd['female']-registeredMembersTillThirdLastMonthEnd['female'],
-                        totalRegisteredMembers['female']-registeredMembersTillSecondLastMonthEnd['female'],
+                        registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
+                        registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
+                        registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
+                        registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
+                        registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
+                        registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
+                        registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
+                        registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
+                        registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
+                        registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
+                        totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female'],
                     ],
                     color: '#66ff66'
                 }, {
                     name: 'Total',
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['total'],
-                        registeredMembersTillEleventhLastMonthEnd['total']-registeredMembersTillTwelfthLastMonthEnd['total'],
-                        registeredMembersTillTenthLastMonthEnd['total']-registeredMembersTillEleventhLastMonthEnd['total'],
-                        registeredMembersTillNinthLastMonthEnd['total']-registeredMembersTillTenthLastMonthEnd['total'],
-                        registeredMembersTillEighthLastMonthEnd['total']-registeredMembersTillNinthLastMonthEnd['total'],
-                        registeredMembersTillSeventhLastMonthEnd['total']-registeredMembersTillEighthLastMonthEnd['total'],
-                        registeredMembersTillSixthLastMonthEnd['total']-registeredMembersTillSeventhLastMonthEnd['total'],
-                        registeredMembersTillFifthLastMonthEnd['total']-registeredMembersTillSixthLastMonthEnd['total'],
-                        registeredMembersTillFourthLastMonthEnd['total']-registeredMembersTillFifthLastMonthEnd['total'],
-                        registeredMembersTillThirdLastMonthEnd['total']-registeredMembersTillFourthLastMonthEnd['total'],
-                        registeredMembersTillSecondLastMonthEnd['total']-registeredMembersTillThirdLastMonthEnd['total'],
-                        registeredMembersTillNow['total']-registeredMembersTillSecondLastMonthEnd['total']
+                        registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
+                        registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
+                        registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
+                        registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
+                        registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
+                        registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
+                        registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
+                        registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
+                        registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
+                        registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
+                        registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
                     ],
                     color: '#ff9900'
                 }]
@@ -2193,51 +2160,51 @@ $(function() {
                         name: 'Males',
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['male'],
-                            registeredMembersTillEleventhLastMonthEnd['male']-registeredMembersTillTwelfthLastMonthEnd['male'],
-                            registeredMembersTillTenthLastMonthEnd['male']-registeredMembersTillEleventhLastMonthEnd['male'],
-                            registeredMembersTillNinthLastMonthEnd['male']-registeredMembersTillTenthLastMonthEnd['male'],
-                            registeredMembersTillEighthLastMonthEnd['male']- registeredMembersTillNinthLastMonthEnd['male'],
-                            registeredMembersTillSeventhLastMonthEnd['male']-registeredMembersTillEighthLastMonthEnd['male'],
-                            registeredMembersTillSixthLastMonthEnd['male']-registeredMembersTillSeventhLastMonthEnd['male'],
-                            registeredMembersTillFifthLastMonthEnd['male']-registeredMembersTillSixthLastMonthEnd['male'],
-                            registeredMembersTillFourthLastMonthEnd['male']-registeredMembersTillFifthLastMonthEnd['male'],
-                            registeredMembersTillThirdLastMonthEnd['male']-registeredMembersTillFourthLastMonthEnd['male'],
-                            registeredMembersTillSecondLastMonthEnd['male']- registeredMembersTillThirdLastMonthEnd['male'],
-                            totalRegisteredMembers['male']- registeredMembersTillSecondLastMonthEnd['male'],
+                            registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
+                            registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
+                            registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
+                            registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
+                            registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
+                            registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
+                            registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
+                            registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
+                            registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
+                            registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
+                            totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male'],
                         ],
                         color: '#33ccff'
                     }, {
                         name: 'Females',
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['female'],
-                            registeredMembersTillEleventhLastMonthEnd['female']-registeredMembersTillTwelfthLastMonthEnd['female'],
-                            registeredMembersTillTenthLastMonthEnd['female']-registeredMembersTillEleventhLastMonthEnd['female'],
-                            registeredMembersTillNinthLastMonthEnd['female']-registeredMembersTillTenthLastMonthEnd['female'],
-                            registeredMembersTillEighthLastMonthEnd['female']-registeredMembersTillNinthLastMonthEnd['female'],
-                            registeredMembersTillSeventhLastMonthEnd['female']-registeredMembersTillEighthLastMonthEnd['female'],
-                            registeredMembersTillSixthLastMonthEnd['female']-registeredMembersTillSeventhLastMonthEnd['female'],
-                            registeredMembersTillFifthLastMonthEnd['female']- registeredMembersTillSixthLastMonthEnd['female'],
-                            registeredMembersTillFourthLastMonthEnd['female']-registeredMembersTillFifthLastMonthEnd['female'],
-                            registeredMembersTillThirdLastMonthEnd['female']-registeredMembersTillFourthLastMonthEnd['female'],
-                            registeredMembersTillSecondLastMonthEnd['female']-registeredMembersTillThirdLastMonthEnd['female'],
-                            totalRegisteredMembers['female']-registeredMembersTillSecondLastMonthEnd['female'],
+                            registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
+                            registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
+                            registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
+                            registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
+                            registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
+                            registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
+                            registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
+                            registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
+                            registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
+                            registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
+                            totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female'],
                         ],
                         color: '#66ff66'
                     }, {
                         name: 'Total',
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['total'],
-                            registeredMembersTillEleventhLastMonthEnd['total']-registeredMembersTillTwelfthLastMonthEnd['total'],
-                            registeredMembersTillTenthLastMonthEnd['total']-registeredMembersTillEleventhLastMonthEnd['total'],
-                            registeredMembersTillNinthLastMonthEnd['total']-registeredMembersTillTenthLastMonthEnd['total'],
-                            registeredMembersTillEighthLastMonthEnd['total']-registeredMembersTillNinthLastMonthEnd['total'],
-                            registeredMembersTillSeventhLastMonthEnd['total']-registeredMembersTillEighthLastMonthEnd['total'],
-                            registeredMembersTillSixthLastMonthEnd['total']-registeredMembersTillSeventhLastMonthEnd['total'],
-                            registeredMembersTillFifthLastMonthEnd['total']-registeredMembersTillSixthLastMonthEnd['total'],
-                            registeredMembersTillFourthLastMonthEnd['total']-registeredMembersTillFifthLastMonthEnd['total'],
-                            registeredMembersTillThirdLastMonthEnd['total']-registeredMembersTillFourthLastMonthEnd['total'],
-                            registeredMembersTillSecondLastMonthEnd['total']-registeredMembersTillThirdLastMonthEnd['total'],
-                            registeredMembersTillNow['total']-registeredMembersTillSecondLastMonthEnd['total']
+                            registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
+                            registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
+                            registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
+                            registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
+                            registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
+                            registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
+                            registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
+                            registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
+                            registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
+                            registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
+                            registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
                         ],
                         color: '#ff9900'
                     }]
@@ -2751,7 +2718,7 @@ $(function() {
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
                 App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a>' +
-                '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
+                    '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
             }
             var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
