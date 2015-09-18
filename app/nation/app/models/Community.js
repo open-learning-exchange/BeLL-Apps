@@ -93,6 +93,10 @@ $(function() {
                 type: 'Text',
                 validators: ['required']
             },
+            LeaderEmail: {
+                type: 'Text',
+                validators: ['required']
+            },
             UrgentName: {
                 type: 'Text',
                 validators: ['required']
