@@ -37,7 +37,7 @@ $(function() {
                 $('#leader-middlename').val(Nation.get('LeaderMiddlename'))
                 $('#leader-lastname').val(Nation.get('LeaderLastname'))
                 $('#leader-phone').val(Nation.get('LeaderPhone'))
-                $('#org-email').val(Nation.get('LeaderEmail'))
+                $('#leader-email').val(Nation.get('LeaderEmail'))
                 $('#leader-ID').val(Nation.get('LeaderId'))
                 $('#leader-password').val(Nation.get('LeaderPassword'))
                 $('#urg-name').val(Nation.get('UrgentName'))
@@ -65,7 +65,7 @@ $(function() {
                 LeaderMiddlename: $('#leader-middlename').val(),
                 LeaderLastname: $('#leader-lastname').val(),
                 LeaderPhone: $('#leader-phone').val(),
-                LeaderEmail: $('#org-email').val(),
+                LeaderEmail: $('#leader-email').val(),
                 LeaderId: $('#leader-ID').val(),
                 LeaderPassword: $('#leader-password').val(),
                 UrgentName: $('#urg-name').val(),
