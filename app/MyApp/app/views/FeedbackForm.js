@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     App.Views.FeedbackForm = Backbone.View.extend({
 
@@ -10,7 +10,7 @@ $(function () {
             "submit form": "setFormFromEnterKey"
         },
 
-        render: function () {
+        render: function() {
             var that = this;
             this.user_rating = 0;
             console.log(this.model);
@@ -27,21 +27,23 @@ $(function () {
             $btnAddToShelf = $('<button class="btn btn-success" id="AddToShelf" style="margin-left:10px">Save And Add To My Library</button>');
             this.$el.append($button);
             this.$el.append($btnAddToShelf);
+            //Issue#61: Update buttons Add Feedback form when rating a resource
             $btnAddToShelf.click(function() {
                 that.setForm();
                 if (that.user_rating > 0) {
-                    AddToShelfAndSaveFeedback(model.get('resourceId') , escape(that.rtitle));
+                    AddToShelfAndSaveFeedback(model.get('resourceId'), escape(that.rtitle));
                 }
             });
+            //////////////////////////////////////////////////////////////////////
         },
-        setFormFromEnterKey: function (event) {
+        setFormFromEnterKey: function(event) {
             event.preventDefault();
             this.setForm();
         },
-        setUserRating: function (userRating) {
+        setUserRating: function(userRating) {
             this.user_rating = userRating;
         },
-        setForm: function () {
+        setForm: function() {
             // Put the form's input into the model in memory
             if (this.user_rating == 0) {
                 alert("Please rate the resource first");
@@ -51,45 +53,48 @@ $(function () {
                     this.form.setValue('comment', 'No Comment');
                 }
                 this.form.setValue('rating', this.user_rating);
-                this.form.setValue('communityCode',App.configuration.get('code'));
+                this.form.setValue('communityCode', App.configuration.get('code'));
 
                 this.form.commit();
                 var that = this;
-               
-                var feedbackModel=that.model;
-                var member=new App.Models.Member();
+
+                var feedbackModel = that.model;
+                var member = new App.Models.Member();
                 member.set('_id', $.cookie('Member._id'));
-                member.fetch({success:function(upModel,upRev){
-                    that.logActivity(upModel,feedbackModel);
-                }})
-			    var FeedBackDb=new PouchDB('feedback');
-				FeedBackDb.post(that.model.toJSON(),function(err,info){
-                    if(!err){
-                        var Resources=new PouchDB('resources');
-                        var resId=that.model.get("resourceId");
+                member.fetch({
+                    success: function(upModel, upRev) {
+                        that.logActivity(upModel, feedbackModel);
+                    }
+                })
+                var FeedBackDb = new PouchDB('feedback');
+                FeedBackDb.post(that.model.toJSON(), function(err, info) {
+                    if (!err) {
+                        var Resources = new PouchDB('resources');
+                        var resId = that.model.get("resourceId");
                         console.log(resId);
-                        Resources.get(resId,function(err,resdoc){
+                        Resources.get(resId, function(err, resdoc) {
                             console.log(err);
                             console.log(resdoc);
-                            if(!err){
-                                var numRating=parseInt(resdoc.timesRated);
+                            if (!err) {
+                                var numRating = parseInt(resdoc.timesRated);
                                 numRating++;
-                                var sumRating=parseInt(resdoc.sum)+parseInt(that.user_rating);
+                                var sumRating = parseInt(resdoc.sum) + parseInt(that.user_rating);
                                 Resources.put({
-                                    sum:sumRating,
-                                    timesRated: numRating
-                                },
-                                resdoc._id,resdoc._rev,function(error,info){
-                                    console.log(error);
-                                    console.log(info);
-                                })
+                                        sum: sumRating,
+                                        timesRated: numRating
+                                    },
+                                    resdoc._id, resdoc._rev,
+                                    function(error, info) {
+                                        console.log(error);
+                                        console.log(info);
+                                    })
                             } else {
                                 Resources.post({
-                                    _id: resId,
-                                    sum:parseInt(that.user_rating),
-                                    timesRated: 1
+                                        _id: resId,
+                                        sum: parseInt(that.user_rating),
+                                        timesRated: 1
                                     },
-                                    function(error,info){
+                                    function(error, info) {
                                         console.log(error);
                                         console.log(info);
                                     }
@@ -101,19 +106,19 @@ $(function () {
                             });
                         });
                         console.log(info);
-                    }else{
+                    } else {
                         console.log(err);
                     }
                 })
-				$('#externalDiv').hide();
+                $('#externalDiv').hide();
             }
         },
 
-        logActivity:function(member,feedbackModel){
-            var that=this;
-  		    var logdb=new PouchDB('activitylogs');
-      	    var currentdate = new Date();
-    	    var logdate = this.getFormattedDate(currentdate);
+        logActivity: function(member, feedbackModel) {
+            var that = this;
+            var logdb = new PouchDB('activitylogs');
+            var currentdate = new Date();
+            var logdate = this.getFormattedDate(currentdate);
 
             logdb.get(logdate, function(err, logModel) {
                 if (!err) {
@@ -124,23 +129,23 @@ $(function () {
             });
         },
 
-        createJsonlog:function(member, logdate, logdb, feedbackModel){
+        createJsonlog: function(member, logdate, logdb, feedbackModel) {
             var that = this;
             var docJson = {
-                 logDate: logdate,
-                 resourcesIds:[],
-                 male_visits:0,
-                 female_visits:0,
-                 male_timesRated:[],
-                 female_timesRated:[],
-                 male_rating:[],
-                 community:App.configuration.get('code'),
-                 female_rating:[],
-                 resources_opened:[],
-                 male_opened:[],
-                 female_opened:[],
-                male_deleted_count:0,
-                female_deleted_count:0
+                logDate: logdate,
+                resourcesIds: [],
+                male_visits: 0,
+                female_visits: 0,
+                male_timesRated: [],
+                female_timesRated: [],
+                male_rating: [],
+                community: App.configuration.get('code'),
+                female_rating: [],
+                resources_opened: [],
+                male_opened: [],
+                female_opened: [],
+                male_deleted_count: 0,
+                female_deleted_count: 0
             };
             logdb.put(docJson, logdate, function(err, response) {
                 if (!err) {
@@ -159,50 +164,47 @@ $(function () {
             });
         },
 
-        UpdatejSONlog:function(member, logModel, logdb, feedbackModel, logdate){
-            var superMgrIndex =  member.get('roles').indexOf('SuperManager');
-			console.log(feedbackModel);
-			memRating = parseInt(feedbackModel.get('rating'));
+        UpdatejSONlog: function(member, logModel, logdb, feedbackModel, logdate) {
+            var superMgrIndex = member.get('roles').indexOf('SuperManager');
+            console.log(feedbackModel);
+            memRating = parseInt(feedbackModel.get('rating'));
             var resId = feedbackModel.get('resourceId');
             var index = logModel.resourcesIds.indexOf(resId);
-	        if(index == -1){
+            if (index == -1) {
                 logModel.resourcesIds.push(resId);
-                if(member.get('Gender')=='Male') {
-                    if (superMgrIndex == -1 ) {
+                if (member.get('Gender') == 'Male') {
+                    if (superMgrIndex == -1) {
                         logModel.male_rating.push(memRating);
                         logModel.female_rating.push(0);
                         logModel.male_timesRated.push(1);
                         logModel.female_timesRated.push(0);
-                    }
-                    else {
+                    } else {
                         logModel.male_rating.push(0);
                         logModel.female_rating.push(0);
                         logModel.male_timesRated.push(0);
                         logModel.female_timesRated.push(0);
                     }
-                }else{
-                    if (superMgrIndex == -1 ) {
+                } else {
+                    if (superMgrIndex == -1) {
                         logModel.male_rating.push(0);
                         logModel.female_rating.push(memRating);
                         logModel.male_timesRated.push(0);
                         logModel.female_timesRated.push(1);
-                    }
-                    else {
+                    } else {
                         logModel.male_rating.push(0);
                         logModel.female_rating.push(0);
                         logModel.male_timesRated.push(0);
                         logModel.female_timesRated.push(0);
                     }
                 }
-            }
-            else{
-                if(member.get('Gender')=='Male') {
-                    if (superMgrIndex == -1 ) {
+            } else {
+                if (member.get('Gender') == 'Male') {
+                    if (superMgrIndex == -1) {
                         logModel.male_rating[index] = parseInt(logModel.male_rating[index]) + memRating;
                         logModel.male_timesRated[index] = (parseInt(logModel.male_timesRated[index])) + 1;
                     }
-                }else{
-                    if (superMgrIndex == -1 ) {
+                } else {
+                    if (superMgrIndex == -1) {
                         logModel.female_rating[index] = parseInt(logModel.female_rating[index]) + memRating;
                         logModel.female_timesRated[index] = (parseInt(logModel.female_timesRated[index])) + 1;
                     }
@@ -219,13 +221,13 @@ $(function () {
             });
         },
 
-        getFormattedDate:function(date) {
-  		    var year = date.getFullYear();
-  		    var month = (1 + date.getMonth()).toString();
+        getFormattedDate: function(date) {
+            var year = date.getFullYear();
+            var month = (1 + date.getMonth()).toString();
             month = month.length > 1 ? month : '0' + month;
-  		    var day = date.getDate().toString();
-  		    day = day.length > 1 ? day : '0' + day;
-            return  month + '/' + day + '/' + year;
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+            return month + '/' + day + '/' + year;
         }
     })
 })

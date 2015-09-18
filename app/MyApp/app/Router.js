@@ -1283,8 +1283,8 @@ $(function() {
             if (roles.indexOf("Manager") > -1) {
                 //<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
                 App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a>' +
-                    '<a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a>' +
-                    '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
+                '<a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a>' +
+                '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
 
             } else {
                 App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
@@ -2152,7 +2152,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Total Registered Members Past 12 Months'   //Total Members Previously
+                            text: 'Total Registered Members Past 12 Months' //Total Members Previously
                         },
                         xAxis: {
                             categories: [
@@ -2255,7 +2255,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Total Visits Past 12 Months'  // Total Visits
+                            text: 'Total Visits Past 12 Months' // Total Visits
                         },
                         xAxis: {
                             categories: [
@@ -2402,51 +2402,51 @@ $(function() {
                             name: 'Males',
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['male'],
-                                registeredMembersTillEleventhLastMonthEnd['male']-registeredMembersTillTwelfthLastMonthEnd['male'],
-                                registeredMembersTillTenthLastMonthEnd['male']-registeredMembersTillEleventhLastMonthEnd['male'],
-                                registeredMembersTillNinthLastMonthEnd['male']-registeredMembersTillTenthLastMonthEnd['male'],
-                                registeredMembersTillEighthLastMonthEnd['male']- registeredMembersTillNinthLastMonthEnd['male'],
-                                registeredMembersTillSeventhLastMonthEnd['male']-registeredMembersTillEighthLastMonthEnd['male'],
-                                registeredMembersTillSixthLastMonthEnd['male']-registeredMembersTillSeventhLastMonthEnd['male'],
-                                registeredMembersTillFifthLastMonthEnd['male']-registeredMembersTillSixthLastMonthEnd['male'],
-                                registeredMembersTillFourthLastMonthEnd['male']-registeredMembersTillFifthLastMonthEnd['male'],
-                                registeredMembersTillThirdLastMonthEnd['male']-registeredMembersTillFourthLastMonthEnd['male'],
-                                registeredMembersTillSecondLastMonthEnd['male']- registeredMembersTillThirdLastMonthEnd['male'],
-                                totalRegisteredMembers['male']- registeredMembersTillSecondLastMonthEnd['male'],
+                                registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
+                                registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
+                                registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
+                                registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
+                                registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
+                                registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
+                                registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
+                                registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
+                                registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
+                                registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
+                                totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male'],
                             ],
                             color: '#33ccff'
                         }, {
                             name: 'Females',
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['female'],
-                                registeredMembersTillEleventhLastMonthEnd['female']-registeredMembersTillTwelfthLastMonthEnd['female'],
-                                registeredMembersTillTenthLastMonthEnd['female']-registeredMembersTillEleventhLastMonthEnd['female'],
-                                registeredMembersTillNinthLastMonthEnd['female']-registeredMembersTillTenthLastMonthEnd['female'],
-                                registeredMembersTillEighthLastMonthEnd['female']-registeredMembersTillNinthLastMonthEnd['female'],
-                                registeredMembersTillSeventhLastMonthEnd['female']-registeredMembersTillEighthLastMonthEnd['female'],
-                                registeredMembersTillSixthLastMonthEnd['female']-registeredMembersTillSeventhLastMonthEnd['female'],
-                                registeredMembersTillFifthLastMonthEnd['female']- registeredMembersTillSixthLastMonthEnd['female'],
-                                registeredMembersTillFourthLastMonthEnd['female']-registeredMembersTillFifthLastMonthEnd['female'],
-                                registeredMembersTillThirdLastMonthEnd['female']-registeredMembersTillFourthLastMonthEnd['female'],
-                                registeredMembersTillSecondLastMonthEnd['female']-registeredMembersTillThirdLastMonthEnd['female'],
-                                totalRegisteredMembers['female']-registeredMembersTillSecondLastMonthEnd['female'],
+                                registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
+                                registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
+                                registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
+                                registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
+                                registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
+                                registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
+                                registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
+                                registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
+                                registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
+                                registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
+                                totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female'],
                             ],
                             color: '#66ff66'
                         }, {
                             name: 'Total',
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['total'],
-                                registeredMembersTillEleventhLastMonthEnd['total']-registeredMembersTillTwelfthLastMonthEnd['total'],
-                                registeredMembersTillTenthLastMonthEnd['total']-registeredMembersTillEleventhLastMonthEnd['total'],
-                                registeredMembersTillNinthLastMonthEnd['total']-registeredMembersTillTenthLastMonthEnd['total'],
-                                registeredMembersTillEighthLastMonthEnd['total']-registeredMembersTillNinthLastMonthEnd['total'],
-                                registeredMembersTillSeventhLastMonthEnd['total']-registeredMembersTillEighthLastMonthEnd['total'],
-                                registeredMembersTillSixthLastMonthEnd['total']-registeredMembersTillSeventhLastMonthEnd['total'],
-                                registeredMembersTillFifthLastMonthEnd['total']-registeredMembersTillSixthLastMonthEnd['total'],
-                                registeredMembersTillFourthLastMonthEnd['total']-registeredMembersTillFifthLastMonthEnd['total'],
-                                registeredMembersTillThirdLastMonthEnd['total']-registeredMembersTillFourthLastMonthEnd['total'],
-                                registeredMembersTillSecondLastMonthEnd['total']-registeredMembersTillThirdLastMonthEnd['total'],
-                                registeredMembersTillNow['total']-registeredMembersTillSecondLastMonthEnd['total']
+                                registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
+                                registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
+                                registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
+                                registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
+                                registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
+                                registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
+                                registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
+                                registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
+                                registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
+                                registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
+                                registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
                             ],
                             color: '#ff9900'
                         }]
@@ -2889,6 +2889,7 @@ $(function() {
                 alert('Already in Shelf')
             }
         },
+        //Issue#61: Update buttons Add Feedback form when rating a resource
         AddToShelfAndSaveFeedback: function(rId, title) {
             var shelfResource = new App.Collections.shelfResource()
             shelfResource.resourceId = rId

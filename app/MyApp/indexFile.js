@@ -434,9 +434,11 @@ function startRecording() {
 function AddToShelf(rId, title) {
     App.Router.AddToShelf(rId, title)
 }
+//Issue#61: Update buttons Add Feedback form when rating a resource
 function AddToShelfAndSaveFeedback(rId, title) {
     App.Router.AddToShelfAndSaveFeedback(rId, title)
 }
+
 function showSubjectCheckBoxes() {
     var subjects = ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology'];
     var length = subjects.length;
@@ -581,7 +583,6 @@ function continueMerging() {
 }
 
 function cancelMerging() {
-
 
     document.getElementById('cont').style.opacity = 1
     document.getElementById('nav').style.opacity = 1
