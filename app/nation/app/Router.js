@@ -526,9 +526,6 @@ $(function() {
                     communityLastActivitySyncDate = communityModel.lastActivitiesSyncDate;
                     callback(communityLastActivitySyncDate);
                 },
-                //  error: function() {
-                //     console.log("Unable to get community's last sync date.");
-                //  }
                 async: false
             });
 
@@ -926,13 +923,12 @@ $(function() {
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             // ********************************************************************************************************
             //last activity sync date
-            //  ********************************************************************************************************
             //**********************************************************************************************************
             /*  context.lastSyncDateForCommunity(communityCode, function(param1) {
              communityLastActivitySyncDate = param1;
              alert("called")
              });*/
-            /////////////////////////////////////// */
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
             var trendActivityReportView = new App.Views.TrendActivityReport();
             trendActivityReportView.data = aggregateDataset;
@@ -2420,8 +2416,6 @@ $(function() {
                 });
                 //  ********************************************************************************************************
                 //  ********************************************************************************************************
-
-
             });
         },
         renderNav: function() {
