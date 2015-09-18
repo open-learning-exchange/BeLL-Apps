@@ -56,7 +56,8 @@ $(function() {
                             alert("Successfully pushed resources back");
                         }
                     });
-                }
+                },
+                async : false
             });
 
         },
