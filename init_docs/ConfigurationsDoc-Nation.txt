@@ -4,7 +4,7 @@
     "code":"nationbell",
     "type":"nation",
     "nationUrl":"earthbell.ole.org:5989",
-    "version":"0.11.60",
+    "version":"0.11.61",
     "notes":"Nation Bell",
     "availableLanguages":["English","French","Arabic","Urdu"],
     "currentLanguage":"English"
