@@ -28,6 +28,7 @@ ddoc.views = {
             return sum(values);
         }
     },
+    //View for Issue No :54 (Deleting Collections: Keep Resource, Remove Collection Name )
     resourceOnTag: {
         map:function(doc) {
             if(doc.Tag){
