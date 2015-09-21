@@ -707,6 +707,15 @@ Date: 18th Sept, 2015*/
 {
 
 }
+/*******************************************************************/
+/*Issue No: 43 remove "Add New" button on Add New Resource page from the tabindex and instead have
+the "Save" button highlighted after the "Browse" button is highlighted. (route:resource/add)
+Date: 21 Sept, 2015*/
+/**********************************************************************/
+.myTabIndexClass
+{
+}
+/**********************************************************************/
 .logquery-community{
     margin: 35px 0 0 35px;
 }

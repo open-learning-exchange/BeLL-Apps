@@ -6,11 +6,16 @@ $(function() {
 		id: 'resourceform',
 		hide: false,
 		events: {
+			/**********************************************************************/
+			//Issue#43: Add A Resource: Change Order of tabindex
+			/**********************************************************************/
             'keydown input[name="title"]':"getFocusForTitle",
             'keydown input[name="author"]':"getFocusForAuthor",
             'keydown input[name="Year"]':"getFocusForYear",
             'keydown select[name="language"]':"getFocusForLanguage",
             'keydown input[name="Publisher"]':"getFocusForPublisher",
+            "keydown #_attachments":"getFocusForBrowse",
+			"keydown  .save":"getFocusForSave",
        
 			"click .save": "saveForm",
 			"click #cancel": function() {
@@ -46,6 +51,41 @@ $(function() {
                 $('[name="Year"]').focus();
             }
         },
+		/*******************************************************************/
+		/*Issue No: 43 remove "Add New" button on Add New Resource page from the tabindex and instead have
+		 the "Save" button highlighted after the "Browse" button is highlighted. (route:resource/add)
+		 Date: 21 Sept, 2015*/
+		/**********************************************************************/
+        getFocusForBrowse : function(e){
+            if(e.keyCode==9) //tab is pressed
+            {
+               // alert("Tab is pressed on uplaoad attachment button");
+                 e.preventDefault();
+				var $focused = $(':focus');
+			//	$('[name="save"]').focus();
+				$(".save").attr("tabindex",0);
+			//	$(".save").prop('autofocus', 'true');
+				$('.save').addClass("myTabIndexClass");
+				$('.myTabIndexClass').focus();
+				$focused = $(':focus');
+				//$focused.click()
+
+            }
+        },
+		getFocusForSave : function(e){
+			if(e.keyCode==9) //tab is pressed
+			{
+				//alert("Tab is pressed on Save button");
+				e.preventDefault();
+				var $focused = $(':focus');
+				$("#cancel").attr("tabindex",0);
+				$('#cancel').focus();
+				$focused = $(':focus');
+				//$focused.click()
+				e.preventDefault();
+			}
+		},
+		/**********************************************************************/
         getFocusForYear : function(e){
 
        
