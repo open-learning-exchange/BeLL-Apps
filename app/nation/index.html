@@ -157,11 +157,13 @@
   	</script>
     <!--templates -->
         <!--   issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
-               Issue#80:Add Report button on the Communities page at nation-->
+               Issue#80:Add Report button on the Communities page at nation
+               <span align="right" style="position: absolute;display: inline-block;margin-right: 0px">Last Activities Sync Date: <%= lastActivitySyncDate %></span>
+               Trend Activity Report for xyz Community as of xx/xx/xxxx-->
     <script type="text/html" id="template-TrendActivityReport">
 
       <h4>
-          <div><span align ="left">Trend Activity Report ( Community: <%= CommunityName %> )</span> <span align="right" style="position: absolute;display: inline-block;margin-right: 0px">Last Activities Sync Date: <%= lastActivitySyncDate %></span></div>
+          <div><span align ="left">Trend Activity Report for <%= CommunityName %> Community as of <%= lastActivitySyncDate %> </span> </div>
       </h4>
       <div id="trend-report-div-total-members" style = "padding:10px 10px 10px 10px; " ></div>
       <div id="trend-report-div-total-member-visits" style = "padding:10px 10px 10px 10px; " ></div>
