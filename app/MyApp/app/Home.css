@@ -289,7 +289,7 @@ margin-left:40px;
 {
     display: block;
     font-size: 28px;
-    margin-left: 35%;
+    margin-left: 36%; /* #99 Member login heading previous 35% */
     width: 260px;
 }
 
@@ -297,7 +297,7 @@ margin-left:40px;
 {
 	height: 300px;
         margin-left: 35%;
-        width: 370px;	
+        width: 370px; /* previous 370px; */
 }
 
 #olelogo
