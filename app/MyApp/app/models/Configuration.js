@@ -42,9 +42,9 @@ $(function() {
             notes: {
                 type: 'Text'
             },
-            availableLanguages: {
+            selectLanguage: {
                 type: 'Select',
-                options: ["Arabic", "Asante", "Chinese", "English", "Ewe", "French", "Hindi", "Kyrgyzstani", "Nepali", "Portuguese", "Punjabi", "Russian",
+                options: ["Select an Option","Arabic", "Asante", "Chinese", "English", "Ewe", "French", "Hindi", "Kyrgyzstani", "Nepali", "Portuguese", "Punjabi", "Russian",
                     "Somali", "Spanish", "Swahili", "Urdu"
                 ]
             },
