@@ -27,6 +27,7 @@ $(function() {
             "male_rating": [],
             "male_timesRated": [],
             "resources_opened": [],
+            "resources_names": [], // Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
             "female_opened": [],
             "male_opened": []
         }

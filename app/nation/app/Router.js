@@ -76,6 +76,13 @@ $(function() {
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
+            //  var superMgrIndex =  member.get('roles').indexOf('SuperManager');
+            //*********************************************************************
+            /*var roles =this.getRoles();
+             var SuperMgrIndex = roles.indexOf("SuperManager");
+
+             if( -1){*/
+            //*********************************************************************
             if (logData.length < 1) {
                 var staticData = {
                     "Visits": {
@@ -106,6 +113,7 @@ $(function() {
             }
             var report_resRated = [],
                 report_resOpened = [],
+                report_resNames = [], // Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                 report_male_visits = 0,
                 report_female_visits = 0,
                 report_male_new_signups = 0,
@@ -121,6 +129,13 @@ $(function() {
             if (logReport.resourcesIds) {
                 report_resRated = logReport.resourcesIds;
             }
+            //********************************************************************************************
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+            //********************************************************************************************
+            if (logReport.resources_names) {
+                report_resNames = logReport.resources_names
+            }
+//********************************************************************************************
             if (logReport.resources_opened) {
                 report_resOpened = logReport.resources_opened
             }
@@ -176,6 +191,9 @@ $(function() {
                     report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0);
 
                     var resourcesIds = logDoc.resourcesIds;
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                    var resourcesNames = logDoc.resources_names;
+//******************************************************************************************
                     var resourcesOpened = logDoc.resources_opened;
                     for (var i = 0; i < resourcesIds.length; i++) {
                         var resId = resourcesIds[i]
@@ -199,6 +217,17 @@ $(function() {
                             var resourceIndex = report_resOpened.indexOf(resId)
                             if (resourceIndex == -1) {
                                 report_resOpened.push(resId)
+                                //*******************************************************************************************
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                                //*******************************************************************************************
+                                if (resourcesNames!= undefined && resourcesNames != null){
+                                    if(resourcesNames.length > 0) {
+                                        // alert(resourcesNames[i])
+                                        report_resNames.push(resourcesNames[i])
+                                    }
+                                }
+
+//*******************************************************************************************
                                 report_male_opened.push(logDoc.male_opened[i])
                                 report_female_opened.push(logDoc.female_opened[i])
                             } else {
@@ -243,7 +272,20 @@ $(function() {
                     res.fetch({
                         async: false
                     });
+                 var  test = report_resOpened[indices[i]]
                     var name = res.get('title');
+                   // var name = 'ffghgghfghfh';
+                    //*******************************************************************************************
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                    //*******************************************************************************************
+                   console.log(logReport.resources_names)
+                    //typeof variable_here === 'undefined'
+                    if (!name ) {
+                     var indexofres = report_resOpened.indexOf(test);
+                        console.log(indexofres);
+                        name = report_resNames[indices[i]];
+                        }
+                    //*******************************************************************************************
                     // create most freq opened resource entry and push it into Most_Freq_Opened array
                     most_freq_res_entry = {
                         "resourceName": name,
@@ -302,6 +344,13 @@ $(function() {
                         async: false
                     });
                     var name = res.get('title');
+                    //***********************************************#84
+                    if (!name ) {
+                        var indexofres = report_resOpened.indexOf(test);
+                        console.log(indexofres);
+                        name = report_resNames[indices[i]];
+                    }
+                    //*****************************************
                     timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
                     // create highest rated resource entry and push it into Highest_Rated_Resources array
                     entry_rated_highest = {
@@ -335,7 +384,13 @@ $(function() {
                         async: false
                     })
                     var name = res.get('title')
-
+//***********************************************#84
+                    if (!name ) {
+                        var indexofres = report_resOpened.indexOf(test);
+                        console.log(indexofres);
+                        name = report_resNames[indices[i]];
+                    }
+                    //*****************************************
                     entry_rated_lowest = {
                         "resourceName": name,
                         "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100,
