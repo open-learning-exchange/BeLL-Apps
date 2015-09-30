@@ -13,7 +13,7 @@ $(function() {
                 model: this.model
             })
             this.$el.append(this.form.render().el);
-            this.$el.append('<a style="margin-left:2px" class="btn btn-success" id="formButton">Submit Configurations </a>');
+            this.$el.append('<a style="margin-left:31px" class="btn btn-success" id="formButton">Submit Configurations </a>');
         },
         setForm: function() {
             this.form.commit();
@@ -33,6 +33,9 @@ $(function() {
             con.set('type', Config.get('type'));
             con.set('notes', Config.get('notes'));
             con.set('version', Config.get('version'));
+            if(Config.get('selectLanguage') != "Select an Option") {
+                con.set('currentLanguage', Config.get('selectLanguage'));
+            }
             con.save(null, {
                 success: function(doc, rev) {
                     App.configuration = con;

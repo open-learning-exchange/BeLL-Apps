@@ -6,7 +6,9 @@
     "nationUrl":"earthbell.ole.org:5989",
     "version":"0.11.63",
     "notes":"Nation Bell",
-    "availableLanguages":["English","French","Arabic","Urdu"],
+    "availableLanguages":["Arabic", "Asante", "Chinese", "English", "Ewe", "French", "Hindi", "Kyrgyzstani", "Nepali", "Portuguese", "Punjabi", "Russian",
+                                                                      "Somali", "Spanish", "Swahili", "Urdu"
+                                                                  ],
     "currentLanguage":"English"
 }
 
