@@ -2,12 +2,12 @@ $(function() {
     App.Router = new(Backbone.Router.extend({
 
         routes: {
-            'open/:resourceId': 'LogactivityAndOpen',
+            'open/:resourceId/:resourceTitle': 'LogactivityAndOpen',
             'openreport/:level/:reportId': 'openReport',
             'download/:resourceId': 'download',
             'openres/:id': 'open'
         },
-        LogactivityAndOpen: function(resourceId) {
+        LogactivityAndOpen: function(resourceId,resourceTitle) {
             var memId = $.cookie('Member._id')
             var memUrl = '/members/' + memId
             var Member = Backbone.Model.extend({
@@ -31,9 +31,9 @@ $(function() {
                     //            console.log("logModel: ");
                     //            console.log(logModel);
                     //            alert("yeeyyyyyy");
-                    that.UpdatejSONlog(member, logModel, logdb, resourceId, logdate);
+                    that.UpdatejSONlog(member, logModel, logdb, resourceId, logdate, resourceTitle);
                 } else {
-                    that.createJsonlog(member, logdate, logdb, resourceId);
+                    that.createJsonlog(member, logdate, logdb, resourceId,  resourceTitle);
                 }
             });
 
@@ -58,7 +58,7 @@ $(function() {
             //
             //		   });
         },
-        createJsonlog: function(member, logdate, logdb, resourceId) {
+        createJsonlog: function(member, logdate, logdb, resourceId,resourceTitle) {
             var superMgrIndex = member.get('roles').indexOf('SuperManager');
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
@@ -82,13 +82,20 @@ $(function() {
                 male_rating: [],
                 community: currentConfig.code,
                 female_rating: [],
+                resources_names: [], // Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                 resources_opened: [],
                 male_opened: [],
                 female_opened: [],
                 male_deleted_count: 0,
                 female_deleted_count: 0
             }
+            //***************************************************************************************
+            // issue #84
+            //**************************************************************************************
+            docJson.resources_names.push(resourceTitle)
+            // **************************************************************************************
             docJson.resources_opened.push(resourceId)
+
             if (member.get('Gender') == 'Male') {
                 if (superMgrIndex == -1) {
                     docJson.male_opened.push(1)
@@ -135,12 +142,17 @@ $(function() {
             //                x = 12;
             //		    });
         },
-        UpdatejSONlog: function(member, logModel, logdb, resourceId, logdate) {
+        UpdatejSONlog: function(member, logModel, logdb, resourceId, logdate,resourceTitle) {
             var superMgrIndex = member.get('roles').indexOf('SuperManager');
             var resId = resourceId;
             //            alert("buuuurrrrrrrr");
             var index = logModel.resources_opened.indexOf(resId);
             if (index == -1) {
+                //***************************************************************************************
+                // issue #84
+                //**************************************************************************************
+                logModel.resources_names.push(resourceTitle)
+                // **************************************************************************************
                 logModel.resources_opened.push(resId)
                 if (member.get('Gender') == 'Male') {
                     if (superMgrIndex == -1) {

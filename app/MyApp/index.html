@@ -522,7 +522,8 @@
         <% }}%>&nbsp;(<%=totalRatings%>)
     </td>
     <td>
-        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <!--issu#84 : Added title in the href href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>-->
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
             <i class='icon-eye-open icon-white'></i> Open
         </a>
     </td>
@@ -571,7 +572,7 @@
         <% }}%>&nbsp;(<%=totalRatings%>)
     </td>
     <td>
-        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
             <i class='icon-eye-open icon-white'></i> Open
         </a>
     </td>
@@ -616,7 +617,7 @@
         <% }}%>&nbsp;(<%=totalRatings%>)
     </td>
     <td>
-        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
             <i class='icon-eye-open icon-white'></i> Open
         </a>
     </td>
@@ -917,7 +918,7 @@
                     <%= resourceTitles[i] %> &nbsp&nbsp
                 </td>
                 <td>
-                    <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
+                    <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>/<%= resourceTitles[i] %>' target="_blank">Open</a>
                 </td>
             </tr>
             <%}%>

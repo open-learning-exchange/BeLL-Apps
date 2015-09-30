@@ -1353,6 +1353,7 @@ $(function() {
             }
             var report_resRated = [],
                 report_resOpened = [],
+                report_resNames = [], // Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                 report_male_visits = 0,
                 report_female_visits = 0,
                 report_male_new_signups = 0,
@@ -1368,6 +1369,13 @@ $(function() {
             if (logReport.resourcesIds) {
                 report_resRated = logReport.resourcesIds;
             }
+            //********************************************************************************************
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+            //********************************************************************************************
+            if (logReport.resources_names) {
+                report_resNames = logReport.resources_names
+            }
+//********************************************************************************************
             if (logReport.resources_opened) {
                 report_resOpened = logReport.resources_opened
             }
@@ -1423,6 +1431,9 @@ $(function() {
                     report_female_deleted += (logDoc.female_deleted_count ? logDoc.female_deleted_count : 0);
                     report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0);
                     var resourcesIds = logDoc.resourcesIds;
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                    var resourcesNames = logDoc.resources_names;
+//******************************************************************************************
                     var resourcesOpened = logDoc.resources_opened;
                     for (var i = 0; i < resourcesIds.length; i++) {
                         var resId = resourcesIds[i]
@@ -1446,6 +1457,17 @@ $(function() {
                             var resourceIndex = report_resOpened.indexOf(resId)
                             if (resourceIndex == -1) {
                                 report_resOpened.push(resId)
+                                //*******************************************************************************************
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                                //*******************************************************************************************
+                                if (resourcesNames!= undefined && resourcesNames != null){
+                                 if(resourcesNames.length > 0) {
+                                    // alert(resourcesNames[i])
+                                     report_resNames.push(resourcesNames[i])
+                                 }
+                            }
+
+//*******************************************************************************************
                                 report_male_opened.push(logDoc.male_opened[i])
                                 report_female_opened.push(logDoc.female_opened[i])
                             } else {
@@ -3400,12 +3422,15 @@ $(function() {
                     App.$el.children('.body').append('<p style="font-size: 30px;font-weight: bolder;color: #808080;width: 450px;word-wrap: break-word;">' + collectionlist.get('CollectionName') + '</p>')
 
                     App.$el.children('.body').append(resourcesTableView.el)
-
+                    //****************************************************************************
+// make changes here for Issue # 70 (#resources) and make trigger:true
+                    //****************************************************************************
                     $('#backButton').click(function() {
                         Backbone.history.navigate('#resources', {
                             trigger: false
                         })
                     })
+ //****************************************************************************
                 }
             })
             App.stopActivityIndicator()
@@ -4135,6 +4160,10 @@ $(function() {
             dailylogModel.set('logDate', activitylog.logDate);
             dailylogModel.set('community', activitylog.community);
             dailylogModel.set('resourcesIds', activitylog.resourcesIds)
+            //***************************************************************************************
+            //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+            dailylogModel.set('resources_names', activitylog.resources_names) //Reources names to be added in activity log Issue # 84
+            //*************************************************************************************
             dailylogModel.set('resources_opened', activitylog.resources_opened)
             dailylogModel.set('male_visits', activitylog.male_visits)
             dailylogModel.set('female_visits', activitylog.female_visits)
@@ -4166,6 +4195,12 @@ $(function() {
         updateLogs: function(activitylog, logsonServer) {
             var activitylog_resRated = 0,
                 activitylog_resOpened = 0;
+            //***************************************************************************************
+            // issue #84
+            //**************************************************************************************
+            var activitylog_resNames = 0;
+            var logsonServer_resNames = 0;
+            //***************************************************************************************
             var activitylog_male_deleted_count = 0,
                 activitylog_female_deleted_count = 0;
             var logsonServer_male_deleted_count = 0,
@@ -4182,6 +4217,17 @@ $(function() {
                 logsonServer_female_timesRated = 0,
                 logsonServer_male_opened = 0,
                 logsonServer_female_opened = 0;
+            //***************************************************************************************
+            // issue #84
+            //**************************************************************************************
+            if (activitylog.resources_names) {
+                activitylog_resNames = activitylog.resources_names
+            }
+            if (logsonServer.get('resources_names')) {
+                logsonServer_resNames = logsonServer.get('resources_names')
+            }
+            //***************************************************************************************
+
             if (activitylog.resourcesIds) {
                 activitylog_resRated = activitylog.resourcesIds
             }
@@ -4255,9 +4301,15 @@ $(function() {
             }
             for (i = 0; i < activitylog_resOpened.length; i++) {
                 resId = activitylog_resOpened[i]
+                //*********************************************
+                // issue #84
+                //********************************************
+             //   logsonServer_resNames.push(resId)
+                //*******************************************
                 index = logsonServer_resOpened.indexOf(resId)
                 if (index == -1) {
                     logsonServer_resOpened.push(resId)
+
                     logsonServer_male_opened.push(activitylog.male_opened[i])
                     logsonServer_female_opened.push(activitylog.female_opened[i])
                 } else {
@@ -4266,6 +4318,11 @@ $(function() {
                 }
             }
             //alert('in update logs')
+            //***************************************************************************************
+            // issue #84
+            //**************************************************************************************
+            logsonServer.set('resources_names', logsonServer_resNames);
+            //*************************************************************************************
             logsonServer.set('resourcesIds', logsonServer_resRated);
             logsonServer.set('resources_opened', logsonServer_resOpened);
             logsonServer.set('male_visits', logsonServer_male_visits);
@@ -4328,6 +4385,12 @@ $(function() {
             }
             var report_resRated = logReport.get('resourcesIds')
             var report_resOpened = [];
+//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+            var report_resNames = [];
+            if (logReport.get('resources_names')) {
+                report_resNames = logReport.get('resources_names')
+            }
+//*******************************************************************************************
             if (logReport.get('resources_opened')) {
                 report_resOpened = logReport.get('resources_opened')
             }
@@ -4371,6 +4434,9 @@ $(function() {
                     report_female_visits += logDoc.get('female_visits');
                     resourcesIds = logDoc.get('resourcesIds');
                     resourcesOpened = logDoc.get('resources_opened');
+                    //*********************************************************** #84
+                    resourcesNames = logDoc.get('resources_names');
+                   // ******************************************************************
                     for (var i = 0; i < resourcesIds.length; i++) {
                         resId = resourcesIds[i]
                         index = report_resRated.indexOf(resId)
@@ -4392,6 +4458,7 @@ $(function() {
                             resId = resourcesOpened[i]
                             index = report_resOpened.indexOf(resId)
                             if (index == -1) {
+                                report_resNames.push(resourcesNames[i])
                                 report_resOpened.push(resId)
                                 report_male_opened.push(logDoc.get('male_opened')[i])
                                 report_female_opened.push(logDoc.get('female_opened')[i])
