@@ -28,7 +28,6 @@ $(function() {
             }, 1000);
         },
         deleteCollectionNameFromResources: function(idOfCollection) {
-
             $.ajax({
                 url: '/resources/_design/bell/_view/resourceOnTag?_include_docs=true&key="' + idOfCollection + '"',
 
@@ -133,6 +132,7 @@ $(function() {
                     this.model.save(null, {
                         success: function(m) {
                             alert("Collection Saved Successfully")
+                         // add   location.reload() here for #108
                             if (that.model.get('_id') == undefined) {
                                 if (that.model.get('NesttedUnder') == '--Select--') {
                                     if (that.model.get('IsMajor') == true) {

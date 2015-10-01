@@ -3423,11 +3423,11 @@ $(function() {
 
                     App.$el.children('.body').append(resourcesTableView.el)
                     //****************************************************************************
-// make changes here for Issue # 70 (#resources) and make trigger:true
+// make changes here for Issue # 70 (#resources)
                     //****************************************************************************
                     $('#backButton').click(function() {
                         Backbone.history.navigate('#resources', {
-                            trigger: false
+                            trigger: true
                         })
                     })
  //****************************************************************************
