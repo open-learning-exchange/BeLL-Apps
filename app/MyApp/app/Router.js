@@ -3426,7 +3426,7 @@ $(function() {
 // make changes here for Issue # 70 (#resources)
                     //****************************************************************************
                     $('#backButton').click(function() {
-                        Backbone.history.navigate('#resources', {
+                        Backbone.history.navigate('#collection', {
                             trigger: true
                         })
                     })
