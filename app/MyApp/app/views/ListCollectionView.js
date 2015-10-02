@@ -132,7 +132,7 @@ $(function() {
                     this.model.save(null, {
                         success: function(m) {
                             alert("Collection Saved Successfully")
-                         // add   location.reload() here for #108
+                            location.reload()
                             if (that.model.get('_id') == undefined) {
                                 if (that.model.get('NesttedUnder') == '--Select--') {
                                     if (that.model.get('IsMajor') == true) {
