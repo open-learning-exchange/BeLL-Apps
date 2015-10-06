@@ -27,9 +27,12 @@ $(function() {
                         // display "watch welcome video" button
                         var hrefWelcomeVid = "/apps/_design/bell/bell-resource-router/index.html#openres/" + welcomeResourceId;
                         // #99: margin-left:0px     var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" href="hmmm" target="_blank" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
-                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="margin-left: 0px;margin-top: -33px; font-size:27px;">Welcome</button>'); //Issue#99
+                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="background-color:#2ecc71; margin-left: 0px;margin-top: -33px; font-size:27px;">Welcome</button>'); //Issue#99
                         context.$el.append($buttonWelcome);
                         context.$el.find("#welcomeButton").attr("href", hrefWelcomeVid); // <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
+                    }
+                    else {
+                        context.$el.addClass('withoutWelcomeVideo');
                     }
                 },
                 error: function() {
@@ -44,7 +47,7 @@ $(function() {
             this.$el.append(this.form.render().el)
             // give the form a submit button
             // #99 margin-left:1px for "Sign In " and "Become a Member" buttons
-            var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="margin-left: 1px;margin-top: -21px; font-size:27px;" id="formButton">Sign In</button>')
+            var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="background-color:#2ecc71; margin-left: 1px;margin-top: -21px; font-size:27px;" id="formButton">Sign In</button>')
             var $button2 = $('<div class="signup-div" ><a style="margin-left: 1px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">Become A Member</button></div>')
             this.$el.append($button)
             this.$el.append($button2)

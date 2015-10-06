@@ -277,7 +277,15 @@ margin-left:40px;
 	    width: 233px;
 	    font-weight: 900;
 }
-
+/* CSS for login form without welcom video/
+/******************************************/
+.withoutWelcomeVideo {
+	background-color: #edeff1;
+	padding: 23px 16px 16px;
+	position: relative;
+	border-radius: 11px;
+}
+/******************************************/
 .login-form > .bbf-form{
  
     height: 191px;
