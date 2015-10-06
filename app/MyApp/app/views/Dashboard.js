@@ -285,7 +285,20 @@ $(function() {
 
             var dashboard = this
             this.vars.mails = 0
-            var clanguage = App.configuration.get("currentLanguage")
+            var clanguage
+                = App.configuration.get("currentLanguage");
+            if(clanguage=="Urdu")
+            {
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+            }
+            else
+            {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+            }
+
             var typeofBell = App.configuration.get("type")
             console.log(App.languageDict)
             console.log(clanguage)
@@ -336,12 +349,49 @@ $(function() {
             })
             MeetupSpans.render()
             $('#meetUpTable').append(MeetupSpans.el)
-
+            var clanguage = App.configuration.get("currentLanguage");
+            // fetch dict for the current/selected language from the languages db/table
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+           //  data: $.param({ page: 1})
+            });
+            var languageDict;
+            for(var i=0;i<languages.length;i++)
+            {
+                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
+                {
+                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
+                    {
+                        languageDict=languages.models[i];
+                    }
+                }
+            }
+         //  var languageDicts = languages.first().toJSON();
+         //   var languageDict = languageDicts[clanguage];
+           // App.languageDict = languageDicts[clanguage];
+            App.languageDict = languageDict;
 
 
             //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
             // Time
+            /*******************************Date is rendering from here********************//////////////
+
+           // console.log("Value from Look up "+lookup(languageDict, "Days.Monday"));
+            var dayOfToday=moment().format('dddd');
+            var todayMonth=moment().format('MMMM');
+            var currentDay=this.lookup(languageDict, "Days."+dayOfToday);
+            var currentMonth=this.lookup(languageDict,"Months."+todayMonth);
+            var currentDate=moment().format('DD');
+            var currentYear=moment().format('YYYY');
+            $('.now').html(currentDay+' | '+currentDate+' '+currentMonth+', '+currentYear);
+         /*   if(clanguage!="English") {
+                $('.now').html(moment().format(currentDay + ' | DD' + ' ' + currentMonth + ' YYYY'))
+            }
+            else
+            {
             $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
+            }*/
             // Member Name
             var member = App.member
             var attchmentURL = '/members/' + member.id + '/'
@@ -378,11 +428,14 @@ $(function() {
              }*/
             //******************************************************************************************************************************************************
             bell_Name = bell_Name.charAt(0).toUpperCase() + bell_Name.slice(1); //capitalizing the first alphabet of the name.
+
             if (typeofBell === "nation") //checking that is it a nation or community
             {
-                bell_Name = bell_Name + " Nation Bell"
+                var nation=" "+languageDict.attributes.Nation+" "+languageDict.attributes.Bell;
+                bell_Name = bell_Name + nation;
             } else {
-                bell_Name = bell_Name + " Community Bell"
+                var community=" "+languageDict.attributes.Community+" "+languageDict.attributes.Bell;
+                bell_Name = bell_Name + community;
             }
             $('.bellLocation').html(bell_Name); //rendering the name on page
             if (!member.get('visits')) {
@@ -392,41 +445,129 @@ $(function() {
             if (parseInt(member.get('visits')) == 0) {
                 temp = "Error!!"
             } else {
-                temp = member.get('visits') + " visits"
+                //Getting Visits of any member**********************************************************/
+                temp = member.get('visits') +' '+languageDict.attributes.Visits;
             }
             var roles = "&nbsp;-&nbsp;"
             var temp1 = 0
+            //******************************-Getting Roles of Member**************************************/
             if (member.get("roles").indexOf("Learner") != -1) {
-                roles = roles + "Learner"
+
+                roles = roles + languageDict.attributes.Learner;   /******************Setting up Learner/Leader*****************/
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Leader") != -1) {
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
-                roles = roles + "Leader"
+                roles = roles + languageDict.attributes.Leader;
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Manager") != -1) {
+
+                var manager=languageDict.attributes.Manager;
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
+                var gandaId,test;
                 if (typeofBell == 'nation') {
-                    roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
+                    var natLink = '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a>'
+                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                   // $("a#NationManagerLink").text(manager);
+                    gandaId="NationManagerLink";
+                   // roles=roles+natLink;
+                    console.log(roles);
                 } else {
-                    roles = roles + '<a href="#communityManage">Manager</a>'
+                    var commLink  = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
+                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                     gandaId="CommunityManagerLink";
+                   // $("#CommunityManagerLink").text('Saba');
+                    //commLink.Text('Saba');
+                   // console.log(commLink);
+                    //roles=roles+commLink;
+                    console.log(roles);
                 }
             }
+
             $('.visits').html(temp)
-            $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
-            dashboard.checkAvailableUpdates(member.get('roles'), dashboard)
+            /*********************Setting First and Last Name************************/
+
+            $('.name').html(test)
+            console.log("ganda Id "+gandaId);
+            $("#"+gandaId).html(manager);
+            console.log(roles);
+            /*var languageDicts = languages.first().toJSON();
+            var languageDict = languageDicts[clanguage];
+            App.languageDict = languageDicts[clanguage];*/
+            dashboard.checkAvailableUpdates(member.get('roles'), dashboard);
+            var update=languageDict.attributes.Update_Welcome_Video;   ////////////////////////////////////////////////////
             if ($.cookie('Member.login') === "admin") {
-                var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'">Update Welcome Video</button>');
+                var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'"></button>');
+
+               // document.getElementById("welcomeButton").innerHTML = "My new text!";​
                 dashboard.$el.append($buttonWelcome);
+                $("#welcomeButton").html(update);
             }
 
             //dashboard.$el.append('<div id="updates"></div>')
         },
+            lookup :  function(obj, key) {
+                var type = typeof key;
+                if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
+                    return '.' + key;
+                }).split('.');
+
+                for (var i = 0, l = key.length; i < l;l--) {
+                    if (obj.attributes.hasOwnProperty(key[i]))
+                    {
+
+                        obj = obj.attributes[key[i]];
+                        i++;
+                        if(obj[0].hasOwnProperty(key[i]))
+                        {
+                            var myObj=obj[0];
+                            var valueOfObj=myObj[key[i]];
+
+                            return valueOfObj;
+                        }
+
+                    }
+                    else
+                    {
+                        return undefined;
+                    }
+                }
+                return obj;
+            },
+      /*  lookup :  function(obj, key) {
+            var type = typeof key;
+            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
+                return '.' + key;
+            }).split('.');
+
+            for (var i = 0, l = key.length; i < l;l--) {
+                if (obj.hasOwnProperty(key[i]))
+                {
+
+                    obj = obj[key[i]];
+                    i++;
+                    if(obj[0].hasOwnProperty(key[i]))
+                    {
+                        var myObj=obj[0];
+                        var valueOfObj=myObj[key[i]];
+
+                        return valueOfObj;
+                    }
+
+                }
+                else
+                {
+                    return undefined;
+                }
+            }
+            return obj;
+        },*/
+
         checkAvailableUpdates: function(roles, dashboard) {
             var context = this
             if ($.inArray('Manager', roles) == -1) {
@@ -572,6 +713,7 @@ $(function() {
 
             return 0;
         }
+
     })
 
 })

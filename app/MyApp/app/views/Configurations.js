@@ -73,6 +73,7 @@ $(function () {
                 });
 
                 alert('Configurations are Successfully Added');
+                location.reload();
                 Backbone.history.navigate('dashboard', {trigger: true});
             }});
         }

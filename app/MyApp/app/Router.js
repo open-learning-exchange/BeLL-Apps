@@ -84,6 +84,7 @@ $(function() {
 
 
         },
+
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
             var welcomeVideoResources = new App.Collections.Resources();
@@ -236,6 +237,32 @@ $(function() {
 
         },
         MemberLogin: function() {
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var con = config.first();
+            var currentConfig = config.first().toJSON().rows[0].doc;
+            var clanguage= currentConfig.currentLanguage;
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            var languageDict;
+            for(var i=0;i<languages.length;i++)
+            {
+                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
+                {
+                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
+                    {
+                        languageDict=languages.models[i];
+                    }
+                }
+            }
+            App.languageDict = languageDict;
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -253,7 +280,7 @@ $(function() {
                 })
             })
             memberLoginForm.render();
-            App.$el.children('.body').html('<h1 class="login-heading">Member login</h1>');
+            App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member+' '+languageDict.attributes.Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
 
         },

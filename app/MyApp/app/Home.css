@@ -1,3 +1,17 @@
+/*input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+    margin-top:-2px;
+    margin-bottom: -2px;
+}*/
+select#onLoginLanguage {
+    position: relative;
+    display: inline-flex;
+    margin-right: 19px;
+    margin-top: 9px;
+    width: 156px;
+    background-color: floralwhite;
+}
 #dashboard
 {
     height: 600px;
@@ -30,6 +44,8 @@
  font-size: 17px;
     margin: 0;
     width:100%;
+/*   margin-left:-100px*/
+    padding-top: 5px;
 }
 .header-table {
     width: 100%;
@@ -289,7 +305,7 @@ margin-left:40px;
 {
     display: block;
     font-size: 28px;
-    margin-left: 36%; /* #99 Member login heading previous 35% */
+    margin-left: 35%;
     width: 260px;
 }
 
@@ -297,7 +313,7 @@ margin-left:40px;
 {
 	height: 300px;
         margin-left: 35%;
-        width: 370px; /* previous 370px; */
+        width: 370px;	
 }
 
 #olelogo

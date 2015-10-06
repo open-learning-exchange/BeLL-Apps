@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html manifest="../manifest.appcache" lang="en">
 <head>
+<meta http-equiv="content-type" content="text/html" charset="UTF-8">
 <title>Bell MyApp</title>
 <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
 <link href="vendor/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen" />
@@ -13,6 +14,7 @@
 <link rel="stylesheet" href="app/flat-ui.css"/>
 <link rel="stylesheet" href="app/morris.css"/>
 <link rel="stylesheet" href="app/jqueryui.css"/>
+<link rel="stylesheet" href="app/Home-Urdu.css" type="text/css">
 <link rel="stylesheet" href="app/Home.css"/>
 <link rel="stylesheet" href="app/tabl.css"/>
 
@@ -323,48 +325,48 @@
       </li>
      -->
     <li>
-        <a href="#">
-            <%= languageDict['Dashboard'] %>
+        <a href="#" id="dashboard_link">
+            <%= languageDict.attributes.Dashboard %>
         </a>
     </li>
     <li>
         <a href="#ereader">
-            <%= languageDict['e-Readers'] %>
+            <%= languageDict.attributes.e_Readers %>
         </a>
     </li>
     <li>
         <a href="#resources">
-            <%= languageDict['Library'] %>
+            <%= languageDict.attributes.Library %>
         </a>
     </li>
     <li>
         <a href="#courses">
-            <%= languageDict['Courses'] %>
+            <%= languageDict.attributes.Courses %>
         </a>
     </li>
     <li>
         <a href="#meetups">
-            <%= languageDict['Meetups'] %>
+            <%= languageDict.attributes.Meetups %>
         </a>
     </li>
     <li>
         <a href="#members">
-            <%= languageDict['Members'] %>
+            <%= languageDict.attributes.Members %>
         </a>
     </li>
     <li>
         <a href="#reports">
-            <%= languageDict['Reports'] %>
+            <%= languageDict.attributes.Reports %>
         </a>
     </li>
     <li>
         <a onclick = "showFeedbackForm()">
-            <%= languageDict['Feedback'] %>
+            <%= languageDict.attributes.Feedback %>
         </a>
     </li>
     <li>
         <a href= "#logout">
-            <%= languageDict['Logout'] %>
+            <%= languageDict.attributes.Logout %>
         </a>
     </li>
 </script>
@@ -379,6 +381,15 @@
         <a onclick = "showFeedbackForm()">
             Feedback
         </a>
+    </li>
+    <li>
+        <select id="onLoginLanguage" onchange="changeLanguage(this)">
+            <!--  <option disabled="true" selected style="display:none">Select Language</option>-->
+           <option value="" selected><%= currentLanguageOfApp %></option>
+            <% for (var i=0; i<availableLanguagesOfApp.length; i++){%>
+            <option value="<%= availableLanguagesOfApp[i] %>"><%= availableLanguagesOfApp[i] %> </option>
+            <% } %>
+        </select>
     </li>
 
 </script>
@@ -406,7 +417,7 @@
         <div id="page-body">
             <table class="stu-nav-table" style="border-collapse: separate;">
                 <tr class="stu-nav-tube">
-                    <td class="stu-nav-title-shelf stu-nav-title"><%= languageDict['My Library'] %></td>
+                    <td class="stu-nav-title-shelf stu-nav-title"><%= languageDict.attributes.My_Library %></td>
                     <td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
                         <div class="inner">
                             <table id="ur" class="inner-table" >
@@ -417,7 +428,7 @@
                 </tr>
                 <tr class="stu-nav-tube">
                     <td class="stu-nav-title">
-                        <a href="#courses/barchart"><%= languageDict['My Courses Progress'] %></a>
+                        <a href="#courses/barchart"><%= languageDict.attributes.My_Courses_Progress %></a>
                     </td>
                     <td class="scrollable-courses">
                         <div class="inner">
@@ -428,7 +439,7 @@
                     <td class="stu-nav-option-empty"></td>
                 </tr>
                 <tr class="stu-nav-tube">
-                    <td class="stu-nav-title-badges stu-nav-title"><%= languageDict['My Meetups'] %></td>
+                    <td class="stu-nav-title-badges stu-nav-title"><%= languageDict.attributes.My_Meetups %></td>
                     <td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
                         <div class="inner">
                             <table id="meetUpTable" class="inner-table" >
@@ -439,7 +450,7 @@
                     <td class="stu-nav-option-empty"></td>
                 </tr>
                 <tr class="stu-nav-tube">
-                    <td class="stu-nav-title-tuter stu-nav-title"><%= languageDict['My Tutors'] %></td>
+                    <td class="stu-nav-title-tuter stu-nav-title"><%= languageDict.attributes.My_Tutors %></td>
                     <td class="scrollable-tutor">      <!-- SCROLLABLE DIV-->
                         <div class="inner">
                             <table id="tutorTable" class="inner-table" >
@@ -455,10 +466,10 @@
         <table class="page-bottom-navtable" style="border-collapse: separate;">
             <tr>
 
-                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict['Badges'] %></button></td>
-                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict['News Feed'] %></button></td>
-                <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict['Calender'] %></button></td>
-                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict['Email'] %>(<%=mails%>)</button></td>
+                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict.attributes.Badges %></button></td>
+                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#newsfeed'"><%= languageDict.attributes.News_Feed %></button></td>
+                <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%= languageDict.attributes.Calender %></button></td>
+                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"><%= languageDict.attributes.Email %>(<%=mails%>)</button></td>
                 <!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
                 <!-- <td></td> -->
                 <!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
@@ -522,8 +533,7 @@
         <% }}%>&nbsp;(<%=totalRatings%>)
     </td>
     <td>
-        <!--issu#84 : Added title in the href href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>-->
-        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
             <i class='icon-eye-open icon-white'></i> Open
         </a>
     </td>
@@ -572,7 +582,7 @@
         <% }}%>&nbsp;(<%=totalRatings%>)
     </td>
     <td>
-        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
             <i class='icon-eye-open icon-white'></i> Open
         </a>
     </td>
@@ -617,7 +627,7 @@
         <% }}%>&nbsp;(<%=totalRatings%>)
     </td>
     <td>
-        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
             <i class='icon-eye-open icon-white'></i> Open
         </a>
     </td>
@@ -918,7 +928,7 @@
                     <%= resourceTitles[i] %> &nbsp&nbsp
                 </td>
                 <td>
-                    <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>/<%= resourceTitles[i] %>' target="_blank">Open</a>
+                    <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>' target="_blank">Open</a>
                 </td>
             </tr>
             <%}%>

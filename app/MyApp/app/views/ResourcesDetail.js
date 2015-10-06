@@ -64,7 +64,7 @@ $(function() {
             }
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
 
-        },
+        }
 
     })
 

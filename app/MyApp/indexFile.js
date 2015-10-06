@@ -12,6 +12,26 @@ url = "unknown";
 var lastpage = false
 var mailView;
 
+
+function changeLanguage(option)
+{
+    console.log(option.value);
+    var config = new App.Collections.Configurations();
+    config.fetch({async:false});
+    var con=config.first();
+    con.attributes.currentLanguage=option.value;
+    console.log(con);
+    con.save(null, {
+        success: function (doc, rev) {
+            console.log("configurations are saved");
+            location.reload();
+        }
+    });
+
+}
+        //con.set('currentLanguage', option.value);
+
+
 function showFeedbackForm() {
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {

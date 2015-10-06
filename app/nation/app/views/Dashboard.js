@@ -11,8 +11,9 @@ $(function() {
             config.fetch({
                 async: false
             })
-            var configuration = config.first()
-
+            var configuration = config.first();
+            App.configuration=configuration;
+            var clanguage = App.configuration.get("currentLanguage");
             var dashboard = this
             this.vars.imgURL = "img/header_slice.png"
             var a = new App.Collections.MailUnopened({
@@ -24,7 +25,10 @@ $(function() {
             this.vars.type = configuration.get("type")
             this.vars.mails = a.length
 
-            this.$el.html(_.template(this.template, this.vars))
+            this.$el.html(_.template(this.template, this.vars));
+
+            // fetch dict for the current/selected language from the languages db/table
+
             $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
             // Member Name
             var member = new App.Models.Member()
@@ -95,6 +99,34 @@ $(function() {
             })
             member.fetch()
 
+        },
+        lookup :  function(obj, key) {
+            var type = typeof key;
+            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
+                return '.' + key;
+            }).split('.');
+
+            for (var i = 0, l = key.length; i < l;l--) {
+                if (obj.hasOwnProperty(key[i]))
+                {
+
+                    obj = obj[key[i]];
+                    i++;
+                    if(obj[0].hasOwnProperty(key[i]))
+                    {
+                        var myObj=obj[0];
+                        var valueOfObj=myObj[key[i]];
+
+                        return valueOfObj;
+                    }
+
+                }
+                else
+                {
+                    return undefined;
+                }
+            }
+            return obj;
         }
 
     })
