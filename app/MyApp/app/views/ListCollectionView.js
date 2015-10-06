@@ -52,8 +52,10 @@ $(function() {
                         "docs": tempResult
                     }, {
                         success: function(data) {
-                            alert("Successfully pushed resources back");
-                        }
+                            console.log("Successfully pushed resources back");
+                            location.reload();
+                        },
+                        async:false
                     });
                 },
                 async : false
@@ -61,16 +63,23 @@ $(function() {
 
         },
         deleteRecord: function() {
-            $('.form .field-Tag select option[value=' + this.model.get("_id") + "]").remove();
-            $('#' + this.model.get("_id")).parent('tr').remove();
-            this.deleteCollectionNameFromResources(this.model.get("_id"));
-            //Call from here method deleteCollectionNameFromResources/////////////////////////////////////
-            this.model.set({
-                'show': false
-            })
-            this.model.save({
-                success: location.reload()
-            })
+            if (confirm('Are you sure you want to delete this Collection?')) {
+                $('.form .field-Tag select option[value=' + this.model.get("_id") + "]").remove();
+                $('#' + this.model.get("_id")).parent('tr').remove();
+                this.deleteCollectionNameFromResources(this.model.get("_id"));
+                //Call from here method deleteCollectionNameFromResources/////////////////////////////////////
+                this.model.set({
+                    'show': false
+                })
+                this.model.save({
+                    success: function (data) {
+                        this.deleteCollectionNameFromResources(this.model.get("_id"));
+                        // location.reload()
+                    },
+                    async: false
+
+                })
+            }
         },
         render: function() {
             var inviteForm = this
