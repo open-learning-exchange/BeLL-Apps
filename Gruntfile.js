@@ -9,18 +9,18 @@ module.exports = function(grunt) {
                 separator: ';'
             },
             dist: {
-                src: ['app/MyApp/app/*.css'],
-                dest: 'app/MyApp/app/app.css'
+                src: ['app/nation/app/views/*.js'],
+                dest: 'app/nation/app/combined_views.js'
             }
         },
 
         uglify: {
             build: {
-                src: 'app/MyApp/indexFile.js',
-                dest: 'app/MyApp/indexFile_min.js'
+                src: 'app/nation/app/Router.js',
+                dest: 'app/nation/app/Router_min.js'
             }
-        },
-        cssmin: {
+        }
+        /*cssmin: {
             target: {
                 files: [{
                     expand: true,
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
                     ext: '.min.css'
                 }]
             }
-        }
+        }*/
 
         /*less: {
             options: {
@@ -62,10 +62,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    //grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-newer');
 
     // Default task(s).
-    grunt.registerTask('default', ['newer:concat', 'newer:uglify', 'cssmin']);
+    grunt.registerTask('default', ['newer:concat', 'newer:uglify']);
 
 };
