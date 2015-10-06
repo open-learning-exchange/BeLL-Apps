@@ -4,7 +4,27 @@ module.exports = function(grunt) {
     grunt.initConfig({
         //pkg: grunt.file.readJSON('package.json'),
 
-        concat: {
+        //Code for community level
+        /*concat: {
+            options: {
+                separator: ';'
+            },
+            dist: {
+                src: ['app/MyApp/app/views/*.js'],
+                dest: 'app/MyApp/app/combined_views.js'
+            }
+        },
+
+        uglify: {
+            build: {
+                src: 'app/MyApp/app/combined_views.js',
+                dest: 'app/MyApp/app/combined_views_min.js'
+            }
+        }*/
+        //End community code
+
+        //Code for nation level
+        /*concat: {
             options: {
                 separator: ';'
             },
@@ -16,30 +36,12 @@ module.exports = function(grunt) {
 
         uglify: {
             build: {
-                src: 'app/nation/app/Router.js',
-                dest: 'app/nation/app/Router_min.js'
-            }
-        }
-        /*cssmin: {
-            target: {
-                files: [{
-                    expand: true,
-                    cwd: 'app/MyApp/app',
-                    src: ['app.css', '!*.min.css'],
-                    dest: 'app/MyApp/app',
-                    ext: '.min.css'
-                }]
+                src: 'app/nation/app/combined_views.js',
+                dest: 'app/nation/app/combined_views_min.js'
             }
         }*/
+        //End nation code
 
-        /*less: {
-            options: {
-                paths: ["css"]
-            },
-            files: {
-                "styles.css": "less/styles.less"
-            }
-        }*/
 
         /*watch: {
             scripts: {
