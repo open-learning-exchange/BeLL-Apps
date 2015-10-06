@@ -1,44 +1,71 @@
-/**
- * Created by muhammad.waqas on 10/1/2015.
- */
 module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        /*concat: {
+        //pkg: grunt.file.readJSON('package.json'),
+
+        concat: {
+            options: {
+                separator: ';'
+            },
             dist: {
-               // src: ['attachments/lms/app/App.js','attachments/lms/app/Router.js'],
-                //dest: 'attachments/lms/app/build.js'
+                src: ['app/MyApp/app/*.css'],
+                dest: 'app/MyApp/app/app.css'
             }
-        },*/
-        /*uglify: {
-            my_target: {
+        },
+
+        uglify: {
+            build: {
+                src: 'app/MyApp/indexFile.js',
+                dest: 'app/MyApp/indexFile_min.js'
+            }
+        },
+        cssmin: {
+            target: {
                 files: [{
                     expand: true,
-                    cwd: 'src/js',
-                    src: 'app/MyApp/app/views/*.js',
-                    dest:'app/MyApp/app/views/dest/js'
+                    cwd: 'app/MyApp/app',
+                    src: ['app.css', '!*.min.css'],
+                    dest: 'app/MyApp/app',
+                    ext: '.min.css'
                 }]
             }
-        }*/
-        uglify: {
-            options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-            },
-            build: {
-                src: 'app/MyApp/app/views/*.js',
-                dest:'app/MyApp/app/views/dest/min.js'
-            }
         }
-    })
 
-    // Load the plugin that provides the "uglify" task.
-    grunt.loadNpmTasks('grunt-contrib-concat')
-    grunt.loadNpmTasks('grunt-contrib-uglify')
+        /*less: {
+            options: {
+                paths: ["css"]
+            },
+            files: {
+                "styles.css": "less/styles.less"
+            }
+        }*/
+
+        /*watch: {
+            scripts: {
+                files: 'app/MyApp/app/views/*.js',
+                tasks: ['newer:concat', 'newer:uglify:build'],
+                options: {
+                    atBegin: true,
+                    event:['all']
+                }
+            }
+
+            /*styles: {
+                files: 'css/less/**.less',
+                task: 'less'
+            }
+        }*/
+
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-newer');
 
     // Default task(s).
-    grunt.registerTask('default', ['uglify'])
+    grunt.registerTask('default', ['newer:concat', 'newer:uglify', 'cssmin']);
 
 };
