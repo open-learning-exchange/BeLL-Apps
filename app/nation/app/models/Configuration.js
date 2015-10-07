@@ -13,6 +13,11 @@ $(function() {
 
             return url
         },
+        defaults: {
+            currentLanguage: {
+                type: 'Text'
+            }
+        },
         schema: {
             name: {
                 type: 'Text',
@@ -46,9 +51,6 @@ $(function() {
                 options: ["Select an Option","Arabic", "Asante", "Chinese", "English", "Ewe", "French", "Hindi", "Kyrgyzstani", "Nepali", "Portuguese", "Punjabi", "Russian",
                     "Somali", "Spanish", "Swahili", "Urdu"
                 ]
-            },
-            currentLanguage: {
-                type: 'Text'
             }
         }
     })
