@@ -15,6 +15,18 @@ $(function() {
             this.$el.append(this.form.render().el);
             this.$el.append('<a style="margin-left:31px" class="btn btn-success" id="formButton">Submit Configurations </a>');
         },
+        updateDropDownValue : function(){
+            //alert($('.field-selectLanguage').find('.bbf-editor').find('select').val());
+
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            var configModel = configCollection.first();
+            var currentConfig = configModel.toJSON();
+            var clanguage= currentConfig.currentLanguage;
+            $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
+        },
         setForm: function() {
             this.form.commit();
             if (this.form.validate() != null) {
