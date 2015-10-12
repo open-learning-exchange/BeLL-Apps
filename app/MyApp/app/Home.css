@@ -12,11 +12,15 @@ select#onLoginLanguage {
     width: 156px;
     background-color: floralwhite;
 }
-#dashboard
-{
+#dashboard {
     height: 600px;
     width: 950px;
 }
+#linkOnMyHome
+{
+    margin-right:25px;
+}
+
 
 #viewCourseMembers {
     background-color: rgb(177, 177, 177);
@@ -51,6 +55,7 @@ select#onLoginLanguage {
     width: 100%;
  font-size: 20px;
 background-color:#E1E1E1;
+   /* margin-right:-10px*/
 }
 .right {
     text-align: right;

@@ -58,7 +58,7 @@ $(function() {
 				if (this.collection.length > 0) {
 					this.render()
 				}
-			},
+			}
 		},
 		initialize: function() {
 			//this.$el.append(_.template(this.template))
@@ -98,30 +98,81 @@ $(function() {
 					var viewText = "<tr></tr>"
 					viewText += "<tr><td colspan=7  style='cursor:default' >"
 					viewText += '<a  id="allresources">#</a>&nbsp;&nbsp;'
-					var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    var str ;
+                    var configurations = Backbone.Collection.extend({
+                        url: App.Server + '/configurations/_all_docs?include_docs=true'
+                    })
+                    var config = new configurations()
+                    config.fetch({
+                        async: false
+                    })
+                    var con = config.first();
+                    var currentConfig = config.first().toJSON().rows[0].doc;
+                    var clanguage= currentConfig.currentLanguage;
+                    if(clanguage=="Urdu")
+                    {
+                        str="ابپتٹجچحخدڈذرڑزژسشصضطظعغفقكگلمنںوهھءیے";
+                    }
+                   else
+                        str= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 
 					for (var i = 0; i < str.length; i++) {
 						var nextChar = str.charAt(i);
-						viewText += '<a  class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+						viewText += '<a class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 					}
 					viewText += "</td></tr>"
-					this.$el.append(viewText)
+					this.$el.append(viewText);
+                    if(clanguage=="Urdu")
+                    {
+                        $('#alphabetsOfLanguage').addClass('addResource');
+                    }
 
 				}
 			}
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var con = config.first();
+            var currentConfig = config.first().toJSON().rows[0].doc;
+            var clanguage= currentConfig.currentLanguage;
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            var languageDict;
+            for(var i=0;i<languages.length;i++)
+            {
+                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
+                {
+                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
+                    {
+                        languageDict=languages.models[i];
+                    }
+                }
+            }
+            App.languageDict = languageDict;
 
 			this.$el.append('<br/><br/>')
-			this.$el.append("<tr><th style='width: 430px;'>Title</th><th colspan='6'>Actions</th></tr>")
+			this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
+            if(clanguage=="Urdu")
+            {
+                $('.table-striped').css({direction:rtl});
+            }
 			this.addAll()
 
 			var text = '<tr><td>'
 
 			if (this.collection.skip != 0) {
-				text += '<a class="btn btn-success" id="backButton" >Back</a>&nbsp;&nbsp;'
+				text += '<a class="btn btn-success" id="backButton" >'+languageDict.attributes.Back+'</a>&nbsp;&nbsp;'
 			}
 
 			if (this.collection.length >= 20)
-				text += '<a class="btn btn-success" id="nextButton">Next</a>'
+				text += '<a class="btn btn-success" id="nextButton">>'+languageDict.attributes.Next+'</a>'
 
 			text += '</td></tr>'
 			this.$el.append(text)
@@ -144,7 +195,7 @@ $(function() {
 							var looplength = resourceLength / 20
 							for (var i = 0; i < looplength; i++) {
 								if (i == 0)
-									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">Home</a>&nbsp&nbsp'
+									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+languageDict.attributes.Home+'</a>&nbsp&nbsp'
 								else
 									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">' + i + '</a>&nbsp&nbsp'
 							}

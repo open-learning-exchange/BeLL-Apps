@@ -89,6 +89,13 @@ word-wrap:break-word;
     margin-top: 9px;
     background-color: #1ABC9C;
 }
+.addResource{
+
+    direction:rtl;
+}
+.addMarginsOnResource{
+    margin-right:1.5%;
+}
 .btn.btn-success
 {
     background-color: #1ABC9C;

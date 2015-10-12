@@ -373,13 +373,12 @@
 
 <script type="text/template" id="template-nav-log-in">
     <li>
-        <a href="#login">
-            My Home - v<%=versionNO%>
+        <a href="#login" id="linkOnMyHome"><%= languageDict.attributes.My_Home %> - v<%=versionNO%>
         </a>
     </li>
     <li>
         <a onclick = "showFeedbackForm()">
-            Feedback
+            <%= languageDict.attributes.Feedback %>
         </a>
     </li>
     <li>

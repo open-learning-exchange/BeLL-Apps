@@ -78,14 +78,34 @@ $(function() {
             this.form = new Backbone.Form({
                 model: this.model
             })
-            this.$el.append(this.form.render().el)
+
+            this.$el.append(this.form.render().el);
+         var value =$( "input[name*='login']");
+           // var value=$('label.field-login').value();
+
+            console.log( "Title "+$('.field-login').text() );
+
+            console.log( "Title of Password "+$('.field-password').text() );
+          //  console.log( $('field-login').text() );
+            //console.log( this.form.fields['login'].$el );
+            //$("label[for*='_login']").val('Hello');
+           // this.$el['login']='Saba';
+          //  $.el[0].childNodes[0][1]
+           // alert("login "+this.$el.get('login'));
             // give the form a submit button
             // #99 margin-left:1px for "Sign In " and "Become a Member" buttons
             var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="margin-left: 1px;margin-top: -21px; font-size:27px;" id="formButton">'+languageDict.attributes.Sign_In+'</button>')
 
             var $button2 = $('<div class="signup-div" ><a style="margin-left: 1px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">'+languageDict.attributes.Become_a_member+'</button></div>')
             this.$el.append($button)
-            this.$el.append($button2)
+            this.$el.append($button2);
+
+        },
+        updateLabels: function(languageDict){
+
+           // alert(languageDict.attributes.Login);
+            $('.field-login').find('label').text(languageDict.attributes.Login);
+            $('.field-password').find('label').text(languageDict.attributes.Password);
         },
 
         showWelcomeVideo: function() {
@@ -105,7 +125,8 @@ $(function() {
         setForm: function() {
             var memberLoginForm = this
             this.form.commit()
-            var credentials = this.form.model
+            var credentials = this.form.model;
+            //alert("login + "+this.form.get('login'));
             var members = new App.Collections.Members()
             var member;
             members.login = credentials.get('login')

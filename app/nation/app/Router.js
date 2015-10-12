@@ -473,7 +473,8 @@ $(function() {
             })
             configForm.render();
 
-            App.$el.children('.body').html(configForm.el)
+            App.$el.children('.body').html(configForm.el);
+            configForm.updateDropDownValue();
 
         },
         getRegisteredMembersCount: function(communityChosen, callback) {

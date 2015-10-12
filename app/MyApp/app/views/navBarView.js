@@ -70,12 +70,14 @@ $(function() {
             currentLanguage=App.configuration.get('currentLanguage');
             availableLanguages=App.configuration.get('availableLanguages');
             languageDictOfApp=App.languageDict;
+
             this.data = {
                 uRL: temp[1],
                 versionNO: version,
                 currentLanguageOfApp:currentLanguage,
                 availableLanguagesOfApp:availableLanguages,
                 languageDict:languageDictOfApp
+
 
             }
             console.log(this.data);
