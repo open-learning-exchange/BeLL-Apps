@@ -35,6 +35,7 @@ $(function() {
             //   this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button class="SyncMembersDb btn btn-primary" id="syncmembers">Sync Members Db With Nation</button>  </div>')
             //  ****************************************************************************************************************************************************/
         },
+
         syncDbs: function(e) {
             alert('this is sync db function in community manage')
         },
@@ -58,6 +59,7 @@ $(function() {
             configForm.render();
 
             this.$el.html(configForm.el);
+            configForm.updateDropDownValue();
         }
 
     })
