@@ -531,7 +531,8 @@ $(function() {
 
                     resourcesTableView.collections = App.collectionslist
                     resourcesTableView.render()
-                    App.$el.children('.body').append(resourcesTableView.el)
+                    App.$el.children('.body').append(resourcesTableView.el);
+                    resourcesTableView.changeDirection();
                 }
             })
             App.stopActivityIndicator()

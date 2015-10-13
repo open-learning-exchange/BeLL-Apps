@@ -201,9 +201,35 @@ $(function() {
 		template: _.template($("#template-ResourceRow").html()),
 
 		initialize: function(e) {
-			this.model.on('destroy', this.remove, this)
+			this.model.on('destroy', this.remove, this);
+           /* var clanguage = App.configuration.get("currentLanguage");
+            // fetch dict for the current/selected language from the languages db/table
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            var languageDict;
+            for(var i=0;i<languages.length;i++)
+            {
+                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
+                {
+                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
+                    {
+                        languageDict=languages.models[i];
+                    }
+                }
+            }
+            App.languageDict = languageDict;
+            languageDictOfApp=App.languageDict;
+            this.data = {
+                languageDict:languageDictOfApp
+
+            }
+            console.log(this.data);
+            this.$el.append(this.template(this.data))*/
 		},
 		render: function() {
+           // alert("Resource Row Called");
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
@@ -230,7 +256,13 @@ $(function() {
                 }
             }
             App.languageDict = languageDict;
+           /* var languageDictOfApp=App.languageDict;
+            this.data = {
+                languageDict:languageDictOfApp
 
+            }
+            console.log(this.data);
+            this.$el.append(this.template(this.data));*/
             var vars = this.model.toJSON()
 			//console.log(vars)
 			var Details = ""

@@ -89,6 +89,33 @@ $(function() {
 			}
 			this.collection.forEach(this.addOne, this)
 		},
+        changeDirection : function (){
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var con = config.first();
+            var currentConfig = config.first().toJSON().rows[0].doc;
+            var clanguage= currentConfig.currentLanguage;
+            if(clanguage=="Urdu")
+            {
+                var library_page = $.url().data.attr.fragment;
+                if(library_page=="resources")
+                      {
+                //    alert("Hello")
+                    $('.body').addClass('addResource');
+                }
+
+                // $('.table-striped').css({direction:rtl});
+            }
+            else
+            {
+                $('.body').removeClass('addResource');
+            }
+        },
 		render: function() {
 
 			if (this.displayCollec_Resources != true) {
@@ -159,10 +186,7 @@ $(function() {
 
 			this.$el.append('<br/><br/>')
 			this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
-            if(clanguage=="Urdu")
-            {
-                $('.table-striped').css({direction:rtl});
-            }
+
 			this.addAll()
 
 			var text = '<tr><td>'
