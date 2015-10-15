@@ -414,7 +414,30 @@ $(function() {
                 if (typeofBell == 'nation') {
                     roles = roles + '<a href="../nation/index.html#dashboard">Manager</a>'
                 } else {
-                    roles = roles + '<a href="#communityManage">Manager</a>'
+                    var config = new App.Collections.Configurations()
+                    config.fetch({
+                        async: false
+                    })
+                    var con = config.first()
+                    App.configuration = con
+                    var branch = App.configuration.get('subType')
+                    if(branch=="branch")
+                    {
+                        roles = roles + '<a href="#" style="display: none">Manager</a>'
+                        con.set('nationName','random');
+                        con.set('nationUrl','random');
+                        con.save(null,{ success: function(doc,rev){
+
+                            App.configuration = con;
+                            alert('Configurations are Successfully changed for Branch Library');
+                            console.log('Configurations are Successfully changed for Branch Library');
+                            Backbone.history.navigate('dashboard', {trigger: true});
+                        }});
+                    }
+                    else{
+                        roles = roles + '<a href="#communityManage">Manager</a>'
+                    }
+                   // roles = roles + '<a href="#communityManage">Manager</a>'
                 }
             }
             $('.visits').html(temp)

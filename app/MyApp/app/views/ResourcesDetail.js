@@ -51,18 +51,29 @@ $(function() {
             } else {
                 this.$el.append("<tr><td>Author</td><td>No Author Defined</td></tr>")
             }
+            /**********************************************************************/
+            //Issue No: 54 (Update buttons on the My Library page on Dashboard)
+            //Date: 18th Sept, 2015
+            /**********************************************************************/
             //if the model has the Attachments
-            if (vars._attachments) {
-                                /**********************************************************************/
-                                //Issue No: 54 (Update buttons on the My Library page on Dashboard)
-                                //Date: 18th Sept, 2015
-                                 /**********************************************************************/
-                this.$el.append("<tr><td>Attachment</td><td><a class='btn open'  target='_blank' style='background-color:#1ABC9C;position: absolute;display: inline-block; line-height: 25px;margin-top: 35px;margin-left:-620px;width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "'>View</a></td></tr>")
+           // if (vars._attachments) {
+
+          /*      this.$el.append("<tr><td>Attachment</td><td><a class='btn open'  target='_blank' style='background-color:#1ABC9C;position: absolute;display: inline-block; line-height: 25px;margin-top: 35px;margin-left:-620px;width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "'>View</a></td></tr>")
 
             } else {
                 this.$el.append("<tr><td>Attachment</td><td>No Attachment</td></tr>")
             }
-            this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
+            this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>') */
+            if (vars._attachments) {
+                this.$el.append("<tr><td>Attachment</td><td></td></tr>")
+                this.$el.append("<br><a class='btn open' style='background-color:#1ABC9C;  width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "/"+ vars.title +"'>View</a><button class='btn btn-danger' id='DestroyShelfItem'>Remove</button></td></tr>")
+
+            } else {
+                this.$el.append("<tr><td>Attachment</td><td>No Attachment</td></tr>")
+                this.$el.append('<br><a class="btn open" style="visibility: hidden">View</a><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
+            }
+
+
 
         },
 

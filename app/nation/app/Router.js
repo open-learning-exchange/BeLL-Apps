@@ -474,7 +474,7 @@ $(function() {
             configForm.render();
 
             App.$el.children('.body').html(configForm.el)
-
+            configForm.updateDropDownValue();
         },
         getRegisteredMembersCount: function(communityChosen, callback) {
             var maleMembers = 0,

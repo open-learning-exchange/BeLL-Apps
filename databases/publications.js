@@ -17,6 +17,14 @@ ddoc.views = {
       if (doc.IssueNo)
         emit(doc.IssueNo, doc);
     }
+  },
+  publicationById: {
+    map: function(doc) {
+      if (doc._id) {
+
+          emit(doc._id, doc);
+      }
+    }
   }
 }
 

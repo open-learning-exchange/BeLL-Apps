@@ -110,6 +110,7 @@ word-wrap:break-word;
     width: 363px;
     color:white;
     background-color: #34495E;
+    margin-left: 4px; /* #99  : login and password div previous */
 }
 bbf-form ul{border: 5px solid;}
 
