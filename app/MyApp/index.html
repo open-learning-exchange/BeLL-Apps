@@ -532,38 +532,38 @@
         <% }}%>&nbsp;(<%=totalRatings%>)
     </td>
     <td>
-        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <a id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
             <i class='icon-eye-open icon-white'></i> Open
         </a>
     </td>
     <td>
-        <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+        <a id="viewDetailsButton" class='btn btn-warning' href='#resource/edit/<%= _id %>'>
             View Details
         </a>
     </td>
 
     <td>
-        <button class='btn btn-inverse' onclick='AddToShelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
+        <button id="addToMyLibraryButton" class='btn btn-inverse' onclick='AddToShelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
     </td>
     <td>
-        <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
+        <a id="feedbackButton" class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
             Feedback
         </a>
     </td>
     <td>
-        <a class='btn btn-danger destroy'>
+        <a id="deleteButton" class='btn btn-danger destroy'>
             <i class='icon-remove icon-white'></i> Delete
         </a>
     </td>
     <% if(removeFormCollection==1) {%>
     <td>
-        <a class='btn btn-danger removeFromCollection'>
+        <a id="removeButton" class='btn btn-danger removeFromCollection'>
             <i class='icon-remove icon-white'></i> Remove
         </a>
     </td>
     <%}%>
     <td>
-        <a  class="btn btn-danger hides" style="width: 66px;">
+        <a  id="hideButton" class="btn btn-danger hides" style="width: 66px;">
             <i class='icon-pencil icon-white'></i>Hide
         </a>
     </td>
@@ -648,7 +648,7 @@
 
     <td>
         <%if(isAdmin==1||isLeader==1){%>
-        <a role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'>
+        <a id="manageCourseButton"  role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'>
             <i class="icon-wrench icon-white"></i> Manage
         </a>
         <%}%>
@@ -656,14 +656,14 @@
 
 
     <td>
-        <a role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'>
+        <a id="viewCourseButton" role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'>
             View Course
         </a>
     </td>
 
     <td>
         <%if(viewProgress==1){%>
-        <a role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'>
+        <a id="progressCourseButton" role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'>
             <i class="icon-signal icon-white"></i> Progress
         </a>
         <%}%>
@@ -683,7 +683,7 @@
 
     <td>
         <%if(isAdmin==1||isLeader==1){%>
-        <a class='destroy btn btn-danger' href='#'>
+        <a id="deleteCourseButton" class='destroy btn btn-danger' href='#'>
             <i class='icon-remove icon-white'></i> Delete
         </a>
         <%}%>

@@ -555,7 +555,8 @@ $(function() {
 
             if (resource.id) {
                 App.listenToOnce(resource, 'sync', function() {
-                    resourceFormView.render()
+                    resourceFormView.render();
+                    $('.body').removeClass('addResource');
 
                 })
                 resource.fetch({
@@ -563,6 +564,7 @@ $(function() {
                 })
             } else {
                 resourceFormView.render()
+                $('.body').removeClass('addResource');
                 $("input[name='addedBy']").val($.cookie("Member.login"));
             }
             $("input[name='addedBy']").attr("disabled", true);
@@ -621,7 +623,8 @@ $(function() {
             popAll()
             var search = new App.Views.Search()
             search.addResource = false
-            search.render()
+            search.render();
+            $('.body').removeClass('addResource');
             App.$el.children('.body').html(search.el)
 
             $("#multiselect-collections-search").multiselect().multiselectfilter();
@@ -794,25 +797,54 @@ $(function() {
             })
         },
         Groups: function() {
+           // location.reload();
             App.startActivityIndicator()
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function() {
+                    var configurations = Backbone.Collection.extend({
+                        url: App.Server + '/configurations/_all_docs?include_docs=true'
+                    })
+                    var config = new configurations()
+                    config.fetch({
+                        async: false
+                    })
+                    var con = config.first();
+                    var currentConfig = config.first().toJSON().rows[0].doc;
+                    var clanguage= currentConfig.currentLanguage;
                     groupsTable = new App.Views.GroupsTable({
                         collection: groups
                     })
                     groupsTable.render()
                     var button = '<p id="library-top-buttons">'
-                    button += '<a class="btn btn-success" style="width: 110px"; href="#course/add">Add Course</a>'
-                    button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
-                    button += '<span style="float:right"><input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
-                    button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+                    button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
+                    button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
+                    button += '<span style="float:right"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+                    button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
-                    App.$el.children('.body').html(button)
-                    App.$el.children('.body').append('<h3>Courses</h3>')
-                    App.$el.children('.body').append(groupsTable.el)
+                    App.$el.children('.body').html(button);
+                    if(clanguage=="Urdu")
+                    {
+                       // location.reload();
+                       // $('.body').addClass('addResource');
+                        $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
+                        $('#searchText').attr('placeholder','مطلوبہ الفاظ ');
+
+                    }
+                    else
+                    {
+                        $("#addCourseButton").addClass('addMarginsOnCourse');
+                        $('#searchText').attr('placeholder','Keyword(s)');
+                    }
+                    App.$el.children('.body').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
+                    App.$el.children('.body').append(groupsTable.el);
+                    $('#manageCourseButton').html(App.languageDict.attributes.Manage);
+                    $('#viewCourseButton').html(App.languageDict.attributes.View+' '+App.languageDict.attributes.Course);
+                    $('#progressCourseButton').html(App.languageDict.attributes.Progress);
+                    $('#deleteCourseButton').html(App.languageDict.attributes.Delete);
                 }
-            })
+            });
+
             App.stopActivityIndicator()
         },
         CreateQuiz: function(lid, rid, title) {
@@ -1275,7 +1307,8 @@ $(function() {
             })
 
             meetUpView.render()
-            App.$el.children('.body').append(meetUpView.el)
+            App.$el.children('.body').append(meetUpView.el);
+            $('.body').removeClass('addResource');
         },
         Meetup_Detail: function(meetupId, title) {
             var meetupModel = new App.Models.MeetUp({
@@ -1374,7 +1407,8 @@ $(function() {
         Members: function() {
             var membersView = new App.Views.MembersView()
             membersView.render();
-            App.$el.children('.body').html(membersView.el)
+            App.$el.children('.body').html(membersView.el);
+            $('.body').removeClass('addResource');
         },
         Reports: function() {
 
@@ -1401,13 +1435,29 @@ $(function() {
                 App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
             }
 
-            var temp = $.url().attr("host").split(".")
+          /*  var temp = $.url().attr("host").split(".")
             temp = temp[0].substring(3)
             if (temp.length == 0) {
                 temp = "Community"
+            }*/
+            var temp;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function(){
+                    temp = config.first().attributes.name;
+                }
+            })
+            temp=temp.charAt(0).toUpperCase() + temp.slice(1);
+            var typeofBell=config.first().attributes.type;
+            if (typeofBell === "nation") {
+                temp = temp + " Nation Bell"
+            } else {
+                temp = temp + " Community Bell"
             }
             App.$el.children('.body').append('<h4><span style="color:gray;">' + temp + '</span> | Reports</h4>')
-            App.$el.children('.body').append(resourcesTableView.el)
+            App.$el.children('.body').append(resourcesTableView.el);
+            $('.body').removeClass('addResource');
             App.stopActivityIndicator()
 
         },
@@ -2911,7 +2961,7 @@ $(function() {
                     collection: resourceFeedback
                 })
                 resourceFeedback.on('sync', function() {
-                    feedbackTable.render()
+                    feedbackTable.render();
 
                     App.$el.children('.body').html('<h3>Feedback for "' + resource.get('title') + '"</h3>')
                     var url_togo = "#resource/feedback/add/" + resourceId + "/" + resource.get('title')
@@ -3378,7 +3428,8 @@ $(function() {
 
                     if (roles.indexOf("Manager") != -1)
                         App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick="AddColletcion()">Add Collection</button>')
-                    App.$el.children('.body').append(collectionTableView.el)
+                    App.$el.children('.body').append(collectionTableView.el);
+                    $('.body').removeClass('addResource');
                 },
                 async: false
             })

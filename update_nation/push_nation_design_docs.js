@@ -48,7 +48,28 @@ function installDesignDocs() {
         }
     } else {
         updateNationCouchVersion();
+        var langEngDocPath = 'init_docs/languages.txt';
+        var langUrduDocPath = 'init_docs/languages-Urdu.txt';
+        insertLanguagesDoc(langEngDocPath);
+        insertLanguagesDoc(langUrduDocPath);
     }
+}
+function insertLanguagesDoc(docPath) {
+    var languages = nano.db.use('languages');
+
+    fs.readFile(docPath, function (err, data) {
+        var doc=data.toJSON();
+        languages.insert(doc, function (err, res) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Languages doc inserted successfully.");
+            }
+        });
+
+
+
+    });
 }
 
 function updateNationCouchVersion() {

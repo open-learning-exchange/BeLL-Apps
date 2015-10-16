@@ -19,6 +19,7 @@ $(function() {
 				}
 			},
 			"click #nextButton": function(e) {
+               // $('.body').removeClass();
 				this.collection.skip = parseInt(this.collection.skip) + 20
 				this.collection.fetch({
 					async: false
@@ -65,6 +66,7 @@ $(function() {
 
 		},
 		addOne: function(model) {
+           // alert("Add one is called");
 			var resourceRowView = new App.Views.ResourceRow({
 				model: model,
 				admin: this.isAdmin
@@ -75,12 +77,20 @@ $(function() {
 			resourceRowView.collections = this.collections
 
 			resourceRowView.render()
-			this.$el.append(resourceRowView.el)
+			this.$el.append(resourceRowView.el);
+            this.$('#openButton').html(App.languageDict.attributes.Open);
+            this.$('#viewDetailsButton').html(App.languageDict.attributes.View+App.languageDict.attributes.Details);
+            this.$('#addToMyLibraryButton').html(App.languageDict.attributes.Add_to_my_library);
+            this.$('#feedbackButton').html(App.languageDict.attributes.Feedback);
+            this.$('#deleteButton').html(App.languageDict.attributes.Delete);
+            this.$('#hideButton').html(App.languageDict.attributes.Hide);
+
+         //   alert(this.$el.find('#openButton').val());
 		},
 
 		addAll: function() {
 			if (this.collection.length == 0) {
-				this.$el.append("<tr><td width: 630px;>No resource found</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
+				this.$el.append("<tr><td width: 630px;>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
 			}
 			if (this.isadmin > -1) {
 				this.isAdmin = 1

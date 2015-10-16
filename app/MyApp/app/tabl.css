@@ -96,6 +96,14 @@ word-wrap:break-word;
 .addMarginsOnResource{
     margin-right:1.5%;
 }
+.addMarginsOnCourseUrdu
+{
+    width:132px;
+}
+.addMarginsOnCourseEng
+{
+width:110px;
+}
 .btn.btn-success
 {
     background-color: #1ABC9C;

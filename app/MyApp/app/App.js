@@ -77,7 +77,8 @@ $(function() {
             var view = new App.Views.RequestView()
             view.type = kind
             view.render()
-            App.$el.children('.body').append(view.el)
+            App.$el.children('.body').append(view.el);
+            $('.body').removeClass('addResource');
             $('#site-request').animate({
                 height: '302px'
             })

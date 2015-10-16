@@ -108,7 +108,7 @@ function createDefaultAdminMember() {
             "availableLanguages": ["English", "French", "Arabic", "Urdu"],
             "currentLanguage": "English"
         };
-        var languagesDoc = {
+       /* var languagesDoc = {
             "Dashboard": "ڈیش بورڈ",
             "Library": "لائبریری",
             "Courses": "کورسز",
@@ -287,7 +287,7 @@ function createDefaultAdminMember() {
             "Hide": "Hide",
             "Add_to_my_library": "Add to My Library",
             "Add_new_Resource": "Add New Resource"
-        };
+        };*/
         members.insert(defaultAdminMember, function(err, res) {
             if (err)
                 return console.log(err)
@@ -298,20 +298,11 @@ function createDefaultAdminMember() {
                         console.log(err);
                     } else {
                         var languages = nano.db.use('languages');
-                        languages.insert(languagesDoc, function(err, res) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                //                          alert("installation complete!!!");
-                            }
-                        });
-                        languages.insert(englishLangDoc, function(err, res) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                //                          alert("installation complete!!!");
-                            }
-                        });
+                        console.log("******************Going to insert document into languages database*******************************");
+                        var langEngDocPath = 'init_docs/languages.txt';
+                        var langUrduDocPath = 'init_docs/languages-Urdu.txt';
+                        insertLanguagesDoc(langEngDocPath);
+                        insertLanguagesDoc(langUrduDocPath);
                     }
                 });
             }
@@ -319,6 +310,21 @@ function createDefaultAdminMember() {
             done()
         })
     })
+}
+function insertLanguagesDoc(docPath) {
+    var languages = nano.db.use('languages');
+    fs.readFile(docPath, function (err, data) {
+        languages.insert(data, function (err, res) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Languages doc inserted successfully.");
+            }
+        });
+
+
+
+    });
 }
 
 /*function createLanguages() {

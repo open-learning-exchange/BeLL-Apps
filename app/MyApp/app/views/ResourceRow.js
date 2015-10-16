@@ -256,6 +256,7 @@ $(function() {
                 }
             }
             App.languageDict = languageDict;
+            //vars.Open=languageDict.attributes.Open;
            /* var languageDictOfApp=App.languageDict;
             this.data = {
                 languageDict:languageDictOfApp

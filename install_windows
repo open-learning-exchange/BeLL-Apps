@@ -91,223 +91,259 @@ function createDefaultAdminMember() {
             "visits": 0
         }
         //    var configurationsDoc = {"name":"olesomalia","nationName":"olenation","code":"so","type":"nation","nationUrl":"olenation.cloudant.com","version":"0.11.12","notes":"this is testing .....asdf","availableLanguages":["English","French","Arabic","Urdu"],"currentLanguage":"English"};
-        var languagesDoc = {
-            "Dashboard": "ڈیش بورڈ",
-            "Library": "لائبریری",
-            "Courses": "کورسز",
-            "Meetups": "اجلاس",
-            "Members": "اراکین",
-            "Reports": "رپورٹیں",
-            "Feedback": "آپ کی رائے",
-            "Logout": "لاگ آؤٹ",
-            "Badges": "بلے",
-            "Calender": "کیلنڈر",
-            "Email": "ای میل",
-            "Update_Welcome_Video": "اپ ڈیٹ  خوش آمدید ویڈیو",
-            "Community": "کمیونٹی",
-            "Nation": "قوم",
-            "Bell": "بیل",
-            "Manager": "مینیجر",
-            "Super_Manager": "سپر مینیجر",
-            "Leader": "لیڈر",
-            "Learner": "طالب علم",
-            "Visits": "دورے",
-            "Days": [
-                {
-                    "Sunday": "اتوار",
-                    "Monday": "پیر",
-                    "Tuesday": "منگل",
-                    "Wednesday": "بدھ",
-                    "Thursday": "جمعرات",
-                    "Friday": "جمعہ",
-                    "Saturday": "ہفتہ"
-                }
-            ],
-            "Months": [
-                {
-                    "January": "جنوری",
-                    "February": "فروری",
-                    "March": "مارچ",
-                    "April": "اپریل",
-                    "May": "مئی",
-                    "June": "جون",
-                    "July": "جولائی",
-                    "August": "اگست",
-                    "September": "ستمبر",
-                    "October": "اکتوبر",
-                    "November": "نومبر",
-                    "December": "دسمبر"
-                }
-            ],
-            "nameOfLanguage": "Urdu",
-            "e_Readers": "ای قارئین",
-            "News_Feed": "خبریں",
-            "My_Library": "میری لائبریری",
-            "My_Courses_Progress": "میرے کورسز پیش رفت",
-            "My_Tutors": "میرا ٹیوٹر",
-            "My_Meetups": "میری میٹنگ",
-            "Member": "ممبر",
-            "Login": "لاگ ان",
-            "Password": " پاس ورڈ",
-            "Sign_In": "سائن ان کریں",
-            "Become_a_member": "رکن بنیے",
-            "My_Home": "صفحہ اول",
-            "Welcome": " خوش آمدید",
-            "Functionality_Under_Construction": "یہ فعالیت زیر تعمیر ہے",
-            "Add_new_Resource": "نئے ریسورس  شامل کریے",
-            "Search": "تلاش کریں",
-            "Collection": "مجموعہ",
-            "Resources": "ريسورسس",
-            "Title": "عنوان",
-            "action": "کارروائی",
-            "year": "سال",
-            "media": "میڈیا",
-            "language": "زبان",
-            "subject": "مضمون",
-            "level": "درجہ",
-            "publisher_attribution": "پبلیشر /  نسبت",
-            "link_to_license": "لائسنس کے لئے لنک",
-            "resource_for": "ريسورس کے لئے",
-            "author": "مصنف",
-            "Request_Resource": "درخواست براےء ريسورس",
-            "Back": "پیچھے",
-            "Next": "اگلا",
-            "Home": "ہوم",
-            "resource_type": "ريسورس کی قسم",
-            "Open": "کھولیں",
-            "View": "دیکھیں",
-            "Details": "تفصیلات",
-            "Add_to_my_library": "میری لائبریری میں شامل کریں",
-            "Delete": "حذف",
-            "Hide": "چھپائیں"
-        };
-        var englishLangDoc={
-            "Dashboard": "My Home",
-            "Library": "Library",
-            "Courses": "Courses",
-            "Meetups": "Meetups",
-            "Members": "Members",
-            "Reports": "Reports",
-            "Feedback": "Feedback",
-            "Logout": "Logout",
-            "Badges": "Badges",
-            "Calender": "Calendar",
-            "Email": "Email",
-            "Update_Welcome_Video": "Update Welcome Video",
-            "Nation": "Nation",
-            "Community": "Community",
-            "Manager": "Manager",
-            "Super_Manager": "Super Manager",
-            "Leader": "Leader",
-            "Bell": "Bell",
-            "Learner": "Learner",
-            "Visits": "Visits",
-            "Days": [
-                {
-                    "Sunday": "Sunday",
-                    "Monday": "Monday",
-                    "Tuesday": "Tuesday",
-                    "Wednesday": "Wednesday",
-                    "Thursday": "Thursday",
-                    "Friday": "Friday",
-                    "Saturday": "Saturday"
-                }
-            ],
-            "Months": [
-                {
-                    "January": "January",
-                    "February": "February",
-                    "March": "March",
-                    "April": "April",
-                    "May": "May",
-                    "June": "June",
-                    "July": "July",
-                    "August": "August",
-                    "September": "September",
-                    "October": "October",
-                    "November": "November",
-                    "December": "December"
-                }
-            ],
-            "nameOfLanguage": "English",
-            "e_Readers": "e-Readers",
-            "My_Courses_Progress": "My Courses Progress",
-            "My_Library": "My Library",
-            "My_Meetups": "My Meetups",
-            "My_Tutors": "My Tutors",
-            "News_Feed": "News Feed",
-            "Member": "Member",
-            "Login": "Login",
-            "Password": "Password",
-            "Sign_In": "Sign In",
-            "Become_a_member": "Become a Member",
-            "My_Home": "My Home",
-            "Welcome": "Welcome",
-            "Functionality_Under_Construction": "This Functionality is under construction.",
-            "Search": "Search",
-            "Collection": "Collection",
-            "Resources": "Resouces",
-            "Title": "Title",
-            "action": "Action",
-            "year": "Year",
-            "media": "Media",
-            "language": "Language",
-            "subject": "Subject(s)",
-            "level": "Level(s)",
-            "publisher_attribution": "Publisher/Attribution",
-            "link_to_license": "Link to License",
-            "resource_for": "Resource For",
-            "resource _type": "Resource Type",
-            "author": "Author",
-            "Request_Resource": "Request Resource",
-            "Back": "Back",
-            "Next": "Next",
-            "Home": "Home",
-            "Open": "Open",
-            "View": "View",
-            "Details": "Details",
-            "Delete": "Delete",
-            "Hide": "Hide",
-            "Add_to_my_library": "Add to My Library",
-            "Add_new_Resource": "Add New Resource"
-        };
-        members.insert(defaultAdminMember, function(err, res) {
+        /* var languagesDoc = {
+         "Dashboard": "ڈیش بورڈ",
+         "Library": "لائبریری",
+         "Courses": "کورسز",
+         "Meetups": "اجلاس",
+         "Members": "اراکین",
+         "Reports": "رپورٹیں",
+         "Feedback": "آپ کی رائے",
+         "Logout": "لاگ آؤٹ",
+         "Badges": "بلے",
+         "Calender": "کیلنڈر",
+         "Email": "ای میل",
+         "Update_Welcome_Video": "اپ ڈیٹ  خوش آمدید ویڈیو",
+         "Community": "کمیونٹی",
+         "Nation": "قوم",
+         "Bell": "بیل",
+         "Manager": "مینیجر",
+         "Super_Manager": "سپر مینیجر",
+         "Leader": "لیڈر",
+         "Learner": "طالب علم",
+         "Visits": "دورے",
+         "Days": [
+         {
+         "Sunday": "اتوار",
+         "Monday": "پیر",
+         "Tuesday": "منگل",
+         "Wednesday": "بدھ",
+         "Thursday": "جمعرات",
+         "Friday": "جمعہ",
+         "Saturday": "ہفتہ"
+         }
+         ],
+         "Months": [
+         {
+         "January": "جنوری",
+         "February": "فروری",
+         "March": "مارچ",
+         "April": "اپریل",
+         "May": "مئی",
+         "June": "جون",
+         "July": "جولائی",
+         "August": "اگست",
+         "September": "ستمبر",
+         "October": "اکتوبر",
+         "November": "نومبر",
+         "December": "دسمبر"
+         }
+         ],
+         "nameOfLanguage": "Urdu",
+         "e_Readers": "ای قارئین",
+         "News_Feed": "خبریں",
+         "My_Library": "میری لائبریری",
+         "My_Courses_Progress": "میرے کورسز پیش رفت",
+         "My_Tutors": "میرا ٹیوٹر",
+         "My_Meetups": "میری میٹنگ",
+         "Member": "ممبر",
+         "Login": "لاگ ان",
+         "Password": " پاس ورڈ",
+         "Sign_In": "سائن ان کریں",
+         "Become_a_member": "رکن بنیے",
+         "My_Home": "صفحہ اول",
+         "Welcome": " خوش آمدید",
+         "Functionality_Under_Construction": "یہ فعالیت زیر تعمیر ہے",
+         "Add_new_Resource": "نئے ریسورس  شامل کریے",
+         "Search": "تلاش کریں",
+         "Collection": "مجموعہ",
+         "Resources": "ريسورسس",
+         "Title": "عنوان",
+         "action": "کارروائی",
+         "year": "سال",
+         "media": "میڈیا",
+         "language": "زبان",
+         "subject": "مضمون",
+         "level": "درجہ",
+         "publisher_attribution": "پبلیشر /  نسبت",
+         "link_to_license": "لائسنس کے لئے لنک",
+         "resource_for": "ريسورس کے لئے",
+         "author": "مصنف",
+         "Request_Resource": "درخواست براےء ريسورس",
+         "Back": "پیچھے",
+         "Next": "اگلا",
+         "Home": "ہوم",
+         "resource_type": "ريسورس کی قسم",
+         "Open": "کھولیں",
+         "View": "دیکھیں",
+         "Details": "تفصیلات",
+         "Add_to_my_library": "میری لائبریری میں شامل کریں",
+         "Delete": "حذف",
+         "Hide": "چھپائیں",
+         "No_Resource_Found":"ریسورس نہیں ملا"
+         };
+         var englishLangDoc={
+         "Dashboard": "My Home",
+         "Library": "Library",
+         "Courses": "Courses",
+         "Meetups": "Meetups",
+         "Members": "Members",
+         "Reports": "Reports",
+         "Feedback": "Feedback",
+         "Logout": "Logout",
+         "Badges": "Badges",
+         "Calender": "Calendar",
+         "Email": "Email",
+         "Update_Welcome_Video": "Update Welcome Video",
+         "Nation": "Nation",
+         "Community": "Community",
+         "Manager": "Manager",
+         "Super_Manager": "Super Manager",
+         "Leader": "Leader",
+         "Bell": "Bell",
+         "Learner": "Learner",
+         "Visits": "Visits",
+         "Days": [
+         {
+         "Sunday": "Sunday",
+         "Monday": "Monday",
+         "Tuesday": "Tuesday",
+         "Wednesday": "Wednesday",
+         "Thursday": "Thursday",
+         "Friday": "Friday",
+         "Saturday": "Saturday"
+         }
+         ],
+         "Months": [
+         {
+         "January": "January",
+         "February": "February",
+         "March": "March",
+         "April": "April",
+         "May": "May",
+         "June": "June",
+         "July": "July",
+         "August": "August",
+         "September": "September",
+         "October": "October",
+         "November": "November",
+         "December": "December"
+         }
+         ],
+         "nameOfLanguage": "English",
+         "e_Readers": "e-Readers",
+         "My_Courses_Progress": "My Courses Progress",
+         "My_Library": "My Library",
+         "My_Meetups": "My Meetups",
+         "My_Tutors": "My Tutors",
+         "News_Feed": "News Feed",
+         "Member": "Member",
+         "Login": "Login",
+         "Password": "Password",
+         "Sign_In": "Sign In",
+         "Become_a_member": "Become a Member",
+         "My_Home": "My Home",
+         "Welcome": "Welcome",
+         "Functionality_Under_Construction": "This Functionality is under construction.",
+         "Search": "Search",
+         "Collection": "Collection",
+         "Resources": "Resouces",
+         "Title": "Title",
+         "action": "Action",
+         "year": "Year",
+         "media": "Media",
+         "language": "Language",
+         "subject": "Subject(s)",
+         "level": "Level(s)",
+         "publisher_attribution": "Publisher/Attribution",
+         "link_to_license": "Link to License",
+         "resource_for": "Resource For",
+         "resource _type": "Resource Type",
+         "author": "Author",
+         "Request_Resource": "Request Resource",
+         "Back": "Back",
+         "Next": "Next",
+         "Home": "Home",
+         "Open": "Open",
+         "View": "View",
+         "Details": "Details",
+         "Delete": "Delete",
+         "Hide": "Hide",
+         "Add_to_my_library": "Add to My Library",
+         "Add_new_Resource": "Add New Resource",
+         "No_Resource_Found":"No Resource Found"
+         }; */
+        members.insert(defaultAdminMember, function (err, res) {
             if (err)
                 return console.log(err)
             else {
                 var configurations = nano.db.use('configurations');
                 var configsDocPath = 'init_docs/ConfigurationsDoc-Nation.txt';
-                fs.readFile(configsDocPath, function(err, data) {
-                    configurations.insert(data, function(err, res) {
+                fs.readFile(configsDocPath, function (err, data) {
+                    configurations.insert(data, function (err, res) {
                         if (err) {
                             console.log(err);
                         } else {
-                            var languages = nano.db.use('languages');
-                            languages.insert(languagesDoc, function(err, res) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    //                          alert("installation complete!!!");
-                                }
-                            });
-                            languages.insert(englishLangDoc, function(err, res) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    //                          alert("installation complete!!!");
-                                }
-                            });
-                        }
-                    });
-                });
-            }
+                            //var languages = nano.db.use('languages');
+                            console.log("******************Going to insert document into languages database*******************************");
+                            var langEngDocPath = 'init_docs/languages.txt';
+                            var langUrduDocPath = 'init_docs/languages-Urdu.txt';
+                            insertLanguagesDoc(langEngDocPath);
+                            insertLanguagesDoc(langUrduDocPath);
+                            //console.log("******************Going to insert document into languages database*******************************");
+                            /*fs.readFile(langEngDocPath, function (err, data) {
+                                languages.insert(data, function (err, res) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        //
+                                    }
+                                });
 
-            done()
-        })
-    })
+
+
+                            });
+                            fs.readFile(langUrduDocPath, function (err, data) {
+                                languages.insert(data, function (err, res) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        //
+                                    }
+                                });
+
+
+
+                            });*/
+                        }
+
+                        done()
+                    })
+                })
+            }
+        });
+
+    });
 }
 
-/*function createLanguages() {
+function insertLanguagesDoc(docPath) {
+    var languages = nano.db.use('languages');
+    fs.readFile(docPath, function (err, data) {
+        languages.insert(data, function (err, res) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Languages doc inserted successfully.");
+            }
+        });
+
+
+
+    });
+}
+
+
+ /* function createLanguages() {
  // Cancel if there are already lagug in the database
  //if (body.doc_count > 1) return done()
  console.log('Creating languages list in the database.')
@@ -401,7 +437,8 @@ function createDefaultAdminMember() {
  done()
  })
  }
- }*/
+ }
+*/
 
 function done() {
     console.log('done!')
@@ -411,4 +448,4 @@ function done() {
 // Trigger Start 
 //
 
-start()
+start();

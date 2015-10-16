@@ -2776,7 +2776,8 @@ $(function() {
                 temp = temp + "Nation"
             }
             App.$el.children('.body').append('<h4><span style="color:gray;">' + temp + '</span> | Reports</h4>')
-            App.$el.children('.body').append(resourcesTableView.el)
+            App.$el.children('.body').append(resourcesTableView.el);
+
             App.stopActivityIndicator()
 
         },
