@@ -423,7 +423,7 @@ $(function() {
                     var branch = App.configuration.get('subType')
                     if(branch=="branch")
                     {
-                        roles = roles + '<a href="#" style="display: none">Manager</a>'
+                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">Manager</a>'
                         con.set('nationName','random');
                         con.set('nationUrl','random');
                         con.save(null,{ success: function(doc,rev){
@@ -441,7 +441,18 @@ $(function() {
                 }
             }
             $('.visits').html(temp)
-            $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
+            $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a  id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i  class="fui-gear"></i></a>')
+          /*  if(branch=="branch") {
+                $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a style="display: none" id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i  class="fui-gear"></i></a>')
+            }
+            else {
+                $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a  id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i  class="fui-gear"></i></a>')
+            }*/
+            if(branch=="branch")
+            {
+
+                $('#gearIcon').hide();
+            }
             dashboard.checkAvailableUpdates(member.get('roles'), dashboard)
             if ($.cookie('Member.login') === "admin") {
                 var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'">Update Welcome Video</button>');
