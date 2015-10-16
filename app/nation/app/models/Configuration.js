@@ -16,7 +16,10 @@ $(function() {
         defaults: {
             currentLanguage: {
                 type: 'Text'
-            }
+            },
+            subType: {
+                type: 'Text'
+            },
         },
         schema: {
             name: {

@@ -45,6 +45,7 @@ $(function() {
             con.set('type', Config.get('type'));
             con.set('notes', Config.get('notes'));
             con.set('version', Config.get('version'));
+            con.set('subType', 'dummyy');
             if(Config.get('selectLanguage') != "Select an Option") {
                 con.set('currentLanguage', Config.get('selectLanguage'));
             }

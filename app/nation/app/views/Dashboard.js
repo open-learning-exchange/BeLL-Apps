@@ -36,7 +36,6 @@ $(function() {
                     attchmentURL = attchmentURL + _.keys(member.get('_attachments'))[0]
                     document.getElementById("imgurl").src = attchmentURL
                 }
-              //////////////////////////////////////////Code Changes for Issue No.73///////////////////////////////////
                 var configuration;
                 var config = new App.Collections.Configurations()
                 config.fetch({
