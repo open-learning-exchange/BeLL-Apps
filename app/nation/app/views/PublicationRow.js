@@ -7,8 +7,47 @@ $(function() {
         events: {
             "click .destroy": function(event) {
                 alert("deleting")
-                this.model.destroy()
-                event.preventDefault()
+                 var that = this;
+                var pubId = that.model.attributes._id;
+               console.log( that.model.attributes._id);
+                if(this.model.attributes.communityNames != [] || this.model.attributes.communityNames.length != 0 ) {
+                    //**************************************************************************************************
+                    $.ajax({
+                        url: '/publicationdistribution/_design/bell/_view/pubdistributionByPubId?key="' + that.model.attributes._id + '"',
+                        type: 'GET',
+                        dataType: "json",
+                        async: false,
+                        success: function (pubDist) {
+                            _.each(pubDist.rows,function(row) {
+                                //  if (pubDist.rows[0]) {
+                             //   var pubDistModel = pubDist.rows[0];
+                                var pubDistModel = row.value;
+                                var doc = {
+                                    _id: pubDistModel._id,
+                                    _rev: pubDistModel._rev
+                                };
+                                $.couch.db("publicationdistribution").removeDoc(doc, {
+                                    success: function (data) {
+                                        alert("model is accessed publication distribution")
+                                        that.model.destroy()
+                                        console.log(that.model.attributes._id)
+                                        console.log(data);
+                                    },
+                                    error: function (status) {
+                                        console.log(status);
+                                    }
+                                });
+                          //  }
+                            })
+                        }
+                    })
+                }
+                //**************************************************************************************************
+                else {
+                    alert ("model is accessed publication")
+                    console.log(this.model.attributes._id)
+                    event.preventDefault()
+                }
             },
             "click #a": function(id) {
                 alert(id)
