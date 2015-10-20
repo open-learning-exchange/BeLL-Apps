@@ -42,7 +42,7 @@ $(function() {
                     //***********************************************************
                     //extra code for  #100
                     $.ajax({
-                        url: '/publications/_design/bell/_view/publicationById?_include_docs=true&key="' + x + '"',
+                        url: '/publications/_design/bell/_view/publicationById?include_docs=true&key="' + x + '"',
                         type: 'GET',
                         dataType: 'json',
                         success: function(resResult) {
