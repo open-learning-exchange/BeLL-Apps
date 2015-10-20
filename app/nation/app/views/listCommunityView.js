@@ -60,7 +60,7 @@ $(function() {
                                     Viewed: false
                                 })
                                 console.log(pubResult.value.communityNames)
-                                var tempComm = [];
+                                var tempComm = pubResult.value.communityNames;
                                 console.log(tempComm)
                                 tempComm.push(cName)
                                 console.log(tempComm)
