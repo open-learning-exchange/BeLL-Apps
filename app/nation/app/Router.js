@@ -14,7 +14,7 @@ $(function() {
             'reports': 'Reports',
             'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
-            'publication': 'Publication',
+            'publication': 'Publicat',
             'publication/add': 'PublicationForm',
             'configuration': 'Configuration',
             'publication/add/:publicationId': 'PublicationForm',
@@ -2803,6 +2803,64 @@ $(function() {
 
             }
         },
+        //************************************************************************************************************
+        //****************************************************************************************************************
+        Publicat: function() {
+            App.startActivityIndicator()
+            var publicationCollection = new App.Collections.Publication()
+            publicationCollection.fetch({
+                async: false
+            })
+            var arrayPub = publicationCollection;
+            arrayPub = arrayPub.models
+            //************************************************************************
+            $.ajax({
+                url: '/publicationdistribution/_design/bell/_view/pubdistributionByPubId?include_docs=true',
+                type: 'GET',
+                dataType: "json",
+                async: false,
+                //**********************************
+                success: function(data) {
+                    _.each(data.rows, function (row) {
+                        var pubDistModel = row.value;
+                        var pubId = pubDistModel.publicationId;
+                       var resultArray = [];
+                        _.each(arrayPub, function (model) {
+                            if (model.id == pubId) {
+                                resultArray.push(true)
+                            }
+                        })
+                        if (resultArray.indexOf(true) == -1){
+                            var doc = {
+                                _id: pubDistModel._id,
+                                _rev: pubDistModel._rev
+                            };
+                            $.couch.db("publicationdistribution").removeDoc(doc, {
+                                success: function (data) {
+                                    alert("Extra publication distribution documents have been deleted")
+                                    console.log(data);
+                                },
+                                error: function (status) {
+                                    console.log(status);
+                                },
+                                async: false,
+                            });
+                        }
+                        console.log(data);
+                    })
+
+                },
+                error: function (status) {
+                    console.log(status);
+                },
+                async: false,
+
+            })
+            App.stopActivityIndicator()
+            this.Publication();
+
+        },
+       //*********************************************************************************************
         Publication: function() {
             App.startActivityIndicator()
             var publicationCollection = new App.Collections.Publication()

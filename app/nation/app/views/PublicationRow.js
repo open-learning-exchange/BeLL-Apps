@@ -5,12 +5,13 @@ $(function() {
         tagName: "tr",
         admn: null,
         events: {
-            "click .destroy": function(event) {
+            "click .destroy": function (event) {
                 alert("deleting")
-                 var that = this;
+                var that = this;
                 var pubId = that.model.attributes._id;
-               console.log( that.model.attributes._id);
-                if(this.model.attributes.communityNames != [] || this.model.attributes.communityNames.length != 0 ) {
+                console.log(that.model.attributes._id);
+             //   if (!(this.model.hasOwnProperty(communityNames))) {
+                    //  if(this.model.attributes.communityNames != [] || this.model.attributes.communityNames.length != 0 ) {
                     //**************************************************************************************************
                     $.ajax({
                         url: '/publicationdistribution/_design/bell/_view/pubdistributionByPubId?key="' + that.model.attributes._id + '"',
@@ -18,9 +19,11 @@ $(function() {
                         dataType: "json",
                         async: false,
                         success: function (pubDist) {
-                            _.each(pubDist.rows,function(row) {
+                            if (pubDist.rows.length > 0) {
+
+                            _.each(pubDist.rows, function (row) {
                                 //  if (pubDist.rows[0]) {
-                             //   var pubDistModel = pubDist.rows[0];
+                                //   var pubDistModel = pubDist.rows[0];
                                 var pubDistModel = row.value;
                                 var doc = {
                                     _id: pubDistModel._id,
@@ -28,7 +31,7 @@ $(function() {
                                 };
                                 $.couch.db("publicationdistribution").removeDoc(doc, {
                                     success: function (data) {
-                                        alert("model is accessed publication distribution")
+                                        alert("Successfully deleted publication distribution")
                                         that.model.destroy()
                                         console.log(that.model.attributes._id)
                                         console.log(data);
@@ -37,21 +40,32 @@ $(function() {
                                         console.log(status);
                                     }
                                 });
-                          //  }
+                                //  }
                             })
                         }
+                            else {
+                                alert("model is accessed publication")
+                                console.log(that.model.attributes._id)
+                                 that.model.destroy()
+                                event.preventDefault()
+                            }
+                        }
                     })
-                }
+                    // }
+             //   }
                 //**************************************************************************************************
-                else {
-                    alert ("model is accessed publication")
-                    console.log(this.model.attributes._id)
-                    event.preventDefault()
-                }
+                //else {
+                //    alert("model is accessed publication")
+                //    console.log(this.model.attributes._id)
+                //    // that.model.destroy()
+                //    event.preventDefault()
+                //}
             },
-            "click #a": function(id) {
-                alert(id)
-            }
+
+        "click #a": function (id) {
+            alert(id)
+        }
+
         },
 
         vars: {},
