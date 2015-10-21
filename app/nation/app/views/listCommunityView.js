@@ -47,7 +47,7 @@ $(function() {
                         dataType: 'json',
                         success: function(resResult) {
                           var  pubResult = resResult.rows[0];
-                            if (pubResult.value.communityNames != [] && pubResult.value.communityNames.length > 0 && pubResult.value.communityNames.indexOf(cName)> -1 ){
+                            if (pubResult.doc.communityNames != [] && pubResult.doc.communityNames.length > 0 && pubResult.doc.communityNames.indexOf(cName)> -1 ){
                                 //if (pubResult.value.communityNames.indexOf(cName)> -1) {
                                 alert("This Publication is already sent to the slected community")
                                 //}
@@ -59,14 +59,14 @@ $(function() {
                                     publicationId: that.pId,
                                     Viewed: false
                                 })
-                                console.log(pubResult.value.communityNames)
-                                var tempComm = pubResult.value.communityNames;
+                                console.log(pubResult.communityNames)
+                                var tempComm = pubResult.doc.communityNames;
                                 console.log(tempComm)
                                 tempComm.push(cName)
                                 console.log(tempComm)
                                 pubResult.value.communityNames = tempComm;
 
-                                console.log(pubResult.value.communityNames)
+                                console.log(pubResult.communityNames)
                                 var savePub = new Array();
                                 savePub.push(pubResult.value)
                                // var savePublication = JSON.stringify(savePub)
