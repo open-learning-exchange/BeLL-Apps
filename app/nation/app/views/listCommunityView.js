@@ -64,16 +64,19 @@ $(function() {
                                 console.log(tempComm)
                                 tempComm.push(cName)
                                 console.log(tempComm)
-                                pubResult.value.communityNames = tempComm;
+                              //  pubResult.value.communityNames = tempComm;
+                                pubResult.doc.communityNames = tempComm;
+                                console.log(pubResult.doc.communityNames)
+                                console.log(pubResult.value.communityNames)
+                             //   var savePub = {};
+                            //    savePub.push(pubResult.doc)
+                              //  var savePublication = JSON.stringify(savePub)
 
-                                console.log(pubResult.communityNames)
-                                var savePub = new Array();
-                                savePub.push(pubResult.value)
-                               // var savePublication = JSON.stringify(savePub)
-
-                                $.couch.db("publications").bulkSave({
-                                    "docs": savePub
-                                }, {
+                                //$.couch.db("publications").saveDoc({
+                                //    "docs": savePublication
+                                //}, {
+                                $.couch.db("publications").saveDoc( pubResult.doc
+                                    , {
                                     success: function(data) {
                                         console.log(data);
                                     },
