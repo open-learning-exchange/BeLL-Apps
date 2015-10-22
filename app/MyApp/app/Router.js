@@ -189,7 +189,7 @@ $(function() {
                 }
             }
             App.languageDict = languageDict;
-            if(clanguage=="Urdu")
+            if(clanguage=="اردو" || clanguage=="العربية")
             {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
@@ -321,19 +321,23 @@ $(function() {
             App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member+' '+languageDict.attributes.Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
             memberLoginForm.updateLabels(languageDict);
-            if(languageDict.attributes.nameOfLanguage=="Urdu")
+            if(languageDict.attributes.nameOfLanguage=="اردو" || clanguage=="العربية")
             {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
+
         },
         MemberLogout: function() {
 
             App.ShelfItems = null
-            this.expireSession()
+            this.expireSession();
+
             Backbone.history.navigate('login', {
                 trigger: true
-            })
+            });
+
+
         },
         getRoles: function() {
 
@@ -517,7 +521,7 @@ $(function() {
                      App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
 
                      }*/
-                    if(clanguage=="Urdu")
+                    if(clanguage=="اردو" || clanguage=="العربية")
                     {
                         $('#resourcePage').addClass('addResource');
                         $('#addNewResource').addClass('addMarginsOnResource');
@@ -539,6 +543,7 @@ $(function() {
 
         },
         ResourceForm: function(resourceId) {
+
             var context = this
             var resource = (resourceId) ? new App.Models.Resource({
                 _id: resourceId
@@ -573,6 +578,7 @@ $(function() {
             $("select[class='bbf-year']").attr("disabled", true);
 
             $('.form .field-subject select').attr("multiple", true);
+
             $('.form .field-subject select').multiselect().multiselectfilter();
 
             $('.form .field-Level select').attr("multiple", true);
@@ -616,6 +622,77 @@ $(function() {
                     $(".form .field-Level select").find('option').removeAttr("selected")
                 }
             }
+            $('#resourceform').find('table').find('tbody').find('tr').find('td').find('h2').html(App.languageDict.attributes.New+' '+App.languageDict.attributes.Resources);
+            $('.field-title').find('label').html(App.languageDict.attributes.Title);
+            $('.field-author').find('label').html(App.languageDict.attributes.author);
+            $('.field-Publisher').find('label').html(App.languageDict.attributes.publisher_attribution);
+            $('.field-language').find('label').html(App.languageDict.attributes.language);
+            $('.field-Year').find('label').html(App.languageDict.attributes.year);
+            $('.field-linkToLicense').find('label').html(App.languageDict.attributes.link_to_license);
+            $('.field-subject').find('label').html(App.languageDict.attributes.subject);
+            $('.field-subject').find('.bbf-editor').find('select').multiselect({
+
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option
+
+            });
+           // $('.field-subject').find('.bbf-editor').find('select').html(App.languageDict.attributes.Select_An_option);
+            $('.field-Level').find('label').html(App.languageDict.attributes.level);
+            $('.field-Level').find('.bbf-editor').find('select').multiselect({
+
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option
+
+            });
+            $('.field-Tag').find('label').html(App.languageDict.attributes.Collection);
+            $('.field-Tag').find('.bbf-editor').find('select').multiselect({
+
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option
+
+            });
+            $('.field-Medium').find('label').html(App.languageDict.attributes.media);
+            $('.field-openWith').find('label').html(App.languageDict.attributes.Open);
+            $('.field-resourceFor').find('label').html(App.languageDict.attributes.resource_for);
+            $('.field-resourceType').find('label').html(App.languageDict.attributes.resource_type);
+            $('.field-articleDate').find('label').html(App.languageDict.attributes.article_Date);
+            $('.field-addedBy').find('label').html(App.languageDict.attributes.added_by);
+            var mediaArray=App.languageDict.get('mediaList');
+            for(var i=0;i<mediaArray.length;i++)
+            {
+
+               /* $('.field-Medium').find('.bbf-editor').find('select').each(function() {
+                    $(this).find('option').html(mediaArray[i]);
+                });*/
+                $('.field-Medium').find('.bbf-editor').find('select').find('option').eq(i).html(mediaArray[i]);
+
+            }
+            var openWithArray=App.languageDict.get('openWithList');
+            for(var i=0;i<openWithArray.length;i++)
+            {
+
+                $('.field-openWith').find('.bbf-editor').find('select').find('option').eq(i).html(openWithArray[i]);
+
+            }
+            var resourceForArray=App.languageDict.get('resourceForList');
+            for(var i=0;i<resourceForArray.length;i++)
+            {
+
+                $('.field-resourceFor').find('.bbf-editor').find('select').find('option').eq(i).html(resourceForArray[i]);
+
+            }
+            var resourceTypeArray=App.languageDict.get('resourceTypeList');
+            for(var i=0;i<resourceTypeArray.length;i++)
+            {
+
+                $('.field-resourceType').find('.bbf-editor').find('select').find('option').eq(i).html(resourceTypeArray[i]);
+
+            }
+            $('#fileAttachment').find('label').html(App.languageDict.attributes.Upload+' '+App.languageDict.attributes.Resources);
+            $('#_attachments').attr("label",App.languageDict.attributes.Browse);
+
+
+            //$('#resourceform').find('table').find('tbody').find('tr').eq(1).find('td').find('.fields').find
         },
 
         bellResourceSearch: function() {
@@ -818,30 +895,42 @@ $(function() {
                     groupsTable.render()
                     var button = '<p id="library-top-buttons">'
                     button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
-                    button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
-                    button += '<span style="float:right"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
+                    button += '<a id="requestCourseButton" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
+                    button += '<span id="searchSpan"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
                     App.$el.children('.body').html(button);
-                    if(clanguage=="Urdu")
+
+                    App.$el.children('.body').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
+                    App.$el.children('.body').append(groupsTable.el);
+                   groupsTable.changeDirection();
+                    if(clanguage=="اردو"  || clanguage=="العربية")
                     {
-                       // location.reload();
-                       // $('.body').addClass('addResource');
+                        //location.reload();
+                         $('.body').addClass('addResource');
+                       // $('.body').removeClass('addResource');
+                        $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
                         $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
                         $('#searchText').attr('placeholder','مطلوبہ الفاظ ');
+                        $('#searchText').css('margin-left','1%');
+
+                        $('#headingOfCourses').css('margin-right','2%');
 
                     }
                     else
                     {
+                        $('#searchSpan').css('float','right');
+                        $('#requestCourseButton').css('margin-left','10px');
+                       // $('#searchText').css('float','right');
                         $("#addCourseButton").addClass('addMarginsOnCourse');
                         $('#searchText').attr('placeholder','Keyword(s)');
                     }
-                    App.$el.children('.body').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
-                    App.$el.children('.body').append(groupsTable.el);
-                    $('#manageCourseButton').html(App.languageDict.attributes.Manage);
-                    $('#viewCourseButton').html(App.languageDict.attributes.View+' '+App.languageDict.attributes.Course);
-                    $('#progressCourseButton').html(App.languageDict.attributes.Progress);
-                    $('#deleteCourseButton').html(App.languageDict.attributes.Delete);
+                  //  groupsTable.updateAllLabels();
+                    $("[id=manageCourseButton]").html(App.languageDict.attributes.Manage);
+                    $("[id=viewCourseButton]").html(App.languageDict.attributes.View+' '+App.languageDict.attributes.Course);
+                    $("[id=progressCourseButton]").html(App.languageDict.attributes.Progress);
+                    $("[id=deleteCourseButton]").html(App.languageDict.attributes.Delete);
+
                 }
             });
 
@@ -1097,7 +1186,8 @@ $(function() {
 
         },
         GroupForm: function(groupId) {
-            this.modelForm('Group', 'Course', groupId, 'courses')
+            this.modelForm('Group', 'Course', groupId, 'courses');
+            $('.body').removeClass('addResource');
 
         },
         GroupAssign: function(groupId) {

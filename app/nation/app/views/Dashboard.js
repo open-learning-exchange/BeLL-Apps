@@ -5,6 +5,7 @@ $(function() {
         template: $('#template-Dashboard').html(),
 
         vars: {},
+
         render: function() {
 
             var config = new App.Collections.Configurations()
@@ -97,9 +98,11 @@ $(function() {
                 $('.visits').html(temp)
                 $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="../MyApp/index.html#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
             })
-            member.fetch()
+            member.fetch();
+
 
         },
+
         lookup :  function(obj, key) {
             var type = typeof key;
             if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur

@@ -165,6 +165,7 @@ $(function() {
 
 
 			} else {
+
 				vars.header = 'New Resource';
 				vars.resourceAttachments = "No File Selected.";
 				vars.resourceUrl = "";

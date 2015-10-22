@@ -110,7 +110,7 @@ $(function() {
             var con = config.first();
             var currentConfig = config.first().toJSON().rows[0].doc;
             var clanguage= currentConfig.currentLanguage;
-            if(clanguage=="Urdu")
+            if(clanguage=="اردو"   || clanguage=="العربية")
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="resources")
@@ -146,7 +146,7 @@ $(function() {
                     var con = config.first();
                     var currentConfig = config.first().toJSON().rows[0].doc;
                     var clanguage= currentConfig.currentLanguage;
-                    if(clanguage=="Urdu")
+                    if(clanguage=="اردو"   || clanguage=="العربية")
                     {
                         str="ابپتٹجچحخدڈذرڑزژسشصضطظعغفقكگلمنںوهھءیے";
                     }
@@ -160,7 +160,7 @@ $(function() {
 					}
 					viewText += "</td></tr>"
 					this.$el.append(viewText);
-                    if(clanguage=="Urdu")
+                    if(clanguage=="اردو"   || clanguage=="العربية")
                     {
                         $('#alphabetsOfLanguage').addClass('addResource');
                     }

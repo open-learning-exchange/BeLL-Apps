@@ -78,11 +78,12 @@ $(function() {
             view.type = kind
             view.render()
             App.$el.children('.body').append(view.el);
-            $('.body').removeClass('addResource');
+           // $('.body').removeClass('addResource');
             $('#site-request').animate({
                 height: '302px'
             })
-            document.getElementById('site-request').style.visibility = 'visible'
+            document.getElementById('site-request').style.visibility = 'visible';
+            $('.body').removeClass('addResource');
         },
         startActivityIndicator: function() {
             var target = document.getElementById("popup-spinning");

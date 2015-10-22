@@ -12,8 +12,9 @@ $(function() {
                 roles: this.roles
             })
             groupRow.publicationId = this.publicationId
-            groupRow.render()
-            this.$el.append(groupRow.el)
+            groupRow.render();
+            this.$el.append(groupRow.el);
+
         },
 
         addAll: function() {

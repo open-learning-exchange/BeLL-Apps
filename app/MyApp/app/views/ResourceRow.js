@@ -269,7 +269,7 @@ $(function() {
 			var Details = ""
 
 			if (vars.author != undefined && vars.author != "") {
-				Details = Details + "<b>"+languageDict.attributes.Author+"</b>" + vars.author + ' , '
+				Details = Details + "<b>"+languageDict.attributes.author+"</b>" + vars.author + ' , '
 			}
 
 			if (vars.Year != undefined && vars.Year != "") {

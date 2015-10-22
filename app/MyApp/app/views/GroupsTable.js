@@ -5,15 +5,46 @@ $(function() {
 
 		className: "btable btable-striped",
 		roles: null,
+
 		addOne: function(model) {
+         //   alert("addOne is called...");
 			var groupRow = new App.Views.GroupRow({
 				model: model,
 				roles: this.roles
 			})
 			groupRow.courseId = this.courseId
 			groupRow.render()
-			this.$el.append(groupRow.el)
+			this.$el.append(groupRow.el);
+
+
 		},
+        changeDirection : function (){
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var con = config.first();
+            var currentConfig = config.first().toJSON().rows[0].doc;
+            var clanguage= currentConfig.currentLanguage;
+            if(clanguage=="اردو"   || clanguage=="العربية")
+            {
+                var library_page = $.url().data.attr.fragment;
+                if(library_page=="courses")
+                {
+                    //    alert("Hello")
+                    $('.body').addClass('addResource');
+                }
+
+                // $('.table-striped').css({direction:rtl});
+            }
+            else
+            {
+                $('.body').removeClass('addResource');
+            }
+        },
 		events: {
 			"click .pageNumber": function(e) {
 				this.collection.startkey = ""
@@ -24,7 +55,7 @@ $(function() {
 				if (this.collection.length > 0) {
 					this.render()
 				}
-			},
+			}
 
 		},
 
@@ -66,7 +97,7 @@ $(function() {
 			// @todo this does not work as expected, either of the lines
 			// _.each(this.collection.models, this.addOne())
 
-			this.collection.each(this.addOne, this)
+			this.collection.forEach(this.addOne, this)
 
 			var groupLength;
 			var context = this
@@ -95,6 +126,19 @@ $(function() {
 		},
 
 		render: function() {
+            var clanguage
+                = App.configuration.get("currentLanguage");
+            if(clanguage=="اردو"  || clanguage=="العربية")
+            {
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+            }
+            else
+            {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+            }
 			this.collection.skip = 0
 			this.addAll();
           //  location.reload();

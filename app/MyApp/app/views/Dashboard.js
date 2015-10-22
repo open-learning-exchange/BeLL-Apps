@@ -78,6 +78,14 @@ $(function() {
                 }
             }
         },
+        initialize: function() {
+            $(window).on('resize.resizeview', this.onResize.bind(this));
+        },
+
+        remove: function() {
+            $(window).off('resize.resizeview');
+            Backbone.View.prototype.remove.call(this);
+        },
         updateVersion: function(e) {
             var that = this;
             App.startActivityIndicator();
@@ -287,7 +295,7 @@ $(function() {
             this.vars.mails = 0
             var clanguage
                 = App.configuration.get("currentLanguage");
-            if(clanguage=="Urdu")
+            if(clanguage=="اردو"    || clanguage=="العربية")
             {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
@@ -508,8 +516,25 @@ $(function() {
                 dashboard.$el.append($buttonWelcome);
                 $("#welcomeButton").html(update);
             }
+            $(itemsinnavbar).addClass('navbar-right');
+            this.onResize();
+            return this;
 
             //dashboard.$el.append('<div id="updates"></div>')
+        },
+        onResize: function () {
+           // alert("onResize is called...");
+            var w = $(window).width()
+                , h = $(window).height();
+            console.log('resize', w, h);
+            this.resize(w, h);
+        },
+
+        resize: function (w, h) {
+            this.$el.css({
+                'width': w,
+                'height': h
+            });
         },
             lookup :  function(obj, key) {
                 var type = typeof key;

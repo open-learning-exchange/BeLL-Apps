@@ -98,7 +98,12 @@ word-wrap:break-word;
 }
 .addMarginsOnCourseUrdu
 {
-    width:132px;
+    width: 132px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.addMarginsOnRequestCourse{
+    margin-left: 2%;
 }
 .addMarginsOnCourseEng
 {

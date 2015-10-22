@@ -44,14 +44,14 @@ $(function() {
             language: {
                 type: 'Select',
                 options: [{
-                    val: 'Arabic',
-                    label: 'Arabic'
+                    val: 'العربية',
+                    label: 'العربية'
                 }, {
                     val: 'Asante',
                     label: 'Asante'
                 }, {
-                    val: 'Chinese',
-                    label: 'Chinese'
+                    val: '中国',
+                    label: '中国'
                 }, {
                     val: 'English',
                     label: 'English'
@@ -59,38 +59,38 @@ $(function() {
                     val: 'Ewe',
                     label: 'Ewe'
                 }, {
-                    val: 'French',
-                    label: 'French'
+                    val: 'français',
+                    label: 'français'
                 }, {
-                    val: 'Hindi',
-                    label: 'Hindi'
+                    val: 'हिंदी',
+                    label: 'हिंदी'
                 }, {
                     val: 'Kyrgyzstani',
                     label: 'Kyrgyzstani'
                 }, {
-                    val: 'Nepali',
-                    label: 'Nepali'
+                    val: 'नेपाली',
+                    label: 'नेपाली'
                 }, {
-                    val: 'Portuguese',
-                    label: 'Portuguese'
+                    val: 'português',
+                    label: 'português'
                 }, {
-                    val: 'Punjabi',
-                    label: 'Punjabi'
+                    val: 'ਪੰਜਾਬੀ ਦੇ',
+                    label: 'ਪੰਜਾਬੀ ਦੇ'
                 }, {
-                    val: 'Russian',
-                    label: 'Russian'
+                    val: 'Русский',
+                    label: 'Русский'
                 }, {
-                    val: 'Somali',
-                    label: 'Somali'
+                    val: 'Soomaali',
+                    label: 'Soomaali'
                 }, {
-                    val: 'Spanish',
-                    label: 'Spanish'
+                    val: 'Español',
+                    label: 'Español'
                 }, {
-                    val: 'Swahili',
-                    label: 'Swahili'
+                    val: 'Kiswahili',
+                    label: 'Kiswahili'
                 }, {
-                    val: 'Urdu',
-                    label: 'Urdu'
+                    val: 'اردو',
+                    label: 'اردو'
                 }]
             },
 
