@@ -89,6 +89,26 @@ word-wrap:break-word;
     margin-top: 9px;
     background-color: #1ABC9C;
 }
+.addResource{
+
+    direction:rtl;
+}
+.addMarginsOnResource{
+    margin-right:1.5%;
+}
+.addMarginsOnCourseUrdu
+{
+    width: 132px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.addMarginsOnRequestCourse{
+    margin-left: 2%;
+}
+.addMarginsOnCourseEng
+{
+width:110px;
+}
 .btn.btn-success
 {
     background-color: #1ABC9C;

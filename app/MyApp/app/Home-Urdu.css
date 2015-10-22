@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #dashboard
 {
     height: 600px;
@@ -5,6 +6,41 @@
     margin-left: 900px;
     direction: rtl;
 
+=======
+select#onLoginLanguage {
+    position: relative;
+    display: inline-flex;
+    margin-right: 19px;
+    margin-top: 9px;
+    width: 156px;
+    background-color: floralwhite;
+}
+#dashboard
+{
+   /* margin-left:45.8%;
+    height: 600px;
+    width:950px;*/
+    direction: rtl;
+    height: 600px;
+   /* width:950px;*/
+    width:950px;
+    margin-left:auto;
+    margin: 0 auto;
+    /* background-color: pink;*/
+
+}
+#nav{
+    display: flex;
+
+    text-align: center;
+}
+#nav li{
+    display: inline-block;
+    text-align:center;
+}
+.login-settings{
+    display:flex;
+    direction:rtl;
 }
 
 #viewCourseMembers {
@@ -23,7 +59,14 @@
     width: 112px;
 }
 #welcomeButton{
-    margin-left:900px;
+   /* margin-left:45.3%;*/
+    margin-left: 62.5%;
+    direction: rtl;
+    display: flex;
+}
+#linkOnMyHome
+{
+    margin-right:80px;
 }
 .btn.fui-gear {
     height: 40px;
@@ -39,12 +82,15 @@ td.stu-nav-option-empty {
     font-size: 17px;
     margin: 0;
     width:100%;
-   margin-right:200px
-padding-top: 5px;
+   margin-right:200px;
+   padding-top: 5px;
+    direction: rtl;
+    display: flex;
 }
 #dashboard_link{
     margin-right:100px;
 }
+/*
 ul#itemsinnavbar.nav{
     direction: rtl;
     display: inline-flex;
@@ -56,6 +102,30 @@ ul#itemsinnavbar.nav{
     width: 100%;
     font-size: 20px;
     background-color:#E1E1E1;
+*/
+/*ul#itemsinnavbar.nav{
+    direction: rtl;
+    display: flex
+    width:100%;
+}*/
+
+
+.header-table {
+    /*width:auto;*/
+    font-size: 20px;
+    width:98.5%;
+  /*  background-color: red;*/
+    background-color:#E1E1E1;
+
+
+    /*margin-right:-10px;*/
+}
+table.header-table{
+   /* width:100%;*/
+
+}
+table.stu-nav-table{
+    width:auto;
 }
 .right {
     text-align: right;
@@ -75,10 +145,14 @@ ul#itemsinnavbar.nav{
 }
 .stu-nav-table
 {
-    padding:5 5 0 5;
+  /*  padding:5 5 0 5;*/
     width:100%;
     height:280px;
     padding-top:5px;
+    margin-right:10px;
+}
+#underConstruction{
+    text-align: right;
 }
 .page-bottom-navtable
 {
@@ -269,12 +343,27 @@ body{
     font-size: none;
     line-height: none;
     margin: none;
-    overflow:auto;
+  /*  overflow:auto;
+     overflow-y: scroll;
+    overflow-x: hidden;*/
     width:100%;
-/*    direction: rtl;*/
+    /* this is a testing purpose property */
+    min-width: 1024px;
+ /*   background-color: aquamarine;*/
+      /* direction: rtl;*/
 
 
 }
+#resourceform {
+    background-color: #F3F3F3;
+    border-radius: 37px;
+    margin-bottom: -1%;
+    margin-left: -1%;
+    width: 883px;
+    margin-right:25%;
+    float:right;
+}
+
 
 
 
@@ -285,6 +374,8 @@ body{
     font-size: 20px;
     height: 62px;
     width: 100%;
+    /* this is a testing purpose property */
+    min-width: 1024px;
 }
 #imageText{
     margin-top: 25px;
@@ -313,15 +404,25 @@ body{
 {
     display: block;
     font-size: 28px;
+/*
     margin-left: 35%;
     width: 260px;
+*/
+    margin-left: 43%;
+    width: 320px;
+    text-align:right;
 }
 
 .login-form
 {
     height: 300px;
-    margin-left: 35%;
+  /*  margin-left: 35%;*/
     width: 370px;
+    left:50%;
+    position:relative;
+    margin: 0px -150px;
+
+
 }
 
 #olelogo

@@ -1,8 +1,28 @@
-#dashboard
-{
+/*input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+    margin-top:-2px;
+    margin-bottom: -2px;
+}*/
+select#onLoginLanguage {
+    position: relative;
+    display: inline-flex;
+    margin-right: 19px;
+    margin-top: 9px;
+    width: 156px;
+    background-color: floralwhite;
+}
+#dashboard {
     height: 600px;
     width: 950px;
+    margin-left:auto;
+    margin: 0 auto;
 }
+#linkOnMyHome
+{
+    margin-right:25px;
+}
+
 
 #viewCourseMembers {
     background-color: rgb(177, 177, 177);
@@ -30,11 +50,17 @@
  font-size: 17px;
     margin: 0;
     width:100%;
+/*   margin-left:-100px*/
+    padding-top: 5px;
+}
+#welcomeButton{
+    margin-left:25%;
 }
 .header-table {
-    width: 100%;
+    width:100.5%;
  font-size: 20px;
 background-color:#E1E1E1;
+   /* margin-right:-10px*/
 }
 .right {
     text-align: right;
@@ -297,7 +323,7 @@ margin-left:40px;
 {
     display: block;
     font-size: 28px;
-    margin-left: 36%; /* #99 Member login heading previous 35% */
+    margin-left: 43%;
     width: 260px;
 }
 
@@ -305,7 +331,10 @@ margin-left:40px;
 {
 	height: 300px;
         margin-left: 35%;
-        width: 370px; /* previous 370px; */
+        width: 370px;
+    left:46%;
+    position:relative;
+    margin: 0px -150px;
 }
 
 #olelogo
@@ -408,6 +437,15 @@ padding-top: 5px;
 	width:45%;
 	float: right;
 
+}
+#nav{
+    display: flex;
+
+    text-align: center;
+}
+#nav li{
+    display: inline-block;
+    text-align:center;
 }
 #previous_button
 {

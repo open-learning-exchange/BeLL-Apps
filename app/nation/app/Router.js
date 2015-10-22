@@ -473,8 +473,9 @@ $(function() {
             })
             configForm.render();
 
-            App.$el.children('.body').html(configForm.el)
+            App.$el.children('.body').html(configForm.el);
             configForm.updateDropDownValue();
+
         },
         getRegisteredMembersCount: function(communityChosen, callback) {
             var maleMembers = 0,
@@ -2775,7 +2776,8 @@ $(function() {
                 temp = temp + "Nation"
             }
             App.$el.children('.body').append('<h4><span style="color:gray;">' + temp + '</span> | Reports</h4>')
-            App.$el.children('.body').append(resourcesTableView.el)
+            App.$el.children('.body').append(resourcesTableView.el);
+
             App.stopActivityIndicator()
 
         },

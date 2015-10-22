@@ -16,14 +16,17 @@ $(function() {
             var temp = Backbone.history.location.href
             temp = temp.split('#')
 
-            var version = ''
+            var version = '';
+            var currentLanguage;
+            var availableLanguages;
+            var languageDictOfApp;
 
             if (!App.configuration) {
                 var config = new App.Collections.Configurations()
                 config.fetch({
                     async: false
                 })
-                var con = config.first()
+                 con = config.first()
                 App.configuration = con
             }
 
@@ -34,10 +37,21 @@ $(function() {
                 languages.fetch({
                     async: false
                 });
-
-                var languageDicts = languages.first().toJSON();
-                var languageDict = languageDicts[clanguage];
-                App.languageDict = languageDicts[clanguage];
+                var languageDict;
+                for(var i=0;i<languages.length;i++)
+                {
+                    if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
+                    {
+                        if(languages.models[i].attributes.nameOfLanguage==clanguage)
+                        {
+                            languageDict=languages.models[i];
+                        }
+                    }
+                }
+                App.languageDict = languageDict;
+               // var languageDicts = languages.first().toJSON();
+             //   var languageDict = languageDicts[clanguage];
+              //  App.languageDict = languageDicts[clanguage];
                 //                $.ajax({
                 //                    type: 'GET',
                 //                    url: '/languages/_all_docs?include_docs=true',
@@ -52,12 +66,21 @@ $(function() {
                 //                });
             }
 
-            version = App.configuration.get('version')
+            version = App.configuration.get('version');
+            currentLanguage=App.configuration.get('currentLanguage');
+            availableLanguages=App.configuration.get('availableLanguages');
+            languageDictOfApp=App.languageDict;
+
             this.data = {
                 uRL: temp[1],
                 versionNO: version,
-                languageDict: App.languageDict
+                currentLanguageOfApp:currentLanguage,
+                availableLanguagesOfApp:availableLanguages,
+                languageDict:languageDictOfApp
+
+
             }
+            console.log(this.data);
             this.$el.append(this.template(this.data))
             if (!App.member && $.cookie('Member._id')) {
                 var member = new App.Models.Member()

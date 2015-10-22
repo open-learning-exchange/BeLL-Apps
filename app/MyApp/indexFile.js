@@ -12,6 +12,26 @@ url = "unknown";
 var lastpage = false
 var mailView;
 
+
+function changeLanguage(option)
+{
+    console.log(option.value);
+    var config = new App.Collections.Configurations();
+    config.fetch({async:false});
+    var con=config.first();
+    con.attributes.currentLanguage=option.value;
+    console.log(con);
+    con.save(null, {
+        success: function (doc, rev) {
+            console.log("configurations are saved");
+            location.reload();
+        }
+    });
+
+}
+        //con.set('currentLanguage', option.value);
+
+
 function showFeedbackForm() {
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {
@@ -531,7 +551,23 @@ function changeRatingImage(checkID, count) {
 }
 
 function showRequestForm(modl) {
-    App.renderRequest(modl)
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    })
+    var config = new configurations()
+    config.fetch({
+        async: false
+    })
+    var con = config.first();
+    var currentConfig = config.first().toJSON().rows[0].doc;
+    //  var currentConfig=con.attributes.rows[0].doc;
+    //    alert(currentConfig.name);
+    var clanguage = currentConfig.currentLanguage;
+    App.renderRequest(modl);
+    if(clanguage=="اردو" || clanguage=="العربية"){
+        location.reload();
+    }
+  //  $('.body').removeClass('addResource');
 }
 
 function showSearchView() {
@@ -551,6 +587,7 @@ function CourseSearch() {
     skip = 0;
     searchText = $("#searchText").val();
     App.Router.GroupSearch();
+    $('.body').removeClass('addResource');
 }
 
 function ListAllCourses() {

@@ -193,7 +193,7 @@ $(function() {
 				Backbone.history.navigate('resource/feedback/add/' + this.model.get("_id") + '/' + this.model.get("title"), {
 					trigger: true
 				})
-			},
+			}
 		},
 
 		vars: {},
@@ -201,35 +201,95 @@ $(function() {
 		template: _.template($("#template-ResourceRow").html()),
 
 		initialize: function(e) {
-			this.model.on('destroy', this.remove, this)
+			this.model.on('destroy', this.remove, this);
+           /* var clanguage = App.configuration.get("currentLanguage");
+            // fetch dict for the current/selected language from the languages db/table
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            var languageDict;
+            for(var i=0;i<languages.length;i++)
+            {
+                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
+                {
+                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
+                    {
+                        languageDict=languages.models[i];
+                    }
+                }
+            }
+            App.languageDict = languageDict;
+            languageDictOfApp=App.languageDict;
+            this.data = {
+                languageDict:languageDictOfApp
+
+            }
+            console.log(this.data);
+            this.$el.append(this.template(this.data))*/
 		},
 		render: function() {
-			var vars = this.model.toJSON()
+           // alert("Resource Row Called");
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var con = config.first();
+            var currentConfig = config.first().toJSON().rows[0].doc;
+            var clanguage= currentConfig.currentLanguage;
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            var languageDict;
+            for(var i=0;i<languages.length;i++)
+            {
+                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
+                {
+                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
+                    {
+                        languageDict=languages.models[i];
+                    }
+                }
+            }
+            App.languageDict = languageDict;
+            //vars.Open=languageDict.attributes.Open;
+           /* var languageDictOfApp=App.languageDict;
+            this.data = {
+                languageDict:languageDictOfApp
+
+            }
+            console.log(this.data);
+            this.$el.append(this.template(this.data));*/
+            var vars = this.model.toJSON()
 			//console.log(vars)
 			var Details = ""
 
 			if (vars.author != undefined && vars.author != "") {
-				Details = Details + "<b>Author </b>" + vars.author + ' , '
+				Details = Details + "<b>"+languageDict.attributes.author+"</b>" + vars.author + ' , '
 			}
 
 			if (vars.Year != undefined && vars.Year != "") {
-				Details = Details + "<b>Year </b>" + vars.Year + ' , '
+				Details = Details + "<b>"+languageDict.attributes.year+" </b>" + vars.Year + ' , '
 			}
 
 			if (vars.openWith != undefined) {
-				Details = Details + "<b>Media </b>"
+				Details = Details + "<b>"+languageDict.attributes.media+" </b>"
 				Details = Details + vars.openWith + ' , '
 
 			}
 
 			if (vars.language != undefined) {
 				if (vars.language.length > 0) {
-					Details = Details + '<b>Language </b>' + vars.language + " , "
+					Details = Details + '<b>'+languageDict.attributes.language+'</b>' + vars.language + " , "
 				}
 			}
 
 			if (vars.subject != undefined) {
-				Details = Details + "<b>Subject(s) </b>"
+				Details = Details + "<b>"+languageDict.attributes.subject+" </b>"
 				if ($.isArray(vars.subject)) {
 					for (var i = 0; i < vars.subject.length; i++) {
 						Details = Details + vars.subject[i] + ' / '
@@ -244,7 +304,7 @@ $(function() {
 			}
 
 			if (vars.Level != undefined) {
-				Details = Details + "<b>Level(s) </b>"
+				Details = Details + "<b>"+languageDict.attributes.level+" </b>"
 				if ($.isArray(vars.Level)) {
 					for (var i = 0; i < vars.Level.length; i++) {
 						Details = Details + vars.Level[i] + ' / '
@@ -261,19 +321,19 @@ $(function() {
 			}
 
 			if (vars.Publisher != undefined && vars.Publisher != "") {
-				Details = Details + "<b>Publisher/Attribution </b>" + vars.Publisher + ' , '
+				Details = Details + "<b>"+languageDict.attributes.publisher_attribution+"</b>" + vars.Publisher + ' , '
 			}
 
 			if (vars.linkToLicense != undefined && vars.linkToLicense != "") {
-				Details = Details + "<b>Link To License </b>" + vars.linkToLicense + ' , '
+				Details = Details + "<b>"+languageDict.attributes.link_to_license+" </b>" + vars.linkToLicense + ' , '
 			}
 
 			if (vars.resourceFor != undefined && vars.resourceFor != "") {
-				Details = Details + "<b> Resource For </b>" + vars.resourceFor + ' , '
+				Details = Details + "<b>"+languageDict.attributes.resource_for+"</b>" + vars.resourceFor + ' , '
 			}
             ////////////////////////////////////////////////Code for Issue No 60 Adding a drop-down////////////////////////////////
             if (vars.resourceType != undefined && vars.resourceType != "") {
-                Details = Details + "<b> Resource Type </b>" + vars.resourceType + ' , '
+                Details = Details + "<b>"+languageDict.attributes.resource_type+"</b>" + vars.resourceType + ' , '
             }
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -281,7 +341,7 @@ $(function() {
 				//console.log(this.collections)
 				if ($.isArray(vars.Tag)) {
 					if (vars.Tag.length > 0)
-						Details = Details + "<b>Collection </b>"
+						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>"
 
 					for (var i = 0; i < vars.Tag.length; i++) {
 						if (this.collections.get(vars.Tag[i]) != undefined)
@@ -289,7 +349,7 @@ $(function() {
 					}
 				} else {
 					if (vars.Tag != 'Add New')
-						Details = Details + "<b>Collection </b>" + vars.Tag + ' / '
+						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>" + vars.Tag + ' / '
 				}
 			}
 			Details = Details.substring(0, Details.length - 3)

@@ -51,8 +51,9 @@ $(function() {
             },
             selectLanguage: {
                 type: 'Select',
-                options: ["Arabic", "Asante", "Chinese", "English", "Ewe", "French", "Hindi", "Kyrgyzstani", "Nepali", "Portuguese", "Punjabi", "Russian",
-                    "Somali", "Spanish", "Swahili", "Urdu"
+                options: ["العربية","Asante","中国","English","Ewe","français","हिंदी","Kyrgyzstani","नेपाली","português","ਪੰਜਾਬੀ ਦੇ","Русский","Soomaali","Español","Kiswahili",
+                    "اردو"
+
                 ]
             }
         }
