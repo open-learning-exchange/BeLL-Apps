@@ -27,7 +27,7 @@
             var nationUrl = App.configuration.get('nationUrl'),
                 currentBellName = App.configuration.get('name');
                 var DbUrl = 'http://' + nationName + ':' + nationPassword + '@' + nationUrl +
-                            '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["'+currentBellName+'",'+false+']';
+                            '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&descending=true&key=["'+currentBellName+'",'+false+']'; //#113 reverse pubs order
                 // make sure the couchdb that is being requested in this ajax call has its 'allow_jsonp' property set to true in the
                 // 'httpd' section of couchdb configurations. Otherwise, the server couchdb will not respond as required by jsonp format
                 // to send publication-distribution records from nation whose 'viewed' property is false
