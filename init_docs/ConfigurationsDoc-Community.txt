@@ -4,10 +4,10 @@
     "code":"communitybell",
     "type":"community",
     "nationUrl":"openbell.ole.org:5984",
-    "version":"0.11.70",
+    "version":"0.11.63",
     "notes":"Community Bell",
-    "availableLanguages":["Arabic", "Asante", "Chinese", "English", "Ewe", "French", "Hindi", "Kyrgyzstani", "Nepali", "Portuguese", "Punjabi", "Russian",
-                                             "Somali", "Spanish", "Swahili", "Urdu"
+    "availableLanguages":["العربية","Asante","中国","English","Ewe","français","हिंदी","Kyrgyzstani","नेपाली","português","ਪੰਜਾਬੀ ਦੇ","Русский","Soomaali","Español","Kiswahili",
+                                              "اردو"
                                          ],
     "currentLanguage":"English"
 }
