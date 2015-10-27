@@ -287,34 +287,40 @@ function createDefaultAdminMember() {
                             //var languages = nano.db.use('languages');
                             console.log("******************Going to insert document into languages database*******************************");
                             var langEngDocPath = 'init_docs/languages.txt';
-                            var langUrduDocPath = 'init_docs/languages-Urdu.txt';
                             insertLanguagesDoc(langEngDocPath);
-                            insertLanguagesDoc(langUrduDocPath);
+                            langEngDocPath = 'init_docs/languages-Urdu.txt';
+                            insertLanguagesDoc(langEngDocPath);
+                            langEngDocPath = 'init_docs/languages-Arabic.txt';
+                            insertLanguagesDoc(langEngDocPath);
+                            /* var langEngDocPath = 'init_docs/languages.txt';
+                             var langUrduDocPath = 'init_docs/languages-Urdu.txt';
+                             insertLanguagesDoc(langEngDocPath);
+                             insertLanguagesDoc(langUrduDocPath);*/
                             //console.log("******************Going to insert document into languages database*******************************");
                             /*fs.readFile(langEngDocPath, function (err, data) {
-                                languages.insert(data, function (err, res) {
-                                    if (err) {
-                                        console.log(err);
-                                    } else {
-                                        //
-                                    }
-                                });
+                             languages.insert(data, function (err, res) {
+                             if (err) {
+                             console.log(err);
+                             } else {
+                             //
+                             }
+                             });
 
 
 
-                            });
-                            fs.readFile(langUrduDocPath, function (err, data) {
-                                languages.insert(data, function (err, res) {
-                                    if (err) {
-                                        console.log(err);
-                                    } else {
-                                        //
-                                    }
-                                });
+                             });
+                             fs.readFile(langUrduDocPath, function (err, data) {
+                             languages.insert(data, function (err, res) {
+                             if (err) {
+                             console.log(err);
+                             } else {
+                             //
+                             }
+                             });
 
 
 
-                            });*/
+                             });*/
                         }
 
                         done()
@@ -343,7 +349,7 @@ function insertLanguagesDoc(docPath) {
 }
 
 
- /* function createLanguages() {
+/* function createLanguages() {
  // Cancel if there are already lagug in the database
  //if (body.doc_count > 1) return done()
  console.log('Creating languages list in the database.')
@@ -438,7 +444,7 @@ function insertLanguagesDoc(docPath) {
  })
  }
  }
-*/
+ */
 
 function done() {
     console.log('done!')
