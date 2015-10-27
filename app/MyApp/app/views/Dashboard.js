@@ -480,7 +480,7 @@ $(function() {
                 var gandaId,test;
                 if (typeofBell == 'nation') {
                     var natLink = '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a>'
-                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">'+manager+'</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
                    // $("a#NationManagerLink").text(manager);
                     gandaId="NationManagerLink";
                    // roles=roles+natLink;
@@ -496,7 +496,7 @@ $(function() {
                     var branch = App.configuration.get('subType')
                     if(branch=="branch")
                     {
-                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">Manager</a>'
+                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">'+manager+'</a>'
                         con.set('nationName','random');
                         con.set('nationUrl','random');
                         con.save(null,{ success: function(doc,rev){
@@ -508,7 +508,7 @@ $(function() {
                         }});
                     }
                     else{
-                        roles = roles + '<a href="#communityManage">Manager</a>'
+                        roles = roles + '<a href="#communityManage">'+manager+'</a>'
                     }
                    // roles = roles + '<a href="#communityManage">Manager</a>'
 
@@ -545,7 +545,7 @@ $(function() {
                 $('#gearIcon').hide();
             }
             console.log("ganda Id "+gandaId);
-            $("#"+gandaId).html(manager);
+            //$("#"+gandaId).html(manager);
             console.log(roles);
             /*var languageDicts = languages.first().toJSON();
             var languageDict = languageDicts[clanguage];

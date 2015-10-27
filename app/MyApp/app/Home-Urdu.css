@@ -1,12 +1,11 @@
-<<<<<<< HEAD
-#dashboard
-{
+
+#dashboard {
     height: 600px;
-    width:950px;
+    width: 950px;
     margin-left: 900px;
     direction: rtl;
+}
 
-=======
 select#onLoginLanguage {
     position: relative;
     display: inline-flex;
