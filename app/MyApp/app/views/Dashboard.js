@@ -79,7 +79,7 @@ $(function() {
             }
         },
         initialize: function() {
-            $(window).on('resize.resizeview', this.onResize.bind(this));
+           // $(window).on('resize.resizeview', this.onResize.bind(this));
         },
 
         remove: function() {
@@ -562,24 +562,11 @@ $(function() {
                 $("#welcomeButton").html(update);
             }
             $(itemsinnavbar).addClass('navbar-right');
-            this.onResize();
+
+          //  this.onResize();
             return this;
 
             //dashboard.$el.append('<div id="updates"></div>')
-        },
-        onResize: function () {
-           // alert("onResize is called...");
-            var w = $(window).width()
-                , h = $(window).height();
-            console.log('resize', w, h);
-            this.resize(w, h);
-        },
-
-        resize: function (w, h) {
-            this.$el.css({
-                'width': w,
-                'height': h
-            });
         },
             lookup :  function(obj, key) {
                 var type = typeof key;
@@ -639,6 +626,30 @@ $(function() {
         },*/
 
         checkAvailableUpdates: function(roles, dashboard) {
+            if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
+           {
+
+                   $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                   $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+               }
+               else
+               {
+                   $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                   $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+               }
+              /*  $('#welcomeButton').addClass('changeWelComeButtonAsia');
+                $('#updateButton').addClass('changeUpdateButtonAsia');
+                $('#viewReleaseNotes').addClass('changeViewReleaseNotesAsia');
+                $('#newPublication').addClass('changeNewPublicationAsia');*/
+
+
+
+               /* $('#welcomeButton').removeClass('changeWelComeButtonAsia');
+                $('#updateButton').removeClass('changeUpdateButtonAsia');
+                $('#viewReleaseNotes').removeClass('changeViewReleaseNotesAsia');
+                $('#newPublication').removeClass('changeNewPublicationAsia');*/
+
             var context = this
             if ($.inArray('Manager', roles) == -1) {
                 return
@@ -673,8 +684,8 @@ $(function() {
                             console.log("Nation has lower application version than that of your community application")
                         } else if (context.versionCompare(nationConfig.version, configuration.get('version')) > 0) {
                             dashboard.latestVersion = nationConfig.version
-                            dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">System Update Available (' + nationConfig.version + ') </button>')
-                            dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">View Release Notes </button>')
+                            dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">'+App.languageDict.attributes.Update_Available+' (' + nationConfig.version + ') </button>')
+                            dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">'+App.languageDict.attributes.View+' '+App.languageDict.attributes.Release_Notes+' </button>')
                         } else {
                             console.log("Nation is uptodate")
                         }
@@ -722,7 +733,7 @@ $(function() {
                                 }
                             }
                             if (newPublicationsCount > 0)
-                                dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-' + currentBellName + '">Publications (new ' + newPublicationsCount + ')</a>')
+                                dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-' + currentBellName + '">'+App.languageDict.attributes.Publications+ ' ( '+ App.languageDict.attributes.New + ' '+ newPublicationsCount + ')'+' </a>')
                         }
                     });
                 },

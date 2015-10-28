@@ -337,6 +337,23 @@ margin-left:40px;
     margin: 0px -150px;
 }
 
+#updateButton
+{
+    width: 12%;
+    height: 5.5%;
+    margin-left: 0.5%;
+}
+#viewReleaseNotes{
+    width: 12%;
+    height: 5.5%;
+    margin-left: 0.5%;
+}
+#newPublication{
+    height: 3%;
+    margin-left: 0.5%;
+    width: 11%;
+}
+
 #olelogo
 {
 	float: left;

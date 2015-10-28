@@ -383,8 +383,8 @@
         </li>
         <li>
             <select id="onLoginLanguage" onchange="changeLanguage(this)">
-                <!--  <option disabled="true" selected style="display:none">Select Language</option>-->
-                <option value="" selected><%= currentLanguageOfApp %></option>
+                 <option disabled="true" selected style="display:none"><%= currentLanguageOfApp %></option>-->
+                <!-- <option value="" selected><%= currentLanguageOfApp %></option>-->
                 <% for (var i=0; i<availableLanguagesOfApp.length; i++){%>
                 <option value="<%= availableLanguagesOfApp[i] %>"><%= availableLanguagesOfApp[i] %> </option>
                 <% } %>

@@ -51,9 +51,12 @@ $(function() {
             },
             selectLanguage: {
                 type: 'Select',
-                options: ["العربية","Asante","中国","English","Ewe","français","हिंदी","Kyrgyzstani","नेपाली","português","ਪੰਜਾਬੀ ਦੇ","Русский","Soomaali","Español","Kiswahili",
+              /*  options: ["العربية","Asante","中国","English","Ewe","français","हिंदी","Kyrgyzstani","नेपाली","português","ਪੰਜਾਬੀ ਦੇ","Русский","Soomaali","Español","Kiswahili",
                     "اردو"
 
+                ]*/
+                options: ["English","العربية",
+                    "اردو"
                 ]
             }
         }

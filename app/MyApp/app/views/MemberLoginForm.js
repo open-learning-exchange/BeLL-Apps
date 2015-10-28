@@ -55,16 +55,19 @@ $(function() {
             var context = this;
             var welcomeResources = new App.Collections.Resources();
             welcomeResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo');
+            //var update;
             welcomeResources.fetch({
                 success: function() {
                     if (welcomeResources.length > 0) {
                         var welcomeResourceId = welcomeResources.models[0].attributes.id;
                         // display "watch welcome video" button
+                       // update=App.languageDict.attributes.Update_Welcome_Video;
+                       // alert(update);
                         var hrefWelcomeVid = "/apps/_design/bell/bell-resource-router/index.html#openres/" + welcomeResourceId;
                         // #99: margin-left:0px     var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" href="hmmm" target="_blank" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
-                        var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="background-color:#2ecc71; margin-left: 0px;margin-top: -33px; font-size:27px;">Welcome</button>'); //Issue#99
+                        var $buttonWelcome = $('<a id="welcomeButtonOnLogin" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="background-color:#2ecc71; margin-left: 0px;margin-top: -33px; font-size:27px;">'+App.languageDict.attributes.Welcome+'</button>'); //Issue#99
                         context.$el.append($buttonWelcome);
-                        context.$el.find("#welcomeButton").attr("href", hrefWelcomeVid); // <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
+                        context.$el.find("#welcomeButtonOnLogin").attr("href", hrefWelcomeVid); // <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
                     }
                     else {
                         context.$el.addClass('withoutWelcomeVideo');
@@ -81,6 +84,7 @@ $(function() {
             })
 
             this.$el.append(this.form.render().el);
+
             var value = $("input[name*='login']");
             // var value=$('label.field-login').value();
 
@@ -100,6 +104,7 @@ $(function() {
             var $button2 = $('<div class="signup-div" ><a style="margin-left: 1px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">' + languageDict.attributes.Become_a_member + '</button></div>')
             this.$el.append($button);
             this.$el.append($button2);
+
             // location.reload();
 
         },

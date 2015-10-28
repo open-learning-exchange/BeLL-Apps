@@ -112,6 +112,7 @@ $(function() {
 
             resourceFormView.renderAddOrUploadWelcomeVideoForm();
             App.$el.children('.body').html(resourceFormView.el);
+            $('.field-resourceType').hide();
         },
         Publications: function(publicationIdes) {
             var PublicationsView = new App.Views.PublicationTable();

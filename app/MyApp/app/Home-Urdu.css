@@ -57,12 +57,57 @@ select#onLoginLanguage {
 .imageData {
     width: 112px;
 }
-#welcomeButton{
-   /* margin-left:45.3%;*/
-    margin-left: 62.5%;
-    direction: rtl;
-    display: flex;
+#welcomeButton
+{
+   float:right;
+    margin-right: 25%;
 }
+#updateButton
+{
+    width: 12%;
+    direction: rtl;
+    margin-left: 50.5%;
+    height: 5.5%;
+}
+#viewReleaseNotes{
+    direction: rtl;
+    width: 12%;
+    margin-left: 38%;
+    height: 5.5%;
+    margin-top: -3.5%;
+}
+#newPublication{
+    direction: rtl;
+    margin-left: -25%;
+    height: 3%;
+    width: 11.5%;
+    margin-top: -3.5%;
+}
+/*.changeWelComeButtonAsia{
+
+    float: right;
+    margin-right: 25%;
+}
+.changeUpdateButtonAsia{
+    width: 12%;
+   direction:rtl;
+    margin-left: 50.5%;
+    height: 5%;
+}
+.changeViewReleaseNotesAsia{
+    direction: rtl;
+    width: 12%;
+    margin-left: 38%;
+    height: 5%;
+    margin-top: -3.5%;
+}
+.changeNewPublicationAsia{
+    direction: rtl;
+    margin-left: -25%;
+    height: 3%;
+    width: 11.5%;
+    margin-top: -3.5%;
+}*/
 #linkOnMyHome
 {
     margin-right:80px;
