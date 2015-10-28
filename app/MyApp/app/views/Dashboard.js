@@ -144,6 +144,7 @@ $(function() {
                                 });
 
                                 //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
+                                that.updateDesignDocs("apps");
                                 that.updateDesignDocs("activitylog");
                                 that.updateDesignDocs("members");
                                 that.updateDesignDocs("collectionlist");
