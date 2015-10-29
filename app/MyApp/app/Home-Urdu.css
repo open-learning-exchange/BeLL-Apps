@@ -57,32 +57,32 @@ select#onLoginLanguage {
 .imageData {
     width: 112px;
 }
-#welcomeButton
+/*#welcomeButton
 {
    float:right;
     margin-right: 25%;
-}
-#updateButton
+}*/
+/*#updateButton
 {
     width: 12%;
     direction: rtl;
     margin-left: 50.5%;
     height: 5.5%;
-}
-#viewReleaseNotes{
+}*/
+/*#viewReleaseNotes{
     direction: rtl;
     width: 12%;
     margin-left: 38%;
     height: 5.5%;
     margin-top: -3.5%;
-}
-#newPublication{
+}*/
+/*#newPublication{
     direction: rtl;
     margin-left: -25%;
     height: 3%;
     width: 11.5%;
     margin-top: -3.5%;
-}
+}*/
 /*.changeWelComeButtonAsia{
 
     float: right;

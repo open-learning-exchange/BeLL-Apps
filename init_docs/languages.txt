@@ -130,5 +130,8 @@
        "Browse": "Browse...",
        "Save": "Save",
        "Cancel": "Cancel",
-       "Add": "Add"
+       "Add": "Add",
+       "Update_Available": "Update Available",
+       "Release_Notes": "Release Notes",
+       "Publications": "Publications"
 }

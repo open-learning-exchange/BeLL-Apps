@@ -127,5 +127,8 @@
       "Save": "محفوظ کریں",
       "Cancel": " منسوخ",
       "Sav": null,
-      "Add": "شامل کریے"
+      "Add": "شامل کریے",
+      "Update_Available": "اپ ڈیٹ دستیاب",
+      "Release_Notes": " ریلیز نوٹس",
+      "Publications": "مطبوعات"
 }

@@ -79,7 +79,7 @@ $(function() {
             }
         },
         initialize: function() {
-           // $(window).on('resize.resizeview', this.onResize.bind(this));
+            // $(window).on('resize.resizeview', this.onResize.bind(this));
         },
 
         remove: function() {
@@ -167,138 +167,138 @@ $(function() {
             currentConfig.version = this.latestVersion
             var nationName = currentConfig.nationName
             var nationURL = currentConfig.nationUrl
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
-                    "target": "apps"
-                }),
-                async: false,
-                success: function(response) {
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
+                                "target": "apps"
+                            }),
+                            async: false,
+                            success: function(response) {
                     console.log(response);
-                    // Update version Number in Configuration of Community
-                    $.ajax({
+                                // Update version Number in Configuration of Community
+                                $.ajax({
 
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'multipart/form-data'
-                        },
-                        type: 'PUT',
-                        url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
-                        dataType: 'json',
-                        data: JSON.stringify(currentConfig),
-                        success: function(response) {
-                            console.log("Configurations Updated")
-                        },
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'multipart/form-data'
+                                    },
+                                    type: 'PUT',
+                                    url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
+                                    dataType: 'json',
+                                    data: JSON.stringify(currentConfig),
+                                    success: function(response) {
+                                        console.log("Configurations Updated")
+                                    },
 
-                        async: false
-                    });
+                                    async: false
+                                });
 
-                    //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
-                    that.updateDesignDocs("activitylog");
-                    that.updateDesignDocs("members");
-                    that.updateDesignDocs("collectionlist");
-                    that.updateDesignDocs("community");
-                    that.updateDesignDocs("resources");
-                    that.updateDesignDocs("coursestep");
-                    that.updateDesignDocs("groups");
-                    that.updateDesignDocs("publications");
-                    //Following are the list of db's on which design_docs are not updating,
-                    // whenever the design_docs will be changed in a db,that db's call will be un-commented.
-                    //that.updateDesignDocs("assignmentpaper");
-                    //that.updateDesignDocs("assignments");
-                    //that.updateDesignDocs("calendar");
-                    //that.updateDesignDocs("communityreports");
-                    //that.updateDesignDocs("courseschedule");
-                    //that.updateDesignDocs("feedback");
-                    //that.updateDesignDocs("invitations");
-                    //that.updateDesignDocs("mail");
-                    //that.updateDesignDocs("meetups");
-                    //that.updateDesignDocs("membercourseprogress");
-                    //that.updateDesignDocs("nationreports");
-                    //that.updateDesignDocs("publicationdistribution");
-                    //that.updateDesignDocs("report");
-                    //that.updateDesignDocs("requests");
-                    //that.updateDesignDocs("resourcefrequency");
-                    //that.updateDesignDocs("shelf");
-                    //that.updateDesignDocs("usermeetups");
+                                //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
+                                that.updateDesignDocs("activitylog");
+                                that.updateDesignDocs("members");
+                                that.updateDesignDocs("collectionlist");
+                                that.updateDesignDocs("community");
+                                that.updateDesignDocs("resources");
+                                that.updateDesignDocs("coursestep");
+                                that.updateDesignDocs("groups");
+                                that.updateDesignDocs("publications");
+                                //Following are the list of db's on which design_docs are not updating,
+                                // whenever the design_docs will be changed in a db,that db's call will be un-commented.
+                                //that.updateDesignDocs("assignmentpaper");
+                                //that.updateDesignDocs("assignments");
+                                //that.updateDesignDocs("calendar");
+                                //that.updateDesignDocs("communityreports");
+                                //that.updateDesignDocs("courseschedule");
+                                //that.updateDesignDocs("feedback");
+                                //that.updateDesignDocs("invitations");
+                                //that.updateDesignDocs("mail");
+                                //that.updateDesignDocs("meetups");
+                                //that.updateDesignDocs("membercourseprogress");
+                                //that.updateDesignDocs("nationreports");
+                                //that.updateDesignDocs("publicationdistribution");
+                                //that.updateDesignDocs("report");
+                                //that.updateDesignDocs("requests");
+                                //that.updateDesignDocs("resourcefrequency");
+                                //that.updateDesignDocs("shelf");
+                                //that.updateDesignDocs("usermeetups");
                     that.updateNecessaryDocsOfCommFromNation();
 
-                    // Update LastAppUpdateDate at Nation's Community Records
-                    var communityModel = result.rows[0].value;
-                    var communityModelId = result.rows[0].id;
-                    //Replicate from Nation to Community
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        type: 'POST',
-                        url: '/_replicate',
-                        dataType: 'json',
-                        data: JSON.stringify({
-                            "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-                            "target": "community",
-                            "doc_ids": [communityModelId]
-                        }),
-                        success: function(response) {
-                            console.log("Successfully Replicated.");
-                            var date = new Date();
-                            var year = date.getFullYear();
-                            var month = (1 + date.getMonth()).toString();
-                            month = month.length > 1 ? month : '0' + month;
-                            var day = date.getDate().toString();
-                            day = day.length > 1 ? day : '0' + day;
-                            var formattedDate = month + '-' + day + '-' + year;
+                        // Update LastAppUpdateDate at Nation's Community Records
+                        var communityModel = result.rows[0].value;
+                        var communityModelId = result.rows[0].id;
+                        //Replicate from Nation to Community
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                                "target": "community",
+                                "doc_ids": [communityModelId]
+                            }),
+                            success: function(response) {
+                                console.log("Successfully Replicated.");
+                                var date = new Date();
+                                var year = date.getFullYear();
+                                var month = (1 + date.getMonth()).toString();
+                                month = month.length > 1 ? month : '0' + month;
+                                var day = date.getDate().toString();
+                                day = day.length > 1 ? day : '0' + day;
+                                var formattedDate = month + '-' + day + '-' + year;
 
-                            communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
-                            communityModel.version = currentConfig.version;
-                            //Update the record in Community db at Community Level
-                            $.ajax({
+                                communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
+                                communityModel.version = currentConfig.version;
+                                //Update the record in Community db at Community Level
+                                $.ajax({
 
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'multipart/form-data'
-                                },
-                                type: 'PUT',
-                                url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
-                                dataType: 'json',
-                                data: JSON.stringify(communityModel),
-                                success: function(response) {
-                                    //Replicate from Community to Nation
-                                    $.ajax({
-                                        headers: {
-                                            'Accept': 'application/json',
-                                            'Content-Type': 'application/json; charset=utf-8'
-                                        },
-                                        type: 'POST',
-                                        url: '/_replicate',
-                                        dataType: 'json',
-                                        data: JSON.stringify({
-                                            "source": "community",
-                                            "target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-                                            "doc_ids": [communityModelId]
-                                        }),
-                                        success: function(response) {
-                                            //console.log("Successfully Replicated.");
-                                            alert("Updated Successfully");
-                                            window.location.reload(false);
-                                        },
-                                        async: false
-                                    });
-                                },
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'multipart/form-data'
+                                    },
+                                    type: 'PUT',
+                                    url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                                    dataType: 'json',
+                                    data: JSON.stringify(communityModel),
+                                    success: function(response) {
+                                        //Replicate from Community to Nation
+                                        $.ajax({
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json; charset=utf-8'
+                                            },
+                                            type: 'POST',
+                                            url: '/_replicate',
+                                            dataType: 'json',
+                                            data: JSON.stringify({
+                                                "source": "community",
+                                                "target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                                                "doc_ids": [communityModelId]
+                                            }),
+                                            success: function(response) {
+                                                //console.log("Successfully Replicated.");
+                                                alert("Updated Successfully");
+                                                window.location.reload(false);
+                                            },
+                                            async: false
+                                        });
+                                    },
 
-                                async: false
-                            });
-                        },
-                        async: false
-                    });
+                                    async: false
+                                });
+                            },
+                            async: false
+                        });
                 },
                 error: function() {
                     App.stopActivityIndicator()
@@ -390,19 +390,30 @@ $(function() {
             });
         },
 
-        render: function() {
+        render: function(nation_version,new_publication_count) {
 
-            var dashboard = this
-            this.vars.mails = 0
-            var clanguage
-                = App.configuration.get("currentLanguage");
-            if(clanguage=="اردو"    || clanguage=="العربية")
-            {
+            var dashboard = this;
+            var currentContext=this;
+            this.vars.mails = 0;
+            this.vars.nation_version=0;
+            this.vars.new_publication_count=0;
+            var that = this;
+           // var nation_version = 12;
+         /*   that.getNationVersion(function(para1){
+                alert("before"+nation_version)
+                nation_version = para1;
+                alert("after"+nation_version)
+              //  that.vars.nation_version = nation_version;
+               // that.$el.html(_.template(that.template, that.vars))
+                alert("after after"+nation_version)
+                alert("inside" + nation_version)
+            });*/
+            console.log('Hello');
+            var clanguage = App.configuration.get("currentLanguage");
+            if (clanguage == "????" || clanguage == "???????") {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            }
-            else
-            {
+            } else {
                 $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
@@ -443,7 +454,6 @@ $(function() {
                 }
             })
 
-            // dashboard.$el.children('.groups').append(groupsDiv.el)
 
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
@@ -463,44 +473,24 @@ $(function() {
             var languages = new App.Collections.Languages();
             languages.fetch({
                 async: false
-           //  data: $.param({ page: 1})
+                //  data: $.param({ page: 1})
             });
             var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
+            for (var i = 0; i < languages.length; i++) {
+                if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                    if (languages.models[i].attributes.nameOfLanguage == clanguage) {
+                        languageDict = languages.models[i];
                     }
                 }
             }
-         //  var languageDicts = languages.first().toJSON();
-         //   var languageDict = languageDicts[clanguage];
-           // App.languageDict = languageDicts[clanguage];
             App.languageDict = languageDict;
-
-
-            //this.$el.children('.now').html(moment().format('dddd') + ' | ' + moment().format('LL'))
-            // Time
-            /*******************************Date is rendering from here********************//////////////
-
-           // console.log("Value from Look up "+lookup(languageDict, "Days.Monday"));
-            var dayOfToday=moment().format('dddd');
-            var todayMonth=moment().format('MMMM');
-            var currentDay=this.lookup(languageDict, "Days."+dayOfToday);
-            var currentMonth=this.lookup(languageDict,"Months."+todayMonth);
-            var currentDate=moment().format('DD');
-            var currentYear=moment().format('YYYY');
-            $('.now').html(currentDay+' | '+currentDate+' '+currentMonth+', '+currentYear);
-         /*   if(clanguage!="English") {
-                $('.now').html(moment().format(currentDay + ' | DD' + ' ' + currentMonth + ' YYYY'))
-            }
-            else
-            {
-            $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
-            }*/
+            var dayOfToday = moment().format('dddd');
+            var todayMonth = moment().format('MMMM');
+            var currentDay = this.lookup(languageDict, "Days." + dayOfToday);
+            var currentMonth = this.lookup(languageDict, "Months." + todayMonth);
+            var currentDate = moment().format('DD');
+            var currentYear = moment().format('YYYY');
+            $('.now').html(currentDay + ' | ' + currentDate + ' ' + currentMonth + ', ' + currentYear);
             // Member Name
             var member = App.member
             var attchmentURL = '/members/' + member.id + '/'
@@ -540,10 +530,10 @@ $(function() {
 
             if (typeofBell === "nation") //checking that is it a nation or community
             {
-                var nation=" "+languageDict.attributes.Nation+" "+languageDict.attributes.Bell;
+                var nation = " " + languageDict.attributes.Nation + " " + languageDict.attributes.Bell;
                 bell_Name = bell_Name + nation;
             } else {
-                var community=" "+languageDict.attributes.Community+" "+languageDict.attributes.Bell;
+                var community = " " + languageDict.attributes.Community + " " + languageDict.attributes.Bell;
                 bell_Name = bell_Name + community;
             }
             $('.bellLocation').html(bell_Name); //rendering the name on page
@@ -555,14 +545,14 @@ $(function() {
                 temp = "Error!!"
             } else {
                 //Getting Visits of any member**********************************************************/
-                temp = member.get('visits') +' '+languageDict.attributes.Visits;
+                temp = member.get('visits') + ' ' + languageDict.attributes.Visits;
             }
             var roles = "&nbsp;-&nbsp;"
             var temp1 = 0
             //******************************-Getting Roles of Member**************************************/
             if (member.get("roles").indexOf("Learner") != -1) {
 
-                roles = roles + languageDict.attributes.Learner;   /******************Setting up Learner/Leader*****************/
+                roles = roles + languageDict.attributes.Learner; /******************Setting up Learner/Leader*****************/
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Leader") != -1) {
@@ -574,17 +564,16 @@ $(function() {
             }
             if (member.get("roles").indexOf("Manager") != -1) {
 
-                var manager=languageDict.attributes.Manager;
+                var manager = languageDict.attributes.Manager;
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
-                var gandaId,test;
+                var gandaId, test;
                 if (typeofBell == 'nation') {
                     var natLink = '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a>'
-                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">'+manager+'</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
-                   // $("a#NationManagerLink").text(manager);
-                    gandaId="NationManagerLink";
-                   // roles=roles+natLink;
+                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">' + manager + '</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+
+                    gandaId = "NationManagerLink";
                     console.log(roles);
                 } else {
 
@@ -595,162 +584,107 @@ $(function() {
                     var con = config.first()
                     App.configuration = con
                     var branch = App.configuration.get('subType')
-                    if(branch=="branch")
-                    {
-                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">'+manager+'</a>'
-                        con.set('nationName','random');
-                        con.set('nationUrl','random');
-                        con.save(null,{ success: function(doc,rev){
+                    if (branch == "branch") {
+                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">' + manager + '</a>'
+                        con.set('nationName', 'random');
+                        con.set('nationUrl', 'random');
+                        con.save(null, {
+                            success: function(doc, rev) {
 
-                            App.configuration = con;
-                            alert('Configurations are Successfully changed for Branch Library');
-                            console.log('Configurations are Successfully changed for Branch Library');
-                            Backbone.history.navigate('dashboard', {trigger: true});
-                        }});
+                                App.configuration = con;
+                                alert('Configurations are Successfully changed for Branch Library');
+                                console.log('Configurations are Successfully changed for Branch Library');
+                                Backbone.history.navigate('dashboard', {
+                                    trigger: true
+                                });
+                            }
+                        });
+                    } else {
+                        roles = roles + '<a href="#communityManage">' + manager + '</a>'
                     }
-                    else{
-                        roles = roles + '<a href="#communityManage">'+manager+'</a>'
-                    }
-                   // roles = roles + '<a href="#communityManage">Manager</a>'
 
-                    var commLink  = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
-                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
-                     gandaId="CommunityManagerLink";
-                   // $("#CommunityManagerLink").text('Saba');
-                    //commLink.Text('Saba');
-                   // console.log(commLink);
-                    //roles=roles+commLink;
+                    var commLink = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
+                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    gandaId = "CommunityManagerLink";
                     console.log(roles);
                 }
             }
 
             $('.visits').html(temp)
 
-           // $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a  id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i  class="fui-gear"></i></a>')
-         
-           
-           // dashboard.checkAvailableUpdates(member.get('roles'), dashboard)
-
-            /*********************Setting First and Last Name************************/
-
             $('.name').html(test)
- /*  if(branch=="branch") {
-                $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a style="display: none" id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i  class="fui-gear"></i></a>')
-            }
-            else {
-                $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a  id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i  class="fui-gear"></i></a>')
-            }*/
-            if(branch=="branch")
-            {
+
+            if (branch == "branch") {
 
                 $('#gearIcon').hide();
             }
-            console.log("ganda Id "+gandaId);
-            //$("#"+gandaId).html(manager);
-            console.log(roles);
-            /*var languageDicts = languages.first().toJSON();
-            var languageDict = languageDicts[clanguage];
-            App.languageDict = languageDicts[clanguage];*/
-            dashboard.checkAvailableUpdates(member.get('roles'), dashboard);
-            var update=languageDict.attributes.Update_Welcome_Video;   ////////////////////////////////////////////////////
+
+           // var update = languageDict.attributes.Update_Welcome_Video;
 
             if ($.cookie('Member.login') === "admin") {
-                var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'"></button>');
+              /*  var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'"></button>');
 
-               // document.getElementById("welcomeButton").innerHTML = "My new text!";​
+                 document.getElementById("welcomeButton").innerHTML = "My new text!";?
                 dashboard.$el.append($buttonWelcome);
-                $("#welcomeButton").html(update);
+                $("#welcomeButton").html(update);*/
+            $('#welcomeButton').show();
             }
-            $(itemsinnavbar).addClass('navbar-right');
 
-          //  this.onResize();
+          // $(itemsinnavbar).addClass('navbar-right');
+            console.log('vars outside'+nation_version);
+         //   alert("outside callback" + nation_version);
+            console.log("pubs"+new_publication_count)
+            this.vars.nation_version=nation_version;
+
+            this.vars.new_publication_count=new_publication_count;
+            console.log("publicationsss"+new_publication_count)
+            console.log('before call '+this.vars.nation_version);
+            dashboard.checkAvailableUpdates(member.get('roles'), dashboard,nation_version);
+            console.log('after call '+this.vars.nation_version);
+
             return this;
-
-            //dashboard.$el.append('<div id="updates"></div>')
         },
-            lookup :  function(obj, key) {
-                var type = typeof key;
-                if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
-                    return '.' + key;
-                }).split('.');
 
-                for (var i = 0, l = key.length; i < l;l--) {
-                    if (obj.attributes.hasOwnProperty(key[i]))
-                    {
-
-                        obj = obj.attributes[key[i]];
-                        i++;
-                        if(obj[0].hasOwnProperty(key[i]))
-                        {
-                            var myObj=obj[0];
-                            var valueOfObj=myObj[key[i]];
-
-                            return valueOfObj;
-                        }
-
-                    }
-                    else
-                    {
-                        return undefined;
-                    }
-                }
-                return obj;
-            },
-      /*  lookup :  function(obj, key) {
+        lookup: function(obj, key) {
             var type = typeof key;
-            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
+            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
                 return '.' + key;
             }).split('.');
 
-            for (var i = 0, l = key.length; i < l;l--) {
-                if (obj.hasOwnProperty(key[i]))
-                {
+            for (var i = 0, l = key.length; i < l; l--) {
+                if (obj.attributes.hasOwnProperty(key[i])) {
 
-                    obj = obj[key[i]];
+                    obj = obj.attributes[key[i]];
                     i++;
-                    if(obj[0].hasOwnProperty(key[i]))
-                    {
-                        var myObj=obj[0];
-                        var valueOfObj=myObj[key[i]];
+                    if (obj[0].hasOwnProperty(key[i])) {
+                        var myObj = obj[0];
+                        var valueOfObj = myObj[key[i]];
 
                         return valueOfObj;
                     }
 
-                }
-                else
-                {
+                } else {
                     return undefined;
                 }
             }
             return obj;
-        },*/
+        },
 
-        checkAvailableUpdates: function(roles, dashboard) {
-            if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
-           {
+        checkAvailableUpdates: function(roles, dashboard,nation_version) {
+           // var nationVersion = 0;
+            console.log('CheckAvailableUpdates is called..');
+            if (App.configuration.attributes.currentLanguage == "????" || App.configuration.attributes.currentLanguage == "???????") {
 
-                   $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                   $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-               }
-               else
-               {
-                   $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                   $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
-               }
-              /*  $('#welcomeButton').addClass('changeWelComeButtonAsia');
-                $('#updateButton').addClass('changeUpdateButtonAsia');
-                $('#viewReleaseNotes').addClass('changeViewReleaseNotesAsia');
-                $('#newPublication').addClass('changeNewPublicationAsia');*/
+            }
 
 
-
-               /* $('#welcomeButton').removeClass('changeWelComeButtonAsia');
-                $('#updateButton').removeClass('changeUpdateButtonAsia');
-                $('#viewReleaseNotes').removeClass('changeViewReleaseNotesAsia');
-                $('#newPublication').removeClass('changeNewPublicationAsia');*/
-
-            var context = this
+            //var context = this
             if ($.inArray('Manager', roles) == -1) {
                 return
             }
@@ -763,17 +697,41 @@ $(function() {
             pass = App.password
             nUrl = App.configuration.get('nationUrl')
             currentBellName = App.configuration.get('name')
-            var htmlreferance = this.$el
+          //  var htmlreferance = this.$el
 
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
+//var that=this;
+            if (typeof nation_version === 'undefined') {
+                /////No version found in nation
+            } else if (nation_version == configuration.get('version')) {
+                ///No updatea availabe
+            } else {
+                if (dashboard.versionCompare(nation_version, configuration.get('version')) < 0) {
+                    console.log("Nation has lower application version than that of your community application")
+                } else if (dashboard.versionCompare(nation_version, configuration.get('version')) > 0) {
+                   // dashboard.latestVersion = nationConfig.version;
+                  //  nationVersion = nationConfig.version;
+                    dashboard.vars.nation_version = nation_version;
 
 
-            $.ajax({
+                  //  alert('within ' + dashboard.latestVersion);
+                    $('#updateButton').show();
+                    $('#viewReleaseNotes').show();
+
+                    //  dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">' + App.languageDict.attributes.Update_Available + ' (' + nationConfig.version + ') </button>')
+                    //dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">' + App.languageDict.attributes.View + ' ' + App.languageDict.attributes.Release_Notes + ' </button>')
+                } else {
+                    console.log("Nation is uptodate")
+                }
+            }
+
+           /* $.ajax({
                 url: nationConfigURL,
                 type: 'GET',
                 dataType: "jsonp",
+                async:false,
                 success: function(json) {
-                    var nationConfig = json.rows[0].doc
+                    var nationConfig = json.rows[0].doc;
                     nationConfigJson = nationConfig
                     if (typeof nationConfig.version === 'undefined') {
                         /////No version found in nation
@@ -783,9 +741,16 @@ $(function() {
                         if (context.versionCompare(nationConfig.version, configuration.get('version')) < 0) {
                             console.log("Nation has lower application version than that of your community application")
                         } else if (context.versionCompare(nationConfig.version, configuration.get('version')) > 0) {
-                            dashboard.latestVersion = nationConfig.version
-                            dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">'+App.languageDict.attributes.Update_Available+' (' + nationConfig.version + ') </button>')
-                            dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">'+App.languageDict.attributes.View+' '+App.languageDict.attributes.Release_Notes+' </button>')
+                            dashboard.latestVersion = nationConfig.version;
+                            nationVersion = nationConfig.version;
+                            dashboard.vars.nation_version=dashboard.latestVersion;
+
+
+
+                            alert('within '+dashboard.latestVersion);
+                            $('#updateButton').show();
+                          //  dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">' + App.languageDict.attributes.Update_Available + ' (' + nationConfig.version + ') </button>')
+                            //dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">' + App.languageDict.attributes.View + ' ' + App.languageDict.attributes.Release_Notes + ' </button>')
                         } else {
                             console.log("Nation is uptodate")
                         }
@@ -796,14 +761,16 @@ $(function() {
                     console.log(status);
                     console.log(errorThrown);
                 }
-            });
+            });*/
+
 
             // make sure the couchdb that is being requested in this ajax call has its 'allow_jsonp' property set to true in the
             // 'httpd' section of couchdb configurations. Otherwise, the server couchdb will not respond as required by jsonp format
-            $.ajax({
+         /*   $.ajax({
                 url: DbUrl,
                 type: 'GET',
                 dataType: 'jsonp',
+                async:false,
                 success: function(json) {
                     var publicationDistribDocsFromNation = [],
                         tempKeys = [];
@@ -833,7 +800,8 @@ $(function() {
                                 }
                             }
                             if (newPublicationsCount > 0)
-                                dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-' + currentBellName + '">'+App.languageDict.attributes.Publications+ ' ( '+ App.languageDict.attributes.New + ' '+ newPublicationsCount + ')'+' </a>')
+                               console.log('testing');
+                                dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-' + currentBellName + '">' + App.languageDict.attributes.Publications + ' ( ' + App.languageDict.attributes.New + ' ' + newPublicationsCount + ')' + ' </a>')
                         }
                     });
                 },
@@ -842,8 +810,11 @@ $(function() {
                     console.log(status);
                     console.log(errorThrown);
                 }
-            });
+            }); */
+
         },
+
+
         //following function compare version numbers.
         /*<li>0 if the versions are equal</li>
          A negative integer iff v1 < v2

@@ -12,6 +12,8 @@ url = "unknown";
 var lastpage = false
 var mailView;
 
+var nation_version;
+var new_publications_count;
 
 function changeLanguage(option)
 {
