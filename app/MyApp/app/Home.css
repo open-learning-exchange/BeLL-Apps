@@ -53,9 +53,9 @@ select#onLoginLanguage {
 /*   margin-left:-100px*/
     padding-top: 5px;
 }
-#welcomeButton{
+/*#welcomeButton{
     margin-left:25%;
-}
+}*/
 .header-table {
     width:100.5%;
  font-size: 20px;
@@ -337,7 +337,7 @@ margin-left:40px;
     margin: 0px -150px;
 }
 
-#updateButton
+/*#updateButton
 {
     width: 12%;
     height: 5.5%;
@@ -353,7 +353,7 @@ margin-left:40px;
     margin-left: 0.5%;
     width: 11%;
 }
-
+*/
 #olelogo
 {
 	float: left;
