@@ -862,11 +862,11 @@
                         <label for="_attachments"><%= languageDict.attributes.Upload+' '+languageDict.attributes.Resources%></label>
                         <input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" multiple="multiple" label=" :" />
                         <input class="rev" type="hidden" name="_rev">
-                        <label>
+                       <!-- <label>
                             <%
                             if(resourceAttachments)
                             _(resourceAttachments).each(function(field) {%> &nbsp&nbsp&nbsp<%= field.key%> <%}); %>
-                        </label>
+                        </label>-->
                     </form>
                     <div id="progressImage" style ="margin-top:-6%;margin-left:92%;"><img src="vendor/progress.gif" width="36px" height="36px" /></div>
 
