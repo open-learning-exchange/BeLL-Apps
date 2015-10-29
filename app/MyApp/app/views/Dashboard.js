@@ -110,143 +110,38 @@ $(function() {
                 success: function(result) {
                     if (result.rows.length > 0) {
                         // Replicate Application Code from Nation to Community
-                        $.ajax({
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            type: 'POST',
-                            url: '/_replicate',
-                            dataType: 'json',
-                            data: JSON.stringify({
-                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
-                                "target": "apps"
-                            }),
-                            async: false,
-                            success: function(response) {
-
-                                // Update version Number in Configuration of Community
-                                $.ajax({
-
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'multipart/form-data'
-                                    },
-                                    type: 'PUT',
-                                    url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
-                                    dataType: 'json',
-                                    data: JSON.stringify(currentConfig),
-                                    success: function(response) {
-                                        console.log("Configurations Updated")
-                                    },
-
-                                    async: false
-                                });
-
-                                //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
-                                that.updateDesignDocs("apps");
-                                that.updateDesignDocs("activitylog");
-                                that.updateDesignDocs("members");
-                                that.updateDesignDocs("collectionlist");
-                                that.updateDesignDocs("community");
-                                that.updateDesignDocs("resources");
-                                that.updateDesignDocs("coursestep");
-                                that.updateDesignDocs("groups");
-                                that.updateDesignDocs("publications");
-                                //Following are the list of db's on which design_docs are not updating,
-                                // whenever the design_docs will be changed in a db,that db's call will be un-commented.
-                                //that.updateDesignDocs("assignmentpaper");
-                                //that.updateDesignDocs("assignments");
-                                //that.updateDesignDocs("calendar");
-                                //that.updateDesignDocs("communityreports");
-                                //that.updateDesignDocs("courseschedule");
-                                //that.updateDesignDocs("feedback");
-                                //that.updateDesignDocs("invitations");
-                                //that.updateDesignDocs("mail");
-                                //that.updateDesignDocs("meetups");
-                                //that.updateDesignDocs("membercourseprogress");
-                                //that.updateDesignDocs("nationreports");
-                                //that.updateDesignDocs("publicationdistribution");
-                                //that.updateDesignDocs("report");
-                                //that.updateDesignDocs("requests");
-                                //that.updateDesignDocs("resourcefrequency");
-                                //that.updateDesignDocs("shelf");
-                                //that.updateDesignDocs("usermeetups");
-                            },
-                            error: function() {
-                                App.stopActivityIndicator()
-                                alert("Not Replicated!")
+                        $.couch.allDbs({
+                            success: function (data) {
+                                if (data.indexOf('apps') != -1) {
+                                    console.log("apps existed.We are going to drop and create.");
+                                    $.couch.db("apps").drop({
+                                        success: function(data) {
+                                            console.log(data);
+                                            $.couch.db("apps").create({
+                                                success: function(data) {
+                                                    console.log(data);
+                                                    that.updateAppsAndDesignDocs(result);
+                                                },
+                                                error: function(status) {
+                                                    console.log(status);
+                                                }
+                                            });
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                        },
+                                        async: false
+                                    });
+                                } else {
+                                    console.log("apps doesn't exist, so no need to drop.");
+                                    $.couch.db("apps").create({
+                                        success: function (data) {
+                                            console.log(data);
+                                            that.updateAppsAndDesignDocs(result);
+                                        }
+                                    });
+                                }
                             }
-                        });
-
-                        // Update LastAppUpdateDate at Nation's Community Records
-                        var communityModel = result.rows[0].value;
-                        var communityModelId = result.rows[0].id;
-                        //Replicate from Nation to Community
-                        $.ajax({
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            type: 'POST',
-                            url: '/_replicate',
-                            dataType: 'json',
-                            data: JSON.stringify({
-                                "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-                                "target": "community",
-                                "doc_ids": [communityModelId]
-                            }),
-                            success: function(response) {
-                                console.log("Successfully Replicated.");
-                                var date = new Date();
-                                var year = date.getFullYear();
-                                var month = (1 + date.getMonth()).toString();
-                                month = month.length > 1 ? month : '0' + month;
-                                var day = date.getDate().toString();
-                                day = day.length > 1 ? day : '0' + day;
-                                var formattedDate = month + '-' + day + '-' + year;
-
-                                communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
-                                communityModel.version = currentConfig.version;
-                                //Update the record in Community db at Community Level
-                                $.ajax({
-
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'multipart/form-data'
-                                    },
-                                    type: 'PUT',
-                                    url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
-                                    dataType: 'json',
-                                    data: JSON.stringify(communityModel),
-                                    success: function(response) {
-                                        //Replicate from Community to Nation
-                                        $.ajax({
-                                            headers: {
-                                                'Accept': 'application/json',
-                                                'Content-Type': 'application/json; charset=utf-8'
-                                            },
-                                            type: 'POST',
-                                            url: '/_replicate',
-                                            dataType: 'json',
-                                            data: JSON.stringify({
-                                                "source": "community",
-                                                "target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-                                                "doc_ids": [communityModelId]
-                                            }),
-                                            success: function(response) {
-                                                //console.log("Successfully Replicated.");
-                                                alert("Updated Successfully");
-                                                window.location.reload(false);
-                                            },
-                                            async: false
-                                        });
-                                    },
-
-                                    async: false
-                                });
-                            },
-                            async: false
                         });
                     } else {
                         alert(" The community is not authorized to update until it is properly configured with a nation");
@@ -255,6 +150,159 @@ $(function() {
                 },
                 error: function() {
                     console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                }
+            });
+        },
+
+        updateAppsAndDesignDocs: function (result) {
+            var that = this;
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var currentConfig = config.first().toJSON().rows[0].doc
+            currentConfig.version = this.latestVersion
+            var nationName = currentConfig.nationName
+            var nationURL = currentConfig.nationUrl
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/apps',
+                    "target": "apps"
+                }),
+                async: false,
+                success: function(response) {
+                    console.log(response);
+                    // Update version Number in Configuration of Community
+                    $.ajax({
+
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        type: 'PUT',
+                        url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
+                        dataType: 'json',
+                        data: JSON.stringify(currentConfig),
+                        success: function(response) {
+                            console.log("Configurations Updated")
+                        },
+
+                        async: false
+                    });
+
+                    //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
+                    that.updateDesignDocs("activitylog");
+                    that.updateDesignDocs("members");
+                    that.updateDesignDocs("collectionlist");
+                    that.updateDesignDocs("community");
+                    that.updateDesignDocs("resources");
+                    that.updateDesignDocs("coursestep");
+                    that.updateDesignDocs("groups");
+                    that.updateDesignDocs("publications");
+                    //Following are the list of db's on which design_docs are not updating,
+                    // whenever the design_docs will be changed in a db,that db's call will be un-commented.
+                    //that.updateDesignDocs("assignmentpaper");
+                    //that.updateDesignDocs("assignments");
+                    //that.updateDesignDocs("calendar");
+                    //that.updateDesignDocs("communityreports");
+                    //that.updateDesignDocs("courseschedule");
+                    //that.updateDesignDocs("feedback");
+                    //that.updateDesignDocs("invitations");
+                    //that.updateDesignDocs("mail");
+                    //that.updateDesignDocs("meetups");
+                    //that.updateDesignDocs("membercourseprogress");
+                    //that.updateDesignDocs("nationreports");
+                    //that.updateDesignDocs("publicationdistribution");
+                    //that.updateDesignDocs("report");
+                    //that.updateDesignDocs("requests");
+                    //that.updateDesignDocs("resourcefrequency");
+                    //that.updateDesignDocs("shelf");
+                    //that.updateDesignDocs("usermeetups");
+                    that.updateNecessaryDocsOfCommFromNation();
+
+                    // Update LastAppUpdateDate at Nation's Community Records
+                    var communityModel = result.rows[0].value;
+                    var communityModelId = result.rows[0].id;
+                    //Replicate from Nation to Community
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                            "target": "community",
+                            "doc_ids": [communityModelId]
+                        }),
+                        success: function(response) {
+                            console.log("Successfully Replicated.");
+                            var date = new Date();
+                            var year = date.getFullYear();
+                            var month = (1 + date.getMonth()).toString();
+                            month = month.length > 1 ? month : '0' + month;
+                            var day = date.getDate().toString();
+                            day = day.length > 1 ? day : '0' + day;
+                            var formattedDate = month + '-' + day + '-' + year;
+
+                            communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
+                            communityModel.version = currentConfig.version;
+                            //Update the record in Community db at Community Level
+                            $.ajax({
+
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'multipart/form-data'
+                                },
+                                type: 'PUT',
+                                url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                                dataType: 'json',
+                                data: JSON.stringify(communityModel),
+                                success: function(response) {
+                                    //Replicate from Community to Nation
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "community",
+                                            "target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                                            "doc_ids": [communityModelId]
+                                        }),
+                                        success: function(response) {
+                                            //console.log("Successfully Replicated.");
+                                            alert("Updated Successfully");
+                                            window.location.reload(false);
+                                        },
+                                        async: false
+                                    });
+                                },
+
+                                async: false
+                            });
+                        },
+                        async: false
+                    });
+                },
+                error: function() {
+                    App.stopActivityIndicator()
+                    alert("Not Replicated!")
                 }
             });
         },
@@ -268,7 +316,6 @@ $(function() {
                 async: false
             })
             var currentConfig = config.first().toJSON().rows[0].doc
-            currentConfig.version = this.latestVersion
             var nationName = currentConfig.nationName
             var nationURL = currentConfig.nationUrl
             $.ajax({
@@ -290,6 +337,59 @@ $(function() {
                 async: false
             });
         },
+
+        updateNecessaryDocsOfCommFromNation: function() {
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var currentConfig = config.first().toJSON().rows[0].doc
+            var nationName = currentConfig.nationName
+            var nationURL = currentConfig.nationUrl
+            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true'
+            $.ajax({
+                url: nationConfigURL,
+                type: 'GET',
+                dataType: "jsonp",
+                success: function (json) {
+                    var nationConfig = json.rows[0].doc
+                    currentConfig.availableLanguages = nationConfig.availableLanguages;
+                    var doc = currentConfig;
+                    $.couch.db("configurations").saveDoc(doc, {
+                        success: function(data) {
+                            console.log(data);
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+                    console.log(currentConfig);
+                    console.log(nationConfig);
+                }
+            });
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
+                    "target": 'languages'
+                    //"doc_ids": ["_design/bell"]
+                }),
+                success: function(response) {
+                    console.log("Languages successfully updated.");
+                },
+                async: false
+            });
+        },
+
         render: function() {
 
             var dashboard = this
