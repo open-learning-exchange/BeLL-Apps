@@ -98,7 +98,6 @@ $(function() {
                 async: false
             })
             var currentConfig = config.first().toJSON().rows[0].doc
-            currentConfig.version = this.latestVersion
             var nationName = currentConfig.nationName
             var nationURL = currentConfig.nationUrl
 
@@ -109,6 +108,7 @@ $(function() {
                 dataType: 'jsonp',
                 success: function(result) {
                     if (result.rows.length > 0) {
+
                         // Replicate Application Code from Nation to Community
                         $.couch.allDbs({
                             success: function (data) {
@@ -164,7 +164,6 @@ $(function() {
                 async: false
             })
             var currentConfig = config.first().toJSON().rows[0].doc
-            currentConfig.version = this.latestVersion
             var nationName = currentConfig.nationName
             var nationURL = currentConfig.nationUrl
             $.ajax({
@@ -182,24 +181,6 @@ $(function() {
                 async: false,
                 success: function(response) {
                     console.log(response);
-                    // Update version Number in Configuration of Community
-                    $.ajax({
-
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'multipart/form-data'
-                        },
-                        type: 'PUT',
-                        url: App.Server + '/configurations/' + currentConfig._id + '?rev=' + currentConfig._rev,
-                        dataType: 'json',
-                        data: JSON.stringify(currentConfig),
-                        success: function(response) {
-                            console.log("Configurations Updated")
-                        },
-
-                        async: false
-                    });
-
                     that.updateNecessaryDocsOfCommFromNation();
                     //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
                     that.updateDesignDocs("activitylog");
@@ -346,6 +327,7 @@ $(function() {
             config.fetch({
                 async: false
             })
+            // Update version Number and availableLanguages in Configuration of Community
             var currentConfig = config.first().toJSON().rows[0].doc
             var nationName = currentConfig.nationName
             var nationURL = currentConfig.nationUrl
@@ -357,10 +339,11 @@ $(function() {
                 success: function (json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.availableLanguages = nationConfig.availableLanguages;
+                    currentConfig.version = nationConfig.version;
                     var doc = currentConfig;
                     $.couch.db("configurations").saveDoc(doc, {
                         success: function(data) {
-                            console.log(data);
+                            console.log("Configurations updated");
                         },
                         error: function(status) {
                             console.log(status);
