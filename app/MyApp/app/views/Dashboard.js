@@ -200,6 +200,7 @@ $(function() {
                         async: false
                     });
 
+                    that.updateNecessaryDocsOfCommFromNation();
                     //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
                     that.updateDesignDocs("activitylog");
                     that.updateDesignDocs("members");
@@ -228,7 +229,6 @@ $(function() {
                     //that.updateDesignDocs("resourcefrequency");
                     //that.updateDesignDocs("shelf");
                     //that.updateDesignDocs("usermeetups");
-                    that.updateNecessaryDocsOfCommFromNation();
 
                     // Update LastAppUpdateDate at Nation's Community Records
                     var communityModel = result.rows[0].value;
@@ -371,22 +371,42 @@ $(function() {
                 }
             });
             $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
+                url: '/languages/_all_docs?include_docs=true',
+                type: 'GET',
                 dataType: 'json',
-                data: JSON.stringify({
-                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
-                    "target": 'languages'
-                    //"doc_ids": ["_design/bell"]
-                }),
-                success: function(response) {
-                    console.log("Languages successfully updated.");
-                },
-                async: false
+                success: function (resResult) {
+                    var result = resResult.rows;
+                    var docs = [];
+                    for(var i = 0; i<result.length; i++){
+                        docs.push(result[i].doc);
+                    }
+                    $.couch.db("languages").bulkRemove({"docs": docs}, {
+                        success: function(data) {
+                            console.log(data);
+                            $.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json; charset=utf-8'
+                                },
+                                type: 'POST',
+                                url: '/_replicate',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                        "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
+                                    "target": 'languages'
+                                    //"doc_ids": ["_design/bell"]
+                                }),
+                                success: function(response) {
+                                    console.log("Languages successfully updated.");
+                                },
+                                async: false
+                            });
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+                }
             });
         },
 
