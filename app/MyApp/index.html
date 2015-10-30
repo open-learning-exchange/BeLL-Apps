@@ -29,7 +29,7 @@
     <!--
       DEPENDENCIES
     -->
-    <script src="C:\Users\saba.baig\AppData\Roaming\Skype\My Skype Received Files"></script>
+
     <script src="vendor/Spin.js"></script>
     <script src="vendor/jquery-1.7.2.js"></script>
     <script src="app/raphael.js"></script>
@@ -543,7 +543,9 @@
             <% }}%>&nbsp;(<%=totalRatings%>)
         </td>
         <td>
-            <a id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+<!-- <a id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank"> -->
+        <!--issu#84 : Added title in the href href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>-->
+        <a id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
                 <i class='icon-eye-open icon-white'></i> Open
             </a>
         </td>
@@ -592,7 +594,7 @@
             <% }}%>&nbsp;(<%=totalRatings%>)
         </td>
         <td>
-            <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
                 <i class='icon-eye-open icon-white'></i> Open
             </a>
         </td>
@@ -637,7 +639,7 @@
             <% }}%>&nbsp;(<%=totalRatings%>)
         </td>
         <td>
-            <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>' target="_blank">
+        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
                 <i class='icon-eye-open icon-white'></i> Open
             </a>
         </td>
