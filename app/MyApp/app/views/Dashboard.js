@@ -320,6 +320,7 @@ $(function() {
         },
 
         updateNecessaryDocsOfCommFromNation: function() {
+            var that = this;
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
@@ -353,42 +354,67 @@ $(function() {
                     console.log(nationConfig);
                 }
             });
-            $.ajax({
-                url: '/languages/_all_docs?include_docs=true',
-                type: 'GET',
-                dataType: 'json',
-                success: function (resResult) {
-                    var result = resResult.rows;
-                    var docs = [];
-                    for(var i = 0; i<result.length; i++){
-                        docs.push(result[i].doc);
+            $.couch.allDbs({
+                success: function (data) {
+                    if (data.indexOf('languages') != -1) {
+                        console.log("languages existed.We are going to drop and create.");
+                        $.couch.db("languages").drop({
+                            success: function(data) {
+                                console.log(data);
+                                $.couch.db("languages").create({
+                                    success: function(data) {
+                                        console.log(data);
+                                        that.updateLanguageDocs();
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    }
+                                });
+                            },
+                            error: function(status) {
+                                console.log(status);
+                            },
+                            async: false
+                        });
+                    } else {
+                        console.log("languages doesn't exist, so no need to drop.");
+                        $.couch.db("languages").create({
+                            success: function (data) {
+                                console.log(data);
+                                that.updateLanguageDocs();
+                            }
+                        });
                     }
-                    $.couch.db("languages").bulkRemove({"docs": docs}, {
-                        success: function(data) {
-                            console.log(data);
-                            $.ajax({
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json; charset=utf-8'
-                                },
-                                type: 'POST',
-                                url: '/_replicate',
-                                dataType: 'json',
-                                data: JSON.stringify({
-                                        "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
-                                    "target": 'languages'
-                                    //"doc_ids": ["_design/bell"]
-                                }),
-                                success: function(response) {
-                                    console.log("Languages successfully updated.");
-                                },
-                                async: false
-                            });
-                        },
-                        error: function(status) {
-                            console.log(status);
-                        }
-                    });
+                }
+            });
+        },
+
+        updateLanguageDocs: function() {
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var currentConfig = config.first().toJSON().rows[0].doc
+            var nationName = currentConfig.nationName
+            var nationURL = currentConfig.nationUrl
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
+                    "target": "languages"
+                }),
+                async: false,
+                success: function (response) {
+                    console.log("Languages updated");
                 }
             });
         },
