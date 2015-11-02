@@ -66,7 +66,7 @@ $(function() {
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>') */
             if (vars._attachments) {
                 this.$el.append("<tr><td>Attachment</td><td></td></tr>")
-                this.$el.append("<br><a class='btn open' style='background-color:#1ABC9C;  width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "/"+ vars.title +"'>View</a><button class='btn btn-danger' id='DestroyShelfItem'>Remove</button></td></tr>")
+                this.$el.append("<br><a class='btn open' target='_blank' style='background-color:#1ABC9C;  width: 65px;height:26px;font-size: large'  href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "/"+ vars.title +"'>View</a><button class='btn btn-danger' id='DestroyShelfItem'>Remove</button></td></tr>")
 
             } else {
                 this.$el.append("<tr><td>Attachment</td><td>No Attachment</td></tr>")
