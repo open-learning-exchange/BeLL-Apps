@@ -181,7 +181,8 @@ $(function() {
                 async: false,
                 success: function(response) {
                     console.log(response);
-                    that.updateNecessaryDocsOfCommFromNation();
+                    that.updateConfigsOfCommFromNation();
+                    that.updateLanguages();
                     //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
                     that.updateDesignDocs("activitylog");
                     that.updateDesignDocs("members");
@@ -319,7 +320,7 @@ $(function() {
             });
         },
 
-        updateNecessaryDocsOfCommFromNation: function() {
+        updateConfigsOfCommFromNation: function() {
             var that = this;
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
@@ -354,6 +355,10 @@ $(function() {
                     console.log(nationConfig);
                 }
             });
+        },
+
+        updateLanguages: function() {
+            var that = this;
             $.couch.allDbs({
                 success: function (data) {
                     if (data.indexOf('languages') != -1) {
