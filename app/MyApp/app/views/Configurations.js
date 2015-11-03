@@ -17,7 +17,6 @@ $(function () {
             this.$el.append(this.form.render().el);
             this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
 
-
         },
         updateDropDownValue : function(){
             //alert($('.field-selectLanguage').find('.bbf-editor').find('select').val());
@@ -92,15 +91,6 @@ $(function () {
                 });
 
                 alert('Configurations are Successfully Added');
-              /*  var source_page = $.url().data.attr.source.split('#');
-                if(source_page[1]=="communityManage"){
-                    location.reload();
-                }*/
-                //location.reload();
-               // alert("previous page "+document.referrer);
-                //alert("current page "+$.url().data.attr.host.split("."));
-           //     Backbone.history.navigate('dashboard', {trigger: true});
-
                 Backbone.history.navigate('dashboard');
                 window.location.reload();
             }});

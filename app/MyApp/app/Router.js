@@ -272,7 +272,9 @@ $(function() {
                 model: conModel
             })
             conForm.render();
+
             App.$el.children('.body').html(conForm.el);
+            conForm.updateDropDownValue();
 
         },
         MemberLogin: function() {
