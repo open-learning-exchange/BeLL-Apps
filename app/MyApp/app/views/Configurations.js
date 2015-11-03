@@ -92,8 +92,17 @@ $(function () {
                 });
 
                 alert('Configurations are Successfully Added');
-                location.reload();
-                Backbone.history.navigate('dashboard', {trigger: true});
+              /*  var source_page = $.url().data.attr.source.split('#');
+                if(source_page[1]=="communityManage"){
+                    location.reload();
+                }*/
+                //location.reload();
+               // alert("previous page "+document.referrer);
+                //alert("current page "+$.url().data.attr.host.split("."));
+           //     Backbone.history.navigate('dashboard', {trigger: true});
+
+                Backbone.history.navigate('dashboard');
+                window.location.reload();
             }});
         }
 
