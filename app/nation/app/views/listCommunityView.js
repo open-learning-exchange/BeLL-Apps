@@ -30,36 +30,93 @@ $(function() {
             }
             App.startActivityIndicator()
             var sendPub = new Array()
-
+            //******if starts********************************************
+            var that = this ;
             if (selectedValues.length > 0) {
+                //******for loop start*************
                 for (var i = 0; i < selectedValues.length; i++) {
                     var cUrl = selectedValues[i]
                     var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
-                    sendPub.push({
-                        communityUrl: cUrl,
-                        communityName: cName,
-                        publicationId: this.pId,
-                        Viewed: false
-                    })
-                }
-                $.couch.db("publicationdistribution").bulkSave({
-                    "docs": sendPub
-                }, {
-                    success: function(data) {
-                        console.log(data);
-                    },
-                    error: function(status) {
-                        console.log(status);
-                    }
-                });
-            }
 
-            $("#list option[value='2']").text()
-            $('#invitationdiv').fadeOut(1000)
-            setTimeout(function() {
-                $('#invitationdiv').hide()
-            }, 1000);
-            App.stopActivityIndicator()
+                  var x =   that.pId
+                    //***********************************************************
+                    //extra code for  #100
+                    $.ajax({
+                        url: '/publications/_design/bell/_view/publicationById?include_docs=true&key="' + x + '"',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(resResult) {
+                          var  pubResult = resResult.rows[0];
+                            if (pubResult.doc.communityNames != [] && pubResult.doc.communityNames.length > 0 && pubResult.doc.communityNames.indexOf(cName)> -1 ){
+                                //if (pubResult.value.communityNames.indexOf(cName)> -1) {
+                                alert("This Publication is already sent to the slected community")
+                                //}
+                            }
+                            else{
+                                sendPub.push({
+                                    communityUrl: cUrl,
+                                    communityName: cName,
+                                    publicationId: that.pId,
+                                    Viewed: false
+                                })
+                                console.log(pubResult.communityNames)
+                                var tempComm = pubResult.doc.communityNames;
+                                console.log(tempComm)
+                                tempComm.push(cName)
+                                console.log(tempComm)
+                              //  pubResult.value.communityNames = tempComm;
+                                pubResult.doc.communityNames = tempComm;
+                                console.log(pubResult.doc.communityNames)
+                                console.log(pubResult.value.communityNames)
+                             //   var savePub = {};
+                            //    savePub.push(pubResult.doc)
+                              //  var savePublication = JSON.stringify(savePub)
+
+                                //$.couch.db("publications").saveDoc({
+                                //    "docs": savePublication
+                                //}, {
+                                $.couch.db("publications").saveDoc( pubResult.doc
+                                    , {
+                                    success: function(data) {
+                                        console.log(data);
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    },
+                                    async : false
+                                });
+
+                                //***************************************************************
+                                $.couch.db("publicationdistribution").bulkSave({
+                                    "docs": sendPub
+                                }, {
+                                    success: function(data) {
+                                        console.log(data);
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    },
+                                    async : false
+                                });
+                                //***************************************************************
+                            }
+
+                        },
+                        async : false
+                    });
+
+                }
+                //******for loop ends******************************
+                $("#list option[value='2']").text()
+                $('#invitationdiv').fadeOut(1000)
+                setTimeout(function() {
+                    $('#invitationdiv').hide()
+                }, 1000);
+                App.stopActivityIndicator()
+            }
+            //******if ends*******************************************
+
+
 
         },
         synchResCommunityWithURL: function(communityurl, communityname, res) {

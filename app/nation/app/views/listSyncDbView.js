@@ -92,7 +92,7 @@ $(function() {
             var waitMsg = ''
             var msg = ''
             $.ajax({
-                url: 'http://' + nationName + ':' + App.password + '@' + nationURL + ':5984/communities/_all_docs?include_docs=true',
+                url: 'http://' + nationName + ':' + App.password + '@' + nationURL + ':5984/communities/_all_docs?include_docs=true', /*todo: to change prot number*/
                 type: 'GET',
                 dataType: "jsonp",
                 success: function(json) {

@@ -48,28 +48,44 @@ function installDesignDocs() {
         }
     } else {
         updateNationCouchVersion();
-        var langEngDocPath = 'init_docs/languages.txt';
-        var langUrduDocPath = 'init_docs/languages-Urdu.txt';
+        var langEngDocPath = '../init_docs/languages.txt';
+        var langUrduDocPath = '../init_docs/languages-Urdu.txt';
+        var langArabicDocPath = '../init_docs/languages-Arabic.txt';
         insertLanguagesDoc(langEngDocPath);
         insertLanguagesDoc(langUrduDocPath);
+        insertLanguagesDoc(langArabicDocPath);
     }
 }
 function insertLanguagesDoc(docPath) {
+    console.log("path: "+docPath);
     var languages = nano.db.use('languages');
+    if(languages==undefined)
+    {
+        console.log("languages variable is undefined");
+    }
+    else{
+        console.log("Languages has something..");
+        fs.exists(docPath, function(fileok){
+            if(fileok) {
+                fs.readFile(docPath, function (err, data) {
+                    console.log("Data: " + data);
+                    // var doc=data.toJSON();
+                    languages.insert(data, function (err, res) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log("Languages doc inserted successfully.");
+                        }
+                    });
 
-    fs.readFile(docPath, function (err, data) {
-        var doc=data.toJSON();
-        languages.insert(doc, function (err, res) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("Languages doc inserted successfully.");
+
+                });
             }
+            else console.log("file not found");
         });
 
+    }
 
-
-    });
 }
 
 function updateNationCouchVersion() {

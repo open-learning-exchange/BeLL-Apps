@@ -53,9 +53,9 @@ select#onLoginLanguage {
 /*   margin-left:-100px*/
     padding-top: 5px;
 }
-#welcomeButton{
+/*#welcomeButton{
     margin-left:25%;
-}
+}*/
 .header-table {
     width:100.5%;
  font-size: 20px;
@@ -303,7 +303,15 @@ margin-left:40px;
 	    width: 233px;
 	    font-weight: 900;
 }
-
+/* CSS for login form without welcom video/
+/******************************************/
+.withoutWelcomeVideo {
+	background-color: #edeff1;
+	padding: 23px 16px 16px;
+	position: relative;
+	border-radius: 11px;
+}
+/******************************************/
 .login-form > .bbf-form{
  
     height: 191px;
@@ -329,6 +337,23 @@ margin-left:40px;
     margin: 0px -150px;
 }
 
+/*#updateButton
+{
+    width: 12%;
+    height: 5.5%;
+    margin-left: 0.5%;
+}
+#viewReleaseNotes{
+    width: 12%;
+    height: 5.5%;
+    margin-left: 0.5%;
+}
+#newPublication{
+    height: 3%;
+    margin-left: 0.5%;
+    width: 11%;
+}
+*/
 #olelogo
 {
 	float: left;

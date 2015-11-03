@@ -640,7 +640,7 @@ textarea[name="comment"]
 /*Issue No: 54 (Update buttons on the My Library page on Dashboard)
 Date: 18th Sept, 2015*/
 /**********************************************************************/
-#DestroyShelfItem
+/*#DestroyShelfItem
 {
     position: absolute;
     display: inline-block;
@@ -654,6 +654,19 @@ Date: 18th Sept, 2015*/
     line-height: 15px;
     margin-left: 117px;
 }/***************************************************************/
+/*********************************************************/
+#DestroyShelfItem
+{
+    display: inline-block;
+    margin-top: -1px;
+    width: 88px;
+    height: 44px;
+    font-size: large;
+    text-align: center;
+    line-height: 15px;
+    margin-left: 20px;
+}/***************************************************************/
+/*******************************************************/
 .form .field-method{
     margin-left: 514px;
     margin-top: -165px;

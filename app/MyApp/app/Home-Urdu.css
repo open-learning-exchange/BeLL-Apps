@@ -1,3 +1,11 @@
+
+#dashboard {
+    height: 600px;
+    width: 950px;
+    margin-left: 900px;
+    direction: rtl;
+}
+
 select#onLoginLanguage {
     position: relative;
     display: inline-flex;
@@ -49,12 +57,57 @@ select#onLoginLanguage {
 .imageData {
     width: 112px;
 }
-#welcomeButton{
-   /* margin-left:45.3%;*/
-    margin-left: 62.5%;
+/*#welcomeButton
+{
+   float:right;
+    margin-right: 25%;
+}*/
+/*#updateButton
+{
+    width: 12%;
     direction: rtl;
-    display: flex;
+    margin-left: 50.5%;
+    height: 5.5%;
+}*/
+/*#viewReleaseNotes{
+    direction: rtl;
+    width: 12%;
+    margin-left: 38%;
+    height: 5.5%;
+    margin-top: -3.5%;
+}*/
+/*#newPublication{
+    direction: rtl;
+    margin-left: -25%;
+    height: 3%;
+    width: 11.5%;
+    margin-top: -3.5%;
+}*/
+/*.changeWelComeButtonAsia{
+
+    float: right;
+    margin-right: 25%;
 }
+.changeUpdateButtonAsia{
+    width: 12%;
+   direction:rtl;
+    margin-left: 50.5%;
+    height: 5%;
+}
+.changeViewReleaseNotesAsia{
+    direction: rtl;
+    width: 12%;
+    margin-left: 38%;
+    height: 5%;
+    margin-top: -3.5%;
+}
+.changeNewPublicationAsia{
+    direction: rtl;
+    margin-left: -25%;
+    height: 3%;
+    width: 11.5%;
+    margin-top: -3.5%;
+}*/
 #linkOnMyHome
 {
     margin-right:80px;
@@ -73,14 +126,27 @@ td.stu-nav-option-empty {
     font-size: 17px;
     margin: 0;
     width:100%;
-    margin-right:200px;
-padding-top: 5px;
+   margin-right:200px;
+   padding-top: 5px;
     direction: rtl;
     display: flex;
 }
 #dashboard_link{
     margin-right:100px;
 }
+/*
+ul#itemsinnavbar.nav{
+    direction: rtl;
+    display: inline-flex;
+
+    position: absolute;
+}
+
+.header-table {
+    width: 100%;
+    font-size: 20px;
+    background-color:#E1E1E1;
+*/
 /*ul#itemsinnavbar.nav{
     direction: rtl;
     display: flex
@@ -321,7 +387,8 @@ body{
     font-size: none;
     line-height: none;
     margin: none;
-  /*  overflow-y: scroll;
+  /*  overflow:auto;
+     overflow-y: scroll;
     overflow-x: hidden;*/
     width:100%;
     /* this is a testing purpose property */
@@ -381,6 +448,10 @@ body{
 {
     display: block;
     font-size: 28px;
+/*
+    margin-left: 35%;
+    width: 260px;
+*/
     margin-left: 43%;
     width: 320px;
     text-align:right;

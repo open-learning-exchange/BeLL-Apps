@@ -6,7 +6,7 @@ $(function() {
         routes: {
             'updatewelcomevideo': 'addOrUpdateWelcomeVideoDoc',
             '': 'MemberLogin',
-            'dashboard': 'Dashboard',
+            'dashboard': 'getNationVersion',
             'ereader': 'eReader',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
@@ -112,6 +112,7 @@ $(function() {
 
             resourceFormView.renderAddOrUploadWelcomeVideoForm();
             App.$el.children('.body').html(resourceFormView.el);
+            $('.field-resourceType').hide();
         },
         Publications: function(publicationIdes) {
             var PublicationsView = new App.Views.PublicationTable();
@@ -123,7 +124,7 @@ $(function() {
             var manageCommunity = new App.Views.ManageCommunity()
             manageCommunity.render()
             App.$el.children('.body').html(manageCommunity.el);
-          //  manageCommunity.updateDropDownValue();
+            //  manageCommunity.updateDropDownValue();
         },
         addCourseInvi: function() {
 
@@ -321,7 +322,7 @@ $(function() {
             App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member+' '+languageDict.attributes.Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
             memberLoginForm.updateLabels(languageDict);
-            if(languageDict.attributes.nameOfLanguage=="اردو" || clanguage=="العربية")
+            if(clanguage=="اردو" || clanguage=="العربية")
             {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
@@ -351,8 +352,103 @@ $(function() {
 
             return roles
         },
-        Dashboard: function() {
-            //if(!App.ShelfItems)
+        getNationVersion :function(){
+            // var nation_version = 0;
+            var that = this;
+            var configuration = App.configuration
+            var nationName = configuration.get("nationName")
+            var nationURL = configuration.get("nationUrl")
+            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
+            nName = configuration.get('nationName')
+            pass = App.password
+            nUrl = configuration.get('nationUrl')
+            currentBellName = configuration.get('name')
+            //  var htmlreferance = this.$el
+
+            var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
+            var nationConfig;
+            var newPublicationsCount = 0;
+            $.ajax({
+                url: nationConfigURL,
+                type: 'GET',
+                dataType: "jsonp",
+
+                success: function(json) {
+                    if( json.rows[0]) {
+                        nationConfig = json.rows[0].doc;
+                        console.log(nationConfig);
+                        nation_version = nationConfig.version;
+
+                        //********************************************************************************************************************************
+                            $.ajax({
+                                url: DbUrl,
+                                type: 'GET',
+                                dataType: 'jsonp',
+                                async:false,
+                                success: function(json) {
+                                    var publicationDistribDocsFromNation = [],
+                                        tempKeys = [];
+                                    _.each(json.rows, function(row) {
+                                        publicationDistribDocsFromNation.push(row.doc);
+                                        tempKeys.push(row.doc.publicationId);
+                                    });
+                                    // fetch all publications from local/community server to see how many of the publications from nation are new ones
+                                  //  var newPublicationsCount = 0;
+                                    var publicationCollection = new App.Collections.Publication();
+                                    var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+                                    publicationCollection.setUrl(tempUrl);
+                                    publicationCollection.fetch({
+                                        success: function() {
+                                            var alreadySyncedPublications = publicationCollection.models;
+                                            for (var i in publicationDistribDocsFromNation) {
+                                                // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+                                                // count
+                                                var index = alreadySyncedPublications.map(function(element) {
+                                                    return element.get('_id');
+                                                }).indexOf(publicationDistribDocsFromNation[i].publicationId);
+                                                if (index > -1) {
+                                                    // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+                                                    // local server
+                                                } else {
+                                                    newPublicationsCount++;
+                                                }
+                                            }
+                                            if (newPublicationsCount > 0){
+                                                console.log('publication greater than zero'+newPublicationsCount);
+                                            new_publications_count = newPublicationsCount;
+                                            that.Dashboard(nation_version,new_publications_count);
+                                                //alert(currentBellName);
+                                                $("#newPublication").click(function(){
+                                                    document.location.href="#publications/for-"+currentBellName;
+                                                });
+                                              //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                            $('#newPublication').show();}
+                                            else{
+                                                that.Dashboard(nation_version,0);
+                                            }
+
+                                        }
+                                    });
+
+                                },
+                                error: function(jqXHR, status, errorThrown) {
+                                    console.log(jqXHR);
+                                    console.log(status);
+                                    console.log(errorThrown);
+                                }
+                            });
+
+                    }
+                    console.log("inside ajax call" + nationConfig.version);
+
+
+                }
+
+            });
+        },
+
+        Dashboard: function(nation_version, new_publications_count) {
+
             {
                 App.ShelfItems = {}
                 $.ajax({
@@ -370,7 +466,11 @@ $(function() {
             }
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
-            dashboard.render()
+            dashboard.render(nation_version, new_publications_count);
+            console.log( new_publications_count);
+            console.log(nation_version);
+            $('#updateButton').html(App.languageDict.attributes.Update_Available+'('+nation_version+')');
+            $('#newPublication').html(App.languageDict.attributes.Publications+'('+new_publications_count+')');
             $('#olelogo').remove()
         },
         MemberForm: function(memberId) {
@@ -528,7 +628,7 @@ $(function() {
                         $('#requestResource').addClass('addMarginsOnResource');
                         $('#searchOfResource').addClass('addMarginsOnResource');
                         $('#labelOnResource').addClass('addResource');
-                      //  $('#labelOnResource').attr("margin-right","2%");
+                        //  $('#labelOnResource').attr("margin-right","2%");
                         $("#labelOnResource").css("margin-right","2%");
 
                     }
@@ -622,6 +722,31 @@ $(function() {
                     $(".form .field-Level select").find('option').removeAttr("selected")
                 }
             }
+            this.updateLabelsOfAddResourceForm();
+            if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
+            {this.updateAllignmentOfAddResourceForm();}
+
+        },
+        updateAllignmentOfAddResourceForm: function(){
+            $('#resourceform').find('table').find('tbody').find('tr').find('td').find('h2').css('float','right');
+            $('.field-title').find('label').css('float','right');
+            $('.field-author').find('label').css('float','right');
+            $('.field-Publisher').find('label').css('float','right');
+            $('.field-language').find('label').css('float','right');
+            $('.field-Year').find('label').css('float','right');
+            $('.field-linkToLicense').find('label').css('float','right');
+            $('.field-subject').find('label').css('float','right');
+            $('.field-Level').find('label').css('float','right');
+            $('.field-Tag').find('label').css('float','right');
+            $('.field-Medium').find('label').css('float','right');
+            $('.field-openWith').find('label').css('float','right');
+            $('.field-resourceFor').find('label').css('float','right');
+            $('.field-resourceType').find('label').css('float','right');
+            $('.field-articleDate').find('label').css('float','right');
+            $('.field-addedBy').find('label').css('float','right');
+
+        },
+        updateLabelsOfAddResourceForm : function(){
             $('#resourceform').find('table').find('tbody').find('tr').find('td').find('h2').html(App.languageDict.attributes.New+' '+App.languageDict.attributes.Resources);
             $('.field-title').find('label').html(App.languageDict.attributes.Title);
             $('.field-author').find('label').html(App.languageDict.attributes.author);
@@ -636,7 +761,7 @@ $(function() {
                 noneSelectedText: App.languageDict.attributes.Select_An_option
 
             });
-           // $('.field-subject').find('.bbf-editor').find('select').html(App.languageDict.attributes.Select_An_option);
+            // $('.field-subject').find('.bbf-editor').find('select').html(App.languageDict.attributes.Select_An_option);
             $('.field-Level').find('label').html(App.languageDict.attributes.level);
             $('.field-Level').find('.bbf-editor').find('select').multiselect({
 
@@ -661,9 +786,9 @@ $(function() {
             for(var i=0;i<mediaArray.length;i++)
             {
 
-               /* $('.field-Medium').find('.bbf-editor').find('select').each(function() {
-                    $(this).find('option').html(mediaArray[i]);
-                });*/
+                /* $('.field-Medium').find('.bbf-editor').find('select').each(function() {
+                 $(this).find('option').html(mediaArray[i]);
+                 });*/
                 $('.field-Medium').find('.bbf-editor').find('select').find('option').eq(i).html(mediaArray[i]);
 
             }
@@ -874,7 +999,7 @@ $(function() {
             })
         },
         Groups: function() {
-           // location.reload();
+            // location.reload();
             App.startActivityIndicator()
             groups = new App.Collections.Groups()
             groups.fetch({
@@ -903,12 +1028,12 @@ $(function() {
 
                     App.$el.children('.body').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
                     App.$el.children('.body').append(groupsTable.el);
-                   groupsTable.changeDirection();
+                    groupsTable.changeDirection();
                     if(clanguage=="اردو"  || clanguage=="العربية")
                     {
                         //location.reload();
-                         $('.body').addClass('addResource');
-                       // $('.body').removeClass('addResource');
+                        $('.body').addClass('addResource');
+                        // $('.body').removeClass('addResource');
                         $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
                         $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
                         $('#searchText').attr('placeholder','مطلوبہ الفاظ ');
@@ -921,11 +1046,11 @@ $(function() {
                     {
                         $('#searchSpan').css('float','right');
                         $('#requestCourseButton').css('margin-left','10px');
-                       // $('#searchText').css('float','right');
+                        // $('#searchText').css('float','right');
                         $("#addCourseButton").addClass('addMarginsOnCourse');
                         $('#searchText').attr('placeholder','Keyword(s)');
                     }
-                  //  groupsTable.updateAllLabels();
+                    //  groupsTable.updateAllLabels();
                     $("[id=manageCourseButton]").html(App.languageDict.attributes.Manage);
                     $("[id=viewCourseButton]").html(App.languageDict.attributes.View+' '+App.languageDict.attributes.Course);
                     $("[id=progressCourseButton]").html(App.languageDict.attributes.Progress);
@@ -1387,7 +1512,9 @@ $(function() {
         },
         ListMeetups: function() {
 
-            App.$el.children('.body').html('<h3>Meetups<a style="margin-left:20px" class="btn btn-success" href="#meetup/add">Add Meetup</a></h3>')
+            App.$el.children('.body').html('<h3 id="meetUpHeading">'+App.languageDict.attributes.Meetups+'<a id="linkOfMeetUpHeading" class="btn btn-success" href="#meetup/add">'+App.languageDict.attributes.Add+' '+App.languageDict.attributes.Meetups+'</a></h3>');
+
+
             var meetUps = new App.Collections.Meetups()
             meetUps.fetch({
                 async: false
@@ -1398,7 +1525,23 @@ $(function() {
 
             meetUpView.render()
             App.$el.children('.body').append(meetUpView.el);
-            $('.body').removeClass('addResource');
+            meetUpView.changeDirection();
+            if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
+            {
+                this.changeAllignmentOfListMeetup();
+            }
+            else
+            {
+
+                $('#linkOfMeetUpHeading').css('margin-left','20px');
+            }
+            //$('.body').removeClass('addResource');
+        },
+        changeAllignmentOfListMeetup:function(){
+            $('#meetUpHeading').css('margin-right','2%');
+            $('#meetUpHeading').addClass('addResource');
+            $('#linkOfMeetUpHeading').addClass('addMarginsOnResource');
+
         },
         Meetup_Detail: function(meetupId, title) {
             var meetupModel = new App.Models.MeetUp({
@@ -1471,7 +1614,7 @@ $(function() {
                 }
 
             });
-
+            $('.body').removeClass('addResource');
         },
         deleteMeetUp: function(meetupId) {
             var UserMeetups = new App.Collections.UserMeetups()
@@ -1525,11 +1668,11 @@ $(function() {
                 App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
             }
 
-          /*  var temp = $.url().attr("host").split(".")
-            temp = temp[0].substring(3)
-            if (temp.length == 0) {
-                temp = "Community"
-            }*/
+            /*  var temp = $.url().attr("host").split(".")
+             temp = temp[0].substring(3)
+             if (temp.length == 0) {
+             temp = "Community"
+             }*/
             var temp;
             var config = new App.Collections.Configurations()
             config.fetch({
@@ -1712,11 +1855,11 @@ $(function() {
 //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                                 //*******************************************************************************************
                                 if (resourcesNames!= undefined && resourcesNames != null){
-                                 if(resourcesNames.length > 0) {
-                                    // alert(resourcesNames[i])
-                                     report_resNames.push(resourcesNames[i])
-                                 }
-                            }
+                                    if(resourcesNames.length > 0) {
+                                        // alert(resourcesNames[i])
+                                        report_resNames.push(resourcesNames[i])
+                                    }
+                                }
 
 //*******************************************************************************************
                                 report_male_opened.push(logDoc.male_opened[i])
@@ -3675,14 +3818,14 @@ $(function() {
 
                     App.$el.children('.body').append(resourcesTableView.el)
                     //****************************************************************************
-// make changes here for Issue # 70 (#resources) and make trigger:true
+// make changes here for Issue # 70 (#resources)
                     //****************************************************************************
                     $('#backButton').click(function() {
-                        Backbone.history.navigate('#resources', {
-                            trigger: false
+                        Backbone.history.navigate('#collection', {
+                            trigger: true
                         })
                     })
- //****************************************************************************
+                    //****************************************************************************
                 }
             })
             App.stopActivityIndicator()
@@ -4556,7 +4699,7 @@ $(function() {
                 //*********************************************
                 // issue #84
                 //********************************************
-             //   logsonServer_resNames.push(resId)
+                //   logsonServer_resNames.push(resId)
                 //*******************************************
                 index = logsonServer_resOpened.indexOf(resId)
                 if (index == -1) {
@@ -4688,7 +4831,7 @@ $(function() {
                     resourcesOpened = logDoc.get('resources_opened');
                     //*********************************************************** #84
                     resourcesNames = logDoc.get('resources_names');
-                   // ******************************************************************
+                    // ******************************************************************
                     for (var i = 0; i < resourcesIds.length; i++) {
                         resId = resourcesIds[i]
                         index = report_resRated.indexOf(resId)

@@ -3223,9 +3223,18 @@ body.vjs-full-window {
   font-size: inherit;
   font-weight: 700;
 }
+/* CSS for login form without welcom video/
+/******************************************/
+.withoutWelcomeVideo {
+  background-color: #edeff1;
+  padding: 23px 16px 16px;
+  position: relative;
+  border-radius: 11px;
+}
+/******************************************/
 .login-form {
   background-color: #edeff1;
-  padding: 63px 34px 54px; /* #99 */
+  padding: 63px 17px 54px; /* #99 */
   position: relative;
   border-radius: 43px; /* #99 */
 }

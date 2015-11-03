@@ -15,7 +15,8 @@ $(function() {
         },
 
         defaults: {
-            kind: 'publication'
+            kind: 'publication',
+            communityNames : [] //#100
         },
 
         schema: {

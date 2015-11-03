@@ -452,12 +452,16 @@ $(function() {
 
                 }
             });
-            publication.set("resources", rids)
-            publication.save()
-            publication.on('sync', function() {
-                alert("Your Resources have been added successfully")
-                window.location = '../nation/index.html#publicationdetail/' + publication.get('_id')
-            })
+            if(rids.length > 0) {
+                publication.set("resources", rids)
+                publication.save()
+                publication.on('sync', function() {
+                    alert("Your Resources have been added successfully")
+                    window.location = '../nation/index.html#publicationdetail/' + publication.get('_id')
+                })
+            } else {
+                alert("Please select resources first.");
+            }
 
 
         }

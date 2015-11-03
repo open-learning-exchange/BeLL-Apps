@@ -1,7 +1,7 @@
 $(function () {
 
     App.Views.Configurations = Backbone.View.extend({
-    
+
         initialize: function () {
             this.$el.html('<h3>Set Configurations<h3>')
         },
@@ -16,6 +16,22 @@ $(function () {
 
             this.$el.append(this.form.render().el);
             this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
+
+
+        },
+        updateDropDownValue : function(){
+            //alert($('.field-selectLanguage').find('.bbf-editor').find('select').val());
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var con = config.first();
+            var currentConfig = config.first().toJSON().rows[0].doc;
+            var clanguage= currentConfig.currentLanguage;
+            $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
         },
         setForm:function(){
             this.form.commit();
@@ -33,7 +49,10 @@ $(function () {
             con.set('type',Config.get('type'));
             con.set('notes',Config.get('notes'));
             con.set('region', Config.get('region'));
-            con.set('version', Config.get('version'));
+            if(Config.get('version') != "") {
+                con.set('version', Config.get('version'));
+            }
+            con.set('subType', 'dummyy');
             if(Config.get('selectLanguage') != "Select an Option") {
                 con.set('currentLanguage', Config.get('selectLanguage'));
             }
@@ -73,8 +92,17 @@ $(function () {
                 });
 
                 alert('Configurations are Successfully Added');
-                location.reload();
-                Backbone.history.navigate('dashboard', {trigger: true});
+              /*  var source_page = $.url().data.attr.source.split('#');
+                if(source_page[1]=="communityManage"){
+                    location.reload();
+                }*/
+                //location.reload();
+               // alert("previous page "+document.referrer);
+                //alert("current page "+$.url().data.attr.host.split("."));
+           //     Backbone.history.navigate('dashboard', {trigger: true});
+
+                Backbone.history.navigate('dashboard');
+                window.location.reload();
             }});
         }
 
