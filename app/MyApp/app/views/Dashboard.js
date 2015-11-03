@@ -213,7 +213,8 @@ $(function() {
                     //that.updateDesignDocs("usermeetups");
 
                     // Update LastAppUpdateDate at Nation's Community Records
-                    var communityModel = result.rows[0].value;
+                    that.lastAppUpdateAtNationLevel(result);
+                    /*var communityModel = result.rows[0].value;
                     var communityModelId = result.rows[0].id;
                     //Replicate from Nation to Community
                     $.ajax({
@@ -280,7 +281,7 @@ $(function() {
                             });
                         },
                         async: false
-                    });
+                    });*/
                 },
                 error: function() {
                     App.stopActivityIndicator()
@@ -421,6 +422,87 @@ $(function() {
                 success: function (response) {
                     console.log("Languages updated");
                 }
+            });
+        },
+
+        lastAppUpdateAtNationLevel: function(result) {
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var currentConfig = config.first().toJSON().rows[0].doc
+            var nationName = currentConfig.nationName
+            var nationURL = currentConfig.nationUrl
+            var communityModel = result.rows[0].value;
+            var communityModelId = result.rows[0].id;
+            //Replicate from Nation to Community
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                    "target": "community",
+                    "doc_ids": [communityModelId]
+                }),
+                success: function(response) {
+                    //console.log("Successfully Replicated.");
+                    var date = new Date();
+                    var year = date.getFullYear();
+                    var month = (1 + date.getMonth()).toString();
+                    month = month.length > 1 ? month : '0' + month;
+                    var day = date.getDate().toString();
+                    day = day.length > 1 ? day : '0' + day;
+                    var formattedDate = month + '-' + day + '-' + year;
+
+                    communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
+                    communityModel.version = currentConfig.version;
+                    //Update the record in Community db at Community Level
+                    $.ajax({
+
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        type: 'PUT',
+                        url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                        dataType: 'json',
+                        data: JSON.stringify(communityModel),
+                        success: function(response) {
+                            //Replicate from Community to Nation
+                            $.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json; charset=utf-8'
+                                },
+                                type: 'POST',
+                                url: '/_replicate',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                    "source": "community",
+                                    "target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                                    "doc_ids": [communityModelId]
+                                }),
+                                success: function(response) {
+                                    console.log("Successfully Replicated.");
+                                    alert("Updated Successfully");
+                                    window.location.reload(false);
+                                },
+                                async: false
+                            });
+                        },
+
+                        async: false
+                    });
+                },
+                async: false
             });
         },
 
