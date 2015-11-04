@@ -225,16 +225,10 @@ $(function() {
         },
 
         updateDesignDocs: function(dbName) {
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var currentConfig = config.first().toJSON().rows[0].doc
-            var nationName = currentConfig.nationName
-            var nationURL = currentConfig.nationUrl
+            var that = this;
+            var nationInfo = that.getNationInfo();
+            var nationName = nationInfo["nationName"];
+            var nationURL = nationInfo["nationURL"];
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
