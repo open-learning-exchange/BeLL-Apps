@@ -355,14 +355,7 @@ $(function() {
 
         lastAppUpdateAtNationLevel: function(result) {
             var that = this;
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var currentConfig = config.first().toJSON().rows[0].doc
+            var currentConfig = that.getCommunityConfigs();
             var communityModel = result.rows[0].value;
             var communityModelId = result.rows[0].id;
             var nationInfo = that.getNationInfo();
