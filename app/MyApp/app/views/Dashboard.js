@@ -116,7 +116,7 @@ $(function() {
                 dataType: 'jsonp',
                 success: function(result) {
                     if (result.rows.length > 0) {
-
+                        console.log("Community is registered with the nation, lets update it.");
                         // Replicate Application Code from Nation to Community
                         $.couch.allDbs({
                             success: function (data) {
@@ -181,7 +181,7 @@ $(function() {
                 }),
                 async: false,
                 success: function(response) {
-                    console.log(response);
+                    console.log("Apps successfully updated.");
                     //Updating configurations and other db's
                     that.updateConfigsOfCommFromNation();
                     that.updateLanguages();
@@ -325,6 +325,7 @@ $(function() {
         },
 
         updateLanguageDocs: function() {
+            var that = this;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -348,6 +349,7 @@ $(function() {
         },
 
         lastAppUpdateAtNationLevel: function(result) {
+            var that = this;
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
@@ -356,10 +358,11 @@ $(function() {
                 async: false
             })
             var currentConfig = config.first().toJSON().rows[0].doc
-            var nationName = currentConfig.nationName
-            var nationURL = currentConfig.nationUrl
             var communityModel = result.rows[0].value;
             var communityModelId = result.rows[0].id;
+            var nationInfo = that.getNationInfo();
+            var nationName = nationInfo["nationName"];
+            var nationURL = nationInfo["nationURL"];
             //Replicate from Nation to Community
             $.ajax({
                 headers: {
