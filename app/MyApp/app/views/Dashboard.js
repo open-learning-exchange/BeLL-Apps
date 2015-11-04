@@ -86,10 +86,7 @@ $(function() {
             $(window).off('resize.resizeview');
             Backbone.View.prototype.remove.call(this);
         },
-        updateVersion: function(e) {
-            var that = this;
-            App.startActivityIndicator();
-
+        getNationInfo: function() {
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
@@ -100,7 +97,18 @@ $(function() {
             var currentConfig = config.first().toJSON().rows[0].doc
             var nationName = currentConfig.nationName
             var nationURL = currentConfig.nationUrl
+            var nationInfo = {};
+            nationInfo["nationName"] = nationName;
+            nationInfo["nationURL"] = nationURL;
+            return nationInfo;
+        },
 
+        updateVersion: function(e) {
+            var that = this;
+            App.startActivityIndicator();
+            var nationInfo = that.getNationInfo();
+            var nationName = nationInfo["nationName"];
+            var nationURL = nationInfo["nationURL"];
             //Checking whether the community is registered with any nation or not.
             $.ajax({
                 url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
@@ -181,9 +189,10 @@ $(function() {
                 async: false,
                 success: function(response) {
                     console.log(response);
+                    //Updating configurations and other db's
                     that.updateConfigsOfCommFromNation();
                     that.updateLanguages();
-                    //////////////////    Onward are the Ajax Request for all Updated Design Docs //////////////////
+                    //Onward are the Ajax Request for all Updated Design Docs
                     that.updateDesignDocs("activitylog");
                     that.updateDesignDocs("members");
                     that.updateDesignDocs("collectionlist");
