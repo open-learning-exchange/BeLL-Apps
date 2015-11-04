@@ -249,8 +249,7 @@ $(function() {
             });
         },
 
-        updateConfigsOfCommFromNation: function() {
-            var that = this;
+        getCommunityConfigs: function() {
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
@@ -258,8 +257,14 @@ $(function() {
             config.fetch({
                 async: false
             })
-            // Update version Number and availableLanguages in Configuration of Community
             var currentConfig = config.first().toJSON().rows[0].doc
+            return currentConfig;
+        },
+
+        updateConfigsOfCommFromNation: function() {
+            var that = this;
+            // Update version Number and availableLanguages in Configuration of Community
+            var currentConfig = that.getCommunityConfigs();
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
