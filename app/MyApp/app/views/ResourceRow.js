@@ -269,27 +269,27 @@ $(function() {
 			var Details = ""
 
 			if (vars.author != undefined && vars.author != "") {
-				Details = Details + "<b>"+languageDict.attributes.author+"</b>" + vars.author + ' , '
+				Details = Details + "<b>"+languageDict.attributes.author+"</b>&nbsp;" + vars.author + ' , '
 			}
 
 			if (vars.Year != undefined && vars.Year != "") {
-				Details = Details + "<b>"+languageDict.attributes.year+" </b>" + vars.Year + ' , '
+				Details = Details + "<b>"+languageDict.attributes.year+" </b>&nbsp;" + vars.Year + ' , '
 			}
 
 			if (vars.openWith != undefined) {
-				Details = Details + "<b>"+languageDict.attributes.media+" </b>"
+				Details = Details + "<b>"+languageDict.attributes.media+" </b>&nbsp;"
 				Details = Details + vars.openWith + ' , '
 
 			}
 
 			if (vars.language != undefined) {
 				if (vars.language.length > 0) {
-					Details = Details + '<b>'+languageDict.attributes.language+'</b>' + vars.language + " , "
+					Details = Details + '<b>'+languageDict.attributes.language+'</b>&nbsp;' + vars.language + " , "
 				}
 			}
 
 			if (vars.subject != undefined) {
-				Details = Details + "<b>"+languageDict.attributes.subject+" </b>"
+				Details = Details + "<b>"+languageDict.attributes.subject+" </b>&nbsp;"
 				if ($.isArray(vars.subject)) {
 					for (var i = 0; i < vars.subject.length; i++) {
 						Details = Details + vars.subject[i] + ' / '
@@ -304,7 +304,7 @@ $(function() {
 			}
 
 			if (vars.Level != undefined) {
-				Details = Details + "<b>"+languageDict.attributes.level+" </b>"
+				Details = Details + "<b>"+languageDict.attributes.level+" </b>&nbsp;"
 				if ($.isArray(vars.Level)) {
 					for (var i = 0; i < vars.Level.length; i++) {
 						Details = Details + vars.Level[i] + ' / '
@@ -321,19 +321,19 @@ $(function() {
 			}
 
 			if (vars.Publisher != undefined && vars.Publisher != "") {
-				Details = Details + "<b>"+languageDict.attributes.publisher_attribution+"</b>" + vars.Publisher + ' , '
+				Details = Details + "<b>"+languageDict.attributes.publisher_attribution+"</b>&nbsp;" + vars.Publisher + ' , '
 			}
 
 			if (vars.linkToLicense != undefined && vars.linkToLicense != "") {
-				Details = Details + "<b>"+languageDict.attributes.link_to_license+" </b>" + vars.linkToLicense + ' , '
+				Details = Details + "<b>"+languageDict.attributes.link_to_license+" </b>&nbsp;" + vars.linkToLicense + ' , '
 			}
 
 			if (vars.resourceFor != undefined && vars.resourceFor != "") {
-				Details = Details + "<b>"+languageDict.attributes.resource_for+"</b>" + vars.resourceFor + ' , '
+				Details = Details + "<b>"+languageDict.attributes.resource_for+"</b>&nbsp;" + vars.resourceFor + ' , '
 			}
             ////////////////////////////////////////////////Code for Issue No 60 Adding a drop-down////////////////////////////////
             if (vars.resourceType != undefined && vars.resourceType != "") {
-                Details = Details + "<b>"+languageDict.attributes.resource_type+"</b>" + vars.resourceType + ' , '
+                Details = Details + "<b>"+languageDict.attributes.resource_type+"</b>&nbsp;" + vars.resourceType + ' , '
             }
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -341,7 +341,7 @@ $(function() {
 				//console.log(this.collections)
 				if ($.isArray(vars.Tag)) {
 					if (vars.Tag.length > 0)
-						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>"
+						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>&nbsp;"
 
 					for (var i = 0; i < vars.Tag.length; i++) {
 						if (this.collections.get(vars.Tag[i]) != undefined)
@@ -349,7 +349,7 @@ $(function() {
 					}
 				} else {
 					if (vars.Tag != 'Add New')
-						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>" + vars.Tag + ' / '
+						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>&nbsp;" + vars.Tag + ' / '
 				}
 			}
 			Details = Details.substring(0, Details.length - 3)
