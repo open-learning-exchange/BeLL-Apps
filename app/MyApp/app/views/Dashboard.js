@@ -260,8 +260,9 @@ $(function() {
             })
             // Update version Number and availableLanguages in Configuration of Community
             var currentConfig = config.first().toJSON().rows[0].doc
-            var nationName = currentConfig.nationName
-            var nationURL = currentConfig.nationUrl
+            var nationInfo = that.getNationInfo();
+            var nationName = nationInfo["nationName"];
+            var nationURL = nationInfo["nationURL"];
             var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true'
             $.ajax({
                 url: nationConfigURL,
