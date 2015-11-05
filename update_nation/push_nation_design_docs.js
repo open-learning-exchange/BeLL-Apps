@@ -103,6 +103,7 @@ function updateNationCouchVersion() {
                                 obj = JSON.parse(data);
                                 var oldVersion = configDoc.version;
                                 configDoc.version = obj.version;
+                                configDoc.availableLanguages=obj.availableLanguages;     //Updating Available Languages as well on Nation Update....
                                 configsDb.insert(configDoc, key, function(err, body) {
                                     if (err) throw err;
                                     else console.log("updated version number from " + oldVersion + " to " + configDoc.version);
