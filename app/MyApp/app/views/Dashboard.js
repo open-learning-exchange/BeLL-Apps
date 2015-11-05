@@ -605,12 +605,12 @@ $(function() {
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
-                var gandaId,test;
+                var managerId,test;
                 if (typeofBell == 'nation') {
                     var natLink = '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a>'
                     test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">'+manager+'</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
 
-                    gandaId="NationManagerLink";
+                    managerId="NationManagerLink";
                     console.log(roles);
                 } else {
 
@@ -625,7 +625,7 @@ $(function() {
                         roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">'+manager+'</a>'
                         con.set('nationName','random');
                         con.set('nationUrl','random');
-                        con.save(null, {
+                        con.save(null, { //Saving configurations
                             success: function(doc, rev) {
 
                                 App.configuration = con;
@@ -642,7 +642,7 @@ $(function() {
 
                     var commLink  = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
                     test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
-                    gandaId="CommunityManagerLink";
+                    managerId="CommunityManagerLink";
                     console.log(roles);
                 }
             }
