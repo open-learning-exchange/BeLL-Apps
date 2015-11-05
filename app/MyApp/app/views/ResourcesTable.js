@@ -116,14 +116,14 @@ $(function() {
                 if(library_page=="resources")
                       {
                 //    alert("Hello")
-                    $('.body').addClass('addResource');
+                    $('#parentLibrary').addClass('addResource');
                 }
 
                 // $('.table-striped').css({direction:rtl});
             }
             else
             {
-                $('.body').removeClass('addResource');
+                $('#parentLibrary').removeClass('addResource');
             }
         },
 		render: function() {

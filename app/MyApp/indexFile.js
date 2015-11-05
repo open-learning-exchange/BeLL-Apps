@@ -589,7 +589,7 @@ function CourseSearch() {
     skip = 0;
     searchText = $("#searchText").val();
     App.Router.GroupSearch();
-    $('.body').removeClass('addResource');
+
 }
 
 function ListAllCourses() {

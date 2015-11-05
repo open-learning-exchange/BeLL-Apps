@@ -44,14 +44,14 @@ $(function() {
                 if(library_page=="meetups")
                 {
                     //    alert("Hello")
-                    $('.body').addClass('addResource');
+                    $('#parentLibrary').addClass('addResource');
                 }
 
                 // $('.table-striped').css({direction:rtl});
             }
             else
             {
-                $('.body').removeClass('addResource');
+                $('#parentLibrary').removeClass('addResource');
             }
         },
         addAll: function() {

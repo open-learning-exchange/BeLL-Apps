@@ -608,15 +608,21 @@ $(function() {
                         }
                     }
                     App.languageDict = languageDict;
-
+                    var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
+                    var lib_page = $.url().data.attr.fragment;
+                    if(lib_page=="resources"){
+                        $('.body').empty();
+                        $('#parentLibrary').css('visibility', 'visible');
+                    }
+                    App.$el.children('.body').append(parentDiv);
                     var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
                     btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
                     btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
+                    $('#parentLibrary').append( btnText);
 
-                    App.$el.children('.body').html(btnText)
 
-                    App.$el.children('.body').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection+'</a></p>')
+                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection+'</a></p>')
                     /*Added to nation sync part
                      if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') ){
                      //App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
@@ -636,8 +642,8 @@ $(function() {
                     }
 
                     resourcesTableView.collections = App.collectionslist
-                    resourcesTableView.render()
-                    App.$el.children('.body').append(resourcesTableView.el);
+                    resourcesTableView.render();
+                    $('#parentLibrary').append(resourcesTableView.el);
                     resourcesTableView.changeDirection();
                 }
             })
@@ -663,7 +669,7 @@ $(function() {
             if (resource.id) {
                 App.listenToOnce(resource, 'sync', function() {
                     resourceFormView.render();
-                    $('.body').removeClass('addResource');
+
 
                 })
                 resource.fetch({
@@ -671,7 +677,7 @@ $(function() {
                 })
             } else {
                 resourceFormView.render()
-                $('.body').removeClass('addResource');
+
                 $("input[name='addedBy']").val($.cookie("Member.login"));
             }
             $("input[name='addedBy']").attr("disabled", true);
@@ -828,7 +834,7 @@ $(function() {
             var search = new App.Views.Search()
             search.addResource = false
             search.render();
-            $('.body').removeClass('addResource');
+           // $('.body').removeClass('addResource');
             App.$el.children('.body').html(search.el)
 
             $("#multiselect-collections-search").multiselect().multiselectfilter();
@@ -1001,7 +1007,7 @@ $(function() {
             })
         },
         Groups: function() {
-            // location.reload();
+
             App.startActivityIndicator()
             groups = new App.Collections.Groups()
             groups.fetch({
@@ -1019,23 +1025,29 @@ $(function() {
                     groupsTable = new App.Views.GroupsTable({
                         collection: groups
                     })
-                    groupsTable.render()
+                    groupsTable.render();
+                    var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
+                    var lib_page = $.url().data.attr.fragment;
+                    if(lib_page=="courses"){
+                        $('.body').empty();
+                        $('#parentLibrary').css('visibility', 'visible');
+                    }
+                    App.$el.children('.body').append(parentDiv);
                     var button = '<p id="library-top-buttons">'
                     button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
                     button += '<a id="requestCourseButton" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
                     button += '<span id="searchSpan"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
-                    App.$el.children('.body').html(button);
+                    $('#parentLibrary').append( button);
 
-                    App.$el.children('.body').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
-                    App.$el.children('.body').append(groupsTable.el);
+
+                    $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
+                    $('#parentLibrary').append(groupsTable.el);
                     groupsTable.changeDirection();
                     if(clanguage=="اردو"  || clanguage=="العربية")
                     {
-                        //location.reload();
-                        $('.body').addClass('addResource');
-                        // $('.body').removeClass('addResource');
+
                         $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
                         $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
                         $('#searchText').attr('placeholder','مطلوبہ الفاظ ');
@@ -1048,11 +1060,11 @@ $(function() {
                     {
                         $('#searchSpan').css('float','right');
                         $('#requestCourseButton').css('margin-left','10px');
-                        // $('#searchText').css('float','right');
+
                         $("#addCourseButton").addClass('addMarginsOnCourse');
                         $('#searchText').attr('placeholder','Keyword(s)');
                     }
-                    //  groupsTable.updateAllLabels();
+
                     $("[id=manageCourseButton]").html(App.languageDict.attributes.Manage);
                     $("[id=viewCourseButton]").html(App.languageDict.attributes.View+' '+App.languageDict.attributes.Course);
                     $("[id=progressCourseButton]").html(App.languageDict.attributes.Progress);
@@ -1314,7 +1326,7 @@ $(function() {
         },
         GroupForm: function(groupId) {
             this.modelForm('Group', 'Course', groupId, 'courses');
-            $('.body').removeClass('addResource');
+
 
         },
         GroupAssign: function(groupId) {
@@ -1513,8 +1525,15 @@ $(function() {
             App.$el.children('.body').append(cSearch.el)
         },
         ListMeetups: function() {
-
-            App.$el.children('.body').html('<h3 id="meetUpHeading">'+App.languageDict.attributes.Meetups+'<a id="linkOfMeetUpHeading" class="btn btn-success" href="#meetup/add">'+App.languageDict.attributes.Add+' '+App.languageDict.attributes.Meetups+'</a></h3>');
+            var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
+            var lib_page = $.url().data.attr.fragment;
+            if(lib_page=="meetups"){
+                $('.body').empty();
+                $('#parentLibrary').css('visibility', 'visible');
+            }
+            App.$el.children('.body').append(parentDiv);
+            $('#parentLibrary').append(parentDiv);
+            $('#parentLibrary').html('<h3 id="meetUpHeading">'+App.languageDict.attributes.Meetups+'<a id="linkOfMeetUpHeading" class="btn btn-success" href="#meetup/add">'+App.languageDict.attributes.Add+' '+App.languageDict.attributes.Meetups+'</a></h3>');
 
 
             var meetUps = new App.Collections.Meetups()
@@ -1526,7 +1545,7 @@ $(function() {
             })
 
             meetUpView.render()
-            App.$el.children('.body').append(meetUpView.el);
+            $('#parentLibrary').append(meetUpView.el);
             meetUpView.changeDirection();
             if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
             {
@@ -1537,7 +1556,7 @@ $(function() {
 
                 $('#linkOfMeetUpHeading').css('margin-left','20px');
             }
-            //$('.body').removeClass('addResource');
+
         },
         changeAllignmentOfListMeetup:function(){
             $('#meetUpHeading').css('margin-right','2%');
@@ -1616,7 +1635,7 @@ $(function() {
                 }
 
             });
-            $('.body').removeClass('addResource');
+
         },
         deleteMeetUp: function(meetupId) {
             var UserMeetups = new App.Collections.UserMeetups()
@@ -1643,7 +1662,7 @@ $(function() {
             var membersView = new App.Views.MembersView()
             membersView.render();
             App.$el.children('.body').html(membersView.el);
-            $('.body').removeClass('addResource');
+
         },
         Reports: function() {
 
@@ -1692,7 +1711,7 @@ $(function() {
             }
             App.$el.children('.body').append('<h4><span style="color:gray;">' + temp + '</span> | Reports</h4>')
             App.$el.children('.body').append(resourcesTableView.el);
-            $('.body').removeClass('addResource');
+
             App.stopActivityIndicator()
 
         },
@@ -3664,7 +3683,7 @@ $(function() {
                     if (roles.indexOf("Manager") != -1)
                         App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick="AddColletcion()">Add Collection</button>')
                     App.$el.children('.body').append(collectionTableView.el);
-                    $('.body').removeClass('addResource');
+
                 },
                 async: false
             })
