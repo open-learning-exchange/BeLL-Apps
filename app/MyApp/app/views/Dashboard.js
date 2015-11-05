@@ -260,7 +260,21 @@ $(function() {
             var currentConfig = config.first().toJSON().rows[0].doc
             return currentConfig;
         },
-
+        updateConfigsOfCommunity: function(flag){
+            var currentConfig = this.getCommunityConfigs();
+            currentConfig.flagDoubleUpdate = flag;
+            var doc = currentConfig;
+            $.couch.db("configurations").saveDoc(doc, {
+                success: function(data) {
+                    console.log("Configurations updated");
+                },
+                error: function(status) {
+                    console.log(status);
+                }
+            });
+            var flagValue = this.getCommunityConfigs();
+            return flagValue.flagDoubleUpdate;
+    },
         updateConfigsOfCommFromNation: function() {
             var that = this;
             // Update version Number and availableLanguages in Configuration of Community
