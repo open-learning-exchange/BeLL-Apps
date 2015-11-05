@@ -20,6 +20,10 @@ $(function() {
             subType: {
                 type: 'Text'
             },
+            flagDoubleUpdate: {
+                type: 'Text'
+            },
+
         },
         schema: {
             name: {

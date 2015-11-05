@@ -46,6 +46,7 @@ $(function() {
             con.set('notes', Config.get('notes'));
             con.set('version', Config.get('version'));
             con.set('subType', 'dummyy');
+            con.set('flagDoubleUpdate' , 'raw'); //flag Double update
             if(Config.get('selectLanguage') != "Select an Option") {
                 con.set('currentLanguage', Config.get('selectLanguage'));
             }
