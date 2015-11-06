@@ -308,7 +308,8 @@ $(function() {
 
         updateLanguages: function() {
             var that = this;
-            $.couch.allDbs({
+            that.updateLanguageDocs();
+            /*$.couch.allDbs({
                 success: function (data) {
                     if (data.indexOf('languages') != -1) {
                         console.log("languages existed.We are going to drop and create.");
@@ -340,7 +341,7 @@ $(function() {
                         });
                     }
                 }
-            });
+            });*/
         },
 
         updateLanguageDocs: function() {
@@ -349,6 +350,53 @@ $(function() {
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
             $.ajax({
+                url: '/languages/_all_docs?include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                success: function (langResult) {
+                    console.log(langResult);
+                    var resultRows = langResult.rows;
+                    var docs = [];
+                    for(var i = 0 ; i < resultRows.length ; i++) {
+                        docs.push(resultRows[i].doc);
+                    }
+                    console.log(docs);
+                    $.couch.db("languages").bulkRemove({"docs": docs}, {
+                        success: function(data) {
+                            console.log(data);
+                            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/languages/_all_docs?include_docs=true'
+                            $.ajax({
+                                url: nationConfigURL,
+                                type: 'GET',
+                                dataType: "jsonp",
+                                success: function (json) {
+                                    console.log(json);
+                                    var nationLangRows = json.rows;
+                                    var commLangDocs = [];
+                                    for(var i = 0 ; i < nationLangRows.length ; i++) {
+                                        var langDoc = nationLangRows[i].doc;
+                                        delete langDoc._id;
+                                        delete langDoc._rev;
+                                        commLangDocs.push(langDoc);
+                                    }
+                                    $.couch.db("languages").bulkSave({"docs": commLangDocs}, {
+                                        success: function(data) {
+                                            console.log("Languages updated");
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+                }
+            });
+            /*$.ajax({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json; charset=utf-8'
@@ -364,7 +412,7 @@ $(function() {
                 success: function (response) {
                     console.log("Languages updated");
                 }
-            });
+            });*/
         },
 
         lastAppUpdateAtNationLevel: function(result) {
