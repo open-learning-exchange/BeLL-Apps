@@ -78,14 +78,6 @@ $(function() {
 
 			resourceRowView.render()
 			this.$el.append(resourceRowView.el);
-            this.$('#openButton').html(App.languageDict.attributes.Open);
-            this.$('#viewDetailsButton').html(App.languageDict.attributes.View+App.languageDict.attributes.Details);
-            this.$('#addToMyLibraryButton').html(App.languageDict.attributes.Add_to_my_library);
-            this.$('#feedbackButton').html(App.languageDict.attributes.Feedback);
-            this.$('#deleteButton').html(App.languageDict.attributes.Delete);
-            this.$('#hideButton').html(App.languageDict.attributes.Hide);
-
-         //   alert(this.$el.find('#openButton').val());
 		},
 
 		addAll: function() {
@@ -115,7 +107,6 @@ $(function() {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="resources")
                       {
-                //    alert("Hello")
                     $('#parentLibrary').addClass('addResource');
                 }
 

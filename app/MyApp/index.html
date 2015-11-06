@@ -545,28 +545,29 @@
         <td>
 <!-- <a id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank"> -->
         <!--issu#84 : Added title in the href href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>-->
-        <a id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
-                <i class='icon-eye-open icon-white'></i> Open
+        <a   id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+               <i  class='icon-eye-open icon-white'></i><%= open%>
             </a>
         </td>
         <td>
             <a id="viewDetailsButton" class='btn btn-warning' href='#resource/edit/<%= _id %>'>
-                View Details
+                <%=viewDetails%>
             </a>
         </td>
 
         <td>
-            <button id="addToMyLibraryButton" class='btn btn-inverse' onclick='AddToShelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
+            <button id="addToMyLibraryButton" class='btn btn-inverse' onclick='AddToShelf("<%= _id %>","<%= escape(title) %>")'><%=addToMyLibrary%></button>
         </td>
         <td>
             <a id="feedbackButton" class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
-                Feedback
+               <%=feedback%>
             </a>
         </td>
         <td>
-            <a id="deleteButton" class='btn btn-danger destroy'>
-                <i class='icon-remove icon-white'></i> Delete
+            <a  id="deleteButton" class="btn btn-danger hides"><i class='icon-pencil icon-white'></i>
+                <%=deleteLabel%>
             </a>
+
         </td>
         <% if(removeFormCollection==1) {%>
         <td>
@@ -577,7 +578,7 @@
         <%}%>
         <td>
             <a  id="hideButton" class="btn btn-danger hides" style="width: 66px;">
-                <i class='icon-pencil icon-white'></i>Hide
+                <i class='icon-pencil icon-white'></i><%=hide%>
             </a>
         </td>
         <%}%>
@@ -595,31 +596,31 @@
         </td>
         <td>
         <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
-                <i class='icon-eye-open icon-white'></i> Open
+                <i class='icon-eye-open icon-white'></i> <%=open%>
             </a>
         </td>
         <td>
             <a class='btn btn-warning' href='#resource/edit/<%= _id %>'>
-                View Details
+                <%=viewDetails%>
             </a>
         </td>
 
         <td>
-            <button class='btn btn-inverse disabled'>Add to My Library</button>
+            <button class='btn btn-inverse disabled'><%=addToMyLibrary%></button>
         </td>
         <td>
             <button class='btn btn-inverse disabled' > <i class='icon-pencil icon-white'></i>
-                Feedback
+                <%=feedback%>
             </button>
         </td>
         <td>
             <a class='btn btn-danger destroy'>
-                <i class='icon-remove icon-white'></i> Delete
+                <i class='icon-remove icon-white'></i> <%=deleteLabel%>
             </a>
         </td>
         <td>
             <a class='btn btn-warning unhide'>
-                <i class='icon-pencil icon-white'></i>Unhide
+                <i class='icon-pencil icon-white'></i><%=unhide%>
             </a>
         </td>
         <%}%>

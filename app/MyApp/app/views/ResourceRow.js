@@ -202,31 +202,6 @@ $(function() {
 
 		initialize: function(e) {
 			this.model.on('destroy', this.remove, this);
-           /* var clanguage = App.configuration.get("currentLanguage");
-            // fetch dict for the current/selected language from the languages db/table
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-            });
-            var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;
-            languageDictOfApp=App.languageDict;
-            this.data = {
-                languageDict:languageDictOfApp
-
-            }
-            console.log(this.data);
-            this.$el.append(this.template(this.data))*/
 		},
 		render: function() {
            // alert("Resource Row Called");
@@ -357,7 +332,15 @@ $(function() {
 
 			Details = Details.substring(0, Details.length - 3)
 
-			vars.Details = Details
+			vars.Details = Details;
+			vars.open=App.languageDict.attributes.Open;
+			vars.viewDetails=App.languageDict.attributes.View+App.languageDict.attributes.Details;
+			vars.addToMyLibrary=App.languageDict.attributes.Add_to_my_library;
+			vars.feedback=App.languageDict.attributes.Feedback
+			vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
+			vars.unhide=App.languageDict.attributes.UnHide;
+
+			vars.hide=App.languageDict.attributes.Hide;
 			if (vars.hidden == undefined) {
 				vars.hidden = false
 			}
