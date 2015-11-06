@@ -1,5 +1,5 @@
 {
-   "Dashboard": "My Home",
+    "Dashboard": "My Home",
    "Library": "Library",
    "Courses": "Courses",
    "Meetups": "Meetups",
@@ -134,5 +134,8 @@
    "Release_Notes": "Release Notes",
    "Publications": "Publications",
    "DeleteLabel": "Delete",
-   "UnHide": "Unhide"
+   "UnHide": "Unhide",
+   "No_File_Selected": "No File Selected",
+   "Topic": "Topic",
+   "Collections": "Collections"
 }

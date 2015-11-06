@@ -131,5 +131,8 @@
    "Release_Notes": " ریلیز نوٹس",
    "Publications": "مطبوعات",
    "DeleteLabel": "حذف",
-   "UnHide": "چھپانا ختم کریں"
+   "UnHide": "چھپانا ختم کریں",
+   "No_File_Selected": "کوئی فائل منسلک نہیں ہے",
+   "Topic": "موضوع",
+   "Collections": "مجموعے"
 }

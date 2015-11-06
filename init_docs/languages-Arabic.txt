@@ -1,5 +1,5 @@
 ﻿{
-   "Dashboard": "لوحة القيادة",
+    "Dashboard": "لوحة القيادة",
    "Library": "مكتبة",
    "Courses": "الحلقات الدراسية",
    "Meetups": "اجتماعات",
@@ -135,5 +135,8 @@
    "Upload": "تحميل",
    "Cancel": "إلغاء",
    "DeleteLabel": "حذف",
-   "UnHide": "ظهار"
+   "UnHide": "ظهار",
+   "No_File_Selected": "لم يتم تحديد أي ملف",
+   "Topic": "موضوع",
+   "Collections": "مجموعات"
 }
