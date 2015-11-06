@@ -1065,11 +1065,6 @@ $(function() {
                         $('#searchText').attr('placeholder','Keyword(s)');
                     }
 
-                    $("[id=manageCourseButton]").html(App.languageDict.attributes.Manage);
-                    $("[id=viewCourseButton]").html(App.languageDict.attributes.View+' '+App.languageDict.attributes.Course);
-                    $("[id=progressCourseButton]").html(App.languageDict.attributes.Progress);
-                    $("[id=deleteCourseButton]").html(App.languageDict.attributes.Delete);
-
                 }
             });
 

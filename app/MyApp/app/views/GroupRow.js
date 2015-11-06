@@ -67,10 +67,15 @@ $(function () {
         },
 
         render: function () {
+            var vars = this.model.toJSON();
+            vars.manage=App.languageDict.attributes.Manage;
+            vars.viewCourse=App.languageDict.attributes.View+' '+App.languageDict.attributes.Course;
+            vars.progress=App.languageDict.attributes.Progress;
+            vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
         
         	if(this.courseId==null)
         	{
-        	var vars = this.model.toJSON()
+
         	
         	vars.courseId=this.courseId    
             if(vars._id=='_design/bell')
@@ -102,11 +107,10 @@ $(function () {
         	
         	}
         	else{
-        	var vars = this.model.toJSON()
         	vars.viewProgress = 0
         	vars.isAdmin = 0
         	vars.isLeader = 0  
-        	vars.courseId=this.courseId
+        	vars.courseId=this.courseId;
         	this.$el.append(_.template(this.template, vars))
         	}
             

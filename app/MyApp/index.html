@@ -663,7 +663,7 @@
         <td>
             <%if(isAdmin==1||isLeader==1){%>
             <a id="manageCourseButton"  role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'>
-                <i class="icon-wrench icon-white"></i> Manage
+                <i class="icon-wrench icon-white"></i> <%=manage%>
             </a>
             <%}%>
         </td>
@@ -671,14 +671,14 @@
 
         <td>
             <a id="viewCourseButton" role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'>
-                View Course
+                <%=viewCourse%>
             </a>
         </td>
 
         <td>
             <%if(viewProgress==1){%>
             <a id="progressCourseButton" role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'>
-                <i class="icon-signal icon-white"></i> Progress
+                <i class="icon-signal icon-white"></i><%=progress%>
             </a>
             <%}%>
         </td>
@@ -698,7 +698,7 @@
         <td>
             <%if(isAdmin==1||isLeader==1){%>
             <a id="deleteCourseButton" class='destroy btn btn-danger' href='#'>
-                <i class='icon-remove icon-white'></i> Delete
+                <i class='icon-remove icon-white'></i> <%=deleteLabel%>
             </a>
             <%}%>
         </td>
