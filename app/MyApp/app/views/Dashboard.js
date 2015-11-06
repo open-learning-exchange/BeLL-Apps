@@ -184,7 +184,7 @@ $(function() {
                     console.log("Apps successfully updated.");
                     //Updating configurations and other db's
                     that.updateConfigsOfCommFromNation();
-                    that.updateLanguages();
+                    that.updateLanguageDocs();
                     //Onward are the Ajax Request for all Updated Design Docs
                     that.updateDesignDocs("activitylog");
                     that.updateDesignDocs("members");
@@ -306,44 +306,6 @@ $(function() {
             });
         },
 
-        updateLanguages: function() {
-            var that = this;
-            that.updateLanguageDocs();
-            /*$.couch.allDbs({
-                success: function (data) {
-                    if (data.indexOf('languages') != -1) {
-                        console.log("languages existed.We are going to drop and create.");
-                        $.couch.db("languages").drop({
-                            success: function(data) {
-                                console.log(data);
-                                $.couch.db("languages").create({
-                                    success: function(data) {
-                                        console.log(data);
-                                        that.updateLanguageDocs();
-                                    },
-                                    error: function(status) {
-                                        console.log(status);
-                                    }
-                                });
-                            },
-                            error: function(status) {
-                                console.log(status);
-                            },
-                            async: false
-                        });
-                    } else {
-                        console.log("languages doesn't exist, so no need to drop.");
-                        $.couch.db("languages").create({
-                            success: function (data) {
-                                console.log(data);
-                                that.updateLanguageDocs();
-                            }
-                        });
-                    }
-                }
-            });*/
-        },
-
         updateLanguageDocs: function() {
             var that = this;
             var nationInfo = that.getNationInfo();
@@ -396,23 +358,6 @@ $(function() {
                     });
                 }
             });
-            /*$.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
-                    "target": "languages"
-                }),
-                async: false,
-                success: function (response) {
-                    console.log("Languages updated");
-                }
-            });*/
         },
 
         lastAppUpdateAtNationLevel: function(result) {
