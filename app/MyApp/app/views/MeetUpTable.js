@@ -82,7 +82,7 @@ $(function() {
             }
             App.languageDict = languageDict;
 
-            this.$el.html("<tr><th>"+languageDict.attributes.Title+"</th><th colspan='4'>"+languageDict.attributes.action+"</th></tr>")
+            this.$el.html("<tr><th>"+languageDict.attributes.Topic+"</th><th colspan='4'>"+languageDict.attributes.action+"</th></tr>")
             var manager = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })
