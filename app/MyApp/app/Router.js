@@ -728,14 +728,20 @@ $(function() {
                 }
                 if (resource.get('Level') == null) {
                     $(".form .field-Level select").find('option').removeAttr("selected")
+
                 }
+
             }
-            this.updateLabelsOfAddResourceForm();
+
+            this.updateLabelsOfAddResourceForm(resourceId);
             if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
-            {this.updateAllignmentOfAddResourceForm();}
+            {
+
+                this.updateAllignmentOfAddResourceForm();}
 
         },
         updateAllignmentOfAddResourceForm: function(){
+
             $('#resourceform').find('table').find('tbody').find('tr').find('td').find('h2').css('float','right');
             $('.field-title').find('label').css('float','right');
             $('.field-author').find('label').css('float','right');
@@ -754,8 +760,8 @@ $(function() {
             $('.field-addedBy').find('label').css('float','right');
 
         },
-        updateLabelsOfAddResourceForm : function(){
-            $('#resourceform').find('table').find('tbody').find('tr').find('td').find('h2').html(App.languageDict.attributes.New+' '+App.languageDict.attributes.Resources);
+        updateLabelsOfAddResourceForm : function(resourceId){
+
             $('.field-title').find('label').html(App.languageDict.attributes.Title);
             $('.field-author').find('label').html(App.languageDict.attributes.author);
             $('.field-Publisher').find('label').html(App.languageDict.attributes.publisher_attribution);
@@ -769,7 +775,7 @@ $(function() {
                 noneSelectedText: App.languageDict.attributes.Select_An_option
 
             });
-            // $('.field-subject').find('.bbf-editor').find('select').html(App.languageDict.attributes.Select_An_option);
+
             $('.field-Level').find('label').html(App.languageDict.attributes.level);
             $('.field-Level').find('.bbf-editor').find('select').multiselect({
 

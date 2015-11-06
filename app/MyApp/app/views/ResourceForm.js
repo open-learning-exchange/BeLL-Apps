@@ -148,7 +148,8 @@ $(function() {
         render: function() {
             var vars = {}
             if (_.has(this.model, 'id')) {
-                vars.header = 'Details "' + this.model.get('title') + '"';
+
+                vars.header = App.languageDict.attributes.Details+' ' + '"'+' '+ this.model.get('title') +' '+ '"';
                 var tempAttachments = this.model.get('_attachments');
                 var fields = _.map(
                     _.pairs(tempAttachments),
@@ -167,8 +168,8 @@ $(function() {
 
             } else {
 
-                vars.header = 'New Resource';
-                vars.resourceAttachments = "No File Selected.";
+                vars.header = App.languageDict.attributes.New+' '+App.languageDict.attributes.Resources;
+                vars.resourceAttachments = App.languageDict.attributes.No_File_Selected;
                 vars.resourceUrl = "";
                 vars.languageDict=App.languageDict;
             }
