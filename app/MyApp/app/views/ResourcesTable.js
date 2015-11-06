@@ -197,7 +197,7 @@ $(function() {
 			}
 
 			if (this.collection.length >= 20)
-				text += '<a class="btn btn-success" id="nextButton">>'+languageDict.attributes.Next+'</a>'
+				text += '<a class="btn btn-success" id="nextButton">'+languageDict.attributes.Next+'</a>'
 
 			text += '</td></tr>'
 			this.$el.append(text)
