@@ -40,11 +40,11 @@ $(function() {
             var community = this.model;
             var communityData = '';
             var communityCode = community.attributes.Code;
-            var communityName = community.get('Name'); //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
-            var communityDate = community.get('lastActivitiesSyncDate'); //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            var communityName = community.get('Name'); //#80:Add Report button ( Generate Report ) on the Communities page at nation
+            var communityDate = community.get('lastActivitiesSyncDate'); //#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             var communitySyncdate = communityDate.split("/").join("-");
             communityData = communityCode + "." + communityName;
-            //alert(communitySyncdate);
+            console.log(communitySyncdate);
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             var nationUrl = $.url().data.attr.authority;
@@ -53,7 +53,6 @@ $(function() {
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
             var startDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(firstDay));
             var endDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(lastDay));
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
             $.ajax({
                 url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocByCommunityCodeWithValue?_include_docs=true&&startkey=["' + communityCode + '","' + startDate + '"]&endkey=["' +
                 communityCode + '","' + endDate + '"]',
