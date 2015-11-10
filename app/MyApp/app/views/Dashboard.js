@@ -79,10 +79,10 @@ $(function() {
             }
         },
         initialize: function() {
-            var   that = this;
+            var that = this;
             var currConfigs = that.getCommunityConfigs();
             var flag = currConfigs.flagDoubleUpdate;
-            if(currConfigs.flagDoubleUpdate) {
+            if (currConfigs.flagDoubleUpdate) {
                 //1-call update functions
                 //2-that.updateConfigsOfCommunity(false)
                 //  if (currConfigs.flagDoubleUpdate == false) {
@@ -93,8 +93,7 @@ $(function() {
                 //  }
                 alert("flag is true")
                 //  that. testFunction();
-            }
-            else {
+            } else {
                 alert("creating flag")
                 that.updateConfigsOfCommunity(true)
                 //that. testFunction();
@@ -104,7 +103,7 @@ $(function() {
             }
             // $(window).on('resize.resizeview', this.onResize.bind(this));
         },
-        testFunction: function(){
+        testFunction: function() {
             var that = this;
             alert("test function is called");
             that.updateConfigsOfCommunity(false)
@@ -135,9 +134,10 @@ $(function() {
             var that = this;
             App.startActivityIndicator();
             var commUpdateFlag = that.getCommunityConfigs()
-            if(commUpdateFlag.flagDoubleUpdate) {
-                that.updateConfigsOfCommunity(false)}
-            alert( commUpdateFlag.flagDoubleUpdate);
+            if (commUpdateFlag.flagDoubleUpdate) {
+                that.updateConfigsOfCommunity(false)
+            }
+            alert(commUpdateFlag.flagDoubleUpdate);
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -154,8 +154,9 @@ $(function() {
                         //get the flag from the config doc
                         //if(flag==true) {
                         that.appsCreation();
-                        if(commUpdateFlag.flagDoubleUpdate) {
-                            that.updateConfigsOfCommunity(false)}
+                        if (commUpdateFlag.flagDoubleUpdate) {
+                            that.updateConfigsOfCommunity(false)
+                        }
 
                         //At the end of appsCreation function set the value of the flag to false
                         //  } else {
@@ -176,7 +177,7 @@ $(function() {
             var that = this;
             // Replicate Application Code from Nation to Community
             $.couch.allDbs({
-                success: function (data) {
+                success: function(data) {
                     if (data.indexOf('apps') != -1) {
                         console.log("apps existed.We are going to drop and create."); //This part needs to be changed as if you refresh the system or internet got diconnected then your community is get deleted
                         $.couch.db("apps").drop({
@@ -201,7 +202,7 @@ $(function() {
                     } else {
                         console.log("apps doesn't exist, so no need to drop.");
                         $.couch.db("apps").create({
-                            success: function (data) {
+                            success: function(data) {
                                 console.log(data);
                                 //  that.updateAppsAndDesignDocs(result);
                                 that.updateAppsAndDesignDocs();
@@ -211,7 +212,7 @@ $(function() {
                 }
             });
         },
-//callingUpdateFunctions
+        //callingUpdateFunctions
         callingUpdateFunctions: function() {
 
             var that = this;
@@ -266,7 +267,7 @@ $(function() {
 
         },
 
-        updateAppsAndDesignDocs: function (result) {
+        updateAppsAndDesignDocs: function(result) {
             var that = this;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
@@ -330,7 +331,7 @@ $(function() {
             var currentConfig = config.first().toJSON().rows[0].doc
             return currentConfig;
         },
-        updateConfigsOfCommunity: function(flag){
+        updateConfigsOfCommunity: function(flag) {
             var currentConfig = this.getCommunityConfigs();
             currentConfig.flagDoubleUpdate = flag;
             var doc = currentConfig;
@@ -357,10 +358,10 @@ $(function() {
                 url: nationConfigURL,
                 type: 'GET',
                 dataType: "jsonp",
-                success: function (json) {
+                success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.availableLanguages = nationConfig.availableLanguages;
-                    currentConfig.flagDoubleUpdate  = false;
+                    currentConfig.flagDoubleUpdate = false;
                     //that.updateConfigsOfCommunity(false);
                     currentConfig.version = nationConfig.version;
                     var doc = currentConfig;
@@ -381,7 +382,7 @@ $(function() {
         updateLanguages: function() {
             var that = this;
             $.couch.allDbs({
-                success: function (data) {
+                success: function(data) {
                     if (data.indexOf('languages') != -1) {
                         console.log("languages existed.We are going to drop and create.");
                         $.couch.db("languages").drop({
@@ -405,7 +406,7 @@ $(function() {
                     } else {
                         console.log("languages doesn't exist, so no need to drop.");
                         $.couch.db("languages").create({
-                            success: function (data) {
+                            success: function(data) {
                                 console.log(data);
                                 that.updateLanguageDocs();
                             }
@@ -433,7 +434,7 @@ $(function() {
                     "target": "languages"
                 }),
                 async: false,
-                success: function (response) {
+                success: function(response) {
                     console.log("Languages updated");
                 }
             });
@@ -514,12 +515,12 @@ $(function() {
             });
         },
 
-        render: function(nation_version,new_publication_count) {
+        render: function(nation_version, new_publication_count) {
             var dashboard = this;
-            var currentContext=this;
+            var currentContext = this;
             this.vars.mails = 0;
-            this.vars.nation_version=0;
-            this.vars.new_publication_count=0;
+            this.vars.nation_version = 0;
+            this.vars.new_publication_count = 0;
             var that = this;
             // var nation_version = 12;
             /*   that.getNationVersion(function(para1){
@@ -602,18 +603,18 @@ $(function() {
             for (var i = 0; i < languages.length; i++) {
                 if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
                     if (languages.models[i].attributes.nameOfLanguage == clanguage) {
-                        languageDict=languages.models[i];
+                        languageDict = languages.models[i];
                     }
                 }
             }
             App.languageDict = languageDict;
-            var dayOfToday=moment().format('dddd');
-            var todayMonth=moment().format('MMMM');
-            var currentDay=this.lookup(languageDict, "Days."+dayOfToday);
-            var currentMonth=this.lookup(languageDict,"Months."+todayMonth);
-            var currentDate=moment().format('DD');
-            var currentYear=moment().format('YYYY');
-            $('.now').html(currentDay+' | '+currentDate+' '+currentMonth+', '+currentYear);
+            var dayOfToday = moment().format('dddd');
+            var todayMonth = moment().format('MMMM');
+            var currentDay = this.lookup(languageDict, "Days." + dayOfToday);
+            var currentMonth = this.lookup(languageDict, "Months." + todayMonth);
+            var currentDate = moment().format('DD');
+            var currentYear = moment().format('YYYY');
+            $('.now').html(currentDay + ' | ' + currentDate + ' ' + currentMonth + ', ' + currentYear);
             // Member Name
             var member = App.member
             var attchmentURL = '/members/' + member.id + '/'
@@ -653,10 +654,10 @@ $(function() {
 
             if (typeofBell === "nation") //checking that is it a nation or community
             {
-                var nation=" "+languageDict.attributes.Nation+" "+languageDict.attributes.Bell;
+                var nation = " " + languageDict.attributes.Nation + " " + languageDict.attributes.Bell;
                 bell_Name = bell_Name + nation;
             } else {
-                var community=" "+languageDict.attributes.Community+" "+languageDict.attributes.Bell;
+                var community = " " + languageDict.attributes.Community + " " + languageDict.attributes.Bell;
                 bell_Name = bell_Name + community;
             }
             $('.bellLocation').html(bell_Name); //rendering the name on page
@@ -668,14 +669,14 @@ $(function() {
                 temp = "Error!!"
             } else {
                 //Getting Visits of any member**********************************************************/
-                temp = member.get('visits') +' '+languageDict.attributes.Visits;
+                temp = member.get('visits') + ' ' + languageDict.attributes.Visits;
             }
             var roles = "&nbsp;-&nbsp;"
             var temp1 = 0
             //******************************-Getting Roles of Member**************************************/
             if (member.get("roles").indexOf("Learner") != -1) {
 
-                roles = roles + languageDict.attributes.Learner;   /******************Setting up Learner/Leader*****************/
+                roles = roles + languageDict.attributes.Learner; /******************Setting up Learner/Leader*****************/
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Leader") != -1) {
@@ -687,16 +688,16 @@ $(function() {
             }
             if (member.get("roles").indexOf("Manager") != -1) {
 
-                var manager=languageDict.attributes.Manager;
+                var manager = languageDict.attributes.Manager;
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
-                var managerId,test;
+                var managerId, test;
                 if (typeofBell == 'nation') {
                     var natLink = '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a>'
-                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">'+manager+'</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">' + manager + '</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
 
-                    managerId="NationManagerLink";
+                    managerId = "NationManagerLink";
                     console.log(roles);
                 } else {
 
@@ -708,9 +709,9 @@ $(function() {
                     App.configuration = con
                     var branch = App.configuration.get('subType')
                     if (branch == "branch") {
-                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">'+manager+'</a>'
-                        con.set('nationName','random');
-                        con.set('nationUrl','random');
+                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">' + manager + '</a>'
+                        con.set('nationName', 'random');
+                        con.set('nationUrl', 'random');
                         con.save(null, { //Saving configurations
                             success: function(doc, rev) {
 
@@ -723,12 +724,12 @@ $(function() {
                             }
                         });
                     } else {
-                        roles = roles + '<a href="#communityManage">'+manager+'</a>'
+                        roles = roles + '<a href="#communityManage">' + manager + '</a>'
                     }
 
-                    var commLink  = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
-                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
-                    managerId="CommunityManagerLink";
+                    var commLink = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
+                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    managerId = "CommunityManagerLink";
                     console.log(roles);
                 }
             }
@@ -754,34 +755,34 @@ $(function() {
             }
 
             // $(itemsinnavbar).addClass('navbar-right');
-            console.log('vars outside'+nation_version);
+            console.log('vars outside' + nation_version);
             //   alert("outside callback" + nation_version);
-            console.log("pubs"+new_publication_count)
-            this.vars.nation_version=nation_version;
+            console.log("pubs" + new_publication_count)
+            this.vars.nation_version = nation_version;
 
-            this.vars.new_publication_count=new_publication_count;
-            console.log("publicationsss"+new_publication_count)
-            console.log('before call '+this.vars.nation_version);
-            dashboard.checkAvailableUpdates(member.get('roles'), dashboard,nation_version);
-            console.log('after call '+this.vars.nation_version);
+            this.vars.new_publication_count = new_publication_count;
+            console.log("publicationsss" + new_publication_count)
+            console.log('before call ' + this.vars.nation_version);
+            dashboard.checkAvailableUpdates(member.get('roles'), dashboard, nation_version);
+            console.log('after call ' + this.vars.nation_version);
 
             return this;
         },
 
-        lookup :  function(obj, key) {
+        lookup: function(obj, key) {
             var type = typeof key;
-            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
+            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
                 return '.' + key;
             }).split('.');
 
-            for (var i = 0, l = key.length; i < l;l--) {
+            for (var i = 0, l = key.length; i < l; l--) {
                 if (obj.attributes.hasOwnProperty(key[i])) {
 
                     obj = obj.attributes[key[i]];
                     i++;
                     if (obj[0].hasOwnProperty(key[i])) {
-                        var myObj=obj[0];
-                        var valueOfObj=myObj[key[i]];
+                        var myObj = obj[0];
+                        var valueOfObj = myObj[key[i]];
 
                         return valueOfObj;
                     }
@@ -793,7 +794,7 @@ $(function() {
             return obj;
         },
 
-        checkAvailableUpdates: function(roles, dashboard,nation_version) {
+        checkAvailableUpdates: function(roles, dashboard, nation_version) {
             // var nationVersion = 0;
             console.log('CheckAvailableUpdates is called..');
             if (App.configuration.attributes.currentLanguage == "اردو" || App.configuration.attributes.currentLanguage == "العربية") {
@@ -823,7 +824,7 @@ $(function() {
             //  var htmlreferance = this.$el
 
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
-//var that=this;
+            //var that=this;
             if (typeof nation_version === 'undefined') {
                 /////No version found in nation
             } else if (nation_version == configuration.get('version')) {
