@@ -533,7 +533,7 @@ $(function() {
              });*/
             console.log('Hello');
             var clanguage = App.configuration.get("currentLanguage");
-            if (clanguage == "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©" || clanguage == "Ø§Ø±Ø¯Ùˆ") {
+            if (clanguage == "العربية" || clanguage == "اردو") {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
             } else {
@@ -796,7 +796,7 @@ $(function() {
         checkAvailableUpdates: function(roles, dashboard,nation_version) {
             // var nationVersion = 0;
             console.log('CheckAvailableUpdates is called..');
-            if (App.configuration.attributes.currentLanguage == "Ø§Ø±Ø¯Ùˆ" || App.configuration.attributes.currentLanguage == "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©") {
+            if (App.configuration.attributes.currentLanguage == "اردو" || App.configuration.attributes.currentLanguage == "العربية") {
 
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
