@@ -469,6 +469,7 @@ $(function() {
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
             dashboard.render(nation_version, new_publications_count);
+            dashboard.updateLanguageDoc();
             console.log( new_publications_count);
             console.log(nation_version);
             $('#updateButton').html(App.languageDict.attributes.Update_Available+'('+nation_version+')');

@@ -79,26 +79,27 @@ $(function() {
             }
         },
         initialize: function() {
+          //  this.updateLanguageDoc();
             var that = this;
             var currConfigs = that.getCommunityConfigs();
             var flag = currConfigs.flagDoubleUpdate;
             if (currConfigs.flagDoubleUpdate) {
-                //1-call update functions
-                //2-that.updateConfigsOfCommunity(false)
-                //  if (currConfigs.flagDoubleUpdate == false) {
-                //     alert("flag is false")
-                //  }
-                //  else{
-                //   alert("flag is true")
-                //  }
+                            //1-call update functions
+                            //2-that.updateConfigsOfCommunity(false)
+                            //  if (currConfigs.flagDoubleUpdate == false) {
+                            //     alert("flag is false")
+                            //  }
+                            //  else{
+                            //   alert("flag is true")
+                            //  }
                 alert("flag is true")
-                //  that. testFunction();
+                            //  that. testFunction();
             } else {
                 alert("creating flag")
                 that.updateConfigsOfCommunity(true)
-                //that. testFunction();
+                                //that. testFunction();
                 that.callingUpdateFunctions();
-                //1-that.updateConfigsOfCommunity(false)
+                        //1-that.updateConfigsOfCommunity(false)
 
             }
             // $(window).on('resize.resizeview', this.onResize.bind(this));
@@ -216,10 +217,12 @@ $(function() {
         callingUpdateFunctions: function() {
 
             var that = this;
-
+            var nationInfo = that.getNationInfo();
+            var nationName = nationInfo["nationName"];
+            var nationURL = nationInfo["nationURL"];
             //Updating configurations and other db's
             that.updateConfigsOfCommFromNation();
-            that.updateLanguages();
+            that.updateLanguageDocs();
             //Onward are the Ajax Request for all Updated Design Docs
             that.updateDesignDocs("activitylog");
             that.updateDesignDocs("members");
@@ -379,66 +382,97 @@ $(function() {
             });
         },
 
-        updateLanguages: function() {
-            var that = this;
-            $.couch.allDbs({
-                success: function(data) {
-                    if (data.indexOf('languages') != -1) {
-                        console.log("languages existed.We are going to drop and create.");
-                        $.couch.db("languages").drop({
+        //updateLanguages: function() {
+        //    var that = this;
+        //    $.couch.allDbs({
+        //        success: function(data) {
+        //            if (data.indexOf('languages') != -1) {
+        //                console.log("languages existed.We are going to drop and create.");
+        //                $.couch.db("languages").drop({
+        //                    success: function(data) {
+        //                        console.log(data);
+        //                        $.couch.db("languages").create({
+        //                            success: function(data) {
+        //                                console.log(data);
+        //                                that.updateLanguageDocs();
+        //                            },
+        //                            error: function(status) {
+        //                                console.log(status);
+        //                            }
+        //                        });
+        //                    },
+        //                    error: function(status) {
+        //                        console.log(status);
+        //                    },
+        //                    async: false
+        //                });
+        //            } else {
+        //                console.log("languages doesn't exist, so no need to drop.");
+        //                $.couch.db("languages").create({
+        //                    success: function(data) {
+        //                        console.log(data);
+        //                        that.updateLanguageDocs();
+        //                    }
+        //                });
+        //            }
+        //        }
+        //    });
+        //},
+
+
+            updateLanguageDocs: function() {
+                var that = this;
+                var nationInfo = that.getNationInfo();
+                var nationName = nationInfo["nationName"];
+                var nationURL = nationInfo["nationURL"];
+                $.ajax({
+                    url: '/languages/_all_docs?include_docs=true',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (langResult) {
+                        console.log(langResult);
+                        var resultRows = langResult.rows;
+                        var docs = [];
+                        for(var i = 0 ; i < resultRows.length ; i++) {
+                            docs.push(resultRows[i].doc);
+                        }
+                        console.log(docs);
+                        $.couch.db("languages").bulkRemove({"docs": docs}, {
                             success: function(data) {
                                 console.log(data);
-                                $.couch.db("languages").create({
-                                    success: function(data) {
-                                        console.log(data);
-                                        that.updateLanguageDocs();
-                                    },
-                                    error: function(status) {
-                                        console.log(status);
+                                var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/languages/_all_docs?include_docs=true'
+                                $.ajax({
+                                    url: nationConfigURL,
+                                    type: 'GET',
+                                    dataType: "jsonp",
+                                    success: function (json) {
+                                        console.log(json);
+                                        var nationLangRows = json.rows;
+                                        var commLangDocs = [];
+                                        for(var i = 0 ; i < nationLangRows.length ; i++) {
+                                            var langDoc = nationLangRows[i].doc;
+                                            delete langDoc._id;
+                                            delete langDoc._rev;
+                                            commLangDocs.push(langDoc);
+                                        }
+                                        $.couch.db("languages").bulkSave({"docs": commLangDocs}, {
+                                            success: function(data) {
+                                                console.log("Languages updated");
+                                            },
+                                            error: function(status) {
+                                                console.log(status);
+                                            }
+                                        });
                                     }
                                 });
                             },
                             error: function(status) {
                                 console.log(status);
-                            },
-                            async: false
-                        });
-                    } else {
-                        console.log("languages doesn't exist, so no need to drop.");
-                        $.couch.db("languages").create({
-                            success: function(data) {
-                                console.log(data);
-                                that.updateLanguageDocs();
                             }
                         });
                     }
-                }
-            });
-        },
-
-        updateLanguageDocs: function() {
-            var that = this;
-            var nationInfo = that.getNationInfo();
-            var nationName = nationInfo["nationName"];
-            var nationURL = nationInfo["nationURL"];
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
-                    "target": "languages"
-                }),
-                async: false,
-                success: function(response) {
-                    console.log("Languages updated");
-                }
-            });
-        },
+                });
+            },
 
         lastAppUpdateAtNationLevel: function(result) {
             var that = this;
@@ -514,8 +548,69 @@ $(function() {
                 async: false
             });
         },
+        updateLanguageDoc: function(){
+         alert("inside update LanguageDoc");
+            var that = this;
+            $.ajax({
+                url: '/languages/_all_docs?include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                success: function (langResult) {
+                    console.log(langResult);
+                    var resultRows = langResult.rows;
+                    var docs = [];
+                    for(var i = 0 ; i < resultRows.length ; i++) {
+                        console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
+                       if( resultRows[i].doc.nameOfLanguage){
+                           alert("attribute already exist")
+                       }
+                        else{resultRows[i].doc.nameOfLanguage = "English"}
+                        docs.push(resultRows[i].doc);
+                    }
 
+                    $.couch.db("languages").bulkSave({"docs": docs}, {
+                        success: function(data) {
+                            console.log("Languages updated");
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+                }
+
+
+            });
+        },
+        secondUpdateIteration: function(){
+            var that = this;
+            var currConfigs = that.getCommunityConfigs();
+            var nameOfCurrLanguage = currConfigs.currentLanguage;
+            console.log(nameOfCurrLanguage);
+            var flag = currConfigs.flagDoubleUpdate;
+            if (currConfigs.flagDoubleUpdate) {
+                //1-call update functions
+                //2-that.updateConfigsOfCommunity(false)
+                //  if (currConfigs.flagDoubleUpdate == false) {
+                //     alert("flag is false")
+                //  }
+                //  else{
+                //   alert("flag is true")
+                //  }
+                alert("flag is true")
+                //  that. testFunction();
+            } else {
+                alert("creating flag")
+                that.updateConfigsOfCommunity(true)
+                //that. testFunction();
+                that.callingUpdateFunctions();
+                //1-that.updateConfigsOfCommunity(false)
+
+            }
+        },
         render: function(nation_version, new_publication_count) {
+            alert("renderrrr")
+            var that = this;
+           // that.updateLanguageDoc();
             var dashboard = this;
             var currentContext = this;
             this.vars.mails = 0;
