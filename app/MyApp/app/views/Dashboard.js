@@ -78,32 +78,68 @@ $(function() {
                 }
             }
         },
-        initialize: function() {
-          //  this.updateLanguageDoc();
+        flagdoubleUpdate: function(){
             var that = this;
             var currConfigs = that.getCommunityConfigs();
             var flag = currConfigs.flagDoubleUpdate;
-            if (currConfigs.flagDoubleUpdate) {
-                            //1-call update functions
-                            //2-that.updateConfigsOfCommunity(false)
-                            //  if (currConfigs.flagDoubleUpdate == false) {
-                            //     alert("flag is false")
-                            //  }
-                            //  else{
-                            //   alert("flag is true")
-                            //  }
+            if (currConfigs.flagDoubleUpdate != undefined) {
+                if (currConfigs.flagDoubleUpdate === true) {
+                //1-call update functions
+                //2-that.updateConfigsOfCommunity(false)
+                //  if (currConfigs.flagDoubleUpdate == false) {
+                //     alert("flag is false")
+                //  }
+                //  else{
+                //   alert("flag is true")
+                //  }
                 alert("flag is true")
-                            //  that. testFunction();
-            } else {
+                //  that. testFunction();
+            }
+                else {
+                    that.updateConfigsOfCommunity(true)
+                    that.callingUpdateFunctions();
+                    //1-that.updateConfigsOfCommunity(false)
+
+                }
+            }
+            else {
                 alert("creating flag")
                 that.updateConfigsOfCommunity(true)
-                                //that. testFunction();
+                //that. testFunction();
                 that.callingUpdateFunctions();
-                        //1-that.updateConfigsOfCommunity(false)
+                //1-that.updateConfigsOfCommunity(false)
 
             }
+
+        },
+        initialize: function() {
+             var that = this;
+            that.flagdoubleUpdate();
+          //  var that = this;
+          //  var temp;
+          ///  var config = new App.Collections.Configurations()
+         /*   config.fetch({
+                async: false,
+                success: function(){
+                   // temp = config.first().attributes.name;
+                    var typeofBell=config.first().attributes.type;
+                    if (typeofBell === "community" ) {
+                        that.updateLanguageDoc();
+
+                    }
+                }
+            }) */
+
+           //var typeofBell=config.first().attributes.type;
+           // if (typeofBell === "community") {
+           //     this.updateLanguageDoc();
+           //
+           // }
+
+
             // $(window).on('resize.resizeview', this.onResize.bind(this));
         },
+
         testFunction: function() {
             var that = this;
             alert("test function is called");
@@ -135,10 +171,10 @@ $(function() {
             var that = this;
             App.startActivityIndicator();
             var commUpdateFlag = that.getCommunityConfigs()
-            if (commUpdateFlag.flagDoubleUpdate) {
+            if (commUpdateFlag.flagDoubleUpdate === true) {
                 that.updateConfigsOfCommunity(false)
             }
-            alert(commUpdateFlag.flagDoubleUpdate);
+            console.log("inside update version : " + commUpdateFlag.flagDoubleUpdate);
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -155,9 +191,10 @@ $(function() {
                         //get the flag from the config doc
                         //if(flag==true) {
                         that.appsCreation();
-                        if (commUpdateFlag.flagDoubleUpdate) {
-                            that.updateConfigsOfCommunity(false)
-                        }
+                        console.log("after call appsCreation:" + commUpdateFlag.flagDoubleUpdate);
+                        //if (commUpdateFlag.flagDoubleUpdate) {
+                        //    that.updateConfigsOfCommunity(false)
+                        //}
 
                         //At the end of appsCreation function set the value of the flag to false
                         //  } else {
@@ -215,7 +252,7 @@ $(function() {
         },
         //callingUpdateFunctions
         callingUpdateFunctions: function() {
-
+            App.startActivityIndicator();
             var that = this;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
@@ -270,7 +307,7 @@ $(function() {
 
         },
 
-        updateAppsAndDesignDocs: function(result) {
+        updateAppsAndDesignDocs: function() {
             var that = this;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
@@ -290,10 +327,11 @@ $(function() {
                 async: false,
                 success: function(response) {
                     console.log("Apps successfully updated.");
+                    that.callingUpdateFunctions();
                 },
                 error: function() {
                     App.stopActivityIndicator()
-                    alert("Not Replicated!")
+                    alert("Apps and Design Documents are Not Replicated!")
                 }
             });
         },
@@ -364,7 +402,7 @@ $(function() {
                 success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.availableLanguages = nationConfig.availableLanguages;
-                    currentConfig.flagDoubleUpdate = false;
+                  //  currentConfig.flagDoubleUpdate = false;
                     //that.updateConfigsOfCommunity(false);
                     currentConfig.version = nationConfig.version;
                     var doc = currentConfig;
@@ -549,7 +587,7 @@ $(function() {
             });
         },
         updateLanguageDoc: function(){
-         alert("inside update LanguageDoc");
+         console.log("inside update LanguageDoc");
             var that = this;
             $.ajax({
                 url: '/languages/_all_docs?include_docs=true',
@@ -562,7 +600,8 @@ $(function() {
                     for(var i = 0 ; i < resultRows.length ; i++) {
                         console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
                        if( resultRows[i].doc.nameOfLanguage){
-                           alert("attribute already exist")
+                           console.log("attribute already exist")
+                           //that.flagdoubleUpdate();
                        }
                         else{resultRows[i].doc.nameOfLanguage = "English"}
                         docs.push(resultRows[i].doc);
@@ -571,6 +610,7 @@ $(function() {
                     $.couch.db("languages").bulkSave({"docs": docs}, {
                         success: function(data) {
                             console.log("Languages updated");
+                           // that.flagdoubleUpdate();
                         },
                         error: function(status) {
                             console.log(status);
@@ -608,7 +648,7 @@ $(function() {
             }
         },
         render: function(nation_version, new_publication_count) {
-            alert("renderrrr")
+            console.log("inside render function")
             var that = this;
            // that.updateLanguageDoc();
             var dashboard = this;
