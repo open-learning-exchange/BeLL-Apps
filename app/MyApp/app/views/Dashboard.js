@@ -78,10 +78,74 @@ $(function() {
                 }
             }
         },
+        flagdoubleUpdate: function(){
+            var that = this;
+            var currConfigs = that.getCommunityConfigs();
+            var flag = currConfigs.flagDoubleUpdate;
+            if (currConfigs.flagDoubleUpdate != undefined) {
+                if (currConfigs.flagDoubleUpdate === true) {
+                //1-call update functions
+                //2-that.updateConfigsOfCommunity(false)
+                //  if (currConfigs.flagDoubleUpdate == false) {
+                //     alert("flag is false")
+                //  }
+                //  else{
+                //   alert("flag is true")
+                //  }
+                alert("flag is true")
+                //  that. testFunction();
+            }
+                else {
+                    that.updateConfigsOfCommunity(true)
+                    that.callingUpdateFunctions();
+                    //1-that.updateConfigsOfCommunity(false)
+
+                }
+            }
+            else {
+                alert("creating flag")
+                that.updateConfigsOfCommunity(true)
+                //that. testFunction();
+                that.callingUpdateFunctions();
+                //1-that.updateConfigsOfCommunity(false)
+
+            }
+
+        },
         initialize: function() {
+             var that = this;
+            that.flagdoubleUpdate();
+          //  var that = this;
+          //  var temp;
+          ///  var config = new App.Collections.Configurations()
+         /*   config.fetch({
+                async: false,
+                success: function(){
+                   // temp = config.first().attributes.name;
+                    var typeofBell=config.first().attributes.type;
+                    if (typeofBell === "community" ) {
+                        that.updateLanguageDoc();
+
+                    }
+                }
+            }) */
+
+           //var typeofBell=config.first().attributes.type;
+           // if (typeofBell === "community") {
+           //     this.updateLanguageDoc();
+           //
+           // }
+
+
             // $(window).on('resize.resizeview', this.onResize.bind(this));
         },
 
+        testFunction: function() {
+            var that = this;
+            alert("test function is called");
+            that.updateConfigsOfCommunity(false)
+
+        },
         remove: function() {
             $(window).off('resize.resizeview');
             Backbone.View.prototype.remove.call(this);
@@ -106,6 +170,11 @@ $(function() {
         updateVersion: function(e) {
             var that = this;
             App.startActivityIndicator();
+            var commUpdateFlag = that.getCommunityConfigs()
+            if (commUpdateFlag.flagDoubleUpdate === true) {
+                that.updateConfigsOfCommunity(false)
+            }
+            console.log("inside update version : " + commUpdateFlag.flagDoubleUpdate);
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -117,40 +186,20 @@ $(function() {
                 success: function(result) {
                     if (result.rows.length > 0) {
                         console.log("Community is registered with the nation, lets update it.");
-                        // Replicate Application Code from Nation to Community
-                        $.couch.allDbs({
-                            success: function (data) {
-                                if (data.indexOf('apps') != -1) {
-                                    console.log("apps existed.We are going to drop and create.");
-                                    $.couch.db("apps").drop({
-                                        success: function(data) {
-                                            console.log(data);
-                                            $.couch.db("apps").create({
-                                                success: function(data) {
-                                                    console.log(data);
-                                                    that.updateAppsAndDesignDocs(result);
-                                                },
-                                                error: function(status) {
-                                                    console.log(status);
-                                                }
-                                            });
-                                        },
-                                        error: function(status) {
-                                            console.log(status);
-                                        },
-                                        async: false
-                                    });
-                                } else {
-                                    console.log("apps doesn't exist, so no need to drop.");
-                                    $.couch.db("apps").create({
-                                        success: function (data) {
-                                            console.log(data);
-                                            that.updateAppsAndDesignDocs(result);
-                                        }
-                                    });
-                                }
-                            }
-                        });
+                        //updateConfigsOfCommunity
+                        //get community's configurations here : getCommunityConfigs
+                        //get the flag from the config doc
+                        //if(flag==true) {
+                        that.appsCreation();
+                        console.log("after call appsCreation:" + commUpdateFlag.flagDoubleUpdate);
+                        //if (commUpdateFlag.flagDoubleUpdate) {
+                        //    that.updateConfigsOfCommunity(false)
+                        //}
+
+                        //At the end of appsCreation function set the value of the flag to false
+                        //  } else {
+                        // that.callingUpdateFunctions();//At the end of callinUpdateFunctions function set the value of the flag to true
+                        //  }
                     } else {
                         alert(" The community is not authorized to update until it is properly configured with a nation");
                         window.location.reload(false);
@@ -162,7 +211,103 @@ $(function() {
             });
         },
 
-        updateAppsAndDesignDocs: function (result) {
+        appsCreation: function() {
+            var that = this;
+            // Replicate Application Code from Nation to Community
+            $.couch.allDbs({
+                success: function(data) {
+                    if (data.indexOf('apps') != -1) {
+                        console.log("apps existed.We are going to drop and create."); //This part needs to be changed as if you refresh the system or internet got diconnected then your community is get deleted
+                        $.couch.db("apps").drop({
+                            success: function(data) {
+                                console.log(data);
+                                $.couch.db("apps").create({
+                                    success: function(data) {
+                                        console.log(data);
+                                        //that.updateAppsAndDesignDocs(result);
+                                        that.updateAppsAndDesignDocs();
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    }
+                                });
+                            },
+                            error: function(status) {
+                                console.log(status);
+                            },
+                            async: false
+                        });
+                    } else {
+                        console.log("apps doesn't exist, so no need to drop.");
+                        $.couch.db("apps").create({
+                            success: function(data) {
+                                console.log(data);
+                                //  that.updateAppsAndDesignDocs(result);
+                                that.updateAppsAndDesignDocs();
+                            }
+                        });
+                    }
+                }
+            });
+        },
+        //callingUpdateFunctions
+        callingUpdateFunctions: function() {
+            App.startActivityIndicator();
+            var that = this;
+            var nationInfo = that.getNationInfo();
+            var nationName = nationInfo["nationName"];
+            var nationURL = nationInfo["nationURL"];
+            //Updating configurations and other db's
+            that.updateConfigsOfCommFromNation();
+            that.updateLanguageDocs();
+            //Onward are the Ajax Request for all Updated Design Docs
+            that.updateDesignDocs("activitylog");
+            that.updateDesignDocs("members");
+            that.updateDesignDocs("collectionlist");
+            that.updateDesignDocs("community");
+            that.updateDesignDocs("resources");
+            that.updateDesignDocs("coursestep");
+            that.updateDesignDocs("groups");
+            that.updateDesignDocs("publications");
+            //Following are the list of db's on which design_docs are not updating,
+            // whenever the design_docs will be changed in a db,that db's call will be un-commented.
+            //that.updateDesignDocs("assignmentpaper");
+            //that.updateDesignDocs("assignments");
+            //that.updateDesignDocs("calendar");
+            //that.updateDesignDocs("communityreports");
+            //that.updateDesignDocs("courseschedule");
+            //that.updateDesignDocs("feedback");
+            //that.updateDesignDocs("invitations");
+            //that.updateDesignDocs("mail");
+            //that.updateDesignDocs("meetups");
+            //that.updateDesignDocs("membercourseprogress");
+            //that.updateDesignDocs("nationreports");
+            //that.updateDesignDocs("publicationdistribution");
+            //that.updateDesignDocs("report");
+            //that.updateDesignDocs("requests");
+            //that.updateDesignDocs("resourcefrequency");
+            //that.updateDesignDocs("shelf");
+            //that.updateDesignDocs("usermeetups");
+
+            // Update LastAppUpdateDate at Nation's Community Records
+            $.ajax({
+                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                success: function(result) {
+                    if (result.rows.length > 0) {
+                        that.lastAppUpdateAtNationLevel(result);
+                        console.log("Community is registered with the nation, lets update it.");
+                    }
+                },
+                error: function() {
+                    console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                }
+            });
+
+        },
+
+        updateAppsAndDesignDocs: function() {
             var that = this;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
@@ -182,44 +327,11 @@ $(function() {
                 async: false,
                 success: function(response) {
                     console.log("Apps successfully updated.");
-                    //Updating configurations and other db's
-                    that.updateConfigsOfCommFromNation();
-                    that.updateLanguages();
-                    //Onward are the Ajax Request for all Updated Design Docs
-                    that.updateDesignDocs("activitylog");
-                    that.updateDesignDocs("members");
-                    that.updateDesignDocs("collectionlist");
-                    that.updateDesignDocs("community");
-                    that.updateDesignDocs("resources");
-                    that.updateDesignDocs("coursestep");
-                    that.updateDesignDocs("groups");
-                    that.updateDesignDocs("publications");
-                    //Following are the list of db's on which design_docs are not updating,
-                    // whenever the design_docs will be changed in a db,that db's call will be un-commented.
-                    //that.updateDesignDocs("assignmentpaper");
-                    //that.updateDesignDocs("assignments");
-                    //that.updateDesignDocs("calendar");
-                    //that.updateDesignDocs("communityreports");
-                    //that.updateDesignDocs("courseschedule");
-                    //that.updateDesignDocs("feedback");
-                    //that.updateDesignDocs("invitations");
-                    //that.updateDesignDocs("mail");
-                    //that.updateDesignDocs("meetups");
-                    //that.updateDesignDocs("membercourseprogress");
-                    //that.updateDesignDocs("nationreports");
-                    //that.updateDesignDocs("publicationdistribution");
-                    //that.updateDesignDocs("report");
-                    //that.updateDesignDocs("requests");
-                    //that.updateDesignDocs("resourcefrequency");
-                    //that.updateDesignDocs("shelf");
-                    //that.updateDesignDocs("usermeetups");
-
-                    // Update LastAppUpdateDate at Nation's Community Records
-                    that.lastAppUpdateAtNationLevel(result);
+                    that.callingUpdateFunctions();
                 },
                 error: function() {
                     App.stopActivityIndicator()
-                    alert("Not Replicated!")
+                    alert("Apps and Design Documents are Not Replicated!")
                 }
             });
         },
@@ -260,7 +372,7 @@ $(function() {
             var currentConfig = config.first().toJSON().rows[0].doc
             return currentConfig;
         },
-        updateConfigsOfCommunity: function(flag){
+        updateConfigsOfCommunity: function(flag) {
             var currentConfig = this.getCommunityConfigs();
             currentConfig.flagDoubleUpdate = flag;
             var doc = currentConfig;
@@ -274,7 +386,7 @@ $(function() {
             });
             var flagValue = this.getCommunityConfigs();
             return flagValue.flagDoubleUpdate;
-    },
+        },
         updateConfigsOfCommFromNation: function() {
             var that = this;
             // Update version Number and availableLanguages in Configuration of Community
@@ -287,9 +399,11 @@ $(function() {
                 url: nationConfigURL,
                 type: 'GET',
                 dataType: "jsonp",
-                success: function (json) {
+                success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.availableLanguages = nationConfig.availableLanguages;
+                  //  currentConfig.flagDoubleUpdate = false;
+                    //that.updateConfigsOfCommunity(false);
                     currentConfig.version = nationConfig.version;
                     var doc = currentConfig;
                     $.couch.db("configurations").saveDoc(doc, {
@@ -306,66 +420,97 @@ $(function() {
             });
         },
 
-        updateLanguages: function() {
-            var that = this;
-            $.couch.allDbs({
-                success: function (data) {
-                    if (data.indexOf('languages') != -1) {
-                        console.log("languages existed.We are going to drop and create.");
-                        $.couch.db("languages").drop({
+        //updateLanguages: function() {
+        //    var that = this;
+        //    $.couch.allDbs({
+        //        success: function(data) {
+        //            if (data.indexOf('languages') != -1) {
+        //                console.log("languages existed.We are going to drop and create.");
+        //                $.couch.db("languages").drop({
+        //                    success: function(data) {
+        //                        console.log(data);
+        //                        $.couch.db("languages").create({
+        //                            success: function(data) {
+        //                                console.log(data);
+        //                                that.updateLanguageDocs();
+        //                            },
+        //                            error: function(status) {
+        //                                console.log(status);
+        //                            }
+        //                        });
+        //                    },
+        //                    error: function(status) {
+        //                        console.log(status);
+        //                    },
+        //                    async: false
+        //                });
+        //            } else {
+        //                console.log("languages doesn't exist, so no need to drop.");
+        //                $.couch.db("languages").create({
+        //                    success: function(data) {
+        //                        console.log(data);
+        //                        that.updateLanguageDocs();
+        //                    }
+        //                });
+        //            }
+        //        }
+        //    });
+        //},
+
+
+            updateLanguageDocs: function() {
+                var that = this;
+                var nationInfo = that.getNationInfo();
+                var nationName = nationInfo["nationName"];
+                var nationURL = nationInfo["nationURL"];
+                $.ajax({
+                    url: '/languages/_all_docs?include_docs=true',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (langResult) {
+                        console.log(langResult);
+                        var resultRows = langResult.rows;
+                        var docs = [];
+                        for(var i = 0 ; i < resultRows.length ; i++) {
+                            docs.push(resultRows[i].doc);
+                        }
+                        console.log(docs);
+                        $.couch.db("languages").bulkRemove({"docs": docs}, {
                             success: function(data) {
                                 console.log(data);
-                                $.couch.db("languages").create({
-                                    success: function(data) {
-                                        console.log(data);
-                                        that.updateLanguageDocs();
-                                    },
-                                    error: function(status) {
-                                        console.log(status);
+                                var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/languages/_all_docs?include_docs=true'
+                                $.ajax({
+                                    url: nationConfigURL,
+                                    type: 'GET',
+                                    dataType: "jsonp",
+                                    success: function (json) {
+                                        console.log(json);
+                                        var nationLangRows = json.rows;
+                                        var commLangDocs = [];
+                                        for(var i = 0 ; i < nationLangRows.length ; i++) {
+                                            var langDoc = nationLangRows[i].doc;
+                                            delete langDoc._id;
+                                            delete langDoc._rev;
+                                            commLangDocs.push(langDoc);
+                                        }
+                                        $.couch.db("languages").bulkSave({"docs": commLangDocs}, {
+                                            success: function(data) {
+                                                console.log("Languages updated");
+                                            },
+                                            error: function(status) {
+                                                console.log(status);
+                                            }
+                                        });
                                     }
                                 });
                             },
                             error: function(status) {
                                 console.log(status);
-                            },
-                            async: false
-                        });
-                    } else {
-                        console.log("languages doesn't exist, so no need to drop.");
-                        $.couch.db("languages").create({
-                            success: function (data) {
-                                console.log(data);
-                                that.updateLanguageDocs();
                             }
                         });
                     }
-                }
-            });
-        },
-
-        updateLanguageDocs: function() {
-            var that = this;
-            var nationInfo = that.getNationInfo();
-            var nationName = nationInfo["nationName"];
-            var nationURL = nationInfo["nationURL"];
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                    "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/languages',
-                    "target": "languages"
-                }),
-                async: false,
-                success: function (response) {
-                    console.log("Languages updated");
-                }
-            });
-        },
+                });
+            },
 
         lastAppUpdateAtNationLevel: function(result) {
             var that = this;
@@ -441,13 +586,76 @@ $(function() {
                 async: false
             });
         },
+        updateLanguageDoc: function(){
+         console.log("inside update LanguageDoc");
+            var that = this;
+            $.ajax({
+                url: '/languages/_all_docs?include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                success: function (langResult) {
+                    console.log(langResult);
+                    var resultRows = langResult.rows;
+                    var docs = [];
+                    for(var i = 0 ; i < resultRows.length ; i++) {
+                        console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
+                       if( resultRows[i].doc.nameOfLanguage){
+                           console.log("attribute already exist")
+                           //that.flagdoubleUpdate();
+                       }
+                        else{resultRows[i].doc.nameOfLanguage = "English"}
+                        docs.push(resultRows[i].doc);
+                    }
 
-        render: function(nation_version,new_publication_count) {
+                    $.couch.db("languages").bulkSave({"docs": docs}, {
+                        success: function(data) {
+                            console.log("Languages updated");
+                           // that.flagdoubleUpdate();
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+                }
+
+
+            });
+        },
+        secondUpdateIteration: function(){
+            var that = this;
+            var currConfigs = that.getCommunityConfigs();
+            var nameOfCurrLanguage = currConfigs.currentLanguage;
+            console.log(nameOfCurrLanguage);
+            var flag = currConfigs.flagDoubleUpdate;
+            if (currConfigs.flagDoubleUpdate) {
+                //1-call update functions
+                //2-that.updateConfigsOfCommunity(false)
+                //  if (currConfigs.flagDoubleUpdate == false) {
+                //     alert("flag is false")
+                //  }
+                //  else{
+                //   alert("flag is true")
+                //  }
+                alert("flag is true")
+                //  that. testFunction();
+            } else {
+                alert("creating flag")
+                that.updateConfigsOfCommunity(true)
+                //that. testFunction();
+                that.callingUpdateFunctions();
+                //1-that.updateConfigsOfCommunity(false)
+
+            }
+        },
+        render: function(nation_version, new_publication_count) {
+            console.log("inside render function")
+            var that = this;
+           // that.updateLanguageDoc();
             var dashboard = this;
-            var currentContext=this;
+            var currentContext = this;
             this.vars.mails = 0;
-            this.vars.nation_version=0;
-            this.vars.new_publication_count=0;
+            this.vars.nation_version = 0;
+            this.vars.new_publication_count = 0;
             var that = this;
             // var nation_version = 12;
             /*   that.getNationVersion(function(para1){
@@ -530,18 +738,18 @@ $(function() {
             for (var i = 0; i < languages.length; i++) {
                 if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
                     if (languages.models[i].attributes.nameOfLanguage == clanguage) {
-                        languageDict=languages.models[i];
+                        languageDict = languages.models[i];
                     }
                 }
             }
             App.languageDict = languageDict;
-            var dayOfToday=moment().format('dddd');
-            var todayMonth=moment().format('MMMM');
-            var currentDay=this.lookup(languageDict, "Days."+dayOfToday);
-            var currentMonth=this.lookup(languageDict,"Months."+todayMonth);
-            var currentDate=moment().format('DD');
-            var currentYear=moment().format('YYYY');
-            $('.now').html(currentDay+' | '+currentDate+' '+currentMonth+', '+currentYear);
+            var dayOfToday = moment().format('dddd');
+            var todayMonth = moment().format('MMMM');
+            var currentDay = this.lookup(languageDict, "Days." + dayOfToday);
+            var currentMonth = this.lookup(languageDict, "Months." + todayMonth);
+            var currentDate = moment().format('DD');
+            var currentYear = moment().format('YYYY');
+            $('.now').html(currentDay + ' | ' + currentDate + ' ' + currentMonth + ', ' + currentYear);
             // Member Name
             var member = App.member
             var attchmentURL = '/members/' + member.id + '/'
@@ -581,10 +789,10 @@ $(function() {
 
             if (typeofBell === "nation") //checking that is it a nation or community
             {
-                var nation=" "+languageDict.attributes.Nation+" "+languageDict.attributes.Bell;
+                var nation = " " + languageDict.attributes.Nation + " " + languageDict.attributes.Bell;
                 bell_Name = bell_Name + nation;
             } else {
-                var community=" "+languageDict.attributes.Community+" "+languageDict.attributes.Bell;
+                var community = " " + languageDict.attributes.Community + " " + languageDict.attributes.Bell;
                 bell_Name = bell_Name + community;
             }
             $('.bellLocation').html(bell_Name); //rendering the name on page
@@ -596,14 +804,14 @@ $(function() {
                 temp = "Error!!"
             } else {
                 //Getting Visits of any member**********************************************************/
-                temp = member.get('visits') +' '+languageDict.attributes.Visits;
+                temp = member.get('visits') + ' ' + languageDict.attributes.Visits;
             }
             var roles = "&nbsp;-&nbsp;"
             var temp1 = 0
             //******************************-Getting Roles of Member**************************************/
             if (member.get("roles").indexOf("Learner") != -1) {
 
-                roles = roles + languageDict.attributes.Learner;   /******************Setting up Learner/Leader*****************/
+                roles = roles + languageDict.attributes.Learner; /******************Setting up Learner/Leader*****************/
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Leader") != -1) {
@@ -615,16 +823,16 @@ $(function() {
             }
             if (member.get("roles").indexOf("Manager") != -1) {
 
-                var manager=languageDict.attributes.Manager;
+                var manager = languageDict.attributes.Manager;
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
-                var managerId,test;
+                var managerId, test;
                 if (typeofBell == 'nation') {
                     var natLink = '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a>'
-                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">'+manager+'</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">' + manager + '</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
 
-                    managerId="NationManagerLink";
+                    managerId = "NationManagerLink";
                     console.log(roles);
                 } else {
 
@@ -636,9 +844,9 @@ $(function() {
                     App.configuration = con
                     var branch = App.configuration.get('subType')
                     if (branch == "branch") {
-                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">'+manager+'</a>'
-                        con.set('nationName','random');
-                        con.set('nationUrl','random');
+                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">' + manager + '</a>'
+                        con.set('nationName', 'random');
+                        con.set('nationUrl', 'random');
                         con.save(null, { //Saving configurations
                             success: function(doc, rev) {
 
@@ -651,12 +859,12 @@ $(function() {
                             }
                         });
                     } else {
-                        roles = roles + '<a href="#communityManage">'+manager+'</a>'
+                        roles = roles + '<a href="#communityManage">' + manager + '</a>'
                     }
 
-                    var commLink  = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
-                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
-                    managerId="CommunityManagerLink";
+                    var commLink = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
+                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    managerId = "CommunityManagerLink";
                     console.log(roles);
                 }
             }
@@ -675,41 +883,41 @@ $(function() {
             if ($.cookie('Member.login') === "admin") {
                 /*  var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'"></button>');
 
-                 document.getElementById("welcomeButton").innerHTML = "My new text!";â€‹
+                 document.getElementById("welcomeButton").innerHTML = "My new text!";Ã¢â‚¬â€¹
                  dashboard.$el.append($buttonWelcome);
                  $("#welcomeButton").html(update);*/
                 $('#welcomeButton').show();
             }
 
             // $(itemsinnavbar).addClass('navbar-right');
-            console.log('vars outside'+nation_version);
+            console.log('vars outside' + nation_version);
             //   alert("outside callback" + nation_version);
-            console.log("pubs"+new_publication_count)
-            this.vars.nation_version=nation_version;
+            console.log("pubs" + new_publication_count)
+            this.vars.nation_version = nation_version;
 
-            this.vars.new_publication_count=new_publication_count;
-            console.log("publicationsss"+new_publication_count)
-            console.log('before call '+this.vars.nation_version);
-            dashboard.checkAvailableUpdates(member.get('roles'), dashboard,nation_version);
-            console.log('after call '+this.vars.nation_version);
+            this.vars.new_publication_count = new_publication_count;
+            console.log("publicationsss" + new_publication_count)
+            console.log('before call ' + this.vars.nation_version);
+            dashboard.checkAvailableUpdates(member.get('roles'), dashboard, nation_version);
+            console.log('after call ' + this.vars.nation_version);
 
             return this;
         },
 
-        lookup :  function(obj, key) {
+        lookup: function(obj, key) {
             var type = typeof key;
-            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
+            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
                 return '.' + key;
             }).split('.');
 
-            for (var i = 0, l = key.length; i < l;l--) {
+            for (var i = 0, l = key.length; i < l; l--) {
                 if (obj.attributes.hasOwnProperty(key[i])) {
 
                     obj = obj.attributes[key[i]];
                     i++;
                     if (obj[0].hasOwnProperty(key[i])) {
-                        var myObj=obj[0];
-                        var valueOfObj=myObj[key[i]];
+                        var myObj = obj[0];
+                        var valueOfObj = myObj[key[i]];
 
                         return valueOfObj;
                     }
@@ -721,7 +929,7 @@ $(function() {
             return obj;
         },
 
-        checkAvailableUpdates: function(roles, dashboard,nation_version) {
+        checkAvailableUpdates: function(roles, dashboard, nation_version) {
             // var nationVersion = 0;
             console.log('CheckAvailableUpdates is called..');
             if (App.configuration.attributes.currentLanguage == "اردو" || App.configuration.attributes.currentLanguage == "العربية") {
@@ -751,7 +959,7 @@ $(function() {
             //  var htmlreferance = this.$el
 
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
-//var that=this;
+            //var that=this;
             if (typeof nation_version === 'undefined') {
                 /////No version found in nation
             } else if (nation_version == configuration.get('version')) {
