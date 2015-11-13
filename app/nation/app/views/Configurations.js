@@ -16,8 +16,6 @@ $(function() {
             this.$el.append('<a style="margin-left:31px" class="btn btn-success" id="formButton">Submit Configurations </a>');
         },
         updateDropDownValue : function(){
-            //alert($('.field-selectLanguage').find('.bbf-editor').find('select').val());
-
             var configCollection = new App.Collections.Configurations();
             configCollection.fetch({
                 async: false
