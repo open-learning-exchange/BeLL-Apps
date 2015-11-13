@@ -8,21 +8,7 @@ $(function() {
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
         initialize: function(option) {
-            var that = this;
-            //******************************************
-            var config = new App.Collections.Configurations()
-            config.fetch({
-                async: false,
-                success: function(){
-                    // temp = config.first().attributes.name;
-                    var typeofBell=config.first().attributes.type;
-                    if (typeofBell === "community" ) {
-                        that.updateLanguageDoc();
 
-                    }
-                }
-            })
-            //*****************************************
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {
@@ -114,42 +100,6 @@ $(function() {
 
             }
         },
-        updateLanguageDoc: function(){
-            console.log("inside update LanguageDoc");
-            var that = this;
-            $.ajax({
-                url: '/languages/_all_docs?include_docs=true',
-                type: 'GET',
-                dataType: 'json',
-                success: function (langResult) {
-                    console.log(langResult);
-                    var resultRows = langResult.rows;
-                    var docs = [];
-                    for(var i = 0 ; i < resultRows.length ; i++) {
-                        console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
-                        if( resultRows[i].doc.nameOfLanguage){
-                            console.log("attribute already exist")
-
-                        }
-                        else{resultRows[i].doc.nameOfLanguage = "English"}
-                        docs.push(resultRows[i].doc);
-                    }
-
-                    $.couch.db("languages").bulkSave({"docs": docs}, {
-                        success: function(data) {
-                            console.log("Languages updated");
-
-                        },
-                        error: function(status) {
-                            console.log(status);
-                        }
-                    });
-                }
-
-
-            });
-        },
-
         render: function() {}
 
     })
