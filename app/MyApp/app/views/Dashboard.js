@@ -171,20 +171,8 @@ $(function() {
                 success: function(result) {
                     if (result.rows.length > 0) {
                         console.log("Community is registered with the nation, lets update it.");
-                        //updateConfigsOfCommunity
-                        //get community's configurations here : getCommunityConfigs
-                        //get the flag from the config doc
-                        //if(flag==true) {
                         that.appsCreation();
                         console.log("after call appsCreation:" + commUpdateFlag.flagDoubleUpdate);
-                        //if (commUpdateFlag.flagDoubleUpdate) {
-                        //    that.updateConfigsOfCommunity(false)
-                        //}
-
-                        //At the end of appsCreation function set the value of the flag to false
-                        //  } else {
-                        // that.callingUpdateFunctions();//At the end of callinUpdateFunctions function set the value of the flag to true
-                        //  }
                     } else {
                         alert(" The community is not authorized to update until it is properly configured with a nation");
                         window.location.reload(false);
@@ -209,7 +197,6 @@ $(function() {
                                 $.couch.db("apps").create({
                                     success: function(data) {
                                         console.log(data);
-                                        //that.updateAppsAndDesignDocs(result);
                                         that.updateAppsAndDesignDocs();
                                     },
                                     error: function(status) {
@@ -227,7 +214,6 @@ $(function() {
                         $.couch.db("apps").create({
                             success: function(data) {
                                 console.log(data);
-                                //  that.updateAppsAndDesignDocs(result);
                                 that.updateAppsAndDesignDocs();
                             }
                         });
@@ -803,30 +789,17 @@ $(function() {
 
                 $('#gearIcon').hide();
             }
-
-            // var update = languageDict.attributes.Update_Welcome_Video;
-
             if ($.cookie('Member.login') === "admin") {
-                /*  var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'"></button>');
-
-                 document.getElementById("welcomeButton").innerHTML = "My new text!";Ã¢â‚¬â€¹
-                 dashboard.$el.append($buttonWelcome);
-                 $("#welcomeButton").html(update);*/
                 $('#welcomeButton').show();
             }
-
-            // $(itemsinnavbar).addClass('navbar-right');
             console.log('vars outside' + nation_version);
-            //   alert("outside callback" + nation_version);
             console.log("pubs" + new_publication_count)
             this.vars.nation_version = nation_version;
-
             this.vars.new_publication_count = new_publication_count;
             console.log("publicationsss" + new_publication_count)
             console.log('before call ' + this.vars.nation_version);
             dashboard.checkAvailableUpdates(member.get('roles'), dashboard, nation_version);
             console.log('after call ' + this.vars.nation_version);
-
             return this;
         },
 
@@ -856,10 +829,8 @@ $(function() {
         },
 
         checkAvailableUpdates: function(roles, dashboard, nation_version) {
-            // var nationVersion = 0;
             console.log('CheckAvailableUpdates is called..');
             if (App.configuration.attributes.currentLanguage == "اردو" || App.configuration.attributes.currentLanguage == "العربية") {
-
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
             } else {
@@ -867,8 +838,6 @@ $(function() {
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
             }
-
-
             //var context = this
             if ($.inArray('Manager', roles) == -1) {
                 return
@@ -885,7 +854,6 @@ $(function() {
             //  var htmlreferance = this.$el
 
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
-            //var that=this;
             if (typeof nation_version === 'undefined') {
                 /////No version found in nation
             } else if (nation_version == configuration.get('version')) {
@@ -894,17 +862,9 @@ $(function() {
                 if (dashboard.versionCompare(nation_version, configuration.get('version')) < 0) {
                     console.log("Nation has lower application version than that of your community application")
                 } else if (dashboard.versionCompare(nation_version, configuration.get('version')) > 0) {
-                    // dashboard.latestVersion = nationConfig.version;
-                    //  nationVersion = nationConfig.version;
                     dashboard.vars.nation_version = nation_version;
-
-
-                    //  alert('within ' + dashboard.latestVersion);
                     $('#updateButton').show();
                     $('#viewReleaseNotes').show();
-
-                    //  dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">' + App.languageDict.attributes.Update_Available + ' (' + nationConfig.version + ') </button>')
-                    //dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">' + App.languageDict.attributes.View + ' ' + App.languageDict.attributes.Release_Notes + ' </button>')
                 } else {
                     console.log("Nation is uptodate")
                 }
