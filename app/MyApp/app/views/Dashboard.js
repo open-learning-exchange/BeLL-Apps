@@ -90,7 +90,7 @@ $(function() {
                     that.callingUpdateFunctions();
                 }
             } else {
-                alert("creating flag")
+                console.log("creating flag")
                 that.updateConfigsOfCommunity(true)
                 that.callingUpdateFunctions();
             }
