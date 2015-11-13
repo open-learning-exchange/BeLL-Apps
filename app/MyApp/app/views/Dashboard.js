@@ -84,34 +84,18 @@ $(function() {
             var flag = currConfigs.flagDoubleUpdate;
             if (currConfigs.flagDoubleUpdate != undefined) {
                 if (currConfigs.flagDoubleUpdate === true) {
-                //1-call update functions
-                //2-that.updateConfigsOfCommunity(false)
-                //  if (currConfigs.flagDoubleUpdate == false) {
-                //     alert("flag is false")
-                //  }
-                //  else{
-                //   alert("flag is true")
-                //  }
                 console.log("flagDoubleUpdate is true, No need to update the community")
-                //  that. testFunction();
             }
                 else {
                     that.updateConfigsOfCommunity(true)
                     that.callingUpdateFunctions();
-
-                    //1-that.updateConfigsOfCommunity(false)
-
                 }
             }
             else {
                 alert("creating flag")
                 that.updateConfigsOfCommunity(true)
-                //that. testFunction();
                 that.callingUpdateFunctions();
-                //1-that.updateConfigsOfCommunity(false)
-
             }
-
         },
         initialize: function() {
              var that = this;
