@@ -612,38 +612,3 @@ function cancelMerging() {
     $('#invitationdiv').hide()
 }
 
- function updateLanguageDoc(){
-    console.log("inside update LanguageDoc");
-    var that = this;
-    $.ajax({
-        url: '/languages/_all_docs?include_docs=true',
-        type: 'GET',
-        dataType: 'json',
-        success: function (langResult) {
-            console.log(langResult);
-            var resultRows = langResult.rows;
-            var docs = [];
-            for(var i = 0 ; i < resultRows.length ; i++) {
-                console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
-                if( resultRows[i].doc.nameOfLanguage){
-                    console.log("attribute already exist")
-
-                }
-                else{resultRows[i].doc.nameOfLanguage = "English"}
-                docs.push(resultRows[i].doc);
-            }
-
-            $.couch.db("languages").bulkSave({"docs": docs}, {
-                success: function(data) {
-                    console.log("Languages updated");
-
-                },
-                error: function(status) {
-                    console.log(status);
-                }
-            });
-        }
-
-
-    });
-}
