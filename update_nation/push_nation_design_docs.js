@@ -29,7 +29,7 @@ function getListOfDatabases() {
 var b = 0
 
 function installDesignDocs() {
-    var database = databases[b]
+   /* var database = databases[b]
     if (b !== databases.length) {
         if (database != "communities" && database != "languages" && database != "configurations") {
             console.log("Inserting design docs for the " + database + " database");
@@ -40,54 +40,131 @@ function installDesignDocs() {
                 if (stderr) console.log(stderr);
                 console.log(stdout)
                 b++
-                installDesignDocs()
-            });
-        } else {
-            b++
-            installDesignDocs()
-        }
+    installDesignDocs()
+});
     } else {
-        updateNationCouchVersion();
-        var langEngDocPath = '../init_docs/languages.txt';
-        var langUrduDocPath = '../init_docs/languages-Urdu.txt';
-        var langArabicDocPath = '../init_docs/languages-Arabic.txt';
-        insertLanguagesDoc(langEngDocPath);
-        insertLanguagesDoc(langUrduDocPath);
-        insertLanguagesDoc(langArabicDocPath);
-    }
+        b++
+        installDesignDocs()
+        }
+} else {
+        updateNationCouchVersion();*/
+        console.log('going to call updateLanguagesDocs()******');
+
+   var pathToFirstFile="../init_docs/languages.txt";
+        updateLanguagesDocs(pathToFirstFile);
+    console.log("Going to call for second time");
+    var pathToSecondFile="../init_docs/languages-Urdu.txt";
+    updateLanguagesDocs(pathToSecondFile);
+      var pathToThirdFile="../init_docs/languages-Arabic.txt";
+    updateLanguagesDocs(pathToThirdFile);
+
+   // }
 }
-function insertLanguagesDoc(docPath) {
-    console.log("path: "+docPath);
-    var languages = nano.db.use('languages');
-    if(languages==undefined)
+
+function updateLanguagesDocs(pathOfFile) {
+    console.log('updateLanguagesDocs is called.............');
+    var languagesDb = nano.db.use('languages');
+    if(languagesDb==undefined)
     {
-        console.log("languages variable is undefined");
+        console.log("Something is wrong with LanguagedDB object...");
     }
-    else{
-        console.log("Languages has something..");
-        fs.exists(docPath, function(fileok){
-            if(fileok) {
-                fs.readFile(docPath, function (err, data) {
-                    console.log("Data: " + data);
-                    // var doc=data.toJSON();
-                    languages.insert(data, function (err, res) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log("Languages doc inserted successfully.");
+    else
+    {
+        console.log("Languages database exists..");
+            var obj;
+            console.log('file is...'+pathOfFile);
+            fs.exists(pathOfFile, function (fileok) {
+                if (fileok) {
+                    console.log('file exists...'+pathOfFile);
+
+                    fs.readFile(pathOfFile, 'utf8', function (err, data) {
+                       // console.log(data);
+                        if (err) throw err;
+                      //  console.log(data);
+                        obj = JSON.parse(data);
+                    });  //end of file read...
+                    languagesDb.list(function (err, body) {
+                        if (!err) {
+                            if(body.rows.length == 0) {
+                                //Insert docs
+                                console.log('There is no document in database.. Going to insert more');
+                                languagesDb.insert(obj, function (err, body) {
+                                    if (err) throw err;
+                                    else console.log("Added document ");
+                                });
+
+                            } else {
+
+                                body.rows.forEach(function (doc) {
+                                    console.log('forEach is running....');
+                                    var key = doc.id;
+                                    console.log('key' + key);
+                                    var revision = doc.value.rev;
+                                    console.log('Revision ' + revision);
+                                    console.log("DOC");
+                                  //  console.log(doc);
+                                    if (doc) {
+                                        console.log('There is a document');
+                                        if (doc.id !== '_design/bell') { // if its not a design doc, then update it
+                                            console.log('Executed till here...');
+                                            console.log('key of doc ' + key);
+                                            languagesDb.get(key, function (error, langDoc) {
+                                                if (!error) {
+                                                    console.log('LangDOcs');
+                                                    //console.log(langDoc);
+
+                                                    console.log('obj');
+                                                  //  console.log(obj);
+                                                    var result = {};
+                                                    if(langDoc.nameOfLanguage==obj.nameOfLanguage  || langDoc.nameOfLanguage==undefined || (langDoc.namOfLanguage!=obj.nameOfLanguage && langDoc.nameOfLanguage!=undefined)){
+                                                        console.log('It has matched');
+
+                                                                 languagesDb.destroy(key,revision,function(err, body,header) {
+                                                                 if (!err)
+                                                                 console.log('successfully deleted document..'+langDoc.id);
+                                                                 else{
+                                                                 console.log('Could not delete document ');}
+                                                                 });
+
+                                                            }
+                                                    else{
+                                                        console.log('Not Found type...');
+                                                    }
+                                                    }
+
+
+
+
+                                            });  //End- of get call for a document
+                                        }
+                                    }
+                                    else {
+                                        console.log('There is no document..');
+                                    }
+
+
+                                });//End of for-each
+                                languagesDb.insert(obj, function (err, body) {
+                                    if (err) {
+                                        console.log('Error occurred....');
+                                    }
+                                    else console.log("Inserted document ");
+                                });
+                            }
+
                         }
+
                     });
+                }
+                else {
+                    console.log("file not found");
+                }
+            });  //End of file-exists...
+      //  }  //end of loop
 
-
-                });
-            }
-            else console.log("file not found");
-        });
-
-    }
+    }  //End of main else...
 
 }
-
 function updateNationCouchVersion() {
     var configsDb = nano.use('configurations');
     configsDb.list(function(err, body) {
