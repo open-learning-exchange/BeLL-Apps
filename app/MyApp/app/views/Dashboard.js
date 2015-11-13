@@ -78,48 +78,46 @@ $(function() {
                 }
             }
         },
-        flagdoubleUpdate: function(){
+        flagdoubleUpdate: function() {
             var that = this;
             var currConfigs = that.getCommunityConfigs();
             var flag = currConfigs.flagDoubleUpdate;
             if (currConfigs.flagDoubleUpdate != undefined) {
                 if (currConfigs.flagDoubleUpdate === true) {
-                console.log("flagDoubleUpdate is true, No need to update the community")
-            }
-                else {
+                    console.log("flagDoubleUpdate is true, No need to update the community")
+                } else {
                     that.updateConfigsOfCommunity(true)
                     that.callingUpdateFunctions();
                 }
-            }
-            else {
+            } else {
                 alert("creating flag")
                 that.updateConfigsOfCommunity(true)
                 that.callingUpdateFunctions();
             }
         },
         initialize: function() {
-             var that = this;
+            var that = this;
             that.flagdoubleUpdate();
-          //  var that = this;
-          //  var temp;
-          ///  var config = new App.Collections.Configurations()
-         /*   config.fetch({
-                async: false,
-                success: function(){
-                   // temp = config.first().attributes.name;
-                    var typeofBell=config.first().attributes.type;
-                    if (typeofBell === "community" ) {
-                        that.updateLanguageDoc();
+            //  var that = this;
+            //  var temp;
+            ///  var config = new App.Collections.Configurations()
+            /*   config.fetch({
+             async: false,
+             success: function(){
+             // temp = config.first().attributes.name;
+             var typeofBell=config.first().attributes.type;
+             if (typeofBell === "community" ) {
+             that.updateLanguageDoc();
 
-                    }
-                }
-            }) */
+             }
+             }
+             }) */
 
-           //var typeofBell=config.first().attributes.type;
-           // if (typeofBell === "community") {
-           //     this.updateLanguageDoc();
-           //
-           // }
+            //var typeofBell=config.first().attributes.type;
+            // if (typeofBell === "community") {
+            //     this.updateLanguageDoc();
+            //
+            // }
 
 
             // $(window).on('resize.resizeview', this.onResize.bind(this));
@@ -374,7 +372,7 @@ $(function() {
                 success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.availableLanguages = nationConfig.availableLanguages;
-                  //  currentConfig.flagDoubleUpdate = false;
+                    //  currentConfig.flagDoubleUpdate = false;
                     //that.updateConfigsOfCommunity(false);
                     currentConfig.version = nationConfig.version;
                     var doc = currentConfig;
@@ -392,59 +390,63 @@ $(function() {
             });
         },
 
-            updateLanguageDocs: function() {
-                var that = this;
-                var nationInfo = that.getNationInfo();
-                var nationName = nationInfo["nationName"];
-                var nationURL = nationInfo["nationURL"];
-                $.ajax({
-                    url: '/languages/_all_docs?include_docs=true',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (langResult) {
-                        console.log(langResult);
-                        var resultRows = langResult.rows;
-                        var docs = [];
-                        for(var i = 0 ; i < resultRows.length ; i++) {
-                            docs.push(resultRows[i].doc);
-                        }
-                        console.log(docs);
-                        $.couch.db("languages").bulkRemove({"docs": docs}, {
-                            success: function(data) {
-                                console.log(data);
-                                var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/languages/_all_docs?include_docs=true'
-                                $.ajax({
-                                    url: nationConfigURL,
-                                    type: 'GET',
-                                    dataType: "jsonp",
-                                    success: function (json) {
-                                        console.log(json);
-                                        var nationLangRows = json.rows;
-                                        var commLangDocs = [];
-                                        for(var i = 0 ; i < nationLangRows.length ; i++) {
-                                            var langDoc = nationLangRows[i].doc;
-                                            delete langDoc._id;
-                                            delete langDoc._rev;
-                                            commLangDocs.push(langDoc);
-                                        }
-                                        $.couch.db("languages").bulkSave({"docs": commLangDocs}, {
-                                            success: function(data) {
-                                                console.log("Languages updated");
-                                            },
-                                            error: function(status) {
-                                                console.log(status);
-                                            }
-                                        });
-                                    }
-                                });
-                            },
-                            error: function(status) {
-                                console.log(status);
-                            }
-                        });
+        updateLanguageDocs: function() {
+            var that = this;
+            var nationInfo = that.getNationInfo();
+            var nationName = nationInfo["nationName"];
+            var nationURL = nationInfo["nationURL"];
+            $.ajax({
+                url: '/languages/_all_docs?include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                success: function(langResult) {
+                    console.log(langResult);
+                    var resultRows = langResult.rows;
+                    var docs = [];
+                    for (var i = 0; i < resultRows.length; i++) {
+                        docs.push(resultRows[i].doc);
                     }
-                });
-            },
+                    console.log(docs);
+                    $.couch.db("languages").bulkRemove({
+                        "docs": docs
+                    }, {
+                        success: function(data) {
+                            console.log(data);
+                            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/languages/_all_docs?include_docs=true'
+                            $.ajax({
+                                url: nationConfigURL,
+                                type: 'GET',
+                                dataType: "jsonp",
+                                success: function(json) {
+                                    console.log(json);
+                                    var nationLangRows = json.rows;
+                                    var commLangDocs = [];
+                                    for (var i = 0; i < nationLangRows.length; i++) {
+                                        var langDoc = nationLangRows[i].doc;
+                                        delete langDoc._id;
+                                        delete langDoc._rev;
+                                        commLangDocs.push(langDoc);
+                                    }
+                                    $.couch.db("languages").bulkSave({
+                                        "docs": commLangDocs
+                                    }, {
+                                        success: function(data) {
+                                            console.log("Languages updated");
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+                }
+            });
+        },
 
         lastAppUpdateAtNationLevel: function(result) {
             var that = this;
@@ -520,31 +522,34 @@ $(function() {
                 async: false
             });
         },
-        updateLanguageDoc: function(){
-         console.log("inside update LanguageDoc");
+        updateLanguageDoc: function() {
+            console.log("inside update LanguageDoc");
             var that = this;
             $.ajax({
                 url: '/languages/_all_docs?include_docs=true',
                 type: 'GET',
                 dataType: 'json',
-                success: function (langResult) {
+                success: function(langResult) {
                     console.log(langResult);
                     var resultRows = langResult.rows;
                     var docs = [];
-                    for(var i = 0 ; i < resultRows.length ; i++) {
+                    for (var i = 0; i < resultRows.length; i++) {
                         console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
-                       if( resultRows[i].doc.nameOfLanguage){
-                           console.log("attribute already exist")
-                           //that.flagdoubleUpdate();
-                       }
-                        else{resultRows[i].doc.nameOfLanguage = "English"}
+                        if (resultRows[i].doc.nameOfLanguage) {
+                            console.log("attribute already exist")
+                            //that.flagdoubleUpdate();
+                        } else {
+                            resultRows[i].doc.nameOfLanguage = "English"
+                        }
                         docs.push(resultRows[i].doc);
                     }
 
-                    $.couch.db("languages").bulkSave({"docs": docs}, {
+                    $.couch.db("languages").bulkSave({
+                        "docs": docs
+                    }, {
                         success: function(data) {
                             console.log("Languages updated");
-                           // that.flagdoubleUpdate();
+                            // that.flagdoubleUpdate();
                         },
                         error: function(status) {
                             console.log(status);
@@ -555,7 +560,7 @@ $(function() {
 
             });
         },
-        secondUpdateIteration: function(){
+        secondUpdateIteration: function() {
             var that = this;
             var currConfigs = that.getCommunityConfigs();
             var nameOfCurrLanguage = currConfigs.currentLanguage;
