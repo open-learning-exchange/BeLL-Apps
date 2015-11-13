@@ -259,7 +259,6 @@ $(function() {
                 success: function(result) {
                     if (result.rows.length > 0) {
                         that.lastAppUpdateAtNationLevel(result);
-                        console.log("Community is registered with the nation, lets update it.");
                     }
                 },
                 error: function() {
@@ -365,8 +364,6 @@ $(function() {
                 success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.availableLanguages = nationConfig.availableLanguages;
-                    //  currentConfig.flagDoubleUpdate = false;
-                    //that.updateConfigsOfCommunity(false);
                     currentConfig.version = nationConfig.version;
                     var doc = currentConfig;
                     $.couch.db("configurations").saveDoc(doc, {
