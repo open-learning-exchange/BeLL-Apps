@@ -92,12 +92,13 @@ $(function() {
                 //  else{
                 //   alert("flag is true")
                 //  }
-                alert("flag is true")
+                console.log("flagDoubleUpdate is true, No need to update the community")
                 //  that. testFunction();
             }
                 else {
                     that.updateConfigsOfCommunity(true)
                     that.callingUpdateFunctions();
+
                     //1-that.updateConfigsOfCommunity(false)
 
                 }
@@ -305,6 +306,7 @@ $(function() {
                 }
             });
 
+
         },
 
         updateAppsAndDesignDocs: function() {
@@ -419,44 +421,6 @@ $(function() {
                 }
             });
         },
-
-        //updateLanguages: function() {
-        //    var that = this;
-        //    $.couch.allDbs({
-        //        success: function(data) {
-        //            if (data.indexOf('languages') != -1) {
-        //                console.log("languages existed.We are going to drop and create.");
-        //                $.couch.db("languages").drop({
-        //                    success: function(data) {
-        //                        console.log(data);
-        //                        $.couch.db("languages").create({
-        //                            success: function(data) {
-        //                                console.log(data);
-        //                                that.updateLanguageDocs();
-        //                            },
-        //                            error: function(status) {
-        //                                console.log(status);
-        //                            }
-        //                        });
-        //                    },
-        //                    error: function(status) {
-        //                        console.log(status);
-        //                    },
-        //                    async: false
-        //                });
-        //            } else {
-        //                console.log("languages doesn't exist, so no need to drop.");
-        //                $.couch.db("languages").create({
-        //                    success: function(data) {
-        //                        console.log(data);
-        //                        that.updateLanguageDocs();
-        //                    }
-        //                });
-        //            }
-        //        }
-        //    });
-        //},
-
 
             updateLanguageDocs: function() {
                 var that = this;
