@@ -576,45 +576,23 @@ $(function() {
             console.log(nameOfCurrLanguage);
             var flag = currConfigs.flagDoubleUpdate;
             if (currConfigs.flagDoubleUpdate) {
-                //1-call update functions
-                //2-that.updateConfigsOfCommunity(false)
-                //  if (currConfigs.flagDoubleUpdate == false) {
-                //     alert("flag is false")
-                //  }
-                //  else{
-                //   alert("flag is true")
-                //  }
                 alert("flag is true")
-                //  that. testFunction();
             } else {
                 alert("creating flag")
                 that.updateConfigsOfCommunity(true)
-                //that. testFunction();
                 that.callingUpdateFunctions();
-                //1-that.updateConfigsOfCommunity(false)
 
             }
         },
         render: function(nation_version, new_publication_count) {
             console.log("inside render function")
             var that = this;
-           // that.updateLanguageDoc();
             var dashboard = this;
             var currentContext = this;
             this.vars.mails = 0;
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
             var that = this;
-            // var nation_version = 12;
-            /*   that.getNationVersion(function(para1){
-             alert("before"+nation_version)
-             nation_version = para1;
-             alert("after"+nation_version)
-             //  that.vars.nation_version = nation_version;
-             // that.$el.html(_.template(that.template, that.vars))
-             alert("after after"+nation_version)
-             alert("inside" + nation_version)
-             });*/
             console.log('Hello');
             var clanguage = App.configuration.get("currentLanguage");
             if (clanguage == "العربية" || clanguage == "اردو") {
