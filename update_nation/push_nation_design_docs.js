@@ -29,7 +29,7 @@ function getListOfDatabases() {
 var b = 0
 
 function installDesignDocs() {
-   /* var database = databases[b]
+    var database = databases[b]
     if (b !== databases.length) {
         if (database != "communities" && database != "languages" && database != "configurations") {
             console.log("Inserting design docs for the " + database + " database");
@@ -47,22 +47,22 @@ function installDesignDocs() {
         installDesignDocs()
         }
 } else {
-        updateNationCouchVersion();*/
-        console.log('going to call updateLanguagesDocs()******');
+        updateNationCouchVersion();
+      //  console.log('going to call updateLanguagesDocs()******');
 
    var pathToFirstFile="../init_docs/languages.txt";
         updateLanguagesDocs(pathToFirstFile);
-    console.log("Going to call for second time");
+   // console.log("Going to call for second time");
     var pathToSecondFile="../init_docs/languages-Urdu.txt";
     updateLanguagesDocs(pathToSecondFile);
       var pathToThirdFile="../init_docs/languages-Arabic.txt";
     updateLanguagesDocs(pathToThirdFile);
 
-   // }
+    }
 }
 
 function updateLanguagesDocs(pathOfFile) {
-    console.log('updateLanguagesDocs is called.............');
+  //  console.log('updateLanguagesDocs is called.............');
     var languagesDb = nano.db.use('languages');
     if(languagesDb==undefined)
     {
@@ -96,17 +96,17 @@ function updateLanguagesDocs(pathOfFile) {
                             } else {
 
                                 body.rows.forEach(function (doc) {
-                                    console.log('forEach is running....');
+                                 //   console.log('forEach is running....');
                                     var key = doc.id;
                                     console.log('key' + key);
                                     var revision = doc.value.rev;
                                     console.log('Revision ' + revision);
-                                    console.log("DOC");
+                                   // console.log("DOC");
                                   //  console.log(doc);
                                     if (doc) {
                                         console.log('There is a document');
                                         if (doc.id !== '_design/bell') { // if its not a design doc, then update it
-                                            console.log('Executed till here...');
+                                          //  console.log('Executed till here...');
                                             console.log('key of doc ' + key);
                                             languagesDb.get(key, function (error, langDoc) {
                                                 if (!error) {
@@ -117,7 +117,7 @@ function updateLanguagesDocs(pathOfFile) {
                                                   //  console.log(obj);
                                                     var result = {};
                                                     if(langDoc.nameOfLanguage==obj.nameOfLanguage  || langDoc.nameOfLanguage==undefined || (langDoc.namOfLanguage!=obj.nameOfLanguage && langDoc.nameOfLanguage!=undefined)){
-                                                        console.log('It has matched');
+                                                     //   console.log('It has matched');
 
                                                                  languagesDb.destroy(key,revision,function(err, body,header) {
                                                                  if (!err)
