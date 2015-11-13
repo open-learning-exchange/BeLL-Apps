@@ -122,13 +122,6 @@ $(function() {
 
             // $(window).on('resize.resizeview', this.onResize.bind(this));
         },
-
-        testFunction: function() {
-            var that = this;
-            alert("test function is called");
-            that.updateConfigsOfCommunity(false)
-
-        },
         remove: function() {
             $(window).off('resize.resizeview');
             Backbone.View.prototype.remove.call(this);
