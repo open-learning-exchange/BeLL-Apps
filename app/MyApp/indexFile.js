@@ -611,3 +611,4 @@ function cancelMerging() {
     document.getElementById('nav').style.opacity = 1
     $('#invitationdiv').hide()
 }
+

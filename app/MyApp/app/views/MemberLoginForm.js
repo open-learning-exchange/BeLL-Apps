@@ -16,8 +16,67 @@ $(function() {
                 this.setForm();
             }
         },
-        render: function() {
+       updateLanguageDoc:   function(){
+        console.log("inside updateLanguageDoc function");
+        var that = this;
+        $.ajax({
+            url: '/languages/_all_docs?include_docs=true',
+            type: 'GET',
+            dataType: 'json',
+            success: function (langResult) {
+                console.log(langResult);
+                var resultRows = langResult.rows;
+                var docs = [];
+                for(var i = 0 ; i < resultRows.length ; i++) {
+                    console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
+                    if( resultRows[i].doc.nameOfLanguage){
+                        console.log("attribute already exist")
 
+                    }
+                    else{
+                        console.log(resultRows[i].doc.Dashboard);
+                        if(resultRows[i].doc.Dashboard=="My Home")
+                        {
+                            resultRows[i].doc.nameOfLanguage = "English";
+                            docs.push(resultRows[i].doc);
+                            // break;
+                        }
+                    }
+
+                }
+
+                $.couch.db("languages").bulkSave({"docs": docs}, {
+                    success: function(data) {
+                        console.log("Languages updated");
+
+                    },
+                    error: function(status) {
+                        console.log(status);
+                    }
+                });
+            }
+
+
+        });
+    },
+        render: function() {
+            //****************************************************************************************
+            var that = this;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function(){
+                    // temp = config.first().attributes.name;
+                    var typeofBell=config.first().attributes.type;
+                    if (typeofBell === "community" ) {
+                       console.log('Calling updateLanguageDoc() Function ....');
+                       that.updateLanguageDoc();
+                       // updateLanguageDoc();
+
+                    }
+                }
+            })
+            //*******************************************************************************************
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
