@@ -543,8 +543,8 @@ $(function() {
                         dataType: 'json',
                         data: JSON.stringify(communityModel),
                         success: function(response) {
-                            var currCommConfig = that.updateConfigsOfCommunity(2);
-                            alert("countDoubleUpdate" + currCommConfig.countDoubleUpdate )
+                            var currCommConfig = that.updateConfigsOfCommunity(2); //update countDoubleUpdate to 2
+
                             //Replicate from Community to Nation
                             $.ajax({
                                 headers: {
@@ -562,10 +562,10 @@ $(function() {
                                 success: function(response) {
                                     console.log("Successfully Replicated.");
                                     var currConfigOfComm = that.getCommunityConfigs()
+                                    console.log("value of countDoubleUpdate after incrementing to 2: " + currCommConfig.countDoubleUpdate )
                                     console.log("value of countDoubleUpdate: " + currConfigOfComm.countDoubleUpdate);
                                        if (currConfigOfComm.countDoubleUpdate > 1){
-
-                                          console.log("Updated Successfully" + currConfigOfComm.countDoubleUpdate  );
+                                          console.log("Updated Successfully" + currConfigOfComm.countDoubleUpdate  ); //todo: comment this if statement
                                        }
                                     alert("Updated Successfully");
                                     window.location.reload(false);
