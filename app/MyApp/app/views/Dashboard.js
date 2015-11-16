@@ -98,6 +98,7 @@ $(function() {
                     if(typeofBell === "community" ) {
                         if (count != undefined && count!= null) {
                             if (count === 1) {
+                                App.startActivityIndicator();
                                 console.log('countDoubleUpdate is 1 so callingUpdateFunctions ....');
                                  that.callingUpdateFunctions();
                             } else {
@@ -187,6 +188,7 @@ $(function() {
 
         updateVersion: function(e) {
             var that = this;
+            App.startActivityIndicator();
             var config;
             var currCommConfig = that.getCommunityConfigs()
             if (currCommConfig.countDoubleUpdate) {
@@ -339,9 +341,9 @@ $(function() {
                 async: false,
                 success: function(response) {
                     console.log("Apps successfully updated.");
-                    that.callingUpdateFunctions(); //todo: first time it should not be called -> comment it out
-                    //reload from here
-                    //window.location.reload(false);
+                    //that.callingUpdateFunctions(); //todo: first time it should not be called -> comment it out
+                   // reload from here
+                    window.location.reload(false);
                 },
                 error: function() {
                     App.stopActivityIndicator()
