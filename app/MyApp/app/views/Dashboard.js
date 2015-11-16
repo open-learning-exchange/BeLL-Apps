@@ -82,8 +82,8 @@ $(function() {
         initialize: function() {
             var that = this;
           //  that.isCommunity();
-            that.test();
-          //  that.secondUpdateIteration();
+            //that.test();
+            that.secondUpdateIteration();
 
         },
         secondUpdateIteration: function() {
@@ -99,7 +99,7 @@ $(function() {
                         if (count != undefined && count!= null) {
                             if (count === 1) {
                                 console.log('countDoubleUpdate is 1 so callingUpdateFunctions ....');
-                                // that.callingUpdateFunctions();
+                                 that.callingUpdateFunctions();
                             } else {
                                 console.log("countDoubleUpdate is less than 1, No need to update the community")
 
@@ -108,7 +108,7 @@ $(function() {
                             console.log("Creating countDoubleUpdate in community configurations as it does not exist")
                             that.updateConfigsOfCommunity(0);
                             console.log('callingUpdateFunctions after creating countDoubleUpdate ....');
-                            //that.callingUpdateFunctions();
+                            that.callingUpdateFunctions();
                         }
                         console.log('End of secondUpdateIteration ....');
                     }
