@@ -53,6 +53,7 @@ $(function () {
             }
             con.set('subType', 'dummyy');
             con.set('flagDoubleUpdate' , true); //flag Double update
+            con.set('countDoubleUpdate'  , 0   );
             if(Config.get('selectLanguage') != "Select an Option") {
                 con.set('currentLanguage', Config.get('selectLanguage'));
             }
