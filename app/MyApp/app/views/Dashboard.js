@@ -100,7 +100,6 @@ $(function() {
             that.isCommunity();
 
         },
-   //*******************************************************
         isCommunity: function(){
             var that = this;
             var config = new App.Collections.Configurations()
@@ -110,14 +109,13 @@ $(function() {
                         var typeofBell=config.first().attributes.type;
                         var flag = config.first().attributes.flagDoubleUpdate;
                         var count = config.first().attributes.countDoubleUpdate;
-                        if (typeofBell === "community" && flag === true && count > 1) {
+                        if (typeofBell === "community" && flag === false && count > 1) {
                             console.log('Calling flagdoubleUpdate Function ....');
-                           // that.flagdoubleUpdate();
+                            that.flagdoubleUpdate();
                         }
                     }
                 })
         },
-        //*****************************************************
         remove: function() {
             $(window).off('resize.resizeview');
             Backbone.View.prototype.remove.call(this);
@@ -498,7 +496,13 @@ $(function() {
                                 }),
                                 success: function(response) {
                                     console.log("Successfully Replicated.");
-                                    alert("Updated Successfully");
+                                    var currConfigOfComm = that.getCommunityConfigs()
+                                    console.log("value of countDoubleUpdate: " + currConfigOfComm.countDoubleUpdate);
+                                      // if (currConfigOfComm.countDoubleUpdate > 1){
+
+                                           alert("Updated Successfully");
+                                      // }
+
                                     window.location.reload(false);
                                 },
                                 async: false
