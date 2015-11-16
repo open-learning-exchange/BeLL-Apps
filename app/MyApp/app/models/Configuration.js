@@ -23,9 +23,9 @@ $(function() {
             flagDoubleUpdate: {
                 type: 'Text'
             },
-            countDoubleUpdate: {
-                type: 'Text'
-            }
+            "countDoubleUpdate": 0
+
+
         },
         schema: {
             name: {
