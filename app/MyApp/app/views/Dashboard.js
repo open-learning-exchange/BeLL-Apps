@@ -309,7 +309,6 @@ $(function() {
                 success: function(result) {
                     if (result.rows.length > 0) {
                         that.lastAppUpdateAtNationLevel(result);
-                        console.log("Community is registered with the nation, lets update it.");
                     }
                 },
                 error: function() {
