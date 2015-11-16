@@ -97,31 +97,27 @@ $(function() {
         },
         initialize: function() {
             var that = this;
-            that.flagdoubleUpdate();
-            //  var that = this;
-            //  var temp;
-            ///  var config = new App.Collections.Configurations()
-            /*   config.fetch({
-             async: false,
-             success: function(){
-             // temp = config.first().attributes.name;
-             var typeofBell=config.first().attributes.type;
-             if (typeofBell === "community" ) {
-             that.updateLanguageDoc();
+            that.isCommunity();
 
-             }
-             }
-             }) */
-
-            //var typeofBell=config.first().attributes.type;
-            // if (typeofBell === "community") {
-            //     this.updateLanguageDoc();
-            //
-            // }
-
-
-            // $(window).on('resize.resizeview', this.onResize.bind(this));
         },
+   //*******************************************************
+        isCommunity: function(){
+            var that = this;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                    async: false,
+                    success: function(){
+                        var typeofBell=config.first().attributes.type;
+                        var flag = config.first().attributes.flagDoubleUpdate;
+                        var count = config.first().attributes.countDoubleUpdate;
+                        if (typeofBell === "community" && flag === true && count > 1) {
+                            console.log('Calling flagdoubleUpdate Function ....');
+                           // that.flagdoubleUpdate();
+                        }
+                    }
+                })
+        },
+        //*****************************************************
         remove: function() {
             $(window).off('resize.resizeview');
             Backbone.View.prototype.remove.call(this);
