@@ -78,6 +78,43 @@ $(function() {
                 }
             }
         },
+
+        initialize: function() {
+            var that = this;
+          //  that.isCommunity();
+            that.secondUpdateIteration();
+
+        },
+        secondUpdateIteration: function() {
+            var that = this;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function(){
+                    var typeofBell=config.first().attributes.type;
+                    var count = config.first().attributes.countDoubleUpdate;
+                    // if (typeofBell === "community" && flag === false && count > 1) {
+                    if(typeofBell === "community" ) {
+                        if (count != undefined && count!= null) {
+                            if (count < 1) {
+                                console.log("countDoubleUpdate is less than 1, No need to update the community")
+                            } else {
+                                that.updateConfigsOfCommunity(0)
+                                console.log('countDoubleUpdate is greater than 1 so callingUpdateFunctions ....');
+                               // that.callingUpdateFunctions();
+                            }
+                        } else {
+                            console.log("Creating countDoubleUpdate in community configurations as it does not exist")
+                            that.updateConfigsOfCommunity(0);
+                            console.log('callingUpdateFunctions after creating countDoubleUpdate ....');
+                            //that.callingUpdateFunctions();
+                        }
+                        console.log('End of secondUpdateIteration ....');
+                    }
+                }
+            })
+        },
+        //todo : remove this function ater when double udate works fine
         flagdoubleUpdate: function() {
             var that = this;
             var currConfigs = that.getCommunityConfigs();
@@ -95,11 +132,7 @@ $(function() {
                 that.callingUpdateFunctions();
             }
         },
-        initialize: function() {
-            var that = this;
-            that.isCommunity();
-
-        },
+        //todo : remove this function ater when double udate works fine
         isCommunity: function(){
             var that = this;
             var config = new App.Collections.Configurations()
@@ -335,7 +368,7 @@ $(function() {
             var currentConfig = config.first().toJSON().rows[0].doc
             return currentConfig;
         },
-        updateConfigsOfCommunity: function(flag , count ) {
+        updateConfigsOfCommunity: function(count , flag) {
             var currentConfig = this.getCommunityConfigs();
             if (flag){
                 currentConfig.flagDoubleUpdate = flag;
@@ -524,21 +557,7 @@ $(function() {
                 async: false
             });
         },
-        secondUpdateIteration: function() {
-            var that = this;
-            var currConfigs = that.getCommunityConfigs();
-            var nameOfCurrLanguage = currConfigs.currentLanguage;
-            console.log(nameOfCurrLanguage);
-            var flag = currConfigs.flagDoubleUpdate;
-            if (currConfigs.flagDoubleUpdate) {
-                alert("flag is true")
-            } else {
-                alert("creating flag")
-                that.updateConfigsOfCommunity(true)
-                that.callingUpdateFunctions();
 
-            }
-        },
         render: function(nation_version, new_publication_count) {
             console.log("inside render function")
             var that = this;
