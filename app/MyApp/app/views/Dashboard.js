@@ -109,7 +109,7 @@ $(function() {
                             console.log("Creating countDoubleUpdate in community configurations as it does not exist")
                             that.updateConfigsOfCommunity(0);
                             console.log('callingUpdateFunctions after creating countDoubleUpdate ....');
-                            that.callingUpdateFunctions();
+                           // that.callingUpdateFunctions(); todo: need to remove this as we dont want to call this function at ech initilization if there is no countDoubleUpdate in configurations
                         }
                         console.log('End of secondUpdateIteration ....');
                     }
