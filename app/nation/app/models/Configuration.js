@@ -20,9 +20,9 @@ $(function() {
             subType: {
                 type: 'Text'
             },
-            flagDoubleUpdate: {
+         /*   flagDoubleUpdate: { //no need of flag on nation side
                 type: 'Text'
-            },
+            }, */
 
         },
         schema: {
