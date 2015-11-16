@@ -109,7 +109,8 @@ $(function() {
                         var typeofBell=config.first().attributes.type;
                         var flag = config.first().attributes.flagDoubleUpdate;
                         var count = config.first().attributes.countDoubleUpdate;
-                        if (typeofBell === "community" && flag === false && count > 1) {
+                       // if (typeofBell === "community" && flag === false && count > 1) {
+                        if(typeofBell === "community" ) {
                             console.log('Calling flagdoubleUpdate Function ....');
                             that.flagdoubleUpdate();
                         }
@@ -140,11 +141,16 @@ $(function() {
         updateVersion: function(e) {
             var that = this;
             App.startActivityIndicator();
-            var commUpdateFlag = that.getCommunityConfigs()
-            if (commUpdateFlag.flagDoubleUpdate === true) {
-                that.updateConfigsOfCommunity(false)
+            var currCommConfig = that.getCommunityConfigs()
+            if (currCommConfig.flagDoubleUpdate === true ) {
+                if (currCommConfig.count )
+
+                {
+                    var count = currCommConfig.count+1;
+                    that.updateConfigsOfCommunity(false , count)
+                }
             }
-            console.log("inside update version : " + commUpdateFlag.flagDoubleUpdate);
+            console.log("inside update version : " + currCommConfig.flagDoubleUpdate);
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -157,7 +163,7 @@ $(function() {
                     if (result.rows.length > 0) {
                         console.log("Community is registered with the nation, lets update it.");
                         that.appsCreation();
-                        console.log("after call appsCreation:" + commUpdateFlag.flagDoubleUpdate);
+                        console.log("value of flagDoubleUpdate after calling appsCreation:" + currCommConfig.flagDoubleUpdate);
                     } else {
                         alert(" The community is not authorized to update until it is properly configured with a nation");
                         window.location.reload(false);
@@ -329,9 +335,12 @@ $(function() {
             var currentConfig = config.first().toJSON().rows[0].doc
             return currentConfig;
         },
-        updateConfigsOfCommunity: function(flag) {
+        updateConfigsOfCommunity: function(flag , count ) {
             var currentConfig = this.getCommunityConfigs();
-            currentConfig.flagDoubleUpdate = flag;
+            if (flag){
+                currentConfig.flagDoubleUpdate = flag;
+            }
+            currentConfig.countDoubleUpdate = currentConfig.countDoubleUpdate + count;
             var doc = currentConfig;
             $.couch.db("configurations").saveDoc(doc, {
                 success: function(data) {
@@ -498,10 +507,10 @@ $(function() {
                                     console.log("Successfully Replicated.");
                                     var currConfigOfComm = that.getCommunityConfigs()
                                     console.log("value of countDoubleUpdate: " + currConfigOfComm.countDoubleUpdate);
-                                      // if (currConfigOfComm.countDoubleUpdate > 1){
+                                       if (currConfigOfComm.countDoubleUpdate > 1){
 
                                            alert("Updated Successfully");
-                                      // }
+                                       }
 
                                     window.location.reload(false);
                                 },
