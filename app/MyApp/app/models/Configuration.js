@@ -20,9 +20,6 @@ $(function() {
             subType: {
                 type: 'Text'
             },
-            flagDoubleUpdate: {
-                type: 'Text'
-            },
             "countDoubleUpdate": 0
 
 
