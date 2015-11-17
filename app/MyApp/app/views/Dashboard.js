@@ -115,24 +115,7 @@ $(function() {
                     }
                 })
             },
-            //todo : remove this function ater when double udate works fine
-            flagdoubleUpdate: function() {
-                var that = this;
-                var currConfigs = that.getCommunityConfigs();
-                var flag = currConfigs.flagDoubleUpdate;
-                if (currConfigs.flagDoubleUpdate != undefined) {
-                    if (currConfigs.flagDoubleUpdate === true) {
-                        console.log("flagDoubleUpdate is true, No need to update the community")
-                    } else {
-                        that.updateConfigsOfCommunity(true)
-                        that.callingUpdateFunctions();
-                    }
-                } else {
-                    console.log("creating flag")
-                    that.updateConfigsOfCommunity(true)
-                    that.callingUpdateFunctions();
-                }
-            },
+
             //todo : remove this function ater when double udate works fine
             isCommunity: function(){
                 var that = this;
