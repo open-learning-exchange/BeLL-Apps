@@ -6,7 +6,7 @@ $(function() {
         routes: {
             'updatewelcomevideo': 'addOrUpdateWelcomeVideoDoc',
             '': 'MemberLogin',
-            'dashboard': 'getNationVersion',
+            'dashboard': 'Dashboard',
             'ereader': 'eReader',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
@@ -354,103 +354,106 @@ $(function() {
 
             return roles
         },
-        getNationVersion :function(){
-            // var nation_version = 0;
-            var that = this;
-            var configuration = App.configuration
-            var nationName = configuration.get("nationName")
-            var nationURL = configuration.get("nationUrl")
-            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
-            nName = configuration.get('nationName')
-            pass = App.password
-            nUrl = configuration.get('nationUrl')
-            currentBellName = configuration.get('name')
-            //  var htmlreferance = this.$el
+       //POSITION OF GETNATION VERSION
+        getNationVersion: function (){
+        console.log('getNationVersion is called....');
+        var dashboard = new App.Views.Dashboard();
+        // var nation_version = 0;
+        var that = this;
+        var configuration = App.configuration
+        var nationName = configuration.get("nationName")
+        var nationURL = configuration.get("nationUrl")
+        var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
+        nName = configuration.get('nationName')
+        pass = App.password
+        nUrl = configuration.get('nationUrl')
+        currentBellName = configuration.get('name')
+        //  var htmlreferance = this.$el
 
-            var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
-            var nationConfig;
-            var newPublicationsCount = 0;
-            $.ajax({
-                url: nationConfigURL,
-                type: 'GET',
-                dataType: "jsonp",
+        var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
+        var nationConfig;
+        var newPublicationsCount = 0;
+        $.ajax({
+            url: nationConfigURL,
+            type: 'GET',
+            dataType: "jsonp",
 
-                success: function(json) {
-                    if( json.rows[0]) {
-                        nationConfig = json.rows[0].doc;
-                        console.log(nationConfig);
-                        nation_version = nationConfig.version;
+            success: function(json) {
+                if( json.rows[0]) {
+                    nationConfig = json.rows[0].doc;
+                    console.log(nationConfig);
+                    nation_version = nationConfig.version;
 
-                        //********************************************************************************************************************************
-                            $.ajax({
-                                url: DbUrl,
-                                type: 'GET',
-                                dataType: 'jsonp',
-                                async:false,
-                                success: function(json) {
-                                    var publicationDistribDocsFromNation = [],
-                                        tempKeys = [];
-                                    _.each(json.rows, function(row) {
-                                        publicationDistribDocsFromNation.push(row.doc);
-                                        tempKeys.push(row.doc.publicationId);
-                                    });
-                                    // fetch all publications from local/community server to see how many of the publications from nation are new ones
-                                  //  var newPublicationsCount = 0;
-                                    var publicationCollection = new App.Collections.Publication();
-                                    var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
-                                    publicationCollection.setUrl(tempUrl);
-                                    publicationCollection.fetch({
-                                        success: function() {
-                                            var alreadySyncedPublications = publicationCollection.models;
-                                            for (var i in publicationDistribDocsFromNation) {
-                                                // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
-                                                // count
-                                                var index = alreadySyncedPublications.map(function(element) {
-                                                    return element.get('_id');
-                                                }).indexOf(publicationDistribDocsFromNation[i].publicationId);
-                                                if (index > -1) {
-                                                    // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
-                                                    // local server
-                                                } else {
-                                                    newPublicationsCount++;
-                                                }
-                                            }
-                                            if (newPublicationsCount > 0){
-                                                console.log('publication greater than zero'+newPublicationsCount);
-                                            new_publications_count = newPublicationsCount;
-                                            that.Dashboard(nation_version,new_publications_count);
-                                                //alert(currentBellName);
-                                                $("#newPublication").click(function(){
-                                                    document.location.href="#publications/for-"+currentBellName;
-                                                });
-                                              //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
-                                            $('#newPublication').show();}
-                                            else{
-                                                that.Dashboard(nation_version,0);
-                                            }
-
+                    //********************************************************************************************************************************
+                    $.ajax({
+                        url: DbUrl,
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function(json) {
+                            var publicationDistribDocsFromNation = [],
+                                tempKeys = [];
+                            _.each(json.rows, function(row) {
+                                publicationDistribDocsFromNation.push(row.doc);
+                                tempKeys.push(row.doc.publicationId);
+                            });
+                            // fetch all publications from local/community server to see how many of the publications from nation are new ones
+                            //  var newPublicationsCount = 0;
+                            var publicationCollection = new App.Collections.Publication();
+                            var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+                            publicationCollection.setUrl(tempUrl);
+                            publicationCollection.fetch({
+                                success: function() {
+                                    var alreadySyncedPublications = publicationCollection.models;
+                                    for (var i in publicationDistribDocsFromNation) {
+                                        // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+                                        // count
+                                        var index = alreadySyncedPublications.map(function(element) {
+                                            return element.get('_id');
+                                        }).indexOf(publicationDistribDocsFromNation[i].publicationId);
+                                        if (index > -1) {
+                                            // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+                                            // local server
+                                        } else {
+                                            newPublicationsCount++;
                                         }
-                                    });
+                                    }
+                                    if (newPublicationsCount > 0){
+                                        console.log('publication greater than zero'+newPublicationsCount);
+                                        new_publications_count = newPublicationsCount;
+                                        dashboard.updateVariables(nation_version,new_publications_count);
+                                        //alert(currentBellName);
+                                        $("#newPublication").click(function(){
+                                            document.location.href="#publications/for-"+currentBellName;
+                                        });
+                                        //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                        $('#newPublication').show();}
+                                    else{
+                                        dashboard.updateVariables(nation_version,0);
+                                    }
 
-                                },
-                                error: function(jqXHR, status, errorThrown) {
-                                    console.log(jqXHR);
-                                    console.log(status);
-                                    console.log(errorThrown);
                                 }
                             });
 
-                    }
-                    console.log("inside ajax call" + nationConfig.version);
-
+                        },
+                        error: function(jqXHR, status, errorThrown) {
+                            console.log(jqXHR);
+                            console.log(status);
+                            console.log(errorThrown);
+                        }
+                    });
 
                 }
+                console.log("inside ajax call" + nationConfig.version);
 
-            });
-        },
 
-        Dashboard: function(nation_version, new_publications_count) {
+            }
 
+        });
+    },
+        Dashboard: function() {
+            var that=this;
+            //if(!App.ShelfItems)
             {
                 App.ShelfItems = {}
                 $.ajax({
@@ -468,13 +471,8 @@ $(function() {
             }
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
-         //   dashboard.updateLanguageDoc();
-            dashboard.render(nation_version, new_publications_count);
-
-            console.log( new_publications_count);
-            console.log(nation_version);
-            $('#updateButton').html(App.languageDict.attributes.Update_Available+'('+nation_version+')');
-            $('#newPublication').html(App.languageDict.attributes.Publications+'('+new_publications_count+')');
+            dashboard.render();
+            that.getNationVersion();
             $('#olelogo').remove()
         },
         MemberForm: function(memberId) {
