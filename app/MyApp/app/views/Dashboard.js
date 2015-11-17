@@ -109,7 +109,6 @@ $(function() {
                                 console.log("Creating countDoubleUpdate in community configurations as it does not exist")
                                 that.updateConfigsOfCommunity(0);
                                 console.log('callingUpdateFunctions after creating countDoubleUpdate ....');
-                                // that.callingUpdateFunctions(); todo: need to remove this as we dont want to call this function at ech initilization if there is no countDoubleUpdate in configurations
                             }
                             console.log('End of secondUpdateIteration ....');
                         }
@@ -194,15 +193,9 @@ $(function() {
                 if (currCommConfig.countDoubleUpdate) {
                     that.updateConfigsOfCommunity(1)
                 } else{
-                    //  if (currCommConfig.countDoubleUpdate == undefined || count == null) {
                     config =that.updateConfigsOfCommunity(1)
-                    //  }
                 }
                 console.log("value of countDoubleupdate inside update version : " + config.countDoubleUpdate);
-                //if (currCommConfig.flagDoubleUpdate === true ) { //todo:
-                //        that.updateConfigsOfCommunity(false )
-                //}
-                //   console.log("inside update version : " + currCommConfig.flagDoubleUpdate); //todo:
                 var nationInfo = that.getNationInfo();
                 var nationName = nationInfo["nationName"];
                 var nationURL = nationInfo["nationURL"];
@@ -215,7 +208,6 @@ $(function() {
                         if (result.rows.length > 0) {
                             console.log("Community is registered with the nation, lets update it.");
                             that.appsCreation();
-                            //   console.log("value of flagDoubleUpdate after calling appsCreation:" + currCommConfig.flagDoubleUpdate);//todo:
                         } else {
                             alert(" The community is not authorized to update until it is properly configured with a nation");
                             window.location.reload(false);
@@ -341,8 +333,6 @@ $(function() {
                     async: false,
                     success: function(response) {
                         console.log("Apps successfully updated.");
-                        //that.callingUpdateFunctions(); //todo: first time it should not be called -> comment it out
-                        // reload from here
                         window.location.reload(false);
                     },
                     error: function() {
@@ -391,9 +381,6 @@ $(function() {
             //todo: remove flag value after it works
             updateConfigsOfCommunity: function(count) {
                 var currentConfig = this.getCommunityConfigs();
-                //if (flag){
-                //    currentConfig.flagDoubleUpdate = flag; //todo:
-                //}
                 currentConfig.countDoubleUpdate = count;
                 var doc = currentConfig;
                 $.couch.db("configurations").saveDoc(doc, {
@@ -405,7 +392,6 @@ $(function() {
                     }
                 });
                 var flagValue = this.getCommunityConfigs();
-                // return flagValue.flagDoubleUpdate;
                 return flagValue;
             },
             updateConfigsOfCommFromNation: function() {
@@ -423,8 +409,6 @@ $(function() {
                     success: function(json) {
                         var nationConfig = json.rows[0].doc
                         currentConfig.availableLanguages = nationConfig.availableLanguages;
-                        //  currentConfig.flagDoubleUpdate = false; //todo:
-                        //that.updateConfigsOfCommunity(false);
                         currentConfig.version = nationConfig.version;
                         var doc = currentConfig;
                         $.couch.db("configurations").saveDoc(doc, {
