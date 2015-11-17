@@ -81,8 +81,6 @@ $(function() {
 
             initialize: function() {
                 var that = this;
-                //  that.isCommunity();
-                //that.test();
                 that.secondUpdateIteration();
 
             },
@@ -136,20 +134,6 @@ $(function() {
                 nationInfo["nationURL"] = nationURL;
                 return nationInfo;
             },
-            test : function(){
-                var that = this;
-                var config;
-                var currCommConfig = that.getCommunityConfigs()
-                if (currCommConfig.countDoubleUpdate) {
-                    that.updateConfigsOfCommunity(1)
-                } else{
-                    //  if (currCommConfig.countDoubleUpdate == undefined || count == null) {
-                    config =that.updateConfigsOfCommunity(1)
-                    //  }
-                }
-                console.log(config.countDoubleUpdate)
-            },
-
             updateVersion: function(e) {
                 var that = this;
                 App.startActivityIndicator();
