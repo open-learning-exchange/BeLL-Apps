@@ -61,21 +61,19 @@ $(function() {
     },
         render: function() {
             //****************************************************************************************
-            var that = this;
+            // #129: update language doc .
+         /*   var that = this;
             var config = new App.Collections.Configurations()
             config.fetch({
                 async: false,
                 success: function(){
-                    // temp = config.first().attributes.name;
                     var typeofBell=config.first().attributes.type;
                     if (typeofBell === "community" ) {
                        console.log('Calling updateLanguageDoc() Function ....');
                        that.updateLanguageDoc();
-                       // updateLanguageDoc();
-
                     }
                 }
-            })
+            })*/
             //*******************************************************************************************
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
