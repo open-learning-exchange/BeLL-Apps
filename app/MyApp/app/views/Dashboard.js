@@ -116,24 +116,6 @@ $(function() {
                 })
             },
 
-            //todo : remove this function ater when double udate works fine
-            isCommunity: function(){
-                var that = this;
-                var config = new App.Collections.Configurations()
-                config.fetch({
-                    async: false,
-                    success: function(){
-                        var typeofBell=config.first().attributes.type;
-                        var flag = config.first().attributes.flagDoubleUpdate;
-                        var count = config.first().attributes.countDoubleUpdate;
-                        // if (typeofBell === "community" && flag === false && count > 1) {
-                        if(typeofBell === "community" ) {
-                            console.log('Calling flagdoubleUpdate Function ....');
-                            that.flagdoubleUpdate();
-                        }
-                    }
-                })
-            },
             remove: function() {
                 $(window).off('resize.resizeview');
                 Backbone.View.prototype.remove.call(this);
