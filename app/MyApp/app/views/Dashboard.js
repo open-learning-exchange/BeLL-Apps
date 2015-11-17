@@ -530,16 +530,17 @@ $(function() {
 
             }
         },
-        render: function(nation_version, new_publication_count) {
-            console.log("inside render function")
-            var that = this;
-            var dashboard = this;
-            var currentContext = this;
+        render: function() {
+
+            var dashboard = this
             this.vars.mails = 0;
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
-            var that = this;
-            console.log('Hello');
+            var clanguage = App.configuration.get("currentLanguage")
+            var typeofBell = App.configuration.get("type")
+            console.log(App.languageDict)
+            console.log(clanguage)
+            this.vars.languageDict = App.languageDict;
             var clanguage = App.configuration.get("currentLanguage");
             if (clanguage == "العربية" || clanguage == "اردو") {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
@@ -585,6 +586,7 @@ $(function() {
                 }
             })
 
+            // dashboard.$el.children('.groups').append(groupsDiv.el)
 
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
@@ -610,18 +612,18 @@ $(function() {
             for (var i = 0; i < languages.length; i++) {
                 if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
                     if (languages.models[i].attributes.nameOfLanguage == clanguage) {
-                        languageDict = languages.models[i];
+                        languageDict=languages.models[i];
                     }
                 }
             }
             App.languageDict = languageDict;
-            var dayOfToday = moment().format('dddd');
-            var todayMonth = moment().format('MMMM');
-            var currentDay = this.lookup(languageDict, "Days." + dayOfToday);
-            var currentMonth = this.lookup(languageDict, "Months." + todayMonth);
-            var currentDate = moment().format('DD');
-            var currentYear = moment().format('YYYY');
-            $('.now').html(currentDay + ' | ' + currentDate + ' ' + currentMonth + ', ' + currentYear);
+            var dayOfToday=moment().format('dddd');
+            var todayMonth=moment().format('MMMM');
+            var currentDay=this.lookup(languageDict, "Days."+dayOfToday);
+            var currentMonth=this.lookup(languageDict,"Months."+todayMonth);
+            var currentDate=moment().format('DD');
+            var currentYear=moment().format('YYYY');
+            $('.now').html(currentDay+' | '+currentDate+' '+currentMonth+', '+currentYear);
             // Member Name
             var member = App.member
             var attchmentURL = '/members/' + member.id + '/'
@@ -661,10 +663,10 @@ $(function() {
 
             if (typeofBell === "nation") //checking that is it a nation or community
             {
-                var nation = " " + languageDict.attributes.Nation + " " + languageDict.attributes.Bell;
+                var nation=" "+languageDict.attributes.Nation+" "+languageDict.attributes.Bell;
                 bell_Name = bell_Name + nation;
             } else {
-                var community = " " + languageDict.attributes.Community + " " + languageDict.attributes.Bell;
+                var community=" "+languageDict.attributes.Community+" "+languageDict.attributes.Bell;
                 bell_Name = bell_Name + community;
             }
             $('.bellLocation').html(bell_Name); //rendering the name on page
@@ -676,14 +678,14 @@ $(function() {
                 temp = "Error!!"
             } else {
                 //Getting Visits of any member**********************************************************/
-                temp = member.get('visits') + ' ' + languageDict.attributes.Visits;
+                temp = member.get('visits') +' '+languageDict.attributes.Visits;
             }
             var roles = "&nbsp;-&nbsp;"
             var temp1 = 0
             //******************************-Getting Roles of Member**************************************/
             if (member.get("roles").indexOf("Learner") != -1) {
 
-                roles = roles + languageDict.attributes.Learner; /******************Setting up Learner/Leader*****************/
+                roles = roles + languageDict.attributes.Learner;   /******************Setting up Learner/Leader*****************/
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Leader") != -1) {
@@ -695,16 +697,16 @@ $(function() {
             }
             if (member.get("roles").indexOf("Manager") != -1) {
 
-                var manager = languageDict.attributes.Manager;
+                var manager=languageDict.attributes.Manager;
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
-                var managerId, test;
+                var gandaId,test;
                 if (typeofBell == 'nation') {
                     var natLink = '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8"></a>'
-                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">' + manager + '</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">'+manager+'</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
 
-                    managerId = "NationManagerLink";
+                    gandaId="NationManagerLink";
                     console.log(roles);
                 } else {
 
@@ -716,10 +718,10 @@ $(function() {
                     App.configuration = con
                     var branch = App.configuration.get('subType')
                     if (branch == "branch") {
-                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">' + manager + '</a>'
-                        con.set('nationName', 'random');
-                        con.set('nationUrl', 'random');
-                        con.save(null, { //Saving configurations
+                        roles = roles + '<a href="#" style="pointer-events: none; color: #34495e">'+manager+'</a>'
+                        con.set('nationName','random');
+                        con.set('nationUrl','random');
+                        con.save(null, {
                             success: function(doc, rev) {
 
                                 App.configuration = con;
@@ -731,12 +733,12 @@ $(function() {
                             }
                         });
                     } else {
-                        roles = roles + '<a href="#communityManage">' + manager + '</a>'
+                        roles = roles + '<a href="#communityManage">'+manager+'</a>'
                     }
 
-                    var commLink = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
-                    test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
-                    managerId = "CommunityManagerLink";
+                    var commLink  = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
+                    test=member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
+                    gandaId="CommunityManagerLink";
                     console.log(roles);
                 }
             }
@@ -749,18 +751,53 @@ $(function() {
 
                 $('#gearIcon').hide();
             }
+
+            // var update = languageDict.attributes.Update_Welcome_Video;
+
             if ($.cookie('Member.login') === "admin") {
+                /*  var $buttonWelcome = $('<button id="welcomeButton" class="btn btn-hg btn-primary" onclick="document.location.href=\'#updatewelcomevideo\'"></button>');
+
+                 document.getElementById("welcomeButton").innerHTML = "My new text!";â€‹
+                 dashboard.$el.append($buttonWelcome);
+                 $("#welcomeButton").html(update);*/
                 $('#welcomeButton').show();
             }
-            console.log('vars outside' + nation_version);
-            console.log("pubs" + new_publication_count)
-            this.vars.nation_version = nation_version;
-            this.vars.new_publication_count = new_publication_count;
-            console.log("publicationsss" + new_publication_count)
+            $('#mailsDash').html(App.languageDict.attributes.Email+'('+this.vars.mails+')');
+            //dashboard.$el.append('<div id="updates"></div>')
+        },
+        updateVariables :  function(nation_version,new_publications_count){
+            var that=this;
+            that.vars.mails = 0;
+            this.vars.nation_version = 0;
+            this.vars.new_publication_count = 0;
+            var a = new App.Collections.MailUnopened({
+                receiverId: $.cookie('Member._id')
+            })
+            a.fetch({
+                async: false
+            });
+            that.vars.mails = a.length;
+            console.log('Mails'+that.vars.mails);
+           // $('#mailsDash').html(App.languageDict.Email+'('+that.vars.mails+')');
+           // this.$el.html(_.template(that.template, that.vars));
+            var member = App.member;
+
+
+            that.vars.nation_version = nation_version;
+            that.vars.new_publication_count = new_publications_count;
+            that.$el.html(_.template(this.template, this.vars));
+
+            console.log("publicationsss" + new_publications_count)
             console.log('before call ' + this.vars.nation_version);
-            dashboard.checkAvailableUpdates(member.get('roles'), dashboard, nation_version);
+            this.checkAvailableUpdates(member.get('roles'), this, nation_version);
             console.log('after call ' + this.vars.nation_version);
-            return this;
+            console.log( new_publications_count);
+            console.log(nation_version);
+            console.log("Final"+this.vars.new_publications_count+" " + this.vars.nation_version+" "+this.vars.mails);
+            $('#updateButton').html(App.languageDict.attributes.Update_Available+'('+nation_version+')');
+            $('#newPublication').html(App.languageDict.attributes.Publications+'('+new_publications_count+')');
+            return new_publications_count;
+
         },
 
         lookup: function(obj, key) {
