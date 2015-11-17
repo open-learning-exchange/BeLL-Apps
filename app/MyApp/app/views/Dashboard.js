@@ -343,7 +343,6 @@ $(function() {
                 var currentConfig = config.first().toJSON().rows[0].doc
                 return currentConfig;
             },
-            //todo: remove flag value after it works
             updateConfigsOfCommunity: function(count) {
                 var currentConfig = this.getCommunityConfigs();
                 currentConfig.countDoubleUpdate = count;
