@@ -757,6 +757,7 @@ $(function() {
             $('.field-resourceFor').find('label').css('float','right');
             $('.field-resourceType').find('label').css('float','right');
             $('.field-articleDate').find('label').css('float','right');
+            $('.field-articleDate').find('.bbf-editor').find('div').css('float','right');
             $('.field-addedBy').find('label').css('float','right');
 
         },
