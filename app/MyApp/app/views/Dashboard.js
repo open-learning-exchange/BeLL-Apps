@@ -1,8 +1,8 @@
 $(function() {
 
-    App.Views.Dashboard = Backbone.View.extend({
+        App.Views.Dashboard = Backbone.View.extend({
 
-        template: $('#template-Dashboard').html(),
+            template: $('#template-Dashboard').html(),
 
         vars: {},
         nationConfiguration: null,
@@ -794,7 +794,7 @@ $(function() {
 
         checkAvailableUpdates: function(roles, dashboard, nation_version) {
             console.log('CheckAvailableUpdates is called..');
-            if (App.configuration.attributes.currentLanguage == "اردو" || App.configuration.attributes.currentLanguage == "العربية") {
+            if (App.configuration.attributes.currentLanguage == "Urdu" ||  App.configuration.attributes.currentLanguage == "Arabic") {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
             } else {

@@ -3188,7 +3188,9 @@ $(function() {
             var reportFormView = new App.Views.ReportForm({
                 model: report
             })
-            App.$el.children('.body').html(reportFormView.el)
+            reportFormView.render();
+            App.$el.children('.body').html(reportFormView.el);
+
 
             if (report.id) {
                 App.listenToOnce(report, 'sync', function() {
@@ -3198,6 +3200,7 @@ $(function() {
             } else {
                 reportFormView.render()
             }
+            $('#uploadLabel').val('Upload Resource(s)');
         },
 
         routeStartupTasks: function() {

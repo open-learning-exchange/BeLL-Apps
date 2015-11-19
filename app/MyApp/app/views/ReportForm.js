@@ -14,14 +14,14 @@ $(function() {
         template: _.template($('#template-form-file').html()),
 
         render: function() {
-            alert('Hello');
+
             var vars = {}
 
             // prepare the header
 
             if (_.has(this.model, 'id')) {
-
-                vars.header = 'Title "' + this.model.get('title') + '"'
+                vars.languageDict=App.languageDict;
+                vars.header = App.languageDict.attributes.Title + this.model.get('title') + '"'
                 vars.hidesave = true
                 var tempAttachments = this.model.get('_attachments');
                 var fields = _.map(
@@ -36,10 +36,10 @@ $(function() {
                 vars.resourceAttachments = fields;
 
             } else {
-                vars.header = 'New Report'
+                vars.header = 'New Reports'
                 vars.hidesave = false
-                vars.resourceAttachments = "No File Selected.";
-
+                vars.resourceAttachments = App.languageDict.attributes.No_File_Selected;;
+                vars.languageDict=App.languageDict;
             }
 
             // prepare the form
@@ -72,7 +72,19 @@ $(function() {
             $('.fields').html(this.form.el)
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
+            var clanguage = App.configuration.get("currentLanguage");
 
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+
+            }
             return this
         },
 
