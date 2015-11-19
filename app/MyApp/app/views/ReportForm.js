@@ -14,6 +14,7 @@ $(function() {
         template: _.template($('#template-form-file').html()),
 
         render: function() {
+            alert('Hello');
             var vars = {}
 
             // prepare the header

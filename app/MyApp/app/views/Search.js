@@ -78,6 +78,7 @@ $(function() {
             }
         },
         render: function() {
+
             var obj = this
             var collections = App.collectionslist
             this.vars.tags = collections.toJSON()
@@ -92,9 +93,12 @@ $(function() {
             if (searchText != "" || (this.collectionFilter) || (this.subjectFilter) || (this.levelFilter) || (this.languageFilter) || (this.mediumFilter) || (this.ratingFilter && this.ratingFilter.length > 0)) {
                 App.startActivityIndicator()
                 this.getSearchedRecords();
+
             }
+
         },
         getSearchedRecords: function() {
+
             var mapFilter = {};
             var filters = new Array()
             if (this.collectionFilter && searchText.replace(" ", "") == '' && !(this.subjectFilter)) {

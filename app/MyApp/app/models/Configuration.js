@@ -58,8 +58,19 @@ $(function() {
               /*  options: ["العربية","Asante","中国","English","Ewe","français","हिंदी","Kyrgyzstani","नेपाली","português","ਪੰਜਾਬੀ ਦੇ","Русский","Soomaali","Español","Kiswahili",
                     "اردو"
                 ]*/
-                options: ["English","العربية",
-                    "اردو"
+
+                options: [{
+                    val: 'English',
+                    label: 'English'
+                    },
+                    {
+                        val: 'Arabic',
+                        label: "العربية"
+                    },
+                    {
+                        val: 'Urdu',
+                       label: "اردو"
+                    }
                 ]
             }
         }

@@ -70,6 +70,18 @@ $(function() {
             version = App.configuration.get('version');
             currentLanguage=App.configuration.get('currentLanguage');
             availableLanguages=App.configuration.get('availableLanguages');
+            if(currentLanguage=="Urdu")
+            {
+                currentLanguage=availableLanguages[2];
+            }
+            else if(currentLanguage=="Arabic")
+            {
+                currentLanguage=availableLanguages[1];
+            }
+            else{
+                currentLanguage=availableLanguages[0];
+            }
+
             languageDictOfApp=App.languageDict;
 
             this.data = {

@@ -29,7 +29,7 @@ $(function() {
             var con = config.first();
             var currentConfig = config.first().toJSON().rows[0].doc;
             var clanguage= currentConfig.currentLanguage;
-            if(clanguage=="اردو"   || clanguage=="العربية")
+			if (clanguage=="Urdu" || clanguage=="Arabic")
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="courses")
@@ -129,7 +129,7 @@ $(function() {
 		render: function() {
             var clanguage
                 = App.configuration.get("currentLanguage");
-            if(clanguage=="اردو"  || clanguage=="العربية")
+			if(clanguage=="Urdu" || clanguage=="Arabic")
             {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');

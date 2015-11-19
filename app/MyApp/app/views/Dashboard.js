@@ -540,7 +540,7 @@ $(function() {
     this.vars.new_publication_count = 0;
 
     var clanguage = App.configuration.get("currentLanguage");
-    if (clanguage == "العربية" || clanguage == "اردو") {
+        if(clanguage=="Urdu" || clanguage=="Arabic") {
         $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
         $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
     } else {
@@ -756,19 +756,10 @@ $(function() {
 },
 updateVariables :  function(nation_version,new_publications_count){
     var that=this;
-    that.vars.mails = 0;
+
     this.vars.nation_version = 0;
     this.vars.new_publication_count = 0;
-    var a = new App.Collections.MailUnopened({
-        receiverId: $.cookie('Member._id')
-    })
-    a.fetch({
-        async: false
-    });
-    that.vars.mails = a.length;
-    console.log('Mails'+that.vars.mails);
-    // $('#mailsDash').html(App.languageDict.Email+'('+that.vars.mails+')');
-    // this.$el.html(_.template(that.template, that.vars));
+
     var member = App.member;
 
 
@@ -816,7 +807,7 @@ lookup: function(obj, key) {
 
 checkAvailableUpdates: function(roles, dashboard, nation_version) {
     console.log('CheckAvailableUpdates is called..');
-    if (App.configuration.attributes.currentLanguage == "اردو" || App.configuration.attributes.currentLanguage == "العربية") {
+    if (App.configuration.attributes.currentLanguage =="Urdu" || App.configuration.attributes.currentLanguage== "Arabic") {
         $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
         $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
     } else {

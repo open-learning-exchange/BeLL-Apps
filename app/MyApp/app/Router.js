@@ -190,7 +190,7 @@ $(function() {
                 }
             }
             App.languageDict = languageDict;
-            if(clanguage=="اردو" || clanguage=="العربية")
+            if(clanguage=="Urdu" || clanguage=="Arabic")
             {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
@@ -324,7 +324,7 @@ $(function() {
             App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member+' '+languageDict.attributes.Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
             memberLoginForm.updateLabels(languageDict);
-            if(clanguage=="اردو" || clanguage=="العربية")
+            if (clanguage=="Urdu" || clanguage=="Arabic")
             {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
@@ -476,11 +476,26 @@ $(function() {
             $('#olelogo').remove()
         },
         MemberForm: function(memberId) {
+
             this.modelForm('Member', 'Member', memberId, 'login')
         },
 
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
+            alert('Hello some form is called...');
+            var clanguage = App.configuration.get("currentLanguage");
+
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+
+            }
             var context = this;
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
@@ -629,7 +644,7 @@ $(function() {
                      App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
 
                      }*/
-                    if(clanguage=="اردو" || clanguage=="العربية")
+                    if (clanguage=="Urdu" || clanguage=="Arabic")
                     {
                         $('#resourcePage').addClass('addResource');
                         $('#addNewResource').addClass('addMarginsOnResource');
@@ -734,7 +749,7 @@ $(function() {
             }
 
             this.updateLabelsOfAddResourceForm(resourceId);
-            if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
+            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
             {
 
                 this.updateAllignmentOfAddResourceForm();}
@@ -866,6 +881,19 @@ $(function() {
             showSubjectCheckBoxes()
 
             $("#multiselect-subject-search").multiselect().multiselectfilter();
+            var clanguage = App.configuration.get("currentLanguage");
+
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+
+            }
 
 
         },
@@ -1051,7 +1079,7 @@ $(function() {
                     $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
                     $('#parentLibrary').append(groupsTable.el);
                     groupsTable.changeDirection();
-                    if(clanguage=="اردو"  || clanguage=="العربية")
+                    if (clanguage=="Urdu" || clanguage=="Arabic")
                     {
 
                         $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
@@ -1548,7 +1576,7 @@ $(function() {
             meetUpView.render()
             $('#parentLibrary').append(meetUpView.el);
             meetUpView.changeDirection();
-            if(App.configuration.attributes.currentLanguage=="اردو" || App.configuration.attributes.currentLanguage=="العربية")
+            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
             {
                 this.changeAllignmentOfListMeetup();
             }
@@ -1660,15 +1688,40 @@ $(function() {
             })
         },
         Members: function() {
+            var clanguage = App.configuration.get("currentLanguage");
+
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+
+            }
             var membersView = new App.Views.MembersView()
             membersView.render();
             App.$el.children('.body').html(membersView.el);
 
         },
         Reports: function() {
-
+//alert('Reports called...');
             App.startActivityIndicator()
+            var clanguage = App.configuration.get("currentLanguage");
 
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+
+            }
             var roles = this.getRoles()
             var reports = new App.Collections.Reports()
             reports.fetch({
@@ -3105,11 +3158,24 @@ $(function() {
                     alert("You must choose a date to proceed");
                 }
             });
+            var clanguage = App.configuration.get("currentLanguage");
+
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+            }
         },
         isWithinRange: function(value, rangeMin, rangeMax) {
 
         },
         ReportForm: function(reportId) {
+
             var report = (reportId) ? new App.Models.CommunityReport({
                 _id: reportId
             }) : new App.Models.CommunityReport()
@@ -3714,7 +3780,19 @@ $(function() {
 
                 });
             }
+            var clanguage = App.configuration.get("currentLanguage");
 
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+
+            }
 
             App.stopActivityIndicator()
 
@@ -4104,7 +4182,19 @@ $(function() {
             log.type = type;
             log.render();
             App.$el.children('.body').html(log.el);
-            //currently hiding for all kind of communities and nations.
+            var clanguage = App.configuration.get("currentLanguage");
+
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+            }
+                //currently hiding for all kind of communities and nations.
             $("#community-select").hide();
             $('#start-date').datepicker({
                 dateFormat: "yy-mm-dd",
@@ -4114,6 +4204,7 @@ $(function() {
                 dateFormat: "yy-mm-dd",
                 todayHighlight: true
             });
+
         },
         changeDateFormat: function(date) {
             var datePart = date.match(/\d+/g),

@@ -46,7 +46,7 @@
            "December": "دسمبر"
        }
    ],
-   "nameOfLanguage": "اردو",
+   "nameOfLanguage": "Urdu",
    "e_Readers": "ای قارئین",
    "News_Feed": "خبریں",
    "My_Library": "میری لائبریری",

@@ -13,12 +13,14 @@ $(function() {
         },
 
         render: function() {
+
             this.$el.html('<h3 style="float:right"><input id="searchText" style="margin-right:15px;height:28px;width:170px" type="Text" placeholder="Last Name"><button style="margin-top:-10px;" class="Search btn btn-info">Search</button></h3>');
             this.$el.append('<h3>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h3>');
             this.$el.append('<div id="memberTable"></div>');
             this.renderTable(searchText);
         },
         renderTable: function(searchText) {
+
             App.startActivityIndicator()
             var that = this
             var config = new App.Collections.Configurations()

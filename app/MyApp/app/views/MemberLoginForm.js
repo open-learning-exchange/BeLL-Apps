@@ -100,7 +100,7 @@ $(function() {
                 }
             }
             App.languageDict = languageDict;
-            if (clanguage == "اردو"  || clanguage=="العربية") {
+            if(clanguage=="Urdu" || clanguage=="Arabic") {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
             }

@@ -34,6 +34,15 @@ $(function() {
             // /****************************************************************************************************************************************************
             //   this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button class="SyncMembersDb btn btn-primary" id="syncmembers">Sync Members Db With Nation</button>  </div>')
             //  ****************************************************************************************************************************************************/
+            var clanguage = App.configuration.get("currentLanguage");
+            if(clanguage=="Urdu" || clanguage=="Arabic") {
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+            }
         },
 
         syncDbs: function(e) {

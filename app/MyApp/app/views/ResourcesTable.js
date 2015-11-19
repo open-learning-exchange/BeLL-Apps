@@ -102,7 +102,7 @@ $(function() {
             var con = config.first();
             var currentConfig = config.first().toJSON().rows[0].doc;
             var clanguage= currentConfig.currentLanguage;
-            if(clanguage=="اردو"   || clanguage=="العربية")
+			if (clanguage=="Urdu" || clanguage=="Arabic")
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="resources")
@@ -137,7 +137,7 @@ $(function() {
                     var con = config.first();
                     var currentConfig = config.first().toJSON().rows[0].doc;
                     var clanguage= currentConfig.currentLanguage;
-                    if(clanguage=="اردو"   || clanguage=="العربية")
+					if (clanguage=="Urdu" || clanguage=="Arabic")
                     {
                         str="ابپتٹجچحخدڈذرڑزژسشصضطظعغفقكگلمنںوهھءیے";
                     }
@@ -151,7 +151,7 @@ $(function() {
 					}
 					viewText += "</td></tr>"
 					this.$el.append(viewText);
-                    if(clanguage=="اردو"   || clanguage=="العربية")
+					if (clanguage=="Urdu" || clanguage=="Arabic")
                     {
                         $('#alphabetsOfLanguage').addClass('addResource');
                     }
@@ -184,7 +184,15 @@ $(function() {
                 }
             }
             App.languageDict = languageDict;
+			var clanguage = App.configuration.get("currentLanguage");
+			if (clanguage=="Urdu" || clanguage=="Arabic") {
+				$('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+				$('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+			} else {
+				$('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+				$('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
+			}
 			this.$el.append('<br/><br/>')
 			this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
 

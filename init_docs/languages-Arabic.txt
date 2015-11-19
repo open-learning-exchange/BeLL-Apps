@@ -46,7 +46,7 @@
            "December": "ديسمبر"
        }
    ],
-   "nameOfLanguage": "العربية",
+   "nameOfLanguage": "Arabic",
    "e_Readers": "القراء الإلكترونية",
    "News_Feed": "مصادر الأخبار",
    "My_Library": "مكتبتي",
