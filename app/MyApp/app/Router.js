@@ -482,7 +482,7 @@ $(function() {
 
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
-            alert('Hello some form is called...');
+
             var clanguage = App.configuration.get("currentLanguage");
 
             if (clanguage=="Urdu" || clanguage=="Arabic") {
@@ -772,6 +772,7 @@ $(function() {
             $('.field-resourceFor').find('label').css('float','right');
             $('.field-resourceType').find('label').css('float','right');
             $('.field-articleDate').find('label').css('float','right');
+            $('.field-articleDate').find('.bbf-editor').find('div').css('float','right');
             $('.field-addedBy').find('label').css('float','right');
 
         },
