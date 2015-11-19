@@ -164,7 +164,7 @@ $(function() {
                 vars.resourceTitle = this.model.get('title');
                 vars.resourceUrl = this.model.get('url');
                 vars.languageDict=App.languageDict;
-
+                vars.cLang='addResource'
 
             } else {
 
@@ -172,6 +172,7 @@ $(function() {
                 vars.resourceAttachments = App.languageDict.attributes.No_File_Selected;
                 vars.resourceUrl = "";
                 vars.languageDict=App.languageDict;
+                vars.cLang='addResource'
             }
 
             // prepare the form
