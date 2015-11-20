@@ -3200,8 +3200,8 @@ $(function() {
             } else {
                 reportFormView.render()
             }
-            $('#uploadLabel').val('Upload Resource(s)');
-        },
+
+    },
 
         routeStartupTasks: function() {
             $('#invitationdiv').hide()
@@ -3246,7 +3246,16 @@ $(function() {
                     resourceDetail.render()
                     App.$el.children('.body').html(resourceDetail.el)
                 }
-            })
+            });
+            var clanguage = App.configuration.get("currentLanguage");
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+            }
 
         },
         RenderTagSelect: function(iden) {
@@ -3294,7 +3303,16 @@ $(function() {
                     App.$el.children('.body').append('<a class="btn btn-primary" style="margin:20px" href="#resources"><< Back to Resources</a>')
                     App.$el.children('.body').append(feedbackTable.el)
                 })
-                resourceFeedback.fetch()
+                resourceFeedback.fetch();
+                var clanguage = App.configuration.get("currentLanguage");
+                if (clanguage=="Urdu" || clanguage=="Arabic") {
+                    $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                    $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+                } else {
+                    $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                    $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+                }
             })
             resource.fetch()
         },
@@ -3331,7 +3349,16 @@ $(function() {
                 feedbackForm.setUserRating($(this).attr("alt"))
             });
 
-            App.$el.children('.body').append(feedbackForm.el)
+            App.$el.children('.body').append(feedbackForm.el);
+            var clanguage = App.configuration.get("currentLanguage");
+            if (clanguage=="Urdu" || clanguage=="Arabic") {
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+            } else {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+            }
         },
         email: function() {
             App.$el.children('.body').html('&nbsp')
