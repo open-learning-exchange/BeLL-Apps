@@ -523,15 +523,7 @@ $(function() {
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
 
-            var clanguage = App.configuration.get("currentLanguage");
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-            }
+            applyStylingSheet();
 
             var typeofBell = App.configuration.get("type")
             console.log(App.languageDict)

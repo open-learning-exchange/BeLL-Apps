@@ -89,19 +89,8 @@
                     console.log(errorThrown);
                     }
                 });
-                var clanguage = App.configuration.get("currentLanguage");
 
-                if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                    $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                    $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-                } else {
-                    $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                    $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-
-                }
+                applyStylingSheet();
             },
             synPublication:function(e){
                 var that = this;

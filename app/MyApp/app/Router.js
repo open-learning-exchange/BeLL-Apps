@@ -113,6 +113,7 @@ $(function() {
             resourceFormView.renderAddOrUploadWelcomeVideoForm();
             App.$el.children('.body').html(resourceFormView.el);
             $('.field-resourceType').hide();
+            applyStylingSheet();
         },
         Publications: function(publicationIdes) {
             var PublicationsView = new App.Views.PublicationTable();
@@ -452,6 +453,7 @@ $(function() {
         });
     },
         Dashboard: function() {
+
             var that=this;
             //if(!App.ShelfItems)
             {
@@ -482,20 +484,8 @@ $(function() {
 
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
+            applyStylingSheet();
 
-            var clanguage = App.configuration.get("currentLanguage");
-
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-
-            }
             var context = this;
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
@@ -882,19 +872,7 @@ $(function() {
             showSubjectCheckBoxes()
 
             $("#multiselect-subject-search").multiselect().multiselectfilter();
-            var clanguage = App.configuration.get("currentLanguage");
-
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-
-            }
+            applyStylingSheet();
 
 
         },
@@ -1182,7 +1160,9 @@ $(function() {
                 collection: allResults
             })
             vi.render()
-            App.$el.children('.body').append(vi.el)
+            App.$el.children('.body').append(vi.el);
+            applyStylingSheet();
+
 
         },
 
@@ -1327,7 +1307,9 @@ $(function() {
 
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
-            })
+            });
+            applyStylingSheet();
+
         },
         UserCourseDetails: function(courseId, name) {
             var ccSteps = new App.Collections.coursesteps()
@@ -1345,13 +1327,17 @@ $(function() {
                     App.$el.children('.body').append(levelsTable.el)
 
                 }
-            })
+            });
+            applyStylingSheet();
+
         },
         GroupMembers: function(cId) {
             var groupMembers = new App.Views.GroupMembers()
             groupMembers.courseId = cId
             groupMembers.render()
-            App.$el.children('.body').html(groupMembers.el)
+            App.$el.children('.body').html(groupMembers.el);
+            applyStylingSheet();
+
 
         },
         GroupForm: function(groupId) {
@@ -1491,6 +1477,8 @@ $(function() {
                 var tl = parseInt(totalLevels) + 1
                 $("input[name='step']").val(tl)
             }
+            applyStylingSheet();
+
             //  $('#bbf-form input[name=step]').attr("disabled",true);
         },
         ViewLevel: function(lid, rid) {
@@ -1605,7 +1593,9 @@ $(function() {
                 model: meetupModel
             })
             meetup_details.render()
-            App.$el.children('.body').html(meetup_details.el)
+            App.$el.children('.body').html(meetup_details.el);
+            applyStylingSheet();
+
 
         },
         usermeetupDetails: function(meetupId, title) {
@@ -1619,7 +1609,8 @@ $(function() {
                 model: meetupModel
             })
             meetupView.render()
-            App.$el.children('.body').html(meetupView.el)
+            App.$el.children('.body').html(meetupView.el);
+            applyStylingSheet();
 
 
         },
@@ -1689,40 +1680,18 @@ $(function() {
             })
         },
         Members: function() {
-            var clanguage = App.configuration.get("currentLanguage");
 
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-
-            }
+            applyStylingSheet();
             var membersView = new App.Views.MembersView()
             membersView.render();
             App.$el.children('.body').html(membersView.el);
 
         },
         Reports: function() {
-//alert('Reports called...');
+
             App.startActivityIndicator()
-            var clanguage = App.configuration.get("currentLanguage");
 
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-
-            }
+            applyStylingSheet();
             var roles = this.getRoles()
             var reports = new App.Collections.Reports()
             reports.fetch({
@@ -3159,18 +3128,8 @@ $(function() {
                     alert("You must choose a date to proceed");
                 }
             });
-            var clanguage = App.configuration.get("currentLanguage");
+            applyStylingSheet();
 
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-            }
         },
         isWithinRange: function(value, rangeMin, rangeMax) {
 
@@ -3247,15 +3206,8 @@ $(function() {
                     App.$el.children('.body').html(resourceDetail.el)
                 }
             });
-            var clanguage = App.configuration.get("currentLanguage");
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
-            }
+            applyStylingSheet();
 
         },
         RenderTagSelect: function(iden) {
@@ -3304,17 +3256,11 @@ $(function() {
                     App.$el.children('.body').append(feedbackTable.el)
                 })
                 resourceFeedback.fetch();
-                var clanguage = App.configuration.get("currentLanguage");
-                if (clanguage=="Urdu" || clanguage=="Arabic") {
-                    $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                    $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-                } else {
-                    $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                    $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
-                }
+
             })
-            resource.fetch()
+            resource.fetch();
+            applyStylingSheet();
         },
         FeedbackForm: function(resourceId, title) {
             var feedbackModel = new App.Models.Feedback({
@@ -3350,15 +3296,8 @@ $(function() {
             });
 
             App.$el.children('.body').append(feedbackForm.el);
-            var clanguage = App.configuration.get("currentLanguage");
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
-            }
+            applyStylingSheet();
         },
         email: function() {
             App.$el.children('.body').html('&nbsp')
@@ -3384,7 +3323,9 @@ $(function() {
             mailview.render()
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)
-            mailview.fetchRecords()
+            mailview.fetchRecords();
+
+            applyStylingSheet();
 
         },
         CoursesBarChart: function() {
@@ -3614,7 +3555,9 @@ $(function() {
 
 
 
-            })
+            });
+
+            applyStylingSheet();
 
 
         },
@@ -3640,6 +3583,8 @@ $(function() {
             $('.bbf-form .field-endDate input').datepicker({
                 todayHighlight: true
             });
+
+            applyStylingSheet();
         },
         calendaar: function(eventId) {
             App.$el.children('.body').html('&nbsp')
@@ -3811,19 +3756,8 @@ $(function() {
 
                 });
             }
-            var clanguage = App.configuration.get("currentLanguage");
 
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-
-            }
+            applyStylingSheet();
 
             App.stopActivityIndicator()
 
@@ -4213,18 +4147,8 @@ $(function() {
             log.type = type;
             log.render();
             App.$el.children('.body').html(log.el);
-            var clanguage = App.configuration.get("currentLanguage");
 
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-            }
+            applyStylingSheet();
                 //currently hiding for all kind of communities and nations.
             $("#community-select").hide();
             $('#start-date').datepicker({

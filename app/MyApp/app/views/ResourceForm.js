@@ -201,19 +201,9 @@ $(function() {
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
             $('[name="title"]').focus();
-            var clanguage = App.configuration.get("currentLanguage");
-
-            if (clanguage=="Urdu" || clanguage=="Arabic") {
-
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
 
-            }
+            applyStylingSheet();
             return this
         },
         saveUpdatedWelcomeVideoForm: function() {

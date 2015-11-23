@@ -184,15 +184,8 @@ $(function() {
                 }
             }
             App.languageDict = languageDict;
-			var clanguage = App.configuration.get("currentLanguage");
-			if (clanguage=="Urdu" || clanguage=="Arabic") {
-				$('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-				$('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-			} else {
-				$('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-				$('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
 
-			}
+			applyStylingSheet();
 			this.$el.append('<br/><br/>')
 			this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
 
