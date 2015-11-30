@@ -406,11 +406,9 @@ body{
 #resourceform {
     background-color: #F3F3F3;
     border-radius: 37px;
-    margin-bottom: -1%;
-    margin-left: -1%;
     width: 883px;
-    margin-right:25%;
     float:right;
+    direction: rtl;
 }
 
 

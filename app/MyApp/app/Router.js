@@ -746,6 +746,11 @@ $(function() {
             {
 
                 this.updateAllignmentOfAddResourceForm();}
+            else
+            {
+              //  $('#add_newCoellection').removeClass('add_Collection_Non_Eng')
+            //    $('#add_newCoellection').addClass('add_Collection_Eng')
+            }
 
         },
         updateAllignmentOfAddResourceForm: function(){
@@ -767,6 +772,8 @@ $(function() {
             $('.field-articleDate').find('label').css('float','right');
             $('.field-articleDate').find('.bbf-editor').find('div').css('float','right');
             $('.field-addedBy').find('label').css('float','right');
+            $('#uploadLabel').css('float','right');
+            $('#add_newCoellection').addClass('add_Collection_Non_Eng')
 
         },
         updateLabelsOfAddResourceForm : function(resourceId){
