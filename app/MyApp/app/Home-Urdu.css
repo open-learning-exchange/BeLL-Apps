@@ -26,8 +26,8 @@ select#onLoginLanguage {
     width:950px;*/
     direction: rtl;
     height: 600px;
-    width:950px;
-   /* width:940px;*/
+
+    width:940px;
     margin-left:auto;
     margin: 0 auto;
     /* background-color: pink;*/
@@ -162,7 +162,7 @@ ul#itemsinnavbar.nav{
 .header-table {
     /*width:auto;*/
     font-size: 20px;
-    width:100%
+    width:100%;
     /*width:inherit;*/
   /*  background-color: red;*/
     background-color:#E1E1E1;
