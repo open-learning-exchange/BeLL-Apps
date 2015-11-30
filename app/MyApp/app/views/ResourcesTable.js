@@ -139,7 +139,7 @@ $(function() {
                     var clanguage= currentConfig.currentLanguage;
 					if (clanguage=="Urdu" || clanguage=="Arabic")
                     {
-                        str="ابپتٹجچحخدڈذرڑزژسشصضطظعغفقكگلمنںوهھءیے";
+                        str="ثجحخدذرزسشصضطظعغفقكلمنهويا";
                     }
                    else
                         str= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

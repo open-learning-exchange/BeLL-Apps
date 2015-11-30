@@ -634,21 +634,24 @@ $(function() {
                      App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
 
                      }*/
-                    if (clanguage=="Urdu" || clanguage=="Arabic")
-                    {
-                        $('#resourcePage').addClass('addResource');
-                        $('#addNewResource').addClass('addMarginsOnResource');
-                        $('#requestResource').addClass('addMarginsOnResource');
-                        $('#searchOfResource').addClass('addMarginsOnResource');
-                        $('#labelOnResource').addClass('addResource');
-                        //  $('#labelOnResource').attr("margin-right","2%");
-                        $("#labelOnResource").css("margin-right","2%");
 
-                    }
 
                     resourcesTableView.collections = App.collectionslist
                     resourcesTableView.render();
+
                     $('#parentLibrary').append(resourcesTableView.el);
+                    if (clanguage=="Urdu" || clanguage=="Arabic")
+                    {
+                        //  $('#resourcePage').addClass('addResource');
+                        $('#addNewResource').addClass('addMarginsOnResource');
+                        $('#requestResource').addClass('addMarginsOnResource');
+                        $('#searchOfResource').addClass('addMarginsOnResource');
+                        //$('#labelOnResource').addClass('addResource');
+                        //  $('#labelOnResource').attr("margin-right","2%");
+                        $("#labelOnResource").css("margin-right","2%");
+                        $('table').addClass('resourceTableClass');
+
+                    }
                     resourcesTableView.changeDirection();
                 }
             })

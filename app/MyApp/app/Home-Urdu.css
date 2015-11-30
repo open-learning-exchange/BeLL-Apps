@@ -14,6 +14,11 @@ select#onLoginLanguage {
     width: 156px;
     background-color: floralwhite;
 }
+.resourceTableClass{
+ direction:rtl;
+    table-layout: fixed;
+    width: 100%;
+}
 #dashboard
 {
    /* margin-left:45.8%;
