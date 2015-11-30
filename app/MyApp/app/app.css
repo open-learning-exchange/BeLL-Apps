@@ -630,10 +630,12 @@ textarea[name="comment"]
     margin-left: 480px;
 }
 .form .field-resourceType{
-    display: inline-block;
+  /*  display: inline-block;
     position: absolute;
     margin-top: 315px;
-    margin-left: 260px;
+    margin-left: 260px;*/
+    margin-bottom: -64px;
+    margin-left:480px;
 
 }
 /*******************************************************************/
@@ -745,8 +747,9 @@ Date: 21 Sept, 2015*/
     margin-top: 20px;
     margin-left: 190px;
 }
-#add_newCoellection
-{
+
+#add_newCoellection{
     margin-left: 750px;
     margin-top: -868px;
+    margin-right:2%;
 }

@@ -15,6 +15,23 @@ var mailView;
 var nation_version;
 var new_publications_count;
 
+function applyStylingSheet(){
+
+    var clanguage = App.configuration.attributes.currentLanguage;
+
+    if (clanguage=="Urdu" || clanguage=="Arabic") {
+
+        $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+        $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+    } else {
+        $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+        $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+
+    }
+}
+
 function changeLanguage(option)
 {
     console.log(option.value);

@@ -14,6 +14,11 @@ select#onLoginLanguage {
     width: 156px;
     background-color: floralwhite;
 }
+.resourceTableClass{
+ direction:rtl;
+    table-layout: fixed;
+    width: 100%;
+}
 #dashboard
 {
    /* margin-left:45.8%;
@@ -402,11 +407,9 @@ body{
 #resourceform {
     background-color: #F3F3F3;
     border-radius: 37px;
-    margin-bottom: -1%;
-    margin-left: -1%;
     width: 883px;
-    margin-right:25%;
     float:right;
+    direction: rtl;
 }
 
 
