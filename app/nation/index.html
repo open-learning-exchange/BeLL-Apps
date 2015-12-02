@@ -784,6 +784,18 @@
       <td>
       <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:150px "><%= editorPhone %></p></BR></span>
       </td>
+    <td>
+        <select multiple id="commNames">
+            <%if(communityNames.length>0){%>
+        <% for (var i=0; i<communityNames.length; i++){%>
+        <option value="<%= communityNames[i] %>"><%= communityNames[i] %> </option>
+        <% }%>
+            <%} else {%>
+            <option value="None">None</option>
+            <%} %>
+
+        </select>
+    </td>
       <td>
     	<a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
         Details
