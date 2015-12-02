@@ -788,10 +788,10 @@
         <select multiple id="commNames">
             <%if(communityNames.length>0){%>
         <% for (var i=0; i<communityNames.length; i++){%>
-        <option value="<%= communityNames[i] %>"><%= communityNames[i] %> </option>
+        <option disabled="disabled" value="<%= communityNames[i] %>"><%= communityNames[i] %> </option>
         <% }%>
             <%} else {%>
-            <option value="None">None</option>
+            <option disabled="disabled" value="None">None</option>
             <%} %>
 
         </select>
