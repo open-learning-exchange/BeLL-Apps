@@ -10,7 +10,7 @@ $(function() {
 				model: model
 			})
 			memberRow.isadmin = this.isadmin
-			memberRow.community_code = this.community_code
+			memberRow.community_code = this.community_code;
 			memberRow.render()
 			this.$el.append(memberRow.el)
 		},
@@ -29,14 +29,14 @@ $(function() {
 		},
 
 		addAll: function() {
-			this.$el.html("<tr><th>Photo</th><th>Last Name</th><th>First Name</th><th>Visits</th><th>Email</th><th>Bell-Email</th><th>Actions</th></tr>")
+			this.$el.html("<tr><th>"+App.languageDict.attributes.Photo+"</th><th>"+App.languageDict.attributes.Last_Name+"</th><th>"+App.languageDict.attributes.First_Name+"</th><th>"+App.languageDict.attributes.Visits+"</th><th>"+App.languageDict.attributes.Email+"</th><th>"+App.languageDict.attributes.Bell_Email+"</th><th>"+App.languageDict.attributes.action+"</th></tr>")
 			// @todo this does not work as expected, either of the lines
 			// _.each(this.collection.models, this.addOne())
 
 			console.log(this.collection)
 
 			this.collection.each(this.addOne, this)
-
+			console.log('Here...');
 			var groupLength;
 			var context = this
 			$.ajax({
@@ -51,7 +51,7 @@ $(function() {
 
 						for (var i = 0; i < looplength; i++) {
 							if (i == 0)
-								pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">Home</a>&nbsp&nbsp'
+								pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+App.languageDict.attributes.Home+'</a>&nbsp&nbsp'
 							else
 								pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">' + i + '</a>&nbsp&nbsp'
 						}
@@ -64,6 +64,19 @@ $(function() {
 		},
 
 		render: function() {
+			var clanguage
+					= App.configuration.get("currentLanguage");
+			if(clanguage=="Urdu" || clanguage=="Arabic")
+			{
+				$('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+				$('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+			}
+			else
+			{
+				$('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+				$('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+
+			}
 			this.addAll()
 		}
 

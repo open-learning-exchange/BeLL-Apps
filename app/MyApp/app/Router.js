@@ -1690,12 +1690,31 @@ $(function() {
             })
         },
         Members: function() {
-
-            applyStylingSheet();
             var membersView = new App.Views.MembersView()
             membersView.render();
             App.$el.children('.body').html(membersView.el);
+            applyStylingSheet();
+            membersView.changeDirection();
+            if (App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            {
+                $('#membersSearchHeading').css('float','left');
+                $("#AddNewMember").addClass('addMarginsOnCourseUrdu');
+                $('#searchText').attr('placeholder',App.languageDict.attributes.Last_Name);
+                $('#searchButtonOnMembers').css('margin-right','10px');
 
+            }
+            else
+            {
+                $('#membersSearchHeading').css('float','right');
+                $('#searchText').css('margin-right','15px');
+                $('#searchText').css('height','28px');
+                $('#searchText').css('width','170px');
+                $('#searchText').attr('placeholder',App.languageDict.attributes.Last_Name);
+                $('#searchButtonOnMembers').css('margin-top','-10px');
+             //   $('#AddNewMember').css('margin-left','20px');
+               // $('#AddNewMember').css('width','auto');
+
+            }
         },
         Reports: function() {
 

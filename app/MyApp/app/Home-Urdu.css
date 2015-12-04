@@ -892,3 +892,7 @@ textarea[name="comment"]
 #library-top-buttons{
     margin-top: 20px;
 }
+#AddNewMember{
+    margin-left: 20px;
+    width:auto;
+}

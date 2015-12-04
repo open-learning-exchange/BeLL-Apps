@@ -13,8 +13,7 @@ $(function() {
         },
 
         render: function() {
-            this.$el.html('<h3 style="float:right"><input id="searchText" style="margin-right:15px;height:28px;width:170px" type="Text" placeholder="Last Name"><button style="margin-top:-10px;" class="Search btn btn-info">Search</button></h3>');
-            this.$el.append('<h3>Members<a style="margin-left:20px" class="btn btn-success" href="#member/add">Add a New Member</a></h3>');
+            this.$el.append('<div id="parentMembers"><h3 id="membersSearchHeading"><input id="searchText" type="Text" placeholder=""><button id="searchButtonOnMembers" class="Search btn btn-info">'+App.languageDict.attributes.Search+'</button></h3><h3>'+App.languageDict.attributes.Members+'<a id="AddNewMember" style="margin-left:20px" class="btn btn-success" href="#member/add">'+App.languageDict.attributes.Add+' '+App.languageDict.attributes.New+' '+App.languageDict.attributes.Member+'</a></h3></div>');
             this.$el.append('<div id="memberTable"></div>');
             this.renderTable(searchText);
         },
@@ -40,13 +39,15 @@ $(function() {
                     membersTable = new App.Views.MembersTable({
                         collection: response
                     })
-                    membersTable.community_code = code + nationName.substring(3, 5)
+                  //  membersTable.community_code = code + nationName.substring(3, 5)
+                    membersTable.community_code = code;
+
                     if (roles.indexOf("Manager") > -1) {
                         membersTable.isadmin = true
                     } else {
                         membersTable.isadmin = false
                     }
-                    membersTable.render()
+                    membersTable.render();
                     $('#memberTable').html(membersTable.el)
                     App.stopActivityIndicator()
                 },
@@ -55,6 +56,36 @@ $(function() {
                 }
             })
 
+        },
+
+        changeDirection : function (){
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            })
+            var config = new configurations()
+            config.fetch({
+                async: false
+            })
+            var con = config.first();
+            var currentConfig = config.first().toJSON().rows[0].doc;
+            var clanguage= currentConfig.currentLanguage;
+            if (clanguage=="Urdu" || clanguage=="Arabic")
+            {
+                var library_page = $.url().data.attr.fragment;
+                if(library_page=="members")
+                {
+                    $('#parentMembers').addClass('addResource');
+                    $('#memberTable').addClass('addResource');
+                }
+
+
+                // $('.table-striped').css({direction:rtl});
+            }
+            else
+            {
+                $('#parentMembers').removeClass('addResource');
+                $('#memberTable').removeClass('addResource');
+            }
         }
 
     })

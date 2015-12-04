@@ -147,21 +147,26 @@ $(function() {
             vars.community_code = this.community_code
 
             if ((this.model.get("_id") == $.cookie('Member._id')) && !this.isadmin) {
+                vars.languageDict=App.languageDict;
                 vars.showdelete = false
                 vars.showedit = true
             } else if (!this.isadmin) {
+                vars.languageDict=App.languageDict;
                 vars.showdelete = false
                 vars.showedit = false
             } else {
+                vars.languageDict=App.languageDict;
                 vars.showdelete = true
                 vars.showedit = true
             }
             vars.src = "img/default.jpg"
             var attchmentURL = '/members/' + this.model.id + '/'
             if (typeof this.model.get('_attachments') !== 'undefined') {
+                vars.languageDict=App.languageDict;
                 attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
                 vars.src = attchmentURL
             }
+            vars.languageDict=App.languageDict;
             this.$el.html(_.template(this.template, vars))
         }
 

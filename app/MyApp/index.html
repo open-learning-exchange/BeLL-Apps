@@ -780,12 +780,12 @@
         <td>
             <% if(showedit == true){ %>
             <a role='button' class='btn btn-inverse' href='#member/edit/<%= _id %>'>
-                <i class="icon-edit"></i> Edit
+                <i class="icon-edit"></i> <%= languageDict.attributes.EditLabel%>
             </a>
             <% } %>
             <% if(showdelete == true){ %>
             <a class='destroy btn btn-danger' href='#'>
-                <i class='icon-remove'></i> Delete
+                <i class='icon-remove'></i> <%= languageDict.attributes.DeleteLabel%>
             </a>
             <% } %>
         </td>
