@@ -776,14 +776,26 @@
         <span style="font-weight:900; font-size:16px;"><%= IssueNo %></BR></span>
       </td>
       <td>
-       <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:100px "><%= editorName %></p></BR></span>
+       <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:150px "><%= editorName %></p></BR></span>
       </td>
       <td>
-        <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:300px "><%= editorEmail %></p></BR></span>
+        <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:150px "><%= editorEmail %></p></BR></span>
       </td>
       <td>
       <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:150px "><%= editorPhone %></p></BR></span>
       </td>
+    <td>
+        <select multiple id="commNames">
+            <%if(communityNames.length>0){%>
+        <% for (var i=0; i<communityNames.length; i++){%>
+        <option disabled="disabled" value="<%= communityNames[i] %>"><%= communityNames[i] %> </option>
+        <% }%>
+            <%} else {%>
+            <option disabled="disabled" value="None">None</option>
+            <%} %>
+
+        </select>
+    </td>
       <td>
     	<a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
         Details

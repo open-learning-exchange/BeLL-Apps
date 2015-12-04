@@ -19,7 +19,7 @@ $(function() {
         },
 
         addAll: function() {
-            this.$el.append('<tr><th>Date Issue</th><th>Issue No.</th><th>Editor Name</th><th>Editor Email</th><th>Editor Phone</th><th colspan="2">Actions</th></tr>')
+            this.$el.append('<tr><th>Date Issue</th><th>Issue No.</th><th>Editor Name</th><th>Editor Email</th><th>Editor Phone</th><th>Sent to</th><th colspan="2">Actions</th></tr>')
             this.collection.forEach(this.addOne, this)
         },
 
