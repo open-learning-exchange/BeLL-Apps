@@ -47,48 +47,9 @@ $(function() {
                     val: 'العربية',
                     label: 'العربية'
                 }, {
-                    val: 'Asante',
-                    label: 'Asante'
-                }, {
-                    val: '中国',
-                    label: '中国'
-                }, {
                     val: 'English',
                     label: 'English'
-                }, {
-                    val: 'Ewe',
-                    label: 'Ewe'
-                }, {
-                    val: 'français',
-                    label: 'français'
-                }, {
-                    val: 'हिंदी',
-                    label: 'हिंदी'
-                }, {
-                    val: 'Kyrgyzstani',
-                    label: 'Kyrgyzstani'
-                }, {
-                    val: 'नेपाली',
-                    label: 'नेपाली'
-                }, {
-                    val: 'português',
-                    label: 'português'
-                }, {
-                    val: 'ਪੰਜਾਬੀ ਦੇ',
-                    label: 'ਪੰਜਾਬੀ ਦੇ'
-                }, {
-                    val: 'Русский',
-                    label: 'Русский'
-                }, {
-                    val: 'Soomaali',
-                    label: 'Soomaali'
-                }, {
-                    val: 'Español',
-                    label: 'Español'
-                }, {
-                    val: 'Kiswahili',
-                    label: 'Kiswahili'
-                }, {
+                },{
                     val: 'اردو',
                     label: 'اردو'
                 }]

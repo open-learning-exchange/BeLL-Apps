@@ -25,7 +25,7 @@ $(function() {
                 type: 'Text'
             }, // Author Field is required when adding the resource with tag news else no need for that.
             Publisher: 'Text',
-            language: {
+          /*  language: {
                 type: 'Select',
                 options: [{
                     val: 'العربية',
@@ -73,6 +73,19 @@ $(function() {
                     val: 'Kiswahili',
                     label: 'Kiswahili'
                 }, {
+                    val: 'اردو',
+                    label: 'اردو'
+                }]
+            },*/
+            language: {
+                type: 'Select',
+                options: [{
+                    val: 'العربية',
+                    label: 'العربية'
+                }, {
+                    val: 'English',
+                    label: 'English'
+                },{
                     val: 'اردو',
                     label: 'اردو'
                 }]
