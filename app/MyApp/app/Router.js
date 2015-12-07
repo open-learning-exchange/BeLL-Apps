@@ -322,7 +322,7 @@ $(function() {
                 })
             })
             memberLoginForm.render();
-            App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member+' '+languageDict.attributes.Login+'</h1>');
+            App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member_Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
             memberLoginForm.updateLabels(languageDict);
             if (clanguage=="Urdu" || clanguage=="Arabic")
@@ -474,6 +474,73 @@ $(function() {
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
             dashboard.render();
+            var wordsOfLibraryTable=new Array();
+            wordsOfLibraryTable.push(App.languageDict.attributes.My_Library);
+            wordsOfLibraryTable.push(App.languageDict.attributes.My_Courses_Progress);
+            wordsOfLibraryTable.push(App.languageDict.attributes.My_Meetups);
+            wordsOfLibraryTable.push(App.languageDict.attributes.My_Tutors);
+            var classToAppend=new Array();
+            classToAppend.push('shelf');
+            classToAppend.push('badges');
+            classToAppend.push('tuter');
+            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            {
+
+                $('#headerTableOnDashBoard').css('direction','rtl');
+                for(var i= 0,j=0;i<4;i++)
+                {
+                    if(i==1){
+                        $('#first' + i).addClass('stu-nav-option-empty');
+                        $('#first' + i).removeClass('stu-nav-title');
+                        $('#first' + i).empty();
+                        $('#last' + i).removeClass('stu-nav-option-empty');
+                        $('#last' + i).addClass('stu-nav-title');
+                        var htmlToAppend='<a id="linkOnSecond" href="#courses/barchart"></a>';
+                        $('#last' + i).append(htmlToAppend);
+                        $('#linkOnSecond').html(wordsOfLibraryTable[1]);
+
+                    }
+                    else {
+                        $('#first' + i).removeClass('stu-nav-title-'+classToAppend[j]);
+                        $('#first' + i).removeClass('stu-nav-title');
+                        $('#first' + i).addClass('stu-nav-option-empty');
+                        // $('#last').css('background-color','red');
+                        $('#last' + i).addClass('stu-nav-title-'+classToAppend[j]);
+                        $('#last' + i).addClass('stu-nav-title');
+                        $('#last' + i).removeClass('stu-nav-option-empty');
+                        $('#last' + i).html(wordsOfLibraryTable[i]);
+                        j++;
+                    }
+                }
+            }
+            else {
+                for(var i= 0,j=0;i<4;i++)
+                {
+                    if(i==1){
+                        $('#first' + i).removeClass('stu-nav-option-empty');
+                        $('#first' + i).addClass('stu-nav-title');
+                        $('#first' + i).empty();
+                        $('#last' + i).addClass('stu-nav-option-empty');
+                        $('#last' + i).removeClass('stu-nav-title');
+                        var htmlToAppend='<a id="linkOnSecond" href="#courses/barchart"></a>';
+                        $('#first' + i).append(htmlToAppend);
+                        $('#linkOnSecond').html(wordsOfLibraryTable[1]);
+
+                    }
+                    else{
+                        $('#first'+i).removeClass('stu-nav-option-empty');
+                        $('#first'+i).addClass('stu-nav-title-'+classToAppend[j]);
+                        $('#first'+i).addClass('stu-nav-title');
+                        $('#first'+i).html(wordsOfLibraryTable[i]);
+                        $('#last'+i).removeClass('stu-nav-title-'+classToAppend[j]);
+                        $('#last'+i).removeClass('stu-nav-title');
+                        $('#last'+i).addClass('stu-nav-option-empty');
+                        j++;
+                    }
+
+
+                }
+            }
             that.getNationVersion();
             $('#olelogo').remove()
         },

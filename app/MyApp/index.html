@@ -397,7 +397,7 @@
     </script>
     <script type="text/html" id="template-Dashboard">
         <div id="dashboard">
-            <table class="header-table" style="border-collapse: separate;">
+            <table id="headerTableOnDashBoard" class="header-table" style="border-collapse: separate;">
                 <tr class="imageRow">
                     <td rowspan="2" class="imageData">
                         <!--	<img id="header-image" src="img/header_slice.png" /> -->
@@ -417,19 +417,19 @@
             </table>
 
             <div id="page-body">
-                <table class="stu-nav-table" style="border-collapse: separate;">
+                <table id="libraryTableOnDashBoard" class="stu-nav-table" style="border-collapse: separate;">
                     <tr class="stu-nav-tube">
-                        <td class="stu-nav-title-shelf stu-nav-title"><%= languageDict.attributes.My_Library %></td>
+                        <td id="first0" class=""></td>
                         <td class="scrollable-shelf">      <!-- SCROLLABLE DIV-->
                             <div class="inner">
                                 <table id="ur" class="inner-table" >
                                 </table>
                             </div>
                         </td>
-                        <td class="stu-nav-option-empty"></td>
+                        <td id ="last0"class=""></td>
                     </tr>
                     <tr class="stu-nav-tube">
-                        <td class="stu-nav-title">
+                        <td id="first1" class="">
                             <a href="#courses/barchart"><%= languageDict.attributes.My_Courses_Progress %></a>
                         </td>
                         <td class="scrollable-courses">
@@ -438,10 +438,10 @@
                                 </table>
                             </div>
                         </td>
-                        <td class="stu-nav-option-empty"></td>
+                        <td id="last1"class=""></td>
                     </tr>
                     <tr class="stu-nav-tube">
-                        <td class="stu-nav-title-badges stu-nav-title"><%= languageDict.attributes.My_Meetups %></td>
+                        <td id="first2"class=""></td>
                         <td class="scrollable-badges">      <!-- SCROLLABLE DIV-->
                             <div class="inner">
                                 <table id="meetUpTable" class="inner-table" >
@@ -449,17 +449,17 @@
                                 </table>
                             </div>
                         </td>
-                        <td class="stu-nav-option-empty"></td>
+                        <td id="last2"class=""></td>
                     </tr>
                     <tr class="stu-nav-tube">
-                        <td class="stu-nav-title-tuter stu-nav-title"><%= languageDict.attributes.My_Tutors %></td>
+                        <td id="first3" class=""></td>
                         <td class="scrollable-tutor">      <!-- SCROLLABLE DIV-->
                             <div class="inner">
                                 <table id="tutorTable" class="inner-table" >
                                 </table>
                             </div>
                         </td>
-                        <td class="stu-nav-option-empty"></td>
+                        <td id="last3" class=""></td>
                     </tr>
                 </table>
             </div>

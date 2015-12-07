@@ -3,7 +3,7 @@
     height: 600px;
     width: 950px;
     margin-left: 900px;
-    direction: rtl;
+   /* direction: rtl; ********************TESTING PURPOSE ***************/
 }
 
 select#onLoginLanguage {
@@ -24,7 +24,7 @@ select#onLoginLanguage {
    /* margin-left:45.8%;
     height: 600px;
     width:950px;*/
-    direction: rtl;
+   /* direction: rtl;*/
     height: 600px;
 
     width:940px;
@@ -458,7 +458,7 @@ body{
 */
     margin-left: 43%;
     width: 320px;
-    text-align:right;
+    text-align:center;
 }
 
 .login-form
