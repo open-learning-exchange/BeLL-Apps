@@ -487,6 +487,7 @@ $(function() {
             {
 
                 $('#headerTableOnDashBoard').css('direction','rtl');
+                $('#bottomButtonsOnDashboard').css('direction','rtl');
                 for(var i= 0,j=0;i<4;i++)
                 {
                     if(i==1){
