@@ -144,7 +144,7 @@ $(function() {
             } else {
                 config = that.updateConfigsOfCommunity(1)
             }
-            console.log("value of countDoubleupdate inside update version : " + config.countDoubleUpdate);
+            //console.log("value of countDoubleupdate inside update version : " + config.countDoubleUpdate);
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
