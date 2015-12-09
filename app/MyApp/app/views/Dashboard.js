@@ -137,14 +137,12 @@ $(function() {
         updateVersion: function(e) {
             var that = this;
             App.startActivityIndicator();
-            var config;
             var currCommConfig = that.getCommunityConfigs()
             if (currCommConfig.countDoubleUpdate) {
                 that.updateConfigsOfCommunity(1)
             } else {
-                config = that.updateConfigsOfCommunity(1)
+                that.updateConfigsOfCommunity(1)
             }
-            //console.log("value of countDoubleupdate inside update version : " + config.countDoubleUpdate);
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
