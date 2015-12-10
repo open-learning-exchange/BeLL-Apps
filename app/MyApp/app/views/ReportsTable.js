@@ -21,7 +21,8 @@ $(function() {
         },
 
         addAll: function() {
-            this.$el.append('<tr><th>Time</th><th>Title</th><th>Author</th><th>Views</th><th colspan="5">Actions</th></tr>')
+            this.$el.append('<tr id="firstRowOfReports"><th>'+App.languageDict.attributes.Time+'</th><th>'+App.languageDict.attributes.Title+'</th><th>'+App.languageDict.attributes.author+'</th><th>'+App.languageDict.attributes.View_s+'</th><th colspan="5">'+App.languageDict.attributes.action+'</th></tr>')
+
             this.collection.forEach(this.addOne, this)
         },
 
