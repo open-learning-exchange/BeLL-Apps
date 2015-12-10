@@ -5018,7 +5018,11 @@ $(function() {
                             resId = resourcesOpened[i]
                             index = report_resOpened.indexOf(resId)
                             if (index == -1) {
-                                report_resNames.push(resourcesNames[i])
+                                if(resourcesNames != undefined && resourcesNames != null) {
+                                    if(resourcesNames.length > 0) {
+                                        report_resNames.push(resourcesNames[i])
+                                    }
+                                }
                                 report_resOpened.push(resId)
                                 report_male_opened.push(logDoc.get('male_opened')[i])
                                 report_female_opened.push(logDoc.get('female_opened')[i])
