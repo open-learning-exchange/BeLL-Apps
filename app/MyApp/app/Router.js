@@ -1802,12 +1802,12 @@ $(function() {
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
                 //<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
-                App.$el.children('.body').append('<p style="margin-top:10px"><a class="btn btn-success" href="#reports/add">Add a new Report</a>' +
-                '<a style="margin-left:20px" class="btn btn-success" href="#logreports">Activity Report</a>' +
-                '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
+                App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
+                '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
+                '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
 
             } else {
-                App.$el.children('.body').append('<p style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">Activity Report</a></p>')
+                App.$el.children('.body').append('<p id="sHonRep" style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a></p>')
             }
 
             /*  var temp = $.url().attr("host").split(".")
@@ -1826,13 +1826,22 @@ $(function() {
             temp=temp.charAt(0).toUpperCase() + temp.slice(1);
             var typeofBell=config.first().attributes.type;
             if (typeofBell === "nation") {
-                temp = temp + " Nation Bell"
+                temp = temp +' '+ App.languageDict.attributes.Nation+' '+App.languageDict.attributes.Bell;
             } else {
-                temp = temp + " Community Bell"
+                temp = temp + ' ' +App.languageDict.attributes.Nation+' '+App.languageDict.attributes.Bell;
             }
-            App.$el.children('.body').append('<h4><span style="color:gray;">' + temp + '</span> | Reports</h4>')
-            App.$el.children('.body').append(resourcesTableView.el);
-
+            App.$el.children('.body').append('<h4 id="secondHeadingOfReports"><span style="color:gray;">' + temp + '</span> | '+App.languageDict.attributes.Reports+'</h4>')
+            var tableDiv="<div id='reportTable'></div>";
+            App.$el.children('.body').append(tableDiv);
+            $('#reportTable').append(resourcesTableView.el);
+            if(App.configuration.attributes.currentLanguage == "Urdu" || App.configuration.attributes.currentLanguage == "Arabic"){
+                $('#firstHeadingOfReports').css('direction','rtl');
+                $('#reportTable').css('direction','rtl');
+                $('#secondHeadingOfReports').css('direction','rtl');
+                $('#secondHeadingOfReports').css('direction','rtl');
+                $('#fHonRep').addClass('addMarginsOnResource');
+                $('#sHonRep').addClass('addMarginsOnResource');
+            }
             App.stopActivityIndicator()
 
         },

@@ -47,7 +47,7 @@ $(function() {
         render: function() {
             //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()
-
+            vars.languageDict=App.languageDict;
             if (vars.views == undefined) {
                 vars.views = 0
             }
