@@ -62,7 +62,15 @@ function showFeedbackForm() {
         $('#site-feedback').animate({
             height: 'toggle'
         })
+
+
     }
+    $('#comment').attr('placeholder',App.languageDict.attributes.Give_Feedback);
+    if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" )
+    {
+        $('#comment').css('text-align','right');
+    }
+
 }
 
 function sendAdminRequest(courseLeader, courseName, courseId) {

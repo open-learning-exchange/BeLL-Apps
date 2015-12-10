@@ -1,5 +1,5 @@
 {
-  "Dashboard": "ڈیش بورڈ",
+   "Dashboard": "ڈیش بورڈ",
    "Library": "لائبریری",
    "Courses": "کورسز",
    "Meetups": "اجلاس",
@@ -141,5 +141,17 @@
    "Last_Name": "آخری نام",
    "Bell_Email": "بیل ای میل",
    "EditLabel": "ترمیم کریں",
-   "Member_Login": "ممبر لاگ ان"
+   "Member_Login": "ممبر لاگ ان",
+   "Add_a_New_Report": " ایک نئی رپورٹ شامل کریں",
+   "Activity_Report": "سرگرمی رپورٹ",
+   "Trend": "رجحان",
+   "View_s": "مناظر",
+   "Time": "وقت",
+   "Comment": " تبصرہ",
+   "Urgent": "ارجنٹ",
+   "Bug": "بگ",
+   "Question": "سوال",
+   "Suggestion": "تجاویز",
+   "Submit": "جمع کرائیں",
+   "Give_Feedback": " موجودہ صفحے پر ہمیں آپ کی رائے دے"
 }

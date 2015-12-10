@@ -72,7 +72,8 @@ $(function() {
             $('#memberLogin', this.$el).hide()
             $('#time', this.$el).hide()
             var $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button></div>')
-            this.$el.append($button)
+            this.$el.append($button);
+
         }
     })
 })
