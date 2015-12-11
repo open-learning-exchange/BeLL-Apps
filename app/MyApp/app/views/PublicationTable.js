@@ -269,9 +269,10 @@
                                                 'doc_ids': cumulativeCourseStepIDs
                                             }),
                                             success: function (response) {
-                                                // mark this publication as synced at community couchdb. ideally, we should inform the nation about it as well
-                                                // but currently we are only able to make get requests cross-domain (from community application to nation couchdb
-                                                // in our case) and informing the nation couchdb will probably require a cross-domain put or post request to work.
+                                                // mark this publication as synced at community couchdb.We are informing the nation about it as well
+                                                // so that nations can see which communities have successfully downladed the publication.
+                                                //If the publication is already synced then no need to save it again in the db's, that's why assigning
+                                                // appropriate value to the isAlreadyExist variable.
                                                 var isAlreadyExist = true;
                                                 if(publicationToSync.downloadedByCommunities && publicationToSync.downloadedByCommunities != undefined) {
                                                     if(publicationToSync.downloadedByCommunities.indexOf(App.configuration.get('name')) == -1) {
@@ -279,6 +280,9 @@
                                                         isAlreadyExist = false;
                                                     }
                                                 }
+                                                //If a publication doc does not contain the downloadedByCommunities field then it means that this
+                                                // publication was before Issue#48 implementation, so saving it in the db to maintain the value
+                                                // of "synced/not synced" for the older publications too.
                                                 if(isAlreadyExist == false || publicationToSync.downloadedByCommunities == undefined) {
                                                     $.couch.db("publications").saveDoc(publicationToSync, {
                                                         success: function (response) {
