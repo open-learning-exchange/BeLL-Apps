@@ -16,7 +16,8 @@ $(function() {
 
         defaults: {
             kind: 'publication',
-            communityNames : [] //#100
+            communityNames : [], //#100
+            downloadedByCommunities : []
         },
 
         schema: {

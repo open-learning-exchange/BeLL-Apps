@@ -272,15 +272,44 @@
                                                 // mark this publication as synced at community couchdb. ideally, we should inform the nation about it as well
                                                 // but currently we are only able to make get requests cross-domain (from community application to nation couchdb
                                                 // in our case) and informing the nation couchdb will probably require a cross-domain put or post request to work.
-                                                $.couch.db("publications").saveDoc(publicationToSync, {
-                                                    success: function (response) {
-                                                        console.log("adding publication# " + publicationToSync.IssueNo + " doc at community for bookkeeping");
-                                                        console.log(response);
-                                                    },
-                                                    error: function (jqXHR, textStatus, errorThrown) {
-                                                        console.log(errorThrown);
+                                                var isAlreadyExist = true;
+                                                if(publicationToSync.downloadedByCommunities && publicationToSync.downloadedByCommunities != undefined) {
+                                                    if(publicationToSync.downloadedByCommunities.indexOf(App.configuration.get('name')) == -1) {
+                                                        publicationToSync.downloadedByCommunities.push(App.configuration.get('name'));
+                                                        isAlreadyExist = false;
                                                     }
-                                                });
+                                                }
+                                                if(isAlreadyExist == false || publicationToSync.downloadedByCommunities == undefined) {
+                                                    $.couch.db("publications").saveDoc(publicationToSync, {
+                                                        success: function (response) {
+                                                            console.log("adding publication# " + publicationToSync.IssueNo + " doc at community for bookkeeping");
+                                                            console.log(response);
+                                                            $.ajax({
+                                                                headers: {
+                                                                    'Accept': 'application/json',
+                                                                    'Content-Type': 'application/json; charset=utf-8'
+                                                                },
+                                                                type: 'POST',
+                                                                url: '/_replicate',
+                                                                dataType: 'json',
+                                                                data: JSON.stringify({
+                                                                    "source": "publications",
+                                                                    "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/publications',
+                                                                    "doc_ids": [publicationToSync._id]
+                                                                }),
+                                                                success: function (response) {
+                                                                    console.log("Success");
+                                                                },
+                                                                error: function (res) {
+                                                                    console.log(res);
+                                                                }
+                                                            });
+                                                        },
+                                                        error: function (jqXHR, textStatus, errorThrown) {
+                                                            console.log(errorThrown);
+                                                        }
+                                                    });
+                                                }
                                                 //My code for lastPublicationsSyncDate
                                                 // Update LastAppUpdateDate at Nation's Community Records
                                                 $.ajax({
