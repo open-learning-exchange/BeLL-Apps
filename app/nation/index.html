@@ -785,8 +785,8 @@
       <span ><p style="font-weight:900; font-size:16px;word-wrap:break-word; width:150px "><%= editorPhone %></p></BR></span>
       </td>
     <td>
-        <select multiple id="commNames">
-            <%if(communityNames.length>0){%>
+        <select multiple id="commNames" style="width:200px">
+            <%if(communityNames && communityNames.length>0){%>
         <% for (var i=0; i<communityNames.length; i++){%>
         <option disabled="disabled" value="<%= communityNames[i] %>"><%= communityNames[i] %> </option>
         <% }%>
