@@ -796,6 +796,18 @@
 
         </select>
     </td>
+    <td>
+        <select multiple id="DownloadedByNames" style="width:200px">
+            <%if(downloadedByCommunities && downloadedByCommunities.length>0){%>
+            <% for (var i=0; i<downloadedByCommunities.length; i++){%>
+            <option disabled="disabled" value="<%= downloadedByCommunities[i] %>"><%= downloadedByCommunities[i] %> </option>
+            <% }%>
+            <%} else {%>
+            <option disabled="disabled" value="None">None</option>
+            <%} %>
+
+        </select>
+    </td>
       <td>
     	<a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
         Details
