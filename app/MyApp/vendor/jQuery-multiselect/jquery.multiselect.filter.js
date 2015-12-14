@@ -36,7 +36,7 @@
       var header = (this.header = instance.menu.find('.ui-multiselect-header').addClass('ui-multiselect-hasfilter'));
 
       // wrapper elem
-      var wrapper = (this.wrapper = $('<div class="ui-multiselect-filter">' + (opts.label.length ? opts.label : '') + '<input placeholder="'+opts.placeholder+'" type="search"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo(this.header));
+      var wrapper = (this.wrapper = $('<div class="ui-multiselect-filter">' +'<span>'+  (opts.label.length ? opts.label : '')  + '</span>'+ '<input placeholder="'+opts.placeholder+'" type="search"' + (/\d/.test(opts.width) ? 'style="width:'+opts.width+'px"' : '') + ' /></div>').prependTo(this.header));
 
       // reference to the actual inputs
       this.inputs = instance.menu.find('input[type="checkbox"], input[type="radio"]');

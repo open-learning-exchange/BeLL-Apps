@@ -197,7 +197,7 @@ $(function() {
             this.$el.html(this.template(vars))
             // @todo this is hackey, should be the following line or assigned to vars.form
             $('.fields').html(this.form.el)
-            this.$el.append('<button class="btn btn-success" id="add_newCoellection" >'+App.languageDict.attributes.Add+' '+App.languageDict.attributes.New+'</button>')
+            this.$el.append('<button class="btn btn-success" id="add_newCoellection" >'+App.languageDict.attributes.Add_New+'</button>')
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
             $('[name="title"]').focus();

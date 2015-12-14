@@ -762,15 +762,41 @@ $(function() {
             $("select[class='bbf-year']").attr("disabled", true);
 
             $('.form .field-subject select').attr("multiple", true);
+            var subjectArray=App.languageDict.get('SubjectList');
+            for(var i=0;i<subjectArray.length;i++)
+            {
+                $('.form .field-subject select').find('option').eq(i).html(subjectArray[i]);
 
+            }
             $('.form .field-subject select').multiselect().multiselectfilter();
-
+            $('.form .field-subject select').multiselect({
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('.form .field-subject select').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
             $('.form .field-Level select').attr("multiple", true);
+            var levelArray=App.languageDict.get('LevelArray');
+            for(var i=0;i<levelArray.length;i++)
+            {
+                $('.form .field-Level select').find('option').eq(i).html(levelArray[i]);
+
+            }
+
             $('.form .field-Level select').multiselect().multiselectfilter();
+            $('.form .field-Level select').multiselect({
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('.form .field-Level select').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
             if (resource.id == undefined) {
                 $('.form .field-Level select').multiselect('uncheckAll');
                 $('.form .field-subject select').multiselect('uncheckAll')
             }
+
             $('.form .field-Tag select').attr("multiple", true);
             $('.form .field-Tag select').click(function() {
                 context.AddNewSelect(this.value)
@@ -782,6 +808,13 @@ $(function() {
 
             this.RenderTagSelect(identifier)
             $('.form .field-Tag select').multiselect().multiselectfilter();
+            $('.form .field-Tag select').multiselect({
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('.form .field-Tag select').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
             $('.form .field-Tag select').multiselect("uncheckAll");
 
 
@@ -808,6 +841,7 @@ $(function() {
                 }
 
             }
+
 
             this.updateLabelsOfAddResourceForm(resourceId);
             if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
@@ -867,6 +901,7 @@ $(function() {
                 noneSelectedText: App.languageDict.attributes.Select_An_option
 
             });
+
             $('.field-Tag').find('label').html(App.languageDict.attributes.Collection);
             $('.field-Tag').find('.bbf-editor').find('select').multiselect({
 
@@ -912,10 +947,9 @@ $(function() {
 
             }
             $('#fileAttachment').find('label').html(App.languageDict.attributes.Upload+' '+App.languageDict.attributes.Resources);
-            $('#_attachments').attr("label",App.languageDict.attributes.Browse);
+            $('#_attachments').html('Saba');
 
 
-            //$('#resourceform').find('table').find('tbody').find('tr').eq(1).find('td').find('.fields').find
         },
 
         bellResourceSearch: function() {
