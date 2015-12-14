@@ -579,6 +579,14 @@ function changeRatingImage(checkID, count) {
 
 function showRequestForm(modl) {
     App.renderRequest(modl);
+    if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" )
+    {
+        $('#site-request').css('direction','rtl');
+
+        $('#site-request').find('span').css('margin-right','4%');
+        $('#site-request').find('form').css('margin-right','2%');
+        $('#site-request').find('div').css('margin-right','2%');
+    }
 }
 
 function showSearchView() {

@@ -91,13 +91,13 @@ $(function() {
                 model: modl
             })
             if (this.type == "Course") {
-                this.$el.html('<span style=" font-weight: bold;visibility: visible;">I would like to enroll in a course on the following subject</span>')
+                this.$el.html('<span style=" font-weight: bold;visibility: visible;">'+App.languageDict.attributes.Request_Course_Title+'</span>')
             } else if (this.type == "Resource") {
-                this.$el.html('<span style=" font-weight: bold;visibility: visible;">I would like to have the following resource in BELL</span>')
+                this.$el.html('<span style=" font-weight: bold;visibility: visible;">'+App.languageDict.attributes.Request_Resource_Title+'</span>')
             } else if (this.type == "Meetup") {
-                this.$el.html('<span style=" font-weight: bold;visibility: visible;">I would like to join a Meetup on the following topic</span>')
+                this.$el.html('<span style=" font-weight: bold;visibility: visible;">'+App.languageDict.attributes.Request_Meetup_Title+'</span>')
             } else {
-                this.$el.html('<span style=" font-weight: bold;visibility: visible;">Error!!!!</span>')
+                this.$el.html('<span style=" font-weight: bold;visibility: visible;">'+App.languageDict.attributes.Error+'</span>')
             }
             this.$el.append(this.form.render().el)
             this.form.fields['senderId'].$el.hide()
@@ -107,8 +107,9 @@ $(function() {
             this.form.fields['sendFrom'].$el.hide()
             this.form.fields['sendFromName'].$el.hide()
             this.form.fields['date'].$el.hide()
-            var $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">Cancel</button><button class="btn btn-hg btn-info" id="ViewAllButton">View All</button><button class="btn btn-hg btn-primary" id="formButton">Submit</button></div>')
-            this.$el.append($button)
+            var $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View_All+'</button><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button></div>')
+            this.$el.append($button);
+
         }
 
 
