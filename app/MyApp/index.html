@@ -1062,13 +1062,13 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div class="form-group search-Box">
-                        <label style='font-size:16px'><b>Key Word</b></label><br><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
+                        <label style='font-size:16px'><b><%= languageDict.attributes.Title %></b></label><br><input class="form-control" type="text" placeholder="key Word" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
                     </div>
 
                     <div class="checkbox-subject" id="SubjectCheckboxes">
                     </div>
                     <div class="right-column-search">
-                        <label style='font-size:16px'><b>Collections</b></label><br>
+                        <label style='font-size:16px'><b><%= languageDict.attributes.Collection_s %></b></label><br>
                         <div class="Collection-search">
                             <select id="multiselect-collections-search" multiple="multiple" style="width: 370px;">
                                 <%for(i=0;i<tags.length;i++){%>
@@ -1090,7 +1090,7 @@
 
                         <div class="levels-search">
 
-                            <label style='font-size:16px'><b>Level</b></label><br>
+                            <label style='font-size:16px'><b><%= languageDict.attributes.level %></b></label><br>
                             <select  name="Level" id="multiselect-levels-search" multiple="multiple" style="width: 370px;">
                                 <option>Early Education</option>
                                 <option>Lower Primary</option>
@@ -1104,7 +1104,7 @@
 
                         </div>
                         <div class="medium-search">
-                            <label style='font-size:16px'><b>Medium</b></label><br>
+                            <label style='font-size:16px'><b><%= languageDict.attributes.Medium %></b></label><br>
 
                             <select name="Medium"  id="multiselect-medium-search" multiple="multiple" style="width: 370px;">
                                 <option>Text</option>
@@ -1116,7 +1116,7 @@
 
                         </div>
                         <div class="language-search">
-                            <label style='font-size:16px'><b>Language</b></label><br>
+                            <label style='font-size:16px'><b><%= languageDict.attributes.language %></b></label><br>
 
                             <select name="Language"  id="search-language" multiple="multiple" style="width: 370px;">
                                 <option>Arabic</option>
@@ -1146,7 +1146,7 @@
                          </div> -->
 
                         <div id="rating_checkboxes">
-                            <label style='font-size:16px'><b>Rating</b></label><br>
+                            <label style='font-size:16px'><b><%= languageDict.attributes.Rating %></b></label><br>
                             <input id="star5" type="checkbox" name="star" value="5" onchange="changeRatingImage('rating5_',5)">
                             <img src="star-off.png" class="filter_star_img" id="rating5_1"><img src="star-off.png" class="filter_star_img" id="rating5_2"><img src="star-off.png" class="filter_star_img" id="rating5_3"><img src="star-off.png" class="filter_star_img" id="rating5_4"><img src="star-off.png" class="filter_star_img" id="rating5_5"><br/>
 
@@ -1166,7 +1166,7 @@
                     </div>
 
                     <br/>
-                    <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="ResourceSearch()"<%}%>>Search</button></span></h4></div>
+                    <div id='search-button'><h4><span><button style='width:300px' id='searchR' class="btn btn-info" <%if(addResource==true) {%><%}else{%>onclick="ResourceSearch()"<%}%>><%= languageDict.attributes.Search %></button></span></h4></div>
                 </div>
             </div>
         </div>

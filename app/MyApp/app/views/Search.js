@@ -81,7 +81,8 @@ $(function() {
 
             var obj = this
             var collections = App.collectionslist
-            this.vars.tags = collections.toJSON()
+            this.vars.tags = collections.toJSON();
+            this.vars.languageDict=App.languageDict;
             this.vars.addResource = this.addResource
             if (typeof this.Publications != 'undefined') {
 
