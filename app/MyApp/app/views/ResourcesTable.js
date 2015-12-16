@@ -78,6 +78,11 @@ $(function() {
 
 			resourceRowView.render()
 			this.$el.append(resourceRowView.el);
+			if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+			{
+				$('.resourcInfoFirstCol').attr('colspan','8');
+				$('.resourcInfoCol').attr('colspan','3');
+			}
 		},
 
 		addAll: function() {
@@ -187,8 +192,13 @@ $(function() {
 
 			applyStylingSheet();
 			this.$el.append('<br/><br/>')
-			this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
-
+            if(App.configuration.attributes.currentLanguage=="English" )
+			{
+				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
+			}
+			else {
+				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='26' style='text-align: center'>"+languageDict.attributes.action+"</th></tr>")
+			}
 			this.addAll()
 
 			var text = '<tr><td>'
@@ -233,8 +243,6 @@ $(function() {
 				})
 
 			}
-
-
 
 		}
 
