@@ -30,22 +30,49 @@ var b = 0
 
 function installDesignDocs() {
     var database = databases[b]
+    console.log(b);
     if (b !== databases.length) {
-        if (database != "communities" && database != "languages" && database != "configurations") {
-            console.log("Inserting design docs for the " + database + " database");
-            var docToPush = 'databases\\' + database + '.js';
-            var targetDb = couchUrl + '/' + database;
-            exec('pushDocToDb.bat "' + docToPush + '" "' + targetDb + '"', function(error, stdout, stderr) {
-                if (error) console.log(error);
-                if (stderr) console.log(stderr);
-                console.log(stdout)
-                b++
-    installDesignDocs()
-});
-    } else {
-        b++
-        installDesignDocs()
-        }
+        nano.db.get(database, function(err, body) {
+            if (!err) {
+                if (database != "communities" && database != "languages" && database != "configurations" && database != "apps") {
+                    console.log("Inserting design docs for the " + database + " database");
+                    var docToPush = 'databases\\' + database + '.js';
+                    var targetDb = couchUrl + '/' + database;
+                    exec('pushDocToDb.bat "' + docToPush + '" "' + targetDb + '"', function(error, stdout, stderr) {
+                        if (error) console.log(error);
+                        if (stderr) console.log(stderr);
+                        console.log(stdout)
+                        b++
+                        installDesignDocs()
+                    });
+                } else {
+                    b++
+                    installDesignDocs()
+                }
+            }
+            else {
+                nano.db.create(database, function(err, body) {
+                    if (!err) {
+                        console.log('database' + database + 'created.');
+                        if (database != "communities" && database != "languages" && database != "configurations" && database != "apps") {
+                            console.log("Inserting design docs for the " + database + " database");
+                            var docToPush = 'databases\\' + database + '.js';
+                            var targetDb = couchUrl + '/' + database;
+                            exec('pushDocToDb.bat "' + docToPush + '" "' + targetDb + '"', function(error, stdout, stderr) {
+                                if (error) console.log(error);
+                                if (stderr) console.log(stderr);
+                                console.log(stdout)
+                                b++
+                                installDesignDocs()
+                            });
+                        } else {
+                            b++
+                            installDesignDocs()
+                        }
+                    }
+                });
+            }
+        });
 } else {
         updateNationCouchVersion();
       //  console.log('going to call updateLanguagesDocs()******');
