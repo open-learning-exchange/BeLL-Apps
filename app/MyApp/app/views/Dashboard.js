@@ -219,6 +219,7 @@ $(function() {
             that.updateDesignDocs("collectionlist");
             that.updateDesignDocs("community");
             that.updateDesignDocs("resources");
+            that.updateDesignDocs("survey");
             that.updateDesignDocs("coursestep");
             that.updateDesignDocs("groups");
             that.updateDesignDocs("publications");
@@ -305,10 +306,14 @@ $(function() {
                 data: JSON.stringify({
                     "source": 'http://' + nationName + ':oleoleole@' + nationURL + '/' + dbName,
                     "target": dbName,
-                    "doc_ids": ["_design/bell"]
+                    "doc_ids": ["_design/bell"],
+                    "create_target": true
                 }),
                 success: function(response) {
                     console.log(dbName + " DesignDocs successfully updated.");
+                },
+                error: function(status) {
+                    console.log(status);
                 },
                 async: false
             });
