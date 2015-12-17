@@ -34,7 +34,7 @@ function installDesignDocs() {
     if (b !== databases.length) {
         nano.db.get(database, function(err, body) {
             if (!err) {
-                if (database != "communities" && database != "languages" && database != "configurations" && database != "apps") {
+                if (database != "communities" && database != "languages" && database != "configurations") {
                     console.log("Inserting design docs for the " + database + " database");
                     var docToPush = 'databases\\' + database + '.js';
                     var targetDb = couchUrl + '/' + database;
@@ -54,7 +54,7 @@ function installDesignDocs() {
                 nano.db.create(database, function(err, body) {
                     if (!err) {
                         console.log('database' + database + 'created.');
-                        if (database != "communities" && database != "languages" && database != "configurations" && database != "apps") {
+                        if (database != "communities" && database != "languages" && database != "configurations") {
                             console.log("Inserting design docs for the " + database + " database");
                             var docToPush = 'databases\\' + database + '.js';
                             var targetDb = couchUrl + '/' + database;
