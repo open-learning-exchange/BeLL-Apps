@@ -83,6 +83,9 @@ $(function() {
             var collections = App.collectionslist
             this.vars.tags = collections.toJSON();
             this.vars.languageDict=App.languageDict;
+            this.vars.levelArray=App.languageDict.get('LevelArray');
+            this.vars.mediaArray=App.languageDict.get('mediaList');
+            this.vars.languages=App.configuration.get('availableLanguages');
             this.vars.addResource = this.addResource
             if (typeof this.Publications != 'undefined') {
 

@@ -487,9 +487,11 @@ function AddToShelfAndSaveFeedback(rId, title) {
 }
 
 function showSubjectCheckBoxes() {
-    var subjects = ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology'];
+    //var subjects = ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology'];
+    var subjects=App.languageDict.get('SubjectList');
+    console.log(subjects);
     var length = subjects.length;
-    var htmlString = "<label style='font-size:16px'><b>Subject</b></label><br>";
+    var htmlString = "<label style='font-size:16px'><b>"+App.languageDict.attributes.subject+"</b></label><br>";
     htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>";
     for (var i = 0; i < length; i++) {
         htmlString = htmlString + '<option id="subject' + (i + 1) + '" value="' + subjects[i] + '">' + subjects[i] + '</option>';

@@ -441,8 +441,14 @@ body{
     margin-top: 25px;
 }
 #search{
-    margin-left:40px;
+    margin-right:40px;
+    float:right;
+    direction:rtl;
 }
+#search-button{
+    margin-right: 22%;
+}
+
 .btn.btn-hg, .input-group-hg .btn
 {
     line-height:13px;

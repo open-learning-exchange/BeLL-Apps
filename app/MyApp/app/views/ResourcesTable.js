@@ -87,7 +87,12 @@ $(function() {
 
 		addAll: function() {
 			if (this.collection.length == 0) {
-				this.$el.append("<tr><td width: 630px;>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
+				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic"){
+					this.$el.append("<tr><td style='width: 630px;text-align:right' colspan='8'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
+				}
+				else{
+					this.$el.append("<tr><td style='width: 630px;'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
+				}
 			}
 			if (this.isadmin > -1) {
 				this.isAdmin = 1

@@ -848,11 +848,7 @@ $(function() {
             if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
             {
 
-                this.updateAllignmentOfAddResourceForm();}
-            else
-            {
-              //  $('#add_newCoellection').removeClass('add_Collection_Non_Eng')
-            //    $('#add_newCoellection').addClass('add_Collection_Eng')
+                this.updateAllignmentOfAddResourceForm();
             }
 
         },
@@ -919,10 +915,6 @@ $(function() {
             var mediaArray=App.languageDict.get('mediaList');
             for(var i=0;i<mediaArray.length;i++)
             {
-
-                /* $('.field-Medium').find('.bbf-editor').find('select').each(function() {
-                 $(this).find('option').html(mediaArray[i]);
-                 });*/
                 $('.field-Medium').find('.bbf-editor').find('select').find('option').eq(i).html(mediaArray[i]);
 
             }
@@ -948,7 +940,7 @@ $(function() {
 
             }
             $('#fileAttachment').find('label').html(App.languageDict.attributes.Upload+' '+App.languageDict.attributes.Resources);
-            $('#_attachments').html('Saba');
+
 
 
         },
@@ -960,23 +952,41 @@ $(function() {
             search.addResource = false
             search.render();
            // $('.body').removeClass('addResource');
-            App.$el.children('.body').html(search.el)
+            App.$el.children('.body').html(search.el);
 
             $("#multiselect-collections-search").multiselect().multiselectfilter();
+            $('#multiselect-collections-search').multiselect({
+
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option,
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('#multiselect-collections-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
             $("#multiselect-levels-search").multiselect().multiselectfilter();
+            $('#multiselect-levels-search').multiselect({
+
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option,
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('#multiselect-levels-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+
             $("#multiselect-medium-search").multiselect({
                 multiple: false,
-                header: "Select an option",
-                noneSelectedText: "Select an Option",
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option,
                 selectedList: 1
             });
             $("#search-language").multiselect({
                 multiple: false,
-                header: "Select an option",
-                noneSelectedText: "Select an Option",
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option,
                 selectedList: 1
             });
-
             $("#srch").hide()
             $(".search-bottom-nav").hide()
             $(".search-result-header").hide()
@@ -985,7 +995,23 @@ $(function() {
             showSubjectCheckBoxes()
 
             $("#multiselect-subject-search").multiselect().multiselectfilter();
+            $('#multiselect-subject-search').multiselect({
+
+                header: App.languageDict.attributes.Select_An_option,
+                noneSelectedText: App.languageDict.attributes.Select_An_option,
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('#multiselect-subject-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+
             applyStylingSheet();
+            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            {
+                $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#SubjectCheckboxes').find('label').text(App.languageDict.attributes.subject).css("font-weight","Bold");;
+            }
 
 
         },
