@@ -5,6 +5,18 @@
     margin-left: 900px;
    /* direction: rtl; ********************TESTING PURPOSE ***************/
 }
+.resourcInfoCol {
+    colspan: 3;
+    overflow: hidden;
+}
+
+.resourcInfoFirstCol{
+    colspan:4;
+}
+#addToMyLibraryButton{
+    margin-right: 4%;
+    overflow: hidden;
+}
 
 select#onLoginLanguage {
     position: relative;

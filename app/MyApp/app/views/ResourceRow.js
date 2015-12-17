@@ -104,7 +104,12 @@ $(function() {
 					async: false
 				})
 				this.model = newmodel
-				this.render()
+				this.render();
+				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+				{
+					$('.resourcInfoFirstCol').attr('colspan','8');
+					$('.resourcInfoCol').attr('colspan','3');
+				}
 			},
 			"click .unhide": function(event) {
 
@@ -134,7 +139,12 @@ $(function() {
 					async: false
 				})
 				this.model = newmodel
-				this.render()
+				this.render();
+				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+				{
+					$('.resourcInfoFirstCol').attr('colspan','8');
+					$('.resourcInfoCol').attr('colspan','3');
+				}
 
 			},
 			"click .trigger-modal": function() {
@@ -364,6 +374,7 @@ $(function() {
 				vars.removeFormCollection = 0
 			}
 			this.$el.append(this.template(vars))
+
 
 
 		}
