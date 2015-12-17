@@ -30,7 +30,6 @@ var b = 0
 
 function installDesignDocs() {
     var database = databases[b]
-    console.log(b);
     if (b !== databases.length) {
         nano.db.get(database, function(err, body) {
             if (!err) {
@@ -53,7 +52,7 @@ function installDesignDocs() {
             else {
                 nano.db.create(database, function(err, body) {
                     if (!err) {
-                        console.log('database' + database + 'created.');
+                        console.log(database + ' database created.');
                         if (database != "communities" && database != "languages" && database != "configurations") {
                             console.log("Inserting design docs for the " + database + " database");
                             var docToPush = 'databases\\' + database + '.js';
