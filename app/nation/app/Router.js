@@ -20,6 +20,7 @@ $(function() {
             'publication/add/:publicationId': 'PublicationForm',
             'publicationdetail/:publicationId': 'PublicationDetails',
             'courses/:publicationId': "addCourses",
+            'survey': 'Survey',
             'trendreport': "TrendReport",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
@@ -2526,6 +2527,15 @@ $(function() {
             var configuration = config.first()
             return configuration
         },
+
+        Survey: function() {
+          this.underConstruction();
+        },
+
+        underConstruction: function() {
+            App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>This Functionality is under construction.</h4></div>')
+        },
+
         addCourses: function(publicationId) {
             var seachForm = new App.Views.courseSeach()
             seachForm.publicationId = publicationId
