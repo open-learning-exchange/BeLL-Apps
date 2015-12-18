@@ -246,9 +246,9 @@ $(function() {
             this.data = {
                 languageDict:languageDictOfApp
 
-            }
-            console.log(this.data);
-            this.$el.append(this.template(this.data));*/
+		}
+		console.log(this.data);
+	this.$el.append(this.template(this.data));*/
             var vars = this.model.toJSON()
 			//console.log(vars)
 			var Details = ""

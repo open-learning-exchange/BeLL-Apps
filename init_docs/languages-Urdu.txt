@@ -202,5 +202,12 @@
    "Error": " خرابی",
    "Collection_s": "مجموعے",
    "Medium": "میڈیم",
-   "Rating": "درجہ بندی"
+   "Rating": "درجہ بندی",
+   "Search_Result": " تلاش کے نتائج",
+   "Back_to_Search": "Back to Search",
+   "No_Requests": "No Requests",
+   "User": "User",
+   "Category": "Category",
+   "Reques_t": "Request",
+   "Resource": "Resource"
 }

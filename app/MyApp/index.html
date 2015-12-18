@@ -645,15 +645,15 @@
         </td>
         <td class="resourcInfoCol">
         <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
-                <i class='icon-eye-open icon-white'></i> Open
+                <i class='icon-eye-open icon-white'></i> <%=open%>
             </a>
         </td>
         <td class="resourcInfoCol">
-            <button class='btn btn-inverse' onclick='AddToShelf("<%= _id %>","<%= escape(title) %>")'>Add to My Library</button>
+            <button class='btn btn-inverse' onclick='AddToShelf("<%= _id %>","<%= escape(title) %>")'><%=addToMyLibrary%></button>
         </td>
         <td class="resourcInfoCol">
             <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
-                Feedback
+                <%=feedback%>
             </a>
         </td>
         <%}%>

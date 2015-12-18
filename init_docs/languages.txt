@@ -1,5 +1,5 @@
 {
- "Dashboard": "My Home",
+  "Dashboard": "My Home",
    "Library": "Library",
    "Courses": "Courses",
    "Meetups": "Meetups",
@@ -205,5 +205,11 @@
    "Error": " Error!!!",
    "Collection_s": "Collections",
    "Medium": "Medium",
-   "Rating": "Rating"
+   "Rating": "Rating",
+   "No_Requests": "No Requests",
+   "Search_Result": "Search Results",
+   "Back_to_Search": "Back to Search",
+   "User": "User",
+   "Category": "Category",
+   "Reques_t": "Request"
 }
