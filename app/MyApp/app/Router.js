@@ -4087,7 +4087,11 @@ $(function() {
                 collection: col
             })
             colView.render()
-            App.$el.children('.body').append(colView.el)
+            App.$el.children('.body').append(colView.el);
+            for(var i=1;i<=($('#requestsTable >tbody >tr').length)-1;i++)
+            {
+                $('#requestsTable').find('tr').eq(i).find('td').eq(1).html( App.languageDict.get($('#requestsTable').find('tr').eq(i).find('td').eq(1).html()));
+            }
         },
         myRequests: function() {
             App.$el.children('.body').html('&nbsp')

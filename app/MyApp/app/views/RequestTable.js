@@ -17,11 +17,12 @@ $(function() {
 		addAll: function() {
 
 			if (this.collection.length != 0) {
-				this.$el.append("<tr><th>User</th><th>Category</th><th>Request</th></tr>")
-				this.collection.each(this.addOne, this)
+				this.$el.append("<tr><th>"+App.languageDict.attributes.User+"</th><th>"+App.languageDict.attributes.Category+"</th><th>"+App.languageDict.attributes.Reques_t+"</th></tr>")
+				this.collection.each(this.addOne, this);
+
 			} else {
 
-				this.$el.append("<th>No Requests</th>")
+				this.$el.append("<th>"+App.languageDict.attributes.No_Requests+"</th>")
 			}
 		},
 

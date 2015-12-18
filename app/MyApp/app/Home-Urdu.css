@@ -423,7 +423,9 @@ body{
     float:right;
     direction: rtl;
 }
-
+#requestsTable{
+    direction:rtl;
+}
 
 
 
