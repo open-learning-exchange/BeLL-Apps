@@ -448,6 +448,13 @@ body{
 #search-button{
     margin-right: 22%;
 }
+#srch{
+    direction:rtl;
+    float:right;
+}
+#backToSearchButton{
+    float:left;
+}
 
 .btn.btn-hg, .input-group-hg .btn
 {

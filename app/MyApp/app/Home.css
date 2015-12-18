@@ -18,6 +18,9 @@ select#onLoginLanguage {
     margin-left:auto;
     margin: 0 auto;
 }
+#backToSearchButton{
+	float:right;
+}
 #linkOnMyHome
 {
     margin-right:25px;
