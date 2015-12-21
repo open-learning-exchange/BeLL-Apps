@@ -12,6 +12,19 @@ ddoc.views = {
                 emit(doc._id, doc);
             }
         }
+    },
+    surveyBySurveyNo: {
+        map: function(doc) {
+            if (doc.SurveyNo) {
+                emit(doc.SurveyNo, doc);
+            }
+        }
+    },
+    allSurveys: {
+        map: function(doc) {
+            if (doc.SurveyNo)
+                emit(doc._id, doc);
+        }
     }
 }
 
