@@ -561,6 +561,9 @@ body{
 #feedbackResourceDiv{
     direction: rtl;
 }
+#feedbackResoDiv{
+    direction: rtl;
+}
 .btable th, .btable td {
     border-top: 1px solid #DDDDDD;
     line-height: 20px;

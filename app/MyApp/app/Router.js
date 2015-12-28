@@ -3463,17 +3463,17 @@ $(function() {
             feedbackForm.render()
 
 
-
-            App.$el.children('.body').html('<h4 style="color:gray">Add Feedback For<span style="color:black;"> ' + resInfo.get('title') + '</span></h4>')
-            App.$el.children('.body').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>Rating </p>')
-            App.$el.children('.body').append('<div id="star" data-score="0"></div>')
+            App.$el.children('.body').html('<div id="feedbackResoDiv"></div>');
+            $('#feedbackResoDiv').append('<h4 style="color:gray">'+App.languageDict.attributes.Add_Feedback_For+' '+'<span style="color:black;"> ' + resInfo.get('title') + '</span></h4>')
+            $('#feedbackResoDiv').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>'+App.languageDict.attributes.Rating+'</p>')
+            $('#feedbackResoDiv').append('<div id="star" data-score="0"></div>')
             $('#star').raty()
             $("#star > img").click(function() {
                 feedbackForm.setUserRating($(this).attr("alt"))
             });
 
-            App.$el.children('.body').append(feedbackForm.el);
-
+            $('#feedbackResoDiv').append(feedbackForm.el);
+            $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.save_and_add_feedback);
             applyStylingSheet();
         },
         email: function() {

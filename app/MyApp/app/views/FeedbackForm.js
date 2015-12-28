@@ -23,8 +23,8 @@ $(function() {
             this.form.fields['memberId'].$el.hide();
             this.form.fields['resourceId'].$el.hide();
             this.form.fields['communityCode'].$el.hide();
-            var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">Save</a>');
-            $btnAddToShelf = $('<button class="btn btn-success" id="AddToShelf" style="margin-left:10px">Save And Add To My Library</button>');
+            var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">'+App.languageDict.attributes.Save+'</a>');
+            $btnAddToShelf = $('<button class="btn btn-success" id="AddToShelf" style="margin-left:10px">'+App.languageDict.attributes.save_and_add_feedback+'</button>');
             this.$el.append($button);
             this.$el.append($btnAddToShelf);
             //Issue#61: Update buttons Add Feedback form when rating a resource
