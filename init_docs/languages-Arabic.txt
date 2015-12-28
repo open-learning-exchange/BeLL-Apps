@@ -1,5 +1,5 @@
 {
- "Dashboard": "لوحة القيادة",
+   "Dashboard": "لوحة القيادة",
    "Library": "مكتبة",
    "Courses": "الحلقات الدراسية",
    "Meetups": "اجتماعات",
@@ -214,5 +214,15 @@
    "Back_to_Search": "Back to Search",
    "User": "User",
    "Category": "Category",
-   "Reques_t": "Request"
+   "Reques_t": "Request",
+   "Add_Collection": "Add Collection",
+   "Merge": "Merge",
+   "Select_Collections_Merge": "Select Collections to Merge",
+   "Continue": "Continue",
+   "Nam_e": "Name",
+   "Please_Select_Collections": "Please Select Collections to Merge",
+   "Feedback_For": "Feedback For",
+   "Add_your_feedback": "Add Your Feedback",
+   "Back_to_Resources": "Back to Resources",
+   "save_and_add_feedback":"Save and Add to My Library"
 }
