@@ -636,7 +636,7 @@ function continueMerging() {
         else
             App.Router.mergecollection(collections, collectionText)
     } else
-        alert('Please Select Collections to Merge')
+        alert(App.languageDict.attributes.Please_Select_Collections);
 
 }
 

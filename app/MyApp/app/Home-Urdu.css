@@ -554,13 +554,9 @@ body{
 #requestResourceOnCollection{
     margin-right: 1%;
 }
-.myClass{
-    text-align: right;
-    background-color: red;
-    margin-right: 0%;
-}
-.yourClass{
-    margin-left:40%;
+
+#mainMergeDiv{
+    direction:rtl;
 }
 #firstLabelOnCollections{
     float:right;

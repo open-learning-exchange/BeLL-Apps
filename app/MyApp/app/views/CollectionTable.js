@@ -11,9 +11,12 @@ $(function() {
     ///alert('here in collection table')
     },
 	addOne: function(model){
+
+
       	 var collectionRow = new App.Views.CollectionRow({model: model})
       		 collectionRow.display=this.display
-      		 collectionRow.render()  
+      		 collectionRow.render()  ;
+
       	this.$el.append(collectionRow.el)
     },
     events : {
@@ -60,27 +63,59 @@ $(function() {
 	          $('#invitationdiv').fadeIn(1000)
                 document.getElementById('cont').style.opacity = 0.1
                 document.getElementById('nav').style.opacity = 0.1
-                $('#invitationdiv').show()
-                $('#invitationdiv').html('<h5 style="margin-left:40px;margin-top:40px">Select Collections to Merge<h5>')
+                $('#invitationdiv').show();
+				$('#invitationdiv').html('<div id="mainMergeDiv"></div>');
+                $('#mainMergeDiv').append('<h5 style="margin-top:40px">'+App.languageDict.attributes.Select_Collections_Merge+'<h5>')
 
-                var viewText='<p style="margin-left:20px;"><label style="margin-left:20px"><b>Collections</b></label><select multiple="true" style="width:400px;" id="selectCollections">'
+                var viewText='<p style=""><label style="margin-left:20px"><b>'+App.languageDict.attributes.Collection_s+'</b></label><select multiple="true" style="width:400px;" id="selectCollections">'
                     this.collection.each(function(coll){
                          viewText+='<option value="'+coll.get('_id')+'">'+coll.get('CollectionName')+'</option>'
                     
                     })
                 viewText+='</select></p>'
                 
-                $('#invitationdiv').append(viewText)
+                $('#mainMergeDiv').append(viewText)
                 
-                $('#invitationdiv').append('<br><label style="margin-left:40px"><b>Name</b></label><input id="collectionName" type="text"></input>')
-                $('#invitationdiv select').multiselect().multiselectfilter()
-                $('#invitationdiv select').multiselect('uncheckAll')
+                $('#mainMergeDiv').append('<br><div id="mergeCollectionDiv"><label style=""><b>'+App.languageDict.attributes.Nam_e+'</b></label><input id="collectionName" type="text"></input></div>')
+                $('#invitationdiv select').multiselect().multiselectfilter();
+				$('#invitationdiv select').multiselect({
+					checkAllText: App.languageDict.attributes.checkAll,
+					uncheckAllText: App.languageDict.attributes.unCheckAll,
+					selectedText: '# '+App.languageDict.attributes.Selected
+				});
+		$('#invitationdiv select').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+		$('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#invitationdiv select').multiselect('uncheckAll');
+				$('#invitationdiv select').multiselect({
+					header: App.languageDict.attributes.Select_An_option,
+					noneSelectedText: App.languageDict.attributes.Select_An_option
+				});
+
                
-                $('#invitationdiv').append('<br><br>') 
-                $('#invitationdiv').append('<button class="btn btn-success" style="margin-left:40px" id="continueMerging" onClick="continueMerging()">Continue</button>')
-                $('#invitationdiv').append('<button class="btn btn-danger" style="margin-left:20px"  id="cancelMerging" onClick="cancelMerging()">Cancel</button>')
+                $('#mainMergeDiv').append('<br><br>')
+                $('#mainMergeDiv').append('<button class="btn btn-success" style="margin-left:40px" id="continueMerging" onClick="continueMerging()">'+App.languageDict.attributes.Continue+'</button>')
+                $('#mainMergeDiv').append('<button class="btn btn-danger" style="margin-left:20px"  id="cancelMerging" onClick="cancelMerging()">'+App.languageDict.attributes.Cancel+'</button>')
+				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+				{
+					$('#mainMergeDiv').find('h5').eq(0).css('margin-right','2%');  //40px
+					$('#mainMergeDiv').find('label').css('margin-left','20px'); //60px
+					$('#mainMergeDiv').find('p').css('margin-right','2%');    //20px
+					$('#mergeCollectionDiv').css('margin-right','2%');
+					$('#continueMerging').css('margin-right','40px');
+					$('#cancelMerging').css('margin-right','20px');
+				}
+			else {
+					$('#mainMergeDiv').find('h5').eq(0).css('margin-left','40px');
+					$('#mainMergeDiv').find('p').css('margin-left','20px');
+					$('#mainMergeDiv').find('label').css('margin-left','40px');
+					$('#mergeCollectionDiv').css('margin-left','2%');
+					$('#continueMerging').css('margin-left','40px');
+					$('#cancelMerging').css('margin-left','20px');
+				}
+
 	},
     addAll: function(){
+
     
     	var header="<tr><th colspan='6'><span id='firstLabelOnCollections'>"+App.languageDict.attributes.Collection_s+"</span>"
             if(this.display==true)
@@ -111,15 +146,15 @@ $(function() {
     	
     	
     	  
-  		this.collection.each(this.addOne, this)
+  		this.collection.forEach(this.addOne, this)
   		
   		var nextPre='<tr><td>'
   		if(this.collection.length >= 20)
   		{
   		  if(this.collection.skip>=20)
-  		   nextPre+='<button class="btn btn-success" id="preButton">Back</buttton>'
+  		   nextPre+='<button class="btn btn-success" id="preButton">'+App.languageDict.attributes.Back+'</buttton>'
   		  
-  		  nextPre+='<button class="btn btn-success" id="nextButton">Next</buttton>'
+  		  nextPre+='<button class="btn btn-success" id="nextButton">'+App.languageDict.attributes.Next+'</buttton>'
   		
   		}
   		nextPre+='</td></tr>'
@@ -128,8 +163,8 @@ $(function() {
     },
 
     render: function() {
-        
-        
+
+
 	   
     	var roles=this.getRoles()
     	if(roles.indexOf('Manager')>=0)
