@@ -25,7 +25,16 @@ select#onLoginLanguage {
 {
     margin-right:25px;
 }
+#requestResourceOnCollection{
+	margin-left:10px
+}
+#AddCollectionOnCollections{
 
+	margin:-20px 0 0 150px;
+}
+#mergeCollection{
+	margin-left:20px;
+}
 
 #viewCourseMembers {
     background-color: rgb(177, 177, 177);

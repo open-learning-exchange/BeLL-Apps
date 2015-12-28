@@ -529,6 +529,46 @@ body{
     padding-left: 20px;
     padding-top: 5px;
 }
+#firstParaOnCollections{
+    direction: rtl;
+}
+#secLabelOnCollections{
+    direction: rtl;
+    margin-right:2%;
+}
+#AddCollectionOnCollections{
+    margin-right:8%;
+    margin-top: 20px;
+}
+#collectionTable{
+    direction: rtl;
+    text-align: right;
+}
+#mergeCollection{
+    margin-right: 20px;
+    float:right;
+}
+#addResourceOnCollection{
+    margin-right: 2%;
+}
+#requestResourceOnCollection{
+    margin-right: 1%;
+}
+.myClass{
+    text-align: right;
+    background-color: red;
+    margin-right: 0%;
+}
+.yourClass{
+    margin-left:40%;
+}
+#firstLabelOnCollections{
+    float:right;
+    margin-top:10px;
+}
+#alphabetsOnCollections{
+    text-align: right;
+}
 .news-table
 {
     border: 2px solid #000000;

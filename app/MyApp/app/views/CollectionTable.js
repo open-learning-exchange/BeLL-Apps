@@ -82,17 +82,25 @@ $(function() {
 	},
     addAll: function(){
     
-    	var header="<tr><th colspan='6'>Collections"
+    	var header="<tr><th colspan='6'><span id='firstLabelOnCollections'>"+App.languageDict.attributes.Collection_s+"</span>"
             if(this.display==true)
-              header+="<a id='mergeCollection' style='margin-left:20px' class='btn btn-info small'>Merge</a>"
+              header+="<a id='mergeCollection' class='btn btn-info small'>"+App.languageDict.attributes.Merge+"</a>"
     	      header+="</th></tr>"
     	this.$el.html(header)
 				var viewText="<tr></tr>"
 			
-				viewText+="<tr><td colspan=7>"
+				viewText+="<tr><td id='alphabetsOnCollections' colspan=7>"
 				viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
-				var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			
+		var str="";
+		if (App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+		{
+			str="ثجحخدذرزسشصضطظعغفقكلمنهويا";
+		}
+		else
+		{
+			str= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		}
+
 		  		for(var i=0; i<str.length; i++)
 		   		{
 			  	    var nextChar = str.charAt(i);
