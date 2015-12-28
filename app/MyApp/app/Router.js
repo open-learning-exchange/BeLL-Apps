@@ -3473,7 +3473,7 @@ $(function() {
             });
 
             $('#feedbackResoDiv').append(feedbackForm.el);
-            $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.save_and_add_feedback);
+            $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.Comment);
             applyStylingSheet();
         },
         email: function() {
