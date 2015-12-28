@@ -47,7 +47,13 @@ select#onLoginLanguage {
     overflow: scroll;
     height: 40%;
 }
-
+.btable th, .btable td {
+	border-top: 1px solid #DDDDDD;
+	line-height: 20px;
+	padding: 8px;
+	text-align: left;
+	vertical-align: top;
+}
 .imageData {
     width: 112px;
 }

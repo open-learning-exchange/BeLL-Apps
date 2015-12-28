@@ -3415,12 +3415,12 @@ $(function() {
                 })
                 resourceFeedback.on('sync', function() {
                     feedbackTable.render();
-
-                    App.$el.children('.body').html('<h3>Feedback for "' + resource.get('title') + '"</h3>')
+                    App.$el.children('.body').html('<div id="feedbackResourceDiv"></div>');
+                    $('#feedbackResourceDiv').append('<h3>'+App.languageDict.attributes.Feedback_For+' "' + resource.get('title') + '"</h3>')
                     var url_togo = "#resource/feedback/add/" + resourceId + "/" + resource.get('title')
-                    App.$el.children('.body').append('<a class="btn btn-primary"" href="' + url_togo + '"><i class="icon-plus"></i> Add your feedback</a>')
-                    App.$el.children('.body').append('<a class="btn btn-primary" style="margin:20px" href="#resources"><< Back to Resources</a>')
-                    App.$el.children('.body').append(feedbackTable.el)
+                    $('#feedbackResourceDiv').append('<a class="btn btn-primary"" href="' + url_togo + '"><i class="icon-plus"></i>'+App.languageDict.attributes.Add_your_feedback+'</a>')
+                    $('#feedbackResourceDiv').append('<a class="btn btn-primary" style="margin:20px" href="#resources">'+App.languageDict.attributes.Back_to_Resources+'</a>')
+                    $('#feedbackResourceDiv').append(feedbackTable.el)
                 })
                 resourceFeedback.fetch();
 
@@ -3428,6 +3428,16 @@ $(function() {
             })
             resource.fetch();
             applyStylingSheet();
+            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            {
+                $('.btable td').css('text-align','right');
+                $('.btable th').css('text-align','right');
+
+            }
+            else {
+                $('.btable td').css('text-align','left');
+                $('.btable th').css('text-align','left');
+            }
         },
         FeedbackForm: function(resourceId, title) {
             var feedbackModel = new App.Models.Feedback({

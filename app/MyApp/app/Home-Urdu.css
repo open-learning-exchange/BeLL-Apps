@@ -558,6 +558,16 @@ body{
 #mainMergeDiv{
     direction:rtl;
 }
+#feedbackResourceDiv{
+    direction: rtl;
+}
+.btable th, .btable td {
+    border-top: 1px solid #DDDDDD;
+    line-height: 20px;
+    padding: 8px;
+    text-align: right;
+    vertical-align: top;
+}
 #firstLabelOnCollections{
     float:right;
     margin-top:10px;

@@ -16,7 +16,7 @@ $(function () {
         addAll: function () {
             // @todo this does not work as expected, either of the lines
             // _.each(this.collection.models, this.addOne())
-            this.$el.append('<tr><th>Comment</th><th>Rating</th></tr>')
+            this.$el.append('<tr><th>'+App.languageDict.attributes.Comment+'</th><th>'+App.languageDict.attributes.Rating+'</th></tr>')
             this.collection.each(this.addOne, this)
         },
 
