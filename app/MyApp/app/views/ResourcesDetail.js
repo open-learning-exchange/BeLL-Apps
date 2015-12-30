@@ -31,7 +31,57 @@ $(function() {
                     trigger: true
                 })
 
+            },
+            "click .shelfResFeedBack": function(event) {
+                var resourcefreq = new App.Collections.ResourcesFrequency()
+                resourcefreq.memberID = $.cookie('Member._id')
+                resourcefreq.fetch({
+                    async: false
+                })
+
+                if (resourcefreq.length == 0) {
+                    var freqmodel = new App.Models.ResourceFrequency()
+                    freqmodel.set("memberID", $.cookie('Member._id'))
+                    freqmodel.set("resourceID", [this.model.get("_id")])
+                    freqmodel.set("reviewed", [0])
+                    freqmodel.set("frequency", [1])
+                    freqmodel.save()
+                } else {
+                    var freqmodel = resourcefreq.first()
+                    var index = freqmodel.get("resourceID").indexOf(this.model.get("_id").toString())
+                    if (index != -1) {
+                        var freq = freqmodel.get('frequency')
+                        freq[index] = freq[index] + 1
+                        freqmodel.save()
+                    } else {
+                        freqmodel.get("resourceID").push(this.model.get("_id"))
+                        freqmodel.get("frequency").push(1)
+                        if (!freqmodel.get("reviewed")) {
+                            freqmodel.set("reviewed", [0])
+                        } else {
+                            freqmodel.get("reviewed").push(0)
+                        }
+                        freqmodel.save()
+                    }
+                }
+
+                $('ul.nav').html($('#template-nav-logged-in').html()).hide()
+                //                 var member = new App.Models.Member({
+                //                 	_id: $.cookie('Member._id')
+                //                 })
+                //                 member.fetch({
+                //                     async: false
+                //                 })
+                //                 var pending=[]
+                //                pending= member.get("pendingReviews")
+                //                pending.push(this.model.get("_id"))
+                //     		   	member.set("pendingReviews",pending)
+                //     		   	member.save()
+                Backbone.history.navigate('resource/feedback/add/' + this.model.get("_id") + '/' + this.model.get("title"), {
+                    trigger: true
+                })
             }
+
         },
         initialize: function() {
             this.$el.append('<th colspan="2"><h6>Resource Detail</h6></th>')
@@ -66,11 +116,11 @@ $(function() {
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>') */
             if (vars._attachments) {
                 this.$el.append("<tr><td>Attachment</td><td></td></tr>")
-                this.$el.append("<br><a class='btn open' target='_blank' style='background-color:#1ABC9C;  width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "/"+ vars.title +"'>View</a><button class='btn btn-danger' id='DestroyShelfItem'>Remove</button></td></tr>")
+                this.$el.append("<br><a class='btn open shelfResFeedBack' target='_blank' style='background-color:#1ABC9C;  width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "/"+ vars.title +"'>View</a><button class='btn btn-danger' id='DestroyShelfItem'>Remove</button></td></tr>")
 
             } else {
                 this.$el.append("<tr><td>Attachment</td><td>No Attachment</td></tr>")
-                this.$el.append('<br><a class="btn open" style="visibility: hidden">View</a><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
+                this.$el.append('<br><a class="btn open shelfResFeedBack" style="visibility: hidden">View</a><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
             }
 
 
