@@ -2530,7 +2530,20 @@ $(function() {
         },
 
         Survey: function() {
-          this.underConstruction();
+            App.startActivityIndicator()
+            var surveyCollection = new App.Collections.Surveys();
+            surveyCollection.fetch({
+                async: false
+            })
+            var survey = new App.Views.Survey();
+            survey.render();
+            App.$el.children('.body').html(survey.el)
+            /*var publicationtable = new App.Views.PublicationTable({
+                collection: publicationCollection
+            })
+            publicationtable.render()
+            App.$el.children('.body').append(publicationtable.el)*/
+            App.stopActivityIndicator()
         },
 
         SurveyForm: function() {
