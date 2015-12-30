@@ -9,7 +9,11 @@ $(function() {
         initialize: function() {
         },
         addOne: function(model) {
-            this.$el.append('<p>Survey test</p>');
+            var surveyRowView = new App.Views.SurveyRow({
+                model: model
+            })
+            surveyRowView.render()
+            this.$el.append(surveyRowView.el)
         },
 
         addAll: function() {
