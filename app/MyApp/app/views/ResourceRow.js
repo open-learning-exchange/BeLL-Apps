@@ -167,7 +167,6 @@ $(function() {
 					freqmodel.set("reviewed", [0])
 					freqmodel.set("frequency", [1])
 					freqmodel.save()
-					return
 				} else {
 					var freqmodel = resourcefreq.first()
 					var index = freqmodel.get("resourceID").indexOf(this.model.get("_id").toString())
@@ -184,7 +183,6 @@ $(function() {
 							freqmodel.get("reviewed").push(0)
 						}
 						freqmodel.save()
-						return
 					}
 				}
 
