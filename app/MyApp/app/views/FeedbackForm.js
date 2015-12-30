@@ -100,10 +100,11 @@ $(function() {
                                     }
                                 )
                             }
-                            console.log('Rating is successfully saved')
-                            Backbone.history.navigate('resources', {
+                            console.log('Rating is successfully saved');
+                          /*  Backbone.history.navigate('resources', {
                                 trigger: true
-                            });
+                            });*/
+                            window.history.back();
                         });
                         console.log(info);
                     } else {
