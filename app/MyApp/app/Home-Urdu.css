@@ -540,6 +540,14 @@ body{
     margin-right:8%;
     margin-top: 20px;
 }
+.table th,
+.table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: right;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
 #collectionTable{
     direction: rtl;
     text-align: right;

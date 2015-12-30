@@ -3835,6 +3835,17 @@ $(function() {
                         todayHighlight: true
                     });
                     $("input[name='AddedBy']").attr("disabled", true);
+                    if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" ){
+                        $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
+                        $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
+                        $('.field-NesttedUnder').find('.bbf-editor').find('select').find('option').eq(0).html(App.languageDict.attributes.Select_An_option);
+                        $('.field-AddedDate').find('label').html(App.languageDict.attributes.Added_Date);
+                        $('.field-Description').find('label').html(App.languageDict.attributes.Description);
+                        $('.field-AddedBy').find('label').html(App.languageDict.attributes.added_by);
+                        $('#formButton').html(App.languageDict.attributes.Save);
+                        $('#cancelButton').html(App.languageDict.attributes.Cancel);
+
+                    }
                 }
             }
         },

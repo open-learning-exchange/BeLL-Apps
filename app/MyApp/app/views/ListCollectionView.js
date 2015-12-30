@@ -88,13 +88,13 @@ $(function() {
                 model: inviteForm.model
             })
             this.$el.append(this.form.render().el)
-            var $button = $('<a class="btn btn-success" id="formButton">Save</button>')
+            var $button = $('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Save+'</button>')
             this.$el.append($button)
             this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
-            this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
+            this.$el.append('<a class="btn btn-warning" id="cancelButton">'+App.languageDict.attributes.Cancel+'</button>')
             if (this.model.get('_id') != undefined) {
                 this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
-                this.$el.append('<a class="btn btn-danger" id="deleteButton">Delete</button>')
+                this.$el.append('<a class="btn btn-danger" id="deleteButton">'+App.languageDict.attributes.DeleteLabel+'</button>')
             }
         },
 
