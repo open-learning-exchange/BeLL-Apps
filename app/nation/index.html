@@ -78,6 +78,7 @@
     
       <script src="app/models/Resource.js"></script>
       <script src="app/models/Group.js"></script>
+        <script src="app/models/Survey.js"></script>
      
       <!-- Collections  -->
      <script src="app/collections/ActivityLog.js"></script>
@@ -93,6 +94,7 @@
      <script src="app/collections/NationReportComments.js"></script>
      <script src="app/collections/Courses.js"></script>
      <script src="app/collections/Resources.js"></script>
+        <script src="app/collections/Surveys.js"></script>
      
      
      
@@ -130,6 +132,7 @@
   	<script src="app/views/PublicationCoursesTable.js"></script>
   	<script src="app/views/PublicationCourseRow.js"></script>
     <script src="app/views/Configurations.js"></script>
+        <script src="app/views/Survey.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -457,6 +460,16 @@
 
 	<div style='width:940px;margin:0 auto' id='listReq'></div>
   </script>
+        <script type="text/template" id="template-Survey">
+
+            <p class='heading' style="font-size: 20px;">
+            <h3>Publications
+                <a href='#survey/add' class="btn btn-success publicationFont">Add Survey</a>
+                <h3>
+            </p>
+
+            <div style='width:940px;margin:0 auto' id='listSur'></div>
+        </script>
    <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
 		<table class="header-table" >

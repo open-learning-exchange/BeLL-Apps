@@ -21,6 +21,7 @@ $(function() {
             'publicationdetail/:publicationId': 'PublicationDetails',
             'courses/:publicationId': "addCourses",
             'survey': 'Survey',
+            'survey/add': 'SurveyForm',
             'trendreport': "TrendReport",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
@@ -2530,6 +2531,10 @@ $(function() {
 
         Survey: function() {
           this.underConstruction();
+        },
+
+        SurveyForm: function() {
+            this.underConstruction();
         },
 
         underConstruction: function() {
