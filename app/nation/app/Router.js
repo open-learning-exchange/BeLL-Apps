@@ -2538,11 +2538,11 @@ $(function() {
             var survey = new App.Views.Survey();
             survey.render();
             App.$el.children('.body').html(survey.el)
-            /*var publicationtable = new App.Views.PublicationTable({
-                collection: publicationCollection
+            var surveyTable = new App.Views.SurveyTable({
+                collection: surveyCollection
             })
-            publicationtable.render()
-            App.$el.children('.body').append(publicationtable.el)*/
+            surveyTable.render()
+            App.$el.children('.body').append(surveyTable.el)
             App.stopActivityIndicator()
         },
 
