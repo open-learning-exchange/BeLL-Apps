@@ -548,6 +548,9 @@ body{
     vertical-align: top;
     border-top: 1px solid #dddddd;
 }
+#AddCourseMainDiv{
+    direction: rtl;
+}
 #collectionTable{
     direction: rtl;
     text-align: right;

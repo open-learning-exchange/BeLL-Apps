@@ -553,12 +553,14 @@ $(function() {
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
             applyStylingSheet();
+            var nameOfLabel="";
 
             var context = this;
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
+            App.$el.children('.body').html('<div id="AddCourseMainDiv"></divid>');
             // Bind form to the DOM
             if (modelId) {
 
@@ -566,14 +568,16 @@ $(function() {
                 model.fetch({
                     async: false
                 })
-
-                App.$el.children('.body').html('<h3>Edit ' + label + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
+                nameOfLabel="Edit_"+label;
+                App.$el.children('.body').html('<div id="AddCourseMainDiv"></divid>');
+                $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
 
 
             } else {
-                App.$el.children('.body').html('<h3>Add ' + label + '</h3>')
+                nameOfLabel="Add_"+label;
+                $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get(nameOfLabel)+'</h3>')
             }
-            App.$el.children('.body').append(modelForm.el)
+            $('#AddCourseMainDiv').append(modelForm.el)
             // Bind form events for when Group is ready
             model.once('Model:ready', function() {
                 // when the users submits the form, the group will be processed
@@ -632,6 +636,36 @@ $(function() {
 
             } else {
                 model.trigger('Model:ready')
+            }
+            $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
+            $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.language_Of_Instruction);
+            $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
+            $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
+            $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
+            $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
+            $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
+            $('.bbf-form').find('.field-subjectLevel').find('label').html(App.languageDict.attributes.Subject_Level);
+            $('.bbf-form').find('.field-startDate').find('label').html(App.languageDict.attributes.Start_date);
+            $('.bbf-form').find('.field-startTime').find('label').html(App.languageDict.attributes.Start_Time);
+            $('.bbf-form').find('.field-endTime').find('label').html(App.languageDict.attributes.End_Time);
+            $('.bbf-form').find('.field-endDate').find('label').html(App.languageDict.attributes.End_date);
+            $('.bbf-form').find('.field-frequency').find('label').html(App.languageDict.attributes.Frequency);
+            $('.bbf-form').find('.field-frequency').find('li').eq(0).find('label').html(App.languageDict.attributes.Daily);
+            $('.bbf-form').find('.field-frequency').find('li').eq(1).find('label').html(App.languageDict.attributes.Weekly);
+            $('.bbf-form').find('.field-location').find('label').html(App.languageDict.attributes.Location);
+            $('.bbf-form').find('.field-backgroundColor').find('label').html(App.languageDict.attributes.Foreground_Color);
+            $('.bbf-form').find('.field-foregroundColor').find('label').html(App.languageDict.attributes.Background_Color);
+            var gradeLevelArray=App.languageDict.get('GradeLevelList');
+            for(var i=0;i<gradeLevelArray.length;i++)
+            {
+                $('.form .field-gradeLevel select').find('option').eq(i).html(gradeLevelArray[i]);
+
+            }
+           var subjectLevelArray=App.languageDict.get('SubjectLevelList');
+            for(var i=0;i<subjectLevelArray.length;i++)
+            {
+                $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
+
             }
 
 
