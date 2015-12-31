@@ -21,7 +21,7 @@ $(function() {
             'publicationdetail/:publicationId': 'PublicationDetails',
             'courses/:publicationId': "addCourses",
             'survey': 'Survey',
-            'survey/add': 'SurveyForm',
+            'survey/add': 'surveyForm',
             'surveydetail/:surveyId': 'SurveyDetails',
             'trendreport': "TrendReport",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
@@ -2547,8 +2547,28 @@ $(function() {
             App.stopActivityIndicator()
         },
 
-        SurveyForm: function() {
+        surveyForm: function() {
             this.underConstruction();
+                /*var survey = new App.Models.Survey();
+                survey.on('processed', function() {
+                    Backbone.history.navigate('survey', {
+                        trigger: true
+                    })
+                })
+                var surveyFormView = new App.Views.SurveyForm({
+                    model: survey
+                });
+                App.$el.children('.body').html(surveyFormView.el);
+                surveyFormView.render();
+                $('.bbf-form .field-Date input').attr("disabled", true)
+                var currentDate = new Date();
+                $('.bbf-form .field-Date input').datepicker({
+                    todayHighlight: true
+                });
+                $('.bbf-form .field-Date input', this.el).datepicker("setDate", currentDate);
+                $('.bbf-form .field-Date input').datepicker({
+                    todayHighlight: true
+                });*/
         },
 
         SurveyDetails: function() {
