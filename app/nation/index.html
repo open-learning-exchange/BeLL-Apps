@@ -78,6 +78,7 @@
     
       <script src="app/models/Resource.js"></script>
       <script src="app/models/Group.js"></script>
+        <script src="app/models/Survey.js"></script>
      
       <!-- Collections  -->
      <script src="app/collections/ActivityLog.js"></script>
@@ -93,6 +94,7 @@
      <script src="app/collections/NationReportComments.js"></script>
      <script src="app/collections/Courses.js"></script>
      <script src="app/collections/Resources.js"></script>
+        <script src="app/collections/Surveys.js"></script>
      
      
      
@@ -130,6 +132,9 @@
   	<script src="app/views/PublicationCoursesTable.js"></script>
   	<script src="app/views/PublicationCourseRow.js"></script>
     <script src="app/views/Configurations.js"></script>
+        <script src="app/views/Survey.js"></script>
+        <script src="app/views/SurveyTable.js"></script>
+        <script src="app/views/SurveyRow.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -457,6 +462,58 @@
 
 	<div style='width:940px;margin:0 auto' id='listReq'></div>
   </script>
+        <script type="text/template" id="template-Survey">
+
+            <p class='heading' style="font-size: 20px;">
+            <h3>Surveys
+                <a href='#survey/add' class="btn btn-success publicationFont">Add Survey</a>
+                <h3>
+            </p>
+
+            <div style='width:940px;margin:0 auto' id='listSur'></div>
+        </script>
+        <script type="text/html" id="template-SurveyRow">
+            <td>
+                <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
+            </td>
+            <td>
+                <span style="font-weight:900; font-size:16px;"><%= SurveyNo %></BR></span>
+            </td>
+            <td>
+                <select multiple id="SurveycommNames" style="width:200px">
+                    <%if(sentTo && sentTo.length>0){%>
+                    <% for (var i=0; i<sentTo.length; i++){%>
+                    <option disabled="disabled" value="<%= sentTo[i] %>"><%= sentTo[i] %> </option>
+                    <% }%>
+                    <%} else {%>
+                    <option disabled="disabled" value="None">None</option>
+                    <%} %>
+                </select>
+            </td>
+            <td>
+                <select multiple id="SubmittedByNames" style="width:200px">
+                    <%if(submittedBy && submittedBy.length>0){%>
+                    <% for (var i=0; i<submittedBy.length; i++){%>
+                    <option disabled="disabled" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
+                    <% }%>
+                    <%} else {%>
+                    <option disabled="disabled" value="None">None</option>
+                    <%} %>
+
+                </select>
+            </td>
+            <td>
+                <!--<a href="#surveydetail/<%= _id %>" class="btn btn-warning">-->
+                <a href="#surveydetail/<%= _id %>" class="btn btn-warning">
+                    Details
+                </a>
+            </td>
+            <td>
+                <a class='btn btn-danger destroy'>
+                    Delete
+                </a>
+            </td>
+        </script>
    <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
 		<table class="header-table" >
