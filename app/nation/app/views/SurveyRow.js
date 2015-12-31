@@ -17,9 +17,14 @@ $(function() {
 
         },
 
+        vars: {},
+
         render: function() {
-
-
+            var vars = this.model.toJSON()
+            vars.isManager = this.isManager
+            var date = new Date(vars.Date)
+            vars.Date = date.toUTCString()
+            this.$el.append(this.template(vars))
         },
 
 
