@@ -37,7 +37,9 @@ $(function() {
         },
 
         saveForm: function() {
-            var isEdit = this.model.get("_id")
+            alert("This functionality is under construction");
+            //The following code is necessary, so please do not play with it.
+            /*var isEdit = this.model.get("_id")
             var addtoDb = true
             this.form.commit()
             if (this.model.get("SurveyNo") == undefined) {
@@ -66,7 +68,7 @@ $(function() {
                         }
                     })
                 }
-            }
+            }*/
 
         },
         statusLoading: function() {
