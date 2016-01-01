@@ -2571,8 +2571,14 @@ $(function() {
                 });*/
         },
 
-        SurveyDetails: function() {
-            this.underConstruction();
+        SurveyDetails: function(surveyId) {
+            var surveyModel = new App.Models.Survey({
+                _id: surveyId
+            })
+            surveyModel.fetch({
+                async: false
+            })
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <a class="btn btn-success" href = "#addQuestion" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</a><button class="btn btn-info" style="float:left;margin-left:20px">Send Publication</button></div>')
         },
 
         underConstruction: function() {
