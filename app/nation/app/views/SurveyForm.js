@@ -13,33 +13,35 @@ $(function() {
         template: _.template($('#template-form-file').html()),
 
         render: function() {
-
             var vars = {}
 
-                vars.header = 'Survey No. will be here'
+                vars.header = 'New Survey'
 
             // prepare the form
             this.form = new Backbone.Form({
                 model: this.model
-            })
-            vars.form = ""
-            //vars.rlength = this.rlength
-            this.form.render()
-            this.$el.html(this.template(vars))
-
-            $('.fields').html(this.form.el)
+            });
+            vars.form = "";
+            vars.rlength = this.rlength;
+          //  this.form.render();
+            //this.form.render().el;
+            this.$el.html(this.template(vars));
+           // this.form.render();
+            this.$el.find('.fields').append(this.form.render().el);
+          //  $('.fields').html(this.form.render().el);
+//            $('.fields').html(this.form.el);
             $('.form .field-resources').hide();
-            $('#progressImage').hide();
+          //  $('#progressImage').hide();
 
-            return this
+            return this;
         },
 
         saveForm: function() {
             var isEdit = this.model.get("_id")
             var addtoDb = true
             this.form.commit()
-            if (this.model.get("IssueNo") == undefined) {
-                alert("Publication Issue is missing")
+            if (this.model.get("SurveyNo") == undefined) {
+                alert("Survey Number is missing")
             } else {
                 if (isEdit == undefined) {
                     var that = this
