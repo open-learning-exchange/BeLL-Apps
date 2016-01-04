@@ -33,9 +33,9 @@ $(function() {
             this.form.fields['resourceId'].$el.hide()
             this.form.fields['resourceTitles'].$el.hide()
             // give the form a submit button
-            var button = ('<a class="btn btn-success" id="retrunBack"> Back </button>')
-            button += ('<a class="btn btn-success" id="formButton">Save</button>')
-            button += ('<a class="btn btn-success" id="addresources">Add Resource</button>')
+            var button = ('<a class="btn btn-success" id="retrunBack"> '+App.languageDict.attributes.Back+' </button>')
+            button += ('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Save+'</button>')
+            button += ('<a class="btn btn-success" id="addresources">'+App.languageDict.attributes.Add_Resource+'</button>')
             this.$el.append(button)
 
         },

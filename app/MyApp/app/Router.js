@@ -1662,21 +1662,21 @@ $(function() {
                 model: Cstep
             })
 
-
+            App.$el.children('.body').html('<div id="mergeCollection"></div>');
             if (levelId == "nolevel") {
 
-                App.$el.children('.body').html('<h3>New Step</h3>')
+                $('#mergeCollection').append('<h3 id="feedbackResoDiv">'+App.languageDict.attributes.New_Step+'</h3>');
                 lForm.edit = false
                 lForm.previousStep = 0
                 lForm.render()
-                App.$el.children('.body').append(lForm.el)
+                $('#mergeCollection').append(lForm.el)
                 $("input[name='step']").attr("disabled", true);
             } else {
                 Cstep.set({
                     "_id": levelId
                 })
                 Cstep.once('sync', function() {
-                    App.$el.children('.body').html('<h3>Edit Step</h3>')
+                    $('#mergeCollection').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
                     lForm.edit = true
                     lForm.ques = Cstep.get("questions")
                     lForm.ans = Cstep.get("answers")
@@ -1685,7 +1685,7 @@ $(function() {
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
                     lForm.render()
-                    App.$el.children('.body').append(lForm.el)
+                    $('#mergeCollection').append(lForm.el)
                     $("input[name='step']").attr("disabled", true);
                 })
                 Cstep.fetch()
@@ -1694,6 +1694,17 @@ $(function() {
                 var tl = parseInt(totalLevels) + 1
                 $("input[name='step']").val(tl)
             }
+            $('.bbf-form .field-title label').html(App.languageDict.attributes.Title);
+            $('.bbf-form .field-stepMethod label').html(App.languageDict.attributes.Step_Method);
+            $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
+            $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
+            $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
+            $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Labels);
+            $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
+            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
+            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);
+            $('.bbf-form .field-passingPercentage label').html(App.languageDict.attributes.Passing_Percentage);
+
             applyStylingSheet();
 
             //  $('#bbf-form input[name=step]').attr("disabled",true);
