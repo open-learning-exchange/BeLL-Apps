@@ -23,6 +23,7 @@ $(function() {
         schema: {
             Date: 'Text',
             SurveyNo: 'Number',
+            SurveyTitle:'Text'
         },
 
     })
