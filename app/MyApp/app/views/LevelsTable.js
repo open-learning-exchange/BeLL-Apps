@@ -145,12 +145,12 @@ $(function() {
             this.changedSteps = new Array()
         },
         render: function() {
-            this.$el.append('<br/><button class="btn btn-success" id="addstep"  onclick = "document.location.href=\'#level/add/' + this.groupId + '/nolevel/' + this.collection.models.length + '\' ">Add Step</button>')
+            this.$el.append('<br/><button class="btn btn-success" id="addstep"  onclick = "document.location.href=\'#level/add/' + this.groupId + '/nolevel/' + this.collection.models.length + '\' ">'+App.languageDict.attributes.Add_Step+'</button>')
             if (this.collection.models.length > 0) {
-                this.$el.append('&nbsp;&nbsp;&nbsp;<button class="btn btn-success" id="Rearrange" >Rearrange</button><br/><br/>')
+                this.$el.append('&nbsp;&nbsp;&nbsp;<button class="btn btn-success" id="Rearrange" >'+App.languageDict.attributes.Rearrange+'</button><br/><br/>')
             }
-            this.$el.append('<button class="btn btn-success" id="moveup" >Up</button>&nbsp;&nbsp;&nbsp;')
-            this.$el.append('<button class="btn btn-success" id="movedown" >Down</button>')
+            this.$el.append('<button class="btn btn-success" id="moveup" >'+App.languageDict.attributes.Up+'</button>&nbsp;&nbsp;&nbsp;')
+            this.$el.append('<button class="btn btn-success" id="movedown" >'+App.languageDict.attributes.Down+'</button>')
             this.addAll()
         }
 

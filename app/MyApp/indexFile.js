@@ -622,6 +622,29 @@ function AddColletcion() {
 function EditColletcion(value) {
     App.Router.EditTag(value)
 }
+function lookup(obj, key) {
+    var type = typeof key;
+    if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
+        return '.' + key;
+    }).split('.');
+
+    for (var i = 0, l = key.length; i < l; l--) {
+        if (obj.attributes.hasOwnProperty(key[i])) {
+            obj = obj.attributes[key[i]];
+            i++;
+            if (obj[0].hasOwnProperty(key[i])) {
+                var myObj = obj[0];
+                var valueOfObj = myObj[key[i]];
+                return valueOfObj;
+            }
+
+        } else {
+            return undefined;
+        }
+    }
+    alert(obj);
+    return obj;
+}
 
 function continueMerging() {
 

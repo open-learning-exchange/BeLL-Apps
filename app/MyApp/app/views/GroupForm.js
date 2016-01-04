@@ -156,17 +156,21 @@ $(function () {
 
                     $('.field-backgroundColor input').spectrum({
                         clickoutFiresChange: true,
-                        preferredFormat: 'hex'
+                        preferredFormat: 'hex',
+                        chooseText:App.languageDict.attributes.Choose,
+                        cancelText:App.languageDict.attributes.Cancel
                     })
                     $('.field-foregroundColor input').spectrum({
                         clickoutFiresChange: true,
-                        preferredFormat: 'hex'
+                        preferredFormat: 'hex',
+                        chooseText:App.languageDict.attributes.Choose,
+                        cancelText:App.languageDict.attributes.Cancel
                     })
                     // give the form a submit button
                     var $sbutton = $('<a class="group btn btn-success" id="sformButton">'+App.languageDict.attributes.Continue+'</button>')
                     var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">'+App.languageDict.attributes.Update+'</button>')
 
-                    var $button = $('<a style="margin-left:52%;margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + groupForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
+                    var $button = $('<a style="margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + groupForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
                     if (groupForm.model.get("_id") != undefined) {
                         groupForm.$el.prepend($button)
                         groupForm.$el.append($ubutton)

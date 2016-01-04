@@ -79,6 +79,9 @@ select#onLoginLanguage {
 	vertical-align: top;
 	border-top: 1px solid #dddddd;
 }
+#ProgressButton{
+	margin-left: 52%;
+}
 /*#welcomeButton{
     margin-left:25%;
 }*/

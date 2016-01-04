@@ -560,7 +560,7 @@ $(function() {
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-            App.$el.children('.body').html('<div id="AddCourseMainDiv"></divid>');
+            App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
             // Bind form to the DOM
             if (modelId) {
 
@@ -638,7 +638,7 @@ $(function() {
                 model.trigger('Model:ready')
             }
             $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
-            $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.language_Of_Instruction);
+            $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
             $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
             $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
             $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
@@ -1350,9 +1350,7 @@ $(function() {
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-            App.$el.children('.body').html('<br/>')
-            App.$el.children('.body').append('<h3>Course Manage</h3>')
-            App.$el.children('.body').append(modelForm.el)
+
             model.once('Model:ready', function() {
                 // when the users submits the form, the group will be processed
                 modelForm.on(className + 'Form:done', function() {
@@ -1360,8 +1358,54 @@ $(function() {
                         trigger: true
                     })
                 })
+                 App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+                $('#AddCourseMainDiv').append('<br/><h3>'+App.languageDict.attributes.Course_Manage+'</h3>');
+                $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
-                modelForm.render()
+                modelForm.render();
+
+
+
+
+                $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
+                $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
+                $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
+                $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
+                $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
+                $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
+                $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
+                $('.bbf-form').find('.field-subjectLevel').find('label').html(App.languageDict.attributes.Subject_Level);
+                $('.bbf-form').find('.field-startDate').find('label').html(App.languageDict.attributes.Start_date);
+                $('.bbf-form').find('.field-startTime').find('label').html(App.languageDict.attributes.Start_Time);
+                $('.bbf-form').find('.field-endTime').find('label').html(App.languageDict.attributes.End_Time);
+                $('.bbf-form').find('.field-endDate').find('label').html(App.languageDict.attributes.End_date);
+                $('.bbf-form').find('.field-frequency').find('label').html(App.languageDict.attributes.Frequency);
+                $('.bbf-form').find('.field-frequency').find('li').eq(0).find('label').html(App.languageDict.attributes.Daily);
+                $('.bbf-form').find('.field-frequency').find('li').eq(1).find('label').html(App.languageDict.attributes.Weekly);
+                $('.bbf-form').find('.field-location').find('label').html(App.languageDict.attributes.Location);
+                $('.bbf-form').find('.field-backgroundColor').find('label').html(App.languageDict.attributes.Foreground_Color);
+                $('.bbf-form').find('.field-foregroundColor').find('label').html(App.languageDict.attributes.Background_Color);
+                $('.bbf-form').find('.field-Day').find('label').html(App.languageDict.attributes.Day);
+                var DaysObj=App.languageDict.get("Days");
+                $('.form .field-Day .bbf-editor ul').find('li').eq(0).find('label').html(lookup(App.languageDict, "Days." + "Saturday"));
+                $('.form .field-Day .bbf-editor ul').find('li').eq(1).find('label').html(lookup(App.languageDict, "Days." + "Sunday"));
+                $('.form .field-Day .bbf-editor ul').find('li').eq(2).find('label').html(lookup(App.languageDict, "Days." + "Monday"));
+                $('.form .field-Day .bbf-editor ul').find('li').eq(3).find('label').html(lookup(App.languageDict, "Days." + "Tuesday"));
+                $('.form .field-Day .bbf-editor ul').find('li').eq(4).find('label').html(lookup(App.languageDict, "Days." + "Wednesday"));
+                $('.form .field-Day .bbf-editor ul').find('li').eq(5).find('label').html(lookup(App.languageDict, "Days." + "Thursday"));
+                $('.form .field-Day .bbf-editor ul').find('li').eq(6).find('label').html(lookup(App.languageDict, "Days." + "Friday"));
+                var gradeLevelArray=App.languageDict.get('GradeLevelList');
+                for(var i=0;i<gradeLevelArray.length;i++)
+                {
+                    $('.form .field-gradeLevel select').find('option').eq(i).html(gradeLevelArray[i]);
+
+                }
+                var subjectLevelArray=App.languageDict.get('SubjectLevelList');
+                for(var i=0;i<subjectLevelArray.length;i++)
+                {
+                    $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
+
+                }
 
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
@@ -1418,8 +1462,8 @@ $(function() {
                     })
                     lTable.groupId = groupId
                     lTable.render()
-                    App.$el.children('.body').append("</BR><h3> Course Steps </h3>")
-                    App.$el.children('.body').append(lTable.el)
+                    $('#AddCourseMainDiv').append("</BR><h3>"+App.languageDict.attributes.Course_Steps+"</h3>")
+                    $('#AddCourseMainDiv').append(lTable.el)
 
                     $("#moveup").hide()
                     $("#movedown").hide()
