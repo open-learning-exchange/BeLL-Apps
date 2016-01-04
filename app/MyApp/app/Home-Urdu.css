@@ -659,8 +659,9 @@ body{
 {
     width:45%;
     float: right;
-
-}
+}#ProgressButton{
+    margin-right: 52%;
+ }
 #previous_button
 {
     width:45%;
