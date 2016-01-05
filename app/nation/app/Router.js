@@ -2579,13 +2579,11 @@ $(function() {
             surveyModel.fetch({
                 async: false
             })
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <a class="btn btn-success" href = "#addQuestion" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunitiesForSurvey()">Send Publication</button></div>')
+            var type = "survey";
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <a class="btn btn-success" href = "#addQuestion" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId  +'\',\'' + type + '\')">Send Survey</button></div>')
         },
 
         AddQuestion: function() {
-          this.underConstruction();
-        },
-        SelectCommForSurvey: function() {
           this.underConstruction();
         },
 
@@ -2958,8 +2956,8 @@ $(function() {
             })
             var resources = publicationObject.get('resources')
             var courses = publicationObject.get('courses')
-
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick=SelectCommunity("' + publicationId + '")>Send Publication</button></div>')
+            var type = "publications";
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId  +'\',\'' + type + '\')">Send Publication</button></div>')
 
             var resIdes = ''
             _.each(resources, function(item) {
@@ -3054,10 +3052,11 @@ $(function() {
 
 
         },
-        SelectCommunities: function(pId) {
+        SelectCommunities: function(pId, type) {
             $('#invitationdiv').fadeIn(1000)
             var inviteForm = new App.Views.listCommunityView()
             inviteForm.pId = pId
+            inviteForm.type = type;
             inviteForm.render()
             $('#invitationdiv').html('&nbsp')
             $('#invitationdiv').append(inviteForm.el)

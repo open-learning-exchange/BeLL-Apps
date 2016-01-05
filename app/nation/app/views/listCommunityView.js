@@ -28,10 +28,21 @@ $(function() {
                 alert('Please select Community first')
                 return
             }
+            //For differentiating between publications and survey
+            var that = this;
+            if(that.type == "survey"){
+                //yncSurveyData();
+                alert("This is survey");
+            } else {
+                //syncPublicationsData();
+                alert("This is publications");
+            }
+            //End
             App.startActivityIndicator()
             var sendPub = new Array()
             //******if starts********************************************
-            var that = this ;
+           // var that = this ;
+            alert(that.type);
             if (selectedValues.length > 0) {
                 //******for loop start*************
                 for (var i = 0; i < selectedValues.length; i++) {
