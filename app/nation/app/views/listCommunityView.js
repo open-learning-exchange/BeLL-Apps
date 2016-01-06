@@ -32,7 +32,7 @@ $(function() {
             var that = this;
             if(that.type == "survey"){
                 alert("This is survey");
-                that.syncSurveyData();
+                that.syncSurveyData(selectedValues);
             } else {
                 alert("This is publications");
                 if(that.pId != undefined && that.pId != null) {
@@ -133,8 +133,25 @@ $(function() {
             //******if ends*******************************************
         },
 
-        syncSurveyData: function() {
+        syncSurveyData: function(selectedValues) {
           alert("In syncSurveyData");
+            App.startActivityIndicator()
+             //var sendPub = new Array()
+             //******if starts********************************************
+             // var that = this ;
+             if (selectedValues.length > 0) {
+             //******for loop start*************
+             for (var i = 0; i < selectedValues.length; i++) {
+                 console.log(selectedValues[i]);
+             }
+             //******for loop ends******************************
+             $("#list option[value='2']").text()
+             $('#invitationdiv').fadeOut(1000)
+             setTimeout(function() {
+             $('#invitationdiv').hide()
+             }, 1000);
+             App.stopActivityIndicator()
+             }
         },
 
         syncPublicationsData: function(p_id, selectedValues ) {
