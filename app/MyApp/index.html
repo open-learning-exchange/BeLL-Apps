@@ -1153,10 +1153,10 @@
             </div>
         </div>
         <div class="search-result-header">
-            <h3 class="search-result-h3">Search Results</h3>
+            <h3 class="search-result-h3 courseSearchResults_Bottom"><%=languageDict.attributes.Search_Result%></h3>
         </div>
         <br>
-        <button class="btn btn-primary" onclick = "selectAllSearchResult()" id="selectAllButton">Select All</button>
+        <button class="btn btn-primary " onclick = "selectAllSearchResult()" id="selectAllButton"><%=languageDict.attributes.Select_All%></button>
 
         <br/><br/>
         <table id="srch">
@@ -1169,10 +1169,10 @@
             <table class="search-bottom-nav-table">
                 <tr>
                     <td class="previous-button-container">
-                        <button class="btn btn-primary" id="previous_button" ><  Previous</button>
+                        <button class="btn btn-primary" id="previous_button" ><%=languageDict.attributes.Previous%></button>
                     </td>
                     <td class="next-button-container">
-                        <button class="btn btn-primary" id="next_button" >Next  ></button>
+                        <button class="btn btn-primary" id="next_button" ><%=languageDict.attributes.Next%>  </button>
                     </td>
                 </tr>
             </table>
@@ -1184,11 +1184,13 @@
             <button class="btn btn-success" onclick = "document.location.href='../nation/index.html#publication'">Back</button>
 
             <%}else{ %>
-            <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+            <div class="courseSearchResults_Bottom">
+            <button class="btn btn-primary" onclick = "showSearchView()"><%=languageDict.attributes.Back_to_Search%></button>
             <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
-            <button class="btn btn-success" onclick = "document.location.href='#assign-to-level'">Add To Level</button>
-            <button class="btn btn-success" onclick = "document.location.href='#courses'">Home</button>
-            <%}%>
+            <button class="btn btn-success" onclick = "document.location.href='#assign-to-level'"><%=languageDict.attributes.Add_To_Level%></button>
+            <button class="btn btn-success" onclick = "document.location.href='#courses'"><%=languageDict.attributes.Home%></button>
+            </div>
+                <%}%>
         </div>
     </script>
     <script type="text/html" id="template-Search-box">

@@ -662,6 +662,11 @@ body{
 }#ProgressButton{
     margin-right: 52%;
  }
+ .courseSearchResults_Bottom{
+     direction: rtl;
+     float:right;
+ }
+
 #previous_button
 {
     width:45%;

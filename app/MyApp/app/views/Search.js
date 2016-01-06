@@ -150,15 +150,18 @@ $(function() {
                     mapFilter["language"] = this.languageFilter;
                 }
             }
-            if (this.ratingFilter.length > 0 && !(this.mediumFilter) && !(this.levelFilter) && !(this.languageFilter) && searchText.replace(" ", "") == '' && !(this.subjectFilter) && !(this.collectionFilter)) {
-                for (var i = 0; i < this.ratingFilter.length; i++) {
-                    filters.push(parseInt(this.ratingFilter[i]))
-                }
-            } else {
-                if (this.ratingFilter.length > 0 && (this.mediumFilter || this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)) {
-                    mapFilter["timesRated"] = this.ratingFilter;
+            if(this.ratingFilter!=undefined){
+                if (this.ratingFilter.length > 0 && !(this.mediumFilter) && !(this.levelFilter) && !(this.languageFilter) && searchText.replace(" ", "") == '' && !(this.subjectFilter) && !(this.collectionFilter)) {
+                    for (var i = 0; i < this.ratingFilter.length; i++) {
+                        filters.push(parseInt(this.ratingFilter[i]))
+                    }
+                } else {
+                    if (this.ratingFilter.length > 0 && (this.mediumFilter || this.levelFilter || this.languageFilter || searchText.replace(" ", "") != '' || this.subjectFilter || this.collectionFilter)) {
+                        mapFilter["timesRated"] = this.ratingFilter;
+                    }
                 }
             }
+
             var prefix, prex, searchTxt, searchText_Coll_Id;
             var searchTextArray = [];
             if (searchText != '') {
