@@ -311,5 +311,14 @@
    "Passing_Percentage": "Passing Percentage",
    "Paper": "Paper",
    "Quiz": "Quiz",
-   "Add_Resource": "Add Resource"
+   "Add_Resource": "Add Resource",
+      "Required_Text": "Required",
+      "Step": "Step",
+      "View_Details": "View Details",
+      "Select_All": "Select All",
+      "Previous": "Previous",
+      "Add_To_Level": "Add to Level",
+      "Back_To_Course": "Back to Courses",
+      "Create_Quiz": "Create Quiz",
+      "Edit_Quiz": "Edit Quiz"
 }
