@@ -1694,6 +1694,9 @@ $(function() {
                 var tl = parseInt(totalLevels) + 1
                 $("input[name='step']").val(tl)
             }
+            console.log('CourseStep Model');
+            console.log(Cstep);
+            Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
             $('.bbf-form .field-title label').html(App.languageDict.attributes.Title);
             $('.bbf-form .field-stepMethod label').html(App.languageDict.attributes.Step_Method);
             $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
