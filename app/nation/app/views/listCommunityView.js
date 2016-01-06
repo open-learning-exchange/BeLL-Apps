@@ -30,13 +30,13 @@ $(function() {
             }
             //For differentiating between publications and survey
             var that = this;
-            if(that.type == "survey"){
+            if (that.type == "survey") {
                 //alert("This is survey");
                 that.syncSurveyData(selectedValues);
             } else {
                 //alert("This is publications");
-                if(that.pId != undefined && that.pId != null) {
-                    if(that.pId) {
+                if (that.pId != undefined && that.pId != null) {
+                    if (that.pId) {
                         that.syncPublicationsData(that.pId, selectedValues);
                     }
                 }
@@ -45,111 +45,109 @@ $(function() {
         },
 
         syncSurveyData: function(selectedValues) {
-          //alert("In syncSurveyData");
+            //alert("In syncSurveyData");
             App.startActivityIndicator()
-             //******if starts********************************************
-             if (selectedValues.length > 0) {
-             //******for loop start*************
-             for (var i = 0; i < selectedValues.length; i++) {
-                 console.log(selectedValues[i]);
-             }
-             //******for loop ends******************************
-             $("#list option[value='2']").text()
-             $('#invitationdiv').fadeOut(1000)
-             setTimeout(function() {
-             $('#invitationdiv').hide()
-             }, 1000);
-             App.stopActivityIndicator()
-             }
+            //******if starts********************************************
+            if (selectedValues.length > 0) {
+                //******for loop start*************
+                for (var i = 0; i < selectedValues.length; i++) {
+                    console.log(selectedValues[i]);
+                }
+                //******for loop ends******************************
+                $("#list option[value='2']").text()
+                $('#invitationdiv').fadeOut(1000)
+                setTimeout(function() {
+                    $('#invitationdiv').hide()
+                }, 1000);
+                App.stopActivityIndicator()
+            }
         },
 
-        syncPublicationsData: function(p_id, selectedValues ) {
-          //alert("In syncPubData");
+        syncPublicationsData: function(p_id, selectedValues) {
+            //alert("In syncPubData");
             App.startActivityIndicator()
-             var sendPub = new Array()
-             //******if starts********************************************
-             if (selectedValues.length > 0) {
-             //******for loop start*************
-             for (var i = 0; i < selectedValues.length; i++) {
-             var cUrl = selectedValues[i]
-             var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
+            var sendPub = new Array()
+            //******if starts********************************************
+            if (selectedValues.length > 0) {
+                //******for loop start*************
+                for (var i = 0; i < selectedValues.length; i++) {
+                    var cUrl = selectedValues[i]
+                    var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
 
-             var x =   p_id;
-             //***********************************************************
-             //extra code for  #100
-             $.ajax({
-             url: '/publications/_design/bell/_view/publicationById?include_docs=true&key="' + x + '"',
-             type: 'GET',
-             dataType: 'json',
-             success: function(resResult) {
-             var  pubResult = resResult.rows[0];
-             if (pubResult.doc.communityNames != [] && pubResult.doc.communityNames.length > 0 && pubResult.doc.communityNames.indexOf(cName)> -1 ){
-             //if (pubResult.value.communityNames.indexOf(cName)> -1) {
-             alert("This Publication is already sent to the slected community")
-             //}
-             }
-             else{
-             sendPub.push({
-             communityUrl: cUrl,
-             communityName: cName,
-             publicationId: p_id,
-             Viewed: false
-             })
-             //console.log(pubResult.communityNames)
-             var tempComm = pubResult.doc.communityNames;
-             console.log(tempComm)
-             tempComm.push(cName)
-             console.log(tempComm)
-             //  pubResult.value.communityNames = tempComm;
-             pubResult.doc.communityNames = tempComm;
-             console.log(pubResult.doc.communityNames)
-             console.log(pubResult.value.communityNames)
-             //   var savePub = {};
-             //    savePub.push(pubResult.doc)
-             //  var savePublication = JSON.stringify(savePub)
+                    var x = p_id;
+                    //***********************************************************
+                    //extra code for  #100
+                    $.ajax({
+                        url: '/publications/_design/bell/_view/publicationById?include_docs=true&key="' + x + '"',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(resResult) {
+                            var pubResult = resResult.rows[0];
+                            if (pubResult.doc.communityNames != [] && pubResult.doc.communityNames.length > 0 && pubResult.doc.communityNames.indexOf(cName) > -1) {
+                                //if (pubResult.value.communityNames.indexOf(cName)> -1) {
+                                alert("This Publication is already sent to the slected community")
+                                //}
+                            } else {
+                                sendPub.push({
+                                    communityUrl: cUrl,
+                                    communityName: cName,
+                                    publicationId: p_id,
+                                    Viewed: false
+                                })
+                                //console.log(pubResult.communityNames)
+                                var tempComm = pubResult.doc.communityNames;
+                                console.log(tempComm)
+                                tempComm.push(cName)
+                                console.log(tempComm)
+                                //  pubResult.value.communityNames = tempComm;
+                                pubResult.doc.communityNames = tempComm;
+                                console.log(pubResult.doc.communityNames)
+                                console.log(pubResult.value.communityNames)
+                                //   var savePub = {};
+                                //    savePub.push(pubResult.doc)
+                                //  var savePublication = JSON.stringify(savePub)
 
-             //$.couch.db("publications").saveDoc({
-             //    "docs": savePublication
-             //}, {
-             $.couch.db("publications").saveDoc( pubResult.doc
-             , {
-             success: function(data) {
-             console.log(data);
-             },
-             error: function(status) {
-             console.log(status);
-             },
-             async : false
-             });
+                                //$.couch.db("publications").saveDoc({
+                                //    "docs": savePublication
+                                //}, {
+                                $.couch.db("publications").saveDoc(pubResult.doc, {
+                                    success: function(data) {
+                                        console.log(data);
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    },
+                                    async: false
+                                });
 
-             //***************************************************************
-             $.couch.db("publicationdistribution").bulkSave({
-             "docs": sendPub
-             }, {
-             success: function(data) {
-             console.log(data);
-             },
-             error: function(status) {
-             console.log(status);
-             },
-             async : false
-             });
-             //***************************************************************
-             }
+                                //***************************************************************
+                                $.couch.db("publicationdistribution").bulkSave({
+                                    "docs": sendPub
+                                }, {
+                                    success: function(data) {
+                                        console.log(data);
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    },
+                                    async: false
+                                });
+                                //***************************************************************
+                            }
 
-             },
-             async : false
-             });
+                        },
+                        async: false
+                    });
 
-             }
-             //******for loop ends******************************
-             $("#list option[value='2']").text()
-             $('#invitationdiv').fadeOut(1000)
-             setTimeout(function() {
-             $('#invitationdiv').hide()
-             }, 1000);
-             App.stopActivityIndicator()
-        }
+                }
+                //******for loop ends******************************
+                $("#list option[value='2']").text()
+                $('#invitationdiv').fadeOut(1000)
+                setTimeout(function() {
+                    $('#invitationdiv').hide()
+                }, 1000);
+                App.stopActivityIndicator()
+            }
         },
 
         synchResCommunityWithURL: function(communityurl, communityname, res) {

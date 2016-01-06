@@ -134,12 +134,12 @@ $(function() {
                 report_resRated = logReport.resourcesIds;
             }
             //********************************************************************************************
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+            //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
             //********************************************************************************************
             if (logReport.resources_names) {
                 report_resNames = logReport.resources_names
             }
-//********************************************************************************************
+            //********************************************************************************************
             if (logReport.resources_opened) {
                 report_resOpened = logReport.resources_opened
             }
@@ -195,9 +195,9 @@ $(function() {
                     report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0);
 
                     var resourcesIds = logDoc.resourcesIds;
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                    //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                     var resourcesNames = logDoc.resources_names;
-//******************************************************************************************
+                    //******************************************************************************************
                     var resourcesOpened = logDoc.resources_opened;
                     for (var i = 0; i < resourcesIds.length; i++) {
                         var resId = resourcesIds[i]
@@ -222,16 +222,16 @@ $(function() {
                             if (resourceIndex == -1) {
                                 report_resOpened.push(resId)
                                 //*******************************************************************************************
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                                //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                                 //*******************************************************************************************
-                                if (resourcesNames!= undefined && resourcesNames != null){
-                                    if(resourcesNames.length > 0) {
+                                if (resourcesNames != undefined && resourcesNames != null) {
+                                    if (resourcesNames.length > 0) {
                                         // alert(resourcesNames[i])
                                         report_resNames.push(resourcesNames[i])
                                     }
                                 }
 
-//*******************************************************************************************
+                                //*******************************************************************************************
                                 report_male_opened.push(logDoc.male_opened[i])
                                 report_female_opened.push(logDoc.female_opened[i])
                             } else {
@@ -276,19 +276,19 @@ $(function() {
                     res.fetch({
                         async: false
                     });
-                 var  test = report_resOpened[indices[i]]
+                    var test = report_resOpened[indices[i]]
                     var name = res.get('title');
-                   // var name = 'ffghgghfghfh';
+                    // var name = 'ffghgghfghfh';
                     //*******************************************************************************************
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                    //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                     //*******************************************************************************************
-                   console.log(logReport.resources_names)
+                    console.log(logReport.resources_names)
                     //typeof variable_here === 'undefined'
-                    if (!name ) {
-                     var indexofres = report_resOpened.indexOf(test);
+                    if (!name) {
+                        var indexofres = report_resOpened.indexOf(test);
                         console.log(indexofres);
                         name = report_resNames[indices[i]];
-                        }
+                    }
                     //*******************************************************************************************
                     // create most freq opened resource entry and push it into Most_Freq_Opened array
                     most_freq_res_entry = {
@@ -349,7 +349,7 @@ $(function() {
                     });
                     var name = res.get('title');
                     //***********************************************#84
-                    if (!name ) {
+                    if (!name) {
                         var indexofres = report_resOpened.indexOf(test);
                         console.log(indexofres);
                         name = report_resNames[indices[i]];
@@ -388,8 +388,8 @@ $(function() {
                         async: false
                     })
                     var name = res.get('title')
-//***********************************************#84
-                    if (!name ) {
+                    //***********************************************#84
+                    if (!name) {
                         var indexofres = report_resOpened.indexOf(test);
                         console.log(indexofres);
                         name = report_resNames[indices[i]];
@@ -2580,11 +2580,11 @@ $(function() {
                 async: false
             })
             var type = "survey";
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <a class="btn btn-success" href = "#addQuestion" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId  +'\',\'' + type + '\')">Send Survey</button></div>')
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <a class="btn btn-success" href = "#addQuestion" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send Survey</button></div>')
         },
 
         AddQuestion: function() {
-          this.underConstruction();
+            this.underConstruction();
         },
 
         underConstruction: function() {
@@ -2888,26 +2888,26 @@ $(function() {
                 async: false,
                 //**********************************
                 success: function(data) {
-                    _.each(data.rows, function (row) {
+                    _.each(data.rows, function(row) {
                         var pubDistModel = row.value;
                         var pubId = pubDistModel.publicationId;
-                       var resultArray = [];
-                        _.each(arrayPub, function (model) {
+                        var resultArray = [];
+                        _.each(arrayPub, function(model) {
                             if (model.id == pubId) {
                                 resultArray.push(true)
                             }
                         })
-                        if (resultArray.indexOf(true) == -1){
+                        if (resultArray.indexOf(true) == -1) {
                             var doc = {
                                 _id: pubDistModel._id,
                                 _rev: pubDistModel._rev
                             };
                             $.couch.db("publicationdistribution").removeDoc(doc, {
-                                success: function (data) {
+                                success: function(data) {
                                     alert("Extra publication distribution documents have been deleted")
                                     console.log(data);
                                 },
-                                error: function (status) {
+                                error: function(status) {
                                     console.log(status);
                                 },
                                 async: false,
@@ -2917,7 +2917,7 @@ $(function() {
                     })
 
                 },
-                error: function (status) {
+                error: function(status) {
                     console.log(status);
                 },
                 async: false,
@@ -2927,7 +2927,7 @@ $(function() {
             this.Publication();
 
         },
-       //*********************************************************************************************
+        //*********************************************************************************************
         Publication: function() {
             App.startActivityIndicator()
             var publicationCollection = new App.Collections.Publication()
@@ -2957,7 +2957,7 @@ $(function() {
             var resources = publicationObject.get('resources')
             var courses = publicationObject.get('courses')
             var type = "publications";
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId  +'\',\'' + type + '\')">Send Publication</button></div>')
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\',\'' + type + '\')">Send Publication</button></div>')
 
             var resIdes = ''
             _.each(resources, function(item) {
