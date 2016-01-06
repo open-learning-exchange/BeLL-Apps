@@ -6,21 +6,21 @@ ddoc = {
 }
 
 ddoc.views = {
-    surveyById: {
+    surveyResById: {
         map: function(doc) {
             if (doc._id) {
                 emit(doc._id, doc);
             }
         }
     },
-    surveyBySurveyNo: {
+    surveyResBySurveyNo: {
         map: function(doc) {
             if (doc.SurveyNo) {
                 emit(doc.SurveyNo, doc);
             }
         }
     },
-    surveyByTitle: {
+    surveyResByTitle: {
         map: function(doc) {
             if (doc.SurveyTitle)
                 emit(doc.SurveyTitle, doc);
@@ -32,6 +32,7 @@ ddoc.views = {
                 emit(doc._id, doc);
         }
     }
+
 }
 
 module.exports = ddoc;
