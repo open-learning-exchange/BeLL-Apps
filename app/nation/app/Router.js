@@ -3066,7 +3066,9 @@ $(function() {
             })
             Communities.each(
                 function(log) {
-                    $('#comselect').append("<option value='" + log.get('Name') + "'>" + log.get('Name') + "</option>")
+                    if(log.get('Name')) {
+                        $('#comselect').append("<option value='" + log.get('Name') + "'>" + log.get('Name') + "</option>")
+                    }
                 })
 
         },
