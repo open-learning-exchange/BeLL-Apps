@@ -1082,17 +1082,37 @@ $(function() {
 
 
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $("#multiselect-collections-search").multiselect({
+                        checkAllText: App.languageDict.attributes.checkAll,
+                        uncheckAllText: App.languageDict.attributes.unCheckAll,
+                        selectedText: '# '+App.languageDict.attributes.Selected,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option
+                    });
+                    $("#multiselect-collections-search").multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+                    $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
+                    $("#multiselect-levels-search").multiselect({
+                        checkAllText: App.languageDict.attributes.checkAll,
+                        uncheckAllText: App.languageDict.attributes.unCheckAll,
+                        selectedText: '# '+App.languageDict.attributes.Selected,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option
+                    });
+                    $("#multiselect-levels-search").multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+
                     $("#multiselect-medium-search").multiselect({
                         multiple: false,
-                        header: "Select an option",
-                        noneSelectedText: "Select an Option",
+                        header: App.languageDict.attributes.Select_An_option,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option,
                         selectedList: 1
                     });
+
+
+
                     $("#search-language").multiselect({
                         multiple: false,
-                        header: "Select an option",
-                        noneSelectedText: "Select an Option",
+                        header: App.languageDict.attributes.Select_An_option,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option,
                         selectedList: 1
                     });
 
@@ -1105,6 +1125,14 @@ $(function() {
                     showSubjectCheckBoxes()
 
                     $("#multiselect-subject-search").multiselect().multiselectfilter();
+                    $("#multiselect-subject-search").multiselect({
+                        checkAllText: App.languageDict.attributes.checkAll,
+                        uncheckAllText: App.languageDict.attributes.unCheckAll,
+                        selectedText: '# '+App.languageDict.attributes.Selected,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option
+                    });
+                    $("#multiselect-subject-search").multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+
                 }
             })
         },

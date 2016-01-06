@@ -342,7 +342,7 @@ $(function() {
 
 			vars.Details = Details;
 			vars.open=App.languageDict.attributes.Open;
-			vars.viewDetails=App.languageDict.attributes.View+App.languageDict.attributes.Details;
+			vars.viewDetails=App.languageDict.attributes.View_Details;
 			vars.addToMyLibrary=App.languageDict.attributes.Add_to_my_library;
 			vars.feedback=App.languageDict.attributes.Feedback
 			vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
