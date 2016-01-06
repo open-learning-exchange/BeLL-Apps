@@ -712,17 +712,17 @@
     </script>
     <script type="text/html" id="template-LevelRow">
         <td>
-            <input type="radio" name="stepRow" />&nbsp;&nbsp;Step <%= step %> : <%= title %>
+            <input type="radio" name="stepRow" />&nbsp;&nbsp;<%=App.languageDict.attributes.Step%> <%= step %> : <%= title %>
         </td>
         <td>
             <a role='button' class='btn btn-info' href='#level/view/<%= _id %>/<%= _rev %>'>
-                <i class="icon-edit"></i> View Details
+                <i class="icon-edit"></i> <%=App.languageDict.attributes.View_Details%>
             </a>
         </td>
 
         <td>
             <a class='destroyStep btn btn-danger' href='#'>
-                <i class='icon-remove'></i> Delete
+                <i class='icon-remove'></i> <%=App.languageDict.attributes.DeleteLabel%>
             </a>
         </td>
 
