@@ -1751,20 +1751,21 @@ $(function() {
                     var levelDetails = new App.Views.LevelDetail({
                         model: levelInfo
                     })
-                    levelDetails.render()
-                    App.$el.children('.body').html('<h3> Step ' + levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
-                    App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">Edit Step</a>&nbsp;&nbsp;')
-                    App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>Back To Course </a>&nbsp;&nbsp;")
-                    App.$el.children('.body').append("</BR></BR><B>Description</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
-                    App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/" + lid + "\"'>Save</button></BR></BR>")
-                    App.$el.children('.body').append('<B>Resources</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">Add</a>')
+                    levelDetails.render();
+                    App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
+                    App.$el.children('.body').html('<h3>'  +App.languageDict.attributes.Step +levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
+                    App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
+                    App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Course+" </a>&nbsp;&nbsp;")
+                    App.$el.children('.body').append("</BR></BR><B>"+App.languageDict.attributes.Description+"</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
+                    App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/" + lid + "\"'>"+App.languageDict.attributes.Save+"</button></BR></BR>")
+                    App.$el.children('.body').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
                     App.$el.children('.body').append(levelDetails.el)
                     App.$el.children('.body').append('</BR>')
                     if (levelInfo.get("questions") == null) {
-                        App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;"  href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Create Quiz</a>&nbsp;&nbsp;')
+                        App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;"  href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {
-                        App.$el.children('.body').append('<B>' + levelInfo.get("title") + ' - Quiz</B><a class="btn btn-primary"  style="float:right;" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">Edit Quiz</a>&nbsp;&nbsp;')
+                        App.$el.children('.body').append('<B>' + levelInfo.get("title") + ' - Quiz</B><a class="btn btn-primary"  style="float:right;" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')
                     }
                 }
             })
