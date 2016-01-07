@@ -6,39 +6,24 @@ ddoc = {
 }
 
 ddoc.views = {
-    surveyById: {
+    surveyResById: {
         map: function(doc) {
             if (doc._id) {
                 emit(doc._id, doc);
             }
         }
     },
-    surveyBySurveyNo: {
+    surveyResBySurveyNo: {
         map: function(doc) {
             if (doc.SurveyNo) {
                 emit(doc.SurveyNo, doc);
             }
         }
     },
-    surveyByTitle: {
+    surveyResByTitle: {
         map: function(doc) {
             if (doc.SurveyTitle)
                 emit(doc.SurveyTitle, doc);
-        }
-    },
-    surveyBySentToCommunities: {
-        map: function(doc) {
-            if (doc.sentTo && doc.kind == 'survey') {
-                if (Array.isArray(doc.sentTo)) {
-                    if (doc.sentTo.length > 0) {
-                        for (var idx in doc.sentTo) {
-                            emit(doc.sentTo[idx].toLowerCase(), doc._id);
-                        }
-                    }
-                } else {
-                    emit(doc.sentTo.toLowerCase(), doc._id)
-                }
-            }
         }
     },
     allSurveys: {
@@ -47,6 +32,7 @@ ddoc.views = {
                 emit(doc._id, doc);
         }
     }
+
 }
 
 module.exports = ddoc;
