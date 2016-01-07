@@ -26,6 +26,21 @@ ddoc.views = {
                 emit(doc.SurveyTitle, doc);
         }
     },
+    surveyBySentToCommunities: {
+        map: function(doc) {
+            if (doc.sentTo && doc.kind == 'survey') {
+                if (Array.isArray(doc.sentTo)) {
+                    if (doc.sentTo.length > 0) {
+                        for (var idx in doc.sentTo) {
+                            emit(doc.sentTo[idx].toLowerCase(), doc._id);
+                        }
+                    }
+                } else {
+                    emit(doc.sentTo.toLowerCase(), doc._id)
+                }
+            }
+        }
+    },
     allSurveys: {
         map: function(doc) {
             if (doc.SurveyNo)
