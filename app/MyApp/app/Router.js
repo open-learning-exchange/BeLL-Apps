@@ -1264,7 +1264,7 @@ $(function() {
 
                         $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
                         $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
-                        $('#searchText').attr('placeholder','مطلوبہ الفاظ ');
+                        $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                         $('#searchText').css('margin-left','1%');
 
                         $('#headingOfCourses').css('margin-right','2%');
@@ -1276,7 +1276,7 @@ $(function() {
                         $('#requestCourseButton').css('margin-left','10px');
 
                         $("#addCourseButton").addClass('addMarginsOnCourse');
-                        $('#searchText').attr('placeholder','Keyword(s)');
+                        $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                     }
 
                 }
@@ -1295,19 +1295,30 @@ $(function() {
                     quiz.revId = levelInfo.get('_rev')
                     quiz.ltitle = title
                     if (levelInfo.get("questions")) {
-                        App.$el.children('.body').html('<h3>Edit Quiz for |' + title + '</h3>')
+                        App.$el.children('.body').html('<h3>'+App.languageDict.attributes.Edit_Quiz+' |' + title + '</h3>')
                         quiz.quizQuestions = levelInfo.get("questions")
                         quiz.questionOptions = levelInfo.get("qoptions")
                         quiz.answers = levelInfo.get("answers")
 
                     }
                     App.$el.children('.body').html(quiz.el)
-                    quiz.render()
-                    if (levelInfo.get("questions")) {
+                    quiz.render();
+                    $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
+
+                    for(var row=0;row<3 ;row++) {
+                        for(var col=0;col<3;col++) {
+                            for(var index=0;index<2;index++) {
+                                $('#options-table').find('table').find('tr').eq(row).find('td').eq(col).find('input').eq(index).attr('placeholder',App.languageDict.attributes.Enter_Option);
+                            }
+                            }
+                        }
+                        if (levelInfo.get("questions")) {
                         quiz.displayQuestionsInView()
                     }
                 }
-            })
+            });
+
+            applyStylingSheet();
         },
         CourseInfo: function(courseId) {
 

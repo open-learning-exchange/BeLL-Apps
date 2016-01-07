@@ -416,6 +416,19 @@ body{
 
 
 }
+#option-area
+{
+    background-color: #E7E7E7;
+    height: 222px;
+    margin-top: 5px;
+    width: 630px;
+    text-align:right;
+}
+#options-table
+{
+    position: absolute;
+}
+
 #resourceform {
     background-color: #F3F3F3;
     border-radius: 37px;

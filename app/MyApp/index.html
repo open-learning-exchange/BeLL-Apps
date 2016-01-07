@@ -1215,38 +1215,38 @@
         <% } %>
     </script>
     <script type="text/template" id="make-Quiz">
-        <div id="quiz-body">
+        <div id="quiz-body" class="courseEditStep">
             <br/>
-            Courses | <%= courseTitle %>
-            <h4 id="new-quiz">New Quiz</h4>
+            <%= languageDict.attributes.Courses %> | <%= courseTitle %>
+            <h4 id="new-quiz"><%= languageDict.attributes.New_Quiz %></h4>
             <table class='table' id="listofquestions">
             </table>
-            <button class="btn btn-success" id="save-quiz" >Save Quiz</button>
-            <button class="btn btn-danger" id="cancel-quiz" >Cancel</button>
+            <button class="btn btn-success" id="save-quiz" ><%= languageDict.attributes.Save_Quiz %></button>
+            <button class="btn btn-danger" id="cancel-quiz" ><%= languageDict.attributes.Cancel %></button>
             <div id='question-div'>
                 <div id="question-area">
-                    <div id="question-no">Question : </div>
-                    <div id="question-box"><textarea rows="3"  spellcheck="true" style="width:100%;height:100%" id="quizQuestion" placeholder="Enter your question here" ></textarea><br/></div>
+                    <div id="question-no"><%= languageDict.attributes.Question %> : </div>
+                    <div id="question-box"><textarea rows="3"  spellcheck="true" style="width:100%;height:100%" id="quizQuestion" ></textarea><br/></div>
                 </div>
                 <div id="option-area">
                     <br/>
-                    &nbsp;&nbsp;Response Options:<br/>
-                    &nbsp;&nbsp;(Identify the right response)
+                    &nbsp;&nbsp;<%= languageDict.attributes.Response_Options %><br/>
+                    &nbsp;&nbsp;<%= languageDict.attributes.Identify_Correct %>
                     <div id="options-table">
                         <table style="border-spacing: 36px 0px;border-collapse:separate;">
-                            <tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1" placeholder="Option A" /></td>
-                                <td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2" placeholder="Option B" /></td></tr>
-                            <tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3" placeholder="Option C" /></td>
-                                <td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4" placeholder="Option D" /></td></tr>
-                            <tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5" placeholder="Option E" /></td></tr></table>
+                            <tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1"  /></td>
+                                <td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2"  /></td></tr>
+                            <tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3"  /></td>
+                                <td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4"  /></td></tr>
+                            <tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5"  /></td></tr></table>
                     </div>
                 </div>
                 <br/>
-                <button class="btn btn-primary" id="save-new-question" >Add Question</button>
-                <button class="btn btn-danger" id="cancel-new-question" >Cancel</button>
+                <button class="btn btn-primary" id="save-new-question" ><%= languageDict.attributes.Add_Question %></button>
+                <button class="btn btn-danger" id="cancel-new-question" ><%= languageDict.attributes.Cancel %></button>
 
-                <button class="btn btn-primary" id="save-edit-question" >Save</button>
-                <button class="btn btn-danger" id="cancel-edit-question" >Cancel</button>
+                <button class="btn btn-primary" id="save-edit-question" ><%= languageDict.attributes.Save %></button>
+                <button class="btn btn-danger" id="cancel-edit-question" ><%= languageDict.attributes.Cancel %></button>
 
             </div>
 

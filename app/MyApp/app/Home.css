@@ -28,6 +28,18 @@ select#onLoginLanguage {
 #requestResourceOnCollection{
 	margin-left:10px
 }
+#option-area
+{
+	background-color: #E7E7E7;
+	height: 222px;
+	margin-top: 5px;
+	width: 630px;
+	text-align:left;
+}
+#options-table
+{
+	position: absolute;
+}
 #AddCollectionOnCollections{
 
 	margin:-20px 0 0 150px;

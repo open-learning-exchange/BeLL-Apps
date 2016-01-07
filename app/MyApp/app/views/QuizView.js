@@ -121,9 +121,12 @@ $(function() {
             this.currentQuestion = this.quizQuestions.length
         },
         AddQuestiontoView: function(questionNumber) {
-            var html = '<tr><td colspan="6"><h6>Question# ' + (questionNumber + 1) + '&nbsp&nbsp<a name=' + questionNumber + ' class="EditQuestiontoView btn btn-info">Edit</a>&nbsp&nbsp<button value="' + questionNumber + '" class="btn btn-danger" id="delete-quiz-question" >Delete</button></h6>' + this.quizQuestions[questionNumber] + '</td></tr>'
+            var html = '<tr><td colspan="6"><h6>'+App.languageDict.attributes.Question+' ' + (questionNumber + 1) + '&nbsp&nbsp' +
+                '<a name=' + questionNumber + ' class="EditQuestiontoView btn btn-info">'+App.languageDict.attributes.EditLabel+'</a>&nbsp&nbsp' +
+                '<button value="' + questionNumber + '" class="btn btn-danger" id="delete-quiz-question" >'+App.languageDict.attributes.DeleteLabel+'</button>' +
+                '</h6>' + this.quizQuestions[questionNumber] + '</td></tr>'
             html += '<tr>'
-            html += '<td><b>Options</b></td>'
+            html += '<td><b>'+App.languageDict.attributes.Options+'</b></td>'
             html += '<td>' + this.questionOptions[questionNumber * 5] + '</td>'
             html += '<td>' + this.questionOptions[questionNumber * 5 + 1] + '</td>'
             html += '<td>' + this.questionOptions[questionNumber * 5 + 2] + '</td>'
@@ -181,7 +184,8 @@ $(function() {
         },
         render: function() {
             var obj = this
-            this.vars.courseTitle = this.ltitle
+            this.vars.courseTitle = this.ltitle;
+            this.vars.languageDict=App.languageDict;
             this.$el.html(_.template(this.template, this.vars))
             $('#save-edit-question').hide()
             $('#cancel-edit-question').hide()
