@@ -1690,21 +1690,21 @@ $(function() {
                 model: Cstep
             })
 
-            App.$el.children('.body').html('<div id="mergeCollection"></div>');
+            App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
             if (levelId == "nolevel") {
 
-                $('#mergeCollection').append('<h3 id="feedbackResoDiv">'+App.languageDict.attributes.New_Step+'</h3>');
+                $('.courseSearchResults_Bottom').append('<h3 id="feedbackResoDiv">'+App.languageDict.attributes.New_Step+'</h3>');
                 lForm.edit = false
                 lForm.previousStep = 0
                 lForm.render()
-                $('#mergeCollection').append(lForm.el)
+                $('.courseSearchResults_Bottom').append(lForm.el)
                 $("input[name='step']").attr("disabled", true);
             } else {
                 Cstep.set({
                     "_id": levelId
                 })
                 Cstep.once('sync', function() {
-                    $('#mergeCollection').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
+                    $('.courseSearchResults_Bottom').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
                     lForm.edit = true
                     lForm.ques = Cstep.get("questions")
                     lForm.ans = Cstep.get("answers")
@@ -1713,7 +1713,7 @@ $(function() {
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
                     lForm.render()
-                    $('#mergeCollection').append(lForm.el)
+                    $('.courseSearchResults_Bottom').append(lForm.el)
                     $("input[name='step']").attr("disabled", true);
                 })
                 Cstep.fetch()
