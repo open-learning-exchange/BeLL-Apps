@@ -90,15 +90,15 @@ $(function() {
                     })
                     if (!(r.get("hidden"))) {
                         if (r.get("_attachments")) {
-                            stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>View</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                            stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>"+App.languageDict.attributes.View+"</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>"+App.languageDict.attributes.Remove+" </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
                         } else {
-                            stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td>No Attachment</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>Remove </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                            stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td>"+App.languageDict.attributes.No_Attachment+"</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>"+App.languageDict.attributes.Remove+" </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
                         }
                     }
                 }
                 stepResources = stepResources + '</table>'
                 this.$el.append(stepResources)
-                this.$el.append('<br/><br/><B>Instructions</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">Add</a><br/><br/>')
+                this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">'+App.languageDict.attributes.Add+'</a><br/><br/>')
                 var uploadString = '<form method="post" id="fileAttachment">'
                 uploadString = uploadString + '<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" /> '
                 uploadString = uploadString + '<input class="rev" type="hidden" name="_rev"></form>'
@@ -116,7 +116,7 @@ $(function() {
                         attachmentName = _.keys(this.model.get('_attachments'))[i]
                     }
 
-                    tableString = tableString + ("<tr><td>" + attachmentName + "</td><td><a class='btn btn-info' href='" + attachmentURL + "'  target='_blank' ><i class='icon-eye-open'></i>View</a></td><td><button class='removeAttachment btn btn-danger' value='" + i + "'>Remove </button><input type='hidden'/>")
+                    tableString = tableString + ("<tr><td>" + attachmentName + "</td><td><a class='btn btn-info' href='" + attachmentURL + "'  target='_blank' ><i class='icon-eye-open'></i>"+App.languageDict.attributes.View+"</a></td><td><button class='removeAttachment btn btn-danger' value='" + i + "'>"+App.languageDict.attributes.Remove+" </button><input type='hidden'/>")
                 }
                 tableString = tableString + '</table>'
                 this.$el.append(tableString)

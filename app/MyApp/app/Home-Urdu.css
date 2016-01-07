@@ -454,8 +454,11 @@ body{
     direction:rtl;
     float:right;
 }
-#backToSearchButton{
+.backToSearchButton{
     float:left;
+}
+.courseEditStep{
+    direction: rtl;
 }
 
 .btn.btn-hg, .input-group-hg .btn

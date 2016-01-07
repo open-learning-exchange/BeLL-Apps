@@ -277,7 +277,7 @@ $(function() {
                 SearchResult.resourceids = obj.resourceids
                 SearchResult.collections = App.collectionslist
                 SearchResult.render()
-                $('#srch').html('<h4>'+App.languageDict.attributes.Search_Result+'<a id="backToSearchButton" class="btn btn-info" onclick="backtoSearchView()">'+App.languageDict.attributes.Back_to_Search+'</a></h4>')
+                $('#srch').html('<h4>'+App.languageDict.attributes.Search_Result+'<a class="backToSearchButton" class="btn btn-info" onclick="backtoSearchView()">'+App.languageDict.attributes.Back_to_Search+'</a></h4>')
                 $('#srch').append(SearchResult.el)
             }
 

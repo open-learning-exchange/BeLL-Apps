@@ -1744,7 +1744,7 @@ $(function() {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
                 //  "_rev": rid
-            })
+            });
             var that = this
             levelInfo.fetch({
                 success: function() {
@@ -1752,23 +1752,24 @@ $(function() {
                         model: levelInfo
                     })
                     levelDetails.render();
-                    App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
-                    App.$el.children('.body').html('<h3>'  +App.languageDict.attributes.Step +levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
-                    App.$el.children('.body').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
-                    App.$el.children('.body').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Course+" </a>&nbsp;&nbsp;")
-                    App.$el.children('.body').append("</BR></BR><B>"+App.languageDict.attributes.Description+"</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
-                    App.$el.children('.body').append("<button class='btn btn-success' style='float:right;' onclick='document.location.href=\"#savedesc/" + lid + "\"'>"+App.languageDict.attributes.Save+"</button></BR></BR>")
-                    App.$el.children('.body').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
-                    App.$el.children('.body').append(levelDetails.el)
-                    App.$el.children('.body').append('</BR>')
+                    App.$el.children('.body').html('<div class="courseEditStep"></div>');
+                    $('.courseEditStep').append('<h3>'  +App.languageDict.attributes.Step +levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
+                    $('.courseEditStep').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
+                    $('.courseEditStep').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Course+" </a>&nbsp;&nbsp;")
+                    $('.courseEditStep').append("</BR></BR><B>"+App.languageDict.attributes.Description+"</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
+                    $('.courseEditStep').append("<button class='btn btn-success backToSearchButton' onclick='document.location.href=\"#savedesc/" + lid + "\"'>"+App.languageDict.attributes.Save+"</button></BR></BR>")
+                    $('.courseEditStep').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
+                    $('.courseEditStep').append(levelDetails.el)
+                    $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questions") == null) {
-                        App.$el.children('.body').append('<a class="btn btn-success"  style="float:right;"  href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {
-                        App.$el.children('.body').append('<B>' + levelInfo.get("title") + ' - Quiz</B><a class="btn btn-primary"  style="float:right;" href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Quiz+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')
                     }
                 }
-            })
+            });
+            applyStylingSheet();
         },
         saveDescprition: function(lid) {
             var level = new App.Models.CourseStep({
