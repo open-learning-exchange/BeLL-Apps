@@ -105,7 +105,10 @@ $(function() {
             //******if starts********************************************
             if (selectedValues.length > 0) {
                 //******for loop start*************
-                for (var i = 0; i < selectedValues.length; i++) {
+                var pubResult;
+                var i;
+                var selectedComms = [];
+                for (i = 0; i < selectedValues.length; i++) {
                     var cUrl = selectedValues[i]
                     var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
 
@@ -117,19 +120,20 @@ $(function() {
                         type: 'GET',
                         dataType: 'json',
                         success: function(resResult) {
-                            var pubResult = resResult.rows[0];
+                            pubResult = resResult.rows[0];
                             if (pubResult.doc.communityNames != [] && pubResult.doc.communityNames.length > 0 && pubResult.doc.communityNames.indexOf(cName) > -1) {
                                 //if (pubResult.value.communityNames.indexOf(cName)> -1) {
-                                alert("This Publication is already sent to the selected community")
+                                alert("This Publication is already sent to " + cName);
                                 //}
                             } else {
+                                selectedComms.push(cName);
                                 sendPub.push({
                                     communityUrl: cUrl,
                                     communityName: cName,
                                     publicationId: p_id,
                                     Viewed: false
                                 })
-                                //console.log(pubResult.communityNames)
+                                /*//console.log(pubResult.communityNames)
                                 var tempComm = pubResult.doc.communityNames;
                                 console.log(tempComm)
                                 tempComm.push(cName)
@@ -153,7 +157,7 @@ $(function() {
                                         console.log(status);
                                     },
                                     async: false
-                                });
+                                });*/
 
                                 //***************************************************************
                                 $.couch.db("publicationdistribution").bulkSave({
@@ -173,7 +177,22 @@ $(function() {
                         },
                         async: false
                     });
-
+                }
+                if(i == selectedValues.length && selectedComms && selectedComms.length > 0) {
+                    console.log(pubResult.doc.communityNames);
+                    for(var j = 0 ; j < selectedComms.length ; j++) {
+                        pubResult.doc.communityNames.push(selectedComms[j]);
+                    }
+                    console.log(pubResult.doc.communityNames);
+                    $.couch.db("publications").saveDoc(pubResult.doc, {
+                        success: function(data) {
+                            console.log(data);
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        },
+                        async: false
+                    });
                 }
                 //******for loop ends******************************
                 $("#list option[value='2']").text()
