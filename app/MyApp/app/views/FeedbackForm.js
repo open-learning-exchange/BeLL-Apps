@@ -101,10 +101,24 @@ $(function() {
                                 )
                             }
                             console.log('Rating is successfully saved');
+                            var temp = $.url().data.attr.fragment;
+                            alert(temp);
+                            if(temp.contains('usercourse/details')){
+                                $('#externalDiv').fadeOut(1000)
+                                setTimeout(function() {
+                                    $('#externalDiv').hide()
+                                }, 1000);
+                                window.location.reload();
+
+                            }
+                            else{
+                                window.history.back();
+                            }
+
                           /*  Backbone.history.navigate('resources', {
                                 trigger: true
                             });*/
-                            window.history.back();
+
                         });
                         console.log(info);
                     } else {
