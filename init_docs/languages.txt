@@ -331,5 +331,6 @@
    "Add_Question": "Add Question",
    "Enter_Option": "Enter Option",
    "Options": "Options",
-   "Quiz":"Quiz"
+   "Quiz":"Quiz",
+   "Edit_Member":"Edit Member"
 }
