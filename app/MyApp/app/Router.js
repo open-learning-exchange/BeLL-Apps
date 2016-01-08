@@ -569,7 +569,7 @@ $(function() {
                     async: false
                 })
                 nameOfLabel="Edit_"+label;
-                App.$el.children('.body').html('<div id="AddCourseMainDiv"></divid>');
+                App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
                 $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
 
 
