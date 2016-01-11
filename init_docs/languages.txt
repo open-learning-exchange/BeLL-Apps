@@ -341,5 +341,6 @@
    "Promote_To_Manager": "Promote To Manager",
    "Resign": "Resign",
    "Register": "Register",
-   "Reinstate": "Reinstate"
+   "Reinstate": "Reinstate",
+   "Add_Member":"Add Member"
 }
