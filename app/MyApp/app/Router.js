@@ -419,7 +419,8 @@ $(function() {
                                             newPublicationsCount++;
                                         }
                                     }
-                                    if (newPublicationsCount > 0){
+                                    var roles=App.member.get('roles');
+                                    if (newPublicationsCount > 0  && ($.inArray('Manager', roles)!=-1)){
                                         console.log('publication greater than zero'+newPublicationsCount);
                                         new_publications_count = newPublicationsCount;
                                         dashboard.updateVariables(nation_version,new_publications_count);
