@@ -342,10 +342,10 @@
    "Reinstate": "Reinstate",
    "Add_Member":"Add Member",
    "Invite": "Invite",
-   "Invitation_Type": " Saba Invitation Type",
+   "Invitation_Type": "Invitation Type",
    "Invitation_Type_Array": [
              "All",
              "Level",
-             "Ms"
+             "Members"
          ]
 }
