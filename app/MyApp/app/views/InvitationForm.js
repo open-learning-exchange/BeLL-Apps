@@ -63,10 +63,11 @@ $(function() {
                     }
                 })
                 // give the form a submit button
-                var $button = $('<a class="btn btn-success" id="formButton">Invite</button>')
+                var $button = $('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Invite+'</button>')
                 this.$el.append($button)
                 this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
-                this.$el.append('<a class="btn btn-danger" id="cancelButton">Cancel</button>')
+                this.$el.append('<a class="btn btn-danger" id="cancelButton">'+App.languageDict.attributes.Cancel+'</button>');
+
             })
 
             // Get the group ready to process the form

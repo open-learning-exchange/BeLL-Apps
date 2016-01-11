@@ -73,6 +73,7 @@ $(function () {
             });
         },
         MemberInvite: function () {
+
             if ($("textarea[name='description']").val().length > 0) {
                 $('#invitationdiv').fadeIn(1000)
                 document.getElementById('cont').style.opacity = 0.1
@@ -87,12 +88,31 @@ $(function () {
                     model: inviteModel
                 })
                 inviteForm.description = this.model.get("description")
-                inviteForm.render()
+                inviteForm.render();
+
                 $('#invitationdiv').html('&nbsp')
-                $('#invitationdiv').append(inviteForm.el)
+                $('#invitationdiv').append(inviteForm.el);
+                $('#invitationForm .bbf-form .field-invitationType label').html(App.languageDict.attributes.Invitation_Type);
+                /* Code for Dropdown on Inviting Memebers for Course...
+                var invitationType=App.languageDict.get("Invitation_Type_Array");
+                $('#invitationdiv .bff-form .field-invitationType .bbf-editor').find('select').find('option').eq(0).html('Saba');
+               // for(var i=0;i<invitationType.length;i++){
+                   // $('#invitationForm .bff-form .field-invitationType .bbf-editor').find('select').find('option').eq(i).html(invitationType[i]);
+               // }*/
+
             } else {
                 alert("Specify course description first")
             }
+            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
+            {
+                $('#invitationdiv').addClass('courseSearchResults_Bottom');
+            }
+            else {
+                $('#invitationdiv').removeClass('courseSearchResults_Bottom');
+            }
+
+
+
         },
         getRoles: function () {
 
