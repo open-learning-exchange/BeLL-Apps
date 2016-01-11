@@ -348,5 +348,12 @@
    "Resign": "Resign",
    "Register": "Register",
    "Reinstate": "Reinstate",
-   "Add_Member":"Add Member"
+   "Add_Member":"Add Member",
+   "Invite": "Invite",
+   "Invitation_Type": " Saba Invitation Type",
+   "Invitation_Type_Array": [
+          "All",
+          "Level",
+          "Ms"
+      ]
 }
