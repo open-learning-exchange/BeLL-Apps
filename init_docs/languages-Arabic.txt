@@ -337,5 +337,15 @@
    "Enter_Option": "Enter Option",
    "Options": "Options",
    "Quiz":"Quiz",
-   "Edit_Member":"Edit Member"
+   "Edit_Member":"Edit Member",
+   "Middle_Names": "Middle Names",
+   "Phone": "Phone",
+   "Birth_Date": "Birth Date",
+   "Gender": "Gender",
+   "Levels": "Levels",
+   "Region": "Region",
+   "Promote_To_Manager": "Promote To Manager",
+   "Resign": "Resign",
+   "Register": "Register",
+   "Reinstate": "Reinstate"
 }

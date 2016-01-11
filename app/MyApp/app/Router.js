@@ -587,7 +587,7 @@ $(function() {
                     })
                 })
                 // Set up the form
-                modelForm.render()
+                modelForm.render();
 
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
@@ -637,6 +637,21 @@ $(function() {
             } else {
                 model.trigger('Model:ready')
             }
+            $('.bbf-form .field-firstName label').html(App.languageDict.attributes.First_Name);
+            $('.bbf-form .field-lastName label').html(App.languageDict.attributes.Last_Name);
+            $('.bbf-form .field-middleNames label').html(App.languageDict.attributes.Middle_Names);
+            $('.bbf-form .field-login label').html(App.languageDict.attributes.Login);
+            $('.bbf-form .field-password label').html(App.languageDict.attributes.Password);
+            $('.bbf-form .field-phone label').html(App.languageDict.attributes.Phone);
+            $('.bbf-form .field-email label').html(App.languageDict.attributes.Email);
+            $('.bbf-form .field-language label').html(App.languageDict.attributes.Language);
+            $('.bbf-form .field-BirthDate label').html(App.languageDict.attributes.Birth_Date);
+            $('.bbf-form .field-Gender label').html(App.languageDict.attributes.Gender)
+            $('.bbf-form .field-levels label').html(App.languageDict.attributes.Levels)
+            $('.bbf-form .field-community label').html(App.languageDict.attributes.Community)
+            $('.bbf-form .field-region label').html(App.languageDict.attributes.Region)
+            $('.bbf-form .field-nation label').html(App.languageDict.attributes.Nation)
+
             $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
             $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
             $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
@@ -666,6 +681,13 @@ $(function() {
             {
                 $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
 
+            }
+            if(App.configuration.attributes.currentLanguage=="Arabic" || App.languageDict.attributes.currentLanguage=="Urdu")
+            {
+                $('#_attachments').css('margin-right','170px');
+            }
+            else {
+                $('#_attachments').css('margin-left','170px');
             }
 
 

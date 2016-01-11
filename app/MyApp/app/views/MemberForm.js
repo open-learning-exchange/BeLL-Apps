@@ -83,30 +83,30 @@ $(function() {
 
             var $imgt = "<p id='imageText' style='margin-top: 15px;'></p>"
             if (this.model.id != undefined) {
-                buttonText = "Update"
+                buttonText = App.languageDict.attributes.Update
 
                 $("input[name='login']").attr("disabled", true);
             } else {
-                buttonText = "Register"
+                buttonText = App.languageDict.attributes.Register
             }
             // give the form a submit button
-            var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">Cancel</button></div>')
+            var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</button></div>')
             //this.$el.append($button)
-            var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments" style="margin-left: 170px;" id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
+            var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
             var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
             this.$el.append($img)
             this.$el.append($upload)
             this.$el.append($button)
             if (this.model.id != undefined) {
                 if (this.model.get("status") == "active") {
-                    $(".signup-submit").append('<a class="btn btn-danger" id="deactive" href="#" style="margin-top: 10px;">Resign</a>')
+                    $(".signup-submit").append('<a class="btn btn-danger" id="deactive" href="#" style="margin-top: 10px;">'+App.languageDict.attributes.Resign+'</a>')
                 } else {
-                    $(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-top: 10px;" href="#">Reinstate</a>')
+                    $(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-top: 10px;" href="#">'+App.languageDict.attributes.Reinstate+'</a>')
                 }
                 var logUserroles = this.getRoles(false)
                 if (logUserroles.indexOf("SuperManager") > -1) {
                     var thisUser = this.getRoles(this.model.id)
-                    $('#memberform').append('<div style="margin-left: 170px;margin-top: -40px;"><input id="ptManager" type="checkbox" ><label for="ptManager">Promote To Manager</label></div>')
+                    $('#memberform').append('<div id="PromoteToManager"><input id="ptManager" type="checkbox" ><label for="ptManager">'+App.languageDict.attributes.Promote_To_Manager+'</label></div>')
                     if (thisUser.indexOf("Manager") > -1) {
                         $('#ptManager').prop('checked', true);
                     }

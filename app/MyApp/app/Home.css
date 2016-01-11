@@ -12,6 +12,10 @@ select#onLoginLanguage {
     width: 156px;
     background-color: floralwhite;
 }
+#PromoteToManager{
+	margin-top:-40px;
+	margin-left:170px;
+}
 #dashboard {
     height: 600px;
     width: 950px;

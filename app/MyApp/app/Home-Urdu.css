@@ -9,7 +9,12 @@
     colspan: 3;
     overflow: hidden;
 }
-
+#memberform{
+    float:right;
+}
+#PromoteToManager{
+    margin-right:170px;
+}
 .resourcInfoFirstCol{
     colspan:4;
 }
