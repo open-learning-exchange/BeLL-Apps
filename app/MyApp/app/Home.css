@@ -16,6 +16,9 @@ select#onLoginLanguage {
 	margin-top:-40px;
 	margin-left:170px;
 }
+#manageOnCourseProgress{
+	margin-left:84px;
+}
 #dashboard {
     height: 600px;
     width: 950px;

@@ -1377,9 +1377,10 @@ $(function() {
             course.fetch({
                 async: false
             })
-            App.$el.children('.body').html("<h2> " + cname + "</h2>")
+            App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
+            $('.courseSearchResults_Bottom').append("<h2> " + cname + "</h2>")
             if (course.get('courseLeader') != undefined && course.get('courseLeader') == $.cookie('Member._id') || roles.indexOf("Manager") != -1) {
-                App.$el.children('.body').append('<button class="btn btn-success" style="margin-left:784px;margin-top:-74px"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">Manage</button>')
+                $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
             }
             App.$el.children('.body').append("<div id='graph'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
@@ -1395,7 +1396,7 @@ $(function() {
                 collection: allResults
             })
             vi.render()
-            App.$el.children('.body').append(vi.el);
+            $('.courseSearchResults_Bottom').append(vi.el);
             applyStylingSheet();
 
 
