@@ -109,6 +109,7 @@ $(function() {
                 var i;
                 var selectedComms = [];
                 for (i = 0; i < selectedValues.length; i++) {
+                    sendPub.splice(0, sendPub.length);
                     var cUrl = selectedValues[i]
                     var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
 
