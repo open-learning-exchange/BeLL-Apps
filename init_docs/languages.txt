@@ -212,7 +212,7 @@
    "User": "User",
    "Category": "Category",
    "Reques_t": "Request",
-   "Add_Collection": " مجموعہ شامل کریں",
+   "Add_Collection": "Add Collection",
    "Merge": "Merge",
    "Select_Collections_Merge": "Select Collections to Merge",
    "Continue": "استمر",
