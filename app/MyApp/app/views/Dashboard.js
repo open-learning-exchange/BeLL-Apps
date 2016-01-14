@@ -221,6 +221,7 @@ $(function() {
             that.updateDesignDocs("resources");
             that.updateDesignDocs("survey");
             that.updateDesignDocs("surveyresponse");
+            that.updateDesignDocs("surveyquestions");
             that.updateDesignDocs("coursestep");
             that.updateDesignDocs("groups");
             that.updateDesignDocs("publications");

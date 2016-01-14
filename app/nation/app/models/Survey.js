@@ -17,7 +17,8 @@ $(function() {
         defaults: {
             kind: 'survey',
             sentTo: [],
-            submittedBy: []
+            submittedBy: [],
+            questions: []
         },
 
         schema: {
