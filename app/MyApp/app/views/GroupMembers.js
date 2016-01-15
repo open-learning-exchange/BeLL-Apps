@@ -9,29 +9,7 @@ $(function () {
         //template: $('#template-sendMail-CourseMember').html(),
         initialize: function () {},
         events: {
-         "click  #selectAllMembers": "selectAllMembers",
-         "click  .removeMember":"removeMember",
-         "click #retrunBack" : function (e) {
-			history.back()    
-			}
-        },
-        selectAllMembers:function(){
-        	if($("#selectAllMembers").text()=='Select All')
-         	{
-      			$("input[name='courseMember']").each( function () {
-						$(this).prop('checked', true);
-      			})
-      			$("#selectAllMembers").text('Unselect All')
-      		}
-      		else{
-      		 $("input[name='courseMember']").each( function () {
-						$(this).prop('checked', false);
-      			})
-      		   $("#selectAllMembers").text('Select All')
-      		
-      		}
-
-        
+        // "click  .removeMember":"removeMember"
         },
         removeMember:function(e){
         
@@ -82,6 +60,7 @@ $(function () {
             var currentConfig = config.first().toJSON()
             var code = currentConfig.rows[0].doc.code
             var na = currentConfig.rows[0].doc.nationName.substring(3,5);
+            $('.courseEditStep').empty();
             $('.courseEditStep').append('<h3>'+App.languageDict.attributes.Course_Members+ ' | ' + courseModel.get('name') + '</h3>')
             var viewtext = '<table class="btable btable-striped"><th>'+App.languageDict.attributes.Photo+'</th><th colspan=3>'+App.languageDict.attributes.Name+'</th>'
 
@@ -105,14 +84,22 @@ $(function () {
                 
                 if($.cookie('Member._id')==courseModel.get('courseLeader'))
                 {
-                   viewtext+='<td><button class="btn btn-danger removeMember" value="' + mem.get('_id') + '">'+App.languageDict.attributes.Remove+'</button></td>'
+                    var memId=mem.get('_id')+','+this.courseId;
+                   viewtext+='<td><button class="btn btn-danger removeMember" value="' + mem.get('_id') + '" onclick=removeMemberFromCourse(\"' +  memId + '")>'+App.languageDict.attributes.Remove+'</button></td>'
                 }
                 
                 viewtext+='</tr>'
 
             }
-            viewtext += '<tr><td></td><td></td><td><button class="btn"  id="selectAllMembers">'+App.languageDict.attributes.Select_All+'</button><button style="" class="btn" onclick=showComposePopupMultiple("' + mail + '") id="sendMailButton">'+App.languageDict.attributes.Send_Email+'</button><button class="btn"   id="retrunBack">'+App.languageDict.attributes.Back+'</button></td></tr>'
-            viewtext += '</table>'
+            viewtext += '<tr><td></td><td></td><td>' +
+                '<button class="btn"  id="selectAllMembersOnMembers" onclick=selectAllMembers()>' +
+                App.languageDict.attributes.Select_All+'</button>' +
+                '<button style="" class="btn" ' +
+                'onclick=showComposePopupMultiple("' + mail + '") id="sendMailButton">'
+                +App.languageDict.attributes.Send_Email+'</button>' +
+                '<button class="btn"   id="retrunBack" onclick=retrunBack()>'
+                +App.languageDict.attributes.Back+'</button></td></tr>';
+            viewtext += '</table>';
             $('.courseEditStep').append(viewtext)
 
         }

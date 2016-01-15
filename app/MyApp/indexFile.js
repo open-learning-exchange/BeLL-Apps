@@ -31,6 +31,57 @@ function applyStylingSheet(){
 
     }
 }
+function selectAllMembers (){
+    if($("#selectAllMembersOnMembers").text()=='Select All')
+    {
+        $("input[name='courseMember']").each( function () {
+            $(this).prop('checked', true);
+        })
+        $("#selectAllMembersOnMembers").text('Unselect All')
+    }
+    else{
+        $("input[name='courseMember']").each( function () {
+            $(this).prop('checked', false);
+        })
+        $("#selectAllMembersOnMembers").text('Select All')
+
+    }
+}
+function retrunBack(){
+    window.history.back();
+}
+function removeMemberFromCourse(memberId){
+    var that=this;
+    var values=memberId.split(',');
+    memberId=values[0];
+    var courseId=values[1];
+    var courseModel = new App.Models.Group({
+        _id: courseId
+    })
+    courseModel.fetch({
+        success:function(result){
+            members=result.get('members');
+            members.splice(members.indexOf(memberId),1)
+
+            result.set('members',members)
+
+            result.save()
+            memberCoursePro=new App.Collections.membercourseprogresses()
+            memberCoursePro.memberId=memberId
+            memberCoursePro.courseId=that.courseId
+
+            memberCoursePro.fetch({async:false})
+            while (model = memberCoursePro.first()) {
+                model.destroy();
+            }
+            var groupMembers = new App.Views.GroupMembers();
+            groupMembers.courseId = courseId;
+            groupMembers.render();
+            alert('Member is Removed From Course')
+        }
+    })
+
+}
 
 function changeLanguage(option)
 {

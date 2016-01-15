@@ -738,13 +738,9 @@ $(function() {
                         }
                     }
                     App.languageDict = languageDict;
-                    var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
-                    var lib_page = $.url().data.attr.fragment;
-                    if(lib_page=="resources"){
-                        $('.body').empty();
-                        $('#parentLibrary').css('visibility', 'visible');
-                    }
-                    App.$el.children('.body').append(parentDiv);
+                    App.$el.children('.body').empty();
+                    App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                    App.$el.children('#parentLibrary').empty();
                     var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
                     btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
@@ -1614,8 +1610,9 @@ $(function() {
         GroupMembers: function(cId) {
             var groupMembers = new App.Views.GroupMembers()
             groupMembers.courseId = cId;
+            App.$el.children('.body').empty();
             App.$el.children('.body').append('<div class="courseEditStep"></div>');
-            groupMembers.render()
+            groupMembers.render();
             $('.courseEditStep').append(groupMembers.el);
             if (App.configuration.attributes.currentLanguage == "Arabic" || App.configuration.attributes.currentLanguage == "Urdu") {
                 $('.courseEditStep').find('h3').css('margin-right','5%');
