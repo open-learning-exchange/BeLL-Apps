@@ -946,6 +946,16 @@ textarea[name="comment"]
     border-radius: 84px;
 
 }
+#emailCompose{
+    direction: rtl;
+    display: inline-block;
+    opacity: 1;
+    outline: medium none;
+    position: relative;
+    text-align: right;
+    vertical-align: bottom;
+    visibility: visible;
+}
 
 #emailCompose_background {
     -webkit-transition: all 0.3s;

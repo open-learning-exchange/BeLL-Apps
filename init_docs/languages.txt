@@ -352,5 +352,10 @@
          ],
    "Course_Members":"Course Members",
    "Send_Email":"Send Email",
-   "Name":"Name"
+   "Name":"Name",
+   "New_Message":"New Message",
+   "Recipients":"Recipients",
+   "Subject_single":"Subject",
+   "Close":"Close",
+   "Send":"Send"
 }

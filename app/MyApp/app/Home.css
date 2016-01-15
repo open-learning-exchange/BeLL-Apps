@@ -791,6 +791,15 @@ margin-left:35%;
         -ms-transform: translateX(0) translateY(0);
             transform: translateX(0) translateY(0);
 }
+#emailCompose{
+	display: inline-block;
+	opacity: 1;
+	outline: medium none;
+	position: relative;
+	text-align: left;
+	vertical-align: bottom;
+	visibility: visible;
+}
 
 #underconstruction {
     height: 400px;

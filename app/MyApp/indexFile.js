@@ -195,6 +195,12 @@ function showComposePopup() {
 
     });
     $('#emailCompose').popup('show');
+    $('.newEmailDiv').html('&nbsp;&nbsp;'+App.languageDict.attributes.New_Message);
+    $('.mailrecipients input').attr('placeholder',App.languageDict.attributes.Recipients);
+    $('.mailsubject input').attr('placeholder',App.languageDict.attributes.Subject_single);
+    $('.mailbody button').eq(0).html(App.languageDict.attributes.Close);
+    $('.mailbody button').eq(1).html(App.languageDict.attributes.Send);
+
 }
 
 function HandleBrowseClick(stepId) {
