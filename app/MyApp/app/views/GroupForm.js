@@ -93,12 +93,7 @@ $(function () {
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el);
                 $('#invitationForm .bbf-form .field-invitationType label').html(App.languageDict.attributes.Invitation_Type);
-                /* Code for Dropdown on Inviting Memebers for Course...
-                var invitationType=App.languageDict.get("Invitation_Type_Array");
-                $('#invitationdiv .bff-form .field-invitationType .bbf-editor').find('select').find('option').eq(0).html('Saba');
-               // for(var i=0;i<invitationType.length;i++){
-                   // $('#invitationForm .bff-form .field-invitationType .bbf-editor').find('select').find('option').eq(i).html(invitationType[i]);
-               // }*/
+
 
             } else {
                 alert("Specify course description first")

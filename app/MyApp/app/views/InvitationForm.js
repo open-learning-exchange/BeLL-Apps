@@ -48,9 +48,13 @@ $(function() {
                 this.form.fields['members'].$el.hide()
                 this.form.fields['levels'].$el.hide()
 
-
+                 var invitationType=App.languageDict.get("Invitation_Type_Array");
+                    for(var i=0;i<invitationType.length;i++){
+                        this.form.fields['invitationType'].$el.find('option').eq(i).html(invitationType[i]);
+                  }
                 this.form.fields['invitationType'].$el.change(function() {
-                    var val = that.form.fields['invitationType'].$el.find('option:selected').text()
+                    var val = that.form.fields['invitationType'].$el.find('option:selected').text();
+                    alert('val '+val);
                     if (val == "Members") {
                         that.form.fields['members'].$el.show()
                         that.form.fields['levels'].$el.hide()
@@ -61,7 +65,7 @@ $(function() {
                         that.form.fields['members'].$el.hide()
                         that.form.fields['levels'].$el.hide()
                     }
-                })
+                });
                 // give the form a submit button
                 var $button = $('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Invite+'</button>')
                 this.$el.append($button)
