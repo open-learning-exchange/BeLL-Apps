@@ -51,6 +51,12 @@ select#onLoginLanguage {
 
 	margin:-20px 0 0 150px;
 }
+#sendMailButton{
+	margin-left:10px
+}
+#retrunBack{
+	margin-left:10px
+}
 #mergeCollection{
 	margin-left:20px;
 }

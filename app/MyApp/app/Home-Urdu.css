@@ -687,6 +687,12 @@ body{
      direction: rtl;
      float:right;
  }
+ #sendMailButton{
+     margin-right:10px
+ }
+#retrunBack{
+    margin-right:10px
+}
  #manageOnCourseProgress{
        margin-right:84px;
    }

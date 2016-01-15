@@ -81,10 +81,9 @@ $(function () {
             })
             var currentConfig = config.first().toJSON()
             var code = currentConfig.rows[0].doc.code
-            var na = currentConfig.rows[0].doc.nationName.substring(3,5)
-
-            this.$el.html('<h3 style="margin-left:5%">Course Members | ' + courseModel.get('name') + '</h3>')
-            var viewtext = '<table class="btable btable-striped"><th>Photo</th><th colspan=3>Name</th>'
+            var na = currentConfig.rows[0].doc.nationName.substring(3,5);
+            $('.courseEditStep').append('<h3>'+App.languageDict.attributes.Course_Members+ ' | ' + courseModel.get('name') + '</h3>')
+            var viewtext = '<table class="btable btable-striped"><th>'+App.languageDict.attributes.Photo+'</th><th colspan=3>'+App.languageDict.attributes.Name+'</th>'
 
             for (var i = 0; i < memberList.length; i++) {
                 var mem = new App.Models.Member({
@@ -101,20 +100,20 @@ $(function () {
                     attchmentURL = attchmentURL + _.keys(mem.get('_attachments'))[0]
                     src = attchmentURL
                 }
-                viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mem.get('firstName') + ' ' + mem.get('lastName') + '</td><td><input type="checkbox" name="courseMember" value="' + mail + '">Send mail</td>'
+                viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mem.get('firstName') + ' ' + mem.get('lastName') + '</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
     
                 
                 if($.cookie('Member._id')==courseModel.get('courseLeader'))
                 {
-                   viewtext+='<td><button class="btn btn-danger removeMember" value="' + mem.get('_id') + '">Remove</button></td>'
+                   viewtext+='<td><button class="btn btn-danger removeMember" value="' + mem.get('_id') + '">'+App.languageDict.attributes.Remove+'</button></td>'
                 }
                 
                 viewtext+='</tr>'
 
             }
-            viewtext += '<tr><td></td><td></td><td><button class="btn"  id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn" onclick=showComposePopupMultiple("' + mail + '") id="sendMailButton">Send Mail</button><button class="btn" style="margin-left:10px"  id="retrunBack">Back</button></td></tr>'
+            viewtext += '<tr><td></td><td></td><td><button class="btn"  id="selectAllMembers">'+App.languageDict.attributes.Select_All+'</button><button style="" class="btn" onclick=showComposePopupMultiple("' + mail + '") id="sendMailButton">'+App.languageDict.attributes.Send_Email+'</button><button class="btn"   id="retrunBack">'+App.languageDict.attributes.Back+'</button></td></tr>'
             viewtext += '</table>'
-            this.$el.append(viewtext)
+            $('.courseEditStep').append(viewtext)
 
         }
 

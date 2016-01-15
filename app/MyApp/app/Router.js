@@ -1613,9 +1613,17 @@ $(function() {
         },
         GroupMembers: function(cId) {
             var groupMembers = new App.Views.GroupMembers()
-            groupMembers.courseId = cId
+            groupMembers.courseId = cId;
+            App.$el.children('.body').append('<div class="courseEditStep"></div>');
             groupMembers.render()
-            App.$el.children('.body').html(groupMembers.el);
+            $('.courseEditStep').append(groupMembers.el);
+            if (App.configuration.attributes.currentLanguage == "Arabic" || App.configuration.attributes.currentLanguage == "Urdu") {
+                $('.courseEditStep').find('h3').css('margin-right','5%');
+            }
+            else
+            {
+                $('.courseEditStep').find('h3').css('margin-left','5%');
+            }
             applyStylingSheet();
 
 

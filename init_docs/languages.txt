@@ -349,5 +349,8 @@
              "All",
              "Level",
              "Members"
-         ]
+         ],
+   "Course_Members":"Course Members",
+   "Send_Email":"Send Email",
+   "Name":"Name"
 }
