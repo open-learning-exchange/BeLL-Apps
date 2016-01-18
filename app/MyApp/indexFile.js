@@ -32,18 +32,19 @@ function applyStylingSheet(){
     }
 }
 function selectAllMembers (){
-    if($("#selectAllMembersOnMembers").text()=='Select All')
+    if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)
     {
+
         $("input[name='courseMember']").each( function () {
             $(this).prop('checked', true);
         })
-        $("#selectAllMembersOnMembers").text('Unselect All')
+        $("#selectAllMembersOnMembers").text(App.languageDict.attributes.Unselect_All)
     }
     else{
         $("input[name='courseMember']").each( function () {
             $(this).prop('checked', false);
         })
-        $("#selectAllMembersOnMembers").text('Select All')
+        $("#selectAllMembersOnMembers").text(App.languageDict.attributes.Select_All)
 
     }
 }

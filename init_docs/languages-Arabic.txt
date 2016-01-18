@@ -388,5 +388,6 @@
    "level_single":"مستوى",
    "Hi":"Hi",
    "Has_Resign_From":"has resigned from",
-   "Course_Resignation":"Course Resignation"
+   "Course_Resignation":"Course Resignation",
+   "Unselect_All":"Unselect All"
 }
