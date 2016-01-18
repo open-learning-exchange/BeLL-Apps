@@ -26,6 +26,13 @@ ddoc.views = {
                 emit(doc.Type, doc);
             }
         }
+    },
+    allQuestions: {
+        map: function(doc) {
+            if (doc._id && doc.kind == 'surveyquestions') {
+                emit(doc._id, true);
+            }
+        }
     }
 }
 
