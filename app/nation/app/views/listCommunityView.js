@@ -49,46 +49,48 @@ $(function() {
             App.startActivityIndicator()
             //******if starts********************************************
             if (selectedValues.length > 0) {
-                //******for loop start*************
-                for (var i = 0; i < selectedValues.length; i++) {
-                    console.log(selectedValues[i]);
-                    //The following code will be un-commented when we will complete create survey functionality
-                    /*var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
-                    //Survey id will be assigned to x in the following line.
-                    var x = 123;
-                    //***********************************************************
-                    //Here we make sure that One survey should not be sent to one community for more than once
-                    $.ajax({
-                        url: '/survey/_design/bell/_view/surveyById?include_docs=true&key="' + x + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(surResult) {
-                            var surveyResult = surResult.rows[0];
-                            if (surveyResult.doc.sentTo != [] && surveyResult.doc.sentTo.length > 0 && surveyResult.doc.sentTo.indexOf(cName) > -1) {
-                                alert("This Survey is already sent to the selected community")
-                            } else {
-                                var tempComm = surveyResult.doc.sentTo;
-                                console.log(tempComm)
-                                tempComm.push(cName)
-                                console.log(tempComm)
-                                surveyResult.doc.sentTo = tempComm;
-                                console.log(surveyResult.doc.sentTo)
-                                console.log(surveyResult.value.sentTo)
-                                $.couch.db("survey").saveDoc(surveyResult.doc, {
-                                    success: function(data) {
-                                        console.log(data);
-                                    },
-                                    error: function(status) {
-                                        console.log(status);
-                                    },
-                                    async: false
-                                });
+                //The following code will be un-commented when we will complete create survey functionality
+                //Survey id will be assigned to x in the following line.
+                //var x = 123;
+                //***********************************************************
+                //Here we make sure that One survey should not be sent to one community for more than once
+                //$.ajax({
+                  //  url: '/survey/_design/bell/_view/surveyById?include_docs=true&key="' + x + '"',
+                    //type: 'GET',
+                    //dataType: 'json',
+                    //success: function(surResult) {
+                       // var surveyResult = surResult.rows[0];
+                        //******for loop start*************
+                        var i;
+                        //var selectedComms = [];
+                        for (i = 0; i < selectedValues.length; i++) {
+                            console.log(selectedValues[i]);
+                            //var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
+                            //if (surveyResult.doc.sentTo != [] && surveyResult.doc.sentTo.length > 0 && surveyResult.doc.sentTo.indexOf(cName) > -1) {
+                                alert("This Survey is already sent to " + cName)
+                            //} else {
+                              //  selectedComms.push(cName);
+                            //}
+                        }
+                        /*if(i == selectedValues.length && selectedComms && selectedComms.length > 0) {
+                            for(var j = 0 ; j < selectedComms.length ; j++) {
+                                surveyResult.doc.sentTo.push(selectedComms[j]);
                             }
-                        },
-                        async: false
-                    });*/
-                }
-                //******for loop ends******************************
+                            console.log(surveyResult.doc.sentTo);
+                            $.couch.db("survey").saveDoc(surveyResult.doc, {
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                error: function(status) {
+                                    console.log(status);
+                                },
+                                async: false
+                            });
+                        }*/
+                        //******for loop ends******************************
+                    //},
+                    //async: false
+                //});
                 $("#list option[value='2']").text()
                 $('#invitationdiv').fadeOut(1000)
                 setTimeout(function() {
