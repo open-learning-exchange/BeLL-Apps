@@ -8,21 +8,21 @@ ddoc = {
 ddoc.views = {
     surveyById: {
         map: function(doc) {
-            if (doc._id) {
+            if (doc._id && doc.kind == 'survey') {
                 emit(doc._id, doc);
             }
         }
     },
     surveyBySurveyNo: {
         map: function(doc) {
-            if (doc.SurveyNo) {
+            if (doc.SurveyNo && doc.kind == 'survey') {
                 emit(doc.SurveyNo, doc);
             }
         }
     },
     surveyByTitle: {
         map: function(doc) {
-            if (doc.SurveyTitle)
+            if (doc.SurveyTitle && doc.kind == 'survey')
                 emit(doc.SurveyTitle, doc);
         }
     },
@@ -43,7 +43,7 @@ ddoc.views = {
     },
     allSurveys: {
         map: function(doc) {
-            if (doc.SurveyNo)
+            if (doc.SurveyNo  && doc.kind == 'survey')
                 emit(doc._id, doc);
         }
     }
