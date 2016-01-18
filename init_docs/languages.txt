@@ -360,7 +360,7 @@
    "Send":"Send",
    "No_Attachment": "No Attachment",
    "inviteForm_levels": [
-          "One",
+          "1",
           "2",
           "3",
           "4",
@@ -378,5 +378,6 @@
    "Leader_Email": "Leader Email",
    "Leader_Phone_Number": "Leader Phone Number",
    "Not_Set": "Not Set",
-   "Course_Information": "Course Information"
+   "Course_Information": "Course Information",
+   "level_Single":"level"
 }

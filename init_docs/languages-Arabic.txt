@@ -366,7 +366,7 @@
    "Send":"إرسال",
    "No_Attachment": "No Attachment",
    "inviteForm_levels": [
-          "One",
+          "1",
           "2",
           "3",
           "4",
@@ -384,5 +384,6 @@
    "Leader_Email": "Email of Leader",
    "Leader_Phone_Number": "Phone Number of Leader",
    "Not_Set": "Not Set",
-   "Course_Information": "Information of Course"
+   "Course_Information": "Information of Course",
+   "level_single":"مستوى"
 }
