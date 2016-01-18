@@ -813,6 +813,17 @@ font-weight: bold;
 margin-left: 2%;
 margin-top: 2px;
 }
+.courseInfo-table
+{
+	border: 2px solid #000000;
+	overflow: hidden;
+	width: 940px;
+	color:white;
+	margin:0px auto;
+	background-color:#1ABC9C;
+	border-collapse:collapse;
+	direction: ltr;
+}
 .tutor-box {
     background-color: #8A4C80;
     border-right: 2px solid #FFFFFF;

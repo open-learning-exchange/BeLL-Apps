@@ -957,6 +957,17 @@ textarea[name="comment"]
     visibility: visible;
 }
 
+.courseInfo-table
+{
+    border: 2px solid #000000;
+    overflow: hidden;
+    width: 940px;
+    color:white;
+    margin:0px auto;
+    background-color:#1ABC9C;
+    border-collapse:collapse;
+    direction: rtl;
+}
 #emailCompose_background {
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;

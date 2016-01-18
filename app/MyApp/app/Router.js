@@ -1347,7 +1347,7 @@ $(function() {
                 async: false
             })
 
-            var courseLeader = courseModel.get('courseLeader')
+            var courseLeader = courseModel.get('courseLeader');
             var memberModel = new App.Models.Member()
             memberModel.set('_id', courseLeader)
             memberModel.fetch({
@@ -1358,11 +1358,11 @@ $(function() {
                 model: courseModel
             })
             viewCourseInfo.leader = memberModel
-
             viewCourseInfo.render()
             App.$el.children('.body').html("&nbsp")
-            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">Back</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">Resign</button></a>&nbsp;&nbsp;</div>')
-            App.$el.children('.body').append(viewCourseInfo.el)
+            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a>&nbsp;&nbsp;</div>')
+            App.$el.children('.body').append(viewCourseInfo.el);
+            applyStylingSheet();
 
         },
         CourseReport: function(cId, cname) {
