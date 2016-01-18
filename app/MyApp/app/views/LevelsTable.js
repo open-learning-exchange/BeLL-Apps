@@ -10,7 +10,7 @@ $(function() {
         events: {
             "click #Rearrange": function(e) {
                 if ($("input[type='radio']").is(":visible")) {
-                    $("#Rearrange").text('Rearrange')
+                    $("#Rearrange").text(App.languageDict.attributes.Rearrange);
                     for (var i = 0; i < this.changedSteps.length; i++) {
                         this.collection.models[this.changedSteps[i]].save()
                     }
@@ -19,7 +19,7 @@ $(function() {
                     $("#moveup").hide()
                     $("#movedown").hide()
                 } else {
-                    $("#Rearrange").text('Save')
+                    $("#Rearrange").text(App.languageDict.attributes.Save);
                     $("input[type='radio']").show()
                     $("#moveup").show()
                     $("#movedown").show()
@@ -102,9 +102,9 @@ $(function() {
         changeColumnHtml: function(stepNo, title, td, check) {
 
             if (check) {
-                $(td).html('<input type="radio" name="stepRow" checked="checked" />&nbsp;&nbsp;Step ' + stepNo + ' : ' + title)
+                $(td).html('<input type="radio" name="stepRow" checked="checked" />&nbsp;&nbsp;'+App.languageDict.attributes.Step+' ' + stepNo + ' : ' + title)
             } else {
-                $(td).html('<input type="radio" name="stepRow" />&nbsp;&nbsp;Step ' + stepNo + ' : ' + title)
+                $(td).html('<input type="radio" name="stepRow" />&nbsp;&nbsp;'+App.languageDict.attributes.Step+' ' + stepNo + ' : ' + title)
             }
         },
         addOne: function(model) {

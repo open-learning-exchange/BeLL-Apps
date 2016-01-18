@@ -54,13 +54,19 @@ $(function() {
                   }
                 this.form.fields['invitationType'].$el.change(function() {
                     var val = that.form.fields['invitationType'].$el.find('option:selected').text();
-                    alert('val '+val);
-                    if (val == "Members") {
-                        that.form.fields['members'].$el.show()
-                        that.form.fields['levels'].$el.hide()
-                    } else if (val == "Level") {
+                    if (val == App.languageDict.attributes.Members) {
+                        that.form.fields['members'].$el.show();
+                        that.form.fields['levels'].$el.hide();
+                        $('.bbf-form .field-members').find('label').eq(0).html(App.languageDict.attributes.Members);
+                    } else if (val == App.languageDict.attributes.level) {
                         that.form.fields['members'].$el.hide()
-                        that.form.fields['levels'].$el.show()
+                        that.form.fields['levels'].$el.show();
+                        var invitationType=App.languageDict.get("inviteForm_levels");
+                        $('.bbf-form .field-levels').find('label').html(App.languageDict.attributes.Levels);
+                        for(var i=0;i<invitationType.length;i++){
+                            $('.bbf-form .field-levels .bbf-editor ul').find('li').eq(i).find('label').html(invitationType[i]);
+                        }
+
                     } else {
                         that.form.fields['members'].$el.hide()
                         that.form.fields['levels'].$el.hide()
@@ -90,7 +96,6 @@ $(function() {
         },
 
         setForm: function() {
-
             var member = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })
@@ -112,7 +117,7 @@ $(function() {
                 memberList.each(function(m) {
                     temp = new App.Models.Mail()
                     temp.set("senderId", that.model.senderId)
-                    temp.set("receiverId", m.get("_id"))
+                    temp.set("receiverId", m.get("_id"));
                     temp.set("status", "0")
                     temp.set("subject", "Course Invitation | " + that.model.title)
                     temp.set("type", "course-invitation")
