@@ -357,5 +357,26 @@
    "Recipients":"Recipients",
    "Subject_single":"Subject",
    "Close":"Close",
-   "Send":"Send"
+   "Send":"Send",
+   "No_Attachment": "No Attachment",
+   "inviteForm_levels": [
+          "One",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "Higher"
+      ],
+   "Leader_Name": "Leader Name",
+   "Leader_Email": "Leader Email",
+   "Leader_Phone_Number": "Leader Phone Number",
+   "Not_Set": "Not Set",
+   "Course_Information": "Course Information"
 }

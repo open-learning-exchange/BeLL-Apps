@@ -363,5 +363,26 @@
    "Recipients":"المستلمين",
    "Subject_single":"الموضوع",
    "Close":"خروج",
-   "Send":"إرسال"
+   "Send":"إرسال",
+   "No_Attachment": "No Attachment",
+   "inviteForm_levels": [
+          "One",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "Higher"
+      ],
+   "Leader_Name": "Name of Leader",
+   "Leader_Email": "Email of Leader",
+   "Leader_Phone_Number": "Phone Number of Leader",
+   "Not_Set": "Not Set",
+   "Course_Information": "Information of Course"
 }
