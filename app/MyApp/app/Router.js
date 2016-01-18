@@ -1666,8 +1666,8 @@ $(function() {
             var mail = new App.Models.Mail();
             var currentdate = new Date();
             var id = courseModel.get('courseLeader')
-            var subject = 'Course Resignation | ' + courseModel.get('name') + ''
-            var mailBody = 'Hi,<br>Member ' + $.cookie('Member.login') + ' has resign from ' + courseModel.get('name') + ''
+            var subject = App.languageDict.attributes.Course_Resignation+' | ' + courseModel.get('name') + ''
+            var mailBody = App.languageDict.attributes.Hi+',<br>'+App.languageDict.attributes.Member+ ' ' + $.cookie('Member.login') + ' '+ App.languageDict.attributes.Has_Resign_From+ ' ' + courseModel.get('name') + '';
 
             mail.set("senderId", $.cookie('Member._id'))
             mail.set("receiverId", id)

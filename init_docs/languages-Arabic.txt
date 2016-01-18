@@ -385,5 +385,8 @@
    "Leader_Phone_Number": "Phone Number of Leader",
    "Not_Set": "Not Set",
    "Course_Information": "Information of Course",
-   "level_single":"مستوى"
+   "level_single":"مستوى",
+   "Hi":"Hi",
+   "Has_Resign_From":"has resigned from",
+   "Course_Resignation":"Course Resignation"
 }

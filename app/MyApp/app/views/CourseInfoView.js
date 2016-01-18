@@ -27,7 +27,7 @@ $(function () {
             this.$el.append('<tr><td>'+App.languageDict.attributes.Description+' : </td><td>' + courseInfo.description + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Name+' : </td><td>' + leaderInfo.firstName + ' ' + leaderInfo.lastName + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Email+' : </td><td>' + leaderInfo.email + '</td></tr>')
-            this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Phone_Number+' : </td><td>' + leaderInfo.phone + '</td></tr>')
+            this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Phone_Number+': </td><td>' + leaderInfo.phone + '</td></tr>')
             var bgcolor = ''
             var fgcolor = ''
             if (courseInfo.backgroundColor == '')
