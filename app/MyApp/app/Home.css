@@ -837,6 +837,9 @@ margin-top: 2px;
     word-wrap: break-word;
 
 }
+.Progress{
+	float:right;
+}
 .userCourseHeading{
 	float:right;
 	margin-right:10%

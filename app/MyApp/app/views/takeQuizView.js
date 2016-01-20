@@ -95,15 +95,16 @@ $(function() {
                 this.index++
                 var temp = this.index * 5
                 this.$el.html('&nbsp')
-                this.$el.append('<div class="Progress" style="float:right;"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
+                this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')
                 o0 = encodeURI(this.Optns[temp])
                 o1 = encodeURI(this.Optns[temp + 1])
                 o2 = encodeURI(this.Optns[temp + 2])
                 o3 = encodeURI(this.Optns[temp + 3])
                 o4 = encodeURI(this.Optns[temp + 4])
-                this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>')
-                this.$el.append('<div class="quizActions" ><button class="btn btn-danger" id="exitPressed">Exit</button><button class="btn btn-primary" id="nextPressed">Next</button></div>')
+                this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>');
+                alert(App.languageDict.attributes.Exit);
+                this.$el.append('<div class="quizActions" ><button class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</button><button class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</button></div>')
             } else {
                 this.$el.html('&nbsp')
                 var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
