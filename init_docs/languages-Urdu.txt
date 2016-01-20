@@ -383,5 +383,6 @@
    "Course_Resignation":"Course Resignation",
    "Unselect_All":"Unselect All",
    "Error_UserCourse_Details": "No data related to selected course found",
-   "Take_Quiz":"Take Quiz"
+   "Take_Quiz":"Take Quiz",
+   "Exit":"Exit"
 }

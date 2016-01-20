@@ -684,8 +684,15 @@ body{
 .previous-button-container {
     width: 50%;
 }
+
 .next-button-container {
     width: 50%;
+}
+.Progress{
+    float:left;
+}
+#tQuizDiv{
+    direction: rtl;
 }
 #next_button
 {
