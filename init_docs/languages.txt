@@ -306,7 +306,7 @@
    "Edit_Step": "Edit Step",
    "Step_Method": "Step Method",
    "Step_Goals": "Step Goals",
-   "Allowed_Labels": "Allowed Labels",
+   "Allowed_Errors": "Allowed Errors",
    "Outcomes": "Outcomes",
    "Passing_Percentage": "Passing Percentage",
    "Paper": "Paper",
@@ -383,5 +383,7 @@
    "Hi":"Hi",
    "Has_Resign_From":"has resigned from",
    "Course_Resignation":"Course Resignation",
-   "Unselect_All":"Unselect All"
+   "Unselect_All":"Unselect All",
+   "Error_UserCourse_Details": "No data related to selected course found",
+   "Take_Quiz":"Take Quiz"
 }

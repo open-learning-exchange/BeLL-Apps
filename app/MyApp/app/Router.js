@@ -1595,14 +1595,18 @@ $(function() {
 
             ccSteps.fetch({
                 success: function() {
-                    App.$el.children('.body').html('&nbsp')
-                    App.$el.children('.body').append('<p class="Course-heading">Course<b>|</b>' + name + '    <a href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a><a id="showBCourseMembers" style="float:right;margin-right:10%" href="#course/members/' + courseId + '" style="margin-left:10px" class="btn btn-info">Course Members</a> </p>')
+                    App.$el.children('.body').html('&nbsp<div class="courseEditStep"></div>');
+                    $('.courseEditStep').append('<p class="Course-heading">'+App.languageDict.attributes.Course+'<b>|</b>' +
+                        name + '    ' + '<a id="userCourseHeading" href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button>' +
+                        '</a>' + '<a id="showBCourseMembers"  href="#course/members/'
+                        + courseId + '"  class="btn btn-info">'+
+                        App.languageDict.attributes.Course_Members+'</a> </p>')
                     var levelsTable = new App.Views.CourseLevelsTable({
                         collection: ccSteps
                     })
                     levelsTable.courseId = courseId
                     levelsTable.render()
-                    App.$el.children('.body').append(levelsTable.el)
+                    $('.courseEditStep').append(levelsTable.el)
 
                 }
             });
@@ -1772,7 +1776,7 @@ $(function() {
             $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
             $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
             $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
-            $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Labels);
+            $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
             $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);

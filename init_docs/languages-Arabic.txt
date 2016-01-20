@@ -311,7 +311,7 @@
    "Edit_Step": "خطوة تحرير",
    "Step_Method": "طريقة خطوة",
    "Step_Goals": "مرحلةداف خطوة",
-   "Allowed_Labels": "التسميات يسمح",
+   "Allowed_Errors": "Allowed Errors",
    "Outcomes": "النتائج",
    "Passing_Percentage": "نسبة النجاح",
    "Paper": "مقال",
@@ -389,5 +389,7 @@
    "Hi":"Hi",
    "Has_Resign_From":"has resigned from",
    "Course_Resignation":"Course Resignation",
-   "Unselect_All":"Unselect All"
+   "Unselect_All":"Unselect All",
+   "Error_UserCourse_Details": "No data related to selected course found",
+   "Take_Quiz":"Take Quiz"
 }

@@ -837,6 +837,19 @@ margin-top: 2px;
     word-wrap: break-word;
 
 }
+.userCourseHeading{
+	float:right;
+	margin-right:10%
+}
+#showBCourseMembers{
+	float:right;
+	margin-right: 10%;
+}
+#fakeBrowse
+{
+	margin-top: -60px;
+	margin-left:140px
+}
 #syncReport{
 	margin-left: 10px;
 	margin-bottom: 10px;

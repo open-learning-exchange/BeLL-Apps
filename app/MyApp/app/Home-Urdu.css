@@ -478,6 +478,17 @@ body{
 .courseEditStep{
     direction: rtl;
 }
+.userCourseHeading{
+    float:left;
+    margin-left:10%
+}
+#showBCourseMembers{
+    float:left;
+    margin-left: 10%;
+}
+#externalDiv{
+    direction: rtl;
+}
 
 .btn.btn-hg, .input-group-hg .btn
 {
@@ -748,7 +759,7 @@ body{
 }
 .Course-heading{
     font-size: 24px;
-    margin-left: 4%;
+    margin-right: 4%;
     color: #666666;
 }
 .ui-accordion-header.ui-helper-reset.ui-state-default.ui-accordion-header-active.ui-state-active.ui-corner-top.ui-accordion-icons {
@@ -1026,6 +1037,11 @@ textarea[name="comment"]
     margin-left: 259px;
     margin-top: -50px
 
+}
+#fakeBrowse
+{
+    margin-top: -60px;
+    margin-right:140px
 }
 .bbf-form .field-endTime
 {

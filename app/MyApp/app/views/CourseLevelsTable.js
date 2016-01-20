@@ -30,7 +30,7 @@ $(function () {
                     resId: resid
                 })
                 $('#externalDiv').html('<div id="star"></div>')
-                $('#star').append("Rating<br/>")
+                $('#star').append(App.languageDict.attributes.Rating+"<br/>")
                 $('#star').raty()
                 $("#star > img").click(function () {
                     ratingView.setUserRating($(this).attr("alt"))
@@ -129,22 +129,25 @@ $(function () {
 //                		}
 //                 }
 //              }
-            this.vars = model.toJSON()
-
+            this.vars = model.toJSON();
+            this.vars.languageDict=App.languageDict;
             if (!this.vars.outComes) {
-
                 this.vars.outComes = ''
-                if (this.vars.questions && this.vars.questions.length > 0)
-                    this.vars.outComes = ['Quiz']
+                if (this.vars.questions && this.vars.questions.length > 0){
+                    this.vars.outComes = ['Quiz'];
+                }
+
             }
             else if(this.vars.outComes instanceof Array){}
             else{
                 var temp=this.vars.outComes
                 this.vars.outComes=new Array()
-                this.vars.outComes[0]=temp
+                this.vars.outComes[0]=temp;
 
             }
-
+            var textOfOutcomes='Take_'+this.vars.outComes[0];
+            this.vars.outComesText=App.languageDict.get(textOfOutcomes);
+            this.vars.outComes[0]=App.languageDict.get(this.vars.outComes[0]);
             var index = 0
             var sstatus = this.modl.get('stepsStatus')
             var ssids = this.modl.get('stepsIds')
@@ -155,8 +158,8 @@ $(function () {
             }
 
             if (index == sstatus.length) {
-                this.vars.status = 'Error!!'
-                this.vars.marks = 'Error!!'
+                this.vars.status = App.languageDict.attributes.Error
+                this.vars.marks =  App.languageDict.attributes.Error
             } else {
                 this.vars.status = sstatus[index]
                 this.vars.marks = sr[index]
@@ -291,9 +294,9 @@ $(function () {
         render: function () {
 
             if (this.collection.length < 1) {
-                this.$el.append('<p style="font-weight:900;">No data related to selected course found</p>')
+                this.$el.append('<p style="font-weight:900;">'+App.languageDict.attributes.Error_UserCourse_Details+'</p>')
             } else {
-                this.setAllResults()
+                this.setAllResults();
             }
 
         }
