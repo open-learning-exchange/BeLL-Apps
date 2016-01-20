@@ -898,7 +898,7 @@
     </script>
     <script type="text/html" id="template-courseLevelsTable">
 
-        <h3 class="bigheader"><div style="width:95%">Step-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
             <% if(status == "1") { %>
             <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
             <% } %>
@@ -909,7 +909,7 @@
             <table class="Course-table">
                 <tr class="level-section-title">
                     <td colspan="3">
-                        Description</br>
+                        <%=languageDict.attributes.Description%></br>
                     </td>
                 </tr>
                 <tr class="level-section-data">
@@ -919,7 +919,7 @@
                 </tr>
                 <tr class="level-section-title">
                     <td colspan="3">
-                        Instructions</br>
+                        <%=languageDict.attributes.Instructions%></br>
                     </td>
                 </tr>
 
@@ -928,14 +928,14 @@
                     <td><b><%=i+1%></b></td>
                     <td><%= attachmentNames[i] %> &nbsp&nbsp</td>
                     <td>
-                        <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank">Open</a>
+                        <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank"><%=languageDict.attributes.Open%></a>
                     </td>
                 </tr>
                 <% } %>
 
                 <tr class="level-section-title" id="r_items">
                     <td colspan="3">
-                        Resources</br>
+                        <%=languageDict.attributes.Resources%></br>
                     </td>
                 </tr>
 
@@ -951,7 +951,7 @@
                         <%= resourceTitles[i] %> &nbsp&nbsp
                     </td>
                     <td>
-                        <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>/<%= resourceTitles[i] %>' target="_blank">Open</a>
+                        <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>/<%= resourceTitles[i] %>' target="_blank"><%=languageDict.attributes.Open%></a>
                     </td>
                 </tr>
                 <%}%>
@@ -965,15 +965,14 @@
                 <tr class="level-section-data">
                     <td colspan="2">
 
-                        Passing Percentage:<b><%=passingPercentage%>%<br></b>
-                        Allowed Errors:<b><%=allowedErrors%></b>
-
+                        <%=languageDict.attributes.Passing_Percentage%>:<b><%=passingPercentage%><br></b>
+                        <%=languageDict.attributes.Allowed_Errors%>:<b><%=allowedErrors%></b>
                     </td>
                     <td>
                         <%if (questions!=null){%>
-                        <button value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                        <button value = <%=_id%> class='btn btn-primary' id="takequiz" > <%=outComesText%></button>
                         <%}else{%>
-                        <button class='btn btn-disabled'>Take <%=outComes[i]%></button>
+                        <button class='btn btn-disabled'><%=outComesText%></button>
                         <%}%>
                         <div class="mailsubject">
                             <form method="post" id="fileAttachment<%=_id%>">
@@ -983,7 +982,7 @@
                                 <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
                                 <input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
                                 <input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
-                                <input class='btn btn-primary' type="button" value="Upload <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" style="position: absolute;margin-top: -60px;margin-left:140px" />
+                                <input class='btn btn-primary' type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
 
                             </form>
                         </div>
