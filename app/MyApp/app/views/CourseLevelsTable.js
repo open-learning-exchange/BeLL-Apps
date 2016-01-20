@@ -30,7 +30,7 @@ $(function () {
                     resId: resid
                 })
                 $('#externalDiv').html('<div id="star"></div>')
-                $('#star').append("Rating<br/>")
+                $('#star').append(App.languageDict.attributes.Rating+"<br/>")
                 $('#star').raty()
                 $("#star > img").click(function () {
                     ratingView.setUserRating($(this).attr("alt"))

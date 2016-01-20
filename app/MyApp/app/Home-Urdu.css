@@ -486,6 +486,9 @@ body{
     float:left;
     margin-left: 10%;
 }
+#externalDiv{
+    direction: rtl;
+}
 
 .btn.btn-hg, .input-group-hg .btn
 {
