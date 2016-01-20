@@ -356,9 +356,10 @@ $(function() {
             return roles
         },
        //POSITION OF GETNATION VERSION
-        getNationVersion: function (){
+        getNationVersion: function (dashboard){
+            console.log(dashboard);
         console.log('getNationVersion is called....');
-        var dashboard = new App.Views.Dashboard();
+        //var dashboard = new App.Views.Dashboard();
         // var nation_version = 0;
         var that = this;
         var configuration = App.configuration
@@ -543,7 +544,8 @@ $(function() {
 
                 }
             }
-            that.getNationVersion();
+            dashboard.$el.length=0;
+            that.getNationVersion(dashboard);
             $('#olelogo').remove()
         },
         MemberForm: function(memberId) {
