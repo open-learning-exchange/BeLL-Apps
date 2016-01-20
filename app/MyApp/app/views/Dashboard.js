@@ -80,10 +80,8 @@ $(function() {
         },
 
         initialize: function() {
-            alert("Confimation");
             var that = this;
             that.secondUpdateIteration();
-
         },
         secondUpdateIteration: function() {
             var that = this;
@@ -98,7 +96,7 @@ $(function() {
                     if (typeofBell === "community") {
                         if (count != undefined && count != null) {
                             if (count === 1) {
-                                ////////////////////////////////////////
+                                //This code has been added for issue#177
                                 $.couch.allDbs({
                                     success: function (data) {
                                         if (data.indexOf('tempapps') != -1) {
@@ -108,36 +106,40 @@ $(function() {
                                                     $.couch.db("apps").openDoc("_design/bell", {
                                                         success: function(appsDoc) {
                                                             console.log(appsDoc);
+                                                            //If the rev's of both the docs are not same or there is no tempapps db or tempappsDoc,
+                                                            // it means there were some disturbance during the update
+                                                            // e.g: force refresh or internet connection.
                                                             if(tempappsDoc._rev == appsDoc._rev) {
                                                                 isAppsDocAlright = true;
                                                             }
-                                                            alert(isAppsDocAlright);
                                                             if(isAppsDocAlright) {
                                                                 App.startActivityIndicator();
                                                                 console.log('countDoubleUpdate is 1 so callingUpdateFunctions ....');
                                                                 that.callingUpdateFunctions();
                                                             } else {
-                                                                alert("Unable to update, please try agian later");
+                                                                alert("Unable to update Bell-Apps, please check your internet connection or try again later");
                                                             }
                                                         },
                                                         error: function(status) {
                                                             console.log(status);
+                                                            alert("Unable to update Bell-Apps, please check your internet connection or try again later");
                                                         }
                                                     });
                                                 },
                                                 error: function(status) {
                                                     console.log(status);
-                                                    alert("Unable to update, please try agian later");
+                                                    alert("Unable to update Bell-Apps, please check your internet connection or try again later");
                                                 }
                                             });
                                         } else {
-                                            alert("Unable to update, please try agian later");
+                                            alert("Unable to update Bell-Apps, please check your internet connection or try again later");
                                         }
                                     }
                                 });
-                                ////////////////////////////////////////
                             } else {
                                 console.log("countDoubleUpdate is less than 1, No need to update the community")
+                                //If count != 1 and tempapps db exists then we can remove the db
+                                // because its of no use.It is only used in app update.
                                 $.couch.allDbs({
                                     success: function (data) {
                                         if (data.indexOf('tempapps') != -1) {
@@ -154,6 +156,8 @@ $(function() {
                             console.log("Creating countDoubleUpdate in community configurations as it does not exist")
                             that.updateConfigsOfCommunity(0);
                             console.log('callingUpdateFunctions after creating countDoubleUpdate ....');
+                            //If count != 1 and tempapps db exists then we can remove the db
+                            // because its of no use.It is only used in app update.
                             $.couch.allDbs({
                                 success: function (data) {
                                     if (data.indexOf('tempapps') != -1) {
@@ -166,6 +170,7 @@ $(function() {
                                 }
                             });
                         }
+                        //End
                         console.log('End of secondUpdateIteration ....');
                     }
                 }
@@ -227,10 +232,12 @@ $(function() {
         appsCreation: function() {
             var that = this;
             // Replicate Application Code from Nation to Community
+            //Here we are replicating apps to tempApps first, so that we may avoid the deletion
+            // and creation of apps db until unless the replication is successful
             $.couch.allDbs({
                 success: function(data) {
                     if (data.indexOf('tempapps') != -1) {
-                        console.log("tempapps existed.We are going to drop and create."); //This part needs to be changed as if you refresh the system or internet got diconnected then your community is get deleted
+                        console.log("tempapps existed.We are going to drop and create.");
                         $.couch.db("tempapps").drop({
                             success: function(data) {
                                 console.log(data);
@@ -314,35 +321,17 @@ $(function() {
                     }),
                     async: false,
                     success: function(response) {
-                        alert("tempapps successfully updated.");
+                        console.log("tempapps successfully updated, so now copying tempapps to apps");
                         $.couch.allDbs({
                             success: function(data) {
                                 if (data.indexOf('apps') != -1) {
-                                    console.log("apps existed.We are going to drop and create."); //This part needs to be changed as if you refresh the system or internet got diconnected then your community is get deleted
+                                    console.log("apps existed.We are going to drop and create.");
                                     $.couch.db("apps").drop({
                                         success: function(data) {
                                             console.log(data);
                                             $.couch.db("apps").create({
                                                 success: function(data) {
-                                                    $.couch.replicate("tempapps", "apps", {
-                                                        success: function(data) {
-                                                            alert("apps successfully replicated");
-                                                            window.location.reload(false);
-                                                            /*$.couch.db("tempapps").drop({
-                                                                success: function(data) {
-                                                                    console.log(data);
-                                                                    window.location.reload(false);
-                                                                },
-                                                                error: function(status) {
-                                                                    console.log(status);
-                                                                }
-                                                            });*/
-                                                        },
-                                                        error: function(status) {
-                                                            console.log(status);
-                                                            alert("Unable to replicate apps");
-                                                        }
-                                                    });
+                                                    that.updateAppsAndDesignDocs();
                                                 },
                                                 error: function(status) {
                                                     alert("Failed to create apps");
@@ -359,25 +348,7 @@ $(function() {
                                     $.couch.db("apps").create({
                                         success: function(data) {
                                             console.log(data);
-                                            $.couch.replicate("tempapps", "apps", {
-                                                success: function(data) {
-                                                    alert("apps successfully replicated");
-                                                    window.location.reload(false);
-                                                    /*$.couch.db("tempapps").drop({
-                                                        success: function(data) {
-                                                            window.location.reload(false);
-                                                            console.log(data);
-                                                        },
-                                                        error: function(status) {
-                                                            console.log(status);
-                                                        }
-                                                    });*/
-                                                },
-                                                error: function(status) {
-                                                    console.log(status);
-                                                    alert("Unable to replicate apps");
-                                                }
-                                            });
+                                            that.updateAppsAndDesignDocs();
                                         }
                                     });
                                 }
@@ -458,7 +429,17 @@ $(function() {
         },
 
         updateAppsAndDesignDocs: function() {
-            var that = this;
+            $.couch.replicate("tempapps", "apps", {
+                success: function(data) {
+                    console.log("apps successfully replicated");
+                    window.location.reload(false);
+                },
+                error: function(status) {
+                    console.log(status);
+                    console.log("Unable to replicate apps");
+                }
+            });
+            /*var that = this;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -483,7 +464,7 @@ $(function() {
                     App.stopActivityIndicator()
                     alert("Apps and Design Documents are Not Replicated!")
                 }
-            });
+            });*/
         },
 
         updateDesignDocs: function(dbName) {
@@ -698,6 +679,7 @@ $(function() {
                                     console.log("value of countDoubleUpdate: " + currConfigOfComm.countDoubleUpdate);
                                     if (currConfigOfComm.countDoubleUpdate > 1) {
                                         console.log("Updated Successfully" + currConfigOfComm.countDoubleUpdate); //todo: comment this if statement
+                                        //Deleting the temp db's
                                         $.couch.db("tempapps").drop({
                                             success: function (data) {
                                                 console.log(data);
