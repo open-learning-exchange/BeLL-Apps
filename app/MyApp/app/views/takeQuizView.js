@@ -103,14 +103,13 @@ $(function() {
                 o3 = encodeURI(this.Optns[temp + 3])
                 o4 = encodeURI(this.Optns[temp + 4])
                 this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>');
-                alert(App.languageDict.attributes.Exit);
                 this.$el.append('<div class="quizActions" ><button class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</button><button class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</button></div>')
             } else {
                 this.$el.html('&nbsp')
                 var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
                 console.log(quizScore)
-                this.$el.append('<div class="quizText"><h4>You Scored ' + Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')
-                this.$el.append('<div class="quizActions" ><button class="btn btn-info" id="finishPressed">Finish</button></div>')
+                this.$el.append('<div class="quizText"><h4>'+App.languageDict.attributes.You_Scored +' '+ Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')
+                this.$el.append('<div class="quizActions" ><button class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</button></div>')
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
                 if (this.pp <= quizScore) {
@@ -131,9 +130,9 @@ $(function() {
                 });
 
                 if (this.pp <= quizScore) {
-                    this.$el.append('</BR><p>You have Passed this Level</p>')
+                    this.$el.append('</BR><p>'+App.languageDict.attributes.Course_Pass_Msg+'</p>')
                 } else {
-                    this.$el.append('</BR><p>You are unable to pass this Level. Read carefully and try again</p>')
+                    this.$el.append('</BR><p>'+App.languageDict.attributes.Course_Failure_Msg+'</p>')
                 }
 
             }
