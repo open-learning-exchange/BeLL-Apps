@@ -103,9 +103,7 @@ $(function() {
                                             $.couch.db("tempapps").info({
                                                 success: function(tempAppsInfo) {
                                                     var docsCount = tempAppsInfo.doc_count;
-                                                    alert(docsCount);
                                                     if(docsCount >= 4) {
-                                                        alert("Seems good");
                                                         $.couch.db("tempapps").openDoc("_design/bell", {
                                                             success: function(tempappsDoc) {
                                                                 console.log(tempappsDoc);
@@ -138,7 +136,6 @@ $(function() {
                                                             }
                                                         });
                                                     } else {
-                                                        alert("Something wrong");
                                                         alert("Unable to update Bell-Apps, please check your internet connection or try again later");
                                                     }
                                                 }
@@ -347,7 +344,6 @@ $(function() {
                             }),
                             async: false,
                             success: function (response) {
-                                alert("Languages docs relicated");
                                 console.log("tempapps successfully updated, so now copying tempapps to apps");
                                 $.couch.allDbs({
                                     success: function(data) {
@@ -383,26 +379,12 @@ $(function() {
                                 });
                             },
                             error: function() {
-                                App.stopActivityIndicator()
                                 console.log("languages replication failed")
-                                /*$.couch.db("tempapps").drop({
-                                 success: function (data) {
-                                 console.log(data);
-                                 },
-                                 async: false,
-                                 });*/
                             }
                         });
                     },
                     error: function() {
-                        App.stopActivityIndicator()
                         alert("tempapps replication failed")
-                        /*$.couch.db("tempapps").drop({
-                            success: function (data) {
-                                console.log(data);
-                            },
-                            async: false,
-                        });*/
                     }
                 });
             },
@@ -485,7 +467,7 @@ $(function() {
                 }),
                 async: false,
                 success: function (response) {
-                    alert("apps successfully replicated");
+                    console.log("apps successfully replicated");
                     window.location.reload(false);
                 },
                 error: function(status) {
@@ -618,6 +600,7 @@ $(function() {
         },
 
         updateLanguageDocs: function() {
+            var that = this;
             $.couch.db("tempapps").allDocs({
                 success: function(langDocsData) {
                     var langDocs = langDocsData.rows;
@@ -625,7 +608,6 @@ $(function() {
                     for(var i = 0 ; i < langDocs.length ; i++) {
                         if(langDocs[i].id != "_design/bell") {
                             langDocsIds.push(langDocs[i].id);
-                            alert(langDocs[i].id);
                         }
                     }
                     console.log(langDocsIds);
@@ -638,31 +620,10 @@ $(function() {
                                         console.log(data);
                                         $.couch.db("languages").create({
                                             success: function(data) {
-                                                $.ajax({
-                                                    headers: {
-                                                        'Accept': 'application/json',
-                                                        'Content-Type': 'application/json; charset=utf-8'
-                                                    },
-                                                    type: 'POST',
-                                                    url: '/_replicate',
-                                                    dataType: 'json',
-                                                    data: JSON.stringify({
-                                                        "source": "tempapps",
-                                                        "target": "languages",
-                                                        'doc_ids': langDocsIds
-                                                    }),
-                                                    async: false,
-                                                    success: function (response) {
-                                                        alert("languages successfully replicated");
-                                                    },
-                                                    error: function(status) {
-                                                        console.log(status);
-                                                        alert("Unable to replicate languages");
-                                                    }
-                                                });
+                                                that.replicateLanguagesfromTempDB(langDocsIds);
                                             },
                                             error: function(status) {
-                                                alert("Failed to create languages");
+                                                alert("Failed to create languages db");
                                             }
                                         });
                                     },
@@ -676,28 +637,7 @@ $(function() {
                                 $.couch.db("languages").create({
                                     success: function(data) {
                                         console.log(data);
-                                        $.ajax({
-                                            headers: {
-                                                'Accept': 'application/json',
-                                                'Content-Type': 'application/json; charset=utf-8'
-                                            },
-                                            type: 'POST',
-                                            url: '/_replicate',
-                                            dataType: 'json',
-                                            data: JSON.stringify({
-                                                "source": "tempapps",
-                                                "target": "languages",
-                                                'doc_ids': langDocsIds
-                                            }),
-                                            async: false,
-                                            success: function (response) {
-                                                alert("languages successfully replicated");
-                                            },
-                                            error: function(status) {
-                                                console.log(status);
-                                                alert("Unable to replicate languages");
-                                            }
-                                        });
+                                        that.replicateLanguagesfromTempDB(langDocsIds);
                                     }
                                 });
                             }
@@ -761,6 +701,31 @@ $(function() {
                 }
             });*/
         },
+
+            replicateLanguagesfromTempDB: function(langDocsIds) {
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    type: 'POST',
+                    url: '/_replicate',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        "source": "tempapps",
+                        "target": "languages",
+                        'doc_ids': langDocsIds
+                    }),
+                    async: false,
+                    success: function (response) {
+                        console.log("languages updated");
+                    },
+                    error: function(status) {
+                        console.log(status);
+                        console.log("Unable to replicate languages");
+                    }
+                });
+            },
 
         lastAppUpdateAtNationLevel: function(result) {
             var that = this;
@@ -864,7 +829,6 @@ $(function() {
 
             var typeofBell = App.configuration.get("type")
             console.log(App.languageDict)
-            console.log(clanguage)
             this.vars.languageDict = App.languageDict;
 
             this.vars.imgURL = "img/header_slice.png"
