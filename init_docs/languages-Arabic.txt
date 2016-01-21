@@ -392,5 +392,7 @@
    "Unselect_All":"Unselect All",
    "Error_UserCourse_Details": "No data related to selected course found",
    "Take_Quiz":"Take Quiz",
-   "Exit":"Exit"
+   "Exit":"Exit",
+   "PaperForStep":"Paper for Step No.",
+   "Error_Course_Report":"No data found on server."
 }

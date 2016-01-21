@@ -131,7 +131,7 @@ $(function () {
 //              }
             this.vars = model.toJSON();
             this.vars.languageDict=App.languageDict;
-            if (!this.vars.outComes) {
+            if (!this.vars.outComes || this.vars.outComes.length==0) {
                 this.vars.outComes = ''
                 if (this.vars.questions && this.vars.questions.length > 0){
                     this.vars.outComes = ['Quiz'];

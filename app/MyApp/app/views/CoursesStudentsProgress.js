@@ -98,7 +98,7 @@ $(function () {
                         attchmentURL = attchmentURL + _.keys(m.get('_attachments'))[0]
                         attachmentName = _.keys(m.get('_attachments'))[0]
                     }
-                    papers = papers + '<tr><td><a href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">Paper for Step No. ' + m.get("stepNo") + '</button></td></tr></a>'
+                    papers = papers + '<tr><td><a href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></td></tr></a>'
                 })
                 papers = papers + '</table>'
                 this.$el.append(papers)
