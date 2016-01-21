@@ -388,5 +388,10 @@
    "Take_Quiz":"Take Quiz",
    "Exit":"Exit",
    "PaperForStep":"Paper for Step No.",
-   "Error_Course_Report":"No data found on server."
+   "Error_Course_Report":"No data found on server.",
+   "You_Scored":"You Scored",
+   "Finish":"Finish",
+   "Course_Pass_Msg":"You have Passed this Level",
+   "Course_Failure_Msg":"You are unable to pass this Level. Read carefully and try again"
+
 }
