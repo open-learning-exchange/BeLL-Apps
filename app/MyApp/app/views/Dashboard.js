@@ -91,13 +91,70 @@ $(function() {
                 success: function() {
                     var typeofBell = config.first().attributes.type;
                     var count = config.first().attributes.countDoubleUpdate;
+                    var commVersion = config.first().attributes.version;
                     var isAppsDocAlright = false;
                     // if (typeofBell === "community" && flag === false && count > 1) {
                     if (typeofBell === "community") {
                         if (count != undefined && count != null) {
                             if (count === 1) {
                                 //This code has been added for issue#177
-                                $.couch.allDbs({
+                                if (that.versionCompare(commVersion, "0.11.92") > 0) {
+                                    $.couch.allDbs({
+                                        success: function (data) {
+                                            if (data.indexOf('tempapps') != -1) {
+                                                $.couch.db("tempapps").info({
+                                                    success: function(tempAppsInfo) {
+                                                        var docsCount = tempAppsInfo.doc_count;
+                                                        if(docsCount >= 4) {
+                                                            $.couch.db("tempapps").openDoc("_design/bell", {
+                                                                success: function(tempappsDoc) {
+                                                                    console.log(tempappsDoc);
+                                                                    $.couch.db("apps").openDoc("_design/bell", {
+                                                                        success: function(appsDoc) {
+                                                                            console.log(appsDoc);
+                                                                            //If the rev's of both the docs are not same or there is no tempapps db or tempappsDoc,
+                                                                            // it means there were some disturbance during the update
+                                                                            // e.g: force refresh or internet connection.
+                                                                            if(tempappsDoc._rev == appsDoc._rev) {
+                                                                                isAppsDocAlright = true;
+                                                                            }
+                                                                            if(isAppsDocAlright) {
+                                                                                ////////////////////////////////
+                                                                                App.startActivityIndicator();
+                                                                                console.log('countDoubleUpdate is 1 so callingUpdateFunctions ....');
+                                                                                that.callingUpdateFunctions();
+                                                                                ////////////////////////////////
+                                                                            } else {
+                                                                                alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                                            }
+                                                                        },
+                                                                        error: function(status) {
+                                                                            console.log(status);
+                                                                            alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                                        }
+                                                                    });
+                                                                },
+                                                                error: function(status) {
+                                                                    console.log(status);
+                                                                    alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                                }
+                                                            });
+                                                        } else {
+                                                            alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    App.startActivityIndicator();
+                                    console.log('countDoubleUpdate is 1 so callingUpdateFunctions ....');
+                                    that.callingUpdateFunctions();
+                                }
+                                /*$.couch.allDbs({
                                     success: function (data) {
                                         if (data.indexOf('tempapps') != -1) {
                                             $.couch.db("tempapps").info({
@@ -117,9 +174,11 @@ $(function() {
                                                                             isAppsDocAlright = true;
                                                                         }
                                                                         if(isAppsDocAlright) {
+                                                                            ////////////////////////////////
                                                                             App.startActivityIndicator();
                                                                             console.log('countDoubleUpdate is 1 so callingUpdateFunctions ....');
                                                                             that.callingUpdateFunctions();
+                                                                            ////////////////////////////////
                                                                         } else {
                                                                             alert("Unable to update Bell-Apps, please check your internet connection or try again later");
                                                                         }
@@ -144,7 +203,7 @@ $(function() {
                                             alert("Unable to update Bell-Apps, please check your internet connection or try again later");
                                         }
                                     }
-                                });
+                                });*/
                             } else {
                                 console.log("countDoubleUpdate is less than 1, No need to update the community")
                                 //If count != 1 and tempapps db exists then we can remove the db
@@ -397,7 +456,6 @@ $(function() {
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
             //Updating configurations and other db's
-            that.updateConfigsOfCommFromNation();
             that.updateLanguageDocs();
             //Onward are the Ajax Request for all Updated Design Docs
             that.updateDesignDocs("activitylog");
@@ -409,6 +467,9 @@ $(function() {
             that.updateDesignDocs("surveyresponse");
             that.updateDesignDocs("surveyquestions");
             that.updateDesignDocs("coursestep");
+            /////////////////////////////////////////
+            that.updateConfigsOfCommFromNation();
+            ////////////////////////////////////////
             that.updateDesignDocs("groups");
             that.updateDesignDocs("publications");
             //Following are the list of db's on which design_docs are not updating,
@@ -601,48 +662,112 @@ $(function() {
 
         updateLanguageDocs: function() {
             var that = this;
-            $.couch.db("tempapps").allDocs({
-                success: function(langDocsData) {
-                    var langDocs = langDocsData.rows;
-                    var langDocsIds = [];
-                    for(var i = 0 ; i < langDocs.length ; i++) {
-                        if(langDocs[i].id != "_design/bell") {
-                            langDocsIds.push(langDocs[i].id);
-                        }
-                    }
-                    console.log(langDocsIds);
-                    $.couch.allDbs({
-                        success: function(data) {
-                            if (data.indexOf('languages') != -1) {
-                                console.log("languages existed.We are going to drop and create.");
-                                $.couch.db("languages").drop({
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function () {
+                    var commVersion = config.first().attributes.version;
+                    if (that.versionCompare(commVersion, "0.11.92") > 0) {
+                        $.couch.db("tempapps").allDocs({
+                            success: function(langDocsData) {
+                                var langDocs = langDocsData.rows;
+                                var langDocsIds = [];
+                                for(var i = 0 ; i < langDocs.length ; i++) {
+                                    if(langDocs[i].id != "_design/bell") {
+                                        langDocsIds.push(langDocs[i].id);
+                                    }
+                                }
+                                console.log(langDocsIds);
+                                $.couch.allDbs({
+                                    success: function(data) {
+                                        if (data.indexOf('languages') != -1) {
+                                            console.log("languages existed.We are going to drop and create.");
+                                            $.couch.db("languages").drop({
+                                                success: function(data) {
+                                                    console.log(data);
+                                                    $.couch.db("languages").create({
+                                                        success: function(data) {
+                                                            that.replicateLanguagesfromTempDB(langDocsIds);
+                                                        },
+                                                        error: function(status) {
+                                                            alert("Failed to create languages db");
+                                                        }
+                                                    });
+                                                },
+                                                error: function(status) {
+                                                    console.log(status);
+                                                },
+                                                async: false
+                                            });
+                                        } else {
+                                            console.log("languages doesn't exist, so no need to drop.");
+                                            $.couch.db("languages").create({
+                                                success: function(data) {
+                                                    console.log(data);
+                                                    that.replicateLanguagesfromTempDB(langDocsIds);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        var nationInfo = that.getNationInfo();
+                        var nationName = nationInfo["nationName"];
+                        var nationURL = nationInfo["nationURL"];
+                        $.ajax({
+                            url: '/languages/_all_docs?include_docs=true',
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(langResult) {
+                                console.log(langResult);
+                                var resultRows = langResult.rows;
+                                var docs = [];
+                                for (var i = 0; i < resultRows.length; i++) {
+                                    docs.push(resultRows[i].doc);
+                                }
+                                console.log(docs);
+                                $.couch.db("languages").bulkRemove({
+                                    "docs": docs
+                                }, {
                                     success: function(data) {
                                         console.log(data);
-                                        $.couch.db("languages").create({
-                                            success: function(data) {
-                                                that.replicateLanguagesfromTempDB(langDocsIds);
-                                            },
-                                            error: function(status) {
-                                                alert("Failed to create languages db");
+                                        var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/languages/_all_docs?include_docs=true'
+                                        $.ajax({
+                                            url: nationConfigURL,
+                                            type: 'GET',
+                                            dataType: "jsonp",
+                                            success: function(json) {
+                                                console.log(json);
+                                                var nationLangRows = json.rows;
+                                                var commLangDocs = [];
+                                                for (var i = 0; i < nationLangRows.length; i++) {
+                                                    var langDoc = nationLangRows[i].doc;
+                                                    delete langDoc._id;
+                                                    delete langDoc._rev;
+                                                    commLangDocs.push(langDoc);
+                                                }
+                                                $.couch.db("languages").bulkSave({
+                                                    "docs": commLangDocs
+                                                }, {
+                                                    success: function(data) {
+                                                        console.log("Languages updated");
+                                                    },
+                                                    error: function(status) {
+                                                        console.log(status);
+                                                    }
+                                                });
                                             }
                                         });
                                     },
                                     error: function(status) {
                                         console.log(status);
-                                    },
-                                    async: false
-                                });
-                            } else {
-                                console.log("languages doesn't exist, so no need to drop.");
-                                $.couch.db("languages").create({
-                                    success: function(data) {
-                                        console.log(data);
-                                        that.replicateLanguagesfromTempDB(langDocsIds);
                                     }
                                 });
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             });
             /*var that = this;
@@ -796,9 +921,15 @@ $(function() {
                                     if (currConfigOfComm.countDoubleUpdate > 1) {
                                         console.log("Updated Successfully" + currConfigOfComm.countDoubleUpdate); //todo: comment this if statement
                                         //Deleting the temp db's
-                                        $.couch.db("tempapps").drop({
+                                        $.couch.allDbs({
                                             success: function (data) {
-                                                console.log(data);
+                                                if (data.indexOf('tempapps') != -1) {
+                                                    $.couch.db("tempapps").drop({
+                                                        success: function (res) {
+                                                            console.log(res);
+                                                        }
+                                                    });
+                                                }
                                             }
                                         });
                                     }
