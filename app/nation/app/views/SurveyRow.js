@@ -6,6 +6,8 @@ $(function() {
         admin: null,
         events: {
             "click .destroy": function (event) {
+                console.log("Deleting Survey");
+                this.model.destroy();
             }
         },
 
@@ -14,10 +16,8 @@ $(function() {
         template: _.template($("#template-SurveyRow").html()),
 
         initialize: function(e) {
-
+            this.model.on('destroy', this.remove, this)
         },
-
-        vars: {},
 
         render: function() {
             var vars = this.model.toJSON()
