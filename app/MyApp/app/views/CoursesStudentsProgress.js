@@ -127,7 +127,7 @@ $(function () {
                 data: this.arrayOfData,
                 xkey: 'name',
                 ykeys: ['passed', 'remaining'],
-                labels: ['passed', 'remaining'],
+                labels: [App.languageDict.attributes.Passed, App.languageDict.attributes.Remaining],
                 gridTextWeight: 900,
                 gridTextSize: 12,
                 axes: true,
