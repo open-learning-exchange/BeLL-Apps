@@ -41,9 +41,9 @@ $(function() {
             docJson.community = App.configuration.get('code'),
                 logdb.put(docJson, logdate, function(err, response) {
                     if (!err) {
-                        alert("Deleted members successfully saved.");
+                        console.log("Deleted members successfully saved.");
                     } else {
-                        alert("Deleted members count failed to save.");
+                        console.log("Deleted members count failed to save.");
                         console.log(err);
                     }
                 });
@@ -61,9 +61,9 @@ $(function() {
 
             logdb.put(logModel, logdate, logModel._rev, function(err, response) { // _id: logdate, _rev: logModel._rev
                 if (!err) {
-                    alert("updated daily log from pouchdb for today..");
+                    console.log("updated daily log from pouchdb for today..");
                 } else {
-                    alert("UpdatejSONlog:: err making update to record");
+                    console.log("UpdatejSONlog:: err making update to record");
                     console.log(err);
                 }
             });
