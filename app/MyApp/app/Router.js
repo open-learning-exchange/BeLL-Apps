@@ -1545,15 +1545,15 @@ $(function() {
             var courseName = courseModel.get('name')
             var courseMembers = courseModel.get('members')
 
-            var button = '<br><a href="#courses"><button class="btn btn-success">Back to courses</button></a>'
+            var button = '<br><a href="#courses"><button class="btn btn-success">'+App.languageDict.attributes.Back_To_Course+'</button></a>'
             if (courseMembers && courseMembers.indexOf($.cookie('Member._id')) == -1) {
-                button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("' + courseLeader + '","' + encodeURI(courseName) + '","' + courseId + '")>Admission</button><br/><br/>'
+                button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("' + courseLeader + '","' + encodeURI(courseName) + '","' + courseId + '")>'+App.languageDict.attributes.Admission+'</button><br/><br/>'
             } else {
                 button += '<br/><br/>'
             }
-
-            App.$el.children('.body').html('<div id="courseName-heading"><h3>Course Details | ' + courseName + '</h3></div>')
-            App.$el.children('.body').append(button)
+            App.$el.children('.body').html('<div class="courseEditStep"></div>')
+            $('.courseEditStep').append('<div id="courseName-heading"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
+            $('.courseEditStep').append(button)
 
             var memberModel = new App.Models.Member()
             memberModel.set('_id', courseLeader)
@@ -1579,9 +1579,9 @@ $(function() {
             })
             courseStepsView.render()
 
-            App.$el.children('.body').append(GroupDetailsView.el)
-            App.$el.children('.body').append('<div id="courseSteps-heading"><h5>Course Steps</h5></div>')
-            App.$el.children('.body').append(courseStepsView.el)
+            $('.courseEditStep').append(GroupDetailsView.el)
+            $('.courseEditStep').append('<div id="courseSteps-heading"><h5>'+App.languageDict.attributes.Course_Steps+'</h5></div>')
+            $('.courseEditStep').append(courseStepsView.el)
 
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
