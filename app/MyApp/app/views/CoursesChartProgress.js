@@ -9,16 +9,17 @@ $(function () {
         events: {
             "click #Donut": function () {
                 $('#graph').html(' ')
-                document.getElementById('horizontallabel').style.visibility = 'hidden'
-                document.getElementById('veticallable').style.visibility = 'hidden'
-                this.$el.html('<a class="btn btn-info" id="Bar">Detailed View</a>')
+                //document.getElementById('horizontallabel').style.visibility = 'hidden'
+               // document.getElementById('veticallable').style.visibility = 'hidden';
+                document.getElementById('infoAboutGraph').style.visibility = 'hidden';
+                this.$el.html('<a class="btn btn-info" id="Bar">'+App.languageDict.attributes.Detailed_View+'</a>')
                 Morris.Donut({
                     element: 'graph',
                     data: [{
-                        label: "Passed Steps",
+                        label: App.languageDict.attributes.Passed+' '+App.languageDict.attributes.Steps,
                         value: this.grandpassed
                     }, {
-                        label: "Remaining Steps",
+                        label:App.languageDict.attributes.Remaining+' '+App.languageDict.attributes.Steps,
                         value: this.grandremaining
                     }],
                     colors: ['#0B62A4', '#7A92A3']
@@ -27,16 +28,16 @@ $(function () {
             },
             "click #Bar": function () {
                 $('#graph').html(' ')
-                document.getElementById('horizontallabel').style.visibility = 'visible'
-                document.getElementById('veticallable').style.visibility = 'visible'
-
-                this.$el.html('<a class="btn btn-info" id="Donut">Birdeye View</a>')
+               // document.getElementById('horizontallabel').style.visibility = 'visible'
+               // document.getElementById('veticallable').style.visibility = 'visible'
+                document.getElementById('infoAboutGraph').style.visibility = 'hidden';
+                this.$el.html('<a class="btn btn-info" id="Donut">'+App.languageDict.attributes.Birdeye_View+'</a>')
                 Morris.Bar({
                     element: 'graph',
                     data: this.arrayOfData,
                     xkey: 'subject',
                     ykeys: ['passed', 'remaining'],
-                    labels: ['passed', 'remaining'],
+                    labels: [App.languageDict.attributes.Passed, App.languageDict.attributes.Remaining],
                     gridTextWeight: 900,
                     gridTextSize: 16,
                     axes: true,
@@ -71,7 +72,7 @@ $(function () {
                 async: false
             })
             if (total == 0) {
-                temp.subject = (course.toJSON().name + " (No Steps)")
+                temp.subject = (course.toJSON().name +' ' +App.languageDict.attributes.No_Steps)
             } else {
                 temp.subject = (course.toJSON().name)
             }
@@ -100,7 +101,7 @@ $(function () {
                 data: this.arrayOfData,
                 xkey: 'subject',
                 ykeys: ['passed', 'remaining'],
-                labels: ['passed', 'remaining'],
+                labels: [App.languageDict.attributes.Passed, App.languageDict.attributes.Remaining],
                 gridTextWeight: 900,
                 gridTextSize: 12,
                 axes: true,
@@ -110,7 +111,7 @@ $(function () {
 
 
             });
-            this.$el.append('<a class="btn btn-info" id="Donut">Birdeye View</a>')
+            this.$el.append('<a class="btn btn-info" id="Donut">'+App.languageDict.attributes.Birdeye_View+'</a>')
         }
 
     })

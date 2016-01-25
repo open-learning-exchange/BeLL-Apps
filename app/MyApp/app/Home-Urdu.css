@@ -475,6 +475,17 @@ body{
 .backToSearchButton{
     float:left;
 }
+#infoAboutGraph{
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+    position: relative;
+}
+.Graphbutton{
+    float: right;
+    margin-top: 20px;
+    position: relative;
+}
 .courseEditStep{
     direction: rtl;
 }

@@ -412,11 +412,7 @@ textarea[name="comment"]
     position: relative;
     width: 100%;
 }
-.Graphbutton{
-    float: left;
-    margin-top: 20px;
-    position: relative;
-}
+
 #externalDiv {
     background-color: #34495E;
     border: 2px solid #000000;

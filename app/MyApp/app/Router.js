@@ -3675,9 +3675,9 @@ $(function() {
         },
         CoursesBarChart: function() {
             App.$el.children('.body').html('&nbsp')
-            App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
+           // App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
             App.$el.children('.body').append('<div id="graph"></div>')
-            App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
+           // App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
             var coursesResults = new App.Collections.memberprogressallcourses()
             coursesResults.memberId = $.cookie('Member._id')
             coursesResults.fetch({
@@ -3686,8 +3686,10 @@ $(function() {
             var chart = new App.Views.CoursesChartProgress({
                 collection: coursesResults
             })
-            chart.render()
-            App.$el.children('.body').append(chart.el)
+            chart.render();
+            App.$el.children('.body').append(chart.el);
+            App.$el.children('.body').append('<div id="infoAboutGraph"><b>*Horizontal Axis : Courses<br>*Vertical Axis : Steps</b></div>')
+            applyStylingSheet();
         },
         AddToShelf: function(rId, title) {
             var memberShelfResource = new App.Collections.shelfResource()

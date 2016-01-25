@@ -403,5 +403,9 @@
    "Remaining":"Remaining",
    "Admission":"Admission",
    "Course_Details":"Course Details",
-   "Schedule":"Schedule"
+   "Schedule":"Schedule",
+   "Birdeye_View":"Birdeye View",
+   "No_Steps":"No Steps",
+   "Detailed_View":"Detailed View",
+   "Steps":"Steps"
 }
