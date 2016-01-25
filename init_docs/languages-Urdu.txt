@@ -404,5 +404,6 @@
    "Admission_Req_Received":"Admission request received from user",
    "For_Course":"for Course",
    "Accept":"Accept",
-   "Reject":"Reject"
+   "Reject":"Reject",
+   "Surveys":"سروے"
 }

@@ -775,13 +775,10 @@ $(function() {
         render: function() {
 
             var dashboard = this
-            var that = this;
-            var dashboard = this;
-            var currentContext = this;
             this.vars.mails = 0;
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
-
+            this.vars.new_survey_count = 0;
             applyStylingSheet();
 
             var typeofBell = App.configuration.get("type")
