@@ -214,5 +214,6 @@
    "Back_to_Search": "Back to Search",
    "User": "User",
    "Category": "Category",
-   "Reques_t": "Request"
+   "Reques_t": "Request",
+   "Surveys": "Surveys"
 }

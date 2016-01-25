@@ -209,5 +209,6 @@
    "User": "User",
    "Category": "Category",
    "Reques_t": "Request",
-   "Resource": "Resource"
+   "Resource": "Resource",
+   "Surveys": "سروے"
 }
