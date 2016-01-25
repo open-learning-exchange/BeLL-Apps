@@ -30,7 +30,7 @@ $(function () {
                 $('#graph').html(' ')
                // document.getElementById('horizontallabel').style.visibility = 'visible'
                // document.getElementById('veticallable').style.visibility = 'visible'
-                document.getElementById('infoAboutGraph').style.visibility = 'hidden';
+                document.getElementById('infoAboutGraph').style.visibility = 'visible';
                 this.$el.html('<a class="btn btn-info" id="Donut">'+App.languageDict.attributes.Birdeye_View+'</a>')
                 Morris.Bar({
                     element: 'graph',
