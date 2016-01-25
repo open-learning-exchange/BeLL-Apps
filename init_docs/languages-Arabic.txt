@@ -407,5 +407,10 @@
    "Birdeye_View":"Birdeye View",
    "No_Steps":"No Steps",
    "Detailed_View":"Detailed View",
-   "Steps":"Steps"
+   "Steps":"Steps",
+   "Course_Admission_Req":"Course Admission Request",
+   "Admission_Req_Received":"Admission request received from user",
+   "For_Course":"for Course",
+   "Accept":"Accept",
+   "Reject":"Reject"
 }

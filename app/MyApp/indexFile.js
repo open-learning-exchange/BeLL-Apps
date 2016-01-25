@@ -131,8 +131,8 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     var mail = new App.Models.Mail();
     mail.set("senderId", $.cookie('Member._id'));
     mail.set("receiverId", courseLeader);
-    mail.set("subject", "Course Admission Request | " + decodeURI(courseName));
-    mail.set("body", 'Admission request received from user \"' + $.cookie('Member.login') + '\" in ' + decodeURI(courseName) + ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >Reject</button>');
+    mail.set("subject", App.languageDict.attributes.Course_Admission_Req+" | " + decodeURI(courseName));
+    mail.set("body", App.languageDict.attributes.Admission_Req_Received+' \"' + $.cookie('Member.login') + '\" '+App.languageDict.attributes.For_Course+' ' + decodeURI(courseName) + ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+'</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+App.languageDict.attributes.Reject+'</button>');
     mail.set("status", "0");
     mail.set("type", "admissionRequest");
     mail.set("sentDate", currentdate);
