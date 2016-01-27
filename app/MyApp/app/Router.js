@@ -640,6 +640,13 @@ $(function() {
             } else {
                 model.trigger('Model:ready')
             }
+            //Setting up the default error Message
+            Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
+            //Setting up the default selected values as blank
+            $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
+            $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
+            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1);
+            //Modifying the labels as per MUI
             $('.bbf-form .field-firstName label').html(App.languageDict.attributes.First_Name);
             $('.bbf-form .field-lastName label').html(App.languageDict.attributes.Last_Name);
             $('.bbf-form .field-middleNames label').html(App.languageDict.attributes.Middle_Names);
@@ -647,7 +654,7 @@ $(function() {
             $('.bbf-form .field-password label').html(App.languageDict.attributes.Password);
             $('.bbf-form .field-phone label').html(App.languageDict.attributes.Phone);
             $('.bbf-form .field-email label').html(App.languageDict.attributes.Email);
-            $('.bbf-form .field-language label').html(App.languageDict.attributes.Language);
+            $('.bbf-form .field-language label').html(App.languageDict.attributes.language);
             $('.bbf-form .field-BirthDate label').html(App.languageDict.attributes.Birth_Date);
             $('.bbf-form .field-Gender label').html(App.languageDict.attributes.Gender)
             $('.bbf-form .field-levels label').html(App.languageDict.attributes.Levels)

@@ -156,8 +156,12 @@ $(function() {
                 }
             }
             var that = this;
-            if (this.form.validate() != null) {
-                return
+            if (this.form.validate() != null  ){
+               return;
+            }
+            if(!this.validateMemberForm())
+            {
+               return;
             }
             // Put the form's input into the model in memory
             if (this.validImageTypeCheck($('input[type="file"]'))) {
@@ -264,6 +268,32 @@ $(function() {
                     })
                 }
             }
+        },
+
+        validateMemberForm : function(){
+            var isCorrect=true;
+        if ( $('.bbf-form .field-Gender .bbf-editor select').val() =='' || $('.bbf-form .field-Gender .bbf-editor select').val() ==null || $('.bbf-form .field-Gender .bbf-editor select').val() ==undefined  ) {
+            $('.bbf-form .field-Gender .bbf-error').html(App.languageDict.attributes.Required_Text);
+            isCorrect=false;
+        }
+            if($('.bbf-form .field-levels .bbf-editor select').val() =='' || $('.bbf-form .field-levels .bbf-editor select').val() ==null || $('.bbf-form .field-levels .bbf-editor select').val() ==undefined) {
+                $('.bbf-form .field-levels .bbf-error').html(App.languageDict.attributes.Required_Text);
+                isCorrect=false;
+            }
+                if( //validations for date
+                $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val() ==''
+                    || $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val() ==null ||
+                $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val() ==undefined ||
+                        //validations for month
+                    $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val()==''
+                || $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val()==null || $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val()==undefined
+                    //validations for year
+                     ||$('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val()=='' || $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val()==null ||
+                    $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val()==undefined ) {
+                    $('.bbf-form .field-BirthDate .bbf-error').html(App.languageDict.attributes.Required_Text);
+                    isCorrect=false;
+                }
+            return isCorrect;
         },
 
         getFormattedDate: function(date) {
