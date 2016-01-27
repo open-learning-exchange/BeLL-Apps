@@ -65,7 +65,9 @@ $(function() {
             },
             community: 'Text',
             region: 'Text',
-            nation: 'Text'
+            nation: 'Text',
+            lastLoginDate:'Date',
+            lastEditDate:'Date'
         },
         saveAttachment: function(formEl, fileEl, revEl) {
             // Work with this doc in the files database

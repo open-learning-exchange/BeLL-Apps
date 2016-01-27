@@ -159,9 +159,10 @@ $(function() {
                         if (member && member.get('password') == credentials.get('password') &&member.get('login') == credentials.get('login') ) {
                             if (member.get('status') == "active") {
                                 //UPDATING MEMBER VISITS
-                                App.member = member
+                                App.member = member;
                                 var vis = parseInt(member.get("visits"))
-                                vis++
+                                vis++;
+                                member.set("lastLoginDate",new Date());
                                 member.set("visits", vis)
                                 member.once('sync', function() {})
 

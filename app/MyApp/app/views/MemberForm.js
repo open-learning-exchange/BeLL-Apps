@@ -68,7 +68,9 @@ $(function() {
             this.form.fields['teachingCredentials'].$el.hide()
             this.form.fields['subjectSpecialization'].$el.hide()
             this.form.fields['forGrades'].$el.hide()
-            this.form.fields['visits'].$el.hide()
+            this.form.fields['visits'].$el.hide();
+            this.form.fields['lastLoginDate'].$el.hide();
+            this.form.fields['lastEditDate'].$el.hide();
 
             this.form.setValue({
                 community: App.configuration.get("name"),
@@ -194,7 +196,9 @@ $(function() {
                     that.model.set("yearsOfTeaching", null)
                     that.model.set("teachingCredentials", null)
                     that.model.set("subjectSpecialization", null)
-                    that.model.set("forGrades", null)
+                    that.model.set("forGrades", null);
+                    this.model.set("lastEditDate",new Date());
+                    this.model.set("lastLoginDate",null);
                 }
 
                 var addMem = true
