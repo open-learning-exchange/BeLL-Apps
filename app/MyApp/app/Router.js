@@ -374,6 +374,7 @@ $(function() {
         var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
         var nationConfig;
         var newPublicationsCount = 0;
+            var newSurveysCount = 0;
         $.ajax({
             url: nationConfigURL,
             type: 'GET',
@@ -419,20 +420,94 @@ $(function() {
                                             newPublicationsCount++;
                                         }
                                     }
-                                    if (newPublicationsCount > 0){
-                                        console.log('publication greater than zero'+newPublicationsCount);
-                                        new_publications_count = newPublicationsCount;
-                                        dashboard.updateVariables(nation_version,new_publications_count);
-                                        //alert(currentBellName);
-                                        $("#newPublication").click(function(){
-                                            document.location.href="#publications/for-"+currentBellName;
-                                        });
-                                        //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
-                                        $('#newPublication').show();}
-                                    else{
-                                        dashboard.updateVariables(nation_version,0);
-                                    }
-
+                                    ////////////////////////////////////////////////////
+                                    $.ajax({
+                                        url: 'http://' + nationName + ':oleoleole@' + nationURL + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                                        type: 'GET',
+                                        dataType: 'jsonp',
+                                        async:false,
+                                        success: function(json) {
+                                            console.log(json);
+                                            var SurveyDocsFromNation = [];
+                                            _.each(json.rows, function(row) {
+                                                SurveyDocsFromNation.push(row);
+                                            });
+                                            console.log(SurveyDocsFromNation);
+                                            // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
+                                            $.ajax({
+                                                url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                                                type: 'GET',
+                                                dataType: 'json',
+                                                async:false,
+                                                success: function(commSurdata) {
+                                                    console.log(commSurdata);
+                                                    var SurveyDocsFromComm = [];
+                                                    _.each(commSurdata.rows, function(row) {
+                                                        SurveyDocsFromComm.push(row);
+                                                    });
+                                                    console.log(SurveyDocsFromComm);
+                                                    for (var j in SurveyDocsFromNation) {
+                                                        // if this survey doc exists in the list of docs fetched from nation then ignore it from new surveys
+                                                        // count
+                                                        var surIndex;
+                                                        if(SurveyDocsFromComm.length > 0) {
+                                                            surIndex = SurveyDocsFromComm.map(function (element) {
+                                                                return element.id;
+                                                            }).indexOf(SurveyDocsFromNation[j].id);
+                                                        } else {
+                                                            surIndex = -1;
+                                                        }
+                                                        if(surIndex != undefined) {
+                                                            if (surIndex > -1) {
+                                                                // don't increment newSurveysCount cuz this surveyId already exists in the already synced surveys at
+                                                                // local server
+                                                            } else {
+                                                                newSurveysCount++;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (newPublicationsCount > 0){
+                                                        console.log('publication greater than zero'+newPublicationsCount);
+                                                        new_publications_count = newPublicationsCount;
+                                                        if(newSurveysCount > 0) {
+                                                            new_surveys_count = newSurveysCount;
+                                                            dashboard.updateVariables(nation_version,new_publications_count, new_surveys_count);
+                                                            $("#newSurvey").click(function(){
+                                                                alert("This functionality is Under Construction");
+                                                            });
+                                                            $('#newSurvey').show();
+                                                        } else {
+                                                            dashboard.updateVariables(nation_version,new_publications_count, 0);
+                                                        }
+                                                        //alert(currentBellName);
+                                                        $("#newPublication").click(function(){
+                                                            document.location.href="#publications/for-"+currentBellName;
+                                                        });
+                                                        //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                                        $('#newPublication').show();
+                                                    } else{
+                                                        if(newSurveysCount > 0) {
+                                                            new_surveys_count = newSurveysCount;
+                                                            dashboard.updateVariables(nation_version, 0, new_surveys_count);
+                                                            $("#newSurvey").click(function(){
+                                                                alert("This functionality is Under Construction");
+                                                            });
+                                                            $('#newSurvey').show();
+                                                        } else {
+                                                            dashboard.updateVariables(nation_version, 0, 0);
+                                                        }
+                                                    }
+                                                },
+                                                error: function(status) {
+                                                    console.log(status);
+                                                }
+                                            });
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                        }
+                                    });
+                                    ////////////////////////////////////////////////////
                                 }
                             });
 

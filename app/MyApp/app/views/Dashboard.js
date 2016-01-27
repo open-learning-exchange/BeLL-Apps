@@ -732,7 +732,7 @@ $(function() {
             $('#mailsDash').html(App.languageDict.attributes.Email + '(' + this.vars.mails + ')');
             //dashboard.$el.append('<div id="updates"></div>')
         },
-        updateVariables: function(nation_version, new_publications_count) {
+        updateVariables: function(nation_version, new_publications_count, new_surveys_count) {
             var that = this;
             that.vars.mails = 0;
             this.vars.nation_version = 0;
@@ -748,17 +748,18 @@ $(function() {
             var member = App.member;
             that.vars.nation_version = nation_version;
             that.vars.new_publication_count = new_publications_count;
+            that.vars.new_survey_count = new_surveys_count;
             that.$el.html(_.template(this.template, this.vars));
-
-            console.log("publicationsss" + new_publications_count)
+            console.log("publicationsss" + new_publications_count);
             console.log('before call ' + this.vars.nation_version);
             this.checkAvailableUpdates(member.get('roles'), this, nation_version);
             console.log('after call ' + this.vars.nation_version);
             console.log(new_publications_count);
             console.log(nation_version);
             console.log("Final" + this.vars.new_publications_count + " " + this.vars.nation_version + " " + this.vars.mails);
-            $('#updateButton').html(App.languageDict.attributes.Update_Available + '(' + nation_version + ')');
             $('#newPublication').html(App.languageDict.attributes.Publications + '(' + new_publications_count + ')');
+            $('#updateButton').html(App.languageDict.attributes.Update_Available + '(' + nation_version + ')');
+            $('#newSurvey').html(App.languageDict.attributes.Surveys + '(' + new_surveys_count + ')');
             return new_publications_count;
 
         },
