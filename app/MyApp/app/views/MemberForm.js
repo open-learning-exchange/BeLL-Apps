@@ -156,12 +156,16 @@ $(function() {
                 }
             }
             var that = this;
+            var isValid=true;
             if (this.form.validate() != null  ){
-               return;
+               isValid=false;
             }
             if(!this.validateMemberForm())
             {
-               return;
+                isValid=false;
+            }
+            if(!isValid){
+                return;
             }
             // Put the form's input into the model in memory
             if (this.validImageTypeCheck($('input[type="file"]'))) {
