@@ -297,7 +297,28 @@ $(function() {
                     $('.bbf-form .field-BirthDate .bbf-error').html(App.languageDict.attributes.Required_Text);
                     isCorrect=false;
                 }
+            else{
+                    //Now, validate age range [5,100] (Inclusive)
+                  if(this.getAgeOfUser()<5 || this.getAgeOfUser()>100) {
+                      alert('Valid age range lies from 5 to 100 only. (Inclusive)');
+                      isCorrect = false;
+                  }
+                }
             return isCorrect;
+        },
+
+        getAgeOfUser: function()
+        {
+            var  birthDate=new Date($('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val(),
+                $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val(),
+                $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val());
+            var todayDate = new Date();
+            var age = todayDate.getFullYear() - birthDate.getFullYear();
+            var m = todayDate.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && todayDate.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
         },
 
         getFormattedDate: function(date) {
