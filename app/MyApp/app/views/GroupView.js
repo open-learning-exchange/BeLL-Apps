@@ -28,7 +28,7 @@ $(function() {
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Leader_Email+'</b></td><td>' + leaderInfo.email + '</td></tr>')
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Leader_Phone_Number+'</b></td><td>' + leaderInfo.phone + '</td></tr>')
 
-            this.$el.append('<tr><td><b>'+App.languageDict.attributes.Schedule+'</b></td><td>Date :  ' + courseInfo.startDate + '-' + courseInfo.endDate + '<br>'+App.languageDict.attributes.Time+' :  ' + courseInfo.startTime + '- ' + courseInfo.endTime + '</td></tr>')
+            this.$el.append('<tr><td><b>'+App.languageDict.attributes.Schedule+'</b></td><td>'+App.languageDict.attributes.Date+' :  ' + courseInfo.startDate + '-' + courseInfo.endDate + '<br>'+App.languageDict.attributes.Time+' :  ' + courseInfo.startTime + '- ' + courseInfo.endTime + '</td></tr>')
 
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Location+'</b></td><td>' + courseInfo.location + '</td></tr>')
 

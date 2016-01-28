@@ -405,5 +405,6 @@
    "For_Course":"for Course",
    "Accept":"Accept",
    "Reject":"Reject",
-   "Surveys":"سروے"
+   "Surveys":"سروے",
+   "Date":"Date"
 }

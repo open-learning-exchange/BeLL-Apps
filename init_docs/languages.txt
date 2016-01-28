@@ -407,5 +407,6 @@
    "For_Course":"for Course",
    "Accept":"Accept",
    "Reject":"Reject",
-   "Surveys":"Surveys"
+   "Surveys":"Surveys",
+   "Date":"Date"
 }
