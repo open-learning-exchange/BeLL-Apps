@@ -122,6 +122,10 @@ $(function() {
         },
         Surveys: function() {
             this.underConstruction();
+            var SurveysView = new App.Views.SurveyTable();
+            SurveysView.render();
+            App.$el.children('.body').html('<h3>Surveys</h3>');
+            App.$el.children('.body').append(SurveysView.el);
         },
         communityManage: function() {
             var manageCommunity = new App.Views.ManageCommunity()
