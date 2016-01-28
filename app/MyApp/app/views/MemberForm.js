@@ -157,6 +157,7 @@ $(function() {
                     this.model.toJSON().roles.splice(index, 1)
                 }
             }
+            this.model.set("lastEditDate",new Date());
             var that = this;
             var isValid=true;
             if (this.form.validate() != null  ){
@@ -188,7 +189,8 @@ $(function() {
                     status: "active",
                     community: configsDoc.code,
                     region: configsDoc.region,
-                    nation: configsDoc.nationName
+                    nation: configsDoc.nationName,
+                    lastEditDate:new Date()
                 });
                 this.form.commit();
                 // Send the updated model to the server
@@ -198,7 +200,7 @@ $(function() {
                     that.model.set("subjectSpecialization", null)
                     that.model.set("forGrades", null);
                     this.model.set("lastEditDate",new Date());
-                    this.model.set("lastLoginDate",null);
+                 //   this.model.set("lastLoginDate",null);
                 }
 
                 var addMem = true

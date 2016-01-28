@@ -160,7 +160,7 @@ $(function() {
                             if (member.get('status') == "active") {
                                 //UPDATING MEMBER VISITS
                                 App.member = member;
-                                var vis = parseInt(member.get("visits"))
+                                var vis = parseInt(member.get("visits"));
                                 vis++;
                                 member.set("lastLoginDate",new Date());
                                 member.set("visits", vis)
@@ -168,9 +168,10 @@ $(function() {
 
                                 member.save(null, {
                                     success: function(doc, rev) {}
-                                })
+                                });
 
-                                memberLoginForm.logActivity(member)
+
+                                memberLoginForm.logActivity(member);
 
                                 var date = new Date()
                                 $.cookie('Member.login', member.get('login'), {
@@ -193,8 +194,6 @@ $(function() {
                                     });
                                     return;
                                 }
-
-
                                 // warn the admin user if they have not changed default password after installation
                                 //                            if ((member.get('login') === "admin") && (member.get('password') === 'password')) {
                                 //                                    alert("Please change the password for this admin account for better security of the account and the application.");
