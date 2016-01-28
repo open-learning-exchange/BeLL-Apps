@@ -80,9 +80,8 @@ $(function() {
             'setbit': 'setNeedOptimizedBit',
             'CompileAppManifest': 'CompileAppManifest',
             'communityManage': 'communityManage',
-            'publications/:community': 'Publications'
-
-
+            'publications/:community': 'Publications',
+            'surveys/:community': 'Surveys'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -120,6 +119,9 @@ $(function() {
             PublicationsView.render();
             App.$el.children('.body').html('<h3>Publications</h3>');
             App.$el.children('.body').append(PublicationsView.el);
+        },
+        Surveys: function() {
+            this.underConstruction();
         },
         communityManage: function() {
             var manageCommunity = new App.Views.ManageCommunity()
@@ -473,7 +475,7 @@ $(function() {
                                                             new_surveys_count = newSurveysCount;
                                                             dashboard.updateVariables(nation_version,new_publications_count, new_surveys_count);
                                                             $("#newSurvey").click(function(){
-                                                                alert("This functionality is Under Construction");
+                                                                document.location.href="#surveys/for-"+currentBellName;
                                                             });
                                                             $('#newSurvey').show();
                                                         } else {
@@ -490,7 +492,7 @@ $(function() {
                                                             new_surveys_count = newSurveysCount;
                                                             dashboard.updateVariables(nation_version, 0, new_surveys_count);
                                                             $("#newSurvey").click(function(){
-                                                                alert("This functionality is Under Construction");
+                                                                document.location.href="#surveys/for-"+currentBellName;
                                                             });
                                                             $('#newSurvey').show();
                                                         } else {
