@@ -32,11 +32,11 @@ ddoc.views = {
                 if (Array.isArray(doc.sentTo)) {
                     if (doc.sentTo.length > 0) {
                         for (var idx in doc.sentTo) {
-                            emit(doc.sentTo[idx].toLowerCase(), doc._id);
+                            emit(doc.sentTo[idx], doc._id);
                         }
                     }
                 } else {
-                    emit(doc.sentTo.toLowerCase(), doc._id)
+                    emit(doc.sentTo, doc._id)
                 }
             }
         }

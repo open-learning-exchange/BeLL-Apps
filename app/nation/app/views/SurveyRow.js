@@ -6,8 +6,9 @@ $(function() {
         admin: null,
         events: {
             "click .destroy": function (event) {
-                console.log("Deleting Survey");
-                this.model.destroy();
+                if (confirm('Are you sure you want to delete this Survey?')) {
+                    this.model.destroy();
+                }
             }
         },
 
