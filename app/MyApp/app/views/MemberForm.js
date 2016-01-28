@@ -121,7 +121,22 @@ $(function() {
                 attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
                 document.getElementById("memberImage").src = attchmentURL
             }
-
+            console.log('Model of form');
+            console.log(this.form.model);
+           if(this.form.model.get('_id')){
+               var isValid=true;
+               if (this.form.validate() != null  ){
+                   isValid=false;
+               }
+               if(!this.validateMemberForm())
+               {
+                   isValid=false;
+               }
+               if(!isValid){
+                   $('#nav').css('pointer-events','none');
+                   $('#formButtonCancel').css('pointer-events','none');
+               }
+           }
         },
 
         validImageTypeCheck: function(img) {
@@ -144,6 +159,8 @@ $(function() {
         },
 
         setForm: function() {
+            $('#formButtonCancel').css('pointer-events','auto');
+            $('#nav').css('pointer-events','auto');
             if ($('#ptManager').attr('checked')) { // if promote to manager checkbox is ticked
                 // then add the 'Manager' role to his/her roles array only if this person is not a manager already. following check added
                 // by Omer Yousaf on 16 Jan, 2015.
@@ -251,6 +268,7 @@ $(function() {
                                     Backbone.history.navigate('members', {
                                         trigger: true
                                     });
+                                    window.location.reload();
                                 }
                             }
                             that.model.on('savedAttachment', function() {
@@ -271,7 +289,8 @@ $(function() {
                                     alert("Successfully Updated!!!");
                                     Backbone.history.navigate('members', {
                                         trigger: true
-                                    })
+                                    });
+                                    window.location.reload();
                                 }
                             }, that.model)
                         }

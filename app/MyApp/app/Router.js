@@ -566,7 +566,6 @@ $(function() {
             App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
             // Bind form to the DOM
             if (modelId) {
-
                 model.id = modelId
                 model.fetch({
                     async: false
@@ -640,12 +639,17 @@ $(function() {
             } else {
                 model.trigger('Model:ready')
             }
+
             //Setting up the default error Message
             Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
-            //Setting up the default selected values as blank
-            $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
-            $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
-            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1);
+
+            if(!modelId){
+                //Setting up the default selected values as blank
+                $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
+                $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1);
+            }
+
             //Modifying the labels as per MUI
             $('.bbf-form .field-firstName label').html(App.languageDict.attributes.First_Name);
             $('.bbf-form .field-lastName label').html(App.languageDict.attributes.Last_Name);
