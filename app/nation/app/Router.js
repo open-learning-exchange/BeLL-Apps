@@ -2570,6 +2570,7 @@ $(function() {
             $('.bbf-form .field-Date input').datepicker({
                 todayHighlight: true
             });
+            $('.bbf-form .field-SurveyNo input').val('')
         },
 
         SurveyDetails: function(surveyId) {
