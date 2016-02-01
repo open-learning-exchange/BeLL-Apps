@@ -162,8 +162,12 @@ $(function() {
                                 App.member = member;
                                 var vis = parseInt(member.get("visits"));
                                 vis++;
-                                member.set("lastLoginDate",new Date());
-                                member.set("visits", vis)
+                                if (!(member.get('roles').indexOf("Manager") > -1) && member.get("FirstName")!='Default' &&
+                                    member.get('LastName')!='Admin')
+                                {
+                                    member.set("lastLoginDate",new Date());
+                                }
+                                member.set("visits", vis);
                                 member.once('sync', function() {})
 
                                 member.save(null, {

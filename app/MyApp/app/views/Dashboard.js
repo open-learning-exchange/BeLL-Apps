@@ -856,30 +856,49 @@ $(function() {
             var member = App.member;
             var lastEditDate=member.get("lastEditDate");
             var isRemind=false;
-            if(lastEditDate==undefined)
+            var roles=member.get('roles');
+            if (!(roles.indexOf("Manager") > -1) && member.get("FirstName")!='Default' &&
+                member.get('LastName')!='Admin')
             {
-                //'This User was registered prior the addition of lastEdit Field was added in schema'
-                isRemind=true;
-            }
-            else
-            {
-                var lastEdit=lastEditDate.split('-');
-                lastEditDate=parseInt(lastEdit[0]);
-                if(parseInt(new Date().getFullYear()) - lastEditDate  >=1)
+                //Member is not the default created "Admin", so check for Reminder for Profile.
+                if(lastEditDate==undefined)
                 {
-                    //'An year has passed... since last changes made to configurations of member'
+                    //'This User was registered prior the addition of lastEdit Field was added in schema'
                     isRemind=true;
                 }
                 else
                 {
-                    //'No Need to remind user.. He just reviewed his configurations this year....'
-                    isRemind=false;
+                    var lastEdit=lastEditDate.split('-');
+                    lastEditDate=parseInt(lastEdit[0]);
+                    if(parseInt(new Date().getFullYear()) - lastEditDate  >=1)
+                    {
+                        //'An year has passed... since last changes made to configurations of member'
+                        isRemind=true;
+                    }
+                    else
+                    {
+                        //'No Need to remind user.. He just reviewed his configurations this year....'
+                        isRemind=false;
+                    }
                 }
+                if(isRemind)
+                {
+                    alert('Please Update your profile.');
+                    forcedUpdateProfile=true;
+                    console.log('from dasghboard '+forcedUpdateProfile);
+                    Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
+
+                }
+                else
+                {
+                    forcedUpdateProfile=false;
+                    console.log('from dasghboard '+forcedUpdateProfile);
+                }
+
             }
-            if(isRemind)
+            else
             {
-                alert('Please Review your configurations to update them.');
-                Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
+                forcedUpdateProfile=false;
             }
             var attchmentURL = '/members/' + member.id + '/'
             if (typeof member.get('_attachments') !== 'undefined') {

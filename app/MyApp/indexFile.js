@@ -15,6 +15,7 @@ var mailView;
 var nation_version;
 var new_publications_count;
 var new_surveys_count;
+var forcedUpdateProfile=false;
 
 function applyStylingSheet(){
 

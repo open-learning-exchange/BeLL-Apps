@@ -9,20 +9,72 @@ $(function() {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
             "click #formButtonCancel": function() {
-                window.history.back()
+                //Check whether form is being called for Edit purpose or Add..
+                if(this.form.model.get('_id') ){
+                        var isValid=true;
+                        if (this.form.validate() != null  ){
+                            isValid=false;
+                        }
+                        if(!this.validateMemberForm())
+                        {
+                            isValid=false;
+                        }
+                        if(!isValid){
+                            if(forcedUpdateProfile){
+                                $('#nav').css('pointer-events','none');
+                                $('#formButtonCancel').css('pointer-events','none');
+                                return;
+                            }
+                            else
+                            {
+                                alert('Some information on your account is incorrect, please Update it.');
+                                return;
+                            }
+                            }
+                   // this.model.set("lastEditDate",new Date());
+                    this.model.save({
+                        lastEditDate: new Date()
+                    }, {
+                        success: function() {
+                            Backbone.history.navigate('dashboard');
+                            window.location.reload();
+                        }
+                    });
+
+                }
+                else{
+                    window.history.back();
+                }
             },
             "click #deactive": function(e) {
                 e.preventDefault()
-                var that = this
+                var that = this;
                 this.model.on('sync', function() {
-                    location.reload();
+                   // location.reload();
                 })
                 this.model.save({
                     status: "deactive"
                 }, {
-                    success: function() {}
+                    success: function() {
+                        if ($.cookie('Member.login') != that.model.get('login') )
+                        {
+                            Backbone.history.navigate('dashboard', {
+                                trigger: true
+                            });
+                        }
+                        else
+                        {
+                            //Going to log-out from the system...
+                            that.expireSession();
+                            Backbone.history.navigate('login', {
+                                trigger: true
+                            });
+                        }
+
+                    }
                 });
             },
+
             "click #ptManager": function(e) {
 
 
@@ -38,7 +90,23 @@ $(function() {
                 }, {
                     success: function() { /*this.model.fetch({async:false})*/ }
                 });
-            },
+            }
+        },
+        expireSession: function() {
+
+            $.removeCookie('Member.login', {
+                path: "/apps/_design/bell"
+            })
+            $.removeCookie('Member._id', {
+                path: "/apps/_design/bell"
+            })
+            $.removeCookie('Member.roles', {
+                path: "/apps/_design/bell"
+            })
+            $.removeCookie('Member.expTime', {
+                path: "/apps/_design/bell"
+            })
+
         },
         getRoles: function(userId) {
 
@@ -61,7 +129,7 @@ $(function() {
             this.form = new Backbone.Form({
                 model: this.model
             })
-            var buttonText = ""
+            var buttonText = "";
             this.$el.append(this.form.render().el)
             this.form.fields['status'].$el.hide()
             this.form.fields['yearsOfTeaching'].$el.hide()
@@ -121,9 +189,8 @@ $(function() {
                 attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
                 document.getElementById("memberImage").src = attchmentURL
             }
-            console.log('Model of form');
-            console.log(this.form.model);
            if(this.form.model.get('_id')){
+             //Check whether form is being called for Edit purpose or Add..
                var isValid=true;
                if (this.form.validate() != null  ){
                    isValid=false;
@@ -133,8 +200,18 @@ $(function() {
                    isValid=false;
                }
                if(!isValid){
-                   $('#nav').css('pointer-events','none');
-                   $('#formButtonCancel').css('pointer-events','none');
+                   if(forcedUpdateProfile)
+                   {
+                       $('#nav').css('pointer-events','none');
+                       $('#formButtonCancel').css('pointer-events','none');
+                       return;
+                   }
+                   else
+                   {
+                       alert('Some information on your account is incorrect, please Update it.');
+                       return;
+                   }
+
                }
            }
         },
@@ -174,7 +251,6 @@ $(function() {
                     this.model.toJSON().roles.splice(index, 1)
                 }
             }
-            this.model.set("lastEditDate",new Date());
             var that = this;
             var isValid=true;
             if (this.form.validate() != null  ){
@@ -185,7 +261,18 @@ $(function() {
                 isValid=false;
             }
             if(!isValid){
-                return;
+                if(forcedUpdateProfile)
+                {
+                    $('#nav').css('pointer-events','none');
+                    $('#formButtonCancel').css('pointer-events','none');
+                    return;
+                }
+                else
+                {
+                    alert('Some information on your account is incorrect, please Update it.');
+                    return;
+                }
+
             }
             // Put the form's input into the model in memory
             if (this.validImageTypeCheck($('input[type="file"]'))) {
@@ -217,7 +304,6 @@ $(function() {
                     that.model.set("subjectSpecialization", null)
                     that.model.set("forGrades", null);
                     this.model.set("lastEditDate",new Date());
-                 //   this.model.set("lastLoginDate",null);
                 }
 
                 var addMem = true
@@ -264,10 +350,11 @@ $(function() {
                                         }
                                     });
                                 } else {
+
                                     alert("Successfully Updated!!!");
-                                    Backbone.history.navigate('members', {
-                                        trigger: true
-                                    });
+                                    forcedUpdateProfile=false;
+                                    Backbone.history.navigate('dashboard'
+                                    );
                                     window.location.reload();
                                 }
                             }
@@ -286,10 +373,9 @@ $(function() {
                                         }
                                     });
                                 } else {
+                                    forcedUpdateProfile=false;
                                     alert("Successfully Updated!!!");
-                                    Backbone.history.navigate('members', {
-                                        trigger: true
-                                    });
+                                    Backbone.history.navigate('dashboard');
                                     window.location.reload();
                                 }
                             }, that.model)
@@ -388,6 +474,7 @@ $(function() {
                     console.log("MyApp::MemberForm.js (view):: createJsonlog: error creating activity log doc in pouchdb..");
                     console.log(err);
                 }
+                forcedUpdateProfile=false;
                 alert("Successfully Registered!!!");
                 Backbone.history.navigate('members', {
                     trigger: true
@@ -409,6 +496,7 @@ $(function() {
                     console.log("MyApp::MemberForm.js (view):: UpdatejSONlog: err making update to record");
                     console.log(err);
                 }
+                forcedUpdateProfile=false;
                 alert("Successfully Registered!!!");
                 Backbone.history.navigate('members', {
                     trigger: true
