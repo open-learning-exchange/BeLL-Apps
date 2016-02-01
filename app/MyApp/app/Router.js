@@ -1348,6 +1348,7 @@ $(function() {
                 },
                 async: false
             })
+            applyStylingSheet();
         },
         Groups: function() {
 
