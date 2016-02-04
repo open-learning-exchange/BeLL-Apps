@@ -6,9 +6,11 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function(event) {
-                alert("deleting")
+                if (confirm('Are you sure you want to delete this Report?')) {
                 this.model.destroy()
-                event.preventDefault()
+                event.preventDefault();
+                alert('Successfully deleted Report.');
+                }
             },
             "click #open": function(event) {
                 if (this.model.get("views") == undefined) {
