@@ -22,8 +22,9 @@ ddoc.views = {
     },
     surveyByTitle: {
         map: function(doc) {
-            if (doc.SurveyTitle && doc.kind == 'survey')
+            if (doc.SurveyTitle && doc.kind == 'survey'){
                 emit(doc.SurveyTitle, doc);
+            }
         }
     },
     surveyBySentToCommunities: {
@@ -43,8 +44,9 @@ ddoc.views = {
     },
     allSurveys: {
         map: function(doc) {
-            if (doc.SurveyNo  && doc.kind == 'survey')
+            if (doc.SurveyNo  && doc.kind == 'survey'){
                 emit(doc._id, doc);
+            }
         }
     }
 }

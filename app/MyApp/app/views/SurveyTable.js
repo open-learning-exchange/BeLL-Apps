@@ -12,7 +12,7 @@ $(function () {
             "click .openSurvey": 'openSurvey'
         },
         render: function () {
-            this.$el.html('<tr><th>Survey Number</th><th>Survey Title</th><th>Actions</th></tr>');
+            this.$el.html('<tr><th>Survey No.</th><th>Title</th><th>Actions</th></tr>');
             applyStylingSheet();
         },
         openSurvey:function(e){
