@@ -45,7 +45,7 @@ $(function() {
             var addtoDb = true
             this.form.commit()
             if (this.model.get("IssueNo") == undefined) {
-                alert("Publication Issue is missing")
+                alert(Pubs_Issue_Missing)
             } else {
                 if (isEdit == undefined) {
                     var that = this
@@ -55,7 +55,7 @@ $(function() {
                     })
                     allres.each(function(m) {
                         if (that.model.get("IssueNo") == m.get("IssueNo")) {
-                            alert("IssueNo already exist")
+                            alert(App.languageDict.attributes.Issue_Duplicate)
                             addtoDb = false
                         }
                     })
@@ -65,7 +65,7 @@ $(function() {
                     this.form.commit()
                     this.model.save(null, {
                         success: function(e) {
-                            alert("Issue Saved!")
+                            alert(App.languageDict.attributes.Pubs_Issue_Saved)
                             window.location.href = '#publicationdetail/' + e.toJSON().id;
                         }
                     })
@@ -78,7 +78,7 @@ $(function() {
             var isEdit = this.model.get("_id")
             this.form.commit()
             if (this.model.get("IssueNo") == undefined) {
-                alert("Publication Issue is missing")
+                alert(App.languageDict.attributes.Pubs_Issue_Missing)
                 showsearch = false
             } else {
                 if (isEdit == undefined) {
@@ -91,7 +91,7 @@ $(function() {
                     allpub = allpub.first()
                     if (allpub != undefined)
                         if (allpub.toJSON().IssueNo != undefined) {
-                            alert("IssueNo already exist")
+                            alert(App.languageDict.attributes.Issue_Duplicate)
                             showsearch = false
                         }
 
@@ -117,7 +117,7 @@ $(function() {
                 "courses": myCourses
             })
             if (this.model.get("IssueNo") == undefined) {
-                alert("Publication Issue is missing")
+                alert(App.languageDict.attributes.Pubs_Issue_Missing)
                 showcourse = false
             } else {
                 if (isEdit == undefined) {
@@ -130,7 +130,7 @@ $(function() {
                     allpub = allpub.first()
                     if (allpub != undefined)
                         if (allpub.toJSON().IssueNo != undefined) {
-                            alert("IssueNo already exist")
+                            alert(App.languageDict.attributes.Issue_Duplicate)
                             showcourse = false
                         }
 

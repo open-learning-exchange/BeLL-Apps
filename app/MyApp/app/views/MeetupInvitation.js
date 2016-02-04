@@ -133,7 +133,7 @@ $(function() {
                 })
             }
             $('#invitationdiv').fadeOut(1000)
-            alert("Invitation sent successfully")
+            alert(App.languageDict.attributes.Invitation_Sent_Success)
             document.getElementById('cont').style.opacity = 1.0
             document.getElementById('nav').style.opacity = 1.0
             setTimeout(function() {

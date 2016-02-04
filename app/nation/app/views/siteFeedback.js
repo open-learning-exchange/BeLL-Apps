@@ -58,7 +58,7 @@ $(function() {
                     time: now.toString()
                 })
                 this.model.save()
-                alert("Feedback Successfully Sent")
+                alert(FeedBack_Sent_success)
                 this.unsetForm()
             }
             $('#site-feedback').animate({

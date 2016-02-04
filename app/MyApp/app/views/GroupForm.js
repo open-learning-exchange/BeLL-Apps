@@ -95,7 +95,7 @@ $(function () {
 
 
             } else {
-                alert("Specify course description first")
+                alert(App.languageDict.attributes.Prompt_Course_Desc)
             }
             if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
             {
@@ -227,13 +227,13 @@ $(function () {
 			this.model.set("members", this.prevmemlist)
 		}
 		if (this.model.get('CourseTitle').length == 0) {
-			alert("Course Title is missing")
+			alert(App.languageDict.attributes.CourseTitle_Missing)
 		}
 		//            else if (this.model.get("courseLeader") == 0000) {
 		//                alert("Select Course Leader")
 		//            } 
 		else if (this.model.get("description").length == 0) {
-			alert("Course description is missing")
+			alert(App.languageDict.attributes.Course_Desc_Missing)
 		}
 		else {
 			var member = new App.Models.Member()
@@ -285,7 +285,7 @@ $(function () {
 							memprogress.set("courseId", e.get("id"))
 							memprogress.save()
 						}
-						alert("Course successfully Created.")
+						alert(App.languageDict.attributes.Course_Created_Success)
 					}
 					else { // the course already exists
 
@@ -319,7 +319,7 @@ $(function () {
                                     memprogress.set("courseId", csteps.courseId)
                                     memprogress.save({
                                         success: function () {
-                                            alert('saved')
+                                            alert(App.languageDict.attributes.Success_Saved_Msg)
                                         }
                                     })
                                 }
@@ -335,7 +335,7 @@ $(function () {
 							})
 							//alert(groupModel.get("rev"))
 						that.model.set("_rev", groupModel.get("_rev"))
-						alert("Course successfully Updated.")
+						alert(App.languageDict.attributes.Course_Updated_Success)
 					}
 				}
 			})

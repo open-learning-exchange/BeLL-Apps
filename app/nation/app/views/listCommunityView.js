@@ -25,7 +25,7 @@ $(function() {
         syncData: function() {
             var selectedValues = $('#comselect').val();
             if (!selectedValues) {
-                alert('Please select Community first')
+                alert(App.languageDict.attributes.Prompt_Community_First)
                 return
             }
             //For differentiating between publications and survey
@@ -131,7 +131,7 @@ $(function() {
                             pubResult = resResult.rows[0];
                             if (pubResult.doc.communityNames != [] && pubResult.doc.communityNames.length > 0 && pubResult.doc.communityNames.indexOf(cName) > -1) {
                                 //if (pubResult.value.communityNames.indexOf(cName)> -1) {
-                                alert("This Publication is already sent to " + cName);
+                                alert( App.languageDict.attributes.Already_Pub_Sent+' '+ cName);
                                 //}
                             } else {
                                 selectedComms.push(cName);

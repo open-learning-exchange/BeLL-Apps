@@ -29,7 +29,7 @@ $(function() {
                     model.destroy();
                 }
 
-                alert("Successfully removed from My Meetups ")
+                alert(App.languageDict.attributes.MyMeetUps_Removed_Success)
                 Backbone.history.navigate('dashboard', {
                     trigger: true
                 })

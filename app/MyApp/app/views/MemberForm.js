@@ -27,7 +27,7 @@ $(function() {
                             }
                             else
                             {
-                                alert('Some information on your account is incorrect, please Update it.');
+                                alert(App.languageDict.attributes.Update_Profile_Reminder);
                                 return;
                             }
                             }
@@ -208,7 +208,7 @@ $(function() {
                    }
                    else
                    {
-                       alert('Some information on your account is incorrect, please Update it.');
+                       alert(App.languageDict.attributes.Update_Profile_Reminder);
                        return;
                    }
 
@@ -226,7 +226,7 @@ $(function() {
             if (extension[(extension.length - 1)] == 'jpeg' || extension[(extension.length - 1)] == 'jpg' || extension[(extension.length - 1)] == 'png' || extension[(extension.length - 1)] == 'JPG') {
                 return 1
             }
-            alert("ERROR: Not a valid image file \n\n Valid Extensions are  [.jpg, .jpeg ]")
+            alert(App.languageDict.attributes.Invalid_Image_File)
             return 0
         },
 
@@ -269,7 +269,7 @@ $(function() {
                 }
                 else
                 {
-                    alert('Some information on your account is incorrect, please Update it.');
+                    alert(App.languageDict.attributes.Update_Profile_Reminder);
                     return;
                 }
 
@@ -319,7 +319,7 @@ $(function() {
                             existing = existing.first()
                             if (existing != undefined) {
                                 if (existing.toJSON().login != undefined) {
-                                    alert("Login already exist")
+                                    alert(App.languageDict.attributes.Duplicate_login)
                                     addMem = false
                                 }
                             }
@@ -351,7 +351,7 @@ $(function() {
                                     });
                                 } else {
 
-                                    alert("Successfully Updated!!!");
+                                    alert(App.languageDict.attributes.Updated_Successfully);
                                     forcedUpdateProfile=false;
                                     Backbone.history.navigate('dashboard'
                                     );
@@ -374,7 +374,7 @@ $(function() {
                                     });
                                 } else {
                                     forcedUpdateProfile=false;
-                                    alert("Successfully Updated!!!");
+                                    alert(App.languageDict.attributes.Updated_Successfully);
                                     Backbone.history.navigate('dashboard');
                                     window.location.reload();
                                 }
@@ -411,7 +411,7 @@ $(function() {
             else{
                     //Now, validate age range [5,100] (Inclusive)
                   if(this.getAgeOfUser()<5 || this.getAgeOfUser()>100) {
-                      alert('Valid age range lies from 5 to 100 only. (Inclusive)');
+                      alert(App.languageDict.attributes.Birthday_Range);
                       isCorrect = false;
                   }
                 }
@@ -475,7 +475,7 @@ $(function() {
                     console.log(err);
                 }
                 forcedUpdateProfile=false;
-                alert("Successfully Registered!!!");
+                alert(App.languageDict.attributes.Successfully_Registered);
                 Backbone.history.navigate('members', {
                     trigger: true
                 });
@@ -497,7 +497,7 @@ $(function() {
                     console.log(err);
                 }
                 forcedUpdateProfile=false;
-                alert("Successfully Registered!!!");
+                alert(App.languageDict.attributes.Successfully_Registered);
                 Backbone.history.navigate('members', {
                     trigger: true
                 });

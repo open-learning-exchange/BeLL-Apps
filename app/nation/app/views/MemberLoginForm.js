@@ -47,7 +47,7 @@ $(function() {
                             })
                             if ($.inArray('student', response.rows[0].doc.roles) != -1) {
                                 if (response.rows[0].doc.roles.length < 2) {
-                                    alert("You are not authorized to sign in")
+                                    alert(App.languageDict.attributes.UnAuthorized_Login)
                                 } else {
                                     memberLoginForm.trigger('success:login')
                                 }
@@ -55,13 +55,13 @@ $(function() {
                                 memberLoginForm.trigger('success:login')
                             }
                         } else {
-                            alert("Your account is deactivated")
+                            alert(App.languageDict.attributes.Account_DeActivated)
                         }
                     } else {
-                        alert('Login or Password Incorrect')
+                        alert(App.languageDict.attributes.Invalid_Credentials)
                     }
                 } else {
-                    alert('Login or Password Incorrect')
+                    alert(App.languageDict.attributes.Invalid_Credentials)
                 }
             });
         },

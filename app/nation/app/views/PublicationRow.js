@@ -32,7 +32,7 @@ $(function() {
                                     $.couch.db("publicationdistribution").removeDoc(doc, {
                                         success: function (data) {
                                             that.model.destroy();
-                                            alert("Successfully deleted publication distribution")
+                                            alert(App.languageDict.attributes.PubsDistDb_Delete_Success)
                                             console.log(that.model.attributes._id)
                                             console.log(data);
                                         },
@@ -44,7 +44,7 @@ $(function() {
                                 })
                             }
                             else {
-                                alert("model is accessed publication")
+                                alert(App.languageDict.attributes.Model_fetch_Pubs_Success)
                                 console.log(that.model.attributes._id)
                                 that.model.destroy()
                                 event.preventDefault()

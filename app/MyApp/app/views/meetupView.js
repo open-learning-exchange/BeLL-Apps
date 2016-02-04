@@ -51,7 +51,7 @@ $(function() {
                 async: false
             })
             if (UMeetup.length > 0) {
-                alert("Your have already joined this Meetup")
+                alert(App.languageDict.attributes.Already_Joined_MeetUp)
                 return
             }
 
@@ -61,7 +61,7 @@ $(function() {
             UserMeetUp.set('meetupId', this.model.get('_id'))
             UserMeetUp.set('meetupTitle', this.model.get('title'))
             UserMeetUp.save()
-            alert('successfully Added to your Meetups')
+            alert(App.languageDict.attributes.meetUp_Added)
             Backbone.history.navigate('dashboard', {
                 trigger: true
             })

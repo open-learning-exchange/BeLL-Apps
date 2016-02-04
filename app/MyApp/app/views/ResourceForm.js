@@ -294,11 +294,11 @@ $(function() {
             // Send the updated model to the server
             var newTitle = this.model.get("title")
             if (this.model.get("title").length == 0) {
-                alert("Resource Title is missing")
+                alert(App.languageDict.attributes.Missing_Resource_Title)
             } else if (this.model.get("subject") == null) {
-                alert("Resource Subject is missing")
+                alert(App.languageDict.attributes.Resource_Subject_Missing)
             } else if (this.model.get("Level") == null) {
-                alert("Resource Level is missing")
+                alert(App.languageDict.attributes.Resource_Level_Missing)
             } else {
                 if (isEdit) {
                     var addtoDb = true
@@ -356,7 +356,7 @@ $(function() {
             checkTitle = checkTitle.first()
             if (checkTitle != undefined)
                 if (checkTitle.toJSON().title != undefined) {
-                    alert("Title already exist")
+                    alert(App.languageDict.attributes.Duplicate_Title)
                     return true
                 }
             return false

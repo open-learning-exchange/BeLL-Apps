@@ -44,7 +44,7 @@ $(function() {
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
             } else {
-                alert("Specify Meetup description first")
+                alert(Prompt_MeetUp_Location_First)
             }
         },
         render: function() {
@@ -96,7 +96,7 @@ $(function() {
         setForm: function() {
 
             if (this.model.get('id')) {
-                alert('Saved already')
+                alert(App.languageDict.attributes.Duplicate_Save)
                 return
             }
 
@@ -112,11 +112,11 @@ $(function() {
             this.form.commit()
 
             if (this.model.get("title").length == 0) {
-                alert("Meetup title is missing")
+                alert(App.languageDict.attributes.MeetUp_Title_Missing)
             } else if (this.model.get("description").length == 0) {
-                alert("Meetup Description is missing")
+                alert(App.languageDict.attributes.MeetUp_Desc_Missing)
             } else if (this.model.get("meetupLocation").length == 0) {
-                alert("Meetup Location is missing")
+                alert(App.languageDict.attributes.Missing_MeetUp_Location)
             } else {
 
                 this.model.set('creator', $.cookie('Member._id'))
@@ -144,7 +144,7 @@ $(function() {
                             if (res = userMeetup.first()) {
                                 res.set('meetupTitle', responce.get('title'))
                                 res.save()
-                                alert('Updated Successfully')
+                                alert(App.languageDict.attributes.Updated_Successfully)
 
                             }
                             Backbone.history.navigate('meetups', {

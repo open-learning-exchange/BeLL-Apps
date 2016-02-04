@@ -41,7 +41,7 @@ $(function() {
                     }
                     for (var j in courses) {
                         if (courses[j]['courseID'] === courseId) { // if courseId matches with id of an already added course's id, return
-                            alert("This Course Already Exists In This Publication");
+                            alert(App.languageDict.attributes.Duplicate_Course_In_Pub);
                             return;
                         }
                     }
@@ -71,13 +71,13 @@ $(function() {
                             });
                             response.save(null, { // should this save call happen inside or outside coursesteps.fetch()?
                                 success: function() {
-                                    alert("Added Successfully");
+                                    alert(App.languageDict.attributes.Added_Success);
                                 }
                             });
                         },
                         error: function(err) {
                             console.log(err);
-                            alert("Failed to add the course to the publication");
+                            alert(App.languageDict.attributes.AddCourse_To_pubs_Failed);
                         }
                     });
                     //					 courses.push(courseId)

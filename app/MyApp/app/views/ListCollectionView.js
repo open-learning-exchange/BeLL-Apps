@@ -119,7 +119,7 @@ $(function() {
                 }
             })
             if (titleMatch) {
-                alert("Collection Name already exist")
+                alert(App.languageDict.attributes.Duplicate_CollectionName)
                 $('#invitationdiv').fadeOut(1000)
 
                 document.getElementById('cont').style.opacity = 1.0
@@ -140,7 +140,7 @@ $(function() {
 
                     this.model.save(null, {
                         success: function(m) {
-                            alert("Collection Saved Successfully")
+                            alert(App.languageDict.attributes.Collection_Saved_success)
                             location.reload()
                             if (that.model.get('_id') == undefined) {
                                 if (that.model.get('NesttedUnder') == '--Select--') {
@@ -171,7 +171,7 @@ $(function() {
                     })
 
                 } else {
-                    alert("Enter collection name!")
+                    alert(App.languageDict.attributes.Prompt_CollectionName)
                 }
 
             }

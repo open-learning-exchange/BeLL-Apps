@@ -51,7 +51,7 @@ $(function() {
 					})
 
 					this.model.destroy()
-					alert("Resource Successfully deleted.")
+					alert(App.languageDict.attributes.Resource_Deleted_success)
 					event.preventDefault()
 				}
 			},
@@ -70,7 +70,7 @@ $(function() {
 					success: function(response, revInfo) {
 
 						that.remove()
-						alert('Removed Successfully From Collection')
+						alert(App.languageDict.attributes.Removed_From_Collection)
 
 					}
 				})

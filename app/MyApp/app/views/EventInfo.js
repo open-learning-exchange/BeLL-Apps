@@ -17,7 +17,7 @@ $(function () {
              
              this.model.destroy()
              
-             alert("Event Successfully Deleted!!!")
+             alert(App.languageDict.attributes.Event_Deleted_Success)
                     Backbone.history.navigate('calendar', {
                         trigger: true
                     })

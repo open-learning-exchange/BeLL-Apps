@@ -118,7 +118,7 @@ $(function() {
                     that.collection.models[i].set('step', i)
                     that.updateModel(that.collection.models[i])
                 }
-                alert("Step successfully deleted.")
+                alert(App.languageDict.attributes.Step_deleted_Success)
                 that.collection.models.splice(stepNo - 1, 1)
                 if (that.collection.models.length == 0) {
                     $('#moveup').hide()

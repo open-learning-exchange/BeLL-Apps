@@ -52,7 +52,7 @@ $(function() {
                 success: function(doc, rev) {
                     App.configuration = con;
                     console.log(App.configuration.get('name'))
-                    alert('Configurations are Successfully Added');
+                    alert(App.languageDict.attributes.Config_Added_Success);
                     Backbone.history.navigate('dashboard', {
                         trigger: true
                     });

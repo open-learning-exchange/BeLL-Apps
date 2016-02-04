@@ -9,7 +9,7 @@ $(function() {
                 if (confirm('Are you sure you want to delete this Report?')) {
                 this.model.destroy()
                 event.preventDefault();
-                alert('Successfully deleted Report.');
+                alert(App.languageDict.attributes.Reports_Deleted_Success);
                 }
             },
             "click #open": function(event) {

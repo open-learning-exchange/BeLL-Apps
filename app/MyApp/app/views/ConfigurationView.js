@@ -29,10 +29,10 @@ $(function() {
 							that.model.set("_rev", response.get("rev"))
 						}
 					})
-					alert('Configuration saved.')
+					alert(App.languageDict.attributes.Config_Saved)
 					location.reload()
 				} else {
-					alert("You have not changed any thing.")
+					alert(App.languageDict.attributes.No_Changes)
 				}
 			}
 		},

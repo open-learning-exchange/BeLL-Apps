@@ -30,7 +30,7 @@ $(function() {
                     url: '/coursestep/' + this.model.get('_id') + '/' + _.keys(this.model.get('_attachments'))[attachmentNo] + '?rev=' + this.model.get("_rev"),
                     type: 'DELETE',
                     success: function(response, status, jqXHR) {
-                        alert('Successfully deleted.')
+                        alert(App.languageDict.attributes.Successfully_Deleted)
                         App.Router.ViewLevel(that.model.get('_id'), that.model.get("_rev"))
                     }
                 })
@@ -54,7 +54,7 @@ $(function() {
                 var img = $('input[type="file"]')
                 var extension = img.val().split('.')
                 if (img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'mov' && extension[(extension.length - 1)] != 'mp3') {
-                    alert("Invalid attatchment.")
+                    alert(App.languageDict.attributes.Invalid_Attachment)
                     return
                 }
                 //this.model.unset('_attachments')
@@ -62,11 +62,11 @@ $(function() {
                     this.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                 } else {
                     ////no attachment
-                    alert('no attachment')
+                    alert(App.languageDict.attributes.No_Attachment)
                 }
                 this.model.on('savedAttachment', function() {
                     /////Attatchment successfully saved
-                    alert("Assignement successfully submitted.")
+                    alert(App.languageDict.attributes.Assignment_Submit_Success)
                     App.Router.ViewLevel(that.model.get('_id'), that.model.get("_rev"))
                     //                	this.$el.html('')
                     //                	this.model.fetch({async:false})

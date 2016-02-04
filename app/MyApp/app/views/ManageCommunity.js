@@ -6,7 +6,7 @@ $(function() {
             "click .SyncDbSelect": 'SyncDbSelect',
             "click #configuration": 'Configuration',
             "click .back": function(e) {
-                alert('back')
+                alert(App.languageDict.attributes.Back)
             }
 
         },
@@ -16,7 +16,6 @@ $(function() {
         },
 
         processJsonp: function() {
-            alert();
         },
         render: function() {
 
@@ -47,7 +46,7 @@ $(function() {
         },
 
         syncDbs: function(e) {
-            alert('this is sync db function in community manage')
+            console.log('this is sync db function in community manage')
         },
         SyncDbSelect: function() {
             $('#invitationdiv').fadeIn(1000)

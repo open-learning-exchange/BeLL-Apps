@@ -35,7 +35,7 @@ $(function () {
   							    model.destroy();
 			                }
                             that.render()
-                            alert('Member is Removed From Course')
+                            alert(App.languageDict.attributes.Member_Removed_From_Course)
              		}
             })
             

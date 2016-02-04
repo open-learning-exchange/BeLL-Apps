@@ -114,7 +114,7 @@ $(function() {
                 var num = gmodel.get("members").length
                 if (gmodel.get("memberLimit"))
                     if (gmodel.get("memberLimit") < num) {
-                        alert('This Course is full')
+                        alert(App.languageDict.attributes.Course_Full)
                         mailView.updateMailBody(vacancyFull)
                         return
                     }
@@ -156,7 +156,7 @@ $(function() {
 
                                     }
                                 })
-                                alert("Course added to your dashboard")
+                                alert(App.languageDict.attributes.Course_Added_Dashboard)
                                 Backbone.history.navigate('dashboard', {
                                     trigger: true
                                 })
@@ -164,7 +164,7 @@ $(function() {
                         })
 
                     } else {
-                        alert("Course already added to your dashboard")
+                        alert(App.languageDict.attributes.Course_Existing_Dashboard)
                         Backbone.history.navigate('dashboard', {
                             trigger: true
                         })
@@ -442,7 +442,7 @@ $(function() {
                             memprogress.set("courseId", csteps.courseId)
                             memprogress.save({
                                 success: function() {
-                                    alert('saved')
+                                    alert(App.languageDict.attributes.Success_Saved_Msg)
                                 }
                             })
 
@@ -506,7 +506,7 @@ $(function() {
                 async: false
             })
             if (UMeetup.length > 0) {
-                alert("Your have already joined this Meetup")
+                alert(App.languageDict.attributes.Already_Joined_MeetUp)
                 return
             }
 
@@ -519,7 +519,7 @@ $(function() {
             console.log(meetup)
 
             if (!meetup.get('title')) {
-                alert('Meetup No more Exist')
+                alert(App.languageDict.attributes.MeetUp_not_Existing)
                 return
             }
             var userMeetup = new App.Models.UserMeetup()
@@ -532,7 +532,7 @@ $(function() {
             })
             userMeetup.save()
 
-            alert('Successfully Joined')
+            alert(App.languageDict.attributes.Joined_Success)
 
         },
         updateMailBody: function(body) {

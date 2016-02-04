@@ -196,11 +196,11 @@ $(function() {
                             url: server + "/" + input_db + "/" + input_id,
                             success: function(response) {
                                 model.trigger('savedAttachment')
-                                alert("Resource Successfully added")
+                                alert(App.languageDict.attributes.Resource_Added_Success)
                                 App.stopActivityIndicator()
                             },
                             error: function(response) {
-                                alert("Error")
+                                alert(App.languageDict.attributes.Error)
                                 App.stopActivityIndicator()
                             },
                         })
@@ -223,7 +223,6 @@ $(function() {
                         "_id": input_id
                     }, {
                         success: function(couchDoc) {
-                            alert('error success')
                             // Now that the Couch Doc exists, we can submit the attachment,
                             // but before submitting we have to define the revision of the Couch
                             // Doc so that it gets passed along in the form submit.

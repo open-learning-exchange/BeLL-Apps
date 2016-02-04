@@ -165,13 +165,13 @@ $(function() {
 					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/communityreports'
 				}),
 				success: function(response) {
-					alert("Successfully Replicated Reports")
+					alert(App.languageDict.attributes.Reports_Replicated_Success)
 					if (isActivityLogChecked == false) {
 						App.stopActivityIndicator();
 					}
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
+					alert(App.languageDict.attributes.TryLater_Error)
 				}
 			})
 		},
@@ -247,7 +247,7 @@ $(function() {
 													"doc_ids": [communityModelId]
 												}),
 												success: function(response) {
-													alert("Successfully Replicated Log Activity Reports")
+													alert(App.languageDict.attributes.ActivityReports_Replicated_Success)
 													App.stopActivityIndicator();
 												},
 												async: false
@@ -267,7 +267,7 @@ $(function() {
 
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
+					alert(App.languageDict.attributes.TryLater_Error)
 				}
 			})
 
@@ -288,13 +288,13 @@ $(function() {
 					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/feedback'
 				}),
 				success: function(response) {
-					alert("Successfully Replicated Resources Feedbacks")
+					alert(App.languageDict.attributes.FeedbackDb_Replicated_Success)
 					if (isActivityLogChecked == false) {
 						App.stopActivityIndicator();
 					}
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
+					alert(App.languageDict.attributes.TryLater_Error)
 				}
 			})
 
@@ -315,13 +315,13 @@ $(function() {
 					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/report'
 				}),
 				success: function(response) {
-					alert("Successfully Replicated Application Feedbacks")
+					alert(App.languageDict.attributes.FeedbackDb_Replicated_Success)
 					if (isActivityLogChecked == false) {
 						App.stopActivityIndicator();
 					}
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
+					alert(App.languageDict.attributes.TryLater_Error)
 				}
 			})
 		},
@@ -355,13 +355,13 @@ $(function() {
 					"filter": "bell/adminFilter"
 				}),
 				success: function(response) {
-					alert("Members database replicated.")
+					alert(App.languageDict.attributes.MemberDb_Replicated)
 					if (isActivityLogChecked == false) {
 						App.stopActivityIndicator();
 					}
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
+					alert(App.languageDict.attributes.TryLater_Error)
 				}
 			})
 		},
@@ -500,7 +500,7 @@ $(function() {
 				data: JSON.stringify(currentConfig),
 				success: function(response) {
 					console.log(response)
-					alert("Successfully updated to latest version.")
+					alert(App.languageDict.attributes.Updated_NewVersion_Success)
 				},
 				async: false
 			})

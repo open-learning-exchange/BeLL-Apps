@@ -11,9 +11,7 @@ $(function() {
     render: function() {
 
       var vars = this.model.toJSON()
-      alert('test')
       console.log(vars)
-      alert('shelf span in')
       this.$el.append(_.template(this.template, vars))
     }
 

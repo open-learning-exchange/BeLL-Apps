@@ -182,7 +182,7 @@ $(function() {
                         }
                     },
                     error: function() {
-                        alert("Unable to get collections.");
+                        alert(App.languageDict.attributes.Fetch_Collections_Error);
 
                     },
                     async: false
@@ -467,11 +467,11 @@ $(function() {
                 publication.set("resources", rids)
                 publication.save()
                 publication.on('sync', function() {
-                    alert("Your Resources have been added successfully")
+                    alert(App.languageDict.attributes.Resources_Added_Success)
                     window.location = '../nation/index.html#publicationdetail/' + publication.get('_id')
                 })
             } else {
-                alert("Please select resources first.");
+                alert(App.languageDict.attributes.Prompt_Reource_first);
             }
 
 

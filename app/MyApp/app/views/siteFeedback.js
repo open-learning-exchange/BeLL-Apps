@@ -45,7 +45,7 @@ $(function() {
                     communityCode: App.configuration.get('code')
                 })
                 this.model.save()
-                alert("Feedback Successfully Sent")
+                alert(App.languageDict.attributes.FeedBack_Sent_success)
                 this.unsetForm()
             }
 

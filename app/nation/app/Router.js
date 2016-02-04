@@ -113,7 +113,7 @@ $(function() {
             }
             var logReport = logData[0];
             if (logReport == undefined) {
-                alert("No Activity Logged for this period")
+                alert(App.languageDict.attributes.No_Activity_Logged)
             }
             var report_resRated = [],
                 report_resOpened = [],
@@ -2905,7 +2905,7 @@ $(function() {
                             };
                             $.couch.db("publicationdistribution").removeDoc(doc, {
                                 success: function(data) {
-                                    alert("Extra publication distribution documents have been deleted")
+                                    alert(App.languageDict.attributes.Extra_Docs_Deleted)
                                     console.log(data);
                                 },
                                 error: function(status) {

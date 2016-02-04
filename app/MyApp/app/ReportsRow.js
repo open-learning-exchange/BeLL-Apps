@@ -6,9 +6,10 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function(event) {
-                alert("deleting")
-                this.model.destroy()
-                event.preventDefault()
+                if (confirm('Are you sure you want to delete this Report?')) {
+                    this.model.destroy()
+                    event.preventDefault();
+                    alert(App.languageDict.attributes.Reports_Deleted_Success);}
             },
             "click #open": function(event) {
                 if (this.model.get("views") == undefined) {

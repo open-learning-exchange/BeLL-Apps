@@ -68,7 +68,7 @@ $(function() {
                 this.form.commit()
                 this.model.save()
                 console.log(this.model.toJSON())
-                alert("Request Successfully Sent")
+                alert(App.languageDict.attributes.Request_Sent_Success)
                 this.form.setValue({
                     request: ""
                 })

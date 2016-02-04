@@ -100,7 +100,7 @@ $(function () {
                     }
                 });
 
-                alert('Configurations are Successfully Added');
+                alert(App.languageDict.attributes.Config_Added_Success);
                 Backbone.history.navigate('dashboard');
                 window.location.reload();
             }});

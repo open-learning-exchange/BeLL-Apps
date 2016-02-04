@@ -46,7 +46,7 @@ $(function() {
         setForm: function() {
             // Put the form's input into the model in memory
             if (this.user_rating == 0) {
-                alert("Please rate the resource first");
+                alert(App.languageDict.attributes.Rate_Resource_First);
             } else {
                 // Put the form's input into the model in memory
                 if (this.form.getValue('comment').length == 0) {

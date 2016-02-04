@@ -89,9 +89,9 @@ $(function() {
             this.form.commit()
             // Send the updated model to the server
             if (isNaN(this.model.get("allowedErrors"))) {
-                alert("Not a valid Allowed Errors")
+                alert(App.languageDict.attributes.Invalid_AllowedErrors)
             } else if (isNaN(this.model.get("step"))) {
-                alert("Not a valid Step Number")
+                alert(App.languageDict.attributes.InvalidStepNumber)
             } else {
                 if (!this.edit) {
                     this.model.set("questions", null)
@@ -132,7 +132,7 @@ $(function() {
                         if (done)
                             that.model.save()
                         else
-                            alert("Step already exists")
+                            alert(App.languageDict.attributes.DuplicateSteps)
 
                     }
                 })

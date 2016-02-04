@@ -26,7 +26,7 @@ $(function() {
                     function(e) {
                         e.destroy()
                     })
-                alert("Resource Successfully removed from Shelf ")
+                alert(App.languageDict.attributes.Resource_RemovedFrom_Shelf_Success)
                 Backbone.history.navigate('dashboard', {
                     trigger: true
                 })

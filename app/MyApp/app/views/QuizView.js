@@ -53,7 +53,7 @@ $(function() {
                 var that = this
                 cstep.save(null, {
                     success: function(cstepModel, modelRev) {
-                        alert('Quiz Successfully Saved')
+                        alert(App.languageDict.attributes.Quiz_Saved_Success)
                         Backbone.history.navigate('level/view/' + modelRev.id + '/' + modelRev.rev, {
                             trigger: true
                         })
@@ -63,7 +63,7 @@ $(function() {
         },
         savequestion: function(e) {
             if (!this.validQuestionAndOptions()) {
-                alert('invalid inputs')
+                alert(App.languageDict.attributes.Invalid_Inputs)
             } else {
                 this.saveQuestionAndOptions()
                 $("#question-no").html("Question :")

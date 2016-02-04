@@ -36,7 +36,7 @@ $(function() {
                     }
                     this.renderQuestion()
                 } else {
-                    alert("no option selected")
+                    alert(App.languageDict.attributes.No_Option_Selected)
                 }
             }
         },

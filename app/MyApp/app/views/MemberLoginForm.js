@@ -211,13 +211,13 @@ $(function() {
                                 // }
                                 //							console.log(member.toJSON())
                             } else {
-                                alert("Your Account Is Deactivated")
+                                alert(App.languageDict.attributes.Account_DeActivated)
                             }
                         } else {
-                            alert('Login or Password Incorrect')
+                            alert(App.languageDict.attributes.Invalid_Credentials)
                         }
                     } else {
-                        alert('Login or Password Incorrect.')
+                        alert(App.languageDict.attributes.Invalid_Credentials)
                     }
                 }
             });

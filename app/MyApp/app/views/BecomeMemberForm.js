@@ -63,7 +63,7 @@ $(function () {
 
             var that = this
             this.model.once('sync', function () {
-                alert("Thank you for becoming a member")
+                alert(App.languageDict.attributes.Thank_Member)
 
                 $.cookie('Member.login', that.model.get("login"), {
                     path: "/apps/_design/bell/lms"
@@ -92,7 +92,7 @@ $(function () {
             })
             existing.each(function (m) {
                 if (m.get("login") == that.model.get("login")) {
-                    alert("Login already exist")
+                    alert(App.languageDict.attributes.Duplicate_login)
                     addMem = false
                 }
             })

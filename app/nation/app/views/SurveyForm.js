@@ -37,7 +37,7 @@ $(function() {
         },
 
         saveForm: function() {
-            alert("This functionality is under construction");
+            alert(App.languageDict.attributes.Functionality_Under_Construction);
             //The following code is necessary, so please do not play with it.
             /*var isEdit = this.model.get("_id")
             var addtoDb = true

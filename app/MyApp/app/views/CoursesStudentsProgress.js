@@ -113,7 +113,7 @@ $(function () {
                 this.totalSpace = 93 / this.collection.length
                 this.collection.each(this.addOne, this)
             } else {
-                alert("No Data Found on Server")
+                alert(App.languageDict.attributes.No_Data_Error)
             }
         },
         render: function () {

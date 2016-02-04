@@ -32,9 +32,9 @@ $(function () {
                 this.form.commit()
                 this.model.save()
                 if (this.update) {
-                    alert("Event Successfully Updated!!!")
+                    alert(App.languageDict.attributes.Event_Updated_Success)
                 } else {
-                    alert("Event Successfully Created!!!")
+                    alert(App.languageDict.attributes.Event_Created_Success)
                 }
                 Backbone.history.navigate('calendar', {
                     trigger: true

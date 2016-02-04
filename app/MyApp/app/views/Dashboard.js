@@ -30,11 +30,11 @@ $(function() {
             },
             "click #savenotes": function(e) {
                 if ($('#appversion').val() == "") {
-                    alert("Please enter version no.")
+                    alert(App.languageDict.attributes.Prompt_Version_Number)
                     return
                 }
                 if ($('#notes').val() == "") {
-                    alert("Please enter release notes.")
+                    alert(App.languageDict.attributes.Prompt_ReleaseNotes)
                     return
                 }
 
@@ -60,7 +60,7 @@ $(function() {
                         $("#releaseVersion").slideUp("slow", function() {
                             $('#appversion').val("")
                             $('#notes').val("")
-                            alert('Notes successfully saved.')
+                            alert(App.languageDict.attributes.Notes_Saved_Success)
                         })
                     }
                 })
@@ -125,27 +125,27 @@ $(function() {
                                                                                 that.callingUpdateFunctions();
                                                                                 ////////////////////////////////
                                                                             } else {
-                                                                                alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                                                alert(App.languageDict.attributes.Poor_Internet_Error);
                                                                             }
                                                                         },
                                                                         error: function(status) {
                                                                             console.log(status);
-                                                                            alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                                            alert(App.languageDict.attributes.Poor_Internet_Error);
                                                                         }
                                                                     });
                                                                 },
                                                                 error: function(status) {
                                                                     console.log(status);
-                                                                    alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                                    alert(App.languageDict.attributes.Poor_Internet_Error);
                                                                 }
                                                             });
                                                         } else {
-                                                            alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                            alert(App.languageDict.attributes.Poor_Internet_Error);
                                                         }
                                                     }
                                                 });
                                             } else {
-                                                alert("Unable to update Bell-Apps, please check your internet connection or try again later");
+                                                alert(App.languageDict.attributes.Poor_Internet_Error);
                                             }
                                         }
                                     });
@@ -237,7 +237,7 @@ $(function() {
                         console.log("Community is registered with the nation, lets update it.");
                         that.appsCreation();
                     } else {
-                        alert(" The community is not authorized to update until it is properly configured with a nation");
+                        alert(App.languageDict.attributes.UnAuthorized_Community);
                         window.location.reload(false);
                     }
                 },
@@ -333,7 +333,7 @@ $(function() {
                                                             that.updateAppsAndDesignDocs();
                                                         },
                                                         error: function(status) {
-                                                            alert("Failed to create apps");
+                                                            alert(App.languageDict.attributes.Create_Apps_Error);
                                                         }
                                                     });
                                                 },
@@ -360,7 +360,7 @@ $(function() {
                         });
                     },
                     error: function() {
-                        alert("tempapps replication failed")
+                        alert(App.languageDict.attributes.TempApp_Replication_Error)
                     }
                 });
             },
@@ -450,7 +450,7 @@ $(function() {
                 },
                 error: function(status) {
                     console.log(status);
-                    alert("Unable to replicate apps");
+                    alert(App.languageDict.attributes.UnableToReplicate);
                 }
             });
         },
@@ -571,7 +571,7 @@ $(function() {
                                                             that.replicateLanguagesfromTempDB(langDocsIds);
                                                         },
                                                         error: function(status) {
-                                                            alert("Failed to create languages db");
+                                                            alert(App.languageDict.attributes.LanguagesDb_Creation_Error);
                                                         }
                                                     });
                                                 },
@@ -759,7 +759,7 @@ $(function() {
                                             }
                                         });
                                     }
-                                    alert("Updated Successfully");
+                                    alert(App.languageDict.attributes.Updated_Successfully);
                                     window.location.reload(false);
                                 },
                                 async: false
@@ -883,7 +883,7 @@ $(function() {
                 }
                 if(isRemind)
                 {
-                    alert('Please Update your profile.');
+                    alert(App.languageDict.attributes.UpdateProfile);
                     forcedUpdateProfile=true;
                     console.log('from dasghboard '+forcedUpdateProfile);
                     Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
@@ -999,7 +999,7 @@ $(function() {
                             success: function(doc, rev) {
 
                                 App.configuration = con;
-                                alert('Configurations are Successfully changed for Branch Library');
+                                alert(App.languageDict.attributes.Config_Changed_For_Branch);
                                 console.log('Configurations are Successfully changed for Branch Library');
                                 Backbone.history.navigate('dashboard', {
                                     trigger: true

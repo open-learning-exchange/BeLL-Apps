@@ -86,7 +86,7 @@ $(function () {
             if (this.collection.length != 0) {
                 this.collection.each(this.addOne, this)
             } else {
-                alert("No Data Found on Server")
+                alert(App.languageDict.attributes.No_Data_Error)
             }
         },
 

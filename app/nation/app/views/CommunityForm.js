@@ -83,11 +83,11 @@ $(function() {
                 success: function(result) {
                     // assumption: if control falls to the success function result.rows will never be undefined. it will value of an array
                     if (result.rows.length > 1) { // if more than one community records with same 'Name' i-e duplicate community Name found in DB
-                        alert("Community has duplicates in the database. Please delete other copies and retry.");
+                        alert(App.languageDict.attributes.Duplicate_CommunityName_Error);
                         return;
                     } else if (result.rows.length === 0) { // if no duplicates found in DB
                         context.model.save();
-                        alert("Successfully Saved");
+                        alert(App.languageDict.attributes.Success_Saved_Msg);
                         App.startActivityIndicator();
                         Backbone.history.navigate('listCommunity', {
                             trigger: true
@@ -101,19 +101,19 @@ $(function() {
                             // its the same community with some edit(s). not a new one which is has same name as another existing community
                             //                            alert("Same community edit");
                             context.model.save();
-                            alert("Successfully Saved");
+                            alert(App.languageDict.attributes.Success_Saved_Msg);
                             App.startActivityIndicator();
                             Backbone.history.navigate('listCommunity', {
                                 trigger: true
                             });
                             App.stopActivityIndicator();
                         } else {
-                            alert("Community 'Name' you entered is a duplicate. Please try again with a different name.");
+                            alert(App.languageDict.attributes.InValid_CommunityName);
                         }
                     }
                 },
                 error: function() {
-                    alert("There was an error in getting a response from the server. Please try again.");
+                    alert(App.languageDict.attributes.Response_Error);
                 }
             });
 

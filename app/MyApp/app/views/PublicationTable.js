@@ -186,7 +186,7 @@
                                                 success: function(data) {
                                                     $.couch.replicate("tempresources", "resources", {
                                                         success: function(data) {
-                                                            alert("Resources successfully synced");
+                                                            alert(App.languageDict.attributes.Resources_Synced_Success);
                                                             $.couch.db("tempresources").drop({
                                                                 success: function(data) {
                                                                     console.log(data);
@@ -195,11 +195,11 @@
                                                                     console.log(status);
                                                                 }
                                                             });
-                                                            alert('Publication "'+IssueNo+'" Resources successfully synced');
+                                                            alert(App.languageDict.attributes.Publication+' ' +IssueNo+' '+ App.languageDict.attributes.Resources_Synced_Success);
                                                         },
                                                         error: function(status) {
                                                             console.log(status);
-                                                            alert("Unable to sync Resources");
+                                                            alert(App.languageDict.attributes.Resources_Synced_Error);
                                                             $.couch.db("tempresources").drop({
                                                                 success: function(data) {
                                                                     console.log(data);
@@ -222,12 +222,12 @@
                                                             console.log(status);
                                                         }
                                                     });
-                                                    alert("Error!");
+                                                    alert(App.languageDict.attributes.Error);
                                                 }
                                     });
                                     },
                                     error: function() {
-                                        alert("Unable to get resources.");
+                                        alert(App.languageDict.attributes.Fetch_Resources_Error);
                                         $.couch.db("tempresources").drop({
                                             success: function(data) {
                                                 console.log(data);
@@ -374,7 +374,7 @@
                                                                                 "doc_ids": [communityModelId]
                                                                             }),
                                                                             success: function(response){
-                                                                                alert("Successfully Replicated Publications.")
+                                                                                alert(App.languageDict.attributes.Pubs_Replicated_Success)
                                                                                 App.stopActivityIndicator();
                                                                             },
                                                                             async: false
@@ -398,7 +398,7 @@
                                             console.log(status);
                                             console.log(errorThrown);
                                             App.stopActivityIndicator();
-                                            alert('Failed to sync course-steps');
+                                            alert(App.languageDict.attributes.CourseSteps_Synced_Error);
                                             }
                                         });
                                     },
@@ -407,7 +407,7 @@
                                     console.log(status);
                                     console.log(errorThrown);
                                     App.stopActivityIndicator();
-                                    alert('Failed to sync courses');
+                                    alert(App.languageDict.attributes.Courses_Synced_Error);
                                     }
                                 })
                             },
@@ -423,7 +423,7 @@
                                     }
                                 });
                                 App.stopActivityIndicator();
-                                alert('Failed to sync resources');
+                                alert(App.languageDict.attributes.Resources_Synced_Error);
                             }
                         });
                     }
@@ -448,10 +448,10 @@
                     }),
                     success: function (response) {
                         console.log(response);
-                        alert('Publication "'+IssueNo+'" Resources successfully Synced');
+                        alert(App.languageDict.attributes.Publication+' ' +IssueNo+' '+ App.languageDict.attributes.Resources_Synced_Success);
                     },
                     error: function(jqXHR, status, errorThrown){
-                        console.log('Error syncing/replicating Publication "'+IssueNo+'" resources');
+                        console.log(App.languageDict.attributes.Pubs_Synced_Error+' '+IssueNo+' '+App.languageDict.attributes.Resources);
                         console.log(status);
                         console.log(errorThrown);
                     }

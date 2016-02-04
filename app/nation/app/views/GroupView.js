@@ -7,7 +7,6 @@ $(function() {
         roles: null,
         events: {
             "click #admissionButton": function(e) {
-                alert('asdfasdf')
             }
         },
         render: function() {
@@ -45,7 +44,7 @@ $(function() {
                 mail.set("type", "admissionRequest");
                 mail.set("sentDate", currentdate);
                 mail.save()
-                alert("Admission request successfully sent to this course leader.")
+                alert(App.languageDict.attributes.RequestForCourse)
 
 
             });

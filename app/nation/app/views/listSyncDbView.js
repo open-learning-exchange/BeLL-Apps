@@ -164,15 +164,15 @@ $(function() {
                         }),
                         success: function(response) {
                             App.stopActivityIndicator()
-                            alert('sync successfully ')
+                            alert(App.languageDict.attributes.Synced_Success)
                             Backbone.history.navigate('reports', {
                                 trigger: true
                             })
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
                             App.stopActivityIndicator()
-                            alert("Status: " + textStatus);
-                            alert("Error: " + errorThrown);
+                            alert(App.languageDict.attributes.Status+" " + textStatus);
+                            alert(App.languageDict.attributes.Error+" " + errorThrown);
                             Backbone.history.navigate('reports', {
                                 trigger: true
                             })
@@ -207,10 +207,10 @@ $(function() {
                             "target": 'http://' + nationName + ':' + App.password + '@' + nationURL + '/activitylog'
                         }),
                         success: function(response) {
-                            alert("Successfully Replicated Reports")
+                            alert(App.languageDict.attributes.Reports_Replicated_Success)
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            alert("Error (Try Later)")
+                            alert(App.languageDict.attributes.TryLater_Error)
                         },
                         async: false
                     })
@@ -354,7 +354,7 @@ $(function() {
                 data: JSON.stringify(currentConfig),
                 success: function(response) {
                     console.log(response)
-                    alert("Successfully updated to latest version.")
+                    alert(App.languageDict.attributes.Updated_NewVersion_Success)
                 },
                 async: false
             })

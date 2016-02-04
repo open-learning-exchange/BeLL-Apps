@@ -91,7 +91,7 @@ $(function() {
             welcomeVideoResources.fetch({
                 success: function() {},
                 error: function() {
-                    alert("router:: addOrUpdateWelcomeVideoDoc:: error fetching welcome resources");
+                    alert("router:: addOrUpdateWelcomeVideoDoc:: "+App.languageDict.attributes.Error_Welcome_Resource);
                 },
                 async: false
             });
@@ -141,7 +141,7 @@ $(function() {
             test.save(null, {
                 success: function(error, response) {
                     console.log(response)
-                    alert('success')
+                    alert(App.languageDict.attributes.Success_Msg)
                 }
 
             })
@@ -1297,7 +1297,7 @@ $(function() {
                 success: function(responseModel, responseRev) {
 
                     cstep.set("_rev", responseRev.rev)
-                    alert("Your Resources have been updated successfully")
+                    alert(App.languageDict.attributes.Resource_Updated)
                     Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
                         trigger: true
                     })
@@ -1792,7 +1792,7 @@ $(function() {
             mail.set("type", "mail")
             mail.set("sentDate", currentdate)
             mail.save();
-            alert("Successfully resigned from " + courseModel.get('name') + ' . ')
+            alert(App.languageDict.attributes.Resigned_Success_Msg +' ' + courseModel.get('name') + ' . ')
 
             Backbone.history.navigate('dashboard', {
                 trigger: true
@@ -2232,7 +2232,7 @@ $(function() {
             }
             var logReport = logData[0];
             if (logReport == undefined) {
-                alert("No Activity Logged for this period")
+                alert(App.languageDict.attributes.No_Activity_Logged)
             }
             var report_resRated = [],
                 report_resOpened = [],
@@ -3569,7 +3569,7 @@ $(function() {
 
 
                 } else {
-                    alert("You must choose a date to proceed");
+                    alert(App.languageDict.attributes.Select_Date);
                 }
             });
             applyStylingSheet();
@@ -3816,9 +3816,9 @@ $(function() {
                 shelfItem.save(null, {
                     success: function(model, response, options) {}
                 });
-                alert('Successfully Add To Shelf')
+                alert(App.languageDict.attributes.Added_To_Shelf)
             } else {
-                alert('Already in Shelf')
+                alert(App.languageDict.attributes.Duplicate_In_Shelf)
             }
         },
         //Issue#61: Update buttons Add Feedback form when rating a resource
@@ -3838,9 +3838,9 @@ $(function() {
                 shelfItem.save(null, {
                     success: function(model, response, options) {}
                 });
-                alert('Successfully Saved Feedback and Add To Shelf')
+                alert(App.languageDict.attributes.FeedBack_And_AddedToShelf)
             } else {
-                alert('Successfully Saved Feedback,Resource Already in Shelf')
+                alert(App.languageDict.attributes.FeedbackSaved_Not_Resource)
             }
             Backbone.history.navigate('resources', {
                 trigger: true
@@ -4298,7 +4298,7 @@ $(function() {
                                 }
 
                             })
-                            alert('Collections Merge Successfully')
+                            alert(App.languageDict.attributes.Collections_Merge_Success)
                             document.getElementById('cont').style.opacity = 1
                             document.getElementById('nav').style.opacity = 1
                             $('#invitationdiv').hide()
@@ -4781,7 +4781,7 @@ $(function() {
                 })
             })
             App.once('compile:done', function() {
-                alert('menifist file is creted in Bell-apps')
+                alert(App.languageDict.attributes.Manifest_Error)
             })
 
         },
@@ -5336,7 +5336,7 @@ $(function() {
             // records into these variables and then just display them in the output
             var logReport = logData.first();
             if (logReport == undefined) {
-                alert("No Activity Logged for this period")
+                alert(App.languageDict.attributes.No_Activity_Logged)
             }
             var report_resRated = logReport.get('resourcesIds')
             var report_resOpened = [];
