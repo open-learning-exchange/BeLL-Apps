@@ -27,7 +27,7 @@ $(function() {
 
             }
             if (allhidden) {
-                $('#ur').append('<td class="shelf-box">No Item In the Shelf</td>')
+                $('#ur').append('<td class="shelf-box">'+App.languageDict.attributes.Empty_Shelf+'</td>')
             }
         }
 

@@ -17,7 +17,7 @@ $(function() {
                 this.collection.each(this.addOne, this)
             } else {
 
-                $('#cc').append("<td class='course-box'>No Courses Accepted</td>")
+                $('#cc').append("<td class='course-box'>"+App.languageDict.attributes.Empty_Courses+"</td>")
             }
         },
 

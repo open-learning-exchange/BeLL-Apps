@@ -32,7 +32,7 @@ $(function() {
 
 		render: function() {
 			//this.addAll()
-			$('#tutorTable').append("<td class='course-box'> functionality is under construction </td>")
+			$('#tutorTable').append("<td class='course-box'>"+App.languageDict.attributes.Functionality_Under_Construction+"</td>")
 		}
 
 	})

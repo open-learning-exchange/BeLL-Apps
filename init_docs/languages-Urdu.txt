@@ -406,5 +406,8 @@
    "Accept":"Accept",
    "Reject":"Reject",
    "Surveys":"سروے",
-   "Date":"Date"
+   "Date":"Date",
+   "Empty_Shelf":"No Item In the Shelf",
+   "Empty_Courses":"No Courses Accepted",
+   "No_Meetup":"No MeetUp"
 }

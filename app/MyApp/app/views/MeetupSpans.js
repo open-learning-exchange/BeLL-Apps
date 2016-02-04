@@ -17,7 +17,7 @@ $(function() {
                 this.collection.each(this.addOne, this)
             } else {
 
-                $('#meetUpTable').append("<td class='course-box'>No MeetUp</td>")
+                $('#meetUpTable').append("<td class='course-box'>"+App.languageDict.attributes.No_Meetup+"</td>")
             }
         },
 
