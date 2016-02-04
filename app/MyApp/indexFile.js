@@ -80,7 +80,7 @@ function removeMemberFromCourse(memberId){
             var groupMembers = new App.Views.GroupMembers();
             groupMembers.courseId = courseId;
             groupMembers.render();
-            alert('Member is Removed From Course')
+            alert(App.languageDict.attributes.Removed_Member);
         }
     })
 
@@ -140,7 +140,7 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     mail.set("sentDate", currentdate);
     mail.save()
     $('#admissionButton').hide()
-    alert("Admission request successfully sent to this course leader.")
+    alert(App.languageDict.attributes.RequestForCourse);
 
 
 }
@@ -227,7 +227,7 @@ function FieSelected(stepId) {
     var img = $('input[type="file"]')
     var extension = img.val().split('.')
     if (img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
-        alert("Invalid attatchment.")
+        alert(App.languageDict.attributes.Invalid_Attachment);
         return;
     }
     var currentdate = new Date();
@@ -253,11 +253,11 @@ function FieSelected(stepId) {
                 assignmentpaper.saveAttachment("form#fileAttachment" + stepId, "form#fileAttachment" + stepId + " #_attachments", "form#fileAttachment" + stepId + " .rev")
             } else {
                 ////no attachment
-                alert('no attachment')
+                alert(App.languageDict.attributes.No_Attachment)
             }
             assignmentpaper.on('savedAttachment', function() {
                 /////Attatchment successfully saved
-                alert("Assignement successfully submitted.")
+                alert(App.languageDict.attributes.Assignment_Submitted)
             }, assignmentpaper)
 
         }
@@ -330,13 +330,13 @@ function sendMail() {
         var extension = img.val().split('.')
     }
     if (rec == "") {
-        alert("Please enter recipient.");
+        alert(App.languageDict.attributes.Enter_Recipient);
     } else if (subject == "") {
-        alert("Please enter subject.");
+        alert(App.languageDict.attributes.Enter_subject);
     } else if (mailBody == "") {
-        alert("Please enter message.");
+        alert(App.languageDict.attributes.Enter_Message);
     } else if (attachment && img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
-        alert("Invalid attatchment.")
+        alert(App.languageDict.attributes.Invalid_Attachment)
     } else {
         //alert(invalidEmails + ' are invalid email addresses.')
 
@@ -353,7 +353,7 @@ function sendMail() {
                 mailId = member.get('login')
                 sendSingleMail(mailId, mailBody, subject, mailingList)
             });
-            alert("Mail successfully sent.")
+            alert(App.languageDict.attributes.Mail_Sent_Success)
             return
         }
         for (var i = 0; i < mailingList.length; i++) {
@@ -367,7 +367,7 @@ function sendMail() {
             sendSingleMail(mailId, mailBody, subject, mailingList)
 
         }
-        alert("Mail successfully sent.")
+        alert(App.languageDict.attributes.Mail_Sent_Success)
         $('#MakeMailForMembers').popup('hide');
     }
 
@@ -407,7 +407,7 @@ function sendSingleMail(mailId, mailBody, subject, mailingList) {
             $('#emailCompose').popup('hide');
 
         } else {
-            alert("Invalid mail address " + mailId)
+            alert(App.languageDict.attributes.Invalid_Email_Address+' ' + mailId)
         }
 
     });
@@ -513,7 +513,7 @@ function startRecording() {
         // get blob after each 20 second!
         mediaRecorder.start(20 * 1000);
 
-        alert('You have 20 seconds')
+        alert(App.languageDict.attributes.time_Limit)
     }
 
     function onMediaError(e) {
@@ -532,7 +532,7 @@ function startRecording() {
 
         var audioPlayer = document.getElementsByTagName('audio')[0];
         audioPlayer.pause();
-        alert('stoped')
+        alert(App.languageDict.attributes.Stopped)
     }
     var audiosContainer = document.getElementById('audios-container');
     var index = 1;
@@ -713,9 +713,9 @@ function continueMerging() {
 
     if (collections) {
         if (collections.length < 2)
-            alert('Please select 2 or more than 2 items to merge')
+            alert(App.languageDict.attributes.Merge_Error)
         else if (collectionText == "")
-            alert('Collection Name can not be Empty')
+            alert(App.languageDict.attributes.Empty_Collection_Name)
         else
             App.Router.mergecollection(collections, collectionText)
     } else
