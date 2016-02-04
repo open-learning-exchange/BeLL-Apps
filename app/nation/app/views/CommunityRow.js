@@ -7,7 +7,7 @@ $(function() {
         events: {
             "click .destroy": function(e) {
 
-                if (confirm('Are you sure you want to delete this Community?')) {
+                if (confirm(App.languageDict.attributes.Confirm_Community)) {
                     e.preventDefault()
                     this.model.destroy()
                     this.remove()

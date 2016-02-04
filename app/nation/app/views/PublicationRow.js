@@ -6,7 +6,7 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function (event) {
-                if (confirm('Are you sure you want to delete this publication?')) {
+                if (confirm(App.languageDict.attributes.Confirm_Publication)) {
                     var that = this;
                     var pubId = that.model.attributes._id;
                     console.log(that.model.attributes._id);

@@ -63,7 +63,7 @@ $(function() {
 
         },
         deleteRecord: function() {
-            if (confirm('Are you sure you want to delete this Collection?')) {
+            if (confirm(App.languageDict.attributes.Confirm_Collection)) {
                 $('.form .field-Tag select option[value=' + this.model.get("_id") + "]").remove();
                 $('#' + this.model.get("_id")).parent('tr').remove();
                 this.deleteCollectionNameFromResources(this.model.get("_id"));

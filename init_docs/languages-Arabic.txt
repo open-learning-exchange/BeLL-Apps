@@ -336,7 +336,6 @@
    "Add_Question": "إضافة سؤال",
    "Enter_Option": "أدخل الخيار",
    "Options": "خيارات",
-   "Quiz":"الاختبار قصير",
    "Edit_Member":"تحرير عضو",
    "Middle_Names": "اسم الاب",
    "Phone": "رقم الهاتف",
@@ -421,7 +420,6 @@
    "Removed_Member":"Member is Removed From Course",
    "RequestForCourse":"Admission request successfully sent to this course leader.",
    "Invalid_Attachment":"Invalid attachment.",
-   "No_Attachment":"No Attachment",
    "Assignment_Submitted":"Assignment successfully submitted.",
    "Enter_Recipient":"Please enter recipient.",
    "Enter_subject":"Please enter subject.",
@@ -553,5 +551,11 @@
    "Duplicate_Course_In_Pub":"This Course Already Exists In This Publication",
    "Response_Error":"There was an error in getting a response from the server. Please try again.",
    "InValid_CommunityName":"Community 'Name' you entered is a duplicate. Please try again with a different name.",
-   "Duplicate_CommunityName_Error":"Community has duplicates in the database. Please delete other copies and retry."
+   "Duplicate_CommunityName_Error":"Community has duplicates in the database. Please delete other copies and retry.",
+   "Confirm_Survey":"Are you sure you want to delete this Survey?",
+   "Confirm_Report":"Are you sure you want to delete this Report?",
+   "Confirm_Publication":"Are you sure you want to delete this Publication?",
+   "Confirm_Community":"Are you sure you want to delete this Community?",
+   "Confirm_Resource":"Are you sure you want to delete this Resource?",
+   "Confirm_Collection":"Are you sure you want to delete this Collection?"
 }

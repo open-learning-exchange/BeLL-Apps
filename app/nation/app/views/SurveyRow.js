@@ -6,7 +6,7 @@ $(function() {
         admin: null,
         events: {
             "click .destroy": function (event) {
-                if (confirm('Are you sure you want to delete this Survey?')) {
+                if (confirm(App.languageDict.attributes.Confirm_Survey)) {
                     this.model.destroy();
                 }
             }
