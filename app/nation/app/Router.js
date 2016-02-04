@@ -23,7 +23,6 @@ $(function() {
             'survey': 'Survey',
             'survey/add': 'AddSurveyForm',
             'surveydetail/:surveyId': 'SurveyDetails',
-            'addQuestion': 'AddQuestion',
             'trendreport': "TrendReport",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
@@ -2581,11 +2580,11 @@ $(function() {
                 async: false
             })
             var type = "survey";
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <a class="btn btn-success" href = "#addQuestion" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send Survey</button></div>')
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <button class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;" onclick="AddQuestions(\'' + surveyId + '\')">Add Question</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send Survey</button></div>')
         },
 
-        AddQuestion: function() {
-            this.underConstruction();
+        AddQuestion: function(sur_Id) {
+            alert("Functionality in-progress");
         },
 
         underConstruction: function() {
