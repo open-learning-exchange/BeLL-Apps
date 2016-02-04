@@ -47,7 +47,7 @@ $(function() {
                 this.$el.append(this.form.render().el)
                 this.form.fields['members'].$el.hide()
                 this.form.fields['levels'].$el.hide()
-
+                this.form.fields['invitationType'].$el.find('label').html(App.languageDict.attributes.Invitation_Type);
                  var invitationType=App.languageDict.get("Invitation_Type_Array");
                     for(var i=0;i<invitationType.length;i++){
                         this.form.fields['invitationType'].$el.find('option').eq(i).html(invitationType[i]);

@@ -92,7 +92,6 @@ $(function () {
 
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el);
-                $('#invitationForm .bbf-form .field-invitationType label').html(App.languageDict.attributes.Invitation_Type);
 
 
             } else {
