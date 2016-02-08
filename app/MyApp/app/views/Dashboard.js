@@ -679,6 +679,7 @@ $(function() {
             },
 
         lastAppUpdateAtNationLevel: function(result) {
+            var languageDictValue=loadLanguageDocs();
             var that = this;
             var currentConfig = that.getCommunityConfigs();
             var communityModel = result.rows[0].value;
@@ -759,7 +760,7 @@ $(function() {
                                             }
                                         });
                                     }
-                                    alert(App.languageDict.attributes.Updated_Successfully);
+                                    alert(languageDictValue.attributes.Updated_Successfully);
                                     window.location.reload(false);
                                 },
                                 async: false
