@@ -148,7 +148,7 @@ bbf-form ul{border: 5px solid;}
 	border: 2px solid transparent;
 }
 .signup-form > .bbf-form{
-    background-color: #34495E;
+  /*  background-color: #34495E;   Removed background-color for AddEvent on Calender*/
      border-radius: 20px 20px 0 0;
 }
 .signup-form {

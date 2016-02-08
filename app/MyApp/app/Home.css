@@ -857,11 +857,11 @@ margin-top: 2px;
 	margin-left: 10px;
 	margin-bottom: 10px;
 }
-.bbf-form .field-endDate
+/*.bbf-form .field-endDate
 {
 margin-left: 259px;
 
-}
+}*/
 #infoAboutGraph{
 	float: left;
 	margin-left: 20px;
@@ -873,11 +873,11 @@ margin-left: 259px;
 	margin-top: 20px;
 	position: relative;
 }
-.bbf-form .field-endTime
+/*.bbf-form .field-endTime
 {
 margin-left: 259px;
 
-}
+}*/
 #library-top-buttons{
 margin-top: 20px;
 }
