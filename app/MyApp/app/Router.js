@@ -171,44 +171,9 @@ $(function() {
             this.underConstruction()
         },
         underConstruction: function() {
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-            });
-            var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;
-            if(clanguage=="Urdu" || clanguage=="Arabic")
-            {
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            }
-            else
-            {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-            }
-            App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>'+languageDict.attributes.Functionality_Under_Construction+'</h4></div>')
+            applyStylingSheet();
+            var languageDictValue=loadLanguageDocs();
+            App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>'+languageDictValue.attributes.Functionality_Under_Construction+'</h4></div>')
         },
         startUpStuff: function() {
 
