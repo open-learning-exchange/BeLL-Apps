@@ -16,6 +16,7 @@ var nation_version;
 var new_publications_count;
 var new_surveys_count;
 var forcedUpdateProfile=false;
+var languageDict;
 
 function applyStylingSheet(){
 
@@ -134,7 +135,11 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     mail.set("senderId", $.cookie('Member._id'));
     mail.set("receiverId", courseLeader);
     mail.set("subject", App.languageDict.attributes.Course_Admission_Req+" | " + decodeURI(courseName));
-    mail.set("body", App.languageDict.attributes.Admission_Req_Received+' \"' + $.cookie('Member.login') + '\" '+App.languageDict.attributes.For_Course+' ' + decodeURI(courseName) + ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+'</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+App.languageDict.attributes.Reject+'</button>');
+    mail.set("body", App.languageDict.attributes.Admission_Req_Received+' '
+    + $.cookie('Member.login') + ' ' +App.languageDict.attributes.For_Course+' ' + decodeURI(courseName) +
+    ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
+    '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
+    App.languageDict.attributes.Reject+'</button>');
     mail.set("status", "0");
     mail.set("type", "admissionRequest");
     mail.set("sentDate", currentdate);
@@ -143,6 +148,31 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     alert(App.languageDict.attributes.RequestForCourse);
 
 
+}
+function loadLanguageDocs(){
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    })
+    var config = new configurations()
+    config.fetch({
+        async: false
+    })
+    var con = config.first();
+    var currentConfig = config.first().toJSON().rows[0].doc;
+    var clanguage= currentConfig.currentLanguage;
+    var languages = new App.Collections.Languages();
+    languages.fetch({
+        async: false
+    });
+    for(var i=0;i<languages.length;i++) {
+        if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+            if (languages.models[i].attributes.nameOfLanguage == clanguage) {
+                languageDict = languages.models[i];
+                break;
+            }
+        }
+    }
+    return languageDict;
 }
 
 function searchResources() {

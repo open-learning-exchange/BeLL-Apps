@@ -12,6 +12,9 @@
 #memberform{
     float:right;
 }
+#mail-body{
+    direction: rtl;
+}
 #PromoteToManager{
     margin-right:170px;
 }
