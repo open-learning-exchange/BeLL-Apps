@@ -1955,6 +1955,7 @@ $(function() {
 
                 $('#linkOfMeetUpHeading').css('margin-left','20px');
             }
+            applyStylingSheet();
 
         },
         changeAllignmentOfListMeetup:function(){
@@ -2087,25 +2088,30 @@ $(function() {
 
         },
         deleteMeetUp: function(meetupId) {
-            var UserMeetups = new App.Collections.UserMeetups()
-            UserMeetups.meetupId = meetupId
-            UserMeetups.fetch({
-                async: false
-            })
-            var model;
-            while (model = UserMeetups.first()) {
-                model.destroy();
+            if(confirm(loadLanguageDocs().attributes.meetUp_delete_confirm)) {
+                var UserMeetups = new App.Collections.UserMeetups()
+                UserMeetups.meetupId = meetupId
+                UserMeetups.fetch({
+                    async: false
+                })
+                var model;
+                while (model = UserMeetups.first()) {
+                    model.destroy();
+                }
+                var meetupModel = new App.Models.MeetUp({
+                    _id: meetupId
+                })
+                meetupModel.fetch({
+                    async: false
+                })
+                meetupModel.destroy()
+                Backbone.history.navigate('meetups', {
+                    trigger: true
+                })
             }
-            var meetupModel = new App.Models.MeetUp({
-                _id: meetupId
-            })
-            meetupModel.fetch({
-                async: false
-            })
-            meetupModel.destroy()
-            Backbone.history.navigate('meetups', {
-                trigger: true
-            })
+           else{
+                Backbone.history.navigate('meetups');
+            }
         },
         Members: function() {
             var membersView = new App.Views.MembersView()
