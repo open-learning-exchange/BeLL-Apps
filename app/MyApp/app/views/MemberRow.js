@@ -71,21 +71,29 @@ $(function() {
 
         events: {
             "click .destroy": function(e) {
-                var that = this;
-                var logdb = new PouchDB('activitylogs');
-                var currentdate = new Date();
-                var logdate = that.getFormattedDate(currentdate);
-                var gender = this.model.get("Gender");
-                logdb.get(logdate, function(err, logModel) {
-                    if (!err) {
-                        that.UpdatejSONlog(logdb, logdate, logModel, gender);
-                    } else {
-                        that.createJsonlog(logdb, logdate, gender);
-                    }
-                });
-                e.preventDefault()
-                this.model.destroy()
-                this.remove()
+                if(confirm(loadLanguageDocs().attributes.member_delete_confirm)){
+                    var that = this;
+                    var logdb = new PouchDB('activitylogs');
+                    var currentdate = new Date();
+                    var logdate = that.getFormattedDate(currentdate);
+                    var gender = this.model.get("Gender");
+                    logdb.get(logdate, function(err, logModel) {
+                        if (!err) {
+                            that.UpdatejSONlog(logdb, logdate, logModel, gender);
+                        } else {
+                            that.createJsonlog(logdb, logdate, gender);
+                        }
+                    });
+                    e.preventDefault()
+                    this.model.destroy()
+                    this.remove();
+                    alert(loadLanguageDocs().attributes.member_Delete_success)
+                }
+                else
+                {
+                    Backbone.history.navigate('members')
+                }
+
             },
 
             "click #deactive": function(e) {

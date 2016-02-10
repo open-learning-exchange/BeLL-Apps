@@ -572,5 +572,6 @@
      "MeetUp":"MeetUp",
      "meetUp_delete_confirm":"Are you sure that you want to delete this meetUp?",
      "MeetUp_Detail":"Meetup Detail",
-     "Unjoin":"Unjoin"
+     "Unjoin":"Unjoin",
+     "member_delete_confirm":"Are you sure that you want to delete this Member?"
 }
