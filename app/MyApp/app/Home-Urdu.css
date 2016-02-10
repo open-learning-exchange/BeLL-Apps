@@ -472,6 +472,9 @@ body{
 #search-button{
     margin-right: 22%;
 }
+.meetUp_direction{
+    direction: rtl;
+}
 #srch{
     direction:rtl;
     float:right;

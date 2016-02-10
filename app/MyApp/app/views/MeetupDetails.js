@@ -5,7 +5,7 @@ $(function() {
 
         authorName: null,
         tagName: "table",
-        className: "table table-striped resourceDetail",
+        className: "table table-striped resourceDetail meetUp_direction",
         sid: null,
         rid: null,
         events: {
@@ -39,23 +39,25 @@ $(function() {
 
         },
         initialize: function() {
-            this.$el.append('<th colspan="2"><h6>Meetup Detail</h6></th>')
+            this.$el.append('<th colspan="2"><h6>'+loadLanguageDocs().attributes.MeetUp_Detail+'</h6></th>')
         },
         render: function() {
+
+            var languageDictValue=loadLanguageDocs();
             var vars = this.model.toJSON()
             var date = new Date(vars.schedule)
             vars.schedule = date.toUTCString()
 
             console.log(vars)
 
-            this.$el.append('<tr><td><b>Title  </b></td><td>' + vars.title + '   (' + vars.category + ')</td></tr>')
-            this.$el.append('<tr><td><b>Category  </b></td><td>' + vars.category + '</td></tr>')
-            this.$el.append('<tr><td><b>Description </b></td><td>' + vars.description + '</td></tr>')
-            this.$el.append('<tr><td><b>Location </b></td><td>' + vars.meetupLocation + '</td></tr>')
-            this.$el.append('<tr><td><b>Date </b></td><td>' + vars.startDate + ' --- ' + vars.endDate + '</td></tr>')
-            this.$el.append('<tr><td><b>Time </b></td><td>' + vars.startTime + ' --- ' + vars.endTime + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Title+'  </b></td><td>' + vars.title + ' | ' + vars.category + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Category+'  </b></td><td>' + vars.category + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Description+' </b></td><td>' + vars.description + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Location+' </b></td><td>' + vars.meetupLocation + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Date+' </b></td><td>' + vars.startDate + ' --- ' + vars.endDate + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Time+' </b></td><td>' + vars.startTime + ' --- ' + vars.endTime + '</td></tr>')
 
-            this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyMeetupItem">Unjoin</button></td></tr>')
+            this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyMeetupItem">'+languageDictValue.attributes.Unjoin+'</button></td></tr>')
 
         },
 
