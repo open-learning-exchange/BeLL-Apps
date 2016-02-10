@@ -848,6 +848,9 @@ margin-top: 2px;
 	float:right;
 	margin-right: 10%;
 }
+.marginsOnMeetUp{
+	margin-left:20px
+}
 #invitationdiv
 {
 	direction: ltr;

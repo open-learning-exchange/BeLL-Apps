@@ -716,6 +716,9 @@ body{
 }#ProgressButton{
     margin-right: 52%;
  }
+.marginsOnMeetUp{
+    margin-right:20px
+}
  .courseSearchResults_Bottom{
      direction: rtl;
      float:right;

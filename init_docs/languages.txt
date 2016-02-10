@@ -569,5 +569,7 @@
     "inviteMemberArray":[
     "All",
     "Members"
-    ]
+    ],
+    "Join_meetUp":"Join MeetUp",
+    "MeetUp":"MeetUp"
 }

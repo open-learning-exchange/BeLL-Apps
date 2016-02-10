@@ -6,9 +6,9 @@ $(function() {
         authorName: null,
         tagName: "table",
 
-        className: "btable btable-striped",
+        className: "btable btable-striped courseSearchResults_Bottom",
         initialize: function() {
-            this.$el.html('<h3 colspan="20">Meetup | ' + this.model.get('title') + '</h3>')
+            this.$el.html('<h3 colspan="20">'+loadLanguageDocs().attributes.MeetUp+' | ' + this.model.get('title') + '</h3>')
         },
         events: {
 
@@ -70,19 +70,20 @@ $(function() {
 
         render: function() {
 
+            var languageDictValue=loadLanguageDocs();
             $('#invitationdiv').hide()
             var meetupInfo = this.model.toJSON()
             var date = new Date(meetupInfo.schedule)
             meetupInfo.schedule = date.toUTCString()
 
-            this.$el.append('<tr><td><b>Title  </b></td><td>' + meetupInfo.title + '   (' + meetupInfo.category + ')</td></tr>')
-            this.$el.append('<tr><td><b>Category  </b></td><td>' + meetupInfo.category + '</td></tr>')
-            this.$el.append('<tr><td><b>Description </b></td><td>' + meetupInfo.description + '</td></tr>')
-            this.$el.append('<tr><td><b>Location </b></td><td>' + meetupInfo.meetupLocation + '</td></tr>')
-            this.$el.append('<tr><td><b>Date </b></td><td>' + meetupInfo.startDate + ' --- ' + meetupInfo.endDate + '</td></tr>')
-            this.$el.append('<tr><td><b>Time </b></td><td>' + meetupInfo.startTime + ' --- ' + meetupInfo.endTime + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Title+'  </b></td><td>' + meetupInfo.title + ' | ' + meetupInfo.category + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Category+' </b></td><td>' + meetupInfo.category + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Description+' </b></td><td>' + meetupInfo.description + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Location+' </b></td><td>' + meetupInfo.meetupLocation + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Date+' </b></td><td>' + meetupInfo.startDate + ' --- ' + meetupInfo.endDate + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Time+' </b></td><td>' + meetupInfo.startTime + ' --- ' + meetupInfo.endTime + '</td></tr>')
 
-            this.$el.append('<tr><td><a class="btn btn-success" id="joinMeetUp">Join Meetup</a><a style="margin-left:20px" class="btn btn-info" id="meetupsInvitation">Invite Members</a><a style="margin-left:20px" class="btn btn-info" href="#meetups">Back</a></td><td></td></tr>')
+            this.$el.append('<tr><td><a class="btn btn-success" id="joinMeetUp">'+languageDictValue.attributes.Join_meetUp+'</a><a  class="btn btn-info marginsOnMeetUp" id="meetupsInvitation">'+languageDictValue.attributes.Invite_Member+'</a><a  class="btn btn-info marginsOnMeetUp" href="#meetups">'+languageDictValue.attributes.Back+'</a></td><td></td></tr>')
         }
 
     })
