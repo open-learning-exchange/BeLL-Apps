@@ -447,9 +447,10 @@ body{
 #requestsTable{
     direction:rtl;
 }
-
-
-
+#invitationdiv
+{
+    direction: rtl;
+}
 .navbar-inverse
 {
 

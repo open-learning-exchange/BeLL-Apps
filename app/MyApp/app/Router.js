@@ -1996,7 +1996,7 @@ $(function() {
 
         },
         Meetup: function(meetUpId) {
-
+            var languageDictValue=loadLanguageDocs();
             var className = "MeetUp"
             var model = new App.Models[className]()
             if (meetUpId) {
@@ -2037,6 +2037,53 @@ $(function() {
                 }
 
             });
+            $('#MeetUpformButton').html(languageDictValue.attributes.Save);
+            $('.form .field-title label').html(languageDictValue.attributes.Title);
+            $('.form .field-description label').html(languageDictValue.attributes.Description);
+            $('.form .field-startDate label').html(languageDictValue.attributes.Start_date);
+            $('.form .field-endDate label').html(languageDictValue.attributes.End_date);
+            $('.form .field-Day label').html(languageDictValue.attributes.Day);
+            $('.form .field-startTime label').html(languageDictValue.attributes.Start_Time);
+            $('.form .field-endTime label').html(languageDictValue.attributes.End_Time);
+            $('.form .field-category label').html(languageDictValue.attributes.Category);
+            $('.form .field-meetupLocation label').html(languageDictValue.attributes.Location);
+            $('.form .field-recurring label').eq(0).html(languageDictValue.attributes.Recurring);
+            $('.form .field-recurring label').eq(1).html(languageDictValue.attributes.Daily);
+            $('.form .field-recurring label').eq(2).html(languageDictValue.attributes.Weekly);
+            var DaysObj=App.languageDict.get("Days");
+            $('.form .field-Day .bbf-editor ul').find('li').eq(0).find('label').html(lookup(App.languageDict, "Days." + "Saturday"));
+            $('.form .field-Day .bbf-editor ul').find('li').eq(1).find('label').html(lookup(App.languageDict, "Days." + "Sunday"));
+            $('.form .field-Day .bbf-editor ul').find('li').eq(2).find('label').html(lookup(App.languageDict, "Days." + "Monday"));
+            $('.form .field-Day .bbf-editor ul').find('li').eq(3).find('label').html(lookup(App.languageDict, "Days." + "Tuesday"));
+            $('.form .field-Day .bbf-editor ul').find('li').eq(4).find('label').html(lookup(App.languageDict, "Days." + "Wednesday"));
+            $('.form .field-Day .bbf-editor ul').find('li').eq(5).find('label').html(lookup(App.languageDict, "Days." + "Thursday"));
+            $('.form .field-Day .bbf-editor ul').find('li').eq(6).find('label').html(lookup(App.languageDict, "Days." + "Friday"));
+            var gradeLevelArray=App.languageDict.get('categoryList');
+            for(var i=0;i<gradeLevelArray.length;i++)
+            {
+                $('.form .field-category select').find('option').eq(i).html(gradeLevelArray[i]);
+
+            }
+
+            applyStylingSheet();
+            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic"){
+
+                $('#meetUpForm').addClass('courseSearchResults_Bottom');
+                $('.form .bbf-field').css('float','none');
+               // $('.form .bbf-field').css('background-color','red');
+                $('.form .field-endDate').css('margin-right','259px');
+                $('.form .field-endDate').css('margin-left','0px');
+                $('.form .field-recurring').css('float','right');
+                $('.form .field-endTime').css('margin-right','259px');
+                $('.form .field-endTime').css('margin-left','0px');
+
+            }
+            else
+            {
+                $('#meetUpForm').removeClass('courseSearchResults_Bottom');
+                $('.form .bbf-field').css('float','left');
+            }
+
 
         },
         deleteMeetUp: function(meetupId) {

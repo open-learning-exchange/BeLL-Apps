@@ -848,6 +848,10 @@ margin-top: 2px;
 	float:right;
 	margin-right: 10%;
 }
+#invitationdiv
+{
+	direction: ltr;
+}
 #fakeBrowse
 {
 	margin-top: -60px;

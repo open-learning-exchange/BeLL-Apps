@@ -42,21 +42,23 @@ $(function() {
                 })
                 inviteForm.render()
                 $('#invitationdiv').html('&nbsp')
-                $('#invitationdiv').append(inviteForm.el)
+                $('#invitationdiv').append(inviteForm.el);
+
+
             } else {
-                alert(Prompt_MeetUp_Location_First)
+                alert(App.languageDict.attributes.Prompt_MeetUp_Location_First)
             }
         },
         render: function() {
-
+            var languageDictValue=loadLanguageDocs();
             $('#invitationdiv').hide()
             // members is required for the form's members field
 
             if (!this.model.get('_id'))
-                this.$el.append('<h3>Start a New Meetup</h3>')
+                this.$el.append('<h3>'+languageDictValue.attributes.start_new_meetUp+'</h3>')
             else {
-                this.$el.append('<h3>Edit Meetup | ' + this.model.get('title') + '</h3>')
-                this.btnText = 'Update'
+                this.$el.append('<h3>'+languageDictValue.attributes.Edit_MeetUp+' | ' + this.model.get('title') + '</h3>')
+                this.btnText = languageDictValue.attributes.Update
             }
 
 
@@ -64,19 +66,19 @@ $(function() {
                 model: this.model
             })
             this.$el.append(this.form.render().el)
-            if (this.btnText != 'Update')
+            if (this.btnText != languageDictValue.attributes.Update)
                 this.form.fields['Day'].$el.hide();
 
             var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">' + this.btnText + '</a>')
 
-            var $ubutton = $('<a class="btn btn-success" id="formButton">Cancel</a>')
+            var $ubutton = $('<a class="btn btn-success" id="formButton">'+languageDictValue.attributes.Cancel+'</a>')
             // var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
             this.$el.append($sbutton)
             //this.$el.append($button)
-            if (this.btnText != 'Update')
-                this.$el.append('<a class="btn btn-info" id="InviteMembers">Invite Members</a>')
+            if (this.btnText != languageDictValue.attributes.Update)
+                this.$el.append('<a class="btn btn-info" id="InviteMembers">'+languageDictValue.attributes.Invite_Member+'</a>')
 
-            this.$el.append("<a class='btn btn-danger' id='MeetUpcancel'>Cancel</a>")
+            this.$el.append("<a class='btn btn-danger' id='MeetUpcancel'>"+languageDictValue.attributes.Cancel+"</a>")
 
             console.log(this.model);
 

@@ -39,7 +39,8 @@ $(function() {
         render: function() {
 
             //members is required for the form's members field
-            console.log(this.model)
+            console.log(this.model);
+            var languageDictValue=loadLanguageDocs();
             var members = new App.Collections.Members()
             var that = this
             var inviteForm = this
@@ -63,10 +64,17 @@ $(function() {
                     }
                 })
                 // give the form a submit button
-                var $button = $('<a class="btn btn-success" id="formButton">Invite</button>')
+                var $button = $('<a class="btn btn-success" id="formButton">'+languageDictValue.attributes.Invite+'</button>')
                 this.$el.append($button)
                 this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
-                this.$el.append('<a class="btn btn-danger" id="cancelButton">Cancel</button>')
+                this.$el.append('<a class="btn btn-danger" id="cancelButton">'+languageDictValue.attributes.Cancel+'</button>');
+                that.form.fields['invitationType'].$el.find('label').html(languageDictValue.attributes.Invitation_Type);
+                var gradeLevelArray=App.languageDict.get('inviteMemberArray');
+                for(var i=0;i<gradeLevelArray.length;i++)
+                {
+                    that.form.fields['invitationType'].$el.find('option').eq(i).html(gradeLevelArray[i]);
+
+                }
             })
 
             // Get the group ready to process the form
@@ -74,7 +82,8 @@ $(function() {
                 inviteForm.trigger('InvitationForm:MembersReady')
 
             })
-            members.fetch()
+            members.fetch();
+            applyStylingSheet();
         },
 
         setFormFromEnterKey: function(event) {
@@ -83,6 +92,7 @@ $(function() {
         },
 
         setForm: function() {
+            var languageDictValue=loadLanguageDocs();
             var member = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })
@@ -107,7 +117,7 @@ $(function() {
                     temp.set("status", "0")
                     temp.set("subject", "Meetup Invitation | " + that.model.title)
                     temp.set("type", "Meetup-invitation")
-                    temp.set("body", that.model.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
+                    temp.set("body", that.model.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >'+languageDictValue.attributes.Accept+'</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >'+languageDictValue.attributes.Reject+'</button>')
                     temp.set("sendDate", currentdate)
                     temp.set("entityId", that.model.resId)
                     temp.save()
@@ -123,7 +133,7 @@ $(function() {
                         temp.set("receiverId", m.get("_id"))
                         temp.set("status", "0")
                         temp.set("subject", "Meetup Invitation | " + that.model.title)
-                        temp.set("body", that.model.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >Reject</button>')
+                        temp.set("body", that.model.description + '<br/><br/><button class="btn btn-primary" id="invite-accept" value="' + that.model.resId + '" >'+languageDictValue.attributes.Accept+'</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + that.model.resId + '" >'+languageDictValue.attributes.Reject+'</button>')
                         temp.set("type", "Meetup-invitation")
                         temp.set("sendDate", currentdate)
                         temp.set("entityId", that.model.resId)
