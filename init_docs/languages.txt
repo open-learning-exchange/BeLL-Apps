@@ -576,5 +576,7 @@
     "MeetUp_Detail":"Meetup Detail",
     "Unjoin":"Unjoin",
     "member_delete_confirm":"Are you sure that you want to delete this Member?",
-    "member_Delete_success":"Member deleted Successfully"
+    "member_Delete_success":"Member deleted Successfully",
+    "Missing_Report_Title":"Report Title is missing",
+    "Missing_Author":"Missing Author Name"
 }

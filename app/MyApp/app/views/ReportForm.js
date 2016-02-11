@@ -92,9 +92,9 @@ $(function() {
             var that = this
             var savemodel = false
             if (this.model.get("title").length == 0) {
-                alert(App.languageDict.attributes.Missing_Resource_Title)
+                alert(App.languageDict.attributes.Missing_Report_Title)
             } else if ((this.model.get("Tag") == "News") && !this.model.get("author")) {
-                alert(App.languageDict.attributes.Missing_Resource_Author)
+                alert(App.languageDict.attributes.Missing_Author)
             } else {
                 $('#gressImage').show();
                 this.model.set(' uploadDate', new Date().getTime())
