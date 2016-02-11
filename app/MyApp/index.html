@@ -864,11 +864,7 @@
                     <label id="selectedResources"></label>
                     <!-- The Second form that will be submitted containing the file -->
                     <form method="post" id="fileAttachment">
-                        <% if(cLang == "addReport") { %>
-                        <label id= "uploadLabel" for="_attachments">Upload Resource(s)</label>
-                        <%}else{%>
                         <label id= "uploadLabel" for="_attachments"><%= languageDict.attributes.Upload+' '+languageDict.attributes.Resources%></label>
-                        <% } %>
                         <input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" multiple="multiple" label=" :" />
                         <input class="rev" type="hidden" name="_rev">
                         <!-- <label>

@@ -2,7 +2,7 @@ $(function() {
 
     App.Views.ReportForm = Backbone.View.extend({
 
-        className: "form",
+        className: "form courseSearchResults_Bottom",
         hide: false,
         events: {
             "click .save": "saveForm",
@@ -22,7 +22,6 @@ $(function() {
             if (_.has(this.model, 'id')) {
                 vars.languageDict=App.languageDict;
                 vars.header = App.languageDict.attributes.Title + this.model.get('title') + '"';
-                vars.cLang='addReport';
                 vars.hidesave = true
                 var tempAttachments = this.model.get('_attachments');
                 var fields = _.map(
@@ -41,7 +40,6 @@ $(function() {
                 vars.hidesave = false
                 vars.resourceAttachments = App.languageDict.attributes.No_File_Selected;;
                 vars.languageDict=App.languageDict;
-                vars.cLang='addReport';
             }
 
             // prepare the form

@@ -3621,6 +3621,18 @@ $(function() {
             } else {
                 reportFormView.render()
             }
+            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
+            {
+                $('.bbf-form').addClass('courseSearchResults_Bottom');
+                $('#cont div').eq(0).css('width','100%');
+                $('table').css('width','100%');
+                $('.fields ul').addClass('courseSearchResults_Bottom')
+            }
+            else
+            {
+                $('.bbf-form').removeClass('courseSearchResults_Bottom');
+                $('.fields ul').removeClass('courseSearchResults_Bottom')
+            }
 
     },
 
