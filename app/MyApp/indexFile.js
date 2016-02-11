@@ -732,7 +732,6 @@ function lookup(obj, key) {
             return undefined;
         }
     }
-    alert(obj);
     return obj;
 }
 

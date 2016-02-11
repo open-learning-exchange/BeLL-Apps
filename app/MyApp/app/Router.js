@@ -3598,6 +3598,7 @@ $(function() {
         },
         ReportForm: function(reportId) {
 
+            var languageDictValue=loadLanguageDocs();
             var report = (reportId) ? new App.Models.CommunityReport({
                 _id: reportId
             }) : new App.Models.CommunityReport()
@@ -3620,6 +3621,15 @@ $(function() {
                 report.fetch()
             } else {
                 reportFormView.render()
+            }
+            $('.fields .bbf-form .field-title label').html(languageDictValue.attributes.Title);
+            $('.fields .bbf-form .field-author label').html(languageDictValue.attributes.author);
+            $('.fields .bbf-form .field-Date label').html(languageDictValue.attributes.Date);
+            var DaysObj=App.languageDict.get("Months");
+            for(var i=0;i<12;i++)
+            {
+               $('.fields .bbf-form .bbf-month option').eq(i).html(lookup(App.languageDict, "Months." + $('.fields .bbf-form .bbf-month option').eq(i).text().toString() ));
+
             }
             if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
             {
