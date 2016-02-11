@@ -14,6 +14,7 @@ $(function() {
             setTimeout(function() {
                 $('#invitationdiv').hide()
             }, 1000);
+            $('#addQuestion').css('pointer-events','auto');
         },
         render: function() {
 

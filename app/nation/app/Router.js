@@ -3119,7 +3119,8 @@ $(function() {
                     if(log.get('Name')) {
                         $('#comselect').append("<option value='" + log.get('Name') + "'>" + log.get('Name') + "</option>")
                     }
-                })
+                });
+            $('#addQuestion').css('pointer-events','none');
 
         },
         SyncDbSelect: function() {
