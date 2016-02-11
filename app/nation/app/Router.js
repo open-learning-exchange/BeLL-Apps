@@ -2600,6 +2600,10 @@ $(function() {
             });
             $("#addQuestion").click(function () {
                 $('#dialog').dialog('open');
+                $("#add_new_question").change(handleNewSelection);
+
+                // Run the event handler once now to ensure everything is as it should be
+                handleNewSelection.apply($("#add_new_question"));
 
             });
             function hideAllDivs () {
@@ -2608,8 +2612,7 @@ $(function() {
                 $("#6").hide();
                 $("#8").hide();
             };
-            function handleNewSelection () {
-
+            function handleNewSelection() {
                 hideAllDivs();
 
                 switch ($(this).val()) {
@@ -2627,10 +2630,7 @@ $(function() {
                         break;
                 }
             };
-            $("#add_new_question").change(handleNewSelection);
 
-            // Run the event handler once now to ensure everything is as it should be
-            handleNewSelection.apply($("#add_new_question"));
         },
 
         AddQuestion: function(sur_Id) {

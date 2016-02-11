@@ -102,7 +102,8 @@ $(function() {
                 setTimeout(function() {
                     $('#invitationdiv').hide()
                 }, 1000);
-                App.stopActivityIndicator()
+                App.stopActivityIndicator();
+                $('#addQuestion').css('pointer-events','auto');
             }
         },
 
