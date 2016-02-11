@@ -14,6 +14,7 @@ $(function() {
             setTimeout(function() {
                 $('#invitationdiv').hide()
             }, 1000);
+            $('#addQuestion').css('pointer-events','auto');
         },
         render: function() {
 
@@ -101,7 +102,8 @@ $(function() {
                 setTimeout(function() {
                     $('#invitationdiv').hide()
                 }, 1000);
-                App.stopActivityIndicator()
+                App.stopActivityIndicator();
+                $('#addQuestion').css('pointer-events','auto');
             }
         },
 

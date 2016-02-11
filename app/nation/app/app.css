@@ -525,3 +525,132 @@ margin-left: 33%;
     top: 45%;
     left:45%;
 }
+/** NEW CSS Changes*/
+
+
+div.content {
+    width: 100%;
+    padding:10px;
+}
+
+div.main {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1024px;
+}
+div.question1_style {
+    margin: 10px;
+    padding: 10px;
+    background-color:#d7eafc;
+    border-radius:10px;
+    border:1px solid #a7d1fb;
+}
+div.question2_style {
+    margin: 10px;
+    padding: 10px;
+    background-color:#bcdbf9;
+    border-radius:10px;
+    border:1px solid #54a9fe;
+}
+
+
+div.question_new_style {
+    margin: 10px;
+    padding: 10px;
+    background-color:#c6f3b9;
+    border-radius:10px;
+    border:1px solid #39a72e;
+}
+.add_new {
+    background-color:#39a72e;
+    padding: 2px 4px 2px 4px;
+    font-size:10px;
+    color:#fff;
+}
+
+.ui-dialog-titlebar-close {
+    background: url("../images/icons/ui-icons_888888_256x240.png") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+    border: medium none;
+}
+.ui-dialog-titlebar-close:hover {
+    background: url("../images/icons/ui-icons_222222_256x240.png") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+}
+.button1 {
+    cursor: pointer;
+    display: inline;
+    font: 12px/2.5em Verdana;
+    margin-left: 8px;
+    overflow: hidden;
+    padding: 5px 7px;
+    text-align: center;
+    text-decoration: none;
+}
+.subtitle {
+    border-bottom: 1px solid #aaa;
+    color: #777;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.07em;
+    margin-bottom: 7px;
+    padding-bottom: 3px;
+}
+
+.subtitle2 {
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    padding-bottom: 1px;
+}
+
+
+.surTextArea {
+    width: 700px;
+}
+
+.question-table {
+    width:700px;
+    padding:10px;
+}
+
+.line-separator{
+    margin:10px 0px 10px 0px;
+    height:1px;
+    border-bottom:1px solid #82b3e4;
+}
+
+.default_btn {
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 14px;
+    background: #34495E;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border:1px solid #3a536c;
+}
+
+.default_btn:hover {
+    background: #3a536c;
+    text-decoration: none;
+}
+.add_btn {
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 14px;
+    background: #4c9e38;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border:1px solid #408c2e;
+}
+
+
+.add_btn:hover {
+    background: #408c2e;
+    text-decoration: none;
+}
