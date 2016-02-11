@@ -5,3 +5,10 @@
 input{width:40%;height:20px}
 .bbf-editor input{width: 206px;}
 .field-Url{margin-left:50%;margin-top:-50px}
+.saveQuestionButton{
+    height:auto;
+}
+.textBoxesOnSurvey{
+    height: 20px;
+    width:30%;
+}
