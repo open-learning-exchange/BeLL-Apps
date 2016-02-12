@@ -2640,10 +2640,6 @@ $(function() {
             }
         },
 
-        AddQuestion: function(sur_Id) {
-            alert("Functionality in-progress");
-        },
-
         underConstruction: function() {
             App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>This Functionality is under construction.</h4></div>')
         },
