@@ -566,17 +566,21 @@
           "Academic Help",
           "Awareness"
     ],
-    "inviteMemberArray":[
+   "inviteMemberArray":[
     "All",
     "Members"
     ],
-    "Join_meetUp":"Join MeetUp",
-    "MeetUp":"MeetUp",
-    "meetUp_delete_confirm":"Are you sure that you want to delete this meetUp?",
-    "MeetUp_Detail":"Meetup Detail",
-    "Unjoin":"Unjoin",
-    "member_delete_confirm":"Are you sure that you want to delete this Member?",
-    "member_Delete_success":"Member deleted Successfully",
-    "Missing_Report_Title":"Report Title is missing",
-    "Missing_Author":"Missing Author Name"
+   "Join_meetUp":"Join MeetUp",
+   "MeetUp":"MeetUp",
+   "meetUp_delete_confirm":"Are you sure that you want to delete this meetUp?",
+   "MeetUp_Detail":"Meetup Detail",
+   "Unjoin":"Unjoin",
+   "member_delete_confirm":"Are you sure that you want to delete this Member?",
+   "member_Delete_success":"Member deleted Successfully",
+   "Missing_Report_Title":"Report Title is missing",
+   "Missing_Author":"Missing Author Name",
+   "Demo":"Demo",
+   "All_Reports":"All Reports",
+   "Generate_Report":"Generate Report",
+   "DateFormat_Reports":"(YYYY:MM:DD)"
 }

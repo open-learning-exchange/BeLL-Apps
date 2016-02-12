@@ -1282,19 +1282,19 @@
     </script>
 
     <script type="text/html" id="template-LogQuery">
-        <div class="logquery-community">
+        <div class="logquery-community courseSearchResults_Bottom">
             <select  name="Level" id="community-select" multiple="multiple" style="width: 340px;">
-                <option value="demo">Demo</option>
-                <option value="all">All Reports</option>
+                <option value="demo"><%=languageDict.attributes.Demo%></option>
+                <option value="all"><%=languageDict.attributes.All_Reports%></option>
 
             </select>
             <div id="logquery-date">
-                <label style='font-size:16px;'><b>Start Date</b>&nbsp;(YYYY:MM:DD)</label>
+                <label style='font-size:16px;'><b><%=languageDict.attributes.Start_date%></b>&nbsp;<%=languageDict.attributes.DateFormat_Reports%></label>
                 <input type="date" id="start-date"  style='width: 150px;'><br><br>
-                <label style='font-size:16px;'><b>End Date</b>&nbsp;(YYYY:MM:DD)</label>
+                <label style='font-size:16px;'><b><%=languageDict.attributes.End_date%></b>&nbsp;<%=languageDict.attributes.DateFormat_Reports%></label>
                 &nbsp;&nbsp;<input type="date" id="end-date" style='width: 150px;'>
             </div>
-            <button id="report_button" class="btn btn-success">Generate Report</button>
+            <button id="report_button" class="btn btn-success"><%=languageDict.attributes.Generate_Report%></button>
         </div>
     </script>
     <script type="text/html" id="template-ActivityReport">

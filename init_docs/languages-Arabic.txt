@@ -563,7 +563,7 @@
    "Recurring":"Recurring",
     "categoryList": [
           "ICT",
-          "First Time :*",
+          "First Time",
           "Mothers",
           "General",
           "E Learning",
@@ -583,5 +583,9 @@
     "Unjoin":"Unjoin",
     "member_delete_confirm":"Are you sure that you want to delete this Member?",
     "Missing_Report_Title":"Report Title is missing",
-    "Missing_Author":"Missing Author Name"
+    "Missing_Author":"Missing Author Name",
+    "Demo":"Demo",
+    "All_Reports":"All Reports",
+    "Generate_Report":"Generate Report",
+    "DateFormat_Reports":"(سنة: الشهر: اليوم )"
 }

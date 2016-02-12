@@ -19,12 +19,14 @@ $(function() {
             }
         },
         template: $('#template-LogQuery').html(),
+        vars: {},
         initialize: function() {
 
         },
         render: function() {
-
-            this.$el.html(_.template(this.template));
+            this.vars.languageDict=loadLanguageDocs();
+            this.$el.html(_.template(this.template, this.vars))
+           // this.$el.html(_.template(this.template));
 
         }
     })

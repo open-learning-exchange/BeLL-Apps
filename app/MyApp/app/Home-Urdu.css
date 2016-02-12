@@ -726,6 +726,10 @@ body{
      direction: rtl;
      float:right;
  }
+#report_button {
+    margin-right: 190px;
+    margin-top: 20px;
+}
  #sendMailButton{
      margin-right:10px
  }

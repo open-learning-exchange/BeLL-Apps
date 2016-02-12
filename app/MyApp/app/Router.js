@@ -4679,6 +4679,11 @@ $(function() {
             log.type = type;
             log.render();
             App.$el.children('.body').html(log.el);
+            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
+            {
+                $('#start-date').css('margin-right','20px');
+            }
+
 
             applyStylingSheet();
                 //currently hiding for all kind of communities and nations.

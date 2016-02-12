@@ -864,6 +864,10 @@ margin-top: 2px;
 	margin-left: 10px;
 	margin-bottom: 10px;
 }
+#report_button {
+	margin-left: 190px;
+	margin-top: 20px;
+}
 /*.bbf-form .field-endDate
 {
 margin-left: 259px;
