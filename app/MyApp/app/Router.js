@@ -2214,6 +2214,7 @@ $(function() {
             return dateString;
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
+
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
@@ -2423,17 +2424,27 @@ $(function() {
                         "timesOpenedByFemales": report_female_opened[indices[i]]
                     };
                     if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
-                        most_freq_res_entry["avgRatingCumulative"] = "N/A";
-                        most_freq_res_entry["avgRatingByMales"] = "N/A";
-                        most_freq_res_entry["avgRatingByFemales"] = "N/A";
-                        most_freq_res_entry["timesRatedByMales"] = "N/A";
-                        most_freq_res_entry["timesRatedByFemales"] = "N/A";
-                        most_freq_res_entry["timesRatedCumulative"] = "N/A";
+                        most_freq_res_entry["avgRatingCumulative"] = "Not Applicable";
+                        most_freq_res_entry["avgRatingByMales"] = "Not Applicable";
+                        most_freq_res_entry["avgRatingByFemales"] = "Not Applicable";
+                        most_freq_res_entry["timesRatedByMales"] = "Not Applicable";
+                        most_freq_res_entry["timesRatedByFemales"] = "Not Applicable";
+                        most_freq_res_entry["timesRatedCumulative"] = "Not Applicable";
                     } else {
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
+                        var testValueHighestFrequencyRating= Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
+                        var ratingMaxFreq;
+                        if(isNaN(testValueHighestFrequencyRating))
+                        {
 
-                        most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
+                            ratingMaxFreq=0;
+                        }
+                        else{
+
+                            ratingMaxFreq=testValueHighestFrequencyRating;
+                        }
+                        most_freq_res_entry["avgRatingCumulative"] = ratingMaxFreq;
 
                         most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
                         most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
@@ -2477,9 +2488,20 @@ $(function() {
                     var name = res.get('title');
                     timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
                     // create highest rated resource entry and push it into Highest_Rated_Resources array
+                    var testValueHighestRating=Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100;
+                    var ratingHighest;
+                    if(isNaN(testValueHighestRating))
+                    {
+
+                        ratingHighest=0;
+                    }
+                    else{
+
+                        ratingHighest=testValueHighestRating;
+                    }
                     entry_rated_highest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100,
+                        "avgRatingCumulative": ratingHighest,
                         "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
@@ -2487,9 +2509,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
-                        entry_rated_highest["timesOpenedByMales"] = "N/A";
-                        entry_rated_highest["timesOpenedByFemales"] = "N/A";
-                        entry_rated_highest["timesOpenedCumulative"] = "N/A";
+                        entry_rated_highest["timesOpenedByMales"] = "Not Applicable";
+                        entry_rated_highest["timesOpenedByFemales"] = "Not Applicable";
+                        entry_rated_highest["timesOpenedCumulative"] = "Not Applicable";
                     } else {
                         entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -2506,12 +2528,22 @@ $(function() {
                     })
                     res.fetch({
                         async: false
-                    })
+                    });
+
+                    var testValueLowestRating=Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100;
+                    var ratingLowest;
+                    if(isNaN(testValueLowestRating))
+                    {
+                        ratingLowest=0;
+                    }
+                    else{
+                        ratingLowest=testValueLowestRating;
+                    }
                     var name = res.get('title')
 
                     entry_rated_lowest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100,
+                        "avgRatingCumulative": ratingLowest,
                         "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
@@ -2519,9 +2551,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
-                        entry_rated_lowest["timesOpenedByMales"] = "N/A";
-                        entry_rated_lowest["timesOpenedByFemales"] = "N/A";
-                        entry_rated_lowest["timesOpenedCumulative"] = "N/A";
+                        entry_rated_lowest["timesOpenedByMales"] = "Not Applicable";
+                        entry_rated_lowest["timesOpenedByFemales"] = "Not Applicable";
+                        entry_rated_lowest["timesOpenedCumulative"] = "Not Applicable";
                     } else {
                         entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -5353,6 +5385,7 @@ $(function() {
             });
         },
         LogActivity: function(CommunityName, startDate, endDate) {
+
             var rpt = new App.Views.ActivityReport()
             var type = "community"
             var configurations = Backbone.Collection.extend({
@@ -5510,16 +5543,28 @@ $(function() {
                         "timesOpenedByFemales": report_female_opened[indices[i]]
                     };
                     if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
-                        most_freq_res_entry["avgRatingCumulative"] = "N/A";
-                        most_freq_res_entry["avgRatingByMales"] = "N/A";
-                        most_freq_res_entry["avgRatingByFemales"] = "N/A";
-                        most_freq_res_entry["timesRatedByMales"] = "N/A";
-                        most_freq_res_entry["timesRatedByFemales"] = "N/A";
-                        most_freq_res_entry["timesRatedCumulative"] = "N/A";
+                        most_freq_res_entry["avgRatingCumulative"] = "Not Applicable";
+                        most_freq_res_entry["avgRatingByMales"] = "Not Applicable";
+                        most_freq_res_entry["avgRatingByFemales"] = "Not Applicable";
+                        most_freq_res_entry["timesRatedByMales"] = "Not Applicable";
+                        most_freq_res_entry["timesRatedByFemales"] = "Not Applicable";
+                        most_freq_res_entry["timesRatedCumulative"] = "Not Applicable";
                     } else {
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
-                        most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
+                        //place to add Code most
+                        var testValueMostFrequencyRating=Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
+                        var ratingMaxFreq;
+                        if(isNaN(testValueMostFrequencyRating))
+                        {
+
+                            ratingMaxFreq=0;
+                        }
+                        else{
+
+                            ratingMaxFreq=testValueMostFrequencyRating;
+                        }
+                        most_freq_res_entry["avgRatingCumulative"] = ratingMaxFreq;
                         most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
                         most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
                         most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
@@ -5560,11 +5605,23 @@ $(function() {
                         async: false
                     });
                     var name = res.get('title');
+                    //place to add codde high
+                    var testValueHighestFrequencyRating=Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100;
+                    var ratingHighestFreq;
+                    if(isNaN(testValueHighestFrequencyRating))
+                    {
+
+                        ratingHighestFreq=0;
+                    }
+                    else{
+
+                        ratingHighestFreq=testValueHighestFrequencyRating;
+                    }
                     timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
                     // create highest rated resource entry and push it into Highest_Rated_Resources array
                     entry_rated_highest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100,
+                        "avgRatingCumulative":ratingHighestFreq,
                         "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
@@ -5572,9 +5629,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
-                        entry_rated_highest["timesOpenedByMales"] = "N/A";
-                        entry_rated_highest["timesOpenedByFemales"] = "N/A";
-                        entry_rated_highest["timesOpenedCumulative"] = "N/A";
+                        entry_rated_highest["timesOpenedByMales"] = "Not Applicable";
+                        entry_rated_highest["timesOpenedByFemales"] = "Not Applicable";
+                        entry_rated_highest["timesOpenedCumulative"] = "Not Applicable";
                     } else {
                         entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -5593,10 +5650,21 @@ $(function() {
                         async: false
                     })
                     var name = res.get('title')
+//place to add code low
+                    var testValueLowestRating=Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100;
+                    var ratingLowestFreq;
+                    if(isNaN(testValueLowestRating))
+                    {
 
+                        ratingLowestFreq=0;
+                    }
+                    else{
+
+                        ratingLowestFreq=testValueLowestRating;
+                    }
                     entry_rated_lowest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100,
+                        "avgRatingCumulative":ratingLowestFreq ,
                         "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
@@ -5604,9 +5672,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
-                        entry_rated_lowest["timesOpenedByMales"] = "N/A";
-                        entry_rated_lowest["timesOpenedByFemales"] = "N/A";
-                        entry_rated_lowest["timesOpenedCumulative"] = "N/A";
+                        entry_rated_lowest["timesOpenedByMales"] = "Not Applicable";
+                        entry_rated_lowest["timesOpenedByFemales"] = "Not Applicable";
+                        entry_rated_lowest["timesOpenedCumulative"] = "Not Applicable";
                     } else {
                         entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];

@@ -587,5 +587,16 @@
     "Demo":"Demo",
     "All_Reports":"All Reports",
     "Generate_Report":"Generate Report",
-    "DateFormat_Reports":"(سنة: الشهر: اليوم )"
+    "DateFormat_Reports":"(سنة: الشهر: اليوم )",
+    "Period":"Period",
+    "Total":"Total",
+    "Male":"Male",
+    "Female":"Female",
+    "Registered_Members":"Registered Members",
+    "Average_Rating":"Average Rating",
+    "Times_Rated":"Times Rated",
+    "Max_open_Frequency":"Most Frequently Opened",
+    "Highest_Rated":"Highest Rated",
+    "Lowest_Rated":"Lowest Rated",
+    "Not_Applicable":"Not Applicable"
 }

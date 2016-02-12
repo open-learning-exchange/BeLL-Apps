@@ -1300,38 +1300,38 @@
     <script type="text/html" id="template-ActivityReport">
         <h4>
             <span style="color:gray;"><%= CommunityName %></span>
-            | Activity Report
+            | <%=languageDict.attributes.Activity_Report%>
         </h4>
         <p>
-            <span style="color:gray;">Period&nbsp;(YYYY:MM:DD) </span> <%= startDate %>&nbsp;to&nbsp;<%= endDate %>
+            <span style="color:gray;"><%=languageDict.attributes.Period%>&nbsp;<%=languageDict.attributes.DateFormat_Reports%> </span> <%= startDate %>&nbsp; | &nbsp;<%= endDate %>
         </p>
 
         <table class="table table-striped">
             <tr>
                 <th></th>
-                <th >Total</th>
-                <th >Male</th>
-                <th colspan="3">Female</th>
+                <th ><%=languageDict.attributes.Total%></th>
+                <th ><%=languageDict.attributes.Male%></th>
+                <th colspan="3"><%=languageDict.attributes.Female%></th>
             </tr>
-            <tr><td>Registered Members</td>
+            <tr><td><%=languageDict.attributes.Registered_Members%></td>
                 <td><%=MaleMembers+FemaleMembers%></td>
                 <td><%=MaleMembers%></td>
                 <td colspan="3"><%=FemaleMembers%></td>
             </tr>
             <tr>
-                <td>Visits</td>
+                <td><%=languageDict.attributes.Activity_Report%>Visits</td>
                 <td><%=Visits.male+Visits.female%></td>
                 <td><%=Visits.male%></td>
                 <td colspan="3"><%=Visits.female%></td>
             </tr>
             <tr>
                 <th colspan="4"></th>
-                <th>Average Rating</th>
-                <th >Times Rated</th>
+                <th><%=languageDict.attributes.Average_Rating%></th>
+                <th ><%=languageDict.attributes.Times_Rated%></th>
             </tr>
             <!-- @todo Recording of opening resources is broken.  -->
             <tr>
-                <th colspan="6">Most Frequently Opened</th>
+                <th colspan="6"><%=languageDict.attributes.Max_open_Frequency%></th>
             </tr>
 
             <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
@@ -1341,12 +1341,16 @@
                 <td><%=resource.timesOpenedCumulative%></td>
                 <td><%=resource.timesOpenedByMales%></td>
                 <td><%=resource.timesOpenedByFemales%></td>
+               <!-- <% if (resource.avgRatingCumulative === "") { %>
+                <td>0</td>
+                <% } else { %> -->
                 <td><%=resource.avgRatingCumulative%></td>
+             <!--   <% } %> -->
                 <td><%=resource.timesRatedCumulative%></td>
             </tr>
             <% }); %>
             <tr>
-                <th colspan="6">Highest Rated</th>
+                <th colspan="6"><%=languageDict.attributes.Highest_Rated%></th>
             </tr>
             <% _.each(Highest_Rated, function(resource){ %>
             <tr>
@@ -1359,7 +1363,7 @@
             </tr>
             <% }); %>
             <tr>
-                <th colspan="6">Lowest Rated</th>
+                <th colspan="6"><%=languageDict.attributes.Lowest_Rated%></th>
             </tr>
             <% _.each(Lowest_Rated, function(resource){ %>
             <tr>
@@ -1368,7 +1372,7 @@
                 <td><%=resource.timesRatedByMales%></td>     <!-- timesOpenedByMales -->
                 <td><%=resource.timesRatedByFemales%></td>   <!-- timesOpenedByFemales -->
                 <td><%=resource.avgRatingCumulative%></td>
-                <% if (resource.timesRatedCumulative === "N/A") { %>
+                <% if (resource.timesRatedCumulative === "Not Applicable") { %>
                 <td><%=resource.timesRatedCumulative%></td>
                 <% } else { %>
                 <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
@@ -1451,7 +1455,7 @@
                 <td><%=resource.timesRatedByMales%></td>     <!-- timesOpenedByMales -->
                 <td><%=resource.timesRatedByFemales%></td>   <!-- timesOpenedByFemales -->
                 <td><%=resource.avgRatingCumulative%></td>
-                <% if (resource.timesRatedCumulative === "N/A") { %>
+                <% if (resource.timesRatedCumulative === "Not Applicable") { %>
                 <td><%=resource.timesRatedCumulative%></td>
                 <% } else { %>
                 <td><%=resource.timesRatedByMales+resource.timesRatedByFemales%></td>
