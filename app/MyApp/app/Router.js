@@ -2215,6 +2215,7 @@ $(function() {
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
 
+            var languageDictValue=loadLanguageDocs();
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
@@ -2424,12 +2425,12 @@ $(function() {
                         "timesOpenedByFemales": report_female_opened[indices[i]]
                     };
                     if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
-                        most_freq_res_entry["avgRatingCumulative"] = "Not Applicable";
-                        most_freq_res_entry["avgRatingByMales"] = "Not Applicable";
-                        most_freq_res_entry["avgRatingByFemales"] = "Not Applicable";
-                        most_freq_res_entry["timesRatedByMales"] = "Not Applicable";
-                        most_freq_res_entry["timesRatedByFemales"] = "Not Applicable";
-                        most_freq_res_entry["timesRatedCumulative"] = "Not Applicable";
+                        most_freq_res_entry["avgRatingCumulative"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["avgRatingByMales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["avgRatingByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["timesRatedByMales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["timesRatedByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["timesRatedCumulative"] = languageDictValue.attributes.Not_Applicable;
                     } else {
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
@@ -2509,9 +2510,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
-                        entry_rated_highest["timesOpenedByMales"] = "Not Applicable";
-                        entry_rated_highest["timesOpenedByFemales"] = "Not Applicable";
-                        entry_rated_highest["timesOpenedCumulative"] = "Not Applicable";
+                        entry_rated_highest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_highest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_highest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
                     } else {
                         entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -2551,9 +2552,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
-                        entry_rated_lowest["timesOpenedByMales"] = "Not Applicable";
-                        entry_rated_lowest["timesOpenedByFemales"] = "Not Applicable";
-                        entry_rated_lowest["timesOpenedCumulative"] = "Not Applicable";
+                        entry_rated_lowest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_lowest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_lowest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
                     } else {
                         entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -5384,8 +5385,9 @@ $(function() {
                 }
             });
         },
-        LogActivity: function(CommunityName, startDate, endDate) {
+        LogActivity:  function(CommunityName, startDate, endDate) {
 
+            var languageDictValue=loadLanguageDocs();
             var rpt = new App.Views.ActivityReport()
             var type = "community"
             var configurations = Backbone.Collection.extend({
@@ -5542,13 +5544,14 @@ $(function() {
                         "timesOpenedByMales": report_male_opened[indices[i]],
                         "timesOpenedByFemales": report_female_opened[indices[i]]
                     };
+
                     if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
-                        most_freq_res_entry["avgRatingCumulative"] = "Not Applicable";
-                        most_freq_res_entry["avgRatingByMales"] = "Not Applicable";
-                        most_freq_res_entry["avgRatingByFemales"] = "Not Applicable";
-                        most_freq_res_entry["timesRatedByMales"] = "Not Applicable";
-                        most_freq_res_entry["timesRatedByFemales"] = "Not Applicable";
-                        most_freq_res_entry["timesRatedCumulative"] = "Not Applicable";
+                        most_freq_res_entry["avgRatingCumulative"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["avgRatingByMales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["avgRatingByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["timesRatedByMales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["timesRatedByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        most_freq_res_entry["timesRatedCumulative"] = languageDictValue.attributes.Not_Applicable;
                     } else {
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
@@ -5629,9 +5632,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
-                        entry_rated_highest["timesOpenedByMales"] = "Not Applicable";
-                        entry_rated_highest["timesOpenedByFemales"] = "Not Applicable";
-                        entry_rated_highest["timesOpenedCumulative"] = "Not Applicable";
+                        entry_rated_highest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_highest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_highest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
                     } else {
                         entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -5672,9 +5675,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
-                        entry_rated_lowest["timesOpenedByMales"] = "Not Applicable";
-                        entry_rated_lowest["timesOpenedByFemales"] = "Not Applicable";
-                        entry_rated_lowest["timesOpenedCumulative"] = "Not Applicable";
+                        entry_rated_lowest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_lowest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
+                        entry_rated_lowest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
                     } else {
                         entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
