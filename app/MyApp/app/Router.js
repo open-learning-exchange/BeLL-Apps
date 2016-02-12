@@ -5702,8 +5702,9 @@ $(function() {
             rpt.startDate = startDate
             rpt.endDate = endDate
             rpt.CommunityName = CommunityName
-            rpt.render()
-            App.$el.children('.body').html(rpt.el)
+            rpt.render();
+            App.$el.children('.body').html('<div id="requestsTable"></div>')
+            $('#requestsTable').append(rpt.el)
         },
         findIndicesOfMax: function(inp, count) {
             var outp = [];
