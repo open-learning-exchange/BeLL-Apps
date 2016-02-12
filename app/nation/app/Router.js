@@ -2638,6 +2638,12 @@ $(function() {
             if (surQuestionsIdes != ''){
                 surQuestionsIdes = surQuestionsIdes.substring(0, surQuestionsIdes.length - 1);
             }
+            var questionsColl = new App.Collections.SurveyQuestions();
+            questionsColl.keys = encodeURI(surQuestionsIdes)
+            questionsColl.fetch({
+                async: false
+            });
+            console.log(questionsColl);
         },
 
         underConstruction: function() {
