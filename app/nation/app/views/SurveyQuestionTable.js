@@ -9,7 +9,12 @@ $(function() {
         initialize: function() {
         },
         addOne: function(model) {
-
+            var surveyQuestionRowView = new App.Views.SurveyQuestionRow({
+                model: model
+            })
+            surveyQuestionRowView.Id = this.Id
+            surveyQuestionRowView.render()
+            this.$el.append(surveyQuestionRowView.el)
         },
 
         addAll: function() {
