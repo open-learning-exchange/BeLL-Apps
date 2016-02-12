@@ -2630,7 +2630,14 @@ $(function() {
                         break;
                 }
             };
-
+            var surQuestions = surveyModel.get('questions');
+            var surQuestionsIdes = ''
+            _.each(surQuestions, function(item) {
+                surQuestionsIdes += '"' + item + '",'
+            })
+            if (surQuestionsIdes != ''){
+                surQuestionsIdes = surQuestionsIdes.substring(0, surQuestionsIdes.length - 1);
+            }
         },
 
         AddQuestion: function(sur_Id) {
