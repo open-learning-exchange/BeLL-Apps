@@ -606,5 +606,9 @@
    "Males":"Males",
    "Females":"Females",
    "Visits_Count":"Visits Count",
-   "Resource_Count":"Resource Count"
+   "Resource_Count":"Resource Count",
+   "Tag":"Tag",
+   "Undefined_Author":"No Author Defined",
+   "Attachment":"Attachment",
+   "Resource_Detail":"Resource Detail"
 }

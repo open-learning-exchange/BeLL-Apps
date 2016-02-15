@@ -384,7 +384,7 @@
    "Leader_Phone_Number": "رقم الهاتف الزعيم",
    "Not_Set": "غير مضبوط",
    "Course_Information": "معلومات الدرس",
-   "level_single":"مستوى",
+   "level_Single":"مستوى",
    "Hi":"أهلا",
    "Has_Resign_From":"قد استقال من",
    "Course_Resignation":"الدرس استقالة",
@@ -611,5 +611,9 @@
     "Males":"Males",
     "Females":"Females",
     "Visits_Count":"Visits Count",
-    "Resource_Count":"Resource Count"
+    "Resource_Count":"Resource Count",
+    "Tag":"Tag",
+    "Undefined_Author":"No Author Defined",
+    "Attachment":"Attachment",
+    "Resource_Detail":"Resource Detail"
 }

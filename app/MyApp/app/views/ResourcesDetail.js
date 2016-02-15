@@ -8,6 +8,7 @@ $(function() {
         className: "btable btable-striped resourceDetail",
         sid: null,
         rid: null,
+        id: 'requestsTable',
         events: {
             // Handling the Destroy button if the user wants to remove this Element from its shelf
             "click #DestroyShelfItem": function(e) {
@@ -84,22 +85,23 @@ $(function() {
 
         },
         initialize: function() {
-            this.$el.append('<th colspan="2"><h6>Resource Detail</h6></th>')
+            this.$el.append('<th colspan="2"><h6>'+loadLanguageDocs().attributes.Resource_Detail+'</h6></th>')
         },
         SetShelfId: function(s, r) {
             this.sid = s
             this.rid = r
         },
         render: function() {
-            var vars = this.model.toJSON()
-            this.$el.append("<tr><td>Title</td><td>" + vars.title + "</td></tr>")
-            this.$el.append("<tr><td>Subject</td><td>" + vars.subject + "</td></tr>")
-            this.$el.append("<tr><td>Tag</td><td>" + vars.Tag + "</td></tr>")
-            this.$el.append("<tr><td>Level</td><td>" + vars.Level + "</td></tr>")
+            var vars = this.model.toJSON();
+            var languageDictValue=loadLanguageDocs();
+            this.$el.append("<tr><td>"+languageDictValue.attributes.Title+"</td><td>" + vars.title + "</td></tr>")
+            this.$el.append("<tr><td>"+languageDictValue.attributes.Subject_single+"</td><td>" + vars.subject + "</td></tr>")
+            this.$el.append("<tr><td>"+languageDictValue.attributes.Tag+"</td><td>" + vars.Tag + "</td></tr>")
+            this.$el.append("<tr><td>"+languageDictValue.attributes.level_Single+"</td><td>" + vars.Level + "</td></tr>")
             if (vars.author) {
-                this.$el.append("<tr><td>Author</td><td>" + vars.author + "</td></tr>")
+                this.$el.append("<tr><td>"+languageDictValue.attributes.author+"</td><td>" + vars.author + "</td></tr>")
             } else {
-                this.$el.append("<tr><td>Author</td><td>No Author Defined</td></tr>")
+                this.$el.append("<tr><td>"+languageDictValue.attributes.author+"</td><td>"+languageDictValue.attributes.Undefined_Author+"</td></tr>")
             }
             /**********************************************************************/
             //Issue No: 54 (Update buttons on the My Library page on Dashboard)
@@ -115,12 +117,12 @@ $(function() {
             }
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>') */
             if (vars._attachments) {
-                this.$el.append("<tr><td>Attachment</td><td></td></tr>")
-                this.$el.append("<br><a class='btn open shelfResFeedBack' target='_blank' style='background-color:#1ABC9C;  width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "/"+ vars.title +"'>View</a><button class='btn btn-danger' id='DestroyShelfItem'>Remove</button></td></tr>")
+                this.$el.append("<tr><td>"+languageDictValue.attributes.Attachment+"</td><td></td></tr>")
+                this.$el.append("<br><a class='btn open shelfResFeedBack' target='_blank' style='background-color:#1ABC9C;  width: 65px;height:26px;font-size: large' href='/apps/_design/bell/bell-resource-router/index.html#open/" + vars._id + "/"+ vars.title +"'>"+languageDictValue.attributes.View+"</a><button class='btn btn-danger marginsOnMeetUp' id='DestroyShelfItem'>"+languageDictValue.attributes.Remove+"</button></td></tr>")
 
             } else {
-                this.$el.append("<tr><td>Attachment</td><td>No Attachment</td></tr>")
-                this.$el.append('<br><a class="btn open shelfResFeedBack" style="visibility: hidden">View</a><button class="btn btn-danger" id="DestroyShelfItem">Remove</button></td></tr>')
+                this.$el.append("<tr><td>"+languageDictValue.attributes.Attachment+"</td><td>"+languageDictValue.attributes.No_Attachment+"</td></tr>")
+                this.$el.append('<br><a class="btn open shelfResFeedBack" style="visibility: hidden">'+languageDictValue.attributes.View+'</a><button class="btn btn-danger marginsOnMeetUp" id="DestroyShelfItem">'+languageDictValue.attributes.Remove+'</button></td></tr>')
             }
 
 
