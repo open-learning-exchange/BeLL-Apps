@@ -2678,10 +2678,11 @@ $(function() {
         ///////////////////////////////////////////
 
         trendReport: function() {
+            var languageDictValue=loadLanguageDocs();
             var context = this;
             App.$el.children('.body').html('');
             $('<div id="trend-report-form"></div>').appendTo(App.$el.children('.body'));
-            var label = $("<label>").text('Trend report ending: ');
+            var label = $("<label>").text(languageDictValue.attributes.TrendReport_msg+' ');
             $('#trend-report-form').append(label);
             var today = new Date();
             var input = $('<input type="text">').attr({
@@ -2700,9 +2701,16 @@ $(function() {
                 id: 'submit',
                 name: 'submit',
                 class: "btn btn-success",
-                value: 'Generate Report'
+                value: languageDictValue.attributes.Generate_Report
             });
             $('#trend-report-form').append(button);
+            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" )
+            {
+                $('#trend-report-form').addClass('courseSearchResults_Bottom');
+            }
+            else{
+                $('#trend-report-form').removeClass('courseSearchResults_Bottom');
+            }
             button.click(function() {
                 var dateChosen = $('#dateSelect').val();
                 if (dateChosen) {
@@ -2824,7 +2832,8 @@ $(function() {
                     var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
                     console.log(lastMonthDataset);
                     //  ********************************************************************************************************
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                   // var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    var monthNames = [lookup(languageDictValue, "Months." + "January"), lookup(languageDictValue, "Months." + "February"), lookup(languageDictValue, "Months." + "March"), lookup(languageDictValue, "Months." + "April"), lookup(languageDictValue, "Months." + "May"), lookup(languageDictValue, "Months." + "June"), lookup(languageDictValue, "Months." + "July"), lookup(languageDictValue, "Months." + "August"), lookup(languageDictValue, "Months." + "September"), lookup(languageDictValue, "Months." + "October"), lookup(languageDictValue, "Months." + "November"),lookup(languageDictValue, "Months." + "December")];
                     //   ********************************************************************************************************
                     // show registered members at end of each month falling in duration of this report
                     var totalRegisteredMembers = {
@@ -3108,7 +3117,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Total Registered Members Past 12 Months' //Total Members Previously
+                            text: languageDictValue.attributes.registered_past_twelve_months //Total Members Previously
                         },
                         xAxis: {
                             categories: [
@@ -3129,7 +3138,7 @@ $(function() {
                         yAxis: {
                             min: 0,
                             title: {
-                                text: "Members Count"
+                                text: languageDictValue.attributes.Members_Count
                             }
                         },
                         tooltip: {
@@ -3147,7 +3156,7 @@ $(function() {
                             }
                         },
                         series: [{
-                            name: 'Males',
+                            name: languageDictValue.attributes.Males,
                             data: [
                                 registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'],
                                 registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'],
@@ -3164,7 +3173,7 @@ $(function() {
                             ],
                             color: '#33ccff'
                         }, {
-                            name: 'Females',
+                            name: languageDictValue.attributes.Females,
                             data: [
                                 registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'],
                                 registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'],
@@ -3181,7 +3190,7 @@ $(function() {
                             ],
                             color: '#66ff66'
                         }, {
-                            name: 'Total',
+                            name: languageDictValue.attributes.Total,
                             data: [
                                 registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'],
                                 registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'],
@@ -3211,7 +3220,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Total Visits Past 12 Months' // Total Visits
+                            text: languageDictValue.attributes.visits_past_twelve_months // Total Visits
                         },
                         xAxis: {
                             categories: [
@@ -3233,7 +3242,7 @@ $(function() {
                         yAxis: {
                             min: 0,
                             title: {
-                                text: "Visits Count"
+                                text: languageDictValue.attributes.Visits_Count
                             }
                         },
                         tooltip: {
@@ -3251,7 +3260,7 @@ $(function() {
                             }
                         },
                         series: [{
-                            name: 'Males',
+                            name: languageDictValue.attributes.Males,
                             data: [
 
                                 membersVisitsTillTwelfthLastMonthEnd['male'],
@@ -3269,7 +3278,7 @@ $(function() {
                             ],
                             color: '#33ccff'
                         }, {
-                            name: 'Females',
+                            name: languageDictValue.attributes.Females,
                             data: [
                                 membersVisitsTillTwelfthLastMonthEnd['female'],
                                 membersVisitsTillEleventhLastMonthEnd['female'],
@@ -3286,7 +3295,7 @@ $(function() {
                             ],
                             color: '#66ff66'
                         }, {
-                            name: 'Total',
+                            name: languageDictValue.attributes.Total,
                             data: [
                                 membersVisitsTillTwelfthLastMonthEnd['total'],
                                 membersVisitsTillEleventhLastMonthEnd['total'],
@@ -3316,7 +3325,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Active Members This Month'
+                            text: languageDictValue.attributes.active_members_this_month
                         },
                         xAxis: {
                             categories: [
@@ -3337,7 +3346,7 @@ $(function() {
                         yAxis: {
                             min: 0,
                             title: {
-                                text: "Members Count"
+                                text: languageDictValue.attributes.Members_Count
                             }
                         },
                         tooltip: {
@@ -3355,7 +3364,7 @@ $(function() {
                             }
                         },
                         series: [{
-                            name: 'Males',
+                            name:languageDictValue.attributes.Males,
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['male'],
                                 registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
@@ -3372,7 +3381,7 @@ $(function() {
                             ],
                             color: '#33ccff'
                         }, {
-                            name: 'Females',
+                            name: languageDictValue.attributes.Females,
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['female'],
                                 registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
@@ -3389,7 +3398,7 @@ $(function() {
                             ],
                             color: '#66ff66'
                         }, {
-                            name: 'Total',
+                            name: languageDictValue.attributes.Total,
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['total'],
                                 registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
@@ -3419,7 +3428,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Total Member Visits This Month'
+                            text: languageDictValue.attributes.members_visits_this_month
                         },
                         xAxis: {
                             categories: [
@@ -3441,7 +3450,7 @@ $(function() {
                         yAxis: {
                             min: 0,
                             title: {
-                                text: "Visits Count"
+                                text: languageDictValue.attributes.Visits_Count
                             }
                         },
                         tooltip: {
@@ -3459,7 +3468,7 @@ $(function() {
                             }
                         },
                         series: [{
-                            name: 'Males',
+                            name: languageDictValue.attributes.Males,
                             data: [
                                 twelfthLastMonthDataset.Visits['male'],
                                 eleventhLastMonthDataset.Visits['male'],
@@ -3476,7 +3485,7 @@ $(function() {
                             ],
                             color: '#33ccff'
                         }, {
-                            name: 'Females',
+                            name: languageDictValue.attributes.Females,
                             data: [
                                 twelfthLastMonthDataset.Visits['female'],
                                 eleventhLastMonthDataset.Visits['female'],
@@ -3493,7 +3502,7 @@ $(function() {
                             ],
                             color: '#66ff66'
                         }, {
-                            name: 'Total',
+                            name: languageDictValue.attributes.Total,
                             data: [
                                 twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
                                 eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
@@ -3524,7 +3533,7 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: 'Total Resource Views This Month'
+                            text: languageDictValue.attributes.resource_views_this_month
                         },
                         xAxis: {
                             categories: [
@@ -3546,7 +3555,7 @@ $(function() {
                         yAxis: {
                             min: 0,
                             title: {
-                                text: "Resource count"
+                                text: languageDictValue.attributes.Resource_Count
                             }
                         },
                         tooltip: {
@@ -3564,7 +3573,7 @@ $(function() {
                             }
                         },
                         series: [{
-                            name: 'Males',
+                            name: languageDictValue.attributes.Males,
                             data: [
                                 twelfthLastMonthDataset.ResourceViews['male'],
                                 eleventhLastMonthDataset.ResourceViews['male'],
@@ -3581,7 +3590,7 @@ $(function() {
                             ],
                             color: '#33ccff'
                         }, {
-                            name: 'Females',
+                            name: languageDictValue.attributes.Females,
                             data: [
                                 twelfthLastMonthDataset.ResourceViews['female'],
                                 eleventhLastMonthDataset.ResourceViews['female'],
@@ -3598,7 +3607,7 @@ $(function() {
                             ],
                             color: '#66ff66'
                         }, {
-                            name: 'Total',
+                            name: languageDictValue.attributes.Total,
                             data: [
                                 twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
                                 eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],

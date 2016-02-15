@@ -1385,11 +1385,11 @@
     </script>
 
     <script type="text/html" id="template-TrendActivityReport">
-        <h4>
-            Trend Activity Report (Previous Six Months)
+        <h4 id="requestsTable">
+            <%=languageDict.attributes.Title_TrendActivity%>
         </h4>
-        <p>
-            <span style="color:gray;">Period&nbsp;(YYYY:MM:DD) </span> <%= startDate %>&nbsp;to&nbsp;<%= endDate %>
+        <p id="requestsTable">
+            <span style="color:gray;"><%=languageDict.attributes.Period%>&nbsp;<%=languageDict.attributes.DateFormat_Reports%> </span> <%= startDate %>&nbsp; | &nbsp;<%= endDate %>
         </p>
         <div id="trend-report-div-total-members" style = "padding:10px 10px 10px 10px; " ></div>
         <div id="trend-report-div-total-member-visits" style = "padding:10px 10px 10px 10px; " ></div>
@@ -1397,17 +1397,17 @@
         <div id="trend-report-div-visits" style = "padding:10px 10px 10px 10px; " ></div>
         <div id="trend-report-div-total-resource-views-this-month" style = "padding:10px 10px 10px 10px; " ></div>
 
-        <h4>
-            Facts and Figures
+        <h4 id="requestsTable">
+            <%=languageDict.attributes.Facts_and_Figures%>
         </h4>
-        <table class="table table-striped">
+        <table class="table table-striped" id="requestsTable">
             <tr>
-                <th >Most Frequently Opened</th>
-                <th >Total</th>
-                <th >Male</th>
-                <th >Female</th>
-                <th>Average Rating</th>
-                <th >Times Rated</th>
+                <th ><%=languageDict.attributes.Max_open_Frequency%></th>
+                <th > <%=languageDict.attributes.Total%></th>
+                <th > <%=languageDict.attributes.Male%></th>
+                <th > <%=languageDict.attributes.Female%></th>
+                <th> <%=languageDict.attributes.Average_Rating%></th>
+                <th > <%=languageDict.attributes.Times_Rated%></th>
             </tr>
             <!-- @todo Recording of opening resources is broken.  -->
 
@@ -1423,12 +1423,12 @@
             </tr>
             <% }); %>
             <tr>
-                <th >Highest Rated</th>
-                <th >Total</th>
-                <th >Male</th>
-                <th >Female</th>
-                <th>Average Rating</th>
-                <th >Times Rated</th>
+                <th > <%=languageDict.attributes.Highest_Rated%></th>
+                <th > <%=languageDict.attributes.Total%></th>
+                <th > <%=languageDict.attributes.Male%></th>
+                <th > <%=languageDict.attributes.Female%></th>
+                <th> <%=languageDict.attributes.Average_Rating%></th>
+                <th > <%=languageDict.attributes.Times_Rated%></th>
             </tr>
             <% _.each(Highest_Rated, function(resource){ %>
             <tr>
@@ -1441,12 +1441,12 @@
             </tr>
             <% }); %>
             <tr>
-                <th >Lowest Rated</th>
-                <th >Total</th>
-                <th >Male</th>
-                <th >Female</th>
-                <th>Average Rating</th>
-                <th >Times Rated</th>
+                <th > <%=languageDict.attributes.Lowest_Rated%></th>
+                <th > <%=languageDict.attributes.Total%></th>
+                <th > <%=languageDict.attributes.Male%>Male</th>
+                <th > <%=languageDict.attributes.Female%>Female</th>
+                <th> <%=languageDict.attributes.Average_Rating%></th>
+                <th > <%=languageDict.attributes.Times_Rated%></th>
             </tr>
             <% _.each(Lowest_Rated, function(resource){ %>
             <tr>

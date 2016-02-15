@@ -598,5 +598,18 @@
     "Max_open_Frequency":"Most Frequently Opened",
     "Highest_Rated":"Highest Rated",
     "Lowest_Rated":"Lowest Rated",
-    "Not_Applicable":"Not Applicable"
+    "Not_Applicable":"Not Applicable",
+    "TrendReport_msg":"Trend report ending:",
+    "Title_TrendActivity":"Trend Activity Report (Previous Six Months)",
+    "Facts_and_Figures":"Facts and Figures",
+    "registered_past_twelve_months":"Total Registered Members Past 12 Months",
+    "visits_past_twelve_months":"Total Visits Past 12 Months",
+    "active_members_this_month":"Active Members This Month",
+    "members_visits_this_month":"Total Member Visits This Month",
+    "resource_views_this_month":"Total Resource Views This Month",
+    "Members_Count":"Members Count",
+    "Males":"Males",
+    "Females":"Females",
+    "Visits_Count":"Visits Count",
+    "Resource_Count":"Resource Count"
 }

@@ -21,7 +21,8 @@ $(function() {
             context.vars = context.data
             context.vars.startDate = context.startDate
             context.vars.endDate = context.endDate
-            context.vars.CommunityName = context.CommunityName
+            context.vars.CommunityName = context.CommunityName;
+            context.vars.languageDict=loadLanguageDocs();
             context.$el.html(_.template(context.template, context.vars));
         }
     })
