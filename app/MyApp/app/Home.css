@@ -879,6 +879,11 @@ margin-left: 259px;
 	margin-top: 20px;
 	position: relative;
 }
+#showReleaseNotes{
+	direction: ltr;
+	margin: 0 auto;
+	width: 940px;
+}
 .Graphbutton{
 	float: left;
 	margin-top: 20px;

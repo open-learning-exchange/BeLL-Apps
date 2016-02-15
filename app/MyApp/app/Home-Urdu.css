@@ -722,6 +722,11 @@ body{
 .marginsOnMeetUp{
     margin-right:20px
 }
+#showReleaseNotes{
+    direction: rtl;
+    margin: 0 auto;
+    width: 940px;
+}
  .courseSearchResults_Bottom{
      direction: rtl;
      float:right;

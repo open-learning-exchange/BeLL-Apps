@@ -76,6 +76,7 @@ $(function() {
                 } else {
                     $("#showReleaseNotes").slideUp("slow", function() {});
                 }
+                applyStylingSheet();
             }
         },
 
