@@ -96,6 +96,7 @@
      <script src="app/collections/Courses.js"></script>
      <script src="app/collections/Resources.js"></script>
         <script src="app/collections/Surveys.js"></script>
+        <script src="app/collections/SurveyQuestions.js"></script>
      
      
      
@@ -137,6 +138,8 @@
         <script src="app/views/SurveyTable.js"></script>
         <script src="app/views/SurveyRow.js"></script>
         <script src="app/views/SurveyForm.js"></script>
+        <script src="app/views/SurveyQuestionTable.js"></script>
+        <script src="app/views/SurveyQuestionRow.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -158,9 +161,6 @@
 		}
 		function SelectCommunity(pId, type){
   			App.Router.SelectCommunities(pId, type)
-     }
-     function AddQuestions(sur_Id){
-         App.Router.AddQuestion(sur_Id)
      }
 
   		function SyncDbSelect(){

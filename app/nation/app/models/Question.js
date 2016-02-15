@@ -24,7 +24,8 @@ $(function() {
             Statement: 'Text',
             Answer: [],
             Options: [],
-            Ratings: []
+            Ratings: [],
+            RequireAnswer: false
         },
 
     })
