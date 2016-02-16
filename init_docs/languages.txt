@@ -378,7 +378,7 @@
    "Leader_Phone_Number": "Leader Phone Number",
    "Not_Set": "Not Set",
    "Course_Information": "Course Information",
-   "level_Single":"level",
+   "level_Single":"Level",
    "Hi":"Hi",
    "Has_Resign_From":"has resigned from",
    "Course_Resignation":"Course Resignation",
@@ -610,5 +610,6 @@
    "Tag":"Tag",
    "Undefined_Author":"No Author Defined",
    "Attachment":"Attachment",
-   "Resource_Detail":"Resource Detail"
+   "Resource_Detail":"Resource Detail",
+   "directionOfLang":"Left"
 }

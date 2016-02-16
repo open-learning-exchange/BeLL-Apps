@@ -58,7 +58,7 @@ $(function() {
                         that.form.fields['members'].$el.show();
                         that.form.fields['levels'].$el.hide();
                         $('.bbf-form .field-members').find('label').eq(0).html(App.languageDict.attributes.Members);
-                    } else if (val == App.languageDict.attributes.level_single) {
+                    } else if (val == App.languageDict.attributes.level_Single) {
 
                         that.form.fields['members'].$el.hide()
                         that.form.fields['levels'].$el.show();

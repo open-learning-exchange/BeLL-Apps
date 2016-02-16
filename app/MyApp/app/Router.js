@@ -758,8 +758,10 @@ $(function() {
                 $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
 
             }
-            if(App.configuration.attributes.currentLanguage=="Arabic" || App.languageDict.attributes.currentLanguage=="Urdu")
-            {
+            var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+            if (directionOfLang.toLowerCase() === "right") {
+
                 $('#_attachments').css('margin-right','170px');
             }
             else {
@@ -2704,8 +2706,10 @@ $(function() {
                 value: languageDictValue.attributes.Generate_Report
             });
             $('#trend-report-form').append(button);
-            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" )
-            {
+            var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+            if (directionOfLang.toLowerCase() === "right") {
+
                 $('#trend-report-form').addClass('courseSearchResults_Bottom');
             }
             else{
@@ -3673,8 +3677,10 @@ $(function() {
                $('.fields .bbf-form .bbf-month option').eq(i).html(lookup(App.languageDict, "Months." + $('.fields .bbf-form .bbf-month option').eq(i).text().toString() ));
 
             }
-            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
-            {
+            var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+            if (directionOfLang.toLowerCase() === "right") {
+
                 $('.bbf-form').addClass('courseSearchResults_Bottom');
                 $('#cont div').eq(0).css('width','100%');
                 $('table').css('width','100%');
@@ -4196,7 +4202,10 @@ $(function() {
                         todayHighlight: true
                     });
                     $("input[name='AddedBy']").attr("disabled", true);
-                    if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" ){
+                    var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+                    if (directionOfLang.toLowerCase() === "right") {
+
                         $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
                         $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
                         $('.field-NesttedUnder').find('.bbf-editor').find('select').find('option').eq(0).html(App.languageDict.attributes.Select_An_option);
@@ -4245,7 +4254,10 @@ $(function() {
                 $('#invitationdiv').hide()
 
             }
-            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" ){
+            var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+            if (directionOfLang.toLowerCase() === "right") {
+
                 $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
                 $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
                 $('.field-NesttedUnder').find('.bbf-editor').find('select').find('option').eq(0).html(App.languageDict.attributes.Select_An_option);
@@ -4721,8 +4733,10 @@ $(function() {
             log.type = type;
             log.render();
             App.$el.children('.body').html(log.el);
-            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
-            {
+            var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+            if (directionOfLang.toLowerCase() === "right") {
+
                 $('#start-date').css('margin-right','20px');
             }
 

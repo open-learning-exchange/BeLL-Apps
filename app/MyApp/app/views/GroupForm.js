@@ -97,8 +97,10 @@ $(function () {
             } else {
                 alert(App.languageDict.attributes.Prompt_Course_Desc)
             }
-            if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu")
-            {
+            var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+            if (directionOfLang.toLowerCase() === "right") {
+
                 $('#invitationdiv').addClass('courseSearchResults_Bottom');
             }
             else {

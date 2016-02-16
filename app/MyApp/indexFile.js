@@ -18,20 +18,21 @@ var new_surveys_count;
 var forcedUpdateProfile=false;
 var languageDict;
 
-function applyStylingSheet(){
+function applyStylingSheet() {
 
-    var clanguage = App.configuration.attributes.currentLanguage;
+    var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
-    if (clanguage=="Urdu" || clanguage=="Arabic") {
+    if (directionOfLang.toLowerCase() === "right") {
 
         $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
         $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
 
-    } else {
+    } else if (directionOfLang.toLowerCase() === "left"){
         $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
         $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-
+    }
+    else{
+        alert('Please specify the direction for specified Language.');
     }
 }
 function selectAllMembers (){
@@ -121,8 +122,9 @@ function showFeedbackForm() {
 
     }
     $('#comment').attr('placeholder',App.languageDict.attributes.Give_Feedback);
-    if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" )
-    {
+    var directionOfLang = loadLanguageDocs().get('directionOfLang');
+
+    if (directionOfLang.toLowerCase() === "right") {
         $('#comment').css('text-align','right');
     }
 
@@ -671,10 +673,11 @@ function changeRatingImage(checkID, count) {
 
 function showRequestForm(modl) {
     App.renderRequest(modl);
-    if(App.configuration.attributes.currentLanguage=="Arabic" || App.configuration.attributes.currentLanguage=="Urdu" )
-    {
-        $('#site-request').css('direction','rtl');
+    var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
+    if (directionOfLang.toLowerCase() === "right") {
+
+        $('#site-request').css('direction','rtl');
         $('#site-request').find('span').css('margin-right','4%');
         $('#site-request').find('form').css('margin-right','2%');
         $('#site-request').find('div').css('margin-right','2%');

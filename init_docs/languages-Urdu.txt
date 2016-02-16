@@ -607,5 +607,6 @@
      "Tag":"Tag",
      "Undefined_Author":"No Author Defined",
      "Attachment":"Attachment",
-     "Resource_Detail":"Resource Detail"
+     "Resource_Detail":"Resource Detail",
+     "directionOfLang":"Right"
 }
