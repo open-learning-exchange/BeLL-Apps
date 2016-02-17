@@ -2644,6 +2644,7 @@ $(function() {
                                 qStatement = $('#5').find('#question_text').val();
                                 var answer_choicesRS = $('#5').find('#answer_choices').val();
                                 answer_choicesRS = answer_choicesRS.split('\n');
+                                var ratingVal = $('#5').find('#select_rating').val();
                                 if(qStatement.toString().trim() != '') {
                                     var validOptionValuesRS = [];
                                     for(var j = 0 ; j < answer_choicesRS.length ; j++) {
@@ -2652,19 +2653,33 @@ $(function() {
                                         }
                                     }
                                     if(validOptionValuesRS != [] && validOptionValuesRS.length > 1) {
-                                        var questionObjectRS = new App.Models.Question({
-                                            Type: selectedVal,
-                                            Statement: qStatement.toString().trim(),
-                                            surveyId: surveyId,
-                                            Options: validOptionValuesRS
-                                        });
-                                        if($('#5').find('#required_question').prop("checked") == true) {
-                                            questionObjectRS.set('RequireAnswer', true);
-                                        } else {
-                                            questionObjectRS.set('RequireAnswer', false);
+                                        var labelsVal = [];
+                                        var rating = [];
+                                        for(var k = 0 ; k < ratingVal ; k++) {
+                                            var labelVal = $('#5').find('.ratingLabels').eq(k).val();
+                                            if(labelVal.trim() != '') {
+                                                labelsVal.push(labelVal);
+                                            }
                                         }
-                                        console.log(questionObjectRS);
-                                        //questionObjectRS.save();
+                                        if(labelsVal.length == ratingVal) {
+                                            rating.push(ratingVal);
+                                            rating.push(labelsVal);
+                                            var questionObjectRS = new App.Models.Question({
+                                                Type: selectedVal,
+                                                Statement: qStatement.toString().trim(),
+                                                surveyId: surveyId,
+                                                Options: validOptionValuesRS,
+                                                Ratings: rating
+                                            });
+                                            if($('#5').find('#required_question').prop("checked") == true) {
+                                                questionObjectRS.set('RequireAnswer', true);
+                                            } else {
+                                                questionObjectRS.set('RequireAnswer', false);
+                                            }
+                                            questionObjectRS.save();
+                                        } else {
+                                            alert("Labels are less than the rating value");
+                                        }
                                     } else {
                                         alert("Please provide atleast two options");
                                     }
