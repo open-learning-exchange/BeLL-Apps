@@ -2611,20 +2611,31 @@ $(function() {
                         switch (selectedVal) {
                             case 'Multiple Choice (Single Answer)':
                                 qStatement = $('#1').find('#question_text').val();
+                                var answer_choices = $('#1').find('#answer_choices').val();
+                                answer_choices = answer_choices.split('\n');
                                 if(qStatement.toString().trim() != '') {
-                                    var questionObjectMC = new App.Models.Question({
-                                        Type: selectedVal,
-                                        Statement: qStatement.toString().trim(),
-                                        surveyId: surveyId
-                                    });
-                                    //We will have to check multiple choices here as well
-                                    //And will save them in question object
-                                    if($('#1').find('#required_question').prop("checked") == true) {
-                                        questionObjectMC.set('RequireAnswer', true);
-                                    } else {
-                                        questionObjectMC.set('RequireAnswer', false);
+                                    var validOptionValues = [];
+                                    for(var i = 0 ; i < answer_choices.length ; i++) {
+                                        if(answer_choices[i].trim() != '') {
+                                            validOptionValues.push(answer_choices[i].trim());
+                                        }
                                     }
-                                    questionObjectMC.save();
+                                    if(validOptionValues != [] && validOptionValues.length > 1) {
+                                        var questionObjectMC = new App.Models.Question({
+                                            Type: selectedVal,
+                                            Statement: qStatement.toString().trim(),
+                                            surveyId: surveyId,
+                                            Options: validOptionValues
+                                        });
+                                        if($('#1').find('#required_question').prop("checked") == true) {
+                                            questionObjectMC.set('RequireAnswer', true);
+                                        } else {
+                                            questionObjectMC.set('RequireAnswer', false);
+                                        }
+                                        questionObjectMC.save();
+                                    } else {
+                                        alert("Please provide atleast two options");
+                                    }
                                 } else {
                                     alert("Question statement is missing");
                                 }
@@ -2644,7 +2655,7 @@ $(function() {
                                     } else {
                                         questionObjectRS.set('RequireAnswer', false);
                                     }
-                                    questionObjectRS.save();
+                                    //questionObjectRS.save();
                                 } else {
                                     alert("Question statement is missing");
                                 }
@@ -2662,7 +2673,7 @@ $(function() {
                                     } else {
                                         questionObject.set('RequireAnswer', false);
                                     }
-                                    questionObject.save();
+                                    //questionObject.save();
                                 } else {
                                     alert("Question statement is missing");
                                 }
@@ -2680,18 +2691,13 @@ $(function() {
                                     } else {
                                         questionObjectForEB.set('RequireAnswer', false);
                                     }
-                                    questionObjectForEB.save();
+                                    //questionObjectForEB.save();
                                 } else {
                                     alert("Question statement is missing");
                                 }
                                 break;
                         }
                     }
-                    //Selected option
-                    //Question Text
-                    //Answer Choices?
-                    //Rating Options?
-                    //Is Required?
                 });
             });
             function hideAllDivs () {
@@ -2707,18 +2713,24 @@ $(function() {
                     case '1':
                         $("#1").show();
                         $('#1').find('#question_text').val('');
+                        $('#1').find('#answer_choices').val('');
+                        $('#1').find('#required_question').removeAttr('checked');
                         break;
                     case '5':
                         $("#5").show();
                         $('#5').find('#question_text').val('');
+                        $('#5').find('#answer_choices').val('');
+                        $('#5').find('#required_question').removeAttr('checked');
                         break;
                     case '6':
                         $("#6").show();
                         $('#6').find('#question_text').val('');
+                        $('#6').find('#required_question').removeAttr('checked');
                         break;
                     case '8':
                         $("#8").show();
                         $('#8').find('#question_text').val('');
+                        $('#8').find('#required_question').removeAttr('checked');
                         break;
                 }
             };
