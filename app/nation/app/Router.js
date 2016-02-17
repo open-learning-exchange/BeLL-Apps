@@ -2642,20 +2642,32 @@ $(function() {
                                 break;
                             case 'Rating Scale':
                                 qStatement = $('#5').find('#question_text').val();
+                                var answer_choicesRS = $('#5').find('#answer_choices').val();
+                                answer_choicesRS = answer_choicesRS.split('\n');
                                 if(qStatement.toString().trim() != '') {
-                                    var questionObjectRS = new App.Models.Question({
-                                        Type: selectedVal,
-                                        Statement: qStatement.toString().trim(),
-                                        surveyId: surveyId
-                                    });
-                                    //We will have to check multiple choices and rating values as well
-                                    //And will save them in question object
-                                    if($('#5').find('#required_question').prop("checked") == true) {
-                                        questionObjectRS.set('RequireAnswer', true);
-                                    } else {
-                                        questionObjectRS.set('RequireAnswer', false);
+                                    var validOptionValuesRS = [];
+                                    for(var j = 0 ; j < answer_choicesRS.length ; j++) {
+                                        if(answer_choicesRS[j].trim() != '') {
+                                            validOptionValuesRS.push(answer_choicesRS[j].trim());
+                                        }
                                     }
-                                    //questionObjectRS.save();
+                                    if(validOptionValuesRS != [] && validOptionValuesRS.length > 1) {
+                                        var questionObjectRS = new App.Models.Question({
+                                            Type: selectedVal,
+                                            Statement: qStatement.toString().trim(),
+                                            surveyId: surveyId,
+                                            Options: validOptionValuesRS
+                                        });
+                                        if($('#5').find('#required_question').prop("checked") == true) {
+                                            questionObjectRS.set('RequireAnswer', true);
+                                        } else {
+                                            questionObjectRS.set('RequireAnswer', false);
+                                        }
+                                        console.log(questionObjectRS);
+                                        //questionObjectRS.save();
+                                    } else {
+                                        alert("Please provide atleast two options");
+                                    }
                                 } else {
                                     alert("Question statement is missing");
                                 }
