@@ -28,6 +28,7 @@ $(function() {
 
 
         saveAttachment: function(formEl, fileEl, revEl) {
+            var languageDictValue=App.Router.loadLanguageDocs();
 
             // Work with this doc in the files database
             var server = App.Server
@@ -67,14 +68,14 @@ $(function() {
                         $(formEl).ajaxSubmit({
                             url: server + "/" + input_db + "/" + input_id,
                             success: function(response) {
-                                alert(App.languageDict.attributes.Success_Saved_Msg)
+                                alert(languageDictValue.attributes.Success_Saved_Msg)
                                 model.trigger('savedAttachment')
                                 Backbone.history.navigate("reports", {
                                     trigger: true
                                 })
                             },
                             error: function(response) {
-                                alert(App.languageDict.attributes.Error)
+                                alert(languageDictValue.attributes.Error)
                             },
                         })
                     }

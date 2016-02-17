@@ -7,7 +7,7 @@ $(function() {
 		admn: null,
 		events: {
 			"click .destroy": function(event) {
-				if (confirm(App.languageDict.attributes.Confirm_Resource)) {
+				if (confirm(loadLanguageDocs().attributes.Confirm_Resource)) {
 					var that = this
 					////Deleting from the resource
 					var shelfResources = new App.Collections.shelfResource()
@@ -167,6 +167,7 @@ $(function() {
 					freqmodel.set("reviewed", [0])
 					freqmodel.set("frequency", [1])
 					freqmodel.save()
+					return
 				} else {
 					var freqmodel = resourcefreq.first()
 					var index = freqmodel.get("resourceID").indexOf(this.model.get("_id").toString())
@@ -183,6 +184,7 @@ $(function() {
 							freqmodel.get("reviewed").push(0)
 						}
 						freqmodel.save()
+						return
 					}
 				}
 

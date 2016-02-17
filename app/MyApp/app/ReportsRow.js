@@ -6,7 +6,7 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function(event) {
-                if (confirm('Are you sure you want to delete this Report?')) {
+                if (confirm(loadLanguageDocs().attributes.Confirm_Report)) {
                     this.model.destroy()
                     event.preventDefault();
                     alert(App.languageDict.attributes.Reports_Deleted_Success);}

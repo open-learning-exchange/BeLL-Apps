@@ -6,10 +6,10 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function(event) {
-                if (confirm(App.languageDict.attributes.Confirm_Report)) {
+                if (confirm(loadLanguageDocs().attributes.Confirm_Report)) {
                 this.model.destroy()
                 event.preventDefault();
-                alert(App.languageDict.attributes.Reports_Deleted_Success);
+                alert(loadLanguageDocs().attributes.Reports_Deleted_Success);
                 }
             },
             "click #open": function(event) {

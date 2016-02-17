@@ -6,7 +6,8 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function (event) {
-                if (confirm(App.languageDict.attributes.Confirm_Publication)) {
+                var languageDictValue=App.Router.loadLanguageDocs();
+                if (confirm(languageDictValue.attributes.Confirm_Publication)) {
                     var that = this;
                     var pubId = that.model.attributes._id;
                     console.log(that.model.attributes._id);
@@ -32,7 +33,7 @@ $(function() {
                                     $.couch.db("publicationdistribution").removeDoc(doc, {
                                         success: function (data) {
                                             that.model.destroy();
-                                            alert(App.languageDict.attributes.PubsDistDb_Delete_Success)
+                                            alert(languageDictValue.attributes.PubsDistDb_Delete_Success)
                                             console.log(that.model.attributes._id)
                                             console.log(data);
                                         },
@@ -44,7 +45,7 @@ $(function() {
                                 })
                             }
                             else {
-                                alert(App.languageDict.attributes.Model_fetch_Pubs_Success)
+                                alert(languageDictValue.attributes.Model_fetch_Pubs_Success)
                                 console.log(that.model.attributes._id)
                                 that.model.destroy()
                                 event.preventDefault()

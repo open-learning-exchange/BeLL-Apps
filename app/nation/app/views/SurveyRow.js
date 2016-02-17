@@ -6,7 +6,8 @@ $(function() {
         admin: null,
         events: {
             "click .destroy": function (event) {
-                if (confirm(App.languageDict.attributes.Confirm_Survey)) {
+                var languageDictValue=App.Router.loadLanguageDocs();
+                if (confirm(languageDictValue.attributes.Confirm_Survey)) {
                     this.model.destroy();
                 }
             }

@@ -14,6 +14,7 @@ $(function() {
             this.addCourseDetails()
         },
         addCourseDetails: function() {
+            var languageDictValue=App.Router.loadLanguageDocs();
             var that = this
             var courseInfo = this.model.toJSON()
 
@@ -44,7 +45,7 @@ $(function() {
                 mail.set("type", "admissionRequest");
                 mail.set("sentDate", currentdate);
                 mail.save()
-                alert(App.languageDict.attributes.RequestForCourse)
+                alert(languageDictValue.attributes.RequestForCourse)
 
 
             });

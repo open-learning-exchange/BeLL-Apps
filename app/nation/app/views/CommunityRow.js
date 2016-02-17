@@ -6,8 +6,8 @@ $(function() {
 
         events: {
             "click .destroy": function(e) {
-
-                if (confirm(App.languageDict.attributes.Confirm_Community)) {
+                var languageDictValue=App.Router.loadLanguageDocs();
+                if (confirm(languageDictValue.attributes.Confirm_Community)) {
                     e.preventDefault()
                     this.model.destroy()
                     this.remove()

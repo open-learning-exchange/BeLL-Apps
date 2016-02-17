@@ -7,6 +7,7 @@ $(function() {
         vars: {},
         events: {
             "click #saveLanguage": function(e) {
+                var languageDictValue=App.Router.loadLanguageDocs();
                 var isChanged = false
                 var selectedVal = $("#languageSelection").val()
                 if (selectedVal != "") {
@@ -29,9 +30,9 @@ $(function() {
                             that.model.set("_rev", response.get("rev"))
                         }
                     })
-                    alert(App.languageDict.attributes.Config_Saved)
+                    alert(languageDictValue.attributes.Config_Saved)
                 } else {
-                    alert(App.languageDict.attributes.No_Changes)
+                    alert(languageDictValue.attributes.No_Changes)
                 }
             }
         },

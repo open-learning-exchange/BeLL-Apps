@@ -65,7 +65,8 @@ $(function() {
             // @todo validate
             //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
             // Put the form's input into the model in memory
-            var addtoDb = true
+            var addtoDb = true;
+            var languageDictValue=App.Router.loadLanguageDocs();
             var previousTitle = this.model.get("title")
             var newTitle
             var isEdit = this.model.get("_id")
@@ -76,9 +77,9 @@ $(function() {
             var that = this
             var savemodel = false
             if (this.model.get("title").length == 0) {
-                alert(App.languageDict.attributes.App.languageDict.attributes.Missing_Resource_Title)
+                alert(languageDictValue.attributes.Missing_Resource_Title)
             } else if ((this.model.get("Tag") == "News") && !this.model.get("author")) {
-                alert(App.languageDict.attributes.Missing_Resource_Author)
+                alert(languageDictValue.attributes.Missing_Resource_Author)
             } else {
                 $('#gressImage').show();
                 this.model.set(' uploadDate', new Date().getTime())
@@ -87,7 +88,7 @@ $(function() {
                     this.model.set('fromLevel', 0)
                 } else {
                     if (parseInt(this.model.get("fromLevel")) > parseInt(this.model.get("toLevel"))) {
-                        alert(App.languageDict.attributes.Invalid_Range)
+                        alert(languageDictValue.attributes.Invalid_Range)
                         addtoDb = false
                     }
                 }
@@ -99,7 +100,7 @@ $(function() {
                     })
                     allres.each(function(m) {
                         if (that.model.get("title") == m.get("title")) {
-                            alert(App.languageDict.attributes.Duplicate_Title)
+                            alert(languageDictValue.attributes.Duplicate_Title)
                             addtoDb = false
                         }
                     })
@@ -112,7 +113,8 @@ $(function() {
                     }
                     this.model.save(null, {
                         success: function() {
-                            that.model.unset('_attachments')
+                            that.model.unset('_attachments');
+                            var languageDictValue=App.Router.loadLanguageDocs();
                             if ($('input[type="file"]').val()) {
                                 if (isEdit != undefined) {
                                     if (previousTitle != newTitle) {
@@ -150,7 +152,7 @@ $(function() {
                                             new_res.on('sync', function() {
                                                 new_res.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                                                 new_res.on('savedAttachment', function() {
-                                                    alert(App.languageDict.attributes.Resource_Updated)
+                                                    alert(languageDictValue.attributes.Resource_Updated)
                                                     Backbone.history.navigate("#resources", {
                                                         trigger: true
                                                     })
@@ -159,10 +161,10 @@ $(function() {
                                                 }, new_res)
                                             })
                                         } else {
-                                            alert(App.languageDict.attributes.Duplicate_Title)
+                                            alert(languageDictValue.attributes.Duplicate_Title)
                                         }
                                     } else {
-                                        alert(App.languageDict.attributes.Resource_failure_update)
+                                        alert(languageDictValue.attributes.Resource_failure_update)
                                     }
                                 } else {
                                     that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")

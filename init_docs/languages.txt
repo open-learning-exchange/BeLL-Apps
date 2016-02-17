@@ -611,5 +611,6 @@
    "Undefined_Author":"No Author Defined",
    "Attachment":"Attachment",
    "Resource_Detail":"Resource Detail",
-   "directionOfLang":"Left"
+   "directionOfLang":"Left",
+   "error_direction":"Please specify the direction for specified Language."
 }

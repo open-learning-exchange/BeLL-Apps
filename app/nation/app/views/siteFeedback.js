@@ -39,6 +39,7 @@ $(function() {
             this.unsetForm()
         },
         setForm: function() {
+            var languageDictValue=App.Router.loadLanguageDocs();
             if ($('#comment').val().length != 0 && $('input[name="category"]:checked').val()) {
                 var temp = Backbone.history.location.href
                 var now = new Date();
@@ -58,7 +59,7 @@ $(function() {
                     time: now.toString()
                 })
                 this.model.save()
-                alert(FeedBack_Sent_success)
+                alert(languageDictValue.attributes.FeedBack_Sent_success)
                 this.unsetForm()
             }
             $('#site-feedback').animate({

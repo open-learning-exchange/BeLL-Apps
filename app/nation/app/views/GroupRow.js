@@ -29,6 +29,7 @@ $(function() {
 
         },
         addtoPublication: function(e) {
+            var languageDictValue=App.Router.loadLanguageDocs();
             var courseId = e.currentTarget.name
             var publication = new App.Models.Publication({
                 _id: this.publicationId
@@ -41,7 +42,7 @@ $(function() {
                     }
                     for (var j in courses) {
                         if (courses[j]['courseID'] === courseId) { // if courseId matches with id of an already added course's id, return
-                            alert(App.languageDict.attributes.Duplicate_Course_In_Pub);
+                            alert(languageDictValue.attributes.Duplicate_Course_In_Pub);
                             return;
                         }
                     }
@@ -71,13 +72,13 @@ $(function() {
                             });
                             response.save(null, { // should this save call happen inside or outside coursesteps.fetch()?
                                 success: function() {
-                                    alert(App.languageDict.attributes.Added_Success);
+                                    alert(languageDictValue.attributes.Added_Success);
                                 }
                             });
                         },
                         error: function(err) {
                             console.log(err);
-                            alert(App.languageDict.attributes.AddCourse_To_pubs_Failed);
+                            alert(languageDictValue.attributes.AddCourse_To_pubs_Failed);
                         }
                     });
                     //					 courses.push(courseId)

@@ -19,8 +19,9 @@ var forcedUpdateProfile=false;
 var languageDict;
 
 function applyStylingSheet() {
+    var languageDictValue=loadLanguageDocs();
 
-    var directionOfLang = loadLanguageDocs().get('directionOfLang');
+    var directionOfLang = languageDictValue.get('directionOfLang');
 
     if (directionOfLang.toLowerCase() === "right") {
 
@@ -32,7 +33,7 @@ function applyStylingSheet() {
         $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
     }
     else{
-        alert('Please specify the direction for specified Language.');
+        alert(languageDictValue.attributes.error_direction);
     }
 }
 function selectAllMembers (){

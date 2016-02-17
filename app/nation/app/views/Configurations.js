@@ -26,6 +26,7 @@ $(function() {
             $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
         },
         setForm: function() {
+            var languageDictValue=App.Router.loadLanguageDocs();
             this.form.commit();
             if (this.form.validate() != null) {
                 return
@@ -52,7 +53,7 @@ $(function() {
                 success: function(doc, rev) {
                     App.configuration = con;
                     console.log(App.configuration.get('name'))
-                    alert(App.languageDict.attributes.Config_Added_Success);
+                    alert(languageDictValue.attributes.Config_Added_Success);
                     Backbone.history.navigate('dashboard', {
                         trigger: true
                     });

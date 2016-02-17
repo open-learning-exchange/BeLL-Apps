@@ -50,6 +50,7 @@ $(function() {
 
         },
         setForm: function() {
+            var languageDictValue=App.Router.loadLanguageDocs();
             this.model.set({
                 Name: $('#nation-name').val(),
                 Code: $('#community-code').val(),
@@ -83,11 +84,11 @@ $(function() {
                 success: function(result) {
                     // assumption: if control falls to the success function result.rows will never be undefined. it will value of an array
                     if (result.rows.length > 1) { // if more than one community records with same 'Name' i-e duplicate community Name found in DB
-                        alert(App.languageDict.attributes.Duplicate_CommunityName_Error);
+                        alert(languageDictValue.attributes.Duplicate_CommunityName_Error);
                         return;
                     } else if (result.rows.length === 0) { // if no duplicates found in DB
                         context.model.save();
-                        alert(App.languageDict.attributes.Success_Saved_Msg);
+                        alert(languageDictValue.attributes.Success_Saved_Msg);
                         App.startActivityIndicator();
                         Backbone.history.navigate('listCommunity', {
                             trigger: true
@@ -101,19 +102,19 @@ $(function() {
                             // its the same community with some edit(s). not a new one which is has same name as another existing community
                             //                            alert("Same community edit");
                             context.model.save();
-                            alert(App.languageDict.attributes.Success_Saved_Msg);
+                            alert(languageDictValue.attributes.Success_Saved_Msg);
                             App.startActivityIndicator();
                             Backbone.history.navigate('listCommunity', {
                                 trigger: true
                             });
                             App.stopActivityIndicator();
                         } else {
-                            alert(App.languageDict.attributes.InValid_CommunityName);
+                            alert(languageDictValue.attributes.InValid_CommunityName);
                         }
                     }
                 },
                 error: function() {
-                    alert(App.languageDict.attributes.Response_Error);
+                    alert(languageDictValue.attributes.Response_Error);
                 }
             });
 

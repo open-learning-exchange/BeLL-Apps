@@ -24,9 +24,10 @@ $(function() {
             this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
         },
         syncData: function() {
+            var languageDictValue=App.Router.loadLanguageDocs();
             var selectedValues = $('#comselect').val();
             if (!selectedValues) {
-                alert(App.languageDict.attributes.Prompt_Community_First)
+                alert(languageDictValue.attributes.Prompt_Community_First)
                 return
             }
             //For differentiating between publications and survey
@@ -108,6 +109,7 @@ $(function() {
         },
 
         syncPublicationsData: function(p_id, selectedValues) {
+            var languageDictValue=App.Router.loadLanguageDocs();
             //alert("In syncPubData");
             App.startActivityIndicator()
             var sendPub = new Array()
@@ -133,7 +135,7 @@ $(function() {
                             pubResult = resResult.rows[0];
                             if (pubResult.doc.communityNames != [] && pubResult.doc.communityNames.length > 0 && pubResult.doc.communityNames.indexOf(cName) > -1) {
                                 //if (pubResult.value.communityNames.indexOf(cName)> -1) {
-                                alert( App.languageDict.attributes.Already_Pub_Sent+' '+ cName);
+                                alert( languageDictValue.attributes.Already_Pub_Sent+' '+ cName);
                                 //}
                             } else {
                                 selectedComms.push(cName);

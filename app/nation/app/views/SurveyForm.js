@@ -37,7 +37,8 @@ $(function() {
         },
 
         saveForm: function() {
-            alert(App.languageDict.attributes.Functionality_Under_Construction);
+            var languageDictValue=App.Router.loadLanguageDocs();
+            alert(languageDictValue.attributes.Functionality_Under_Construction);
             //The following code is necessary, so please do not play with it.
             /*var isEdit = this.model.get("_id")
             var addtoDb = true

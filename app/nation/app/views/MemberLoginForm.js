@@ -26,7 +26,8 @@ $(function() {
         },
 
         setForm: function() {
-            var memberLoginForm = this
+            var memberLoginForm = this;
+            var languageDictValue=App.Router.loadLanguageDocs();
             var username = $('#username').val()
             var password = $('#password').val()
             $.getJSON('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + username + '"', function(response) {
@@ -47,7 +48,7 @@ $(function() {
                             })
                             if ($.inArray('student', response.rows[0].doc.roles) != -1) {
                                 if (response.rows[0].doc.roles.length < 2) {
-                                    alert(App.languageDict.attributes.UnAuthorized_Login)
+                                    alert(languageDictValue.attributes.UnAuthorized_Login)
                                 } else {
                                     memberLoginForm.trigger('success:login')
                                 }
@@ -55,13 +56,13 @@ $(function() {
                                 memberLoginForm.trigger('success:login')
                             }
                         } else {
-                            alert(App.languageDict.attributes.Account_DeActivated)
+                            alert(languageDictValue.attributes.Account_DeActivated)
                         }
                     } else {
-                        alert(App.languageDict.attributes.Invalid_Credentials)
+                        alert(languageDictValue.attributes.Invalid_Credentials)
                     }
                 } else {
-                    alert(App.languageDict.attributes.Invalid_Credentials)
+                    alert(languageDictValue.attributes.Invalid_Credentials)
                 }
             });
         },

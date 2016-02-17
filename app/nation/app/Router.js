@@ -34,6 +34,34 @@ $(function() {
             this.bind("all", this.renderNav)
 
         },
+
+        loadLanguageDocs : function() {
+        var clanguage, languageDict;
+
+        //fetching nations configurations
+            var configuration;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function(){
+                    clanguage = config.first().attributes.currentLanguage;
+                }
+            })
+                var languages = new App.Collections.Languages();
+                    languages.fetch({
+                        async: false
+                    });
+                    for (var i = 0; i < languages.length; i++) {
+                        if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                            if (languages.models[i].attributes.nameOfLanguage == clanguage) {
+                                languageDict = languages.models[i];
+                                break;
+                            }
+                        }
+                    }
+                    return languageDict;
+    },
+
         routeStartupTasks: function() {
             $('#invitationdiv').hide()
             $('#debug').hide()
@@ -76,6 +104,7 @@ $(function() {
             return outp;
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
+            var languageDictValue=App.Router.loadLanguageDocs();
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
@@ -112,7 +141,7 @@ $(function() {
             }
             var logReport = logData[0];
             if (logReport == undefined) {
-                alert(App.languageDict.attributes.No_Activity_Logged)
+                alert(languageDictValue.attributes.No_Activity_Logged)
             }
             var report_resRated = [],
                 report_resOpened = [],
@@ -2985,7 +3014,8 @@ $(function() {
         //************************************************************************************************************
         //****************************************************************************************************************
         Publicat: function() {
-            App.startActivityIndicator()
+            App.startActivityIndicator();
+            var languageDictValue=App.Router.loadLanguageDocs();
             var publicationCollection = new App.Collections.Publication()
             publicationCollection.fetch({
                 async: false
@@ -3016,7 +3046,7 @@ $(function() {
                             };
                             $.couch.db("publicationdistribution").removeDoc(doc, {
                                 success: function(data) {
-                                    alert(App.languageDict.attributes.Extra_Docs_Deleted)
+                                    alert(languageDictValue.attributes.Extra_Docs_Deleted)
                                     console.log(data);
                                 },
                                 error: function(status) {

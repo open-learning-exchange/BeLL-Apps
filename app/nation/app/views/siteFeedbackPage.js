@@ -150,7 +150,8 @@ $(function() {
 
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
                         if (searchText != "") {
-                            alert(App.languageDict.attributes.No_Result)
+                            var languageDictValue=App.Router.loadLanguageDocs();
+                            alert(languageDictValue.attributes.No_Result)
                         }
                         //obj.render()
                         // $('#not-found').html("No Such Record Exist");

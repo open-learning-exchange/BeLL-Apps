@@ -141,7 +141,8 @@ $(function() {
         },
         syncReports: function() {
 
-            App.startActivityIndicator()
+            App.startActivityIndicator();
+            var languageDictValue=App.Router.loadLanguageDocs();
             var configurationModel = new App.Collections.Configurations()
             configurationModel.fetch({
                 success: function(res) {
@@ -164,15 +165,15 @@ $(function() {
                         }),
                         success: function(response) {
                             App.stopActivityIndicator()
-                            alert(App.languageDict.attributes.Synced_Success)
+                            alert(languageDictValue.attributes.Synced_Success)
                             Backbone.history.navigate('reports', {
                                 trigger: true
                             })
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
                             App.stopActivityIndicator()
-                            alert(App.languageDict.attributes.Status+" " + textStatus);
-                            alert(App.languageDict.attributes.Error+" " + errorThrown);
+                            alert(languageDictValue.attributes.Status+" " + textStatus);
+                            alert(languageDictValue.attributes.Error+" " + errorThrown);
                             Backbone.history.navigate('reports', {
                                 trigger: true
                             })
@@ -186,6 +187,7 @@ $(function() {
 
         },
         syncLogActivitiy: function() {
+            var languageDictValue=App.Router.loadLanguageDocs();
             var configurationModel = new App.Collections.Configurations()
             configurationModel.fetch({
                 success: function(res) {
@@ -207,10 +209,10 @@ $(function() {
                             "target": 'http://' + nationName + ':' + App.password + '@' + nationURL + '/activitylog'
                         }),
                         success: function(response) {
-                            alert(App.languageDict.attributes.Reports_Replicated_Success)
+                            alert(languageDictValue.attributes.Reports_Replicated_Success)
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            alert(App.languageDict.attributes.TryLater_Error)
+                            alert(languageDictValue.attributes.TryLater_Error)
                         },
                         async: false
                     })
@@ -314,6 +316,7 @@ $(function() {
         },
         updateApp: function() {
 
+            var languageDictValue=App.Router.loadLanguageDocs();
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
@@ -354,7 +357,7 @@ $(function() {
                 data: JSON.stringify(currentConfig),
                 success: function(response) {
                     console.log(response)
-                    alert(App.languageDict.attributes.Updated_NewVersion_Success)
+                    alert(languageDictValue.attributes.Updated_NewVersion_Success)
                 },
                 async: false
             })

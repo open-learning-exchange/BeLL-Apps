@@ -41,11 +41,12 @@ $(function() {
         },
 
         saveForm: function() {
+            var languageDictValue=App.Router.loadLanguageDocs();
             var isEdit = this.model.get("_id")
             var addtoDb = true
             this.form.commit()
             if (this.model.get("IssueNo") == undefined) {
-                alert(Pubs_Issue_Missing)
+                alert(languageDictValue.attributes.Pubs_Issue_Missing)
             } else {
                 if (isEdit == undefined) {
                     var that = this
@@ -55,7 +56,7 @@ $(function() {
                     })
                     allres.each(function(m) {
                         if (that.model.get("IssueNo") == m.get("IssueNo")) {
-                            alert(App.languageDict.attributes.Issue_Duplicate)
+                            alert(languageDictValue.attributes.Issue_Duplicate)
                             addtoDb = false
                         }
                     })
@@ -65,20 +66,22 @@ $(function() {
                     this.form.commit()
                     this.model.save(null, {
                         success: function(e) {
-                            alert(App.languageDict.attributes.Pubs_Issue_Saved)
+                            alert(languageDictValue.attributes.Pubs_Issue_Saved)
                             window.location.href = '#publicationdetail/' + e.toJSON().id;
                         }
                     })
                 }
             }
 
+
         },
         searchres: function() {
-            var showsearch = true
+            var showsearch = true;
+            var languageDictValue=App.Router.loadLanguageDocs();
             var isEdit = this.model.get("_id")
             this.form.commit()
             if (this.model.get("IssueNo") == undefined) {
-                alert(App.languageDict.attributes.Pubs_Issue_Missing)
+                alert(languageDictValue.attributes.Pubs_Issue_Missing)
                 showsearch = false
             } else {
                 if (isEdit == undefined) {
@@ -91,7 +94,7 @@ $(function() {
                     allpub = allpub.first()
                     if (allpub != undefined)
                         if (allpub.toJSON().IssueNo != undefined) {
-                            alert(App.languageDict.attributes.Issue_Duplicate)
+                            alert(languageDictValue.attributes.Issue_Duplicate)
                             showsearch = false
                         }
 
@@ -108,7 +111,8 @@ $(function() {
             }
         },
         listCourses: function() {
-            var showcourse = true
+            var showcourse = true;
+            var languageDictValue=App.Router.loadLanguageDocs();
             var myCourses = new Array()
             var isEdit = this.model.get("_id")
             this.form.commit()
@@ -117,7 +121,7 @@ $(function() {
                 "courses": myCourses
             })
             if (this.model.get("IssueNo") == undefined) {
-                alert(App.languageDict.attributes.Pubs_Issue_Missing)
+                alert(languageDictValue.attributes.Pubs_Issue_Missing)
                 showcourse = false
             } else {
                 if (isEdit == undefined) {
@@ -130,7 +134,7 @@ $(function() {
                     allpub = allpub.first()
                     if (allpub != undefined)
                         if (allpub.toJSON().IssueNo != undefined) {
-                            alert(App.languageDict.attributes.Issue_Duplicate)
+                            alert(languageDictValue.attributes.Issue_Duplicate)
                             showcourse = false
                         }
 
