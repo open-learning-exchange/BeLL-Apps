@@ -2701,7 +2701,32 @@ $(function() {
                                             } else {
                                                 questionObjectRS.set('RequireAnswer', false);
                                             }
-                                            //questionObjectRS.save();
+                                            questionObjectRS.save(null, {
+                                                success: function (model, response) {
+                                                    var surModel = new App.Models.Survey({
+                                                        _id: surveyId
+                                                    })
+                                                    surModel.fetch({
+                                                        async: false
+                                                    })
+                                                    var surQuestions = surModel.get('questions');
+                                                    surQuestions.push(response.id);
+                                                    surModel.set('questions', surQuestions);
+                                                    surModel.save(null, {
+                                                        success: function (model, res) {
+                                                            window.location.reload();
+                                                        },
+                                                        error: function (model, err) {
+                                                            console.log(err);
+                                                        },
+                                                        async: false
+                                                    });
+                                                },
+                                                error: function (model, err) {
+                                                    console.log(err);
+                                                },
+                                                async: false
+                                            });
                                         } else {
                                             alert("Labels are less than the rating value");
                                         }
@@ -2725,7 +2750,32 @@ $(function() {
                                     } else {
                                         questionObject.set('RequireAnswer', false);
                                     }
-                                    //questionObject.save();
+                                    questionObject.save(null, {
+                                        success: function (model, response) {
+                                            var surModel = new App.Models.Survey({
+                                                _id: surveyId
+                                            })
+                                            surModel.fetch({
+                                                async: false
+                                            })
+                                            var surQuestions = surModel.get('questions');
+                                            surQuestions.push(response.id);
+                                            surModel.set('questions', surQuestions);
+                                            surModel.save(null, {
+                                                success: function (model, res) {
+                                                    window.location.reload();
+                                                },
+                                                error: function (model, err) {
+                                                    console.log(err);
+                                                },
+                                                async: false
+                                            });
+                                        },
+                                        error: function (model, err) {
+                                            console.log(err);
+                                        },
+                                        async: false
+                                    });
                                 } else {
                                     alert("Question statement is missing");
                                 }
@@ -2743,7 +2793,32 @@ $(function() {
                                     } else {
                                         questionObjectForEB.set('RequireAnswer', false);
                                     }
-                                    //questionObjectForEB.save();
+                                    questionObjectForEB.save(null, {
+                                        success: function (model, response) {
+                                            var surModel = new App.Models.Survey({
+                                                _id: surveyId
+                                            })
+                                            surModel.fetch({
+                                                async: false
+                                            })
+                                            var surQuestions = surModel.get('questions');
+                                            surQuestions.push(response.id);
+                                            surModel.set('questions', surQuestions);
+                                            surModel.save(null, {
+                                                success: function (model, res) {
+                                                    window.location.reload();
+                                                },
+                                                error: function (model, err) {
+                                                    console.log(err);
+                                                },
+                                                async: false
+                                            });
+                                        },
+                                        error: function (model, err) {
+                                            console.log(err);
+                                        },
+                                        async: false
+                                    });
                                 } else {
                                     alert("Question statement is missing");
                                 }
