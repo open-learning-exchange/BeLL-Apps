@@ -27,7 +27,8 @@ $(function() {
         },
 
         defaults: {
-            kind: 'Resource'
+            kind: 'Resource',
+            openUrl: []
         },
 
         schema: {
@@ -36,7 +37,6 @@ $(function() {
                 title: 'Author/Editor',
                 type: 'Text'
             }, // Author Field is required when adding the resource with tag news else no need for that.
-
             Publisher: {
                 title: 'Publisher/Attribution',
                 type: 'Text'
