@@ -722,6 +722,9 @@ body{
 .marginsOnMeetUp{
     margin-right:20px
 }
+#r-formButton {
+    margin-right: 33%;
+}
 #showReleaseNotes{
     direction: rtl;
     margin: 0 auto;

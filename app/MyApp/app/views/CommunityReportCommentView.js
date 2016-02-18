@@ -21,9 +21,10 @@ $(function () {
             this.remove()
         },
         submit: function () {
+            var languageDictValue=loadLanguageDocs();
             if (this.form.getValue("comment").length != 0) {
-                var now = new Date();
-                now.getDate()
+                var now = moment();
+                //now.getDate();
                 this.form.setValue({
                     CommunityReportId: this.cId
                 })
@@ -33,8 +34,14 @@ $(function () {
                 this.form.setValue({
                     memberLogin: $.cookie('Member.login')
                 })
+                var day=moment().format('D');
+                var monthToday=lookup(languageDictValue, "Months." + moment().format('MMMM'));
+                var year=moment().format('YYYY');
+                var time=moment().format('HH:mm:ss');
                 this.form.setValue({
-                    time: now.toString()
+                    time:  day+' '+monthToday+' '+year+' '+time
+                    //(new Date()).toString().split(' ').splice(1,4).join(' ')
+                        //now.toLocaleString()
                 })
                 this.form.commit()
                 this.model.save()
@@ -52,11 +59,13 @@ $(function () {
         },
 
         addOne: function (modl) {
-            $('#comments').append('<div id=tile><b>Login:</b>' + modl.toJSON().memberLogin + '<br/><b>Time:</b>' + modl.toJSON().time + '<br/><b>Comment:</b>' + modl.toJSON().comment + '</div>')
+            var languageDictValue=loadLanguageDocs();
+            $('#comments').append('<div id=tile><b>'+languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+languageDictValue.attributes.Comment+':</b>' + modl.toJSON().comment + '</div>')
             console.log(modl.toJSON())
         },
 
         render: function () {
+            var languageDictValue=loadLanguageDocs();
             $('#debug').show()
             this.$el.html('&nbsp;')
             $('#comments').html('&nbsp;')
@@ -69,8 +78,10 @@ $(function () {
             this.form.fields['commentNumber'].$el.hide()
             this.form.fields['memberLogin'].$el.hide()
             this.form.fields['time'].$el.hide()
-            var $button = $('<div id="r-formButton"><button class="btn btn-primary" id="submitFormButton">Add Comment</button><button class="btn btn-info" id="cancelFormButton">Close</button></div>')
-            this.$el.append($button)
+            var $button = $('<div id="r-formButton"><button class="btn btn-primary" id="submitFormButton">'+languageDictValue.attributes.Add_Comment+'</button><button class="btn btn-info" id="cancelFormButton">'+languageDictValue.attributes.Close+'</button></div>')
+            this.$el.append($button);
+            applyStylingSheet();
+
             // $("#comments").animate({ scrollTop: $('#comments')[0].scrollHeight}, 3000);
         }
 

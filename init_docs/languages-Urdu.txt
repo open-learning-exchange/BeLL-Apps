@@ -609,5 +609,6 @@
      "Attachment":"Attachment",
      "Resource_Detail":"Resource Detail",
      "directionOfLang":"Right",
-     "error_direction":"Please specify the direction for specified Language."
+     "error_direction":"Please specify the direction for specified Language.",
+     "Add_Comment":"Add Comment"
 }

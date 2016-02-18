@@ -23,6 +23,7 @@ $(function() {
 
             },
             "click #commentButton": function(e) {
+                var languageDictValue=loadLanguageDocs();
                 var coll = new App.Collections.CommunityReportComments()
                 coll.CommunityReportId = e.target.attributes[0].nodeValue
                 coll.fetch({
@@ -32,8 +33,22 @@ $(function() {
                     collection: coll,
                     CommunityReportId: e.target.attributes[0].nodeValue
                 })
-                viw.render()
-                $('#debug').append(viw.el)
+                viw.render();
+                $('#debug').append(viw.el);
+                if(languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                {
+                    $('#comments').css('direction','rtl')
+                    $('#comment-feedback').css('direction','rtl')
+                    $('#r-formButton #submitFormButton').addClass('marginsOnMeetUp')
+                    $('#r-formButton #cancelFormButton').addClass('marginsOnMeetUp')
+                }
+                else
+                {
+                    $('#comments').css('direction','ltr')
+                    $('#comment-feedback').css('direction','ltr')
+                    $('#r-formButton #submitFormButton').removeClass('marginsOnMeetUp');
+                    $('#r-formButton #cancelFormButton').removeClass('marginsOnMeetUp')
+                }
             }
 
         },
