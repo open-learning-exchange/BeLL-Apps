@@ -2602,6 +2602,7 @@ $(function() {
         },
 
         SurveyDetails: function(surveyId) {
+            var that = this;
             var surveyModel = new App.Models.Survey({
                 _id: surveyId
             })
@@ -2609,7 +2610,7 @@ $(function() {
                 async: false
             })
             var type = "survey";
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send Survey</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br />Select the number of ratings:<br><select onchange="display(this.value);" name="rating_count" class="surTextArea"><option value="1">1 rating</option><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey"><br></span><script> function display(val) { if (val == "1") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = "none"; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Survey No.' + surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send Survey</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br />Select the number of ratings:<br><select onchange="display(this.value);" name="rating_count" class="surTextArea" id="select_rating"><option value="1">1 rating</option><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey" disabled="true"><br></span><script> function display(val) { if (val == "1") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = "none"; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> Require Answer to Question. <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
             $(function () {
                 var originalContent;
                 $("#dialog").dialog({
@@ -2635,48 +2636,22 @@ $(function() {
                 handleNewSelection.apply($("#add_new_question"));
                 $(".saveSurQuestion").click(function () {
                     var selectedVal = $('#add_new_question option:selected').text();
-                    var qStatement = '';
                     if(selectedVal){
                         switch (selectedVal) {
                             case 'Multiple Choice (Single Answer)':
-                                qStatement = $('#1').find('#question_text').val();
-                                if(qStatement.toString().trim() != '') {
-                                    //Relative Function will be invoked here
-                                } else {
-
-                                }
+                                that.saveMultipleChoiceQuestion(surveyId, selectedVal);
                                 break;
                             case 'Rating Scale':
-                                qStatement = $('#5').find('#question_text').val();
-                                if(qStatement.toString().trim() != '') {
-
-                                } else {
-
-                                }
+                                that.saveRatingScaleQuestion(surveyId, selectedVal);
                                 break;
                             case 'Single Textbox':
-                                qStatement = $('#6').find('#question_text').val();
-                                if(qStatement.toString().trim() != '') {
-
-                                } else {
-
-                                }
+                                that.saveSingleTextBoxQuestion(surveyId, selectedVal);
                                 break;
                             case 'Comment/Essay Box':
-                                qStatement = $('#8').find('#question_text').val();
-                                if(qStatement.toString().trim() != '') {
-
-                                } else {
-
-                                }
+                                that.saveCommentBoxQuestion(surveyId, selectedVal)
                                 break;
                         }
                     }
-                    //Selected option
-                    //Question Text
-                    //Answer Choices?
-                    //Rating Options?
-                    //Is Required?
                 });
             });
             function hideAllDivs () {
@@ -2692,18 +2667,26 @@ $(function() {
                     case '1':
                         $("#1").show();
                         $('#1').find('#question_text').val('');
+                        $('#1').find('#answer_choices').val('');
+                        $('#1').find('#required_question').removeAttr('checked');
                         break;
                     case '5':
                         $("#5").show();
                         $('#5').find('#question_text').val('');
+                        $('#5').find('#answer_choices').val('');
+                        $('#5').find('#select_rating').val("4").trigger('change');
+                        $('#5').find('.ratingLabels').val('');
+                        $('#5').find('#required_question').removeAttr('checked');
                         break;
                     case '6':
                         $("#6").show();
                         $('#6').find('#question_text').val('');
+                        $('#6').find('#required_question').removeAttr('checked');
                         break;
                     case '8':
                         $("#8").show();
                         $('#8').find('#question_text').val('');
+                        $('#8').find('#required_question').removeAttr('checked');
                         break;
                 }
             };
@@ -2726,6 +2709,227 @@ $(function() {
             surQuestionsTable.Id = surveyId;
             surQuestionsTable.render()
             App.$el.children('.body').append(surQuestionsTable.el)
+        },
+
+        saveSingleTextBoxQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#6').find('#question_text').val();
+            if(qStatement.toString().trim() != '') {
+                var questionObject = new App.Models.Question({
+                    Type: selectedVal,
+                    Statement: qStatement.toString().trim(),
+                    surveyId: surveyId
+                });
+                if($('#6').find('#required_question').prop("checked") == true) {
+                    questionObject.set('RequireAnswer', true);
+                } else {
+                    questionObject.set('RequireAnswer', false);
+                }
+                questionObject.save(null, {
+                    success: function (model, response) {
+                        var surModel = new App.Models.Survey({
+                            _id: surveyId
+                        })
+                        surModel.fetch({
+                            async: false
+                        })
+                        var surQuestions = surModel.get('questions');
+                        surQuestions.push(response.id);
+                        surModel.set('questions', surQuestions);
+                        surModel.save(null, {
+                            success: function (model, res) {
+                                alert(selectedVal + " Question has been saved");
+                                window.location.reload();
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    },
+                    error: function (model, err) {
+                        console.log(err);
+                    },
+                    async: false
+                });
+            } else {
+                alert("Question statement is missing");
+            }
+        },
+
+        saveCommentBoxQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#8').find('#question_text').val();
+            if(qStatement.toString().trim() != '') {
+                var questionObjectForEB = new App.Models.Question({
+                    Type: selectedVal,
+                    Statement: qStatement.toString().trim(),
+                    surveyId: surveyId
+                });
+                if($('#8').find('#required_question').prop("checked") == true) {
+                    questionObjectForEB.set('RequireAnswer', true);
+                } else {
+                    questionObjectForEB.set('RequireAnswer', false);
+                }
+                questionObjectForEB.save(null, {
+                    success: function (model, response) {
+                        var surModel = new App.Models.Survey({
+                            _id: surveyId
+                        })
+                        surModel.fetch({
+                            async: false
+                        })
+                        var surQuestions = surModel.get('questions');
+                        surQuestions.push(response.id);
+                        surModel.set('questions', surQuestions);
+                        surModel.save(null, {
+                            success: function (model, res) {
+                                alert(selectedVal + " Question has been saved");
+                                window.location.reload();
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    },
+                    error: function (model, err) {
+                        console.log(err);
+                    },
+                    async: false
+                });
+            } else {
+                alert("Question statement is missing");
+            }
+        },
+        saveMultipleChoiceQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#1').find('#question_text').val();
+            var answer_choices = $('#1').find('#answer_choices').val();
+            answer_choices = answer_choices.split('\n');
+            if(qStatement.toString().trim() != '') {
+                var validOptionValues = [];
+                for(var i = 0 ; i < answer_choices.length ; i++) {
+                    if(answer_choices[i].trim() != '') {
+                        validOptionValues.push(answer_choices[i].trim());
+                    }
+                }
+                if(validOptionValues != [] && validOptionValues.length > 1) {
+                    var questionObjectMC = new App.Models.Question({
+                        Type: selectedVal,
+                        Statement: qStatement.toString().trim(),
+                        surveyId: surveyId,
+                        Options: validOptionValues
+                    });
+                    if($('#1').find('#required_question').prop("checked") == true) {
+                        questionObjectMC.set('RequireAnswer', true);
+                    } else {
+                        questionObjectMC.set('RequireAnswer', false);
+                    }
+                    questionObjectMC.save(null, {
+                        success: function (model, response) {
+                            var surModel = new App.Models.Survey({
+                                _id: surveyId
+                            })
+                            surModel.fetch({
+                                async: false
+                            })
+                            var surQuestions = surModel.get('questions');
+                            surQuestions.push(response.id);
+                            surModel.set('questions', surQuestions);
+                            surModel.save(null, {
+                                success: function (model, res) {
+                                    alert(selectedVal + " Question has been saved");
+                                    window.location.reload();
+                                },
+                                error: function (model, err) {
+                                    console.log(err);
+                                },
+                                async: false
+                            });
+                        },
+                        error: function (model, err) {
+                            console.log(err);
+                        },
+                        async: false
+                    });
+                } else {
+                    alert("Please provide atleast two options");
+                }
+            } else {
+                alert("Question statement is missing");
+            }
+        },
+
+        saveRatingScaleQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#5').find('#question_text').val();
+            var answer_choicesRS = $('#5').find('#answer_choices').val();
+            answer_choicesRS = answer_choicesRS.split('\n');
+            var ratingVal = $('#5').find('#select_rating').val();
+            if(qStatement.toString().trim() != '') {
+                var validOptionValuesRS = [];
+                for(var j = 0 ; j < answer_choicesRS.length ; j++) {
+                    if(answer_choicesRS[j].trim() != '') {
+                        validOptionValuesRS.push(answer_choicesRS[j].trim());
+                    }
+                }
+                if(validOptionValuesRS != [] && validOptionValuesRS.length > 0) {
+                    var labelsVal = [];
+                    var rating = [];
+                    for(var k = 0 ; k < ratingVal ; k++) {
+                        var labelVal = $('#5').find('.ratingLabels').eq(k).val();
+                        if(labelVal.trim() != '') {
+                            labelsVal.push(labelVal);
+                        }
+                    }
+                    if(labelsVal.length == ratingVal) {
+                        rating.push(ratingVal);
+                        rating.push(labelsVal);
+                        var questionObjectRS = new App.Models.Question({
+                            Type: selectedVal,
+                            Statement: qStatement.toString().trim(),
+                            surveyId: surveyId,
+                            Options: validOptionValuesRS,
+                            Ratings: rating
+                        });
+                        if($('#5').find('#required_question').prop("checked") == true) {
+                            questionObjectRS.set('RequireAnswer', true);
+                        } else {
+                            questionObjectRS.set('RequireAnswer', false);
+                        }
+                        questionObjectRS.save(null, {
+                            success: function (model, response) {
+                                var surModel = new App.Models.Survey({
+                                    _id: surveyId
+                                })
+                                surModel.fetch({
+                                    async: false
+                                })
+                                var surQuestions = surModel.get('questions');
+                                surQuestions.push(response.id);
+                                surModel.set('questions', surQuestions);
+                                surModel.save(null, {
+                                    success: function (model, res) {
+                                        alert(selectedVal + " Question has been saved");
+                                        window.location.reload();
+                                    },
+                                    error: function (model, err) {
+                                        console.log(err);
+                                    },
+                                    async: false
+                                });
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    } else {
+                        alert("Labels are less than the rating value");
+                    }
+                } else {
+                    alert("Please provide atleast one options");
+                }
+            } else {
+                alert("Question statement is missing");
+            }
         },
 
         underConstruction: function() {
