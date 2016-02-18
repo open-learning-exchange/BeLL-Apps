@@ -2573,6 +2573,7 @@ $(function() {
         },
 
         SurveyDetails: function(surveyId) {
+            var that = this;
             var surveyModel = new App.Models.Survey({
                 _id: surveyId
             })
@@ -2606,222 +2607,19 @@ $(function() {
                 handleNewSelection.apply($("#add_new_question"));
                 $(".saveSurQuestion").click(function () {
                     var selectedVal = $('#add_new_question option:selected').text();
-                    var qStatement = '';
                     if(selectedVal){
                         switch (selectedVal) {
                             case 'Multiple Choice (Single Answer)':
-                                qStatement = $('#1').find('#question_text').val();
-                                var answer_choices = $('#1').find('#answer_choices').val();
-                                answer_choices = answer_choices.split('\n');
-                                if(qStatement.toString().trim() != '') {
-                                    var validOptionValues = [];
-                                    for(var i = 0 ; i < answer_choices.length ; i++) {
-                                        if(answer_choices[i].trim() != '') {
-                                            validOptionValues.push(answer_choices[i].trim());
-                                        }
-                                    }
-                                    if(validOptionValues != [] && validOptionValues.length > 1) {
-                                        var questionObjectMC = new App.Models.Question({
-                                            Type: selectedVal,
-                                            Statement: qStatement.toString().trim(),
-                                            surveyId: surveyId,
-                                            Options: validOptionValues
-                                        });
-                                        if($('#1').find('#required_question').prop("checked") == true) {
-                                            questionObjectMC.set('RequireAnswer', true);
-                                        } else {
-                                            questionObjectMC.set('RequireAnswer', false);
-                                        }
-                                        questionObjectMC.save(null, {
-                                            success: function (model, response) {
-                                                var surModel = new App.Models.Survey({
-                                                    _id: surveyId
-                                                })
-                                                surModel.fetch({
-                                                    async: false
-                                                })
-                                                var surQuestions = surModel.get('questions');
-                                                surQuestions.push(response.id);
-                                                surModel.set('questions', surQuestions);
-                                                surModel.save(null, {
-                                                    success: function (model, res) {
-                                                        window.location.reload();
-                                                    },
-                                                    error: function (model, err) {
-                                                        console.log(err);
-                                                    },
-                                                    async: false
-                                                });
-                                            },
-                                            error: function (model, err) {
-                                                console.log(err);
-                                            },
-                                            async: false
-                                        });
-                                    } else {
-                                        alert("Please provide atleast two options");
-                                    }
-                                } else {
-                                    alert("Question statement is missing");
-                                }
+                                that.saveMultipleChoiceQuestion(surveyId, selectedVal);
                                 break;
                             case 'Rating Scale':
-                                qStatement = $('#5').find('#question_text').val();
-                                var answer_choicesRS = $('#5').find('#answer_choices').val();
-                                answer_choicesRS = answer_choicesRS.split('\n');
-                                var ratingVal = $('#5').find('#select_rating').val();
-                                if(qStatement.toString().trim() != '') {
-                                    var validOptionValuesRS = [];
-                                    for(var j = 0 ; j < answer_choicesRS.length ; j++) {
-                                        if(answer_choicesRS[j].trim() != '') {
-                                            validOptionValuesRS.push(answer_choicesRS[j].trim());
-                                        }
-                                    }
-                                    if(validOptionValuesRS != [] && validOptionValuesRS.length > 1) {
-                                        var labelsVal = [];
-                                        var rating = [];
-                                        for(var k = 0 ; k < ratingVal ; k++) {
-                                            var labelVal = $('#5').find('.ratingLabels').eq(k).val();
-                                            if(labelVal.trim() != '') {
-                                                labelsVal.push(labelVal);
-                                            }
-                                        }
-                                        if(labelsVal.length == ratingVal) {
-                                            rating.push(ratingVal);
-                                            rating.push(labelsVal);
-                                            var questionObjectRS = new App.Models.Question({
-                                                Type: selectedVal,
-                                                Statement: qStatement.toString().trim(),
-                                                surveyId: surveyId,
-                                                Options: validOptionValuesRS,
-                                                Ratings: rating
-                                            });
-                                            if($('#5').find('#required_question').prop("checked") == true) {
-                                                questionObjectRS.set('RequireAnswer', true);
-                                            } else {
-                                                questionObjectRS.set('RequireAnswer', false);
-                                            }
-                                            questionObjectRS.save(null, {
-                                                success: function (model, response) {
-                                                    var surModel = new App.Models.Survey({
-                                                        _id: surveyId
-                                                    })
-                                                    surModel.fetch({
-                                                        async: false
-                                                    })
-                                                    var surQuestions = surModel.get('questions');
-                                                    surQuestions.push(response.id);
-                                                    surModel.set('questions', surQuestions);
-                                                    surModel.save(null, {
-                                                        success: function (model, res) {
-                                                            window.location.reload();
-                                                        },
-                                                        error: function (model, err) {
-                                                            console.log(err);
-                                                        },
-                                                        async: false
-                                                    });
-                                                },
-                                                error: function (model, err) {
-                                                    console.log(err);
-                                                },
-                                                async: false
-                                            });
-                                        } else {
-                                            alert("Labels are less than the rating value");
-                                        }
-                                    } else {
-                                        alert("Please provide atleast two options");
-                                    }
-                                } else {
-                                    alert("Question statement is missing");
-                                }
+                                that.saveRatingScaleQuestion(surveyId, selectedVal);
                                 break;
                             case 'Single Textbox':
-                                qStatement = $('#6').find('#question_text').val();
-                                if(qStatement.toString().trim() != '') {
-                                    var questionObject = new App.Models.Question({
-                                        Type: selectedVal,
-                                        Statement: qStatement.toString().trim(),
-                                        surveyId: surveyId
-                                    });
-                                    if($('#6').find('#required_question').prop("checked") == true) {
-                                        questionObject.set('RequireAnswer', true);
-                                    } else {
-                                        questionObject.set('RequireAnswer', false);
-                                    }
-                                    questionObject.save(null, {
-                                        success: function (model, response) {
-                                            var surModel = new App.Models.Survey({
-                                                _id: surveyId
-                                            })
-                                            surModel.fetch({
-                                                async: false
-                                            })
-                                            var surQuestions = surModel.get('questions');
-                                            surQuestions.push(response.id);
-                                            surModel.set('questions', surQuestions);
-                                            surModel.save(null, {
-                                                success: function (model, res) {
-                                                    window.location.reload();
-                                                },
-                                                error: function (model, err) {
-                                                    console.log(err);
-                                                },
-                                                async: false
-                                            });
-                                        },
-                                        error: function (model, err) {
-                                            console.log(err);
-                                        },
-                                        async: false
-                                    });
-                                } else {
-                                    alert("Question statement is missing");
-                                }
+                                that.saveSingleTextBoxQuestion(surveyId, selectedVal);
                                 break;
                             case 'Comment/Essay Box':
-                                qStatement = $('#8').find('#question_text').val();
-                                if(qStatement.toString().trim() != '') {
-                                    var questionObjectForEB = new App.Models.Question({
-                                        Type: selectedVal,
-                                        Statement: qStatement.toString().trim(),
-                                        surveyId: surveyId
-                                    });
-                                    if($('#8').find('#required_question').prop("checked") == true) {
-                                        questionObjectForEB.set('RequireAnswer', true);
-                                    } else {
-                                        questionObjectForEB.set('RequireAnswer', false);
-                                    }
-                                    questionObjectForEB.save(null, {
-                                        success: function (model, response) {
-                                            var surModel = new App.Models.Survey({
-                                                _id: surveyId
-                                            })
-                                            surModel.fetch({
-                                                async: false
-                                            })
-                                            var surQuestions = surModel.get('questions');
-                                            surQuestions.push(response.id);
-                                            surModel.set('questions', surQuestions);
-                                            surModel.save(null, {
-                                                success: function (model, res) {
-                                                    window.location.reload();
-                                                },
-                                                error: function (model, err) {
-                                                    console.log(err);
-                                                },
-                                                async: false
-                                            });
-                                        },
-                                        error: function (model, err) {
-                                            console.log(err);
-                                        },
-                                        async: false
-                                    });
-                                } else {
-                                    alert("Question statement is missing");
-                                }
+                                that.saveCommentBoxQuestion(surveyId, selectedVal)
                                 break;
                         }
                     }
@@ -2882,6 +2680,227 @@ $(function() {
             surQuestionsTable.Id = surveyId;
             surQuestionsTable.render()
             App.$el.children('.body').append(surQuestionsTable.el)
+        },
+
+        saveSingleTextBoxQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#6').find('#question_text').val();
+            if(qStatement.toString().trim() != '') {
+                var questionObject = new App.Models.Question({
+                    Type: selectedVal,
+                    Statement: qStatement.toString().trim(),
+                    surveyId: surveyId
+                });
+                if($('#6').find('#required_question').prop("checked") == true) {
+                    questionObject.set('RequireAnswer', true);
+                } else {
+                    questionObject.set('RequireAnswer', false);
+                }
+                questionObject.save(null, {
+                    success: function (model, response) {
+                        var surModel = new App.Models.Survey({
+                            _id: surveyId
+                        })
+                        surModel.fetch({
+                            async: false
+                        })
+                        var surQuestions = surModel.get('questions');
+                        surQuestions.push(response.id);
+                        surModel.set('questions', surQuestions);
+                        surModel.save(null, {
+                            success: function (model, res) {
+                                alert(selectedVal + " Question has been saved");
+                                window.location.reload();
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    },
+                    error: function (model, err) {
+                        console.log(err);
+                    },
+                    async: false
+                });
+            } else {
+                alert("Question statement is missing");
+            }
+        },
+
+        saveCommentBoxQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#8').find('#question_text').val();
+            if(qStatement.toString().trim() != '') {
+                var questionObjectForEB = new App.Models.Question({
+                    Type: selectedVal,
+                    Statement: qStatement.toString().trim(),
+                    surveyId: surveyId
+                });
+                if($('#8').find('#required_question').prop("checked") == true) {
+                    questionObjectForEB.set('RequireAnswer', true);
+                } else {
+                    questionObjectForEB.set('RequireAnswer', false);
+                }
+                questionObjectForEB.save(null, {
+                    success: function (model, response) {
+                        var surModel = new App.Models.Survey({
+                            _id: surveyId
+                        })
+                        surModel.fetch({
+                            async: false
+                        })
+                        var surQuestions = surModel.get('questions');
+                        surQuestions.push(response.id);
+                        surModel.set('questions', surQuestions);
+                        surModel.save(null, {
+                            success: function (model, res) {
+                                alert(selectedVal + " Question has been saved");
+                                window.location.reload();
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    },
+                    error: function (model, err) {
+                        console.log(err);
+                    },
+                    async: false
+                });
+            } else {
+                alert("Question statement is missing");
+            }
+        },
+        saveMultipleChoiceQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#1').find('#question_text').val();
+            var answer_choices = $('#1').find('#answer_choices').val();
+            answer_choices = answer_choices.split('\n');
+            if(qStatement.toString().trim() != '') {
+                var validOptionValues = [];
+                for(var i = 0 ; i < answer_choices.length ; i++) {
+                    if(answer_choices[i].trim() != '') {
+                        validOptionValues.push(answer_choices[i].trim());
+                    }
+                }
+                if(validOptionValues != [] && validOptionValues.length > 1) {
+                    var questionObjectMC = new App.Models.Question({
+                        Type: selectedVal,
+                        Statement: qStatement.toString().trim(),
+                        surveyId: surveyId,
+                        Options: validOptionValues
+                    });
+                    if($('#1').find('#required_question').prop("checked") == true) {
+                        questionObjectMC.set('RequireAnswer', true);
+                    } else {
+                        questionObjectMC.set('RequireAnswer', false);
+                    }
+                    questionObjectMC.save(null, {
+                        success: function (model, response) {
+                            var surModel = new App.Models.Survey({
+                                _id: surveyId
+                            })
+                            surModel.fetch({
+                                async: false
+                            })
+                            var surQuestions = surModel.get('questions');
+                            surQuestions.push(response.id);
+                            surModel.set('questions', surQuestions);
+                            surModel.save(null, {
+                                success: function (model, res) {
+                                    alert(selectedVal + " Question has been saved");
+                                    window.location.reload();
+                                },
+                                error: function (model, err) {
+                                    console.log(err);
+                                },
+                                async: false
+                            });
+                        },
+                        error: function (model, err) {
+                            console.log(err);
+                        },
+                        async: false
+                    });
+                } else {
+                    alert("Please provide atleast two options");
+                }
+            } else {
+                alert("Question statement is missing");
+            }
+        },
+
+        saveRatingScaleQuestion: function(surveyId, selectedVal) {
+            var qStatement = $('#5').find('#question_text').val();
+            var answer_choicesRS = $('#5').find('#answer_choices').val();
+            answer_choicesRS = answer_choicesRS.split('\n');
+            var ratingVal = $('#5').find('#select_rating').val();
+            if(qStatement.toString().trim() != '') {
+                var validOptionValuesRS = [];
+                for(var j = 0 ; j < answer_choicesRS.length ; j++) {
+                    if(answer_choicesRS[j].trim() != '') {
+                        validOptionValuesRS.push(answer_choicesRS[j].trim());
+                    }
+                }
+                if(validOptionValuesRS != [] && validOptionValuesRS.length > 0) {
+                    var labelsVal = [];
+                    var rating = [];
+                    for(var k = 0 ; k < ratingVal ; k++) {
+                        var labelVal = $('#5').find('.ratingLabels').eq(k).val();
+                        if(labelVal.trim() != '') {
+                            labelsVal.push(labelVal);
+                        }
+                    }
+                    if(labelsVal.length == ratingVal) {
+                        rating.push(ratingVal);
+                        rating.push(labelsVal);
+                        var questionObjectRS = new App.Models.Question({
+                            Type: selectedVal,
+                            Statement: qStatement.toString().trim(),
+                            surveyId: surveyId,
+                            Options: validOptionValuesRS,
+                            Ratings: rating
+                        });
+                        if($('#5').find('#required_question').prop("checked") == true) {
+                            questionObjectRS.set('RequireAnswer', true);
+                        } else {
+                            questionObjectRS.set('RequireAnswer', false);
+                        }
+                        questionObjectRS.save(null, {
+                            success: function (model, response) {
+                                var surModel = new App.Models.Survey({
+                                    _id: surveyId
+                                })
+                                surModel.fetch({
+                                    async: false
+                                })
+                                var surQuestions = surModel.get('questions');
+                                surQuestions.push(response.id);
+                                surModel.set('questions', surQuestions);
+                                surModel.save(null, {
+                                    success: function (model, res) {
+                                        alert(selectedVal + " Question has been saved");
+                                        window.location.reload();
+                                    },
+                                    error: function (model, err) {
+                                        console.log(err);
+                                    },
+                                    async: false
+                                });
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    } else {
+                        alert("Labels are less than the rating value");
+                    }
+                } else {
+                    alert("Please provide atleast one options");
+                }
+            } else {
+                alert("Question statement is missing");
+            }
         },
 
         underConstruction: function() {
