@@ -2632,7 +2632,32 @@ $(function() {
                                         } else {
                                             questionObjectMC.set('RequireAnswer', false);
                                         }
-                                        questionObjectMC.save();
+                                        questionObjectMC.save(null, {
+                                            success: function (model, response) {
+                                                var surModel = new App.Models.Survey({
+                                                    _id: surveyId
+                                                })
+                                                surModel.fetch({
+                                                    async: false
+                                                })
+                                                var surQuestions = surModel.get('questions');
+                                                surQuestions.push(response.id);
+                                                surModel.set('questions', surQuestions);
+                                                surModel.save(null, {
+                                                    success: function (model, res) {
+                                                        window.location.reload();
+                                                    },
+                                                    error: function (model, err) {
+                                                        console.log(err);
+                                                    },
+                                                    async: false
+                                                });
+                                            },
+                                            error: function (model, err) {
+                                                console.log(err);
+                                            },
+                                            async: false
+                                        });
                                     } else {
                                         alert("Please provide atleast two options");
                                     }
@@ -2676,7 +2701,7 @@ $(function() {
                                             } else {
                                                 questionObjectRS.set('RequireAnswer', false);
                                             }
-                                            questionObjectRS.save();
+                                            //questionObjectRS.save();
                                         } else {
                                             alert("Labels are less than the rating value");
                                         }
