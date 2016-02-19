@@ -1042,6 +1042,7 @@ $(function() {
             $('.field-resourceType').find('label').html(App.languageDict.attributes.resource_type);
             $('.field-articleDate').find('label').html(App.languageDict.attributes.article_Date);
             $('.field-addedBy').find('label').html(App.languageDict.attributes.added_by);
+            $('.field-openUrl').find('label').html(App.languageDict.attributes.openUrl);
             var mediaArray=App.languageDict.get('mediaList');
             for(var i=0;i<mediaArray.length;i++)
             {
