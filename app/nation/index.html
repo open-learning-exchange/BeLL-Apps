@@ -526,7 +526,14 @@
         <script type="text/html" id="template-surveyQuestionRow">
 
             <td>
+                <span style="font-weight:700;color:grey; font-size:16px;">Q#</span>
                 <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %></BR></span>
+                <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
+                <% if ( Type == "Single Textbox") { %>
+                <input type="text" style="width: 625px;">
+                <%} else if ( Type == "Comment/Essay Box") { %>
+                <textarea style="width: 625px;"></textarea>
+                <%} %>
             </td>
             <td>
                 <a class='resFeedBack btn btn-success'>
