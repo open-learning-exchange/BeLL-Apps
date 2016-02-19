@@ -533,6 +533,37 @@
                 <input type="text" style="width: 625px;">
                 <%} else if ( Type == "Comment/Essay Box") { %>
                 <textarea style="width: 625px;"></textarea>
+                <%} else if ( Type == "Multiple Choice (Single Answer)") { %>
+                <table>
+                    <tbody>
+                <% for (var i=0; i<Options.length; i++){%>
+                    <tr>
+                        <td align="center"><input type="radio" name="MCQgroup"></td>
+                        <td><%= Options[i] %></td>
+                    </tr>
+                <% }%>
+                    </tbody>
+                </table>
+                <%} else if ( Type == "Rating Scale") { %>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <% for (var i=0; i<Ratings.length; i++){%>
+                        <td width="15%" align="center"><%= Ratings[i] %></td>
+                        <% }%>
+                    </tr>
+                    <% for (var i=0; i<Options.length; i++){%>
+                    <tr>
+                        <td width="25%"><%= Options[i] %></td>
+                        <td align="center"><input type="radio" name="group"></td>
+                        <td align="center"><input type="radio" name="group"></td>
+                        <td align="center"><input type="radio" name="group"></td>
+                        <td align="center"><input type="radio" name="group"></td>
+                    </tr>
+                    <% }%>
+                    </tbody>
+                </table>
                 <%} %>
             </td>
             <td>
