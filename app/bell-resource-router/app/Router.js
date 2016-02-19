@@ -248,7 +248,7 @@ $(function() {
             resource.on('sync', function() {
                 // If there is a openURL, that overrides what we use to open, else we build the URL according to openWith
                 if (resource.get('openUrl') && resource.get('openUrl').length > 0) {
-                    openUrl = resource.get('openUrl')[0];
+                    openUrl = resource.get('openUrl');
                 } else if (resource.get('openWhichFile') && resource.get('openWhichFile').length > 0) {
                     openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + resource.get('openWhichFile')
                 } else {

@@ -618,5 +618,6 @@
     "Resource_Detail":"Resource Detail",
     "directionOfLang":"Right",
     "error_direction":"Please specify the direction for specified Language.",
-    "Add_Comment":"Add Comment"
+    "Add_Comment":"Add Comment",
+    "openUrl":"Open URL"
 }
