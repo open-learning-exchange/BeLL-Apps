@@ -502,7 +502,7 @@
    "meetUp_Added":"successfully Added to your MeetUps",
    "Successfully_Registered":"Successfully Registered!!!",
    "Birthday_Range":"Valid age range lies from 5 to 100 only. (Inclusive)",
-   "Update_Profile_Reminder":"Some information on your account is incorrect, please Update it.",
+   "Update_Profile_Reminder":"Please correct the highlighted information on form.",
    "Invalid_Image_File":"ERROR: Not a valid image file \n\n Valid Extensions are  [.jpg, .jpeg ]",
    "Invalid_Credentials":"Login or Password Incorrect.",
    "Account_DeActivated":"Your Account Is Deactivated",

@@ -741,6 +741,9 @@ body{
  #sendMailButton{
      margin-right:10px
  }
+ .placeHolderForSelect{
+     display: none;
+ }
 #retrunBack{
     margin-right:10px
 }

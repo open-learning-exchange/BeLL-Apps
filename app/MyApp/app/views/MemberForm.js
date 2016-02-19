@@ -11,26 +11,19 @@ $(function() {
             "click #formButtonCancel": function() {
                 //Check whether form is being called for Edit purpose or Add..
                 if(this.form.model.get('_id') ){
-                        var isValid=true;
-                        if (this.form.validate() != null  ){
-                            isValid=false;
-                        }
-                        if(!this.validateMemberForm())
-                        {
-                            isValid=false;
-                        }
-                        if(!isValid){
-                            if(forcedUpdateProfile){
-                                $('#nav').css('pointer-events','none');
-                                $('#formButtonCancel').css('pointer-events','none');
-                                return;
-                            }
-                            else
-                            {
-                                alert(App.languageDict.attributes.Update_Profile_Reminder);
-                                return;
-                            }
-                            }
+                    var isValid=true;
+                    console.log('from cancel '+$.cookie("forcedUpdateProfile"));
+                    if($.cookie("forcedUpdateProfile")=='true'){
+                        alert('Alert its a forced profile update...');
+                        this.validateMemberForm();
+                        $('#nav').css('pointer-events','none');
+                        $('#formButtonCancel').css('pointer-events','none');
+                        return;
+                    }
+                    else{
+                        console.log('Alert its NOT a forced profile update...');
+                        this.validateMemberForm();
+                    }
                    // this.model.set("lastEditDate",new Date());
                     this.model.save({
                         lastEditDate: new Date()
@@ -105,7 +98,7 @@ $(function() {
             })
             $.removeCookie('Member.expTime', {
                 path: "/apps/_design/bell"
-            })
+            });
 
         },
         getRoles: function(userId) {
@@ -192,27 +185,19 @@ $(function() {
            if(this.form.model.get('_id')){
              //Check whether form is being called for Edit purpose or Add..
                var isValid=true;
-               if (this.form.validate() != null  ){
-                   isValid=false;
+               console.log('from render '+$.cookie("forcedUpdateProfile"));
+               if($.cookie("forcedUpdateProfile")=='true'){
+                   console.log('Alert its a forced profile update...');
+                   this.validateMemberForm();
+                   $('#nav').css('pointer-events','none');   //buggy on page refresh
+                   $('#formButtonCancel').css('pointer-events','none');
+                   return;
                }
-               if(!this.validateMemberForm())
-               {
-                   isValid=false;
+               else{
+                   console.log('Alert its NOT a forced profile update...');
+                   this.validateMemberForm();
                }
-               if(!isValid){
-                   if(forcedUpdateProfile)
-                   {
-                       $('#nav').css('pointer-events','none');
-                       $('#formButtonCancel').css('pointer-events','none');
-                       return;
-                   }
-                   else
-                   {
-                       alert(App.languageDict.attributes.Update_Profile_Reminder);
-                       return;
-                   }
 
-               }
            }
         },
 
@@ -253,27 +238,43 @@ $(function() {
             }
             var that = this;
             var isValid=true;
-            if (this.form.validate() != null  ){
-               isValid=false;
-            }
-            if(!this.validateMemberForm())
-            {
-                isValid=false;
-            }
-            if(!isValid){
-                if(forcedUpdateProfile)
+            alert('from setForm '+$.cookie("forcedUpdateProfile"));
+            if($.cookie("forcedUpdateProfile")=='true'){
+                alert('Alert its a forced profile update...');
+                if(!this.validateMemberForm())
                 {
-                    $('#nav').css('pointer-events','none');
-                    $('#formButtonCancel').css('pointer-events','none');
+                    isValid=false;
+                }
+                if(!isValid){
+                    console.log('info is wrong..');
+                 alert(App.languageDict.attributes.Update_Profile_Reminder);
+                $('#nav').css('pointer-events','none');
+                $('#formButtonCancel').css('pointer-events','none');
+                return;
+                }
+                else{
+                    $('#nav').css('pointer-events','auto');
+                    $('#formButtonCancel').css('pointer-events','auto');
+                }
+
+            }
+            else{
+                console.log('Alert its NOT a forced profile update...');
+                if(!this.validateMemberForm())
+                {
+                    isValid=false;
+                }
+                if(!isValid){
+                    console.log('info is wrong..');
                     return;
                 }
                 else
                 {
-                    alert(App.languageDict.attributes.Update_Profile_Reminder);
-                    return;
+                    $('#nav').css('pointer-events','auto');
+                    $('#formButtonCancel').css('pointer-events','auto');
                 }
-
             }
+
             // Put the form's input into the model in memory
             if (this.validImageTypeCheck($('input[type="file"]'))) {
                 // assign community, region and nation attribs in member model values from configuration doc
@@ -352,7 +353,8 @@ $(function() {
                                 } else {
 
                                     alert(App.languageDict.attributes.Updated_Successfully);
-                                    forcedUpdateProfile=false;
+                                    $.cookie("forcedUpdateProfile",'false');
+                                    console.log('before update 1 '+$.cookie("forcedUpdateProfile"));
                                     Backbone.history.navigate('dashboard'
                                     );
                                     window.location.reload();
@@ -373,8 +375,10 @@ $(function() {
                                         }
                                     });
                                 } else {
-                                    forcedUpdateProfile=false;
+
+                                    $.cookie("forcedUpdateProfile",'false');
                                     alert(App.languageDict.attributes.Updated_Successfully);
+                                    console.log('before update 2 '+$.cookie("forcedUpdateProfile"));
                                     Backbone.history.navigate('dashboard');
                                     window.location.reload();
                                 }
@@ -387,13 +391,61 @@ $(function() {
 
         validateMemberForm : function(){
             var isCorrect=true;
+            if ( $('.bbf-form .field-firstName .bbf-editor input').val() =='' || $('.bbf-form .field-firstName .bbf-editor input').val() ==null || $('.bbf-form .field-firstName .bbf-editor input').val() ==undefined)
+            {
+                isCorrect=false;
+                $('.bbf-form .field-firstName label').css('color','red');
+            }
+            else{
+
+                $('.bbf-form .field-firstName label').css('color','black');
+            }
+            if ( $('.bbf-form .field-lastName .bbf-editor input').val() =='' || $('.bbf-form .field-lastName .bbf-editor input').val() ==null || $('.bbf-form .field-lastName .bbf-editor input').val() ==undefined)
+            {
+                isCorrect=false;
+                $('.bbf-form .field-lastName label').css('color','red');
+            }
+            else
+            {
+
+                $('.bbf-form .field-lastName label').css('color','black');
+            }
+            if ( $('.bbf-form .field-login .bbf-editor input').val() =='' || $('.bbf-form .field-login .bbf-editor input').val() ==null || $('.bbf-form .field-login .bbf-editor input').val() ==undefined)
+            {
+                isCorrect=false;
+                $('.bbf-form .field-login label').css('color','red');
+            }
+            else{
+
+                $('.bbf-form .field-login label').css('color','black');
+            }
+            if ( $('.bbf-form .field-password .bbf-editor input').val() =='' || $('.bbf-form .field-password .bbf-editor input').val() ==null || $('.bbf-form .field-password .bbf-editor input').val() ==undefined)
+            {
+                isCorrect=false;
+                $('.bbf-form .field-password label').css('color','red');
+            }
+            else{
+
+                $('.bbf-form .field-password label').css('color','black');
+            }
+
         if ( $('.bbf-form .field-Gender .bbf-editor select').val() =='' || $('.bbf-form .field-Gender .bbf-editor select').val() ==null || $('.bbf-form .field-Gender .bbf-editor select').val() ==undefined  ) {
-            $('.bbf-form .field-Gender .bbf-error').html(App.languageDict.attributes.Required_Text);
+           // $('.bbf-form .field-Gender label').html(App.languageDict.attributes.Gender + '[ '+App.languageDict.attributes.Required_Text + ']');
             isCorrect=false;
+            $('.bbf-form .field-Gender label').css('color','red');   //shows that Gender is not correct.
+        }
+        else{
+
+            $('.bbf-form .field-Gender label').css('color','black');
         }
             if($('.bbf-form .field-levels .bbf-editor select').val() =='' || $('.bbf-form .field-levels .bbf-editor select').val() ==null || $('.bbf-form .field-levels .bbf-editor select').val() ==undefined) {
-                $('.bbf-form .field-levels .bbf-error').html(App.languageDict.attributes.Required_Text);
+                //$('.bbf-form .field-levels .bbf-error').html(App.languageDict.attributes.Required_Text);
                 isCorrect=false;
+                $('.bbf-form .field-levels label').css('color','red');
+            }
+            else{
+
+                $('.bbf-form .field-levels label').css('color','black');
             }
                 if( //validations for date
                 $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val() ==''
@@ -405,14 +457,20 @@ $(function() {
                     //validations for year
                      ||$('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val()=='' || $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val()==null ||
                     $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val()==undefined ) {
-                    $('.bbf-form .field-BirthDate .bbf-error').html(App.languageDict.attributes.Required_Text);
+                   // $('.bbf-form .field-BirthDate .bbf-error').html(App.languageDict.attributes.Required_Text);
                     isCorrect=false;
+                    $('.bbf-form .field-BirthDate label').css('color','red');
                 }
             else{
                     //Now, validate age range [5,100] (Inclusive)
                   if(this.getAgeOfUser()<5 || this.getAgeOfUser()>100) {
                       alert(App.languageDict.attributes.Birthday_Range);
                       isCorrect = false;
+                      $('.bbf-form .field-BirthDate label').css('color','red');
+                  }
+                  else{
+
+                      $('.bbf-form .field-BirthDate label').css('color','black');
                   }
                 }
             return isCorrect;
@@ -474,7 +532,7 @@ $(function() {
                     console.log("MyApp::MemberForm.js (view):: createJsonlog: error creating activity log doc in pouchdb..");
                     console.log(err);
                 }
-                forcedUpdateProfile=false;
+                $.cookie("forcedUpdateProfile",'false');
                 alert(App.languageDict.attributes.Successfully_Registered);
                 Backbone.history.navigate('members', {
                     trigger: true
@@ -496,7 +554,7 @@ $(function() {
                     console.log("MyApp::MemberForm.js (view):: UpdatejSONlog: err making update to record");
                     console.log(err);
                 }
-                forcedUpdateProfile=false;
+                $.cookie("forcedUpdateProfile",'false');
                 alert(App.languageDict.attributes.Successfully_Registered);
                 Backbone.history.navigate('members', {
                     trigger: true

@@ -886,21 +886,26 @@ $(function() {
                 if(isRemind)
                 {
                     alert(App.languageDict.attributes.UpdateProfile);
-                    forcedUpdateProfile=true;
-                    console.log('from dasghboard '+forcedUpdateProfile);
+                    //forcedUpdateProfile=true;
+                    $.cookie("forcedUpdateProfile", 'true');
+                    console.log('an year has passed '+$.cookie("forcedUpdateProfile"));
+                   // console.log('from dasghboard '+forcedUpdateProfile);
                     Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
 
                 }
                 else
                 {
-                    forcedUpdateProfile=false;
-                    console.log('from dasghboard '+forcedUpdateProfile);
+                  //  forcedUpdateProfile=false;
+                    $.cookie("forcedUpdateProfile", 'false');
+                    console.log('year has NOT passed '+$.cookie("forcedUpdateProfile"));
+                   // console.log('from dasghboard '+forcedUpdateProfile);
                 }
 
             }
             else
             {
-                forcedUpdateProfile=false;
+                $.cookie("forcedUpdateProfile", 'false');
+                console.log('No need to remind'+$.cookie("forcedUpdateProfile"));
             }
             var attchmentURL = '/members/' + member.id + '/'
             if (typeof member.get('_attachments') !== 'undefined') {

@@ -233,7 +233,8 @@ $(function() {
             })
             $.removeCookie('Member.expTime', {
                 path: "/apps/_design/bell"
-            })
+            });
+            $.removeCookie('forcedUpdateProfile');
 
         },
 
@@ -707,6 +708,14 @@ $(function() {
 
             if(!modelId){
                 //Setting up the default selected values as blank
+                /*$('.bbf-form .field-Gender .bbf-editor select').prop('required',true);
+                $('.bbf-form .field-Gender .bbf-editor select').append($('<option>', {
+                    class:"placeHolderForSelect",
+                    selected: 'true',
+                    disabled:'true',
+                    value:"",
+                    text:'Gender'
+                }));*/
                 $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
                 $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
                 $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1);
