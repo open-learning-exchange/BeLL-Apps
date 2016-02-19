@@ -27,8 +27,7 @@ $(function() {
         },
 
         defaults: {
-            kind: 'Resource',
-            openUrl: []
+            kind: 'Resource'
         },
 
         schema: {
@@ -153,6 +152,7 @@ $(function() {
                 type: 'Date'
             },
             addedBy: 'Text',
+            openUrl: [],
         },
 
         saveAttachment: function(formEl, fileEl, revEl) {
