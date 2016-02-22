@@ -550,16 +550,15 @@
                     <tr>
                         <td>&nbsp;</td>
                         <% for (var i=0; i<Ratings.length; i++){%>
-                        <td width="15%" align="center"><%= Ratings[i] %></td>
+                        <td width="11%" align="center"><%= Ratings[i] %></td>
                         <% }%>
                     </tr>
                     <% for (var i=0; i<Options.length; i++){%>
                     <tr>
-                        <td width="25%"><%= Options[i] %></td>
-                        <td align="center"><input type="radio" name="group"></td>
-                        <td align="center"><input type="radio" name="group"></td>
-                        <td align="center"><input type="radio" name="group"></td>
-                        <td align="center"><input type="radio" name="group"></td>
+                        <td width="10%"><%= Options[i] %></td>
+                        <% for (var j=0; j<Ratings.length; j++){%>
+                        <td  width="11%" align="center"><input type="radio" name="group"></td>
+                        <% }%>
                     </tr>
                     <% }%>
                     </tbody>
