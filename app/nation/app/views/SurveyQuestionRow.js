@@ -6,6 +6,7 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function(event) {
+                var questionModel = this.model;
                 var surveyObject = new App.Models.Survey({
                     _id: this.Id
                 })
@@ -22,22 +23,26 @@ $(function() {
                 surveyObject.set({
                     'questions': surQuestions
                 })
-                surveyObject.save()
+                surveyObject.save(null, {
+                   success: function() {
+                       questionModel.destroy();
+                   }
+                });
             }
 
         },
 
         vars: {},
 
-        //template: _.template($("#template-surveyQuestionRow").html()),
+        template: _.template($("#template-surveyQuestionRow").html()),
 
         initialize: function(e) {
             this.model.on('destroy', this.remove, this)
         },
 
         render: function() {
-            //var vars = this.model.toJSON()
-            //this.$el.append(this.template(vars))
+            var vars = this.model.toJSON()
+            this.$el.append(this.template(vars))
         },
 
 
