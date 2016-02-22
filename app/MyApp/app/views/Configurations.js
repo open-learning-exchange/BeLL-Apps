@@ -17,14 +17,7 @@ $(function () {
             this.$el.append(this.form.render().el);
             this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
             var clanguage = App.configuration.get("currentLanguage");
-            if(clanguage=="Urdu" || clanguage=="Arabic"){
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-            }
+            applyStylingSheet();
 
         },
         updateDropDownValue : function(){

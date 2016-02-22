@@ -619,5 +619,10 @@
     "directionOfLang":"Right",
     "error_direction":"يرجى تحديد الاتجاه ل لغة محددة",
     "Add_Comment":"أضف تعليق",
-    "openUrl":"رابط مفتوح"
+    "openUrl":"رابط مفتوح",
+    "School_Year":"School Year",
+    "Date_format":"DD",
+    "Year_format":"YYYY",
+    "Month":"Month",
+    "Arabic":"Arabic"
 }

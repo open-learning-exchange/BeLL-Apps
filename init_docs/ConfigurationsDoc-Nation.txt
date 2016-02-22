@@ -6,8 +6,5 @@
     "nationUrl":"earthbell.ole.org:5989",
     "version":"0.11.101",
     "notes":"Nation Bell",
-    "availableLanguages":["English","العربية",
-                                                "اردو"
-                                           ],
     "currentLanguage":"English"
 }

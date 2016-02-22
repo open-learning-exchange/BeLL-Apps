@@ -611,5 +611,10 @@
      "directionOfLang":"Right",
      "error_direction":"Please specify the direction for specified Language.",
      "Add_Comment":"Add Comment",
-     "openUrl":"Open URL"
+     "openUrl":"Open URL",
+     "School_Year":"School Year",
+     "Date_format":"DD",
+     "Year_format":"YYYY",
+     "Month":"Month",
+     "Urdu":"Urdu"
 }

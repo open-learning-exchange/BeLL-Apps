@@ -6,9 +6,6 @@
     "nationUrl":"openbell.ole.org:5984",
     "version":"0.11.101",
     "notes":"Community Bell",
-    "availableLanguages":["English","العربية",
-                                              "اردو"
-                                         ],
     "currentLanguage":"English"
 }
 

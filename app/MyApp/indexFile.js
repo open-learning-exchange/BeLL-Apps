@@ -152,7 +152,7 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
 
 }
 function getAvailableLanguages(){
-    var allLanguages=new Array();
+    var allLanguages={};
     var languages = new App.Collections.Languages();
     languages.fetch({
         async: false
@@ -160,7 +160,7 @@ function getAvailableLanguages(){
     for(var i=0;i<languages.length;i++) {
         if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
             var languageName =languages.models[i].attributes.nameOfLanguage;
-            allLanguages.push(languages.models[i].get(languageName));
+            allLanguages[languageName]=languages.models[i].get(languageName);
         }
     }
     return allLanguages;

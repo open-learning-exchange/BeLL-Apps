@@ -385,13 +385,9 @@
         <li>
             <select id="onLoginLanguage" onchange="changeLanguage(this)">
                 <option disabled="true" selected style="display:none"><%= currentLanguageOfApp %></option>
-                <!-- <option value="" selected><%= currentLanguageOfApp %></option>-->
-                <% for (var i=0; i<availableLanguagesOfApp.length; i++){%>
-                <option value="<%= availableLanguagesOfApp[i] %>"><%= availableLanguagesOfApp[i] %> </option>
+                <% for (var key in availableLanguagesOfApp) {%>
+                <option value="<%= key %>"><%= availableLanguagesOfApp[key] %> </option>
                 <% } %>
-              <!--  <option value="English"><%= availableLanguagesOfApp[0] %> </option>
-                <option value="Arabic"><%= availableLanguagesOfApp[1] %> </option>
-                <option value="Urdu"><%= availableLanguagesOfApp[2] %> </option> -->
             </select>
         </li>
 
