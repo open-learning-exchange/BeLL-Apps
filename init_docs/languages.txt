@@ -618,5 +618,6 @@
    "School_Year":"School Year",
    "Date_format":"DD",
    "Year_format":"YYYY",
-   "Month":"Month"
+   "Month":"Month",
+   "English":"English"
 }

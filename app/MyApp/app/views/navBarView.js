@@ -69,8 +69,8 @@ $(function() {
 
             version = App.configuration.get('version');
             currentLanguage=App.configuration.get('currentLanguage');
-            availableLanguages=App.configuration.get('availableLanguages');
-            if(currentLanguage=="Urdu")
+          //  availableLanguages=App.configuration.get('availableLanguages');
+            /*if(currentLanguage=="Urdu")
             {
                 currentLanguage=availableLanguages[2];
             }
@@ -80,17 +80,16 @@ $(function() {
             }
             else{
                 currentLanguage=availableLanguages[0];
-            }
+            }*/
 
             languageDictOfApp=App.languageDict;
-
+            currentLanguage=App.languageDict.get(currentLanguage);
             this.data = {
                 uRL: temp[1],
                 versionNO: version,
                 currentLanguageOfApp:currentLanguage,
-                availableLanguagesOfApp:availableLanguages,
+                availableLanguagesOfApp:getAvailableLanguages(),
                 languageDict:languageDictOfApp
-
 
             }
             console.log(this.data);
