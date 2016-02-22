@@ -525,7 +525,6 @@ $(function() {
                 dataType: "jsonp",
                 success: function(json) {
                     var nationConfig = json.rows[0].doc
-                    currentConfig.availableLanguages = nationConfig.availableLanguages;
                     currentConfig.version = nationConfig.version;
                     var doc = currentConfig;
                     $.couch.db("configurations").saveDoc(doc, {

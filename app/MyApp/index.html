@@ -1103,8 +1103,8 @@
                             <label style='font-size:16px'><b><%= languageDict.attributes.language %></b></label><br>
 
                             <select name="Language"  id="search-language" multiple="multiple" style="width: 370px;">
-                                <% for (var i=0; i<languages.length; i++){%>
-                                <option ><%= languages[i] %> </option>
+                                <% for (var key in languages){%>
+                                <option ><%= languages[key] %> </option>
                                 <% } %>
                             </select>
                         </div>
