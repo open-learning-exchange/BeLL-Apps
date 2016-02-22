@@ -2851,8 +2851,7 @@ $(function() {
                         }
                     }
                     if(labelsVal.length == ratingVal) {
-                        rating.push(ratingVal);
-                        rating.push(labelsVal);
+                        rating = labelsVal;
                         var questionObjectRS = new App.Models.Question({
                             Type: selectedVal,
                             Statement: qStatement.toString().trim(),
