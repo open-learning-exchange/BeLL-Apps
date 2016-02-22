@@ -24,17 +24,17 @@ $(function() {
         },
         schema: {
             firstName: {
-            //    validators: ['required']
+                type:'Text'
             },
             lastName: {
-            //    validators: ['required']
+                type:'Text'
             },
             middleNames: 'Text',
             login: {
-                //validators: ['required']
+                type:'Text'
             },
             password: {
-               // validators: ['required']
+                type:'Text'
             },
             phone: 'Text',
             email: 'Text',

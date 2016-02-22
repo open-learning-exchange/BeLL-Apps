@@ -14,15 +14,29 @@ $(function() {
                     var isValid=true;
                     console.log('from cancel '+$.cookie("forcedUpdateProfile"));
                     if($.cookie("forcedUpdateProfile")=='true'){
-                        alert('Alert its a forced profile update...');
-                        this.validateMemberForm();
+                        console.log('Alert its a forced profile update...');
+                        if(!this.validateMemberForm())
+                        {
+                            isValid=false;
+                        }
+                        if(!isValid){
+                            alert(App.languageDict.attributes.Update_Profile_Reminder);
+                        }
+                        //this.validateMemberForm();
                         $('#nav').css('pointer-events','none');
                         $('#formButtonCancel').css('pointer-events','none');
                         return;
                     }
                     else{
                         console.log('Alert its NOT a forced profile update...');
-                        this.validateMemberForm();
+                      //  this.validateMemberForm();
+                        if(!this.validateMemberForm())
+                        {
+                            isValid=false;
+                        }
+                        if(!isValid){
+                            alert(App.languageDict.attributes.Update_Profile_Reminder);
+                        }
                     }
                    // this.model.set("lastEditDate",new Date());
                     this.model.save({
@@ -99,7 +113,7 @@ $(function() {
             $.removeCookie('Member.expTime', {
                 path: "/apps/_design/bell"
             });
-
+            $.removeCookie('forcedUpdateProfile');
         },
         getRoles: function(userId) {
 
@@ -188,14 +202,28 @@ $(function() {
                console.log('from render '+$.cookie("forcedUpdateProfile"));
                if($.cookie("forcedUpdateProfile")=='true'){
                    console.log('Alert its a forced profile update...');
-                   this.validateMemberForm();
+                //   this.validateMemberForm();
+                   if(!this.validateMemberForm())
+                   {
+                       isValid=false;
+                   }
+                   if(!isValid){
+                       alert(App.languageDict.attributes.Update_Profile_Reminder);
+                   }
                    $('#nav').css('pointer-events','none');   //buggy on page refresh
                    $('#formButtonCancel').css('pointer-events','none');
                    return;
                }
                else{
                    console.log('Alert its NOT a forced profile update...');
-                   this.validateMemberForm();
+                  // this.validateMemberForm();
+                   if(!this.validateMemberForm())
+                   {
+                       isValid=false;
+                   }
+                   if(!isValid){
+                       alert(App.languageDict.attributes.Update_Profile_Reminder);
+                   }
                }
 
            }
@@ -238,9 +266,9 @@ $(function() {
             }
             var that = this;
             var isValid=true;
-            alert('from setForm '+$.cookie("forcedUpdateProfile"));
+            console.log('from setForm '+$.cookie("forcedUpdateProfile"));
             if($.cookie("forcedUpdateProfile")=='true'){
-                alert('Alert its a forced profile update...');
+                console.log('Alert its a forced profile update...');
                 if(!this.validateMemberForm())
                 {
                     isValid=false;
@@ -266,6 +294,7 @@ $(function() {
                 }
                 if(!isValid){
                     console.log('info is wrong..');
+                    alert(App.languageDict.attributes.Update_Profile_Reminder);
                     return;
                 }
                 else

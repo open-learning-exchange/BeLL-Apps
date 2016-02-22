@@ -705,20 +705,56 @@ $(function() {
 
             //Setting up the default error Message
             Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
-
+            var languageDictValue=loadLanguageDocs();
             if(!modelId){
-                //Setting up the default selected values as blank
-                /*$('.bbf-form .field-Gender .bbf-editor select').prop('required',true);
+                //Setting up the default selected customized text
+
                 $('.bbf-form .field-Gender .bbf-editor select').append($('<option>', {
                     class:"placeHolderForSelect",
                     selected: 'true',
                     disabled:'true',
                     value:"",
-                    text:'Gender'
-                }));*/
-                $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
-                $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
-                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1);
+                    text:languageDictValue.attributes.Gender
+                }));
+                $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(2).css('display','none');
+                $(".bbf-form .field-levels .bbf-editor select").append($('<option>', {
+                    class:"placeHolderForSelect",
+                    selected: 'true',
+                    disabled:'true',
+                    value:"",
+                    text:languageDictValue.attributes.School_Year
+                }));
+                $(".bbf-form .field-levels .bbf-editor select").find('option').eq(13).css('display','none')
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(0).append($('<option>', {
+                    class:"placeHolderForSelect",
+                    selected: 'true',
+                    disabled:'true',
+                    value:"",
+                    text:languageDictValue.attributes.Date_format
+                }));
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(0).find('option').eq(31).css('display','none')
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(1).append($('<option>', {
+                    class:"placeHolderForSelect",
+                    selected: 'true',
+                    disabled:'true',
+                    value:"",
+                    text:languageDictValue.attributes.Month
+                }));
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(1).find('option').eq(12).css('display','none')
+
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).append($('<option>', {
+                    class:"placeHolderForSelect",
+                    selected: 'true',
+                    disabled:'true',
+                    value:"",
+                    text:languageDictValue.attributes.Year_format
+                }));
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).find('option').eq(101).css('display','none')
+
+                /* Code to unset the default text on sany dropdown...
+                 $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
+                  $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
+                  $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1); */
             }
 
             //Modifying the labels as per MUI

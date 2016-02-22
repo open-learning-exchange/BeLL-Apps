@@ -886,19 +886,15 @@ $(function() {
                 if(isRemind)
                 {
                     alert(App.languageDict.attributes.UpdateProfile);
-                    //forcedUpdateProfile=true;
                     $.cookie("forcedUpdateProfile", 'true');
                     console.log('an year has passed '+$.cookie("forcedUpdateProfile"));
-                   // console.log('from dasghboard '+forcedUpdateProfile);
                     Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
 
                 }
                 else
                 {
-                  //  forcedUpdateProfile=false;
                     $.cookie("forcedUpdateProfile", 'false');
                     console.log('year has NOT passed '+$.cookie("forcedUpdateProfile"));
-                   // console.log('from dasghboard '+forcedUpdateProfile);
                 }
 
             }
