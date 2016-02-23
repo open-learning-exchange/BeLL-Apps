@@ -61,6 +61,20 @@ $(function() {
                     }
                     return languageDict;
     },
+        getAvailableLanguages : function (){
+        var allLanguages={};
+        var languages = new App.Collections.Languages();
+        languages.fetch({
+            async: false
+        });
+        for(var i=0;i<languages.length;i++) {
+            if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                var languageName =languages.models[i].attributes.nameOfLanguage;
+                allLanguages[languageName]=languages.models[i].get(languageName);
+            }
+        }
+        return allLanguages;
+    },
 
         routeStartupTasks: function() {
             $('#invitationdiv').hide()

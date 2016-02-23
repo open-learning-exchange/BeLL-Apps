@@ -13,6 +13,13 @@ $(function() {
                 model: this.model
             })
             this.$el.append(this.form.render().el);
+            var availableLanguages=App.Router.getAvailableLanguages();
+            for(var key in availableLanguages){
+                this.$el.find('.field-selectLanguage .bbf-editor select').append($('<option>', {
+                    value: key,
+                    text:availableLanguages[key]
+                }));
+            }
             this.$el.append('<a style="margin-left:31px" class="btn btn-success" id="formButton">Submit Configurations </a>');
         },
         updateDropDownValue : function(){
