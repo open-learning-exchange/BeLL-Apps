@@ -28,3 +28,10 @@ To successfully update any particular language's document located in [BeLL-Apps/
 
 8) Don't miss the brackets. If there is one opening then their ought to be one ending as well as soon as the scope that object ends.
       ![Watch Out for Brackets](https://github.com/open-learning-exchange/BeLL-Apps/tree/dev/images/pic7.png)
+
+9) Make sure that there is a **directionOfLang** attribute in the language document you are about to add in Languages database. Its value can either be **Left** or **Right**. If a language is read from
+left-to-right then  it should be like **"directionOfLang" : "Left"** and if it is read from right-to-left then it should be like **"directionOfLang" : "Right"**.
+
+10) The name of the language in its native language should also be there, for example for Arabic **"Arabic" : "العربي"**.
+
+*Note that in order to verify your json document, please visit this link [json validator](https://jsonformatter.curiousconcept.com/)*
