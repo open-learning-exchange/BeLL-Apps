@@ -527,7 +527,11 @@
 
             <td>
                 <span style="font-weight:700;color:grey; font-size:16px;">Q#</span>
+                <%  if(RequireAnswer == true){%>
+                <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
+                <%} else {%>
                 <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %></BR></span>
+                <%}%>
                 <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
                 <% if ( Type == "Single Textbox") { %>
                 <input type="text" style="width: 625px;">
