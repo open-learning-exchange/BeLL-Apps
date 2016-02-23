@@ -526,6 +526,10 @@ $(function() {
                 success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.version = nationConfig.version;
+                    if(currentConfig.availableLanguages && currentConfig.availableLanguages!=undefined && currentConfig.availableLanguages!=null  )
+                    {
+                        delete currentConfig.availableLanguages;
+                    }
                     var doc = currentConfig;
                     $.couch.db("configurations").saveDoc(doc, {
                         success: function(data) {
