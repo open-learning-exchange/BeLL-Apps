@@ -2625,42 +2625,6 @@ $(function() {
                     }
                 });
             });
-            function hideAllDivs () {
-                $("#1").hide();
-                $("#5").hide();
-                $("#6").hide();
-                $("#8").hide();
-            };
-            function handleNewSelection() {
-                hideAllDivs();
-
-                switch ($(this).val()) {
-                    case '1':
-                        $("#1").show();
-                        $('#1').find('#question_text').val('');
-                        $('#1').find('#answer_choices').val('');
-                        $('#1').find('#required_question').removeAttr('checked');
-                        break;
-                    case '5':
-                        $("#5").show();
-                        $('#5').find('#question_text').val('');
-                        $('#5').find('#answer_choices').val('');
-                        $('#5').find('#select_rating').val("4").trigger('change');
-                        $('#5').find('.ratingLabels').val('');
-                        $('#5').find('#required_question').removeAttr('checked');
-                        break;
-                    case '6':
-                        $("#6").show();
-                        $('#6').find('#question_text').val('');
-                        $('#6').find('#required_question').removeAttr('checked');
-                        break;
-                    case '8':
-                        $("#8").show();
-                        $('#8').find('#question_text').val('');
-                        $('#8').find('#required_question').removeAttr('checked');
-                        break;
-                }
-            };
             var surQuestions = surveyModel.get('questions');
             var surQuestionsIdes = ''
             _.each(surQuestions, function(item) {
