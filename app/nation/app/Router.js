@@ -2660,7 +2660,20 @@ $(function() {
                 $("#dialog").dialog({
                     title: "Edit Question",
                 });
-                //We will load the content of the question which is being edited
+                var questionType = questionModel.get('Type');
+                if(questionType == 'Multiple Choice (Single Answer)') {
+                    alert("Editing " + questionType);
+                } else if(questionType == 'Rating Scale') {
+                    alert("Editing " + questionType);
+                } else if(questionType == 'Single Textbox') {
+                    $("#add_new_question").val("6").trigger('change');
+                    $('#6').find('#question_text').val(questionModel.get('Statement'));
+                    if(questionModel.get('RequireAnswer') == true) {
+                        $('#6').find('#required_question').attr('checked', true);
+                    }
+                } else if(questionType == 'Comment/Essay Box') {
+                    alert("Editing " + questionType);
+                }
             }
             $(".saveSurQuestion").click(function () {
                 var selectedVal = $('#add_new_question option:selected').text();
