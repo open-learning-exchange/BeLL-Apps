@@ -2638,47 +2638,13 @@ $(function() {
                 });
                 var questionType = questionModel.get('Type');
                 if(questionType == 'Multiple Choice (Single Answer)') {
-                    $("#add_new_question").val("1").trigger('change');
-                    $('#1').find('#question_text').val(questionModel.get('Statement'));
-                    var question_answer_choices = questionModel.get('Options');
-                    var options = "";
-                    for(var i = 0 ; i < question_answer_choices.length ; i++) {
-                        options = options + question_answer_choices[i] + '\n'
-                    }
-                    $('#1').find('#answer_choices').val(options.trim());
-                    if(questionModel.get('RequireAnswer') == true) {
-                        $('#1').find('#required_question').attr('checked', true);
-                    }
+                    that.editMultipleChoiceQuestion(questionModel);
                 } else if(questionType == 'Rating Scale') {
-                    $("#add_new_question").val("5").trigger('change');
-                    $('#5').find('#question_text').val(questionModel.get('Statement'));
-                    var question_answer_choicesRS = questionModel.get('Options');
-                    var optionsRS = "";
-                    var ratingLabelsVal = [];
-                    for(var i = 0 ; i < question_answer_choicesRS.length ; i++) {
-                        optionsRS = optionsRS + question_answer_choicesRS[i] + '\n'
-                    }
-                    $('#5').find('#answer_choices').val(optionsRS.trim());
-                    ratingLabelsVal = questionModel.get('Ratings');
-                    $('#5').find('#select_rating').val(ratingLabelsVal.length).trigger('change');
-                    for(var j = 0 ; j < ratingLabelsVal.length ; j++) {
-                        $('#5').find('.ratingLabels').eq(j).val(ratingLabelsVal[j]);
-                    }
-                    if(questionModel.get('RequireAnswer') == true) {
-                        $('#5').find('#required_question').attr('checked', true);
-                    }
+                    that.editRatingScaleQuestion(questionModel);
                 } else if(questionType == 'Single Textbox') {
-                    $("#add_new_question").val("6").trigger('change');
-                    $('#6').find('#question_text').val(questionModel.get('Statement'));
-                    if(questionModel.get('RequireAnswer') == true) {
-                        $('#6').find('#required_question').attr('checked', true);
-                    }
+                    that.editSingleTextBoxQuestion(questionModel);
                 } else if(questionType == 'Comment/Essay Box') {
-                    $("#add_new_question").val("8").trigger('change');
-                    $('#8').find('#question_text').val(questionModel.get('Statement'));
-                    if(questionModel.get('RequireAnswer') == true) {
-                        $('#8').find('#required_question').attr('checked', true);
-                    }
+                    that.editCommentBoxQuestion(questionModel);
                 }
             }
             $(".saveSurQuestion").click(function () {
@@ -2700,6 +2666,56 @@ $(function() {
                     }
                 }
             });
+        },
+
+        editMultipleChoiceQuestion: function(questionModel) {
+            $("#add_new_question").val("1").trigger('change');
+            $('#1').find('#question_text').val(questionModel.get('Statement'));
+            var question_answer_choices = questionModel.get('Options');
+            var options = "";
+            for(var i = 0 ; i < question_answer_choices.length ; i++) {
+                options = options + question_answer_choices[i] + '\n'
+            }
+            $('#1').find('#answer_choices').val(options.trim());
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#1').find('#required_question').attr('checked', true);
+            }
+        },
+
+        editRatingScaleQuestion: function(questionModel) {
+            $("#add_new_question").val("5").trigger('change');
+            $('#5').find('#question_text').val(questionModel.get('Statement'));
+            var question_answer_choicesRS = questionModel.get('Options');
+            var optionsRS = "";
+            var ratingLabelsVal = [];
+            for(var i = 0 ; i < question_answer_choicesRS.length ; i++) {
+                optionsRS = optionsRS + question_answer_choicesRS[i] + '\n'
+            }
+            $('#5').find('#answer_choices').val(optionsRS.trim());
+            ratingLabelsVal = questionModel.get('Ratings');
+            $('#5').find('#select_rating').val(ratingLabelsVal.length).trigger('change');
+            for(var j = 0 ; j < ratingLabelsVal.length ; j++) {
+                $('#5').find('.ratingLabels').eq(j).val(ratingLabelsVal[j]);
+            }
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#5').find('#required_question').attr('checked', true);
+            }
+        },
+
+        editSingleTextBoxQuestion: function(questionModel) {
+            $("#add_new_question").val("6").trigger('change');
+            $('#6').find('#question_text').val(questionModel.get('Statement'));
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#6').find('#required_question').attr('checked', true);
+            }
+        },
+
+        editCommentBoxQuestion: function(questionModel) {
+            $("#add_new_question").val("8").trigger('change');
+            $('#8').find('#question_text').val(questionModel.get('Statement'));
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#8').find('#required_question').attr('checked', true);
+            }
         },
 
         saveSingleTextBoxQuestion: function(surveyId, selectedVal) {
