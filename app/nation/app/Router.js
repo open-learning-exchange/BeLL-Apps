@@ -2674,7 +2674,18 @@ $(function() {
                         $('#1').find('#required_question').attr('checked', true);
                     }
                 } else if(questionType == 'Rating Scale') {
-                    alert("Editing " + questionType);
+                    $("#add_new_question").val("5").trigger('change');
+                    $('#5').find('#question_text').val(questionModel.get('Statement'));
+                    var question_answer_choicesRS = questionModel.get('Options');
+                    var optionsRS = "";
+                    for(var i = 0 ; i < question_answer_choicesRS.length ; i++) {
+                        optionsRS = optionsRS + question_answer_choicesRS[i] + '\n'
+                    }
+                    $('#5').find('#answer_choices').val(optionsRS);
+                    $('#5').find('#select_rating').val(questionModel.get('Ratings').length).trigger('change');
+                    if(questionModel.get('RequireAnswer') == true) {
+                        $('#5').find('#required_question').attr('checked', true);
+                    }
                 } else if(questionType == 'Single Textbox') {
                     $("#add_new_question").val("6").trigger('change');
                     $('#6').find('#question_text').val(questionModel.get('Statement'));
