@@ -2600,7 +2600,8 @@ $(function() {
 
             });
             $("#addQuestion").click(function () {
-                $('#dialog').dialog('open');
+                that.openSurveyQuestionDialogBox(surveyId, false, null);
+                /*$('#dialog').dialog('open');
                 $("#add_new_question").change(handleNewSelection);
 
                 // Run the event handler once now to ensure everything is as it should be
@@ -2623,7 +2624,7 @@ $(function() {
                                 break;
                         }
                     }
-                });
+                });*/
             });
             var surQuestions = surveyModel.get('questions');
             var surQuestionsIdes = ''
@@ -2644,6 +2645,42 @@ $(function() {
             surQuestionsTable.Id = surveyId;
             surQuestionsTable.render()
             App.$el.children('.body').append(surQuestionsTable.el)
+        },
+
+        openSurveyQuestionDialogBox: function(surveyId, isEdit, questionModel) {
+            var that = this;
+            $("#dialog").dialog({
+                title: "Add a New Question",
+            });
+            $('#dialog').dialog('open');
+            $("#add_new_question").change(handleNewSelection);
+            // Run the event handler once now to ensure everything is as it should be
+            handleNewSelection.apply($("#add_new_question"));
+            if(isEdit) {
+                $("#dialog").dialog({
+                    title: "Edit Question",
+                });
+                //We will load the content of the question which is being edited
+            }
+            $(".saveSurQuestion").click(function () {
+                var selectedVal = $('#add_new_question option:selected').text();
+                if(selectedVal){
+                    switch (selectedVal) {
+                        case 'Multiple Choice (Single Answer)':
+                            that.saveMultipleChoiceQuestion(surveyId, selectedVal);
+                            break;
+                        case 'Rating Scale':
+                            that.saveRatingScaleQuestion(surveyId, selectedVal);
+                            break;
+                        case 'Single Textbox':
+                            that.saveSingleTextBoxQuestion(surveyId, selectedVal);
+                            break;
+                        case 'Comment/Essay Box':
+                            that.saveCommentBoxQuestion(surveyId, selectedVal)
+                            break;
+                    }
+                }
+            });
         },
 
         saveSingleTextBoxQuestion: function(surveyId, selectedVal) {
