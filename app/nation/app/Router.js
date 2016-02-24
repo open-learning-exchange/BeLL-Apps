@@ -2672,7 +2672,11 @@ $(function() {
                         $('#6').find('#required_question').attr('checked', true);
                     }
                 } else if(questionType == 'Comment/Essay Box') {
-                    alert("Editing " + questionType);
+                    $("#add_new_question").val("8").trigger('change');
+                    $('#8').find('#question_text').val(questionModel.get('Statement'));
+                    if(questionModel.get('RequireAnswer') == true) {
+                        $('#8').find('#required_question').attr('checked', true);
+                    }
                 }
             }
             $(".saveSurQuestion").click(function () {
