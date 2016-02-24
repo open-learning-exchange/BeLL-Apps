@@ -2601,30 +2601,6 @@ $(function() {
             });
             $("#addQuestion").click(function () {
                 that.openSurveyQuestionDialogBox(surveyId, false, null);
-                /*$('#dialog').dialog('open');
-                $("#add_new_question").change(handleNewSelection);
-
-                // Run the event handler once now to ensure everything is as it should be
-                handleNewSelection.apply($("#add_new_question"));
-                $(".saveSurQuestion").click(function () {
-                    var selectedVal = $('#add_new_question option:selected').text();
-                    if(selectedVal){
-                        switch (selectedVal) {
-                            case 'Multiple Choice (Single Answer)':
-                                that.saveMultipleChoiceQuestion(surveyId, selectedVal);
-                                break;
-                            case 'Rating Scale':
-                                that.saveRatingScaleQuestion(surveyId, selectedVal);
-                                break;
-                            case 'Single Textbox':
-                                that.saveSingleTextBoxQuestion(surveyId, selectedVal);
-                                break;
-                            case 'Comment/Essay Box':
-                                that.saveCommentBoxQuestion(surveyId, selectedVal)
-                                break;
-                        }
-                    }
-                });*/
             });
             var surQuestions = surveyModel.get('questions');
             var surQuestionsIdes = ''
