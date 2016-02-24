@@ -2662,7 +2662,17 @@ $(function() {
                 });
                 var questionType = questionModel.get('Type');
                 if(questionType == 'Multiple Choice (Single Answer)') {
-                    alert("Editing " + questionType);
+                    $("#add_new_question").val("1").trigger('change');
+                    $('#1').find('#question_text').val(questionModel.get('Statement'));
+                    var question_answer_choices = questionModel.get('Options');
+                    var options = "";
+                    for(var i = 0 ; i < question_answer_choices.length ; i++) {
+                        options = options + question_answer_choices[i] + '\n'
+                    }
+                    $('#1').find('#answer_choices').val(options);
+                    if(questionModel.get('RequireAnswer') == true) {
+                        $('#1').find('#required_question').attr('checked', true);
+                    }
                 } else if(questionType == 'Rating Scale') {
                     alert("Editing " + questionType);
                 } else if(questionType == 'Single Textbox') {
