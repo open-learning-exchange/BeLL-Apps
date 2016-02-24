@@ -2669,7 +2669,7 @@ $(function() {
                     for(var i = 0 ; i < question_answer_choices.length ; i++) {
                         options = options + question_answer_choices[i] + '\n'
                     }
-                    $('#1').find('#answer_choices').val(options);
+                    $('#1').find('#answer_choices').val(options.trim());
                     if(questionModel.get('RequireAnswer') == true) {
                         $('#1').find('#required_question').attr('checked', true);
                     }
@@ -2678,11 +2678,16 @@ $(function() {
                     $('#5').find('#question_text').val(questionModel.get('Statement'));
                     var question_answer_choicesRS = questionModel.get('Options');
                     var optionsRS = "";
+                    var ratingLabelsVal = [];
                     for(var i = 0 ; i < question_answer_choicesRS.length ; i++) {
                         optionsRS = optionsRS + question_answer_choicesRS[i] + '\n'
                     }
-                    $('#5').find('#answer_choices').val(optionsRS);
-                    $('#5').find('#select_rating').val(questionModel.get('Ratings').length).trigger('change');
+                    $('#5').find('#answer_choices').val(optionsRS.trim());
+                    ratingLabelsVal = questionModel.get('Ratings');
+                    $('#5').find('#select_rating').val(ratingLabelsVal.length).trigger('change');
+                    for(var j = 0 ; j < ratingLabelsVal.length ; j++) {
+                        $('#5').find('.ratingLabels').eq(j).val(ratingLabelsVal[j]);
+                    }
                     if(questionModel.get('RequireAnswer') == true) {
                         $('#5').find('#required_question').attr('checked', true);
                     }
