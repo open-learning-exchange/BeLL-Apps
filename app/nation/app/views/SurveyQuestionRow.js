@@ -28,6 +28,10 @@ $(function() {
                        questionModel.destroy();
                    }
                 });
+            },
+            "click .edit_survey_question": function(event) {
+                var surveyId = this.Id;
+                App.Router.openSurveyQuestionDialogBox(surveyId, true, this.model)
             }
 
         },
