@@ -6,8 +6,37 @@ $(function() {
         admin: null,
         events: {
             "click .destroy": function (event) {
+                var surveyModel = this.model;
+                var surQuestions = surveyModel.get('questions');
+                var surQuestionsIdes = ''
+                _.each(surQuestions, function(item) {
+                    surQuestionsIdes += '"' + item + '",'
+                })
+                if (surQuestionsIdes != ''){
+                    surQuestionsIdes = surQuestionsIdes.substring(0, surQuestionsIdes.length - 1);
+                }
+                var questionsColl = new App.Collections.SurveyQuestions();
+                questionsColl.keys = encodeURI(surQuestionsIdes)
+                questionsColl.fetch({
+                    async: false
+                });
+                var questionModels = questionsColl.models;
+                var questionDocs = [];
+                for(var i = 0 ; i < questionModels.length ; i++) {
+                    questionDocs.push(questionModels[i].toJSON());
+                }
                 if (confirm('Are you sure you want to delete this Survey?')) {
-                    this.model.destroy();
+                    if(questionDocs.length > 0) {
+                        $.couch.db("surveyquestions").bulkRemove({"docs": questionDocs}, {
+                            success: function(data) {
+                            },
+                            error: function(status) {
+                                console.log(status);
+                            },
+                            async: false
+                        });
+                    }
+                    surveyModel.destroy();
                 }
             }
         },
