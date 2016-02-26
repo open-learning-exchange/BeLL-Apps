@@ -2643,67 +2643,8 @@ $(function() {
 
             });
             $("#addQuestion").click(function () {
-                $('#dialog').dialog('open');
-                $("#add_new_question").change(handleNewSelection);
-
-                // Run the event handler once now to ensure everything is as it should be
-                handleNewSelection.apply($("#add_new_question"));
-                $(".saveSurQuestion").click(function () {
-                    var selectedVal = $('#add_new_question option:selected').text();
-                    if(selectedVal){
-                        switch (selectedVal) {
-                            case 'Multiple Choice (Single Answer)':
-                                that.saveMultipleChoiceQuestion(surveyId, selectedVal);
-                                break;
-                            case 'Rating Scale':
-                                that.saveRatingScaleQuestion(surveyId, selectedVal);
-                                break;
-                            case 'Single Textbox':
-                                that.saveSingleTextBoxQuestion(surveyId, selectedVal);
-                                break;
-                            case 'Comment/Essay Box':
-                                that.saveCommentBoxQuestion(surveyId, selectedVal)
-                                break;
-                        }
-                    }
-                });
+                that.openSurveyQuestionDialogBox(surveyId, false, null);
             });
-            function hideAllDivs () {
-                $("#1").hide();
-                $("#5").hide();
-                $("#6").hide();
-                $("#8").hide();
-            };
-            function handleNewSelection() {
-                hideAllDivs();
-
-                switch ($(this).val()) {
-                    case '1':
-                        $("#1").show();
-                        $('#1').find('#question_text').val('');
-                        $('#1').find('#answer_choices').val('');
-                        $('#1').find('#required_question').removeAttr('checked');
-                        break;
-                    case '5':
-                        $("#5").show();
-                        $('#5').find('#question_text').val('');
-                        $('#5').find('#answer_choices').val('');
-                        $('#5').find('#select_rating').val("4").trigger('change');
-                        $('#5').find('.ratingLabels').val('');
-                        $('#5').find('#required_question').removeAttr('checked');
-                        break;
-                    case '6':
-                        $("#6").show();
-                        $('#6').find('#question_text').val('');
-                        $('#6').find('#required_question').removeAttr('checked');
-                        break;
-                    case '8':
-                        $("#8").show();
-                        $('#8').find('#question_text').val('');
-                        $('#8').find('#required_question').removeAttr('checked');
-                        break;
-                }
-            };
             var surQuestions = surveyModel.get('questions');
             var surQuestionsIdes = ''
             _.each(surQuestions, function(item) {
@@ -2725,7 +2666,103 @@ $(function() {
             App.$el.children('.body').append(surQuestionsTable.el)
         },
 
-        saveSingleTextBoxQuestion: function(surveyId, selectedVal) {
+        openSurveyQuestionDialogBox: function(surveyId, isEdit, questionModel) {
+            var that = this;
+            $("#dialog").dialog({
+                title: "Add a New Question",
+            });
+            $('#dialog').dialog('open');
+            $("#add_new_question").change(handleNewSelection);
+            // Run the event handler once now to ensure everything is as it should be
+            handleNewSelection.apply($("#add_new_question"));
+            if(isEdit) {
+                $("#dialog").dialog({
+                    title: "Edit Question",
+                });
+                var questionType = questionModel.get('Type');
+                if(questionType == 'Multiple Choice (Single Answer)') {
+                    that.editMultipleChoiceQuestion(questionModel);
+                } else if(questionType == 'Rating Scale') {
+                    that.editRatingScaleQuestion(questionModel);
+                } else if(questionType == 'Single Textbox') {
+                    that.editSingleTextBoxQuestion(questionModel);
+                } else if(questionType == 'Comment/Essay Box') {
+                    that.editCommentBoxQuestion(questionModel);
+                }
+            }
+            $(".saveSurQuestion").click(function () {
+                var selectedVal = $('#add_new_question option:selected').text();
+                if(selectedVal){
+                    switch (selectedVal) {
+                        case 'Multiple Choice (Single Answer)':
+                            that.saveMultipleChoiceQuestion(surveyId, selectedVal, isEdit, questionModel);
+                            break;
+                        case 'Rating Scale':
+                            that.saveRatingScaleQuestion(surveyId, selectedVal, isEdit, questionModel);
+                            break;
+                        case 'Single Textbox':
+                            that.saveSingleTextBoxQuestion(surveyId, selectedVal, isEdit, questionModel);
+                            break;
+                        case 'Comment/Essay Box':
+                            that.saveCommentBoxQuestion(surveyId, selectedVal, isEdit, questionModel);
+                            break;
+                    }
+                }
+            });
+        },
+
+        editMultipleChoiceQuestion: function(questionModel) {
+            $("#add_new_question").val("1").trigger('change');
+            $('#1').find('#question_text').val(questionModel.get('Statement'));
+            var question_answer_choices = questionModel.get('Options');
+            var options = "";
+            for(var i = 0 ; i < question_answer_choices.length ; i++) {
+                options = options + question_answer_choices[i] + '\n'
+            }
+            $('#1').find('#answer_choices').val(options.trim());
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#1').find('#required_question').attr('checked', true);
+            }
+        },
+
+        editRatingScaleQuestion: function(questionModel) {
+            $("#add_new_question").val("5").trigger('change');
+            $('#5').find('#question_text').val(questionModel.get('Statement'));
+            var question_answer_choicesRS = questionModel.get('Options');
+            var optionsRS = "";
+            var ratingLabelsVal = [];
+            for(var i = 0 ; i < question_answer_choicesRS.length ; i++) {
+                optionsRS = optionsRS + question_answer_choicesRS[i] + '\n'
+            }
+            $('#5').find('#answer_choices').val(optionsRS.trim());
+            ratingLabelsVal = questionModel.get('Ratings');
+            $('#5').find('#select_rating').val(ratingLabelsVal.length).trigger('change');
+            for(var j = 0 ; j < ratingLabelsVal.length ; j++) {
+                $('#5').find('.ratingLabels').eq(j).val(ratingLabelsVal[j]);
+            }
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#5').find('#required_question').attr('checked', true);
+            }
+        },
+
+        editSingleTextBoxQuestion: function(questionModel) {
+            $("#add_new_question").val("6").trigger('change');
+            $('#6').find('#question_text').val(questionModel.get('Statement'));
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#6').find('#required_question').attr('checked', true);
+            }
+        },
+
+        editCommentBoxQuestion: function(questionModel) {
+            $("#add_new_question").val("8").trigger('change');
+            $('#8').find('#question_text').val(questionModel.get('Statement'));
+            if(questionModel.get('RequireAnswer') == true) {
+                $('#8').find('#required_question').attr('checked', true);
+            }
+        },
+
+        saveSingleTextBoxQuestion: function(surveyId, selectedVal, isEdit, questionModel) {
+            var that = this;
             var qStatement = $('#6').find('#question_text').val();
             if(qStatement.toString().trim() != '') {
                 var questionObject = new App.Models.Question({
@@ -2738,39 +2775,18 @@ $(function() {
                 } else {
                     questionObject.set('RequireAnswer', false);
                 }
-                questionObject.save(null, {
-                    success: function (model, response) {
-                        var surModel = new App.Models.Survey({
-                            _id: surveyId
-                        })
-                        surModel.fetch({
-                            async: false
-                        })
-                        var surQuestions = surModel.get('questions');
-                        surQuestions.push(response.id);
-                        surModel.set('questions', surQuestions);
-                        surModel.save(null, {
-                            success: function (model, res) {
-                                alert(selectedVal + " Question has been saved");
-                                window.location.reload();
-                            },
-                            error: function (model, err) {
-                                console.log(err);
-                            },
-                            async: false
-                        });
-                    },
-                    error: function (model, err) {
-                        console.log(err);
-                    },
-                    async: false
-                });
+                if(isEdit) {
+                    questionObject.set('_id', questionModel.get('_id'));
+                    questionObject.set('_rev', questionModel.get('_rev'));
+                }
+                that.saveQuestion(questionObject, surveyId, isEdit);
             } else {
                 alert("Question statement is missing");
             }
         },
 
-        saveCommentBoxQuestion: function(surveyId, selectedVal) {
+        saveCommentBoxQuestion: function(surveyId, selectedVal, isEdit, questionModel) {
+            var that = this;
             var qStatement = $('#8').find('#question_text').val();
             if(qStatement.toString().trim() != '') {
                 var questionObjectForEB = new App.Models.Question({
@@ -2783,38 +2799,17 @@ $(function() {
                 } else {
                     questionObjectForEB.set('RequireAnswer', false);
                 }
-                questionObjectForEB.save(null, {
-                    success: function (model, response) {
-                        var surModel = new App.Models.Survey({
-                            _id: surveyId
-                        })
-                        surModel.fetch({
-                            async: false
-                        })
-                        var surQuestions = surModel.get('questions');
-                        surQuestions.push(response.id);
-                        surModel.set('questions', surQuestions);
-                        surModel.save(null, {
-                            success: function (model, res) {
-                                alert(selectedVal + " Question has been saved");
-                                window.location.reload();
-                            },
-                            error: function (model, err) {
-                                console.log(err);
-                            },
-                            async: false
-                        });
-                    },
-                    error: function (model, err) {
-                        console.log(err);
-                    },
-                    async: false
-                });
+                if(isEdit) {
+                    questionObjectForEB.set('_id', questionModel.get('_id'));
+                    questionObjectForEB.set('_rev', questionModel.get('_rev'));
+                }
+                that.saveQuestion(questionObjectForEB, surveyId, isEdit);
             } else {
                 alert("Question statement is missing");
             }
         },
-        saveMultipleChoiceQuestion: function(surveyId, selectedVal) {
+        saveMultipleChoiceQuestion: function(surveyId, selectedVal, isEdit, questionModel) {
+            var that = this;
             var qStatement = $('#1').find('#question_text').val();
             var answer_choices = $('#1').find('#answer_choices').val();
             answer_choices = answer_choices.split('\n');
@@ -2837,33 +2832,11 @@ $(function() {
                     } else {
                         questionObjectMC.set('RequireAnswer', false);
                     }
-                    questionObjectMC.save(null, {
-                        success: function (model, response) {
-                            var surModel = new App.Models.Survey({
-                                _id: surveyId
-                            })
-                            surModel.fetch({
-                                async: false
-                            })
-                            var surQuestions = surModel.get('questions');
-                            surQuestions.push(response.id);
-                            surModel.set('questions', surQuestions);
-                            surModel.save(null, {
-                                success: function (model, res) {
-                                    alert(selectedVal + " Question has been saved");
-                                    window.location.reload();
-                                },
-                                error: function (model, err) {
-                                    console.log(err);
-                                },
-                                async: false
-                            });
-                        },
-                        error: function (model, err) {
-                            console.log(err);
-                        },
-                        async: false
-                    });
+                    if(isEdit) {
+                        questionObjectMC.set('_id', questionModel.get('_id'));
+                        questionObjectMC.set('_rev', questionModel.get('_rev'));
+                    }
+                    that.saveQuestion(questionObjectMC, surveyId, isEdit);
                 } else {
                     alert("Please provide atleast two options");
                 }
@@ -2872,7 +2845,8 @@ $(function() {
             }
         },
 
-        saveRatingScaleQuestion: function(surveyId, selectedVal) {
+        saveRatingScaleQuestion: function(surveyId, selectedVal, isEdit, questionModel) {
+            var that = this;
             var qStatement = $('#5').find('#question_text').val();
             var answer_choicesRS = $('#5').find('#answer_choices').val();
             answer_choicesRS = answer_choicesRS.split('\n');
@@ -2907,33 +2881,11 @@ $(function() {
                         } else {
                             questionObjectRS.set('RequireAnswer', false);
                         }
-                        questionObjectRS.save(null, {
-                            success: function (model, response) {
-                                var surModel = new App.Models.Survey({
-                                    _id: surveyId
-                                })
-                                surModel.fetch({
-                                    async: false
-                                })
-                                var surQuestions = surModel.get('questions');
-                                surQuestions.push(response.id);
-                                surModel.set('questions', surQuestions);
-                                surModel.save(null, {
-                                    success: function (model, res) {
-                                        alert(selectedVal + " Question has been saved");
-                                        window.location.reload();
-                                    },
-                                    error: function (model, err) {
-                                        console.log(err);
-                                    },
-                                    async: false
-                                });
-                            },
-                            error: function (model, err) {
-                                console.log(err);
-                            },
-                            async: false
-                        });
+                        if(isEdit) {
+                            questionObjectRS.set('_id', questionModel.get('_id'));
+                            questionObjectRS.set('_rev', questionModel.get('_rev'));
+                        }
+                        that.saveQuestion(questionObjectRS, surveyId, isEdit);
                     } else {
                         alert("Labels are less than the rating value");
                     }
@@ -2943,6 +2895,41 @@ $(function() {
             } else {
                 alert("Question statement is missing");
             }
+        },
+
+        saveQuestion: function(questionObject, surveyId, isEdit) {
+            questionObject.save(null, {
+                success: function (model, response) {
+                    if(!isEdit) {
+                        var surModel = new App.Models.Survey({
+                            _id: surveyId
+                        })
+                        surModel.fetch({
+                            async: false
+                        })
+                        var surQuestions = surModel.get('questions');
+                        surQuestions.push(response.id);
+                        surModel.set('questions', surQuestions);
+                        surModel.save(null, {
+                            success: function (model, res) {
+                                alert("Question has been saved");
+                                window.location.reload();
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    } else {
+                        alert("Question has been edited successfully");
+                        window.location.reload();
+                    }
+                },
+                error: function (model, err) {
+                    console.log(err);
+                },
+                async: false
+            });
         },
 
         underConstruction: function() {

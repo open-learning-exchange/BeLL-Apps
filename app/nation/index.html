@@ -164,6 +164,44 @@
   			App.Router.SelectCommunities(pId, type)
      }
 
+     function hideAllDivs () {
+         $("#1").hide();
+         $("#5").hide();
+         $("#6").hide();
+         $("#8").hide();
+     }
+
+     function handleNewSelection() {
+         hideAllDivs();
+
+         switch ($(this).val()) {
+             case '1':
+                 $("#1").show();
+                 $('#1').find('#question_text').val('');
+                 $('#1').find('#answer_choices').val('');
+                 $('#1').find('#required_question').removeAttr('checked');
+                 break;
+             case '5':
+                 $("#5").show();
+                 $('#5').find('#question_text').val('');
+                 $('#5').find('#answer_choices').val('');
+                 $('#5').find('#select_rating').val("4").trigger('change');
+                 $('#5').find('.ratingLabels').val('');
+                 $('#5').find('#required_question').removeAttr('checked');
+                 break;
+             case '6':
+                 $("#6").show();
+                 $('#6').find('#question_text').val('');
+                 $('#6').find('#required_question').removeAttr('checked');
+                 break;
+             case '8':
+                 $("#8").show();
+                 $('#8').find('#question_text').val('');
+                 $('#8').find('#required_question').removeAttr('checked');
+                 break;
+         }
+     }
+
   		function SyncDbSelect(){
   			App.Router.SyncDbSelect()
   		}
@@ -527,8 +565,11 @@
         <script type="text/html" id="template-surveyQuestionRow">
 
             <td>
-                <span style="font-weight:700;color:grey; font-size:16px;">Q#</span>
+                <%  if(RequireAnswer == true){%>
+                <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
+                <%} else {%>
                 <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %></BR></span>
+                <%}%>
                 <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
                 <% if ( Type == "Single Textbox") { %>
                 <input type="text" style="width: 625px;">
@@ -567,7 +608,7 @@
                 <%} %>
             </td>
             <td>
-                <a class='resFeedBack btn btn-success'>
+                <a class='resFeedBack btn btn-success edit_survey_question'>
                     <i class='icon-eye-open icon-white'></i> Edit
                 </a>
                 <a class='btn btn-danger destroy'>

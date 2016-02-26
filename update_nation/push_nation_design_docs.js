@@ -30,7 +30,7 @@ var b = 0
 
 function installDesignDocs() {
     var database = databases[b]
-   /* if (b !== databases.length) {
+    if (b !== databases.length) {
         nano.db.get(database, function(err, body) {
             if (!err) {
                 if (database != "communities" && database != "languages" && database != "configurations") {
@@ -72,16 +72,16 @@ function installDesignDocs() {
                 });
             }
         });
-} else {*/
+} else {
         updateNationCouchVersion();
-       /* var pathToFirstFile="../init_docs/languages.txt";
+        var pathToFirstFile="../init_docs/languages.txt";
         updateLanguagesDocs(pathToFirstFile);
         var pathToSecondFile="../init_docs/languages-Urdu.txt";
         updateLanguagesDocs(pathToSecondFile);
         var pathToThirdFile="../init_docs/languages-Arabic.txt";
-        updateLanguagesDocs(pathToThirdFile);*/
+        updateLanguagesDocs(pathToThirdFile);
 
-   // }  ending of else
+    }
 }
 
 function updateLanguagesDocs(pathOfFile) {
