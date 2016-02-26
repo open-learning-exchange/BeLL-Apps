@@ -121,7 +121,6 @@ $(function() {
             App.$el.children('.body').append(PublicationsView.el);
         },
         Surveys: function() {
-            this.underConstruction();
             var SurveysView = new App.Views.SurveyTable();
             SurveysView.render();
             App.$el.children('.body').html('<h3>Surveys</h3>');
