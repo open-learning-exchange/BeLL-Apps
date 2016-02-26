@@ -251,7 +251,8 @@ $(function() {
 
         },
         MemberLogin: function() {
-            var configurations = Backbone.Collection.extend({
+            console.log('From Router...');
+           /* var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
             var config = new configurations()
@@ -276,7 +277,7 @@ $(function() {
                     }
                 }
             }
-            App.languageDict = languageDict;
+            App.languageDict = languageDict;*/
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -293,16 +294,21 @@ $(function() {
                     trigger: true
                 })
             })
+           // alert('Hi from Router '+$('#onLoginLanguage :selected').val());
+           // $.cookie('test',$('#onLoginLanguage :selected').val());
             memberLoginForm.render();
-            App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member_Login+'</h1>');
+            console.log('value of cookie from router '+$.cookie('test'));
+            var languageDictValue=getSpecificLanguage($.cookie('test'));
+            App.$el.children('.body').html('<h1 class="login-heading">'+languageDictValue.attributes.Member_Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
-            memberLoginForm.updateLabels(languageDict);
-            if (clanguage=="Urdu" || clanguage=="Arabic")
+            memberLoginForm.updateLabels(languageDictValue);
+            var direction=languageDictValue.get('directionOfLang');
+            if (direction.toLowerCase()==="right")
             {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
-
+            applyStylingFromCookie();
         },
         MemberLogout: function() {
 

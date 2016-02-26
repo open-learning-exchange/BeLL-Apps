@@ -18,6 +18,7 @@ $(function() {
         },
 
         render: function() {
+            console.log('from render of memberLogin form..');
             //****************************************************************************************
             // #129: update language doc .
          /*   var that = this;
@@ -33,7 +34,7 @@ $(function() {
                 }
             })*/
             //*******************************************************************************************
-            var configurations = Backbone.Collection.extend({
+          /*  var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
             var config = new configurations()
@@ -65,8 +66,9 @@ $(function() {
             else {
                 $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-            }
-
+            }*/
+           // alert('Hi from render of memberLogin'+$.cookie('test'));
+            var languageDictValue=getSpecificLanguage("English");
             var context = this;
             var welcomeResources = new App.Collections.Resources();
             welcomeResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo');
@@ -80,7 +82,7 @@ $(function() {
                        // alert(update);
                         var hrefWelcomeVid = "/apps/_design/bell/bell-resource-router/index.html#openres/" + welcomeResourceId;
                         // #99: margin-left:0px     var $buttonWelcome = $('<a id="welcomeButton" class="login-form-button btn btn-block btn-lg btn-success" href="hmmm" target="_blank" style="margin-left: -4px;margin-top: -21px; font-size:27px;">Welcome</button>');
-                        var $buttonWelcome = $('<a id="welcomeButtonOnLogin" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="background-color:#2ecc71; margin-left: 0px;margin-top: -33px; font-size:27px;">'+App.languageDict.attributes.Welcome+'</button>'); //Issue#99
+                        var $buttonWelcome = $('<a id="welcomeButtonOnLogin" class="login-form-button btn btn-block btn-lg btn-success" target="_blank" href="hmmm" style="background-color:#2ecc71; margin-left: 0px;margin-top: -33px; font-size:27px;">'+languageDictValue.attributes.Welcome+'</button>'); //Issue#99
                         context.$el.append($buttonWelcome);
                         context.$el.find("#welcomeButtonOnLogin").attr("href", hrefWelcomeVid); // <a href="dummy.mp4" class="html5lightbox" data-width="880" data-height="640" title="OLE | Welcome Video">Welcome Video</a>
                     }
@@ -99,6 +101,9 @@ $(function() {
             })
 
             this.$el.append(this.form.render().el);
+            languageDictValue=getSpecificLanguage($('#onLoginLanguage :selected').val());
+            $.cookie('test',$('#onLoginLanguage :selected').val());
+
 
             var value = $("input[name*='login']");
             // var value=$('label.field-login').value();
@@ -114,12 +119,12 @@ $(function() {
             // alert("login "+this.$el.get('login'));
             // give the form a submit button
             // #99 margin-left:1px for "Sign In " and "Become a Member" buttons
-            var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="background-color:#2ecc71; margin-left: 1px;margin-top: -21px; font-size:27px;" id="formButton">' + languageDict.attributes.Sign_In + '</button>')
+            var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="background-color:#2ecc71; margin-left: 1px;margin-top: -21px; font-size:27px;" id="formButton">' + languageDictValue.attributes.Sign_In + '</button>')
 
-            var $button2 = $('<div class="signup-div" ><a style="margin-left: 1px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">' + languageDict.attributes.Become_a_member + '</button></div>')
+            var $button2 = $('<div class="signup-div" ><a style="margin-left: 1px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">' + languageDictValue.attributes.Become_a_member + '</button></div>')
             this.$el.append($button);
             this.$el.append($button2);
-
+          //  return $('#onLoginLanguage :selected').val();
             // location.reload();
 
         },
@@ -128,6 +133,7 @@ $(function() {
             // alert(languageDict.attributes.Login);
             $('.field-login').find('label').text(languageDict.attributes.Login);
             $('.field-password').find('label').text(languageDict.attributes.Password);
+            $('#welcomeButtonOnLogin').html(languageDict.attributes.Welcome)
         },
 
         showWelcomeVideo: function() {

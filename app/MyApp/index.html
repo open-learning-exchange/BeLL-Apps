@@ -384,7 +384,7 @@
         </li>
         <li>
             <select id="onLoginLanguage" onchange="changeLanguage(this)">
-                <option disabled="true" selected style="display:none"><%= currentLanguageOfApp %></option>
+                <option value="<%= currentLanguageOfApp %>" disabled="true" selected style="display:none"><%= currentLanguageValueOfApp %></option>
                 <% for (var key in availableLanguagesOfApp) {%>
                 <option value="<%= key %>"><%= availableLanguagesOfApp[key] %> </option>
                 <% } %>

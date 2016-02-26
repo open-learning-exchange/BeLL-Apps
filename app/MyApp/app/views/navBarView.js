@@ -8,7 +8,7 @@ $(function() {
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
         initialize: function(option) {
-
+            console.log('NavBar is called..');
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {
@@ -19,7 +19,7 @@ $(function() {
 
             var version = '';
             var currentLanguage;
-            var availableLanguages;
+            var currentLanguageValue;
             var languageDictOfApp;
 
             if (!App.configuration) {
@@ -31,8 +31,18 @@ $(function() {
                 App.configuration = con
             }
 
-            if (!App.languageDict) {
-                var clanguage = App.configuration.get("currentLanguage");
+         //   if (!App.languageDict) {
+                var clanguage;
+              //  }
+                if($.cookie('isChange')=="true")
+                {
+                    clanguage= $.cookie('test');
+                    console.log('value from cookie in navBar '+clanguage)
+                }
+                else{
+                    clanguage = App.configuration.get("currentLanguage");
+                    console.log('else in navBar '+clanguage);
+                }
                 // fetch dict for the current/selected language from the languages db/table
                 var languages = new App.Collections.Languages();
                 languages.fetch({
@@ -50,46 +60,21 @@ $(function() {
                     }
                 }
                 App.languageDict = languageDict;
-               // var languageDicts = languages.first().toJSON();
-             //   var languageDict = languageDicts[clanguage];
-              //  App.languageDict = languageDicts[clanguage];
-                //                $.ajax({
-                //                    type: 'GET',
-                //                    url: '/languages/_all_docs?include_docs=true',
-                //                    dataType: 'json',
-                //                    success: function (response) {
-                //                        var languageDicts = response.rows[0].doc; // put json of all dictionaries in var
-                //                        // now get the selected language dict from that var
-                //                        App.languageDict = languageDicts[clanguage];
-                //                    },
-                //                    data: {},
-                //                    async: false
-                //                });
-            }
+           // }
 
             version = App.configuration.get('version');
-            currentLanguage=App.configuration.get('currentLanguage');
-          //  availableLanguages=App.configuration.get('availableLanguages');
-            /*if(currentLanguage=="Urdu")
-            {
-                currentLanguage=availableLanguages[2];
-            }
-            else if(currentLanguage=="Arabic")
-            {
-                currentLanguage=availableLanguages[1];
-            }
-            else{
-                currentLanguage=availableLanguages[0];
-            }*/
-
+           // currentLanguage=clanguage;
+            console.log('current Language from navBar '+clanguage);
             languageDictOfApp=App.languageDict;
-            currentLanguage=App.languageDict.get(currentLanguage);
+            currentLanguageValue = App.languageDict.get(clanguage);
+            console.log('current Language value '+currentLanguageValue);
             this.data = {
                 uRL: temp[1],
                 versionNO: version,
-                currentLanguageOfApp:currentLanguage,
+                currentLanguageOfApp:clanguage,
                 availableLanguagesOfApp:getAvailableLanguages(),
-                languageDict:languageDictOfApp
+                languageDict:languageDictOfApp,
+                currentLanguageValueOfApp:currentLanguageValue
 
             }
             console.log(this.data);

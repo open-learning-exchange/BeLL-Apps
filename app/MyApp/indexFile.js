@@ -35,6 +35,32 @@ function applyStylingSheet() {
         alert(languageDictValue.attributes.error_direction);
     }
 }
+function applyStylingFromCookie(){
+    var languageDictValue;
+    var languageName=$.cookie('test');
+    if(languageName==null)
+    {
+        languageDictValue=loadLanguageDocs();
+    }
+    else
+    {
+        languageDictValue=getSpecificLanguage(languageName);
+    }
+
+    var directionOfLang = languageDictValue.get('directionOfLang');
+    if (directionOfLang.toLowerCase() === "right") {
+
+        $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+        $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+    } else if (directionOfLang.toLowerCase() === "left"){
+        $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+        $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+    }
+    else{
+        alert(languageDictValue.attributes.error_direction);
+    }
+}
 function selectAllMembers (){
     if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)
     {
@@ -91,7 +117,11 @@ function removeMemberFromCourse(memberId){
 function changeLanguage(option)
 {
     console.log(option.value);
-    var config = new App.Collections.Configurations();
+    $.cookie('test',option.value);
+    console.log('from indexFile '+ $.cookie('test'));
+    $.cookie('isChange',"true")
+    location.reload();
+   /* var config = new App.Collections.Configurations();
     config.fetch({async:false});
     var con=config.first();
     con.attributes.currentLanguage=option.value;
@@ -101,7 +131,7 @@ function changeLanguage(option)
             console.log("configurations are saved");
             location.reload();
         }
-    });
+    });*/
 
 }
         //con.set('currentLanguage', option.value);
@@ -165,6 +195,22 @@ function getAvailableLanguages(){
     }
     return allLanguages;
 }
+function getSpecificLanguage(language){
+    var languages = new App.Collections.Languages();
+    languages.fetch({
+        async: false
+    });
+    for(var i=0;i<languages.length;i++) {
+        if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+            if (languages.models[i].attributes.nameOfLanguage == language) {
+                languageDict = languages.models[i];
+                break;
+            }
+        }
+    }
+    return languageDict;
+}
+
 function loadLanguageDocs(){
     var configurations = Backbone.Collection.extend({
         url: App.Server + '/configurations/_all_docs?include_docs=true'
