@@ -308,7 +308,17 @@ $(function() {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
-            applyStylingFromCookie();
+            if($.cookie('test')==null)
+            {
+                languageDictValue=loadLanguageDocs();
+            }
+            else
+            {
+                languageDictValue=getSpecificLanguage($.cookie('test'));
+            }
+
+            var directionOfLang = languageDictValue.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
         },
         MemberLogout: function() {
 
@@ -542,6 +552,20 @@ $(function() {
                     async: false
                 });
             }
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        languageDictValue=getSpecificLanguage(member.get('language'));
+                    }
+                },
+                async:false
+            });
+            App.languageDict=languageDictValue;
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
             dashboard.render();
@@ -554,9 +578,9 @@ $(function() {
             classToAppend.push('shelf');
             classToAppend.push('badges');
             classToAppend.push('tuter');
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            var directionOfLang=App.languageDict.get('directionOfLang');
+            if(directionOfLang.toLowerCase()==="right")
             {
-
                 $('#headerTableOnDashBoard').css('direction','rtl');
                 $('#bottomButtonsOnDashboard').css('direction','rtl');
                 for(var i= 0,j=0;i<4;i++)
@@ -615,7 +639,9 @@ $(function() {
             }
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
-            $('#olelogo').remove()
+            $('#olelogo').remove();
+
+            applyCorrectStylingSheet(directionOfLang)
         },
         MemberForm: function(memberId) {
 

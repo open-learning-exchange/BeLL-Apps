@@ -34,10 +34,26 @@ $(function() {
          //   if (!App.languageDict) {
                 var clanguage;
               //  }
-                if($.cookie('isChange')=="true")
+                if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
                 {
                     clanguage= $.cookie('test');
                     console.log('value from cookie in navBar '+clanguage)
+                }
+                else if($.cookie('Member._id')){
+                    var members = new App.Collections.Members()
+                    var member;
+                    var languageDictValue;
+                    members.login = $.cookie('Member.login');
+                    members.fetch({
+                        success: function () {
+                            if (members.length > 0) {
+                                member = members.first();
+                                clanguage=member.get('language')
+
+                            }
+                        },
+                        async:false
+                    });
                 }
                 else{
                     clanguage = App.configuration.get("currentLanguage");

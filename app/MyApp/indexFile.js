@@ -35,19 +35,7 @@ function applyStylingSheet() {
         alert(languageDictValue.attributes.error_direction);
     }
 }
-function applyStylingFromCookie(){
-    var languageDictValue;
-    var languageName=$.cookie('test');
-    if(languageName==null)
-    {
-        languageDictValue=loadLanguageDocs();
-    }
-    else
-    {
-        languageDictValue=getSpecificLanguage(languageName);
-    }
-
-    var directionOfLang = languageDictValue.get('directionOfLang');
+function applyCorrectStylingSheet(directionOfLang){
     if (directionOfLang.toLowerCase() === "right") {
 
         $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');

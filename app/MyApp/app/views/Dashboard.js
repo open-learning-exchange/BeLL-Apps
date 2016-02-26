@@ -76,7 +76,22 @@ $(function() {
                 } else {
                     $("#showReleaseNotes").slideUp("slow", function() {});
                 }
-                applyStylingSheet();
+                var members = new App.Collections.Members()
+                var member;
+                var languageDictValue;
+                members.login = $.cookie('Member.login');
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            languageDictValue=getSpecificLanguage(member.get('language'));
+                        }
+                    },
+                    async:false
+                });
+                var directionOfLang=languageDictValue.get('directionOfLang');
+                applyCorrectStylingSheet(directionOfLang)
+              //  applyStylingSheet();
             }
         },
 
@@ -784,10 +799,9 @@ $(function() {
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
             this.vars.new_survey_count = 0;
-            applyStylingSheet();
 
             var typeofBell = App.configuration.get("type")
-            console.log(App.languageDict)
+            console.log(App.languageDict);
             this.vars.languageDict = App.languageDict;
 
             this.vars.imgURL = "img/header_slice.png"
@@ -834,7 +848,7 @@ $(function() {
             })
             MeetupSpans.render()
             $('#meetUpTable').append(MeetupSpans.el)
-            var clanguage = App.configuration.get("currentLanguage");
+            /*var clanguage = App.configuration.get("currentLanguage");
             // fetch dict for the current/selected language from the languages db/table
             var languages = new App.Collections.Languages();
             languages.fetch({
@@ -849,11 +863,11 @@ $(function() {
                     }
                 }
             }
-            App.languageDict = languageDict;
+            App.languageDict = languageDict;*/
             var dayOfToday = moment().format('dddd');
             var todayMonth = moment().format('MMMM');
-            var currentDay = this.lookup(languageDict, "Days." + dayOfToday);
-            var currentMonth = this.lookup(languageDict, "Months." + todayMonth);
+            var currentDay = this.lookup(App.languageDict, "Days." + dayOfToday);
+            var currentMonth = this.lookup(App.languageDict, "Months." + todayMonth);
             var currentDate = moment().format('DD');
             var currentYear = moment().format('YYYY');
             $('.now').html(currentDay + ' | ' + currentDate + ' ' + currentMonth + ', ' + currentYear);
@@ -943,10 +957,10 @@ $(function() {
 
             if (typeofBell === "nation") //checking that is it a nation or community
             {
-                var nation = " " + languageDict.attributes.Nation + " " + languageDict.attributes.Bell;
+                var nation = " " + App.languageDict.attributes.Nation + " " + App.languageDict.attributes.Bell;
                 bell_Name = bell_Name + nation;
             } else {
-                var community = " " + languageDict.attributes.Community + " " + languageDict.attributes.Bell;
+                var community = " " + App.languageDict.attributes.Community + " " + App.languageDict.attributes.Bell;
                 bell_Name = bell_Name + community;
             }
             $('.bellLocation').html(bell_Name); //rendering the name on page
@@ -958,26 +972,26 @@ $(function() {
                 temp = "Error!!"
             } else {
                 //Getting Visits of any member**********************************************************/
-                temp = member.get('visits') + ' ' + languageDict.attributes.Visits;
+                temp = member.get('visits') + ' ' + App.languageDict.attributes.Visits;
             }
             var roles = "&nbsp;-&nbsp;"
             var temp1 = 0
             //******************************-Getting Roles of Member**************************************/
             if (member.get("roles").indexOf("Learner") != -1) {
 
-                roles = roles + languageDict.attributes.Learner; /******************Setting up Learner/Leader*****************/
+                roles = roles + App.languageDict.attributes.Learner; /******************Setting up Learner/Leader*****************/
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Leader") != -1) {
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
-                roles = roles + languageDict.attributes.Leader;
+                roles = roles + App.languageDict.attributes.Leader;
                 temp1 = 1
             }
             if (member.get("roles").indexOf("Manager") != -1) {
 
-                var manager = languageDict.attributes.Manager;
+                var manager = App.languageDict.attributes.Manager;
                 if (temp1 == 1) {
                     roles = roles + ",&nbsp;"
                 }
@@ -1096,15 +1110,6 @@ $(function() {
 
         checkAvailableUpdates: function(roles, dashboard, nation_version) {
             console.log('CheckAvailableUpdates is called..');
-            if (App.configuration.attributes.currentLanguage == "Urdu" ||  App.configuration.attributes.currentLanguage == "Arabic") {
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
-            }
-
             if ($.inArray('Manager', roles) == -1) {
                 return
             }
