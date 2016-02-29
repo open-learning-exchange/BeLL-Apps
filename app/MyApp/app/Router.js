@@ -171,9 +171,26 @@ $(function() {
             this.underConstruction()
         },
         underConstruction: function() {
-            applyStylingSheet();
-            var languageDictValue=loadLanguageDocs();
+           /* applyStylingSheet();
+            var languageDictValue=loadLanguageDocs();*/
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('language');
+                        languageDictValue=getSpecificLanguage(lang);
+                        }
+                    },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>'+languageDictValue.attributes.Functionality_Under_Construction+'</h4></div>')
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
         startUpStuff: function() {
 
