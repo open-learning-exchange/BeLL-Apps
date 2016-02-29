@@ -585,6 +585,22 @@ $(function() {
                                 }
                             );
                         }
+                        else{
+                            if($.cookie('test')!=lang)
+                            {
+                                alert('Values in cookie and db are not same...');
+                                member.save({
+                                        language: $.cookie('test')
+                                    },
+                                    {
+                                        success: function () {
+                                            alert('Saved successfully in language.');
+                                        }
+                                    }
+                                );
+                                lang= $.cookie('test');
+                            }
+                        }
                         languageDictValue=getSpecificLanguage(lang);
                     }
                 },
