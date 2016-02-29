@@ -109,6 +109,9 @@ $(function() {
 				{
 					$('.resourcInfoFirstCol').attr('colspan','8');
 					$('.resourcInfoCol').attr('colspan','3');
+                    $('.table th').css('text-align','left');
+                    $('.table td').css('text-align','left');
+                    $('#actionAndTitle').find('th').eq(1).css('text-align','center');
 				}
 			},
 			"click .unhide": function(event) {
@@ -144,6 +147,9 @@ $(function() {
 				{
 					$('.resourcInfoFirstCol').attr('colspan','8');
 					$('.resourcInfoCol').attr('colspan','3');
+                    $('.table th').css('text-align','left');
+                    $('.table td').css('text-align','left');
+                    $('#actionAndTitle').find('th').eq(1).css('text-align','center');
 				}
 
 			},

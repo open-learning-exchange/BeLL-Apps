@@ -82,6 +82,7 @@ $(function() {
 			{
 				$('.resourcInfoFirstCol').attr('colspan','8');
 				$('.resourcInfoCol').attr('colspan','3');
+
 			}
 		},
 

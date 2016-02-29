@@ -202,8 +202,8 @@ $(function() {
             //$this.$el.children('.fields').html(this.form.el) // also not working
             $('[name="title"]').focus();
 
-
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+          //  applyStylingSheet();
             return this
         },
         saveUpdatedWelcomeVideoForm: function() {

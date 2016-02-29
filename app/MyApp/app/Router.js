@@ -1001,10 +1001,13 @@ $(function() {
                         $('table').addClass('resourceTableClass');
                         $('.resourcInfoFirstCol').attr('colspan','8');
                         $('.resourcInfoCol').attr('colspan','3');
+                        $('.table th').css('text-align','left');
+                        $('.table td').css('text-align','left');
+                        $('#actionAndTitle').find('th').eq(1).css('text-align','center');
                     }
                     resourcesTableView.changeDirection();
                 }
-            })
+            });
             App.stopActivityIndicator()
 
         },
@@ -1126,8 +1129,7 @@ $(function() {
 
 
             this.updateLabelsOfAddResourceForm(resourceId);
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
-            {
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
 
                 this.updateAllignmentOfAddResourceForm();
             }
@@ -4406,10 +4408,10 @@ $(function() {
                 $('#invitationdiv').hide()
 
             }
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
-            if (directionOfLang.toLowerCase() === "right") {
+            if (App.languageDict.get('directionOfLang').toLowerCase() === "right") {
 
+                $('#invitationdiv').css('direction','ltr');
                 $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
                 $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
                 $('.field-NesttedUnder').find('.bbf-editor').find('select').find('option').eq(0).html(App.languageDict.attributes.Select_An_option);
@@ -4866,6 +4868,7 @@ $(function() {
 
                 });
             }
+
         },
         LogQuery: function() {
             var type = "community";
