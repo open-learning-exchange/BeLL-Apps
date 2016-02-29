@@ -102,8 +102,24 @@ $(function() {
 
             this.$el.append(this.form.render().el);
             languageDictValue=getSpecificLanguage($('#onLoginLanguage :selected').val());
-            $.cookie('test',$('#onLoginLanguage :selected').val());
-
+            if($.cookie('test')==null)
+            {
+                var configurations = Backbone.Collection.extend({
+                    url: App.Server + '/configurations/_all_docs?include_docs=true'
+                })
+                var config = new configurations()
+                config.fetch({
+                    async: false
+                })
+                var con = config.first();
+                var currentConfig = config.first().toJSON().rows[0].doc;
+                var clanguage= currentConfig.currentLanguage;
+                $.cookie('test',clanguage);
+            }
+            else
+            {
+                $.cookie('test',$('#onLoginLanguage :selected').val());
+            }
 
             var value = $("input[name*='login']");
             // var value=$('label.field-login').value();
@@ -131,9 +147,11 @@ $(function() {
         updateLabels: function(languageDict){
 
             // alert(languageDict.attributes.Login);
-            $('.field-login').find('label').text(languageDict.attributes.Login);
-            $('.field-password').find('label').text(languageDict.attributes.Password);
+            $('.field-login').find('label').html(languageDict.attributes.Login);
+            $('.field-password').find('label').html(languageDict.attributes.Password);
             $('#welcomeButtonOnLogin').html(languageDict.attributes.Welcome)
+            $('#formButton').html(languageDict.attributes.Sign_In);
+            $('#formButton2').html(languageDict.attributes.Become_a_member);
         },
 
         showWelcomeVideo: function() {

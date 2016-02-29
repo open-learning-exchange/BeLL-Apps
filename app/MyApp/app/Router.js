@@ -253,7 +253,7 @@ $(function() {
             });
             $.removeCookie('forcedUpdateProfile');
             $.removeCookie('test');
-            $.removeCookie('isChange');
+           // $.removeCookie('isChange');
 
         },
 
@@ -347,7 +347,6 @@ $(function() {
             Backbone.history.navigate('login', {
                 trigger: true
             });
-
 
         },
         getRoles: function() {
@@ -700,9 +699,9 @@ $(function() {
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
-            $.removeCookie('test');
-            $.removeCookie('isChange');
-            applyCorrectStylingSheet(directionOfLang)
+            applyCorrectStylingSheet(directionOfLang);
+           // $.removeCookie('test');
+           // $.removeCookie('isChange');
         },
         MemberForm: function(memberId) {
 
