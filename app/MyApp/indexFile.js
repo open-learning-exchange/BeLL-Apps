@@ -721,9 +721,8 @@ function changeRatingImage(checkID, count) {
 
 function showRequestForm(modl) {
     App.renderRequest(modl);
-    var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
-    if (directionOfLang.toLowerCase() === "right") {
+    if (App.languageDict.get('directionOfLang').toLowerCase() === "right") {
 
         $('#site-request').css('direction','rtl');
         $('#site-request').find('span').css('margin-right','4%');
