@@ -560,7 +560,32 @@ $(function() {
                 success: function () {
                     if (members.length > 0) {
                         member = members.first();
-                        languageDictValue=getSpecificLanguage(member.get('language'));
+                        var lang=member.get('language');
+                        if(lang==="" || lang===null)
+                        {
+                            alert('The user is old one and has not specified his language yet.');
+                            var configurations = Backbone.Collection.extend({
+                                url: App.Server + '/configurations/_all_docs?include_docs=true'
+                            })
+                            var config = new configurations()
+                            config.fetch({
+                                async: false
+                            })
+                            var con = config.first();
+                            var currentConfig = config.first().toJSON().rows[0].doc;
+                            var clanguage= currentConfig.currentLanguage;
+                            lang=clanguage;
+                            member.save({
+                                    language: clanguage
+                                },
+                                {
+                                    success: function () {
+                                        alert('Saved successfully in language.');
+                                    }
+                                }
+                            );
+                        }
+                        languageDictValue=getSpecificLanguage(lang);
                     }
                 },
                 async:false
