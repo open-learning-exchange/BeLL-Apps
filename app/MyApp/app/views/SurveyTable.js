@@ -4,8 +4,10 @@ $(function () {
         authorName: null,
         tagName: "table",
         className: "table table-striped",
-        collectionInfo:[],
+        surveyInfo:[],
         add: function (model, isAlreadyDownloaded) {
+            // carry the survey in a variable global to this (SurveyTable) view for use in event handling
+            this.surveyInfo[model._id]= model;
             if (isAlreadyDownloaded) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                 '" class="openSurvey btn btn-info">Open</a></td></tr>');
@@ -34,7 +36,7 @@ $(function () {
                     });
                     // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
                     $.ajax({
-                        url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                        url: '/surveyresponse/_design/bell/_view/surveyResBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
                         type: 'GET',
                         dataType: 'json',
                         async:false,
@@ -69,7 +71,11 @@ $(function () {
             applyStylingSheet();
         },
         openSurvey:function(e){
-            alert("This functionality is under-construction");
+            var that = this;
+            var surveyId = e.currentTarget.name;
+            var surveyToOpen = this.surveyInfo[surveyId];
+            alert("Survey Id " + surveyId);
+            console.log(surveyToOpen);
         }
     })
 })

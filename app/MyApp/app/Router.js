@@ -442,7 +442,7 @@ $(function() {
                                             if(SurveyDocsFromNation != [] && SurveyDocsFromNation.length > 0) {
                                                 // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
                                                 $.ajax({
-                                                    url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                                                    url: '/surveyresponse/_design/bell/_view/surveyResBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
                                                     type: 'GET',
                                                     dataType: 'json',
                                                     async:false,
