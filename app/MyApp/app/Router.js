@@ -252,6 +252,8 @@ $(function() {
                 path: "/apps/_design/bell"
             });
             $.removeCookie('forcedUpdateProfile');
+            $.removeCookie('test');
+            $.removeCookie('isChange');
 
         },
 
@@ -698,7 +700,8 @@ $(function() {
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
-
+            $.removeCookie('test');
+            $.removeCookie('isChange');
             applyCorrectStylingSheet(directionOfLang)
         },
         MemberForm: function(memberId) {
