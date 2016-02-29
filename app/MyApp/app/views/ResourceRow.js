@@ -105,7 +105,7 @@ $(function() {
 				})
 				this.model = newmodel
 				this.render();
-				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+                if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 				{
 					$('.resourcInfoFirstCol').attr('colspan','8');
 					$('.resourcInfoCol').attr('colspan','3');
@@ -140,7 +140,7 @@ $(function() {
 				})
 				this.model = newmodel
 				this.render();
-				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+                if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 				{
 					$('.resourcInfoFirstCol').attr('colspan','8');
 					$('.resourcInfoCol').attr('colspan','3');
@@ -215,7 +215,7 @@ $(function() {
 		},
 		render: function() {
            // alert("Resource Row Called");
-            var configurations = Backbone.Collection.extend({
+          /*  var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
             var config = new configurations()
@@ -240,7 +240,23 @@ $(function() {
                     }
                 }
             }
-            App.languageDict = languageDict;
+            App.languageDict = languageDict;*/
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('language');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             //vars.Open=languageDict.attributes.Open;
            /* var languageDictOfApp=App.languageDict;
             this.data = {

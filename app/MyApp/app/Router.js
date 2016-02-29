@@ -924,7 +924,7 @@ $(function() {
                         collection: resources
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager");
-                    var configurations = Backbone.Collection.extend({
+                  /*  var configurations = Backbone.Collection.extend({
                         url: App.Server + '/configurations/_all_docs?include_docs=true'
                     })
                     var config = new configurations()
@@ -949,7 +949,23 @@ $(function() {
                             }
                         }
                     }
-                    App.languageDict = languageDict;
+                    App.languageDict = languageDict;*/
+                    var members = new App.Collections.Members()
+                    var member;
+                    var languageDictValue;
+                    members.login = $.cookie('Member.login');
+                    members.fetch({
+                        success: function () {
+                            if (members.length > 0) {
+                                member = members.first();
+                                var lang=member.get('language');
+                                languageDictValue=getSpecificLanguage(lang);
+                            }
+                        },
+                        async:false
+
+                    });
+                    App.languageDict=languageDictValue;
                     App.$el.children('.body').empty();
                     App.$el.children('.body').html('<div id="parentLibrary"></div>');
                     App.$el.children('#parentLibrary').empty();
@@ -973,7 +989,7 @@ $(function() {
                     resourcesTableView.render();
 
                     $('#parentLibrary').append(resourcesTableView.el);
-                    if (clanguage=="Urdu" || clanguage=="Arabic")
+                    if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
                     {
                         //  $('#resourcePage').addClass('addResource');
                         $('#addNewResource').addClass('addMarginsOnResource');

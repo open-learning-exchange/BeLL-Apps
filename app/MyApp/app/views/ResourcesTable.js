@@ -78,7 +78,7 @@ $(function() {
 
 			resourceRowView.render()
 			this.$el.append(resourceRowView.el);
-			if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 			{
 				$('.resourcInfoFirstCol').attr('colspan','8');
 				$('.resourcInfoCol').attr('colspan','3');
@@ -87,7 +87,7 @@ $(function() {
 
 		addAll: function() {
 			if (this.collection.length == 0) {
-				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic"){
+                if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
 					this.$el.append("<tr><td style='width: 630px;text-align:right' colspan='8'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
 				}
 				else{
@@ -102,7 +102,7 @@ $(function() {
 			this.collection.forEach(this.addOne, this)
 		},
         changeDirection : function (){
-            var configurations = Backbone.Collection.extend({
+           /* var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
             var config = new configurations()
@@ -111,8 +111,8 @@ $(function() {
             })
             var con = config.first();
             var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-			if (clanguage=="Urdu" || clanguage=="Arabic")
+            var clanguage= currentConfig.currentLanguage;*/
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="resources")
@@ -137,7 +137,7 @@ $(function() {
 					viewText += "<tr><td colspan=7  style='cursor:default' >"
 					viewText += '<a  id="allresources">#</a>&nbsp;&nbsp;'
                     var str ;
-                    var configurations = Backbone.Collection.extend({
+                 /*   var configurations = Backbone.Collection.extend({
                         url: App.Server + '/configurations/_all_docs?include_docs=true'
                     })
                     var config = new configurations()
@@ -146,8 +146,25 @@ $(function() {
                     })
                     var con = config.first();
                     var currentConfig = config.first().toJSON().rows[0].doc;
-                    var clanguage= currentConfig.currentLanguage;
-					if (clanguage=="Urdu" || clanguage=="Arabic")
+                    var clanguage= currentConfig.currentLanguage;*/
+                    var members = new App.Collections.Members()
+                    var member;
+                    var languageDictValue;
+                    members.login = $.cookie('Member.login');
+                    members.fetch({
+                        success: function () {
+                            if (members.length > 0) {
+                                member = members.first();
+                                var lang=member.get('language');
+                                languageDictValue=getSpecificLanguage(lang);
+                            }
+                        },
+                        async:false
+
+                    })
+                    App.languageDict=languageDictValue;
+
+					if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
                     {
                         str="ثجحخدذرزسشصضطظعغفقكلمنهويا";
                     }
@@ -161,14 +178,14 @@ $(function() {
 					}
 					viewText += "</td></tr>"
 					this.$el.append(viewText);
-					if (clanguage=="Urdu" || clanguage=="Arabic")
+                    if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
                     {
                         $('#alphabetsOfLanguage').addClass('addResource');
                     }
 
 				}
 			}
-            var configurations = Backbone.Collection.extend({
+          /*  var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
             })
             var config = new configurations()
@@ -195,9 +212,10 @@ $(function() {
             }
             App.languageDict = languageDict;
 
-			applyStylingSheet();
+			applyStylingSheet();*/
+
 			this.$el.append('<br/><br/>')
-            if(App.configuration.attributes.currentLanguage=="English" )
+            if (languageDictValue.get('directionOfLang').toLowerCase()==="left")
 			{
 				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
 			}
@@ -248,6 +266,7 @@ $(function() {
 				})
 
 			}
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
 
 		}
 
