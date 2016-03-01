@@ -10,13 +10,12 @@ $(function () {
             this.surveyInfo[model._id]= model;
             if (isAlreadyDownloaded && isSubmitted) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info">Open</a></td></tr>');
+                '" class="openSurvey btn btn-info">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
             } else if (isAlreadyDownloaded && !(isSubmitted)) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info">Open</a><label>&nbsp&nbspNew</label></td></tr>');
+                '" class="openSurvey btn btn-info">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
             } else if (!isAlreadyDownloaded) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info">Open</a><label>&nbsp&nbsp</label><a name="' +model._id +
                 '" class="downloadSurvey btn btn-info">Download</a><label>&nbsp&nbspNew</label></td></tr>');
             }
         },
@@ -109,7 +108,9 @@ $(function () {
         },
 
         downloadSurvey: function(e) {
-            alert("Wait until time comes");
+            var that = this;
+            var surveyId = e.currentTarget.name;
+            alert("Survey Id from download button: " + surveyId);
         }
     })
 })
