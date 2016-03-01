@@ -108,9 +108,57 @@ $(function () {
         },
 
         downloadSurvey: function(e) {
-            var that = this;
-            var surveyId = e.currentTarget.name;
-            alert("Survey Id from download button: " + surveyId);
+            App.startActivityIndicator();
+            var surveyId = [];
+            surveyId.push(e.currentTarget.name);
+            var surveyToDownload = this.surveyInfo[surveyId];
+            var surveyQuestionIds = surveyToDownload.questions;
+            var nationName = App.configuration.get('nationName');
+            var nationUrl = App.configuration.get('nationUrl');
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": 'http://'+ nationName + ':oleoleole@' + nationUrl + '/survey',
+                    "target": "survey",
+                    'doc_ids': surveyId
+                }),
+                async: false,
+                success: function (response) {
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": 'http://'+ nationName + ':oleoleole@' + nationUrl + '/surveyquestions',
+                            "target": "surveyquestions",
+                            'doc_ids': surveyQuestionIds
+                        }),
+                        async: false,
+                        success: function (response) {
+                            alert("Survey has been downloaded successfully");
+                            window.location.reload(false);
+                        },
+                        error: function(status) {
+                            console.log(status);
+                            console.log("Unable to download survey questions");
+                        }
+                    });
+                },
+                error: function(status) {
+                    console.log(status);
+                    console.log("Unable to download survey");
+                }
+            });
         }
     })
 })
