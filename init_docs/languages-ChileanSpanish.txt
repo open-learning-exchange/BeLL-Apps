@@ -611,7 +611,7 @@
    "Undefined_Author":"Sin autor definido.",
    "Attachment":"Archivo adjunto",
    "Resource_Detail":"Detalle de recursos",
-   "directionOfLang":"Izquierda",
+   "directionOfLang":"left",
    "error_direction":"Especifique la dirección del idioma en cuestión.",
    "Add_Comment":"Add Comment",
    "openUrl":"Open URL",
@@ -619,5 +619,5 @@
    "Date_format":"DD",
    "Year_format":"YYYY",
    "Month":"Month",
-   "English":"English"
+   "ChileanSpanish":"español chilena"
 }
