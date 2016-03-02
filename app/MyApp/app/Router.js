@@ -150,7 +150,12 @@ $(function() {
             questionsColl.fetch({
                 async: false
             });
-            console.log(questionsColl);
+            var surQuestionsTable = new App.Views.SurveyQuestionTable({
+                collection: questionsColl
+            })
+            surQuestionsTable.Id = surveyId;
+            surQuestionsTable.render()
+            App.$el.children('.body').html(surQuestionsTable.el)
             applyStylingSheet();
         },
 
