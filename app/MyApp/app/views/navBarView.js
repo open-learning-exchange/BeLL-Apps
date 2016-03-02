@@ -83,7 +83,7 @@ $(function() {
             }*/
 
             languageDictOfApp=App.languageDict;
-            currentLanguage=App.languageDict.get(currentLanguage);
+            currentLanguage=App.languageDict.get(currentLanguage.replace(/\s/g,""));
             this.data = {
                 uRL: temp[1],
                 versionNO: version,

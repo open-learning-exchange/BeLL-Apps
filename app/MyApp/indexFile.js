@@ -160,7 +160,7 @@ function getAvailableLanguages(){
     for(var i=0;i<languages.length;i++) {
         if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
             var languageName =languages.models[i].attributes.nameOfLanguage;
-            allLanguages[languageName]=languages.models[i].get(languageName);
+            allLanguages[languageName]=languages.models[i].get(languageName.replace(/\s/g,""));
         }
     }
     return allLanguages;
