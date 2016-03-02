@@ -131,7 +131,27 @@ $(function() {
 
         OpenSurvey: function(surveyId) {
             var that = this;
-            that.underConstruction();
+            var surveyModel = new App.Models.Survey({
+                _id: surveyId
+            });
+            surveyModel.fetch({
+                async: false
+            });
+            var surQuestions = surveyModel.get('questions');
+            var surQuestionsIdes = ''
+            _.each(surQuestions, function(item) {
+                surQuestionsIdes += '"' + item + '",'
+            })
+            if (surQuestionsIdes != ''){
+                surQuestionsIdes = surQuestionsIdes.substring(0, surQuestionsIdes.length - 1);
+            }
+            var questionsColl = new App.Collections.SurveyQuestions();
+            questionsColl.keys = encodeURI(surQuestionsIdes)
+            questionsColl.fetch({
+                async: false
+            });
+            console.log(questionsColl);
+            applyStylingSheet();
         },
 
         communityManage: function() {
