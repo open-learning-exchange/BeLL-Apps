@@ -105,22 +105,10 @@ function removeMemberFromCourse(memberId){
 function changeLanguage(option)
 {
     console.log(option.value);
-    $.cookie('test',option.value);
-    console.log('from indexFile '+ $.cookie('test'));
+    $.cookie('languageFromCookie',option.value);
+    console.log('from indexFile '+ $.cookie('languageFromCookie'));
     $.cookie('isChange',"true")
     location.reload();
-   /* var config = new App.Collections.Configurations();
-    config.fetch({async:false});
-    var con=config.first();
-    con.attributes.currentLanguage=option.value;
-    console.log(con);
-    con.save(null, {
-        success: function (doc, rev) {
-            console.log("configurations are saved");
-            location.reload();
-        }
-    });*/
-
 }
         //con.set('currentLanguage', option.value);
 

@@ -252,7 +252,7 @@ $(function() {
                 path: "/apps/_design/bell"
             });
             $.removeCookie('forcedUpdateProfile');
-            $.removeCookie('test');
+            //$.removeCookie('languageFromCookie');
            // $.removeCookie('isChange');
 
         },
@@ -271,32 +271,6 @@ $(function() {
         },
         MemberLogin: function() {
             console.log('From Router...');
-           /* var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-            });
-            var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;*/
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -313,11 +287,10 @@ $(function() {
                     trigger: true
                 })
             })
-           // alert('Hi from Router '+$('#onLoginLanguage :selected').val());
-           // $.cookie('test',$('#onLoginLanguage :selected').val());
+
             memberLoginForm.render();
-            console.log('value of cookie from router '+$.cookie('test'));
-            var languageDictValue=getSpecificLanguage($.cookie('test'));
+            console.log('value of cookie from router '+$.cookie('languageFromCookie'));
+            var languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
             App.$el.children('.body').html('<h1 class="login-heading">'+languageDictValue.attributes.Member_Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
             memberLoginForm.updateLabels(languageDictValue);
@@ -327,17 +300,18 @@ $(function() {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
-            if($.cookie('test')==null)
+           /* Code to be removed...
+            if($.cookie('languageFromCookie')==null)
             {
                 languageDictValue=loadLanguageDocs();
             }
             else
             {
-                languageDictValue=getSpecificLanguage($.cookie('test'));
+                languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
             }
 
-            var directionOfLang = languageDictValue.get('directionOfLang');
-            applyCorrectStylingSheet(directionOfLang);
+            var directionOfLang = languageDictValue.get('directionOfLang');*/
+            applyCorrectStylingSheet(direction);
         },
         MemberLogout: function() {
 
@@ -604,11 +578,11 @@ $(function() {
                             );
                         }
                         else{
-                            if($.cookie('test')!=lang)
+                            if($.cookie('languageFromCookie')!=lang)
                             {
                                 alert('Values in cookie and db are not same...');
                                 member.save({
-                                        language: $.cookie('test')
+                                        language: $.cookie('languageFromCookie')
                                     },
                                     {
                                         success: function () {
@@ -616,7 +590,7 @@ $(function() {
                                         }
                                     }
                                 );
-                                lang= $.cookie('test');
+                                lang= $.cookie('languageFromCookie');
                             }
                         }
                         languageDictValue=getSpecificLanguage(lang);
@@ -700,7 +674,7 @@ $(function() {
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
             applyCorrectStylingSheet(directionOfLang);
-           // $.removeCookie('test');
+           // $.removeCookie('languageFromCookie');
            // $.removeCookie('isChange');
         },
         MemberForm: function(memberId) {
@@ -710,9 +684,36 @@ $(function() {
 
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
-            applyStylingSheet();
+           // applyStylingSheet();
+            var  clanguage;
+            if($.cookie('Member._id'))
+            {
+                var members = new App.Collections.Members()
+                var member;
+                members.login = $.cookie('Member.login');
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage=member.get('language')
+                        }
+                    },
+                    async:false
+                });
+            }
+            else if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
+            {
+                clanguage= $.cookie('languageFromCookie');
+                console.log('value from cookie in navBar '+clanguage)
+            }
+             else
+            {
+                clanguage = App.configuration.get("currentLanguage");
+            }
+            var languageDictValue=getSpecificLanguage(clanguage);
+            var direction=languageDictValue.get('directionOfLang');
+            applyCorrectStylingSheet(direction);
             var nameOfLabel="";
-
             var context = this;
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
@@ -797,7 +798,7 @@ $(function() {
 
             //Setting up the default error Message
             Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
-            var languageDictValue=loadLanguageDocs();
+
             if(!modelId){
                 //Setting up the default selected customized text
 
@@ -895,9 +896,8 @@ $(function() {
                 $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
 
             }
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
-            if (directionOfLang.toLowerCase() === "right") {
+            if (direction.toLowerCase() === "right") {
 
                 $('#_attachments').css('margin-right','170px');
             }

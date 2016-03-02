@@ -36,10 +36,11 @@ $(function() {
               //  }
                 if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
                 {
-                    clanguage= $.cookie('test');
+                    clanguage= $.cookie('languageFromCookie');
                     console.log('value from cookie in navBar '+clanguage)
                 }
                 else if($.cookie('Member._id')){
+                    //member has logged in
                     var members = new App.Collections.Members()
                     var member;
                     var languageDictValue;
@@ -59,6 +60,7 @@ $(function() {
                     clanguage = App.configuration.get("currentLanguage");
                     console.log('else in navBar '+clanguage);
                 }
+
                 // fetch dict for the current/selected language from the languages db/table
                 var languages = new App.Collections.Languages();
                 languages.fetch({
@@ -79,7 +81,6 @@ $(function() {
            // }
 
             version = App.configuration.get('version');
-           // currentLanguage=clanguage;
             console.log('current Language from navBar '+clanguage);
             languageDictOfApp=App.languageDict;
             currentLanguageValue = App.languageDict.get(clanguage);

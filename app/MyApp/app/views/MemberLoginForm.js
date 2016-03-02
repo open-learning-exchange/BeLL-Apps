@@ -19,56 +19,7 @@ $(function() {
 
         render: function() {
             console.log('from render of memberLogin form..');
-            //****************************************************************************************
-            // #129: update language doc .
-         /*   var that = this;
-            var config = new App.Collections.Configurations()
-            config.fetch({
-                async: false,
-                success: function(){
-                    var typeofBell=config.first().attributes.type;
-                    if (typeofBell === "community" ) {
-                       console.log('Calling updateLanguageDoc() Function ....');
-                       that.updateLanguageDoc();
-                    }
-                }
-            })*/
-            //*******************************************************************************************
-          /*  var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            //  var currentConfig=con.attributes.rows[0].doc;
-            //    alert(currentConfig.name);
-            var clanguage = currentConfig.currentLanguage;
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-            });
-            var languageDict;
-            for (var i = 0; i < languages.length; i++) {
-                if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
-                    if (languages.models[i].attributes.nameOfLanguage == clanguage) {
-                        languageDict = languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;
-            if(clanguage=="Urdu" || clanguage=="Arabic") {
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            }
-            else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-            }*/
-           // alert('Hi from render of memberLogin'+$.cookie('test'));
-            var languageDictValue=getSpecificLanguage("English");
+            var languageDictValue=getSpecificLanguage("English");  //To successfully append welcome button
             var context = this;
             var welcomeResources = new App.Collections.Resources();
             welcomeResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo');
@@ -102,8 +53,10 @@ $(function() {
 
             this.$el.append(this.form.render().el);
             languageDictValue=getSpecificLanguage($('#onLoginLanguage :selected').val());
-            if($.cookie('test')==null)
+            //Checking here that if the value of cookie is unset due to any reason then set its value
+            if($.cookie('languageFromCookie')==null)
             {
+                //Cookie did not exist before
                 var configurations = Backbone.Collection.extend({
                     url: App.Server + '/configurations/_all_docs?include_docs=true'
                 })
@@ -114,25 +67,15 @@ $(function() {
                 var con = config.first();
                 var currentConfig = config.first().toJSON().rows[0].doc;
                 var clanguage= currentConfig.currentLanguage;
-                $.cookie('test',clanguage);
+                $.cookie('languageFromCookie',clanguage);
             }
             else
             {
-                $.cookie('test',$('#onLoginLanguage :selected').val());
+                //Update the value of cookie
+                $.cookie('languageFromCookie',$('#onLoginLanguage :selected').val());
             }
 
             var value = $("input[name*='login']");
-            // var value=$('label.field-login').value();
-
-            console.log("Title " + $('.field-login').text());
-
-            console.log("Title of Password " + $('.field-password').text());
-            //  console.log( $('field-login').text() );
-            //console.log( this.form.fields['login'].$el );
-            //$("label[for*='_login']").val('Hello');
-            // this.$el['login']='Saba';
-            //  $.el[0].childNodes[0][1]
-            // alert("login "+this.$el.get('login'));
             // give the form a submit button
             // #99 margin-left:1px for "Sign In " and "Become a Member" buttons
             var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="background-color:#2ecc71; margin-left: 1px;margin-top: -21px; font-size:27px;" id="formButton">' + languageDictValue.attributes.Sign_In + '</button>')
@@ -140,13 +83,10 @@ $(function() {
             var $button2 = $('<div class="signup-div" ><a style="margin-left: 1px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">' + languageDictValue.attributes.Become_a_member + '</button></div>')
             this.$el.append($button);
             this.$el.append($button2);
-          //  return $('#onLoginLanguage :selected').val();
-            // location.reload();
 
         },
         updateLabels: function(languageDict){
 
-            // alert(languageDict.attributes.Login);
             $('.field-login').find('label').html(languageDict.attributes.Login);
             $('.field-password').find('label').html(languageDict.attributes.Password);
             $('#welcomeButtonOnLogin').html(languageDict.attributes.Welcome)

@@ -16,7 +16,8 @@ $(function() {
 
         defaults: {
             kind: "Member",
-            roles: ["Learner"]
+            roles: ["Learner"],
+            bellLanguage:""
         },
 
         toString: function() {
