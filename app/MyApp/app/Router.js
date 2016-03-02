@@ -137,6 +137,7 @@ $(function() {
             surveyModel.fetch({
                 async: false
             });
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyModel.get('SurveyTitle') + '</h6></div>');
             var surQuestions = surveyModel.get('questions');
             var surQuestionsIdes = ''
             _.each(surQuestions, function(item) {
@@ -155,7 +156,7 @@ $(function() {
             })
             surQuestionsTable.Id = surveyId;
             surQuestionsTable.render()
-            App.$el.children('.body').html(surQuestionsTable.el)
+            App.$el.children('.body').append(surQuestionsTable.el);
             applyStylingSheet();
         },
 
