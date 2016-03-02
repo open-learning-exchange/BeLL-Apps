@@ -81,7 +81,8 @@ $(function() {
             'CompileAppManifest': 'CompileAppManifest',
             'communityManage': 'communityManage',
             'publications/:community': 'Publications',
-            'surveys/:community': 'Surveys'
+            'surveys/:community': 'Surveys',
+            'openSurvey/:surveyId': 'OpenSurvey'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -120,12 +121,19 @@ $(function() {
             App.$el.children('.body').html('<h3>Publications</h3>');
             App.$el.children('.body').append(PublicationsView.el);
         },
+
         Surveys: function() {
             var SurveysView = new App.Views.SurveyTable();
             SurveysView.render();
             App.$el.children('.body').html('<h3>Surveys</h3>');
             App.$el.children('.body').append(SurveysView.el);
         },
+
+        OpenSurvey: function(surveyId) {
+            var that = this;
+            that.underConstruction();
+        },
+
         communityManage: function() {
             var manageCommunity = new App.Views.ManageCommunity()
             manageCommunity.render()

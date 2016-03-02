@@ -10,17 +10,18 @@ $(function () {
             this.surveyInfo[model._id]= model;
             if (isAlreadyDownloaded && isSubmitted) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
+                '" class="openSurvey btn btn-info" href="#openSurvey/' +model._id +
+                '">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
             } else if (isAlreadyDownloaded && !(isSubmitted)) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
+                '" class="openSurvey btn btn-info" href="#openSurvey/' +model._id +
+                '">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
             } else if (!isAlreadyDownloaded) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                 '" class="downloadSurvey btn btn-info">Download</a><label>&nbsp&nbspNew</label></td></tr>');
             }
         },
         events:{
-            "click .openSurvey": 'openSurvey',
             "click .downloadSurvey": 'downloadSurvey'
         },
         render: function () {
@@ -98,13 +99,6 @@ $(function () {
                 }
             });
             applyStylingSheet();
-        },
-        openSurvey: function(e) {
-            var that = this;
-            var surveyId = e.currentTarget.name;
-            var surveyToOpen = this.surveyInfo[surveyId];
-            alert("Survey Id " + surveyId);
-            console.log(surveyToOpen);
         },
 
         downloadSurvey: function(e) {
