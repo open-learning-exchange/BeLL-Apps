@@ -17,13 +17,15 @@ $(function() {
         defaults: {
             kind: 'survey',
             sentTo: [],
-            submittedBy: []
+            submittedBy: [],
+            questions: []
         },
 
         schema: {
             Date: 'Text',
             SurveyNo: 'Number',
-        },
+            SurveyTitle:'Text'
+        }
 
     })
 })
