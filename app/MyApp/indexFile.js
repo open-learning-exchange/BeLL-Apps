@@ -51,8 +51,8 @@ function changeLanguage(option)
 }
         //con.set('currentLanguage', option.value);
 
-function submitSurvey() {
-    alert("Functionality under-construction");
+function submitSurvey(surveyId) {
+    alert(surveyId);
 }
 function showFeedbackForm() {
     App.renderFeedback()

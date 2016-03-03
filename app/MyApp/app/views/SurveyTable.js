@@ -10,11 +10,11 @@ $(function () {
             this.surveyInfo[model._id]= model;
             if (isAlreadyDownloaded && isSubmitted) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info" href="#openSurvey/' +model._id +
+                '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
                 '">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
             } else if (isAlreadyDownloaded && !(isSubmitted)) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info" href="#openSurvey/' +model._id +
+                '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
                 '">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
             } else if (!isAlreadyDownloaded) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +

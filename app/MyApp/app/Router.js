@@ -82,7 +82,7 @@ $(function() {
             'communityManage': 'communityManage',
             'publications/:community': 'Publications',
             'surveys/:community': 'Surveys',
-            'openSurvey/:surveyId': 'OpenSurvey'
+            'openSurvey/:surveyId/:isSubmitted': 'OpenSurvey'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -129,35 +129,38 @@ $(function() {
             App.$el.children('.body').append(SurveysView.el);
         },
 
-        OpenSurvey: function(surveyId) {
-            var that = this;
-            var surveyModel = new App.Models.Survey({
-                _id: surveyId
-            });
-            surveyModel.fetch({
-                async: false
-            });
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyModel.get('SurveyTitle') + '</h6></div>');
-            var surQuestions = surveyModel.get('questions');
-            var surQuestionsIdes = ''
-            _.each(surQuestions, function(item) {
-                surQuestionsIdes += '"' + item + '",'
-            })
-            if (surQuestionsIdes != ''){
-                surQuestionsIdes = surQuestionsIdes.substring(0, surQuestionsIdes.length - 1);
+        OpenSurvey: function(surveyId, isSubmitted) {
+            if(isSubmitted == "false") {
+                var surveyModel = new App.Models.Survey({
+                    _id: surveyId
+                });
+                surveyModel.fetch({
+                    async: false
+                });
+                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyModel.get('SurveyTitle') + '</h6></div>');
+                var surQuestions = surveyModel.get('questions');
+                var surQuestionsIdes = ''
+                _.each(surQuestions, function(item) {
+                    surQuestionsIdes += '"' + item + '",'
+                })
+                if (surQuestionsIdes != ''){
+                    surQuestionsIdes = surQuestionsIdes.substring(0, surQuestionsIdes.length - 1);
+                }
+                var questionsColl = new App.Collections.SurveyQuestions();
+                questionsColl.keys = encodeURI(surQuestionsIdes)
+                questionsColl.fetch({
+                    async: false
+                });
+                var surQuestionsTable = new App.Views.SurveyQuestionTable({
+                    collection: questionsColl
+                })
+                surQuestionsTable.Id = surveyId;
+                surQuestionsTable.render();
+                App.$el.children('.body').append(surQuestionsTable.el);
+                App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">Submit</button></div>');
+            } else {
+                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">This survey has been submitted.</h6></div>');
             }
-            var questionsColl = new App.Collections.SurveyQuestions();
-            questionsColl.keys = encodeURI(surQuestionsIdes)
-            questionsColl.fetch({
-                async: false
-            });
-            var surQuestionsTable = new App.Views.SurveyQuestionTable({
-                collection: questionsColl
-            })
-            surQuestionsTable.Id = surveyId;
-            surQuestionsTable.render()
-            App.$el.children('.body').append(surQuestionsTable.el);
-            App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey()">Submit</button></div>');
             applyStylingSheet();
         },
 
