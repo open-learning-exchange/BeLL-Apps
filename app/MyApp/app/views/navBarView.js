@@ -22,14 +22,14 @@ $(function() {
             var currentLanguageValue;
             var languageDictOfApp;
 
-            if (!App.configuration) {
+            //if (!App.configuration) {
                 var config = new App.Collections.Configurations()
                 config.fetch({
                     async: false
                 })
                  con = config.first()
                 App.configuration = con
-            }
+            //}
 
          //   if (!App.languageDict) {
                 var clanguage;
@@ -49,7 +49,7 @@ $(function() {
                         success: function () {
                             if (members.length > 0) {
                                 member = members.first();
-                                clanguage=member.get('language')
+                                clanguage=member.get('bellLanguage')
 
                             }
                         },
@@ -62,22 +62,8 @@ $(function() {
                 }
 
                 // fetch dict for the current/selected language from the languages db/table
-                var languages = new App.Collections.Languages();
-                languages.fetch({
-                    async: false
-                });
-                var languageDict;
-                for(var i=0;i<languages.length;i++)
-                {
-                    if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                    {
-                        if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                        {
-                            languageDict=languages.models[i];
-                        }
-                    }
-                }
-                App.languageDict = languageDict;
+
+                App.languageDict = getSpecificLanguage(clanguage);
            // }
 
             version = App.configuration.get('version');

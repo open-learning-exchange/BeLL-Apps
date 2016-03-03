@@ -181,7 +181,7 @@ $(function() {
                 success: function () {
                     if (members.length > 0) {
                         member = members.first();
-                        var lang=member.get('language');
+                        var lang=member.get('bellLanguage');
                         languageDictValue=getSpecificLanguage(lang);
                         }
                     },
@@ -552,8 +552,9 @@ $(function() {
                 success: function () {
                     if (members.length > 0) {
                         member = members.first();
-                        var lang=member.get('language');
-                        if(lang==="" || lang===null)
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                       /* if(lang==="" || lang===null)
                         {
                             alert('The user is old one and has not specified his language yet.');
                             var configurations = Backbone.Collection.extend({
@@ -592,8 +593,8 @@ $(function() {
                                 );
                                 lang= $.cookie('languageFromCookie');
                             }
-                        }
-                        languageDictValue=getSpecificLanguage(lang);
+                        }*/
+
                     }
                 },
                 async:false
@@ -695,7 +696,7 @@ $(function() {
                     success: function () {
                         if (members.length > 0) {
                             member = members.first();
-                            clanguage=member.get('language')
+                            clanguage=member.get('bellLanguage')
                         }
                     },
                     async:false
@@ -960,7 +961,7 @@ $(function() {
                         success: function () {
                             if (members.length > 0) {
                                 member = members.first();
-                                var lang=member.get('language');
+                                var lang=member.get('bellLanguage');
                                 languageDictValue=getSpecificLanguage(lang);
                             }
                         },

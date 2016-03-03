@@ -132,6 +132,10 @@ $(function() {
                                     member.set("lastLoginDate",new Date());
                                 }
                                 member.set("visits", vis);
+                                if(member.get('bellLanguage')===undefined || member.get('bellLanguage')==="" || member.get('bellLanguage')===null)
+                                {
+                                    member.set("bellLanguage", App.configuration.get("currentLanguage"));
+                                }
                                 member.once('sync', function() {})
 
                                 member.save(null, {
