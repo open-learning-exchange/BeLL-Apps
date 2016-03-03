@@ -117,6 +117,8 @@
     <script src='app/models/Language.js'></script>
     <script src='app/models/CourseInvitation.js'></script>
     <script src='app/models/DailyLog.js'></script>
+    <script src='app/models/Survey.js'></script>
+    <script src='app/models/Question.js'></script>
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script>
@@ -163,6 +165,7 @@
     <script src="app/collections/Languages.js"></script>
     <script src='app/collections/CourseInvitations.js'></script>
     <script src='app/collections/ActivityLog.js'></script>
+    <script src='app/collections/SurveyQuestions.js'></script>
 
     <!-- app-Views -->
     <script src="app/views/ConfigurationView.js"></script>
@@ -260,6 +263,8 @@
     <script src="app/views/ManageCommunity.js"></script>
     <script src="app/views/PublicationTable.js"></script>
     <script src="app/views/SurveyTable.js"></script>
+    <script src="app/views/SurveyQuestionTable.js"></script>
+    <script src="app/views/SurveyQuestionRow.js"></script>
 
     <script src="app/views/TrendActivityReport.js"></script>
 
@@ -494,6 +499,53 @@
 
 
     </script>
+
+    <script type="text/html" id="template-surveyQuestionRow">
+        <td id="' + <%= _id %>,<%= Type %> + '">
+            <%  if(RequireAnswer == true){%>
+            <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
+            <%} else {%>
+            <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %></BR></span>
+            <%}%>
+            <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
+            <% if ( Type == "Single Textbox") { %>
+            <input type="text" style="width: 625px;">
+            <%} else if ( Type == "Comment/Essay Box") { %>
+            <textarea style="width: 625px;"></textarea>
+            <%} else if ( Type == "Multiple Choice (Single Answer)") { %>
+            <table>
+                <tbody>
+                <% for (var i=0; i<Options.length; i++){%>
+                <tr>
+                    <td align="center"><input type="radio" name="' + <%= Statement %><%= Options[0] %> + '"></td>
+                    <td><%= Options[i] %></td>
+                </tr>
+                <% }%>
+                </tbody>
+            </table>
+            <%} else if ( Type == "Rating Scale") { %>
+            <table>
+                <tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <% for (var i=0; i<Ratings.length; i++){%>
+                    <td width="11%" align="center"><%= Ratings[i] %></td>
+                    <% }%>
+                </tr>
+                <% for (var i=0; i<Options.length; i++){%>
+                <tr>
+                    <td width="10%"><%= Options[i] %></td>
+                    <% for (var j=0; j<Ratings.length; j++){%>
+                    <td  width="11%" align="center"><input type="radio" name="' + <%= Statement %><%= Options[i] %><%= Ratings[0] %> + '"></td>
+                    <% }%>
+                </tr>
+                <% }%>
+                </tbody>
+            </table>
+            <%} %>
+        </td>
+    </script>
+
     <script type="text/html" id="template-GroupSpan">
         <div class="displayCourse" style='background-color:<%= backgroundColor %>;'>
             <a href='#usercourse/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '>

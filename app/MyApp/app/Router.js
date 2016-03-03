@@ -81,7 +81,8 @@ $(function() {
             'CompileAppManifest': 'CompileAppManifest',
             'communityManage': 'communityManage',
             'publications/:community': 'Publications',
-            'surveys/:community': 'Surveys'
+            'surveys/:community': 'Surveys',
+            'openSurvey/:surveyId/:isSubmitted': 'OpenSurvey'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -120,12 +121,49 @@ $(function() {
             App.$el.children('.body').html('<h3>Publications</h3>');
             App.$el.children('.body').append(PublicationsView.el);
         },
+
         Surveys: function() {
             var SurveysView = new App.Views.SurveyTable();
             SurveysView.render();
             App.$el.children('.body').html('<h3>Surveys</h3>');
             App.$el.children('.body').append(SurveysView.el);
         },
+
+        OpenSurvey: function(surveyId, isSubmitted) {
+            if(isSubmitted == "false") {
+                var surveyModel = new App.Models.Survey({
+                    _id: surveyId
+                });
+                surveyModel.fetch({
+                    async: false
+                });
+                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyModel.get('SurveyTitle') + '</h6></div>');
+                var surQuestions = surveyModel.get('questions');
+                var surQuestionsIdes = ''
+                _.each(surQuestions, function(item) {
+                    surQuestionsIdes += '"' + item + '",'
+                })
+                if (surQuestionsIdes != ''){
+                    surQuestionsIdes = surQuestionsIdes.substring(0, surQuestionsIdes.length - 1);
+                }
+                var questionsColl = new App.Collections.SurveyQuestions();
+                questionsColl.keys = encodeURI(surQuestionsIdes)
+                questionsColl.fetch({
+                    async: false
+                });
+                var surQuestionsTable = new App.Views.SurveyQuestionTable({
+                    collection: questionsColl
+                })
+                surQuestionsTable.Id = surveyId;
+                surQuestionsTable.render();
+                App.$el.children('.body').append(surQuestionsTable.el);
+                App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">Submit</button></div>');
+            } else {
+                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">This survey has been submitted.</h6></div>');
+            }
+            applyStylingSheet();
+        },
+
         communityManage: function() {
             var manageCommunity = new App.Views.ManageCommunity()
             manageCommunity.render()
@@ -409,7 +447,7 @@ $(function() {
                                             if(SurveyDocsFromNation != [] && SurveyDocsFromNation.length > 0) {
                                                 // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
                                                 $.ajax({
-                                                    url: '/surveyresponse/_design/bell/_view/surveyResBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                                                    url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
                                                     type: 'GET',
                                                     dataType: 'json',
                                                     async:false,

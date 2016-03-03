@@ -82,6 +82,10 @@ select#onLoginLanguage {
 .imageData {
     width: 112px;
 }
+.submitSurveyBtn {
+	margin: 0px auto;
+	display: flex;
+}
 .btn.fui-gear {
     height: 40px;
 

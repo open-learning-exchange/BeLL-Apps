@@ -106,7 +106,9 @@ function changeLanguage(option)
 }
         //con.set('currentLanguage', option.value);
 
-
+function submitSurvey(surveyId) {
+    alert(surveyId);
+}
 function showFeedbackForm() {
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {
