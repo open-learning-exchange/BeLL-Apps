@@ -51,7 +51,9 @@ function changeLanguage(option)
 }
         //con.set('currentLanguage', option.value);
 
-
+function submitSurvey() {
+    alert("Functionality under-construction");
+}
 function showFeedbackForm() {
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {
