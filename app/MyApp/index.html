@@ -408,7 +408,15 @@
                         <div class="visits">  </div>
                     </td>
                     <td class="right">
-                        <div class="now" ></div>
+                        <div class="now dateOnDashboard" ></div>
+                        <div class="dashboardLang">
+                            <select id="onDashboardLanguage" style="font-size: 15px;font-weight: 900">
+                                <option disabled="true" selected style="display:none"><%= currentLanguageOfApp %></option>
+                                <% for (var key in availableLanguagesOfApp) {%>
+                                <option value="<%= key %>"><%= availableLanguagesOfApp[key] %> </option>
+                                <% } %>
+                            </select>
+                        </div>
                     </td>
                 </tr>
             </table>

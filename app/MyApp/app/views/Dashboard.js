@@ -799,6 +799,23 @@ $(function() {
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
             this.vars.new_survey_count = 0;
+            var members = new App.Collections.Members()
+            var member;
+            var lang;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        lang=member.get('bellLanguage');
+                    }
+                },
+                async:false
+
+            });
+            this.vars.currentLanguageOfApp=App.languageDict.get(lang.replace(/\s/g,""));
+            this.vars.availableLanguagesOfApp=getAvailableLanguages();
+            applyStylingSheet();
 
             var typeofBell = App.configuration.get("type")
             console.log(App.languageDict);
