@@ -110,6 +110,34 @@ function changeLanguage(option)
     $.cookie('isChange',"true")
     location.reload();
 }
+
+function changeMemberLanguage(option)
+{
+    console.log(option.value);
+    var member;
+    var members = new App.Collections.Members()
+    members.login = $.cookie('Member.login');
+    members.fetch({
+        success: function () {
+            if (members.length > 0) {
+                member = members.first();
+                member.set("bellLanguage",option.value);
+                member.once('sync', function() {})
+
+                member.save(null, {
+                    success: function(doc, rev) {
+                    },
+                    async:false
+                });
+            }
+        },
+        async:false
+
+    });
+
+
+    location.reload();
+}
         //con.set('currentLanguage', option.value);
 
 

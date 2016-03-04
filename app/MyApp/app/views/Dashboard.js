@@ -807,12 +807,12 @@ $(function() {
                 success: function () {
                     if (members.length > 0) {
                         member = members.first();
-                        lang=member.get('bellLanguage');
                     }
                 },
                 async:false
 
             });
+            lang=member.get('bellLanguage');
             this.vars.currentLanguageOfApp=App.languageDict.get(lang.replace(/\s/g,""));
             this.vars.availableLanguagesOfApp=getAvailableLanguages();
             applyStylingSheet();

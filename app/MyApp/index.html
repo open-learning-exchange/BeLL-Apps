@@ -410,7 +410,7 @@
                     <td class="right">
                         <div class="now dateOnDashboard" ></div>
                         <div class="dashboardLang">
-                            <select id="onDashboardLanguage" style="font-size: 15px;font-weight: 900">
+                            <select id="onDashboardLanguage" style="font-size: 15px;font-weight: 900" onchange="changeMemberLanguage(this)">
                                 <option disabled="true" selected style="display:none"><%= currentLanguageOfApp %></option>
                                 <% for (var key in availableLanguagesOfApp) {%>
                                 <option value="<%= key %>"><%= availableLanguagesOfApp[key] %> </option>
