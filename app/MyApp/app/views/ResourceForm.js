@@ -147,6 +147,7 @@ $(function() {
 
         render: function() {
             var vars = {}
+            var clanguage = '';
             if (_.has(this.model, 'id')) {
 
                 vars.header = App.languageDict.attributes.Details+' ' + '"'+' '+ this.model.get('title') +' '+ '"';
@@ -165,6 +166,7 @@ $(function() {
                 vars.resourceUrl = this.model.get('url');
                 vars.languageDict=App.languageDict;
                 vars.cLang='addResource'
+                clanguage = this.model.get('language');
 
             } else {
 
@@ -173,6 +175,16 @@ $(function() {
                 vars.resourceUrl = "";
                 vars.languageDict=App.languageDict;
                 vars.cLang='addResource'
+                var configurations = Backbone.Collection.extend({
+                    url: App.Server + '/configurations/_all_docs?include_docs=true'
+                })
+                var config = new configurations()
+                config.fetch({
+                    async: false
+                })
+                var con = config.first();
+                var currentConfig = config.first().toJSON().rows[0].doc;
+                clanguage= currentConfig.currentLanguage;
             }
 
             // prepare the form
@@ -197,6 +209,15 @@ $(function() {
             this.$el.html(this.template(vars))
             // @todo this is hackey, should be the following line or assigned to vars.form
             $('.fields').html(this.form.el)
+            var availableLanguages=getAvailableLanguages();
+            for(var key in availableLanguages){
+                this.$el.find('.field-language .bbf-editor select').append($('<option>', {
+                    value: key,
+                    text:availableLanguages[key]
+                }));
+            }
+            $('.field-language').find('.bbf-editor').find('select').val(clanguage);
+
             this.$el.append('<button class="btn btn-success" id="add_newCoellection" >'+App.languageDict.attributes.Add_New+'</button>')
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
