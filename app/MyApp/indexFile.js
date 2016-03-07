@@ -204,11 +204,35 @@ function getSpecificLanguage(language){
     languages.fetch({
         async: false
     });
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    })
+    var config = new configurations()
+    config.fetch({
+        async: false
+    })
+    var con = config.first();
+    var currentConfig = config.first().toJSON().rows[0].doc;
+    var clanguage= currentConfig.currentLanguage;
+    var docExists=false;
     for(var i=0;i<languages.length;i++) {
         if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
             if (languages.models[i].attributes.nameOfLanguage == language) {
                 languageDict = languages.models[i];
+                docExists = true;
                 break;
+            }
+        }
+    }
+    if(docExists==false)
+    {
+        for(var i=0;i<languages.length;i++) {
+            if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                if (languages.models[i].attributes.nameOfLanguage == clanguage) {
+                    languageDict = languages.models[i];
+                    docExists = true;
+                    break;
+                }
             }
         }
     }
