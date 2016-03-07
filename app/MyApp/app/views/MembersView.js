@@ -59,17 +59,7 @@ $(function() {
         },
 
         changeDirection : function (){
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-            if (clanguage=="Urdu" || clanguage=="Arabic")
+            if (App.languageDict.get('directionOfLang'))
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="members")
@@ -77,9 +67,6 @@ $(function() {
                     $('#parentMembers').addClass('addResource');
                     $('#memberTable').addClass('addResource');
                 }
-
-
-                // $('.table-striped').css({direction:rtl});
             }
             else
             {

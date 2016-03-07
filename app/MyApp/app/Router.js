@@ -2276,9 +2276,9 @@ $(function() {
             var membersView = new App.Views.MembersView()
             membersView.render();
             App.$el.children('.body').html(membersView.el);
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             membersView.changeDirection();
-            if (App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#membersSearchHeading').css('float','left');
                 $("#AddNewMember").addClass('addMarginsOnCourseUrdu');
@@ -2294,9 +2294,6 @@ $(function() {
                 $('#searchText').css('width','170px');
                 $('#searchText').attr('placeholder',App.languageDict.attributes.Last_Name);
                 $('#searchButtonOnMembers').css('margin-top','-10px');
-             //   $('#AddNewMember').css('margin-left','20px');
-               // $('#AddNewMember').css('width','auto');
-
             }
         },
         Reports: function() {
