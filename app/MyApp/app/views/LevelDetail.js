@@ -90,7 +90,7 @@ $(function() {
                     })
                     if (!(r.get("hidden"))) {
                         if (r.get("_attachments")) {
-                            stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>"+App.languageDict.attributes.View+"</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>"+App.languageDict.attributes.Remove+" </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
+                            stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td><a class='levelResView btn btn-info' href='/apps/_design/bell/bell-resource-router/index.html#open/" + rid[i] + "/"+rtitle[i]+"'  target='_blank' value='" + rid[i] + "'><i class='icon-eye-open'></i>"+App.languageDict.attributes.View+"</a></td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>"+App.languageDict.attributes.Remove+" </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
                         } else {
                             stepResources = stepResources + ("<tr id='" + rid[i] + "'><td>" + rtitle[i] + "</td><td>"+App.languageDict.attributes.No_Attachment+"</td><td><button class='remover btn btn-danger' value='" + rid[i] + "'>"+App.languageDict.attributes.Remove+" </button><input type='hidden' id='" + rid[i] + "' value='" + rtitle[i] + "'/>")
                         }
