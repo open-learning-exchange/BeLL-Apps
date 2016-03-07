@@ -616,5 +616,5 @@
      "Date_format":"DD",
      "Year_format":"YYYY",
      "Month":"Month",
-     "Urdu":"Urdu"
+     "Urdu":"اردو"
 }

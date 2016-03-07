@@ -624,5 +624,5 @@
     "Date_format":"DD",
     "Year_format":"YYYY",
     "Month":"Month",
-    "Arabic":"Arabic"
+    "Arabic":"العربية"
 }
