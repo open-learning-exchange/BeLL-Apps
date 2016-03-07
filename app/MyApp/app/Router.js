@@ -712,6 +712,7 @@ $(function() {
                 clanguage = App.configuration.get("currentLanguage");
             }
             var languageDictValue=getSpecificLanguage(clanguage);
+            App.languageDict=languageDictValue;
             var direction=languageDictValue.get('directionOfLang');
             applyCorrectStylingSheet(direction);
             var nameOfLabel="";
@@ -729,12 +730,12 @@ $(function() {
                 })
                 nameOfLabel="Edit_"+label;
                 App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
-                $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
+                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
 
 
             } else {
                 nameOfLabel="Add_"+label;
-                $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get(nameOfLabel)+'</h3>')
+                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel)+'</h3>')
             }
             $('#AddCourseMainDiv').append(modelForm.el)
             // Bind form events for when Group is ready
@@ -798,7 +799,7 @@ $(function() {
             }
 
             //Setting up the default error Message
-            Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
+            Backbone.Form.validators.errMessages.required=languageDictValue.attributes.Required_Text;
 
             if(!modelId){
                 //Setting up the default selected customized text
@@ -852,17 +853,17 @@ $(function() {
             }
 
             //Modifying the labels as per MUI
-            $('.bbf-form .field-firstName label').html(App.languageDict.attributes.First_Name);
-            $('.bbf-form .field-lastName label').html(App.languageDict.attributes.Last_Name);
-            $('.bbf-form .field-middleNames label').html(App.languageDict.attributes.Middle_Names);
-            $('.bbf-form .field-login label').html(App.languageDict.attributes.Login);
-            $('.bbf-form .field-password label').html(App.languageDict.attributes.Password);
-            $('.bbf-form .field-phone label').html(App.languageDict.attributes.Phone);
-            $('.bbf-form .field-email label').html(App.languageDict.attributes.Email);
-            $('.bbf-form .field-language label').html(App.languageDict.attributes.language);
-            $('.bbf-form .field-BirthDate label').html(App.languageDict.attributes.Birth_Date);
-            $('.bbf-form .field-Gender label').html(App.languageDict.attributes.Gender)
-            $('.bbf-form .field-levels label').html(App.languageDict.attributes.Levels)
+            $('.bbf-form .field-firstName label').html(languageDictValue.attributes.First_Name);
+            $('.bbf-form .field-lastName label').html(languageDictValue.attributes.Last_Name);
+            $('.bbf-form .field-middleNames label').html(languageDictValue.attributes.Middle_Names);
+            $('.bbf-form .field-login label').html(languageDictValue.attributes.Login);
+            $('.bbf-form .field-password label').html(languageDictValue.attributes.Password);
+            $('.bbf-form .field-phone label').html(languageDictValue.attributes.Phone);
+            $('.bbf-form .field-email label').html(languageDictValue.attributes.Email);
+            $('.bbf-form .field-language label').html(languageDictValue.attributes.language);
+            $('.bbf-form .field-BirthDate label').html(languageDictValue.attributes.Birth_Date);
+            $('.bbf-form .field-Gender label').html(languageDictValue.attributes.Gender)
+            $('.bbf-form .field-levels label').html(languageDictValue.attributes.Levels)
             $('.bbf-form .field-community label').html(App.languageDict.attributes.Community)
             $('.bbf-form .field-region label').html(App.languageDict.attributes.Region)
             $('.bbf-form .field-nation label').html(App.languageDict.attributes.Nation)
@@ -885,6 +886,19 @@ $(function() {
             $('.bbf-form').find('.field-location').find('label').html(App.languageDict.attributes.Location);
             $('.bbf-form').find('.field-backgroundColor').find('label').html(App.languageDict.attributes.Foreground_Color);
             $('.bbf-form').find('.field-foregroundColor').find('label').html(App.languageDict.attributes.Background_Color);
+
+            var invitationType=App.languageDict.get("inviteForm_levels");
+            for(var i=0;i<invitationType.length;i++){
+                $('.bbf-form .field-levels .bbf-editor select').find('option').eq(i).html(invitationType[i]);
+            }
+            $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(0).html(App.languageDict.get('Male'))
+            $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(1).html(App.languageDict.get('Female'))
+
+            for(var i=0;i<12;i++)
+            {
+                $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).html(lookup(App.languageDict, "Months." + $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).text().toString() ));
+
+            }
             var gradeLevelArray=App.languageDict.get('GradeLevelList');
             for(var i=0;i<gradeLevelArray.length;i++)
             {
