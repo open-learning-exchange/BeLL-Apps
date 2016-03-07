@@ -292,6 +292,8 @@ function createDefaultAdminMember() {
                             insertLanguagesDoc(langEngDocPath);
                             langEngDocPath = 'init_docs/languages-Arabic.txt';
                             insertLanguagesDoc(langEngDocPath);
+                            langEngDocPath = 'init_docs/languages-ChileanSpanish.txt';
+                            insertLanguagesDoc(langEngDocPath);
                             /* var langEngDocPath = 'init_docs/languages.txt';
                              var langUrduDocPath = 'init_docs/languages-Urdu.txt';
                              insertLanguagesDoc(langEngDocPath);
