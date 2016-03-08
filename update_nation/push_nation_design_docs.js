@@ -80,6 +80,8 @@ function installDesignDocs() {
         updateLanguagesDocs(pathToSecondFile);
         var pathToThirdFile="../init_docs/languages-Arabic.txt";
         updateLanguagesDocs(pathToThirdFile);
+        var pathToFourthFile = "../init_docs/languages-ChileanSpanish.txt";
+        updateLanguagesDocs(pathToFourthFile);
 
     }
 }

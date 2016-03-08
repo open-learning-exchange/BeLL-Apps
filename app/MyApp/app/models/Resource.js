@@ -42,16 +42,7 @@ $(function() {
             },
             language: {
                 type: 'Select',
-                options: [{
-                    val: 'العربية',
-                    label: 'العربية'
-                }, {
-                    val: 'English',
-                    label: 'English'
-                },{
-                    val: 'اردو',
-                    label: 'اردو'
-                }]
+                options: []
             },
 
             Year: 'Text',
