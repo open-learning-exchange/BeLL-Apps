@@ -33,7 +33,6 @@ To successfully update any particular language's document located in [BeLL-Apps/
 left-to-right then  it should be like **"directionOfLang" : "Left"** and if it is read from right-to-left then it should be like **"directionOfLang" : "Right"**. We follow the convention that the words "left" and "right" are always going to be in *English* for every document to serve as direction indicator.
        ![Watch Out for directionOfLang](https://github.com/open-learning-exchange/BeLL-Apps/tree/dev/images/pic9.png)
 
-10) The name of the language in its native language should also be there, for example for Arabic **"Arabic" : "العربي"**. **Note that if there are spaces in the nameOfLanguage then please make sure to remove spaces at the time of setting it as a key.
-     ![No spaces in name of Key](https://github.com/open-learning-exchange/BeLL-Apps/tree/dev/images/pic8.png)
+10) The name of the language in its native language should also be provided as a value of attribute *nameInNativeLang*. For example **"nameInNativeLang":"العربية"** for Arabic document.
 
 *Note that in order to verify your json document, please visit this link [json vaidatolr](https://jsonformatter.curiousconcept.com/)*
