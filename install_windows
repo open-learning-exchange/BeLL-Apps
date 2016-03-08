@@ -67,7 +67,6 @@ function installDesignDocs() {
         }
     } else {
         createDefaultAdminMember()
-        //createLanguages();
     }
 }
 
