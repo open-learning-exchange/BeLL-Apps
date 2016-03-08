@@ -74,15 +74,13 @@ function installDesignDocs() {
         });
 } else {
         updateNationCouchVersion();
-        var pathToFirstFile="../init_docs/languages.txt";
-        updateLanguagesDocs(pathToFirstFile);
-        var pathToSecondFile="../init_docs/languages-Urdu.txt";
-        updateLanguagesDocs(pathToSecondFile);
-        var pathToThirdFile="../init_docs/languages-Arabic.txt";
-        updateLanguagesDocs(pathToThirdFile);
-        var pathToFourthFile = "../init_docs/languages-ChileanSpanish.txt";
-        updateLanguagesDocs(pathToFourthFile);
-
+        fs.readdir('../init_docs/languages', function doneReadDir(err, files) {
+            files.forEach(function (element) {
+                var langDocPath = '../init_docs/languages/' + element;
+                console.log("Updating " + element);
+                updateLanguagesDocs(langDocPath);
+            });
+        });
     }
 }
 
@@ -111,7 +109,9 @@ function updateLanguagesDocs(pathOfFile) {
                                 console.log('There is no document in database.. Going to insert more');
                                 languagesDb.insert(obj, function (err, body) {
                                     if (err) throw err;
-                                    else console.log("Added document ");
+                                    else {
+
+                                    }
                                 });
 
                             } else {
@@ -122,7 +122,6 @@ function updateLanguagesDocs(pathOfFile) {
                                     var revision = doc.value.rev;
                                     console.log('Revision ' + revision);
                                     if (doc) {
-                                        console.log('There is a document');
                                         if (doc.id !== '_design/bell') { // if its not a design doc, then update it
                                             console.log('key of doc ' + key);
                                             languagesDb.get(key, function (error, langDoc) {
@@ -132,15 +131,12 @@ function updateLanguagesDocs(pathOfFile) {
                                                     var result = {};
                                                     if(langDoc.nameOfLanguage==obj.nameOfLanguage  || langDoc.nameOfLanguage==undefined || (langDoc.namOfLanguage!=obj.nameOfLanguage && langDoc.nameOfLanguage!=undefined)){
                                                                  languagesDb.destroy(key,revision,function(err, body,header) {
-                                                                 if (!err)
-                                                                 console.log('successfully deleted document..'+langDoc.id);
-                                                                 else{
-                                                                 console.log('Could not delete document ');}
+                                                                 if (!err) {}
+                                                                 else{}
                                                                  });
 
                                                             }
                                                     else{
-                                                        console.log('Not Found type...');
                                                     }
                                                     }
 
@@ -207,15 +203,6 @@ function updateNationCouchVersion() {
             });
         }
     });
-    //    configsDb.get(key, function (error, existing) {
-    //        if(!error) obj._rev = existing._rev;
-    //        db.insert(obj, key, callback);
-    //    });
-    //    exec('configure_nation_couch.bat "'+couchUrl+'"', function(error, stdout, stderr) {
-    //        if (error) console.log(error);
-    //        if (stderr) console.log(stderr);
-    ////        console.log(stdout)
-    //    });
 }
 
 start();
