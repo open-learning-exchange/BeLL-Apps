@@ -1,4 +1,7 @@
 {
+   "nameOfLanguage": "English",
+   "directionOfLang":"Left",
+   "nameInNativeLang":"English"
    "Dashboard": "My Home",
    "Library": "Library",
    "Courses": "Courses",
@@ -46,7 +49,6 @@
            "December": "December"
        }
    ],
-   "nameOfLanguage": "English",
    "e_Readers": "e-Readers",
    "My_Courses_Progress": "My Courses Progress",
    "My_Library": "My Library",
@@ -611,13 +613,11 @@
    "Undefined_Author":"No author defined.",
    "Attachment":"Attachment",
    "Resource_Detail":"Resource Detail",
-   "directionOfLang":"Left",
    "error_direction":"Please specify the direction for specified language.",
    "Add_Comment":"Add Comment",
    "openUrl":"Open URL",
    "School_Year":"School Year",
    "Date_format":"DD",
    "Year_format":"YYYY",
-   "Month":"Month",
-   "English":"English"
+   "Month":"Month"
 }
