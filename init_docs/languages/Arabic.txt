@@ -1,4 +1,7 @@
 {
+   "nameOfLanguage": "Arabic",
+   "directionOfLang":"Right",
+   "nameInNativeLang":"العربية",
    "Dashboard": "بيتي",
    "Library": "مكتبة",
    "Courses": "الدروس",
@@ -46,7 +49,6 @@
            "December": "ديسمبر"
        }
    ],
-   "nameOfLanguage": "Arabic",
    "e_Readers": "القراء الإلكترونية",
    "News_Feed": "مصادر الأخبار",
    "My_Library": "مكتبتي",
@@ -616,13 +618,11 @@
     "Undefined_Author":"لا الكاتب معرف",
     "Attachment":"مرفق",
     "Resource_Detail":"التفاصيل الموارد",
-    "directionOfLang":"Right",
     "error_direction":"يرجى تحديد الاتجاه ل لغة محددة",
     "Add_Comment":"أضف تعليق",
     "openUrl":"رابط مفتوح",
     "School_Year":"School Year",
     "Date_format":"DD",
     "Year_format":"YYYY",
-    "Month":"Month",
-    "Arabic":"Arabic"
+    "Month":"Month"
 }
