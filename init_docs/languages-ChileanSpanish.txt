@@ -1,4 +1,7 @@
 {
+   "nameOfLanguage": "Chilean Spanish",
+   "directionOfLang":"left",
+   "nameInNativeLang":"español chilena",
    "Dashboard": "Página principal",
    "Library": "Biblioteca",
    "Courses": "Cursos",
@@ -46,7 +49,6 @@
            "December": "Diciembre"
        }
    ],
-   "nameOfLanguage": "Chilean Spanish",
    "e_Readers": "Lectores-e",
    "My_Courses_Progress": "El progreso de mis cursos",
    "My_Library": "Mi biblioteca",
@@ -611,13 +613,11 @@
    "Undefined_Author":"Sin autor definido.",
    "Attachment":"Archivo adjunto",
    "Resource_Detail":"Detalle de recursos",
-   "directionOfLang":"left",
    "error_direction":"Especifique la dirección del idioma en cuestión.",
    "Add_Comment":"Add Comment",
    "openUrl":"Open URL",
    "School_Year":"School Year",
    "Date_format":"DD",
    "Year_format":"YYYY",
-   "Month":"Month",
-   "ChileanSpanish":"español chilena"
+   "Month":"Month"
 }

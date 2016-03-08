@@ -1,4 +1,7 @@
 {
+   "nameOfLanguage": "Urdu",
+   "directionOfLang":"Right",
+   "nameInNativeLang":"اردو",
    "Dashboard": "ڈیش بورڈ",
    "Library": "لائبریری",
    "Courses": "کورسز",
@@ -46,7 +49,6 @@
            "December": "دسمبر"
        }
    ],
-   "nameOfLanguage": "Urdu",
    "e_Readers": "ای قارئین",
    "News_Feed": "خبریں",
    "My_Library": "میری لائبریری",
@@ -608,13 +610,11 @@
      "Undefined_Author":"No Author Defined",
      "Attachment":"Attachment",
      "Resource_Detail":"Resource Detail",
-     "directionOfLang":"Right",
      "error_direction":"Please specify the direction for specified Language.",
      "Add_Comment":"Add Comment",
      "openUrl":"Open URL",
      "School_Year":"School Year",
      "Date_format":"DD",
      "Year_format":"YYYY",
-     "Month":"Month",
-     "Urdu":"اردو"
+     "Month":"Month"
 }
