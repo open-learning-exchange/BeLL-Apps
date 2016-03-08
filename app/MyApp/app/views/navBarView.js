@@ -50,40 +50,12 @@ $(function() {
                     }
                 }
                 App.languageDict = languageDict;
-               // var languageDicts = languages.first().toJSON();
-             //   var languageDict = languageDicts[clanguage];
-              //  App.languageDict = languageDicts[clanguage];
-                //                $.ajax({
-                //                    type: 'GET',
-                //                    url: '/languages/_all_docs?include_docs=true',
-                //                    dataType: 'json',
-                //                    success: function (response) {
-                //                        var languageDicts = response.rows[0].doc; // put json of all dictionaries in var
-                //                        // now get the selected language dict from that var
-                //                        App.languageDict = languageDicts[clanguage];
-                //                    },
-                //                    data: {},
-                //                    async: false
-                //                });
             }
 
             version = App.configuration.get('version');
             currentLanguage=App.configuration.get('currentLanguage');
-          //  availableLanguages=App.configuration.get('availableLanguages');
-            /*if(currentLanguage=="Urdu")
-            {
-                currentLanguage=availableLanguages[2];
-            }
-            else if(currentLanguage=="Arabic")
-            {
-                currentLanguage=availableLanguages[1];
-            }
-            else{
-                currentLanguage=availableLanguages[0];
-            }*/
-
             languageDictOfApp=App.languageDict;
-            currentLanguage=App.languageDict.get(currentLanguage.replace(/\s/g,""));
+            currentLanguage=App.languageDict.get('nameInNativeLang');
             this.data = {
                 uRL: temp[1],
                 versionNO: version,
