@@ -2097,6 +2097,23 @@ $(function() {
             App.$el.children('.body').append(cSearch.el)
         },
         ListMeetups: function() {
+
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue, lang;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
             var lib_page = $.url().data.attr.fragment;
             if(lib_page=="meetups"){
@@ -2119,7 +2136,7 @@ $(function() {
             meetUpView.render()
             $('#parentLibrary').append(meetUpView.el);
             meetUpView.changeDirection();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 this.changeAllignmentOfListMeetup();
             }
@@ -2128,8 +2145,7 @@ $(function() {
 
                 $('#linkOfMeetUpHeading').css('margin-left','20px');
             }
-            applyStylingSheet();
-
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         changeAllignmentOfListMeetup:function(){
             $('#meetUpHeading').css('margin-right','2%');
@@ -2165,12 +2181,25 @@ $(function() {
             })
             meetupView.render()
             App.$el.children('.body').html(meetupView.el);
-            applyStylingSheet();
-
-
+          applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
         Meetup: function(meetUpId) {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             var className = "MeetUp"
             var model = new App.Models[className]()
             if (meetUpId) {
@@ -2238,10 +2267,8 @@ $(function() {
                 $('.form .field-category select').find('option').eq(i).html(gradeLevelArray[i]);
 
             }
-
-            applyStylingSheet();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic"){
-
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
+            if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
                 $('#meetUpForm').addClass('courseSearchResults_Bottom');
                 $('.form .bbf-field').css('float','none');
                // $('.form .bbf-field').css('background-color','red');
