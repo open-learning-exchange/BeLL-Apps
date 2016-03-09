@@ -52,8 +52,14 @@ function changeLanguage(option)
         //con.set('currentLanguage', option.value);
 
 function submitSurvey(surveyId) {
-    alert(surveyId);
+    var surveytable = $("#survey-questions-table >tbody");
+    surveytable.find('>tr').each(function (i) {
+        var $tds = $(this).find('td'),
+            questionId = $tds.eq(0).attr('id')
+       console.log(questionId.split(',')[1]);
+    });
 }
+
 function showFeedbackForm() {
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {

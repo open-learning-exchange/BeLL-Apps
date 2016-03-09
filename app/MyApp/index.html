@@ -505,7 +505,7 @@
     </script>
 
     <script type="text/html" id="template-surveyQuestionRow">
-        <td id="' + <%= _id %>,<%= Type %> + '">
+        <td id="<%= _id %>,<%= Type %>">
             <%  if(RequireAnswer == true){%>
             <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
             <%} else {%>
