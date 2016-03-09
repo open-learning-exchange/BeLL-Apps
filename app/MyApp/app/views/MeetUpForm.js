@@ -50,7 +50,23 @@ $(function() {
             }
         },
         render: function() {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
             $('#invitationdiv').hide()
             // members is required for the form's members field
 
@@ -74,7 +90,6 @@ $(function() {
             var $ubutton = $('<a class="btn btn-success" id="formButton">'+languageDictValue.attributes.Cancel+'</a>')
             // var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
             this.$el.append($sbutton)
-            //this.$el.append($button)
             if (this.btnText != languageDictValue.attributes.Update)
                 this.$el.append('<a class="btn btn-info" id="InviteMembers">'+languageDictValue.attributes.Invite_Member+'</a>')
 
@@ -82,7 +97,7 @@ $(function() {
 
             console.log(this.model);
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang);
 
             /*  var picker = new Backbone.UI.TimePicker({
              model: this.model,

@@ -19,49 +19,85 @@ $(function() {
 
             var version = '';
             var currentLanguage;
-            var availableLanguages;
+            var currentLanguageValue;
             var languageDictOfApp;
 
-            if (!App.configuration) {
-                var config = new App.Collections.Configurations()
-                config.fetch({
-                    async: false
-                })
-                 con = config.first()
-                App.configuration = con
-            }
+            //if (!App.configuration) {
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false
+            })
+            con = config.first()
+            App.configuration = con
+            //}
 
-            if (!App.languageDict) {
-                var clanguage = App.configuration.get("currentLanguage");
-                // fetch dict for the current/selected language from the languages db/table
-                var languages = new App.Collections.Languages();
-                languages.fetch({
-                    async: false
-                });
-                var languageDict;
-                for(var i=0;i<languages.length;i++)
-                {
-                    if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                    {
-                        if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                        {
-                            languageDict=languages.models[i];
+            //   if (!App.languageDict) {
+            var clanguage;
+            var members = new App.Collections.Members();
+            var member;
+            members.login = $.cookie('Member.login');
+            //  }
+            if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
+            {
+                clanguage= $.cookie('languageFromCookie');
+                console.log('value from cookie in navBar '+clanguage)
+            }
+            else if($.cookie('Member._id')){
+                //member has logged in
+                var languageDictValue;
+
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage=member.get('bellLanguage')
                         }
-                    }
-                }
-                App.languageDict = languageDict;
+                    },
+                    async:false
+                });
+            }
+            else{
+                clanguage = App.configuration.get("currentLanguage");
+                console.log('else in navBar '+clanguage);
             }
 
+            // fetch dict for the current/selected language from the languages db/table
+
+            App.languageDict = getSpecificLanguage(clanguage);
+            // }
+            if(App.languageDict.get('nameOfLanguage')===App.configuration.get('currentLanguage'))
+            {
+                clanguage=App.configuration.get('currentLanguage');
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            member.set("bellLanguage",clanguage);
+                            member.once('sync', function() {})
+
+                            member.save(null, {
+                                success: function(doc, rev) {
+                                },
+                                async:false
+                            });
+                        }
+                    },
+                    async:false
+
+                });
+            }
             version = App.configuration.get('version');
-            currentLanguage=App.configuration.get('currentLanguage');
+            console.log('current Language from navBar '+clanguage);
             languageDictOfApp=App.languageDict;
-            currentLanguage=App.languageDict.get('nameInNativeLang');
+            currentLanguageValue = App.languageDict.get(clanguage);
+            console.log('current Language value '+currentLanguageValue);
             this.data = {
                 uRL: temp[1],
                 versionNO: version,
-                currentLanguageOfApp:currentLanguage,
+                currentLanguageOfApp:clanguage,
                 availableLanguagesOfApp:getAvailableLanguages(),
-                languageDict:languageDictOfApp
+                languageDict:languageDictOfApp,
+                currentLanguageValueOfApp:currentLanguageValue
 
             }
             console.log(this.data);

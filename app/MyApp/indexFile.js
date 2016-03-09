@@ -35,6 +35,20 @@ function applyStylingSheet() {
         alert(languageDictValue.attributes.error_direction);
     }
 }
+function applyCorrectStylingSheet(directionOfLang){
+    if (directionOfLang.toLowerCase() === "right") {
+
+        $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+        $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+    } else if (directionOfLang.toLowerCase() === "left"){
+        $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+        $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+    }
+    else{
+        alert(languageDictValue.attributes.error_direction);
+    }
+}
 function selectAllMembers (){
     if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)
     {
@@ -91,18 +105,38 @@ function removeMemberFromCourse(memberId){
 function changeLanguage(option)
 {
     console.log(option.value);
-    var config = new App.Collections.Configurations();
-    config.fetch({async:false});
-    var con=config.first();
-    con.attributes.currentLanguage=option.value;
-    console.log(con);
-    con.save(null, {
-        success: function (doc, rev) {
-            console.log("configurations are saved");
-            location.reload();
-        }
+    $.cookie('languageFromCookie',option.value);
+    console.log('from indexFile '+ $.cookie('languageFromCookie'));
+    $.cookie('isChange',"true")
+    location.reload();
+}
+
+function changeMemberLanguage(option)
+{
+    console.log(option.value);
+    var member;
+    var members = new App.Collections.Members()
+    members.login = $.cookie('Member.login');
+    members.fetch({
+        success: function () {
+            if (members.length > 0) {
+                member = members.first();
+                member.set("bellLanguage",option.value);
+                member.once('sync', function() {})
+
+                member.save(null, {
+                    success: function(doc, rev) {
+                    },
+                    async:false
+                });
+            }
+        },
+        async:false
+
     });
 
+
+    location.reload();
 }
         //con.set('currentLanguage', option.value);
 
@@ -167,6 +201,46 @@ function getAvailableLanguages(){
     }
     return allLanguages;
 }
+function getSpecificLanguage(language){
+    var languages = new App.Collections.Languages();
+    languages.fetch({
+        async: false
+    });
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    })
+    var config = new configurations()
+    config.fetch({
+        async: false
+    })
+    var con = config.first();
+    var currentConfig = config.first().toJSON().rows[0].doc;
+    var clanguage= currentConfig.currentLanguage;
+    var docExists=false;
+    for(var i=0;i<languages.length;i++) {
+        if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+            if (languages.models[i].attributes.nameOfLanguage == language) {
+                languageDict = languages.models[i];
+                docExists = true;
+                break;
+            }
+        }
+    }
+    if(docExists==false)
+    {
+        for(var i=0;i<languages.length;i++) {
+            if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                if (languages.models[i].attributes.nameOfLanguage == clanguage) {
+                    languageDict = languages.models[i];
+                    docExists = true;
+                    break;
+                }
+            }
+        }
+    }
+    return languageDict;
+}
+
 function loadLanguageDocs(){
     var configurations = Backbone.Collection.extend({
         url: App.Server + '/configurations/_all_docs?include_docs=true'
@@ -689,9 +763,8 @@ function changeRatingImage(checkID, count) {
 
 function showRequestForm(modl) {
     App.renderRequest(modl);
-    var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
-    if (directionOfLang.toLowerCase() === "right") {
+    if (App.languageDict.get('directionOfLang').toLowerCase() === "right") {
 
         $('#site-request').css('direction','rtl');
         $('#site-request').find('span').css('margin-right','4%');

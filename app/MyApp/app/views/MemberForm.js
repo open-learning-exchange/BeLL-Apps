@@ -339,7 +339,16 @@ $(function() {
                 var addMem = true
                 if (this.model.get("_id") == undefined) {
                     this.model.set("roles", ["Learner"])
-                    this.model.set("visits", 0)
+                    this.model.set("visits", 0);
+                    if($.cookie('languageFromCookie')===null)
+                    {
+                        this.model.set("bellLanguage",App.configuration.attributes.currentLanguage);
+                    }
+                    else
+                    {
+                        this.model.set("bellLanguage", $.cookie('languageFromCookie'));
+                    }
+
                     var existing = new App.Collections.Members()
 
                     existing.login = that.model.get("login")
