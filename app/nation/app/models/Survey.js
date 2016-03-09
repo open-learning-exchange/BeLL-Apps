@@ -25,7 +25,7 @@ $(function() {
             Date: 'Text',
             SurveyNo: 'Number',
             SurveyTitle:'Text'
-        },
+        }
 
     })
 })

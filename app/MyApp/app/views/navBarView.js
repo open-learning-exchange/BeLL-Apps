@@ -8,7 +8,7 @@ $(function() {
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
         initialize: function(option) {
-            console.log('NavBar is called..');
+
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {
@@ -23,48 +23,48 @@ $(function() {
             var languageDictOfApp;
 
             //if (!App.configuration) {
-                var config = new App.Collections.Configurations()
-                config.fetch({
-                    async: false
-                })
-                 con = config.first()
-                App.configuration = con
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false
+            })
+            con = config.first()
+            App.configuration = con
             //}
 
-         //   if (!App.languageDict) {
-                var clanguage;
+            //   if (!App.languageDict) {
+            var clanguage;
             var members = new App.Collections.Members();
             var member;
             members.login = $.cookie('Member.login');
-              //  }
-                if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
-                {
-                    clanguage= $.cookie('languageFromCookie');
-                    console.log('value from cookie in navBar '+clanguage)
-                }
-                else if($.cookie('Member._id')){
-                    //member has logged in
-                    var languageDictValue;
+            //  }
+            if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
+            {
+                clanguage= $.cookie('languageFromCookie');
+                console.log('value from cookie in navBar '+clanguage)
+            }
+            else if($.cookie('Member._id')){
+                //member has logged in
+                var languageDictValue;
 
-                    members.fetch({
-                        success: function () {
-                            if (members.length > 0) {
-                                member = members.first();
-                                clanguage=member.get('bellLanguage')
-                            }
-                        },
-                        async:false
-                    });
-                }
-                else{
-                    clanguage = App.configuration.get("currentLanguage");
-                    console.log('else in navBar '+clanguage);
-                }
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage=member.get('bellLanguage')
+                        }
+                    },
+                    async:false
+                });
+            }
+            else{
+                clanguage = App.configuration.get("currentLanguage");
+                console.log('else in navBar '+clanguage);
+            }
 
-                // fetch dict for the current/selected language from the languages db/table
+            // fetch dict for the current/selected language from the languages db/table
 
-                App.languageDict = getSpecificLanguage(clanguage);
-           // }
+            App.languageDict = getSpecificLanguage(clanguage);
+            // }
             if(App.languageDict.get('nameOfLanguage')===App.configuration.get('currentLanguage'))
             {
                 clanguage=App.configuration.get('currentLanguage');

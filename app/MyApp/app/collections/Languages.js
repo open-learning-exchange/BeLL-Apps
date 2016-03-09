@@ -3,12 +3,8 @@ $(function() {
 	App.Collections.Languages = Backbone.Collection.extend({
 
 		url: function() {
-			if (this.u) {
-				return this.u
-			} else {
-				var url = App.Server + '/languages/_all_docs?include_docs=true'
-				return url
-			}
+            var url = App.Server + '/languages/_all_docs?include_docs=true'
+            return url
 		},
 		parse: function(response) {
 
