@@ -513,9 +513,17 @@
             <%}%>
             <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
             <% if ( Type == "Single Textbox") { %>
-            <input type="text" style="width: 625px;">
+                <%  if(RequireAnswer == true){%>
+                <input type="text" style="width: 625px;" required="true">
+                <%} else {%>
+                <input type="text" style="width: 625px;">
+                <%}%>
             <%} else if ( Type == "Comment/Essay Box") { %>
-            <textarea style="width: 625px;"></textarea>
+                <%  if(RequireAnswer == true){%>
+                <textarea style="width: 625px;" required="true"></textarea>
+                <%} else {%>
+                <textarea style="width: 625px;"></textarea>
+                <%}%>
             <%} else if ( Type == "Multiple Choice (Single Answer)") { %>
             <table>
                 <tbody>
