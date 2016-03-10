@@ -5,6 +5,7 @@ $(function() {
         tagName: "table",
         isManager: null,
         className: "table table-striped",
+        id: "survey-questions-table",
 
         initialize: function() {
         },

@@ -106,9 +106,95 @@ function changeLanguage(option)
 }
         //con.set('currentLanguage', option.value);
 
-function submitSurvey(surveyId) {
-    alert(surveyId);
+function submitSurvey(surveyId, surQuestions) {
+    surQuestions = surQuestions.split(',');
+    var surQuestionIdes = ''
+    _.each(surQuestions, function(item) {
+        surQuestionIdes += '"' + item + '",'
+    })
+    if (surQuestionIdes != ''){
+        surQuestionIdes = surQuestionIdes.substring(0, surQuestionIdes.length - 1);
+    }
+    var questionsColl = new App.Collections.SurveyQuestions();
+    questionsColl.keys = encodeURI(surQuestionIdes)
+    questionsColl.fetch({
+        async: false
+    });
+    console.log(questionsColl);
+    var answersToSubmit = [];
+    questionsColl = questionsColl.models;
+    for(var i = 0 ; i < questionsColl.length ; i++) {
+        questionsColl[i] = questionsColl[i].attributes;
+    }
+    console.log(questionsColl);
+    var surveyTable = $("#survey-questions-table >tbody");
+    surveyTable.find('>tr').each(function (i) {
+        var tds = $(this).find('td'),
+            questionId = tds.eq(0).attr('id'),
+            questionTd = tds.eq(0)
+        var questionType = questionId.split(',')[1];
+        questionId = questionId.split(',')[0];
+        if(questionType == 'Multiple Choice (Single Answer)') {
+            var radioBtnName = questionTd.find('input').attr('name');
+            var answer = $('input[name= "' + radioBtnName + '"]:checked').val();
+            if(answer != undefined) {
+                for(var j = 0; j < questionsColl.length; j++) {
+                    if(questionsColl[j]._id == questionId) {
+                        var questionModel = questionsColl[j];
+                        delete questionModel._id;
+                        delete questionModel._rev;
+                        questionModel["Answer"] = [];
+                        questionModel.Answer.push(answer);
+                        answersToSubmit.push(questionModel);
+                    }
+                }
+            } else {
+                alert("Please select option first");
+                return;
+            }
+        } else if(questionType == 'Rating Scale') {
+
+        } else if(questionType == 'Single Textbox') {
+            var answer = questionTd.find('input').val();
+            answer = answer.toString().trim();
+            if(answer != '') {
+                for(var j = 0; j < questionsColl.length; j++) {
+                    if(questionsColl[j]._id == questionId) {
+                        var questionModel = questionsColl[j];
+                        delete questionModel._id;
+                        delete questionModel._rev;
+                        questionModel["Answer"] = [];
+                        questionModel.Answer.push(answer);
+                        answersToSubmit.push(questionModel);
+                    }
+                }
+            } else {
+                alert("Please enter the valid answer");
+                return;
+            }
+        } else if(questionType == 'Comment/Essay Box') {
+            var answer = questionTd.find('textarea').val();
+            answer = answer.toString().trim();
+            if(answer != '') {
+                for(var j = 0; j < questionsColl.length; j++) {
+                    if(questionsColl[j]._id == questionId) {
+                        var questionModel = questionsColl[j];
+                        delete questionModel._id;
+                        delete questionModel._rev;
+                        questionModel["Answer"] = [];
+                        questionModel.Answer.push(answer);
+                        answersToSubmit.push(questionModel);
+                    }
+                }
+            } else {
+                alert("Please enter the valid answer");
+                return;
+            }
+        }
+    });
+    console.log(answersToSubmit);
 }
+
 function showFeedbackForm() {
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {
