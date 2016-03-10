@@ -98,7 +98,7 @@ function submitSurvey(surveyId, surQuestions) {
                 return;
             }
         } else if(questionType == 'Rating Scale') {
-            //console.log("Fetch selected option and rating");
+
         } else if(questionType == 'Single Textbox') {
             var answer = questionTd.find('input').val();
             answer = answer.toString().trim();
