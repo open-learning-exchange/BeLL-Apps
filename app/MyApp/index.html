@@ -501,7 +501,7 @@
     </script>
 
     <script type="text/html" id="template-surveyQuestionRow">
-        <td id="' + <%= _id %>,<%= Type %> + '">
+        <td id="<%= _id %>,<%= Type %>">
             <%  if(RequireAnswer == true){%>
             <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
             <%} else {%>
@@ -509,16 +509,23 @@
             <%}%>
             <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
             <% if ( Type == "Single Textbox") { %>
-            <input type="text" style="width: 625px;">
+                <%  if(RequireAnswer == true){%>
+                <input type="text" style="width: 625px;" required="true">
+                <%} else {%>
+                <input type="text" style="width: 625px;">
+                <%}%>
             <%} else if ( Type == "Comment/Essay Box") { %>
-            <textarea style="width: 625px;"></textarea>
+                <%  if(RequireAnswer == true){%>
+                <textarea style="width: 625px;" required="true"></textarea>
+                <%} else {%>
+                <textarea style="width: 625px;"></textarea>
+                <%}%>
             <%} else if ( Type == "Multiple Choice (Single Answer)") { %>
             <table>
                 <tbody>
                 <% for (var i=0; i<Options.length; i++){%>
                 <tr>
-                    <td align="center"><input type="radio" name="' + <%= Statement %><%= Options[0] %> + '"></td>
-                    <td><%= Options[i] %></td>
+                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>"> <%= Options[i] %></td>
                 </tr>
                 <% }%>
                 </tbody>
@@ -536,7 +543,7 @@
                 <tr>
                     <td width="10%"><%= Options[i] %></td>
                     <% for (var j=0; j<Ratings.length; j++){%>
-                    <td  width="11%" align="center"><input type="radio" name="' + <%= Statement %><%= Options[i] %><%= Ratings[0] %> + '"></td>
+                    <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>"></td>
                     <% }%>
                 </tr>
                 <% }%>

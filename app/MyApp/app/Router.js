@@ -157,7 +157,7 @@ $(function() {
                 surQuestionsTable.Id = surveyId;
                 surQuestionsTable.render();
                 App.$el.children('.body').append(surQuestionsTable.el);
-                App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">Submit</button></div>');
+                App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\',\'' + surQuestions + '\')">Submit</button></div>');
             } else {
                 App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">This survey has been submitted.</h6></div>');
             }
