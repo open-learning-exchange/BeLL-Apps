@@ -619,5 +619,6 @@
    "Date_format":"DD",
    "Year_format":"YYYY",
    "Month":"Month",
-   "English":"English"
+   "English":"English",
+   "New Reports":"New_Reports"
 }
