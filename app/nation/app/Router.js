@@ -3266,8 +3266,6 @@ $(function() {
                 error: function(status) {
                     console.log(status);
                 },
-                async: false,
-
             })
             App.stopActivityIndicator()
             this.Publication();

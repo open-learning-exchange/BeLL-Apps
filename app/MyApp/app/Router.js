@@ -4080,7 +4080,7 @@ $(function() {
                         }
                     }
 
-                    if (model.get("startDate") && model.get("startDate")) {
+                    if (model.get("startDate")) {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
 
@@ -4140,7 +4140,7 @@ $(function() {
                         }
                     }
 
-                    if (model.get("startDate") && model.get("startDate")) {
+                    if (model.get("startDate")) {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
 
