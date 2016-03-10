@@ -21,7 +21,24 @@ $(function () {
             this.remove()
         },
         submit: function () {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            var languageDictValue = languageDictValue;
             if (this.form.getValue("comment").length != 0) {
                 var now = moment();
                 //now.getDate();
@@ -59,13 +76,43 @@ $(function () {
         },
 
         addOne: function (modl) {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
             $('#comments').append('<div id=tile><b>'+languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+languageDictValue.attributes.Comment+':</b>' + modl.toJSON().comment + '</div>')
             console.log(modl.toJSON())
         },
 
         render: function () {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
             $('#debug').show()
             this.$el.html('&nbsp;')
             $('#comments').html('&nbsp;')
@@ -80,7 +127,7 @@ $(function () {
             this.form.fields['time'].$el.hide()
             var $button = $('<div id="r-formButton"><button class="btn btn-primary" id="submitFormButton">'+languageDictValue.attributes.Add_Comment+'</button><button class="btn btn-info" id="cancelFormButton">'+languageDictValue.attributes.Close+'</button></div>')
             this.$el.append($button);
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang);
 
             // $("#comments").animate({ scrollTop: $('#comments')[0].scrollHeight}, 3000);
         }

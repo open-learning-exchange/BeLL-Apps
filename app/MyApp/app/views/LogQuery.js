@@ -24,7 +24,24 @@ $(function() {
 
         },
         render: function() {
-            this.vars.languageDict=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            this.vars.languageDict = App.languageDict;
             this.$el.html(_.template(this.template, this.vars))
            // this.$el.html(_.template(this.template));
 

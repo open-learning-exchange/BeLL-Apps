@@ -815,7 +815,6 @@ $(function() {
             lang=member.get('bellLanguage');
             this.vars.currentLanguageOfApp=App.languageDict.get(lang.replace(/\s/g,""));
             this.vars.availableLanguagesOfApp=getAvailableLanguages();
-            applyStylingSheet();
 
             var typeofBell = App.configuration.get("type")
             console.log(App.languageDict);
