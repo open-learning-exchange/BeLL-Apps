@@ -16,7 +16,7 @@ $(function() {
         comparator: function(model) {
             var title = model.get('title')
             if (title) return title.toLowerCase()
-        },
+        }
 
 
     })

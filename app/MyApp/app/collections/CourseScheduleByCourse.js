@@ -14,7 +14,7 @@ $(function() {
             return docs
         },
 
-        model: App.Models.CourseSchedule,
+        model: App.Models.CourseSchedule
 
     })
 
