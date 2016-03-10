@@ -529,8 +529,7 @@
                 <tbody>
                 <% for (var i=0; i<Options.length; i++){%>
                 <tr>
-                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>"></td>
-                    <td><%= Options[i] %></td>
+                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>"> <%= Options[i] %></td>
                 </tr>
                 <% }%>
                 </tbody>

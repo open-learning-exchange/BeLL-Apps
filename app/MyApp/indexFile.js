@@ -81,6 +81,22 @@ function submitSurvey(surveyId, surQuestions) {
         questionId = questionId.split(',')[0];
         if(questionType == 'Multiple Choice (Single Answer)') {
             var radioBtnName = questionTd.find('input').attr('name');
+            var answer = $('input[name= "' + radioBtnName + '"]:checked').val();
+            if(answer != undefined) {
+                for(var j = 0; j < questionsColl.length; j++) {
+                    if(questionsColl[j]._id == questionId) {
+                        var questionModel = questionsColl[j];
+                        delete questionModel._id;
+                        delete questionModel._rev;
+                        questionModel["Answer"] = [];
+                        questionModel.Answer.push(answer);
+                        answersToSubmit.push(questionModel);
+                    }
+                }
+            } else {
+                alert("Please select option first");
+                return;
+            }
         } else if(questionType == 'Rating Scale') {
             //console.log("Fetch selected option and rating");
         } else if(questionType == 'Single Textbox') {
