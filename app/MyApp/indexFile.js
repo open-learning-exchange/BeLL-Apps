@@ -102,7 +102,23 @@ function submitSurvey(surveyId, surQuestions) {
                 return;
             }
         } else if(questionType == 'Comment/Essay Box') {
-            //console.log(questionTd.find('textarea').val());
+            var answer = questionTd.find('textarea').val();
+            answer = answer.toString().trim();
+            if(answer != '') {
+                for(var j = 0; j < questionsColl.length; j++) {
+                    if(questionsColl[j]._id == questionId) {
+                        var questionModel = questionsColl[j];
+                        delete questionModel._id;
+                        delete questionModel._rev;
+                        questionModel["Answer"] = [];
+                        questionModel.Answer.push(answer);
+                        answersToSubmit.push(questionModel);
+                    }
+                }
+            } else {
+                alert("Please enter the valid answer");
+                return;
+            }
         }
     });
     console.log(answersToSubmit);
