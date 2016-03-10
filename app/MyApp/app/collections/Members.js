@@ -35,7 +35,7 @@ $(function() {
 			return a > b ? 1 : a < b ? -1 : 0;
 		},
 
-		model: App.Models.Member,
+		model: App.Models.Member
 
 		//   comparator: function (model) {
 		//             var title = model.get('login')

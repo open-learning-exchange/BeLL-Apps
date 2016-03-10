@@ -12,7 +12,7 @@ $(function() {
                 models.push(row.doc)
             });
             return models
-        },
+        }
 
 
     })
