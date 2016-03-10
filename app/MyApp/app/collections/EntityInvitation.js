@@ -14,7 +14,7 @@ $(function() {
       return docs
     },
 
-    model: App.Models.Invitation,
+    model: App.Models.Invitation
   })
 
 })

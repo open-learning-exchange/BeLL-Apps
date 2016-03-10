@@ -20,7 +20,7 @@ $(function() {
       return docs
     },
 
-    model: App.Models.Assignment,
+    model: App.Models.Assignment
 
   })
 

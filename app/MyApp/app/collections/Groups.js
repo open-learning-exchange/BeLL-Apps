@@ -31,7 +31,7 @@ $(function() {
                 var title = model.get('CourseTitle')
             }
             if (title) return title.toLowerCase()
-        },
+        }
 
 
     })

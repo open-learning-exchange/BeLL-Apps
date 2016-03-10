@@ -14,7 +14,7 @@ $(function() {
       return docs
     },
 
-    model: App.Models.Feedback,
+    model: App.Models.Feedback
 
 
   })
