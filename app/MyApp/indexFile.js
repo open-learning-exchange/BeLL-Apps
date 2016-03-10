@@ -199,6 +199,21 @@ function getAvailableLanguages(){
     }
     return allLanguages;
 }
+function checkIfExistsInLangDb(language){
+    var languages = new App.Collections.Languages();
+    languages.fetch({
+        async: false
+    });
+    var isPresent=false;
+    for(var i=0;i<languages.length && !(isPresent) ;i++) {
+        if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+            if (languages.models[i].attributes.nameOfLanguage == language) {
+               isPresent=true;
+            }
+        }
+    }
+    return isPresent;
+}
 function getSpecificLanguage(language){
     var languages = new App.Collections.Languages();
     languages.fetch({
@@ -235,6 +250,28 @@ function getSpecificLanguage(language){
                 }
             }
         }
+            var member;
+            var members = new App.Collections.Members()
+            members.login = $.cookie('Member.login');
+            clanguage=currentConfig.currentLanguage;
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        member.set("bellLanguage",clanguage);
+                        member.once('sync', function() {})
+
+                        member.save(null, {
+                            success: function(doc, rev) {
+                            },
+                            async:false
+                        });
+                    }
+                },
+                async:false
+
+            });
+
     }
     return languageDict;
 }
