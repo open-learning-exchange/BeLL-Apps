@@ -94,11 +94,10 @@ function submitSurvey(surveyId, surQuestions) {
                     }
                 }
             } else {
-                //alert("Please select option first");
+                alert("Please select option first");
                 return;
             }
         } else if(questionType == 'Rating Scale'){
-            ////////////////////////////////////////////////
             var ratingTable=questionTd.find('table >tbody');
             var ratingAnswers = [];
             var ratingCount = 0;
@@ -130,7 +129,6 @@ function submitSurvey(surveyId, surQuestions) {
                 alert("Ratings are not filled");
                 return;
             }
-            ///////////////////////////////////////////////
         } else if(questionType == 'Single Textbox') {
             var answer = questionTd.find('input').val();
             answer = answer.toString().trim();
@@ -146,7 +144,7 @@ function submitSurvey(surveyId, surQuestions) {
                     }
                 }
             } else {
-                //alert("Please enter the valid answer");
+                alert("Please enter the valid answer");
                 return;
             }
         } else if(questionType == 'Comment/Essay Box') {
@@ -164,7 +162,7 @@ function submitSurvey(surveyId, surQuestions) {
                     }
                 }
             } else {
-                //alert("Please enter the valid answer");
+                alert("Please enter the valid answer");
                 return;
             }
         }

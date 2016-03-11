@@ -18,7 +18,10 @@ $(function() {
             kind: 'survey',
             sentTo: [],
             submittedBy: [],
-            questions: []
+            questions: [],
+            answersToQuestions: [],
+            genderOfMember: 'Text',
+            birthYearOfMember: 'Text'
         },
 
         schema: {
