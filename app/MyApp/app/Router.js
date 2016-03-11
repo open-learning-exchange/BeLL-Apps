@@ -957,46 +957,21 @@ $(function() {
                 skip: 0
             })
             resources.fetch({
+                async:false,
                 success: function() {
                     resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager");
-                  /*  var configurations = Backbone.Collection.extend({
-                        url: App.Server + '/configurations/_all_docs?include_docs=true'
-                    })
-                    var config = new configurations()
-                    config.fetch({
-                        async: false
-                    })
-                    var con = config.first();
-                    var currentConfig = config.first().toJSON().rows[0].doc;
-                    var clanguage= currentConfig.currentLanguage;
-                    var languages = new App.Collections.Languages();
-                    languages.fetch({
-                        async: false
-                    });
-                    var languageDict;
-                    for(var i=0;i<languages.length;i++)
-                    {
-                        if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                        {
-                            if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                            {
-                                languageDict=languages.models[i];
-                            }
-                        }
-                    }
-                    App.languageDict = languageDict;*/
                     var members = new App.Collections.Members()
                     var member;
-                    var languageDictValue;
+                    var languageDictValue,lang;
                     members.login = $.cookie('Member.login');
                     members.fetch({
                         success: function () {
                             if (members.length > 0) {
                                 member = members.first();
-                                var lang=member.get('bellLanguage');
+                                lang=member.get('bellLanguage');
                                 languageDictValue=getSpecificLanguage(lang);
                             }
                         },
@@ -1039,8 +1014,9 @@ $(function() {
                         $('table').addClass('resourceTableClass');
                         $('.resourcInfoFirstCol').attr('colspan','8');
                         $('.resourcInfoCol').attr('colspan','3');
-                        $('.table th').css('text-align','left');
-                        $('.table td').css('text-align','left');
+                        $('.resourcInfoCol').css('text-align','right');
+                        $('.table th').css('text-align','right');
+                        $('.table td').css('text-align','right');
                         $('#actionAndTitle').find('th').eq(1).css('text-align','center');
                     }
                     resourcesTableView.changeDirection();
@@ -1328,8 +1304,8 @@ $(function() {
             $('#multiselect-subject-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
             $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
 
-            applyStylingSheet();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#SubjectCheckboxes').find('label').text(App.languageDict.attributes.subject).css("font-weight","Bold");;
@@ -4622,8 +4598,8 @@ $(function() {
                 });
             }
 
-            applyStylingSheet();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+           applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('.table td').css('text-align','right');
                 $('.table th').css('text-align','right');

@@ -126,21 +126,12 @@ $(function() {
 			
 				viewText+="<tr><td id='alphabetsOnCollections' colspan=7>"
 				viewText+='<a  id="allresources" >#</a>&nbsp;&nbsp;'
-		var str="";
-		if (App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
-		{
-			str="ثجحخدذرزسشصضطظعغفقكلمنهويا";
+		var str = [] ;
+		str = App.languageDict.get("alphabets");
+		for (var i = 0; i < str.length; i++) {
+			var nextChar = str[i];
+			viewText += '<a class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 		}
-		else
-		{
-			str= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		}
-
-		  		for(var i=0; i<str.length; i++)
-		   		{
-			  	    var nextChar = str.charAt(i);
-			 	 	viewText+='<a  class="clickonalphabets" value="'+nextChar+'">'+ nextChar +'</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-		   		}
 				viewText+="</td></tr>"
 				this.$el.append(viewText)
     	
