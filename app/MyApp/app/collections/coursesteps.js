@@ -19,7 +19,7 @@ $(function() {
     comparator: function(m) {
       return m.get('step')
     },
-    model: App.Models.CourseStep,
+    model: App.Models.CourseStep
 
   })
 

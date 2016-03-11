@@ -22,7 +22,7 @@ $(function() {
 			return docs
 		},
 
-		model: App.Models.membercourseprogress,
+		model: App.Models.membercourseprogress
 	})
 
 })

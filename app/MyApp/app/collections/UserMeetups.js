@@ -16,7 +16,7 @@ $(function() {
             })
             return docs
         },
-        model: App.Models.UserMeetup,
+        model: App.Models.UserMeetup
 
 
     })

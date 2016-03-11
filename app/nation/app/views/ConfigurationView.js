@@ -2,7 +2,6 @@ $(function() {
 
     App.Views.ConfigurationView = Backbone.View.extend({
 
-        template: $('#template-Configuration').html(),
         template: _.template($("#template-Configuration").html()),
         vars: {},
         events: {

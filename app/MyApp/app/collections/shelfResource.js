@@ -18,7 +18,7 @@ $(function() {
             })
             return docs
         },
-        model: App.Models.Shelf,
+        model: App.Models.Shelf
 
 
     })

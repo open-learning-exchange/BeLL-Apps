@@ -13,7 +13,7 @@ $(function() {
                 return row.doc
             })
             return docs
-        },
+        }
 
     })
 

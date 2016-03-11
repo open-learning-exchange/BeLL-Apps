@@ -3464,7 +3464,7 @@ $(function() {
                                 registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
                                 registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
                                 registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
-                                totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male'],
+                                totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
                             ],
                             color: '#33ccff'
                         }, {
@@ -3481,7 +3481,7 @@ $(function() {
                                 registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
                                 registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
                                 registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
-                                totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female'],
+                                totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
                             ],
                             color: '#66ff66'
                         }, {
@@ -4080,7 +4080,7 @@ $(function() {
                         }
                     }
 
-                    if (model.get("startDate") && model.get("startDate")) {
+                    if (model.get("startDate")) {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
 
@@ -4140,7 +4140,7 @@ $(function() {
                         }
                     }
 
-                    if (model.get("startDate") && model.get("startDate")) {
+                    if (model.get("startDate")) {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
 
