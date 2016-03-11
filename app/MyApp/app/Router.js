@@ -1639,7 +1639,7 @@ $(function() {
             App.$el.children('.body').html("&nbsp")
             App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a>&nbsp;&nbsp;</div>')
             App.$el.children('.body').append(viewCourseInfo.el);
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         CourseReport: function(cId, cname) {
@@ -1886,7 +1886,7 @@ $(function() {
 
                 }
             });
-            applyStylingSheet();
+           applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         GroupMembers: function(cId) {
