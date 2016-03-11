@@ -21,7 +21,9 @@ $(function() {
             questions: [],
             answersToQuestions: [],
             genderOfMember: 'Text',
-            birthYearOfMember: 'Text'
+            birthYearOfMember: 'Text',
+            communityName: 'Text',
+            memberId: 'Text'
         },
 
         schema: {

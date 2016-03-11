@@ -51,8 +51,15 @@ function changeLanguage(option)
 }
         //con.set('currentLanguage', option.value);
 
-function submitSurvey(surveyId, surQuestions) {
-    surQuestions = surQuestions.split(',');
+function submitSurvey(surveyId) {
+    App.startActivityIndicator();
+    var surveyModel = new App.Models.Survey({
+        _id: surveyId
+    });
+    surveyModel.fetch({
+        async: false
+    });
+    var surQuestions = surveyModel.get('questions');
     var surQuestionIdes = ''
     _.each(surQuestions, function(item) {
         surQuestionIdes += '"' + item + '",'
@@ -93,9 +100,6 @@ function submitSurvey(surveyId, surQuestions) {
                         answersToSubmit.push(questionModel);
                     }
                 }
-            } else {
-                alert("Please select option first");
-                return;
             }
         } else if(questionType == 'Rating Scale'){
             var ratingTable=questionTd.find('table >tbody');
@@ -125,9 +129,6 @@ function submitSurvey(surveyId, surQuestions) {
                         answersToSubmit.push(questionModel);
                     }
                 }
-            } else {
-                alert("Ratings are not filled");
-                return;
             }
         } else if(questionType == 'Single Textbox') {
             var answer = questionTd.find('input').val();
@@ -143,9 +144,6 @@ function submitSurvey(surveyId, surQuestions) {
                         answersToSubmit.push(questionModel);
                     }
                 }
-            } else {
-                alert("Please enter the valid answer");
-                return;
             }
         } else if(questionType == 'Comment/Essay Box') {
             var answer = questionTd.find('textarea').val();
@@ -161,13 +159,86 @@ function submitSurvey(surveyId, surQuestions) {
                         answersToSubmit.push(questionModel);
                     }
                 }
-            } else {
-                alert("Please enter the valid answer");
-                return;
             }
         }
     });
-    console.log(answersToSubmit);
+    if(questionsColl.length == answersToSubmit.length) {
+        var members = new App.Collections.Members()
+        var member, memberKey, gender, birthYear;
+        members.login = $.cookie('Member.login');
+        members.fetch({
+            success: function () {
+                if (members.length > 0) {
+                    member = members.first();
+                    gender = member.get('Gender');
+                    birthYear = member.get('BirthDate').split('-')[0];
+                    memberKey = member.get('login');
+                }
+            },
+            async:false
+
+        });
+        var surveyResModel = surveyModel.attributes;
+        delete surveyResModel._id;
+        delete surveyResModel._rev;
+        surveyResModel["answersToQuestions"] = [];
+        surveyResModel["communityName"] = App.configuration.get('name');
+        surveyResModel["genderOfMember"] = gender;
+        surveyResModel["birthYearOfMember"] = birthYear;
+        surveyResModel["memberId"] = memberKey + App.configuration.get('name');
+        var docIds = [];
+        docIds.push(surveyId);
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            type: 'POST',
+            url: '/_replicate',
+            dataType: 'json',
+            data: JSON.stringify({
+                "source": "survey",
+                "target": "surveyresponse",
+                'doc_ids': docIds
+            }),
+            async: false,
+            success: function (response) {
+                console.log("Survey doc replicated");
+            },
+            error: function(status) {
+                console.log(status);
+                console.log("Unable to replicate survey doc");
+            }
+        });
+        $.couch.db("surveyanswers").bulkSave({"docs": answersToSubmit}, {
+            success: function(data) {
+                console.log(data);
+                var answerDocIds = [];
+                for(var i = 0 ; i < data.length ; i++) {
+                    answerDocIds.push(data[i].id);
+                }
+                surveyResModel.answersToQuestions = answerDocIds;
+                console.log(surveyResModel);
+                $.couch.db("surveyresponse").saveDoc(surveyResModel, {
+                    success: function(data) {
+                        console.log(data);
+                        alert("Survey has been submitted successfully");
+                        window.location.reload();
+                    },
+                    error: function(status) {
+                        console.log(status);
+                    }
+                });
+            },
+            error: function(status) {
+                console.log(status);
+            }
+        });
+    } else {
+        alert("Please provide all the answers first");
+        App.stopActivityIndicator();
+        return;
+    }
 }
 
 function showFeedbackForm() {
