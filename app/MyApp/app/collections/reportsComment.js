@@ -13,7 +13,7 @@ $(function() {
 
             return docs
         },
-        model: App.Models.reportComment,
+        model: App.Models.reportComment
 
     })
 

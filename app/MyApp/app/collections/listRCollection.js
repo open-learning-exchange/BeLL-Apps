@@ -30,7 +30,7 @@ $(function() {
             var name = item.get("CollectionName");
             if (name) return (name.toLowerCase())
         },
-        model: App.Models.CollectionList,
+        model: App.Models.CollectionList
 
     })
 
