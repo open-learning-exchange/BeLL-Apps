@@ -7,7 +7,7 @@ $(function() {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #cancelButton": "hidediv",
+            "click #cancelButton": "hidediv"
 
         },
 
@@ -113,7 +113,6 @@ $(function() {
             var temp
             var that = this
             var currentdate = new Date();
-
             if (this.model.get("invitationType") == "All") {
                 memberList.each(function(m) {
                     temp = new App.Models.Mail()
@@ -162,10 +161,8 @@ $(function() {
                 })
             } else {
                 //Fetching The Members and then checking each levels whether they have the same level then incrementing the counnt and save
-
                 memberList.each(function(m) {
-                    var member_level = m.get("levels")
-                    if (that.model.get("levels").indexOf(member_level[0]) > -1) {
+                    if (m.attributes.hasOwnProperty("levels") && (that.model.get("levels").indexOf(m.get("levels")) > -1)) {
                         temp = new App.Models.Mail()
                         temp.set("senderId", that.model.senderId)
                         temp.set("receiverId", m.get("_id"))

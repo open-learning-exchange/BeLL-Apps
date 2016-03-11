@@ -4,7 +4,21 @@ $(function() {
         schema: {
             invitationType: {
                 type: 'Select',
-                options: ['All', 'Level', 'Members']
+                options:[
+                    {
+                        val: 'All',
+                        label: 'All'
+                    },
+                    {
+                        val: 'Level',
+                        label: 'Level'
+                    },
+                    {
+                        val: 'Members',
+                        label: 'Members'
+                    }
+                ]
+              //  options: ['All', 'Level', 'Members']
             },
             levels: {
                 type: 'Checkboxes',
@@ -13,7 +27,7 @@ $(function() {
             members: {
                 type: 'Checkboxes',
                 options: null // Populate this when instantiating
-            },
+            }
         }
 
     })

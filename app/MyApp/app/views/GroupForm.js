@@ -97,7 +97,7 @@ $(function () {
             } else {
                 alert(App.languageDict.attributes.Prompt_Course_Desc)
             }
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
+            var directionOfLang = App.languageDict.get('directionOfLang');
 
             if (directionOfLang.toLowerCase() === "right") {
 
@@ -199,7 +199,8 @@ $(function () {
                 async: false
             });
 
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
 
         },
         setFormFromEnterKey: function (event) {
