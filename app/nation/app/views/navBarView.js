@@ -28,7 +28,7 @@ $(function() {
 
         },
 
-        render: function() {},
+        render: function() {}
 
     })
 

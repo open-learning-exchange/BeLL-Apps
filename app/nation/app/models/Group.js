@@ -57,9 +57,9 @@ $(function() {
             members: {
                 type: 'Checkboxes',
                 options: null // Populate this when instantiating
-            },
+            }
 
-        },
+        }
 
     })
 

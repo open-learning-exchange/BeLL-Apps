@@ -38,7 +38,7 @@ $(function() {
         render: function() {
             var vars = this.model.toJSON()
             this.$el.append(this.template(vars))
-        },
+        }
 
 
     })

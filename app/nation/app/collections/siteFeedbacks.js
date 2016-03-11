@@ -15,7 +15,7 @@ $(function() {
         comparator: function(m) {
             return -new Date(m.get('time')).getTime()
         },
-        model: App.Models.report,
+        model: App.Models.report
 
     })
 

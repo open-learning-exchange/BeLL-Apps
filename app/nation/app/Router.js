@@ -1315,7 +1315,7 @@ $(function() {
                         registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
                         registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
                         registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
-                        totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male'],
+                        totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
                     ],
                     color: '#33ccff'
                 }, {
@@ -1332,7 +1332,7 @@ $(function() {
                         registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
                         registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
                         registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
-                        totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female'],
+                        totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
                     ],
                     color: '#66ff66'
                 }, {
@@ -2268,7 +2268,7 @@ $(function() {
                             registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
                             registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
                             registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
-                            totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male'],
+                            totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
                         ],
                         color: '#33ccff'
                     }, {
@@ -2285,7 +2285,7 @@ $(function() {
                             registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
                             registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
                             registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
-                            totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female'],
+                            totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
                         ],
                         color: '#66ff66'
                     }, {
@@ -2677,7 +2677,7 @@ $(function() {
             handleNewSelection.apply($("#add_new_question"));
             if(isEdit) {
                 $("#dialog").dialog({
-                    title: "Edit Question",
+                    title: "Edit Question"
                 });
                 var questionType = questionModel.get('Type');
                 if(questionType == 'Multiple Choice (Single Answer)') {
@@ -3256,7 +3256,7 @@ $(function() {
                                 error: function(status) {
                                     console.log(status);
                                 },
-                                async: false,
+                                async: false
                             });
                         }
                         console.log(data);

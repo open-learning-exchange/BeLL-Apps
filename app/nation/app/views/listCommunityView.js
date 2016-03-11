@@ -260,7 +260,7 @@ $(function() {
                 },
                 async: false
             })
-        },
+        }
         /*
 
          Replicate: function () {
