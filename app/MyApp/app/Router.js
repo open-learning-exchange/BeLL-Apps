@@ -2006,6 +2006,22 @@ $(function() {
         },
         AddLevel: function(groupId, levelId, totalLevels) {
 
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue, lang;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             var Cstep = new App.Models.CourseStep()
             Cstep.set({
                 courseId: groupId
@@ -2036,11 +2052,11 @@ $(function() {
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
-                    lForm.render()
+                    lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
                     $("input[name='step']").attr("disabled", true);
                 })
-                Cstep.fetch()
+                Cstep.fetch({async:false});
             }
             if (totalLevels != -1) {
                 var tl = parseInt(totalLevels) + 1
