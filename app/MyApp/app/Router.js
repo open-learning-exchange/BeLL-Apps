@@ -1613,8 +1613,8 @@ $(function() {
                     }
                 }
             });
-
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
         },
         CourseInfo: function(courseId) {
 
@@ -1862,7 +1862,8 @@ $(function() {
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
             });
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
 
         },
         UserCourseDetails: function(courseId, name) {
@@ -1896,14 +1897,15 @@ $(function() {
             App.$el.children('.body').append('<div class="courseEditStep"></div>');
             groupMembers.render();
             $('.courseEditStep').append(groupMembers.el);
-            if (App.configuration.attributes.currentLanguage == "Arabic" || App.configuration.attributes.currentLanguage == "Urdu") {
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            if(directionOfLang.toLowerCase()==="right") {
                 $('.courseEditStep').find('h3').css('margin-right','5%');
             }
             else
             {
                 $('.courseEditStep').find('h3').css('margin-left','5%');
             }
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang)
 
 
         },
@@ -2092,7 +2094,8 @@ $(function() {
                     }
                 }
             });
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
         },
         saveDescprition: function(lid) {
             var level = new App.Models.CourseStep({
