@@ -12,7 +12,7 @@ $(function() {
             }
 
             return url
-        },
+        }
     })
 
 })

@@ -73,7 +73,7 @@ $(function() {
                     //                	this.render()
                 }, this.model)
 
-            },
+            }
         },
         render: function() {
             var i = 0

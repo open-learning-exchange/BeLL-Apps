@@ -6,7 +6,7 @@ $(function () {
 
         events: {
             "click #formButton": "setForm",
-            "submit form": "setFormFromEnterKey",
+            "submit form": "setFormFromEnterKey"
         },
 
         render: function () {
@@ -109,7 +109,7 @@ $(function () {
             if (addMem) {
                 this.model.save()
             }
-        },
+        }
 
 
     })

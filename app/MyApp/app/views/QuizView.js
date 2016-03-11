@@ -190,7 +190,7 @@ $(function() {
             $('#save-edit-question').hide()
             $('#cancel-edit-question').hide()
 
-        },
+        }
     })
 
 })

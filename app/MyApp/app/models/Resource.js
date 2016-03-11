@@ -60,7 +60,7 @@ $(function() {
             Level: {
                 title: 'Levels',
                 type: 'Select',
-                options: ['Early Education', 'Lower Primary', 'Upper Primary', 'Lower Secondary', 'Upper Secondary', 'Undergraduate', 'Graduate', 'Professional'],
+                options: ['Early Education', 'Lower Primary', 'Upper Primary', 'Lower Secondary', 'Upper Secondary', 'Undergraduate', 'Graduate', 'Professional']
             },
             Tag: {
                 title: 'Collection',
@@ -143,7 +143,7 @@ $(function() {
                 type: 'Date'
             },
             addedBy: 'Text',
-            openUrl: [],
+            openUrl: []
         },
 
         saveAttachment: function(formEl, fileEl, revEl) {
@@ -193,7 +193,7 @@ $(function() {
                             error: function(response) {
                                 alert(App.languageDict.attributes.Error)
                                 App.stopActivityIndicator()
-                            },
+                            }
                         })
                     }
                 }, // End success, we have a Doc

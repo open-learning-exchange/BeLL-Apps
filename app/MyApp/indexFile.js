@@ -600,12 +600,12 @@ $(window).scroll(function() {
     if (scrollpos >= 118) {
         $menu.css({
             "top": "0",
-            "position": "fixed",
+            "position": "fixed"
         });
     } else {
         $menu.css({
             "position": "fixed",
-            "top": "68px",
+            "top": "68px"
         });
     }
 });

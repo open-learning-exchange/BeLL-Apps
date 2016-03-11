@@ -33,23 +33,23 @@ $(function() {
             courseId: 'Text',
             resourceId: {
                 type: 'Select',
-                options: [],
+                options: []
             },
             questions: {
                 type: 'Select',
-                options: [],
+                options: []
             },
             qoptions: {
                 type: 'Select',
-                options: [],
+                options: []
             },
             answers: {
                 type: 'Select',
-                options: [],
+                options: []
             },
             resourceTitles: {
                 type: 'Select',
-                options: [],
+                options: []
             },
             allowedErrors: {
                 type: 'Text',
@@ -62,8 +62,8 @@ $(function() {
             },
             passingPercentage: {
                 type: 'Select',
-                options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            },
+                options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+            }
         },
         saveAttachment: function(formEl, fileEl, revEl) {
 

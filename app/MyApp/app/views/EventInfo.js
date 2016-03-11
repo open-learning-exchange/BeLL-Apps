@@ -41,7 +41,7 @@ $(function () {
             this.$el.append("<tr><td>Timing</td><td>" + vars.startTime + "-"+vars.endTime+"</td></tr>")
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyEvent">Destroy</button><a href="#calendar" style="margin-left:10px" class="btn btn-info">&lt;&lt; Calendar</a></td></tr>')
 
-        },
+        }
 
     })
 

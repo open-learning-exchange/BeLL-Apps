@@ -7,7 +7,7 @@ $(function() {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #cancelButton": "hidediv",
+            "click #cancelButton": "hidediv"
 
         },
 
@@ -154,7 +154,7 @@ $(function() {
                 trigger: true
             })
 
-        },
+        }
 
 
     })

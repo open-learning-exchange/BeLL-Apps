@@ -76,7 +76,7 @@ $(function() {
             this.$el.append(this.template(vars))
 
 
-        },
+        }
 
 
     })

@@ -18,7 +18,7 @@ $(function() {
             memberID: "",
             resourceID: [],
             frequency: []
-        },
+        }
 
     })
 

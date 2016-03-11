@@ -59,7 +59,7 @@ $(function() {
 
             this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyMeetupItem">'+languageDictValue.attributes.Unjoin+'</button></td></tr>')
 
-        },
+        }
 
     })
 

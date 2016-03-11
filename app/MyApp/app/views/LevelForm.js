@@ -14,7 +14,7 @@ $(function() {
             "click #addresources": function(e) {
                 this.addResource = true
                 this.setForm()
-            },
+            }
         },
 
         render: function() {
@@ -138,7 +138,7 @@ $(function() {
                 })
             }
 
-        },
+        }
 
 
     })

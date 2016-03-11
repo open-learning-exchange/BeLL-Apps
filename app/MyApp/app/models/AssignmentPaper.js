@@ -18,7 +18,7 @@ $(function() {
             courseId: 'Text',
             stepId: 'Text',
             sentDate: 'Text',
-            stepNo: 'Text',
+            stepNo: 'Text'
         },
         saveAttachment: function(formEl, fileEl, revEl) {
             // Work with this doc in the files database

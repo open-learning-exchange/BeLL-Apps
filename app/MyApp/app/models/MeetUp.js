@@ -37,7 +37,7 @@ $(function() {
                 type: 'Select',
                 options: ['ICT', 'First Time', 'Mothers', 'General', 'E Learning', 'Farming', 'Academic Discussion', 'Academic Help', 'Awareness']
             },
-            meetupLocation: 'Text',
+            meetupLocation: 'Text'
         }
 
     })
