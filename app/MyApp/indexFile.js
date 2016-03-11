@@ -94,11 +94,43 @@ function submitSurvey(surveyId, surQuestions) {
                     }
                 }
             } else {
-                alert("Please select option first");
+                //alert("Please select option first");
                 return;
             }
-        } else if(questionType == 'Rating Scale') {
-
+        } else if(questionType == 'Rating Scale'){
+            ////////////////////////////////////////////////
+            var ratingTable=questionTd.find('table >tbody');
+            var ratingAnswers = [];
+            var ratingCount = 0;
+            ratingTable.find('>tr').each(function (k) {
+                if(k != 0) {
+                    ratingCount++;
+                    var ratingTds = $(this).find('td');
+                    var ratingTd = ratingTds.eq(1);
+                    var ratingRadioBtnName = ratingTd.find('input').attr('name');
+                    var answer = $('input[name= "' + ratingRadioBtnName + '"]:checked').val();
+                    if(answer != undefined) {
+                        ratingAnswers.push(answer);
+                    }
+                }
+            });
+            if(ratingCount == ratingAnswers.length) {
+                console.log(ratingAnswers);
+                for(var j = 0; j < questionsColl.length; j++) {
+                    if(questionsColl[j]._id == questionId) {
+                        var questionModel = questionsColl[j];
+                        delete questionModel._id;
+                        delete questionModel._rev;
+                        questionModel["Answer"] = [];
+                        questionModel.Answer = ratingAnswers;
+                        answersToSubmit.push(questionModel);
+                    }
+                }
+            } else {
+                alert("Ratings are not filled");
+                return;
+            }
+            ///////////////////////////////////////////////
         } else if(questionType == 'Single Textbox') {
             var answer = questionTd.find('input').val();
             answer = answer.toString().trim();
@@ -114,7 +146,7 @@ function submitSurvey(surveyId, surQuestions) {
                     }
                 }
             } else {
-                alert("Please enter the valid answer");
+                //alert("Please enter the valid answer");
                 return;
             }
         } else if(questionType == 'Comment/Essay Box') {
@@ -132,7 +164,7 @@ function submitSurvey(surveyId, surQuestions) {
                     }
                 }
             } else {
-                alert("Please enter the valid answer");
+                //alert("Please enter the valid answer");
                 return;
             }
         }
