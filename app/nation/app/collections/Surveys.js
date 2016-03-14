@@ -5,10 +5,10 @@ $(function() {
         model: App.Models.Survey,
 
         url: function() {
-            if(this.keys != 'undefined') {
-                return App.Server + '/survey/_all_docs?include_docs=true&keys=[' + this.keys + ']'
+            if(this.SurveyNo) {
+                return App.Server + '/survey/_design/bell/_view/surveyBySurveyNo?include_docs=true&key=' + this.SurveyNo
             } else {
-                return App.Server + '/survey/_all_docs?include_docs=true'
+                return App.Server + '/survey/_design/bell/_view/allSurveys?include_docs=true'
             }
 
         },
