@@ -5,8 +5,8 @@ $(function() {
         model: App.Models.Survey,
 
         url: function() {
-            if(this.SurveyNo) {
-                return App.Server + '/survey/_design/bell/_view/surveyBySurveyNo?include_docs=true&key=' + this.SurveyNo
+            if(this.surveyNo) {
+                return App.Server + '/survey/_design/bell/_view/surveyBySurveyNo?include_docs=true&key=' + this.surveyNo
             } else {
                 return App.Server + '/survey/_design/bell/_view/allSurveys?include_docs=true'
             }

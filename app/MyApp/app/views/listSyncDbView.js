@@ -21,8 +21,7 @@ $(function() {
 			// <input type="checkbox" value="Resources" name="syncData">Resources<br>
 			//<input type="checkbox" value="Application" name="syncData" >Application<br><br><br>
 			// added "Members Db" checkbox
-			var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">Resources Feedbacks<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">Application Feedbacks<br><input type="checkbox" value="MembersDb" name="syncData">Members Database<br>')
-
+			var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">Resources Feedbacks<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">Application Feedbacks<br><input type="checkbox" value="MembersDb" name="syncData">Members Database<br>') //<input type="checkbox" value="Surveys" name="syncData">Surveys<br>
 			this.$el.append($button)
 			this.$el.append('<button class="btn btn-info" id="selectAll" style="width:110px">Select All</button><button style="margin-left:10px; width:110px" class="btn btn-success" id="formButton" style="width:110px">Send</button>')
 			this.$el.append('<button class="btn btn-warning" id="cancelButton" style="width:110px;margin-left:10px">Cancel</button>')
@@ -64,6 +63,9 @@ $(function() {
 						context.syncMembersDb()
 					}
 					//**************************************************************************************************
+					else if ($(this).val() == 'Surveys') {
+						context.syncSurveys();
+					}
 					if ($(this).val() == 'Application') {
 						context.checkAvailableUpdates()
 					}
@@ -364,6 +366,92 @@ $(function() {
 					alert(App.languageDict.attributes.TryLater_Error)
 				}
 			})
+		},
+		syncSurveys: function() {
+			console.log("Functionality is under-construction");
+			/*$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "surveyresponse",
+					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyresponse'
+				}),
+				success: function(response) {
+					alert("Successfully replicated survey response");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Error (Try Later)")
+				}
+			});
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "surveyanswers",
+					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyanswers'
+				}),
+				success: function(response) {
+					alert("Successfully replicated survey answers");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Error (Try Later)")
+				}
+			});*/
+			/*$.ajax({
+				url: '/surveyresponse/_design/bell/_view/surveyResByCommunityName?_include_docs=true&key="' + App.configuration.get('name') + '"',
+				type: 'GET',
+				dataType: 'json',
+				success: function (result) {
+					console.log(result);
+					var rows = result.rows;
+					var surveyNumbers = [];
+					for(var i = 0 ; i < rows.length ; i++) {
+						if(surveyNumbers.indexOf(rows[i].value) == -1) {
+							surveyNumbers.push(rows[i].value);
+						}
+					}
+					console.log(surveyNumbers);
+					$.ajax({
+						url: 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey/_design/bell/_view/surveyBySurveyNo?_include_docs=true',
+						type: 'GET',
+						dataType: 'jsonp',
+						success: function (surResult) {
+							var surveyDocsFromNation = surResult.rows;
+							var docsToChange = [];
+							for(var i = 0 ; i < surveyDocsFromNation.length ; i++) {
+								var surveyModel = surveyDocsFromNation[i].value;
+								var communityName = App.configuration.get('name');
+								if(surveyNumbers.indexOf(surveyModel.SurveyNo) > -1 && surveyModel.submittedBy.indexOf(communityName) == -1) {
+									surveyModel.submittedBy.push(communityName);
+									docsToChange.push(surveyModel)
+								}
+							}
+							console.log(docsToChange);
+							////////////////////////////////////
+							for(var j = 0 ; j < docsToChange.length ; j++) {
+								//Save community name in docsToChange and replicate them to nation db
+							}
+							////////////////////////////////////
+						},
+						error: function(err) {
+							console.log(err)
+						}
+					});
+				},
+				error: function(err) {
+					console.log(err)
+				}
+			});*/
 		},
 		//*************************************************************************************************************
 		//following function compare version numbers.

@@ -37,10 +37,7 @@ $(function() {
         },
 
         saveForm: function() {
-            var languageDictValue=App.Router.loadLanguageDocs();
-            alert(languageDictValue.attributes.Functionality_Under_Construction);
-            //The following code is necessary, so please do not play with it.
-            /*var isEdit = this.model.get("_id")
+            var isEdit = this.model.get("_id")
             var addtoDb = true
             this.form.commit()
             if (this.model.get("SurveyNo") == undefined) {
@@ -69,7 +66,7 @@ $(function() {
                         }
                     })
                 }
-            }*/
+            }
 
         },
         statusLoading: function() {

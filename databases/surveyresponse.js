@@ -34,6 +34,13 @@ ddoc.views = {
             }
         }
     },
+    surveyResByCommunityName: {
+        map: function(doc) {
+            if (doc.communityName && doc.kind == 'survey'){
+                emit(doc.communityName, doc.SurveyNo);
+            }
+        }
+    },
     surveyResBySentToCommunities: {
         map: function(doc) {
             if (doc.sentTo && doc.kind == 'survey') {

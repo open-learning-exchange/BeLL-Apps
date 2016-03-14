@@ -384,6 +384,7 @@ $(function() {
             that.updateDesignDocs("survey");
             that.updateDesignDocs("surveyresponse");
             that.updateDesignDocs("surveyquestions");
+            that.updateDesignDocs("surveyanswers");
             that.updateDesignDocs("coursestep");
             /////////////////////////////////////////
             that.updateConfigsOfCommFromNation();
