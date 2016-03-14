@@ -223,7 +223,10 @@ function submitSurvey(surveyId) {
                     success: function(data) {
                         console.log(data);
                         alert("Survey has been submitted successfully");
-                        window.location.reload();
+                        App.stopActivityIndicator();
+                        Backbone.history.navigate('#surveys/for-' + App.configuration.get('name'),
+                            {trigger: true}
+                        );
                     },
                     error: function(status) {
                         console.log(status);
