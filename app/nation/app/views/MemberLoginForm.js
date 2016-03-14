@@ -65,7 +65,7 @@ $(function() {
                     alert(languageDictValue.attributes.Invalid_Credentials)
                 }
             });
-        },
+        }
 
 
     })

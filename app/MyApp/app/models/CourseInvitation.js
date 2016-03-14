@@ -21,7 +21,7 @@ $(function() {
             userId: 'Text',
             status: 'Text'
 
-        },
+        }
     })
 
 })

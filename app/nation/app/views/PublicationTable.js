@@ -25,7 +25,7 @@ $(function() {
 
         render: function() {
             this.addAll()
-        },
+        }
     })
 
 })

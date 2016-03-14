@@ -31,7 +31,7 @@ $(function() {
                 options: []
 
             }
-        },
+        }
 
     })
     App.Models.sendPublication = Backbone.Model.extend({

@@ -101,7 +101,7 @@ $(function() {
             Level: {
                 title: 'Levels',
                 type: 'Select',
-                options: ['All', 'Early Education', 'Lower Primary', 'Upper Primary', 'Lower Secondary', 'Upper Secondary', 'Undergraduate', 'Graduate', 'Professional'],
+                options: ['All', 'Early Education', 'Lower Primary', 'Upper Primary', 'Lower Secondary', 'Upper Secondary', 'Undergraduate', 'Graduate', 'Professional']
             },
             Tag: {
                 title: 'Collection',
@@ -122,7 +122,7 @@ $(function() {
                 title: 'Date Added to Library',
                 type: 'Date'
             },
-            addedBy: 'Text',
+            addedBy: 'Text'
         }
     })
 

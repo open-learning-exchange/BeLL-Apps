@@ -75,7 +75,7 @@ $(function() {
                 skipStack.push(skip)
                 this.resultArray = []
                 this.fetchRecords()
-            },
+            }
         },
 
         initialize: function() {

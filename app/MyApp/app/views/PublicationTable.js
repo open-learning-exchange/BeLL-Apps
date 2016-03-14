@@ -114,7 +114,7 @@
                             that.syncCourses(pubDistributionID, publicationToSync);
                         }
                     },
-                    async: false,
+                    async: false
                 });
                 //this.syncCourses(pubDistributionID, publicationToSync);
             },

@@ -32,7 +32,7 @@ $(function() {
       nationUrl: {
         type: 'Text',
         validators: ['required']
-      },
+      }
 
     },
 

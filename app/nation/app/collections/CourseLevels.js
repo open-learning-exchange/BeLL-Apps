@@ -17,7 +17,7 @@ $(function() {
 
         comparator: function(model) {
             return model.get("step")
-        },
+        }
 
     })
 

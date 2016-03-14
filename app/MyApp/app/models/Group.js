@@ -24,7 +24,7 @@ $(function() {
             memberLimit: 'Text',
             courseLeader: {
                 type: 'Select',
-                options: null,
+                options: null
             },
             description: 'TextArea',
 
@@ -57,9 +57,9 @@ $(function() {
             members: {
                 type: 'Checkboxes',
                 options: null // Populate this when instantiating
-            },
+            }
 
-        },
+        }
 
     })
 

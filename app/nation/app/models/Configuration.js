@@ -19,7 +19,7 @@ $(function() {
             },
             subType: {
                 type: 'Text'
-            },
+            }
          /*   flagDoubleUpdate: { //no need of flag on nation side
                 type: 'Text'
             }, */

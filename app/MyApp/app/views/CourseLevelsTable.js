@@ -39,7 +39,7 @@ $(function () {
                 $('#externalDiv').append(ratingView.el)
                 $('#externalDiv').show()
 
-            },
+            }
         },
 
         quiz: function (e) {

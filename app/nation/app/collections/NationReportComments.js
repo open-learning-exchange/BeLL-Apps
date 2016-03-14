@@ -12,7 +12,7 @@ $(function() {
             })
             return docs
         },
-        model: App.Models.NationReportComment,
+        model: App.Models.NationReportComment
 
     })
 

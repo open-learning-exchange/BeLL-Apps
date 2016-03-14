@@ -23,7 +23,7 @@ $(function() {
             senderId: 'Text',
             senderName: 'Text',
             entityId: 'Text',
-            memberId: 'Text',
+            memberId: 'Text'
         }
 
     })

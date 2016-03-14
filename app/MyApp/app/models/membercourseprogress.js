@@ -21,7 +21,7 @@ $(function() {
             memberId: 'Text',
             stepsIds: 'null',
             stepsStatus: 'null',
-            stepsResult: 'null',
+            stepsResult: 'null'
         }
 
     })

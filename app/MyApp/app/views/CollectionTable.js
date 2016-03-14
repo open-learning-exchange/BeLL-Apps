@@ -55,7 +55,7 @@ $(function() {
 			if(this.collection.length>0){
 				this.render()
 			}
-		},
+		}
 		
 	},
 	displayMergeForm:function(){

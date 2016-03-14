@@ -37,7 +37,7 @@ $(function () {
                 fgcolor =App.languageDict.attributes.Not_Set;
             this.$el.append('<tr><td>'+App.languageDict.attributes.Foreground_Color+' :</td><td><div style="border:2px solid black;width:50px;height:20px;background-color:' + courseInfo.foregroundColor + '"></div>' + fgcolor + '</td></tr>')
 
-        },
+        }
 
     })
 

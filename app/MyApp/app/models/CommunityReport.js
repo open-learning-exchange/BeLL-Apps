@@ -22,7 +22,7 @@ $(function() {
             title: 'Text',
             author: 'Text', // Author Field is required when adding the resource with tag news else no need for that.
             // For Resources with more than one and where one open file must be specified
-            Date: 'Date',
+            Date: 'Date'
 
         },
 
@@ -75,7 +75,7 @@ $(function() {
                             },
                             error: function(response) {
                                 alert(App.languageDict.attributes.Error)
-                            },
+                            }
                         })
                     }
 

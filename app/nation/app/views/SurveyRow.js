@@ -56,7 +56,7 @@ $(function() {
             var date = new Date(vars.Date)
             vars.Date = date.toUTCString()
             this.$el.append(this.template(vars))
-        },
+        }
 
 
     })

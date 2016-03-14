@@ -527,7 +527,7 @@ $(function() {
             userMeetup.set({
                 memberId: $.cookie('Member._id'),
                 meetupId: meetupId,
-                meetupTitle: meetup.get('title'),
+                meetupTitle: meetup.get('title')
 
             })
             userMeetup.save()
@@ -544,7 +544,7 @@ $(function() {
             model.set('body', body)
             model.save()
             $('#mail-body').html('<br/>' + body)
-        },
+        }
 
     })
 

@@ -31,7 +31,7 @@ $(function() {
                 options: ['--Select--']
             },
             AddedBy: 'Text',
-            AddedDate: 'Text',
+            AddedDate: 'Text'
         }
 
     })

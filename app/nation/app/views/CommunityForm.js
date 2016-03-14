@@ -9,7 +9,7 @@ $(function() {
             "click #formButton": function() {
                 document.getElementById("addCommunity").submit();
             },
-            "submit form": "setForm",
+            "submit form": "setForm"
         },
         template: $('#template-addCommunity').html(),
 

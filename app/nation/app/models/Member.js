@@ -63,7 +63,7 @@ $(function() {
             forGrades: {
                 type: 'Checkboxes',
                 options: ['Pre-k', 'Grades(1-12)', 'Higher Education', 'Completed Higer Education', 'Masters', 'Doctrate', 'Other Professional Degree']
-            },
+            }
         },
 
 

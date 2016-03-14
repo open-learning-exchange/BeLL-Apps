@@ -14,7 +14,7 @@ $(function () {
             "click #coursescheduleButton": "CourseSchedule",
             "click #cancel": function () {
                 window.history.back()
-            },
+            }
 
 
         },
@@ -370,7 +370,7 @@ $(function () {
                 mail.save()
             }
 
-        },
+        }
 
 
     })

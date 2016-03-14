@@ -131,7 +131,7 @@ $(function() {
                             userMeetup.set({
                                 memberId: $.cookie('Member._id'),
                                 meetupId: responce.get('id'),
-                                meetupTitle: responce.get('title'),
+                                meetupTitle: responce.get('title')
 
                             })
                             userMeetup.save()
@@ -160,7 +160,7 @@ $(function() {
 
 
             }
-        },
+        }
 
 
     })

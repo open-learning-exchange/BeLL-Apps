@@ -12,7 +12,7 @@ $(function() {
             password: {
                 type: 'Password',
                 validators: ['required']
-            },
+            }
         }
 
     })
