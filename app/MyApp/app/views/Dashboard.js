@@ -374,7 +374,8 @@ $(function() {
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
             //Updating configurations and other db's
-            that.updateLanguageDocs();
+            //////////////////////////////////////////////
+            /*that.updateLanguageDocs();
             //Onward are the Ajax Request for all Updated Design Docs
             that.updateDesignDocs("activitylog");
             that.updateDesignDocs("members");
@@ -390,7 +391,8 @@ $(function() {
             that.updateConfigsOfCommFromNation();
             ////////////////////////////////////////
             that.updateDesignDocs("groups");
-            that.updateDesignDocs("publications");
+            that.updateDesignDocs("publications");*/
+            /////////////////////////////////////////////////////////
             //Following are the list of db's on which design_docs are not updating,
             // whenever the design_docs will be changed in a db,that db's call will be un-commented.
             //that.updateDesignDocs("assignmentpaper");
@@ -687,7 +689,6 @@ $(function() {
             var languageDictValue=loadLanguageDocs();
             var that = this;
             var currentConfig = that.getCommunityConfigs();
-            var communityModel = result.rows[0].value;
             var communityModelId = result.rows[0].id;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
@@ -714,66 +715,80 @@ $(function() {
                     var day = date.getDate().toString();
                     day = day.length > 1 ? day : '0' + day;
                     var formattedDate = month + '-' + day + '-' + year;
-
-                    communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
-                    communityModel.version = currentConfig.version;
-                    //Update the record in Community db at Community Level
+                    ////////////////////////////////////////////////////
                     $.ajax({
-
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'multipart/form-data'
-                        },
-                        type: 'PUT',
-                        url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                        url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                        type: 'GET',
                         dataType: 'json',
-                        data: JSON.stringify(communityModel),
-                        success: function(response) {
-                            var currCommConfig = that.updateConfigsOfCommunity(2); //update countDoubleUpdate to 2
+                        success: function(res) {
+                            if (res.rows.length > 0) {
+                                var communityModel = res.rows[0].value;
+                                communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
+                                communityModel.version = currentConfig.version;
+                                //Update the record in Community db at Community Level
+                                $.ajax({
 
-                            //Replicate from Community to Nation
-                            $.ajax({
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json; charset=utf-8'
-                                },
-                                type: 'POST',
-                                url: '/_replicate',
-                                dataType: 'json',
-                                data: JSON.stringify({
-                                    "source": "community",
-                                    "target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
-                                    "doc_ids": [communityModelId]
-                                }),
-                                success: function(response) {
-                                    console.log("Successfully Replicated.");
-                                    var currConfigOfComm = that.getCommunityConfigs()
-                                    console.log("value of countDoubleUpdate after incrementing to 2: " + currCommConfig.countDoubleUpdate)
-                                    console.log("value of countDoubleUpdate: " + currConfigOfComm.countDoubleUpdate);
-                                    if (currConfigOfComm.countDoubleUpdate > 1) {
-                                        console.log("Updated Successfully" + currConfigOfComm.countDoubleUpdate); //todo: comment this if statement
-                                        //Deleting the temp db's
-                                        $.couch.allDbs({
-                                            success: function (data) {
-                                                if (data.indexOf('tempapps') != -1) {
-                                                    $.couch.db("tempapps").drop({
-                                                        success: function (res) {
-                                                            console.log(res);
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'multipart/form-data'
+                                    },
+                                    type: 'PUT',
+                                    url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                                    dataType: 'json',
+                                    data: JSON.stringify(communityModel),
+                                    success: function(response) {
+                                        var currCommConfig = that.updateConfigsOfCommunity(2); //update countDoubleUpdate to 2
+
+                                        //Replicate from Community to Nation
+                                        $.ajax({
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json; charset=utf-8'
+                                            },
+                                            type: 'POST',
+                                            url: '/_replicate',
+                                            dataType: 'json',
+                                            data: JSON.stringify({
+                                                "source": "community",
+                                                "target": 'http://' + nationName + ':oleoleole@' + nationURL + '/community',
+                                                "doc_ids": [communityModelId]
+                                            }),
+                                            success: function(response) {
+                                                console.log("Successfully Replicated.");
+                                                var currConfigOfComm = that.getCommunityConfigs()
+                                                console.log("value of countDoubleUpdate after incrementing to 2: " + currCommConfig.countDoubleUpdate)
+                                                console.log("value of countDoubleUpdate: " + currConfigOfComm.countDoubleUpdate);
+                                                if (currConfigOfComm.countDoubleUpdate > 1) {
+                                                    console.log("Updated Successfully" + currConfigOfComm.countDoubleUpdate); //todo: comment this if statement
+                                                    //Deleting the temp db's
+                                                    $.couch.allDbs({
+                                                        success: function (data) {
+                                                            if (data.indexOf('tempapps') != -1) {
+                                                                $.couch.db("tempapps").drop({
+                                                                    success: function (res) {
+                                                                        console.log(res);
+                                                                    }
+                                                                });
+                                                            }
                                                         }
                                                     });
                                                 }
-                                            }
+                                                alert(languageDictValue.attributes.Updated_Successfully);
+                                                window.location.reload(false);
+                                            },
+                                            async: false
                                         });
-                                    }
-                                    alert(languageDictValue.attributes.Updated_Successfully);
-                                    window.location.reload(false);
-                                },
-                                async: false
-                            });
-                        },
+                                    },
 
-                        async: false
+                                    async: false
+                                });
+                            }
+                        },
+                        error: function() {
+                            console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                        }
                     });
+                    ////////////////////////////////////////////////////
                 },
                 async: false
             });
