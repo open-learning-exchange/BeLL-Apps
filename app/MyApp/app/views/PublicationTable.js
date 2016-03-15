@@ -321,7 +321,6 @@
                                                     type: 'GET',
                                                     dataType: 'jsonp',
                                                     success: function(result){
-                                                        var communityModel = result.rows[0].value;
                                                         var communityModelId = result.rows[0].id;
                                                         //Replicate from Nation to Community
                                                         $.ajax({
@@ -346,42 +345,52 @@
                                                                 var day = date.getDate().toString();
                                                                 day = day.length > 1 ? day : '0' + day;
                                                                 var formattedDate = month + '-' + day + '-' + year;
-                                                                communityModel.lastPublicationsSyncDate = month + '/' + day + '/' + year;
-                                                                //Update the record in Community db at Community Level
                                                                 $.ajax({
-
-                                                                    headers: {
-                                                                        'Accept': 'application/json',
-                                                                        'Content-Type': 'multipart/form-data'
-                                                                    },
-                                                                    type: 'PUT',
-                                                                    url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                                                                    url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                                                                    type: 'GET',
                                                                     dataType: 'json',
-                                                                    data: JSON.stringify(communityModel),
-                                                                    success: function (response) {
-                                                                        //Replicate from Community to Nation
-                                                                        $.ajax({
-                                                                            headers: {
-                                                                                'Accept': 'application/json',
-                                                                                'Content-Type': 'application/json; charset=utf-8'
-                                                                            },
-                                                                            type: 'POST',
-                                                                            url: '/_replicate',
-                                                                            dataType: 'json',
-                                                                            data: JSON.stringify({
-                                                                                "source": "community",
-                                                                                "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
-                                                                                "doc_ids": [communityModelId]
-                                                                            }),
-                                                                            success: function(response){
-                                                                                alert(App.languageDict.attributes.Pubs_Replicated_Success)
-                                                                                App.stopActivityIndicator();
-                                                                            },
-                                                                            async: false
-                                                                        });
-                                                                    },
+                                                                    success: function (res) {
+                                                                        if (res.rows.length > 0) {
+                                                                            var communityModel = res.rows[0].value;
+                                                                            communityModel.lastPublicationsSyncDate = month + '/' + day + '/' + year;
+                                                                            //Update the record in Community db at Community Level
+                                                                            $.ajax({
 
-                                                                    async: false
+                                                                                headers: {
+                                                                                    'Accept': 'application/json',
+                                                                                    'Content-Type': 'multipart/form-data'
+                                                                                },
+                                                                                type: 'PUT',
+                                                                                url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
+                                                                                dataType: 'json',
+                                                                                data: JSON.stringify(communityModel),
+                                                                                success: function (response) {
+                                                                                    //Replicate from Community to Nation
+                                                                                    $.ajax({
+                                                                                        headers: {
+                                                                                            'Accept': 'application/json',
+                                                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                                                        },
+                                                                                        type: 'POST',
+                                                                                        url: '/_replicate',
+                                                                                        dataType: 'json',
+                                                                                        data: JSON.stringify({
+                                                                                            "source": "community",
+                                                                                            "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
+                                                                                            "doc_ids": [communityModelId]
+                                                                                        }),
+                                                                                        success: function(response){
+                                                                                            alert(App.languageDict.attributes.Pubs_Replicated_Success)
+                                                                                            App.stopActivityIndicator();
+                                                                                        },
+                                                                                        async: false
+                                                                                    });
+                                                                                },
+
+                                                                                async: false
+                                                                            });
+                                                                        }
+                                                                    }
                                                                 });
                                                             },
                                                             async: false
