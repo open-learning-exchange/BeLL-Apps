@@ -4106,7 +4106,8 @@ $(function() {
 
             })
             resource.fetch();
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
             if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
             {
                 $('.btable td').css('text-align','right');
@@ -4153,7 +4154,8 @@ $(function() {
 
             $('#feedbackResoDiv').append(feedbackForm.el);
             $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.Comment);
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
         },
         email: function() {
             App.$el.children('.body').html('&nbsp')
