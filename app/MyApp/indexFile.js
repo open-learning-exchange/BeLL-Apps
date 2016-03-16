@@ -171,7 +171,11 @@ function submitSurvey(surveyId) {
                 if (members.length > 0) {
                     member = members.first();
                     gender = member.get('Gender');
-                    birthYear = member.get('BirthDate').split('-')[0];
+                    if(member.get('BirthDate') != undefined) {
+                        birthYear = member.get('BirthDate').split('-')[0];
+                    } else {
+                        birthYear = '2016';
+                    }
                     memberKey = member.get('login');
                 }
             },
