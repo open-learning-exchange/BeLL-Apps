@@ -112,7 +112,7 @@ $(function() {
             resourceFormView.renderAddOrUploadWelcomeVideoForm();
             App.$el.children('.body').html(resourceFormView.el);
             $('.field-resourceType').hide();
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         Publications: function(publicationIdes) {
             var PublicationsView = new App.Views.PublicationTable();
