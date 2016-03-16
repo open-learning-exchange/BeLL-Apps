@@ -7,7 +7,23 @@ $(function() {
 		admn: null,
 		events: {
 			"click .destroy": function(event) {
-				if (confirm(loadLanguageDocs().attributes.Confirm_Resource)) {
+				var members = new App.Collections.Members()
+				var member;
+				var languageDictValue;
+				members.login = $.cookie('Member.login');
+				var clanguage = '';
+				members.fetch({
+					success: function () {
+						if (members.length > 0) {
+							member = members.first();
+							clanguage = member.get('bellLanguage');
+							languageDictValue = getSpecificLanguage(clanguage);
+						}
+					},
+					async: false
+				});
+				App.languageDict = languageDictValue;
+				if (confirm(lApp.languageDict.attributes.Confirm_Resource)) {
 					var that = this
 					////Deleting from the resource
 					var shelfResources = new App.Collections.shelfResource()

@@ -63,7 +63,23 @@ $(function() {
 
         },
         deleteRecord: function() {
-            if (confirm(loadLanguageDocs().attributes.Confirm_Collection)) {
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
+            if (confirm(App.languageDict.attributes.Confirm_Collection)) {
                 $('.form .field-Tag select option[value=' + this.model.get("_id") + "]").remove();
                 $('#' + this.model.get("_id")).parent('tr').remove();
                 this.deleteCollectionNameFromResources(this.model.get("_id"));

@@ -2358,7 +2358,23 @@ $(function() {
 
         },
         deleteMeetUp: function(meetupId) {
-            if(confirm(loadLanguageDocs().attributes.meetUp_delete_confirm)) {
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
+            if(confirm(languageDictValue.attributes.meetUp_delete_confirm)) {
                 var UserMeetups = new App.Collections.UserMeetups()
                 UserMeetups.meetupId = meetupId
                 UserMeetups.fetch({
@@ -2499,7 +2515,22 @@ $(function() {
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
 
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
@@ -4478,6 +4509,22 @@ $(function() {
         },
         //also used for collection editing from collection listing page
         EditTag: function(value) {
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
             var roles = this.getRoles()
             if (roles.indexOf("Manager") > -1) {
 
@@ -4518,7 +4565,7 @@ $(function() {
                         todayHighlight: true
                     });
                     $("input[name='AddedBy']").attr("disabled", true);
-                    var directionOfLang = loadLanguageDocs().get('directionOfLang');
+                    var directionOfLang = App.languageDict.get('directionOfLang');
 
                     if (directionOfLang.toLowerCase() === "right") {
 
