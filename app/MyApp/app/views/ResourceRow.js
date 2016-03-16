@@ -23,7 +23,7 @@ $(function() {
 					async: false
 				});
 				App.languageDict = languageDictValue;
-				if (confirm(lApp.languageDict.attributes.Confirm_Resource)) {
+				if (confirm(App.languageDict.attributes.Confirm_Resource)) {
 					var that = this
 					////Deleting from the resource
 					var shelfResources = new App.Collections.shelfResource()
