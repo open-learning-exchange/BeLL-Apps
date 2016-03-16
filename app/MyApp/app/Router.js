@@ -1481,7 +1481,7 @@ $(function() {
                 },
                 async: false
             })
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         Groups: function() {
 
@@ -2235,7 +2235,7 @@ $(function() {
             })
             meetup_details.render()
             App.$el.children('.body').html(meetup_details.el);
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
 
         },
@@ -4053,7 +4053,7 @@ $(function() {
                 }
             });
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         RenderTagSelect: function(iden) {
@@ -4183,7 +4183,7 @@ $(function() {
             skipStack.push(skip)
             mailview.fetchRecords();
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         CoursesBarChart: function() {
@@ -4202,7 +4202,7 @@ $(function() {
             chart.render();
             App.$el.children('.body').append(chart.el);
             App.$el.children('.body').append('<div id="infoAboutGraph"><b>*Horizontal Axis : Courses<br>*Vertical Axis : Steps</b></div>')
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         AddToShelf: function(rId, title) {
             var memberShelfResource = new App.Collections.shelfResource()
@@ -4417,7 +4417,7 @@ $(function() {
 
             });
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
 
         },
@@ -4444,7 +4444,7 @@ $(function() {
                 todayHighlight: true
             });
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         calendaar: function(eventId) {
             App.$el.children('.body').html('&nbsp')

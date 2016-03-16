@@ -24,7 +24,7 @@ $(function () {
             }
             this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
             var clanguage = App.configuration.get("currentLanguage");
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         updateDropDownValue : function(){

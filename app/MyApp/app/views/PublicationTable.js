@@ -90,7 +90,7 @@
                     }
                 });
 
-                applyStylingSheet();
+                applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             },
             synPublication:function(e){
                 var that = this;
