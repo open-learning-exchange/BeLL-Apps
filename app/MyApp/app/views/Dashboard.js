@@ -374,8 +374,7 @@ $(function() {
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
             //Updating configurations and other db's
-            //////////////////////////////////////////////
-            /*that.updateLanguageDocs();
+            that.updateLanguageDocs();
             //Onward are the Ajax Request for all Updated Design Docs
             that.updateDesignDocs("activitylog");
             that.updateDesignDocs("members");
@@ -391,8 +390,7 @@ $(function() {
             that.updateConfigsOfCommFromNation();
             ////////////////////////////////////////
             that.updateDesignDocs("groups");
-            that.updateDesignDocs("publications");*/
-            /////////////////////////////////////////////////////////
+            that.updateDesignDocs("publications");
             //Following are the list of db's on which design_docs are not updating,
             // whenever the design_docs will be changed in a db,that db's call will be un-commented.
             //that.updateDesignDocs("assignmentpaper");
