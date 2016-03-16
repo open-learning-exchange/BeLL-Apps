@@ -66,7 +66,35 @@ $(function() {
             //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
             // Put the form's input into the model in memory
             var addtoDb = true;
-            var languageDictValue=App.Router.loadLanguageDocs();
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
             var previousTitle = this.model.get("title")
             var newTitle
             var isEdit = this.model.get("_id")
@@ -114,7 +142,35 @@ $(function() {
                     this.model.save(null, {
                         success: function() {
                             that.model.unset('_attachments');
-                            var languageDictValue=App.Router.loadLanguageDocs();
+                            var loginOfMem = $.cookie('Member.login');
+                            var lang;
+                            $.ajax({
+                                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                                type: 'GET',
+                                dataType: 'jsonp',
+                                async:false,
+                                success: function (surResult) {
+                                    console.log(surResult);
+                                    var id = surResult.rows[0].id;
+                                    $.ajax({
+                                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                                        type: 'GET',
+                                        dataType: 'jsonp',
+                                        async:false,
+                                        success: function (resultByDoc) {
+                                            console.log(resultByDoc);
+                                            lang=resultByDoc.rows[0].value.bellLanguage;
+                                        },
+                                        error:function(err){
+                                            console.log(err);
+                                        }
+                                    });
+                                },
+                                error:function(err){
+                                    console.log(err);
+                                }
+                            });
+                            var languageDictValue=App.Router.loadLanguageDocs(lang);
                             if ($('input[type="file"]').val()) {
                                 if (isEdit != undefined) {
                                     if (previousTitle != newTitle) {
