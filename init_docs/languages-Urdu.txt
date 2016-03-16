@@ -617,5 +617,7 @@
      "Year_format":"YYYY",
      "Month":"Month",
      "Urdu":"Urdu",
-     "New Reports":"New_Reports"
+     "New Reports":"New_Reports",
+     "View_All_Courses":"View All Courses",
+     "No_data_found":"No such record exists"
 }

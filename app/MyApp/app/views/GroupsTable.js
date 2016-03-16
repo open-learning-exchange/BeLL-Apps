@@ -41,16 +41,14 @@ $(function() {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="courses")
                 {
-                    //    alert("Hello")
                     $('#parentLibrary').addClass('addResource');
+
                 }
-
-
-                // $('.table-striped').css({direction:rtl});
             }
             else
             {
                 $('#parentLibrary').removeClass('addResource');
+
             }
         },
 		events: {

@@ -171,8 +171,6 @@ $(function() {
             this.underConstruction()
         },
         underConstruction: function() {
-           /* applyStylingSheet();
-            var languageDictValue=loadLanguageDocs();*/
             var members = new App.Collections.Members()
             var member;
             var languageDictValue;
@@ -2108,18 +2106,65 @@ $(function() {
         GroupSearch: function() {
 
             var cSearch
-            cSearch = new App.Views.CourseSearch()
+            cSearch = new App.Views.CourseSearch();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             cSearch.render()
-            var button = '<p style="margin-top:15px">'
-            button += '<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
-            button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
-            button += '<a style="margin-left:10px" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>'
-            button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
-            button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+            var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
+            var lib_page = $.url().data.attr.fragment;
+            if(lib_page=="courses"){
+                $('.body').empty();
+                $('#parentLibrary').css('visibility', 'visible');
+            }
+            App.$el.children('.body').append(parentDiv);
+            var button = '<p id="library-top-buttons">'
+            button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
+            button += '<a id="requestCourseButton" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
+            button += '<a  id="listAllCoursesBtn" class="btn btn-info" onclick="ListAllCourses()">'+App.languageDict.attributes.View_All_Courses+'</a>'
+            button += '<span id="searchSpan"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span>'
+            button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
             button += '</p>'
-            App.$el.children('.body').html(button)
-            App.$el.children('.body').append('<h3>Courses</h3>')
-            App.$el.children('.body').append(cSearch.el)
+            $('#parentLibrary').append( button);
+
+
+            $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
+            App.$el.children('.body').append(cSearch.el);
+            cSearch.changeDirection();
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
+            {
+
+                $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
+                $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
+                $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#searchText').css('margin-right','1%');
+                $('#headingOfCourses').css('margin-right','2%');
+                $('#searchSpan').find('span').css("margin-right","10px");
+
+            }
+            else
+            {
+                $('#searchSpan').css('float','right');
+                $('#requestCourseButton').css('margin-left','10px');
+                $("#addCourseButton").addClass('addMarginsOnCourse');
+                $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#listAllCoursesBtn').css("margin-left","10px");
+                $('#searchSpan').find('span').css("margin-left","10px");
+            }
+
         },
         ListMeetups: function() {
 
