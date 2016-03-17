@@ -184,7 +184,7 @@ $(function() {
                 })
                 var con = config.first();
                 var currentConfig = config.first().toJSON().rows[0].doc;
-                clanguage= currentConfig.currentLanguage;
+                clanguage= App.languageDict.get('nameInNativeLang');
             }
 
             // prepare the form
