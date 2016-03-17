@@ -156,8 +156,34 @@ function showFeedbackForm() {
 
     }
     $('#comment').attr('placeholder',App.languageDict.attributes.Give_Feedback);
-    var directionOfLang = loadLanguageDocs().get('directionOfLang');
-    if (directionOfLang.toLowerCase() === "right") {
+    var languageDictValue, clanguage;
+    if($.cookie('Member._id'))
+    {
+        var members = new App.Collections.Members()
+        var member;
+        members.login = $.cookie('Member.login');
+        members.fetch({
+            success: function () {
+                if (members.length > 0) {
+                    member = members.first();
+                    clanguage=member.get('bellLanguage')
+                    languageDictValue = getSpecificLanguage(clanguage);
+                }
+            },
+            async:false
+        });
+    }
+    else if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
+    {
+        clanguage= $.cookie('languageFromCookie');
+        console.log('value from cookie in navBar '+clanguage)
+    }
+    else
+    {
+        clanguage = App.configuration.get("currentLanguage");
+    }
+    languageDictValue=getSpecificLanguage(clanguage);
+    if (languageDictValue.get('directionOfLang').toLowerCase() === "right") {
         $('#comment').css('text-align','right');
     }
 
