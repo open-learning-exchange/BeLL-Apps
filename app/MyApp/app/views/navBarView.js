@@ -39,12 +39,15 @@ $(function() {
               //  }
                 if($.cookie('isChange')=="true" && !($.cookie('Member._id')))
                 {
+                    console.log('member has not logged in')
                     if(checkIfExistsInLangDb($.cookie('languageFromCookie')))
                     {
+                        console.log('going to check whether cookie is valid and its correct')
                         clanguage= $.cookie('languageFromCookie');
 
                     }
                    else {
+                        console.log('cookie is false')
                         //$.cookie('languageFromCookie',App.configuration.get("currentLanguage"));
                         clanguage = App.configuration.get("currentLanguage");
                     }
@@ -63,7 +66,7 @@ $(function() {
                         },
                         async:false
                     });
-                    console.log('2 '+clanguage)
+                    console.log('member has logged in '+clanguage)
                 }
                 else{
                     clanguage = App.configuration.get("currentLanguage");

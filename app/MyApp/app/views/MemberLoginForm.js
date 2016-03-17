@@ -52,11 +52,12 @@ $(function() {
             })
 
             this.$el.append(this.form.render().el);
-            languageDictValue=getSpecificLanguage($('#onLoginLanguage :selected').val());
+            console.log('value of dropdown '+$('#onLoginLanguage :selected').val());
+            //languageDictValue=getSpecificLanguage($('#onLoginLanguage :selected').val());
             //Checking here that if the value of cookie is unset due to any reason then set its value
-            if($.cookie('languageFromCookie')==null)
+            if($.cookie('languageFromCookie')==null) //|| $('#onLoginLanguage :selected').val() ==undefined )
             {
-                //Cookie did not exist before
+                console.log('Cookie did not exist before');
                 var configurations = Backbone.Collection.extend({
                     url: App.Server + '/configurations/_all_docs?include_docs=true'
                 })
@@ -71,7 +72,7 @@ $(function() {
             }
             else
             {
-                //Update the value of cookie
+                console.log('Update the value of cookie');
                 $.cookie('languageFromCookie',$('#onLoginLanguage :selected').val());
             }
 

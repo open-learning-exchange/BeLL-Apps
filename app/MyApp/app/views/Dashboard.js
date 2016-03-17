@@ -84,7 +84,7 @@ $(function() {
                     success: function () {
                         if (members.length > 0) {
                             member = members.first();
-                            languageDictValue=getSpecificLanguage(member.get('language'));
+                            languageDictValue=getSpecificLanguage(member.get('bellLanguage'));
                         }
                     },
                     async:false

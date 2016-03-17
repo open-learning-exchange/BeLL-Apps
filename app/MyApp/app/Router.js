@@ -4139,7 +4139,7 @@ $(function() {
             resource.fetch();
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            if(directionOfLang.toLowerCase()==="right")
             {
                 $('.btable td').css('text-align','right');
                 $('.btable th').css('text-align','right');

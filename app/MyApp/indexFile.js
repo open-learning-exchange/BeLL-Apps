@@ -142,22 +142,6 @@ function changeMemberLanguage(option)
 
 
 function showFeedbackForm() {
-    var members = new App.Collections.Members()
-    var member;
-    var languageDictValue;
-    members.login = $.cookie('Member.login');
-    var clanguage = '';
-    members.fetch({
-        success: function () {
-            if (members.length > 0) {
-                member = members.first();
-                clanguage = member.get('bellLanguage');
-                languageDictValue = getSpecificLanguage(clanguage);
-            }
-        },
-        async: false
-    });
-    App.languageDict = languageDictValue;
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {
         $('#site-feedback').animate({
@@ -172,8 +156,7 @@ function showFeedbackForm() {
 
     }
     $('#comment').attr('placeholder',App.languageDict.attributes.Give_Feedback);
-    var directionOfLang = getSpecificLanguage(App.languageDict.get('directionOfLang').toLowerCase());
-
+    var directionOfLang = loadLanguageDocs().get('directionOfLang');
     if (directionOfLang.toLowerCase() === "right") {
         $('#comment').css('text-align','right');
     }
@@ -231,6 +214,7 @@ function checkIfExistsInLangDb(language){
     return isPresent;
 }
 function getSpecificLanguage(language){
+    console.log('from start '+language);
     var languages = new App.Collections.Languages();
     languages.fetch({
         async: false
@@ -287,8 +271,9 @@ function getSpecificLanguage(language){
                 async:false
 
             });
-
+        console.log('from end '+member.get('bellLanguage'));
     }
+
     return languageDict;
 }
 
