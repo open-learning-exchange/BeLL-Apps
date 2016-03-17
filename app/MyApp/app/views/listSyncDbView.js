@@ -21,7 +21,7 @@ $(function() {
 			// <input type="checkbox" value="Resources" name="syncData">Resources<br>
 			//<input type="checkbox" value="Application" name="syncData" >Application<br><br><br>
 			// added "Members Db" checkbox
-			var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">Resources Feedbacks<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">Application Feedbacks<br><input type="checkbox" value="MembersDb" name="syncData">Members Database<br>') //<input type="checkbox" value="Surveys" name="syncData">Surveys<br>
+			var $button = $('<h6>Select Item(\'s) To Sync</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">Log Activity Reports<br><input type="checkbox" value="Reports" name="syncData">Reports<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">Resources Feedbacks<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">Application Feedbacks<br><input type="checkbox" value="MembersDb" name="syncData">Members Database<br><input type="checkbox" value="Surveys" name="syncData">Surveys<br>')
 			this.$el.append($button)
 			this.$el.append('<button class="btn btn-info" id="selectAll" style="width:110px">Select All</button><button style="margin-left:10px; width:110px" class="btn btn-success" id="formButton" style="width:110px">Send</button>')
 			this.$el.append('<button class="btn btn-warning" id="cancelButton" style="width:110px;margin-left:10px">Cancel</button>')
@@ -379,46 +379,11 @@ $(function() {
 			})
 		},
 		syncSurveys: function() {
-			console.log("Functionality is under-construction");
-			/*$.ajax({
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json; charset=utf-8'
-				},
-				type: 'POST',
-				url: '/_replicate',
-				dataType: 'json',
-				data: JSON.stringify({
-					"source": "surveyresponse",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyresponse'
-				}),
-				success: function(response) {
-					alert("Successfully replicated survey response");
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
-				}
-			});
+			var that = this;
+			that.syncSurveyResponse();
+			that.syncSurveyAnswers();
+			//Saving community name in submittedBy for nation's record
 			$.ajax({
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json; charset=utf-8'
-				},
-				type: 'POST',
-				url: '/_replicate',
-				dataType: 'json',
-				data: JSON.stringify({
-					"source": "surveyanswers",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyanswers'
-				}),
-				success: function(response) {
-					alert("Successfully replicated survey answers");
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
-				}
-			});*/
-			/*$.ajax({
 				url: '/surveyresponse/_design/bell/_view/surveyResByCommunityName?_include_docs=true&key="' + App.configuration.get('name') + '"',
 				type: 'GET',
 				dataType: 'json',
@@ -438,21 +403,48 @@ $(function() {
 						dataType: 'jsonp',
 						success: function (surResult) {
 							var surveyDocsFromNation = surResult.rows;
-							var docsToChange = [];
+							var idsOfDocsToChange = [];
 							for(var i = 0 ; i < surveyDocsFromNation.length ; i++) {
 								var surveyModel = surveyDocsFromNation[i].value;
 								var communityName = App.configuration.get('name');
 								if(surveyNumbers.indexOf(surveyModel.SurveyNo) > -1 && surveyModel.submittedBy.indexOf(communityName) == -1) {
-									surveyModel.submittedBy.push(communityName);
-									docsToChange.push(surveyModel)
+									idsOfDocsToChange.push(surveyModel._id)
 								}
 							}
-							console.log(docsToChange);
-							////////////////////////////////////
-							for(var j = 0 ; j < docsToChange.length ; j++) {
-								//Save community name in docsToChange and replicate them to nation db
-							}
-							////////////////////////////////////
+							console.log(idsOfDocsToChange);
+							$.couch.allDbs({
+								success: function(data) {
+									if (data.indexOf('tempsurvey') != -1) {
+										console.log("tempsurvey existed.We are going to drop and create.");
+										$.couch.db("tempsurvey").drop({
+											success: function(data) {
+												console.log(data);
+												$.couch.db("tempsurvey").create({
+													success: function(data) {
+														console.log(data);
+														that.updateNationSurveyDBForCommunityName(idsOfDocsToChange);
+													},
+													error: function(status) {
+														console.log(status);
+													}
+												});
+											},
+											error: function(status) {
+												console.log(status);
+											},
+											async: false
+										});
+									} else {
+										console.log("tempsurvey doesn't exist, so no need to drop.");
+										$.couch.db("tempsurvey").create({
+											success: function(data) {
+												console.log(data);
+												that.updateNationSurveyDBForCommunityName(idsOfDocsToChange);
+											}
+										});
+									}
+								}
+							});
 						},
 						error: function(err) {
 							console.log(err)
@@ -462,8 +454,190 @@ $(function() {
 				error: function(err) {
 					console.log(err)
 				}
-			});*/
+			});
 		},
+
+		syncSurveyResponse: function() {
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "surveyresponse",
+					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyresponse'
+				}),
+				success: function(response) {
+					console.log("Successfully replicated survey response");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Error (Try Later)")
+				}
+			});
+		},
+
+		syncSurveyAnswers: function() {
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "surveyanswers",
+					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyanswers'
+				}),
+				success: function(response) {
+					console.log("Successfully replicated survey answers");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Error (Try Later)")
+				}
+			});
+		},
+
+		updateNationSurveyDBForCommunityName: function(idsOfDocsToChange) {
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey',
+					"target": "tempsurvey",
+					'doc_ids': idsOfDocsToChange
+				}),
+				async: false,
+				success: function (response) {
+					console.log(response);
+					$.ajax({
+						url: '/tempsurvey/_all_docs?include_docs=true',
+						type:  'GET',
+						dataType: 'json',
+						success: function (surveyResult) {
+							var surveyDocsFromComm = surveyResult.rows;
+							var docsToChange = [];
+							for (var i = 0; i < surveyDocsFromComm.length; i++) {
+								var surveyModel = surveyDocsFromComm[i].doc;
+								var communityName = App.configuration.get('name');
+								if (idsOfDocsToChange.indexOf(surveyModel._id) > -1 && surveyModel.submittedBy.indexOf(communityName) == -1) {
+									surveyModel.submittedBy.push(communityName);
+									docsToChange.push(surveyModel);
+								}
+							}
+							console.log(docsToChange);
+							$.couch.db("tempsurvey").bulkSave({"docs": docsToChange}, {
+								success: function(data) {
+									console.log(data);
+									$.ajax({
+										headers: {
+											'Accept': 'application/json',
+											'Content-Type': 'application/json; charset=utf-8'
+										},
+										type: 'POST',
+										url: '/_replicate',
+										dataType: 'json',
+										data: JSON.stringify({
+											"source": "tempsurvey",
+											"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey',
+											'doc_ids': idsOfDocsToChange
+										}),
+										async: false,
+										success: function (response) {
+											alert("Surveys replicated successfully");
+											$.couch.allDbs({
+												success: function (data) {
+													if (data.indexOf('tempsurvey') != -1) {
+														console.log("tempsurvey existed.We are going to drop");
+														$.couch.db("tempsurvey").drop({
+															success: function (data) {
+																console.log(data);
+																if (isActivityLogChecked == false) {
+																	App.stopActivityIndicator();
+																}
+															}
+														});
+													}
+												}
+											});
+										},
+										error: function(status) {
+											console.log(status);
+											$.couch.allDbs({
+												success: function (data) {
+													if (data.indexOf('tempsurvey') != -1) {
+														console.log("tempsurvey existed.We are going to drop");
+														$.couch.db("tempsurvey").drop({
+															success: function (data) {
+																console.log(data);
+															}
+														});
+													}
+												}
+											});
+										}
+									});
+								},
+								error: function(status) {
+									console.log(status);
+									$.couch.allDbs({
+										success: function (data) {
+											if (data.indexOf('tempsurvey') != -1) {
+												console.log("tempsurvey existed.We are going to drop");
+												$.couch.db("tempsurvey").drop({
+													success: function (data) {
+														console.log(data);
+													}
+												});
+											}
+										}
+									});
+								}
+							});
+						},
+						error: function(status) {
+							console.log(status);
+							$.couch.allDbs({
+								success: function (data) {
+									if (data.indexOf('tempsurvey') != -1) {
+										console.log("tempsurvey existed.We are going to drop");
+										$.couch.db("tempsurvey").drop({
+											success: function (data) {
+												console.log(data);
+											}
+										});
+									}
+								}
+							});
+						}
+					});
+				},
+				error: function(status) {
+					console.log(status);
+					$.couch.allDbs({
+						success: function (data) {
+							if (data.indexOf('tempsurvey') != -1) {
+								console.log("tempsurvey existed.We are going to drop");
+								$.couch.db("tempsurvey").drop({
+									success: function (data) {
+										console.log(data);
+									}
+								});
+							}
+						}
+					});
+				}
+			});
+		},
+
 		//*************************************************************************************************************
 		//following function compare version numbers.
 		/*<li>0 if the versions are equal</li>
