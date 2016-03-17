@@ -20,6 +20,23 @@ $(function() {
             // prepare the header
 
             if (_.has(this.model, 'id')) {
+                var members = new App.Collections.Members()
+                var member;
+                var languageDictValue;
+                members.login = $.cookie('Member.login');
+                var clanguage = '';
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage = member.get('bellLanguage');
+                            languageDictValue = getSpecificLanguage(clanguage);
+                        }
+                    },
+                    async:false
+                });
+                App.languageDict = languageDictValue;
+                var directionOfLang = App.languageDict.get('directionOfLang');
                 vars.languageDict=App.languageDict;
                 vars.header = App.languageDict.attributes.Title + this.model.get('title') + '"';
                 vars.hidesave = true
@@ -36,8 +53,25 @@ $(function() {
                 vars.resourceAttachments = fields;
 
             } else {
-                vars.header = 'New Reports'
+                vars.header = ''
                 vars.hidesave = false
+                var members = new App.Collections.Members()
+                var member;
+                var languageDictValue;
+                members.login = $.cookie('Member.login');
+                var clanguage = '';
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage = member.get('bellLanguage');
+                            languageDictValue = getSpecificLanguage(clanguage);
+                        }
+                    },
+                    async:false
+                });
+                App.languageDict = languageDictValue;
+                var directionOfLang = App.languageDict.get('directionOfLang');
                 vars.resourceAttachments = App.languageDict.attributes.No_File_Selected;;
                 vars.languageDict=App.languageDict;
             }
@@ -72,7 +106,7 @@ $(function() {
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang);
             return this
         },
 

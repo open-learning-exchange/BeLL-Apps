@@ -150,7 +150,35 @@ $(function() {
 
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
                         if (searchText != "") {
-                            var languageDictValue=App.Router.loadLanguageDocs();
+                            var loginOfMem = $.cookie('Member.login');
+                            var lang;
+                            $.ajax({
+                                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                                type: 'GET',
+                                dataType: 'jsonp',
+                                async:false,
+                                success: function (surResult) {
+                                    console.log(surResult);
+                                    var id = surResult.rows[0].id;
+                                    $.ajax({
+                                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                                        type: 'GET',
+                                        dataType: 'jsonp',
+                                        async:false,
+                                        success: function (resultByDoc) {
+                                            console.log(resultByDoc);
+                                            lang=resultByDoc.rows[0].value.bellLanguage;
+                                        },
+                                        error:function(err){
+                                            console.log(err);
+                                        }
+                                    });
+                                },
+                                error:function(err){
+                                    console.log(err);
+                                }
+                            });
+                            var languageDictValue=App.Router.loadLanguageDocs(lang);
                             alert(languageDictValue.attributes.No_Result)
                         }
                         //obj.render()

@@ -16,7 +16,8 @@ $(function() {
 
         defaults: {
             kind: "Member",
-            roles: ["Learner"]
+            roles: ["Learner"],
+            bellLanguage:""
         },
 
         toString: function() {
@@ -43,11 +44,58 @@ $(function() {
             visits: 'Text',
             Gender: {
                 type: 'Select',
-                options: ['Male', 'Female']
+               // options: ['Male', 'Female']
+                options: [{
+                    val: 'Male',
+                    label: 'Male'
+                }, {
+                    val: 'Female',
+                    label: 'Female'
+                }]
             },
             levels: {
                 type: 'Select',
-                options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Higher']
+                options: [{
+                    val: '1',
+                    label: '1'
+                }, {
+                    val: '2',
+                    label: '2'
+                }, {
+                    val: '3',
+                    label: '3'
+                }, {
+                    val: '4',
+                    label: '4'
+                }, {
+                    val: '5',
+                    label: '5'
+                }, {
+                    val: '6',
+                    label: '6'
+                }, {
+                    val: '7',
+                    label: '7'
+                }, {
+                    val: '8',
+                    label: '8'
+                }, {
+                    val: '9',
+                    label: '9'
+                }, {
+                    val: '10',
+                    label: '10'
+                }, {
+                    val: '11',
+                    label: '11'
+                }, {
+                    val: '12',
+                    label: '12'
+                }, {
+                    val: 'Higher',
+                    label: 'Higher'
+                }]
+              //  options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Higher']
             },
             status: 'Text',
             yearsOfTeaching: {

@@ -616,5 +616,9 @@
      "School_Year":"School Year",
      "Date_format":"DD",
      "Year_format":"YYYY",
-     "Month":"Month"
+     "Month":"Month",
+     "Urdu":"Urdu",
+     "New Reports":"New_Reports",
+     "View_All_Courses":"View All Courses",
+     "No_data_found":"No such record exists"
 }

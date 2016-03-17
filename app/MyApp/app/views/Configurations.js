@@ -24,7 +24,7 @@ $(function () {
             }
             this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
             var clanguage = App.configuration.get("currentLanguage");
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         updateDropDownValue : function(){
@@ -38,7 +38,7 @@ $(function () {
             })
             var con = config.first();
             var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
+            var clanguage= App.languageDict.get('nameInNativeLang');
             $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
         },
         setForm:function(){

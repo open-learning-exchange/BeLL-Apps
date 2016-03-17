@@ -35,11 +35,10 @@ $(function() {
 
         },
 
-        loadLanguageDocs : function() {
+        loadLanguageDocs : function(language) {
         var clanguage, languageDict;
 
         //fetching nations configurations
-            var configuration;
             var config = new App.Collections.Configurations()
             config.fetch({
                 async: false,
@@ -47,19 +46,55 @@ $(function() {
                     clanguage = config.first().attributes.currentLanguage;
                 }
             })
-                var languages = new App.Collections.Languages();
-                    languages.fetch({
-                        async: false
-                    });
-                    for (var i = 0; i < languages.length; i++) {
-                        if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
-                            if (languages.models[i].attributes.nameOfLanguage == clanguage) {
-                                languageDict = languages.models[i];
-                                break;
-                            }
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            var docExists=false;
+            for(var i=0;i<languages.length;i++) {
+                if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                    if (languages.models[i].attributes.nameOfLanguage == language) {
+                        languageDict = languages.models[i];
+                        docExists = true;
+                        break;
+                    }
+                }
+            }
+            if(docExists==false)
+            {
+                for(var i=0;i<languages.length;i++) {
+                    if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                        if (languages.models[i].attributes.nameOfLanguage == clanguage) {
+                            languageDict = languages.models[i];
+                            docExists = true;
+                            break;
                         }
                     }
-                    return languageDict;
+                }
+                var member;
+                var members = new App.Collections.Members()
+                members.login = $.cookie('Member.login');
+                clanguage=currentConfig.currentLanguage;
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            member.set("bellLanguage",clanguage);
+                            member.once('sync', function() {})
+
+                            member.save(null, {
+                                success: function(doc, rev) {
+                                },
+                                async:false
+                            });
+                        }
+                    },
+                    async:false
+
+                });
+
+            }
+            return languageDict;
     },
         getAvailableLanguages : function (){
         var allLanguages={};
@@ -118,7 +153,35 @@ $(function() {
             return outp;
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
-            var languageDictValue=App.Router.loadLanguageDocs();
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
@@ -2991,7 +3054,6 @@ $(function() {
             App.$el.children('.body').append('<button class="btn btn-hg btn-primary" onclick=SyncDbSelect() id="sync">Sync With Nation</button>')
         },
         CommunityForm: function(CommunityId) {
-
             this.modelForm('Community', CommunityId, 'login')
         },
         viewAllFeedback: function() {
@@ -3219,7 +3281,35 @@ $(function() {
         //****************************************************************************************************************
         Publicat: function() {
             App.startActivityIndicator();
-            var languageDictValue=App.Router.loadLanguageDocs();
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
             var publicationCollection = new App.Collections.Publication()
             publicationCollection.fetch({
                 async: false

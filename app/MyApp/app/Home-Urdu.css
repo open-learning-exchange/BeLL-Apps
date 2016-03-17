@@ -39,6 +39,21 @@ select#onLoginLanguage {
     table-layout: fixed;
     width: 100%;
 }
+.dateOnDashboard{
+    margin-top: -5%;
+    position: static;
+}
+.dashboardLang{
+    margin-top: 2%;
+}
+select#onDashboardLanguage {
+    position: relative;
+    display: inline-flex;
+    margin-right: 39px;
+    margin-top: 9px;
+    width: 156px;
+    background-color: #e1e1e1;
+}
 #dashboard
 {
    /* margin-left:45.8%;

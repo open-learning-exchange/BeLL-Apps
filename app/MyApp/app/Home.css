@@ -12,6 +12,14 @@ select#onLoginLanguage {
     width: 156px;
     background-color: floralwhite;
 }
+select#onDashboardLanguage {
+	position: relative;
+	display: inline-flex;
+	margin-right: 39px;
+	margin-top: 9px;
+	width: 156px;
+	background-color: #e1e1e1;
+}
 #PromoteToManager{
 	margin-top:-40px;
 	margin-left:170px;
@@ -31,6 +39,13 @@ select#onLoginLanguage {
 #linkOnMyHome
 {
     margin-right:25px;
+}
+.dateOnDashboard{
+	margin-top: -5%;
+	position: static;
+}
+.dashboardLang{
+	margin-top: 2%;
 }
 #requestResourceOnCollection{
 	margin-left:10px

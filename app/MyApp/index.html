@@ -389,7 +389,7 @@
         </li>
         <li>
             <select id="onLoginLanguage" onchange="changeLanguage(this)">
-                <option disabled="true" selected style="display:none"><%= currentLanguageOfApp %></option>
+                <option value="<%= currentLanguageOfApp %>" disabled="true" selected style="display:none"><%= currentLanguageValueOfApp %></option>
                 <% for (var key in availableLanguagesOfApp) {%>
                 <option value="<%= key %>"><%= availableLanguagesOfApp[key] %> </option>
                 <% } %>
@@ -413,7 +413,15 @@
                         <div class="visits">  </div>
                     </td>
                     <td class="right">
-                        <div class="now" ></div>
+                        <div class="now dateOnDashboard" ></div>
+                        <div class="dashboardLang">
+                            <select id="onDashboardLanguage" style="font-size: 15px;font-weight: 900" onchange="changeMemberLanguage(this)">
+                                <option disabled="true" selected style="display:none"><%= currentLanguageOfApp %></option>
+                                <% for (var key in availableLanguagesOfApp) {%>
+                                <option value="<%= key %>"><%= availableLanguagesOfApp[key] %> </option>
+                                <% } %>
+                            </select>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -621,7 +629,7 @@
             </a>
         </td>
         <td class="resourcInfoCol">
-            <a  id="deleteButton" class="btn btn-danger hides"><i class='icon-pencil icon-white'></i>
+            <a  id="deleteButton" class="btn btn-danger destroy"><i class='icon-pencil icon-white'></i>
                 <%=deleteLabel%>
             </a>
 
@@ -1168,12 +1176,6 @@
                             </select>
                         </div>
 
-                        <!-- <div class="language-search">
-                          <label style='font-size:16px'><b>Language</b></label><br>
-
-                         <input style="width: 351px;" type='Text' placeholder="Language" id='Language-filter'></input>
-
-                         </div> -->
 
                         <div id="rating_checkboxes">
                             <label style='font-size:16px'><b><%= languageDict.attributes.Rating %></b></label><br>
@@ -1498,8 +1500,8 @@
             <tr>
                 <th > <%=languageDict.attributes.Lowest_Rated%></th>
                 <th > <%=languageDict.attributes.Total%></th>
-                <th > <%=languageDict.attributes.Male%>Male</th>
-                <th > <%=languageDict.attributes.Female%>Female</th>
+                <th > <%=languageDict.attributes.Male%></th>
+                <th > <%=languageDict.attributes.Female%></th>
                 <th> <%=languageDict.attributes.Average_Rating%></th>
                 <th > <%=languageDict.attributes.Times_Rated%></th>
             </tr>

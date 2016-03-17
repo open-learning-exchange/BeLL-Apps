@@ -71,7 +71,23 @@ $(function() {
 
         events: {
             "click .destroy": function(e) {
-                if(confirm(loadLanguageDocs().attributes.member_delete_confirm)){
+                var members = new App.Collections.Members()
+                var member;
+                var languageDictValue;
+                members.login = $.cookie('Member.login');
+                var clanguage = '';
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage = member.get('bellLanguage');
+                            languageDictValue = getSpecificLanguage(clanguage);
+                        }
+                    },
+                    async: false
+                });
+                App.languageDict = languageDictValue;
+                if(confirm(App.languageDict.attributes.member_delete_confirm)){
                     var that = this;
                     var logdb = new PouchDB('activitylogs');
                     var currentdate = new Date();
@@ -87,7 +103,7 @@ $(function() {
                     e.preventDefault()
                     this.model.destroy()
                     this.remove();
-                    alert(loadLanguageDocs().attributes.member_Delete_success)
+                    alert(App.languageDict.attributes.member_Delete_success)
                 }
                 else
                 {

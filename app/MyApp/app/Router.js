@@ -113,7 +113,7 @@ $(function() {
             resourceFormView.renderAddOrUploadWelcomeVideoForm();
             App.$el.children('.body').html(resourceFormView.el);
             $('.field-resourceType').hide();
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         Publications: function(publicationIdes) {
             var PublicationsView = new App.Views.PublicationTable();
@@ -208,9 +208,24 @@ $(function() {
             this.underConstruction()
         },
         underConstruction: function() {
-            applyStylingSheet();
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                        }
+                    },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>'+languageDictValue.attributes.Functionality_Under_Construction+'</h4></div>')
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
         startUpStuff: function() {
 
@@ -272,6 +287,8 @@ $(function() {
                 path: "/apps/_design/bell"
             });
             $.removeCookie('forcedUpdateProfile');
+            //$.removeCookie('languageFromCookie');
+           // $.removeCookie('isChange');
 
         },
 
@@ -288,32 +305,7 @@ $(function() {
 
         },
         MemberLogin: function() {
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-            });
-            var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;
+            console.log('From Router...');
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -330,16 +322,31 @@ $(function() {
                     trigger: true
                 })
             })
+
             memberLoginForm.render();
-            App.$el.children('.body').html('<h1 class="login-heading">'+languageDict.attributes.Member_Login+'</h1>');
+            console.log('value of cookie from router '+$.cookie('languageFromCookie'));
+            var languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
+            App.$el.children('.body').html('<h1 class="login-heading">'+languageDictValue.attributes.Member_Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
-            memberLoginForm.updateLabels(languageDict);
-            if (clanguage=="Urdu" || clanguage=="Arabic")
+            memberLoginForm.updateLabels(languageDictValue);
+            var direction=languageDictValue.get('directionOfLang');
+            if (direction.toLowerCase()==="right")
             {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
+           /* Code to be removed...
+            if($.cookie('languageFromCookie')==null)
+            {
+                languageDictValue=loadLanguageDocs();
+            }
+            else
+            {
+                languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
+            }
 
+            var directionOfLang = languageDictValue.get('directionOfLang');*/
+            applyCorrectStylingSheet(direction);
         },
         MemberLogout: function() {
 
@@ -349,7 +356,6 @@ $(function() {
             Backbone.history.navigate('login', {
                 trigger: true
             });
-
 
         },
         getRoles: function() {
@@ -573,6 +579,62 @@ $(function() {
                     async: false
                 });
             }
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                       /* if(lang==="" || lang===null)
+                        {
+                            alert('The user is old one and has not specified his language yet.');
+                            var configurations = Backbone.Collection.extend({
+                                url: App.Server + '/configurations/_all_docs?include_docs=true'
+                            })
+                            var config = new configurations()
+                            config.fetch({
+                                async: false
+                            })
+                            var con = config.first();
+                            var currentConfig = config.first().toJSON().rows[0].doc;
+                            var clanguage= currentConfig.currentLanguage;
+                            lang=clanguage;
+                            member.save({
+                                    language: clanguage
+                                },
+                                {
+                                    success: function () {
+                                        alert('Saved successfully in language.');
+                                    }
+                                }
+                            );
+                        }
+                        else{
+                            if($.cookie('languageFromCookie')!=lang)
+                            {
+                                alert('Values in cookie and db are not same...');
+                                member.save({
+                                        language: $.cookie('languageFromCookie')
+                                    },
+                                    {
+                                        success: function () {
+                                            alert('Saved successfully in language.');
+                                        }
+                                    }
+                                );
+                                lang= $.cookie('languageFromCookie');
+                            }
+                        }*/
+
+                    }
+                },
+                async:false
+            });
+            App.languageDict=languageDictValue;
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
             dashboard.render();
@@ -585,9 +647,9 @@ $(function() {
             classToAppend.push('shelf');
             classToAppend.push('badges');
             classToAppend.push('tuter');
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            var directionOfLang=App.languageDict.get('directionOfLang');
+            if(directionOfLang.toLowerCase()==="right")
             {
-
                 $('#headerTableOnDashBoard').css('direction','rtl');
                 $('#bottomButtonsOnDashboard').css('direction','rtl');
                 for(var i= 0,j=0;i<4;i++)
@@ -646,7 +708,10 @@ $(function() {
             }
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
-            $('#olelogo').remove()
+            $('#olelogo').remove();
+            applyCorrectStylingSheet(directionOfLang);
+           // $.removeCookie('languageFromCookie');
+           // $.removeCookie('isChange');
         },
         MemberForm: function(memberId) {
 
@@ -655,9 +720,58 @@ $(function() {
 
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
-            applyStylingSheet();
+           // applyStylingSheet();
+            var url_page = $.url().data.attr.fragment;
+            var languageDictValue;
+            var  clanguage;
+            if(url_page=="member/add"){
+            if($.cookie('Member._id'))
+            {
+                var members = new App.Collections.Members()
+                var member;
+                members.login = $.cookie('Member.login');
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage=member.get('bellLanguage')
+                                languageDictValue = getSpecificLanguage(clanguage);
+                        }
+                    },
+                    async:false
+                });
+            }
+            else if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
+            {
+                clanguage= $.cookie('languageFromCookie');
+                console.log('value from cookie in navBar '+clanguage)
+            }
+             else
+            {
+                clanguage = App.configuration.get("currentLanguage");
+            }
+                languageDictValue=getSpecificLanguage(clanguage);
+            }
+            else
+            {
+                var members = new App.Collections.Members()
+                var member;
+                members.login = $.cookie('Member.login');
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage=member.get('bellLanguage')
+                            languageDictValue = getSpecificLanguage(clanguage);
+                        }
+                    },
+                    async:false
+                });
+            }
+            App.languageDict=languageDictValue;
+            var directionOfLang=languageDictValue.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
             var nameOfLabel="";
-
             var context = this;
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
@@ -672,12 +786,12 @@ $(function() {
                 })
                 nameOfLabel="Edit_"+label;
                 App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
-                $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
+                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
 
 
             } else {
                 nameOfLabel="Add_"+label;
-                $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get(nameOfLabel)+'</h3>')
+                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel)+'</h3>')
             }
             $('#AddCourseMainDiv').append(modelForm.el)
             // Bind form events for when Group is ready
@@ -741,8 +855,8 @@ $(function() {
             }
 
             //Setting up the default error Message
-            Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
-            var languageDictValue=loadLanguageDocs();
+            Backbone.Form.validators.errMessages.required=languageDictValue.attributes.Required_Text;
+
             if(!modelId){
                 //Setting up the default selected customized text
 
@@ -795,17 +909,17 @@ $(function() {
             }
 
             //Modifying the labels as per MUI
-            $('.bbf-form .field-firstName label').html(App.languageDict.attributes.First_Name);
-            $('.bbf-form .field-lastName label').html(App.languageDict.attributes.Last_Name);
-            $('.bbf-form .field-middleNames label').html(App.languageDict.attributes.Middle_Names);
-            $('.bbf-form .field-login label').html(App.languageDict.attributes.Login);
-            $('.bbf-form .field-password label').html(App.languageDict.attributes.Password);
-            $('.bbf-form .field-phone label').html(App.languageDict.attributes.Phone);
-            $('.bbf-form .field-email label').html(App.languageDict.attributes.Email);
-            $('.bbf-form .field-language label').html(App.languageDict.attributes.language);
-            $('.bbf-form .field-BirthDate label').html(App.languageDict.attributes.Birth_Date);
-            $('.bbf-form .field-Gender label').html(App.languageDict.attributes.Gender)
-            $('.bbf-form .field-levels label').html(App.languageDict.attributes.Levels)
+            $('.bbf-form .field-firstName label').html(languageDictValue.attributes.First_Name);
+            $('.bbf-form .field-lastName label').html(languageDictValue.attributes.Last_Name);
+            $('.bbf-form .field-middleNames label').html(languageDictValue.attributes.Middle_Names);
+            $('.bbf-form .field-login label').html(languageDictValue.attributes.Login);
+            $('.bbf-form .field-password label').html(languageDictValue.attributes.Password);
+            $('.bbf-form .field-phone label').html(languageDictValue.attributes.Phone);
+            $('.bbf-form .field-email label').html(languageDictValue.attributes.Email);
+            $('.bbf-form .field-language label').html(languageDictValue.attributes.language);
+            $('.bbf-form .field-BirthDate label').html(languageDictValue.attributes.Birth_Date);
+            $('.bbf-form .field-Gender label').html(languageDictValue.attributes.Gender)
+            $('.bbf-form .field-levels label').html(languageDictValue.attributes.Levels)
             $('.bbf-form .field-community label').html(App.languageDict.attributes.Community)
             $('.bbf-form .field-region label').html(App.languageDict.attributes.Region)
             $('.bbf-form .field-nation label').html(App.languageDict.attributes.Nation)
@@ -828,6 +942,19 @@ $(function() {
             $('.bbf-form').find('.field-location').find('label').html(App.languageDict.attributes.Location);
             $('.bbf-form').find('.field-backgroundColor').find('label').html(App.languageDict.attributes.Foreground_Color);
             $('.bbf-form').find('.field-foregroundColor').find('label').html(App.languageDict.attributes.Background_Color);
+
+            var invitationType=App.languageDict.get("inviteForm_levels");
+            for(var i=0;i<invitationType.length;i++){
+                $('.bbf-form .field-levels .bbf-editor select').find('option').eq(i).html(invitationType[i]);
+            }
+            $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(0).html(App.languageDict.get('Male'))
+            $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(1).html(App.languageDict.get('Female'))
+
+            for(var i=0;i<12;i++)
+            {
+                $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).html(lookup(App.languageDict, "Months." + $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).text().toString() ));
+
+            }
             var gradeLevelArray=App.languageDict.get('GradeLevelList');
             for(var i=0;i<gradeLevelArray.length;i++)
             {
@@ -840,7 +967,6 @@ $(function() {
                 $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
 
             }
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
             if (directionOfLang.toLowerCase() === "right") {
 
@@ -866,37 +992,28 @@ $(function() {
                 skip: 0
             })
             resources.fetch({
+                async:false,
                 success: function() {
                     resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager");
-                    var configurations = Backbone.Collection.extend({
-                        url: App.Server + '/configurations/_all_docs?include_docs=true'
-                    })
-                    var config = new configurations()
-                    config.fetch({
-                        async: false
-                    })
-                    var con = config.first();
-                    var currentConfig = config.first().toJSON().rows[0].doc;
-                    var clanguage= currentConfig.currentLanguage;
-                    var languages = new App.Collections.Languages();
-                    languages.fetch({
-                        async: false
-                    });
-                    var languageDict;
-                    for(var i=0;i<languages.length;i++)
-                    {
-                        if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                        {
-                            if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                            {
-                                languageDict=languages.models[i];
+                    var members = new App.Collections.Members()
+                    var member;
+                    var languageDictValue,lang;
+                    members.login = $.cookie('Member.login');
+                    members.fetch({
+                        success: function () {
+                            if (members.length > 0) {
+                                member = members.first();
+                                lang=member.get('bellLanguage');
+                                languageDictValue=getSpecificLanguage(lang);
                             }
-                        }
-                    }
-                    App.languageDict = languageDict;
+                        },
+                        async:false
+
+                    });
+                    App.languageDict=languageDictValue;
                     App.$el.children('.body').empty();
                     App.$el.children('.body').html('<div id="parentLibrary"></div>');
                     App.$el.children('#parentLibrary').empty();
@@ -920,7 +1037,7 @@ $(function() {
                     resourcesTableView.render();
 
                     $('#parentLibrary').append(resourcesTableView.el);
-                    if (clanguage=="Urdu" || clanguage=="Arabic")
+                    if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
                     {
                         //  $('#resourcePage').addClass('addResource');
                         $('#addNewResource').addClass('addMarginsOnResource');
@@ -932,10 +1049,14 @@ $(function() {
                         $('table').addClass('resourceTableClass');
                         $('.resourcInfoFirstCol').attr('colspan','8');
                         $('.resourcInfoCol').attr('colspan','3');
+                        $('.resourcInfoCol').css('text-align','right');
+                        $('.table th').css('text-align','right');
+                        $('.table td').css('text-align','right');
+                        $('#actionAndTitle').find('th').eq(1).css('text-align','center');
                     }
                     resourcesTableView.changeDirection();
                 }
-            })
+            });
             App.stopActivityIndicator()
 
         },
@@ -1057,8 +1178,7 @@ $(function() {
 
 
             this.updateLabelsOfAddResourceForm(resourceId);
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
-            {
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
 
                 this.updateAllignmentOfAddResourceForm();
             }
@@ -1219,8 +1339,8 @@ $(function() {
             $('#multiselect-subject-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
             $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
 
-            applyStylingSheet();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#SubjectCheckboxes').find('label').text(App.languageDict.attributes.subject).css("font-weight","Bold");;
@@ -1398,7 +1518,7 @@ $(function() {
                 },
                 async: false
             })
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         Groups: function() {
 
@@ -1406,16 +1526,23 @@ $(function() {
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function() {
-                    var configurations = Backbone.Collection.extend({
-                        url: App.Server + '/configurations/_all_docs?include_docs=true'
-                    })
-                    var config = new configurations()
-                    config.fetch({
+                    var members = new App.Collections.Members()
+                    var member;
+                    var languageDictValue;
+                    members.login = $.cookie('Member.login');
+                    var clanguage = '';
+                    members.fetch({
+                        success: function () {
+                            if (members.length > 0) {
+                                member = members.first();
+                                clanguage = member.get('bellLanguage');
+                                languageDictValue = getSpecificLanguage(clanguage);
+                            }
+                        },
                         async: false
-                    })
-                    var con = config.first();
-                    var currentConfig = config.first().toJSON().rows[0].doc;
-                    var clanguage= currentConfig.currentLanguage;
+                    });
+                    App.languageDict = languageDictValue;
+                    var directionOfLang = App.languageDict.get('directionOfLang');
                     groupsTable = new App.Views.GroupsTable({
                         collection: groups
                     })
@@ -1439,7 +1566,7 @@ $(function() {
                     $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
                     $('#parentLibrary').append(groupsTable.el);
                     groupsTable.changeDirection();
-                    if (clanguage=="Urdu" || clanguage=="Arabic")
+                    if(directionOfLang.toLowerCase()==="right")
                     {
 
                         $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
@@ -1497,8 +1624,8 @@ $(function() {
                     }
                 }
             });
-
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
         },
         CourseInfo: function(courseId) {
 
@@ -1523,7 +1650,7 @@ $(function() {
             App.$el.children('.body').html("&nbsp")
             App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a>&nbsp;&nbsp;</div>')
             App.$el.children('.body').append(viewCourseInfo.el);
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         CourseReport: function(cId, cname) {
@@ -1554,7 +1681,8 @@ $(function() {
             })
             vi.render()
             $('.courseSearchResults_Bottom').append(vi.el);
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
 
 
         },
@@ -1745,7 +1873,8 @@ $(function() {
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
             });
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
 
         },
         UserCourseDetails: function(courseId, name) {
@@ -1769,7 +1898,7 @@ $(function() {
 
                 }
             });
-            applyStylingSheet();
+           applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         GroupMembers: function(cId) {
@@ -1779,14 +1908,15 @@ $(function() {
             App.$el.children('.body').append('<div class="courseEditStep"></div>');
             groupMembers.render();
             $('.courseEditStep').append(groupMembers.el);
-            if (App.configuration.attributes.currentLanguage == "Arabic" || App.configuration.attributes.currentLanguage == "Urdu") {
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            if(directionOfLang.toLowerCase()==="right") {
                 $('.courseEditStep').find('h3').css('margin-right','5%');
             }
             else
             {
                 $('.courseEditStep').find('h3').css('margin-left','5%');
             }
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang)
 
 
         },
@@ -1887,6 +2017,22 @@ $(function() {
         },
         AddLevel: function(groupId, levelId, totalLevels) {
 
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue, lang;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             var Cstep = new App.Models.CourseStep()
             Cstep.set({
                 courseId: groupId
@@ -1917,11 +2063,11 @@ $(function() {
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
-                    lForm.render()
+                    lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
                     $("input[name='step']").attr("disabled", true);
                 })
-                Cstep.fetch()
+                Cstep.fetch({async:false});
             }
             if (totalLevels != -1) {
                 var tl = parseInt(totalLevels) + 1
@@ -1941,7 +2087,8 @@ $(function() {
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);
             $('.bbf-form .field-passingPercentage label').html(App.languageDict.attributes.Passing_Percentage);
 
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
 
             //  $('#bbf-form input[name=step]').attr("disabled",true);
         },
@@ -1974,7 +2121,8 @@ $(function() {
                     }
                 }
             });
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
         },
         saveDescprition: function(lid) {
             var level = new App.Models.CourseStep({
@@ -1995,20 +2143,84 @@ $(function() {
         GroupSearch: function() {
 
             var cSearch
-            cSearch = new App.Views.CourseSearch()
+            cSearch = new App.Views.CourseSearch();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             cSearch.render()
-            var button = '<p style="margin-top:15px">'
-            button += '<a class="btn btn-success" href="#course/add">Add a new Cource</a>'
-            button += '<a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Course")>Request Course</a>'
-            button += '<a style="margin-left:10px" class="btn btn-info" onclick="ListAllCourses()">View All Courses</a>'
-            button += '<span style="float:right">Keyword:&nbsp;<input id="searchText"  placeholder="Search" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
-            button += '<button class="btn btn-info" onclick="CourseSearch()">Search</button></span>'
+            var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
+            var lib_page = $.url().data.attr.fragment;
+            if(lib_page=="courses"){
+                $('.body').empty();
+                $('#parentLibrary').css('visibility', 'visible');
+            }
+            App.$el.children('.body').append(parentDiv);
+            var button = '<p id="library-top-buttons">'
+            button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
+            button += '<a id="requestCourseButton" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
+            button += '<a  id="listAllCoursesBtn" class="btn btn-info" onclick="ListAllCourses()">'+App.languageDict.attributes.View_All_Courses+'</a>'
+            button += '<span id="searchSpan"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span>'
+            button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
             button += '</p>'
-            App.$el.children('.body').html(button)
-            App.$el.children('.body').append('<h3>Courses</h3>')
-            App.$el.children('.body').append(cSearch.el)
+            $('#parentLibrary').append( button);
+
+
+            $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
+            App.$el.children('.body').append(cSearch.el);
+            cSearch.changeDirection();
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
+            {
+
+                $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
+                $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
+                $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#searchText').css('margin-right','1%');
+                $('#headingOfCourses').css('margin-right','2%');
+                $('#searchSpan').find('span').css("margin-right","10px");
+
+            }
+            else
+            {
+                $('#searchSpan').css('float','right');
+                $('#requestCourseButton').css('margin-left','10px');
+                $("#addCourseButton").addClass('addMarginsOnCourse');
+                $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#listAllCoursesBtn').css("margin-left","10px");
+                $('#searchSpan').find('span').css("margin-left","10px");
+            }
+
         },
         ListMeetups: function() {
+
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue, lang;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
             var lib_page = $.url().data.attr.fragment;
             if(lib_page=="meetups"){
@@ -2031,7 +2243,7 @@ $(function() {
             meetUpView.render()
             $('#parentLibrary').append(meetUpView.el);
             meetUpView.changeDirection();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 this.changeAllignmentOfListMeetup();
             }
@@ -2040,8 +2252,7 @@ $(function() {
 
                 $('#linkOfMeetUpHeading').css('margin-left','20px');
             }
-            applyStylingSheet();
-
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         changeAllignmentOfListMeetup:function(){
             $('#meetUpHeading').css('margin-right','2%');
@@ -2061,7 +2272,7 @@ $(function() {
             })
             meetup_details.render()
             App.$el.children('.body').html(meetup_details.el);
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
 
         },
@@ -2077,12 +2288,25 @@ $(function() {
             })
             meetupView.render()
             App.$el.children('.body').html(meetupView.el);
-            applyStylingSheet();
-
-
+          applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
         Meetup: function(meetUpId) {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+
+            });
+            App.languageDict=languageDictValue;
             var className = "MeetUp"
             var model = new App.Models[className]()
             if (meetUpId) {
@@ -2150,10 +2374,8 @@ $(function() {
                 $('.form .field-category select').find('option').eq(i).html(gradeLevelArray[i]);
 
             }
-
-            applyStylingSheet();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic"){
-
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
+            if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
                 $('#meetUpForm').addClass('courseSearchResults_Bottom');
                 $('.form .bbf-field').css('float','none');
                // $('.form .bbf-field').css('background-color','red');
@@ -2173,7 +2395,23 @@ $(function() {
 
         },
         deleteMeetUp: function(meetupId) {
-            if(confirm(loadLanguageDocs().attributes.meetUp_delete_confirm)) {
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
+            if(confirm(languageDictValue.attributes.meetUp_delete_confirm)) {
                 var UserMeetups = new App.Collections.UserMeetups()
                 UserMeetups.meetupId = meetupId
                 UserMeetups.fetch({
@@ -2202,9 +2440,9 @@ $(function() {
             var membersView = new App.Views.MembersView()
             membersView.render();
             App.$el.children('.body').html(membersView.el);
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             membersView.changeDirection();
-            if (App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#membersSearchHeading').css('float','left');
                 $("#AddNewMember").addClass('addMarginsOnCourseUrdu');
@@ -2220,16 +2458,30 @@ $(function() {
                 $('#searchText').css('width','170px');
                 $('#searchText').attr('placeholder',App.languageDict.attributes.Last_Name);
                 $('#searchButtonOnMembers').css('margin-top','-10px');
-             //   $('#AddNewMember').css('margin-left','20px');
-               // $('#AddNewMember').css('width','auto');
-
             }
         },
         Reports: function() {
 
             App.startActivityIndicator()
 
-            applyStylingSheet();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
             var roles = this.getRoles()
             var reports = new App.Collections.Reports()
             reports.fetch({
@@ -2275,7 +2527,7 @@ $(function() {
             var tableDiv="<div id='reportTable'></div>";
             App.$el.children('.body').append(tableDiv);
             $('#reportTable').append(resourcesTableView.el);
-            if(App.configuration.attributes.currentLanguage == "Urdu" || App.configuration.attributes.currentLanguage == "Arabic"){
+            if(directionOfLang.toLowerCase()==="right"){
                 $('#firstHeadingOfReports').css('direction','rtl');
                 $('#reportTable').css('direction','rtl');
                 $('#secondHeadingOfReports').css('direction','rtl');
@@ -2300,7 +2552,22 @@ $(function() {
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
 
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
@@ -2763,7 +3030,23 @@ $(function() {
         ///////////////////////////////////////////
 
         trendReport: function() {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
             var context = this;
             App.$el.children('.body').html('');
             $('<div id="trend-report-form"></div>').appendTo(App.$el.children('.body'));
@@ -2789,7 +3072,6 @@ $(function() {
                 value: languageDictValue.attributes.Generate_Report
             });
             $('#trend-report-form').append(button);
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
             if (directionOfLang.toLowerCase() === "right") {
 
@@ -3719,7 +4001,7 @@ $(function() {
                     alert(App.languageDict.attributes.Select_Date);
                 }
             });
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang);
 
         },
         isWithinRange: function(value, rangeMin, rangeMax) {
@@ -3727,7 +4009,23 @@ $(function() {
         },
         ReportForm: function(reportId) {
 
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
             var report = (reportId) ? new App.Models.CommunityReport({
                 _id: reportId
             }) : new App.Models.CommunityReport()
@@ -3744,13 +4042,15 @@ $(function() {
 
 
             if (report.id) {
-                App.listenToOnce(report, 'sync', function() {
-                    reportFormView.render()
-                })
+               // App.listenToOnce(report, 'sync', function() {
+                //    reportFormView.render()
+               // })
+
                 report.fetch()
             } else {
-                reportFormView.render()
+               // reportFormView.render()
             }
+            reportFormView.render();
             $('.fields .bbf-form .field-title label').html(languageDictValue.attributes.Title);
             $('.fields .bbf-form .field-author label').html(languageDictValue.attributes.author);
             $('.fields .bbf-form .field-Date label').html(languageDictValue.attributes.Date);
@@ -3760,7 +4060,6 @@ $(function() {
                $('.fields .bbf-form .bbf-month option').eq(i).html(lookup(App.languageDict, "Months." + $('.fields .bbf-form .bbf-month option').eq(i).text().toString() ));
 
             }
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
             if (directionOfLang.toLowerCase() === "right") {
 
@@ -3822,7 +4121,7 @@ $(function() {
                 }
             });
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         RenderTagSelect: function(iden) {
@@ -3875,8 +4174,9 @@ $(function() {
 
             })
             resource.fetch();
-            applyStylingSheet();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
+            if(directionOfLang.toLowerCase()==="right")
             {
                 $('.btable td').css('text-align','right');
                 $('.btable th').css('text-align','right');
@@ -3922,7 +4222,8 @@ $(function() {
 
             $('#feedbackResoDiv').append(feedbackForm.el);
             $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.Comment);
-            applyStylingSheet();
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
         },
         email: function() {
             App.$el.children('.body').html('&nbsp')
@@ -3950,7 +4251,7 @@ $(function() {
             skipStack.push(skip)
             mailview.fetchRecords();
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         CoursesBarChart: function() {
@@ -3969,7 +4270,7 @@ $(function() {
             chart.render();
             App.$el.children('.body').append(chart.el);
             App.$el.children('.body').append('<div id="infoAboutGraph"><b>*Horizontal Axis : Courses<br>*Vertical Axis : Steps</b></div>')
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         AddToShelf: function(rId, title) {
             var memberShelfResource = new App.Collections.shelfResource()
@@ -4184,7 +4485,7 @@ $(function() {
 
             });
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
 
         },
@@ -4211,7 +4512,7 @@ $(function() {
                 todayHighlight: true
             });
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         calendaar: function(eventId) {
             App.$el.children('.body').html('&nbsp')
@@ -4245,6 +4546,22 @@ $(function() {
         },
         //also used for collection editing from collection listing page
         EditTag: function(value) {
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
             var roles = this.getRoles()
             if (roles.indexOf("Manager") > -1) {
 
@@ -4285,10 +4602,10 @@ $(function() {
                         todayHighlight: true
                     });
                     $("input[name='AddedBy']").attr("disabled", true);
-                    var directionOfLang = loadLanguageDocs().get('directionOfLang');
+                    var directionOfLang = App.languageDict.get('directionOfLang');
 
                     if (directionOfLang.toLowerCase() === "right") {
-
+                        $('#invitationdiv').css('direction','ltr');
                         $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
                         $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
                         $('.field-NesttedUnder').find('.bbf-editor').find('select').find('option').eq(0).html(App.languageDict.attributes.Select_An_option);
@@ -4337,10 +4654,9 @@ $(function() {
                 $('#invitationdiv').hide()
 
             }
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
 
-            if (directionOfLang.toLowerCase() === "right") {
-
+            if (App.languageDict.get('directionOfLang').toLowerCase() === "right") {
+                $('#invitationdiv').css('direction','ltr');
                 $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
                 $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
                 $('.field-NesttedUnder').find('.bbf-editor').find('select').find('option').eq(0).html(App.languageDict.attributes.Select_An_option);
@@ -4412,8 +4728,8 @@ $(function() {
                 });
             }
 
-            applyStylingSheet();
-            if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic")
+           applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('.table td').css('text-align','right');
                 $('.table th').css('text-align','right');
@@ -4797,6 +5113,7 @@ $(function() {
 
                 });
             }
+
         },
         LogQuery: function() {
             var type = "community";
@@ -4816,15 +5133,30 @@ $(function() {
             log.type = type;
             log.render();
             App.$el.children('.body').html(log.el);
-            var directionOfLang = loadLanguageDocs().get('directionOfLang');
-
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
             if (directionOfLang.toLowerCase() === "right") {
 
                 $('#start-date').css('margin-right','20px');
             }
 
 
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang);
                 //currently hiding for all kind of communities and nations.
             $("#community-select").hide();
             $('#start-date').datepicker({
@@ -5493,7 +5825,22 @@ $(function() {
         },
         LogActivity:  function(CommunityName, startDate, endDate) {
 
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+
             var rpt = new App.Views.ActivityReport()
             var type = "community"
             var configurations = Backbone.Collection.extend({

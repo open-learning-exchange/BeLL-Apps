@@ -6,10 +6,25 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function(event) {
-                if (confirm(loadLanguageDocs().attributes.Confirm_Report)) {
+                var members = new App.Collections.Members()
+                var member;
+                var languageDictValue;
+                members.login = $.cookie('Member.login');
+                var clanguage = '';
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage = member.get('bellLanguage');
+                            languageDictValue = getSpecificLanguage(clanguage);
+                        }
+                    },
+                    async:false
+                });
+                if (confirm(languageDictValue.attributes.Confirm_Report)) {
                 this.model.destroy()
                 event.preventDefault();
-                alert(loadLanguageDocs().attributes.Reports_Deleted_Success);
+                alert(languageDictValue.attributes.Reports_Deleted_Success);
                 }
             },
             "click #open": function(event) {
@@ -23,7 +38,24 @@ $(function() {
 
             },
             "click #commentButton": function(e) {
-                var languageDictValue=loadLanguageDocs();
+                var members = new App.Collections.Members()
+                var member;
+                var languageDictValue;
+                members.login = $.cookie('Member.login');
+                var clanguage = '';
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            clanguage = member.get('bellLanguage');
+                            languageDictValue = getSpecificLanguage(clanguage);
+                        }
+                    },
+                    async:false
+                });
+                App.languageDict = languageDictValue;
+                var directionOfLang = App.languageDict.get('directionOfLang');
+                var languageDictValue=languageDictValue;
                 var coll = new App.Collections.CommunityReportComments()
                 coll.CommunityReportId = e.target.attributes[0].nodeValue
                 coll.fetch({
@@ -62,6 +94,22 @@ $(function() {
         },
 
         render: function() {
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
             //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()
             vars.languageDict=App.languageDict;

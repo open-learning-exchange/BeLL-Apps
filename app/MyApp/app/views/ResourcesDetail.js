@@ -85,7 +85,23 @@ $(function() {
 
         },
         initialize: function() {
-            this.$el.append('<th colspan="2"><h6>'+loadLanguageDocs().attributes.Resource_Detail+'</h6></th>')
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
+            this.$el.append('<th colspan="2"><h6>'+App.languageDict.attributes.Resource_Detail+'</h6></th>')
         },
         SetShelfId: function(s, r) {
             this.sid = s
@@ -93,7 +109,21 @@ $(function() {
         },
         render: function() {
             var vars = this.model.toJSON();
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
             this.$el.append("<tr><td>"+languageDictValue.attributes.Title+"</td><td>" + vars.title + "</td></tr>")
             this.$el.append("<tr><td>"+languageDictValue.attributes.Subject_single+"</td><td>" + vars.subject + "</td></tr>")
             this.$el.append("<tr><td>"+languageDictValue.attributes.Tag+"</td><td>" + vars.Tag + "</td></tr>")
