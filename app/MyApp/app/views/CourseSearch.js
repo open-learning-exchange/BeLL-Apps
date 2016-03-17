@@ -37,7 +37,7 @@ $(function () {
                         previousPageButtonPressed()
 
                     } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
-                        $('#not-found').html("No Such Record Exist");
+                        $('#not-found').html(App.languageDict.attributes.No_data_found);
                         $("#selectAllButton").hide()
 
 
@@ -53,7 +53,7 @@ $(function () {
                             $('.body').append(SearchSpans.el)
                         }
                         else{
-                                $('#not-found').html("No Such Record Exist");
+                            $('#not-found').html(App.languageDict.attributes.No_data_found);
                                 $('#not-found').show()
                         }
 
@@ -61,6 +61,39 @@ $(function () {
                 }
             })
 
+        },
+        changeDirection : function (){
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            if(directionOfLang.toLowerCase()==="right")
+            {
+                var library_page = $.url().data.attr.fragment;
+                if(library_page=="courses")
+                {
+                    $('#parentLibrary').addClass('addResource');
+                    $('.btable').addClass('addResource');
+                }
+            }
+            else
+            {
+                $('#parentLibrary').removeClass('addResource');
+                $('.btable').removeClass('addResource');
+            }
         },
         searchInArray: function (resourceArray, searchText) {
             var that = this

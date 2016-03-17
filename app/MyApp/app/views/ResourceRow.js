@@ -7,7 +7,23 @@ $(function() {
 		admn: null,
 		events: {
 			"click .destroy": function(event) {
-				if (confirm(loadLanguageDocs().attributes.Confirm_Resource)) {
+				var members = new App.Collections.Members()
+				var member;
+				var languageDictValue;
+				members.login = $.cookie('Member.login');
+				var clanguage = '';
+				members.fetch({
+					success: function () {
+						if (members.length > 0) {
+							member = members.first();
+							clanguage = member.get('bellLanguage');
+							languageDictValue = getSpecificLanguage(clanguage);
+						}
+					},
+					async: false
+				});
+				App.languageDict = languageDictValue;
+				if (confirm(App.languageDict.attributes.Confirm_Resource)) {
 					var that = this
 					////Deleting from the resource
 					var shelfResources = new App.Collections.shelfResource()
@@ -105,10 +121,13 @@ $(function() {
 				})
 				this.model = newmodel
 				this.render();
-				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+                if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 				{
 					$('.resourcInfoFirstCol').attr('colspan','8');
 					$('.resourcInfoCol').attr('colspan','3');
+                    $('.table th').css('text-align','right');
+                    $('.table td').css('text-align','right');
+                    $('#actionAndTitle').find('th').eq(1).css('text-align','center');
 				}
 			},
 			"click .unhide": function(event) {
@@ -140,10 +159,13 @@ $(function() {
 				})
 				this.model = newmodel
 				this.render();
-				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+                if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 				{
 					$('.resourcInfoFirstCol').attr('colspan','8');
 					$('.resourcInfoCol').attr('colspan','3');
+                    $('.table th').css('text-align','right');
+                    $('.table td').css('text-align','right');
+                    $('#actionAndTitle').find('th').eq(1).css('text-align','center');
 				}
 
 			},
@@ -214,67 +236,48 @@ $(function() {
 			this.model.on('destroy', this.remove, this);
 		},
 		render: function() {
-           // alert("Resource Row Called");
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-            });
-            var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
                     }
-                }
-            }
-            App.languageDict = languageDict;
-            //vars.Open=languageDict.attributes.Open;
-           /* var languageDictOfApp=App.languageDict;
-            this.data = {
-                languageDict:languageDictOfApp
+                },
+                async:false
 
-		}
-		console.log(this.data);
-	this.$el.append(this.template(this.data));*/
+            });
+            App.languageDict=languageDictValue;
             var vars = this.model.toJSON()
 			//console.log(vars)
 			var Details = ""
 
 			if (vars.author != undefined && vars.author != "") {
-				Details = Details + "<b>"+languageDict.attributes.author+"</b>&nbsp;" + vars.author + ' , '
+				Details = Details + "<b>"+languageDictValue.attributes.author+"</b>&nbsp;" + vars.author + ' , '
 			}
 
 			if (vars.Year != undefined && vars.Year != "") {
-				Details = Details + "<b>"+languageDict.attributes.year+" </b>&nbsp;" + vars.Year + ' , '
+				Details = Details + "<b>"+languageDictValue.attributes.year+" </b>&nbsp;" + vars.Year + ' , '
 			}
 
 			if (vars.openWith != undefined) {
-				Details = Details + "<b>"+languageDict.attributes.media+" </b>&nbsp;"
+				Details = Details + "<b>"+languageDictValue.attributes.media+" </b>&nbsp;"
 				Details = Details + vars.openWith + ' , '
 
 			}
 
 			if (vars.language != undefined) {
 				if (vars.language.length > 0) {
-					Details = Details + '<b>'+languageDict.attributes.language+'</b>&nbsp;' + vars.language + " , "
+					Details = Details + '<b>'+languageDictValue.attributes.language+'</b>&nbsp;' + vars.language + " , "
 				}
 			}
 
 			if (vars.subject != undefined) {
-				Details = Details + "<b>"+languageDict.attributes.subject+" </b>&nbsp;"
+				Details = Details + "<b>"+languageDictValue.attributes.subject+" </b>&nbsp;"
 				if ($.isArray(vars.subject)) {
 					for (var i = 0; i < vars.subject.length; i++) {
 						Details = Details + vars.subject[i] + ' / '
@@ -289,7 +292,7 @@ $(function() {
 			}
 
 			if (vars.Level != undefined) {
-				Details = Details + "<b>"+languageDict.attributes.level+" </b>&nbsp;"
+				Details = Details + "<b>"+languageDictValue.attributes.level+" </b>&nbsp;"
 				if ($.isArray(vars.Level)) {
 					for (var i = 0; i < vars.Level.length; i++) {
 						Details = Details + vars.Level[i] + ' / '
@@ -306,19 +309,19 @@ $(function() {
 			}
 
 			if (vars.Publisher != undefined && vars.Publisher != "") {
-				Details = Details + "<b>"+languageDict.attributes.publisher_attribution+"</b>&nbsp;" + vars.Publisher + ' , '
+				Details = Details + "<b>"+languageDictValue.attributes.publisher_attribution+"</b>&nbsp;" + vars.Publisher + ' , '
 			}
 
 			if (vars.linkToLicense != undefined && vars.linkToLicense != "") {
-				Details = Details + "<b>"+languageDict.attributes.link_to_license+" </b>&nbsp;" + vars.linkToLicense + ' , '
+				Details = Details + "<b>"+languageDictValue.attributes.link_to_license+" </b>&nbsp;" + vars.linkToLicense + ' , '
 			}
 
 			if (vars.resourceFor != undefined && vars.resourceFor != "") {
-				Details = Details + "<b>"+languageDict.attributes.resource_for+"</b>&nbsp;" + vars.resourceFor + ' , '
+				Details = Details + "<b>"+languageDictValue.attributes.resource_for+"</b>&nbsp;" + vars.resourceFor + ' , '
 			}
             ////////////////////////////////////////////////Code for Issue No 60 Adding a drop-down////////////////////////////////
             if (vars.resourceType != undefined && vars.resourceType != "") {
-                Details = Details + "<b>"+languageDict.attributes.resource_type+"</b>&nbsp;" + vars.resourceType + ' , '
+                Details = Details + "<b>"+languageDictValue.attributes.resource_type+"</b>&nbsp;" + vars.resourceType + ' , '
             }
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -326,7 +329,7 @@ $(function() {
 				//console.log(this.collections)
 				if ($.isArray(vars.Tag)) {
 					if (vars.Tag.length > 0)
-						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>&nbsp;"
+						Details = Details + "<b>"+languageDictValue.attributes.Collection+"</b>&nbsp;"
 
 					for (var i = 0; i < vars.Tag.length; i++) {
 						if (this.collections.get(vars.Tag[i]) != undefined)
@@ -334,7 +337,7 @@ $(function() {
 					}
 				} else {
 					if (vars.Tag != 'Add New')
-						Details = Details + "<b>"+languageDict.attributes.Collection+"</b>&nbsp;" + vars.Tag + ' / '
+						Details = Details + "<b>"+languageDictValue.attributes.Collection+"</b>&nbsp;" + vars.Tag + ' / '
 				}
 			}
 			Details = Details.substring(0, Details.length - 3)
@@ -343,14 +346,14 @@ $(function() {
 			Details = Details.substring(0, Details.length - 3)
 
 			vars.Details = Details;
-			vars.open=App.languageDict.attributes.Open;
-			vars.viewDetails=App.languageDict.attributes.View_Details;
-			vars.addToMyLibrary=App.languageDict.attributes.Add_to_my_library;
-			vars.feedback=App.languageDict.attributes.Feedback
-			vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
-			vars.unhide=App.languageDict.attributes.UnHide;
+			vars.open=languageDictValue.attributes.Open;
+			vars.viewDetails=languageDictValue.attributes.View_Details;
+			vars.addToMyLibrary=languageDictValue.attributes.Add_to_my_library;
+			vars.feedback=languageDictValue.attributes.Feedback
+			vars.deleteLabel=languageDictValue.attributes.DeleteLabel;
+			vars.unhide=languageDictValue.attributes.UnHide;
 
-			vars.hide=App.languageDict.attributes.Hide;
+			vars.hide=languageDictValue.attributes.Hide;
 			if (vars.hidden == undefined) {
 				vars.hidden = false
 			}

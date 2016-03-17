@@ -28,7 +28,7 @@ $(function() {
 
 
         saveAttachment: function(formEl, fileEl, revEl) {
-            var languageDictValue=App.Router.loadLanguageDocs();
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
 
             // Work with this doc in the files database
             var server = App.Server

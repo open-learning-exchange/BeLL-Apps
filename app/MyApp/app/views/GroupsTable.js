@@ -19,31 +19,36 @@ $(function() {
 
 		},
         changeDirection : function (){
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
+			var members = new App.Collections.Members()
+			var member;
+			var languageDictValue;
+			members.login = $.cookie('Member.login');
+			var clanguage = '';
+			members.fetch({
+				success: function () {
+					if (members.length > 0) {
+						member = members.first();
+						clanguage = member.get('bellLanguage');
+						languageDictValue = getSpecificLanguage(clanguage);
+					}
+				},
                 async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-			if (clanguage=="Urdu" || clanguage=="Arabic")
+			});
+			App.languageDict = languageDictValue;
+			var directionOfLang = App.languageDict.get('directionOfLang');
+			if(directionOfLang.toLowerCase()==="right")
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="courses")
                 {
-                    //    alert("Hello")
                     $('#parentLibrary').addClass('addResource');
+
                 }
-
-
-                // $('.table-striped').css({direction:rtl});
             }
             else
             {
                 $('#parentLibrary').removeClass('addResource');
+
             }
         },
 		events: {
@@ -61,33 +66,25 @@ $(function() {
 		},
 
 		addAll: function() {
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-            var languages = new App.Collections.Languages();
-            languages.fetch({
+			var members = new App.Collections.Members()
+			var member;
+			var languageDictValue;
+			members.login = $.cookie('Member.login');
+			var clanguage = '';
+			members.fetch({
+				success: function () {
+					if (members.length > 0) {
+						member = members.first();
+						clanguage = member.get('bellLanguage');
+						languageDictValue = getSpecificLanguage(clanguage);
+					}
+				},
                 async: false
             });
-            var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;
-			this.$el.html("<tr><th>"+languageDict.attributes.Title+"</th><th colspan='0'>"+languageDict.attributes.action+"</th></tr>")
+			App.languageDict = languageDictValue;
+			var languageDict = languageDictValue;
+			var directionOfLang = App.languageDict.get('directionOfLang');
+			this.$el.html("<tr><th>"+languageDictValue.attributes.Title+"</th><th colspan='0'>"+languageDictValue.attributes.action+"</th></tr>")
 			var manager = new App.Models.Member({
 				_id: $.cookie('Member._id')
 			})
@@ -127,9 +124,8 @@ $(function() {
 		},
 
 		render: function() {
-            var clanguage
-                = App.configuration.get("currentLanguage");
-			if(clanguage=="Urdu" || clanguage=="Arabic")
+			var directionOfLang = App.languageDict.get('directionOfLang');
+			if(directionOfLang.toLowerCase()==="right")
             {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');

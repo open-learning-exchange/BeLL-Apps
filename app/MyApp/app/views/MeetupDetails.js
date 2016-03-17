@@ -39,11 +39,42 @@ $(function() {
 
         },
         initialize: function() {
-            this.$el.append('<th colspan="2"><h6>'+loadLanguageDocs().attributes.MeetUp_Detail+'</h6></th>')
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
+            this.$el.append('<th colspan="2"><h6>'+App.languageDict.attributes.MeetUp_Detail+'</h6></th>')
         },
         render: function() {
 
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
             var vars = this.model.toJSON()
             var date = new Date(vars.schedule)
             vars.schedule = date.toUTCString()

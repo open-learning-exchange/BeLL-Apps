@@ -15,7 +15,7 @@ $(function() {
         render: function() {
             var vars = {}
 
-                vars.header = 'New Survey'
+            vars.header = 'New Survey'
 
             // prepare the form
             this.form = new Backbone.Form({
@@ -23,15 +23,15 @@ $(function() {
             });
             vars.form = "";
             vars.rlength = this.rlength;
-          //  this.form.render();
+            //  this.form.render();
             //this.form.render().el;
             this.$el.html(this.template(vars));
-           // this.form.render();
+            // this.form.render();
             this.$el.find('.fields').append(this.form.render().el);
-          //  $('.fields').html(this.form.render().el);
+            //  $('.fields').html(this.form.render().el);
 //            $('.fields').html(this.form.el);
             $('.form .field-resources').hide();
-          //  $('#progressImage').hide();
+            //  $('#progressImage').hide();
 
             return this;
         },

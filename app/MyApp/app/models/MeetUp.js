@@ -35,7 +35,27 @@ $(function() {
             endTime: 'Text',
             category: {
                 type: 'Select',
-                options: ['ICT', 'First Time', 'Mothers', 'General', 'E Learning', 'Farming', 'Academic Discussion', 'Academic Help', 'Awareness']
+                options:[
+                    {val:'ICT',
+                    label:'ICT'},
+                    {val:'First Time',
+                        label:'First Time'},
+                    {val:'Mothers',
+                        label:'Mothers'},
+                    {val:'General',
+                        label:'General'},
+                    {val:'E Learning',
+                        label:'E Learning'},
+                    {val:'Farming',
+                        label:'Farming'},
+                    {val:'Academic Discussion',
+                        label:'Academic Discussion'},
+                    {val:'Academic Help',
+                        label:'Academic Help'},
+                    {val:'Awareness',
+                        label:'Awareness'},
+                ]
+              //  options: ['ICT', 'First Time', 'Mothers', 'General', 'E Learning', 'Farming', 'Academic Discussion', 'Academic Help', 'Awareness']
             },
             meetupLocation: 'Text'
         }

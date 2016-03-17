@@ -19,7 +19,7 @@ $(function() {
 				}
 			},
 			"click #nextButton": function(e) {
-               // $('.body').removeClass();
+
 				this.collection.skip = parseInt(this.collection.skip) + 20
 				this.collection.fetch({
 					async: false
@@ -66,7 +66,22 @@ $(function() {
 
 		},
 		addOne: function(model) {
-           // alert("Add one is called");
+			var members = new App.Collections.Members()
+			var member;
+			var languageDictValue;
+			members.login = $.cookie('Member.login');
+			members.fetch({
+				success: function () {
+					if (members.length > 0) {
+						member = members.first();
+						var lang=member.get('bellLanguage');
+						languageDictValue=getSpecificLanguage(lang);
+					}
+				},
+				async:false
+
+			});
+			App.languageDict=languageDictValue;
 			var resourceRowView = new App.Views.ResourceRow({
 				model: model,
 				admin: this.isAdmin
@@ -78,16 +93,33 @@ $(function() {
 
 			resourceRowView.render()
 			this.$el.append(resourceRowView.el);
-			if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic" )
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 			{
 				$('.resourcInfoFirstCol').attr('colspan','8');
 				$('.resourcInfoCol').attr('colspan','3');
+
 			}
 		},
 
 		addAll: function() {
+			var members = new App.Collections.Members()
+			var member;
+			var languageDictValue;
+			members.login = $.cookie('Member.login');
+			members.fetch({
+				success: function () {
+					if (members.length > 0) {
+						member = members.first();
+						var lang=member.get('bellLanguage');
+						languageDictValue=getSpecificLanguage(lang);
+					}
+				},
+				async:false
+
+			});
+			App.languageDict=languageDictValue;
 			if (this.collection.length == 0) {
-				if(App.configuration.attributes.currentLanguage=="Urdu" || App.configuration.attributes.currentLanguage=="Arabic"){
+                if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
 					this.$el.append("<tr><td style='width: 630px;text-align:right' colspan='8'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
 				}
 				else{
@@ -102,25 +134,29 @@ $(function() {
 			this.collection.forEach(this.addOne, this)
 		},
         changeDirection : function (){
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-			if (clanguage=="Urdu" || clanguage=="Arabic")
+			var members = new App.Collections.Members()
+			var member;
+			var languageDictValue;
+			members.login = $.cookie('Member.login');
+			members.fetch({
+				success: function () {
+					if (members.length > 0) {
+						member = members.first();
+						var lang=member.get('bellLanguage');
+						languageDictValue=getSpecificLanguage(lang);
+					}
+				},
+				async:false
+
+			});
+			App.languageDict=languageDictValue;
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="resources")
                       {
                     $('#parentLibrary').addClass('addResource');
                 }
-
-                // $('.table-striped').css({direction:rtl});
             }
             else
             {
@@ -132,88 +168,60 @@ $(function() {
 			if (this.displayCollec_Resources != true) {
 
 				this.$el.html("")
+				var members = new App.Collections.Members()
+				var member;
+				var languageDictValue;
+				members.login = $.cookie('Member.login');
+				members.fetch({
+					success: function () {
+						if (members.length > 0) {
+							member = members.first();
+							var lang=member.get('bellLanguage');
+							languageDictValue=getSpecificLanguage(lang);
+						}
+					},
+					async:false
+
+				});
+				App.languageDict=languageDictValue;
 				if (this.removeAlphabet == undefined) {
 					var viewText = "<tr></tr>"
 					viewText += "<tr><td colspan=7  style='cursor:default' >"
 					viewText += '<a  id="allresources">#</a>&nbsp;&nbsp;'
-                    var str ;
-                    var configurations = Backbone.Collection.extend({
-                        url: App.Server + '/configurations/_all_docs?include_docs=true'
-                    })
-                    var config = new configurations()
-                    config.fetch({
-                        async: false
-                    })
-                    var con = config.first();
-                    var currentConfig = config.first().toJSON().rows[0].doc;
-                    var clanguage= currentConfig.currentLanguage;
-					if (clanguage=="Urdu" || clanguage=="Arabic")
-                    {
-                        str="ثجحخدذرزسشصضطظعغفقكلمنهويا";
-                    }
-                   else
-                        str= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
+                    var str = [] ;
+					str = App.languageDict.get("alphabets");
 					for (var i = 0; i < str.length; i++) {
-						var nextChar = str.charAt(i);
+						var nextChar = str[i];
 						viewText += '<a class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 					}
 					viewText += "</td></tr>"
 					this.$el.append(viewText);
-					if (clanguage=="Urdu" || clanguage=="Arabic")
+                    if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
                     {
                         $('#alphabetsOfLanguage').addClass('addResource');
                     }
 
 				}
 			}
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= currentConfig.currentLanguage;
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-            });
-            var languageDict;
-            for(var i=0;i<languages.length;i++)
-            {
-                if(languages.models[i].attributes.hasOwnProperty("nameOfLanguage"))
-                {
-                    if(languages.models[i].attributes.nameOfLanguage==clanguage)
-                    {
-                        languageDict=languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;
 
-			applyStylingSheet();
 			this.$el.append('<br/><br/>')
-            if(App.configuration.attributes.currentLanguage=="English" )
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="left")
 			{
-				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
+				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='6'>"+App.languageDict.attributes.action+"</th></tr>")
 			}
 			else {
-				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDict.attributes.Title+"</th><th colspan='26' style='text-align: center'>"+languageDict.attributes.action+"</th></tr>")
+				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='26' style='text-align: center'>"+App.languageDict.attributes.action+"</th></tr>")
 			}
 			this.addAll()
 
 			var text = '<tr><td>'
 
 			if (this.collection.skip != 0) {
-				text += '<a class="btn btn-success" id="backButton" >'+languageDict.attributes.Back+'</a>&nbsp;&nbsp;'
+				text += '<a class="btn btn-success" id="backButton" >'+App.languageDict.attributes.Back+'</a>&nbsp;&nbsp;'
 			}
 
 			if (this.collection.length >= 20)
-				text += '<a class="btn btn-success" id="nextButton">'+languageDict.attributes.Next+'</a>'
+				text += '<a class="btn btn-success" id="nextButton">'+App.languageDict.attributes.Next+'</a>'
 
 			text += '</td></tr>'
 			this.$el.append(text)
@@ -236,7 +244,7 @@ $(function() {
 							var looplength = resourceLength / 20
 							for (var i = 0; i < looplength; i++) {
 								if (i == 0)
-									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+languageDict.attributes.Home+'</a>&nbsp&nbsp'
+									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+languageDictValue.attributes.Home+'</a>&nbsp&nbsp'
 								else
 									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">' + i + '</a>&nbsp&nbsp'
 							}
@@ -248,6 +256,7 @@ $(function() {
 				})
 
 			}
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
 		}
 

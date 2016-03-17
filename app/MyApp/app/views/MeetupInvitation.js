@@ -40,8 +40,24 @@ $(function() {
 
             //members is required for the form's members field
             console.log(this.model);
-            var languageDictValue=loadLanguageDocs();
             var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async:false
+            });
+            App.languageDict = languageDictValue;
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            members = new App.Collections.Members()
             var that = this
             var inviteForm = this
             inviteForm.on('InvitationForm:MembersReady', function() {
@@ -57,7 +73,7 @@ $(function() {
 
                 this.form.fields['invitationType'].$el.change(function() {
                     var val = that.form.fields['invitationType'].$el.find('option:selected').text()
-                    if (val == "Members") {
+                    if (val == App.languageDict.get('Members')) {
                         that.form.fields['members'].$el.show()
                     } else {
                         that.form.fields['members'].$el.hide()
@@ -83,7 +99,7 @@ $(function() {
 
             })
             members.fetch();
-            applyStylingSheet();
+            applyCorrectStylingSheet(directionOfLang)
         },
 
         setFormFromEnterKey: function(event) {
@@ -92,7 +108,22 @@ $(function() {
         },
 
         setForm: function() {
-            var languageDictValue=loadLanguageDocs();
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            var clanguage = '';
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        clanguage = member.get('bellLanguage');
+                        languageDictValue = getSpecificLanguage(clanguage);
+                    }
+                },
+                async: false
+            });
+            App.languageDict = languageDictValue;
             var member = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })
