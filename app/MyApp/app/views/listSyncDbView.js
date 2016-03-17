@@ -401,7 +401,42 @@ $(function() {
 								}
 							}
 							console.log(idsOfDocsToChange);
-							$.ajax({
+							/////////////////////////////////////////////
+							$.couch.allDbs({
+								success: function(data) {
+									if (data.indexOf('tempsurvey') != -1) {
+										console.log("tempsurvey existed.We are going to drop and create.");
+										$.couch.db("tempsurvey").drop({
+											success: function(data) {
+												console.log(data);
+												$.couch.db("tempsurvey").create({
+													success: function(data) {
+														console.log(data);
+														that.updateNationSurveyDBForCommunityName(idsOfDocsToChange);
+													},
+													error: function(status) {
+														console.log(status);
+													}
+												});
+											},
+											error: function(status) {
+												console.log(status);
+											},
+											async: false
+										});
+									} else {
+										console.log("tempsurvey doesn't exist, so no need to drop.");
+										$.couch.db("tempsurvey").create({
+											success: function(data) {
+												console.log(data);
+												that.updateNationSurveyDBForCommunityName(idsOfDocsToChange);
+											}
+										});
+									}
+								}
+							});
+							/////////////////////////////////////////////
+							/*$.ajax({
 								headers: {
 									'Accept': 'application/json',
 									'Content-Type': 'application/json; charset=utf-8'
@@ -471,7 +506,7 @@ $(function() {
 								error: function(status) {
 									console.log(status);
 								}
-							});
+							});*/
 						},
 						error: function(err) {
 							console.log(err)
@@ -524,6 +559,143 @@ $(function() {
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					alert("Error (Try Later)")
+				}
+			});
+		},
+
+		updateNationSurveyDBForCommunityName: function(idsOfDocsToChange) {
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey',
+					"target": "tempsurvey",
+					'doc_ids': idsOfDocsToChange
+				}),
+				async: false,
+				success: function (response) {
+					console.log(response);
+					$.ajax({
+						url: '/tempsurvey/_all_docs?include_docs=true',
+						type:  'GET',
+						dataType: 'json',
+						success: function (surveyResult) {
+							var surveyDocsFromComm = surveyResult.rows;
+							var docsToChange = [];
+							for (var i = 0; i < surveyDocsFromComm.length; i++) {
+								var surveyModel = surveyDocsFromComm[i].doc;
+								var communityName = App.configuration.get('name');
+								if (idsOfDocsToChange.indexOf(surveyModel._id) > -1 && surveyModel.submittedBy.indexOf(communityName) == -1) {
+									surveyModel.submittedBy.push(communityName);
+									docsToChange.push(surveyModel);
+								}
+							}
+							console.log(docsToChange);
+							$.couch.db("tempsurvey").bulkSave({"docs": docsToChange}, {
+								success: function(data) {
+									console.log(data);
+									$.ajax({
+										headers: {
+											'Accept': 'application/json',
+											'Content-Type': 'application/json; charset=utf-8'
+										},
+										type: 'POST',
+										url: '/_replicate',
+										dataType: 'json',
+										data: JSON.stringify({
+											"source": "tempsurvey",
+											"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey',
+											'doc_ids': idsOfDocsToChange
+										}),
+										async: false,
+										success: function (response) {
+											alert("Surveys replicated successfully");
+											$.couch.allDbs({
+												success: function (data) {
+													if (data.indexOf('tempsurvey') != -1) {
+														console.log("tempsurvey existed.We are going to drop");
+														$.couch.db("tempsurvey").drop({
+															success: function (data) {
+																console.log(data);
+																if (isActivityLogChecked == false) {
+																	App.stopActivityIndicator();
+																}
+															}
+														});
+													}
+												}
+											});
+										},
+										error: function(status) {
+											console.log(status);
+											$.couch.allDbs({
+												success: function (data) {
+													if (data.indexOf('tempsurvey') != -1) {
+														console.log("tempsurvey existed.We are going to drop");
+														$.couch.db("tempsurvey").drop({
+															success: function (data) {
+																console.log(data);
+															}
+														});
+													}
+												}
+											});
+										}
+									});
+								},
+								error: function(status) {
+									console.log(status);
+									$.couch.allDbs({
+										success: function (data) {
+											if (data.indexOf('tempsurvey') != -1) {
+												console.log("tempsurvey existed.We are going to drop");
+												$.couch.db("tempsurvey").drop({
+													success: function (data) {
+														console.log(data);
+													}
+												});
+											}
+										}
+									});
+								}
+							});
+						},
+						error: function(status) {
+							console.log(status);
+							$.couch.allDbs({
+								success: function (data) {
+									if (data.indexOf('tempsurvey') != -1) {
+										console.log("tempsurvey existed.We are going to drop");
+										$.couch.db("tempsurvey").drop({
+											success: function (data) {
+												console.log(data);
+											}
+										});
+									}
+								}
+							});
+						}
+					});
+				},
+				error: function(status) {
+					console.log(status);
+					$.couch.allDbs({
+						success: function (data) {
+							if (data.indexOf('tempsurvey') != -1) {
+								console.log("tempsurvey existed.We are going to drop");
+								$.couch.db("tempsurvey").drop({
+									success: function (data) {
+										console.log(data);
+									}
+								});
+							}
+						}
+					});
 				}
 			});
 		},
