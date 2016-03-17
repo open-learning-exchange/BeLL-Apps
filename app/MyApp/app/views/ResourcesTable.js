@@ -196,7 +196,7 @@ $(function() {
 					}
 					viewText += "</td></tr>"
 					this.$el.append(viewText);
-                    if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                    if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
                     {
                         $('#alphabetsOfLanguage').addClass('addResource');
                     }
@@ -205,23 +205,23 @@ $(function() {
 			}
 
 			this.$el.append('<br/><br/>')
-            if (languageDictValue.get('directionOfLang').toLowerCase()==="left")
+            if (App.languageDict.get('directionOfLang').toLowerCase()==="left")
 			{
-				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDictValue.attributes.Title+"</th><th colspan='6'>"+languageDict.attributes.action+"</th></tr>")
+				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='6'>"+App.languageDict.attributes.action+"</th></tr>")
 			}
 			else {
-				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+languageDictValue.attributes.Title+"</th><th colspan='26' style='text-align: center'>"+languageDict.attributes.action+"</th></tr>")
+				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='26' style='text-align: center'>"+App.languageDict.attributes.action+"</th></tr>")
 			}
 			this.addAll()
 
 			var text = '<tr><td>'
 
 			if (this.collection.skip != 0) {
-				text += '<a class="btn btn-success" id="backButton" >'+languageDictValue.attributes.Back+'</a>&nbsp;&nbsp;'
+				text += '<a class="btn btn-success" id="backButton" >'+App.languageDict.attributes.Back+'</a>&nbsp;&nbsp;'
 			}
 
 			if (this.collection.length >= 20)
-				text += '<a class="btn btn-success" id="nextButton">'+languageDictValue.attributes.Next+'</a>'
+				text += '<a class="btn btn-success" id="nextButton">'+App.languageDict.attributes.Next+'</a>'
 
 			text += '</td></tr>'
 			this.$el.append(text)
@@ -256,7 +256,7 @@ $(function() {
 				})
 
 			}
-            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
 		}
 

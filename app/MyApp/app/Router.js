@@ -4568,7 +4568,7 @@ $(function() {
                     var directionOfLang = App.languageDict.get('directionOfLang');
 
                     if (directionOfLang.toLowerCase() === "right") {
-
+                        $('#invitationdiv').css('direction','ltr');
                         $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
                         $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
                         $('.field-NesttedUnder').find('.bbf-editor').find('select').find('option').eq(0).html(App.languageDict.attributes.Select_An_option);
@@ -4619,7 +4619,6 @@ $(function() {
             }
 
             if (App.languageDict.get('directionOfLang').toLowerCase() === "right") {
-
                 $('#invitationdiv').css('direction','ltr');
                 $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
                 $('.field-NesttedUnder').find('label').html(App.languageDict.attributes.Nested_Under);
