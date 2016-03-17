@@ -401,7 +401,6 @@ $(function() {
 								}
 							}
 							console.log(idsOfDocsToChange);
-							/////////////////////////////////////////////
 							$.couch.allDbs({
 								success: function(data) {
 									if (data.indexOf('tempsurvey') != -1) {
@@ -435,78 +434,6 @@ $(function() {
 									}
 								}
 							});
-							/////////////////////////////////////////////
-							/*$.ajax({
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'application/json; charset=utf-8'
-								},
-								type: 'POST',
-								url: '/_replicate',
-								dataType: 'json',
-								data: JSON.stringify({
-									"source": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey',
-									"target": "survey",
-									'doc_ids': idsOfDocsToChange
-								}),
-								async: false,
-								success: function (response) {
-									console.log(response);
-									$.ajax({
-										url: '/survey/_design/bell/_view/surveyById?_include_docs=true',
-										type: 'GET',
-										dataType: 'json',
-										success: function (surveyResult) {
-											var surveyDocsFromComm = surveyResult.rows;
-											var docsToChange = [];
-											for (var i = 0; i < surveyDocsFromComm.length; i++) {
-												var surveyModel = surveyDocsFromComm[i].value;
-												var communityName = App.configuration.get('name');
-												if (idsOfDocsToChange.indexOf(surveyModel._id) > -1 && surveyModel.submittedBy.indexOf(communityName) == -1) {
-													surveyModel.submittedBy.push(communityName);
-													docsToChange.push(surveyModel);
-												}
-											}
-											console.log(docsToChange);
-											$.couch.db("survey").bulkSave({"docs": docsToChange}, {
-												success: function(data) {
-													console.log(data);
-													$.ajax({
-														headers: {
-															'Accept': 'application/json',
-															'Content-Type': 'application/json; charset=utf-8'
-														},
-														type: 'POST',
-														url: '/_replicate',
-														dataType: 'json',
-														data: JSON.stringify({
-															"source": "survey",
-															"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey',
-															'doc_ids': idsOfDocsToChange
-														}),
-														async: false,
-														success: function (response) {
-															alert("Surveys replicated successfully");
-															if (isActivityLogChecked == false) {
-																App.stopActivityIndicator();
-															}
-														},
-														error: function(status) {
-															console.log(status);
-														}
-													});
-												},
-												error: function(status) {
-													console.log(status);
-												}
-											});
-										}
-									});
-								},
-								error: function(status) {
-									console.log(status);
-								}
-							});*/
 						},
 						error: function(err) {
 							console.log(err)
