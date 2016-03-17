@@ -451,7 +451,10 @@ $(function() {
 														}),
 														async: false,
 														success: function (response) {
-															console.log(response);
+															alert("Surveys replicated successfully");
+															if (isActivityLogChecked == false) {
+																App.stopActivityIndicator();
+															}
 														},
 														error: function(status) {
 															console.log(status);
@@ -482,7 +485,6 @@ $(function() {
 		},
 
 		syncSurveyResponse: function() {
-			alert("In survey Response");
 			$.ajax({
 				headers: {
 					'Accept': 'application/json',
@@ -505,7 +507,6 @@ $(function() {
 		},
 
 		syncSurveyAnswers: function() {
-			alert("In survey Answers");
 			$.ajax({
 				headers: {
 					'Accept': 'application/json',
