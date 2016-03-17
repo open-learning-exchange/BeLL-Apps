@@ -28,7 +28,7 @@ $(function() {
             NesttedUnder: {
                 title: 'Nested Under',
                 type: 'Select',
-                options: ['--Select--']
+                options: [{val:'--Select--',label:'--Select--'}]
             },
             AddedBy: 'Text',
             AddedDate: 'Text',
