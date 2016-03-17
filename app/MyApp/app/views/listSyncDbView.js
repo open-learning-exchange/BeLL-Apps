@@ -368,44 +368,10 @@ $(function() {
 			})
 		},
 		syncSurveys: function() {
-			$.ajax({
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json; charset=utf-8'
-				},
-				type: 'POST',
-				url: '/_replicate',
-				dataType: 'json',
-				data: JSON.stringify({
-					"source": "surveyresponse",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyresponse'
-				}),
-				success: function(response) {
-					console.log("Successfully replicated survey response");
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
-				}
-			});
-			$.ajax({
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json; charset=utf-8'
-				},
-				type: 'POST',
-				url: '/_replicate',
-				dataType: 'json',
-				data: JSON.stringify({
-					"source": "surveyanswers",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyanswers'
-				}),
-				success: function(response) {
-					console.log("Successfully replicated survey answers");
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Error (Try Later)")
-				}
-			});
+			var that = this;
+			that.syncSurveyResponse();
+			that.syncSurveyAnswers();
+			//Saving community name in submittedBy for nation's record
 			$.ajax({
 				url: '/surveyresponse/_design/bell/_view/surveyResByCommunityName?_include_docs=true&key="' + App.configuration.get('name') + '"',
 				type: 'GET',
@@ -514,6 +480,53 @@ $(function() {
 				}
 			});
 		},
+
+		syncSurveyResponse: function() {
+			alert("In survey Response");
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "surveyresponse",
+					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyresponse'
+				}),
+				success: function(response) {
+					console.log("Successfully replicated survey response");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Error (Try Later)")
+				}
+			});
+		},
+
+		syncSurveyAnswers: function() {
+			alert("In survey Answers");
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "surveyanswers",
+					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyanswers'
+				}),
+				success: function(response) {
+					console.log("Successfully replicated survey answers");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Error (Try Later)")
+				}
+			});
+		},
+
 		//*************************************************************************************************************
 		//following function compare version numbers.
 		/*<li>0 if the versions are equal</li>
