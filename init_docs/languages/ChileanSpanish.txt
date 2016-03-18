@@ -621,5 +621,7 @@
    "Year_format":"YYYY",
    "Month":"Month",
    "View_All_Courses":"View All Courses",
-   "No_data_found":"No such record exists"
+   "No_data_found":"No such record exists",
+   "Configurations":"Configurations",
+   "Sync_With_Nation":"Sync With Nation"
 }
