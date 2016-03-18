@@ -27,22 +27,28 @@ $(function() {
             currentBellName = App.configuration.get('name')
             var htmlreferance = this.$el
 
-            this.$el.append('<div style="padding: 20px 20px 0px 20px; float: left;"> <a id="configuration"><button class="btn btn-primary" id="configbutton">Configurations</button></a> </div>')
-            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button class="SyncDbSelect btn btn-primary" id="sync">Sync With Nation</button>  </div>')
-            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a class="btn btn-primary" href="#publications/for-' + App.configuration.get('name') + '">Publications</a>  </div>')
-            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a class="btn btn-primary" href="#surveys/for-' + App.configuration.get('name') + '">Surveys</a>  </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 20px; float: left;"> <a id="configuration"><button class="btn btn-primary" id="configbutton">' + App.languageDict.get('Configurations') + '</button></a> </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button id="sync" class="SyncDbSelect btn btn-primary">' + App.languageDict.get('Sync_With_Nation') + '</button>  </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="publication" class="btn btn-primary" href="#publications/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Publications') + '</a>  </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="survey" class="btn btn-primary" href="#surveys/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Surveys') + '</a>  </div>')
             // /****************************************************************************************************************************************************
             //   this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button class="SyncMembersDb btn btn-primary" id="syncmembers">Sync Members Db With Nation</button>  </div>')
             //  ****************************************************************************************************************************************************/
-            var clanguage = App.configuration.get("currentLanguage");
-            if(clanguage=="Urdu" || clanguage=="Arabic") {
-                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            } else {
-                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
-                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            if(directionOfLang.toLowerCase()==="right") {
+                this.$el.find('#configuration').parent().css({"float":"right", "padding":"20px 20px 0px 20px"});
+                this.$el.find('#sync').parent().css({"float":"right", "padding":"20px 0px 0px 20px"});
+                this.$el.find('#publication').parent().css({"float":"right", "padding":"20px 0px 0px 20px"});
+                this.$el.find('#survey').parent().css({"float":"right", "padding":"20px 0px 0px 20px"});
             }
+            else
+            {
+                this.$el.find('#configuration').parent().css({"float":"left", "padding":"20px 20px 0px 20px"});
+                this.$el.find('#sync').parent().css({"float":"left", "padding":"20px 20px 0px 0px"});
+                this.$el.find('#publication').parent().css({"float":"left", "padding":"20px 20px 0px 0px"});
+                this.$el.find('#survey').parent().css({"float":"left", "padding":"20px 20px 0px 0px"});
+            }
+            applyCorrectStylingSheet(directionOfLang);
         },
 
         syncDbs: function(e) {
@@ -68,7 +74,6 @@ $(function() {
             configForm.render();
 
             this.$el.html(configForm.el);
-            configForm.updateDropDownValue();
         }
 
     })

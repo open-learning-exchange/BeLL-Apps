@@ -619,5 +619,8 @@
    "School_Year":"School Year",
    "Date_format":"DD",
    "Year_format":"YYYY",
-   "Month":"Month"
+   "Month":"Month",
+   "Configurations":"Configurations",
+   "Sync_With_Nation":"Sync With Nation",
+   "Set_Configurations":"Set Configurations"
 }
