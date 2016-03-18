@@ -20,9 +20,7 @@ $(function() {
                     text:availableLanguages[key]
                 }));
             }
-            this.$el.append('<a style="margin-left:31px" class="btn btn-success" id="formButton">Submit Configurations </a>');
-        },
-        updateDropDownValue : function(){
+            this.$el.find('.field-selectLanguage .bbf-editor select').prepend('<option id="defaultLang" disabled="true" selected style="display:none"></option>');
             var configCollection = new App.Collections.Configurations();
             configCollection.fetch({
                 async: false
@@ -30,7 +28,9 @@ $(function() {
             var configModel = configCollection.first();
             var currentConfig = configModel.toJSON();
             var clanguage= currentConfig.currentLanguage;
-            $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
+            clanguage= App.Router.getNativeNameOfLang(clanguage);
+            this.$el.find('#defaultLang').text(clanguage);
+            this.$el.append('<a style="margin-left:31px" class="btn btn-success" id="formButton">Submit Configurations </a>');
         },
         setForm: function() {
             var loginOfMem = $.cookie('Member.login');

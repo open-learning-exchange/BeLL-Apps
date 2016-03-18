@@ -22,24 +22,14 @@ $(function () {
                     text:availableLanguages[key]
                 }));
             }
-            this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
+            this.$el.find('.field-selectLanguage .bbf-editor select').prepend('<option id="defaultLang" disabled="true" selected style="display:none"></option>');
             var clanguage = App.configuration.get("currentLanguage");
+            clanguage= getNativeNameOfLang(clanguage);
+            $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage)
+            this.$el.find('#defaultLang').text(clanguage);
+            this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
-        },
-        updateDropDownValue : function(){
-            //alert($('.field-selectLanguage').find('.bbf-editor').find('select').val());
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            })
-            var config = new configurations()
-            config.fetch({
-                async: false
-            })
-            var con = config.first();
-            var currentConfig = config.first().toJSON().rows[0].doc;
-            var clanguage= App.languageDict.get('nameInNativeLang');
-            $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
         },
         setForm:function(){
             this.form.commit();

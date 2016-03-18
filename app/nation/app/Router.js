@@ -105,7 +105,7 @@ $(function() {
         for(var i=0;i<languages.length;i++) {
             if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
                 var languageName =languages.models[i].attributes.nameOfLanguage;
-                allLanguages[languageName]=languages.models[i].get(languageName);
+                allLanguages[languageName]=languages.models[i].get('nameInNativeLang');
             }
         }
         return allLanguages;
@@ -583,7 +583,6 @@ $(function() {
             configForm.render();
 
             App.$el.children('.body').html(configForm.el);
-            configForm.updateDropDownValue();
 
         },
         getRegisteredMembersCount: function(communityChosen, callback) {
@@ -3486,6 +3485,19 @@ $(function() {
 
 
         },
+        getNativeNameOfLang: function(language){
+        var languages = new App.Collections.Languages();
+        languages.fetch({
+            async: false
+        });
+        for(var i=0;i<languages.length;i++) {
+            if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                if (languages.models[i].attributes.nameOfLanguage == language) {
+                    return languages.models[i].get('nameInNativeLang');
+                }
+            }
+        }
+    },
         SelectCommunities: function(pId, type) {
             $('#invitationdiv').fadeIn(1000)
             var inviteForm = new App.Views.listCommunityView()
