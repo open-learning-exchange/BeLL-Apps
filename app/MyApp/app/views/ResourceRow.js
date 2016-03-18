@@ -351,6 +351,7 @@ $(function() {
 			vars.addToMyLibrary=languageDictValue.attributes.Add_to_my_library;
 			vars.feedback=languageDictValue.attributes.Feedback
 			vars.deleteLabel=languageDictValue.attributes.DeleteLabel;
+			vars.RemoveLabel=languageDictValue.attributes.Remove;
 			vars.unhide=languageDictValue.attributes.UnHide;
 
 			vars.hide=languageDictValue.attributes.Hide;

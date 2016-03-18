@@ -4852,16 +4852,60 @@ $(function() {
                     resourcesTableView.displayCollec_Resources = true
                     resourcesTableView.collections = App.collectionslist
                     resourcesTableView.isManager = roles.indexOf("Manager")
-                    resourcesTableView.render()
-                    App.$el.children('.body').html('<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
+                    var members = new App.Collections.Members()
+                    var member;
+                    var languageDictValue,lang;
+                    members.login = $.cookie('Member.login');
+                    members.fetch({
+                        success: function () {
+                            if (members.length > 0) {
+                                member = members.first();
+                                lang=member.get('bellLanguage');
+                                languageDictValue=getSpecificLanguage(lang);
+                            }
+                        },
+                        async:false
 
-                    App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
+                    });
+                    App.languageDict=languageDictValue;
+                    App.$el.children('.body').empty();
+                    App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                    App.$el.children('#parentLibrary').empty();
+
+                    //  App.$el.children('.body').html('<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
+
+                    // App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
+                    var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
+
+                    btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                    $('#parentLibrary').append( btnText);
 
                     /*if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
                      App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')*/
-                    App.$el.children('.body').append('<p style="font-size: 30px;font-weight: bolder;color: #808080;width: 450px;word-wrap: break-word;">' + collectionlist.get('CollectionName') + '</p>')
+                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a></p>')
+                    $('#parentLibrary').append('<p id="colName"style="font-size: 30px;font-weight: bolder;color: #808080;width: 450px;word-wrap: break-word;">' + collectionlist.get('CollectionName') + '</p>')
 
-                    App.$el.children('.body').append(resourcesTableView.el)
+                    resourcesTableView.render()
+                    $('#parentLibrary').append(resourcesTableView.el);
+                    if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                    {
+                        $('#resourcePage').addClass('addResource');
+                        $('#colName').addClass('addResource');
+                        $('#colName').css("float","right");
+                        $('#addNewResource').addClass('addMarginsOnResource');
+                        $('#requestResource').addClass('addMarginsOnResource');
+                        $('#labelOnResource').addClass('addResource');
+                        //  $('#labelOnResource').attr("margin-right","2%");
+                        $("#labelOnResource").css("margin-right","2%");
+                        $('table').addClass('resourceTableClass');
+                        $('.resourcInfoFirstCol').attr('colspan','8');
+                        $('.resourcInfoCol').attr('colspan','3');
+                        $('.resourcInfoCol').css('text-align','right');
+                        $('.table th').css('text-align','right');
+                        $('.table td').css('text-align','right');
+                        $('#actionAndTitle').find('th').eq(1).css('text-align','center');
+                    }
+                    resourcesTableView.changeDirection();
                     //****************************************************************************
 // make changes here for Issue # 70 (#resources)
                     //****************************************************************************
