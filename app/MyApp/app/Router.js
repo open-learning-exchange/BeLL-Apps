@@ -174,7 +174,25 @@ $(function() {
                                 surveyResModel = jsonRows[i].value;
                             }
                         }
-                        console.log(surveyResModel);
+                        var surAnswers = surveyResModel.answersToQuestions;
+                        var surAnswersIdes = ''
+                        _.each(surAnswers, function(item) {
+                            surAnswersIdes += '"' + item + '",'
+                        })
+                        if (surAnswersIdes != ''){
+                            surAnswersIdes = surAnswersIdes.substring(0, surAnswersIdes.length - 1);
+                        }
+                        var answersColl = new App.Collections.SurveyAnswers();
+                        answersColl.keys = encodeURI(surAnswersIdes)
+                        answersColl.fetch({
+                            async: false
+                        });
+                        var surAnswersTable = new App.Views.SurveyAnswerTable({
+                            collection: answersColl
+                        })
+                        surAnswersTable.Id = surveyId;
+                        surAnswersTable.render();
+                        App.$el.children('.body').append(surAnswersTable.el);
                     },
                     error: function(err) {
                         console.log(err);
