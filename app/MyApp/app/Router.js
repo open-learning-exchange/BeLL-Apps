@@ -118,8 +118,9 @@ $(function() {
         Publications: function(publicationIdes) {
             var PublicationsView = new App.Views.PublicationTable();
             PublicationsView.render();
-            App.$el.children('.body').html('<h3>Publications</h3>');
-            App.$el.children('.body').append(PublicationsView.el);
+            App.$el.children('.body').html('<div id="requestsTable"></div>');
+            $('#requestsTable').append('<h3>'+App.languageDict.get('Publications')+'</h3>');
+            $('#requestsTable').append(PublicationsView.el);
         },
 
         Surveys: function() {

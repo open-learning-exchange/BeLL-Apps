@@ -623,5 +623,8 @@
      "No_data_found":"No such record exists",
      "Configurations":"Configurations",
      "Sync_With_Nation":"Sync With Nation",
-     "Set_Configurations":"Set Configurations"
+     "Set_Configurations":"Set Configurations",
+     "IssueNumber":"Issue Number",
+     "Sync_Publication":"Sync publication",
+     "Not_Synced":"Not Synced"
 }

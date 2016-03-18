@@ -10,17 +10,17 @@
                 this.collectionInfo[model._id]= model; //[model.resources,model.courses,model.IssueNo]
                 if (isAlreadySynced) {
                     this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><a name="' +model._id +
-                        '" class="synPublication btn btn-info">Sync publication</a></td></tr>');
+                        '" class="synPublication btn btn-info">'+App.languageDict.attributes.Sync_Publication+'</a></td></tr>');
                 } else {
                     this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><a name="' +model._id +
-                        '" class="synPublication btn btn-info">Sync publication</a><label>&nbsp&nbspNot Synced</label></td></tr>');
+                        '" class="synPublication btn btn-info">'+App.languageDict.attributes.Sync_Publication+'</a><label>&nbsp&nbsp'+App.languageDict.attributes.Not_Synced+'</label></td></tr>');
                 }
             },
             events:{
               "click .synPublication": 'synPublication'
             },
             render: function () {
-                this.$el.html('<tr><th>Issue Number</th><th>Actions</th></tr>');
+                this.$el.html('<tr><th>'+App.languageDict.attributes.IssueNumber+'</th><th>'+App.languageDict.get("action")+'</th></tr>');
                 var that=this;
             var nationName = App.configuration.get('nationName'),
                 nationPassword = App.password;
