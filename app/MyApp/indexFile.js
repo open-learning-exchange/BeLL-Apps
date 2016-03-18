@@ -435,6 +435,19 @@ function checkIfExistsInLangDb(language){
     }
     return isPresent;
 }
+function getNativeNameOfLang(language){
+    var languages = new App.Collections.Languages();
+    languages.fetch({
+        async: false
+    });
+    for(var i=0;i<languages.length;i++) {
+        if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+            if (languages.models[i].attributes.nameOfLanguage == language) {
+                return languages.models[i].get('nameInNativeLang');
+            }
+        }
+    }
+}
 function getSpecificLanguage(language){
     console.log('from start '+language);
     var languages = new App.Collections.Languages();
@@ -1062,6 +1075,7 @@ function AddColletcion() {
 function EditColletcion(value) {
     App.Router.EditTag(value)
 }
+
 function lookup(obj, key) {
     var type = typeof key;
     if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
