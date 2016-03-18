@@ -3,7 +3,7 @@ $(function () {
     App.Views.Configurations = Backbone.View.extend({
 
         initialize: function () {
-            this.$el.html('<h3>Set Configurations<h3>')
+            this.$el.html('<h3>' + App.languageDict.get("Set_Configurations") + '</h3>')
         },
         events: {
             "click #formButton": "setForm"

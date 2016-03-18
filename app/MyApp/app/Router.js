@@ -165,6 +165,7 @@ $(function() {
         },
 
         communityManage: function() {
+
             var manageCommunity = new App.Views.ManageCommunity()
             manageCommunity.render()
             App.$el.children('.body').html(manageCommunity.el);

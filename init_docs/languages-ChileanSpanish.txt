@@ -621,5 +621,6 @@
    "Year_format":"YYYY",
    "Month":"Month",
    "Configurations":"Configurations",
-   "Sync_With_Nation":"Sync With Nation"
+   "Sync_With_Nation":"Sync With Nation",
+   "Set_Configurations":"Set Configurations"
 }
