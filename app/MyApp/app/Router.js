@@ -198,7 +198,6 @@ $(function() {
                         console.log(err);
                     }
                 });
-                App.$el.children('.body').append('<div style="margin-top:10px"><h6 style="float:left;">This survey has been submitted.</h6></div>');
             }
             applyStylingSheet();
         },
