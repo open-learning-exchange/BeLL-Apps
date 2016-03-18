@@ -577,7 +577,11 @@
                 <tbody>
                 <% for (var i=0; i<Options.length; i++){%>
                 <tr>
-                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>"> <%= Options[i] %></td>
+                    <%  if(Answer[0] == Options[i]){%>
+                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" checked disabled> <%= Options[i] %></td>
+                    <%} else {%>
+                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" disabled> <%= Options[i] %></td>
+                    <%}%>
                 </tr>
                 <% }%>
                 </tbody>
