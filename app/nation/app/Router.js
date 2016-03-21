@@ -72,10 +72,10 @@ $(function() {
                     }
                 }
                 //needs to be corrected for saving member's lang at nation side....
-                /*var member;
+                var member;
                 var members = new App.Collections.Members()
                 members.login = $.cookie('Member.login');
-                clanguage=currentConfig.currentLanguage;
+             //   clanguage=currentConfig.currentLanguage;
                 members.fetch({
                     success: function () {
                         if (members.length > 0) {
@@ -92,7 +92,7 @@ $(function() {
                     },
                     async:false
 
-                });*/
+                });
 
             }
             return languageDict;
