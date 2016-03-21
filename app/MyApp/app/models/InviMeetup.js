@@ -4,7 +4,14 @@ $(function() {
         schema: {
             invitationType: {
                 type: 'Select',
-                options: ['All', 'Members']
+              //  options: ['All', 'Members']
+                options:[{
+                    val: 'All',
+                    label: 'All'
+                }, {
+                        val: 'Members',
+                        label: 'Members'
+                    }]
             },
             members: {
                 type: 'Checkboxes',

@@ -591,47 +591,6 @@ $(function() {
                         member = members.first();
                         var lang=member.get('bellLanguage');
                         languageDictValue=getSpecificLanguage(lang);
-                       /* if(lang==="" || lang===null)
-                        {
-                            alert('The user is old one and has not specified his language yet.');
-                            var configurations = Backbone.Collection.extend({
-                                url: App.Server + '/configurations/_all_docs?include_docs=true'
-                            })
-                            var config = new configurations()
-                            config.fetch({
-                                async: false
-                            })
-                            var con = config.first();
-                            var currentConfig = config.first().toJSON().rows[0].doc;
-                            var clanguage= currentConfig.currentLanguage;
-                            lang=clanguage;
-                            member.save({
-                                    language: clanguage
-                                },
-                                {
-                                    success: function () {
-                                        alert('Saved successfully in language.');
-                                    }
-                                }
-                            );
-                        }
-                        else{
-                            if($.cookie('languageFromCookie')!=lang)
-                            {
-                                alert('Values in cookie and db are not same...');
-                                member.save({
-                                        language: $.cookie('languageFromCookie')
-                                    },
-                                    {
-                                        success: function () {
-                                            alert('Saved successfully in language.');
-                                        }
-                                    }
-                                );
-                                lang= $.cookie('languageFromCookie');
-                            }
-                        }*/
-
                     }
                 },
                 async:false
@@ -4252,8 +4211,20 @@ $(function() {
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)
             mailview.fetchRecords();
-
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+            $('#searchOnMail').find('input').eq(0).attr("placeholder",App.languageDict.get('searchMessages'))
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('#mailHeading').css({"color":"black","font-size":"25px","margin-right": "10%"})
+                $('#searchOnMail').css("float","left");
+                $('#errorMessage').css({"direction":"rtl"});
+                $('#errorMessage').find('p').css({"color":"red","margin-right":"10%"});
+            }
+            else {
+                $('#mailHeading').css({"color":"black","font-size":"25px"});
+                 $('#searchOnMail').css("float","right");
+                $('#errorMessage').find('p').css({"color":"red","margin-left":"10%"});
+            }
 
         },
         CoursesBarChart: function() {

@@ -91,8 +91,8 @@ $(function() {
                 }
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-                var vacancyFull = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>this Course Was Full.</div>"
-                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this invitation.</div>"
+                var vacancyFull = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.get('courseFull_msg')+"</div>"
+                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.get('invite_Accepted')+"</div>"
 
                 if (mailView.inViewModel.get('type') == "Meetup-invitation") {
                     mailView.meetupRequestAccepted(e.currentTarget.value)
@@ -180,7 +180,7 @@ $(function() {
                 }
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have rejected this invitation.</div>"
+                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.get('invite_rejected')+"</div>"
 
                 mailView.updateMailBody(body)
             },
@@ -298,7 +298,7 @@ $(function() {
                 async: false
             })
             if (member.id == undefined) {
-                var name = "Error!!"
+                var name = App.languageDict.get('Error');
             } else {
                 var name = member.get('firstName') + ' ' + member.get('lastName')
             }
@@ -313,12 +313,18 @@ $(function() {
                 var deleteId = "delete" + this.modelNo
                 var viewId = "view" + this.modelNo
 
-                row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td align="right"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn btn-danger">Delete</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn btn-primary" >View</button></td></tr>'
+                row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn btn-danger">'+App.languageDict.get("DeleteLabel")+'</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn btn-primary" >'+App.languageDict.get("View")+'</button></td></tr>'
                 $('#inbox_mails').append(row)
                 this.modelNo++
                 $("#" + deleteId).click(this.deleteButton)
                 $("#" + viewId).click(this.viewButton)
-                mailView = this
+                mailView = this;
+                if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
+                    $('#viewDelCol').find('td').eq(2).attr("align","left")
+                }
+                else {
+                    $('#viewDelCol').find('td').eq(2).attr("align","right")
+                }
             }
         },
 
@@ -333,11 +339,36 @@ $(function() {
             this.collection.forEach(this.addOne, this)
         },
         render: function() {
+            var members = new App.Collections.Members()
+            var member;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        App.languageDict=getSpecificLanguage(lang);
+
+                    }
+                },
+                async:false
+            });
+            this.vars.languageDict=App.languageDict;
             this.$el.html(this.template(this.vars))
             this.$el.append('<div class="mail-table"><span style="float:right; margin-left:10px;"><button id="nextButton" class="btn btn-primary fui-arrow-right"></button></span> <span style="float:right;"><button id="previousButton" class="btn btn-primary fui-arrow-left"></button></span></div>')
-            //$('#mailActions').html(this.template)
-
-
+            $('#searchOnMail').find('input').eq(0).attr("placeholder",App.languageDict.get('searchMessages'))
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('#mailHeading').css({"color":"black","font-size":"25px","margin-right": "10%"})
+                $('#searchOnMail').css("float","left");
+                $('#errorMessage').css({"direction":"rtl"});
+                $('#errorMessage').find('p').css({"color":"red","margin-right":"10%"});
+            }
+            else {
+                $('#mailHeading').css({"color":"black","font-size":"25px"});
+                $('#searchOnMail').css("float","right");
+                $('#errorMessage').find('p').css({"color":"red","margin-left":"10%"});
+            }
         },
 
         fetchRecords: function() {
@@ -454,7 +485,7 @@ $(function() {
             var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
             body = 'Admission request received from user "a" has been Accepted<br>'
-            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have accepted this request.</div>"
+            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.get('request_Accepted_already')+"</div>"
 
             mailView.inViewModel.save()
 
@@ -462,8 +493,8 @@ $(function() {
             var mail = new App.Models.Mail();
             mail.set("senderId", $.cookie('Member._id'));
             mail.set("receiverId", mailView.inViewModel.get('senderId'));
-            mail.set("subject", "Admission Request Accepted | " + course.get('name'));
-            mail.set("body", "Your admission request for \"" + course.get('name') + "\" has been accepted by the course leader.");
+            mail.set("subject", App.languageDict.attributes.Adm_req_accepted+" | " + course.get('name'));
+            mail.set("body", App.languageDict.attributes.adm_req_For+" \"" + course.get('name') + "\" ");
             mail.set("status", "0");
             mail.set("type", "mail");
             mail.set("sentDate", currentdate);
@@ -482,14 +513,14 @@ $(function() {
             var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
             body = 'Admission request received from user "a" has been Rejected<br>'
-            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>You have rejected this request.</div>"
+            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
 
             var currentdate = new Date();
             var mail = new App.Models.Mail();
             mail.set("senderId", $.cookie('Member._id'));
             mail.set("receiverId", mailView.inViewModel.get('senderId'));
-            mail.set("subject", "Admission Request Rejected | " + courseId.get('name'));
-            mail.set("body", "Your admission request for \"" + courseId.get('name') + "\" has been rejected by the course leader.");
+            mail.set("subject", " | " + courseId.get('name'));
+            mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + courseId.get('name') + "\" ");
             mail.set("status", "0");
             mail.set("type", "mail");
             mail.set("sentDate", currentdate);

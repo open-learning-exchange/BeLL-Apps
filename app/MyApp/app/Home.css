@@ -27,6 +27,12 @@ select#onDashboardLanguage {
 #manageOnCourseProgress{
 	margin-left:84px;
 }
+#mailActions{
+	height: 64px;
+	margin-left: 10%;
+	overflow: hidden;
+	width: 90%;
+}
 #dashboard {
     height: 600px;
     width: 950px;
@@ -49,6 +55,11 @@ select#onDashboardLanguage {
 }
 #requestResourceOnCollection{
 	margin-left:10px
+}
+#inbox_mails{
+	font-size: 17px;
+	margin-left: 10%;
+	width: 80%;
 }
 #option-area
 {

@@ -476,6 +476,20 @@ body{
     /* this is a testing purpose property */
     min-width: 1024px;
 }
+#mailActions {
+    direction: rtl;
+    float: right;
+    height: 64px;
+    margin-left: 10%;
+    overflow: hidden;
+    width: 90%;
+}
+#inbox_mails{
+    font-size: 17px;
+    margin-left: 10%;
+    width: 80%;
+    direction:rtl;
+}
 #imageText{
     margin-top: 25px;
 }
