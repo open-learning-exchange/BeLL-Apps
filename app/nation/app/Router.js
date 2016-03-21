@@ -23,6 +23,7 @@ $(function() {
             'survey': 'Survey',
             'survey/add': 'AddSurveyForm',
             'surveydetail/:surveyId': 'SurveyDetails',
+            'openSurvey/:surveyNo/:communityName': 'OpenSurvey',
             'trendreport': "TrendReport",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
@@ -2570,6 +2571,12 @@ $(function() {
                 todayHighlight: true
             });
             $('.bbf-form .field-SurveyNo input').val('')
+        },
+
+        OpenSurvey: function(surveyNo, communityName) {
+            var that = this;
+            alert(surveyNo + " " + communityName);
+            that.underConstruction();
         },
 
         SurveyDetails: function(surveyId) {

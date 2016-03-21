@@ -541,10 +541,10 @@
                 <select multiple id="SubmittedByNames" style="width:200px">
                     <%if(submittedBy && submittedBy.length>0){%>
                     <% for (var i=0; i<submittedBy.length; i++){%>
-                    <option disabled="disabled" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
+                    <option onclick="document.location.href='#openSurvey/<%= SurveyNo %>/<%= submittedBy[i] %>'" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
                     <% }%>
                     <%} else {%>
-                    <option disabled="disabled" value="None">None</option>
+                    <option onclick="openSurvey('<%= SurveyNo %>' ,'<%= submittedBy[i] %>')" disabled="disabled" value="None">None</option>
                     <%} %>
 
                 </select>
