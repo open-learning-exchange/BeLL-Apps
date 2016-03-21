@@ -15,7 +15,7 @@ $(function () {
         },
         render: function () {
             var that = this;
-            this.$el.html('<tr><th>Age</th><th>Gender</th><th>Actions</th></tr>');
+            this.$el.html('<tr><th>BirthYear</th><th>Gender</th><th>Actions</th></tr>');
             _.each(this.communitySurveysCollection,function(row){
                 var survey = row;
                 that.add(survey);
