@@ -24,6 +24,7 @@ $(function() {
             'survey/add': 'AddSurveyForm',
             'surveydetail/:surveyId': 'SurveyDetails',
             'openSurvey/:surveyNo/:communityName': 'OpenSurvey',
+            'openCommunitySurvey/:surveyId': 'openCommunitySurvey',
             'trendreport': "TrendReport",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
@@ -2600,6 +2601,43 @@ $(function() {
                     console.log(err);
                 }
             });
+        },
+
+        openCommunitySurvey: function(surveyId) {
+            var surveyResModel;
+            $.ajax({
+                url: '/surveyresponse/_design/bell/_view/surveyResById?key="' + surveyId + '"',
+                type: 'GET',
+                dataType: "json",
+                async: false,
+                success: function(json) {
+                    if (json.rows[0]) {
+                        surveyResModel = json.rows[0].value;
+                    }
+                    if(surveyResModel) {
+                        var surAnswers = surveyResModel.answersToQuestions;
+                        var surAnswersIdes = ''
+                        _.each(surAnswers, function(item) {
+                            surAnswersIdes += '"' + item + '",'
+                        })
+                        if (surAnswersIdes != ''){
+                            surAnswersIdes = surAnswersIdes.substring(0, surAnswersIdes.length - 1);
+                        }
+                        var answersColl = new App.Collections.SurveyAnswers();
+                        answersColl.keys = encodeURI(surAnswersIdes)
+                        answersColl.fetch({
+                            async: false
+                        });
+                        var surAnswersTable = new App.Views.SurveyAnswerTable({
+                            collection: answersColl
+                        })
+                        surAnswersTable.Id = surveyId;
+                        surAnswersTable.render();
+                        App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyResModel.SurveyTitle + '</h6></div>');
+                        App.$el.children('.body').append(surAnswersTable.el);
+                    }
+                }
+            })
         },
 
         SurveyDetails: function(surveyId) {

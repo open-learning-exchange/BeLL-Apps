@@ -8,7 +8,7 @@ $(function () {
         add: function (model) {
             console.log(model);
             this.$el.append('<tr id="' + model._id + '"><td>' + model.birthYearOfMember+ '</td><td>' + model.genderOfMember+ '</td><td><a name="' +model._id +
-            '" class="openCommSurvey btn btn-info">Open</a></td></tr>');
+            '" class="openCommunitySurvey btn btn-info" href="#openCommunitySurvey/' + model._id + '">Open</a></td></tr>');
         },
         events:{
 
