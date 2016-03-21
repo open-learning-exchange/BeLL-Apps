@@ -632,5 +632,20 @@
     "Set_Configurations":"Set Configurations",
     "IssueNumber":"Issue Number",
     "Sync_Publication":"Sync publication",
-    "Not_Synced":"Not Synced"
+    "Not_Synced":"Not Synced",
+    "Code":"Code",
+    "Type":"Type",
+    "Nation_Name":"Nation Name",
+    "Nation_Url":"Nation Url",
+    "Version":"Version",
+    "Notes":"Notes",
+    "Select_Language":"Select Language",
+    "Submit_Configurations":"Submit Configurations",
+    "Config_Sync_With_Nation_Head":"Select Item('s) To Sync",
+    "Log_Activity_Reports":"Log Activity Reports",
+    "Resources_Feedbacks":"Resources Feedbacks",
+    "Application_Feedbacks":"Application Feedbacks",
+    "Members_Database":"Members Database",
+    "Select_All":"Select All"
+
 }

@@ -3,7 +3,36 @@ $(function() {
     App.Views.Configurations = Backbone.View.extend({
 
         initialize: function() {
-            this.$el.html('<h3>Set Configurations<h3>')
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
+            this.$el.html('<h3>' + languageDictValue.get("Set_Configurations") + '</h3>')
         },
         events: {
             "click #formButton": "setForm"
@@ -20,6 +49,35 @@ $(function() {
                     text:availableLanguages[key]
                 }));
             }
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
             this.$el.find('.field-selectLanguage .bbf-editor select').prepend('<option id="defaultLang" disabled="true" selected style="display:none"></option>');
             var configCollection = new App.Collections.Configurations();
             configCollection.fetch({
@@ -30,7 +88,21 @@ $(function() {
             var clanguage= currentConfig.currentLanguage;
             clanguage= App.Router.getNativeNameOfLang(clanguage);
             this.$el.find('#defaultLang').text(clanguage);
-            this.$el.append('<a style="margin-left:31px" class="btn btn-success" id="formButton">Submit Configurations </a>');
+            this.$el.find('.field-name label').text(languageDictValue.get("Name"));
+            this.$el.find('.field-code label').text(languageDictValue.get("Code"));
+            this.$el.find('.field-type label').text(languageDictValue.get("Type"));
+            this.$el.find( ".field-type .bbf-editor select option" ).each(function( index ) {
+                var temp = $(this).text();
+                temp = temp.charAt(0).toUpperCase() + temp.slice(1);
+                $(this).text(languageDictValue.get(temp));
+            });
+            this.$el.find('.field-region label').text(languageDictValue.get("Region"));
+            this.$el.find('.field-nationName label').text(languageDictValue.get("Nation_Name"));
+            this.$el.find('.field-nationUrl label').text(languageDictValue.get("Nation_Url"));
+            this.$el.find('.field-version label').text(languageDictValue.get("Version"));
+            this.$el.find('.field-notes label').text(languageDictValue.get("Notes"));
+            this.$el.find('.field-selectLanguage label').text(languageDictValue.get("Select_Language"));
+            this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">' + languageDictValue.get("Submit_Configurations") + '</a>');
         },
         setForm: function() {
             var loginOfMem = $.cookie('Member.login');

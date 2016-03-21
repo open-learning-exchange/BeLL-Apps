@@ -74,6 +74,9 @@ $(function() {
             configForm.render();
 
             this.$el.html(configForm.el);
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
+                $('#configTable div div h3').css('margin-right','0%');
+            }
         }
 
     })
