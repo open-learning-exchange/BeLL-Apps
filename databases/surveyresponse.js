@@ -15,7 +15,7 @@ ddoc.views = {
     },
     surveyResBySurveyNo: {
         map: function(doc) {
-            if (doc.SurveyNo && doc.kind == 'survey') {
+            if (doc.SurveyNo && doc.kind == 'survey' && doc.answersToQuestions.length > 0) {
                 emit(doc.SurveyNo, doc);
             }
         }

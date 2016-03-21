@@ -131,14 +131,14 @@ $(function() {
         },
 
         OpenSurvey: function(surveyId, isSubmitted) {
+            var surveyModel = new App.Models.Survey({
+                _id: surveyId
+            });
+            surveyModel.fetch({
+                async: false
+            });
+            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyModel.get('SurveyTitle') + '</h6></div>');
             if(isSubmitted == "false") {
-                var surveyModel = new App.Models.Survey({
-                    _id: surveyId
-                });
-                surveyModel.fetch({
-                    async: false
-                });
-                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyModel.get('SurveyTitle') + '</h6></div>');
                 var surQuestions = surveyModel.get('questions');
                 var surQuestionsIdes = ''
                 _.each(surQuestions, function(item) {
@@ -160,7 +160,45 @@ $(function() {
                 App.$el.children('.body').append(surQuestionsTable.el);
                 App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">Submit</button></div>');
             } else {
-                App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">This survey has been submitted.</h6></div>');
+                var surveyNo = surveyModel.get('SurveyNo');
+                var surveyResModel;
+                $.ajax({
+                    url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?_include_docs=true',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function (json) {
+                        console.log(json);
+                        var jsonRows = json.rows;
+                        for(var i = 0 ; i < jsonRows.length ; i++) {
+                            if(jsonRows[i].value.SurveyNo == surveyNo) {
+                                surveyResModel = jsonRows[i].value;
+                            }
+                        }
+                        var surAnswers = surveyResModel.answersToQuestions;
+                        var surAnswersIdes = ''
+                        _.each(surAnswers, function(item) {
+                            surAnswersIdes += '"' + item + '",'
+                        })
+                        if (surAnswersIdes != ''){
+                            surAnswersIdes = surAnswersIdes.substring(0, surAnswersIdes.length - 1);
+                        }
+                        var answersColl = new App.Collections.SurveyAnswers();
+                        answersColl.keys = encodeURI(surAnswersIdes)
+                        answersColl.fetch({
+                            async: false
+                        });
+                        var surAnswersTable = new App.Views.SurveyAnswerTable({
+                            collection: answersColl
+                        })
+                        surAnswersTable.Id = surveyId;
+                        surAnswersTable.render();
+                        App.$el.children('.body').append(surAnswersTable.el);
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
             }
             applyStylingSheet();
         },

@@ -20,10 +20,10 @@ $(function() {
             submittedBy: [],
             questions: [],
             answersToQuestions: [],
-            genderOfMember: 'Text',
-            birthYearOfMember: 'Text',
-            communityName: 'Text',
-            memberId: 'Text'
+            genderOfMember: '',
+            birthYearOfMember: '',
+            communityName: '',
+            memberId: ''
         },
 
         schema: {

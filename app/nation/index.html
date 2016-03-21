@@ -100,6 +100,8 @@
         <script src="app/collections/SurveyQuestions.js"></script>
         <script src="app/collections/Languages.js"></script>
         <script src="app/collections/Members.js"></script>
+        <script src="app/collections/SurveyAnswers.js"></script>
+
      
      <!-- Views  -->
 
@@ -141,6 +143,9 @@
         <script src="app/views/SurveyForm.js"></script>
         <script src="app/views/SurveyQuestionTable.js"></script>
         <script src="app/views/SurveyQuestionRow.js"></script>
+        <script src="app/views/CommunitySurveysTable.js"></script>
+        <script src="app/views/SurveyAnswerTable.js"></script>
+        <script src="app/views/SurveyAnswerRow.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -542,7 +547,7 @@
                 <select multiple id="SubmittedByNames" style="width:200px">
                     <%if(submittedBy && submittedBy.length>0){%>
                     <% for (var i=0; i<submittedBy.length; i++){%>
-                    <option disabled="disabled" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
+                    <option onclick="document.location.href='#openSurvey/<%= SurveyNo %>/<%= submittedBy[i] %>'" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
                     <% }%>
                     <%} else {%>
                     <option disabled="disabled" value="None">None</option>
@@ -617,6 +622,60 @@
             </td>
 
         </script>
+
+        <script type="text/html" id="template-surveyAnswerRow">
+            <td>
+                <%  if(RequireAnswer == true){%>
+                <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
+                <%} else {%>
+                <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %></BR></span>
+                <%}%>
+                <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
+                <% if ( Type == "Single Textbox") { %>
+                <span style="font-weight:100;color:grey; font-size:14px;"><%= Answer[0] %></BR></span>
+                <%} else if ( Type == "Comment/Essay Box") { %>
+                <span style="font-weight:100;color:grey; font-size:14px;"><%= Answer[0] %></BR></span>
+                <%} else if ( Type == "Multiple Choice (Single Answer)") { %>
+                <table>
+                    <tbody>
+                    <% for (var i=0; i<Options.length; i++){%>
+                    <tr>
+                        <%  if(Answer[0] == Options[i]){%>
+                        <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" checked disabled> <%= Options[i] %></td>
+                        <%} else {%>
+                        <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" disabled> <%= Options[i] %></td>
+                        <%}%>
+                    </tr>
+                    <% }%>
+                    </tbody>
+                </table>
+                <%} else if ( Type == "Rating Scale") { %>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <% for (var i=0; i<Ratings.length; i++){%>
+                        <td width="11%" align="center"><%= Ratings[i] %></td>
+                        <% }%>
+                    </tr>
+                    <% for (var i=0; i<Options.length; i++){%>
+                    <tr>
+                        <td width="10%"><%= Options[i] %></td>
+                        <% for (var j=0; j<Ratings.length; j++){%>
+                        <%  if(Answer[i] == Ratings[j]){%>
+                        <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>" checked disabled></td>
+                        <%} else {%>
+                        <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>" disabled></td>
+                        <%}%>
+                        <% }%>
+                    </tr>
+                    <% }%>
+                    </tbody>
+                </table>
+                <%} %>
+            </td>
+        </script>
+
    <script type="text/html" id="template-Dashboard">
     <div id="dashboard">
 		<table class="header-table" >
