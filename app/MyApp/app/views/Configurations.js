@@ -23,11 +23,23 @@ $(function () {
                 }));
             }
             this.$el.find('.field-selectLanguage .bbf-editor select').prepend('<option id="defaultLang" disabled="true" selected style="display:none"></option>');
-            var clanguage = App.configuration.get("currentLanguage");
-            clanguage= getNativeNameOfLang(clanguage);
-            $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage)
+            var clanguage= App.languageDict.get('nameInNativeLang');
+            $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
             this.$el.find('#defaultLang').text(clanguage);
-            this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">Submit Configurations </a>');
+            this.$el.find('.field-name label').text(App.languageDict.get("Name"));
+            this.$el.find('.field-code label').text(App.languageDict.get("Code"));
+            this.$el.find('.field-type label').text(App.languageDict.get("Type"));
+            this.$el.find( ".field-type .bbf-editor select option" ).each(function( index ) {
+                var temp = $(this).text();
+                $(this).text(App.languageDict.get(temp));
+            });
+            this.$el.find('.field-region label').text(App.languageDict.get("Region"));
+            this.$el.find('.field-nationName label').text(App.languageDict.get("Nation_Name"));
+            this.$el.find('.field-nationUrl label').text(App.languageDict.get("Nation_Url"));
+            this.$el.find('.field-version label').text(App.languageDict.get("Version"));
+            this.$el.find('.field-notes label').text(App.languageDict.get("Notes"));
+            this.$el.find('.field-selectLanguage label').text(App.languageDict.get("Select_Language"));
+            this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">' + App.languageDict.get("Submit_Configurations") + '</a>');
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },

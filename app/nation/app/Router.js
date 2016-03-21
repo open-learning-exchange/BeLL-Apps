@@ -71,7 +71,8 @@ $(function() {
                         }
                     }
                 }
-                var member;
+                //needs to be corrected for saving member's lang at nation side....
+                /*var member;
                 var members = new App.Collections.Members()
                 members.login = $.cookie('Member.login');
                 clanguage=currentConfig.currentLanguage;
@@ -91,7 +92,7 @@ $(function() {
                     },
                     async:false
 
-                });
+                });*/
 
             }
             return languageDict;
@@ -579,10 +580,42 @@ $(function() {
             var configModel = configCollection.first();
             var configForm = new App.Views.Configurations({
                 model: configModel
-            })
+            });
+            App.$el.children('.body').html('<div id="configTable"></div>');
             configForm.render();
-
-            App.$el.children('.body').html(configForm.el);
+            $('#configTable').append(configForm.el);
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
+            if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
+                $('#configTable div div h3').css('margin-right','0%');
+            }
 
         },
         getRegisteredMembersCount: function(communityChosen, callback) {

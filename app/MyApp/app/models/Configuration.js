@@ -35,7 +35,13 @@ $(function() {
             },
             type: {
                 type: 'Select',
-                options: ['community', 'nation'],
+                options:[{
+                        val: 'community',
+                        label: 'community'
+                    }, {
+                        val: 'nation',
+                        label: 'nation'
+                    }],
                 validators: ['required']
             },
             region: 'Text',

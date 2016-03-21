@@ -167,9 +167,10 @@ $(function() {
 
         communityManage: function() {
 
-            var manageCommunity = new App.Views.ManageCommunity()
+            var manageCommunity = new App.Views.ManageCommunity();
+            App.$el.children('.body').html('<div id="configTable"></div>');
             manageCommunity.render()
-            App.$el.children('.body').html(manageCommunity.el);
+            $('#configTable').append(manageCommunity.el);
             //  manageCommunity.updateDropDownValue();
         },
         addCourseInvi: function() {

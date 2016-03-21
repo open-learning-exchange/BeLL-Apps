@@ -462,6 +462,10 @@ body{
 #requestsTable{
     direction:rtl;
 }
+#configTable{
+    direction:rtl;
+    margin-right: 2%;
+}
 #invitationdiv
 {
     direction: rtl;
