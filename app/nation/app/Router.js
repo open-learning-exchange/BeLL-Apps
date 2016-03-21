@@ -2574,9 +2574,32 @@ $(function() {
         },
 
         OpenSurvey: function(surveyNo, communityName) {
-            var that = this;
-            alert(surveyNo + " " + communityName);
-            that.underConstruction();
+            App.$el.children('.body').html('<h4>' + 'Community Name: ' + communityName + '</h4>');
+            App.$el.children('.body').append('<h4>' + 'Survey Number: ' + surveyNo + '</h4>');
+            $.ajax({
+                url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?_include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    console.log(json);
+                    var jsonRows = json.rows;
+                    var surveyResModels = [];
+                    for(var i = 0 ; i < jsonRows.length ; i++) {
+                        if(jsonRows[i].value.SurveyNo == surveyNo && jsonRows[i].value.communityName == communityName) {
+                            surveyResModels.push(jsonRows[i].value);
+                        }
+                    }
+                    console.log(surveyResModels);
+                    var communitySurveysView = new App.Views.CommunitySurveysTable();
+                    communitySurveysView.communitySurveysCollection = surveyResModels;
+                    communitySurveysView.render();
+                    App.$el.children('.body').append(communitySurveysView.el);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
         },
 
         SurveyDetails: function(surveyId) {

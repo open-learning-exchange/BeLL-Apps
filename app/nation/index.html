@@ -140,6 +140,7 @@
         <script src="app/views/SurveyForm.js"></script>
         <script src="app/views/SurveyQuestionTable.js"></script>
         <script src="app/views/SurveyQuestionRow.js"></script>
+        <script src="app/views/CommunitySurveysTable.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -544,7 +545,7 @@
                     <option onclick="document.location.href='#openSurvey/<%= SurveyNo %>/<%= submittedBy[i] %>'" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
                     <% }%>
                     <%} else {%>
-                    <option onclick="openSurvey('<%= SurveyNo %>' ,'<%= submittedBy[i] %>')" disabled="disabled" value="None">None</option>
+                    <option disabled="disabled" value="None">None</option>
                     <%} %>
 
                 </select>
