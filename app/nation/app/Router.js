@@ -113,6 +113,20 @@ $(function() {
         }
         return allLanguages;
     },
+        applyCorrectStylingSheet: function(directionOfLang) {
+            if (directionOfLang.toLowerCase() === "right") {
+
+                $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
+
+            } else if (directionOfLang.toLowerCase() === "left") {
+                $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
+                $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
+            }
+            else {
+                alert(languageDictValue.attributes.error_direction);
+            }
+        },
 
         routeStartupTasks: function() {
             $('#invitationdiv').hide()
@@ -616,6 +630,8 @@ $(function() {
             });
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
+                $('#configTable').css({"direction":"rtl",
+                "margin-right": "2%"});
                 $('#configTable div div h3').css('margin-right','0%');
             }
 

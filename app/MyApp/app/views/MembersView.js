@@ -58,20 +58,20 @@ $(function() {
 
         },
 
-        changeDirection : function (){
-            if (App.languageDict.get('directionOfLang'))
-            {
-                var library_page = $.url().data.attr.fragment;
-                if(library_page=="members")
-                {
+        changeDirection : function () {
+
+            var library_page = $.url().data.attr.fragment;
+            if (library_page == "members") {
+                if(App.languageDict.get('directionOfLang').toLowerCase()==="right") {
                     $('#parentMembers').addClass('addResource');
                     $('#memberTable').addClass('addResource');
                 }
-            }
+
             else
-            {
-                $('#parentMembers').removeClass('addResource');
-                $('#memberTable').removeClass('addResource');
+                {
+                    $('#parentMembers').removeClass('addResource');
+                    $('#memberTable').removeClass('addResource');
+                }
             }
         }
 
