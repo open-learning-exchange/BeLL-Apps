@@ -32,7 +32,8 @@ $(function() {
                 }
             });
             var languageDictValue=App.Router.loadLanguageDocs(lang);
-            this.$el.html('<h3>' + languageDictValue.get("Set_Configurations") + '</h3>')
+            this.$el.html('<h3>' + languageDictValue.get("Set_Configurations") + '</h3>');
+
         },
         events: {
             "click #formButton": "setForm"
