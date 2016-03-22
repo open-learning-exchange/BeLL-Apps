@@ -315,7 +315,7 @@ function submitSurvey(surveyId) {
                 $.couch.db("surveyresponse").saveDoc(surveyResModel, {
                     success: function(data) {
                         console.log(data);
-                        alert("Survey has been submitted successfully");
+                        alert(App.languageDict.get('Survey_Success_Message'));
                         App.stopActivityIndicator();
                         Backbone.history.navigate('#surveys/for-' + App.configuration.get('name'),
                             {trigger: true}
@@ -331,7 +331,7 @@ function submitSurvey(surveyId) {
             }
         });
     } else {
-        alert("Please provide all the answers first");
+        alert(App.languageDict.get('Survey_Error_Message'));
         App.stopActivityIndicator();
         return;
     }

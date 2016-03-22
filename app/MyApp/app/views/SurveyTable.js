@@ -11,14 +11,14 @@ $(function () {
             if (isAlreadyDownloaded && isSubmitted) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                 '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
-                '">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
+                '">' + App.languageDict.get('Open') + '</a><label>&nbsp&nbsp' + App.languageDict.get('Submitted') + '</label></td></tr>');
             } else if (isAlreadyDownloaded && !(isSubmitted)) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                 '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
-                '">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
+                '">' + App.languageDict.get('Open') + '</a><label>&nbsp&nbsp' + App.languageDict.get('Un_Submitted') + '</label></td></tr>');
             } else if (!isAlreadyDownloaded) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="downloadSurvey btn btn-info">Download</a><label>&nbsp&nbspNew</label></td></tr>');
+                '" class="downloadSurvey btn btn-info">' + App.languageDict.get('Download') + '</a><label>&nbsp&nbsp' + App.languageDict.get('New') + '</label></td></tr>');
             }
         },
         events:{
@@ -26,7 +26,7 @@ $(function () {
         },
         render: function () {
             var that = this;
-            this.$el.html('<tr><th>Survey No.</th><th>Title</th><th>Actions</th></tr>');
+            this.$el.html('<tr><th>' + App.languageDict.get('Survey_No') + '</th><th>' + App.languageDict.get('Title') + '</th><th>' + App.languageDict.get('Actions') + '</th></tr>');
             var nationName = App.configuration.get('nationName');
             var nationUrl = App.configuration.get('nationUrl');
             $.ajax({
@@ -98,7 +98,7 @@ $(function () {
                     console.log(status);
                 }
             });
-            applyStylingSheet();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
 
         downloadSurvey: function(e) {
@@ -139,18 +139,18 @@ $(function () {
                         }),
                         async: false,
                         success: function (response) {
-                            alert("Survey has been downloaded successfully");
+                            alert(App.languageDict.get('Survey_Download_Success_Msg'));
                             window.location.reload(false);
                         },
                         error: function(status) {
                             console.log(status);
-                            console.log("Unable to download survey questions");
+                            console.log(App.languageDict.get('Survey_Download_Error_Ques'));
                         }
                     });
                 },
                 error: function(status) {
                     console.log(status);
-                    console.log("Unable to download survey");
+                    console.log(App.languageDict.get('Survey_Download_Error_Msg'));
                 }
             });
         }

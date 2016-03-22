@@ -126,8 +126,9 @@ $(function() {
         Surveys: function() {
             var SurveysView = new App.Views.SurveyTable();
             SurveysView.render();
-            App.$el.children('.body').html('<h3>Surveys</h3>');
-            App.$el.children('.body').append(SurveysView.el);
+            App.$el.children('.body').html('<div id="surveyTable"></div>');
+            $('#surveyTable').append('<h3>' + App.languageDict.get('Surveys') + '</h3>');
+            $('#surveyTable').append(SurveysView.el);
         },
 
         OpenSurvey: function(surveyId, isSubmitted) {
@@ -137,7 +138,8 @@ $(function() {
             surveyModel.fetch({
                 async: false
             });
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyModel.get('SurveyTitle') + '</h6></div>');
+            App.$el.children('.body').html('<div id="surveyBody"></div>');
+            $('#surveyBody').append('<div style="margin-top:10px"><h6>' + surveyModel.get('SurveyTitle') + '</h6></div>');
             if(isSubmitted == "false") {
                 var surQuestions = surveyModel.get('questions');
                 var surQuestionsIdes = ''
@@ -157,8 +159,8 @@ $(function() {
                 })
                 surQuestionsTable.Id = surveyId;
                 surQuestionsTable.render();
-                App.$el.children('.body').append(surQuestionsTable.el);
-                App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">Submit</button></div>');
+                $('#surveyBody').append(surQuestionsTable.el);
+                $('#surveyBody').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">' + App.languageDict.get('Submit') + '</button></div>');
             } else {
                 var surveyNo = surveyModel.get('SurveyNo');
                 var surveyResModel;
@@ -193,14 +195,23 @@ $(function() {
                         })
                         surAnswersTable.Id = surveyId;
                         surAnswersTable.render();
-                        App.$el.children('.body').append(surAnswersTable.el);
+                        $('#surveyBody').append(surAnswersTable.el);
                     },
                     error: function(err) {
                         console.log(err);
                     }
                 });
             }
-            applyStylingSheet();
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right") {
+                $('#surveyBody').addClass('addResource');
+                $('#surveyTable').addClass('addResource');
+            }
+            else
+            {
+                $('#surveyBody').removeClass('addResource');
+                $('#surveyTable').removeClass('addResource');
+            }
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
 
         communityManage: function() {
