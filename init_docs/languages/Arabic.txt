@@ -671,5 +671,15 @@
    "Survey_Error_Message":"Please provide all the answers first",
    "Survey_Download_Success_Msg":"Survey has been downloaded successfully",
    "Survey_Download_Error_Msg":"Unable to download survey",
-   "Survey_Download_Error_Ques":"Unable to download survey questions"
+   "Survey_Download_Error_Ques":"Unable to download survey questions",
+   "Update_Event":"Update Event",
+   "Add_Event":"Add Event",
+   "Event_Name":"Event Name",
+   "Event_Description":"Event Description",
+   "Event_Detail":"Event Detail",
+   "Timing":"Timing",
+   "Destroy":"Destroy",
+   "edit_welcomeVideo":"Edit Welcome Video Form",
+   "upload_welcomeVideo":"Upload Welcome Video",
+   "upload_Date":"Upload Date"
 }
