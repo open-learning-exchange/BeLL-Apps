@@ -462,6 +462,12 @@ body{
 #requestsTable{
     direction:rtl;
 }
+#surveyTable{
+    direction:rtl;
+}
+#surveyBody{
+    direction:rtl;
+}
 #configTable{
     direction:rtl;
     margin-right: 2%;
@@ -469,6 +475,10 @@ body{
 #invitationdiv
 {
     direction: rtl;
+}
+.submitSurveyBtn {
+    margin: 0px auto;
+    display: flex;
 }
 .navbar-inverse
 {
