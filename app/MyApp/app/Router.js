@@ -113,6 +113,25 @@ $(function() {
             resourceFormView.renderAddOrUploadWelcomeVideoForm();
             App.$el.children('.body').html(resourceFormView.el);
             $('.field-resourceType').hide();
+            $('.bbf-form .field-openWith label').html(App.languageDict.get('Open'));
+            var openWithArray=App.languageDict.get('openWithList');
+            for(var i=0;i<openWithArray.length;i++)
+            {
+
+                $('.field-openWith').find('.bbf-editor').find('select').find('option').eq(i).html(openWithArray[i]);
+
+            }
+            $('.bbf-form .field-resourceFor label').html(App.languageDict.get('resource_for'));
+            var resourceForArray=App.languageDict.get('resourceForList');
+            for(var i=0;i<resourceForArray.length;i++)
+            {
+
+                $('.field-resourceFor').find('.bbf-editor').find('select').find('option').eq(i).html(resourceForArray[i]);
+
+            }
+            $('.bbf-form .field-addedBy label').html(App.languageDict.get('added_by'));
+            $('.bbf-form .field-uploadDate label').html(App.languageDict.get('upload_Date'));
+
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         Publications: function(publicationIdes) {
