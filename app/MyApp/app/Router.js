@@ -4342,7 +4342,22 @@ $(function() {
             });
         },
         CalendarFunction: function() {
-            App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">Add Event</div><br/><br/>")
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+            });
+            App.languageDict=languageDictValue;
+            App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">"+App.languageDict.attributes.Add_Event+"</div><br/><br/>")
             App.$el.children('.body').append("<br/><br/><div id='calendar'></div>")
             $(document).ready(function() {
 
@@ -4517,9 +4532,31 @@ $(function() {
             var modelForm = new App.Views.CalendarForm({
                 model: model
             })
-            App.$el.children('.body').html('<h3 class="signup-heading">Add Event</h3>')
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+            });
+            App.languageDict=languageDictValue;
+            App.$el.children('.body').html('<h3 class="addEvent-heading">'+App.languageDict.get("Add_Event")+'</h3>')
             App.$el.children('.body').append(modelForm.el)
-            modelForm.render()
+            modelForm.render();
+            $('.bbf-form .field-title label').html(App.languageDict.get("Event_Name"));
+            $('.bbf-form .field-description label').html(App.languageDict.get("Event_Description"));
+            $('.bbf-form .field-startDate label').html(App.languageDict.get("Start_date"));
+            $('.bbf-form .field-endDate label').html(App.languageDict.get("End_date"));
+            $('.bbf-form .field-startTime label').html(App.languageDict.get("Start_Time"));
+            $('.bbf-form .field-endTime label').html(App.languageDict.get("End_Time"));
+
             $('.bbf-form .field-startTime input').timepicker({
                 'minTime': '8:00am',
                 'maxTime': '12:30am'
@@ -4534,7 +4571,10 @@ $(function() {
             $('.bbf-form .field-endDate input').datepicker({
                 todayHighlight: true
             });
-
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
+                $('.signup-form').css({"direction":"rtl"});
+                $('.signup-submit').css({"margin-left":"0px","margin-right":"440px"});
+            }
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         calendaar: function(eventId) {
@@ -4548,8 +4588,31 @@ $(function() {
             var eventView = new App.Views.EventInfo({
                 model: cmodel
             })
+            var members = new App.Collections.Members()
+            var member;
+            var languageDictValue;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        var lang=member.get('bellLanguage');
+                        languageDictValue=getSpecificLanguage(lang);
+                    }
+                },
+                async:false
+            });
+            App.languageDict=languageDictValue;
             eventView.render()
-            App.$el.children('.body').append(eventView.el)
+            App.$el.children('.body').append(eventView.el);
+            if(App.languageDict.get("directionOfLang").toLowerCase()=="right"){
+                $('#eventDetail-table').addClass('addResource');
+                $('#eventDetail-table th h6').css("float","right");
+                $('#eventDetail-table tbody').find('tr').eq(5).find('td a').css({"margin-left":"0px","margin-right":"10px"});
+            }
+            else {
+                $('#eventDetail-table').removeClass('addResource');
+            }
         },
         EditEvent: function(eventId) {
             var cmodel = new App.Models.Calendar({
@@ -4563,7 +4626,7 @@ $(function() {
                 model: cmodel
             })
             modelForm.update = true
-            App.$el.children('.body').html('<h3 class="signup-heading">Update Event</h3>')
+            App.$el.children('.body').html('<h3 class="signup-heading">'+App.languageDict.get('Update_Event')+'</h3>')
             App.$el.children('.body').append(modelForm.el)
             modelForm.render()
         },

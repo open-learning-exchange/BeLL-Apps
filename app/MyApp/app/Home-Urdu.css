@@ -820,7 +820,11 @@ body{
 .signup-heading
 {margin-left: 30%;
     text-decoration: underline;}
-
+.addEvent-heading{
+    margin-right: 30%;
+    text-decoration: underline;
+    direction:rtl;
+}
 .fc-header-title h2 {
     font-size: 32px;
 }
