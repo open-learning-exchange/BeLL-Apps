@@ -8,6 +8,7 @@ $(function () {
         className: "btable btable-striped resourceDetail",
         sid: null,
         rid: null,
+        id:"eventDetail-table",
         events: {
             // Handling the Destroy button if the user wants to remove this Element from its shelf
             "click #DestroyEvent": function (e) {
@@ -25,7 +26,7 @@ $(function () {
         }
         },
         initialize: function () {
-            this.$el.append('<th colspan="2"><h6>Event Detail</h6></th>')
+            this.$el.append('<th colspan="2"><h6>'+App.languageDict.get("Event_Detail")+'</h6></th>')
         },
         render: function () {
             var vars = this.model.toJSON()
@@ -34,12 +35,12 @@ $(function () {
                 
             console.log(vars)
             
-            this.$el.append("<tr><td>Title</td><td>" + vars.title + "</td></tr>")
-            this.$el.append("<tr><td>Description</td><td>" + vars.description + "</td></tr>")
-            this.$el.append("<tr><td>Start Date</td><td>" + vars.startDate + "</td></tr>")
-            this.$el.append("<tr><td>End Date</td><td>" + vars.endDate+ "</td></tr>")
-            this.$el.append("<tr><td>Timing</td><td>" + vars.startTime + "-"+vars.endTime+"</td></tr>")
-            this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyEvent">Destroy</button><a href="#calendar" style="margin-left:10px" class="btn btn-info">&lt;&lt; Calendar</a></td></tr>')
+            this.$el.append("<tr><td>"+App.languageDict.get('Title')+"</td><td>" + vars.title + "</td></tr>")
+            this.$el.append("<tr><td>"+App.languageDict.get('Description')+"</td><td>" + vars.description + "</td></tr>")
+            this.$el.append("<tr><td>"+App.languageDict.get('Start_date')+"</td><td>" + vars.startDate + "</td></tr>")
+            this.$el.append("<tr><td>"+App.languageDict.get('End_date')+"</td><td>" + vars.endDate+ "</td></tr>")
+            this.$el.append("<tr><td>"+App.languageDict.get('Timing')+"</td><td>" + vars.startTime + "-"+vars.endTime+"</td></tr>")
+            this.$el.append('<tr><td colspan="2"><button class="btn btn-danger" id="DestroyEvent">'+App.languageDict.get('Destroy')+'</button><a href="#calendar" style="margin-left:10px" class="btn btn-info">'+App.languageDict.get('Calender')+'</a></td></tr>')
 
         }
 
