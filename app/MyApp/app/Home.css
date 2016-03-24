@@ -61,6 +61,10 @@ select#onDashboardLanguage {
 	margin-left: 10%;
 	width: 80%;
 }
+.addEvent-heading{
+	margin-left: 30%;
+	text-decoration: underline;
+}
 #option-area
 {
 	background-color: #E7E7E7;

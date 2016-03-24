@@ -16,9 +16,9 @@ $(function () {
             // give the form a submit button
             var $button
             if (this.update) {
-                $button = $('<div class="signup-submit"><a class="addEvent-btn btn btn-success" style="width:" id="formButton">Update Event</button></div>')
+                $button = $('<div class="signup-submit"><a class="addEvent-btn btn btn-success" style="width:" id="formButton">'+App.languageDict.get("Update_Event")+'</button></div>')
             } else {
-                $button = $('<div class="signup-submit"><a class="addEvent-btn btn btn-success" id="formButton">Add Event</button></div>')
+                $button = $('<div class="signup-submit"><a class="addEvent-btn btn btn-success" id="formButton">'+App.languageDict.get("Add_Event")+'</button></div>')
             }
             this.$el.append($button)
         },
