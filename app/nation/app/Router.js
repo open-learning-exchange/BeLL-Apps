@@ -2691,13 +2691,42 @@ $(function() {
             var surveyCollection = new App.Collections.Surveys();
             surveyCollection.fetch({
                 async: false
-            })
+            });
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'json',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'json',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var survey = new App.Views.Survey();
             survey.render();
             App.$el.children('.body').html(survey.el)
             var surveyTable = new App.Views.SurveyTable({
                 collection: surveyCollection
-            })
+            });
             surveyTable.render()
             App.$el.children('.body').append(surveyTable.el)
             App.stopActivityIndicator()

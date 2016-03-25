@@ -507,7 +507,7 @@
     <p class='heading' style="font-size: 20px;"> 
        <h3>Publications 
          <a href='#publication/add' class="btn btn-success publicationFont">Add Issue</a>
-       <h3>
+       </h3>
     </p>
 
 	<div style='width:940px;margin:0 auto' id='listReq'></div>
@@ -515,9 +515,9 @@
         <script type="text/template" id="template-Survey">
 
             <p class='heading' style="font-size: 20px;">
-            <h3>Surveys
-                <a href='#survey/add' class="btn btn-success publicationFont">Add Survey</a>
-                <h3>
+            <h3><%=languageDict.attributes.Surveys %>
+                <a href='#survey/add' class="btn btn-success publicationFont"><%=languageDict.attributes.Add_Survey %></a>
+                </h3>
             </p>
 
             <div style='width:940px;margin:0 auto' id='listSur'></div>
@@ -539,7 +539,7 @@
                     <option disabled="disabled" value="<%= sentTo[i] %>"><%= sentTo[i] %> </option>
                     <% }%>
                     <%} else {%>
-                    <option disabled="disabled" value="None">None</option>
+                    <option disabled="disabled" value="None"><%= languageDict.attributes.None %></option>
                     <%} %>
                 </select>
             </td>
@@ -550,7 +550,7 @@
                     <option onclick="document.location.href='#openSurvey/<%= SurveyNo %>/<%= submittedBy[i] %>'" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
                     <% }%>
                     <%} else {%>
-                    <option disabled="disabled" value="None">None</option>
+                    <option disabled="disabled" value="None"><%= languageDict.attributes.None %></option>
                     <%} %>
 
                 </select>
@@ -558,12 +558,12 @@
             <td>
                 <!--<a href="#surveydetail/<%= _id %>" class="btn btn-warning">-->
                 <a href="#surveydetail/<%= _id %>" class="btn btn-warning">
-                    Details
+                   <%= languageDict.attributes.Details %>
                 </a>
             </td>
             <td>
                 <a class='btn btn-danger destroy'>
-                    Delete
+                    <%= languageDict.attributes.DeleteLabel %>
                 </a>
             </td>
         </script>

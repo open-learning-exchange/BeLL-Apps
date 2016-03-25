@@ -17,7 +17,7 @@ $(function() {
         },
 
         addAll: function() {
-            this.$el.append('<tr><th>Date</th><th>Survey No.</th><th>Title</th><th>Sent To</th><th>Submitted By</th><th colspan="2">Actions</th></tr>')
+            this.$el.append('<tr><th>'+App.languageDictValue.get('Date')+'</th><th>'+App.languageDictValue.get("Survey_Number")+'</th><th>'+App.languageDictValue.get('Title')+'</th><th>'+App.languageDictValue.get('Sent_to')+'</th><th>'+App.languageDictValue.get('Submitted_By')+'</th><th colspan="2">'+App.languageDictValue.get('Actions')+'</th></tr>')
             this.collection.forEach(this.addOne, this)
         },
 
