@@ -681,5 +681,10 @@
    "Destroy":"Destroy",
    "edit_welcomeVideo":"Edit Welcome Video Form",
    "upload_welcomeVideo":"Upload Welcome Video",
-   "upload_Date":"Upload Date"
+   "upload_Date":"Upload Date",
+   "Add_Survey":"Add Survey",
+   "Survey_Number":"Survey No",
+   "Sent_to":"Sent To",
+   "Submitted_By":"Submitted By",
+   "None":"None"
 }
