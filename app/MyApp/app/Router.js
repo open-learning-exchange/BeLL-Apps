@@ -518,7 +518,9 @@ $(function() {
                                             console.log(json);
                                             var SurveyDocsFromNation = [];
                                             _.each(json.rows, function(row) {
-                                                SurveyDocsFromNation.push(row);
+                                                if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
+                                                    SurveyDocsFromNation.push(row);
+                                                }
                                             });
                                             console.log(SurveyDocsFromNation);
                                             if(SurveyDocsFromNation != [] && SurveyDocsFromNation.length > 0) {
