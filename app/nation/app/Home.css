@@ -42,7 +42,7 @@ border: 5px solid black;
 
 .navbar .nav{
 	margin: 0 auto;
-	width: 800px;
+	width: 900px;
 }
 .stu-nav-table
 {
@@ -499,10 +499,6 @@ text-align:right;
 	margin-left: 68%;
 	margin-top: -7%;
 }
-.navbar .nav {
-    width: 94%;
-}
-
 #site-feedback fieldset{
 border:none;
 height:100%;
@@ -1069,9 +1065,6 @@ text-align:right;
 {
 	margin-left: 68%;
 	margin-top: -7%;
-}
-.navbar .nav {
-    width: 94%;
 }
 
 #site-feedback{

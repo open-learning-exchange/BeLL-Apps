@@ -684,5 +684,40 @@
    "Survey_Number":"Survey No",
    "Sent_to":"Sent To",
    "Submitted_By":"Submitted By",
-   "None":"None"
+   "None":"None",
+   "Communities": "Communities",
+   "Requests": "Requests",
+   "Databases": "Databases",
+   "New_Survey": "New Survey",
+   "Actions": "Actions",
+   "missing_surveyNo": "Survey Number is missing",
+   "duplicate_surveyNo": "SurveyNo already exist",
+   "survey_Saved_Successfully": "Survey Saved!",
+   "Send_Survey": "Send Survey",
+   "Add_new_Question": "Add a New Question",
+   "Select_a_Question": "Select a question",
+   "Question_types": [
+          "Multiple Choice (Single Answer)",
+          "Rating Scale",
+          "Single Textbox",
+          "Comment/Essay Box"
+      ],
+   "Question_Text": " Question Text",
+   "answer_Choices_Stat": "Answer Choices (each choice on a separate line)",
+   "require_answer":" Require Answer to Question.",
+   "column_choices": "Column Choices",
+   "select_ratings": "Select the number of ratings:",
+   "ratingsArray": [
+          "2 ratings",
+          "3 ratings",
+          "4 ratings",
+          "5 ratings",
+          "6 ratings",
+          "7 ratings",
+          "8 ratings",
+          "9 ratings"
+      ],
+   "Label": "Label",
+   "weight": "Weight",
+   "save_question": "Save Question"
 }
