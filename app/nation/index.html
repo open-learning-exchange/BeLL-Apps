@@ -186,6 +186,10 @@
                  $('#1').find('#question_text').val('');
                  $('#1').find('#answer_choices').val('');
                  $('#1').find('#required_question').removeAttr('checked');
+                 $("#1 .subtitle2").eq(0).text(App.languageDictValue.get('Question_Text'));
+                 $("#1 .subtitle2").eq(1).text(App.languageDictValue.get('answer_Choices_Stat'));
+                 $('#1').find('#require-surCheckBox').text(App.languageDictValue.get('require_answer'));
+                 $('#1').find('input[type=submit]').attr("value",App.languageDictValue.get('save_question'));
                  break;
              case '5':
                  $("#5").show();
@@ -194,16 +198,37 @@
                  $('#5').find('#select_rating').val("4").trigger('change');
                  $('#5').find('.ratingLabels').val('');
                  $('#5').find('#required_question').removeAttr('checked');
+                 $("#5 .subtitle2").eq(0).text(App.languageDictValue.get('Question_Text'));
+                 $("#5 .subtitle2").eq(1).text(App.languageDictValue.get('answer_Choices_Stat'));
+                 $("#5 .subtitle2").eq(2).text(App.languageDictValue.get('column_choices'));
+                 $('#5').find('#select-ratings').text(App.languageDictValue.get('select_ratings'));
+                 $('#5').find('#require-surCheckBox').text(App.languageDictValue.get('require_answer'));
+                     var ratingsArray=App.languageDictValue.get('ratingsArray');
+                     for(var i=0;i<ratingsArray.length;i++)
+                     {
+                         $('#5').find('#select_rating').find('option').eq(i).text(ratingsArray[i]);
+                     }
+                     for(var i=1;i<=9;i++){
+                         $('#5').find('#rating'+i).find('b').eq(0).text(App.languageDictValue.get('Label'));
+                         $('#5').find('#rating'+i).find('b').eq(1).text(App.languageDictValue.get('weight'));
+                     }
+                 $('#5').find('input[type=submit]').attr("value",App.languageDictValue.get('save_question'));
                  break;
              case '6':
                  $("#6").show();
                  $('#6').find('#question_text').val('');
                  $('#6').find('#required_question').removeAttr('checked');
+                 $("#6 .subtitle2").eq(0).text(App.languageDictValue.get('Question_Text'));
+                 $('#6').find('#require-surCheckBox').text(App.languageDictValue.get('require_answer'));
+                 $('#6').find('input[type=submit]').attr("value",App.languageDictValue.get('save_question'));
                  break;
              case '8':
                  $("#8").show();
                  $('#8').find('#question_text').val('');
                  $('#8').find('#required_question').removeAttr('checked');
+                 $("#8 .subtitle2").eq(0).text(App.languageDictValue.get('Question_Text'));
+                 $('#8').find('#require-surCheckBox').text(App.languageDictValue.get('require_answer'));
+                 $('#8').find('input[type=submit]').attr("value",App.languageDictValue.get('save_question'));
                  break;
          }
      }
