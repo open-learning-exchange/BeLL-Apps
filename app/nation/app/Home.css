@@ -41,10 +41,8 @@ border: 5px solid black;
 }
 
 .navbar .nav{
-	direction: rtl;
-	display: flex;
-	margin-bottom: 0;
-	margin-left: -200px;
+	margin: 0 auto;
+	width: 800px;
 }
 .stu-nav-table
 {

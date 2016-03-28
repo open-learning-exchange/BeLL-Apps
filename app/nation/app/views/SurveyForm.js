@@ -15,7 +15,7 @@ $(function() {
         render: function() {
             var vars = {}
 
-            vars.header = 'New Survey'
+            vars.header = App.languageDictValue.get('New_Survey');
 
             // prepare the form
             this.form = new Backbone.Form({
@@ -23,15 +23,9 @@ $(function() {
             });
             vars.form = "";
             vars.rlength = this.rlength;
-            //  this.form.render();
-            //this.form.render().el;
             this.$el.html(this.template(vars));
-            // this.form.render();
             this.$el.find('.fields').append(this.form.render().el);
-            //  $('.fields').html(this.form.render().el);
-//            $('.fields').html(this.form.el);
             $('.form .field-resources').hide();
-            //  $('#progressImage').hide();
 
             return this;
         },
@@ -41,7 +35,7 @@ $(function() {
             var addtoDb = true
             this.form.commit()
             if (this.model.get("SurveyNo") == undefined) {
-                alert("Survey Number is missing")
+                alert(App.languageDictValue.get('missing_surveyNo'));
             } else {
                 if (isEdit == undefined) {
                     var that = this
@@ -51,7 +45,7 @@ $(function() {
                     })
                     allsurv.each(function(m) {
                         if (that.model.get("SurveyNo") == m.get("SurveyNo")) {
-                            alert("SurveyNo already exist")
+                            alert(App.languageDictValue.get('duplicate_surveyNo'));
                             addtoDb = false
                         }
                     })
@@ -61,7 +55,7 @@ $(function() {
                     this.form.commit()
                     this.model.save(null, {
                         success: function(e) {
-                            alert("Survey Saved!")
+                            alert(App.languageDictValue.get('survey_Saved_Successfully'));
                             window.location.href = '#surveydetail/' + e.toJSON().id;
                         }
                     })
