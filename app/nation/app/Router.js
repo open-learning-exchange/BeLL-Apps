@@ -2723,12 +2723,14 @@ $(function() {
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var survey = new App.Views.Survey();
             survey.render();
-            App.$el.children('.body').html(survey.el)
+            App.$el.children('.body').html('<div id="parentDiv"></div>');
+            $('#parentDiv').append(survey.el)
             var surveyTable = new App.Views.SurveyTable({
                 collection: surveyCollection
             });
             surveyTable.render()
-            App.$el.children('.body').append(surveyTable.el)
+            $('#parentDiv').append(surveyTable.el);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
             App.stopActivityIndicator()
         },
 

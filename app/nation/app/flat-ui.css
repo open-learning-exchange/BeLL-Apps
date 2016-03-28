@@ -755,11 +755,11 @@ address {
 .navbar .navbar-brand small {
   line-height: 1;
 }
-.navbar .nav {
+/*.navbar .nav {
   margin-right: 0;
   display: inline-block;
   float: left;
-}
+}*/
 .navbar .nav > li {
   position: relative;
   display: inline-block;
