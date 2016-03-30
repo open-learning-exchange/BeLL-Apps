@@ -157,7 +157,9 @@ $(function() {
                 surQuestionsTable.Id = surveyId;
                 surQuestionsTable.render();
                 App.$el.children('.body').append(surQuestionsTable.el);
-                App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">Submit</button></div>');
+                if(questionsColl.length > 0) {
+                    App.$el.children('.body').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">Submit</button></div>');
+                }
             } else {
                 var surveyNo = surveyModel.get('SurveyNo');
                 var surveyResModel;
