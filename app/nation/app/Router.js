@@ -3069,7 +3069,7 @@ $(function() {
                 }
                 that.saveQuestion(questionObject, surveyId, isEdit);
             } else {
-                alert("Question statement is missing");
+                alert(App.languageDictValue.get('question_stat_missing'));
             }
         },
 
@@ -3093,7 +3093,7 @@ $(function() {
                 }
                 that.saveQuestion(questionObjectForEB, surveyId, isEdit);
             } else {
-                alert("Question statement is missing");
+                alert(App.languageDictValue.get('question_stat_missing'));
             }
         },
         saveMultipleChoiceQuestion: function(surveyId, selectedVal, isEdit, questionModel) {
@@ -3126,10 +3126,10 @@ $(function() {
                     }
                     that.saveQuestion(questionObjectMC, surveyId, isEdit);
                 } else {
-                    alert("Please provide atleast two options");
+                    alert(App.languageDictValue.get('atleast_two_options'));
                 }
             } else {
-                alert("Question statement is missing");
+                alert(App.languageDictValue.get('question_stat_missing'));
             }
         },
 
@@ -3175,13 +3175,13 @@ $(function() {
                         }
                         that.saveQuestion(questionObjectRS, surveyId, isEdit);
                     } else {
-                        alert("Labels are less than the rating value");
+                        alert(App.languageDictValue.get('less_labels'));
                     }
                 } else {
-                    alert("Please provide atleast one options");
+                    alert(App.languageDictValue.get('less_options'));
                 }
             } else {
-                alert("Question statement is missing");
+                alert(App.languageDictValue.get('question_stat_missing'));
             }
         },
 
@@ -3200,7 +3200,7 @@ $(function() {
                         surModel.set('questions', surQuestions);
                         surModel.save(null, {
                             success: function (model, res) {
-                                alert("Question has been saved");
+                                alert(App.languageDictValue.get('question_Saved'));
                                 window.location.reload();
                             },
                             error: function (model, err) {
@@ -3209,7 +3209,7 @@ $(function() {
                             async: false
                         });
                     } else {
-                        alert("Question has been edited successfully");
+                        alert(App.languageDictValue.get('question_Edit'));
                         window.location.reload();
                     }
                 },
