@@ -18,10 +18,10 @@ $(function() {
         },
         render: function() {
 
-            var $button = $('<h6>Select Community(\'ies)</h6><select multiple id="comselect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
+            var $button = $('<h6>'+App.languageDictValue.get('select_communities')+'</h6><select multiple id="comselect"></select><br><br><a class="btn btn-success" id="formButton">'+App.languageDictValue.get('Send')+'</button>')
             this.$el.append($button)
             this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
-            this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
+            this.$el.append('<a class="btn btn-warning" id="cancelButton">'+App.languageDictValue.get('Cancel')+'</button>')
         },
         syncData: function() {
             var loginOfMem = $.cookie('Member.login');

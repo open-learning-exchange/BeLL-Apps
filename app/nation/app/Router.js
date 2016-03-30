@@ -3737,6 +3737,10 @@ $(function() {
                     }
                 });
             $('#addQuestion').css('pointer-events','none');
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('#invitationdiv').css({"direction":"rtl"});
+            }
 
         },
         SyncDbSelect: function() {
