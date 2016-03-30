@@ -2852,6 +2852,35 @@ $(function() {
         },
 
         openCommunitySurvey: function(surveyId) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'json',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'json',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var surveyResModel;
             $.ajax({
                 url: '/surveyresponse/_design/bell/_view/surveyResById?key="' + surveyId + '"',
@@ -2881,11 +2910,20 @@ $(function() {
                         })
                         surAnswersTable.Id = surveyId;
                         surAnswersTable.render();
-                        App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">' + surveyResModel.SurveyTitle + '</h6></div>');
-                        App.$el.children('.body').append(surAnswersTable.el);
+                        App.$el.children('.body').html('<div id="parentDiv"></div>');
+                        $('#parentDiv').append('<div style="margin-top:10px"><h6>' + surveyResModel.SurveyTitle + '</h6></div>');
+                        $('#parentDiv').append(surAnswersTable.el);
+
                     }
                 }
-            })
+            });
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right"){
+                $('#parentDiv div').css({"float":"right"})
+                $('#parentDiv div h6').css({"float":"right"})
+            }
+            else{
+                $('#parentDiv div h6').css({"float":"left"})
+            }
         },
 
         SurveyDetails: function(surveyId) {
