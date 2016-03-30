@@ -2793,8 +2793,38 @@ $(function() {
         },
 
         OpenSurvey: function(surveyNo, communityName) {
-            App.$el.children('.body').html('<h4>' + 'Community Name: ' + communityName + '</h4>');
-            App.$el.children('.body').append('<h4>' + 'Survey Number: ' + surveyNo + '</h4>');
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'json',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'json',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.$el.children('.body').html('<div id="parentDiv"></div>');
+            $('#parentDiv').append('<h4>' + App.languageDictValue.get('nameOfCommunity')+' ' + communityName + '</h4>');
+            $('#parentDiv').append('<h4>' + App.languageDictValue.get('Survey_Number')+' ' + surveyNo + '</h4>');
             $.ajax({
                 url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?_include_docs=true',
                 type: 'GET',
@@ -2813,7 +2843,7 @@ $(function() {
                     var communitySurveysView = new App.Views.CommunitySurveysTable();
                     communitySurveysView.communitySurveysCollection = surveyResModels;
                     communitySurveysView.render();
-                    App.$el.children('.body').append(communitySurveysView.el);
+                    $('#parentDiv').append(communitySurveysView.el);
                 },
                 error: function(err) {
                     console.log(err);
