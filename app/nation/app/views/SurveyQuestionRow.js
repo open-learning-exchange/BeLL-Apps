@@ -45,7 +45,8 @@ $(function() {
         },
 
         render: function() {
-            var vars = this.model.toJSON()
+            var vars = this.model.toJSON();
+            vars.languageDict=App.languageDictValue;
             this.$el.append(this.template(vars))
         },
 

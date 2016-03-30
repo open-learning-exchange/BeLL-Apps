@@ -5,6 +5,7 @@ $(function() {
         tagName: "table",
         isManager: null,
         className: "table table-striped",
+        id:"parentDiv",
 
         initialize: function() {
         },
@@ -18,9 +19,9 @@ $(function() {
         },
 
         addAll: function() {
-            this.$el.append('<tr><th>Questions</th><th colspan="2">Actions</th></tr>')
+            this.$el.append('<tr><th>'+App.languageDictValue.get('Questions')+'</th><th colspan="2">'+App.languageDictValue.get('Actions')+'</th></tr>')
             if (this.collection.length == 0)
-                this.$el.append('<tr><td colspan="2"> No questions in this survey <td></tr>')
+                this.$el.append('<tr><td colspan="2"> '+App.languageDictValue.get('empty_Survey')+' <td></tr>')
             this.collection.forEach(this.addOne, this)
         },
 

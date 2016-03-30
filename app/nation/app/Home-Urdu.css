@@ -39,6 +39,10 @@ color: #345474;
 #parentDiv{
 	direction: rtl;
 }
+.directionsAndFloat{
+	direction: rtl;
+	float: right;
+}
 .navbar .nav{
 	margin: 0 auto;
 	width: 900px;
