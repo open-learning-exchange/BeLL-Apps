@@ -721,5 +721,17 @@
      ],
   "Label": "Label",
   "weight": "Weight",
-  "save_question": "Save Question"
+  "save_question": "Save Question",
+  "select_communities": "Select Community('ies) saba",
+  "Questions": "Questions",
+  "empty_Survey": "No questions in this survey",
+  "question_Saved": "Question has been saved",
+  "question_Edit": "Question has been edited successfully",
+  "question_stat_missing": "Question statement is missing",
+  "atleast_two_options": "Please provide atleast two options",
+  "less_labels": "Labels are less than the rating value",
+  "less_options": "Please provide atleast one options",
+  "nameOfCommunity":"Community Name:",
+  "birthYear":"Birth Year",
+  "no_answer_survey":"No answers in this survey"
 }

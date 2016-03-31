@@ -26,7 +26,7 @@ $(function () {
         },
         render: function () {
             var that = this;
-            this.$el.html('<tr><th>' + App.languageDict.get('Survey_No') + '</th><th>' + App.languageDict.get('Title') + '</th><th>' + App.languageDict.get('Actions') + '</th></tr>');
+            this.$el.html('<tr><th>' + App.languageDict.get('Survey_Number') + '</th><th>' + App.languageDict.get('Title') + '</th><th>' + App.languageDict.get('Actions') + '</th></tr>');
             var nationName = App.configuration.get('nationName');
             var nationUrl = App.configuration.get('nationUrl');
             $.ajax({
