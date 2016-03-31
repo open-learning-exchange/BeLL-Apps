@@ -179,7 +179,9 @@ $(function() {
                 surQuestionsTable.Id = surveyId;
                 surQuestionsTable.render();
                 $('#surveyBody').append(surQuestionsTable.el);
-                $('#surveyBody').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">' + App.languageDict.get('Submit') + '</button></div>');
+                if(questionsColl.length > 0) {
+                    $('#surveyBody').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">' + App.languageDict.get('Submit') + '</button></div>');
+                }
             } else {
                 var surveyNo = surveyModel.get('SurveyNo');
                 var surveyResModel;
