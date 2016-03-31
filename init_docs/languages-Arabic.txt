@@ -691,7 +691,6 @@
   "Requests": "طلبات",
   "Databases": "قواعد بيانات",
   "New_Survey": "مسح جديد",
-  "Actions": "الإجراءات",
   "missing_surveyNo": "عدد مسح مفقود",
   "duplicate_surveyNo": "عدد مسح موجودة بالفعل",
   "survey_Saved_Successfully": "محفوظ مسح",
