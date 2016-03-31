@@ -720,7 +720,7 @@
   "Label": "Label",
   "weight": "Weight",
   "save_question": "Save Question",
-  "select_communities": "Select Community('ies) saba",
+  "select_communities": "Select Community('ies)",
   "Questions": "Questions",
   "empty_Survey": "No questions in this survey",
   "question_Saved": "Question has been saved",
