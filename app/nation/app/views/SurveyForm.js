@@ -16,8 +16,7 @@ $(function() {
             var vars = {}
 
             vars.header = App.languageDictValue.get('New_Survey');
-
-            // prepare the form
+            vars.languageDict=App.languageDictValue;            // prepare the form
             this.form = new Backbone.Form({
                 model: this.model
             });

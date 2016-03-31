@@ -2775,7 +2775,10 @@ $(function() {
             })
             surveyFormView.render();
             App.$el.children('.body').html('<div id="parentDiv"></div>');
-            $('#parentDiv').append(surveyFormView.el)
+            $('#parentDiv').append(surveyFormView.el);
+            $('.bbf-form .field-Date label').text(App.languageDictValue.get('Date'));
+            $('.bbf-form .field-SurveyNo label').text(App.languageDictValue.get('Survey_Number'));
+            $('.bbf-form .field-SurveyTitle label').text(App.languageDictValue.get('Survey_Title'));
             $('.bbf-form .field-Date input').attr("disabled", true)
             var currentDate = new Date();
             $('.bbf-form .field-Date input').datepicker({

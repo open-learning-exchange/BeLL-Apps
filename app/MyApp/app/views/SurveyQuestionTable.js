@@ -20,7 +20,7 @@ $(function() {
 
         addAll: function() {
             if (this.collection.length == 0)
-                this.$el.append('<tr><td colspan="2"> No questions in this survey <td></tr>')
+                this.$el.append('<tr><td colspan="2"> '+App.languageDict.get('empty_Survey')+'<td></tr>')
             this.collection.forEach(this.addOne, this)
         },
 
