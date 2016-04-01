@@ -2957,21 +2957,32 @@ $(function() {
             });
         },
 
-        downloadCommunitySurveys: function (communityNames) {
+        downloadCommunitySurveys: function (surveyNo, communityNames) {
             if(communityNames.length > 0) {
+                alert(surveyNo);
                 communityNames = communityNames.split(',');
                 $.ajax({
-                    url: '/surveyresponse/_all_docs?include_docs=true',
+                    url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
                     type: 'GET',
-                    dataType: "json",
+                    dataType: 'json',
                     async: false,
                     success: function (json) {
                         console.log(json);
+                        var jsonRows = json.rows;
+                        var surveyResModels = [];
+                        for(var i = 0 ; i < jsonRows.length ; i++) {
+                            if(jsonRows[i].value.SurveyNo == surveyNo && communityNames.indexOf(jsonRows[i].value.communityName) > -1) {
+                                surveyResModels.push(jsonRows[i].value);
+                            }
+                        }
+                        console.log(surveyResModels);
                     },
                     error: function (err) {
                         console.log(err);
                     }
                 });
+            } else {
+                alert("No survey responses yet to download");
             }
         },
 
