@@ -3036,7 +3036,7 @@ $(function() {
             handleNewSelection.apply($("#add_new_question"));
             if(isEdit) {
                 $("#dialog").dialog({
-                    title: "Edit Question"
+                    title: App.languageDictValue.get('Edit_Question')
                 });
                 var questionType = questionModel.get('Type');
                 if(questionType == 'Multiple Choice (Single Answer)') {
@@ -3050,19 +3050,19 @@ $(function() {
                 }
             }
             $(".saveSurQuestion").click(function () {
-                var selectedVal = $('#add_new_question option:selected').text();
+                var selectedVal = $('#add_new_question option:selected').val();
                 if(selectedVal){
                     switch (selectedVal) {
-                        case 'Multiple Choice (Single Answer)':
+                        case '1':  //Multiple Choice Question
                             that.saveMultipleChoiceQuestion(surveyId, selectedVal, isEdit, questionModel);
                             break;
-                        case 'Rating Scale':
+                        case '5':    //Rating Scale
                             that.saveRatingScaleQuestion(surveyId, selectedVal, isEdit, questionModel);
                             break;
-                        case 'Single Textbox':
+                        case '6':    //Single Textbox
                             that.saveSingleTextBoxQuestion(surveyId, selectedVal, isEdit, questionModel);
                             break;
-                        case 'Comment/Essay Box':
+                        case '8':    //Comment/Essay box
                             that.saveCommentBoxQuestion(surveyId, selectedVal, isEdit, questionModel);
                             break;
                     }
@@ -3125,7 +3125,7 @@ $(function() {
             var qStatement = $('#6').find('#question_text').val();
             if(qStatement.toString().trim() != '') {
                 var questionObject = new App.Models.Question({
-                    Type: selectedVal,
+                    Type: 'Single Textbox',
                     Statement: qStatement.toString().trim(),
                     surveyId: surveyId
                 });
@@ -3149,7 +3149,7 @@ $(function() {
             var qStatement = $('#8').find('#question_text').val();
             if(qStatement.toString().trim() != '') {
                 var questionObjectForEB = new App.Models.Question({
-                    Type: selectedVal,
+                    Type: 'Comment/Essay Box',
                     Statement: qStatement.toString().trim(),
                     surveyId: surveyId
                 });
@@ -3181,7 +3181,7 @@ $(function() {
                 }
                 if(validOptionValues != [] && validOptionValues.length > 1) {
                     var questionObjectMC = new App.Models.Question({
-                        Type: selectedVal,
+                        Type: 'Multiple Choice (Single Answer)',
                         Statement: qStatement.toString().trim(),
                         surveyId: surveyId,
                         Options: validOptionValues
@@ -3229,7 +3229,7 @@ $(function() {
                     if(labelsVal.length == ratingVal) {
                         rating = labelsVal;
                         var questionObjectRS = new App.Models.Question({
-                            Type: selectedVal,
+                            Type: 'Rating Scale',
                             Statement: qStatement.toString().trim(),
                             surveyId: surveyId,
                             Options: validOptionValuesRS,
