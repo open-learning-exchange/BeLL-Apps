@@ -735,5 +735,12 @@
   "no_answer_survey":"No answers in this survey",
   "Survey_Title":"Survey Title",
   "Edit_Question":"Edit Question",
-  "survey_sent_Success":"Survey has been sent"
+  "survey_sent_Success":"Survey has been sent",
+  "Add_Issue":"Add Issue",
+  "Editor_Name":"Editor Name",
+  "Editor_Email":"Editor Email",
+  "Editor_Phone":"Editor Phone",
+  "downloaded_by":"Downloaded By",
+  "Publication_Issue":"Publication Issue",
+  "New_Publication_Issue":"New Publication Issue"
 }

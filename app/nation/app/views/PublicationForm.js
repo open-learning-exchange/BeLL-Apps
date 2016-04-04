@@ -19,9 +19,9 @@ $(function() {
             var vars = {}
 
             if (_.has(this.model, 'id')) {
-                vars.header = 'Publication Issue : "' + this.model.get('IssueNo') + '"'
+                vars.header = App.languageDictValue.get('Publication_Issue')+' ' + this.model.get('IssueNo') + '"'
             } else {
-                vars.header = 'New Publication Issue'
+                vars.header = App.languageDictValue.get('New_Publication_Issue')
             }
 
             // prepare the form
@@ -29,7 +29,8 @@ $(function() {
                 model: this.model
             })
             vars.form = ""
-            vars.rlength = this.rlength
+            vars.rlength = this.rlength;
+            vars.languageDict=App.languageDictValue;
             this.form.render()
             this.$el.html(this.template(vars))
 
@@ -41,40 +42,12 @@ $(function() {
         },
 
         saveForm: function() {
-            var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    console.log(surResult);
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            console.log(resultByDoc);
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
+         
             var isEdit = this.model.get("_id")
             var addtoDb = true
             this.form.commit()
             if (this.model.get("IssueNo") == undefined) {
-                alert(languageDictValue.attributes.Pubs_Issue_Missing)
+                alert(App.languageDictValue.attributes.Pubs_Issue_Missing)
             } else {
                 if (isEdit == undefined) {
                     var that = this
@@ -84,7 +57,7 @@ $(function() {
                     })
                     allres.each(function(m) {
                         if (that.model.get("IssueNo") == m.get("IssueNo")) {
-                            alert(languageDictValue.attributes.Issue_Duplicate)
+                            alert(App.languageDictValue.attributes.Issue_Duplicate)
                             addtoDb = false
                         }
                     })
@@ -94,7 +67,7 @@ $(function() {
                     this.form.commit()
                     this.model.save(null, {
                         success: function(e) {
-                            alert(languageDictValue.attributes.Pubs_Issue_Saved)
+                            alert(App.languageDictValue.attributes.Pubs_Issue_Saved)
                             window.location.href = '#publicationdetail/' + e.toJSON().id;
                         }
                     })
@@ -105,39 +78,10 @@ $(function() {
         },
         searchres: function() {
             var showsearch = true;
-            var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    console.log(surResult);
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            console.log(resultByDoc);
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
             var isEdit = this.model.get("_id")
             this.form.commit()
             if (this.model.get("IssueNo") == undefined) {
-                alert(languageDictValue.attributes.Pubs_Issue_Missing)
+                alert(App.languageDictValue.attributes.Pubs_Issue_Missing)
                 showsearch = false
             } else {
                 if (isEdit == undefined) {
@@ -150,7 +94,7 @@ $(function() {
                     allpub = allpub.first()
                     if (allpub != undefined)
                         if (allpub.toJSON().IssueNo != undefined) {
-                            alert(languageDictValue.attributes.Issue_Duplicate)
+                            alert(App.languageDictValue.attributes.Issue_Duplicate)
                             showsearch = false
                         }
 
@@ -168,35 +112,6 @@ $(function() {
         },
         listCourses: function() {
             var showcourse = true;
-            var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    console.log(surResult);
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            console.log(resultByDoc);
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
             var myCourses = new Array()
             var isEdit = this.model.get("_id")
             this.form.commit()
@@ -205,7 +120,7 @@ $(function() {
                 "courses": myCourses
             })
             if (this.model.get("IssueNo") == undefined) {
-                alert(languageDictValue.attributes.Pubs_Issue_Missing)
+                alert(App.languageDictValue.attributes.Pubs_Issue_Missing)
                 showcourse = false
             } else {
                 if (isEdit == undefined) {
@@ -218,7 +133,7 @@ $(function() {
                     allpub = allpub.first()
                     if (allpub != undefined)
                         if (allpub.toJSON().IssueNo != undefined) {
-                            alert(languageDictValue.attributes.Issue_Duplicate)
+                            alert(App.languageDictValue.attributes.Issue_Duplicate)
                             showcourse = false
                         }
 

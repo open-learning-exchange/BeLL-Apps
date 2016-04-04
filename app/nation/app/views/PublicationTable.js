@@ -19,7 +19,7 @@ $(function() {
         },
 
         addAll: function() {
-            this.$el.append('<tr><th>Date Issue</th><th>Issue No.</th><th>Editor Name</th><th>Editor Email</th><th>Editor Phone</th><th>Sent to</th><th>Downloaded By</th><th colspan="2">Actions</th></tr>')
+            this.$el.append('<tr><th>'+App.languageDictValue.get('Date')+'</th><th>'+App.languageDictValue.get('IssueNumber')+'</th><th>'+App.languageDictValue.get('Editor_Name')+'</th><th>'+App.languageDictValue.get('Editor_Email')+'</th><th>'+App.languageDictValue.get('Editor_Phone')+'</th><th>'+App.languageDictValue.get('Sent_to')+'</th><th>'+App.languageDictValue.get('downloaded_by')+'</th><th colspan="2">'+App.languageDictValue.get('Actions')+'</th></tr>')
             this.collection.forEach(this.addOne, this)
         },
 

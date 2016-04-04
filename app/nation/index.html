@@ -531,8 +531,8 @@
   <script type="text/template" id="template-Publication"> 
 
     <p class='heading' style="font-size: 20px;"> 
-       <h3>Publications 
-         <a href='#publication/add' class="btn btn-success publicationFont">Add Issue</a>
+       <h3><%=languageDict.attributes.Publications %>
+         <a href='#publication/add' class="btn btn-success publicationFont"><%=languageDict.attributes.Add_Issue %></a>
        </h3>
     </p>
 
@@ -1041,7 +1041,7 @@
         <option disabled="disabled" value="<%= communityNames[i] %>"><%= communityNames[i] %> </option>
         <% }%>
             <%} else {%>
-            <option disabled="disabled" value="None">None</option>
+            <option disabled="disabled" value="None"><%= languageDict.attributes.None%></option>
             <%} %>
 
         </select>
@@ -1053,19 +1053,19 @@
             <option disabled="disabled" value="<%= downloadedByCommunities[i] %>"><%= downloadedByCommunities[i] %> </option>
             <% }%>
             <%} else {%>
-            <option disabled="disabled" value="None">None</option>
+            <option disabled="disabled" value="None"><%= languageDict.attributes.None%></option>
             <%} %>
 
         </select>
     </td>
       <td>
     	<a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
-        Details
+            <%= languageDict.attributes.Details%>
       </a>
       </td>
       <td>
       <a class='btn btn-danger destroy'>
-        Delete
+          <%= languageDict.attributes.DeleteLabel%>
       </a>
       </td>
   </script>

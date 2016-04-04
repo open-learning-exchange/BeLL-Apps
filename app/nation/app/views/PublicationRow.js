@@ -112,7 +112,8 @@ $(function() {
 
             vars.isManager = this.isManager
             var date = new Date(vars.Date)
-            vars.Date = date.toUTCString()
+            vars.Date = date.toUTCString();
+            vars.languageDict=App.languageDictValue;
             this.$el.append(this.template(vars))
 
 

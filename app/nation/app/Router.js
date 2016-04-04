@@ -3606,6 +3606,7 @@ $(function() {
                 }
             });
             var languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.languageDictValue=languageDictValue;
             var publicationCollection = new App.Collections.Publication()
             publicationCollection.fetch({
                 async: false
@@ -3665,13 +3666,14 @@ $(function() {
                 async: false
             })
             var publication = new App.Views.Publication()
-            publication.render()
-            App.$el.children('.body').html(publication.el)
+            App.$el.children('.body').html('<div id="parentDiv"></div>');
+            publication.render();
+            $('#parentDiv').append(publication.el)
             var publicationtable = new App.Views.PublicationTable({
                 collection: publicationCollection
             })
             publicationtable.render()
-            App.$el.children('.body').append(publicationtable.el)
+            $('#parentDiv').append(publicationtable.el)
 
             App.stopActivityIndicator()
 
@@ -3741,6 +3743,35 @@ $(function() {
             var publicationFormView = new App.Views.PublicationForm({
                 model: publication
             })
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html(publicationFormView.el)
 
             if (publication.id) {
@@ -3765,6 +3796,16 @@ $(function() {
 
 
             }
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('.fields form').css({"direction":"rtl","float":"right"});
+            }
+            $('.field-Date label').html(App.languageDictValue.get('Date'));
+            $('.field-IssueNo label').html(App.languageDictValue.get('IssueNumber'));
+            $('.field-editorName label').html(App.languageDictValue.get('Editor_Name'));
+            $('.field-editorEmail label').html(App.languageDictValue.get('Editor_Email'));
+            $('.field-editorPhone label').html(App.languageDictValue.get('Editor_Phone'));
+
             $('.bbf-form .field-Date input').attr("disabled", true)
             if (!publication.id) {
                 $('.bbf-form .field-IssueNo input').val('')
