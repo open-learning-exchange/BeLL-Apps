@@ -734,5 +734,6 @@
   "birthYear":"Birth Year",
   "no_answer_survey":"No answers in this survey",
   "Survey_Title":"Survey Title",
-  "Edit_Question":"Edit Question"
+  "Edit_Question":"Edit Question",
+  "survey_sent_Success":"Survey has been sent"
 }

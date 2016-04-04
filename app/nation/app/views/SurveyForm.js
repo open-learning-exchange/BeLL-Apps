@@ -21,6 +21,7 @@ $(function() {
                 model: this.model
             });
             vars.form = "";
+            vars.languageDict=App.languageDictValue;
             vars.rlength = this.rlength;
             this.$el.html(this.template(vars));
             this.$el.find('.fields').append(this.form.render().el);
