@@ -19,7 +19,7 @@ $(function() {
 
         addAll: function() {
 
-            this.$el.html("<tr><th>Title</th><th colspan='0'>Actions</th></tr>")
+            this.$el.html("<tr><th>"+App.languageDictValue.get('Title')+"</th><th colspan='0'>"+App.languageDictValue.get('Actions')+"</th></tr>")
             var manager = new App.Models.Member({
                 _id: $.cookie('Member._id')
             })

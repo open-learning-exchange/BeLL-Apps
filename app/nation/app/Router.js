@@ -3377,11 +3377,46 @@ $(function() {
         },
 
         addCourses: function(publicationId) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var seachForm = new App.Views.courseSeach()
             seachForm.publicationId = publicationId
-            seachForm.render()
-            App.$el.children('.body').html(seachForm.el)
-
+            seachForm.render();
+            App.$el.children('.body').html('<div id="parentDiv"></div>');
+            $('#parentDiv').append(seachForm.el);
+            $('#SeachCourseText').attr('placeholder',App.languageDictValue.attributes.KeyWord_s);
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('.form h6').css({"float":"left"});
+                $('.form h6 input').css({"margin-left":"20px","margin-right":"0px"});
+            }
         },
         Dashboard: function() {
             var con = this.getConfigurations()

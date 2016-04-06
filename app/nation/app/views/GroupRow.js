@@ -19,7 +19,8 @@ $(function() {
 
         render: function() {
 
-            var vars = this.model.toJSON()
+            var vars = this.model.toJSON();
+            vars.languageDict=App.languageDictValue;
 
             if (vars._id == '_design/bell')
                 return
@@ -29,35 +30,6 @@ $(function() {
 
         },
         addtoPublication: function(e) {
-            var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    console.log(surResult);
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            console.log(resultByDoc);
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
             var courseId = e.currentTarget.name
             var publication = new App.Models.Publication({
                 _id: this.publicationId
@@ -70,7 +42,7 @@ $(function() {
                     }
                     for (var j in courses) {
                         if (courses[j]['courseID'] === courseId) { // if courseId matches with id of an already added course's id, return
-                            alert(languageDictValue.attributes.Duplicate_Course_In_Pub);
+                            alert(App.languageDictValue.attributes.Duplicate_Course_In_Pub);
                             return;
                         }
                     }
@@ -100,13 +72,13 @@ $(function() {
                             });
                             response.save(null, { // should this save call happen inside or outside coursesteps.fetch()?
                                 success: function() {
-                                    alert(languageDictValue.attributes.Added_Success);
+                                    alert(App.languageDictValue.attributes.Added_Success);
                                 }
                             });
                         },
                         error: function(err) {
                             console.log(err);
-                            alert(languageDictValue.attributes.AddCourse_To_pubs_Failed);
+                            alert(App.languageDictValue.attributes.AddCourse_To_pubs_Failed);
                         }
                     });
                     //					 courses.push(courseId)

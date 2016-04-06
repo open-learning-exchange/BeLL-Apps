@@ -13,7 +13,7 @@ $(function() {
 
         render: function() {
             var that = this
-            this.$el.append('<p><h3>Courses</h3><a id="back" class="btn btn-success"> Done </a><h6 style="margin-top:-52px;float:right"><input placeholder="Key Word" style="margin-right:20px;height:30px;width:170px" type="text" id="SeachCourseText" ><a  style="margin-top: -11px; width: 60px;" class="btn btn-info" id="seachCourse" > Search </a> </h6></p>')
+            this.$el.append('<p><h3>'+App.languageDictValue.get('Courses')+'</h3><a id="back" class="btn btn-success"> '+App.languageDictValue.get('Done')+' </a><h6 style="margin-top:-52px;float:right"><input style="margin-right:20px;height:30px;width:170px" type="text" id="SeachCourseText" placeholder="" ><a  style="margin-top: -11px; width: 60px;" class="btn btn-info" id="seachCourse" > '+App.languageDictValue.get('Search')+' </a> </h6></p>')
             this.$el.append('<div id="courseList"></div>')
             var coll = new App.Collections.Courses()
             coll.fetch({
