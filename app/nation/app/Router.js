@@ -2984,7 +2984,6 @@ $(function() {
                                 var commName = surveyResModels[j].communityName;
                                 var gender = surveyResModels[j].genderOfMember;
                                 var birthYear = surveyResModels[j].birthYearOfMember;
-                                //////////////////////////////////////////////////////////////////
                                 var surAnswers = surveyResModels[j].answersToQuestions;
                                 var surAnswersIdes = ''
                                 _.each(surAnswers, function(item) {
@@ -3005,6 +3004,17 @@ $(function() {
                                 }
                                 for(var x = 0 ; x < answersArray.length ; x++) {
                                  if(answersArray[x].Type == 'Rating Scale') {
+                                     for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
+                                         var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
+                                         JSONObj.Community = commName;
+                                         JSONObj.Gender = gender;
+                                         JSONObj.BirthYear = birthYear;
+                                         JSONObj.QType = answersArray[x].Type;
+                                         JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
+                                         JSONObj.Options = answersArray[x].Ratings;
+                                         JSONObj.Answer = answersArray[x].Answer[y];
+                                         jsonObjectsData.push(JSONObj)
+                                     }
 
                                  } else {
                                      var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
@@ -3020,7 +3030,6 @@ $(function() {
                                      jsonObjectsData.push(JSONObj)
                                  }
                                 }
-                                //////////////////////////////////////////////////////////////////
                             }
                             console.log(jsonObjectsData);
                             that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo, "Test");
