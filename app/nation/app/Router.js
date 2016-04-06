@@ -3770,8 +3770,45 @@ $(function() {
             var resources = publicationObject.get('resources')
             var courses = publicationObject.get('courses')
             var type = "publications";
-            App.$el.children('.body').html('<div style="margin-top:10px"><h6 style="float:left;">Issue No.' + publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">Add Course</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">Add Resource</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\',\'' + type + '\')">Send Publication</button></div>')
 
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.$el.children('.body').html('<div id="parentDiv"></div>');
+            $('#parentDiv').append('<div style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\',\'' + type + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('#parentDiv div').find('h6').css({"float":"right"});
+                $('#parentDiv div').find('a').eq(0).css({"float":"right","margin-right":"20px","margin-left":"0px"});
+                $('#parentDiv div').find('a').eq(1).css({"float":"right","margin-right":"20px","margin-left":"0px"});
+                $('#parentDiv div').find('button').css({"float":"right","margin-right":"20px","margin-left":"0px"});
+            }
             var resIdes = ''
             _.each(resources, function(item) {
                 resIdes += '"' + item + '",'
@@ -3789,7 +3826,7 @@ $(function() {
             })
             publicationresTable.Id = publicationId
             publicationresTable.render()
-            App.$el.children('.body').append(publicationresTable.el)
+            $('#parentDiv').append(publicationresTable.el)
 
             var coursesIdes = ''
             _.each(courses, function(item) {
@@ -3808,7 +3845,7 @@ $(function() {
             })
             publicationcourseTable.Id = publicationId
             publicationcourseTable.render()
-            App.$el.children('.body').append(publicationcourseTable.el)
+            $('#parentDiv').append(publicationcourseTable.el)
 
         },
 
