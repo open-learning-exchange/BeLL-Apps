@@ -1524,23 +1524,40 @@ $(function() {
                     search.addResource = true
                     search.Publications = true
                     App.$el.children('.body').html(search.el)
-                    search.render()
+                    search.render();
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
+                    $('#multiselect-collections-search').multiselect({
+
+                        header: App.languageDict.attributes.Select_An_option,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option,
+                        checkAllText: App.languageDict.attributes.checkAll,
+                        uncheckAllText: App.languageDict.attributes.unCheckAll,
+                        selectedText: '# '+App.languageDict.attributes.Selected
+                    });
+                    $('#multiselect-collections-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
+                    $('#multiselect-levels-search').multiselect({
+
+                        header: App.languageDict.attributes.Select_An_option,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option,
+                        checkAllText: App.languageDict.attributes.checkAll,
+                        uncheckAllText: App.languageDict.attributes.unCheckAll,
+                        selectedText: '# '+App.languageDict.attributes.Selected
+                    });
+                    $('#multiselect-levels-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+
                     $("#multiselect-medium-search").multiselect({
                         multiple: false,
-                        header: "Select an option",
-                        noneSelectedText: "Select an Option",
+                        header: App.languageDict.attributes.Select_An_option,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option,
                         selectedList: 1
                     });
                     $("#search-language").multiselect({
                         multiple: false,
-                        header: "Select an option",
-                        noneSelectedText: "Select an Option",
+                        header: App.languageDict.attributes.Select_An_option,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option,
                         selectedList: 1
                     });
-
-
 
                     $("#srch").hide()
                     $(".search-bottom-nav").hide()
@@ -1549,6 +1566,17 @@ $(function() {
                     showSubjectCheckBoxes()
 
                     $("#multiselect-subject-search").multiselect().multiselectfilter();
+                    $('#multiselect-subject-search').multiselect({
+
+                        header: App.languageDict.attributes.Select_An_option,
+                        noneSelectedText: App.languageDict.attributes.Select_An_option,
+                        checkAllText: App.languageDict.attributes.checkAll,
+                        uncheckAllText: App.languageDict.attributes.unCheckAll,
+                        selectedText: '# '+App.languageDict.attributes.Selected
+                    });
+                    $('#multiselect-subject-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+                    $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+
                 },
                 async: false
             })
