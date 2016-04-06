@@ -741,5 +741,10 @@
   "Editor_Phone":"Editor Phone",
   "downloaded_by":"Downloaded By",
   "Publication_Issue":"Publication Issue",
-  "New_Publication_Issue":"New Publication Issue"
+  "New_Publication_Issue":"New Publication Issue",
+  "Send_Publication":"Send Publication",
+  "No_Resource_Pub":" No Resource in this publication",
+  "No_Course_Pub":"No Course in this publication",
+  "Done":"Done",
+  "Add_To_Pub":"Add To Publication"
 }
