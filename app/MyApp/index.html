@@ -1284,10 +1284,10 @@
             </table>
             <br/><br/>
             <%if(Publications==true) {%>
-            <button class="btn btn-primary" onclick = "showSearchView()">Return to Search</button>
+            <button class="btn btn-primary" onclick = "showSearchView()"><%=languageDict.attributes.Back_to_Search%></button>
             <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
-            <button class="btn btn-success" id='addRestoPub'>Add To Publication</button>
-            <button class="btn btn-success" onclick = "document.location.href='../nation/index.html#publication'">Back</button>
+            <button class="btn btn-success" id='addRestoPub'><%=languageDict.attributes.Add_To_Pub%></button>
+            <button class="btn btn-success" onclick = "document.location.href='../nation/index.html#publication'"><%=languageDict.attributes.Back%></button>
 
             <%}else{ %>
             <div class="courseSearchResults_Bottom">
