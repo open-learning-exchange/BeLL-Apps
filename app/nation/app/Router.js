@@ -3032,7 +3032,7 @@ $(function() {
                                 }
                             }
                             console.log(jsonObjectsData);
-                            that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo, "Test");
+                            that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
                         } else {
                            alert("There is no data available to download against this survey");
                         }
@@ -3046,12 +3046,12 @@ $(function() {
             }
         },
 
-        JSONToCSVConvertor: function (JSONData, ReportTitle, label) {
+        JSONToCSVConvertor: function (JSONData, ReportTitle) {
             //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
             var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
             var CSV = '';
             //Set Report title in first row or line
-            CSV += label + '\r\n\n';
+            //CSV += label + '\r\n\n';
             //This will generate the Label/Header
             var row = "";
             //This loop will extract the label from 1st index of on array
