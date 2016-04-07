@@ -17,55 +17,6 @@ $(function() {
             var vars = {}
 
             // prepare the header
-
-            if (_.has(this.model, 'id')) {
-
-                vars.header = 'Title "' + this.model.get('title') + '"'
-                vars.hidesave = true
-            } else {
-                vars.header = 'New Nation Report'
-                vars.hidesave = false
-            }
-
-            // prepare the form
-            this.form = new Backbone.Form({
-                model: this.model
-            })
-            this.form.render()
-            //this.form.fields['uploadDate'].$el.hide()
-            if (this.edit == false) {
-                //this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
-            }
-            //this.form.fields['addedBy'].$el.attr("disabled",true)
-            //this.form.fields['averageRating'].$el.hide()
-            var that = this
-            if (_.has(this.model, 'id')) {
-                //if(this.model.get("Level") == "All"){
-                // that.form.fields['toLevel'].$el.hide();
-                //that.form.fields['fromLevel'].$el.hide();
-                //that.hide = true
-            }
-
-
-            // @todo Why won't this work?
-            vars.form = "" //$(this.form.el).html()
-
-            // render the template
-            console.log(vars)
-            this.$el.html(this.template(vars))
-            // @todo this is hackey, should be the following line or assigned to vars.form
-            $('.fields').html(this.form.el)
-            $('#progressImage').hide();
-            //$this.$el.children('.fields').html(this.form.el) // also not working
-
-            return this
-        },
-
-        saveForm: function() {
-            // @todo validate
-            //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
-            // Put the form's input into the model in memory
-            var addtoDb = true;
             var loginOfMem = $.cookie('Member.login');
             var lang;
             $.ajax({
@@ -94,7 +45,56 @@ $(function() {
                     console.log(err);
                 }
             });
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            if (_.has(this.model, 'id')) {
+
+                vars.header =App.languageDictValue.get('Title')+ ' "' + this.model.get('title') + '"'
+                vars.hidesave = true
+            } else {
+                vars.header = App.languageDictValue.get('new_nation_report'),
+                vars.hidesave = false
+            }
+
+            // prepare the form
+            this.form = new Backbone.Form({
+                model: this.model
+            })
+            this.form.render()
+            //this.form.fields['uploadDate'].$el.hide()
+            if (this.edit == false) {
+                //this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
+            }
+            //this.form.fields['addedBy'].$el.attr("disabled",true)
+            //this.form.fields['averageRating'].$el.hide()
+            var that = this
+            if (_.has(this.model, 'id')) {
+                //if(this.model.get("Level") == "All"){
+                // that.form.fields['toLevel'].$el.hide();
+                //that.form.fields['fromLevel'].$el.hide();
+                //that.hide = true
+            }
+
+
+            // @todo Why won't this work?
+            vars.form = "" //$(this.form.el).html()
+
+            // render the template
+            console.log(vars);
+            vars.languageDict=App.languageDictValue;
+            this.$el.html(this.template(vars))
+            // @todo this is hackey, should be the following line or assigned to vars.form
+            $('.fields').html(this.form.el)
+            $('#progressImage').hide();
+            //$this.$el.children('.fields').html(this.form.el) // also not working
+
+            return this
+        },
+
+        saveForm: function() {
+            // @todo validate
+            //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
+            // Put the form's input into the model in memory
+            var addtoDb = true;
             var previousTitle = this.model.get("title")
             var newTitle
             var isEdit = this.model.get("_id")
@@ -105,9 +105,9 @@ $(function() {
             var that = this
             var savemodel = false
             if (this.model.get("title").length == 0) {
-                alert(languageDictValue.attributes.Missing_Resource_Title)
+                alert(App.languageDictValue.attributes.Missing_Resource_Title)
             } else if ((this.model.get("Tag") == "News") && !this.model.get("author")) {
-                alert(languageDictValue.attributes.Missing_Resource_Author)
+                alert(App.languageDictValue.attributes.Missing_Resource_Author)
             } else {
                 $('#gressImage').show();
                 this.model.set(' uploadDate', new Date().getTime())
@@ -116,7 +116,7 @@ $(function() {
                     this.model.set('fromLevel', 0)
                 } else {
                     if (parseInt(this.model.get("fromLevel")) > parseInt(this.model.get("toLevel"))) {
-                        alert(languageDictValue.attributes.Invalid_Range)
+                        alert(App.languageDictValue.attributes.Invalid_Range)
                         addtoDb = false
                     }
                 }
@@ -128,7 +128,7 @@ $(function() {
                     })
                     allres.each(function(m) {
                         if (that.model.get("title") == m.get("title")) {
-                            alert(languageDictValue.attributes.Duplicate_Title)
+                            alert(App.languageDictValue.attributes.Duplicate_Title)
                             addtoDb = false
                         }
                     })
@@ -142,35 +142,6 @@ $(function() {
                     this.model.save(null, {
                         success: function() {
                             that.model.unset('_attachments');
-                            var loginOfMem = $.cookie('Member.login');
-                            var lang;
-                            $.ajax({
-                                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                                type: 'GET',
-                                dataType: 'jsonp',
-                                async:false,
-                                success: function (surResult) {
-                                    console.log(surResult);
-                                    var id = surResult.rows[0].id;
-                                    $.ajax({
-                                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                                        type: 'GET',
-                                        dataType: 'jsonp',
-                                        async:false,
-                                        success: function (resultByDoc) {
-                                            console.log(resultByDoc);
-                                            lang=resultByDoc.rows[0].value.bellLanguage;
-                                        },
-                                        error:function(err){
-                                            console.log(err);
-                                        }
-                                    });
-                                },
-                                error:function(err){
-                                    console.log(err);
-                                }
-                            });
-                            var languageDictValue=App.Router.loadLanguageDocs(lang);
                             if ($('input[type="file"]').val()) {
                                 if (isEdit != undefined) {
                                     if (previousTitle != newTitle) {
@@ -208,7 +179,7 @@ $(function() {
                                             new_res.on('sync', function() {
                                                 new_res.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                                                 new_res.on('savedAttachment', function() {
-                                                    alert(languageDictValue.attributes.Resource_Updated)
+                                                    alert(App.languageDictValue.attributes.Resource_Updated)
                                                     Backbone.history.navigate("#resources", {
                                                         trigger: true
                                                     })
@@ -217,10 +188,10 @@ $(function() {
                                                 }, new_res)
                                             })
                                         } else {
-                                            alert(languageDictValue.attributes.Duplicate_Title)
+                                            alert(App.languageDictValue.attributes.Duplicate_Title)
                                         }
                                     } else {
-                                        alert(languageDictValue.attributes.Resource_failure_update)
+                                        alert(App.languageDictValue.attributes.Resource_failure_update)
                                     }
                                 } else {
                                     that.model.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")

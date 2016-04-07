@@ -124,7 +124,7 @@ $(function() {
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
             }
             else {
-                alert(languageDictValue.attributes.error_direction);
+                alert(App.languageDictValue.attributes.error_direction);
             }
         },
 
@@ -3699,7 +3699,7 @@ $(function() {
             }
 
             App.stopActivityIndicator()
-
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         ReportForm: function(reportId) {
             var report = (reportId) ? new App.Models.NationReport({
@@ -3724,6 +3724,21 @@ $(function() {
                 reportFormView.render()
 
             }
+            $('.field-title label').text(App.languageDictValue.get('Title'));
+            $('.field-author label').text(App.languageDictValue.get('author'));
+            $('.field-Date label').text(App.languageDictValue.get('Date'));
+            var DaysObj=App.languageDictValue.get("Months");
+            for(var i=0;i<12;i++)
+            {
+                $('.bbf-month option').eq(i).html(App.Router.lookup(App.languageDictValue, "Months." + $('.bbf-month option').eq(i).text().toString() ));
+
+            }
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('.fields .bbf-form').css({"direction":"rtl","float":"right"});
+                $('.form .bbf-field').css({"float":"right"});
+            }
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         //************************************************************************************************************
         //****************************************************************************************************************
@@ -3808,7 +3823,7 @@ $(function() {
             })
             App.stopActivityIndicator()
             this.Publication();
-
+App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         //*********************************************************************************************
         Publication: function() {
@@ -3826,7 +3841,7 @@ $(function() {
             })
             publicationtable.render()
             $('#parentDiv').append(publicationtable.el)
-
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
             App.stopActivityIndicator()
 
         },
@@ -3917,7 +3932,7 @@ $(function() {
             publicationcourseTable.Id = publicationId
             publicationcourseTable.render()
             $('#parentDiv').append(publicationcourseTable.el)
-
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
 
         PublicationForm: function(publicationId) {
@@ -4007,10 +4022,7 @@ $(function() {
             $('.bbf-form .field-Date input').datepicker({
                 todayHighlight: true
             });
-
-
-
-
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         getNativeNameOfLang: function(language){
         var languages = new App.Collections.Languages();
@@ -4057,7 +4069,29 @@ $(function() {
             inviteForm.render()
             $('#invitationdiv').html('&nbsp')
             $('#invitationdiv').append(inviteForm.el)
+        },
+        lookup:function (obj, key) {
+        var type = typeof key;
+        if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
+            return '.' + key;
+        }).split('.');
+
+        for (var i = 0, l = key.length; i < l; l--) {
+            if (obj.attributes.hasOwnProperty(key[i])) {
+                obj = obj.attributes[key[i]];
+                i++;
+                if (obj[0].hasOwnProperty(key[i])) {
+                    var myObj = obj[0];
+                    var valueOfObj = myObj[key[i]];
+                    return valueOfObj;
+                }
+
+            } else {
+                return undefined;
+            }
         }
+        return obj;
+    }
     }))
 
 })
