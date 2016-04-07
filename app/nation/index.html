@@ -559,7 +559,7 @@
                 <span style="font-weight:900; font-size:16px;"><%= SurveyTitle %></BR></span>
             </td>
             <td>
-                <select multiple id="SurveycommNames" style="width:200px">
+                <select multiple id="SurveycommNames" style="width:150px">
                     <%if(sentTo && sentTo.length>0){%>
                     <% for (var i=0; i<sentTo.length; i++){%>
                     <option disabled="disabled" value="<%= sentTo[i] %>"><%= sentTo[i] %> </option>
@@ -570,7 +570,7 @@
                 </select>
             </td>
             <td>
-                <select multiple id="SubmittedByNames" style="width:200px">
+                <select multiple id="SubmittedByNames" style="width:150px">
                     <%if(submittedBy && submittedBy.length>0){%>
                     <% for (var i=0; i<submittedBy.length; i++){%>
                     <option onclick="document.location.href='#openSurvey/<%= SurveyNo %>/<%= submittedBy[i] %>'" value="<%= submittedBy[i] %>"><%= submittedBy[i] %> </option>
@@ -587,7 +587,7 @@
                    <%= languageDict.attributes.Details %>
                 </a>
                 <a class='btn btn-info' onclick="App.Router.downloadCommunitySurveys('<%= SurveyNo %>', '<%= submittedBy %>')">
-                    Download in CSV
+                    Download
                 </a>
                 <a class='btn btn-danger destroy'>
                     <%= languageDict.attributes.DeleteLabel %>

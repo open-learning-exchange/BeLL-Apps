@@ -3292,8 +3292,8 @@ $(function() {
         },
 
         downloadCommunitySurveys: function (surveyNo, communityNames) {
+            var that = this;
             if(communityNames.length > 0) {
-                alert(surveyNo);
                 communityNames = communityNames.split(',');
                 $.ajax({
                     url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
@@ -3309,7 +3309,67 @@ $(function() {
                                 surveyResModels.push(jsonRows[i].value);
                             }
                         }
-                        console.log(surveyResModels);
+                        if(surveyResModels.length > 0) {
+                            console.log(surveyResModels);
+                            var jsonObjectsData = [];
+                            var surveyTitle;
+                            for(var j = 0 ; j < surveyResModels.length ; j++) {
+                                surveyTitle = surveyResModels[j].SurveyTitle;
+                                var commName = surveyResModels[j].communityName;
+                                var gender = surveyResModels[j].genderOfMember;
+                                var birthYear = surveyResModels[j].birthYearOfMember;
+                                var surAnswers = surveyResModels[j].answersToQuestions;
+                                var surAnswersIdes = ''
+                                _.each(surAnswers, function(item) {
+                                    surAnswersIdes += '"' + item + '",'
+                                })
+                                if (surAnswersIdes != ''){
+                                    surAnswersIdes = surAnswersIdes.substring(0, surAnswersIdes.length - 1);
+                                }
+                                var answersColl = new App.Collections.SurveyAnswers();
+                                answersColl.keys = encodeURI(surAnswersIdes)
+                                answersColl.fetch({
+                                    async: false
+                                });
+                                var answerModels = answersColl.models;
+                                var answersArray = [];
+                                for(var k = 0 ; k < answerModels.length ; k++) {
+                                    answersArray.push(answerModels[k].attributes);
+                                }
+                                for(var x = 0 ; x < answersArray.length ; x++) {
+                                 if(answersArray[x].Type == 'Rating Scale') {
+                                     for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
+                                         var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
+                                         JSONObj.Community = commName;
+                                         JSONObj.Gender = gender;
+                                         JSONObj.BirthYear = birthYear;
+                                         JSONObj.QType = answersArray[x].Type;
+                                         JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
+                                         JSONObj.Options = answersArray[x].Ratings;
+                                         JSONObj.Answer = answersArray[x].Answer[y];
+                                         jsonObjectsData.push(JSONObj)
+                                     }
+
+                                 } else {
+                                     var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
+                                     JSONObj.Community = commName;
+                                     JSONObj.Gender = gender;
+                                     JSONObj.BirthYear = birthYear;
+                                     JSONObj.QType = answersArray[x].Type;
+                                     JSONObj.QStatement = answersArray[x].Statement;
+                                     if(answersArray[x].Options){
+                                         JSONObj.Options = answersArray[x].Options;
+                                     }
+                                     JSONObj.Answer = answersArray[x].Answer;
+                                     jsonObjectsData.push(JSONObj)
+                                 }
+                                }
+                            }
+                            console.log(jsonObjectsData);
+                            that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
+                        } else {
+                           alert("There is no data available to download against this survey");
+                        }
                     },
                     error: function (err) {
                         console.log(err);
@@ -3320,12 +3380,12 @@ $(function() {
             }
         },
 
-        JSONToCSVConvertor: function (JSONData, ReportTitle, label) {
+        JSONToCSVConvertor: function (JSONData, ReportTitle) {
             //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
             var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
             var CSV = '';
             //Set Report title in first row or line
-            CSV += label + '\r\n\n';
+            //CSV += label + '\r\n\n';
             //This will generate the Label/Header
             var row = "";
             //This loop will extract the label from 1st index of on array
@@ -3368,7 +3428,7 @@ $(function() {
             link.style = "visibility:hidden";
             link.download = fileName + ".csv";
             //this part will append the anchor tag and remove it after automatic click
-            this.$el.append(link);
+            App.$el.append(link);
             link.click();
         },
 
