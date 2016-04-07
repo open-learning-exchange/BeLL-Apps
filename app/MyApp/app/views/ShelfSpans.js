@@ -44,13 +44,13 @@ $(function() {
                         {
                             var hrefUrl = '/apps/_design/bell/bell-resource-router/index.html#open/' + vars._id + '/'+ vars.title;
                             resourceUrlRow = '<tr>' +
-                                '<td style="text-align:center;vertical-align: middle;" onclick="openResourceDetail(\'' + key + '\')"><a target="_blank" href="' + hrefUrl + '">' + arr[1] + '</a></td>' +
+                                '<td colspan="2" style="text-align:center;vertical-align: middle;" onclick="openResourceDetail(\'' + key + '\')"><a target="_blank" href="' + hrefUrl + '">' + vars.title + '</a></td>' +
                                 '</tr>';
                         }
                         else
                         {
                             resourceUrlRow = '<tr>' +
-                                '<td style="text-align:center;vertical-align: middle;"><a>' + arr[1] + '</a></td>' +
+                                '<td colspan="2" style="text-align:center;vertical-align: middle;"><a>' + vars.title + '</a></td>' +
                                 '</tr>';
                         }
                         $('#ur').append('<td class="shelf-box">' +
