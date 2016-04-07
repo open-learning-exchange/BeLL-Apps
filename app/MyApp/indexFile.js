@@ -1032,6 +1032,67 @@ function changeRatingImage(checkID, count) {
     }
 }
 
+function deleteResource(id){
+
+    var mId = $.cookie('Member._id');
+    var memberShelfResource = new App.Collections.shelfResource()
+    memberShelfResource.resourceId = id;
+    memberShelfResource.memberId = mId;
+    memberShelfResource.fetch({
+        async: false
+    });
+
+    memberShelfResource.each(
+        function(e) {
+            e.destroy()
+        });
+    alert(App.languageDict.attributes.Resource_RemovedFrom_Shelf_Success);
+    //Backbone.history.loadUrl();
+}
+
+function openResourceDetail(id){
+    var resourcefreq = new App.Collections.ResourcesFrequency();
+    resourcefreq.memberID = $.cookie('Member._id');
+    resourcefreq.fetch({
+        async: false
+    });
+
+    if (resourcefreq.length == 0) {
+        var freqmodel = new App.Models.ResourceFrequency();
+        freqmodel.set("memberID", $.cookie('Member._id'));
+        freqmodel.set("resourceID", [id]);
+        freqmodel.set("reviewed", [0]);
+        freqmodel.set("frequency", [1]);
+        freqmodel.save();
+    } else {
+        var freqmodel = resourcefreq.first();
+        var index = freqmodel.get("resourceID").indexOf(id.toString());
+        if (index != -1) {
+            var freq = freqmodel.get('frequency');
+            freq[index] = freq[index] + 1;
+            freqmodel.save();
+        } else {
+            freqmodel.get("resourceID").push(id);
+            freqmodel.get("frequency").push(1);
+            if (!freqmodel.get("reviewed")) {
+                freqmodel.set("reviewed", [0]);
+            } else {
+                freqmodel.get("reviewed").push(0);
+            }
+            freqmodel.save();
+        }
+    }
+    var resInfo = new App.Models.Resource({
+        _id: id
+    });
+    resInfo.fetch({
+        async:false
+    });
+    $('ul.nav').html($('#template-nav-logged-in').html()).hide();
+    Backbone.history.navigate('resource/feedback/add/' + id + '/' + resInfo.get("title"), {
+        trigger: true
+    });
+}
 function showRequestForm(modl) {
     App.renderRequest(modl);
 

@@ -3,8 +3,8 @@
     width:100%;
 }
 .btable .btn{
-	
-	display: inline-block;
+
+    display: inline-block;
 }
 
 .btable-striped tbody > tr:nth-child(2n+1) > td, .btable-striped tbody > tr:nth-child(2n+1) > th {
@@ -18,21 +18,39 @@
     vertical-align: top;
 }*/
 .inner-table{
-	table-layout: fixed; 
-	width: 100%;
-	height: 100%;
-	overflow-y: hidden;
-	border-collapse:collapse;
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    border-collapse:collapse;
+}
+.inner-table-shelf{
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    border-collapse:collapse;
 }
 .inner-table td{
-font-family: verdana;
-  font-weight:bold;
-  text-align:center;
-  vertical-align: middle;
-  width:112px;
-  height:100%;
-  font:verdana;
-  color:white;
+    font-family: verdana;
+    font-weight:bold;
+    text-align:center;
+    vertical-align: middle;
+    width:112px;
+    height:100%;
+    font:verdana;
+    color:white;
+
+}
+.inner-table-shelf td{
+    font-family: verdana;
+    font-weight:bold;
+//text-align:center;
+//vertical-align: middle;
+    width:112px;
+    height:100%;
+    font:verdana;
+    color:white;
 
 }
 .inner-table td a{
@@ -41,48 +59,48 @@ font-family: verdana;
     font-weight: bold;
     text-align: center;
     text-decoration: none;;
-	height: 27%;
-	padding-top: 5%;
+    height: 27%;
+    padding-top: 5%;
     display: block;
     word-wrap: inherit;
 }
 
 .inner {
-  overflow-x:auto;
-  width:811px;
-  height: 89px;
+    overflow-x:auto;
+    width:811px;
+    height: 89px;
 }
 .shelf-box
 {
-background-color: #7d609e;
-border-right: 2px solid white;
-font-family: verdana;
-word-wrap:break-word;
+    background-color: #7d609e;
+    border-right: 2px solid white;
+    font-family: verdana;
+    word-wrap:break-word;
 }
 .inner-table > .shelf-box > a{
-   padding-top: 4%;
+    padding-top: 4%;
 }
 .course-box
 {
-background-color: #3f75a3;
-border-right: 2px solid white;
-font-family: verdana;
-word-wrap:break-word;
+    background-color: #3f75a3;
+    border-right: 2px solid white;
+    font-family: verdana;
+    word-wrap:break-word;
 }
 
 .meetup-box
 {
-background-color: #2f816f;
-border-right: 2px solid white;
-word-wrap:break-word;
+    background-color: #2f816f;
+    border-right: 2px solid white;
+    word-wrap:break-word;
 }
 .displayCourse{
-	height:100%;
+    height:100%;
 }
 
 .login-form-button
 {
-	display: block;
+    display: block;
     font-size: 27px;
     font-weight: bold;
     padding-left: 35%;
@@ -107,7 +125,7 @@ word-wrap:break-word;
 }
 .addMarginsOnCourseEng
 {
-width:110px;
+    width:110px;
 }
 .btn.btn-success
 {
@@ -118,7 +136,7 @@ width:110px;
     padding-left: 10%;
     margin-top: 9px;
     display: inline;
-    padding-right: 10%;	
+    padding-right: 10%;
 }
 .login-form > .bbf-form > fieldset
 {
@@ -137,24 +155,24 @@ bbf-form ul{border: 5px solid;}
 .login-form .field-login label, .login-form .field-password label
 {font-size: 22px;}
 
-.login-form .field-login .bbf-editor input[name="login"],.login-form .field-password .bbf-editor input[name="password"] 
+.login-form .field-login .bbf-editor input[name="login"],.login-form .field-password .bbf-editor input[name="password"]
 {
     height: 30px;
     width: 285px;
 }
 .page-bottom-navtable td
 {
-	width: 40px;
-	border: 2px solid transparent;
+    width: 40px;
+    border: 2px solid transparent;
 }
 .signup-form > .bbf-form{
-  /*  background-color: #34495E;   Removed background-color for AddEvent on Calender*/
-     border-radius: 20px 20px 0 0;
+    /*  background-color: #34495E;   Removed background-color for AddEvent on Calender*/
+    border-radius: 20px 20px 0 0;
 }
 .signup-form {
-	margin-left: 20%;
-	margin-right: 20%;
-	width: 64%;
+    margin-left: 20%;
+    margin-right: 20%;
+    width: 64%;
 }
 .signup-form fieldset {
     border: medium none;
@@ -183,23 +201,23 @@ bbf-form ul{border: 5px solid;}
 
 
 .fc-header{
-	float:left;	
+    float:left;
 }
 
 #addEvent{
-	padding-bottom: 20px;
+    padding-bottom: 20px;
     padding-top: 20px;
 }
 
 .addEvent-btn.btn.btn-success{
-	padding-bottom: 15px;
+    padding-bottom: 15px;
     padding-top: 15px;
-margin-top:-10px;
+    margin-top:-10px;
 }
 
 .resourceDetail{
-	width: 80%;
-	margin: 0px auto;
+    width: 80%;
+    margin: 0px auto;
 }
 
 .btn.open.btn-success {
@@ -212,25 +230,25 @@ margin-top:-10px;
 }
 .table.assignmenttable th
 {background-color: #34495E;
-   color: #FFFFFF;}
+    color: #FFFFFF;}
 
 .table.assignmenttable td a
 {margin-left: 5%;
-	font-size: 21px;
+    font-size: 21px;
 }
 #star {
- color: #FFFFFF;
+    color: #FFFFFF;
     padding-left: 44px;
     width: 500px !important;
     padding-top: 10px;
 }
 
 .feedback_form label{
-	color:black;
+    color:black;
 }
 
 .feedback_form fieldset{
-	border:none;
+    border:none;
 }
 .feedback_form .bbf-editor > input
 { width: 20%;}
@@ -242,7 +260,7 @@ margin-top:-10px;
 }
 .signup-form #fileAttachment
 {
- background-color: #34495E;
+    background-color: #34495E;
     border-radius: 0 0 20px 20px;
     color: #FFFFFF;
 }
@@ -250,33 +268,33 @@ margin-top:-10px;
     font-weight: bolder;
 }
 h3 a{
-color:white;
+    color:white;
 }
 
 #accordion .btn-success, #accordion .btn-disabled {
     color: #FFFFFF;
     font-size: 15px;
     font-weight: 900;
-       padding: 7px 10px 6px;
+    padding: 7px 10px 6px;
     margin-top: 0; !important
 }
 .table-feedback{
-text-align:left;
-display: block;
-border:none;
+    text-align:left;
+    display: block;
+    border:none;
 }
 .table-feedback th{
-text-align:center;
+    text-align:center;
 }
 .table-feedback tr{
-line-height: 34px;
-border-bottom:1px solid black;
+    line-height: 34px;
+    border-bottom:1px solid black;
 }
 .table-feedback td{
-  font-size: 19px;
+    font-size: 19px;
 }
 .takeQuizDiv {
-  background-color: #34495E;
+    background-color: #34495E;
     border-radius: 20px;
     color: #FFFFFF;
     margin-left: 10%;
@@ -286,39 +304,39 @@ border-bottom:1px solid black;
     width: 75%;
     z-index: 1;
     padding-right: 5%;
-   
+
 }
 .takeQuizDiv .btn-danger{
- width: 25%;
- float:left;
+    width: 25%;
+    float:left;
 }
 .takeQuizDiv .btn-primary{
- width: 25%;
-  float:right;
+    width: 25%;
+    float:right;
 }
 
 .quizText textarea{
-   background-color: #FFFFFF;
+    background-color: #FFFFFF;
     border-radius: 14px;
     color: #000000;
     width: 100%;
 }
 .Progress{
-position:relative;
+    position:relative;
 }
 .quizText{
-position:relative;
+    position:relative;
 }
 .quizOptions{
-position:relative;
- margin-bottom: 22px;
+    position:relative;
+    margin-bottom: 22px;
 }
 .quizActions{
-position:relative;
- margin-bottom: 76px;
+    position:relative;
+    margin-bottom: 76px;
 }
 #site-feedback{
-     background-color: #34495E;
+    background-color: #34495E;
     border-radius: 0px 0px 20px 20px;
     color: #FFFFFF;
     height: 0px;
@@ -330,32 +348,32 @@ position:relative;
     z-index:10;
 }
 #site-feedback fieldset{
-border:none;
-height:100%;
+    border:none;
+    height:100%;
 }
 
 #site-feedback .bbf-form{
-height: 72%;
+    height: 72%;
 }
 #site-feedback .bbf-form .bbf-editor{
-height: 72%;
+    height: 72%;
 }
 #site-feedback ul{
-height:80%;
+    height:80%;
 }
 #site-feedback li{
-height:100%;
+    height:100%;
 }
 #f-formButton{
-  margin-left: 5%;
-  margin-top: -12px;
-  margin-top:3%;
+    margin-left: 5%;
+    margin-top: -12px;
+    margin-top:3%;
 }
 
 #f-formButton button{
-float:left;
-margin-left: 1px;
-width: 33%;
+    float:left;
+    margin-left: 1px;
+    width: 33%;
 }
 
 textarea[name="comment"]
@@ -368,19 +386,19 @@ textarea[name="comment"]
 {height: 22px;
     width: 32px;
 }
-    
+
 .ui-accordion.ui-widget.ui-helper-reset.ui-sortable {
     width: 99%;
 }
 .Course-table{
-	width:100%;
-	 border-collapse: collapse;
+    width:100%;
+    border-collapse: collapse;
 }
 .level-section-data{
-	height: 47px;
+    height: 47px;
 }
 .level-section-title{
-	  background-color: #C4EFFD;
+    background-color: #C4EFFD;
     height: 60px;
     font-size: 19px;
 }
@@ -396,14 +414,14 @@ textarea[name="comment"]
 }
 
 #veticallable{
- float: left;
+    float: left;
     height: 45%;
     padding-top: 10%;
     position: relative;
     width: 14px;
 }
 #graph{
-  float: left;
+    float: left;
     width: 98%;
 }
 #horizontallabel{
@@ -429,8 +447,8 @@ textarea[name="comment"]
 }
 
 #externalDiv fieldset{
-border:none;
-font-weight: 900;
+    border:none;
+    font-weight: 900;
 }
 #externalDiv > form {
     margin-bottom: 48px;
@@ -439,8 +457,8 @@ font-weight: 900;
 .mail-table {
     height: 46px;
     overflow: hidden;
-	 width: 80%;
-	  margin-left: 10%;
+    width: 80%;
+    margin-left: 10%;
 }
 #commentButton{
 
@@ -470,7 +488,7 @@ font-weight: 900;
     margin-left: 33%;
 }
 #comment-feedback fieldset{
-border:none;
+    border:none;
 }
 #tile {
     background-color: #34495E;
@@ -485,42 +503,42 @@ border:none;
     border: 2px solid #000000;
     overflow: hidden;
     width: 940px;
-	color:white;
-	margin:0px auto;
-	background-color:#1ABC9C;
-	border-collapse:collapse;
+    color:white;
+    margin:0px auto;
+    background-color:#1ABC9C;
+    border-collapse:collapse;
 }
 .courseInfo-table th
 {background-color:#34495E;
-	font-weight: bolder;
-	    height: 40px;
-	font-size: 30px;
-	}
+    font-weight: bolder;
+    height: 40px;
+    font-size: 30px;
+}
 .courseInfo-table tr
 {
- border-top: 2px dashed #000000;	
-	font-size: 17px;
-  font-weight: 900;
-  height: 47px;
-  overflow: hidden;	
+    border-top: 2px dashed #000000;
+    font-size: 17px;
+    font-weight: 900;
+    height: 47px;
+    overflow: hidden;
 }
 .courseInfo-table tr
 {background-color:#1ABC9C;}
 
 .courseInfo-table-td-title
 {
-	width:50%;
-	padding-left: 5%;
+    width:50%;
+    padding-left: 5%;
 }
 
 .courseInfo-table-td-link
 {
-	width:50%;
+    width:50%;
 }
 
 .courseInfo-header
 {
     width: 940px;
-	color:white;
-	margin:0px auto;
+    color:white;
+    margin:0px auto;
 }
