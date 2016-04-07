@@ -992,25 +992,25 @@
     </td>
     <td>
 
-      <a id="open" class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/nation/<%= _id %>' target="_blank">
-       Open
+      <a id="open" class='btn btn-success' value='<%= _id %>' href='/apps/_design/bell/bell-resource-router/index.html#openreport/nation/<%= _id %>//<%= title %>' target="_blank">
+       <%= languageDict.attributes.Open %>
       </a>
     </td>
  
     <td>
-      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>">Comment</button>
+      <button  id="commentButton" class="btn btn-primary" value="<%= _id %>"> <%= languageDict.attributes.Comment %></button>
     </td>
    
     <td>
     	<%if(isManager>-1){%>
     	<td>
     	<a href="#reports/edit/<%= _id %>" class="btn btn-warning">
-        Details
+            <%= languageDict.attributes.Details %>
       </a>
       </td>
       <td>
       <a class='btn btn-danger destroy'>
-        Delete
+          <%= languageDict.attributes.DeleteLabel %>
       </a>
       </td>
       <%}%>

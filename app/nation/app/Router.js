@@ -3640,6 +3640,36 @@ $(function() {
             var roles = loggedIn.get("roles")
             $('ul.nav').html($("#template-nav-logged-in").html()).show()
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
+
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var reports = new App.Collections.Reports()
             reports.fetch({
                 async: false
@@ -3649,18 +3679,24 @@ $(function() {
             })
             resourcesTableView.isManager = roles.indexOf("Manager")
             resourcesTableView.render()
-            App.$el.children('.body').html('')
+            App.$el.children('.body').html('');
+            App.$el.children('.body').html('<div id="parentDiv"></div>')
             if (roles.indexOf("Manager") > -1) {
-                App.$el.children('.body').append('<p><a class="btn btn-success" href="#reports/add">Add a new Report</a>' +
-                    '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">Trend Activity Report</a></p>')
+                $('#parentDiv').append('<p><a class="btn btn-success" href="#reports/add">'+App.languageDictValue.get('Add_a_New_Report')+'</a>' +
+                    '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDictValue.attributes.Trend+" " +App.languageDictValue.attributes.Activity_Report+'</a></p>')
             }
             var temp = $.url().attr("host").split(".")
-            temp = temp[0].substring(3)
+          //  temp = temp[0].substring(3)
+            temp = temp[0]
             if (temp.length == 0) {
                 temp = temp + "Nation"
             }
-            App.$el.children('.body').append('<h4><span style="color:gray;">' + temp + '</span> | Reports</h4>')
-            App.$el.children('.body').append(resourcesTableView.el);
+            $('#parentDiv').append('<h4><span style="color:gray;">' + temp + '</span> | '+App.languageDictValue.attributes.Reports+'</h4>')
+            $('#parentDiv').append(resourcesTableView.el);
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('#parentDiv p').find('a').eq(1).css({"margin-left":"0px","margin-right":"20px"})
+            }
 
             App.stopActivityIndicator()
 
