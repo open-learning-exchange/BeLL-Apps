@@ -19,7 +19,27 @@ $(function() {
         },
 
         sendSurveyToMembers: function() {
-            alert("In sendSurveyToMembers");
+            var that = this;
+            App.startActivityIndicator();
+            var selectedGenderValues = $('#genderSelect').val();
+            var selectedAgeGroupValues = $('#ageGroupSelect').val();
+            if (!selectedGenderValues) {
+                alert('Please select gender first')
+                return
+            } else if (!selectedAgeGroupValues) {
+                alert('Please select age group first')
+                return
+            } else {
+                alert(that.surveyId);
+                console.log(selectedGenderValues);
+                console.log(selectedAgeGroupValues);
+                $('#invitationdiv').fadeOut(1000)
+                setTimeout(function() {
+                    $('#invitationdiv').hide()
+                }, 1000);
+                App.stopActivityIndicator();
+                $('#addQuestion').css('pointer-events','auto');
+            }
         },
 
         render: function() {
