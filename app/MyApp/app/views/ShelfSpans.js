@@ -27,16 +27,14 @@ $(function() {
                         var cancelButton = '';
                         if(App.languageDict.get('directionOfLang').toLowerCase() === "right")
                         {
-                            cancelButton = '<tr>' +
-                                '<td align="left"><a href="#" onclick="deleteResource(\'' + key + '\')"><img src="img/DeleteRed.png" width="10" height="10"></a></td>' +
-                                '<td></td>' +
+                            cancelButton = '<tr style="height: 37%">' +
+                                '<td align="left" valign="top"><a href="#" onclick="deleteResource(\'' + key + '\')"><img src="img/DeleteRed.png" ></a></td>' +
                                 '</tr>';
                         }
                         else
                         {
-                            cancelButton = '<tr>' +
-                                '<td></td>' +
-                                '<td align="right"><a href="#" onclick="deleteResource(\'' + key + '\')"><img src="img/DeleteRed.png" width="10" height="10"></a></td>' +
+                            cancelButton = '<tr style="height: 37%">' +
+                                '<td align="right" valign="top"><a href="#" onclick="deleteResource(\'' + key + '\')"><img src="img/DeleteRed.png" ></a></td>' +
                                 '</tr>';
                         }
                         var resourceUrlRow = '';
@@ -44,17 +42,17 @@ $(function() {
                         {
                             var hrefUrl = '/apps/_design/bell/bell-resource-router/index.html#open/' + vars._id + '/'+ vars.title;
                             resourceUrlRow = '<tr>' +
-                                '<td colspan="2" style="text-align:center;vertical-align: middle;" onclick="openResourceDetail(\'' + key + '\')"><a target="_blank" href="' + hrefUrl + '">' + vars.title + '</a></td>' +
+                                '<td colspan="2" style="text-align:center;vertical-align: text-bottom;" onclick="openResourceDetail(\'' + key + '\')"><a style="color:white;" target="_blank" href="' + hrefUrl + '">' + vars.title + '</a></td>' +
                                 '</tr>';
                         }
                         else
                         {
                             resourceUrlRow = '<tr>' +
-                                '<td colspan="2" style="text-align:center;vertical-align: middle;"><a>' + vars.title + '</a></td>' +
+                                '<td colspan="2" style="text-align:center;vertical-align: text-bottom;"><a style="color:white;">' + vars.title + '</a></td>' +
                                 '</tr>';
                         }
                         $('#ur').append('<td class="shelf-box">' +
-                            '<table style="width: 100%">' +
+                            '<table style="width: 100%;height: 100%">' +
                             cancelButton +
                             resourceUrlRow +
                             '</table>' +
