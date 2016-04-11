@@ -420,16 +420,25 @@ $(function() {
                         "timesOpenedByFemales": report_female_opened[indices[i]]
                     };
                     if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
-                        most_freq_res_entry["avgRatingCumulative"] = "N/A";
-                        most_freq_res_entry["avgRatingByMales"] = "N/A";
-                        most_freq_res_entry["avgRatingByFemales"] = "N/A";
-                        most_freq_res_entry["timesRatedByMales"] = "N/A";
-                        most_freq_res_entry["timesRatedByFemales"] = "N/A";
-                        most_freq_res_entry["timesRatedCumulative"] = "N/A";
+                        most_freq_res_entry["avgRatingCumulative"] = App.languageDictValue.get('Not_Applicable');
+                        most_freq_res_entry["avgRatingByMales"] = App.languageDictValue.get('Not_Applicable');
+                        most_freq_res_entry["avgRatingByFemales"] = App.languageDictValue.get('Not_Applicable');
+                        most_freq_res_entry["timesRatedByMales"] = App.languageDictValue.get('Not_Applicable');
+                        most_freq_res_entry["timesRatedByFemales"] = App.languageDictValue.get('Not_Applicable');
+                        most_freq_res_entry["timesRatedCumulative"] = App.languageDictValue.get('Not_Applicable');
                     } else {
+                        var mostFreqAvg=Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
+                        if(isNaN(mostFreqAvg))
+                        {
+                            mostFreqAvg=0;
+                        }
+                        else {
+                            mostFreqAvg=Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;;
+                        }
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
-                        most_freq_res_entry["avgRatingCumulative"] = Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
+
+                        most_freq_res_entry["avgRatingCumulative"] =mostFreqAvg;
                         most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
                         most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
                         most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
@@ -479,9 +488,17 @@ $(function() {
                     //*****************************************
                     timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
                     // create highest rated resource entry and push it into Highest_Rated_Resources array
+                    var highRateAvg=Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100;
+                    if(isNaN(highRateAvg))
+                    {
+                        highRateAvg=0;
+                    }
+                    else {
+                        highRateAvg=Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100;
+                    }
                     entry_rated_highest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100,
+                        "avgRatingCumulative":highRateAvg ,
                         "avgRatingByMales": report_male_rating[indicesHighestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesHighestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesHighestRated[i]],
@@ -489,9 +506,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
-                        entry_rated_highest["timesOpenedByMales"] = "N/A";
-                        entry_rated_highest["timesOpenedByFemales"] = "N/A";
-                        entry_rated_highest["timesOpenedCumulative"] = "N/A";
+                        entry_rated_highest["timesOpenedByMales"] = App.languageDictValue.get('Not_Applicable');
+                        entry_rated_highest["timesOpenedByFemales"] = App.languageDictValue.get('Not_Applicable');
+                        entry_rated_highest["timesOpenedCumulative"] = App.languageDictValue.get('Not_Applicable');
                     } else {
                         entry_rated_highest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_highest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -517,9 +534,17 @@ $(function() {
                         name = report_resNames[indices[i]];
                     }
                     //*****************************************
+                    var lowestRated=Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100;
+                    if(isNaN(lowestRated))
+                    {
+                        lowestRated=0;
+                    }
+                    else {
+                        lowestRated=Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100;
+                    }
                     entry_rated_lowest = {
                         "resourceName": name,
-                        "avgRatingCumulative": Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100,
+                        "avgRatingCumulative": lowestRated,
                         "avgRatingByMales": report_male_rating[indicesLowestRated[i]],
                         "avgRatingByFemales": report_female_rating[indicesLowestRated[i]],
                         "timesRatedByMales": report_male_timesRated[indicesLowestRated[i]],
@@ -527,9 +552,9 @@ $(function() {
                         "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
                     };
                     if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
-                        entry_rated_lowest["timesOpenedByMales"] = "N/A";
-                        entry_rated_lowest["timesOpenedByFemales"] = "N/A";
-                        entry_rated_lowest["timesOpenedCumulative"] = "N/A";
+                        entry_rated_lowest["timesOpenedByMales"] = App.languageDictValue.get('Not_Applicable');
+                        entry_rated_lowest["timesOpenedByFemales"] = App.languageDictValue.get('Not_Applicable');
+                        entry_rated_lowest["timesOpenedCumulative"] = App.languageDictValue.get('Not_Applicable');
                     } else {
                         entry_rated_lowest["timesOpenedByMales"] = report_male_opened[indexFound];
                         entry_rated_lowest["timesOpenedByFemales"] = report_female_opened[indexFound];
@@ -1681,13 +1706,42 @@ $(function() {
         //Trend Report for Communities page on nation Ended
         //*************************************************************************************************************
         TrendReport: function() {
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var context = this;
             App.$el.children('.body').html('');
             $('<div id="trend-report-form" style="height: auto"></div>').appendTo(App.$el.children('.body'));
 
             var select = $("<select id='communitySelector'>");
 
-            var label = $("<label>").text('Select Community: ');
+            var label = $("<label>").text(App.languageDictValue.get('Select_Comm')+': ');
             $('#trend-report-form').append(label);
 
             var communityNames = [];
@@ -1706,12 +1760,16 @@ $(function() {
             });
 
             $('#trend-report-form').append(select);
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('#trend-report-form').css({"direction":"rtl"});
+            }
 
             var button = $('<input type="button" style="height: 100%">').attr({
                 id: 'submit',
                 name: 'submit',
                 class: 'btn btn-success',
-                value: 'Generate Report'
+                value: App.languageDictValue.get('Generate_Report')
             });
             $('#trend-report-form').append(button);
 
@@ -3795,7 +3853,7 @@ $(function() {
             }
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {
-                $('.fields .bbf-form').css({"direction":"rtl","float":"right"});
+               // $('.fields .bbf-form').css({"direction":"rtl","float":"right"});
                 $('.form .bbf-field').css({"float":"right"});
             }
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));

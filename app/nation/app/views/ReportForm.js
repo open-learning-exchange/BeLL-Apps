@@ -83,7 +83,12 @@ $(function() {
             vars.languageDict=App.languageDictValue;
             this.$el.html(this.template(vars))
             // @todo this is hackey, should be the following line or assigned to vars.form
-            $('.fields').html(this.form.el)
+            $('.fields').html(this.form.el);
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('.fields .bbf-form').css({"direction":"rtl","float":"right"});
+                $('.form .bbf-field').css({"float":"right"});
+            }
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
 
