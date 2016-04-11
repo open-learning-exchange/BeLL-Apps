@@ -30,9 +30,29 @@ $(function() {
                 alert('Please select age group first')
                 return
             } else {
-                alert(that.surveyId);
-                console.log(selectedGenderValues);
-                console.log(selectedAgeGroupValues);
+                var selectedAgeGroups = [];
+                for(var i = 0 ; i < selectedAgeGroupValues.length ; i++) {
+                    selectedAgeGroups.push(selectedAgeGroupValues[i].split('-'));
+                }
+                var dbUrl = '/members/_design/bell/_view/MemberByGender?include_docs=true';
+                if(selectedGenderValues.length == 1) {
+                    dbUrl = '/members/_design/bell/_view/MemberByGender?include_docs=true&key="' + selectedGenderValues[0] + '"';
+                }
+                $.ajax({
+                    url: dbUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result);
+                        var age = 25;
+                        for(var j = 0 ; j < selectedAgeGroups.length ; j++) {
+                            if(age >= selectedAgeGroups[j][0] && age <= selectedAgeGroups[j][1]) {
+                                alert("Your age group is: " + selectedAgeGroups[j]);
+                            }
+                        }
+                    },
+                    async: false
+                });
                 $('#invitationdiv').fadeOut(1000)
                 setTimeout(function() {
                     $('#invitationdiv').hide()

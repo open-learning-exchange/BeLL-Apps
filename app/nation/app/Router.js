@@ -3592,7 +3592,7 @@ $(function() {
             $('#invitationdiv').html('&nbsp');
             $('#invitationdiv').append(inviteForm.el);
             $('#genderSelect').append("<option value='Male'>Male</option><option value='Female'>Female</option>");
-            $('#ageGroupSelect').append("<option value='1-20'>1-20</option><option value='20-30'>20-30</option><option value='30-40'>30-40</option><option value='40-50'>40-50</option><option value='Above 50'>Above 50</option>");
+            $('#ageGroupSelect').append("<option value='5-14'>Less than 15</option><option value='15-24'>15-24</option><option value='25-44'>25-44</option><option value='45-64'>45-64</option><option value='65-100'>65+</option>");
             $('#addQuestion').css('pointer-events','none');
         },
 
