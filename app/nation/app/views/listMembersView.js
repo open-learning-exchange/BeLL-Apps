@@ -44,10 +44,28 @@ $(function() {
                     dataType: 'json',
                     success: function (result) {
                         console.log(result);
-                        var age = 25;
-                        for(var j = 0 ; j < selectedAgeGroups.length ; j++) {
-                            if(age >= selectedAgeGroups[j][0] && age <= selectedAgeGroups[j][1]) {
-                                alert("Your age group is: " + selectedAgeGroups[j]);
+                        var listOfMembersForSurvey = [];
+                        if(result.rows.length > 0) {
+                            for(var k = 0 ; k < result.rows.length ; k++) {
+                                var model = result.rows[k].doc;
+                                var birthDate = model.BirthDate;
+                                birthDate = birthDate.split('-');
+                                birthDate[2] = birthDate[2].substring(0,2);
+                                birthDate = new Date(birthDate[0], birthDate[1], birthDate[2]);
+                                var todayDate = new Date();
+                                var age = todayDate.getFullYear() - birthDate.getFullYear();
+                                var m = todayDate.getMonth() - birthDate.getMonth();
+                                if (m < 0 || (m == 0 && todayDate.getDate() < birthDate.getDate())) {
+                                    age--;
+                                }
+                                for(var j = 0 ; j < selectedAgeGroups.length ; j++) {
+                                    if(age >= selectedAgeGroups[j][0] && age <= selectedAgeGroups[j][1]) {
+                                        listOfMembersForSurvey.push(model);
+                                    }
+                                }
+                            }
+                            if(listOfMembersForSurvey.length > 0) {
+                                console.log(listOfMembersForSurvey);
                             }
                         }
                     },
