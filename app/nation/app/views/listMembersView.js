@@ -21,6 +21,12 @@ $(function() {
         sendSurveyToMembers: function() {
             var that = this;
             App.startActivityIndicator();
+            var surveyModel = new App.Models.Survey({
+                _id: that.surveyId
+            })
+            surveyModel.fetch({
+                async: false
+            })
             var selectedGenderValues = $('#genderSelect').val();
             var selectedAgeGroupValues = $('#ageGroupSelect').val();
             if (!selectedGenderValues) {
@@ -43,7 +49,6 @@ $(function() {
                     type: 'GET',
                     dataType: 'json',
                     success: function (result) {
-                        console.log(result);
                         var listOfMembersForSurvey = [];
                         if(result.rows.length > 0) {
                             for(var k = 0 ; k < result.rows.length ; k++) {
@@ -65,8 +70,28 @@ $(function() {
                                 }
                             }
                             if(listOfMembersForSurvey.length > 0) {
-                                console.log(listOfMembersForSurvey);
+                                for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
+                                    if(surveyModel.get('receiverIds')) {
+                                        var memberIdForSurvey = listOfMembersForSurvey[x].login + '_' + listOfMembersForSurvey[x].community;
+                                        if(surveyModel.get('receiverIds').indexOf(memberIdForSurvey) == -1) {
+                                            surveyModel.get('receiverIds').push(memberIdForSurvey);
+                                        }
+                                    }
+                                }
+                                surveyModel.save(null, {
+                                    success: function (model, response) {
+                                        alert("Survey has been sent successfully");
+                                    },
+                                    error: function (model, err) {
+                                        console.log(err);
+                                    },
+                                    async: false
+                                });
+                            } else {
+                                alert("No members have been found for the selected options");
                             }
+                        } else {
+                            alert("No members have been found for the selected options");
                         }
                     },
                     async: false
