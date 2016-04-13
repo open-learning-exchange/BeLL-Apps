@@ -9,14 +9,14 @@ $(function () {
 
         },
 
-        add: function (model, isSubmitted) {
+        add: function (model, isSubmitted, memberId) {
             if (isSubmitted) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                    '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
+                    '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
                     '">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
             } else {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                    '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
+                    '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
                     '">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
             }
         },
@@ -44,7 +44,7 @@ $(function () {
                                     surveyDocs.push(row);
                                 });
                                 $.ajax({
-                                    url: '/surveyresponse/_design/bell/_view/surveyResByreceiverIds?_include_docs=true&key="' + memberId + '"',
+                                    url: '/surveyresponse/_design/bell/_view/surveyResBymemberId?_include_docs=true&key="' + memberId + '"',
                                     type: 'GET',
                                     dataType: 'json',
                                     async:false,
@@ -63,10 +63,10 @@ $(function () {
                                             }).indexOf(surveyDoc.SurveyNo);
                                             var isSubmitted = false;
                                             if (index == -1) { // its a survey which is not submitted yet
-                                                that.add(surveyDoc, isSubmitted);
+                                                that.add(surveyDoc, isSubmitted, memberId);
                                             } else { // its an already submitted survey.
                                                 isSubmitted = true;
-                                                that.add(surveyDoc, isSubmitted);
+                                                that.add(surveyDoc, isSubmitted, memberId);
                                             }
                                         });
                                     },

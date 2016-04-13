@@ -5,16 +5,16 @@ $(function () {
         tagName: "table",
         className: "table table-striped",
         surveyInfo:[],
-        add: function (model, isAlreadyDownloaded, isSubmitted) {
+        add: function (model, isAlreadyDownloaded, isSubmitted, memberId) {
             // carry the survey in a variable global to this (SurveyTable) view for use in event handling
             this.surveyInfo[model._id]= model;
             if (isAlreadyDownloaded && isSubmitted) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
+                '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
                 '">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
             } else if (isAlreadyDownloaded && !(isSubmitted)) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted +
+                '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
                 '">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
             } else if (!isAlreadyDownloaded) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
@@ -26,6 +26,17 @@ $(function () {
         },
         render: function () {
             var that = this;
+            var members = new App.Collections.Members()
+            var member, memberId;
+            members.login = $.cookie('Member.login');
+            members.fetch({
+                success: function () {
+                    if (members.length > 0) {
+                        member = members.first();
+                        memberId = member.get('login') + '_' + member.get('community');
+                    }
+                }
+            });
             this.$el.html('<tr><th>Survey No.</th><th>Title</th><th>Actions</th></tr>');
             var nationName = App.configuration.get('nationName');
             var nationUrl = App.configuration.get('nationUrl');
@@ -59,7 +70,7 @@ $(function () {
                                 var isAlreadyDownloaded = false;
                                 var isSubmitted = false;
                                 if (index == -1) { // its a new or yet-to-be-download survey from nation, so display it as new
-                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted);
+                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, memberId);
                                 }
                             });
                         }
@@ -83,11 +94,11 @@ $(function () {
                                 var isSubmitted = false;
                                 if (index == -1) { // its a new survey which is downloaded but not submitted yet
                                     isAlreadyDownloaded = true;
-                                    that.add(surveyDocFromComm, isAlreadyDownloaded, isSubmitted);
+                                    that.add(surveyDocFromComm, isAlreadyDownloaded, isSubmitted, memberId);
                                 } else { // its an already downloaded and submitted survey. display it without the new mark
                                     isAlreadyDownloaded = true;
                                     isSubmitted = true;
-                                    that.add(surveyDocFromComm, isAlreadyDownloaded, isSubmitted);
+                                    that.add(surveyDocFromComm, isAlreadyDownloaded, isSubmitted, memberId);
                                 }
                             });
                         },

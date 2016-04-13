@@ -82,7 +82,7 @@ $(function() {
             'communityManage': 'communityManage',
             'publications/:community': 'Publications',
             'surveys/:community': 'Surveys',
-            'openSurvey/:surveyId/:isSubmitted': 'OpenSurvey',
+            'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys/:member': 'SurveysForMembers'
         },
 
@@ -130,7 +130,7 @@ $(function() {
             App.$el.children('.body').append(SurveysView.el);
         },
 
-        OpenSurvey: function(surveyId, isSubmitted) {
+        OpenSurvey: function(surveyId, isSubmitted, memberId) {
             var surveyModel = new App.Models.Survey({
                 _id: surveyId
             });
@@ -165,7 +165,7 @@ $(function() {
                 var surveyNo = surveyModel.get('SurveyNo');
                 var surveyResModel;
                 $.ajax({
-                    url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?_include_docs=true',
+                    url:'/surveyresponse/_design/bell/_view/surveyResBymemberId?_include_docs=true&key="' + memberId + '"',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
