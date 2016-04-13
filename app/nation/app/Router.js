@@ -776,6 +776,35 @@ $(function() {
         //Issue#80:Add Report button on the Communities page at nation
         //*************************************************************************************************************
         communityReport: function(communityLastSyncDate, communityName, communityCode) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var context = this;
             // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
             var communityChosen = communityCode;
@@ -895,7 +924,7 @@ $(function() {
             var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
             console.log(lastMonthDataset);
             //  ********************************************************************************************************
-            var monthNames = [App.Router.lookup(App.languageDictValue, "Months." + "January"), App.Router.lookup(App.languageDictValue, "Months." + "February"), App.Router.lookup(App.languageDictValue, "Months." + "March"), App.Router.lookup(App.languageDictValue, "Months." + "April"), App.Router.lookup(App.languageDictValue, "Months." + "May"), App.Router.lookup(App.languageDictValue, "Months." + "June"), App.Router.lookup(App.languageDictValue, "Months." + "July"), App.Router.lookup(App.languageDictValue, "Months." + "August"), App.Router.lookup(App.languageDictValue, "Months." + "September"), App.Router.lookup(languageDictValue, "Months." + "October"), App.Router.lookup(App.languageDictValue, "Months." + "November"),App.Router.lookup(languageDictValue, "Months." + "December")];
+            var monthNames = [App.Router.lookup(App.languageDictValue, "Months." + "January"), App.Router.lookup(App.languageDictValue, "Months." + "February"), App.Router.lookup(App.languageDictValue, "Months." + "March"), App.Router.lookup(App.languageDictValue, "Months." + "April"), App.Router.lookup(App.languageDictValue, "Months." + "May"), App.Router.lookup(App.languageDictValue, "Months." + "June"), App.Router.lookup(App.languageDictValue, "Months." + "July"), App.Router.lookup(App.languageDictValue, "Months." + "August"), App.Router.lookup(App.languageDictValue, "Months." + "September"), App.Router.lookup(App.languageDictValue, "Months." + "October"), App.Router.lookup(App.languageDictValue, "Months." + "November"),App.Router.lookup(App.languageDictValue, "Months." + "December")];
             //  ********************************************************************************************************
             // show registered members at end of each month falling in duration of this report
             var totalRegisteredMembers = {
@@ -2618,7 +2647,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: languageDictValue.attributes.Resource_Count
+                            text: App.languageDictValue.attributes.Resource_Count
                         }
                     },
                     tooltip: {
