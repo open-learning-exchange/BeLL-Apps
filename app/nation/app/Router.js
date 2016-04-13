@@ -3633,6 +3633,35 @@ $(function() {
             $("#progress_img").hide()
         },
         modelForm: function(className, modelId, reroute) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'json',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'json',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
 
             // Set up
             var model = new App.Models[className]()
@@ -3641,11 +3670,11 @@ $(function() {
             })
 
 
-            App.$el.children('.body').html('')
+            App.$el.children('.body').html('<div class="directionsAndFloat"></div>')
             // Bind form to the DOM
 
 
-            App.$el.children('.body').append(modelForm.el)
+            $('.directionsAndFloat').append(modelForm.el)
 
             //	.append($button)
             // modelForm.render()
@@ -3675,6 +3704,7 @@ $(function() {
             } else {
                 model.trigger('Model:ready')
             }
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         MemberLogin: function() {
             // Prevent this Route from completing if Member is logged in.
@@ -3718,23 +3748,53 @@ $(function() {
             })
         },
         ListCommunity: function() {
-            App.startActivityIndicator()
-            var Communities = new App.Collections.Community()
-            Communities.fetch({
-                success: function() {
-                    CommunityTable = new App.Views.CommunitiesTable({
-                        collection: Communities
-                    })
-                    CommunityTable.render()
-                    var listCommunity = "<h3> Communities  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>Add Community</a>  </h3><p>*The Total Member Visits and Total Resource Views columns contain data of the current month only</p>"
-
-                    listCommunity += "<div id='list-of-Communities'></div>"
-
-                    App.$el.children('.body').html(listCommunity)
-                    $('#list-of-Communities', App.$el).append(CommunityTable.el)
-
+            App.startActivityIndicator();
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'json',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'json',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
                 }
-            })
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            var Communities = new App.Collections.Community();
+            Communities.fetch({
+                    async: false
+                }
+            );
+            CommunityTable = new App.Views.CommunitiesTable({
+                collection: Communities
+            });
+            CommunityTable.render();
+            var listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>"
+
+            listCommunity += "<div id='list-of-Communities'></div>"
+
+            App.$el.children('.body').html('<div id="communityDiv"></div>');
+            $('#communityDiv').append(listCommunity);
+            $('#list-of-Communities', App.$el).append(CommunityTable.el);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
 
             App.stopActivityIndicator()
 

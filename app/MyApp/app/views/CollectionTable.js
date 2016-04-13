@@ -76,7 +76,7 @@ $(function() {
                 
                 $('#mainMergeDiv').append(viewText)
                 
-                $('#mainMergeDiv').append('<br><div id="mergeCollectionDiv"><label style=""><b>'+App.languageDict.attributes.Nam_e+'</b></label><input id="collectionName" type="text"></input></div>')
+                $('#mainMergeDiv').append('<br><div id="mergeCollectionDiv"><label style=""><b>'+App.languageDict.attributes.Name+'</b></label><input id="collectionName" type="text"></input></div>')
                 $('#invitationdiv select').multiselect().multiselectfilter();
 				$('#invitationdiv select').multiselect({
 					checkAllText: App.languageDict.attributes.checkAll,
