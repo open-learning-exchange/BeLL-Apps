@@ -83,7 +83,7 @@ $(function() {
             var endDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(lastDay));
             $.ajax({
                 url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocByCommunityCodeWithValue?_include_docs=true&&startkey=["' + communityCode + '","' + startDate + '"]&endkey=["' +
-                communityCode + '","' + endDate + '"]',
+                    communityCode + '","' + endDate + '"]',
                 type: 'GET',
                 dataType: 'jsonp',
                 success: function(result) {
@@ -116,9 +116,9 @@ $(function() {
                     }
                     // //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
                     var row = "<td>" + community.get('Name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                        "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>Generate Report</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#addCommunity/" +
-                        community.get('_id') + "'> <i class='icon-pencil icon-white'></i>Edit</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
-                        community.get('_id') + "'> <i class='icon-remove icon-white'></i>Delete</a></td>";
+                        "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#addCommunity/" +
+                        community.get('_id') + "'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("EditLabel") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
+                        community.get('_id') + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
                     that.$el.append(row);
                 },
                 error: function() {
