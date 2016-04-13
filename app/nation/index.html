@@ -147,6 +147,7 @@
         <script src="app/views/CommunitySurveysTable.js"></script>
         <script src="app/views/SurveyAnswerTable.js"></script>
         <script src="app/views/SurveyAnswerRow.js"></script>
+        <script src="app/views/listMembersView.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -168,6 +169,10 @@
 		}
 		function SelectCommunity(pId, type){
   			App.Router.SelectCommunities(pId, type)
+     }
+
+     function SelectMembers(surveyId){
+         App.Router.SelectMembers(surveyId);
      }
 
      function hideAllDivs () {

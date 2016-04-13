@@ -23,7 +23,8 @@ $(function() {
             genderOfMember: '',
             birthYearOfMember: '',
             communityName: '',
-            memberId: ''
+            memberId: '',
+            receiverIds: []
         },
 
         schema: {
