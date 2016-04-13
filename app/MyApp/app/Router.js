@@ -82,7 +82,8 @@ $(function() {
             'communityManage': 'communityManage',
             'publications/:community': 'Publications',
             'surveys/:community': 'Surveys',
-            'openSurvey/:surveyId/:isSubmitted': 'OpenSurvey'
+            'openSurvey/:surveyId/:isSubmitted': 'OpenSurvey',
+            'memberSurveys/:member': 'SurveysForMembers'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -202,6 +203,13 @@ $(function() {
                 });
             }
             applyStylingSheet();
+        },
+
+        SurveysForMembers: function(memberId) {
+            var SurveysView = new App.Views.SurveyTableForMembers();
+            SurveysView.render();
+            App.$el.children('.body').html('<h3>Surveys</h3>');
+            App.$el.children('.body').append(SurveysView.el);
         },
 
         communityManage: function() {
