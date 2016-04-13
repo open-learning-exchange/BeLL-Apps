@@ -776,6 +776,35 @@ $(function() {
         //Issue#80:Add Report button on the Communities page at nation
         //*************************************************************************************************************
         communityReport: function(communityLastSyncDate, communityName, communityCode) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var context = this;
             // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
             var communityChosen = communityCode;
@@ -895,7 +924,7 @@ $(function() {
             var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
             console.log(lastMonthDataset);
             //  ********************************************************************************************************
-            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthNames = [App.Router.lookup(App.languageDictValue, "Months." + "January"), App.Router.lookup(App.languageDictValue, "Months." + "February"), App.Router.lookup(App.languageDictValue, "Months." + "March"), App.Router.lookup(App.languageDictValue, "Months." + "April"), App.Router.lookup(App.languageDictValue, "Months." + "May"), App.Router.lookup(App.languageDictValue, "Months." + "June"), App.Router.lookup(App.languageDictValue, "Months." + "July"), App.Router.lookup(App.languageDictValue, "Months." + "August"), App.Router.lookup(App.languageDictValue, "Months." + "September"), App.Router.lookup(App.languageDictValue, "Months." + "October"), App.Router.lookup(App.languageDictValue, "Months." + "November"),App.Router.lookup(App.languageDictValue, "Months." + "December")];
             //  ********************************************************************************************************
             // show registered members at end of each month falling in duration of this report
             var totalRegisteredMembers = {
@@ -1193,7 +1222,7 @@ $(function() {
                     borderRadius: 10
                 },
                 title: {
-                    text: 'Total Registered Members Past 12 Months' //Total Members
+                    text: App.languageDictValue.attributes.registered_past_twelve_months //Total Members
                 },
                 xAxis: {
                     categories: [
@@ -1214,7 +1243,7 @@ $(function() {
                 yAxis: {
                     min: 0,
                     title: {
-                        text: "Members Count"
+                        text: App.languageDictValue.attributes.Members_Count
                     }
                 },
                 tooltip: {
@@ -1232,7 +1261,7 @@ $(function() {
                     }
                 },
                 series: [{
-                    name: 'Males',
+                    name: App.languageDictValue.attributes.Males,
                     data: [
                         registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'],
                         registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'],
@@ -1249,7 +1278,7 @@ $(function() {
                     ],
                     color: '#33ccff'
                 }, {
-                    name: 'Females',
+                    name: App.languageDictValue.attributes.Females,
                     data: [
                         registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'],
                         registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'],
@@ -1266,7 +1295,7 @@ $(function() {
                     ],
                     color: '#66ff66'
                 }, {
-                    name: 'Total',
+                    name: App.languageDictValue.attributes.Total,
                     data: [
                         registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'],
                         registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'],
@@ -1296,7 +1325,7 @@ $(function() {
                     borderRadius: 10
                 },
                 title: {
-                    text: 'Total Visits Past 12 Months' //total Visits
+                    text: App.languageDictValue.attributes.visits_past_twelve_months //total Visits
                 },
                 xAxis: {
                     categories: [
@@ -1318,7 +1347,7 @@ $(function() {
                 yAxis: {
                     min: 0,
                     title: {
-                        text: "Visits Count"
+                        text:  App.languageDictValue.attributes.Visits_Count
                     }
                 },
                 tooltip: {
@@ -1336,7 +1365,7 @@ $(function() {
                     }
                 },
                 series: [{
-                    name: 'Males',
+                    name:  App.languageDictValue.attributes.Males,
                     data: [
 
                         membersVisitsTillTwelfthLastMonthEnd['male'],
@@ -1354,7 +1383,7 @@ $(function() {
                     ],
                     color: '#33ccff'
                 }, {
-                    name: 'Females',
+                    name: App.languageDictValue.attributes.Females,
                     data: [
                         membersVisitsTillTwelfthLastMonthEnd['female'],
                         membersVisitsTillEleventhLastMonthEnd['female'],
@@ -1371,7 +1400,7 @@ $(function() {
                     ],
                     color: '#66ff66'
                 }, {
-                    name: 'Total',
+                    name: App.languageDictValue.attributes.Total,
                     data: [
                         membersVisitsTillTwelfthLastMonthEnd['total'],
                         membersVisitsTillEleventhLastMonthEnd['total'],
@@ -1401,7 +1430,7 @@ $(function() {
                     borderRadius: 10
                 },
                 title: {
-                    text: 'Active Members This Month'
+                    text: App.languageDictValue.attributes.active_members_this_month
                 },
                 xAxis: {
                     categories: [
@@ -1422,7 +1451,7 @@ $(function() {
                 yAxis: {
                     min: 0,
                     title: {
-                        text: "Members Count"
+                        text: App.languageDictValue.attributes.Members_Count
                     }
                 },
                 tooltip: {
@@ -1440,7 +1469,7 @@ $(function() {
                     }
                 },
                 series: [{
-                    name: 'Males',
+                    name: App.languageDictValue.attributes.Males,
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['male'],
                         registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
@@ -1457,7 +1486,7 @@ $(function() {
                     ],
                     color: '#33ccff'
                 }, {
-                    name: 'Females',
+                    name: App.languageDictValue.attributes.Females,
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['female'],
                         registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
@@ -1474,7 +1503,7 @@ $(function() {
                     ],
                     color: '#66ff66'
                 }, {
-                    name: 'Total',
+                    name:  App.languageDictValue.attributes.Total,
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['total'],
                         registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
@@ -1504,7 +1533,7 @@ $(function() {
                     borderRadius: 10
                 },
                 title: {
-                    text: 'Total Member Visits This Month'
+                    text: App.languageDictValue.attributes.members_visits_this_month
                 },
                 xAxis: {
                     categories: [
@@ -1526,7 +1555,7 @@ $(function() {
                 yAxis: {
                     min: 0,
                     title: {
-                        text: "Visits Count"
+                        text: App.languageDictValue.attributes.Visits_Count
                     }
                 },
                 tooltip: {
@@ -1544,7 +1573,7 @@ $(function() {
                     }
                 },
                 series: [{
-                    name: 'Males',
+                    name: App.languageDictValue.attributes.Males,
                     data: [
                         twelfthLastMonthDataset.Visits['male'],
                         eleventhLastMonthDataset.Visits['male'],
@@ -1561,7 +1590,7 @@ $(function() {
                     ],
                     color: '#33ccff'
                 }, {
-                    name: 'Females',
+                    name: App.languageDictValue.attributes.Females,
                     data: [
                         twelfthLastMonthDataset.Visits['female'],
                         eleventhLastMonthDataset.Visits['female'],
@@ -1578,7 +1607,7 @@ $(function() {
                     ],
                     color: '#66ff66'
                 }, {
-                    name: 'Total',
+                    name: App.languageDictValue.attributes.Total,
                     data: [
                         twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
                         eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
@@ -1609,7 +1638,7 @@ $(function() {
                     borderRadius: 10
                 },
                 title: {
-                    text: 'Total Resource Views This Month'
+                    text:  App.languageDictValue.attributes.resource_views_this_month
                 },
                 xAxis: {
                     categories: [
@@ -1631,7 +1660,7 @@ $(function() {
                 yAxis: {
                     min: 0,
                     title: {
-                        text: "Resource count"
+                        text: App.languageDictValue.attributes.Resource_Count
                     }
                 },
                 tooltip: {
@@ -1649,7 +1678,7 @@ $(function() {
                     }
                 },
                 series: [{
-                    name: 'Males',
+                    name: App.languageDictValue.attributes.Males,
                     data: [
                         twelfthLastMonthDataset.ResourceViews['male'],
                         eleventhLastMonthDataset.ResourceViews['male'],
@@ -1666,7 +1695,7 @@ $(function() {
                     ],
                     color: '#33ccff'
                 }, {
-                    name: 'Females',
+                    name: App.languageDictValue.attributes.Females,
                     data: [
                         twelfthLastMonthDataset.ResourceViews['female'],
                         eleventhLastMonthDataset.ResourceViews['female'],
@@ -1683,7 +1712,7 @@ $(function() {
                     ],
                     color: '#66ff66'
                 }, {
-                    name: 'Total',
+                    name: App.languageDictValue.attributes.Total,
                     data: [
                         twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
                         eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
@@ -1892,7 +1921,8 @@ $(function() {
                 var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
                 console.log(lastMonthDataset);
                 //  ********************************************************************************************************
-                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var monthNames = [App.Router.lookup(App.languageDictValue, "Months." + "January"), App.Router.lookup(App.languageDictValue, "Months." + "February"), App.Router.lookup(App.languageDictValue, "Months." + "March"), App.Router.lookup(App.languageDictValue, "Months." + "April"), App.Router.lookup(App.languageDictValue, "Months." + "May"), App.Router.lookup(App.languageDictValue, "Months." + "June"), App.Router.lookup(App.languageDictValue, "Months." + "July"), App.Router.lookup(App.languageDictValue, "Months." + "August"), App.Router.lookup(App.languageDictValue, "Months." + "September"), App.Router.lookup(App.languageDictValue, "Months." + "October"), App.Router.lookup(App.languageDictValue, "Months." + "November"),App.Router.lookup(App.languageDictValue, "Months." + "December")];
+
                 //  ********************************************************************************************************
                 // show registered members at end of each month falling in duration of this report
                 var totalRegisteredMembers = {
@@ -2179,7 +2209,7 @@ $(function() {
                         borderRadius: 10
                     },
                     title: {
-                        text: 'Total Registered Members Past 12 Months' //Total Members
+                        text: App.languageDictValue.attributes.registered_past_twelve_months //Total Members
                     },
                     xAxis: {
                         categories: [
@@ -2200,7 +2230,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Members Count"
+                            text: App.languageDictValue.attributes.Members_Count
                         }
                     },
                     tooltip: {
@@ -2218,7 +2248,7 @@ $(function() {
                         }
                     },
                     series: [{
-                        name: 'Males',
+                        name: App.languageDictValue.attributes.Males,
                         data: [
                             registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'],
                             registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'],
@@ -2235,7 +2265,7 @@ $(function() {
                         ],
                         color: '#33ccff'
                     }, {
-                        name: 'Females',
+                        name: App.languageDictValue.attributes.Females,
                         data: [
                             registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'],
                             registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'],
@@ -2252,7 +2282,7 @@ $(function() {
                         ],
                         color: '#66ff66'
                     }, {
-                        name: 'Total',
+                        name: App.languageDictValue.attributes.Total,
                         data: [
                             registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'],
                             registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'],
@@ -2282,7 +2312,7 @@ $(function() {
                         borderRadius: 10
                     },
                     title: {
-                        text: 'Total Visits Past 12 Months' //total Visits
+                        text: App.languageDictValue.attributes.visits_past_twelve_months //total Visits
                     },
                     xAxis: {
                         categories: [
@@ -2304,7 +2334,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Visits Count"
+                            text:  App.languageDictValue.attributes.Visits_Count
                         }
                     },
                     tooltip: {
@@ -2322,7 +2352,7 @@ $(function() {
                         }
                     },
                     series: [{
-                        name: 'Males',
+                        name: App.languageDictValue.attributes.Males,
                         data: [
 
                             membersVisitsTillTwelfthLastMonthEnd['male'],
@@ -2340,7 +2370,7 @@ $(function() {
                         ],
                         color: '#33ccff'
                     }, {
-                        name: 'Females',
+                        name: App.languageDictValue.attributes.Females,
                         data: [
                             membersVisitsTillTwelfthLastMonthEnd['female'],
                             membersVisitsTillEleventhLastMonthEnd['female'],
@@ -2357,7 +2387,7 @@ $(function() {
                         ],
                         color: '#66ff66'
                     }, {
-                        name: 'Total',
+                        name: App.languageDictValue.attributes.Total,
                         data: [
                             membersVisitsTillTwelfthLastMonthEnd['total'],
                             membersVisitsTillEleventhLastMonthEnd['total'],
@@ -2387,7 +2417,7 @@ $(function() {
                         borderRadius: 10
                     },
                     title: {
-                        text: 'Active Members This Month'
+                        text: App.languageDictValue.attributes.active_members_this_month
                     },
                     xAxis: {
                         categories: [
@@ -2408,7 +2438,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Members Count"
+                            text: App.languageDictValue.attributes.Members_Count
                         }
                     },
                     tooltip: {
@@ -2426,7 +2456,7 @@ $(function() {
                         }
                     },
                     series: [{
-                        name: 'Males',
+                        name: App.languageDictValue.attributes.Males,
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['male'],
                             registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
@@ -2443,7 +2473,7 @@ $(function() {
                         ],
                         color: '#33ccff'
                     }, {
-                        name: 'Females',
+                        name: App.languageDictValue.attributes.Females,
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['female'],
                             registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
@@ -2460,7 +2490,7 @@ $(function() {
                         ],
                         color: '#66ff66'
                     }, {
-                        name: 'Total',
+                        name: App.languageDictValue.attributes.Total,
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['total'],
                             registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
@@ -2490,7 +2520,7 @@ $(function() {
                         borderRadius: 10
                     },
                     title: {
-                        text: 'Total Member Visits This Month'
+                        text: App.languageDictValue.attributes.members_visits_this_month
                     },
                     xAxis: {
                         categories: [
@@ -2512,7 +2542,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Visits Count"
+                            text: App.languageDictValue.attributes.Visits_Count
                         }
                     },
                     tooltip: {
@@ -2530,7 +2560,7 @@ $(function() {
                         }
                     },
                     series: [{
-                        name: 'Males',
+                        name: App.languageDictValue.attributes.Males,
                         data: [
                             twelfthLastMonthDataset.Visits['male'],
                             eleventhLastMonthDataset.Visits['male'],
@@ -2547,7 +2577,7 @@ $(function() {
                         ],
                         color: '#33ccff'
                     }, {
-                        name: 'Females',
+                        name: App.languageDictValue.attributes.Females,
                         data: [
                             twelfthLastMonthDataset.Visits['female'],
                             eleventhLastMonthDataset.Visits['female'],
@@ -2564,7 +2594,7 @@ $(function() {
                         ],
                         color: '#66ff66'
                     }, {
-                        name: 'Total',
+                        name: App.languageDictValue.attributes.Total,
                         data: [
                             twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
                             eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
@@ -2595,7 +2625,7 @@ $(function() {
                         borderRadius: 10
                     },
                     title: {
-                        text: 'Total Resource Views This Month'
+                        text: App.languageDictValue.attributes.resource_views_this_month
                     },
                     xAxis: {
                         categories: [
@@ -2617,7 +2647,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: "Resource count"
+                            text: App.languageDictValue.attributes.Resource_Count
                         }
                     },
                     tooltip: {
@@ -2635,7 +2665,7 @@ $(function() {
                         }
                     },
                     series: [{
-                        name: 'Males',
+                        name: App.languageDictValue.attributes.Males,
                         data: [
                             twelfthLastMonthDataset.ResourceViews['male'],
                             eleventhLastMonthDataset.ResourceViews['male'],
@@ -2652,7 +2682,7 @@ $(function() {
                         ],
                         color: '#33ccff'
                     }, {
-                        name: 'Females',
+                        name: App.languageDictValue.attributes.Females,
                         data: [
                             twelfthLastMonthDataset.ResourceViews['female'],
                             eleventhLastMonthDataset.ResourceViews['female'],
@@ -2669,7 +2699,7 @@ $(function() {
                         ],
                         color: '#66ff66'
                     }, {
-                        name: 'Total',
+                        name: App.languageDictValue.attributes.Total,
                         data: [
                             twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
                             eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
@@ -3025,7 +3055,7 @@ $(function() {
             });
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var type = "survey";
-            App.$el.children('.body').html('<div class="directionsAndFloat" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('Survey_Number') + ' '+ surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button id="sendSurveyBtn" class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send Survey</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br /><label id="select-ratings" >Select the number of ratings:</label> <br><select onchange="display(this.value);" name="rating_count" class="surTextArea" id="select_rating"><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey" disabled="true"><br></span><script> function display(val) { if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"><label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
+            App.$el.children('.body').html('<div class="directionsAndFloat" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('Survey_Number') + ' '+ surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button id="sendSurveyBtn" class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send to Communities</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectMembers(\'' + surveyId + '\')">Send to members</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br /><label id="select-ratings" >Select the number of ratings:</label> <br><select onchange="display(this.value);" name="rating_count" class="surTextArea" id="select_rating"><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey" disabled="true"><br></span><script> function display(val) { if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"><label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
             $('#addQuestion').text(App.languageDictValue.get('Add_Question'));
             $('#sendSurveyBtn').text(App.languageDictValue.get('Send_Survey'));
             $(function () {
@@ -4238,8 +4268,20 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
             {
                 $('#invitationdiv').css({"direction":"rtl"});
             }
-
         },
+
+        SelectMembers: function(surveyId) {
+            $('#invitationdiv').fadeIn(1000)
+            var inviteForm = new App.Views.listMembersView();
+            inviteForm.surveyId =surveyId;
+            inviteForm.render();
+            $('#invitationdiv').html('&nbsp');
+            $('#invitationdiv').append(inviteForm.el);
+            $('#genderSelect').append("<option value='Male'>Male</option><option value='Female'>Female</option>");
+            $('#ageGroupSelect').append("<option value='5-14'>Less than 15</option><option value='15-24'>15-24</option><option value='25-44'>25-44</option><option value='45-64'>45-64</option><option value='65-100'>65+</option>");
+            $('#addQuestion').css('pointer-events','none');
+        },
+
         SyncDbSelect: function() {
             $('#invitationdiv').fadeIn(1000)
             var inviteForm = new App.Views.listSyncDbView()
