@@ -83,7 +83,7 @@ $(function() {
             'publications/:community': 'Publications',
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
-            'memberSurveys/:member': 'SurveysForMembers'
+            'memberSurveys': 'SurveysForMembers'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -205,7 +205,7 @@ $(function() {
             applyStylingSheet();
         },
 
-        SurveysForMembers: function(memberId) {
+        SurveysForMembers: function() {
             var SurveysView = new App.Views.SurveyTableForMembers();
             SurveysView.render();
             App.$el.children('.body').html('<h3>Surveys</h3>');
