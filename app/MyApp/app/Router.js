@@ -4388,9 +4388,10 @@ $(function() {
             } else {
                 alert(App.languageDict.attributes.FeedbackSaved_Not_Resource)
             }
-            Backbone.history.navigate('resources', {
+            /*Backbone.history.navigate('resources', {
                 trigger: true
-            });
+            });*/
+            //window.history.go(0);
         },
         CalendarFunction: function() {
             var members = new App.Collections.Members()
