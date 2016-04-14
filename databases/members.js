@@ -85,7 +85,14 @@ ddoc.views = {
             return sum(values);
         }
 
-    }
+    },
+    MemberByGender: {
+        map: function(doc) {
+            if (doc.Gender && doc.kind == 'Member') {
+                emit(doc.Gender, doc)
+            }
+        }
+    },
 }
 ddoc.filters = {
     adminFilter: function(doc, req) {

@@ -17,7 +17,58 @@ $(function() {
         render: function() {
 
             var Nation = this.model
-            this.$el.append(_.template(this.template, this.vars))
+            this.$el.append(_.template(this.template, this.vars));
+            if(App.languageDictValue.get('directionOfLang').toLowerCase() == "right")
+            {
+                $('.heading').append('<a id="addCommunityLabel" href="">' + App.languageDictValue.get("Add_Community") + '</a>  |   <a href="" id="nationBellLabel">' + App.languageDictValue.get("Nation_Bell") + '</a>');
+            }
+            else
+            {
+                $('.heading').append('<a href="" id="nationBellLabel">' + App.languageDictValue.get("Nation_Bell") + '</a>  |   <a id="addCommunityLabel" href="">' + App.languageDictValue.get("Add_Community") + '</a>');
+            }
+            //$('.heading a#nationBellLabel').text(App.languageDictValue.get("Nation_Bell"));
+            //$('.heading a#addCommunityLabel').text(App.languageDictValue.get("Add_Community"));
+            $('#nation-name').attr('placeholder', App.languageDictValue.get("Name"));
+            $('#community-code').attr('placeholder', App.languageDictValue.get("Code"));
+            $('#nation-url').attr('placeholder', App.languageDictValue.get("Url"));
+
+            $('#nationForm-container div p:eq(0)').text(App.languageDictValue.get("Sponsoring_Organization"));
+
+            $('#org-name').attr('placeholder', App.languageDictValue.get("Name"));
+            $('#org-sponseraddress').attr('placeholder', App.languageDictValue.get("Address"));
+
+            $('#nationForm-container div div p:eq(0)').text(App.languageDictValue.get("General_Manager"));
+
+            $('#org-firstname').attr('placeholder', App.languageDictValue.get("First_Name"));
+
+            $('#org-middlename').attr('placeholder', App.languageDictValue.get("Middle_Names"));
+            $('#org-lastname').attr('placeholder', App.languageDictValue.get("Last_Name"));
+
+            $('#org-phone').attr('placeholder', App.languageDictValue.get("Phone"));
+            $('#org-email').attr('placeholder', App.languageDictValue.get("Email"));
+
+            $('#nationForm-container div p:eq(3)').text(App.languageDictValue.get("Tech_Support"));
+
+            $('#leader-firstname').attr('placeholder', App.languageDictValue.get("First_Name"));
+            $('#leader-middlename').attr('placeholder', App.languageDictValue.get("Middle_Names"));
+            $('#leader-lastname').attr('placeholder', App.languageDictValue.get("Last_Name"));
+            $('#leader-phone').attr('placeholder', App.languageDictValue.get("Phone_M"));
+            $('#leader-email').attr('placeholder', App.languageDictValue.get("Email"));
+            $('#leader-ID').attr('placeholder', App.languageDictValue.get("ID"));
+            $('#leader-password').attr('placeholder', App.languageDictValue.get("Password"));
+
+            $('#nationForm-container div p:eq(4)').text(App.languageDictValue.get("Nation_Contact"));
+
+            $('#urg-name').attr('placeholder', App.languageDictValue.get("Name"));
+            $('#urg-phone').attr('placeholder', App.languageDictValue.get("Url"));
+
+            $('#nationForm-container div p:eq(5)').text(App.languageDictValue.get("Authorized_By"));
+
+            $('#auth-name').attr('placeholder', App.languageDictValue.get("Name"));
+            $('#auth-date').attr('placeholder', App.languageDictValue.get("Date"));
+
+            $('#formButton').text(App.languageDictValue.get("Save"));
+
             if (this.model.id != undefined) {
                 buttonText = "Update"
 
@@ -50,35 +101,6 @@ $(function() {
 
         },
         setForm: function() {
-            var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    console.log(surResult);
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            console.log(resultByDoc);
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
             this.model.set({
                 Name: $('#nation-name').val(),
                 Code: $('#community-code').val(),
@@ -112,11 +134,11 @@ $(function() {
                 success: function(result) {
                     // assumption: if control falls to the success function result.rows will never be undefined. it will value of an array
                     if (result.rows.length > 1) { // if more than one community records with same 'Name' i-e duplicate community Name found in DB
-                        alert(languageDictValue.attributes.Duplicate_CommunityName_Error);
+                        alert(App.languageDictValue.attributes.Duplicate_CommunityName_Error);
                         return;
                     } else if (result.rows.length === 0) { // if no duplicates found in DB
                         context.model.save();
-                        alert(languageDictValue.attributes.Success_Saved_Msg);
+                        alert(App.languageDictValue.attributes.Success_Saved_Msg);
                         App.startActivityIndicator();
                         Backbone.history.navigate('listCommunity', {
                             trigger: true
@@ -130,19 +152,19 @@ $(function() {
                             // its the same community with some edit(s). not a new one which is has same name as another existing community
                             //                            alert("Same community edit");
                             context.model.save();
-                            alert(languageDictValue.attributes.Success_Saved_Msg);
+                            alert(App.languageDictValue.attributes.Success_Saved_Msg);
                             App.startActivityIndicator();
                             Backbone.history.navigate('listCommunity', {
                                 trigger: true
                             });
                             App.stopActivityIndicator();
                         } else {
-                            alert(languageDictValue.attributes.InValid_CommunityName);
+                            alert(App.languageDictValue.attributes.InValid_CommunityName);
                         }
                     }
                 },
                 error: function() {
-                    alert(languageDictValue.attributes.Response_Error);
+                    alert(App.languageDictValue.attributes.Response_Error);
                 }
             });
 

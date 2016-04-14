@@ -147,6 +147,7 @@
         <script src="app/views/CommunitySurveysTable.js"></script>
         <script src="app/views/SurveyAnswerTable.js"></script>
         <script src="app/views/SurveyAnswerRow.js"></script>
+        <script src="app/views/listMembersView.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -155,19 +156,57 @@
   	 var skip = 0;
   	 var skipStack = new Array();
   	 url="unknown";
-  	function showFeedbackForm(){
-	  App.renderFeedback()
-		if(document.getElementById('site-feedback').style.visibility!='visible'){
-		$('#site-feedback').animate({height:'320px'})
-		document.getElementById('site-feedback').style.visibility='visible'
-		}
-		else{
-		$('#site-feedback').animate({height:'toggle'})
-		}
+  	function showFeedbackForm() {
+        var loginOfMem = $.cookie('Member.login');
+        var lang;
+        $.ajax({
+            url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+            type: 'GET',
+            dataType: 'json',
+            async:false,
+            success: function (surResult) {
+                console.log(surResult);
+                var id = surResult.rows[0].id;
+                $.ajax({
+                    url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                    type: 'GET',
+                    dataType: 'json',
+                    async:false,
+                    success: function (resultByDoc) {
+                        console.log(resultByDoc);
+                        lang=resultByDoc.rows[0].value.bellLanguage;
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+        App.languageDictValue=App.Router.loadLanguageDocs(lang);
+        App.languageDict = App.languageDictValue;
+        App.renderFeedback()
+        if (document.getElementById('site-feedback').style.visibility != 'visible') {
+            $('#site-feedback').animate({height: '320px'})
+            document.getElementById('site-feedback').style.visibility = 'visible'
+        }
+        else {
+            $('#site-feedback').animate({height: 'toggle'})
+        }
+        $('#comment').attr('placeholder',App.languageDictValue.attributes.Give_Feedback);
+        if (App.languageDictValue.get('directionOfLang').toLowerCase() === "right") {
+            $('#comment').css('text-align','right');
+        }
 
-		}
+    }
 		function SelectCommunity(pId, type){
   			App.Router.SelectCommunities(pId, type)
+     }
+
+     function SelectMembers(surveyId){
+         App.Router.SelectMembers(surveyId);
      }
 
      function hideAllDivs () {
@@ -244,8 +283,8 @@
                Trend Activity Report for xyz Community as of xx/xx/xxxx-->
     <script type="text/html" id="template-TrendActivityReport">
 
-      <h4>
-          <div><span align ="left">Trend Activity Report for <%= CommunityName %> Community as of <%= lastActivitySyncDate %> </span> </div>
+      <h4 id="parentDiv">
+          <div><span align ="left"><%=languageDict.attributes.Activity_Report%> |  <%= CommunityName %> | <%=languageDict.attributes.last_sync_date%>  <%= lastActivitySyncDate %> </span> </div>
       </h4>
       <div id="trend-report-div-total-members" style = "padding:10px 10px 10px 10px; " ></div>
       <div id="trend-report-div-total-member-visits" style = "padding:10px 10px 10px 10px; " ></div>
@@ -253,17 +292,17 @@
       <div id="trend-report-div-visits" style = "padding:10px 10px 10px 10px; " ></div>
       <div id="trend-report-div-total-resource-views-this-month" style = "padding:10px 10px 10px 10px; " ></div>
 
-      <h4>
-          Facts and Figures
+      <h4 id="parentDiv">
+          <%=languageDict.attributes.Facts_and_Figures%>
       </h4>
-      <table class="table table-striped">
+      <table class="table table-striped" id="parentDiv">
           <tr>
-              <th >Most Frequently Opened</th>
-              <th >Total</th>
-              <th >Male</th>
-              <th >Female</th>
-              <th>Average Rating</th>
-              <th >Times Rated</th>
+              <th ><%=languageDict.attributes.Max_open_Frequency%></th>
+              <th ><%=languageDict.attributes.Total%></th>
+              <th > <%=languageDict.attributes.Male%></th>
+              <th > <%=languageDict.attributes.Female%></th>
+              <th> <%=languageDict.attributes.Average_Rating%></th>
+              <th > <%=languageDict.attributes.Times_Rated%></th>
           </tr>
           <!-- @todo Recording of opening resources is broken.  -->
           <!-- dynamically display each most frequently opened resource entry & its corresponding stats -->
@@ -278,12 +317,12 @@
           </tr>
           <% }); %>
           <tr>
-              <th >Highest Rated</th>
-              <th >Total</th>
-              <th >Male</th>
-              <th >Female</th>
-              <th>Average Rating</th>
-              <th >Times Rated</th>
+              <th > <%=languageDict.attributes.Highest_Rated%></th>
+              <th > <%=languageDict.attributes.Total%></th>
+              <th > <%=languageDict.attributes.Male%></th>
+              <th > <%=languageDict.attributes.Female%></th>
+              <th> <%=languageDict.attributes.Average_Rating%></th>
+              <th > <%=languageDict.attributes.Times_Rated%></th>
           </tr>
           <% _.each(Highest_Rated, function(resource){ %>
           <tr>
@@ -296,12 +335,12 @@
           </tr>
           <% }); %>
           <tr>
-              <th >Lowest Rated</th>
-              <th >Total</th>
-              <th >Male</th>
-              <th >Female</th>
-              <th>Average Rating</th>
-              <th >Times Rated</th>
+              <th > <%=languageDict.attributes.Lowest_Rated%></th>
+              <th > <%=languageDict.attributes.Total%></th>
+              <th > <%=languageDict.attributes.Male%></th>
+              <th > <%=languageDict.attributes.Female%></th>
+              <th> <%=languageDict.attributes.Average_Rating%></th>
+              <th > <%=languageDict.attributes.Times_Rated%></th>
           </tr>
           <% _.each(Lowest_Rated, function(resource){ %>
           <tr>
@@ -857,7 +896,7 @@
    <script type="text/template" id="template-addCommunity">
    <div id='addNation-heading'>
       <p>
-       <p class='heading'> <a href=''>Nation Bell</a>  |   <a href=''>Add Community</a>    </p>
+       <p class='heading'></p>
      </p>
     </div>
 	<div id='nationForm-container'>
