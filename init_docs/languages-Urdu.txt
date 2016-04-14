@@ -758,6 +758,8 @@
  "Done":"Done",
  "Add_To_Pub":"Add To Publication",
  "new_nation_report":"New Nation Report",
+ "Select_Comm":"Select Community",
+ "last_sync_date":"Last Activity sync Date",
  "Add_Community": "Add Community",
  "Member_Resources_Count": "*The Total Member Visits and Total Resource Views columns contain data of the current month only",
  "Last_App": "Last App",
