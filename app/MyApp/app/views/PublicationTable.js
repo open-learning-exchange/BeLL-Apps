@@ -57,6 +57,8 @@
                                     publicationCollection.setUrl(tempUrl);
                                     publicationCollection.fetch({
                                         success: function () {
+                                            var syncedPublication = [];
+                                            var newPublication = [];
                                             _.each(jsonNationPublications.rows,function(row){
                                                 var publicationFromNation = row.doc;
                                                 var alreadySyncedPublications = publicationCollection.models;
@@ -67,11 +69,30 @@
                                                 var isAlreadySynced = false;
                                                 if (index > -1) { // its a new or yet-to-be-synced publication from nation, so display it as new
                                                     isAlreadySynced = true;
-                                                    that.add(nationPublicationDistributionDocId, publicationFromNation, isAlreadySynced);
+                                                    var temp = { "pubDistId":nationPublicationDistributionDocId, "pubDoc":publicationFromNation, "isAlreadySynced":isAlreadySynced, "IssueNo":publicationFromNation.IssueNo };
+                                                    syncedPublication.push(temp);
+                                                   // that.add(nationPublicationDistributionDocId, publicationFromNation, isAlreadySynced);
                                                 } else { // its an already synced publication. display it without the new/unsynced mark
-                                                    that.add(nationPublicationDistributionDocId, publicationFromNation, isAlreadySynced);
+                                                    var temp = { "pubDistId":nationPublicationDistributionDocId, "pubDoc":publicationFromNation, "isAlreadySynced":isAlreadySynced, "IssueNo":publicationFromNation.IssueNo };
+                                                    newPublication.push(temp);
+                                                   // that.add(nationPublicationDistributionDocId, publicationFromNation, isAlreadySynced);
                                                 }
                                             });
+                                            //
+
+
+                                            newPublication.sort(that.sortByProperty('IssueNo'));
+                                            syncedPublication.sort(that.sortByPropertyInDecreasingOrder('IssueNo'));
+                                            //
+                                            for (var i = 0; i<newPublication.length ; i++){
+                                                var temp = newPublication[i];
+                                                that.add(temp.pubDistId, temp.pubDoc, temp.isAlreadySynced);
+                                            }
+                                            for (var i = 0; i<syncedPublication.length ; i++){
+                                                var temp = syncedPublication[i];
+                                                that.add(temp.pubDistId, temp.pubDoc, temp.isAlreadySynced);
+                                            }
+
                                         }
                                     });
                                 },
@@ -92,6 +113,34 @@
 
                 applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             },
+
+            sortByProperty: function(property) {
+            'use strict';
+            return function (a, b) {
+                var sortStatus = 0;
+                if (a[property] < b[property]) {
+                    sortStatus = -1;
+                } else if (a[property] > b[property]) {
+                    sortStatus = 1;
+                }
+
+                return sortStatus;
+            };
+        },
+            sortByPropertyInDecreasingOrder: function(property) {
+                'use strict';
+                return function (a, b) {
+                    var sortStatus = 0;
+                    if (a[property] < b[property]) {
+                        sortStatus = 1;
+                    } else if (a[property] > b[property]) {
+                        sortStatus = -1;
+                    }
+
+                    return sortStatus;
+                };
+            },
+
             synPublication:function(e){
                 var that = this;
                 var pubId = e.currentTarget.name;
