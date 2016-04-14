@@ -156,17 +156,51 @@
   	 var skip = 0;
   	 var skipStack = new Array();
   	 url="unknown";
-  	function showFeedbackForm(){
-	  App.renderFeedback()
-		if(document.getElementById('site-feedback').style.visibility!='visible'){
-		$('#site-feedback').animate({height:'320px'})
-		document.getElementById('site-feedback').style.visibility='visible'
-		}
-		else{
-		$('#site-feedback').animate({height:'toggle'})
-		}
+  	function showFeedbackForm() {
+        var loginOfMem = $.cookie('Member.login');
+        var lang;
+        $.ajax({
+            url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+            type: 'GET',
+            dataType: 'json',
+            async:false,
+            success: function (surResult) {
+                console.log(surResult);
+                var id = surResult.rows[0].id;
+                $.ajax({
+                    url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                    type: 'GET',
+                    dataType: 'json',
+                    async:false,
+                    success: function (resultByDoc) {
+                        console.log(resultByDoc);
+                        lang=resultByDoc.rows[0].value.bellLanguage;
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+        App.languageDictValue=App.Router.loadLanguageDocs(lang);
+        App.languageDict = App.languageDictValue;
+        App.renderFeedback()
+        if (document.getElementById('site-feedback').style.visibility != 'visible') {
+            $('#site-feedback').animate({height: '320px'})
+            document.getElementById('site-feedback').style.visibility = 'visible'
+        }
+        else {
+            $('#site-feedback').animate({height: 'toggle'})
+        }
+        $('#comment').attr('placeholder',App.languageDictValue.attributes.Give_Feedback);
+        if (App.languageDictValue.get('directionOfLang').toLowerCase() === "right") {
+            $('#comment').css('text-align','right');
+        }
 
-		}
+    }
 		function SelectCommunity(pId, type){
   			App.Router.SelectCommunities(pId, type)
      }
