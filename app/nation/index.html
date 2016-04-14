@@ -167,6 +167,13 @@
 		}
 
 		}
+     function showDatabases(){
+         var location=window.location.href;
+         var arr=location.split("/");
+         location=arr[0] + "//" + arr[2];
+         location=location+'/_utils';
+         window.location.href =location;
+     }
 		function SelectCommunity(pId, type){
   			App.Router.SelectCommunities(pId, type)
      }
@@ -732,44 +739,44 @@
 		<tr>
 		<td>
 		<table class="table table-striped" id="communities">
-		<th >Recently Added Communities</th>
+		<th ><%= languageDict.attributes.Recently_added_Coms %></th>
 		
 		</table>
 		</td>
 		<td >
 		<table class="table table-striped" id="publications">
-		<th>New Issues of Publications</th>
+		<th><%= languageDict.attributes.New_issues_Pubs%></th>
 		
 		
 		</table>
 		</td>
-		<td>
+		 <td>
 		<table class="table table-striped">
-		<th>List of Pending Requests</th>
+		<th><%= languageDict.attributes.new_added_surveys %></th>
 		<tr>
 		<td>
-		Request 1
+		Survey 1
 		</td>
 		</tr>
 		<tr>
 		<td>
-		Request 2
+		Survey 2
 		</td>
 		</tr>
 		<tr>
 		<td>
-		Request 3
+		Survey 3
 		</td>
 		</tr>
 		
 		<tr>
 		<td>
-		<button class="btn btn-default" id="clickmore" onclick = "document.location.href='#request'">Click for more</button>
+		<button class="btn btn-default" id="clickmore" onclick = "document.location.href='#Survey'">Click for more</button>
 		</td>
 		</tr>
 		</table>
 		</td>
-		<td>
+	<!--	<td>
 		<table class="table table-striped">
 		<th>Latest Updated Databases</th>
 		<tr >
@@ -794,7 +801,7 @@
 		</td>
 		</tr>
 		</table>
-		</td>
+		</td> -->
 		<td>
 		<table class="table table-striped">
 		<th> Recent Added Reports </th>
@@ -824,8 +831,10 @@
 		</td>
 		</tr>
 		</table>
-      	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>
-	<!--	<table class="page-bottom-navtable">
+      	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton"><%= languageDict.attributes.Configurations %></button></a>
+        <a href="#request"><button class="btn btn-hg btn-primary" ><%= languageDict.attributes.Requests %></button></a>
+        <a><button class="btn btn-hg btn-primary" onclick="showDatabases()"><%= languageDict.attributes.Databases %></button></a>
+        <!--	<table class="page-bottom-navtable">
 			<tr>
 			
 				<td><button class="btn btn-hg btn-primary">Badges</button></td>

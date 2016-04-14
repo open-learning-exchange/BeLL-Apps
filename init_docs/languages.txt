@@ -769,5 +769,6 @@
   "Authorized_By": "Authorized By",
   "Recently_added_Coms":"Recently Added Communities",
   "New_issues_Pubs":"New Issues of Publications",
-  "new_added_reports":"Recent Added Reports"
+  "new_added_reports":"Recent Added Reports",
+  "new_added_surveys":"Recent Added Surveys"
 }

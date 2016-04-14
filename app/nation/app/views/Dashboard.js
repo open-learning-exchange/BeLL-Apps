@@ -61,8 +61,6 @@ $(function() {
             // fetch dict for the current/selected language from the languages db/table
             var dayOfToday = moment().format('dddd');
             var todayMonth = moment().format('MMMM');
-            alert(dayOfToday);
-            alert(App.Router.lookup(App.languageDictValue, "Days." + dayOfToday));
             var currentDay = App.Router.lookup(App.languageDictValue, "Days." + dayOfToday);
             var currentMonth = App.Router.lookup(App.languageDictValue, "Months." + todayMonth);
             var currentDate = moment().format('DD');
