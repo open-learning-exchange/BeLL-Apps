@@ -893,22 +893,6 @@ $(function() {
             })
             MeetupSpans.render()
             $('#meetUpTable').append(MeetupSpans.el)
-            /*var clanguage = App.configuration.get("currentLanguage");
-            // fetch dict for the current/selected language from the languages db/table
-            var languages = new App.Collections.Languages();
-            languages.fetch({
-                async: false
-                //  data: $.param({ page: 1})
-            });
-            var languageDict;
-            for (var i = 0; i < languages.length; i++) {
-                if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
-                    if (languages.models[i].attributes.nameOfLanguage == clanguage) {
-                        languageDict = languages.models[i];
-                    }
-                }
-            }
-            App.languageDict = languageDict;*/
             var dayOfToday = moment().format('dddd');
             var todayMonth = moment().format('MMMM');
             var currentDay = this.lookup(App.languageDict, "Days." + dayOfToday);
