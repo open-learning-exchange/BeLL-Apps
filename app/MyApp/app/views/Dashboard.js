@@ -518,13 +518,75 @@ $(function() {
                 async: false
             });
         },
-        render: function() {
 
+            getSurveysCountForMember: function () {
+                var new_surveys_count = 0;
+                var members = new App.Collections.Members()
+                var member, memberId;
+                members.login = $.cookie('Member.login');
+                members.fetch({
+                    success: function () {
+                        if (members.length > 0) {
+                            member = members.first();
+                            memberId = member.get('login') + '_' + member.get('community');
+                            $.ajax({
+                                url: '/survey/_design/bell/_view/surveyByreceiverIds?_include_docs=true&key="' + memberId + '"',
+                                type: 'GET',
+                                dataType: 'json',
+                                async:false,
+                                success: function(memberSurveyData) {
+                                    console.log(memberSurveyData);
+                                    var surveyDocs = [];
+                                    _.each(memberSurveyData.rows, function(row) {
+                                        surveyDocs.push(row);
+                                    });
+                                    $.ajax({
+                                        url: '/surveyresponse/_design/bell/_view/surveyResBymemberId?_include_docs=true&key="' + memberId + '"',
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        async:false,
+                                        success: function(memberSurveyResData) {
+                                            console.log(memberSurveyResData);
+                                            var surveyResDocs = [];
+                                            _.each(memberSurveyResData.rows, function(row) {
+                                                if(row.value.answersToQuestions.length > 0) {
+                                                    surveyResDocs.push(row);
+                                                }
+                                            });
+                                            _.each(surveyDocs,function(row){
+                                                var surveyDoc  = row.value;
+                                                var index = surveyResDocs.map(function(element) {
+                                                    return element.value.SurveyNo;
+                                                }).indexOf(surveyDoc.SurveyNo);
+                                                if (index == -1) { // its a survey which is not submitted yet
+                                                    new_surveys_count++;
+                                                }
+                                            });
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                        }
+                                    });
+                                },
+                                error: function(status) {
+                                    console.log(status);
+                                }
+                            });
+                        }
+                    },
+                    async:false
+                });
+                return new_surveys_count;
+            },
+
+        render: function() {
             var dashboard = this
+            var newSurveysCountForMember = dashboard.getSurveysCountForMember();
             this.vars.mails = 0;
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
             this.vars.new_survey_count = 0;
+            this.vars.survey_count_for_member = 0;
             applyStylingSheet();
 
             var typeofBell = App.configuration.get("type")
@@ -540,6 +602,7 @@ $(function() {
                 async: false
             })
             this.vars.mails = a.length
+            this.vars.survey_count_for_member = newSurveysCountForMember;
             this.$el.html(_.template(this.template, this.vars))
 
             groups = new App.Collections.MemberGroups()
@@ -730,6 +793,7 @@ $(function() {
                 $('#welcomeButton').show();
             }
             $('#mailsDash').html(App.languageDict.attributes.Email + '(' + this.vars.mails + ')');
+            $('#surveysForMember').html(App.languageDict.attributes.Surveys + '(' + this.vars.survey_count_for_member + ')');
             //dashboard.$el.append('<div id="updates"></div>')
         },
         updateVariables: function(nation_version, new_publications_count, new_surveys_count) {

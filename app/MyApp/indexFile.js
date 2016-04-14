@@ -228,9 +228,7 @@ function submitSurvey(surveyId) {
                         console.log(data);
                         alert("Survey has been submitted successfully");
                         App.stopActivityIndicator();
-                        Backbone.history.navigate('#surveys/for-' + App.configuration.get('name'),
-                            {trigger: true}
-                        );
+                        window.history.go(-1);
                     },
                     error: function(status) {
                         console.log(status);
