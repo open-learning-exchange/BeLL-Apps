@@ -265,7 +265,7 @@ function submitSurvey(surveyId) {
                     } else {
                         birthYear = '2016';
                     }
-                    memberKey = member.get('login');
+                    memberKey = member.get('login') + '_' + member.get('community');
                 }
             },
             async:false
@@ -278,7 +278,7 @@ function submitSurvey(surveyId) {
         surveyResModel["communityName"] = App.configuration.get('name');
         surveyResModel["genderOfMember"] = gender;
         surveyResModel["birthYearOfMember"] = birthYear;
-        surveyResModel["memberId"] = memberKey + App.configuration.get('name');
+        surveyResModel["memberId"] = memberKey;
         var docIds = [];
         docIds.push(surveyId);
         $.ajax({
@@ -317,9 +317,7 @@ function submitSurvey(surveyId) {
                         console.log(data);
                         alert(App.languageDict.get('Survey_Success_Message'));
                         App.stopActivityIndicator();
-                        Backbone.history.navigate('#surveys/for-' + App.configuration.get('name'),
-                            {trigger: true}
-                        );
+                        window.history.go(-1);
                     },
                     error: function(status) {
                         console.log(status);

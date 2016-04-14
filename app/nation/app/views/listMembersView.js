@@ -10,8 +10,7 @@ $(function() {
         },
 
         hidediv: function() {
-            $('#invitationdiv').fadeOut(1000)
-
+            $('#invitationdiv').fadeOut(1000);
             setTimeout(function() {
                 $('#invitationdiv').hide()
             }, 1000);
@@ -51,42 +50,9 @@ $(function() {
                     success: function (result) {
                         var listOfMembersForSurvey = [];
                         if(result.rows.length > 0) {
-                            for(var k = 0 ; k < result.rows.length ; k++) {
-                                var model = result.rows[k].doc;
-                                var birthDate = model.BirthDate;
-                                birthDate = birthDate.split('-');
-                                birthDate[2] = birthDate[2].substring(0,2);
-                                birthDate = new Date(birthDate[0], birthDate[1], birthDate[2]);
-                                var todayDate = new Date();
-                                var age = todayDate.getFullYear() - birthDate.getFullYear();
-                                var m = todayDate.getMonth() - birthDate.getMonth();
-                                if (m < 0 || (m == 0 && todayDate.getDate() < birthDate.getDate())) {
-                                    age--;
-                                }
-                                for(var j = 0 ; j < selectedAgeGroups.length ; j++) {
-                                    if(age >= selectedAgeGroups[j][0] && age <= selectedAgeGroups[j][1]) {
-                                        listOfMembersForSurvey.push(model);
-                                    }
-                                }
-                            }
+                            listOfMembersForSurvey = that.getListOfMembersBasedOnAgeCriteria(result.rows, selectedAgeGroups);
                             if(listOfMembersForSurvey.length > 0) {
-                                for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
-                                    if(surveyModel.get('receiverIds')) {
-                                        var memberIdForSurvey = listOfMembersForSurvey[x].login + '_' + listOfMembersForSurvey[x].community;
-                                        if(surveyModel.get('receiverIds').indexOf(memberIdForSurvey) == -1) {
-                                            surveyModel.get('receiverIds').push(memberIdForSurvey);
-                                        }
-                                    }
-                                }
-                                surveyModel.save(null, {
-                                    success: function (model, response) {
-                                        alert("Survey has been sent successfully");
-                                    },
-                                    error: function (model, err) {
-                                        console.log(err);
-                                    },
-                                    async: false
-                                });
+                                that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey, surveyModel);
                             } else {
                                 alert("No members have been found for the selected options");
                             }
@@ -96,13 +62,56 @@ $(function() {
                     },
                     async: false
                 });
-                $('#invitationdiv').fadeOut(1000)
-                setTimeout(function() {
-                    $('#invitationdiv').hide()
-                }, 1000);
+                that.hidediv();
                 App.stopActivityIndicator();
-                $('#addQuestion').css('pointer-events','auto');
             }
+        },
+
+        getListOfMembersBasedOnAgeCriteria: function(models, ageGroups) {
+            var listOfMembersForSurvey = [];
+            for(var k = 0 ; k < models.length ; k++) {
+                var model = models[k].doc;
+                var age = this.getAge(model.BirthDate);
+                for(var j = 0 ; j < ageGroups.length ; j++) {
+                    if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
+                        listOfMembersForSurvey.push(model);
+                    }
+                }
+            }
+            return listOfMembersForSurvey;
+        },
+
+        getAge: function (birthDate) {
+            birthDate = birthDate.split('-');
+            birthDate[2] = birthDate[2].substring(0,2);
+            birthDate = new Date(birthDate[0], birthDate[1], birthDate[2]);
+            var todayDate = new Date();
+            var age = todayDate.getFullYear() - birthDate.getFullYear();
+            var m = todayDate.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m == 0 && todayDate.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        },
+
+        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
+            for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
+                if(surveyModel.get('receiverIds')) {
+                    var memberIdForSurvey = listOfMembersForSurvey[x].login + '_' + listOfMembersForSurvey[x].community;
+                    if(surveyModel.get('receiverIds').indexOf(memberIdForSurvey) == -1) {
+                        surveyModel.get('receiverIds').push(memberIdForSurvey);
+                    }
+                }
+            }
+            surveyModel.save(null, {
+                success: function (model, response) {
+                    alert("Survey has been sent successfully");
+                },
+                error: function (model, err) {
+                    console.log(err);
+                },
+                async: false
+            });
         },
 
         render: function() {

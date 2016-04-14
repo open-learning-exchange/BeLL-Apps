@@ -3379,10 +3379,8 @@ $(function() {
             });
         },
 
-        downloadCommunitySurveys: function (surveyNo, communityNames) {
+        downloadCommunitySurveys: function (surveyNo, surTitle) {
             var that = this;
-            if(communityNames.length > 0) {
-                communityNames = communityNames.split(',');
                 $.ajax({
                     url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
                     type: 'GET',
@@ -3393,7 +3391,7 @@ $(function() {
                         var jsonRows = json.rows;
                         var surveyResModels = [];
                         for(var i = 0 ; i < jsonRows.length ; i++) {
-                            if(jsonRows[i].value.SurveyNo == surveyNo && communityNames.indexOf(jsonRows[i].value.communityName) > -1) {
+                            if(jsonRows[i].value.SurveyNo == surveyNo && jsonRows[i].value.SurveyTitle == surTitle) {
                                 surveyResModels.push(jsonRows[i].value);
                             }
                         }
@@ -3463,9 +3461,6 @@ $(function() {
                         console.log(err);
                     }
                 });
-            } else {
-                alert("No survey responses yet to download");
-            }
         },
 
         JSONToCSVConvertor: function (JSONData, ReportTitle) {

@@ -41,6 +41,13 @@ ddoc.views = {
             }
         }
     },
+    surveyResBymemberId: {
+        map: function(doc) {
+            if (doc.memberId && doc.kind == 'survey'){
+                emit(doc.memberId, doc);
+            }
+        }
+    },
     surveyResBySentToCommunities: {
         map: function(doc) {
             if (doc.sentTo && doc.kind == 'survey') {
@@ -52,6 +59,21 @@ ddoc.views = {
                     }
                 } else {
                     emit(doc.sentTo, doc)
+                }
+            }
+        }
+    },
+    surveyResByreceiverIds: {
+        map: function(doc) {
+            if (doc.receiverIds && doc.kind == 'survey') {
+                if (Array.isArray(doc.receiverIds)) {
+                    if (doc.receiverIds.length > 0) {
+                        for (var idx in doc.receiverIds) {
+                            emit(doc.receiverIds[idx], doc);
+                        }
+                    }
+                } else {
+                    emit(doc.receiverIds, doc)
                 }
             }
         }
