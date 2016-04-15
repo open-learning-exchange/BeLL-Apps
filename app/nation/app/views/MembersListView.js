@@ -92,13 +92,18 @@ $(function () {
                 dataType: 'json',
                 async: false,
                 success: function (json) {
-                    for(var i = 0 ; i < json.rows.length ; i++) {
-                        var member = json.rows[i].doc;
-                        if(member.login != 'admin') {
-                            viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td></tr>'
+                    if(json.rows.length > 1) { //To check whether we have members other than admin
+                        for(var i = 0 ; i < json.rows.length ; i++) {
+                            var member = json.rows[i].doc;
+                            if(member.login != 'admin') {
+                                viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td></tr>'
+                            }
                         }
+                        viewtext += '<tr><td><button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="retrunBack">Back</button></td></tr>'
+                    } else {
+                        viewtext += '<tr><td>No members found</td></tr>'
+                        viewtext += '<tr><td><button class="btn btn-info" style="margin-left:10px"  id="retrunBack">Back</button></td></tr>'
                     }
-                    viewtext += '<tr><td><button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="retrunBack">Back</button></td></tr>'
                     viewtext += '</table>'
                     that.$el.append(viewtext);
                 },
