@@ -86,6 +86,13 @@ ddoc.views = {
             }
         }
     },
+    allMembers: {
+        map: function(doc) {
+            if (doc && doc.kind == 'Member') {
+                emit(doc._id, doc)
+            }
+        }
+    }
 }
 ddoc.filters = {
     adminFilter: function(doc, req) {
