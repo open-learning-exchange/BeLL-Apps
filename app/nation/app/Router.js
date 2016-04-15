@@ -3592,8 +3592,11 @@ $(function() {
             $('#addQuestion').css('pointer-events','none');
         },
 
-        MembersList: function () {
-          this.underConstruction();
+        MembersList: function (surveyId) {
+            var membersListView = new App.Views.MembersListView();
+            membersListView.surveyId = surveyId;
+            membersListView.render();
+            App.$el.children('.body').html(membersListView.el);
         },
 
         SyncDbSelect: function() {
