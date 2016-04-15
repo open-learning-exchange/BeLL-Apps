@@ -25,7 +25,51 @@ $(function () {
         },
 
         SendSurveyToSelectedListOfMembers:function(){
-            alert(this.surveyId);
+            App.startActivityIndicator();
+            var surveyModel = new App.Models.Survey({
+                _id: this.surveyId
+            })
+            surveyModel.fetch({
+                async: false
+            })
+            var selectedMembers = [];
+            $("input[name='surveyMember']").each(function() {
+                if ($(this).is(":checked")) {
+                    selectedMembers.push($(this).val());
+                }
+            })
+            if(selectedMembers.length > 0) {
+                this.saveReceiverIdsIntoSurveyDoc(selectedMembers, surveyModel);
+            } else {
+                alert("Please select members first");
+                App.stopActivityIndicator();
+                return;
+            }
+        },
+
+        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
+            for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
+                if(surveyModel.get('receiverIds')) {
+                    if(surveyModel.get('receiverIds').indexOf(listOfMembersForSurvey[x]) == -1) {
+                        surveyModel.get('receiverIds').push(listOfMembersForSurvey[x]);
+                    }
+                }
+            }
+            surveyModel.save(null, {
+                success: function (model, response) {
+                    alert("Survey has been sent successfully");
+                    App.stopActivityIndicator();
+                    Backbone.history.navigate('#surveydetail/' + surveyModel.get('_id'),
+                        {
+                            trigger: true
+                        }
+                    );
+                },
+                error: function (model, err) {
+                    console.log(err);
+                },
+                async: false
+            });
         },
 
         render: function () {
