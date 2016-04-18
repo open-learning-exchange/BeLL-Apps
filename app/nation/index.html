@@ -199,8 +199,14 @@
         if (App.languageDictValue.get('directionOfLang').toLowerCase() === "right") {
             $('#comment').css('text-align','right');
         }
-
-    }
+		}
+     function showDatabases(){
+         var location=window.location.href;
+         var arr=location.split("/");
+         location=arr[0] + "//" + arr[2];
+         location=location+'/_utils';
+         window.location.href =location;
+     }
 		function SelectCommunity(pId, type){
   			App.Router.SelectCommunities(pId, type)
      }
@@ -397,11 +403,8 @@
 </div>
        <div class="takeQuizDiv" id="tQuizDiv"></div>
         <div id="popup-spinning"></div>
-       <div class="navbar navbar-inverse" id="top-nav">
-     	 <div class="navbar-header">
-     	 	<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
-     	 </div>    
-     	  <div class="navbar-collapse collapse" id="nav-collapse-01">   
+       <div class="navbar navbar-inverse" id="nav">
+     	  <div class="container" id="nav-collapse-01">
      	 </div>      
       </div>
 	
@@ -522,47 +525,47 @@
   
      <li> 
       <a href="../MyApp/index.html#dashboard">
-      Dashboard
+          <%= languageDict.attributes.Dashboard %>
       </a>
     </li> 
     <li> 
       <a href="../MyApp/index.html#ereader">
-       e-Readers
+          <%= languageDict.attributes.e_Readers %>
       </a>
     </li>
     <li> 
       <a href="../MyApp/index.html#resources">
-       Library
+          <%= languageDict.attributes.Library %>
       </a>
     </li>
      <li> 
       <a href="../MyApp/index.html#courses">
-       Courses
+          <%= languageDict.attributes.Courses %>
       </a>
     </li>
     <li> 
       <a href="../MyApp/index.html#meetups">
-       Meetups
+          <%= languageDict.attributes.Meetups %>
       </a>
     </li>
      <li> 
       <a href="../MyApp/index.html#members">
-       Members
+          <%= languageDict.attributes.Members %>
       </a>
     </li>
     <li> 
       <a href="../MyApp/index.html#reports">
-      Reports
+          <%= languageDict.attributes.Reports %>
       </a>
     </li> 
      <li> 
       <a onclick = "showFeedbackForm()">
-        Feedback
+          <%= languageDict.attributes.Feedback %>
       </a>
     </li>
     <li> 
       <a href= "#logout">
-        Logout
+          <%= languageDict.attributes.Logout %>
       </a>
     </li>	
     
@@ -766,44 +769,54 @@
 		<tr>
 		<td>
 		<table class="table table-striped" id="communities">
-		<th >Recently Added Communities</th>
+		<th ><a  style="color:#345474" href="#listCommunity"><%= languageDict.attributes.Communities %></a></th>
 		
 		</table>
 		</td>
 		<td >
 		<table class="table table-striped" id="publications">
-		<th>New Issues of Publications</th>
-		
-		
+		<th><a  style="color:#345474" href="#publication"><%= languageDict.attributes.Publications%></a></th>
 		</table>
 		</td>
-		<td>
+        <td>
+            <table class="table table-striped" id="surveys">
+                <th ><a  style="color:#345474" href="#survey"><%= languageDict.attributes.Surveys %></a></th>
+
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped" id="reports">
+                <th ><a  style="color:#345474" href="#reports"><%= languageDict.attributes.Reports %></a></th>
+
+            </table>
+        </td>
+	<!--	 <td>
 		<table class="table table-striped">
-		<th>List of Pending Requests</th>
+		<th><%= languageDict.attributes.Surveys %></th>
 		<tr>
 		<td>
-		Request 1
+		Survey 1
 		</td>
 		</tr>
 		<tr>
 		<td>
-		Request 2
+		Survey 2
 		</td>
 		</tr>
 		<tr>
 		<td>
-		Request 3
+		Survey 3
 		</td>
 		</tr>
 		
 		<tr>
 		<td>
-		<button class="btn btn-default" id="clickmore" onclick = "document.location.href='#request'">Click for more</button>
+		<button class="btn btn-default" id="clickmore" onclick = "document.location.href='#Survey'">Click for more</button>
 		</td>
 		</tr>
 		</table>
-		</td>
-		<td>
+		</td>  -->
+	<!--	<td>
 		<table class="table table-striped">
 		<th>Latest Updated Databases</th>
 		<tr >
@@ -828,8 +841,8 @@
 		</td>
 		</tr>
 		</table>
-		</td>
-		<td>
+		</td> -->
+		<!--<td>
 		<table class="table table-striped">
 		<th> Recent Added Reports </th>
 		<tr class="warning">
@@ -856,10 +869,13 @@
 		</table>
 		
 		</td>
+            -->
 		</tr>
 		</table>
-      	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton">Configurations</button></a>
-	<!--	<table class="page-bottom-navtable">
+      	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton"><%= languageDict.attributes.Configurations %></button></a>
+        <a href="#request"><button class="btn btn-hg btn-primary" ><%= languageDict.attributes.Requests %></button></a>
+        <a><button class="btn btn-hg btn-primary" onclick="showDatabases()"><%= languageDict.attributes.Databases %></button></a>
+        <!--	<table class="page-bottom-navtable">
 			<tr>
 			
 				<td><button class="btn btn-hg btn-primary">Badges</button></td>

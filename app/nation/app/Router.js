@@ -2733,7 +2733,7 @@ $(function() {
                     isLoggedIn: '0'
                 })
             }
-            $('div.navbar-collapse').html(na.el)
+            $('#nav-collapse-01').html(na.el)
             // App.badge()
         },
         checkLoggedIn: function() {
@@ -3590,20 +3590,88 @@ $(function() {
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
             dashboard.render()
-
-            var Communities = new App.Collections.Community({
-                limit: 3
-            })
-            Communities.fetch({
+            var communityNames = [];
+            $.ajax({
+                type: 'GET',
+                url: '/community/_design/bell/_view/getCommunityByCode?include_docs=true&limit=5',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        communityNames[i] = response.rows[i].value;
+                    }
+                },
                 async: false
-            })
-            console.log(Communities)
-            Communities.each(function(m) {
-                $('#communities tbody').append('<tr class="success"><td>' + m.toJSON().Name + '</td></tr>');
-            })
-            $('#communities').append('<tr ><td><a class="btn btn-default" href="#listCommunity" id="clickmore">Click for more</a></td></tr>');
+            });
+            for(var i=0;i<communityNames.length;i++){
+                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#addCommunity/'+communityNames[i]._id+'">'+communityNames[i].Name+'</a>' + '</td></tr>');
+            }
+            for(var i=0;i<5-communityNames.length;i++)
+            {
+                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>' + '</td></tr>');
+            }
+            var pubIssues = [];
+            $.ajax({
+                type: 'GET',
+                url:'/publications/_design/bell/_view/publicationIssue?include_docs=true&descending=true&limit=5',
+                //url: '/publications/_design/bell/_view/publicationIssue?include_docs=true',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        pubIssues[i] = response.rows[i].value;
+                    }
+                },
+                async: false
+            });
+            for(var i=0;i<pubIssues.length;i++){
+                $('#publications tbody').append('<tr class="success"><td><a style="color:#345474" href="#publicationdetail/'+pubIssues[i]._id+'">'+'Issue No '+pubIssues[i].IssueNo+'</a>' + '</td></tr>');
+            }
 
-            var Publications = new App.Collections.Publication()
+            for(var i=0;i<5-pubIssues.length;i++)
+            {
+                $('#publications tbody').append('<tr class="success"><td><a style="color:#345474">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>' + '</td></tr>');
+            }
+            var surveyTitles = [];
+            $.ajax({
+                type: 'GET',
+                url:'/survey/_design/bell/_view/surveyByTitle?include_docs=true&descending=true&limit=5',
+                //url: '/publications/_design/bell/_view/publicationIssue?include_docs=true',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        surveyTitles[i] = response.rows[i].value;
+                    }
+                },
+                async: false
+            });
+            for(var i=0;i<surveyTitles.length;i++){
+                $('#surveys tbody').append('<tr class="success"><td><a style="color:#345474" href="#surveydetail/'+surveyTitles[i]._id+'">'+surveyTitles[i].SurveyTitle+'</a>' + '</td></tr>');
+            }
+            for(var i=0;i<5-surveyTitles.length;i++)
+            {
+                $('#surveys tbody').append('<tr class="success"><td><a style="color:#345474">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>' + '</td></tr>');
+            }
+            var reportsTitle = [];
+            $.ajax({
+                type: 'GET',
+                url:'/nationreports/_design/bell/_view/allNationReports?include_docs=true&limit=5',
+                //url: '/publications/_design/bell/_view/publicationIssue?include_docs=true',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        reportsTitle[i] = response.rows[i].value;
+                    }
+                },
+                async: false
+            });
+            for(var i=0;i<reportsTitle.length;i++){
+                $('#reports tbody').append('<tr class="success"><td><a style="color:#345474" href="#reports/edit/'+reportsTitle[i]._id+'">'+reportsTitle[i].title+'</a>' + '</td></tr>');
+            }
+            for(var i=0;i<5-reportsTitle.length;i++)
+            {
+                $('#reports tbody').append('<tr class="success"><td><a style="color:#345474">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>' + '</td></tr>');
+            }
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang').toLowerCase())
+          /*  var Publications = new App.Collections.Publication()
             Publications.getlast = true
             Publications.fetch({
                 success: function(collection, response) {
@@ -3618,7 +3686,7 @@ $(function() {
                 },
                 async: false
             })
-            $('#publications').append('<tr ><td><a class="btn btn-default" href="#publication" id="clickmore">Click for more</a></td></tr>');
+            $('#publications').append('<tr ><td><a class="btn btn-default" href="#publication" id="clickmore">Click for more</a></td></tr>');*/
 
 
         },
