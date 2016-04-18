@@ -19,13 +19,6 @@ $(function() {
 
         sendSurveyToMembers: function() {
             var that = this;
-            App.startActivityIndicator();
-            var surveyModel = new App.Models.Survey({
-                _id: that.surveyId
-            })
-            surveyModel.fetch({
-                async: false
-            })
             var selectedGenderValues = $('#genderSelect').val();
             var selectedAgeGroupValues = $('#ageGroupSelect').val();
             if (!selectedGenderValues) {
@@ -35,6 +28,13 @@ $(function() {
                 alert('Please select age group first')
                 return
             } else {
+                App.startActivityIndicator();
+                var surveyModel = new App.Models.Survey({
+                    _id: that.surveyId
+                })
+                surveyModel.fetch({
+                    async: false
+                })
                 var selectedAgeGroups = [];
                 for(var i = 0 ; i < selectedAgeGroupValues.length ; i++) {
                     selectedAgeGroups.push(selectedAgeGroupValues[i].split('-'));
@@ -117,7 +117,7 @@ $(function() {
         },
 
         render: function() {
-            var $button = $('<h6>Select Gender</h6><select multiple id="genderSelect"></select><h6>Select Age Group</h6><select multiple id="ageGroupSelect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
+            var $button = $('<h6>Select Gender</h6><select multiple id="genderSelect"></select><h6>Select Age Group</h6><select multiple id="ageGroupSelect"></select><h6>Select Roles</h6><select multiple id="rolesSelect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
             this.$el.append($button)
             this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
             this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
