@@ -4172,6 +4172,24 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
             })
             var loginOfMem = $.cookie('Member.login');
             var lang;
+            //get publication by maximum issue number
+            var maxPubIssue = 0;
+            var pubUrl = '/publications/_design/bell/_view/maxPublicationIssue?include_docs=true&descending=true'
+            $.ajax({
+                url: pubUrl,
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (result) {
+                    maxPubIssue=result.rows[0].doc.IssueNo;
+                    console.log(maxPubIssue);
+                },
+                error: function (status) {
+                    console.log(status);
+                }
+            });
+            console.log(maxPubIssue);
+            ///////////////////////////////////////////////////////////
             $.ajax({
                 url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
                 type: 'GET',
@@ -4232,10 +4250,13 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
             $('.field-editorName label').html(App.languageDictValue.get('Editor_Name'));
             $('.field-editorEmail label').html(App.languageDictValue.get('Editor_Email'));
             $('.field-editorPhone label').html(App.languageDictValue.get('Editor_Phone'));
-
+            //hjghk
+            $('.bbf-form .field-IssueNo input').attr("disabled", true)
             $('.bbf-form .field-Date input').attr("disabled", true)
+
             if (!publication.id) {
-                $('.bbf-form .field-IssueNo input').val('')
+
+                $('.bbf-form .field-IssueNo input').val(maxPubIssue+1)
             }
             var currentDate = new Date();
             $('.bbf-form .field-Date input').datepicker({
