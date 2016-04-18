@@ -19,13 +19,6 @@ $(function() {
 
         sendSurveyToMembers: function() {
             var that = this;
-            App.startActivityIndicator();
-            var surveyModel = new App.Models.Survey({
-                _id: that.surveyId
-            })
-            surveyModel.fetch({
-                async: false
-            })
             var selectedGenderValues = $('#genderSelect').val();
             var selectedAgeGroupValues = $('#ageGroupSelect').val();
             if (!selectedGenderValues) {
@@ -35,6 +28,13 @@ $(function() {
                 alert('Please select age group first')
                 return
             } else {
+                App.startActivityIndicator();
+                var surveyModel = new App.Models.Survey({
+                    _id: that.surveyId
+                })
+                surveyModel.fetch({
+                    async: false
+                })
                 var selectedAgeGroups = [];
                 for(var i = 0 ; i < selectedAgeGroupValues.length ; i++) {
                     selectedAgeGroups.push(selectedAgeGroupValues[i].split('-'));
@@ -68,13 +68,23 @@ $(function() {
         },
 
         getListOfMembersBasedOnAgeCriteria: function(models, ageGroups) {
+            var currentComm;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function(){
+                    currentComm = config.first().attributes.code;
+                }
+            });
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
-                var age = this.getAge(model.BirthDate);
-                for(var j = 0 ; j < ageGroups.length ; j++) {
-                    if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
-                        listOfMembersForSurvey.push(model);
+                if(model.login != 'admin' && model.community == currentComm) {
+                    var age = this.getAge(model.BirthDate);
+                    for(var j = 0 ; j < ageGroups.length ; j++) {
+                        if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
+                            listOfMembersForSurvey.push(model);
+                        }
                     }
                 }
             }
