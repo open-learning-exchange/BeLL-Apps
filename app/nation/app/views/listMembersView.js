@@ -117,7 +117,7 @@ $(function() {
         },
 
         render: function() {
-            var $button = $('<h6>Select Gender</h6><select multiple id="genderSelect"></select><h6>Select Age Group</h6><select multiple id="ageGroupSelect"></select><h6>Select Roles</h6><select multiple id="rolesSelect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
+            var $button = $('<h6>Select Gender</h6><select multiple id="genderSelect"></select><h6>Select Age Group</h6><select multiple id="ageGroupSelect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
             this.$el.append($button)
             this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
             this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
