@@ -3655,6 +3655,7 @@ $(function() {
             {
                 $('#reports tbody').append('<tr class="success"><td><a style="color:#345474">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>' + '</td></tr>');
             }
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang').toLowerCase())
           /*  var Publications = new App.Collections.Publication()
             Publications.getlast = true
             Publications.fetch({

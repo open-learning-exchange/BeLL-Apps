@@ -47,8 +47,12 @@ h1,h2,h3,h4,h5,h6{
     float: right;
 }
 .navbar .nav{
-    margin: 0 auto;
+  /*  margin: 0 auto;
     width: 900px;
+    */
+    direction: rtl;
+    display: flex;
+    margin: 0 320px;
 }
 .table th,
 .table td {
@@ -564,6 +568,8 @@ textarea[name="comment"]
     height: 471px;
     width: 950px;
     overflow: hidden;
+    direction: rtl;
+    margin:0px auto;
 }
 .imageData {
     width: 112px;

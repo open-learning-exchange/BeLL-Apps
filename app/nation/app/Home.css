@@ -41,8 +41,10 @@ border: 5px solid black;
 }
 
 .navbar .nav{
-	margin: 0 auto;
-	width: 900px;
+	/*margin: 0 auto;
+	width: 900px;*/
+	display: flex;
+	margin: 0 0 0 280px;
 }
 .stu-nav-table
 {
@@ -544,6 +546,7 @@ overflow: visible;
     height: 471px;
     width: 950px;
 	overflow: hidden;
+	margin:0px auto;
 }
 .imageData {
     width: 112px;
