@@ -2733,7 +2733,7 @@ $(function() {
                     isLoggedIn: '0'
                 })
             }
-            $('div.navbar-collapse').html(na.el)
+            $('#nav-collapse-01').html(na.el)
             // App.badge()
         },
         checkLoggedIn: function() {

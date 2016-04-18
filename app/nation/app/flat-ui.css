@@ -731,8 +731,6 @@ address {
   border: none;
 }
 .navbar .navbar-collapse {
-  padding-left: 0;
-  padding-right: 0;
 }
 .navbar .navbar-brand {
   border-radius: 6px 0 0 6px;

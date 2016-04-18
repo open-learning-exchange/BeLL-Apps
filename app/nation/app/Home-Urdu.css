@@ -46,14 +46,27 @@ h1,h2,h3,h4,h5,h6{
     direction: rtl;
     float: right;
 }
-.navbar .nav{
+#nav{
+    text-align: center;
+}
+#nav li{
+    display: inline-block;
+    text-align:center;
+}
+#nav-collapse-01 ul{
   /*  margin: 0 auto;
     width: 900px;
     */
-    direction: rtl;
+    /*direction: rtl;
     display: flex;
     margin: 0 320px;
-}
+*/
+    font-size: 17px;
+    width:100%;
+    margin-left:-240px;
+    padding-top: 5px;
+    direction: rtl;
+    display: flex;}
 .table th,
 .table td {
     padding: 8px;
