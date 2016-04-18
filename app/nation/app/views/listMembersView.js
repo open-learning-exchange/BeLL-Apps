@@ -68,10 +68,18 @@ $(function() {
         },
 
         getListOfMembersBasedOnAgeCriteria: function(models, ageGroups) {
+            var currentComm;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function(){
+                    currentComm = config.first().attributes.code;
+                }
+            });
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
-                if(model.login != 'admin') {
+                if(model.login != 'admin' && model.community == currentComm) {
                     var age = this.getAge(model.BirthDate);
                     for(var j = 0 ; j < ageGroups.length ; j++) {
                         if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {

@@ -85,6 +85,14 @@ $(function () {
 
         showMembersList: function () {
             var that = this;
+            var currentComm;
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function(){
+                    currentComm = config.first().attributes.code;
+                }
+            });
             var viewtext = '<table class="btable btable-striped"><th colspan=3>Name</th>'
             $.ajax({
                 url: '/members/_design/bell/_view/allMembers?include_docs=true',
@@ -95,7 +103,7 @@ $(function () {
                     if(json.rows.length > 1) { //To check whether we have members other than admin
                         for(var i = 0 ; i < json.rows.length ; i++) {
                             var member = json.rows[i].doc;
-                            if(member.login != 'admin') {
+                            if(member.login != 'admin' && member.community == currentComm) {
                                 viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td></tr>'
                             }
                         }
