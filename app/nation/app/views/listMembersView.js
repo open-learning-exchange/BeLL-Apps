@@ -71,10 +71,12 @@ $(function() {
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
-                var age = this.getAge(model.BirthDate);
-                for(var j = 0 ; j < ageGroups.length ; j++) {
-                    if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
-                        listOfMembersForSurvey.push(model);
+                if(model.login != 'admin') {
+                    var age = this.getAge(model.BirthDate);
+                    for(var j = 0 ; j < ageGroups.length ; j++) {
+                        if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
+                            listOfMembersForSurvey.push(model);
+                        }
                     }
                 }
             }
