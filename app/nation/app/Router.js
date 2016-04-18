@@ -2823,6 +2823,24 @@ $(function() {
         },
 
         AddSurveyForm: function() {
+            //get publication by maximum issue number
+            var maxSurveyNo = 0;
+            var pubUrl = '/survey/_design/bell/_view/maxSurveyNo?include_docs=true&descending=true'
+            $.ajax({
+                url: pubUrl,
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (result) {
+                    maxSurveyNo=result.rows[0].doc.SurveyNo;
+                    console.log(maxSurveyNo);
+                },
+                error: function (status) {
+                    console.log(status);
+                }
+            });
+            console.log(maxSurveyNo);
+            ///////////////////////////////////////////////////////////
             var loginOfMem = $.cookie('Member.login');
             var lang;
             $.ajax({
@@ -2876,7 +2894,9 @@ $(function() {
             $('.bbf-form .field-Date input').datepicker({
                 todayHighlight: true
             });
-            $('.bbf-form .field-SurveyNo input').val('');
+            $('.bbf-form .field-SurveyNo input').attr("disabled", true)
+
+            $('.bbf-form .field-SurveyNo input').val(maxSurveyNo+1);
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {
                 $('.fields form').css({"direction":"rtl","float":"right"});
