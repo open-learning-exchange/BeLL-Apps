@@ -63,7 +63,17 @@ ddoc.views = {
                 emit(doc._id, doc);
             }
         }
+    },
+    /////////////////////////////////////
+    maxSurveyNo: {
+        map: function(doc) {
+            if (doc.SurveyNo)
+                emit(doc.SurveyNo, doc.SurveyNo);
+        },
+
     }
+
+    ////////////////////////////////////
 }
 
 module.exports = ddoc;
