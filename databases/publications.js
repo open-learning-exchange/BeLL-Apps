@@ -25,7 +25,17 @@ ddoc.views = {
           emit(doc._id, doc);
       }
     }
+  },
+  /////////////////////////////////////
+  maxPublicationIssue: {
+    map: function(doc) {
+      if (doc.IssueNo)
+        emit(doc.IssueNo, doc.IssueNo);
+    },
+
   }
+
+  ////////////////////////////////////
 }
 
 module.exports = ddoc;
