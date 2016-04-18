@@ -495,47 +495,47 @@
   
      <li> 
       <a href="../MyApp/index.html#dashboard">
-      Dashboard
+          <%= languageDict.attributes.Dashboard %>
       </a>
     </li> 
     <li> 
       <a href="../MyApp/index.html#ereader">
-       e-Readers
+          <%= languageDict.attributes.e_Readers %>
       </a>
     </li>
     <li> 
       <a href="../MyApp/index.html#resources">
-       Library
+          <%= languageDict.attributes.Library %>
       </a>
     </li>
      <li> 
       <a href="../MyApp/index.html#courses">
-       Courses
+          <%= languageDict.attributes.Courses %>
       </a>
     </li>
     <li> 
       <a href="../MyApp/index.html#meetups">
-       Meetups
+          <%= languageDict.attributes.Meetups %>
       </a>
     </li>
      <li> 
       <a href="../MyApp/index.html#members">
-       Members
+          <%= languageDict.attributes.Members %>
       </a>
     </li>
     <li> 
       <a href="../MyApp/index.html#reports">
-      Reports
+          <%= languageDict.attributes.Reports %>
       </a>
     </li> 
      <li> 
       <a onclick = "showFeedbackForm()">
-        Feedback
+          <%= languageDict.attributes.Feedback %>
       </a>
     </li>
     <li> 
       <a href= "#logout">
-        Logout
+          <%= languageDict.attributes.Logout %>
       </a>
     </li>	
     
@@ -739,20 +739,30 @@
 		<tr>
 		<td>
 		<table class="table table-striped" id="communities">
-		<th ><%= languageDict.attributes.Recently_added_Coms %></th>
+		<th ><a  style="color:#345474" href="#listCommunity"><%= languageDict.attributes.Communities %></a></th>
 		
 		</table>
 		</td>
 		<td >
 		<table class="table table-striped" id="publications">
-		<th><%= languageDict.attributes.New_issues_Pubs%></th>
-		
-		
+		<th><a  style="color:#345474" href="#publication"><%= languageDict.attributes.Publications%></a></th>
 		</table>
 		</td>
-		 <td>
+        <td>
+            <table class="table table-striped" id="surveys">
+                <th ><a  style="color:#345474" href="#survey"><%= languageDict.attributes.Surveys %></a></th>
+
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped" id="reports">
+                <th ><a  style="color:#345474" href="#reports"><%= languageDict.attributes.Reports %></a></th>
+
+            </table>
+        </td>
+	<!--	 <td>
 		<table class="table table-striped">
-		<th><%= languageDict.attributes.new_added_surveys %></th>
+		<th><%= languageDict.attributes.Surveys %></th>
 		<tr>
 		<td>
 		Survey 1
@@ -775,7 +785,7 @@
 		</td>
 		</tr>
 		</table>
-		</td>
+		</td>  -->
 	<!--	<td>
 		<table class="table table-striped">
 		<th>Latest Updated Databases</th>
@@ -802,7 +812,7 @@
 		</tr>
 		</table>
 		</td> -->
-		<td>
+		<!--<td>
 		<table class="table table-striped">
 		<th> Recent Added Reports </th>
 		<tr class="warning">
@@ -829,6 +839,7 @@
 		</table>
 		
 		</td>
+            -->
 		</tr>
 		</table>
       	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton"><%= languageDict.attributes.Configurations %></button></a>
