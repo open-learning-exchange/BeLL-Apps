@@ -2833,7 +2833,9 @@ $(function() {
                 dataType: 'json',
                 async: false,
                 success: function (result) {
-                    maxSurveyNo=result.rows[0].doc.SurveyNo;
+                    if(result.rows.length > 0) {
+                        maxSurveyNo=result.rows[0].doc.SurveyNo;
+                    }
                     console.log(maxSurveyNo);
                 },
                 error: function (status) {
@@ -4250,7 +4252,9 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
                 dataType: 'json',
                 async: false,
                 success: function (result) {
-                    maxPubIssue=result.rows[0].doc.IssueNo;
+                    if(result.rows.length > 0) {
+                        maxPubIssue = result.rows[0].doc.IssueNo;
+                    }
                     console.log(maxPubIssue);
                 },
                 error: function (status) {
