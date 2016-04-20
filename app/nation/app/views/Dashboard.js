@@ -8,15 +8,45 @@ $(function() {
 
         render: function() {
 
+            var loginOfMem = $.cookie('Member.login');
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var id = surResult.rows[0].id;
+                    $.ajax({
+                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        async:false,
+                        success: function (resultByDoc) {
+                            console.log(resultByDoc);
+                            lang=resultByDoc.rows[0].value.bellLanguage;
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var config = new App.Collections.Configurations()
             config.fetch({
                 async: false
             })
             var configuration = config.first();
             App.configuration=configuration;
-            var clanguage = App.configuration.get("currentLanguage");
-            var dashboard = this
-            this.vars.imgURL = "img/header_slice.png"
+            var dashboard = this;
+
+            this.vars.imgURL = "img/header_slice.png";
+            this.vars.languageDict=App.languageDictValue;
             var a = new App.Collections.MailUnopened({
                 receiverId: $.cookie('Member._id')
             })
@@ -29,8 +59,15 @@ $(function() {
             this.$el.html(_.template(this.template, this.vars));
 
             // fetch dict for the current/selected language from the languages db/table
+            var dayOfToday = moment().format('dddd');
+            var todayMonth = moment().format('MMMM');
+            var currentDay = App.Router.lookup(App.languageDictValue, "Days." + dayOfToday);
+            var currentMonth = App.Router.lookup(App.languageDictValue, "Months." + todayMonth);
+            var currentDate = moment().format('DD');
+            var currentYear = moment().format('YYYY');
+            $('.now').html(currentDay + ' | ' + currentDate + ' ' + currentMonth + ', ' + currentYear);
 
-            $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
+            // $('.now').html(moment().format('dddd | DD MMMM, YYYY'))
             // Member Name
             var member = new App.Models.Member()
             member.id = $.cookie('Member._id')
@@ -52,9 +89,9 @@ $(function() {
                 configuration=configuration.charAt(0).toUpperCase() + configuration.slice(1);
                 var typeofBell=config.first().attributes.type;
                 if (typeofBell === "nation") {
-                    configuration = configuration + " Nation Bell"
+                    configuration = configuration + " " + App.languageDictValue.attributes.Nation + " " + App.languageDictValue.attributes.Bell;
                 } else {
-                    configuration = configuration + " Community Bell"
+                    configuration = configuration +  " " + App.languageDictValue.attributes.Community + " " + App.languageDictValue.attributes.Bell;
                 }
                 $('.bellLocation').html(configuration);
              
@@ -73,26 +110,26 @@ $(function() {
                 if (parseInt(member.get('visits')) == 0) {
                     temp = "Error!!"
                 } else {
-                    temp = member.get('visits') + " visits"
+                    temp = member.get('visits')  + ' ' + App.languageDictValue.attributes.Visits;
                 }
                 var roles = "&nbsp;-&nbsp;"
                 var temp1 = 0
                 if (member.get("roles").indexOf("Learner") != -1) {
-                    roles = roles + "Learner"
+                    roles = roles + App.languageDictValue.attributes.Learner;
                     temp1 = 1
                 }
                 if (member.get("roles").indexOf("Leader") != -1) {
                     if (temp1 == 1) {
                         roles = roles + ",&nbsp;"
                     }
-                    roles = roles + "Leader"
+                    roles = roles +  App.languageDictValue.attributes.Leader;
                     temp1 = 1
                 }
                 if (member.get("roles").indexOf("Manager") != -1) {
                     if (temp1 == 1) {
                         roles = roles + ",&nbsp;"
                     }
-                    roles = roles + "Manager"
+                    roles = roles + App.languageDictValue.attributes.Manager;
                 }
                 $('.visits').html(temp)
                 $('.name').html(member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '</span>' + '&nbsp;<a href="../MyApp/index.html#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>')
@@ -100,35 +137,6 @@ $(function() {
             member.fetch();
 
 
-        },
-
-        lookup :  function(obj, key) {
-            var type = typeof key;
-            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key){//handle case where [1] may occur
-                return '.' + key;
-            }).split('.');
-
-            for (var i = 0, l = key.length; i < l;l--) {
-                if (obj.hasOwnProperty(key[i]))
-                {
-
-                    obj = obj[key[i]];
-                    i++;
-                    if(obj[0].hasOwnProperty(key[i]))
-                    {
-                        var myObj=obj[0];
-                        var valueOfObj=myObj[key[i]];
-
-                        return valueOfObj;
-                    }
-
-                }
-                else
-                {
-                    return undefined;
-                }
-            }
-            return obj;
         }
 
     })
