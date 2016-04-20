@@ -5815,7 +5815,6 @@ $(function() {
             var toDelete_id = activitylog._id;
             var toDelete_rev = activitylog._rev;
             var logdb = new PouchDB('activitylogs');
-            //alert('here in create log function')
             var dailylogModel = new App.Models.DailyLog();
             var dailyLog = activitylog;
             dailylogModel.set('logDate', activitylog.logDate);
@@ -5962,6 +5961,7 @@ $(function() {
             }
             for (i = 0; i < activitylog_resOpened.length; i++) {
                 resId = activitylog_resOpened[i]
+                resName = activitylog_resNames[i]
                 //*********************************************
                 // issue #84
                 //********************************************
@@ -5970,6 +5970,7 @@ $(function() {
                 index = logsonServer_resOpened.indexOf(resId)
                 if (index == -1) {
                     logsonServer_resOpened.push(resId)
+                    logsonServer_resNames.push(resName)
 
                     logsonServer_male_opened.push(activitylog.male_opened[i])
                     logsonServer_female_opened.push(activitylog.female_opened[i])
