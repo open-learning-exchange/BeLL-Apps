@@ -67,6 +67,8 @@ $(function() {
                 })
                 viw.render();
                 $('#debug').append(viw.el);
+                $('#comment-feedback .bbf-form .field-comment label').html(App.languageDict.get('Comment'));
+
                 if(languageDictValue.get('directionOfLang').toLowerCase()==="right")
                 {
                     $('#comments').css('direction','rtl')

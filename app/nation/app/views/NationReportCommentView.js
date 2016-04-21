@@ -22,8 +22,7 @@ $(function() {
         },
         submit: function() {
             if (this.form.getValue("comment").length != 0) {
-                var now = new Date();
-                now.getDate()
+                var now = moment();
                 this.form.setValue({
                     NationReportId: this.cId
                 })
@@ -33,8 +32,12 @@ $(function() {
                 this.form.setValue({
                     memberLogin: $.cookie('Member.login')
                 })
+                var day=moment().format('D');
+                var monthToday=App.Router.lookup(App.languageDictValue, "Months." + moment().format('MMMM'));
+                var year=moment().format('YYYY');
+                var time=moment().format('HH:mm:ss');
                 this.form.setValue({
-                    time: now.toString()
+                    time:  day+' '+monthToday+' '+year+' '+time
                 })
                 this.form.commit()
                 this.model.save()
@@ -52,7 +55,7 @@ $(function() {
         },
 
         addOne: function(modl) {
-            $('#comments').append('<div id=tile><b>Login:</b>' + modl.toJSON().memberLogin + '<br/><b>Time:</b>' + modl.toJSON().time + '<br/><b>Comment:</b>' + modl.toJSON().comment + '</div>')
+            $('#comments').append('<div id=tile><b>'+App.languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+App.languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+App.languageDictValue.attributes.Comment+':</b>' + modl.toJSON().comment + '</div>')
             console.log(modl.toJSON())
         },
 
@@ -69,9 +72,9 @@ $(function() {
             this.form.fields['commentNumber'].$el.hide()
             this.form.fields['memberLogin'].$el.hide()
             this.form.fields['time'].$el.hide()
-            var $button = $('<div id="r-formButton"><button class="btn btn-primary" id="submitFormButton">Add Comment</button><button class="btn btn-info" id="cancelFormButton">Close</button></div>')
-            this.$el.append($button)
-            // $("#comments").animate({ scrollTop: $('#comments')[0].scrollHeight}, 3000);
+            var $button = $('<div id="r-formButton"><button class="btn btn-primary" id="submitFormButton">'+App.languageDictValue.attributes.Add_Comment+'</button><button class="btn btn-info" id="cancelFormButton">'+App.languageDictValue.attributes.Close+'</button></div>')
+            this.$el.append($button);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         }
 
     })

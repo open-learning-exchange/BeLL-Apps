@@ -17,7 +17,7 @@ $(function() {
             })
             reportRowView.isManager = this.isManager
             reportRowView.render()
-            this.$el.append(reportRowView.el)
+            this.$el.append(reportRowView.el);
         },
 
         addAll: function() {

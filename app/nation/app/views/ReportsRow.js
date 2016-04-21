@@ -65,7 +65,22 @@ $(function() {
                     NationReportId: e.target.attributes[0].nodeValue
                 })
                 viw.render()
-                $('#debug').append(viw.el)
+                $('#debug').append(viw.el);
+                $('#comment-feedback .bbf-form .field-comment label').html(App.languageDictValue.get('Comment'));
+                if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                {
+                    $('#comments').css('direction','rtl')
+                    $('#comment-feedback').css('direction','rtl')
+                    $('#r-formButton #submitFormButton').addClass('marginsOnMeetUp')
+                    $('#r-formButton #cancelFormButton').addClass('marginsOnMeetUp')
+                }
+                else
+                {
+                    $('#comments').css('direction','ltr')
+                    $('#comment-feedback').css('direction','ltr')
+                    $('#r-formButton #submitFormButton').removeClass('marginsOnMeetUp');
+                    $('#r-formButton #cancelFormButton').removeClass('marginsOnMeetUp')
+                }
             }
 
         },
@@ -120,7 +135,6 @@ $(function() {
             vars.Date = date.toUTCString()
             vars.languageDict=App.languageDictValue;
             this.$el.append(this.template(vars))
-
 
         }
 

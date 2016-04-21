@@ -779,5 +779,6 @@
  "Tech_Support": "Tech Support",
  "Nation_Contact": "Nation Contact",
  "Authorized_By": "Authorized By",
- "Send_to_communities": "Send to communities"
+ "Send_to_communities": "Send to communities",
+ "Nation_reports":"Nation's Reports"
 }
