@@ -128,7 +128,7 @@ $(function() {
             // Put the form's input into the model in memory
             this.form.commit()
 
-            if (this.model.get("title").length == 0) {
+            if ($.trim(this.model.get("title")).length == 0) {
                 alert(App.languageDict.attributes.MeetUp_Title_Missing)
             } else if (this.model.get("description").length == 0) {
                 alert(App.languageDict.attributes.MeetUp_Desc_Missing)
@@ -137,6 +137,8 @@ $(function() {
             } else {
 
                 this.model.set('creator', $.cookie('Member._id'))
+                var titleOfMeetup = this.model.get("title");
+                this.model.set("title", $.trim(titleOfMeetup))
                 this.model.save(null, {
                     success: function(responce) {
 

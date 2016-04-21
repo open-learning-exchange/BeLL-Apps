@@ -123,6 +123,7 @@ $(function() {
             // Put the form's input into the model in memory
             this.form.commit()
             var newTitle = this.model.get("CollectionName")
+            newTitle = $.trim(newTitle);
             var titleMatch = false
             var allres = new App.Collections.listRCollection()
             allres.fetch({
@@ -150,10 +151,12 @@ $(function() {
                         'IsMajor': true
                     })
                 }
-                if (this.model.get('CollectionName').length > 0) {
+                if ($.trim(this.model.get('CollectionName')).length > 0) {
 
                     var that = this
 
+                    var collectionName = this.model.get('CollectionName');
+                    this.model.set('CollectionName', collectionName);
                     this.model.save(null, {
                         success: function(m) {
                             alert(App.languageDict.attributes.Collection_Saved_success)
