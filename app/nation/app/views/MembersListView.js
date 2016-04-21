@@ -8,7 +8,7 @@ $(function () {
             "click  #selectAllMembers": "selectAllMembers",
             "click  #UnSelectAllMembers": "UnSelectAllMembers",
             "click  #sendSurveyToSelectedList": "SendSurveyToSelectedListOfMembers",
-            "click #retrunBack" : function (e) {
+            "click #returnBack" : function (e) {
                 history.back()
             }
         },
@@ -25,13 +25,6 @@ $(function () {
         },
 
         SendSurveyToSelectedListOfMembers:function(){
-            App.startActivityIndicator();
-            var surveyModel = new App.Models.Survey({
-                _id: this.surveyId
-            })
-            surveyModel.fetch({
-                async: false
-            })
             var selectedMembers = [];
             $("input[name='surveyMember']").each(function() {
                 if ($(this).is(":checked")) {
@@ -39,10 +32,16 @@ $(function () {
                 }
             })
             if(selectedMembers.length > 0) {
+                App.startActivityIndicator();
+                var surveyModel = new App.Models.Survey({
+                    _id: this.surveyId
+                })
+                surveyModel.fetch({
+                    async: false
+                })
                 this.saveReceiverIdsIntoSurveyDoc(selectedMembers, surveyModel);
             } else {
                 alert("Please select members first");
-                App.stopActivityIndicator();
                 return;
             }
         },
@@ -79,7 +78,7 @@ $(function () {
             surveyModel.fetch({
                 async: false
             })
-            this.$el.html('<h3 style="margin-left:5%">' + surveyModel.get('SurveyTitle') + '</h3>');
+            this.$el.html('<h3>' + surveyModel.get('SurveyTitle') + '</h3>');
             this.showMembersList();
         },
 
@@ -93,7 +92,7 @@ $(function () {
                     currentComm = config.first().attributes.code;
                 }
             });
-            var viewtext = '<table class="btable btable-striped"><th colspan=3>Name</th>'
+            var viewtext = '<table class="btable btable-striped"><th>Name</th><th>Gender</th><th>Birth Year</th><th>Visits</th><th>Roles</th>'
             $.ajax({
                 url: '/members/_design/bell/_view/allMembers?include_docs=true',
                 type: 'GET',
@@ -104,15 +103,16 @@ $(function () {
                         for(var i = 0 ; i < json.rows.length ; i++) {
                             var member = json.rows[i].doc;
                             if(member.login != 'admin' && member.community == currentComm) {
-                                viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td></tr>'
+                                var birthYear = member.BirthDate.split('-')[0];
+                                viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td></tr>'
                             }
                         }
-                        viewtext += '<tr><td><button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="retrunBack">Back</button></td></tr>'
+                        viewtext += '</table><br>'
+                        viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
                     } else {
-                        viewtext += '<tr><td>No members found</td></tr>'
-                        viewtext += '<tr><td><button class="btn btn-info" style="margin-left:10px"  id="retrunBack">Back</button></td></tr>'
+                        viewtext += '</table><br><span>No members found</span><br><br>'
+                        viewtext += '<button class="btn btn-info" id="returnBack">Back</button>'
                     }
-                    viewtext += '</table>'
                     that.$el.append(viewtext);
                 },
                 error: function (status) {
