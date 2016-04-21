@@ -335,7 +335,7 @@ $(function() {
                     that.model.set("forGrades", null);
                     this.model.set("lastEditDate",new Date());
                 }
-
+                this.removeSpaces();
                 var addMem = true
                 if (this.model.get("_id") == undefined) {
                     this.model.set("roles", ["Learner"])
@@ -427,9 +427,21 @@ $(function() {
             }
         },
 
+        removeSpaces: function()
+        {
+            var firstName = this.model.get("firstName");
+            var lastName = this.model.get("lastName");
+            var middleName = this.model.get("middleNames");
+            var loginName = this.model.get("login");
+            this.model.set("firstName", $.trim(firstName));
+            this.model.set("lastName", $.trim(lastName));
+            this.model.set("middleNames", $.trim(middleName));
+            this.model.set("login", $.trim(loginName));
+        },
+
         validateMemberForm : function(){
             var isCorrect=true;
-            if ( $('.bbf-form .field-firstName .bbf-editor input').val() =='' || $('.bbf-form .field-firstName .bbf-editor input').val() ==null || $('.bbf-form .field-firstName .bbf-editor input').val() ==undefined)
+            if ($.trim($('.bbf-form .field-firstName .bbf-editor input').val()) =='' || $('.bbf-form .field-firstName .bbf-editor input').val() ==null || $('.bbf-form .field-firstName .bbf-editor input').val() ==undefined)
             {
                 isCorrect=false;
                 $('.bbf-form .field-firstName label').css('color','red');
@@ -438,7 +450,7 @@ $(function() {
 
                 $('.bbf-form .field-firstName label').css('color','black');
             }
-            if ( $('.bbf-form .field-lastName .bbf-editor input').val() =='' || $('.bbf-form .field-lastName .bbf-editor input').val() ==null || $('.bbf-form .field-lastName .bbf-editor input').val() ==undefined)
+            if ($.trim($('.bbf-form .field-lastName .bbf-editor input').val()) =='' || $('.bbf-form .field-lastName .bbf-editor input').val() ==null || $('.bbf-form .field-lastName .bbf-editor input').val() ==undefined)
             {
                 isCorrect=false;
                 $('.bbf-form .field-lastName label').css('color','red');
@@ -448,7 +460,7 @@ $(function() {
 
                 $('.bbf-form .field-lastName label').css('color','black');
             }
-            if ( $('.bbf-form .field-login .bbf-editor input').val() =='' || $('.bbf-form .field-login .bbf-editor input').val() ==null || $('.bbf-form .field-login .bbf-editor input').val() ==undefined)
+            if ($.trim($('.bbf-form .field-login .bbf-editor input').val()) =='' || $('.bbf-form .field-login .bbf-editor input').val() ==null || $('.bbf-form .field-login .bbf-editor input').val() ==undefined)
             {
                 isCorrect=false;
                 $('.bbf-form .field-login label').css('color','red');

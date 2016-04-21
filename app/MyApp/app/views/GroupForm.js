@@ -229,7 +229,7 @@ $(function () {
 		}else {
 			this.model.set("members", this.prevmemlist)
 		}
-		if (this.model.get('CourseTitle').length == 0) {
+		if ($.trim(this.model.get('CourseTitle')).length == 0) {
 			alert(App.languageDict.attributes.CourseTitle_Missing)
 		}
 		//            else if (this.model.get("courseLeader") == 0000) {
@@ -265,6 +265,8 @@ $(function () {
 			console.log()
 			var context = this
 
+            var courseTitle = this.model.get('CourseTitle');
+            this.model.set('CourseTitle', $.trim(courseTitle));
 			this.model.save(null, {
 				success: function (e) {
 					console.log(context.model.get('courseLeader'))

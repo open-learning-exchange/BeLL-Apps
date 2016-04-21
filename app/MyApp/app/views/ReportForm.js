@@ -118,14 +118,16 @@ $(function() {
 
             var addtoDb = true
             var previousTitle = this.model.get("title")
+            previousTitle = $.trim(previousTitle)
             var newTitle
             var isEdit = this.model.get("_id")
             this.form.commit()
             // Send the updated model to the server
             newTitle = this.model.get("title")
+            newTitle = $.trim(newTitle);
             var that = this
             var savemodel = false
-            if (this.model.get("title").length == 0) {
+            if ($.trim(this.model.get("title")).length == 0) {
                 alert(App.languageDict.attributes.Missing_Report_Title)
             } else if ((this.model.get("Tag") == "News") && !this.model.get("author")) {
                 alert(App.languageDict.attributes.Missing_Author)
@@ -148,7 +150,7 @@ $(function() {
                         async: false
                     })
                     allres.each(function(m) {
-                        if (that.model.get("title") == m.get("title")) {
+                        if ($.trim(that.model.get("title")) == $.trim(m.get("title"))) {
                             alert(App.languageDict.attributes.Duplicate_Title)
                             addtoDb = false
                         }

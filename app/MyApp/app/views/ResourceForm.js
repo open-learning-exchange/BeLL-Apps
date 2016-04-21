@@ -303,10 +303,12 @@ $(function() {
         },
         saveForm: function() {
 
+
             // @todo validate
             //if(this.$el.children('input[type="file"]').val() && this.$el.children('input[name="title"]').val()) {
             // Put the form's input into the model in memory
             var previousTitle = this.model.get("title")
+            previousTitle = $.trim(previousTitle)
             var isEdit = this.model.get("_id")
             var formContext = this
             this.form.commit()
@@ -315,6 +317,9 @@ $(function() {
                 this.model.set('need_optimization', true)
             }
             // Send the updated model to the server
+
+            var title = this.model.get("title");
+            this.model.set("title", $.trim(title));
             var newTitle = this.model.get("title")
             if (this.model.get("title").length == 0) {
                 alert(App.languageDict.attributes.Missing_Resource_Title)
