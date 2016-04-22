@@ -47,12 +47,17 @@ $(function () {
         },
 
         saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
+            var communityName = this.communityName;
             for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
                 if(surveyModel.get('receiverIds')) {
                     if(surveyModel.get('receiverIds').indexOf(listOfMembersForSurvey[x]) == -1) {
                         surveyModel.get('receiverIds').push(listOfMembersForSurvey[x]);
                     }
                 }
+            }
+            //Now saving community name of members in SentTO attribute of surveyModel
+            if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
+                surveyModel.get('sentTo').push(communityName);
             }
             surveyModel.save(null, {
                 success: function (model, response) {
@@ -84,10 +89,10 @@ $(function () {
 
         showMembersList: function () {
             var that = this;
-            var communityName = this.communityName;
+            var communityCode = this.communityCode;
             var viewtext = '<table class="btable btable-striped"><th>Name</th><th>Gender</th><th>Birth Year</th><th>Visits</th><th>Roles</th>'
             $.ajax({
-                url: '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="' + communityName + '"',
+                url: '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="' + communityCode + '"',
                 type: 'GET',
                 dataType: 'json',
                 async: false,

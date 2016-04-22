@@ -13,7 +13,8 @@ $(function () {
 
         openMembersList: function (e) {
             var communityChosen = $('#communitySelector').val();
-            App.Router.MembersList(this.surveyId, communityChosen);
+            var communityName = $('#communitySelector option:selected').text();
+            App.Router.MembersList(this.surveyId, communityChosen, communityName);
         },
 
         render: function () {

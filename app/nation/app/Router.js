@@ -3594,19 +3594,21 @@ $(function() {
             $('#addQuestion').css('pointer-events','none');
         },
 
-        MembersList: function (surveyId, commName) {
+        MembersList: function (surveyId, communityCode, communityName) {
             var membersListView = new App.Views.MembersListView();
             membersListView.surveyId = surveyId;
-            if(commName == undefined) {
+            if(communityCode == undefined) {
                 var config = new App.Collections.Configurations()
                 config.fetch({
                     async: false,
                     success: function(){
-                        commName = config.first().attributes.code;
+                        communityCode = config.first().attributes.code;
+                        communityName = config.first().attributes.name;
                     }
                 });
             }
-            membersListView.communityName = commName;
+            membersListView.communityCode = communityCode;
+            membersListView.communityName = communityName;
             membersListView.render();
             App.$el.children('.body').html(membersListView.el);
         },
