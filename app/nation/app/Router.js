@@ -3602,7 +3602,10 @@ $(function() {
         },
 
         communitiesList: function (surveyId) {
-            this.underConstruction();
+            var communitiesList = new App.Views.CommunitiesList();
+            communitiesList.surveyId = surveyId;
+            communitiesList.render();
+            App.$el.children('.body').html(communitiesList.el);
         },
 
         SyncDbSelect: function() {
