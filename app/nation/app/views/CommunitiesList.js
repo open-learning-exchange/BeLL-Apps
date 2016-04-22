@@ -19,6 +19,7 @@ $(function () {
 
         render: function () {
             var select = $("<select id='communitySelector'>");
+            select.append("<option value='' style='display: none'>Select an option</option>");
             var label = $("<label>").text('Select Community: ');
             this.$el.html(label);
             var communityNames = [];
