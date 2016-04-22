@@ -8,10 +8,12 @@ $(function () {
             "click #returnBack" : function (e) {
                 history.back()
             },
-            "change #communitySelector": function (e) {
-                var communityChosen = $('#communitySelector').val();
-                alert(communityChosen);
-            }
+            "change #communitySelector":"openMembersList"
+        },
+
+        openMembersList: function (e) {
+            var communityChosen = $('#communitySelector').val();
+            App.Router.MembersList(this.surveyId, communityChosen);
         },
 
         render: function () {
@@ -36,7 +38,6 @@ $(function () {
             this.$el.append('<br>');
             var button = $('<button class="btn btn-info" id="returnBack">Back</button>');
             this.$el.append(button);
-
         },
 
     })

@@ -3594,9 +3594,19 @@ $(function() {
             $('#addQuestion').css('pointer-events','none');
         },
 
-        MembersList: function (surveyId) {
+        MembersList: function (surveyId, commName) {
             var membersListView = new App.Views.MembersListView();
             membersListView.surveyId = surveyId;
+            if(commName == undefined) {
+                var config = new App.Collections.Configurations()
+                config.fetch({
+                    async: false,
+                    success: function(){
+                        commName = config.first().attributes.code;
+                    }
+                });
+            }
+            membersListView.communityName = commName;
             membersListView.render();
             App.$el.children('.body').html(membersListView.el);
         },
