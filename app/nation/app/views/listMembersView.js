@@ -21,11 +21,15 @@ $(function() {
             var that = this;
             var selectedGenderValues = $('#genderSelect').val();
             var selectedAgeGroupValues = $('#ageGroupSelect').val();
+            var selectedRoles = $('#rolesSelect').val();
             if (!selectedGenderValues) {
                 alert('Please select gender first')
                 return
             } else if (!selectedAgeGroupValues) {
                 alert('Please select age group first')
+                return
+            } else if (!selectedRoles) {
+                alert('Please select roles first')
                 return
             } else {
                 App.startActivityIndicator();
@@ -50,7 +54,7 @@ $(function() {
                     success: function (result) {
                         var listOfMembersForSurvey = [];
                         if(result.rows.length > 0) {
-                            listOfMembersForSurvey = that.getListOfMembersBasedOnAgeCriteria(result.rows, selectedAgeGroups);
+                            listOfMembersForSurvey = that.getListOfMembersBasedOnSelectedCriteria(result.rows, selectedAgeGroups, selectedRoles);
                             if(listOfMembersForSurvey.length > 0) {
                                 that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey, surveyModel);
                             } else {
@@ -67,7 +71,7 @@ $(function() {
             }
         },
 
-        getListOfMembersBasedOnAgeCriteria: function(models, ageGroups) {
+        getListOfMembersBasedOnSelectedCriteria: function(models, ageGroups, selectedRoles) {
             var currentComm;
             var config = new App.Collections.Configurations()
             config.fetch({
@@ -79,7 +83,18 @@ $(function() {
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
-                if(model.login != 'admin' && model.community == currentComm) {
+                var memberRoles = model.roles;
+                var isAValidRole = false;
+                _.each(selectedRoles,function(row){
+                    var role  = row;
+                    var index = memberRoles.map(function(element) {
+                        return element;
+                    }).indexOf(role);
+                    if (index > -1) {
+                        isAValidRole = true;
+                    }
+                });
+                if(model.login != 'admin' && model.community == currentComm && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
                     for(var j = 0 ; j < ageGroups.length ; j++) {
                         if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
@@ -125,7 +140,7 @@ $(function() {
         },
 
         render: function() {
-            var $button = $('<h6>Select Gender</h6><select multiple id="genderSelect"></select><h6>Select Age Group</h6><select multiple id="ageGroupSelect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
+            var $button = $('<h6>Select Gender</h6><select multiple id="genderSelect"></select><h6>Select Age Group</h6><select multiple id="ageGroupSelect"></select><h6>Select Roles</h6><select multiple id="rolesSelect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
             this.$el.append($button)
             this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
             this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')

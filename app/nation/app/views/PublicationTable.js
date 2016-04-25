@@ -24,7 +24,31 @@ $(function() {
         },
 
         render: function() {
+            var arrayOfPubs=[];
+            for(var i=0;i<this.collection.length;i++)
+            {
+                arrayOfPubs.push(this.collection.models[i].attributes);
+            }
+            arrayOfPubs.sort(this.sortByPropertyInDecreasingOrder('IssueNo'));
+            for(var i=0;i<this.collection.length;i++)
+            {
+                        this.collection.models[i].attributes = arrayOfPubs[i];
+                        this.collection.models[i].id=arrayOfPubs[i]._id;
+            }
             this.addAll()
+        },
+        sortByPropertyInDecreasingOrder: function(property) {
+            'use strict';
+            return function (a, b) {
+                var sortStatus = 0;
+                if (a[property] < b[property]) {
+                    sortStatus = 1;
+                } else if (a[property] > b[property]) {
+                    sortStatus = -1;
+                }
+
+                return sortStatus;
+            };
         }
     })
 
