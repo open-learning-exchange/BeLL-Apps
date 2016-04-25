@@ -83,7 +83,9 @@ $(function () {
                         success: function(commSurdata) {
                             var SurveyResDocsFromComm = [];
                             _.each(commSurdata.rows, function(row) {
-                                SurveyResDocsFromComm.push(row);
+                                if(row.memberId == memberId) {
+                                    SurveyResDocsFromComm.push(row);
+                                }
                             });
                             _.each(SurveyDocsFromComm,function(row){
                                 var surveyDocFromComm  = row.value;
