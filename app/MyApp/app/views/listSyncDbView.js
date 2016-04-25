@@ -346,19 +346,6 @@ $(function() {
 		//******************************************************************************************************************
 		//Replicate Members Db from community to nation
 		syncMembersDb: function() {
-			/*$.couch.replicate("members", 'http://'+ App.configuration.get('nationName') +':'+App.password+'@'+ App.configuration.get('nationUrl') + '/members' , "filter:_design/bell/adminFilter", {
-			 success: function(data) {
-			 alert("Members database replicated successfully.");
-			 if(isActivityLogChecked == false) {
-			 App.stopActivityIndicator();
-			 }
-			 },
-			 error: function(status) {
-			 alert("Members database replication failed.");
-			 }
-			 }, {
-			 create_target: true
-			 });*/
 			$.ajax({
 				headers: {
 					'Accept': 'application/json',
