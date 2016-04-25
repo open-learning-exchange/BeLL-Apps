@@ -169,7 +169,7 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify({
 					"source": "communityreports",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/communityreports'
+					"target": 'http://' + App.configuration.get('nationUrl') + '/communityreports'
 				}),
 				success: function(response) {
 					alert(App.languageDict.attributes.Reports_Replicated_Success)
@@ -193,7 +193,7 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify({
 					"source": "activitylog",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/activitylog'
+					"target": 'http://' + App.configuration.get('nationUrl') + '/activitylog'
 				}),
 				success: function(response) {
 					$.ajax({
@@ -303,7 +303,7 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify({
 					"source": "feedback",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/feedback'
+					"target": 'http://' + App.configuration.get('nationUrl') + '/feedback'
 				}),
 				success: function(response) {
 					alert(App.languageDict.attributes.FeedbackDb_Replicated_Success)
@@ -330,7 +330,7 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify({
 					"source": "report",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/report'
+					"target": 'http://' + App.configuration.get('nationUrl') + '/report'
 				}),
 				success: function(response) {
 					alert(App.languageDict.attributes.FeedbackDb_Replicated_Success)
@@ -369,7 +369,7 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify({
 					"source": "members",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/members',
+					"target": 'http://' + App.configuration.get('nationUrl') + '/members',
 					"filter": "bell/adminFilter"
 				}),
 				success: function(response) {
@@ -473,7 +473,7 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify({
 					"source": "surveyresponse",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyresponse'
+					"target": 'http://' + App.configuration.get('nationUrl') + '/surveyresponse'
 				}),
 				success: function(response) {
 					console.log("Successfully replicated survey response");
@@ -495,7 +495,7 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify({
 					"source": "surveyanswers",
-					"target": 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/surveyanswers'
+					"target": 'http://' + App.configuration.get('nationUrl') + '/surveyanswers'
 				}),
 				success: function(response) {
 					console.log("Successfully replicated survey answers");
