@@ -53,6 +53,8 @@ $(function() {
 
                 if (addtoDb) {
                     this.form.commit()
+                    var surveyTitle = this.model.get("SurveyTitle");
+                    this.model.set("SurveyTitle", $.trim(surveyTitle));
                     this.model.save(null, {
                         success: function(e) {
                             alert(App.languageDictValue.get('survey_Saved_Successfully'));
