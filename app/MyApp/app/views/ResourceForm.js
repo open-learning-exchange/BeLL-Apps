@@ -319,7 +319,17 @@ $(function() {
             // Send the updated model to the server
 
             var title = this.model.get("title");
+            var author = this.model.get("author");
+            var year = this.model.get("Year");
+            var publisher = this.model.get("Publisher");
+            var linkToLicense = this.model.get("linkToLicense");
+            var openUrl = this.model.get("openUrl");
             this.model.set("title", $.trim(title));
+            this.model.set("author", $.trim(author));
+            this.model.set("Year", $.trim(year));
+            this.model.set("Publisher", $.trim(publisher));
+            this.model.set("linkToLicense", $.trim(linkToLicense));
+            this.model.set("openUrl", $.trim(openUrl));
             var newTitle = this.model.get("title")
             if (this.model.get("title").length == 0) {
                 alert(App.languageDict.attributes.Missing_Resource_Title)
