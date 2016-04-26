@@ -102,8 +102,8 @@ $(function() {
         },
         setForm: function() {
             this.model.set({
-                Name: $('#nation-name').val(),
-                Code: $('#community-code').val(),
+                Name: $.trim($('#nation-name').val()),
+                Code: $.trim($('#community-code').val()),
                 Url: $('#nation-url').val(),
                 SponserName: $('#org-name').val(),
                 SponserAddress: $('#org-sponseraddress').val(),
@@ -168,68 +168,6 @@ $(function() {
                 }
             });
 
-            //            context.model.save()
-            //            alert("Successfully Saved")
-            //            App.startActivityIndicator()
-            //            Backbone.history.navigate('listCommunity',{trigger:true});
-            //            App.stopActivityIndicator()
-            /*    $.ajax({
-             headers: {
-             'Accept': 'application/json',
-             'Content-Type': 'application/json; charset=utf-8'
-             },
-             type: 'POST',
-             url: '/_replicate',
-             dataType: 'jsonp',
-             data: JSON.stringify({
-             "source": "community_code",
-             "target": "http://10.10.2.79:5984/community_code"
-             }),
-             success: function (response) {
-             console.log(response)
-             },
-             async: false
-             });
-
-
-             var myDonut = this.model.toJSON()
-             var m = JSON.stringify(myDonut)
-             alert(m)
-             $.ajax({
-             url : 'http://10.10.2.69:5984/community',
-             type : 'POST',
-             dataType : "jsonp",
-             data : m ,
-             success : function(json) {
-             console.log(json)
-             alert('ddkkkkddd')
-             }
-             })
-             // $.ajax({
-             //                         headers: {
-             //                             'Accept': 'application/json',
-             //                             'Content-Type': 'application/json; charset=utf-8'
-             //                         },
-             //                         type: 'POST',
-             //                         url: 'http://10.10.2.79:5984/community_code',
-             //                         dataType: 'jsonp',
-             //                         data: JSON.stringify(myDonut),
-             //                         success: function (response) {
-             //
-             //                         	console.log(data)
-             //                             console.log(response)
-             //                         },
-             //                         async: false
-             //                     });
-             //$.post('community_code',)  */
-
-
-
-            //}
-            // else{
-            //        		alert('not validate');
-            //
-            //        		}
         }
 
     })

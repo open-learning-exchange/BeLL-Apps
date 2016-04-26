@@ -111,7 +111,15 @@ $(function() {
             $('#Resolved', this.$el).hide()
             $('#memberLogin', this.$el).hide()
             $('#time', this.$el).hide()
-            var $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button></div>')
+            var $button;
+            if(App.languageDict.get("directionOfLang").toLowerCase() == "right")
+            {
+                $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button></div>');
+            }
+            else
+            {
+                $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button></div>')
+            }
             this.$el.append($button)
         }
     })

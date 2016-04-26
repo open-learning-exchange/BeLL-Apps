@@ -47,12 +47,17 @@ $(function () {
         },
 
         saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
+            var communityName = this.communityName;
             for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
                 if(surveyModel.get('receiverIds')) {
                     if(surveyModel.get('receiverIds').indexOf(listOfMembersForSurvey[x]) == -1) {
                         surveyModel.get('receiverIds').push(listOfMembersForSurvey[x]);
                     }
                 }
+            }
+            //Now saving community name of members in SentTO attribute of surveyModel
+            if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
+                surveyModel.get('sentTo').push(communityName);
             }
             surveyModel.save(null, {
                 success: function (model, response) {
@@ -84,28 +89,26 @@ $(function () {
 
         showMembersList: function () {
             var that = this;
-            var currentComm;
-            var config = new App.Collections.Configurations()
-            config.fetch({
-                async: false,
-                success: function(){
-                    currentComm = config.first().attributes.code;
-                }
-            });
+            var communityCode = this.communityCode;
             var viewtext = '<table class="btable btable-striped"><th>Name</th><th>Gender</th><th>Birth Year</th><th>Visits</th><th>Roles</th>'
             $.ajax({
-                url: '/members/_design/bell/_view/allMembers?include_docs=true',
+                url: '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="' + communityCode + '"',
                 type: 'GET',
                 dataType: 'json',
                 async: false,
                 success: function (json) {
-                    if(json.rows.length > 1) { //To check whether we have members other than admin
-                        for(var i = 0 ; i < json.rows.length ; i++) {
-                            var member = json.rows[i].doc;
-                            if(member.login != 'admin' && member.community == currentComm) {
-                                var birthYear = member.BirthDate.split('-')[0];
-                                viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td></tr>'
-                            }
+                    var membersList = [];
+                    for (var i = 0 ; i < json.rows.length ; i++) {
+                        var member = json.rows[i].doc;
+                        if(member.login != 'admin') {
+                            membersList.push(member);
+                        }
+                    }
+                    if(membersList.length > 0) {
+                        for(var i = 0 ; i < membersList.length ; i++) {
+                            var member = membersList[i];
+                            var birthYear = member.BirthDate.split('-')[0];
+                            viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td></tr>'
                         }
                         viewtext += '</table><br>'
                         viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
