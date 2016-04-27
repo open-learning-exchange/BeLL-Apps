@@ -25,29 +25,36 @@ $(function () {
         },
 
         SendSurveyToSelectedListOfMembers:function(){
+            var that = this;
             var selectedMembers = [];
+            var selectedCommunities = [];
             $("input[name='surveyMember']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedMembers.push($(this).val());
+                    var memberCommunity = $(this).val().split('_')[1];
+                    var index = that.selectedBellCodes.indexOf(memberCommunity);
+                    var communityName = that.selectedBellNames[index];
+                    if(selectedCommunities.indexOf(communityName) == -1) {
+                        selectedCommunities.push(communityName);
+                    }
                 }
             })
             if(selectedMembers.length > 0) {
                 App.startActivityIndicator();
-                var surveyModel = new App.Models.Survey({
-                    _id: this.surveyId
-                })
-                surveyModel.fetch({
-                    async: false
-                })
-                this.saveReceiverIdsIntoSurveyDoc(selectedMembers, surveyModel);
+                this.saveReceiverIdsIntoSurveyDoc(selectedMembers, selectedCommunities);
             } else {
                 alert("Please select members first");
                 return;
             }
         },
 
-        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
-            var communityName = 'test';
+        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, selectedCommunities) {
+            var surveyModel = new App.Models.Survey({
+                _id: this.surveyId
+            })
+            surveyModel.fetch({
+                async: false
+            })
             for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
                 if(surveyModel.get('receiverIds')) {
                     if(surveyModel.get('receiverIds').indexOf(listOfMembersForSurvey[x]) == -1) {
@@ -55,9 +62,12 @@ $(function () {
                     }
                 }
             }
-            //Now saving community name of members in SentTO attribute of surveyModel
-            if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
-                surveyModel.get('sentTo').push(communityName);
+            //Now saving community names of members in SentTO attribute of surveyModel
+            for(var i = 0 ; i < selectedCommunities.length ; i++) {
+                var communityName = selectedCommunities[i];
+                if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
+                    surveyModel.get('sentTo').push(communityName);
+                }
             }
             surveyModel.save(null, {
                 success: function (model, response) {
