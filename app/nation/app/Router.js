@@ -3594,21 +3594,11 @@ $(function() {
             $('#addQuestion').css('pointer-events','none');
         },
 
-        MembersList: function (surveyId, communityCode, communityName) {
+        MembersList: function (surveyId, selectedBellCodes, selectedBellNames) {
             var membersListView = new App.Views.MembersListView();
             membersListView.surveyId = surveyId;
-            if(communityCode == undefined) {
-                var config = new App.Collections.Configurations()
-                config.fetch({
-                    async: false,
-                    success: function(){
-                        communityCode = config.first().attributes.code;
-                        communityName = config.first().attributes.name;
-                    }
-                });
-            }
-            membersListView.communityCode = communityCode;
-            membersListView.communityName = communityName;
+            membersListView.selectedBellCodes = selectedBellCodes;
+            membersListView.selectedBellNames = selectedBellNames;
             membersListView.render();
             App.$el.children('.body').html(membersListView.el);
         },

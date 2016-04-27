@@ -37,13 +37,11 @@ $(function () {
                 }
             })
             if(selectedBellCodes.length > 0) {
-                console.log(selectedBellCodes);
-                console.log(selectedBellNames);
+                App.Router.MembersList(this.surveyId, selectedBellCodes, selectedBellNames);
             } else {
                 alert("Please select bells first");
                 return;
             }
-            //App.Router.MembersList(this.surveyId, communityChosen, communityName);
         },
 
         render: function () {
@@ -73,7 +71,7 @@ $(function () {
                     }
                     viewtext += '</table><br>'
                     viewtext += '<button class="btn btn-info" id="selectAllBells">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllBells">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="openMembersList">Get Members List</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
-                    that.$el.append(viewtext);
+                    that.$el.html(viewtext);
                 },
                 data: {},
                 async: false
