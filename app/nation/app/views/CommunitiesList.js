@@ -10,7 +10,7 @@ $(function () {
             "click  #openMembersList": "openMembersList",
             "click #returnBack" : function (e) {
                 history.back()
-            },
+            }
         },
 
         selectAllBells:function(){
