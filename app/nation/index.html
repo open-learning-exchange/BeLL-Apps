@@ -147,7 +147,7 @@
         <script src="app/views/CommunitySurveysTable.js"></script>
         <script src="app/views/SurveyAnswerTable.js"></script>
         <script src="app/views/SurveyAnswerRow.js"></script>
-        <script src="app/views/listMembersView.js"></script>
+        <script src="app/views/CriteriaListView.js"></script>
         <script src="app/views/MembersListView.js"></script>
         <script src="app/views/CommunitiesList.js"></script>
   	<script src="app/Router.js"></script>
@@ -213,12 +213,8 @@
   			App.Router.SelectCommunities(pId, type)
      }
 
-     function SelectMembers(surveyId){
-         App.Router.SelectMembers(surveyId);
-     }
-
-     function membersList(surveyId){
-         document.location.href = "#membersList/" + surveyId;
+     function selectCriteria(surveyId){
+         document.location.href = "#criteriaList/" + surveyId;
      }
 
      function communitiesList(surveyId){

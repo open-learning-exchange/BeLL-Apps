@@ -1,34 +1,67 @@
 $(function() {
 
-    App.Views.listMembersView = Backbone.View.extend({
-
-        id: "invitationForm",
+    App.Views.CriteriaListView = Backbone.View.extend({
 
         events: {
-            "click #cancelButton": "hidediv",
-            "click #formButton": "sendSurveyToMembers"
+            "click #formButton": "sendSurveyToMembers",
+            "click  #selectAllCriteria": "selectAllCriteria",
+            "click  #UnSelectAllCriteria": "UnSelectAllCriteria",
+            "click #returnBack" : function (e) {
+                history.back()
+            }
         },
 
-        hidediv: function() {
-            $('#invitationdiv').fadeOut(1000);
-            setTimeout(function() {
-                $('#invitationdiv').hide()
-            }, 1000);
-            $('#addQuestion').css('pointer-events','auto');
+        selectAllCriteria:function(){
+            $("input[name='genderSelector']").each( function () {
+                $(this).prop('checked', true);
+            });
+            $("input[name='ageGroupSelector']").each( function () {
+                $(this).prop('checked', true);
+            });
+            $("input[name='rolesSelector']").each( function () {
+                $(this).prop('checked', true);
+            });
+        },
+
+        UnSelectAllCriteria:function(){
+            $("input[name='genderSelector']").each( function () {
+                $(this).prop('checked', false);
+            });
+            $("input[name='ageGroupSelector']").each( function () {
+                $(this).prop('checked', false);
+            });
+            $("input[name='rolesSelector']").each( function () {
+                $(this).prop('checked', false);
+            });
         },
 
         sendSurveyToMembers: function() {
             var that = this;
-            var selectedGenderValues = $('#genderSelect').val();
-            var selectedAgeGroupValues = $('#ageGroupSelect').val();
-            var selectedRoles = $('#rolesSelect').val();
-            if (!selectedGenderValues) {
+            var selectedGenderValues = [];
+            $("input[name='genderSelector']").each(function() {
+                if ($(this).is(":checked")) {
+                    selectedGenderValues.push($(this).val());
+                }
+            })
+            var selectedAgeGroupValues = [];
+            $("input[name='ageGroupSelector']").each(function() {
+                if ($(this).is(":checked")) {
+                    selectedAgeGroupValues.push($(this).val());
+                }
+            })
+            var selectedRoles = [];
+            $("input[name='rolesSelector']").each(function() {
+                if ($(this).is(":checked")) {
+                    selectedRoles.push($(this).val());
+                }
+            })
+            if (selectedGenderValues.length == 0) {
                 alert('Please select gender first')
                 return
-            } else if (!selectedAgeGroupValues) {
+            } else if (selectedAgeGroupValues.length == 0) {
                 alert('Please select age group first')
                 return
-            } else if (!selectedRoles) {
+            } else if (selectedRoles.length == 0) {
                 alert('Please select roles first')
                 return
             } else {
@@ -66,8 +99,6 @@ $(function() {
                     },
                     async: false
                 });
-                that.hidediv();
-                App.stopActivityIndicator();
             }
         },
 
@@ -131,6 +162,12 @@ $(function() {
             surveyModel.save(null, {
                 success: function (model, response) {
                     alert("Survey has been sent successfully");
+                    App.stopActivityIndicator();
+                    Backbone.history.navigate('#surveydetail/' + surveyModel.get('_id'),
+                        {
+                            trigger: true
+                        }
+                    );
                 },
                 error: function (model, err) {
                     console.log(err);
@@ -140,10 +177,11 @@ $(function() {
         },
 
         render: function() {
-            var $button = $('<h6>Select Gender</h6><select multiple id="genderSelect"></select><h6>Select Age Group</h6><select multiple id="ageGroupSelect"></select><h6>Select Roles</h6><select multiple id="rolesSelect"></select><br><br><a class="btn btn-success" id="formButton">Send</button>')
-            this.$el.append($button)
-            this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
-            this.$el.append('<a class="btn btn-warning" id="cancelButton">Cancel</button>')
+            var viewtext = '<h6>Select Gender</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">Male &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">Female</td></tr></table><br>'
+            viewtext += '<h6>Select Age Group</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">Less than 15 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
+            viewtext += '<h6>Select Roles</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">Learner &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">Leader &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">Manager</td></tr></table><br>'
+            viewtext += '<button class="btn btn-info" id="selectAllCriteria">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="formButton">Send</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">Back</button>'
+            this.$el.append(viewtext)
         }
 
     })

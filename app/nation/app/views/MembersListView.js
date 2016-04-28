@@ -25,29 +25,36 @@ $(function () {
         },
 
         SendSurveyToSelectedListOfMembers:function(){
+            var that = this;
             var selectedMembers = [];
+            var selectedCommunities = [];
             $("input[name='surveyMember']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedMembers.push($(this).val());
+                    var memberCommunity = $(this).val().split('_')[1];
+                    var index = that.selectedBellCodes.indexOf(memberCommunity);
+                    var communityName = that.selectedBellNames[index];
+                    if(selectedCommunities.indexOf(communityName) == -1) {
+                        selectedCommunities.push(communityName);
+                    }
                 }
             })
             if(selectedMembers.length > 0) {
                 App.startActivityIndicator();
-                var surveyModel = new App.Models.Survey({
-                    _id: this.surveyId
-                })
-                surveyModel.fetch({
-                    async: false
-                })
-                this.saveReceiverIdsIntoSurveyDoc(selectedMembers, surveyModel);
+                this.saveReceiverIdsIntoSurveyDoc(selectedMembers, selectedCommunities);
             } else {
                 alert("Please select members first");
                 return;
             }
         },
 
-        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
-            var communityName = this.communityName;
+        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, selectedCommunities) {
+            var surveyModel = new App.Models.Survey({
+                _id: this.surveyId
+            })
+            surveyModel.fetch({
+                async: false
+            })
             for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
                 if(surveyModel.get('receiverIds')) {
                     if(surveyModel.get('receiverIds').indexOf(listOfMembersForSurvey[x]) == -1) {
@@ -55,9 +62,12 @@ $(function () {
                     }
                 }
             }
-            //Now saving community name of members in SentTO attribute of surveyModel
-            if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
-                surveyModel.get('sentTo').push(communityName);
+            //Now saving community names of members in SentTO attribute of surveyModel
+            for(var i = 0 ; i < selectedCommunities.length ; i++) {
+                var communityName = selectedCommunities[i];
+                if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
+                    surveyModel.get('sentTo').push(communityName);
+                }
             }
             surveyModel.save(null, {
                 success: function (model, response) {
@@ -77,51 +87,48 @@ $(function () {
         },
 
         render: function () {
-            var surveyModel = new App.Models.Survey({
-                _id: this.surveyId
-            })
-            surveyModel.fetch({
-                async: false
-            })
-            this.$el.html('<h3>' + surveyModel.get('SurveyTitle') + '</h3>');
             this.showMembersList();
         },
 
         showMembersList: function () {
             var that = this;
-            var communityCode = this.communityCode;
-            var viewtext = '<table class="btable btable-striped"><th>Name</th><th>Gender</th><th>Birth Year</th><th>Visits</th><th>Roles</th>'
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="' + communityCode + '"',
-                type: 'GET',
-                dataType: 'json',
-                async: false,
-                success: function (json) {
-                    var membersList = [];
-                    for (var i = 0 ; i < json.rows.length ; i++) {
-                        var member = json.rows[i].doc;
-                        if(member.login != 'admin') {
-                            membersList.push(member);
+            var viewtext = '<table class="btable btable-striped"><th>Name</th><th>Gender</th><th>Birth Year</th><th>Visits</th><th>Roles</th><th>Bell Name</th>'
+            var communityCode;
+            var membersList = [];
+            var selectedBellCodes = this.selectedBellCodes;
+            for(var i = 0 ; i < selectedBellCodes.length ; i++) {
+                communityCode = selectedBellCodes[i];
+                $.ajax({
+                    url: '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="' + communityCode + '"',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function (json) {
+                        for (var j = 0 ; j < json.rows.length ; j++) {
+                            var member = json.rows[j].doc;
+                            if(member.login != 'admin') {
+                                membersList.push(member);
+                            }
                         }
+                    },
+                    error: function (status) {
+                        console.log(status);
                     }
-                    if(membersList.length > 0) {
-                        for(var i = 0 ; i < membersList.length ; i++) {
-                            var member = membersList[i];
-                            var birthYear = member.BirthDate.split('-')[0];
-                            viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td></tr>'
-                        }
-                        viewtext += '</table><br>'
-                        viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
-                    } else {
-                        viewtext += '</table><br><span>No members found</span><br><br>'
-                        viewtext += '<button class="btn btn-info" id="returnBack">Back</button>'
-                    }
-                    that.$el.append(viewtext);
-                },
-                error: function (status) {
-                    console.log(status);
+                });
+            }
+            if(membersList.length > 0) {
+                for(var i = 0 ; i < membersList.length ; i++) {
+                    var member = membersList[i];
+                    var birthYear = member.BirthDate.split('-')[0];
+                    viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td><td>' + member.community + '</td></tr>'
                 }
-            });
+                viewtext += '</table><br>'
+                viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
+            } else {
+                viewtext += '</table><br><span>No members found</span><br><br>'
+                viewtext += '<button class="btn btn-info" id="returnBack">Back</button>'
+            }
+            that.$el.html(viewtext);
         },
 
     })
