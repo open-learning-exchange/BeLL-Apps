@@ -344,24 +344,32 @@ $(function() {
                 matchingAuthor = [];
                 var model = resultModels[i];
                 for (var st = 0; st < search_text.length; st++) {
-                    if (model.attributes.title.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
-                        matchingTitle.push(true);
-                    } else {
-                        matchingTitle.push(false);
+                    if(model.attributes.title) {
+                        if (model.attributes.title.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.title.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
+                            matchingTitle.push(true);
+                        } else {
+                            matchingTitle.push(false);
+                        }
                     }
-                    if (model.attributes.Publisher.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.Publisher.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.Publisher.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
-                        matchingPublisher.push(true);
-                    } else {
-                        matchingPublisher.push(false);
+                    if(model.attributes.Publisher) {
+                        if (model.attributes.Publisher.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.Publisher.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.Publisher.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
+                            matchingPublisher.push(true);
+                        } else {
+                            matchingPublisher.push(false);
+                        }
                     }
-                    if (model.attributes.author.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.author.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.author.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
-                        matchingAuthor.push(true);
-                    } else {
-                        matchingAuthor.push(false);
+                    if(model.attributes.author) {
+                        if (model.attributes.author.toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.author.replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.author.replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
+                            matchingAuthor.push(true);
+                        } else {
+                            matchingAuthor.push(false);
+                        }
                     }
-                    for (var j = 0; j < model.attributes.subject.length; j++) {
-                        if (model.attributes.subject[j].toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.subject[j].replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.subject[j].replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
-                            matchedResults.push(true);
+                    if(model.attributes.subject) {
+                        for (var j = 0; j < model.attributes.subject.length; j++) {
+                            if (model.attributes.subject[j].toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.subject[j].replace(/[!(.," "-;):]+/g, "").toLowerCase().indexOf(search_text[st]) > -1 || model.attributes.subject[j].replace(/[!(.,-;):]+/g, " ").toLowerCase().indexOf(search_text[st]) > -1) {
+                                matchedResults.push(true);
+                            }
                         }
                     }
                     if (model.attributes.Tag) {
