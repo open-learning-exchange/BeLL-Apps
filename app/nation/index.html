@@ -149,6 +149,7 @@
         <script src="app/views/SurveyAnswerRow.js"></script>
         <script src="app/views/listMembersView.js"></script>
         <script src="app/views/MembersListView.js"></script>
+        <script src="app/views/CommunitiesList.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
   	
@@ -218,6 +219,10 @@
 
      function membersList(surveyId){
          document.location.href = "#membersList/" + surveyId;
+     }
+
+     function communitiesList(surveyId){
+         document.location.href = "#communitiesList/" + surveyId;
      }
 
      function hideAllDivs () {
@@ -569,7 +574,7 @@
       </a>
     </li>
     <li> 
-      <a href= "../MyApp/index.htmllogout">
+      <a href= "../MyApp/index.html#logout">
           <%= languageDict.attributes.Logout %>
       </a>
     </li>	
