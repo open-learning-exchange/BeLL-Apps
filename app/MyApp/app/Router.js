@@ -5799,6 +5799,7 @@ $(function() {
                 function(err, response) {
                     if (!err) {
                         var collection = response.rows; // all docs from PouchDB's 'activitylogs' db
+                        console.log(collection);
                         for (var i = 0; i < response.total_rows; i++) { // if # of rows is zero, then
                             // PouchDB's activitylogs db has no docs in it to sync to CouchDB's activitylog db
                             var pouchActivityLogDoc = collection[i].doc;
