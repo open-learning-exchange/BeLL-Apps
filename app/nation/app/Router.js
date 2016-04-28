@@ -3582,17 +3582,10 @@ $(function() {
         },
 
         criteriaList: function(surveyId) {
-            //$('#invitationdiv').fadeIn(1000)
-            var inviteForm = new App.Views.listMembersView();
-            inviteForm.surveyId =surveyId;
-            inviteForm.render();
-            App.$el.children('.body').html(inviteForm.el);
-            //$('#invitationdiv').html('&nbsp');
-            //$('#invitationdiv').append(inviteForm.el);
-            /*$('#genderSelect').append("<option value='Male'>Male</option><option value='Female'>Female</option>");
-            $('#ageGroupSelect').append("<option value='5-14'>Less than 15</option><option value='15-24'>15-24</option><option value='25-44'>25-44</option><option value='45-64'>45-64</option><option value='65-100'>65+</option>");
-            $('#rolesSelect').append("<option value='Learner'>Learner</option><option value='Leader'>Leader</option><option value='Manager'>Manager</option>");
-            $('#addQuestion').css('pointer-events','none');*/
+            var criteriaListView = new App.Views.CriteriaListView();
+            criteriaListView.surveyId =surveyId;
+            criteriaListView.render();
+            App.$el.children('.body').html(criteriaListView.el);
         },
 
         MembersList: function (surveyId, selectedBellCodes, selectedBellNames) {
