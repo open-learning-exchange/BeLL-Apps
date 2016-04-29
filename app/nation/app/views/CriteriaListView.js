@@ -11,6 +11,9 @@ $(function() {
             }
         },
 
+        selectedBellCodes : [],
+        selectedBellNames : [],
+
         selectAllCriteria:function(){
             $("input[name='genderSelector']").each( function () {
                 $(this).prop('checked', true);
@@ -70,20 +73,18 @@ $(function() {
                     bellName = config.first().attributes.name;
                 }
             });
-            var selectedBellCodes = [];
-            var selectedBellNames = [];
-            selectedBellCodes.push(bellCode);
-            selectedBellNames.push(bellName);
+            that.selectedBellCodes = [];
+            that.selectedBellNames = [];
+            that.selectedBellCodes.push(bellCode);
+            that.selectedBellNames.push(bellName);
             $("input[name='bellSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     bellCode = $(this).val().split('_')[0];
                     bellName = $(this).val().split('_')[1];
-                    selectedBellCodes.push(bellCode);
-                    selectedBellNames.push(bellName);
+                    that.selectedBellCodes.push(bellCode);
+                    that.selectedBellNames.push(bellName);
                 }
             })
-            console.log(selectedBellCodes);
-            console.log(selectedBellNames);
             if (selectedGenderValues.length == 0) {
                 alert('Please select gender first')
                 return
@@ -132,14 +133,14 @@ $(function() {
         },
 
         getListOfMembersBasedOnSelectedCriteria: function(models, ageGroups, selectedRoles) {
-            var currentComm;
+            /*var currentComm;
             var config = new App.Collections.Configurations()
             config.fetch({
                 async: false,
                 success: function(){
                     currentComm = config.first().attributes.code;
                 }
-            });
+            });*/
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
@@ -154,7 +155,7 @@ $(function() {
                         isAValidRole = true;
                     }
                 });
-                if(model.login != 'admin' && model.community == currentComm && isAValidRole) {
+                if(model.login != 'admin' && this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
                     for(var j = 0 ; j < ageGroups.length ; j++) {
                         if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
@@ -180,12 +181,27 @@ $(function() {
         },
 
         saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
+            var that = this;
+            var selectedCommunities = [];
             for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
                 if(surveyModel.get('receiverIds')) {
                     var memberIdForSurvey = listOfMembersForSurvey[x].login + '_' + listOfMembersForSurvey[x].community;
                     if(surveyModel.get('receiverIds').indexOf(memberIdForSurvey) == -1) {
                         surveyModel.get('receiverIds').push(memberIdForSurvey);
                     }
+                    var memberCommunity = listOfMembersForSurvey[x].community;
+                    var index = that.selectedBellCodes.indexOf(memberCommunity);
+                    var communityName = that.selectedBellNames[index];
+                    if(selectedCommunities.indexOf(communityName) == -1) {
+                        selectedCommunities.push(communityName);
+                    }
+                }
+            }
+            //Now saving community names of members in SentTO attribute of surveyModel
+            for(var i = 0 ; i < selectedCommunities.length ; i++) {
+                var commName = selectedCommunities[i];
+                if(surveyModel.get('sentTo').indexOf(commName) == -1) {
+                    surveyModel.get('sentTo').push(commName);
                 }
             }
             surveyModel.save(null, {
