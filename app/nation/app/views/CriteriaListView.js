@@ -21,6 +21,9 @@ $(function() {
             $("input[name='rolesSelector']").each( function () {
                 $(this).prop('checked', true);
             });
+            $("input[name='bellSelector']").each( function () {
+                $(this).prop('checked', true);
+            });
         },
 
         UnSelectAllCriteria:function(){
@@ -31,6 +34,9 @@ $(function() {
                 $(this).prop('checked', false);
             });
             $("input[name='rolesSelector']").each( function () {
+                $(this).prop('checked', false);
+            });
+            $("input[name='bellSelector']").each( function () {
                 $(this).prop('checked', false);
             });
         },
@@ -55,6 +61,29 @@ $(function() {
                     selectedRoles.push($(this).val());
                 }
             })
+            var config = new App.Collections.Configurations();
+            var bellName, bellCode;
+            config.fetch({
+                async: false,
+                success: function(){
+                    bellCode = config.first().attributes.code;
+                    bellName = config.first().attributes.name;
+                }
+            });
+            var selectedBellCodes = [];
+            var selectedBellNames = [];
+            selectedBellCodes.push(bellCode);
+            selectedBellNames.push(bellName);
+            $("input[name='bellSelector']").each(function() {
+                if ($(this).is(":checked")) {
+                    bellCode = $(this).val().split('_')[0];
+                    bellName = $(this).val().split('_')[1];
+                    selectedBellCodes.push(bellCode);
+                    selectedBellNames.push(bellName);
+                }
+            })
+            console.log(selectedBellCodes);
+            console.log(selectedBellNames);
             if (selectedGenderValues.length == 0) {
                 alert('Please select gender first')
                 return
@@ -180,6 +209,20 @@ $(function() {
             var viewtext = '<h6>Select Gender</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">Male &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">Female</td></tr></table><br>'
             viewtext += '<h6>Select Age Group</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">Less than 15 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
             viewtext += '<h6>Select Roles</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">Learner &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">Leader &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">Manager</td></tr></table><br>'
+            viewtext += '<h6>Select Communities(Optional)</h6><table class="btable btable-striped">'
+            $.ajax({
+                type: 'GET',
+                url: '/community/_design/bell/_view/getAllCommunityNames',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td></tr>'
+                    }
+                },
+                data: {},
+                async: false
+            });
+            viewtext += '</table><br>'
             viewtext += '<button class="btn btn-info" id="selectAllCriteria">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="formButton">Send</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">Back</button>'
             this.$el.append(viewtext)
         }
