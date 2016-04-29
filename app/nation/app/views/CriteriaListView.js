@@ -44,26 +44,38 @@ $(function() {
             });
         },
 
-        sendSurveyToMembers: function() {
-            var that = this;
+        getSelectedGenderValues: function () {
             var selectedGenderValues = [];
             $("input[name='genderSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedGenderValues.push($(this).val());
                 }
             })
+            return selectedGenderValues;
+        },
+
+        getSelectedAgeGroups: function () {
             var selectedAgeGroupValues = [];
             $("input[name='ageGroupSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedAgeGroupValues.push($(this).val());
                 }
             })
+            return selectedAgeGroupValues;
+        },
+
+        getSelectedRoles: function () {
             var selectedRoles = [];
             $("input[name='rolesSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedRoles.push($(this).val());
                 }
             })
+            return selectedRoles;
+        },
+
+        getSelectedBells: function () {
+            var that = this;
             var config = new App.Collections.Configurations();
             var bellName, bellCode;
             config.fetch({
@@ -85,6 +97,14 @@ $(function() {
                     that.selectedBellNames.push(bellName);
                 }
             })
+        },
+
+        sendSurveyToMembers: function() {
+            var that = this;
+            var selectedGenderValues = that.getSelectedGenderValues();
+            var selectedAgeGroupValues = that.getSelectedAgeGroups();
+            var selectedRoles = that.getSelectedRoles();
+            that.getSelectedBells();
             if (selectedGenderValues.length == 0) {
                 alert('Please select gender first')
                 return
@@ -96,12 +116,6 @@ $(function() {
                 return
             } else {
                 App.startActivityIndicator();
-                var surveyModel = new App.Models.Survey({
-                    _id: that.surveyId
-                })
-                surveyModel.fetch({
-                    async: false
-                })
                 var selectedAgeGroups = [];
                 for(var i = 0 ; i < selectedAgeGroupValues.length ; i++) {
                     selectedAgeGroups.push(selectedAgeGroupValues[i].split('-'));
@@ -119,7 +133,7 @@ $(function() {
                         if(result.rows.length > 0) {
                             listOfMembersForSurvey = that.getListOfMembersBasedOnSelectedCriteria(result.rows, selectedAgeGroups, selectedRoles);
                             if(listOfMembersForSurvey.length > 0) {
-                                that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey, surveyModel);
+                                that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey);
                             } else {
                                 alert("No members have been found for the selected options");
                             }
@@ -133,14 +147,6 @@ $(function() {
         },
 
         getListOfMembersBasedOnSelectedCriteria: function(models, ageGroups, selectedRoles) {
-            /*var currentComm;
-            var config = new App.Collections.Configurations()
-            config.fetch({
-                async: false,
-                success: function(){
-                    currentComm = config.first().attributes.code;
-                }
-            });*/
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
@@ -180,9 +186,15 @@ $(function() {
             return age;
         },
 
-        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
+        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey) {
             var that = this;
-            var selectedCommunities = [];
+            var surveyModel = new App.Models.Survey({
+                _id: that.surveyId
+            })
+            surveyModel.fetch({
+                async: false
+            })
+            var selectedCommunities = []; //To save community names who's members has been selected for survey
             for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
                 if(surveyModel.get('receiverIds')) {
                     var memberIdForSurvey = listOfMembersForSurvey[x].login + '_' + listOfMembersForSurvey[x].community;
