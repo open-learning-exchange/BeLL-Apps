@@ -3475,6 +3475,8 @@ $(function() {
                                  }
                                 }
                             }
+                            jsonObjectsData.sort(that.sortByProperty('QStatement'));
+                            jsonObjectsData.sort(that.sortByProperty('QType'));
                             console.log(jsonObjectsData);
                             that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
                         } else {
@@ -3485,6 +3487,19 @@ $(function() {
                         console.log(err);
                     }
                 });
+        },
+        sortByProperty: function(property) {
+            'use strict';
+            return function (a, b) {
+                var sortStatus = 0;
+                if (a[property] < b[property]) {
+                    sortStatus = -1;
+                } else if (a[property] > b[property]) {
+                    sortStatus = 1;
+                }
+
+                return sortStatus;
+            };
         },
 
         JSONToCSVConvertor: function (JSONData, ReportTitle) {
