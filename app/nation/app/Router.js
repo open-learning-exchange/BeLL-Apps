@@ -2577,7 +2577,7 @@ $(function() {
         },
 
         OpenSurvey: function(surveyNo, communityName) {
-            App.$el.children('.body').html('<h4>' + 'Community Name: ' + communityName + '</h4>');
+            App.$el.children('.body').html('<h4>' + 'Bell Name: ' + communityName + '</h4>');
             App.$el.children('.body').append('<h4>' + 'Survey Number: ' + surveyNo + '</h4>');
             $.ajax({
                 url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?_include_docs=true',
