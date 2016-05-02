@@ -727,7 +727,7 @@
   "atleast_two_options": "Please provide atleast two options",
   "less_labels": "Labels are less than the rating value",
   "less_options": "Please provide atleast one options",
-  "nameOfCommunity":"Community Name:",
+  "nameOfCommunity":"Bell Name:",
   "birthYear":"Birth Year",
   "no_answer_survey":"No answers in this survey",
   "Survey_Title":"Survey Title",

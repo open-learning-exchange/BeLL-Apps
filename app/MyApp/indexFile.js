@@ -271,6 +271,14 @@ function submitSurvey(surveyId) {
             async:false
 
         });
+        var config = new App.Collections.Configurations();
+        var bellName;
+        config.fetch({
+            async: false,
+            success: function(){
+                bellName = config.first().attributes.name;
+            }
+        });
         var surveyResModel = surveyModel.attributes;
         delete surveyResModel._id;
         delete surveyResModel._rev;
@@ -305,16 +313,23 @@ function submitSurvey(surveyId) {
         });
         $.couch.db("surveyanswers").bulkSave({"docs": answersToSubmit}, {
             success: function(data) {
-                console.log(data);
+                var survey = new App.Models.Survey({
+                    _id: surveyId
+                });
+                survey.fetch({
+                    async: false
+                });
+                if(survey.get('submittedBy').indexOf(bellName) == -1) {
+                    survey.get('submittedBy').push(bellName);
+                    survey.save();
+                }
                 var answerDocIds = [];
                 for(var i = 0 ; i < data.length ; i++) {
                     answerDocIds.push(data[i].id);
                 }
                 surveyResModel.answersToQuestions = answerDocIds;
-                console.log(surveyResModel);
                 $.couch.db("surveyresponse").saveDoc(surveyResModel, {
                     success: function(data) {
-                        console.log(data);
                         alert(App.languageDict.get('Survey_Success_Message'));
                         App.stopActivityIndicator();
                         window.history.go(-1);

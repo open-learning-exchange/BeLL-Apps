@@ -11,6 +11,9 @@ $(function() {
             }
         },
 
+        selectedBellCodes : [],
+        selectedBellNames : [],
+
         selectAllCriteria:function(){
             $("input[name='genderSelector']").each( function () {
                 $(this).prop('checked', true);
@@ -19,6 +22,9 @@ $(function() {
                 $(this).prop('checked', true);
             });
             $("input[name='rolesSelector']").each( function () {
+                $(this).prop('checked', true);
+            });
+            $("input[name='bellSelector']").each( function () {
                 $(this).prop('checked', true);
             });
         },
@@ -33,28 +39,72 @@ $(function() {
             $("input[name='rolesSelector']").each( function () {
                 $(this).prop('checked', false);
             });
+            $("input[name='bellSelector']").each( function () {
+                $(this).prop('checked', false);
+            });
         },
 
-        sendSurveyToMembers: function() {
-            var that = this;
+        getSelectedGenderValues: function () {
             var selectedGenderValues = [];
             $("input[name='genderSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedGenderValues.push($(this).val());
                 }
             })
+            return selectedGenderValues;
+        },
+
+        getSelectedAgeGroups: function () {
             var selectedAgeGroupValues = [];
             $("input[name='ageGroupSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedAgeGroupValues.push($(this).val());
                 }
             })
+            return selectedAgeGroupValues;
+        },
+
+        getSelectedRoles: function () {
             var selectedRoles = [];
             $("input[name='rolesSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     selectedRoles.push($(this).val());
                 }
             })
+            return selectedRoles;
+        },
+
+        getSelectedBells: function () {
+            var that = this;
+            var config = new App.Collections.Configurations();
+            var bellName, bellCode;
+            config.fetch({
+                async: false,
+                success: function(){
+                    bellCode = config.first().attributes.code;
+                    bellName = config.first().attributes.name;
+                }
+            });
+            that.selectedBellCodes = [];
+            that.selectedBellNames = [];
+            that.selectedBellCodes.push(bellCode);
+            that.selectedBellNames.push(bellName);
+            $("input[name='bellSelector']").each(function() {
+                if ($(this).is(":checked")) {
+                    bellCode = $(this).val().split('_')[0];
+                    bellName = $(this).val().split('_')[1];
+                    that.selectedBellCodes.push(bellCode);
+                    that.selectedBellNames.push(bellName);
+                }
+            })
+        },
+
+        sendSurveyToMembers: function() {
+            var that = this;
+            var selectedGenderValues = that.getSelectedGenderValues();
+            var selectedAgeGroupValues = that.getSelectedAgeGroups();
+            var selectedRoles = that.getSelectedRoles();
+            that.getSelectedBells();
             if (selectedGenderValues.length == 0) {
                 alert('Please select gender first')
                 return
@@ -66,12 +116,6 @@ $(function() {
                 return
             } else {
                 App.startActivityIndicator();
-                var surveyModel = new App.Models.Survey({
-                    _id: that.surveyId
-                })
-                surveyModel.fetch({
-                    async: false
-                })
                 var selectedAgeGroups = [];
                 for(var i = 0 ; i < selectedAgeGroupValues.length ; i++) {
                     selectedAgeGroups.push(selectedAgeGroupValues[i].split('-'));
@@ -89,7 +133,7 @@ $(function() {
                         if(result.rows.length > 0) {
                             listOfMembersForSurvey = that.getListOfMembersBasedOnSelectedCriteria(result.rows, selectedAgeGroups, selectedRoles);
                             if(listOfMembersForSurvey.length > 0) {
-                                that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey, surveyModel);
+                                that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey);
                             } else {
                                 alert("No members have been found for the selected options");
                             }
@@ -103,14 +147,6 @@ $(function() {
         },
 
         getListOfMembersBasedOnSelectedCriteria: function(models, ageGroups, selectedRoles) {
-            var currentComm;
-            var config = new App.Collections.Configurations()
-            config.fetch({
-                async: false,
-                success: function(){
-                    currentComm = config.first().attributes.code;
-                }
-            });
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
@@ -125,7 +161,7 @@ $(function() {
                         isAValidRole = true;
                     }
                 });
-                if(model.login != 'admin' && model.community == currentComm && isAValidRole) {
+                if(this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
                     for(var j = 0 ; j < ageGroups.length ; j++) {
                         if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
@@ -150,13 +186,34 @@ $(function() {
             return age;
         },
 
-        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, surveyModel) {
+        saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey) {
+            var that = this;
+            var surveyModel = new App.Models.Survey({
+                _id: that.surveyId
+            })
+            surveyModel.fetch({
+                async: false
+            })
+            var selectedCommunities = []; //To save community names who's members has been selected for survey
             for(var x = 0 ; x < listOfMembersForSurvey.length ; x++) {
                 if(surveyModel.get('receiverIds')) {
                     var memberIdForSurvey = listOfMembersForSurvey[x].login + '_' + listOfMembersForSurvey[x].community;
                     if(surveyModel.get('receiverIds').indexOf(memberIdForSurvey) == -1) {
                         surveyModel.get('receiverIds').push(memberIdForSurvey);
                     }
+                    var memberCommunity = listOfMembersForSurvey[x].community;
+                    var index = that.selectedBellCodes.indexOf(memberCommunity);
+                    var communityName = that.selectedBellNames[index];
+                    if(selectedCommunities.indexOf(communityName) == -1) {
+                        selectedCommunities.push(communityName);
+                    }
+                }
+            }
+            //Now saving community names of members in SentTO attribute of surveyModel
+            for(var i = 0 ; i < selectedCommunities.length ; i++) {
+                var commName = selectedCommunities[i];
+                if(surveyModel.get('sentTo').indexOf(commName) == -1) {
+                    surveyModel.get('sentTo').push(commName);
                 }
             }
             surveyModel.save(null, {
@@ -180,6 +237,20 @@ $(function() {
             var viewtext = '<h6>Select Gender</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">Male &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">Female</td></tr></table><br>'
             viewtext += '<h6>Select Age Group</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">Less than 15 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
             viewtext += '<h6>Select Roles</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">Learner &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">Leader &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">Manager</td></tr></table><br>'
+            viewtext += '<h6>Select Communities(Optional)</h6><table class="btable btable-striped">'
+            $.ajax({
+                type: 'GET',
+                url: '/community/_design/bell/_view/getAllCommunityNames',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td></tr>'
+                    }
+                },
+                data: {},
+                async: false
+            });
+            viewtext += '</table><br>'
             viewtext += '<button class="btn btn-info" id="selectAllCriteria">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="formButton">Send</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">Back</button>'
             this.$el.append(viewtext)
         }
