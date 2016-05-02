@@ -427,6 +427,7 @@ $(function() {
             }
 
             var directionOfLang = languageDictValue.get('directionOfLang');*/
+            App.surveyAlert = 1;
             applyCorrectStylingSheet(direction);
         },
         MemberLogout: function() {

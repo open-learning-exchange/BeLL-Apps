@@ -768,5 +768,6 @@
   "Nation_Contact": "Nation Contact",
   "Authorized_By": "Authorized By",
   "Send_to_communities": "Send to communities",
-  "Nation_reports":"Nation's Reports"
+  "Nation_reports":"Nation's Reports",
+  "Survey_Alert": "You have a new survey, please submit your response"
 }

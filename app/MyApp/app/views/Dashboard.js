@@ -1159,7 +1159,21 @@ $(function() {
                 $('#welcomeButton').show();
             }
             $('#mailsDash').html(App.languageDict.attributes.Email + '(' + this.vars.mails + ')');
+            if(this.vars.mails > 0)
+            {
+                $('#mailsDash').css({"color": "red"});
+            }
             $('#surveysForMember').html(App.languageDict.attributes.Surveys + '(' + this.vars.survey_count_for_member + ')');
+            if(this.vars.survey_count_for_member > 0)
+            {
+                $('#surveysForMember').css({"color": "red"});
+                if(App.surveyAlert > 0)
+                {
+                    //You have a new survey, please submit your response
+                    alert(App.languageDict.attributes.Survey_Alert);
+                    App.surveyAlert = 0;
+                }
+            }
             //dashboard.$el.append('<div id="updates"></div>')
         },
         updateVariables: function(nation_version, new_publications_count, new_surveys_count) {
