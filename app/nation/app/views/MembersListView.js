@@ -106,9 +106,7 @@ $(function () {
                     success: function (json) {
                         for (var j = 0 ; j < json.rows.length ; j++) {
                             var member = json.rows[j].doc;
-                            if(member.login != 'admin') {
-                                membersList.push(member);
-                            }
+                            membersList.push(member);
                         }
                     },
                     error: function (status) {

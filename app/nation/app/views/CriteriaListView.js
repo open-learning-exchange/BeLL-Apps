@@ -161,7 +161,7 @@ $(function() {
                         isAValidRole = true;
                     }
                 });
-                if(model.login != 'admin' && this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
+                if(this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
                     for(var j = 0 ; j < ageGroups.length ; j++) {
                         if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
