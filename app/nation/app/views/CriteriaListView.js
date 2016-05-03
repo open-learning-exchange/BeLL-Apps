@@ -156,7 +156,7 @@ $(function() {
                         isAValidRole = true;
                     }
                 });
-                if(this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
+                if(model.login != 'admin' && this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
                     for(var j = 0 ; j < ageGroups.length ; j++) {
                         if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
@@ -204,11 +204,20 @@ $(function() {
                     }
                 }
             }
-            //Now saving community names of members in SentTO attribute of surveyModel
             for(var i = 0 ; i < selectedCommunities.length ; i++) {
                 var commName = selectedCommunities[i];
+                var index = that.selectedBellNames.indexOf(commName);
+                var commCode = that.selectedBellCodes[index];
+                //Now saving community names of members in SentTO attribute of surveyModel
                 if(surveyModel.get('sentTo').indexOf(commName) == -1) {
                     surveyModel.get('sentTo').push(commName);
+                }
+                //Saving admin members of bells in receiverIds of surveyModel if it is selected
+                if($("input[name='includeAdmins']").is(":checked")){
+                    var memberIdForAdmin = 'admin' + '_' + commCode;
+                    if(surveyModel.get('receiverIds').indexOf(memberIdForAdmin) == -1) {
+                        surveyModel.get('receiverIds').push(memberIdForAdmin);
+                    }
                 }
             }
             surveyModel.save(null, {
