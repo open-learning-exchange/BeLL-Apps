@@ -29,78 +29,11 @@ $(function() {
                 alert('Please select Community first')
                 return
             }
-            //For differentiating between publications and survey
             var that = this;
-            if (that.type == "survey") {
-                //alert("This is survey");
-                if (that.pId != undefined && that.pId != null) {
-                    if (that.pId) {
-                        that.syncSurveyData(that.pId, selectedValues);
-                    }
+            if (that.pId != undefined && that.pId != null) {
+                if (that.pId) {
+                    that.syncPublicationsData(that.pId, selectedValues);
                 }
-            } else {
-                //alert("This is publications");
-                if (that.pId != undefined && that.pId != null) {
-                    if (that.pId) {
-                        that.syncPublicationsData(that.pId, selectedValues);
-                    }
-                }
-            }
-            //End
-        },
-
-        syncSurveyData: function(sur_id, selectedValues) {
-            App.startActivityIndicator()
-            //******if starts********************************************
-            if (selectedValues.length > 0) {
-                var x = sur_id;
-                //***********************************************************
-                //Here we make sure that One survey should not be sent to one community for more than once
-                $.ajax({
-                    url: '/survey/_design/bell/_view/surveyById?include_docs=true&key="' + x + '"',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(surResult) {
-                        var surveyResult = surResult.rows[0];
-                        //******for loop start*************
-                        var i;
-                        var selectedComms = [];
-                        for (i = 0; i < selectedValues.length; i++) {
-                            console.log(selectedValues[i]);
-                            var cName = $("#comselect option[value='" + selectedValues[i] + "']").text()
-                            if (surveyResult.doc.sentTo != [] && surveyResult.doc.sentTo.length > 0 && surveyResult.doc.sentTo.indexOf(cName) > -1) {
-                                alert("This Survey is already sent to " + cName)
-                            } else {
-                                selectedComms.push(cName);
-                            }
-                        }
-                        if(i == selectedValues.length && selectedComms && selectedComms.length > 0) {
-                            for(var j = 0 ; j < selectedComms.length ; j++) {
-                                surveyResult.doc.sentTo.push(selectedComms[j]);
-                            }
-                            console.log(surveyResult.doc.sentTo);
-                            $.couch.db("survey").saveDoc(surveyResult.doc, {
-                                success: function(data) {
-                                    console.log(data);
-                                    alert("Survey has been sent");
-                                },
-                                error: function(status) {
-                                    console.log(status);
-                                },
-                                async: false
-                            });
-                        }
-                        //******for loop ends******************************
-                    },
-                    async: false
-                });
-                $("#list option[value='2']").text()
-                $('#invitationdiv').fadeOut(1000)
-                setTimeout(function() {
-                    $('#invitationdiv').hide()
-                }, 1000);
-                App.stopActivityIndicator();
-                $('#addQuestion').css('pointer-events','auto');
             }
         },
 

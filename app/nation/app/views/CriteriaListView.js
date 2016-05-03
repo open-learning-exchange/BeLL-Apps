@@ -256,6 +256,7 @@ $(function() {
                 async: false
             });
             viewtext += '</table><br>'
+            viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>Include Admins</i></b></span><br>'
             viewtext += '<button class="btn btn-info" id="selectAllCriteria">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="formButton">Send</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">Back</button>'
             this.$el.append(viewtext)
         }

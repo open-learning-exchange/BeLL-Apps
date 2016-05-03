@@ -121,7 +121,8 @@ $(function () {
                     viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td><td>' + member.community + '</td></tr>'
                 }
                 viewtext += '</table><br>'
-                viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
+                viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>Include Admins</i></b></span><br>'
+                viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
             } else {
                 viewtext += '</table><br><span>No members found</span><br><br>'
                 viewtext += '<button class="btn btn-info" id="returnBack">Back</button>'
