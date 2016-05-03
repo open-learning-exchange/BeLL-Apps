@@ -38,7 +38,6 @@ $(function() {
         },
 
         syncPublicationsData: function(p_id, selectedValues) {
-            //alert("In syncPubData");
             App.startActivityIndicator()
             var sendPub = new Array()
             //******if starts********************************************
