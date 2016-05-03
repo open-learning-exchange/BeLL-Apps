@@ -49,6 +49,7 @@ $(function () {
         },
 
         saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, selectedCommunities) {
+            var that = this;
             var surveyModel = new App.Models.Survey({
                 _id: this.surveyId
             })
@@ -62,11 +63,20 @@ $(function () {
                     }
                 }
             }
-            //Now saving community names of members in SentTO attribute of surveyModel
             for(var i = 0 ; i < selectedCommunities.length ; i++) {
-                var communityName = selectedCommunities[i];
-                if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
-                    surveyModel.get('sentTo').push(communityName);
+                var commName = selectedCommunities[i];
+                var index = that.selectedBellNames.indexOf(commName);
+                var commCode = that.selectedBellCodes[index];
+                //Now saving community names of members in SentTO attribute of surveyModel
+                if(surveyModel.get('sentTo').indexOf(commName) == -1) {
+                    surveyModel.get('sentTo').push(commName);
+                }
+                //Saving admin members of bells in receiverIds of surveyModel if it is selected
+                if($("input[name='includeAdmins']").is(":checked")){
+                    var memberIdForAdmin = 'admin' + '_' + commCode;
+                    if(surveyModel.get('receiverIds').indexOf(memberIdForAdmin) == -1) {
+                        surveyModel.get('receiverIds').push(memberIdForAdmin);
+                    }
                 }
             }
             surveyModel.save(null, {
