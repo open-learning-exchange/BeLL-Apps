@@ -76,19 +76,9 @@ $(function() {
 
         getSelectedBells: function () {
             var that = this;
-            var config = new App.Collections.Configurations();
-            var bellName, bellCode;
-            config.fetch({
-                async: false,
-                success: function(){
-                    bellCode = config.first().attributes.code;
-                    bellName = config.first().attributes.name;
-                }
-            });
+            var bellCode, bellName;
             that.selectedBellCodes = [];
             that.selectedBellNames = [];
-            that.selectedBellCodes.push(bellCode);
-            that.selectedBellNames.push(bellName);
             $("input[name='bellSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     bellCode = $(this).val().split('_')[0];
@@ -114,6 +104,9 @@ $(function() {
             } else if (selectedRoles.length == 0) {
                 alert('Please select roles first')
                 return
+            } else if (that.selectedBellCodes.length == 0) {
+                alert('Please select bells first')
+                return
             } else {
                 App.startActivityIndicator();
                 var selectedAgeGroups = [];
@@ -136,9 +129,11 @@ $(function() {
                                 that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey);
                             } else {
                                 alert("No members have been found for the selected options");
+                                App.stopActivityIndicator();
                             }
                         } else {
                             alert("No members have been found for the selected options");
+                            App.stopActivityIndicator();
                         }
                     },
                     async: false
@@ -234,17 +229,27 @@ $(function() {
         },
 
         render: function() {
+            var config = new App.Collections.Configurations();
+            var bellName, bellCode;
+            config.fetch({
+                async: false,
+                success: function(){
+                    bellCode = config.first().attributes.code;
+                    bellName = config.first().attributes.name;
+                }
+            });
             var viewtext = '<h6>Select Gender</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">Male &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">Female</td></tr></table><br>'
             viewtext += '<h6>Select Age Group</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">Less than 15 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
             viewtext += '<h6>Select Roles</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">Learner &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">Leader &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">Manager</td></tr></table><br>'
-            viewtext += '<h6>Select Communities(Optional)</h6><table class="btable btable-striped">'
+            viewtext += '<h6>Select Bells</h6><table class="btable btable-striped"><th>Bell Name</th><th>Type</th>'
+            viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + 'Nation' + '</td></tr>'
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getAllCommunityNames',
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td></tr>'
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + 'Community' + '</td></tr>'
                     }
                 },
                 data: {},
