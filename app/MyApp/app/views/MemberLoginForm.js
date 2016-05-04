@@ -119,9 +119,22 @@ $(function() {
             members.login = credentials.get('login')
             members.fetch({
                 success: function() {
+                    var i;
                     if (members.length > 0) {
-                        member = members.first();
-                        if (member && member.get('password') == credentials.get('password') &&member.get('login') == credentials.get('login') ) {
+                       // member=members.first();
+                      for(i=0; i <members.length ; i++)
+                      {
+                      member= members.models[i];
+                      var config = new App.Collections.Configurations();
+                      var bellCode;
+                      config.fetch({
+                              async: false,
+                          success: function(){
+                              bellCode = config.first().attributes.code;
+                          }
+                      })
+
+                      if (member && member.get('password') == credentials.get('password') && member.get('login') == credentials.get('login') && member.get('community') == bellCode ) {
                             if (member.get('status') == "active") {
                                 //UPDATING MEMBER VISITS
                                 App.member = member;
@@ -182,7 +195,11 @@ $(function() {
                             } else {
                                 alert(App.languageDict.attributes.Account_DeActivated)
                             }
-                        } else {
+                          break;
+                      }
+                      }
+                    if(i==members.length)
+                    {
                             alert(App.languageDict.attributes.Invalid_Credentials)
                         }
                     } else {
