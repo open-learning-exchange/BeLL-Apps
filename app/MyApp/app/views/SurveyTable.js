@@ -8,7 +8,7 @@ $(function () {
         add: function (model, isAlreadyDownloaded, isSubmitted, memberId) {
             // carry the survey in a variable global to this (SurveyTable) view for use in event handling
             this.surveyInfo[model._id]= model;
-            if (isAlreadyDownloaded && isSubmitted) {
+            /*if (isAlreadyDownloaded && isSubmitted) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                 '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
                 '">Open</a><label>&nbsp&nbspSubmitted</label></td></tr>');
@@ -16,9 +16,14 @@ $(function () {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                 '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
                 '">Open</a><label>&nbsp&nbspUn-Submitted</label></td></tr>');
-            } else if (!isAlreadyDownloaded) {
+            }*/
+            if (isAlreadyDownloaded == false) {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                 '" class="downloadSurvey btn btn-info">Download</a><label>&nbsp&nbspNew</label></td></tr>');
+            } else {
+                this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
+                    '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
+                    '">Open</a></td></tr>');
             }
         },
         events:{
@@ -58,9 +63,9 @@ $(function () {
                         success: function (json) {
                             var SurveyDocsFromNation = [];
                             _.each(json.rows, function (row) {
-                                if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
+                                //if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
                                     SurveyDocsFromNation.push(row);
-                                }
+                                //}
                             });
                             _.each(SurveyDocsFromNation,function(row){
                                 var surveyFromNation = row.value;
@@ -70,12 +75,15 @@ $(function () {
                                 var isAlreadyDownloaded = false;
                                 var isSubmitted = false;
                                 if (index == -1) { // its a new or yet-to-be-download survey from nation, so display it as new
-                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, memberId);
+                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, null);
+                                } else {
+                                    isAlreadyDownloaded = true;
+                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, null);
                                 }
                             });
                         }
                     });
-                    $.ajax({
+                    /*$.ajax({
                         url: '/surveyresponse/_design/bell/_view/surveyResBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
                         type: 'GET',
                         dataType: 'json',
@@ -107,7 +115,7 @@ $(function () {
                         error: function(status) {
                             console.log(status);
                         }
-                    });
+                    });*/
                 },
                 error: function(status) {
                     console.log(status);
