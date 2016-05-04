@@ -53,13 +53,17 @@ $(function () {
                                 var isSubmitted = false;
                                 if (index == -1) { // its a new or yet-to-be-download survey from nation, so display it as new
                                     that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, null);
-                                } else {
-                                    isAlreadyDownloaded = true;
-                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, null);
                                 }
                             });
                         }
                     });
+                    //Showing those surveys which already has been downloaded
+                    for(var i = 0 ; i < SurveyDocsFromComm.length ; i++) {
+                        var surveyDoc = SurveyDocsFromComm[i].value;
+                        var isAlreadyDownloaded = true;
+                        var isSubmitted = false;
+                        that.add(surveyDoc, isAlreadyDownloaded, isSubmitted, null);
+                    }
                 },
                 error: function(status) {
                     console.log(status);
