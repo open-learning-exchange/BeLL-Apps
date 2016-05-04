@@ -116,7 +116,15 @@ $(function() {
             //alert("login + "+this.form.get('login'));
             var members = new App.Collections.Members()
             var member;
-            members.login = credentials.get('login')
+            members.login = credentials.get('login');
+            var config = new App.Collections.Configurations();
+            var bellCode;
+            config.fetch({
+                async: false,
+                success: function(){
+                    bellCode = config.first().attributes.code;
+                }
+            })
             members.fetch({
                 success: function() {
                     var i;
@@ -125,14 +133,6 @@ $(function() {
                       for(i=0; i <members.length ; i++)
                       {
                       member= members.models[i];
-                      var config = new App.Collections.Configurations();
-                      var bellCode;
-                      config.fetch({
-                              async: false,
-                          success: function(){
-                              bellCode = config.first().attributes.code;
-                          }
-                      })
 
                       if (member && member.get('password') == credentials.get('password') && member.get('login') == credentials.get('login') && member.get('community') == bellCode ) {
                             if (member.get('status') == "active") {
