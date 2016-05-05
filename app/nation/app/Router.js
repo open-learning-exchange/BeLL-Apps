@@ -3651,8 +3651,7 @@ $(function() {
             var surveyTitles = [];
             $.ajax({
                 type: 'GET',
-                url:'/survey/_design/bell/_view/surveyByTitle?include_docs=true&descending=true&limit=5',
-                //url: '/publications/_design/bell/_view/publicationIssue?include_docs=true',
+                url:'/survey/_design/bell/_view/surveyBySurveyNo?include_docs=true&descending=true&limit=5',
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
