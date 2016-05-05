@@ -56,19 +56,31 @@ $(function () {
                                                 surveyResDocs.push(row);
                                             }
                                         });
+                                        var submitted = [];
+                                        var unSubmitted = [];
                                         _.each(surveyDocs,function(row){
                                             var surveyDoc  = row.value;
                                             var index = surveyResDocs.map(function(element) {
                                                 return element.value.SurveyNo;
                                             }).indexOf(surveyDoc.SurveyNo);
-                                            var isSubmitted = false;
                                             if (index == -1) { // its a survey which is not submitted yet
-                                                that.add(surveyDoc, isSubmitted, memberId);
+                                                unSubmitted.push(surveyDoc);
                                             } else { // its an already submitted survey.
-                                                isSubmitted = true;
-                                                that.add(surveyDoc, isSubmitted, memberId);
+                                                submitted.push(surveyDoc);
                                             }
                                         });
+                                        unSubmitted.sort(that.sortByProperty('SurveyNo'));
+                                        submitted.sort(that.sortByPropertyInDecreasingOrder('SurveyNo'));
+                                        var isSubmitted = false;
+                                        for(var i = 0 ; i < unSubmitted.length ; i++) {
+                                            var surDoc = unSubmitted[i];
+                                            that.add(surDoc, isSubmitted, memberId);
+                                        }
+                                        for(var i = 0 ; i < submitted.length ; i++) {
+                                            var surDoc = submitted[i];
+                                            isSubmitted = true;
+                                            that.add(surDoc, isSubmitted, memberId);
+                                        }
                                     },
                                     error: function(status) {
                                         console.log(status);
@@ -85,6 +97,34 @@ $(function () {
 
             });
             applyStylingSheet();
+        },
+
+        sortByProperty: function(property) {
+            'use strict';
+            return function (a, b) {
+                var sortStatus = 0;
+                if (a[property] < b[property]) {
+                    sortStatus = -1;
+                } else if (a[property] > b[property]) {
+                    sortStatus = 1;
+                }
+
+                return sortStatus;
+            };
+        },
+
+        sortByPropertyInDecreasingOrder: function(property) {
+            'use strict';
+            return function (a, b) {
+                var sortStatus = 0;
+                if (a[property] < b[property]) {
+                    sortStatus = 1;
+                } else if (a[property] > b[property]) {
+                    sortStatus = -1;
+                }
+
+                return sortStatus;
+            };
         },
 
     })
