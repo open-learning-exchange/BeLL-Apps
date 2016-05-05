@@ -6,19 +6,14 @@ $(function () {
         className: "table table-striped",
         surveyInfo:[],
         add: function (model, isAlreadyDownloaded, isSubmitted, memberId) {
-            // carry the survey in a variable global to this (SurveyTable) view for use in event handling
             this.surveyInfo[model._id]= model;
-            if (isAlreadyDownloaded && isSubmitted) {
+            if (isAlreadyDownloaded == false) {
+                this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
+                '" class="downloadSurvey btn btn-info">' + App.languageDict.get('Download') + '</a><label>&nbsp&nbsp' + App.languageDict.get('New') + '</label></td></tr>');
+            } else {
                 this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
                     '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
-                    '">' + App.languageDict.get('Open') + '</a><label>&nbsp&nbsp' + App.languageDict.get('Submitted') + '</label></td></tr>');
-            } else if (isAlreadyDownloaded && !(isSubmitted)) {
-                this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                    '" class="openSurvey btn btn-info" href="#openSurvey/' + model._id + '/' + isSubmitted + '/' + memberId +
-                    '">' + App.languageDict.get('Open') + '</a><label>&nbsp&nbsp' + App.languageDict.get('Un_Submitted') + '</label></td></tr>');
-            } else if (!isAlreadyDownloaded) {
-                this.$el.append('<tr id="' + model._id + '"><td>' + model.SurveyNo+ '</td><td>' + model.SurveyTitle+ '</td><td><a name="' +model._id +
-                    '" class="downloadSurvey btn btn-info">' + App.languageDict.get('Download') + '</a><label>&nbsp&nbsp' + App.languageDict.get('New') + '</label></td></tr>');
+                    '">' + App.languageDict.get('Open') + '</a></td></tr>');
             }
         },
         events:{
@@ -58,9 +53,7 @@ $(function () {
                         success: function (json) {
                             var SurveyDocsFromNation = [];
                             _.each(json.rows, function (row) {
-                                if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
                                     SurveyDocsFromNation.push(row);
-                                }
                             });
                             _.each(SurveyDocsFromNation,function(row){
                                 var surveyFromNation = row.value;
@@ -70,44 +63,18 @@ $(function () {
                                 var isAlreadyDownloaded = false;
                                 var isSubmitted = false;
                                 if (index == -1) { // its a new or yet-to-be-download survey from nation, so display it as new
-                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, memberId);
+                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, null);
                                 }
                             });
                         }
                     });
-                    $.ajax({
-                        url: '/surveyresponse/_design/bell/_view/surveyResBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function(commSurdata) {
-                            var SurveyResDocsFromComm = [];
-                            _.each(commSurdata.rows, function(row) {
-                                if(row.memberId == memberId) {
-                                    SurveyResDocsFromComm.push(row);
-                                }
-                            });
-                            _.each(SurveyDocsFromComm,function(row){
-                                var surveyDocFromComm  = row.value;
-                                var index = SurveyResDocsFromComm.map(function(element) {
-                                    return element.value._id;
-                                }).indexOf(surveyDocFromComm._id);
-                                var isAlreadyDownloaded = false;
-                                var isSubmitted = false;
-                                if (index == -1) { // its a new survey which is downloaded but not submitted yet
-                                    isAlreadyDownloaded = true;
-                                    that.add(surveyDocFromComm, isAlreadyDownloaded, isSubmitted, memberId);
-                                } else { // its an already downloaded and submitted survey. display it without the new mark
-                                    isAlreadyDownloaded = true;
-                                    isSubmitted = true;
-                                    that.add(surveyDocFromComm, isAlreadyDownloaded, isSubmitted, memberId);
-                                }
-                            });
-                        },
-                        error: function(status) {
-                            console.log(status);
-                        }
-                    });
+                    //Showing those surveys which already has been downloaded
+                    for(var i = 0 ; i < SurveyDocsFromComm.length ; i++) {
+                        var surveyDoc = SurveyDocsFromComm[i].value;
+                        var isAlreadyDownloaded = true;
+                        var isSubmitted = false;
+                        that.add(surveyDoc, isAlreadyDownloaded, isSubmitted, null);
+                    }
                 },
                 error: function(status) {
                     console.log(status);

@@ -180,7 +180,7 @@ $(function() {
                 surQuestionsTable.Id = surveyId;
                 surQuestionsTable.render();
                 $('#surveyBody').append(surQuestionsTable.el);
-                if(questionsColl.length > 0) {
+                if(questionsColl.length > 0 && memberId != "null") {
                     $('#surveyBody').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">' + App.languageDict.get('Submit') + '</button></div>');
                 }
             } else {

@@ -76,19 +76,9 @@ $(function() {
 
         getSelectedBells: function () {
             var that = this;
-            var config = new App.Collections.Configurations();
-            var bellName, bellCode;
-            config.fetch({
-                async: false,
-                success: function(){
-                    bellCode = config.first().attributes.code;
-                    bellName = config.first().attributes.name;
-                }
-            });
+            var bellCode, bellName;
             that.selectedBellCodes = [];
             that.selectedBellNames = [];
-            that.selectedBellCodes.push(bellCode);
-            that.selectedBellNames.push(bellName);
             $("input[name='bellSelector']").each(function() {
                 if ($(this).is(":checked")) {
                     bellCode = $(this).val().split('_')[0];
@@ -114,6 +104,9 @@ $(function() {
             } else if (selectedRoles.length == 0) {
                 alert('Please select roles first')
                 return
+            } else if (that.selectedBellCodes.length == 0) {
+                alert('Please select bells first')
+                return
             } else {
                 App.startActivityIndicator();
                 var selectedAgeGroups = [];
@@ -136,9 +129,11 @@ $(function() {
                                 that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey);
                             } else {
                                 alert("No members have been found for the selected options");
+                                App.stopActivityIndicator();
                             }
                         } else {
                             alert("No members have been found for the selected options");
+                            App.stopActivityIndicator();
                         }
                     },
                     async: false
@@ -161,7 +156,7 @@ $(function() {
                         isAValidRole = true;
                     }
                 });
-                if(this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
+                if(model.login != 'admin' && this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
                     for(var j = 0 ; j < ageGroups.length ; j++) {
                         if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
@@ -209,11 +204,20 @@ $(function() {
                     }
                 }
             }
-            //Now saving community names of members in SentTO attribute of surveyModel
             for(var i = 0 ; i < selectedCommunities.length ; i++) {
                 var commName = selectedCommunities[i];
+                var index = that.selectedBellNames.indexOf(commName);
+                var commCode = that.selectedBellCodes[index];
+                //Now saving community names of members in SentTO attribute of surveyModel
                 if(surveyModel.get('sentTo').indexOf(commName) == -1) {
                     surveyModel.get('sentTo').push(commName);
+                }
+                //Saving admin members of bells in receiverIds of surveyModel if it is selected
+                if($("input[name='includeAdmins']").is(":checked")){
+                    var memberIdForAdmin = 'admin' + '_' + commCode;
+                    if(surveyModel.get('receiverIds').indexOf(memberIdForAdmin) == -1) {
+                        surveyModel.get('receiverIds').push(memberIdForAdmin);
+                    }
                 }
             }
             surveyModel.save(null, {
@@ -234,23 +238,34 @@ $(function() {
         },
 
         render: function() {
+            var config = new App.Collections.Configurations();
+            var bellName, bellCode;
+            config.fetch({
+                async: false,
+                success: function(){
+                    bellCode = config.first().attributes.code;
+                    bellName = config.first().attributes.name;
+                }
+            });
             var viewtext = '<h6>Select Gender</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">Male &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">Female</td></tr></table><br>'
             viewtext += '<h6>Select Age Group</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">Less than 15 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
             viewtext += '<h6>Select Roles</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">Learner &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">Leader &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">Manager</td></tr></table><br>'
-            viewtext += '<h6>Select Communities(Optional)</h6><table class="btable btable-striped">'
+            viewtext += '<h6>Select Bells</h6><table class="btable btable-striped"><th>Bell Name</th><th>Type</th>'
+            viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + 'Nation' + '</td></tr>'
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getAllCommunityNames',
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td></tr>'
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + 'Community' + '</td></tr>'
                     }
                 },
                 data: {},
                 async: false
             });
             viewtext += '</table><br>'
+            viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>Include Admins</i></b></span><br>'
             viewtext += '<button class="btn btn-info" id="selectAllCriteria">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="formButton">Send</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">Back</button>'
             this.$el.append(viewtext)
         }

@@ -40,9 +40,9 @@ $(function() {
         },
 
         loadLanguageDocs : function(language) {
-        var clanguage, languageDict;
+            var clanguage, languageDict;
 
-        //fetching nations configurations
+            //fetching nations configurations
             var config = new App.Collections.Configurations()
             config.fetch({
                 async: false,
@@ -79,7 +79,7 @@ $(function() {
                 var member;
                 var members = new App.Collections.Members()
                 members.login = $.cookie('Member.login');
-             //   clanguage=currentConfig.currentLanguage;
+                //   clanguage=currentConfig.currentLanguage;
                 members.fetch({
                     success: function () {
                         if (members.length > 0) {
@@ -100,21 +100,21 @@ $(function() {
 
             }
             return languageDict;
-    },
+        },
         getAvailableLanguages : function (){
-        var allLanguages={};
-        var languages = new App.Collections.Languages();
-        languages.fetch({
-            async: false
-        });
-        for(var i=0;i<languages.length;i++) {
-            if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
-                var languageName =languages.models[i].attributes.nameOfLanguage;
-                allLanguages[languageName]=languages.models[i].get('nameInNativeLang');
+            var allLanguages={};
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            for(var i=0;i<languages.length;i++) {
+                if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                    var languageName =languages.models[i].attributes.nameOfLanguage;
+                    allLanguages[languageName]=languages.models[i].get('nameInNativeLang');
+                }
             }
-        }
-        return allLanguages;
-    },
+            return allLanguages;
+        },
         applyCorrectStylingSheet: function(directionOfLang) {
             if (directionOfLang.toLowerCase() === "right") {
 
@@ -658,7 +658,7 @@ $(function() {
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
                 $('#configTable').css({"direction":"rtl",
-                "margin-right": "2%"});
+                    "margin-right": "2%"});
                 $('#configTable div div h3').css('margin-right','0%');
             }
 
@@ -3078,8 +3078,7 @@ $(function() {
                 }
             });
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
-            var type = "survey";
-            App.$el.children('.body').html('<div class="directionsAndFloat" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('Survey_Number') + ' '+ surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button id="sendSurveyBtn" class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + surveyId + '\',\'' + type + '\')">Send to Communities</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="selectCriteria(\'' + surveyId + '\')">Send by criteria</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="communitiesList(\'' + surveyId + '\')">Send to bell members</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br /><label id="select-ratings" >Select the number of ratings:</label> <br><select onchange="display(this.value);" name="rating_count" class="surTextArea" id="select_rating"><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey" disabled="true"><br></span><script> function display(val) { if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"><label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
+            App.$el.children('.body').html('<div class="directionsAndFloat" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('Survey_Number') + ' '+ surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="selectCriteria(\'' + surveyId + '\')">Send by criteria</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="communitiesList(\'' + surveyId + '\')">Send to bell members</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br /><label id="select-ratings" >Select the number of ratings:</label> <br><select onchange="display(this.value);" name="rating_count" class="surTextArea" id="select_rating"><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey" disabled="true"><br></span><script> function display(val) { if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"><label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
             $('#addQuestion').text(App.languageDictValue.get('Add_Question'));
             $('#sendSurveyBtn').text(App.languageDictValue.get('Send_to_communities'));
             $(function () {
@@ -3405,88 +3404,88 @@ $(function() {
 
         downloadCommunitySurveys: function (surveyNo, surTitle) {
             var that = this;
-                $.ajax({
-                    url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
-                    type: 'GET',
-                    dataType: 'json',
-                    async: false,
-                    success: function (json) {
-                        console.log(json);
-                        var jsonRows = json.rows;
-                        var surveyResModels = [];
-                        for(var i = 0 ; i < jsonRows.length ; i++) {
-                            if(jsonRows[i].value.SurveyNo == surveyNo && jsonRows[i].value.SurveyTitle == surTitle) {
-                                surveyResModels.push(jsonRows[i].value);
-                            }
+            $.ajax({
+                url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    console.log(json);
+                    var jsonRows = json.rows;
+                    var surveyResModels = [];
+                    for(var i = 0 ; i < jsonRows.length ; i++) {
+                        if(jsonRows[i].value.SurveyNo == surveyNo && jsonRows[i].value.SurveyTitle == surTitle) {
+                            surveyResModels.push(jsonRows[i].value);
                         }
-                        if(surveyResModels.length > 0) {
-                            console.log(surveyResModels);
-                            var jsonObjectsData = [];
-                            var surveyTitle;
-                            for(var j = 0 ; j < surveyResModels.length ; j++) {
-                                surveyTitle = surveyResModels[j].SurveyTitle;
-                                var commName = surveyResModels[j].communityName;
-                                var gender = surveyResModels[j].genderOfMember;
-                                var birthYear = surveyResModels[j].birthYearOfMember;
-                                var surAnswers = surveyResModels[j].answersToQuestions;
-                                var surAnswersIdes = ''
-                                _.each(surAnswers, function(item) {
-                                    surAnswersIdes += '"' + item + '",'
-                                })
-                                if (surAnswersIdes != ''){
-                                    surAnswersIdes = surAnswersIdes.substring(0, surAnswersIdes.length - 1);
-                                }
-                                var answersColl = new App.Collections.SurveyAnswers();
-                                answersColl.keys = encodeURI(surAnswersIdes)
-                                answersColl.fetch({
-                                    async: false
-                                });
-                                var answerModels = answersColl.models;
-                                var answersArray = [];
-                                for(var k = 0 ; k < answerModels.length ; k++) {
-                                    answersArray.push(answerModels[k].attributes);
-                                }
-                                for(var x = 0 ; x < answersArray.length ; x++) {
-                                 if(answersArray[x].Type == 'Rating Scale') {
-                                     for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
-                                         var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
-                                         JSONObj.Community = commName;
-                                         JSONObj.Gender = gender;
-                                         JSONObj.BirthYear = birthYear;
-                                         JSONObj.QType = answersArray[x].Type;
-                                         JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
-                                         JSONObj.Options = answersArray[x].Ratings;
-                                         JSONObj.Answer = answersArray[x].Answer[y];
-                                         jsonObjectsData.push(JSONObj)
-                                     }
-
-                                 } else {
-                                     var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
-                                     JSONObj.Community = commName;
-                                     JSONObj.Gender = gender;
-                                     JSONObj.BirthYear = birthYear;
-                                     JSONObj.QType = answersArray[x].Type;
-                                     JSONObj.QStatement = answersArray[x].Statement;
-                                     if(answersArray[x].Options){
-                                         JSONObj.Options = answersArray[x].Options;
-                                     }
-                                     JSONObj.Answer = answersArray[x].Answer;
-                                     jsonObjectsData.push(JSONObj)
-                                 }
-                                }
-                            }
-                            jsonObjectsData.sort(that.sortByProperty('QStatement'));
-                            jsonObjectsData.sort(that.sortByProperty('QType'));
-                            console.log(jsonObjectsData);
-                            that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
-                        } else {
-                           alert("There is no data available to download against this survey");
-                        }
-                    },
-                    error: function (err) {
-                        console.log(err);
                     }
-                });
+                    if(surveyResModels.length > 0) {
+                        console.log(surveyResModels);
+                        var jsonObjectsData = [];
+                        var surveyTitle;
+                        for(var j = 0 ; j < surveyResModels.length ; j++) {
+                            surveyTitle = surveyResModels[j].SurveyTitle;
+                            var commName = surveyResModels[j].communityName;
+                            var gender = surveyResModels[j].genderOfMember;
+                            var birthYear = surveyResModels[j].birthYearOfMember;
+                            var surAnswers = surveyResModels[j].answersToQuestions;
+                            var surAnswersIdes = ''
+                            _.each(surAnswers, function(item) {
+                                surAnswersIdes += '"' + item + '",'
+                            })
+                            if (surAnswersIdes != ''){
+                                surAnswersIdes = surAnswersIdes.substring(0, surAnswersIdes.length - 1);
+                            }
+                            var answersColl = new App.Collections.SurveyAnswers();
+                            answersColl.keys = encodeURI(surAnswersIdes)
+                            answersColl.fetch({
+                                async: false
+                            });
+                            var answerModels = answersColl.models;
+                            var answersArray = [];
+                            for(var k = 0 ; k < answerModels.length ; k++) {
+                                answersArray.push(answerModels[k].attributes);
+                            }
+                            for(var x = 0 ; x < answersArray.length ; x++) {
+                                if(answersArray[x].Type == 'Rating Scale') {
+                                    for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
+                                        var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
+                                        JSONObj.Community = commName;
+                                        JSONObj.Gender = gender;
+                                        JSONObj.BirthYear = birthYear;
+                                        JSONObj.QType = answersArray[x].Type;
+                                        JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
+                                        JSONObj.Options = answersArray[x].Ratings;
+                                        JSONObj.Answer = answersArray[x].Answer[y];
+                                        jsonObjectsData.push(JSONObj)
+                                    }
+
+                                } else {
+                                    var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
+                                    JSONObj.Community = commName;
+                                    JSONObj.Gender = gender;
+                                    JSONObj.BirthYear = birthYear;
+                                    JSONObj.QType = answersArray[x].Type;
+                                    JSONObj.QStatement = answersArray[x].Statement;
+                                    if(answersArray[x].Options){
+                                        JSONObj.Options = answersArray[x].Options;
+                                    }
+                                    JSONObj.Answer = answersArray[x].Answer;
+                                    jsonObjectsData.push(JSONObj)
+                                }
+                            }
+                        }
+                        jsonObjectsData.sort(that.sortByProperty('QStatement'));
+                        jsonObjectsData.sort(that.sortByProperty('QType'));
+                        console.log(jsonObjectsData);
+                        that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
+                    } else {
+                        alert("There is no data available to download against this survey");
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
         },
         sortByProperty: function(property) {
             'use strict';
@@ -3690,22 +3689,22 @@ $(function() {
                 $('#reports tbody').append('<tr class="success"><td><a style="color:#345474">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>' + '</td></tr>');
             }
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang').toLowerCase())
-          /*  var Publications = new App.Collections.Publication()
-            Publications.getlast = true
-            Publications.fetch({
-                success: function(collection, response) {
-                    _.each(response.results, function(model) {
-                        if (model.doc.IssueNo != undefined) {
-                            $('#publications tbody').append('<tr class="info"><td>Issue :' + model.doc.IssueNo + '</td></tr>');
-                        } else {
-                            $('#publications tbody').append('<tr class="info"><td>Issue Deleted</td></tr>');
-                        }
-                    })
+            /*  var Publications = new App.Collections.Publication()
+             Publications.getlast = true
+             Publications.fetch({
+             success: function(collection, response) {
+             _.each(response.results, function(model) {
+             if (model.doc.IssueNo != undefined) {
+             $('#publications tbody').append('<tr class="info"><td>Issue :' + model.doc.IssueNo + '</td></tr>');
+             } else {
+             $('#publications tbody').append('<tr class="info"><td>Issue Deleted</td></tr>');
+             }
+             })
 
-                },
-                async: false
-            })
-            $('#publications').append('<tr ><td><a class="btn btn-default" href="#publication" id="clickmore">Click for more</a></td></tr>');*/
+             },
+             async: false
+             })
+             $('#publications').append('<tr ><td><a class="btn btn-default" href="#publication" id="clickmore">Click for more</a></td></tr>');*/
 
 
         },
@@ -3996,7 +3995,7 @@ $(function() {
                     '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDictValue.attributes.Trend+" " +App.languageDictValue.attributes.Activity_Report+'</a></p>')
             }
             var temp = $.url().attr("host").split(".")
-          //  temp = temp[0].substring(3)
+            //  temp = temp[0].substring(3)
             temp = temp[0]
             if (temp.length == 0) {
                 temp = temp + "Nation"
@@ -4045,7 +4044,7 @@ $(function() {
             }
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {
-               // $('.fields .bbf-form').css({"direction":"rtl","float":"right"});
+                // $('.fields .bbf-form').css({"direction":"rtl","float":"right"});
                 $('.form .bbf-field').css({"float":"right"});
             }
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
@@ -4133,7 +4132,7 @@ $(function() {
             })
             App.stopActivityIndicator()
             this.Publication();
-App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         //*********************************************************************************************
         Publication: function() {
@@ -4165,8 +4164,6 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
             })
             var resources = publicationObject.get('resources')
             var courses = publicationObject.get('courses')
-            var type = "publications";
-
             var loginOfMem = $.cookie('Member.login');
             var lang;
             $.ajax({
@@ -4197,7 +4194,7 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
             });
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html('<div id="parentDiv"></div>');
-            $('#parentDiv').append('<div style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\',\'' + type + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
+            $('#parentDiv').append('<div style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#parentDiv div').find('h6').css({"float":"right"});
@@ -4358,23 +4355,22 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         getNativeNameOfLang: function(language){
-        var languages = new App.Collections.Languages();
-        languages.fetch({
-            async: false
-        });
-        for(var i=0;i<languages.length;i++) {
-            if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
-                if (languages.models[i].attributes.nameOfLanguage == language) {
-                    return languages.models[i].get('nameInNativeLang');
+            var languages = new App.Collections.Languages();
+            languages.fetch({
+                async: false
+            });
+            for(var i=0;i<languages.length;i++) {
+                if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
+                    if (languages.models[i].attributes.nameOfLanguage == language) {
+                        return languages.models[i].get('nameInNativeLang');
+                    }
                 }
             }
-        }
-    },
-        SelectCommunities: function(pId, type) {
+        },
+        SelectCommunities: function(pId) {
             $('#invitationdiv').fadeIn(1000)
             var inviteForm = new App.Views.listCommunityView()
             inviteForm.pId = pId
-            inviteForm.type = type;
             inviteForm.render()
             $('#invitationdiv').html('&nbsp')
             $('#invitationdiv').append(inviteForm.el)
@@ -4427,27 +4423,27 @@ App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')
             $('#invitationdiv').append(inviteForm.el)
         },
         lookup:function (obj, key) {
-        var type = typeof key;
-        if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
-            return '.' + key;
-        }).split('.');
+            var type = typeof key;
+            if (type == 'string' || type == "number") key = ("" + key).replace(/\[(.*?)\]/, function(m, key) { //handle case where [1] may occur
+                return '.' + key;
+            }).split('.');
 
-        for (var i = 0, l = key.length; i < l; l--) {
-            if (obj.attributes.hasOwnProperty(key[i])) {
-                obj = obj.attributes[key[i]];
-                i++;
-                if (obj[0].hasOwnProperty(key[i])) {
-                    var myObj = obj[0];
-                    var valueOfObj = myObj[key[i]];
-                    return valueOfObj;
+            for (var i = 0, l = key.length; i < l; l--) {
+                if (obj.attributes.hasOwnProperty(key[i])) {
+                    obj = obj.attributes[key[i]];
+                    i++;
+                    if (obj[0].hasOwnProperty(key[i])) {
+                        var myObj = obj[0];
+                        var valueOfObj = myObj[key[i]];
+                        return valueOfObj;
+                    }
+
+                } else {
+                    return undefined;
                 }
-
-            } else {
-                return undefined;
             }
+            return obj;
         }
-        return obj;
-    }
     }))
 
 })

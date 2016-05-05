@@ -49,6 +49,7 @@ $(function () {
         },
 
         saveReceiverIdsIntoSurveyDoc: function (listOfMembersForSurvey, selectedCommunities) {
+            var that = this;
             var surveyModel = new App.Models.Survey({
                 _id: this.surveyId
             })
@@ -62,11 +63,20 @@ $(function () {
                     }
                 }
             }
-            //Now saving community names of members in SentTO attribute of surveyModel
             for(var i = 0 ; i < selectedCommunities.length ; i++) {
-                var communityName = selectedCommunities[i];
-                if(surveyModel.get('sentTo').indexOf(communityName) == -1) {
-                    surveyModel.get('sentTo').push(communityName);
+                var commName = selectedCommunities[i];
+                var index = that.selectedBellNames.indexOf(commName);
+                var commCode = that.selectedBellCodes[index];
+                //Now saving community names of members in SentTO attribute of surveyModel
+                if(surveyModel.get('sentTo').indexOf(commName) == -1) {
+                    surveyModel.get('sentTo').push(commName);
+                }
+                //Saving admin members of bells in receiverIds of surveyModel if it is selected
+                if($("input[name='includeAdmins']").is(":checked")){
+                    var memberIdForAdmin = 'admin' + '_' + commCode;
+                    if(surveyModel.get('receiverIds').indexOf(memberIdForAdmin) == -1) {
+                        surveyModel.get('receiverIds').push(memberIdForAdmin);
+                    }
                 }
             }
             surveyModel.save(null, {
@@ -121,7 +131,8 @@ $(function () {
                     viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td><td>' + member.community + '</td></tr>'
                 }
                 viewtext += '</table><br>'
-                viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send Survey</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
+                viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>Include Admins</i></b></span><br>'
+                viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
             } else {
                 viewtext += '</table><br><span>No members found</span><br><br>'
                 viewtext += '<button class="btn btn-info" id="returnBack">Back</button>'
