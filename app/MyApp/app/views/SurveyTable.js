@@ -54,9 +54,9 @@ $(function () {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         renderSurveys: function (surveyArray,localSurvey) {
+            surveyArray.sort(this.sortByProperty('SurveyNo'));
+            localSurvey.sort(this.sortByPropertyInDecreasingOrder('SurveyNo'));
 
-            surveyArray.sort(this.sortByProperty('Survey_Number'));
-            localSurvey.sort(this.sortByPropertyInDecreasingOrder('Survey_Number'));
             for(var i=0;i<surveyArray.length;i++)
             {
                 this.add(surveyArray[i],false,false,null);
