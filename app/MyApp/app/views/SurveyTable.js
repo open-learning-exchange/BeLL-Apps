@@ -54,6 +54,9 @@ $(function () {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         renderSurveys: function (surveyArray,localSurvey) {
+
+            surveyArray.sort(this.sortByProperty('Survey_Number'));
+            localSurvey.sort(this.sortByPropertyInDecreasingOrder('Survey_Number'));
             for(var i=0;i<surveyArray.length;i++)
             {
                 this.add(surveyArray[i],false,false,null);
@@ -62,7 +65,36 @@ $(function () {
             {
                 this.add(localSurvey[i],true,false,null);
             }
+
         },
+
+        sortByProperty: function(property) {
+            'use strict';
+            return function (a, b) {
+                var sortStatus = 0;
+                if (a[property] < b[property]) {
+                    sortStatus = -1;
+                } else if (a[property] > b[property]) {
+                    sortStatus = 1;
+                }
+
+                return sortStatus;
+            };
+        },
+        sortByPropertyInDecreasingOrder: function(property) {
+            'use strict';
+            return function (a, b) {
+                var sortStatus = 0;
+                if (a[property] < b[property]) {
+                    sortStatus = 1;
+                } else if (a[property] > b[property]) {
+                    sortStatus = -1;
+                }
+
+                return sortStatus;
+            };
+        },
+
         getSurveys: function(SurveyDocsFromComm){
             var nationName = App.configuration.get('nationName');
             var nationUrl = App.configuration.get('nationUrl');
