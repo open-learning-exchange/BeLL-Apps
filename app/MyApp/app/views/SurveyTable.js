@@ -35,54 +35,67 @@ $(function () {
             this.$el.html('<tr><th>' + App.languageDict.get('Survey_Number') + '</th><th>' + App.languageDict.get('Title') + '</th><th>' + App.languageDict.get('Actions') + '</th></tr>');
             var nationName = App.configuration.get('nationName');
             var nationUrl = App.configuration.get('nationUrl');
+            var SurveyDocsFromComm=[];
             $.ajax({
                 url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
                 type: 'GET',
                 dataType: 'json',
                 async:false,
                 success: function(commSurdata) {
-                    var SurveyDocsFromComm = [];
                     _.each(commSurdata.rows, function(row) {
                         SurveyDocsFromComm.push(row);
                     });
-                    $.ajax({
-                        url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async: false,
-                        success: function (json) {
-                            var SurveyDocsFromNation = [];
-                            _.each(json.rows, function (row) {
-                                    SurveyDocsFromNation.push(row);
-                            });
-                            _.each(SurveyDocsFromNation,function(row){
-                                var surveyFromNation = row.value;
-                                var index = SurveyDocsFromComm.map(function(element) {
-                                    return element.value._id;
-                                }).indexOf(surveyFromNation._id);
-                                var isAlreadyDownloaded = false;
-                                var isSubmitted = false;
-                                if (index == -1) { // its a new or yet-to-be-download survey from nation, so display it as new
-                                    that.add(surveyFromNation, isAlreadyDownloaded, isSubmitted, null);
-                                }
-                            });
-                        }
-                    });
-                    //Showing those surveys which already has been downloaded
-                    for(var i = 0 ; i < SurveyDocsFromComm.length ; i++) {
-                        var surveyDoc = SurveyDocsFromComm[i].value;
-                        var isAlreadyDownloaded = true;
-                        var isSubmitted = false;
-                        that.add(surveyDoc, isAlreadyDownloaded, isSubmitted, null);
-                    }
                 },
                 error: function(status) {
                     console.log(status);
                 }
             });
+            that.getSurveys(SurveyDocsFromComm);
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
-
+        renderSurveys: function (surveyArray,localSurvey) {
+            for(var i=0;i<surveyArray.length;i++)
+            {
+                this.add(surveyArray[i],false,false,null);
+            }
+            for(var i=0;i<localSurvey.length;i++)
+            {
+                this.add(localSurvey[i],true,false,null);
+            }
+        },
+        getSurveys: function(SurveyDocsFromComm){
+            var nationName = App.configuration.get('nationName');
+            var nationUrl = App.configuration.get('nationUrl');
+            var surveyArray=[];
+            var that=this;
+            $.ajax({
+                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                success: function (json) {
+                    var SurveyDocsFromNation = [];
+                    _.each(json.rows, function (row) {
+                        SurveyDocsFromNation.push(row);
+                    });
+                    _.each(SurveyDocsFromNation,function(row){
+                        var surveyFromNation = row.value;
+                        var index = SurveyDocsFromComm.map(function(element) {
+                            return element.value._id;
+                        }).indexOf(surveyFromNation._id);
+                        if (index == -1) { // its a new or yet-to-be-download survey from nation, so display it as new
+                            surveyArray.push( surveyFromNation);
+                        }
+                    });
+                    var localSurvey = [];
+                    for(var i = 0 ; i < SurveyDocsFromComm.length ; i++) {
+                        var surveyDoc = SurveyDocsFromComm[i].value;
+                        localSurvey.push( surveyDoc);
+                    }
+                    that.renderSurveys(surveyArray,localSurvey);
+                },
+                async: false
+            });
+        },
         downloadSurvey: function(e) {
             App.startActivityIndicator();
             var surveyId = [];
