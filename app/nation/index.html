@@ -630,7 +630,17 @@
                 </select>
             </td>
             <td>
-                <!--<a href="#surveydetail/<%= _id %>" class="btn btn-warning">-->
+                <select multiple id="surveyResponse" style="width:100px">
+                    <% for (var i=0; i<commResponseCount.length; i++){%>
+                    <option disabled="disabled"><%= commResponseCount[i][0] %>/<%= commResponseCount[i][1] %></option>
+                    <% }%>
+                    <%if(commResponseCount.length>0){%>
+                    <option disabled="disabled">-------</option>
+                    <%}%>
+                    <option disabled="disabled"><%= totalResponseCount %>/<%= totalReceiversCount %></option>
+                </select>
+            </td>
+            <td>
                 <a href="#surveydetail/<%= _id %>" class="btn btn-warning">
                    <%= languageDict.attributes.Details %>
                 </a>

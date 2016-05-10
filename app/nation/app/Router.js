@@ -180,7 +180,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -188,7 +187,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -406,11 +404,9 @@ $(function() {
                     //*******************************************************************************************
                     //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                     //*******************************************************************************************
-                    console.log(logReport.resources_names)
                     //typeof variable_here === 'undefined'
                     if (!name) {
                         var indexofres = report_resOpened.indexOf(test);
-                        console.log(indexofres);
                         name = report_resNames[indices[i]];
                     }
                     //*******************************************************************************************
@@ -484,7 +480,6 @@ $(function() {
                     //***********************************************#84
                     if (!name) {
                         var indexofres = report_resOpened.indexOf(test);
-                        console.log(indexofres);
                         name = report_resNames[indices[i]];
                     }
                     //*****************************************
@@ -532,7 +527,6 @@ $(function() {
                     //***********************************************#84
                     if (!name) {
                         var indexofres = report_resOpened.indexOf(test);
-                        console.log(indexofres);
                         name = report_resNames[indices[i]];
                     }
                     //*****************************************
@@ -635,7 +629,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -643,7 +636,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -786,7 +778,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -794,7 +785,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -924,7 +914,6 @@ $(function() {
             var twelfthLastMonthDataset = context.aggregateDataForTrendReport('communityX', twelfthLastMonthActivityData);
 
             var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
-            console.log(lastMonthDataset);
             //  ********************************************************************************************************
             var monthNames = [App.Router.lookup(App.languageDictValue, "Months." + "January"), App.Router.lookup(App.languageDictValue, "Months." + "February"), App.Router.lookup(App.languageDictValue, "Months." + "March"), App.Router.lookup(App.languageDictValue, "Months." + "April"), App.Router.lookup(App.languageDictValue, "Months." + "May"), App.Router.lookup(App.languageDictValue, "Months." + "June"), App.Router.lookup(App.languageDictValue, "Months." + "July"), App.Router.lookup(App.languageDictValue, "Months." + "August"), App.Router.lookup(App.languageDictValue, "Months." + "September"), App.Router.lookup(App.languageDictValue, "Months." + "October"), App.Router.lookup(App.languageDictValue, "Months." + "November"),App.Router.lookup(App.languageDictValue, "Months." + "December")];
             //  ********************************************************************************************************
@@ -1745,7 +1734,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -1753,7 +1741,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -1921,7 +1908,6 @@ $(function() {
                 var twelfthLastMonthDataset = context.aggregateDataForTrendReport('communityX', twelfthLastMonthActivityData);
 
                 var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
-                console.log(lastMonthDataset);
                 //  ********************************************************************************************************
                 var monthNames = [App.Router.lookup(App.languageDictValue, "Months." + "January"), App.Router.lookup(App.languageDictValue, "Months." + "February"), App.Router.lookup(App.languageDictValue, "Months." + "March"), App.Router.lookup(App.languageDictValue, "Months." + "April"), App.Router.lookup(App.languageDictValue, "Months." + "May"), App.Router.lookup(App.languageDictValue, "Months." + "June"), App.Router.lookup(App.languageDictValue, "Months." + "July"), App.Router.lookup(App.languageDictValue, "Months." + "August"), App.Router.lookup(App.languageDictValue, "Months." + "September"), App.Router.lookup(App.languageDictValue, "Months." + "October"), App.Router.lookup(App.languageDictValue, "Months." + "November"),App.Router.lookup(App.languageDictValue, "Months." + "December")];
 
@@ -2790,7 +2776,6 @@ $(function() {
                 dataType: 'json',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -2798,7 +2783,6 @@ $(function() {
                         dataType: 'json',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -2837,13 +2821,11 @@ $(function() {
                     if(result.rows.length > 0) {
                         maxSurveyNo=result.rows[0].doc.SurveyNo;
                     }
-                    console.log(maxSurveyNo);
                 },
                 error: function (status) {
                     console.log(status);
                 }
             });
-            console.log(maxSurveyNo);
             ///////////////////////////////////////////////////////////
             var loginOfMem = $.cookie('Member.login');
             var lang;
@@ -2853,7 +2835,6 @@ $(function() {
                 dataType: 'json',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -2861,7 +2842,6 @@ $(function() {
                         dataType: 'json',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -2916,7 +2896,6 @@ $(function() {
                 dataType: 'json',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -2924,7 +2903,6 @@ $(function() {
                         dataType: 'json',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -2946,7 +2924,6 @@ $(function() {
                 dataType: 'json',
                 async: false,
                 success: function (json) {
-                    console.log(json);
                     var jsonRows = json.rows;
                     var surveyResModels = [];
                     for(var i = 0 ; i < jsonRows.length ; i++) {
@@ -2954,7 +2931,6 @@ $(function() {
                             surveyResModels.push(jsonRows[i].value);
                         }
                     }
-                    console.log(surveyResModels);
                     var communitySurveysView = new App.Views.CommunitySurveysTable();
                     communitySurveysView.communitySurveysCollection = surveyResModels;
                     communitySurveysView.render();
@@ -2975,7 +2951,6 @@ $(function() {
                 dataType: 'json',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -2983,7 +2958,6 @@ $(function() {
                         dataType: 'json',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -3057,7 +3031,6 @@ $(function() {
                 dataType: 'json',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -3065,7 +3038,6 @@ $(function() {
                         dataType: 'json',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -3410,7 +3382,6 @@ $(function() {
                 dataType: 'json',
                 async: false,
                 success: function (json) {
-                    console.log(json);
                     var jsonRows = json.rows;
                     var surveyResModels = [];
                     for(var i = 0 ; i < jsonRows.length ; i++) {
@@ -3419,7 +3390,6 @@ $(function() {
                         }
                     }
                     if(surveyResModels.length > 0) {
-                        console.log(surveyResModels);
                         var jsonObjectsData = [];
                         var surveyTitle;
                         for(var j = 0 ; j < surveyResModels.length ; j++) {
@@ -3476,7 +3446,6 @@ $(function() {
                         }
                         jsonObjectsData.sort(that.sortByProperty('QStatement'));
                         jsonObjectsData.sort(that.sortByProperty('QType'));
-                        console.log(jsonObjectsData);
                         that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
                     } else {
                         alert("There is no data available to download against this survey");
@@ -3566,7 +3535,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -3574,7 +3542,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -3741,7 +3708,6 @@ $(function() {
                 dataType: 'json',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -3749,7 +3715,6 @@ $(function() {
                         dataType: 'json',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -3857,7 +3822,6 @@ $(function() {
                 dataType: 'json',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -3865,7 +3829,6 @@ $(function() {
                         dataType: 'json',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -3957,7 +3920,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -3965,7 +3927,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -4060,7 +4021,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -4068,7 +4028,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -4113,7 +4072,6 @@ $(function() {
                             $.couch.db("publicationdistribution").removeDoc(doc, {
                                 success: function(data) {
                                     alert(languageDictValue.attributes.Extra_Docs_Deleted)
-                                    console.log(data);
                                 },
                                 error: function(status) {
                                     console.log(status);
@@ -4121,7 +4079,6 @@ $(function() {
                                 async: false
                             });
                         }
-                        console.log(data);
                     })
 
                 },
@@ -4171,7 +4128,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -4179,7 +4135,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){
@@ -4267,13 +4222,11 @@ $(function() {
                     if(result.rows.length > 0) {
                         maxPubIssue = result.rows[0].doc.IssueNo;
                     }
-                    console.log(maxPubIssue);
                 },
                 error: function (status) {
                     console.log(status);
                 }
             });
-            console.log(maxPubIssue);
             ///////////////////////////////////////////////////////////
             $.ajax({
                 url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
@@ -4281,7 +4234,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var id = surResult.rows[0].id;
                     $.ajax({
                         url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -4289,7 +4241,6 @@ $(function() {
                         dataType: 'jsonp',
                         async:false,
                         success: function (resultByDoc) {
-                            console.log(resultByDoc);
                             lang=resultByDoc.rows[0].value.bellLanguage;
                         },
                         error:function(err){

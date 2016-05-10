@@ -771,5 +771,8 @@
   "Authorized_By": "مخول بواسطة",
   "Send_to_communities": "إرسال إلى المجموعات",
   "Nation_reports":"التقارير",
-  "Survey_Alert": "لديك بحث جديد، الرجاء الإجابة."
+  "Survey_Alert": "لديك بحث جديد، الرجاء الإجابة.",
+  "Response": "Response",
+  "Received": "Received",
+     "Sent": "Sent"
 }

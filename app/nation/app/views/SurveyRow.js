@@ -33,7 +33,6 @@ $(function() {
                     dataType: 'jsonp',
                     async:false,
                     success: function (surResult) {
-                        console.log(surResult);
                         var id = surResult.rows[0].id;
                         $.ajax({
                             url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
@@ -41,7 +40,6 @@ $(function() {
                             dataType: 'jsonp',
                             async:false,
                             success: function (resultByDoc) {
-                                console.log(resultByDoc);
                                 lang=resultByDoc.rows[0].value.bellLanguage;
                             },
                             error:function(err){
@@ -79,15 +77,62 @@ $(function() {
         },
 
         render: function() {
+            var surveyNo = this.model.get('SurveyNo');
+            var surveyResModels = [];
+            $.ajax({
+                url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?_include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    var jsonRows = json.rows;
+                    for(var i = 0 ; i < jsonRows.length ; i++) {
+                        var resModel = jsonRows[i].value;
+                        if(resModel.SurveyNo == surveyNo) {
+                            surveyResModels.push(resModel);
+                        }
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+            var commResponseCount = [];
+            var communityReceiversCount = 0;
+            var communityResponseCount = 0;
+            var submittedBy = this.model.get('submittedBy');
+            for (var i = 0 ; i < submittedBy.length ; i++) {
+                communityReceiversCount = 0;
+                communityResponseCount = 0;
+                var communityName = submittedBy[i];
+                var countArray = [];
+                var communityCode = '';
+                for(var j = 0 ; j < surveyResModels.length ; j++) {
+                    if(surveyResModels[j].communityName == communityName) {
+                        communityResponseCount++;
+                        communityCode = surveyResModels[j].memberId.split('_').pop();
+                    }
+                }
+                var receiverIds = this.model.get('receiverIds');
+                for(var k = 0 ; k < receiverIds.length ; k++) {
+                    var memberCommunityCode = receiverIds[k].split('_').pop();
+                    if(memberCommunityCode == communityCode) {
+                        communityReceiversCount++;
+                    }
+                }
+                countArray.push(communityResponseCount);
+                countArray.push(communityReceiversCount);
+                commResponseCount[i] = countArray;
+            }
             var vars = this.model.toJSON()
             vars.isManager = this.isManager;
             var date = new Date(vars.Date)
             vars.Date = date.toUTCString();
             vars.languageDict=App.languageDictValue;
+            vars.totalResponseCount = surveyResModels.length;
+            vars.totalReceiversCount = this.model.get('receiverIds').length;
+            vars.commResponseCount = commResponseCount;
             this.$el.append(this.template(vars))
         }
-
-
     })
-
 })
