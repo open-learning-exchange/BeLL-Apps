@@ -68,6 +68,7 @@ $(function () {
             con.set('name', Config.get('name'));
             con.set('nationName', Config.get('nationName'));
             con.set('nationUrl', Config.get('nationUrl'));
+            var membersDoc=[];
             if (con.get('code') != Config.get('code'))
             {
                 members.fetch({
@@ -77,9 +78,21 @@ $(function () {
                             {
                                 for(var i=0; i <members.length ; i++) {
                                     member = members.models[i];
-                                    member.set('community',Config.get('code'));
-                                    member.save();
+                                    if(con.get('code')== member.get('community'))
+                                    {
+                                        member.set('community',Config.get('code'));
+                                        membersDoc.push(member);
+                                    }
                                 }
+                                $.couch.db("members").bulkSave({"docs": membersDoc}, {
+                                    success: function(data) {
+                                        alert('waqas-The QA')
+                                        console.log(data);
+                                    },
+                                    error: function(status) {
+                                        console.log(status);
+                                    }
+                                });
                             }
                         }
                 });

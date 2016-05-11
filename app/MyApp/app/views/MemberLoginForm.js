@@ -241,7 +241,7 @@ $(function() {
             });
         },
         UpdatejSONlog: function(member, logModel, logdb, logdate) {
-            alert('Hi update from Member')
+
             var superMgrIndex = member.get('roles').indexOf('SuperManager');
             if (member.get('Gender') == 'Male') {
                 var visits = parseInt(logModel.male_visits)
@@ -279,7 +279,7 @@ $(function() {
             return month + '/' + day + '/' + year;
         },
         createJsonlog: function(member, logdate, logdb) {
-            alert('Hi create from Member')
+
             var superMgrIndex = member.get('roles').indexOf('SuperManager');
             // alert(superMgrIndex);
             var docJson = {
