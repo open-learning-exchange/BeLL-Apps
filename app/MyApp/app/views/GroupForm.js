@@ -140,6 +140,32 @@ $(function () {
             }
             this.model.schema.members.options = [];
             var memberList = new App.Collections.leadermembers();
+            var config = new App.Collections.Configurations();
+            var temp;
+            config.fetch({
+                async: false,
+                success: function(){
+                    temp = config.first().attributes.name;
+                }
+            })
+            temp=temp.charAt(0).toUpperCase() + temp.slice(1);
+            var typeofBell=config.first().attributes.type;
+            if (typeofBell === "nation") {
+                typeofBell=config.first().attributes.code;
+            }
+            else {
+                var configurations = Backbone.Collection.extend({
+                    url: App.Server + '/configurations/_all_docs?include_docs=true'
+                })
+                var config = new configurations()
+                config.fetch({
+                    async: false
+                })
+                var con = config.first()
+                con = (con.get('rows')[0]).doc;
+                typeofBell=con.code;
+
+            }
             memberList.fetch({
                 success: function () {
                     //create the form
@@ -149,11 +175,14 @@ $(function () {
                         val: "0000"
                     })
                     memberList.each(function (modl) {
-                        var temp = {
-                            label: modl.toJSON().firstName + " " + modl.toJSON().lastName,
-                            val: modl.toJSON()._id
+                        if(typeofBell== modl.toJSON().community){
+                            var temp = {
+                                label: modl.toJSON().firstName + " " + modl.toJSON().lastName,
+                                val: modl.toJSON()._id
+                            }
+                            optns.push(temp)
                         }
-                        optns.push(temp)
+
                     })
 
 
