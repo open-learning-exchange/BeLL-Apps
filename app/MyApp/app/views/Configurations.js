@@ -53,21 +53,38 @@ $(function () {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
-        setForm:function(){
-            alert('Hello');
+        setForm:function() {
             var memberLoginForm = this;
             this.form.commit();
             if (this.form.validate() != null) {
                 return
             }
-            var Config=this.form.model;
+            var Config = this.form.model;
             var config = new App.Collections.Configurations();
-            config.fetch({async:false});
-            var con=config.first();
-            con.set('name',Config.get('name'));
-            con.set('nationName',Config.get('nationName'));
-            con.set('nationUrl',Config.get('nationUrl'));
-            con.set('code',Config.get('code'));
+            var members = new App.Collections.Members();
+            var member;
+            config.fetch({async: false});
+            var con = config.first();
+            con.set('name', Config.get('name'));
+            con.set('nationName', Config.get('nationName'));
+            con.set('nationUrl', Config.get('nationUrl'));
+            if (con.get('code') != Config.get('code'))
+            {
+                members.fetch({
+                    async:false,
+                        success:function () {
+                            if(members.length>0)
+                            {
+                                for(var i=0; i <members.length ; i++) {
+                                    member = members.models[i];
+                                    member.set('community',Config.get('code'));
+                                    member.save();
+                                }
+                            }
+                        }
+                });
+            }
+            con.set('code', Config.get('code'));
             con.set('type',Config.get('type'));
             con.set('notes',Config.get('notes'));
             con.set('region', Config.get('region'));
@@ -81,8 +98,6 @@ $(function () {
             }
             if(parseInt(App.member.get('visits')) ==0)
             {
-                alert(App.member.get('_id'));
-                var members = new App.Collections.Members();
                 members.fetch({
                     id:App.member.get('_id'),
                     async:false,
@@ -177,6 +192,83 @@ $(function () {
                     that.UpdatejSONlog(member, logModel, logdb, logdate);
                 } else {
                     that.createJsonlog(member, logdate, logdb);
+                }
+            });
+        },
+        createJsonlog: function(member, logdate, logdb) {
+            var superMgrIndex = member.get('roles').indexOf('SuperManager');
+            // alert(superMgrIndex);
+            var docJson = {
+                logDate: logdate,
+                resourcesIds: [],
+                male_visits: 0,
+                female_visits: 0,
+                male_timesRated: [],
+                female_timesRated: [],
+                male_rating: [],
+                community: App.configuration.get('code'),
+                female_rating: [],
+                resources_names: [], // Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                resources_opened: [],
+                male_opened: [],
+                female_opened: [],
+                male_deleted_count: 0,
+                female_deleted_count: 0
+            }
+            if (member.get('Gender') == 'Male') {
+
+                var visits = parseInt(docJson.male_visits)
+                //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1) {
+                    visits++
+                }
+                docJson.male_visits = visits
+            } else {
+
+                var visits = parseInt(docJson.female_visits)
+                //    if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1) {
+                    visits++
+                }
+                docJson.female_visits = visits
+            }
+            docJson.community = App.configuration.get('code'),
+                logdb.put(docJson, logdate, function(err, response) {
+                    if (!err) {
+                        console.log("MemberLoginForm:: created activity log in pouchdb for today..");
+                    } else {
+                        console.log("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
+                        console.log(err);
+                        //                    alert("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
+                    }
+                });
+        },
+        UpdatejSONlog: function(member, logModel, logdb, logdate) {
+            var superMgrIndex = member.get('roles').indexOf('SuperManager');
+            if (member.get('Gender') == 'Male') {
+                var visits = parseInt(logModel.male_visits)
+                //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1) {
+                    visits++
+                }
+                logModel.male_visits = visits
+            } else {
+                var visits = parseInt(logModel.female_visits)
+                //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
+                if (superMgrIndex == -1) {
+                    visits++
+                }
+                logModel.female_visits = visits
+            }
+            logModel.community = App.configuration.get("code");
+
+            logdb.put(logModel, logdate, logModel._rev, function(err, response) { // _id: logdate, _rev: logModel._rev
+                if (!err) {
+                    console.log("MemberLoginForm:: updated daily log from pouchdb for today..");
+                } else {
+                    console.log("MemberLoginForm:: UpdatejSONlog:: err making update to record");
+                    console.log(err);
+                    //                    alert("err making update to record");
                 }
             });
         },
