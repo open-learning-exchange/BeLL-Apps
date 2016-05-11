@@ -136,75 +136,25 @@ $(function() {
 
                       if (member && member.get('password') == credentials.get('password') && member.get('login') == credentials.get('login')  ) {
                           if(member.get('community') == bellCode){
-                              if (member.get('status') == "active") {
-                                  //UPDATING MEMBER VISITS
-                                  App.member = member;
-                                  var vis = parseInt(member.get("visits"));
-                                  vis++;
-                                  if (!(member.get('roles').indexOf("Manager") > -1) && member.get("FirstName")!='Default' &&
-                                      member.get('LastName')!='Admin')
-                                  {
-                                      member.set("lastLoginDate",new Date());
-                                  }
-                                  member.set("visits", vis);
-                                  if(member.get('bellLanguage')===undefined || member.get('bellLanguage')==="" || member.get('bellLanguage')===null)
-                                  {
-                                      member.set("bellLanguage", App.configuration.get("currentLanguage"));
-                                  }
-                                  member.once('sync', function() {})
-
-                                  member.save(null, {
-                                      success: function(doc, rev) {}
-                                  });
-
-
-                                  memberLoginForm.logActivity(member);
-
-                                  var date = new Date()
-                                  $.cookie('Member.login', member.get('login'), {
-                                      path: "/apps/_design/bell"
-                                  })
-                                  $.cookie('Member._id', member.get('_id'), {
-                                      path: "/apps/_design/bell"
-                                  })
-                                  $.cookie('Member.expTime', date, {
-                                      path: "/apps/_design/bell"
-                                  })
-                                  $.cookie('Member.roles', member.get('roles'), {
-                                      path: "/apps/_design/bell"
-                                  })
-
-                                  if (parseInt(member.get('visits')) == 1 && member.get('roles').indexOf('SuperManager') != -1) {
-                                      //$('#nav').hide()
-                                      Backbone.history.navigate('configuration/add', {
-                                          trigger: true
-                                      });
-                                      return;
-                                  }
-                                  // warn the admin user if they have not changed default password after installation
-                                  //                            if ((member.get('login') === "admin") && (member.get('password') === 'password')) {
-                                  //                                    alert("Please change the password for this admin account for better security of the account and the application.");
-                                  ////                                    var fragment = 'member/edit/' +
-                                  //                                    Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
-                                  //
-                                  //                            }
-                                  //
-                                  //                            else {
-                                  memberLoginForm.trigger('success:login');
-                                  // }
-                                  //							console.log(member.toJSON())
-                              } else {
-                                  alert(App.languageDict.attributes.Account_DeActivated)
-                              }
+                              memberLoginForm.processMemberLogin(member);  //Does the functionality of after-login
                               break;
                           }
                           else {
                               if(member.get('community')==undefined)
                               {
-                                  member.set('community',bellCode);
-                                  member.save();
-                                  i--;
-                                  window.location.reload();
+                                  if(member.get('visits')==0)
+                                  {
+                                      App.member=member;
+                                      Backbone.history.navigate('configuration/add', {
+                                          trigger: true
+                                      });
+                                  }
+                                  else {
+                                      member.set('community',bellCode);
+                                      member.save();
+                                      i--;
+                                      memberLoginForm.processMemberLogin(member);
+                                  }
                               }
                           }
 
@@ -219,6 +169,60 @@ $(function() {
                     }
                 }
             });
+        },
+        processMemberLogin: function(member){
+            var memberLoginForm = this;
+            if (member.get('status') == "active") {
+                //UPDATING MEMBER VISITS
+                App.member = member;
+                var vis = parseInt(member.get("visits"));
+                vis++;
+                if (!(member.get('roles').indexOf("Manager") > -1) && member.get("FirstName")!='Default' &&
+                    member.get('LastName')!='Admin')
+                {
+                    member.set("lastLoginDate",new Date());
+                }
+                member.set("visits", vis);
+                if(member.get('bellLanguage')===undefined || member.get('bellLanguage')==="" || member.get('bellLanguage')===null)
+                {
+                    member.set("bellLanguage", App.configuration.get("currentLanguage"));
+                }
+                member.once('sync', function() {})
+
+                member.save(null, {
+                    success: function(doc, rev) {}
+                });
+
+
+                memberLoginForm.logActivity(member);
+
+                var date = new Date()
+                $.cookie('Member.login', member.get('login'), {
+                    path: "/apps/_design/bell"
+                })
+                $.cookie('Member._id', member.get('_id'), {
+                    path: "/apps/_design/bell"
+                })
+                $.cookie('Member.expTime', date, {
+                    path: "/apps/_design/bell"
+                })
+                $.cookie('Member.roles', member.get('roles'), {
+                    path: "/apps/_design/bell"
+                })
+
+                if (parseInt(member.get('visits')) == 1 && member.get('roles').indexOf('SuperManager') != -1) {
+                    //$('#nav').hide()
+                    Backbone.history.navigate('configuration/add', {
+                        trigger: true
+                    });
+                    return;
+                }
+                memberLoginForm.trigger('success:login');
+                // }
+                //							console.log(member.toJSON())
+            } else {
+                alert(App.languageDict.attributes.Account_DeActivated)
+            }
         },
         logActivity: function(member) {
             var that = this;
