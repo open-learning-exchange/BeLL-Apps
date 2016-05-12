@@ -70,25 +70,25 @@ $(function () {
             vars.viewCourse=App.languageDict.attributes.View+' '+App.languageDict.attributes.Course;
             vars.progress=App.languageDict.attributes.Progress;
             vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
-        
-        	if(this.courseId==null)
-        	{
 
-        	
-        	vars.courseId=this.courseId    
-            if(vars._id=='_design/bell')
-               return
-            
-            if(!vars.members)
+            if(this.courseId==null)
             {
-            	vars.members = new Array()
-            }
-           /* if (vars.courseLeader != undefined && vars.courseLeader == $.cookie('Member._id')) {
-                vars.isLeader = 1
-            } else {
-                vars.isLeader = 0
-            }*/
-                     var check =0;
+
+
+                vars.courseId=this.courseId
+                if(vars._id=='_design/bell')
+                    return
+
+                if(!vars.members)
+                {
+                    vars.members = new Array()
+                }
+                /* if (vars.courseLeader != undefined && vars.courseLeader == $.cookie('Member._id')) {
+                 vars.isLeader = 1
+                 } else {
+                 vars.isLeader = 0
+                 }*/
+                var check =0;
                 if (vars.courseLeader != undefined){
                     for (var j=0 ; j< vars.courseLeader.length;j++) {
                         if (vars.courseLeader[j] == $.cookie('Member._id'))
@@ -99,10 +99,10 @@ $(function () {
 
                         }
 
-                }
-                 if (check == 0 ){
-                     vars.isLeader = 0
-                 }
+                    }
+                    if (check == 0 ){
+                        vars.isLeader = 0
+                    }
                 }
                 else {
                     vars.isLeader = 0
@@ -120,30 +120,30 @@ $(function () {
                     cLeader = 0
                 }
                 //vars.courseLeader == $.cookie('Member._id')
-			if (this.roles.indexOf("Manager") != -1 || cLeader!=0 || vars.members.indexOf($.cookie('Member._id'))!=-1)
-			{
-				vars.viewProgress = 1
-			}
-			else
-			{
-				vars.viewProgress = 0
-			}
-            if (this.roles.indexOf("Manager") != -1) {
-                vars.isAdmin = 1
-            } else {
-                vars.isAdmin = 0
+                if (this.roles.indexOf("Manager") != -1 || cLeader!=0 || vars.members.indexOf($.cookie('Member._id'))!=-1)
+                {
+                    vars.viewProgress = 1
+                }
+                else
+                {
+                    vars.viewProgress = 0
+                }
+                if (this.roles.indexOf("Manager") != -1) {
+                    vars.isAdmin = 1
+                } else {
+                    vars.isAdmin = 0
+                }
+                this.$el.append(_.template(this.template, vars))
+
             }
-            this.$el.append(_.template(this.template, vars))
-        	
-        	}
-        	else{
-        	vars.viewProgress = 0
-        	vars.isAdmin = 0
-        	vars.isLeader = 0  
-        	vars.courseId=this.courseId;
-        	this.$el.append(_.template(this.template, vars))
-        	}
-            
+            else{
+                vars.viewProgress = 0
+                vars.isAdmin = 0
+                vars.isLeader = 0
+                vars.courseId=this.courseId;
+                this.$el.append(_.template(this.template, vars))
+            }
+
         }
 
     })
