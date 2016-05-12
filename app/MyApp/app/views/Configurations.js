@@ -86,7 +86,6 @@ $(function () {
                                 }
                                 $.couch.db("members").bulkSave({"docs": membersDoc}, {
                                     success: function(data) {
-                                        alert('waqas-The QA')
                                         console.log(data);
                                     },
                                     error: function(status) {

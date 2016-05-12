@@ -141,6 +141,8 @@ $(function() {
             }
             var Config = this.form.model;
             var config = new App.Collections.Configurations();
+            var members = new App.Collections.Members();
+            var member;
             config.fetch({
                 async: false
             });
@@ -148,6 +150,34 @@ $(function() {
             con.set('name', Config.get('name'));
             con.set('nationName', Config.get('nationName'));
             con.set('nationUrl', Config.get('nationUrl'));
+            var membersDoc=[];
+            if (con.get('code') != Config.get('code'))
+            {
+                members.fetch({
+                    async:false,
+                    success:function () {
+                        if(members.length>0)
+                        {
+                            for(var i=0; i <members.length ; i++) {
+                                member = members.models[i];
+                                if(con.get('code')== member.get('community'))
+                                {
+                                    member.set('community',Config.get('code'));
+                                    membersDoc.push(member);
+                                }
+                            }
+                            $.couch.db("members").bulkSave({"docs": membersDoc}, {
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                error: function(status) {
+                                    console.log(status);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
             con.set('code', Config.get('code'));
             con.set('type', Config.get('type'));
             con.set('notes', Config.get('notes'));
