@@ -20,21 +20,9 @@ $(function() {
             // prepare the header
 
             if (_.has(this.model, 'id')) {
-                var members = new App.Collections.Members()
-                var member;
                 var languageDictValue;
-                members.login = $.cookie('Member.login');
-                var clanguage = '';
-                members.fetch({
-                    success: function () {
-                        if (members.length > 0) {
-                            member = members.first();
-                            clanguage = member.get('bellLanguage');
-                            languageDictValue = getSpecificLanguage(clanguage);
-                        }
-                    },
-                    async:false
-                });
+                var clanguage = getLanguage($.cookie('Member._id'));
+                languageDictValue = getSpecificLanguage(clanguage);
                 App.languageDict = languageDictValue;
                 var directionOfLang = App.languageDict.get('directionOfLang');
                 vars.languageDict=App.languageDict;
@@ -55,21 +43,9 @@ $(function() {
             } else {
                 vars.header = ''
                 vars.hidesave = false
-                var members = new App.Collections.Members()
-                var member;
                 var languageDictValue;
-                members.login = $.cookie('Member.login');
-                var clanguage = '';
-                members.fetch({
-                    success: function () {
-                        if (members.length > 0) {
-                            member = members.first();
-                            clanguage = member.get('bellLanguage');
-                            languageDictValue = getSpecificLanguage(clanguage);
-                        }
-                    },
-                    async:false
-                });
+                var clanguage = getLanguage($.cookie('Member._id'));
+                languageDictValue = getSpecificLanguage(clanguage);
                 App.languageDict = languageDictValue;
                 var directionOfLang = App.languageDict.get('directionOfLang');
                 vars.resourceAttachments = App.languageDict.attributes.No_File_Selected;;

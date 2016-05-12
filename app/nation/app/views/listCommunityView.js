@@ -19,33 +19,7 @@ $(function() {
         render: function() {
 
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    console.log(surResult);
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            console.log(resultByDoc);
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var $button = $('<h6>'+App.languageDictValue.get('select_communities')+'</h6><select multiple id="comselect"></select><br><br><a class="btn btn-success" id="formButton">'+App.languageDictValue.get('Send')+'</button>')
             this.$el.append($button)
@@ -54,33 +28,7 @@ $(function() {
         },
         syncData: function() {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    console.log(surResult);
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            console.log(resultByDoc);
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             var selectedValues = $('#comselect').val();
             if (!selectedValues) {
@@ -96,31 +44,7 @@ $(function() {
         },
         syncPublicationsData: function(p_id, selectedValues) {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             App.startActivityIndicator()
             var sendPub = new Array()

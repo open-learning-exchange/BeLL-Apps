@@ -76,19 +76,9 @@ $(function() {
                 } else {
                     $("#showReleaseNotes").slideUp("slow", function() {});
                 }
-                var members = new App.Collections.Members()
-                var member;
                 var languageDictValue;
-                members.login = $.cookie('Member.login');
-                members.fetch({
-                    success: function () {
-                        if (members.length > 0) {
-                            member = members.first();
-                            languageDictValue=getSpecificLanguage(member.get('bellLanguage'));
-                        }
-                    },
-                    async:false
-                });
+                var lang = getLanguage($.cookie('Member._id'));
+                languageDictValue = getSpecificLanguage(lang);
                 var directionOfLang=languageDictValue.get('directionOfLang');
                 applyCorrectStylingSheet(directionOfLang)
                 //  applyStylingSheet();
@@ -699,21 +689,9 @@ $(function() {
         },
 
         lastAppUpdateAtNationLevel: function(result) {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async: false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             var that = this;
             var currentConfig = that.getCommunityConfigs();
@@ -823,6 +801,14 @@ $(function() {
         },
 
         getSurveysCountForMember: function () {
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            });
+            var config = new configurations();
+            config.fetch({
+                async: false
+            });
+            var jsonConfig = config.first().toJSON().rows[0].doc;
             var new_surveys_count = 0;
             var members = new App.Collections.Members()
             var member, memberId;
@@ -830,37 +816,44 @@ $(function() {
             members.fetch({
                 success: function () {
                     if (members.length > 0) {
-                        member = members.first();
-                        memberId = member.get('login') + '_' + member.get('community');
-                        $.ajax({
-                            url: '/survey/_design/bell/_view/surveyByreceiverIds?_include_docs=true&key="' + memberId + '"',
-                            type: 'GET',
-                            dataType: 'json',
-                            async:false,
-                            success: function(memberSurveyData) {
-                                console.log(memberSurveyData);
-                                var surveyDocs = [];
-                                _.each(memberSurveyData.rows, function(row) {
-                                    surveyDocs.push(row);
-                                });
+                        for(var i = 0; i < members.length; i++)
+                        {
+                            if(members.models[i].get("community") == jsonConfig.code)
+                            {
+                                member = members.models[i];
+                                memberId = member.get('login') + '_' + member.get('community');
                                 $.ajax({
-                                    url: '/surveyresponse/_design/bell/_view/surveyResBymemberId?_include_docs=true&key="' + memberId + '"',
+                                    url: '/survey/_design/bell/_view/surveyByreceiverIds?_include_docs=true&key="' + memberId + '"',
                                     type: 'GET',
                                     dataType: 'json',
                                     async:false,
-                                    success: function(memberSurveyResData) {
-                                        console.log(memberSurveyResData);
-                                        var surveyResDocs = [];
-                                        _.each(memberSurveyResData.rows, function(row) {
-                                                surveyResDocs.push(row);
+                                    success: function(memberSurveyData) {
+                                        var surveyDocs = [];
+                                        _.each(memberSurveyData.rows, function(row) {
+                                            surveyDocs.push(row);
                                         });
-                                        _.each(surveyDocs,function(row){
-                                            var surveyDoc  = row.value;
-                                            var index = surveyResDocs.map(function(element) {
-                                                return element.value.SurveyNo;
-                                            }).indexOf(surveyDoc.SurveyNo);
-                                            if (index == -1) { // its a survey which is not submitted yet
-                                                new_surveys_count++;
+                                        $.ajax({
+                                            url: '/surveyresponse/_design/bell/_view/surveyResBymemberId?_include_docs=true&key="' + memberId + '"',
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            async:false,
+                                            success: function(memberSurveyResData) {
+                                                var surveyResDocs = [];
+                                                _.each(memberSurveyResData.rows, function(row) {
+                                                    surveyResDocs.push(row);
+                                                });
+                                                _.each(surveyDocs,function(row){
+                                                    var surveyDoc  = row.value;
+                                                    var index = surveyResDocs.map(function(element) {
+                                                        return element.value.SurveyNo;
+                                                    }).indexOf(surveyDoc.SurveyNo);
+                                                    if (index == -1) { // its a survey which is not submitted yet
+                                                        new_surveys_count++;
+                                                    }
+                                                });
+                                            },
+                                            error: function(status) {
+                                                console.log(status);
                                             }
                                         });
                                     },
@@ -868,11 +861,8 @@ $(function() {
                                         console.log(status);
                                     }
                                 });
-                            },
-                            error: function(status) {
-                                console.log(status);
                             }
-                        });
+                        }
                     }
                 },
                 async:false
@@ -892,10 +882,25 @@ $(function() {
             var member;
             var lang;
             members.login = $.cookie('Member.login');
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            });
+            var config = new configurations();
+            config.fetch({
+                async: false
+            });
+            var jsonConfig = config.first().toJSON().rows[0].doc;
             members.fetch({
                 success: function () {
                     if (members.length > 0) {
-                        member = members.first();
+                        for(var i = 0; i < members.length; i++)
+                        {
+                            if(members.models[i].get("community") == jsonConfig.code)
+                            {
+                                member = members.models[i];
+                                break;
+                            }
+                        }
                     }
                 },
                 async:false

@@ -24,11 +24,26 @@ $(function () {
             var members = new App.Collections.Members()
             var member, memberId;
             members.login = $.cookie('Member.login');
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            });
+            var config = new configurations();
+            config.fetch({
+                async: false
+            });
+            var jsonConfig = config.first().toJSON().rows[0].doc;
             members.fetch({
                 success: function () {
                     if (members.length > 0) {
-                        member = members.first();
-                        memberId = member.get('login') + '_' + member.get('community');
+                        for(var i = 0; i < members.length; i++)
+                        {
+                            if(members.models[i].get("community") == jsonConfig.code)
+                            {
+                                member = members.models[i];
+                                memberId = member.get('login') + '_' + member.get('community');
+                                break;
+                            }
+                        }
                     }
                 }
             });

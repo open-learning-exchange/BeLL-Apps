@@ -19,21 +19,9 @@ $(function() {
 
 		},
         changeDirection : function (){
-			var members = new App.Collections.Members()
-			var member;
 			var languageDictValue;
-			members.login = $.cookie('Member.login');
-			var clanguage = '';
-			members.fetch({
-				success: function () {
-					if (members.length > 0) {
-						member = members.first();
-						clanguage = member.get('bellLanguage');
-						languageDictValue = getSpecificLanguage(clanguage);
-					}
-				},
-                async: false
-			});
+			var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
 			App.languageDict = languageDictValue;
 			var directionOfLang = App.languageDict.get('directionOfLang');
 			if(directionOfLang.toLowerCase()==="right")
@@ -66,21 +54,9 @@ $(function() {
 		},
 
 		addAll: function() {
-			var members = new App.Collections.Members()
-			var member;
 			var languageDictValue;
-			members.login = $.cookie('Member.login');
-			var clanguage = '';
-			members.fetch({
-				success: function () {
-					if (members.length > 0) {
-						member = members.first();
-						clanguage = member.get('bellLanguage');
-						languageDictValue = getSpecificLanguage(clanguage);
-					}
-				},
-                async: false
-            });
+			var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
 			App.languageDict = languageDictValue;
 			var languageDict = languageDictValue;
 			var directionOfLang = App.languageDict.get('directionOfLang');

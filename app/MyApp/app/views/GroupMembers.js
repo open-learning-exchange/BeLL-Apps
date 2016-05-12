@@ -20,7 +20,7 @@ $(function () {
             })
             courseModel.fetch({
              		success:function(result){
-                            members=result.get('members')
+                            var members=result.get('members')
                             members.splice(members.indexOf(memberId),1)
                             
                             result.set('members',members)

@@ -33,9 +33,6 @@ $(function() {
 
             //   if (!App.languageDict) {
             var clanguage;
-            var members = new App.Collections.Members();
-            var member;
-            members.login = $.cookie('Member.login');
             //  }
             if($.cookie('isChange')=="true" && !($.cookie('Member._id')))
             {
@@ -54,18 +51,7 @@ $(function() {
                 console.log('value from cookie in navBar '+clanguage)
             }
             else if($.cookie('Member._id')){
-                //member has logged in
-                var languageDictValue;
-
-                members.fetch({
-                    success: function () {
-                        if (members.length > 0) {
-                            member = members.first();
-                            clanguage=member.get('bellLanguage')
-                        }
-                    },
-                    async:false
-                });
+                clanguage = getLanguage($.cookie('Member._id'));
                 console.log('member has logged in '+clanguage)
             }
             else{

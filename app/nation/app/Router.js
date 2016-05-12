@@ -83,15 +83,21 @@ $(function() {
                 members.fetch({
                     success: function () {
                         if (members.length > 0) {
-                            member = members.first();
-                            member.set("bellLanguage",clanguage);
-                            member.once('sync', function() {})
+                            for(var i = 0; i < members.length; i++)
+                            {
+                                if(members.models[i].get("community") == jsonConfig.code)
+                                {
+                                    member = members.models[i];
+                                    member.set("bellLanguage",clanguage);
+                                    member.once('sync', function() {})
 
-                            member.save(null, {
-                                success: function(doc, rev) {
-                                },
-                                async:false
-                            });
+                                    member.save(null, {
+                                        success: function(doc, rev) {
+                                        },
+                                        async:false
+                                    });
+                                }
+                            }
                         }
                     },
                     async:false
@@ -173,31 +179,7 @@ $(function() {
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
@@ -622,31 +604,7 @@ $(function() {
             configForm.render();
             $('#configTable').append(configForm.el);
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
                 $('#configTable').css({"direction":"rtl",
@@ -771,31 +729,7 @@ $(function() {
         //*************************************************************************************************************
         communityReport: function(communityLastSyncDate, communityName, communityCode) {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var context = this;
             // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
@@ -1727,31 +1661,7 @@ $(function() {
         //*************************************************************************************************************
         TrendReport: function() {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var context = this;
             App.$el.children('.body').html('');
@@ -2769,31 +2679,7 @@ $(function() {
                 async: false
             });
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var survey = new App.Views.Survey();
             survey.render();
@@ -2828,31 +2714,7 @@ $(function() {
             });
             ///////////////////////////////////////////////////////////
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var survey = new App.Models.Survey();
             survey.on('processed', function() {
@@ -2889,31 +2751,7 @@ $(function() {
 
         OpenSurvey: function(surveyNo, communityName) {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html('<div id="parentDiv"></div>');
             $('#parentDiv').append('<h4>' + App.languageDictValue.get('nameOfCommunity')+' ' + communityName + '</h4>');
@@ -2945,31 +2783,7 @@ $(function() {
         openCommunitySurvey: function(surveyId) {
             var that = this;
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var surveyResModel;
             $.ajax({
@@ -3029,31 +2843,7 @@ $(function() {
                 async: false
             });
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html('<div class="directionsAndFloat" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('Survey_Number') + ' '+ surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="selectCriteria(\'' + surveyId + '\')">Send by criteria</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="communitiesList(\'' + surveyId + '\')">Send to bell members</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br /><label id="select-ratings" >Select the number of ratings:</label> <br><select onchange="display(this.value);" name="rating_count" class="surTextArea" id="select_rating"><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey" disabled="true"><br></span><script> function display(val) { if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"><label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
             $('#addQuestion').text(App.languageDictValue.get('Add_Question'));
@@ -3556,31 +3346,7 @@ $(function() {
 
         addCourses: function(publicationId) {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var seachForm = new App.Views.courseSeach()
             seachForm.publicationId = publicationId
@@ -3729,31 +3495,7 @@ $(function() {
         },
         modelForm: function(className, modelId, reroute) {
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
 
             // Set up
@@ -3843,31 +3585,7 @@ $(function() {
         ListCommunity: function() {
             App.startActivityIndicator();
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'json',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var Communities = new App.Collections.Community();
             Communities.fetch({
@@ -3941,31 +3659,7 @@ $(function() {
             $('#itemsinnavbar').html($("#template-nav-logged-in").html())
 
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var reports = new App.Collections.Reports()
             reports.fetch({
@@ -4042,31 +3736,7 @@ $(function() {
         Publicat: function() {
             App.startActivityIndicator();
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             App.languageDictValue=languageDictValue;
             var publicationCollection = new App.Collections.Publication()
@@ -4149,31 +3819,7 @@ $(function() {
             var resources = publicationObject.get('resources')
             var courses = publicationObject.get('courses')
             var loginOfMem = $.cookie('Member.login');
-            var lang;
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html('<div id="parentDiv"></div>');
             $('#parentDiv').append('<div style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
@@ -4237,7 +3883,7 @@ $(function() {
                 model: publication
             })
             var loginOfMem = $.cookie('Member.login');
-            var lang;
+            var lang = App.Router.getLanguage(loginOfMem);
             //get publication by maximum issue number
             var maxPubIssue = 0;
             var pubUrl = '/publications/_design/bell/_view/maxPublicationIssue?include_docs=true&descending=true'
@@ -4255,31 +3901,7 @@ $(function() {
                     console.log(status);
                 }
             });
-            ///////////////////////////////////////////////////////////
-            $.ajax({
-                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-                async:false,
-                success: function (surResult) {
-                    var id = surResult.rows[0].id;
-                    $.ajax({
-                        url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function (resultByDoc) {
-                            lang=resultByDoc.rows[0].value.bellLanguage;
-                        },
-                        error:function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error:function(err){
-                    console.log(err);
-                }
-            });
+            console.log(maxPubIssue);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html(publicationFormView.el)
 
@@ -4421,7 +4043,50 @@ $(function() {
                 }
             }
             return obj;
+        },
+        getLanguage: function(loginOfMem) {
+            var lang;
+            $.ajax({
+                url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async:false,
+                success: function (surResult) {
+                    console.log(surResult);
+                    var nationConfig = new App.Collections.Configurations();
+                    nationConfig.fetch({
+                        async: false
+                    });
+                    nationConfig = nationConfig.first();
+                    var id = null;
+                    for(var i = 0; i < surResult.rows.length; i++)
+                    {
+                        var id = surResult.rows[i].id;
+                        $.ajax({
+                            url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
+                            type: 'GET',
+                            dataType: 'jsonp',
+                            async:false,
+                            success: function (resultByDoc) {
+                                console.log(resultByDoc);
+                                if(resultByDoc.rows[0].value.community == nationConfig.attributes.code)
+                                {
+                                    lang = resultByDoc.rows[0].value.bellLanguage;
+                                }
+                            },
+                            error:function(err){
+                                console.log(err);
+                            }
+                        });
+                    }
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+            return lang;
         }
+
     }))
 
 })

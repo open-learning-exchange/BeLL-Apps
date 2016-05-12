@@ -7,21 +7,9 @@ $(function() {
 		admn: null,
 		events: {
 			"click .destroy": function(event) {
-				var members = new App.Collections.Members()
-				var member;
 				var languageDictValue;
-				members.login = $.cookie('Member.login');
-				var clanguage = '';
-				members.fetch({
-					success: function () {
-						if (members.length > 0) {
-							member = members.first();
-							clanguage = member.get('bellLanguage');
-							languageDictValue = getSpecificLanguage(clanguage);
-						}
-					},
-					async: false
-				});
+				var clanguage = getLanguage($.cookie('Member._id'));
+                languageDictValue = getSpecificLanguage(clanguage);
 				App.languageDict = languageDictValue;
 				if (confirm(App.languageDict.attributes.Confirm_Resource)) {
 					var that = this
@@ -234,21 +222,9 @@ $(function() {
 			this.model.on('destroy', this.remove, this);
 		},
 		render: function() {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-
-            });
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             var vars = this.model.toJSON()
 			//console.log(vars)

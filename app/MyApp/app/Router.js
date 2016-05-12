@@ -297,22 +297,10 @@ $(function() {
             this.underConstruction()
         },
         underConstruction: function() {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                        }
-                    },
-                async:false
-
-            });
-            App.languageDict=languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'))
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
             App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>'+languageDictValue.attributes.Functionality_Under_Construction+'</h4></div>')
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
@@ -671,21 +659,7 @@ $(function() {
                     async: false
                 });
             }
-            var members = new App.Collections.Members()
-            var member;
-            var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-            });
-            App.languageDict=languageDictValue;
+            App.languageDict = getSpecificLanguage(getLanguage($.cookie('Member._id')));
             var dashboard = new App.Views.Dashboard()
             App.$el.children('.body').html(dashboard.el)
             dashboard.render();
@@ -778,19 +752,7 @@ $(function() {
             if(url_page=="member/add"){
                 if($.cookie('Member._id'))
                 {
-                    var members = new App.Collections.Members()
-                    var member;
-                    members.login = $.cookie('Member.login');
-                    members.fetch({
-                        success: function () {
-                            if (members.length > 0) {
-                                member = members.first();
-                                clanguage=member.get('bellLanguage')
-                                    languageDictValue = getSpecificLanguage(clanguage);
-                            }
-                        },
-                        async:false
-                    });
+                    clanguage = getLanguage($.cookie('Member._id'));
                 }
                 else if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
                 {
@@ -801,26 +763,13 @@ $(function() {
                 {
                     clanguage = App.configuration.get("currentLanguage");
                 }
-                languageDictValue=getSpecificLanguage(clanguage);
             }
-            else
-            {
-                var members = new App.Collections.Members()
-                var member;
-                members.login = $.cookie('Member.login');
-                members.fetch({
-                    success: function () {
-                        if (members.length > 0) {
-                            member = members.first();
-                            clanguage=member.get('bellLanguage')
-                            languageDictValue = getSpecificLanguage(clanguage);
-                        }
-                    },
-                    async:false
-                });
+            else {
+                clanguage = getLanguage($.cookie('Member._id'));
             }
-            App.languageDict=languageDictValue;
-            var directionOfLang=languageDictValue.get('directionOfLang');
+            languageDictValue = getSpecificLanguage(clanguage);
+            App.languageDict = languageDictValue;
+            var directionOfLang = languageDictValue.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
             var nameOfLabel="";
             var context = this;
@@ -1049,21 +998,9 @@ $(function() {
                         collection: resources
                     })
                     resourcesTableView.isManager = roles.indexOf("Manager");
-                    var members = new App.Collections.Members()
-                    var member;
                     var languageDictValue,lang;
-                    members.login = $.cookie('Member.login');
-                    members.fetch({
-                        success: function () {
-                            if (members.length > 0) {
-                                member = members.first();
-                                lang=member.get('bellLanguage');
-                                languageDictValue=getSpecificLanguage(lang);
-                            }
-                        },
-                        async:false
-
-                    });
+                    lang = getLanguage($.cookie('Member._id'));
+                    languageDictValue = getSpecificLanguage(lang);
                     App.languageDict=languageDictValue;
                     App.$el.children('.body').empty();
                     App.$el.children('.body').html('<div id="parentLibrary"></div>');
@@ -1629,21 +1566,9 @@ $(function() {
             groups = new App.Collections.Groups()
             groups.fetch({
                 success: function() {
-                    var members = new App.Collections.Members()
-                    var member;
                     var languageDictValue;
-                    members.login = $.cookie('Member.login');
-                    var clanguage = '';
-                    members.fetch({
-                        success: function () {
-                            if (members.length > 0) {
-                                member = members.first();
-                                clanguage = member.get('bellLanguage');
-                                languageDictValue = getSpecificLanguage(clanguage);
-                            }
-                        },
-                        async: false
-                    });
+                    var clanguage = getLanguage($.cookie('Member._id'));
+                    languageDictValue = getSpecificLanguage(clanguage);
                     App.languageDict = languageDictValue;
                     var directionOfLang = App.languageDict.get('directionOfLang');
                     groupsTable = new App.Views.GroupsTable({
@@ -2119,22 +2044,8 @@ $(function() {
             table.resources.fetch()
         },
         AddLevel: function(groupId, levelId, totalLevels) {
-
-            var members = new App.Collections.Members()
-            var member;
-            var languageDictValue, lang;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-
-            });
+            var lang = getLanguage($.cookie('Member._id'));
+            var languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             var Cstep = new App.Models.CourseStep()
             Cstep.set({
@@ -2247,22 +2158,10 @@ $(function() {
 
             var cSearch
             cSearch = new App.Views.CourseSearch();
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-
-            });
-            App.languageDict=languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
             cSearch.render()
             var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
             var lib_page = $.url().data.attr.fragment;
@@ -2307,23 +2206,10 @@ $(function() {
 
         },
         ListMeetups: function() {
-
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue, lang;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-
-            });
-            App.languageDict=languageDictValue;
+            lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
             var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
             var lib_page = $.url().data.attr.fragment;
             if(lib_page=="meetups"){
@@ -2394,21 +2280,9 @@ $(function() {
           applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
         Meetup: function(meetUpId) {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-
-            });
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             var className = "MeetUp"
             var model = new App.Models[className]()
@@ -2498,21 +2372,9 @@ $(function() {
 
         },
         deleteMeetUp: function(meetupId) {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async: false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             if(confirm(languageDictValue.attributes.meetUp_delete_confirm)) {
                 var UserMeetups = new App.Collections.UserMeetups()
@@ -2566,22 +2428,9 @@ $(function() {
         Reports: function() {
 
             App.startActivityIndicator()
-
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async:false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
@@ -2655,21 +2504,9 @@ $(function() {
         },
         aggregateDataForTrendReport: function(CommunityName, logData) {
 
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async: false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
@@ -3133,21 +2970,9 @@ $(function() {
         ///////////////////////////////////////////
 
         trendReport: function() {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async:false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             var directionOfLang = App.languageDict.get('directionOfLang');
             var context = this;
@@ -4112,21 +3937,9 @@ $(function() {
         },
         ReportForm: function(reportId) {
 
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async:false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             var directionOfLang = App.languageDict.get('directionOfLang');
             var report = (reportId) ? new App.Models.CommunityReport({
@@ -4435,20 +4248,9 @@ $(function() {
             //window.history.go(0);
         },
         CalendarFunction: function() {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-            });
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">"+App.languageDict.attributes.Add_Event+"</div><br/><br/>")
             App.$el.children('.body').append("<br/><br/><div id='calendar'></div>")
@@ -4625,20 +4427,9 @@ $(function() {
             var modelForm = new App.Views.CalendarForm({
                 model: model
             })
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-            });
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             App.$el.children('.body').html('<h3 class="addEvent-heading">'+App.languageDict.get("Add_Event")+'</h3>')
             App.$el.children('.body').append(modelForm.el)
@@ -4681,20 +4472,9 @@ $(function() {
             var eventView = new App.Views.EventInfo({
                 model: cmodel
             })
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        languageDictValue=getSpecificLanguage(lang);
-                    }
-                },
-                async:false
-            });
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             eventView.render()
             App.$el.children('.body').append(eventView.el);
@@ -4725,21 +4505,9 @@ $(function() {
         },
         //also used for collection editing from collection listing page
         EditTag: function(value) {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async: false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             var roles = this.getRoles()
             if (roles.indexOf("Manager") > -1) {
@@ -5031,21 +4799,9 @@ $(function() {
                     resourcesTableView.displayCollec_Resources = true
                     resourcesTableView.collections = App.collectionslist
                     resourcesTableView.isManager = roles.indexOf("Manager")
-                    var members = new App.Collections.Members()
-                    var member;
                     var languageDictValue,lang;
-                    members.login = $.cookie('Member.login');
-                    members.fetch({
-                        success: function () {
-                            if (members.length > 0) {
-                                member = members.first();
-                                lang=member.get('bellLanguage');
-                                languageDictValue=getSpecificLanguage(lang);
-                            }
-                        },
-                        async:false
-
-                    });
+                    lang = getLanguage($.cookie('Member._id'));
+                    languageDictValue = getSpecificLanguage(lang);
                     App.languageDict=languageDictValue;
                     App.$el.children('.body').empty();
                     App.$el.children('.body').html('<div id="parentLibrary"></div>');
@@ -5356,21 +5112,9 @@ $(function() {
             log.type = type;
             log.render();
             App.$el.children('.body').html(log.el);
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async:false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             var directionOfLang = App.languageDict.get('directionOfLang');
             if (directionOfLang.toLowerCase() === "right") {
@@ -6050,22 +5794,9 @@ $(function() {
         },
         LogActivity:  function(CommunityName, startDate, endDate) {
 
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async:false
-            });
-
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             var rpt = new App.Views.ActivityReport()
             var type = "community"
             var configurations = Backbone.Collection.extend({

@@ -26,31 +26,7 @@ $(function() {
                     questionDocs.push(questionModels[i].toJSON());
                 }
                 var loginOfMem = $.cookie('Member.login');
-                var lang;
-                $.ajax({
-                    url: '/members/_design/bell/_view/MembersByLogin?_include_docs=true&key="' + loginOfMem + '"',
-                    type: 'GET',
-                    dataType: 'jsonp',
-                    async:false,
-                    success: function (surResult) {
-                        var id = surResult.rows[0].id;
-                        $.ajax({
-                            url: '/members/_design/bell/_view/MembersById?_include_docs=true&key="' + id + '"',
-                            type: 'GET',
-                            dataType: 'jsonp',
-                            async:false,
-                            success: function (resultByDoc) {
-                                lang=resultByDoc.rows[0].value.bellLanguage;
-                            },
-                            error:function(err){
-                                console.log(err);
-                            }
-                        });
-                    },
-                    error:function(err){
-                        console.log(err);
-                    }
-                });
+                var lang = App.Router.getLanguage(loginOfMem);
                 var languageDictValue=App.Router.loadLanguageDocs(lang);
                 if (confirm(languageDictValue.attributes.Confirm_Survey)) {
                     if(questionDocs.length > 0) {

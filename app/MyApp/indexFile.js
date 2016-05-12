@@ -79,7 +79,7 @@ function removeMemberFromCourse(memberId){
     })
     courseModel.fetch({
         success:function(result){
-            members=result.get('members');
+            var members=result.get('members');
             members.splice(members.indexOf(memberId),1)
 
             result.set('members',members)
@@ -114,21 +114,35 @@ function changeLanguage(option)
 function changeMemberLanguage(option)
 {
     console.log(option.value);
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    });
+    var config = new configurations();
+    config.fetch({
+        async: false
+    });
+    var jsonConfig = config.first().toJSON().rows[0].doc;
     var member;
     var members = new App.Collections.Members()
     members.login = $.cookie('Member.login');
     members.fetch({
         success: function () {
             if (members.length > 0) {
-                member = members.first();
-                member.set("bellLanguage",option.value);
-                member.once('sync', function() {})
+                for(var i = 0; i < members.length; i++)
+                {
+                    if(members.models[i].get("community") == jsonConfig.code)
+                    {
+                        member = members.models[i];
+                        member.set("bellLanguage",option.value);
+                        member.once('sync', function() {})
 
-                member.save(null, {
-                    success: function(doc, rev) {
-                    },
-                    async:false
-                });
+                        member.save(null, {
+                            success: function(doc, rev) {
+                            },
+                            async:false
+                        });
+                    }
+                }
             }
         },
         async:false
@@ -265,21 +279,35 @@ function submitSurvey(surveyId) {
         }
     });
     if(requiredQuestionsCount == answerToRequiredQuestionsCount) {
+        var configurations = Backbone.Collection.extend({
+            url: App.Server + '/configurations/_all_docs?include_docs=true'
+        });
+        var config = new configurations();
+        config.fetch({
+            async: false
+        });
+        var jsonConfig = config.first().toJSON().rows[0].doc;
         var members = new App.Collections.Members()
         var member, memberKey, gender, birthYear, memberLanguage;
         members.login = $.cookie('Member.login');
         members.fetch({
             success: function () {
                 if (members.length > 0) {
-                    member = members.first();
-                    gender = member.get('Gender');
-                    if(member.get('BirthDate') != undefined) {
-                        birthYear = member.get('BirthDate').split('-')[0];
-                    } else {
-                        birthYear = '2016';
+                    for(var i = 0; i < members.length; i++)
+                    {
+                        if(members.models[i].get("community") == jsonConfig.code)
+                        {
+                            member = members.models[i];
+                            gender = member.get('Gender');
+                            if(member.get('BirthDate') != undefined) {
+                                birthYear = member.get('BirthDate').split('-')[0];
+                            } else {
+                                birthYear = '2016';
+                            }
+                            memberKey = member.get('login') + '_' + member.get('community');
+                            memberLanguage = member.get('bellLanguage');
+                        }
                     }
-                    memberKey = member.get('login') + '_' + member.get('community');
-                    memberLanguage = member.get('bellLanguage');
                 }
             },
             async:false
@@ -397,19 +425,7 @@ function showFeedbackForm() {
     var languageDictValue, clanguage;
     if($.cookie('Member._id'))
     {
-        var members = new App.Collections.Members()
-        var member;
-        members.login = $.cookie('Member.login');
-        members.fetch({
-            success: function () {
-                if (members.length > 0) {
-                    member = members.first();
-                    clanguage=member.get('bellLanguage')
-                    languageDictValue = getSpecificLanguage(clanguage);
-                }
-            },
-            async:false
-        });
+        clanguage= getLanguage($.cookie('Member._id'))
     }
     else if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
     {
@@ -420,7 +436,7 @@ function showFeedbackForm() {
     {
         clanguage = App.configuration.get("currentLanguage");
     }
-    languageDictValue=getSpecificLanguage(clanguage);
+    languageDictValue = getSpecificLanguage(clanguage);
     if (languageDictValue.get('directionOfLang').toLowerCase() === "right") {
         $('#comment').css('text-align','right');
     }
@@ -490,6 +506,35 @@ function getNativeNameOfLang(language){
         }
     }
 }
+function getLanguage(loginName) {
+    var members = new App.Collections.Members()
+    var lang;
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    });
+    var config = new configurations();
+    config.fetch({
+        async: false
+    });
+    var jsonConfig = config.first().toJSON().rows[0].doc;
+    members.login = $.cookie('Member.login');
+    members.fetch({
+        success: function () {
+            if (members.length > 0) {
+                for(var i = 0; i < members.length; i++)
+                {
+                    if(members.models[i].get("community") == jsonConfig.code)
+                    {
+                        lang = members.models[i].get("bellLanguage");
+                        break;
+                    }
+                }
+            }
+        },
+        async:false
+    });
+    return lang;
+}
 function getSpecificLanguage(language){
     console.log('from start '+language);
     var languages = new App.Collections.Languages();
@@ -503,7 +548,6 @@ function getSpecificLanguage(language){
     config.fetch({
         async: false
     })
-    var con = config.first();
     var currentConfig = config.first().toJSON().rows[0].doc;
     var clanguage= currentConfig.currentLanguage;
     var docExists=false;
@@ -527,27 +571,33 @@ function getSpecificLanguage(language){
                 }
             }
         }
-            var member;
-            var members = new App.Collections.Members()
-            members.login = $.cookie('Member.login');
-            clanguage=currentConfig.currentLanguage;
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        member.set("bellLanguage",clanguage);
-                        member.once('sync', function() {})
+        var member;
+        var members = new App.Collections.Members()
+        members.login = $.cookie('Member.login');
+        clanguage=currentConfig.currentLanguage;
+        members.fetch({
+            success: function () {
+                if (members.length > 0) {
+                    for(var i; i < members.length; i++)
+                    {
+                        if(members.models[i].get("community") == currentConfig.code)
+                        {
+                            member = members.models[i];
+                            member.set("bellLanguage",clanguage);
+                            member.once('sync', function() {})
 
-                        member.save(null, {
-                            success: function(doc, rev) {
-                            },
-                            async:false
-                        });
+                            member.save(null, {
+                                success: function(doc, rev) {
+                                },
+                                async:false
+                            });
+                        }
                     }
-                },
-                async:false
+                }
+            },
+            async:false
 
-            });
+        });
         console.log('from end '+member.get('bellLanguage'));
     }
 

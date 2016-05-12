@@ -32,7 +32,7 @@ $(function() {
             nationName = cofigINJSON.nationName
 
             var roles = App.Router.getRoles()
-            members = new App.Collections.Members()
+            var members = new App.Collections.Members()
             members.searchText = searchText
             members.fetch({
                 success: function(response) {

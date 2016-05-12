@@ -66,21 +66,9 @@ $(function() {
 
 		},
 		addOne: function(model) {
-			var members = new App.Collections.Members()
-			var member;
 			var languageDictValue;
-			members.login = $.cookie('Member.login');
-			members.fetch({
-				success: function () {
-					if (members.length > 0) {
-						member = members.first();
-						var lang=member.get('bellLanguage');
-						languageDictValue=getSpecificLanguage(lang);
-					}
-				},
-				async:false
-
-			});
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
 			App.languageDict=languageDictValue;
 			var resourceRowView = new App.Views.ResourceRow({
 				model: model,
@@ -102,21 +90,9 @@ $(function() {
 		},
 
 		addAll: function() {
-			var members = new App.Collections.Members()
-			var member;
 			var languageDictValue;
-			members.login = $.cookie('Member.login');
-			members.fetch({
-				success: function () {
-					if (members.length > 0) {
-						member = members.first();
-						var lang=member.get('bellLanguage');
-						languageDictValue=getSpecificLanguage(lang);
-					}
-				},
-				async:false
-
-			});
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
 			App.languageDict=languageDictValue;
 			if (this.collection.length == 0) {
                 if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
@@ -134,21 +110,9 @@ $(function() {
 			this.collection.forEach(this.addOne, this)
 		},
         changeDirection : function (){
-			var members = new App.Collections.Members()
-			var member;
 			var languageDictValue;
-			members.login = $.cookie('Member.login');
-			members.fetch({
-				success: function () {
-					if (members.length > 0) {
-						member = members.first();
-						var lang=member.get('bellLanguage');
-						languageDictValue=getSpecificLanguage(lang);
-					}
-				},
-				async:false
-
-			});
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
 			App.languageDict=languageDictValue;
             if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
@@ -168,21 +132,9 @@ $(function() {
 			if (this.displayCollec_Resources != true) {
 
 				this.$el.html("")
-				var members = new App.Collections.Members()
-				var member;
 				var languageDictValue;
-				members.login = $.cookie('Member.login');
-				members.fetch({
-					success: function () {
-						if (members.length > 0) {
-							member = members.first();
-							var lang=member.get('bellLanguage');
-							languageDictValue=getSpecificLanguage(lang);
-						}
-					},
-					async:false
-
-				});
+                var lang = getLanguage($.cookie('Member._id'));
+                languageDictValue = getSpecificLanguage(lang);
 				App.languageDict=languageDictValue;
 				if (this.removeAlphabet == undefined) {
 					var viewText = "<tr></tr>"

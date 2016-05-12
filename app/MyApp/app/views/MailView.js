@@ -339,20 +339,8 @@ $(function() {
             this.collection.forEach(this.addOne, this)
         },
         render: function() {
-            var members = new App.Collections.Members()
-            var member;
-            members.login = $.cookie('Member.login');
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        var lang=member.get('bellLanguage');
-                        App.languageDict=getSpecificLanguage(lang);
-
-                    }
-                },
-                async:false
-            });
+            var lang = getLanguage($.cookie('Member._id'));
+            App.languageDict = getSpecificLanguage(lang);
             this.vars.languageDict=App.languageDict;
             this.$el.html(this.template(this.vars))
             this.$el.append('<div class="mail-table"><span style="float:right; margin-left:10px;"><button id="nextButton" class="btn btn-primary fui-arrow-right"></button></span> <span style="float:right;"><button id="previousButton" class="btn btn-primary fui-arrow-left"></button></span></div>')

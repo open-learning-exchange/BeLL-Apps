@@ -6,21 +6,9 @@ $(function() {
         admn: null,
         events: {
             "click .destroy": function(event) {
-                var members = new App.Collections.Members()
-                var member;
                 var languageDictValue;
-                members.login = $.cookie('Member.login');
-                var clanguage = '';
-                members.fetch({
-                    success: function () {
-                        if (members.length > 0) {
-                            member = members.first();
-                            clanguage = member.get('bellLanguage');
-                            languageDictValue = getSpecificLanguage(clanguage);
-                        }
-                    },
-                    async:false
-                });
+                var clanguage = getLanguage($.cookie('Member._id'));
+                languageDictValue = getSpecificLanguage(clanguage);
                 if (confirm(languageDictValue.attributes.Confirm_Report)) {
                 this.model.destroy()
                 event.preventDefault();
@@ -38,21 +26,9 @@ $(function() {
 
             },
             "click #commentButton": function(e) {
-                var members = new App.Collections.Members()
-                var member;
                 var languageDictValue;
-                members.login = $.cookie('Member.login');
-                var clanguage = '';
-                members.fetch({
-                    success: function () {
-                        if (members.length > 0) {
-                            member = members.first();
-                            clanguage = member.get('bellLanguage');
-                            languageDictValue = getSpecificLanguage(clanguage);
-                        }
-                    },
-                    async:false
-                });
+                var clanguage = getLanguage($.cookie('Member._id'));
+                languageDictValue = getSpecificLanguage(clanguage);
                 App.languageDict = languageDictValue;
                 var directionOfLang = App.languageDict.get('directionOfLang');
                 var languageDictValue=languageDictValue;
@@ -96,21 +72,9 @@ $(function() {
         },
 
         render: function() {
-            var members = new App.Collections.Members()
-            var member;
             var languageDictValue;
-            members.login = $.cookie('Member.login');
-            var clanguage = '';
-            members.fetch({
-                success: function () {
-                    if (members.length > 0) {
-                        member = members.first();
-                        clanguage = member.get('bellLanguage');
-                        languageDictValue = getSpecificLanguage(clanguage);
-                    }
-                },
-                async:false
-            });
+            var clanguage = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
             //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()

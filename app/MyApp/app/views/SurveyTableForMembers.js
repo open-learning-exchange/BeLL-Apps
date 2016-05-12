@@ -27,66 +27,80 @@ $(function () {
             var members = new App.Collections.Members()
             var member, memberId;
             members.login = $.cookie('Member.login');
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            });
+            var config = new configurations();
+            config.fetch({
+                async: false
+            });
+            var jsonConfig = config.first().toJSON().rows[0].doc;
             members.fetch({
                 success: function () {
                     if (members.length > 0) {
-                        member = members.first();
-                        memberId = member.get('login') + '_' + member.get('community');
-                        $.ajax({
-                            url: '/survey/_design/bell/_view/surveyByreceiverIds?_include_docs=true&key="' + memberId + '"',
-                            type: 'GET',
-                            dataType: 'json',
-                            async:false,
-                            success: function(memberSurveyData) {
-                                var surveyDocs = [];
-                                _.each(memberSurveyData.rows, function(row) {
-                                    surveyDocs.push(row);
-                                });
+                        for(var i = 0; i < members.length; i++)
+                        {
+                            if(members.models[i].get("community") == jsonConfig.code)
+                            {
+                                member = members.models[i];
+                                memberId = member.get('login') + '_' + member.get('community');
                                 $.ajax({
-                                    url: '/surveyresponse/_design/bell/_view/surveyResBymemberId?_include_docs=true&key="' + memberId + '"',
+                                    url: '/survey/_design/bell/_view/surveyByreceiverIds?_include_docs=true&key="' + memberId + '"',
                                     type: 'GET',
                                     dataType: 'json',
                                     async:false,
-                                    success: function(memberSurveyResData) {
-                                        var surveyResDocs = [];
-                                        _.each(memberSurveyResData.rows, function(row) {
-                                                surveyResDocs.push(row);
+                                    success: function(memberSurveyData) {
+                                        var surveyDocs = [];
+                                        _.each(memberSurveyData.rows, function(row) {
+                                            surveyDocs.push(row);
                                         });
-                                        var submitted = [];
-                                        var unSubmitted = [];
-                                        _.each(surveyDocs,function(row){
-                                            var surveyDoc  = row.value;
-                                            var index = surveyResDocs.map(function(element) {
-                                                return element.value.SurveyNo;
-                                            }).indexOf(surveyDoc.SurveyNo);
-                                            if (index == -1) { // its a survey which is not submitted yet
-                                                unSubmitted.push(surveyDoc);
-                                            } else { // its an already submitted survey.
-                                                submitted.push(surveyDoc);
+                                        $.ajax({
+                                            url: '/surveyresponse/_design/bell/_view/surveyResBymemberId?_include_docs=true&key="' + memberId + '"',
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            async:false,
+                                            success: function(memberSurveyResData) {
+                                                var surveyResDocs = [];
+                                                _.each(memberSurveyResData.rows, function(row) {
+                                                    surveyResDocs.push(row);
+                                                });
+                                                var submitted = [];
+                                                var unSubmitted = [];
+                                                _.each(surveyDocs,function(row){
+                                                    var surveyDoc  = row.value;
+                                                    var index = surveyResDocs.map(function(element) {
+                                                        return element.value.SurveyNo;
+                                                    }).indexOf(surveyDoc.SurveyNo);
+                                                    if (index == -1) { // its a survey which is not submitted yet
+                                                        unSubmitted.push(surveyDoc);
+                                                    } else { // its an already submitted survey.
+                                                        submitted.push(surveyDoc);
+                                                    }
+                                                });
+                                                unSubmitted.sort(that.sortByProperty('SurveyNo'));
+                                                submitted.sort(that.sortByPropertyInDecreasingOrder('SurveyNo'));
+                                                var isSubmitted = false;
+                                                for(var i = 0 ; i < unSubmitted.length ; i++) {
+                                                    var surDoc = unSubmitted[i];
+                                                    that.add(surDoc, isSubmitted, memberId);
+                                                }
+                                                for(var i = 0 ; i < submitted.length ; i++) {
+                                                    var surDoc = submitted[i];
+                                                    isSubmitted = true;
+                                                    that.add(surDoc, isSubmitted, memberId);
+                                                }
+                                            },
+                                            error: function(status) {
+                                                console.log(status);
                                             }
                                         });
-                                        unSubmitted.sort(that.sortByProperty('SurveyNo'));
-                                        submitted.sort(that.sortByPropertyInDecreasingOrder('SurveyNo'));
-                                        var isSubmitted = false;
-                                        for(var i = 0 ; i < unSubmitted.length ; i++) {
-                                            var surDoc = unSubmitted[i];
-                                            that.add(surDoc, isSubmitted, memberId);
-                                        }
-                                        for(var i = 0 ; i < submitted.length ; i++) {
-                                            var surDoc = submitted[i];
-                                            isSubmitted = true;
-                                            that.add(surDoc, isSubmitted, memberId);
-                                        }
                                     },
                                     error: function(status) {
                                         console.log(status);
                                     }
                                 });
-                            },
-                            error: function(status) {
-                                console.log(status);
                             }
-                        });
+                        }
                     }
                 },
                 async:false
