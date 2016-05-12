@@ -83,12 +83,44 @@ $(function () {
             {
             	vars.members = new Array()
             }
-            if (vars.courseLeader != undefined && vars.courseLeader == $.cookie('Member._id')) {
+           /* if (vars.courseLeader != undefined && vars.courseLeader == $.cookie('Member._id')) {
                 vars.isLeader = 1
             } else {
                 vars.isLeader = 0
-            }
-			if (this.roles.indexOf("Manager") != -1 || vars.courseLeader == $.cookie('Member._id') || vars.members.indexOf($.cookie('Member._id'))!=-1)
+            }*/
+                     var check =0;
+                if (vars.courseLeader != undefined){
+                    for (var j=0 ; j< vars.courseLeader.length;j++) {
+                        if (vars.courseLeader[j] == $.cookie('Member._id'))
+                        {
+
+                            vars.isLeader = 1
+                            check = 1;
+
+                        }
+
+                }
+                 if (check == 0 ){
+                     vars.isLeader = 0
+                 }
+                }
+                else {
+                    vars.isLeader = 0
+                }
+                var cLeader = 0;
+                if (vars.courseLeader != undefined){
+                    for (var j=0 ; j< vars.courseLeader.length;j++) {
+                        if (vars.courseLeader[j] == $.cookie('Member._id')) {
+                            cLeader = 1;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    cLeader = 0
+                }
+                //vars.courseLeader == $.cookie('Member._id')
+			if (this.roles.indexOf("Manager") != -1 || cLeader!=0 || vars.members.indexOf($.cookie('Member._id'))!=-1)
 			{
 				vars.viewProgress = 1
 			}
