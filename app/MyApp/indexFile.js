@@ -161,13 +161,11 @@ function submitSurvey(surveyId) {
     questionsColl.fetch({
         async: false
     });
-    console.log(questionsColl);
     var answersToSubmit = [];
     questionsColl = questionsColl.models;
     for(var i = 0 ; i < questionsColl.length ; i++) {
         questionsColl[i] = questionsColl[i].attributes;
     }
-    console.log(questionsColl);
     var surveyTable = $("#survey-questions-table >tbody");
     surveyTable.find('>tr').each(function (i) {
         var tds = $(this).find('td'),
@@ -207,7 +205,6 @@ function submitSurvey(surveyId) {
                 }
             });
             if(ratingCount == ratingAnswers.length) {
-                console.log(ratingAnswers);
                 for(var j = 0; j < questionsColl.length; j++) {
                     if(questionsColl[j]._id == questionId) {
                         var questionModel = questionsColl[j];
@@ -253,7 +250,7 @@ function submitSurvey(surveyId) {
     });
     if(questionsColl.length == answersToSubmit.length) {
         var members = new App.Collections.Members()
-        var member, memberKey, gender, birthYear;
+        var member, memberKey, gender, birthYear, memberLanguage;
         members.login = $.cookie('Member.login');
         members.fetch({
             success: function () {
@@ -266,6 +263,7 @@ function submitSurvey(surveyId) {
                         birthYear = '2016';
                     }
                     memberKey = member.get('login') + '_' + member.get('community');
+                    memberLanguage = member.get('bellLanguage');
                 }
             },
             async:false
@@ -287,6 +285,7 @@ function submitSurvey(surveyId) {
         surveyResModel["genderOfMember"] = gender;
         surveyResModel["birthYearOfMember"] = birthYear;
         surveyResModel["memberId"] = memberKey;
+        surveyResModel["memberLanguage"] = memberLanguage;
         var docIds = [];
         docIds.push(surveyId);
         $.ajax({
