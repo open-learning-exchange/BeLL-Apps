@@ -365,6 +365,20 @@ function submitSurvey(surveyId) {
     }
 }
 
+function sortQuestions(idsArrayForSortingOrder, modelsToSort) {
+    var sortedModels = [];
+    for(var i = 0 ; i < idsArrayForSortingOrder.length ; i++) {
+        var modelId = idsArrayForSortingOrder[i];
+        for(var j = 0 ; j < modelsToSort.length ; j++) {
+            var model = modelsToSort[j];
+            if(model.attributes._id == modelId) {
+                sortedModels.push(model);
+            }
+        }
+    }
+    return sortedModels;
+}
+
 function showFeedbackForm() {
     App.renderFeedback()
     if (document.getElementById('site-feedback').style.visibility != 'visible') {

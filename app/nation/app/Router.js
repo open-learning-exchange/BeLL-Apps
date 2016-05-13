@@ -2943,6 +2943,7 @@ $(function() {
         },
 
         openCommunitySurvey: function(surveyId) {
+            var that = this;
             var loginOfMem = $.cookie('Member.login');
             var lang;
             $.ajax({
@@ -2994,6 +2995,10 @@ $(function() {
                         answersColl.fetch({
                             async: false
                         });
+                        //Issue#258 Survey | sort questions///////////////////////////////////////
+                        var sortedModels = that.sortQuestions(surAnswers, answersColl.models);
+                        answersColl.models = sortedModels;
+                        //////////////////////////////////////////////////
                         var surAnswersTable = new App.Views.SurveyAnswerTable({
                             collection: answersColl
                         })
@@ -3094,6 +3099,10 @@ $(function() {
             questionsColl.fetch({
                 async: false
             });
+            //Issue#258 Survey | sort questions///////////////////////////////////////
+            var sortedModels = that.sortQuestions(surQuestions, questionsColl.models);
+            questionsColl.models = sortedModels;
+            //////////////////////////////////////////////////
             var surQuestionsTable = new App.Views.SurveyQuestionTable({
                 collection: questionsColl
             })
@@ -3106,6 +3115,20 @@ $(function() {
                 $('.directionsAndFloat h6').css({"float":"right"});
                 $('.directionsAndFloat button').eq(0).css({"float":"right"});
             }
+        },
+
+        sortQuestions: function(idsArrayForSortingOrder, modelsToSort) {
+        var sortedModels = [];
+        for(var i = 0 ; i < idsArrayForSortingOrder.length ; i++) {
+            var modelId = idsArrayForSortingOrder[i];
+            for(var j = 0 ; j < modelsToSort.length ; j++) {
+                var model = modelsToSort[j];
+                if(model.attributes._id == modelId) {
+                    sortedModels.push(model);
+                }
+            }
+        }
+        return sortedModels;
         },
 
         openSurveyQuestionDialogBox: function(surveyId, isEdit, questionModel) {

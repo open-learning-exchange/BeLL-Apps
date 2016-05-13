@@ -174,6 +174,10 @@ $(function() {
                 questionsColl.fetch({
                     async: false
                 });
+                //Issue#258 Survey | sort questions///////////////////////////////////////
+                var sortedModels = sortQuestions(surQuestions, questionsColl.models);
+                questionsColl.models = sortedModels;
+                //////////////////////////////////////////////////
                 var surQuestionsTable = new App.Views.SurveyQuestionTable({
                     collection: questionsColl
                 })
@@ -212,6 +216,10 @@ $(function() {
                         answersColl.fetch({
                             async: false
                         });
+                        //Issue#258 Survey | sort questions///////////////////////////////////////
+                        var sortedModels = sortQuestions(surAnswers, answersColl.models);
+                        answersColl.models = sortedModels;
+                        //////////////////////////////////////////////////
                         var surAnswersTable = new App.Views.SurveyAnswerTable({
                             collection: answersColl
                         })
