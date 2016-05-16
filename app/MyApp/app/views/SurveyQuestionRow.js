@@ -16,6 +16,7 @@ $(function() {
 
         render: function() {
             var vars = this.model.toJSON()
+            vars.Statement = vars.Statement.replace(/\s+/g, " ");
             this.$el.append(this.template(vars))
         }
 
