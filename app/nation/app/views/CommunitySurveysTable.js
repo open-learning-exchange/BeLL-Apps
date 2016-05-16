@@ -7,7 +7,6 @@ $(function () {
         communitySurveysCollection:[],
 
         add: function (model) {
-            console.log(model);
             this.$el.append('<tr id="' + model._id + '"><td>' + model.birthYearOfMember+ '</td><td>' + model.genderOfMember+ '</td><td><a name="' +model._id +
             '" class="openCommunitySurvey btn btn-info" href="#openCommunitySurvey/' + model._id + '">'+App.languageDictValue.get('Open')+'</a></td></tr>');
         },

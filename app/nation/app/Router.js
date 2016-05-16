@@ -3427,7 +3427,9 @@ $(function() {
                                         JSONObj.QType = answersArray[x].Type;
                                         JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
                                         JSONObj.Options = answersArray[x].Ratings;
-                                        JSONObj.Answer = answersArray[x].Answer[y];
+                                        if(answersArray[x].Answer[y] != undefined) {
+                                            JSONObj.Answer = answersArray[x].Answer[y];
+                                        }
                                         jsonObjectsData.push(JSONObj)
                                     }
 

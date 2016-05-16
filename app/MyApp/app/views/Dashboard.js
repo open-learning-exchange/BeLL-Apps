@@ -852,9 +852,7 @@ $(function() {
                                         console.log(memberSurveyResData);
                                         var surveyResDocs = [];
                                         _.each(memberSurveyResData.rows, function(row) {
-                                            if(row.value.answersToQuestions.length > 0) {
                                                 surveyResDocs.push(row);
-                                            }
                                         });
                                         _.each(surveyDocs,function(row){
                                             var surveyDoc  = row.value;

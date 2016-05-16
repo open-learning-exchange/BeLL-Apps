@@ -38,7 +38,6 @@ $(function () {
                             dataType: 'json',
                             async:false,
                             success: function(memberSurveyData) {
-                                console.log(memberSurveyData);
                                 var surveyDocs = [];
                                 _.each(memberSurveyData.rows, function(row) {
                                     surveyDocs.push(row);
@@ -49,12 +48,9 @@ $(function () {
                                     dataType: 'json',
                                     async:false,
                                     success: function(memberSurveyResData) {
-                                        console.log(memberSurveyResData);
                                         var surveyResDocs = [];
                                         _.each(memberSurveyResData.rows, function(row) {
-                                            if(row.value.answersToQuestions.length > 0) {
                                                 surveyResDocs.push(row);
-                                            }
                                         });
                                         var submitted = [];
                                         var unSubmitted = [];

@@ -138,7 +138,6 @@ function changeMemberLanguage(option)
 
     location.reload();
 }
-        //con.set('currentLanguage', option.value);
 
 function submitSurvey(surveyId) {
     App.startActivityIndicator();
@@ -162,9 +161,14 @@ function submitSurvey(surveyId) {
         async: false
     });
     var answersToSubmit = [];
+    var requiredQuestionsCount = 0;
+    var answerToRequiredQuestionsCount = 0;
     questionsColl = questionsColl.models;
     for(var i = 0 ; i < questionsColl.length ; i++) {
         questionsColl[i] = questionsColl[i].attributes;
+        if(questionsColl[i].RequireAnswer == true) {
+            requiredQuestionsCount++;
+        }
     }
     var surveyTable = $("#survey-questions-table >tbody");
     surveyTable.find('>tr').each(function (i) {
@@ -180,6 +184,9 @@ function submitSurvey(surveyId) {
                 for(var j = 0; j < questionsColl.length; j++) {
                     if(questionsColl[j]._id == questionId) {
                         var questionModel = questionsColl[j];
+                        if(questionModel.RequireAnswer == true) {
+                            answerToRequiredQuestionsCount++;
+                        }
                         delete questionModel._id;
                         delete questionModel._rev;
                         questionModel["Answer"] = [];
@@ -204,10 +211,13 @@ function submitSurvey(surveyId) {
                     }
                 }
             });
-            if(ratingCount == ratingAnswers.length) {
+            if(ratingAnswers.length > 0) {
                 for(var j = 0; j < questionsColl.length; j++) {
                     if(questionsColl[j]._id == questionId) {
                         var questionModel = questionsColl[j];
+                        if(questionModel.RequireAnswer == true && ratingCount == ratingAnswers.length) {
+                            answerToRequiredQuestionsCount++;
+                        }
                         delete questionModel._id;
                         delete questionModel._rev;
                         questionModel["Answer"] = [];
@@ -223,6 +233,9 @@ function submitSurvey(surveyId) {
                 for(var j = 0; j < questionsColl.length; j++) {
                     if(questionsColl[j]._id == questionId) {
                         var questionModel = questionsColl[j];
+                        if(questionModel.RequireAnswer == true) {
+                            answerToRequiredQuestionsCount++;
+                        }
                         delete questionModel._id;
                         delete questionModel._rev;
                         questionModel["Answer"] = [];
@@ -238,6 +251,9 @@ function submitSurvey(surveyId) {
                 for(var j = 0; j < questionsColl.length; j++) {
                     if(questionsColl[j]._id == questionId) {
                         var questionModel = questionsColl[j];
+                        if(questionModel.RequireAnswer == true) {
+                            answerToRequiredQuestionsCount++;
+                        }
                         delete questionModel._id;
                         delete questionModel._rev;
                         questionModel["Answer"] = [];
@@ -248,7 +264,7 @@ function submitSurvey(surveyId) {
             }
         }
     });
-    if(questionsColl.length == answersToSubmit.length) {
+    if(requiredQuestionsCount == answerToRequiredQuestionsCount) {
         var members = new App.Collections.Members()
         var member, memberKey, gender, birthYear, memberLanguage;
         members.login = $.cookie('Member.login');
