@@ -293,7 +293,7 @@ $(function () {
             }
             //            else if (this.model.get("courseLeader") == 0000) {
             //                alert("Select Course Leader")
-            //            } 
+            //            }
             else if (this.model.get("description").length == 0) {
                 alert(App.languageDict.attributes.Course_Desc_Missing)
             }
@@ -362,7 +362,7 @@ $(function () {
                             memprogress.set("stepsStatus", stepsstatus)
                             memprogress.set("courseId", e.get("id"));
                             memprogress.save()
-                            //0000 is value for --select-- 
+                            //0000 is value for --select--
                             //if (context.model.get('courseLeader') != $.cookie("Member._id")&&context.model.get('courseLeader')!='0000') {
                             if (context.model.get('courseLeader') && context.model.get('courseLeader').indexOf( $.cookie("Member._id"))==-1){  //&&context.model.get('courseLeader').indexOf('0000')==-1) {
                                 for(var i=0;i<context.model.get('courseLeader').length;i++){
@@ -432,7 +432,7 @@ $(function () {
 
 
                             //alert(that.model.get("_id"))
-                            ///to get the latest rev.id 
+                            ///to get the latest rev.id
                             var groupModel = new App.Models.Group()
                             groupModel.id = that.model.get("_id")
                             groupModel.fetch({
