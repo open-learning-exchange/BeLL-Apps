@@ -1680,13 +1680,13 @@ $(function() {
             })
             App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
             $('.courseSearchResults_Bottom').append("<h2> " + cname + "</h2>")
-            if (course.get('courseLeader') != undefined && course.get('courseLeader') == $.cookie('Member._id') || roles.indexOf("Manager") != -1) {
+            if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
             }
             App.$el.children('.body').append("<div id='graph'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
 
-            if (course.get('courseLeader') != $.cookie('Member._id') && roles.indexOf("Manager") == -1) {
+            if (course.get('courseLeader').indexOf($.cookie('Member._id')) == -1  ||  roles.indexOf("Manager") == -1) {
                 allResults.memberId = $.cookie('Member._id')
             }
             allResults.courseId = cId
