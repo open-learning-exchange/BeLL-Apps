@@ -46,9 +46,9 @@ $(function () {
                 }
                 if((i + 1) != this.leader.length)
                 {
-                    leaderNames += ",";
-                    leaderEmails += ",";
-                    leaderPhones += ",";
+                    leaderNames += ", ";
+                    leaderEmails += ", ";
+                    leaderPhones += ", ";
                 }
 
             }
