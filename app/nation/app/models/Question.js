@@ -19,7 +19,6 @@ $(function() {
         },
 
         schema: {
-            surveyId: 'Text',
             Type: 'Text',
             Statement: 'Text',
             Answer: [],
