@@ -1685,7 +1685,6 @@ $(function() {
             }
             App.$el.children('.body').append("<div id='graph'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
-            
             if (course.get('courseLeader').indexOf($.cookie('Member._id')) == -1  &&  roles.indexOf("Manager") == -1) {
                 allResults.memberId = $.cookie('Member._id')
             }
