@@ -494,6 +494,15 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     }
 
 
+    var recipientIds = [];
+    var courseLeaderIds = [];
+    var courseLeaderIds=courseLeader.split(",");
+    //courseLeaderId.push(courseLeader)
+    var length2 = courseLeaderIds.length;
+    console.log ("courseLeader: " + length2);
+    if(courseLeader.length >= 1){
+        recipientIds = courseLeaderIds;
+    }
     var currentdate = new Date();
     var mail = new App.Models.Mail();
     for (var i=0; i< recipientIds.length;i++){
@@ -512,12 +521,8 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
         mail.set("sentDate", currentdate);
         mail.save()
     }
-
-
     $('#admissionButton').hide()
     alert(App.languageDict.attributes.RequestForCourse);
-
-
 }
 function getAvailableLanguages(){
     var allLanguages={};
