@@ -192,6 +192,9 @@ $(function () {
                         model: groupForm.model                  // groupForm.model is a 'Group' model instance. 'Group' is basically a course
                     })
                     groupForm.$el.append(groupForm.form.render().el)
+                    $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
+                    $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupForm.model.get("courseLeader"));
+
 
                     groupForm.form.fields['members'].$el.hide()
                     if (groupForm.model.get("_id") == undefined) {

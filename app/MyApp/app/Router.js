@@ -1648,16 +1648,21 @@ $(function() {
             })
 
             var courseLeader = courseModel.get('courseLeader');
-            var memberModel = new App.Models.Member()
-            memberModel.set('_id', courseLeader)
-            memberModel.fetch({
-                async: false
-            })
+            var memberModelArr = [];
+            for(var i = 0; i < courseLeader.length; i++) {
+                var memberModel = new App.Models.Member()
+                memberModel.set('_id', courseLeader[i]);
+                memberModel.fetch({
+                    async: false
+                });
+                memberModelArr.push(memberModel);
+            }
 
-            var viewCourseInfo = new App.Views.CourseInfoView({
+
+                var viewCourseInfo = new App.Views.CourseInfoView({
                 model: courseModel
             })
-            viewCourseInfo.leader = memberModel
+            viewCourseInfo.leader = memberModelArr
             viewCourseInfo.render()
             App.$el.children('.body').html("&nbsp")
             App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a>&nbsp;&nbsp;</div>')
@@ -1727,7 +1732,12 @@ $(function() {
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
-                $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
+                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
+
+                //console.log(groupModel.get("courseLeader"));
+                //alert(groupModel.get("courseLeader"));
+                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupModel.get("courseLeader"));
+
                 $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
                 $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
@@ -1851,11 +1861,16 @@ $(function() {
             $('.courseEditStep').append('<div id="courseName-heading"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
             $('.courseEditStep').append(button)
 
-            var memberModel = new App.Models.Member()
-            memberModel.set('_id', courseLeader)
-            memberModel.fetch({
-                async: false
-            })
+            var memberModelArr = [];
+            for(var i = 0; i < courseLeader.length; i++)
+            {
+                var memberModel = new App.Models.Member()
+                memberModel.set('_id', courseLeader[i]);
+                memberModel.fetch({
+                    async: false
+                });
+                memberModelArr.push(memberModel);
+            }
 
             var ccSteps = new App.Collections.coursesteps()
             ccSteps.courseId = courseId
@@ -1866,7 +1881,7 @@ $(function() {
             var GroupDetailsView = new App.Views.GroupView({
                 model: courseModel
             })
-            GroupDetailsView.courseLeader = memberModel
+            GroupDetailsView.courseLeader = memberModelArr
             GroupDetailsView.render()
 
 
