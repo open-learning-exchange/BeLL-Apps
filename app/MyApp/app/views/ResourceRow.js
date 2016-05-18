@@ -95,10 +95,17 @@ $(function() {
 
 			"click .hides": function(event) {
 				$(this.el).html("")
-				this.model.set({
-					"hidden": true
-				})
-				this.model.save()
+                var resourceModel = new App.Models.Resource({
+                    "_id": this.model.get('_id')
+                })
+                resourceModel.fetch({
+                    async: false
+                });
+                resourceModel.set({
+                    "hidden": true
+                })
+                this.model = resourceModel;
+                resourceModel.save();
 				App.startActivityIndicator()
 				var shelfResources = new App.Collections.shelfResource()
 				shelfResources.deleteResource = 1
@@ -113,13 +120,6 @@ $(function() {
 					item.save()
 				});
 				App.stopActivityIndicator()
-				var newmodel = new App.Models.Resource({
-					"_id": this.model.get('_id')
-				})
-				newmodel.fetch({
-					async: false
-				})
-				this.model = newmodel
 				this.render();
                 if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 				{
@@ -133,10 +133,17 @@ $(function() {
 			"click .unhide": function(event) {
 
 				$(this.el).html("")
-				this.model.set({
-					"hidden": false
-				})
-				this.model.save()
+                var resourceModel = new App.Models.Resource({
+                    "_id": this.model.get('_id')
+                })
+                resourceModel.fetch({
+                    async: false
+                });
+                resourceModel.set({
+                    "hidden": false
+                })
+                this.model = resourceModel;
+                resourceModel.save();
 				App.startActivityIndicator()
 				var shelfResources = new App.Collections.shelfResource()
 				shelfResources.deleteResource = 1
@@ -151,13 +158,6 @@ $(function() {
 					item.save()
 				});
 				App.stopActivityIndicator()
-				var newmodel = new App.Models.Resource({
-					"_id": this.model.get('_id')
-				})
-				newmodel.fetch({
-					async: false
-				})
-				this.model = newmodel
 				this.render();
                 if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 				{
