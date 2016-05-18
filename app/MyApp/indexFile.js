@@ -474,14 +474,14 @@ function sendManagerEmail(){
 function sendAdminRequest(courseLeader, courseName, courseId) {
     var managerId = sendManagerEmail();
     var recipientIds = [];
-    alert(managerId)
+    //alert(managerId)
     var length = managerId.length;
-    alert (length);
+    // alert (length);
     var courseLeaderIds = [];
     var courseLeaderIds=courseLeader.split(",");
     //courseLeaderId.push(courseLeader)
     var length2 = courseLeaderIds.length;
-    alert ("courseLeader: " + length2);
+    // alert ("courseLeader: " + length2);
 
     if(courseLeader.length >= 1){
         recipientIds = courseLeaderIds;
@@ -489,25 +489,16 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     else
     {
         recipientIds = managerId;
-        alert(recipientIds)
-        alert(recipientIds.length)
+        //  alert(recipientIds)
+        //  alert(recipientIds.length)
     }
 
 
-    var recipientIds = [];
-    var courseLeaderIds = [];
-    var courseLeaderIds=courseLeader.split(",");
-    //courseLeaderId.push(courseLeader)
-    var length2 = courseLeaderIds.length;
-    console.log ("courseLeader: " + length2);
-    if(courseLeader.length >= 1){
-        recipientIds = courseLeaderIds;
-    }
     var currentdate = new Date();
     var mail = new App.Models.Mail();
     for (var i=0; i< recipientIds.length;i++){
         mail.set("senderId", $.cookie('Member._id'));
-        alert(recipientIds[i])
+        //alert(recipientIds[i])
         mail.set("receiverId",recipientIds[i]);
 
         mail.set("subject", App.languageDict.attributes.Course_Admission_Req+" | " + decodeURI(courseName));
@@ -521,8 +512,12 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
         mail.set("sentDate", currentdate);
         mail.save()
     }
+
+
     $('#admissionButton').hide()
     alert(App.languageDict.attributes.RequestForCourse);
+
+
 }
 function getAvailableLanguages(){
     var allLanguages={};
