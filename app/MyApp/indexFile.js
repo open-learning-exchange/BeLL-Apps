@@ -439,18 +439,61 @@ function showFeedbackForm() {
     }
 
 }
+//**********************************
+function sendManagerEmail(){
+    alert("sendManagerEmail")
+    var roles = [];
+    var managers = [];
+    var members = new App.Collections.Members()
+    var member;
+    // members.login = $.cookie('Member.login');
+    members.fetch({
+        success: function () {
+            if (members.length > 0) {
+                for (var j=0 ; j< members.length;j++) {
+                    member = members.models[j];
+                    roles = member.attributes.roles;
+                    for (var r=0 ; r< roles.length;r++) {
+                        if (roles[r]=="Manager"){
+                            managers.push(member.attributes._id)
+                            console.log(member.attributes._id)
+                            console.log(roles[r])
+                        }
 
+                    }
+                }
+            }
+        },
+        async:false
+    });
+
+    console.log("end....sendManagerEmail")
+    return managers;
+}
+//*****************************
 function sendAdminRequest(courseLeader, courseName, courseId) {
-
+    var managerId = sendManagerEmail();
     var recipientIds = [];
+    alert(managerId)
+    var length = managerId.length;
+    alert (length);
     var courseLeaderIds = [];
     var courseLeaderIds=courseLeader.split(",");
     //courseLeaderId.push(courseLeader)
     var length2 = courseLeaderIds.length;
-    console.log ("courseLeader: " + length2);
+    alert ("courseLeader: " + length2);
+
     if(courseLeader.length >= 1){
         recipientIds = courseLeaderIds;
     }
+    else
+    {
+        recipientIds = managerId;
+        alert(recipientIds)
+        alert(recipientIds.length)
+    }
+
+
     var currentdate = new Date();
     var mail = new App.Models.Mail();
     for (var i=0; i< recipientIds.length;i++){
