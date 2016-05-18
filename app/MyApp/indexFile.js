@@ -441,7 +441,7 @@ function showFeedbackForm() {
 }
 //**********************************
 function sendManagerEmail(){
-    alert("sendManagerEmail")
+   // alert("sendManagerEmail")
     var roles = [];
     var managers = [];
     var members = new App.Collections.Members()
