@@ -1969,6 +1969,15 @@ $(function() {
             courseModel.set({
                 members: courseMemebers
             })
+            var courseLeaders = courseModel.get('courseLeader')
+            var index = courseLeaders.indexOf(memberId);
+            if(index>0){
+                courseLeaders.splice(index, 1)
+                courseModel.set({
+                    courseLeader: courseLeaders
+                })
+            }
+
             courseModel.save();
 
             var memberProgress = new App.Collections.memberprogressallcourses()
