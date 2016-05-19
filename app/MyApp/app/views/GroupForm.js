@@ -193,7 +193,14 @@ $(function () {
                     })
                     groupForm.$el.append(groupForm.form.render().el)
                     $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
-                    $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupForm.model.get("courseLeader"));
+                    if(groupForm.model.get("courseLeader") == undefined)
+                    {
+                        $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val("0000");
+                    }
+                    else
+                    {
+                        $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupForm.model.get("courseLeader"));
+                    }
 
 
                     groupForm.form.fields['members'].$el.hide()
