@@ -438,10 +438,10 @@
    "Resource_failure_update":"تعذر تحديث النموذج بسبب تكرار العنوان",
    "Error_Welcome_Resource":"حصل خطأ عند الدخول",
    "Success_Msg":"تم إتمام العمل بنجاح",
-   "Resigned_Success_Msg":"تم الخروج بنجاح من"
+   "Resigned_Success_Msg":"تم الخروج بنجاح من",
    "No_Activity_Logged":"لن يتم أي تحديث في هذه الفترة",
    "Select_Date":"يجب عليك اختيار تاريخ للمضي قدما",
-   "Added_To_Shelf":"تمت الإضافة إلى الألبوم بنجاح"
+   "Added_To_Shelf":"تمت الإضافة إلى الألبوم بنجاح",
    "Duplicate_In_Shelf":"موجود سابقاً في الألبوم",
    "FeedBack_And_AddedToShelf":"تم حفظ ملاحظتك وإضافتها إلى الألبوم بنجاح",
    "FeedbackSaved_Not_Resource":"تم حفظ ملاحظتك بنجاح، المعلومات موجودة في الألبوم سابقاً",
@@ -463,7 +463,7 @@
    "LanguagesDb_Creation_Error":"فشل في إنشاء قاعدة بيانات اللغات",
    "UnableToReplicate":"غير قادر على نسخ التطبيقات",
    "TempApp_Replication_Error":"فشل نسخ التطبيقات المؤقتة",
-   "Create_Apps_Error":"فشل في إنشاء التطبيقات"
+   "Create_Apps_Error":"فشل في إنشاء التطبيقات",
    "UnAuthorized_Community":"غير مسموح تحديث هذا القسم بدون موافقة أعضاء المجموعة",
    "Poor_Internet_Error":"غير قادر على تحديث تطبيقات بيل. الرجاء التأكد من الإتصال بالإنترنت أو المحاولة لاحقاً",
    "Notes_Saved_Success":"تم حفظ الملاحظات بنجاح",
