@@ -422,7 +422,7 @@
    "Invalid_Attachment":"المرفق غير صالح",
    "Assignment_Submitted":"تم الإرسال بنجاح",
    "Enter_Recipient":"الرجاء إدخال المستلم",
-   "Enter_subject":"الرجاء إدخال الموضوع"
+   "Enter_subject":"الرجاء إدخال الموضوع",
    "Enter_Message":"اكتب رسالة من فضلك",
    "Mail_Sent_Success":"تم إرسال الرسالة بنجاح",
    "Invalid_Email_Address":"عنوان البريد الإلكتروني غير صحيح",
