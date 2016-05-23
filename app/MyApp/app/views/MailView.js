@@ -477,25 +477,29 @@ $(function() {
         },
         admissoinRequestRejected: function(courseId) {
             var courseTitle;
+            var memebersEnrolled = [];
             var course = new App.Models.Group();
             course.id = courseId
             course.fetch({
                 ///
                 success: function () {
                     if (course.length > 0) {
-                        courseTitle = course.attributes.CourseTitle;
+
                         alert(course.attributes.CourseTitle)
                     }
                 },
                 ////
                 async: false
             })
-            alert(courseTitle)
+            courseTitle = course.attributes.CourseTitle;
+            memebersEnrolled = course.attributes.members
+           // alert(memebersEnrolled)
+           // alert(courseTitle)
             var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
             body = 'Admission request received from user "a" has been Rejected<br>'
             body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
-
+           // alert(courseTitle)
             var currentdate = new Date();
             var mail = new App.Models.Mail();
             mail.set("senderId", $.cookie('Member._id'));
