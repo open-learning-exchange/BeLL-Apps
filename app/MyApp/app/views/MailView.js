@@ -481,21 +481,25 @@ $(function() {
             var course = new App.Models.Group();
             course.id = courseId
             course.fetch({
-                ///
                 success: function () {
                     if (course.length > 0) {
-
-                        alert(course.attributes.CourseTitle)
+                        console.log(course.attributes.CourseTitle)
                     }
                 },
-                ////
                 async: false
             })
             courseTitle = course.attributes.CourseTitle;
             memebersEnrolled = course.attributes.members
-           // alert(memebersEnrolled)
-           // alert(courseTitle)
-            var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+            alert(memebersEnrolled)
+            var receiverId = mailView.inViewModel.get('senderId');
+            for (var i=0; i<memebersEnrolled.length;i++){
+                alert(memebersEnrolled[i])
+                if (receiverId == memebersEnrolled[i]){
+                    alert("reciever id"+receiverId)
+                }
+            }
+            alert(courseTitle)
+         /*   var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
             body = 'Admission request received from user "a" has been Rejected<br>'
             body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
@@ -514,7 +518,7 @@ $(function() {
             mail.set("sentDate", currentdate);
             mail.save()
 
-            mailView.updateMailBody(body)
+            mailView.updateMailBody(body)*/
         },
         meetupRequestAccepted: function(meetupId) {
             var UMeetup = new App.Collections.UserMeetups()
