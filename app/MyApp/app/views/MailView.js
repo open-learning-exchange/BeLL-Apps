@@ -467,7 +467,7 @@ $(function() {
             mail.set("senderId", $.cookie('Member._id'));
             mail.set("receiverId", mailView.inViewModel.get('senderId'));
             mail.set("subject", App.languageDict.attributes.Adm_req_accepted+" | " + course.get('name'));
-            mail.set("body", App.languageDict.attributes.adm_req_For+" \"" + course.get('name') + "\" ");
+            mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + course.get('name') + "\" ");
             mail.set("status", "0");
             mail.set("type", "mail");
             mail.set("sentDate", currentdate);
@@ -476,13 +476,21 @@ $(function() {
             mailView.updateMailBody(body)
         },
         admissoinRequestRejected: function(courseId) {
-
+            var courseTitle;
             var course = new App.Models.Group();
             course.id = courseId
             course.fetch({
+                ///
+                success: function () {
+                    if (course.length > 0) {
+                        courseTitle = course.attributes.CourseTitle;
+                        alert(course.attributes.CourseTitle)
+                    }
+                },
+                ////
                 async: false
             })
-
+            alert(courseTitle)
             var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
             //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
             body = 'Admission request received from user "a" has been Rejected<br>'
@@ -492,8 +500,11 @@ $(function() {
             var mail = new App.Models.Mail();
             mail.set("senderId", $.cookie('Member._id'));
             mail.set("receiverId", mailView.inViewModel.get('senderId'));
-            mail.set("subject", " | " + courseId.get('name'));
-            mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + courseId.get('name') + "\" ");
+            // mail.set("subject", " | " + courseId.get('CourseTitle'));
+            alert(App.languageDict.attributes.Adm_req_rejected);
+            mail.set("subject", App.languageDict.attributes.Adm_req_rejected+ " | " + course.attributes.CourseTitle)
+            //  mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + courseId.get('name') + "\" ");
+            mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + course.attributes.CourseTitle + "\" ");
             mail.set("status", "0");
             mail.set("type", "mail");
             mail.set("sentDate", currentdate);
