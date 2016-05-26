@@ -490,35 +490,68 @@ $(function() {
             })
             courseTitle = course.attributes.CourseTitle;
             memebersEnrolled = course.attributes.members
+            var isAlreadyEnrolled = false;
             alert(memebersEnrolled)
             var receiverId = mailView.inViewModel.get('senderId');
             for (var i=0; i<memebersEnrolled.length;i++){
-                alert(memebersEnrolled[i])
+                // alert(memebersEnrolled[i])
                 if (receiverId == memebersEnrolled[i]){
                     alert("reciever id"+receiverId)
+                    isAlreadyEnrolled = true;
                 }
             }
+            alert("falg:" + isAlreadyEnrolled)
             alert(courseTitle)
-         /*   var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-            //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-            body = 'Admission request received from user "a" has been Rejected<br>'
-            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
-           // alert(courseTitle)
-            var currentdate = new Date();
-            var mail = new App.Models.Mail();
-            mail.set("senderId", $.cookie('Member._id'));
-            mail.set("receiverId", mailView.inViewModel.get('senderId'));
-            // mail.set("subject", " | " + courseId.get('CourseTitle'));
-            alert(App.languageDict.attributes.Adm_req_rejected);
-            mail.set("subject", App.languageDict.attributes.Adm_req_rejected+ " | " + course.attributes.CourseTitle)
-            //  mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + courseId.get('name') + "\" ");
-            mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + course.attributes.CourseTitle + "\" ");
-            mail.set("status", "0");
-            mail.set("type", "mail");
-            mail.set("sentDate", currentdate);
-            mail.save()
+            if (isAlreadyEnrolled){
+                alert("Member is already enrolled in this course");
+                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                body = $.cookie('Member.login') + ' ' +'is already enrolled in '+' ' + course.attributes.CourseTitle;
+                ///////
 
-            mailView.updateMailBody(body)*/
+            }
+            else{
+
+                /////////////////////////////////////////
+                alert("Member is already enrolled in this course");
+                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+
+                // body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+                //body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+"Member is already enrolled in this course"+"</div>"
+                //////
+                body = $.cookie('Member.login') + ' ' +'is already enrolled in'+' ' + course.attributes.CourseTitle
+                   /*+ ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
+                    '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
+                    App.languageDict.attributes.Reject+'</button>'*/
+                //  var mail = new App.Models.Mail();
+
+                /* mail.set("body", body+' '
+                 + $.cookie('Member.login') + ' ' +App.languageDict.attributes.For_Course+' ' + course.attributes.CourseTitle +
+                 ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
+                 '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
+                 App.languageDict.attributes.Reject+'</button>');
+                 mail.save();*/
+                ////////////////////////////////////////
+                alert("inside else")
+                /*   var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                 //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+                 body = 'Admission request received from user "a" has been Rejected<br>'
+                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
+                 // alert(courseTitle)
+                 var currentdate = new Date();
+                 var mail = new App.Models.Mail();
+                 mail.set("senderId", $.cookie('Member._id'));
+                 mail.set("receiverId", mailView.inViewModel.get('senderId'));
+                 // mail.set("subject", " | " + courseId.get('CourseTitle'));
+                 alert(App.languageDict.attributes.Adm_req_rejected);
+                 mail.set("subject", App.languageDict.attributes.Adm_req_rejected+ " | " + course.attributes.CourseTitle)
+                 //  mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + courseId.get('name') + "\" ");
+                 mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + course.attributes.CourseTitle + "\" ");
+                 mail.set("status", "0");
+                 mail.set("type", "mail");
+                 mail.set("sentDate", currentdate);
+                 mail.save()*/
+            }
+            mailView.updateMailBody(body)
         },
         meetupRequestAccepted: function(meetupId) {
             var UMeetup = new App.Collections.UserMeetups()
