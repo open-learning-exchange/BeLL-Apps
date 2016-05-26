@@ -772,5 +772,5 @@
   "Survey_Alert": "You have a new survey, please submit your response",
   "Response": "Response",
   "Received": "Received",
-     "Sent": "Sent"
+   "Sent": "Sent"
 }

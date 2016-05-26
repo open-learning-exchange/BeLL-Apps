@@ -774,5 +774,5 @@
   "Survey_Alert": "لديك بحث جديد، الرجاء إرسال إجابتك",
   "Response": "Response",
   "Received": "Received",
-     "Sent": "Sent"
+  "Sent": "Sent"
 }
