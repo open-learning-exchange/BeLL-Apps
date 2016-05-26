@@ -87,7 +87,13 @@ $(function() {
             // Put the form's input into the model in memory
             this.form.commit()
             // Send the updated model to the server
-            if (isNaN(this.model.get("allowedErrors"))) {
+            if(this.model.get("title") == undefined || $.trim(this.model.get("title"))  == "") {
+                alert(App.languageDict.attributes.Title_Error)
+            }
+            else if (this.model.get("description") == undefined || $.trim(this.model.get("description"))  == "") {
+                alert(App.languageDict.attributes.Description_Error)
+            }
+            else if (this.model.get("allowedErrors") == undefined || $.trim(this.model.get("allowedErrors"))  == "" || isNaN(this.model.get("allowedErrors"))) {
                 alert(App.languageDict.attributes.Invalid_AllowedErrors)
             } else if (isNaN(this.model.get("step"))) {
                 alert(App.languageDict.attributes.InvalidStepNumber)
@@ -129,7 +135,11 @@ $(function() {
                         }
 
                         if (done)
+                        {
+                            that.model.set("title", $.trim(that.model.get("title")));
+                            that.model.set("description", $.trim(that.model.get("description")));
                             that.model.save()
+                        }
                         else
                             alert(App.languageDict.attributes.DuplicateSteps)
 

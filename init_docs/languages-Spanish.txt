@@ -791,6 +791,8 @@
    "Group_Selection_Error": "Please select age group first",
    "Role_Selection_Error": "Please select roles first",
    "No_Member_Found": "No members have been found for the selected options",
-   "Survey_Note":"This is how the survey will appear to users.*"
-  "adm_req_For_rejected":"Your admission request has been rejected by the course leader for"
+   "Survey_Note":"This is how the survey will appear to users.*",
+  "adm_req_For_rejected":"Your admission request has been rejected by the course leader for",
+    "Title_Error": "Title is required",
+    "Description_Error": "Description is required"
 }

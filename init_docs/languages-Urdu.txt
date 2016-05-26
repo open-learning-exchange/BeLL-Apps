@@ -784,7 +784,7 @@
  "Survey_Alert": "You have a new survey, please submit your response",
  "Response": "Response",
  "Received": "Received",
-  "Sent": "Sent",
+"Sent": "Sent",
   "Survey_Error_Message_For_Required_Questions":"Please provide all the answers to required questions",
   "Get_Members_List": "Get Members List",
   "Bell_Name": "Bell Name",
@@ -803,6 +803,8 @@
   "Group_Selection_Error": "Please select age group first",
   "Role_Selection_Error": "Please select roles first",
   "No_Member_Found": "No members have been found for the selected options",
-  "Survey_Note":"This is how the survey will appear to users.*"
-  "adm_req_For_rejected":"Your admission request has been rejected by the course leader for"
+  "Survey_Note":"This is how the survey will appear to users.*",
+  "adm_req_For_rejected":"Your admission request has been rejected by the course leader for",
+  "Title_Error": "Title is required",
+  "Description_Error": "Description is required"
 }
