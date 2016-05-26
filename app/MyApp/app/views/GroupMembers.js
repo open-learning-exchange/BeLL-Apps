@@ -82,7 +82,15 @@ $(function () {
                 viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mem.get('firstName') + ' ' + mem.get('lastName') + '</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
     
                 
-                if($.cookie('Member._id')==courseModel.get('courseLeader'))
+                var loggedIn = new App.Models.Member({
+                    "_id": $.cookie('Member._id')
+                })
+                loggedIn.fetch({
+                    async: false
+                })
+                var roles = loggedIn.get("roles")
+
+                if(courseModel.get('courseLeader').indexOf($.cookie('Member._id'))>-1 || roles.indexOf('Manager')>-1)
                 {
                     var memId=mem.get('_id')+','+this.courseId;
                    viewtext+='<td><button class="btn btn-danger removeMember" value="' + mem.get('_id') + '" onclick=removeMemberFromCourse(\"' +  memId + '")>'+App.languageDict.attributes.Remove+'</button></td>'
