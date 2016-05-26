@@ -491,17 +491,17 @@ $(function() {
             courseTitle = course.attributes.CourseTitle;
             memebersEnrolled = course.attributes.members
             var isAlreadyEnrolled = false;
-            alert(memebersEnrolled)
+            console.log(memebersEnrolled)
             var receiverId = mailView.inViewModel.get('senderId');
             for (var i=0; i<memebersEnrolled.length;i++){
                 // alert(memebersEnrolled[i])
                 if (receiverId == memebersEnrolled[i]){
-                    alert("reciever id"+receiverId)
+                    console.log("reciever id"+receiverId)
                     isAlreadyEnrolled = true;
                 }
             }
-            alert("falg:" + isAlreadyEnrolled)
-            alert(courseTitle)
+            console.log("flag:" + isAlreadyEnrolled)
+            console.log(courseTitle)
             if (isAlreadyEnrolled){
                 alert("Member is already enrolled in this course");
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
@@ -512,27 +512,11 @@ $(function() {
             else{
 
                 /////////////////////////////////////////
-                alert("Member is already enrolled in this course");
+               /* alert("Member is already enrolled in this course");
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-
-                // body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-                //body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+"Member is already enrolled in this course"+"</div>"
-                //////
-                body = $.cookie('Member.login') + ' ' +'is already enrolled in'+' ' + course.attributes.CourseTitle
-                   /*+ ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
-                    '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
-                    App.languageDict.attributes.Reject+'</button>'*/
-                //  var mail = new App.Models.Mail();
-
-                /* mail.set("body", body+' '
-                 + $.cookie('Member.login') + ' ' +App.languageDict.attributes.For_Course+' ' + course.attributes.CourseTitle +
-                 ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
-                 '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
-                 App.languageDict.attributes.Reject+'</button>');
-                 mail.save();*/
+                body = $.cookie('Member.login') + ' ' +'is already enrolled in'+' ' + course.attributes.CourseTitle*/
                 ////////////////////////////////////////
-                alert("inside else")
-                /*   var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                  var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                  //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
                  body = 'Admission request received from user "a" has been Rejected<br>'
                  body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
@@ -549,7 +533,7 @@ $(function() {
                  mail.set("status", "0");
                  mail.set("type", "mail");
                  mail.set("sentDate", currentdate);
-                 mail.save()*/
+                 mail.save()
             }
             mailView.updateMailBody(body)
         },
