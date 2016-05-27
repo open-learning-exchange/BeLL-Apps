@@ -1792,6 +1792,23 @@ $(function() {
 
                 });
 
+                levels.fetch({
+                    success: function() {
+                        levels.sort()
+                        lTable = new App.Views.LevelsTable({
+                            collection: levels
+                        })
+                        lTable.groupId = groupId
+                        lTable.render()
+                        $('#AddCourseMainDiv').append("</BR><h3>"+App.languageDict.attributes.Course_Steps+"</h3>")
+                        $('#AddCourseMainDiv').append(lTable.el)
+
+                        $("#moveup").hide()
+                        $("#movedown").hide()
+                        $("input[type='radio']").hide();
+                    }
+                })
+
                 var Roles = that.getRoles()
                 if (Roles.indexOf('Manager') == -1)
                     $('.form .field-courseLeader select').attr("disabled", "true")
@@ -1820,22 +1837,6 @@ $(function() {
                 model.trigger('Model:ready')
             }
 
-            levels.fetch({
-                success: function() {
-                    levels.sort()
-                    lTable = new App.Views.LevelsTable({
-                        collection: levels
-                    })
-                    lTable.groupId = groupId
-                    lTable.render()
-                    $('#AddCourseMainDiv').append("</BR><h3>"+App.languageDict.attributes.Course_Steps+"</h3>")
-                    $('#AddCourseMainDiv').append(lTable.el)
-
-                    $("#moveup").hide()
-                    $("#movedown").hide()
-                    $("input[type='radio']").hide();
-                }
-            })
         },
         courseDetails: function(courseId, courseName) {
 
