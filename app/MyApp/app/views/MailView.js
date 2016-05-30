@@ -490,8 +490,11 @@ $(function() {
                 })
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-                body = 'Admission request received from user "a" has been Accepted<br>'
-                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>" + App.languageDict.get('request_Accepted_already') + "</div>"
+             //   accepted_email_text
+              //  body = 'Admission request received from user "a" has been Accepted<br>'
+               body = App.languageDict.get('accepted_email_text')+' '+firstName+' '+lastName+'<br>'
+              //  body = 'Admission request received from user '+firstName+' '+lastName+ ' '+ 'has been Accepted<br>'
+               body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>" + App.languageDict.get('request_Accepted_already') + "</div>"
 
                 mailView.inViewModel.save()
 
