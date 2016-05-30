@@ -170,10 +170,10 @@ $(function () {
                 success: function () {
                     //create the form
                     var optns = []
-                    optns.push({
+                   /* optns.push({
                         label: App.languageDict.attributes.Select_An_option,
                         val: "0000"
-                    })
+                    })*/
                     memberList.each(function (modl) {
                         if(typeofBell== modl.toJSON().community){
                             var temp = {

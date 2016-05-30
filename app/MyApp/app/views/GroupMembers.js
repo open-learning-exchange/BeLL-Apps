@@ -90,7 +90,7 @@ $(function () {
                 })
                 var roles = loggedIn.get("roles")
 
-                if(courseModel.get('courseLeader').indexOf($.cookie('Member._id'))>-1 || roles.indexOf('Manager')>-1)
+                if( courseModel.get('courseLeader') && courseModel.get('courseLeader').indexOf($.cookie('Member._id'))>-1 || roles.indexOf('Manager')>-1)
                 {
                     var memId=mem.get('_id')+','+this.courseId;
                    viewtext+='<td><button class="btn btn-danger removeMember" value="' + mem.get('_id') + '" onclick=removeMemberFromCourse(\"' +  memId + '")>'+App.languageDict.attributes.Remove+'</button></td>'
