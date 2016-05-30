@@ -416,63 +416,98 @@ $(function() {
             return resultArray
         },
         admissionRequestAccepted: function(courseId) {
+            var memebersEnrolled = [];
             var course = new App.Models.Group();
             course.id = courseId
             course.fetch({
                 async: false
             })
-            var memId = mailView.inViewModel.get('senderId')
-            course.get('members').push(memId)
-            course.save(null, {
-                success: function(model, idRev) {
-
-                    var memprogress = new App.Models.membercourseprogress()
-                    var csteps = new App.Collections.coursesteps();
-                    var stepsids = new Array()
-                    var stepsres = new Array()
-                    var stepsstatus = new Array()
-                    csteps.courseId = idRev.id
-                    csteps.fetch({
-                        success: function() {
-                            csteps.each(function(m) {
-                                stepsids.push(m.get("_id"))
-                                stepsres.push("0")
-                                stepsstatus.push("0")
-                            })
-                            memprogress.set("stepsIds", stepsids)
-                            memprogress.set("memberId", memId)
-                            memprogress.set("stepsResult", stepsres)
-                            memprogress.set("stepsStatus", stepsstatus)
-                            memprogress.set("courseId", csteps.courseId)
-                            memprogress.save({
-                                success: function() {
-                                    alert(App.languageDict.attributes.Success_Saved_Msg)
-                                }
-                            })
-
-                        }
-                    })
-
-                }
+////////////////////////////////////////
+            memebersEnrolled = course.attributes.members
+            var isAlreadyEnrolled = false;
+            console.log(memebersEnrolled)
+            var receiverId = mailView.inViewModel.get('senderId');
+            var member = new App.Models.Member()
+            member.id = receiverId
+            member.fetch({
+                async: false
             })
-            var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-            //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-            body = 'Admission request received from user "a" has been Accepted<br>'
-            body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.get('request_Accepted_already')+"</div>"
+            //mailView.vars.firstName = member.get('firstName')
+           // mailView.vars.lastName = member.get('lastName')
+           var firstName = member.get('firstName')
+           var lastName = member.get('lastName')
+            for (var i=0; i<memebersEnrolled.length;i++){
+                // alert(memebersEnrolled[i])
+                if (receiverId == memebersEnrolled[i]){
+                    console.log("reciever id"+receiverId)
+                    isAlreadyEnrolled = true;
+                }
+            }
+            console.log("flag:" + isAlreadyEnrolled)
+            if (isAlreadyEnrolled){
+                alert("Member is already enrolled in this course");
+                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                body = firstName + ' ' +'is already enrolled in '+' ' + course.attributes.CourseTitle;
+                ///////
 
-            mailView.inViewModel.save()
+            }
+            else {
+                /////////////////////////////////////////////
 
-            var currentdate = new Date();
-            var mail = new App.Models.Mail();
-            mail.set("senderId", $.cookie('Member._id'));
-            mail.set("receiverId", mailView.inViewModel.get('senderId'));
-            mail.set("subject", App.languageDict.attributes.Adm_req_accepted+" | " + course.get('name'));
-            mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + course.get('name') + "\" ");
-            mail.set("status", "0");
-            mail.set("type", "mail");
-            mail.set("sentDate", currentdate);
-            mail.save()
+                var memId = mailView.inViewModel.get('senderId')
+                course.get('members').push(memId)
+                course.save(null, {
+                    success: function (model, idRev) {
 
+                        var memprogress = new App.Models.membercourseprogress()
+                        var csteps = new App.Collections.coursesteps();
+                        var stepsids = new Array()
+                        var stepsres = new Array()
+                        var stepsstatus = new Array()
+                        csteps.courseId = idRev.id
+                        csteps.fetch({
+                            success: function () {
+                                csteps.each(function (m) {
+                                    stepsids.push(m.get("_id"))
+                                    stepsres.push("0")
+                                    stepsstatus.push("0")
+                                })
+                                memprogress.set("stepsIds", stepsids)
+                                memprogress.set("memberId", memId)
+                                memprogress.set("stepsResult", stepsres)
+                                memprogress.set("stepsStatus", stepsstatus)
+                                memprogress.set("courseId", csteps.courseId)
+                                memprogress.save({
+                                    success: function () {
+                                        alert(App.languageDict.attributes.Success_Saved_Msg)
+                                    }
+                                })
+
+                            }
+                        })
+
+                    }
+                })
+                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+                body = 'Admission request received from user "a" has been Accepted<br>'
+                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>" + App.languageDict.get('request_Accepted_already') + "</div>"
+
+                mailView.inViewModel.save()
+
+                var currentdate = new Date();
+                var mail = new App.Models.Mail();
+                mail.set("senderId", $.cookie('Member._id'));
+                mail.set("receiverId", mailView.inViewModel.get('senderId'));
+                mail.set("subject", App.languageDict.attributes.Adm_req_accepted + " | " + course.get('name'));
+                mail.set("body", App.languageDict.attributes.adm_req_For_rejected + " \"" + course.get('name') + "\" ");
+                mail.set("status", "0");
+                mail.set("type", "mail");
+                mail.set("sentDate", currentdate);
+                mail.save()
+////////
+            }
+                ////////
             mailView.updateMailBody(body)
         },
         admissoinRequestRejected: function(courseId) {
