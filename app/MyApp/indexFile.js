@@ -79,24 +79,141 @@ function removeMemberFromCourse(memberId){
     })
     courseModel.fetch({
         success:function(result){
-            var members=result.get('members');
-            members.splice(members.indexOf(memberId),1)
 
-            result.set('members',members)
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles");
+            var memberToBeRemoved = new App.Models.Member({
+                "_id": memberId
+            })
+            memberToBeRemoved.fetch({
+                async: false
+            })
+            if(courseModel.get('courseLeader').indexOf(memberId)>-1) //Check if the member which is being deleted is a leader
+            {
+                if(roles.indexOf('Manager')>-1) {
+                    //Resignation
+                    var members=result.get('members');
+                    members.splice(members.indexOf(memberId),1)
 
-            result.save()
-            memberCoursePro=new App.Collections.membercourseprogresses()
-            memberCoursePro.memberId=memberId
-            memberCoursePro.courseId=that.courseId
+                    result.set('members',members)
 
-            memberCoursePro.fetch({async:false})
-            while (model = memberCoursePro.first()) {
-                model.destroy();
+                    result.save();
+                    var courseMemebers = courseModel.get('members')
+                    var index = courseMemebers.indexOf(memberId)
+                    courseMemebers.splice(index, 1)
+                    courseModel.set({
+                        members: courseMemebers
+                    })
+                    var courseLeaders = courseModel.get('courseLeader')
+                    var index = courseLeaders.indexOf(memberId);
+                    if (index > -1) {
+                        courseLeaders.splice(index, 1)
+                        courseModel.set({
+                            courseLeader: courseLeaders
+                        })
+                    }
+
+                    courseModel.save();
+
+                    var memberProgress = new App.Collections.memberprogressallcourses()
+                    memberProgress.memberId = memberId
+                    memberProgress.fetch({
+                        async: false
+                    })
+                    memberProgress.each(function (m) {
+                        if (m.get("courseId") == courseId) {
+                            m.destroy()
+                        }
+                    })
+
+                    var mail = new App.Models.Mail();
+                    var currentdate = new Date();
+                    var id = memberId;
+                    var subject = App.languageDict.attributes.Course_Resignation + ' | ' + courseModel.get('name') + ''
+                    var mailBody = App.languageDict.attributes.Hi + ',<br>' + App.languageDict.attributes.Member + ' ' + memberToBeRemoved.get('login') + ' ' + 'You are no more a leader of Course' + ' ' + courseModel.get('name') + '';
+
+                    mail.set("senderId", $.cookie('Member._id')) //Assuming it will be manager
+                    mail.set("receiverId", id)
+                    mail.set("subject", subject)
+                    mail.set("body", mailBody)
+                    mail.set("status", "0")
+                    mail.set("type", "mail")
+                    mail.set("sentDate", currentdate)
+                    mail.save();
+                    alert(App.languageDict.attributes.Resigned_Success_Msg + ' ' + courseModel.get('name') + ' . ')
+                    alert(courseId);
+                    var groupMembers = new App.Views.GroupMembers();
+                    groupMembers.courseId = courseId;
+                    groupMembers.render();
+
+                }
+                else {
+                    if(memberToBeRemoved.get('_id')==$.cookie('Member._id'))
+                    {
+                        alert(App.languageDict.get('leader_must_resign'));
+                    }
+                    else{
+                        alert(App.languageDict.get('manager_removes_leader'));
+                    }
+
+                }
+              /*  else{
+
+                    //Leader is removing himself from course.. Now notify all of the manager(s) of that community
+                    var allManagers = new App.Collections.Members();
+                    allManagers.fetch({
+                        async: false
+                    })
+                        for(var i=0;i<allManagers.length;i++)
+                        {
+                            if(allManagers.models[i].get('roles').indexOf('Manager')>-1){
+                                var mail = new App.Models.Mail();
+                                var currentdate = new Date();
+                                var id = allManagers.models[i].get('_id');
+                                var subject = App.languageDict.attributes.Course_Resignation+' | ' + courseModel.get('name') + ''
+                                var mailBody = App.languageDict.attributes.Hi+',<br>'+App.languageDict.attributes.Member+ ' ' + memberToBeRemoved.get('login') + ' '+ App.languageDict.attributes.Has_Resign_From+ ' ' + courseModel.get('name') + '';
+
+                                mail.set("senderId", $.cookie('Member._id'))
+                                mail.set("receiverId", id)
+                                mail.set("subject", subject)
+                                mail.set("body", mailBody)
+                                mail.set("status", "0")
+                                mail.set("type", "mail")
+                                mail.set("sentDate", currentdate)
+                                mail.save();
+                                alert(App.languageDict.attributes.Resigned_Success_Msg +' ' + courseModel.get('name') + ' . ')
+                            }
+                        }
+                    alert(courseId);
+                   window.location.reload();
+
+                }*/
             }
-            var groupMembers = new App.Views.GroupMembers();
-            groupMembers.courseId = courseId;
-            groupMembers.render();
-            alert(App.languageDict.attributes.Removed_Member);
+            else{
+                var members=result.get('members');
+                members.splice(members.indexOf(memberId),1)
+
+                result.set('members',members)
+
+                result.save();
+                memberCoursePro=new App.Collections.membercourseprogresses()
+                memberCoursePro.memberId=memberId
+                memberCoursePro.courseId=that.courseId
+
+                memberCoursePro.fetch({async:false})
+                while (model = memberCoursePro.first()) {
+                    model.destroy();
+                }
+                var groupMembers = new App.Views.GroupMembers();
+                groupMembers.courseId = courseId;
+                groupMembers.render();
+                alert(App.languageDict.attributes.Removed_Member);
+            }
         }
     })
 

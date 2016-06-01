@@ -1971,7 +1971,7 @@ $(function() {
             })
             var courseLeaders = courseModel.get('courseLeader')
             var index = courseLeaders.indexOf(memberId);
-            if(index>0){
+            if(index>-1){
                 courseLeaders.splice(index, 1)
                 courseModel.set({
                     courseLeader: courseLeaders

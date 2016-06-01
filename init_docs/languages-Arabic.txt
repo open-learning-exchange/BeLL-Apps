@@ -800,6 +800,9 @@
   "Title_Error": "Title is required",
   "Description_Error": "Description is required",
   "Adm_req_rejected": "Admission Request Rejected",
-  "request_Rejected_already": "you have rejected this invitation"
+  "request_Rejected_already": "you have rejected this invitation",
+  "accepted_email_text":"Admission request has been accepted from member",
+  "Roles":"Roles",
+  "leader_must_resign":"Leader cannot directly remove himself, he must resign.",
+  "manager_removes_leader":"Only Manager can remove a Leader"
 }
-

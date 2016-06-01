@@ -62,7 +62,7 @@ $(function () {
             var na = currentConfig.rows[0].doc.nationName.substring(3,5);
             $('.courseEditStep').empty();
             $('.courseEditStep').append('<h3>'+App.languageDict.attributes.Course_Members+ ' | ' + courseModel.get('name') + '</h3>')
-            var viewtext = '<table class="btable btable-striped"><th>'+App.languageDict.attributes.Photo+'</th><th colspan=3>'+App.languageDict.attributes.Name+'</th>'
+            var viewtext = '<table class="btable btable-striped"><th>'+App.languageDict.attributes.Photo+'</th><th>'+App.languageDict.attributes.Name+'</th><th>'+App.languageDict.attributes.Roles+'</th><th colspan=2>'+App.languageDict.attributes.Actions+'</th>'
 
             for (var i = 0; i < memberList.length; i++) {
                 var mem = new App.Models.Member({
@@ -71,6 +71,14 @@ $(function () {
                 mem.fetch({
                     async: false
                 })
+                var roleOfMem;
+                if(courseModel.get('courseLeader').indexOf(mem.get('_id')) > -1)
+                {
+                    roleOfMem=App.languageDict.attributes.Leader
+                }
+                else {
+                    roleOfMem=App.languageDict.attributes.Learner
+                }
                 var mail = mem.get('login') + '.' + code +na+ '@olebell.org'
 
                 var src = "img/default.jpg"
@@ -79,7 +87,7 @@ $(function () {
                     attchmentURL = attchmentURL + _.keys(mem.get('_attachments'))[0]
                     src = attchmentURL
                 }
-                viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mem.get('firstName') + ' ' + mem.get('lastName') + '</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
+                viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mem.get('firstName') + ' ' + mem.get('lastName') + '</td><td>'+roleOfMem+'</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
     
                 
                 var loggedIn = new App.Models.Member({
