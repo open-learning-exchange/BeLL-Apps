@@ -3902,7 +3902,6 @@ $(function() {
                     console.log(status);
                 }
             });
-            console.log(maxPubIssue);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html(publicationFormView.el)
 
@@ -4053,7 +4052,6 @@ $(function() {
                 dataType: 'jsonp',
                 async:false,
                 success: function (surResult) {
-                    console.log(surResult);
                     var nationConfig = new App.Collections.Configurations();
                     nationConfig.fetch({
                         async: false
@@ -4069,7 +4067,6 @@ $(function() {
                             dataType: 'jsonp',
                             async:false,
                             success: function (resultByDoc) {
-                                console.log(resultByDoc);
                                 if(resultByDoc.rows[0].value.community == nationConfig.attributes.code)
                                 {
                                     lang = resultByDoc.rows[0].value.bellLanguage;
