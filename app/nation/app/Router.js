@@ -3230,41 +3230,46 @@ $(function() {
                                 answersArray.push(answerModels[k].attributes);
                             }
                             for(var x = 0 ; x < answersArray.length ; x++) {
-                                if(answersArray[x].Type == 'Rating Scale') {
-                                    for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
+                                if(answersArray[x].Answer.length > 0) {
+                                    if(answersArray[x].Type == 'Rating Scale') {
+                                        for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
+                                            var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "Language":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
+                                            JSONObj.Community = commName;
+                                            JSONObj.Gender = gender;
+                                            JSONObj.BirthYear = birthYear;
+                                            JSONObj.Language = memberLanguage;
+                                            JSONObj.QType = answersArray[x].Type;
+                                            JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
+                                            JSONObj.Options = answersArray[x].Ratings;
+                                            if(answersArray[x].Answer[y] != undefined) {
+                                                JSONObj.Answer = answersArray[x].Answer[y];
+                                            }
+                                            jsonObjectsData.push(JSONObj)
+                                        }
+                                    } else {
                                         var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "Language":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
                                         JSONObj.Community = commName;
                                         JSONObj.Gender = gender;
                                         JSONObj.BirthYear = birthYear;
                                         JSONObj.Language = memberLanguage;
                                         JSONObj.QType = answersArray[x].Type;
-                                        JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
-                                        JSONObj.Options = answersArray[x].Ratings;
-                                        if(answersArray[x].Answer[y] != undefined) {
-                                            JSONObj.Answer = answersArray[x].Answer[y];
+                                        JSONObj.QStatement = answersArray[x].Statement;
+                                        if(answersArray[x].Options){
+                                            JSONObj.Options = answersArray[x].Options;
                                         }
+                                        JSONObj.Answer = answersArray[x].Answer;
                                         jsonObjectsData.push(JSONObj)
                                     }
-
-                                } else {
-                                    var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "Language":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
-                                    JSONObj.Community = commName;
-                                    JSONObj.Gender = gender;
-                                    JSONObj.BirthYear = birthYear;
-                                    JSONObj.Language = memberLanguage;
-                                    JSONObj.QType = answersArray[x].Type;
-                                    JSONObj.QStatement = answersArray[x].Statement;
-                                    if(answersArray[x].Options){
-                                        JSONObj.Options = answersArray[x].Options;
-                                    }
-                                    JSONObj.Answer = answersArray[x].Answer;
-                                    jsonObjectsData.push(JSONObj)
                                 }
                             }
                         }
-                        jsonObjectsData.sort(that.sortByProperty('QStatement'));
-                        jsonObjectsData.sort(that.sortByProperty('QType'));
-                        that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
+                        if(jsonObjectsData.length > 0) {
+                            jsonObjectsData.sort(that.sortByProperty('QStatement'));
+                            jsonObjectsData.sort(that.sortByProperty('QType'));
+                            that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
+                        } else {
+                            alert("All the questions are un-answered, so unable to download data");
+                        }
                     } else {
                         alert("There is no data available to download against this survey");
                     }

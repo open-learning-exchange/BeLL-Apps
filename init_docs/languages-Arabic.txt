@@ -774,5 +774,6 @@
   "Survey_Alert": "لديك بحث جديد، الرجاء إرسال إجابتك",
   "Response": "Response",
   "Received": "Received",
-  "Sent": "Sent"
+  "Sent": "Sent",
+  "Survey_Error_Message_For_Required_Questions":"Please provide all the answers to required questions"
 }

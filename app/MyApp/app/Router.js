@@ -196,7 +196,6 @@ $(function() {
                     dataType: 'json',
                     async: false,
                     success: function (json) {
-                        console.log(json);
                         var jsonRows = json.rows;
                         for(var i = 0 ; i < jsonRows.length ; i++) {
                             if(jsonRows[i].value.SurveyNo == surveyNo) {
@@ -266,7 +265,6 @@ $(function() {
             test.set('userId', 'test')
             test.save(null, {
                 success: function(error, response) {
-                    console.log(response)
                     alert(App.languageDict.attributes.Success_Msg)
                 }
 
@@ -278,7 +276,6 @@ $(function() {
                 async: false
             }, {
                 success: function(res) {
-                    console.log(res)
                 }
             })
 
@@ -382,7 +379,6 @@ $(function() {
 
         },
         MemberLogin: function() {
-            console.log('From Router...');
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
                 Backbone.history.navigate('dashboard', {
@@ -401,7 +397,6 @@ $(function() {
             })
 
             memberLoginForm.render();
-            console.log('value of cookie from router '+$.cookie('languageFromCookie'));
             var languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
             App.$el.children('.body').html('<h1 class="login-heading">'+languageDictValue.attributes.Member_Login+'</h1>');
             App.$el.children('.body').append(memberLoginForm.el);
@@ -450,10 +445,6 @@ $(function() {
         },
        //POSITION OF GETNATION VERSION
         getNationVersion: function (dashboard){
-            console.log(dashboard);
-        console.log('getNationVersion is called....');
-        //var dashboard = new App.Views.Dashboard();
-        // var nation_version = 0;
         var that = this;
         var configuration = App.configuration
         var nationName = configuration.get("nationName")
@@ -478,7 +469,6 @@ $(function() {
             success: function(json) {
                 if( json.rows[0]) {
                     nationConfig = json.rows[0].doc;
-                    console.log(nationConfig);
                     nation_version = nationConfig.version;
 
                     //********************************************************************************************************************************
@@ -522,14 +512,12 @@ $(function() {
                                         dataType: 'jsonp',
                                         async:false,
                                         success: function(json) {
-                                            console.log(json);
                                             var SurveyDocsFromNation = [];
                                             _.each(json.rows, function(row) {
                                                 if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
                                                     SurveyDocsFromNation.push(row);
                                                 }
                                             });
-                                            console.log(SurveyDocsFromNation);
                                             if(SurveyDocsFromNation != [] && SurveyDocsFromNation.length > 0) {
                                                 // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
                                                 $.ajax({
@@ -538,12 +526,10 @@ $(function() {
                                                     dataType: 'json',
                                                     async:false,
                                                     success: function(commSurdata) {
-                                                        console.log(commSurdata);
                                                         var SurveyDocsFromComm = [];
                                                         _.each(commSurdata.rows, function(row) {
                                                             SurveyDocsFromComm.push(row);
                                                         });
-                                                        console.log(SurveyDocsFromComm);
                                                         for (var j in SurveyDocsFromNation) {
                                                             // if this survey doc exists in the list of docs fetched from nation then ignore it from new surveys
                                                             // count
@@ -565,7 +551,6 @@ $(function() {
                                                             }
                                                         }
                                                         if (newPublicationsCount > 0  && ($.inArray('Manager', roles)!=-1)){
-                                                            console.log('publication greater than zero'+newPublicationsCount);
                                                             new_publications_count = newPublicationsCount;
                                                             if(newSurveysCount > 0) {
                                                                 new_surveys_count = newSurveysCount;
@@ -602,7 +587,6 @@ $(function() {
                                                 });
                                             } else {
                                                 if (newPublicationsCount > 0  && ($.inArray('Manager', roles)!=-1)){
-                                                    console.log('publication greater than zero'+newPublicationsCount);
                                                     new_publications_count = newPublicationsCount;
                                                     dashboard.updateVariables(nation_version,new_publications_count, 0);
                                                     //alert(currentBellName);
@@ -633,9 +617,6 @@ $(function() {
                     });
 
                 }
-                console.log("inside ajax call" + nationConfig.version);
-
-
             }
 
         });
@@ -757,7 +738,6 @@ $(function() {
                 else if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
                 {
                     clanguage= $.cookie('languageFromCookie');
-                    console.log('value from cookie in navBar '+clanguage)
                 }
                 else
                 {
@@ -1062,7 +1042,6 @@ $(function() {
             resources = resources.models;
             $.couch.db("resources").bulkSave({"docs": resources}, {
                 success: function(data) {
-                    console.log(data);
                 },
                 error: function(status) {
                     console.log(status);
@@ -2087,8 +2066,6 @@ $(function() {
                 var tl = parseInt(totalLevels) + 1
                 $("input[name='step']").val(tl)
             }
-            console.log('CourseStep Model');
-            console.log(Cstep);
             Backbone.Form.validators.errMessages.required=App.languageDict.attributes.Required_Text;
             $('.bbf-form .field-title label').html(App.languageDict.attributes.Title);
             $('.bbf-form .field-stepMethod label').html(App.languageDict.attributes.Step_Method);
@@ -3127,7 +3104,6 @@ $(function() {
                     var twelfthLastMonthDataset = context.aggregateDataForTrendReport('communityX', twelfthLastMonthActivityData);
 
                     var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
-                    console.log(lastMonthDataset);
                     //  ********************************************************************************************************
                    // var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                     var monthNames = [lookup(languageDictValue, "Months." + "January"), lookup(languageDictValue, "Months." + "February"), lookup(languageDictValue, "Months." + "March"), lookup(languageDictValue, "Months." + "April"), lookup(languageDictValue, "Months." + "May"), lookup(languageDictValue, "Months." + "June"), lookup(languageDictValue, "Months." + "July"), lookup(languageDictValue, "Months." + "August"), lookup(languageDictValue, "Months." + "September"), lookup(languageDictValue, "Months." + "October"), lookup(languageDictValue, "Months." + "November"),lookup(languageDictValue, "Months." + "December")];
@@ -4795,7 +4771,6 @@ $(function() {
                     var resourcesTableView = new App.Views.ResourcesTable({
                         collection: resources
                     })
-                    //console.log(App.collectionlist)
                     resourcesTableView.displayCollec_Resources = true
                     resourcesTableView.collections = App.collectionslist
                     resourcesTableView.isManager = roles.indexOf("Manager")
@@ -4889,7 +4864,6 @@ $(function() {
             App.$el.children('.body').append(colView.el)
         },
         synchCommunityWithURL: function(communityurl, communityname) {
-            console.log('http://' + communityname + ':' + App.password + '@' + communityurl + ':5984/resources')
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -4949,7 +4923,6 @@ $(function() {
             pouchResources.allDocs({
                 include_docs: true
             }, function(err, response) {
-                console.log(response)
                 _.each(response.rows, function(pouchDoc) {
 
                     var resId = pouchDoc.doc._id
@@ -5020,12 +4993,9 @@ $(function() {
                             resource.fetch({
                                 success: function(resp) {
                                     var resModel = resp.toJSON()
-                                    console.log(resModel)
                                     Resources.get(resModel._id, function(err, resdoc) {
 
                                         if (!err) {
-                                            console.log('Sum   ' + resModel.sum + '    ' + resdoc.sum)
-                                            console.log('timesRated   ' + resModel.timesRated + '    ' + resdoc.timesRated)
                                             if (!resModel.sum || !resModel.timesRated) {
                                                 resource.set('sum', 0)
                                                 resource.set('timesRated', 0)
@@ -5069,7 +5039,6 @@ $(function() {
                 resourcefreq.memberID = $.cookie('Member._id')
                 resourcefreq.fetch(null, {
                     success: function(doc, rev) {
-                        console.log(resourcefreq.toJSON())
                         var myjson = resourcefreq.first().toJSON()
                         ResourceFrequencyDB.put(myjson, myjson._id, myjson._rev, function(error, info) {
 
@@ -5199,32 +5168,24 @@ $(function() {
         dbinfo: function() {
             var Resources = new PouchDB('resources');
             Resources.info(function(err, info) {
-                console.log(info)
             })
             var FeedBackDb = new PouchDB('feedback');
             FeedBackDb.info(function(err, info) {
-                console.log(info)
             })
             var Members = new PouchDB('members');
             Members.info(function(err, info) {
-                console.log(info)
             })
             var ResourceFrequencyDB = new PouchDB('resourcefrequency');
             ResourceFrequencyDB.info(function(err, info) {
-                console.log(info)
             })
             var CourseStep = new PouchDB('coursestep');
             CourseStep.info(function(err, info) {
-                console.log(info)
             })
             var MemberCourseProgress = new PouchDB('membercourseprogress');
             MemberCourseProgress.info(function(err, info) {
-                console.log(info)
-                console.log(err)
             })
             var activitylogs = new PouchDB('activitylogs');
             activitylogs.info(function(err, info) {
-                console.log(info)
             })
         },
         CompileAppManifest: function() {
@@ -5365,7 +5326,6 @@ $(function() {
                     replace += ('/shelf/_design/bell/_view/DuplicateDetection?include_docs=true&key="' + memId + '"') + '\n'
                     _.each(shelfitems.models, function(mem) {
                         var resId = mem.get('resourceId')
-                        console.log(resId)
                         var resource = new App.Models.Resource({
                             _id: resId
                         })
@@ -5438,7 +5398,6 @@ $(function() {
                         levels.each(function(level) {
                             var resources = level.get('resourceId')
                             _.each(resources, function(res) {
-                                console.log(res)
                                 var resource = new App.Models.Resource({
                                     _id: res
                                 })
@@ -5552,7 +5511,6 @@ $(function() {
                 function(err, response) {
                     if (!err) {
                         var collection = response.rows; // all docs from PouchDB's 'activitylogs' db
-                        console.log(collection);
                         for (var i = 0; i < response.total_rows; i++) { // if # of rows is zero, then
                             // PouchDB's activitylogs db has no docs in it to sync to CouchDB's activitylog db
                             var pouchActivityLogDoc = collection[i].doc;
@@ -5561,8 +5519,6 @@ $(function() {
                             logModel.logDate = activitylogDate;
                             logModel.fetch({
                                 success: function(res, resInfo) {
-                                    //                         console.log(res)
-                                    //                         alert("sdads");
                                     if (res.length == 0) { // CouchDB's activitylog db has ZERO (or NO) documents with attrib "logDate"
                                         // having value == collection[i].doc.logDate, so a new activitylog doc will be added to CouchDB
                                         // having same json as that of collection[i].doc's (pointed to by 'activitylog' var above)
@@ -5623,7 +5579,6 @@ $(function() {
                     logdb.remove(activitylog, function(err, response) {
                         if (err) {
                             console.log('MyApp:: createLogs:: Failed to delete Pouch activitylog doc after it had been synced i-e its data pushed to (community) CouchDB');
-                            console.log(err);
                         } else {}
                     });
                 }
@@ -5786,7 +5741,6 @@ $(function() {
                     logdb.remove(activitylog, function(err, info) {
                         if (err) {
                             console.log("MyAppRouter:: updateLogs:: Failed to delete Pouch activitylog doc after it is synced i-e its data pushed to (community) CouchDB");
-                            console.log(err);
                         } else {}
                     });
                 }
@@ -6095,7 +6049,6 @@ $(function() {
                     Lowest_Rated_Resources.push(entry_rated_lowest);
                 }
             }
-            console.log(Highest_Rated_Resources);
 
             var staticData = {
                 "Visits": {
@@ -6164,10 +6117,8 @@ $(function() {
                             'need_optimization': true
                         })
                         m.save()
-                        console.log("Done")
                     }
                 }
-                console.log(count)
                 count++
             })
         }

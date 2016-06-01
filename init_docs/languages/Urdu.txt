@@ -784,5 +784,6 @@
  "Survey_Alert": "You have a new survey, please submit your response",
  "Response": "Response",
  "Received": "Received",
-  "Sent": "Sent"
+  "Sent": "Sent",
+  "Survey_Error_Message_For_Required_Questions":"Please provide all the answers to required questions"
 }

@@ -18,8 +18,6 @@ $(function() {
         },
 
         addAll: function() {
-            if (this.collection.length == 0)
-                this.$el.append('<tr><td colspan="2"> No answers in this survey <td></tr>')
             this.collection.forEach(this.addOne, this)
         },
 

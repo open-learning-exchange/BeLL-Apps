@@ -573,18 +573,26 @@
             <%}%>
             <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
             <% if ( Type == "Single Textbox") { %>
-            <span style="font-weight:100;color:grey; font-size:14px;"><%= Answer[0] %></BR></span>
+                <%  if(Answer.length > 0){%>
+                    <span style="font-weight:100;color:grey; font-size:14px;"><%= Answer[0] %></BR></span>
+                <%}%>
             <%} else if ( Type == "Comment/Essay Box") { %>
-            <span style="font-weight:100;color:grey; font-size:14px;"><%= Answer[0] %></BR></span>
+                <%  if(Answer.length > 0){%>
+                    <span style="font-weight:100;color:grey; font-size:14px;"><%= Answer[0] %></BR></span>
+                <%}%>
             <%} else if ( Type == "Multiple Choice (Single Answer)") { %>
             <table>
                 <tbody>
                 <% for (var i=0; i<Options.length; i++){%>
                 <tr>
-                    <%  if(Answer[0] == Options[i]){%>
-                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" checked disabled> <%= Options[i] %></td>
+                    <%  if(Answer.length > 0){%>
+                        <%  if(Answer[0] == Options[i]){%>
+                        <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" checked disabled> <%= Options[i] %></td>
+                        <%} else {%>
+                        <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" disabled> <%= Options[i] %></td>
+                        <%}%>
                     <%} else {%>
-                    <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" disabled> <%= Options[i] %></td>
+                        <td align="center"><input type="radio" name="<%= Statement %><%= Options[0] %>" value="<%= Options[i] %>" disabled> <%= Options[i] %></td>
                     <%}%>
                 </tr>
                 <% }%>
@@ -603,11 +611,15 @@
                 <tr>
                     <td width="10%"><%= Options[i] %></td>
                     <% for (var j=0; j<Ratings.length; j++){%>
-                    <%  if(Answer[i] == Ratings[j]){%>
-                    <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>" checked disabled></td>
-                    <%} else {%>
-                    <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>" disabled></td>
-                    <%}%>
+                    <%  if(Answer.length > 0){%>
+                            <%  if(Answer[i] == Ratings[j]){%>
+                                <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>" checked disabled></td>
+                            <%} else {%>
+                                <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>" disabled></td>
+                            <%}%>
+                        <%} else {%>
+                            <td  width="11%" align="center"><input type="radio" name="<%= Statement %><%= Options[i] %><%= Ratings[0] %>" value="<%= Options[i] %>,<%= Ratings[j] %>" disabled></td>
+                        <%}%>
                     <% }%>
                 </tr>
                 <% }%>

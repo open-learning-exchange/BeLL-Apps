@@ -194,19 +194,19 @@ function submitSurvey(surveyId) {
         if(questionType == 'Multiple Choice (Single Answer)') {
             var radioBtnName = questionTd.find('input').attr('name');
             var answer = $('input[name= "' + radioBtnName + '"]:checked').val();
-            if(answer != undefined) {
-                for(var j = 0; j < questionsColl.length; j++) {
-                    if(questionsColl[j]._id == questionId) {
-                        var questionModel = questionsColl[j];
-                        if(questionModel.RequireAnswer == true) {
+            for(var j = 0; j < questionsColl.length; j++) {
+                if(questionsColl[j]._id == questionId) {
+                    var questionModel = questionsColl[j];
+                    delete questionModel._id;
+                    delete questionModel._rev;
+                    questionModel["Answer"] = [];
+                    if(answer != undefined) {
+                        if (questionModel.RequireAnswer == true) {
                             answerToRequiredQuestionsCount++;
                         }
-                        delete questionModel._id;
-                        delete questionModel._rev;
-                        questionModel["Answer"] = [];
                         questionModel.Answer.push(answer);
-                        answersToSubmit.push(questionModel);
                     }
+                    answersToSubmit.push(questionModel);
                 }
             }
         } else if(questionType == 'Rating Scale'){
@@ -225,55 +225,55 @@ function submitSurvey(surveyId) {
                     }
                 }
             });
-            if(ratingAnswers.length > 0) {
-                for(var j = 0; j < questionsColl.length; j++) {
-                    if(questionsColl[j]._id == questionId) {
-                        var questionModel = questionsColl[j];
-                        if(questionModel.RequireAnswer == true && ratingCount == ratingAnswers.length) {
+            for(var j = 0; j < questionsColl.length; j++) {
+                if(questionsColl[j]._id == questionId) {
+                    var questionModel = questionsColl[j];
+                    delete questionModel._id;
+                    delete questionModel._rev;
+                    questionModel["Answer"] = [];
+                    if(ratingAnswers.length > 0) {
+                        if (questionModel.RequireAnswer == true && ratingCount == ratingAnswers.length) {
                             answerToRequiredQuestionsCount++;
                         }
-                        delete questionModel._id;
-                        delete questionModel._rev;
-                        questionModel["Answer"] = [];
                         questionModel.Answer = ratingAnswers;
-                        answersToSubmit.push(questionModel);
                     }
+                    answersToSubmit.push(questionModel);
                 }
             }
         } else if(questionType == 'Single Textbox') {
             var answer = questionTd.find('input').val();
             answer = answer.toString().trim();
-            if(answer != '') {
-                for(var j = 0; j < questionsColl.length; j++) {
-                    if(questionsColl[j]._id == questionId) {
-                        var questionModel = questionsColl[j];
-                        if(questionModel.RequireAnswer == true) {
+            for(var j = 0; j < questionsColl.length; j++) {
+                if(questionsColl[j]._id == questionId) {
+                    var questionModel = questionsColl[j];
+                    delete questionModel._id;
+                    delete questionModel._rev;
+                    questionModel["Answer"] = [];
+                    if(answer != '') {
+                        if (questionModel.RequireAnswer == true) {
                             answerToRequiredQuestionsCount++;
                         }
-                        delete questionModel._id;
-                        delete questionModel._rev;
-                        questionModel["Answer"] = [];
                         questionModel.Answer.push(answer);
-                        answersToSubmit.push(questionModel);
                     }
+                    answersToSubmit.push(questionModel);
                 }
             }
         } else if(questionType == 'Comment/Essay Box') {
             var answer = questionTd.find('textarea').val();
             answer = answer.toString().trim();
-            if(answer != '') {
-                for(var j = 0; j < questionsColl.length; j++) {
-                    if(questionsColl[j]._id == questionId) {
-                        var questionModel = questionsColl[j];
-                        if(questionModel.RequireAnswer == true) {
+            for(var j = 0; j < questionsColl.length; j++) {
+                if(questionsColl[j]._id == questionId) {
+                    var questionModel = questionsColl[j];
+                    delete questionModel._id;
+                    delete questionModel._rev;
+                    questionModel["Answer"] = [];
+                    if(answer != '') {
+                        if (questionModel.RequireAnswer == true) {
                             answerToRequiredQuestionsCount++;
                         }
-                        delete questionModel._id;
-                        delete questionModel._rev;
-                        questionModel["Answer"] = [];
                         questionModel.Answer.push(answer);
-                        answersToSubmit.push(questionModel);
                     }
+                    answersToSubmit.push(questionModel);
                 }
             }
         }
@@ -387,7 +387,7 @@ function submitSurvey(surveyId) {
             }
         });
     } else {
-        alert(App.languageDict.get('Survey_Error_Message'));
+        alert(App.languageDict.get('Survey_Error_Message_For_Required_Questions'));
         App.stopActivityIndicator();
         return;
     }

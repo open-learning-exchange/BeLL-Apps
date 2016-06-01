@@ -121,8 +121,10 @@ $(function () {
                 dataType: 'jsonp',
                 success: function (json) {
                     var SurveyDocsFromNation = [];
-                    _.each(json.rows, function (row) {
-                        SurveyDocsFromNation.push(row);
+                    _.each(json.rows, function(row) {
+                        if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
+                            SurveyDocsFromNation.push(row);
+                        }
                     });
                     _.each(SurveyDocsFromNation,function(row){
                         var surveyFromNation = row.value;
