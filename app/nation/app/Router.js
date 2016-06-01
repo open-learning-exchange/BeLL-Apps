@@ -3324,7 +3324,8 @@ $(function() {
             //this will remove the blank-spaces from the title and replace it with an underscore
             fileName += ReportTitle.toString().replace(/ /g,"_");
             //Initialize file format you want csv or xls
-            var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+            var uri = 'data:text/csv;charset=utf-8,' + CSV;
+            uri = encodeURI(uri);
             // Now the little tricky part.
             // you can use either>> window.open(uri);
             // but this will not work in some browsers
