@@ -229,21 +229,39 @@ $(function() {
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
+            var communitycode = App.configuration.get('code');
             //Checking whether the community is registered with any nation or not.
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
                 type: 'GET',
                 dataType: 'jsonp',
                 success: function(result) {
                     if (result.rows.length > 0) {
-                        that.appsCreation();
+                        var doc;
+                        for(var i = 0 ; i < result.rows.length ; i++) {
+                            var code;
+                            if(result.rows[i].value.Code != undefined){
+                                code = result.rows[i].value.Code;
+                            } else {
+                                code = result.rows[i].value.code;
+                            }
+                            if(communitycode == code) {
+                                doc = result.rows[i].value;
+                            }
+                        }
+                        if(doc != undefined) {
+                            that.appsCreation();
+                        } else {
+                            alert(App.languageDict.attributes.UnAuthorized_Community);
+                            window.location.reload(false);
+                        }
                     } else {
                         alert(App.languageDict.attributes.UnAuthorized_Community);
                         window.location.reload(false);
                     }
                 },
-                error: function() {
-                    console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                error: function(err) {
+                    console.log(err);
                 }
             });
         },
@@ -405,17 +423,32 @@ $(function() {
             //that.updateDesignDocs("usermeetups");
 
             // Update LastAppUpdateDate at Nation's Community Records
+            var communitycode = App.configuration.get('code');
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
                 type: 'GET',
                 dataType: 'jsonp',
                 success: function(result) {
                     if (result.rows.length > 0) {
-                        that.lastAppUpdateAtNationLevel(result);
+                        var doc;
+                        for(var i = 0 ; i < result.rows.length ; i++) {
+                            var code;
+                            if(result.rows[i].value.Code != undefined){
+                                code = result.rows[i].value.Code;
+                            } else {
+                                code = result.rows[i].value.code;
+                            }
+                            if(communitycode == code) {
+                                doc = result.rows[i].value;
+                            }
+                        }
+                        if(doc != undefined) {
+                            that.lastAppUpdateAtNationLevel(doc);
+                        }
                     }
                 },
-                error: function() {
-                    console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                error: function(err) {
+                    console.log(err);
                 }
             });
 
@@ -521,6 +554,7 @@ $(function() {
                 success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.version = nationConfig.version;
+                    currentConfig.register = nationConfig.register;
                     if(currentConfig.availableLanguages && currentConfig.availableLanguages!=undefined && currentConfig.availableLanguages!=null  )
                     {
                         delete currentConfig.availableLanguages;
@@ -672,7 +706,7 @@ $(function() {
             App.languageDict = languageDictValue;
             var that = this;
             var currentConfig = that.getCommunityConfigs();
-            var communityModelId = result.rows[0].id;
+            var communityModelId = result._id;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -699,13 +733,25 @@ $(function() {
                     day = day.length > 1 ? day : '0' + day;
                     var formattedDate = month + '-' + day + '-' + year;
                     ////////////////////////////////////////////////////
+                    var communitycode = App.configuration.get('code');
                     $.ajax({
-                        url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                        url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
                         type: 'GET',
                         dataType: 'json',
-                        success: function(res) {
-                            if (res.rows.length > 0) {
-                                var communityModel = res.rows[0].value;
+                        success: function(result) {
+                            if (result.rows.length > 0) {
+                                var communityModel;
+                                for(var i = 0 ; i < result.rows.length ; i++) {
+                                    var code;
+                                    if(result.rows[i].value.Code != undefined){
+                                        code = result.rows[i].value.Code;
+                                    } else {
+                                        code = result.rows[i].value.code;
+                                    }
+                                    if(communitycode == code) {
+                                        communityModel = result.rows[i].value;
+                                    }
+                                }
                                 communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
                                 communityModel.version = currentConfig.version;
                                 //Update the record in Community db at Community Level
@@ -720,8 +766,8 @@ $(function() {
                                     dataType: 'json',
                                     data: JSON.stringify(communityModel),
                                     success: function(response) {
+                                        communityModel._rev = response.rev;
                                         var currCommConfig = that.updateConfigsOfCommunity(2); //update countDoubleUpdate to 2
-
                                         //Replicate from Community to Nation
                                         $.ajax({
                                             headers: {
@@ -738,6 +784,15 @@ $(function() {
                                             }),
                                             success: function(response) {
                                                 var currConfigOfComm = that.getCommunityConfigs()
+                                                if(!currConfigOfComm.hasOwnProperty('registrationRequest')) {
+                                                    $.couch.db("community").removeDoc(communityModel, {
+                                                        success: function(data) {
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status);
+                                                        }
+                                                    });
+                                                }
                                                 if (currConfigOfComm.countDoubleUpdate > 1) {
                                                     //Deleting the temp db's
                                                     $.couch.allDbs({
@@ -762,8 +817,8 @@ $(function() {
                                 });
                             }
                         },
-                        error: function() {
-                            console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                        error: function(err) {
+                            console.log(err);
                         }
                     });
                     ////////////////////////////////////////////////////
@@ -843,6 +898,19 @@ $(function() {
         },
 
         render: function() {
+            var that = this;
+            $('#nav').css('pointer-events', 'auto');
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            var configDoc = configCollection.first().toJSON();
+            var communityConfigDoc = that.getCommunityConfigs();
+            //Check if it is a new community or an older one with registrationRequest attribute
+            if(!communityConfigDoc.hasOwnProperty('registrationRequest') && communityConfigDoc.countDoubleUpdate != 1 && communityConfigDoc.type == 'community' && (App.Router.getRoles().indexOf('Manager')>-1 || App.Router.getRoles().indexOf('SuperManager')>-1 )) {
+                alert(App.languageDict.get('fill_config_first'));
+                window.location.href = '#configurationsForm'
+            }
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
             this.vars.mails = 0;
@@ -850,6 +918,27 @@ $(function() {
             this.vars.new_publication_count = 0;
             this.vars.new_survey_count = 0;
             this.vars.survey_count_for_member = 0;
+            this.vars.pending_request_count = 0;
+            var pendingCount=0;
+            if(configDoc.type == 'nation') {
+                $.ajax({
+                    url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true',
+                    type: 'GET',
+                    dataType: 'json',
+                    async:false,
+                    success: function(pendingData) {
+                        for(var i = 0 ; i < pendingData.rows.length ; i++) {
+                            if(pendingData.rows[i].value.registrationRequest == 'pending') {
+                                pendingCount++;
+                            }
+                        }
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+            }
+            this.vars.pending_request_count=pendingCount;
             var members = new App.Collections.Members()
             var member;
             var lang;
@@ -878,7 +967,9 @@ $(function() {
                 async:false
 
             });
-            lang=member.get('bellLanguage');
+            //lang=member.get('bellLanguage');
+            var clanguage = getLanguage($.cookie('Member._id'));
+            App.languageDict = getSpecificLanguage(clanguage);
             this.vars.currentLanguageOfApp=App.languageDict.get('nameInNativeLang');
             this.vars.availableLanguagesOfApp=getAvailableLanguages();
 
@@ -1016,7 +1107,12 @@ $(function() {
                     currentConfig = config.first().toJSON().rows[0].doc;
                 }
             })
-            var bell_Name = currentConfig.name;
+            var bell_Name;
+            if(currentConfig.name != undefined) {
+                bell_Name = currentConfig.name;
+            } else {
+                bell_Name = '';
+            }
             var typeofBell = currentConfig.type;
 
             //////////////////////////////////////code for Issue No#73 (before) getting name from URL///////////////////////////////////////////////////////////
@@ -1130,6 +1226,10 @@ $(function() {
             if(this.vars.mails > 0)
             {
                 $('#mailsDash').css({"color": "red"});
+            }
+            if(this.vars.pending_request_count>0)
+            {
+                $('#pendingRequests').css({"color": "Red","background-color": "lightgrey","font-weight": "bold"});
             }
             $('#surveysForMember').html(App.languageDict.attributes.Surveys + '(' + this.vars.survey_count_for_member + ')');
             if(this.vars.survey_count_for_member > 0)

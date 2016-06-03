@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="app/Home-Urdu.css" type="text/css">
     <link rel="stylesheet" href="app/Home.css"/>
     <link rel="stylesheet" href="app/tabl.css"/>
+    <link rel="stylesheet" href="app/style.css"/>
 
     <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
     <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
@@ -124,6 +125,7 @@
     <script src='app/models/DailyLog.js'></script>
     <script src='app/models/Survey.js'></script>
     <script src='app/models/Question.js'></script>
+    <script src='app/models/AdminMember.js'></script>
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script>
@@ -172,6 +174,7 @@
     <script src='app/collections/ActivityLog.js'></script>
     <script src='app/collections/SurveyQuestions.js'></script>
     <script src='app/collections/SurveyAnswers.js'></script>
+    <script src='app/collections/AdminMembers.js'></script>
 
     <!-- app-Views -->
     <script src="app/views/ConfigurationView.js"></script>
@@ -274,7 +277,9 @@
     <script src="app/views/SurveyAnswerTable.js"></script>
     <script src="app/views/SurveyAnswerRow.js"></script>
     <script src="app/views/SurveyTableForMembers.js"></script>
+    <script src="app/views/CommunityConfigurationsForm.js"></script>
     <script src="app/views/TrendActivityReport.js"></script>
+    <script src="app/views/AdminForm.js"></script>
 
     <!-- javaScript -->
 
@@ -495,10 +500,11 @@
                     <!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
                 </tr>
                 <tr>
-                    <td><button id="welcomeButton" class="btn btn-hg btn-primary" style="display:none" onclick = "document.location.href='##updatewelcomevideo'"><%= languageDict.attributes.Update_Welcome_Video %></button></td>
+                    <td><button id="welcomeButton" class="btn btn-hg btn-primary" style="display:none" onclick = "document.location.href='#updatewelcomevideo'"><%= languageDict.attributes.Update_Welcome_Video %></button></td>
                     <td><button id="updateButton" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" ><%= languageDict.attributes.Update_Available %>(<%=nation_version%></button></td>
-                    <td><button id="viewReleaseNotes" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Release_Notes  %></button></td>
+                    <!--<td><button id="viewReleaseNotes" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Release_Notes  %></button></td> -->
                     <td><button id="newPublication" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Publications%>(<%=new_publication_count%>)</button></td>
+                    <td><button class="btn btn-hg btn-primary"  id="pendingRequests" onclick="document.location.href='../nation/index.html#listCommunity'" ><%=languageDict.attributes.Communities%>(<%=pending_request_count%>)</button></a></td>
                 </tr>
                 <tr>
                     <td><button id="newSurvey" class="btn btn-hg btn-primary" style="display:none;color:Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Surveys%>(<%=new_survey_count%>)</button></td>
@@ -632,6 +638,96 @@
             </table>
             <%} %>
         </td>
+    </script>
+
+    <script type="text/template" id="template-addCommunity">
+
+        <div>
+            <h3><%=languageDict.attributes.Configurations%></h3>
+        </div>
+
+
+        <div>
+            <form id="communityFrom" autocomplete="on" onSubmit="">
+                <div style='margin:0 auto'>
+                    <div class='form-field'>
+                        <input style='width:335px' type="text" id="community-name" Required pattern="[A-Za-z][A-Za-z]*"  name="community-name" /><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:335px'  type="text" id="community-code" Required pattern="[A-Za-z][A-Za-z]*" name="community-code" /><br />
+                    </div>
+                    <br>
+                    <div class='form-field'>
+                        <select id="nation-selector" name="select-nation">
+                            <option value="Select Nation" style="display: none"><%=languageDict.attributes.select_nation%></option>
+                            <% for (var i=0; i<nations.length; i++){%>
+                            <option value="<%= nations[i].admin_name %>,<%= nations[i].nationurl %>"><%= nations[i].name %> </option>
+                            <% }%>
+                        </select><br />
+                    </div>
+                    <div class='form-field'>
+                        <select id="language-selector" name="select-language">
+                            <option value="Select Language" style="display: none"><%= languageDict.attributes.Select_Language%></option>
+                            <% for (var key in languages){%>
+                            <option value="<%= key %>"><%= languages[key] %> </option>
+                            <% }%>
+                        </select><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:229px;'  type="text" id="community-region" Required name="community-region" /><br />
+                    </div>
+                </div>
+                <div><p style='font-size:17px'><%=languageDict.attributes.Sponsoring_Organization%></p></div>
+                <div>
+                    <div class='form-field' >
+                        <input style='width:335px' type="text" Required id="org-name" name="org-name" /><br />
+                    </div>
+                    <div class='form-field' style='width:330px'>
+                        <input style='width:335px;'  type="text" Required id="org-address" name="org-address" /><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:335px;'  type="text" id="org-url" Required name="org-url" /><br />
+                    </div>
+                    <div><p style='font-size:17px'><%=languageDict.attributes.General_Manager%></p><input class='form-field' name="checkbox" onclick="fillAdminData($(this), 'General Manager');" type="checkbox" id="checkbox-GM" /> <%=languageDict.attributes.same_as_admin%></div>
+                    <div class='form-field'>
+                        <input style='width:214px;'  type="text" id="org-firstname" Required name="org-firstname" /><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:214px;'  type="text" id="org-middlename" name="org-middlename" /><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:214px;'  type="text" id="org-lastname" name="org-lastname" /><br />
+                    </div>
+                    <br>
+                    <div class='form-field' >
+                        <input style='width:214px;'  type="text" Required id="org-phone" name="org-phone" /><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:214px;'  type="email" Required id="org-email" name="org-email" /><br />
+                    </div>
+                </div>
+                <div><p style='font-size:17px'><%=languageDict.attributes.Tech_Support%></p><input class='form-field' name="checkbox" onclick="fillAdminData($(this), 'Tech Support');" type="checkbox" id="checkbox-techSupport" /><%=languageDict.attributes.same_as_admin%></div>
+                <div>
+                    <div class='form-field'>
+                        <input style='width:214px;'  type="text" Required id="leader-firstname" name="leader-firstname" /><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:214px;' type="text" id="leader-middlename" name="leader-middlename" /><br />
+                    </div>
+                    <div class='form-field'>
+                        <input style='width:214px;'  type="text" id="leader-lastname" name="leader-lastname" /><br />
+                    </div>
+                    </br>
+                    <div class='form-field' >
+                        <input style='width:214px;'  type="text" required id="leader-phone" name="leader-phone" /><br />
+                    </div>
+                    <div class='form-field' style='width:310px'>
+                        <input style='width:214px;'  type="email" Required id="leader-email" name="leader-email" /><br />
+                    </div>
+                </div>
+            </form>
+            <button style="display: table;margin: 0 auto" class="btn btn-success" id="commConfigFormButton"><%=languageDict.attributes.Register%></button>
+        </div>
     </script>
 
     <script type="text/html" id="template-GroupSpan">

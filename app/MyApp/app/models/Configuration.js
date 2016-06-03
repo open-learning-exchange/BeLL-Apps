@@ -10,38 +10,28 @@ $(function() {
             } else {
                 var url = App.Server + '/configurations' // for CREATE
             }
-
             return url
         },
         defaults: {
-            currentLanguage: {
-                type: 'Text'
-            },
-            subType: {
-                type: 'Text'
-            },
-            "countDoubleUpdate": 0
-
-
+            subType: "dummyy",
+            currentLanguage: '',
+            registrationRequest: 'pending',
+            lastAppUpdateDate: '-',
+            lastActivitiesSyncDate: '-',
+            lastPublicationsSyncDate: '-',
+            superManagerID: '',
+            superManagerPassword: '',
+            authName: '',
+            authDate: '',
         },
         schema: {
+            //Community's information
             name: {
                 type: 'Text',
                 validators: ['required']
             },
             code: {
                 type: 'Text',
-                validators: ['required']
-            },
-            type: {
-                type: 'Select',
-                options:[{
-                        val: 'community',
-                        label: 'community'
-                    }, {
-                        val: 'nation',
-                        label: 'nation'
-                    }],
                 validators: ['required']
             },
             region: 'Text',
@@ -62,7 +52,58 @@ $(function() {
             selectLanguage: {
                 type: 'Select',
                 options:[]
-            }
+            },
+            //Sponsoring Organization
+            sponsorName: {
+                type: 'Text'
+            },
+            sponsorAddress: {
+                type: 'Text'
+            },
+            contactFirstName: {
+                type: 'Text'
+            },
+            contactMiddleName: {
+                type: 'Text'
+            },
+            contactLastName: {
+                type: 'Text'
+            },
+            contactPhone: {
+                type: 'Text'
+            },
+            contactEmail: {
+                type: 'Text'
+            },
+            sponsorUrl: {
+                type: 'Text'
+            },
+            //Tech Support
+            superManagerFirstName: {
+                type: 'Text'
+            },
+            superManagerMiddleName: {
+                type: 'Text'
+            },
+            superManagerLastName: {
+                type: 'Text'
+            },
+            superManagerPhone: {
+                type: 'Text'
+            },
+            superManagerEmail: {
+                type: 'Text'
+            },
+            //Adding these attributes temporarily
+            Name: {
+                type: 'Text'
+            },
+            Code: {
+                type: 'Text'
+            },
+            countDoubleUpdate: 'Number',
+            type: 'Text',
+            kind: 'Text'
         }
     })
 

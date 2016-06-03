@@ -1,11 +1,8 @@
 {
-    "name":"TestCommunity",
-    "nationName":"openbell",
     "code":"communitybell",
     "type":"community",
-    "nationUrl":"openbell.ole.org:5984",
     "version":"0.12.34",
-    "notes":"Community Bell",
-    "currentLanguage":"English"
+    "currentLanguage":"English",
+    "register": "nbs.ole.org:5997"
 }
 

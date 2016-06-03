@@ -9,7 +9,8 @@ h1,h2,h3,h4,h5,h6{
 }
 #dashboard
 {
-    height: 471px;
+  /*  height: 471px;*/
+    height:auto;
     width: 950px;
     overflow: hidden;
 }
@@ -597,8 +598,10 @@ textarea[name="comment"]
 
 #dashboard
 {
-    height: 471px;
-    width: 950px;
+    /*  height: 471px;*/
+    height:auto;
+    /*width: 950px;*/
+    width:957px;
     overflow: hidden;
     direction: rtl;
     margin:0px auto;

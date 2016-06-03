@@ -6,5 +6,6 @@
     "nationUrl":"earthbell.ole.org:5989",
     "version":"0.12.34",
     "notes":"Nation Bell",
-    "currentLanguage":"English"
+    "currentLanguage":"English",
+    "register": "nbs.ole.org:5997"
 }

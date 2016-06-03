@@ -223,13 +223,23 @@ $(function() {
                 })
 
                 if (parseInt(member.get('visits')) == 1 && member.get('roles').indexOf('SuperManager') != -1) {
-                    //$('#nav').hide()
                     Backbone.history.navigate('configuration/add', {
                         trigger: true
                     });
                     return;
                 }
                 memberLoginForm.trigger('success:login');
+                if(App.configuration.get('type')=='community' && member.get('roles').indexOf('SuperManager') != -1){
+                    var configCollection = new App.Collections.Configurations();
+                    configCollection.fetch({
+                        async: false
+                    });
+                    var configDoc = configCollection.first().toJSON();
+                    if(configDoc.name == undefined) {
+                        window.location.href = '#configurationsForm'
+                    }
+                }
+
             } else {
                 alert(App.languageDict.attributes.Account_DeActivated)
             }

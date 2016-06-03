@@ -4,6 +4,7 @@ $(function() {
 
 
         routes: {
+            'admin/add':'AdminForm',
             'updatewelcomevideo': 'addOrUpdateWelcomeVideoDoc',
             '': 'MemberLogin',
             'dashboard': 'Dashboard',
@@ -83,7 +84,8 @@ $(function() {
             'publications/:community': 'Publications',
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
-            'memberSurveys': 'SurveysForMembers'
+            'memberSurveys': 'SurveysForMembers',
+            'configurationsForm': 'configurationsForm'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -254,6 +256,32 @@ $(function() {
             $('#surveyTable').append(SurveysView.el);
         },
 
+        configurationsForm: function () {
+            var commConfigModel;
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            if(configCollection.length > 0) {
+                commConfigModel = configCollection.first();
+            } else {
+                commConfigModel = new App.Models.Configuration();
+            }
+            var commConfigForm = new App.Views.CommunityConfigurationsForm({
+                model: commConfigModel
+            })
+            commConfigForm.render();
+            App.$el.children('.body').html(commConfigForm.el);
+            if(App.languageDict.get('directionOfLang').toLowerCase()=='right')
+            {
+                $('.addNation-form').css('direction','rtl');
+            }
+            else{
+                $('.addNation-form').css('direction','ltr');
+            }
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
+        },
+
         communityManage: function() {
 
             var manageCommunity = new App.Views.ManageCommunity();
@@ -285,6 +313,7 @@ $(function() {
 
         },
         initialize: function() {
+
             this.bind("all", this.startUpStuff)
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.renderNav)
@@ -324,11 +353,15 @@ $(function() {
                     isLoggedIn: '0'
                 })
             }
-            $('div#nav .container').html(na.el)
+            $('div#nav .container').html(na.el);
+            if($.url().attr('fragment') == 'admin/add'){
+                $('#linkOnMyHome').css('pointer-events','none');
+            }
+
         },
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
-                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add') {
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add' && $.url().attr('fragment') != 'admin/add') {
                     Backbone.history.stop()
                     App.start()
                 }
@@ -377,8 +410,11 @@ $(function() {
                 model: conModel
             })
             conForm.render();
-
             App.$el.children('.body').html(conForm.el);
+            for(var i=8;i<$('.bbf-form').find('ul li').length;i++)
+            {
+                $('.bbf-form').find('ul').find('li').eq(i).hide();
+            }
             conForm.updateDropDownValue();
 
         },
@@ -626,9 +662,14 @@ $(function() {
         });
     },
         Dashboard: function() {
-
+            if(App.configuration.get('type')=='nation'){
+                getAllPendingRequests();
+            }
+            //At community side: Fetch request status from central db
+            if(App.configuration.get('type')=='community' && App.Router.getRoles().indexOf('Manager') > -1 || App.Router.getRoles().indexOf('SuperManager') > -1) {
+                getRequestStatus();
+            }
             var that=this;
-            //if(!App.ShelfItems)
             {
                 App.ShelfItems = {}
                 $.ajax({
@@ -719,13 +760,128 @@ $(function() {
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
+            if(App.configuration.get("type")=="nation"){
+                $('#pendingRequests').show();
+            }
+            else{
+                $('#pendingRequests').hide();
+            }
             applyCorrectStylingSheet(directionOfLang);
-           // $.removeCookie('languageFromCookie');
-           // $.removeCookie('isChange');
         },
         MemberForm: function(memberId) {
 
             this.modelForm('Member', 'Member', memberId, 'login')
+        },
+        AdminForm: function(){
+            var languageDictValue;
+            var  clanguage;
+            if($.cookie('languageFromCookie'))
+            {
+                clanguage= $.cookie('languageFromCookie');
+            }
+            else
+            {
+                clanguage = 'English'
+                $.cookie('languageFromCookie',clanguage);
+            }
+            languageDictValue = getSpecificLanguage(clanguage);
+            App.languageDict = languageDictValue;
+            var directionOfLang = languageDictValue.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
+            var context = this;
+            var model = new App.Models.AdminMember();
+            var modelForm = new App.Views.AdminForm({
+                model: model
+            })
+            App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+            $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get('Become_an_administrator')+'</h3>')
+            $('#AddCourseMainDiv').append(modelForm.el)
+            // Bind form events for when Group is ready
+            model.once('Model:ready', function() {
+            modelForm.render();
+            $('.form .field-firstName input').attr('maxlength', '25');
+            $('.form .field-lastName input').attr('maxlength', '25');
+            $('.form .field-middleNames input').attr('maxlength', '25');
+            $('.form .field-login input').attr('maxlength', '25');
+            });
+            model.trigger('Model:ready')
+            //Setting up the default error Message
+            Backbone.Form.validators.errMessages.required=languageDictValue.attributes.Required_Text;
+            $('.bbf-form .field-Gender .bbf-editor select').append($('<option>', {
+                class:"placeHolderForSelect",
+                selected: 'true',
+                disabled:'true',
+                value:"",
+                text:languageDictValue.attributes.Gender
+            }));
+            $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(2).css('display','none');
+            $(".bbf-form .field-levels .bbf-editor select").append($('<option>', {
+                class:"placeHolderForSelect",
+                selected: 'true',
+                disabled:'true',
+                value:"",
+                text:languageDictValue.attributes.School_Year
+            }));
+            $(".bbf-form .field-levels .bbf-editor select").find('option').eq(13).css('display','none')
+            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(0).append($('<option>', {
+                class:"placeHolderForSelect",
+                selected: 'true',
+                disabled:'true',
+                value:"",
+                text:languageDictValue.attributes.Date_format
+            }));
+            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(0).find('option').eq(31).css('display','none')
+            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(1).append($('<option>', {
+                class:"placeHolderForSelect",
+                selected: 'true',
+                disabled:'true',
+                value:"",
+                text:languageDictValue.attributes.Month
+            }));
+            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(1).find('option').eq(12).css('display','none')
+
+            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).append($('<option>', {
+                class:"placeHolderForSelect",
+                selected: 'true',
+                disabled:'true',
+                value:"",
+                text:languageDictValue.attributes.Year_format
+            }));
+            $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).find('option').eq(101).css('display','none')
+            //Modifying the labels as per MUI
+            $('.bbf-form .field-firstName label').html(languageDictValue.attributes.First_Name);
+            $('.bbf-form .field-lastName label').html(languageDictValue.attributes.Last_Name);
+            $('.bbf-form .field-middleNames label').html(languageDictValue.attributes.Middle_Names);
+            $('.bbf-form .field-login label').html(languageDictValue.attributes.Login);
+            $('.bbf-form .field-password label').html(languageDictValue.attributes.Password);
+            $('.bbf-form .field-phone label').html(languageDictValue.attributes.Phone);
+            $('.bbf-form .field-email label').html(languageDictValue.attributes.Email);
+            $('.bbf-form .field-language label').html(languageDictValue.attributes.language);
+            $('.bbf-form .field-BirthDate label').html(languageDictValue.attributes.Birth_Date);
+            $('.bbf-form .field-Gender label').html(languageDictValue.attributes.Gender)
+            $('.bbf-form .field-levels label').html(languageDictValue.attributes.Levels)
+            $('.bbf-form .field-community label').html(App.languageDict.attributes.Community)
+            $('.bbf-form .field-region label').html(App.languageDict.attributes.Region)
+            $('.bbf-form .field-nation label').html(App.languageDict.attributes.Nation)
+            var invitationType=App.languageDict.get("inviteForm_levels");
+            for(var i=0;i<invitationType.length;i++){
+                $('.bbf-form .field-levels .bbf-editor select').find('option').eq(i).html(invitationType[i]);
+            }
+            $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(0).html(App.languageDict.get('Male'))
+            $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(1).html(App.languageDict.get('Female'))
+
+            for(var i=0;i<12;i++)
+            {
+                $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).html(lookup(App.languageDict, "Months." + $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).text().toString() ));
+
+            }
+            if (directionOfLang.toLowerCase() === "right") {
+
+                $('#_attachments').css('margin-right','170px');
+            }
+            else {
+                $('#_attachments').css('margin-left','170px');
+            }
         },
 
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'

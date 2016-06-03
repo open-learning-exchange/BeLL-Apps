@@ -22,7 +22,7 @@ $(function() {
 
 
         comparator: function(model) {
-            var Name = model.get('Name')
+            var Name = model.get('name')
             if (Name) return Name.toLowerCase()
         },
         model: App.Models.Community

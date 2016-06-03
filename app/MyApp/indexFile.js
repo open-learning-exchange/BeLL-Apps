@@ -17,6 +17,52 @@ var new_publications_count;
 var new_surveys_count;
 var languageDict;
 
+function getAllPendingRequests() {
+    var centralNationUrl = getCentralNationUrl();
+    var nationUrl = $.url().data.attr.authority;
+    var nationPort = nationUrl.split(':')[1];
+    var docIDs=[];
+    $.ajax({
+        url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationPort + '"',
+        type: 'GET',
+        dataType: 'jsonp',
+        async: false,
+        success: function (json) {
+            var jsonModels = json.rows;
+            for(var i = 0 ; i < jsonModels.length ; i++) {
+                var community = jsonModels[i].value;
+                if(community.registrationRequest=="pending"){
+                    docIDs.push(community._id);
+                }
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                    "target": 'communityregistrationrequests',
+                    'doc_ids': docIDs
+                }),
+                async: false,
+                success: function (response) {
+                    console.log('Successfully replicated all pending requests.')
+                },
+                error: function(status) {
+                    console.log(status);
+                }
+            });
+        },
+        error: function (status) {
+            console.log(status);
+        }
+    });
+}
+
 function applyStylingSheet() {
     var languageDictValue=loadLanguageDocs();
 
@@ -35,6 +81,145 @@ function applyStylingSheet() {
         alert(languageDictValue.attributes.error_direction);
     }
 }
+
+function getCentralNationUrl() {
+    var configCollection = new App.Collections.Configurations();
+    configCollection.fetch({
+        async: false
+    });
+    var configDoc = configCollection.first().toJSON();
+    return configDoc.register;
+}
+
+function getRequestStatus() {
+    var centralNationUrl = getCentralNationUrl();
+    var jsonModel = getRequestDocFromLocalDB();
+    if(jsonModel != null) {
+        var oldStatus = jsonModel.registrationRequest;
+        var newStatus;
+        var modelId = jsonModel._id;
+        var docIDs=[];
+        docIDs.push(modelId);
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            type: 'POST',
+            url: '/_replicate',
+            dataType: 'json',
+            data: JSON.stringify({
+                "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                "target": 'configurations',
+                'doc_ids': docIDs
+            }),
+            async: false,
+            success: function (response) {
+                //Now get the updated document and check request status
+                var updatedJsonModel = getRequestDocFromLocalDB();
+                newStatus = updatedJsonModel.registrationRequest;
+                if(oldStatus != newStatus) {
+                    if (updatedJsonModel.registrationRequest == 'accepted') {
+                        alert(App.languageDict.get('request_accepted'));
+                    } else if (updatedJsonModel.registrationRequest == 'rejected') {
+                        alert(App.languageDict.get('comm_reject_msg'));
+                    }
+                }
+            },
+            error: function(status) {
+                console.log(status);
+            }
+        });
+    }
+}
+
+function getRequestDocFromLocalDB() {
+    var jsonModel;
+    var configDoc = getCommunityConfigs();
+    //Check if it is a new community or an older one with registrationRequest attribute
+    if(!configDoc.hasOwnProperty('registrationRequest')) {
+        jsonModel = null;
+    } else {
+        jsonModel = configDoc;
+    }
+    return jsonModel;
+}
+
+function getCommunityConfigs() {
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    })
+    var config = new configurations()
+    config.fetch({
+        async: false
+    })
+    var currentConfig = config.first().toJSON().rows[0].doc
+    return currentConfig;
+}
+
+function fillAdminData(e, reference) {
+    var member = getMemberData();
+    if (e.is(':checked')) {
+        //fill the fields with admin member data
+        if(reference == 'General Manager') {
+            $('#org-firstname').val(member.get('firstName'));
+            $('#org-middlename').val(member.get('middleNames'));
+            $('#org-lastname').val(member.get('lastName'));
+            $('#org-phone').val(member.get('phone'));
+            $('#org-email').val(member.get('email'));
+        } else {
+            $('#leader-firstname').val(member.get('firstName'));
+            $('#leader-middlename').val(member.get('middleNames'));
+            $('#leader-lastname').val(member.get('lastName'));
+            $('#leader-phone').val(member.get('phone'));
+            $('#leader-email').val(member.get('email'));
+        }
+    } else {
+        //remove data from form fields
+        if(reference == 'General Manager') {
+            $('#org-firstname').val('');
+            $('#org-middlename').val('');
+            $('#org-lastname').val('');
+            $('#org-phone').val('');
+            $('#org-email').val('');
+        } else {
+            $('#leader-firstname').val('');
+            $('#leader-middlename').val('');
+            $('#leader-lastname').val('');
+            $('#leader-phone').val('');
+            $('#leader-email').val('');
+        }
+    }
+}
+
+function getMemberData() {
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    });
+    var config = new configurations();
+    config.fetch({
+        async: false
+    });
+    var jsonConfig = config.first().toJSON().rows[0].doc;
+    var members = new App.Collections.Members()
+    var member;
+    members.login = $.cookie('Member.login');
+    members.fetch({
+        success: function () {
+            if (members.length > 0) {
+                for(var i = 0; i < members.length; i++) {
+                    if(members.models[i].get("community") == jsonConfig.code) {
+                        member = members.models[i];
+                    }
+                }
+            }
+        },
+        async:false
+
+    });
+    return member;
+}
+
 function applyCorrectStylingSheet(directionOfLang){
     if (directionOfLang.toLowerCase() === "right") {
 
@@ -744,7 +929,6 @@ function getSpecificLanguage(language){
                             member = members.models[i];
                             member.set("bellLanguage",clanguage);
                             member.once('sync', function() {})
-
                             member.save(null, {
                                 success: function(doc, rev) {
                                 },

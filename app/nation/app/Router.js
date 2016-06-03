@@ -2,11 +2,12 @@ $(function() {
     App.Router = new(Backbone.Router.extend({
 
         routes: {
+            'listCommunitiesRequest':'ListCommunitiesRequest',
             'addCommunity': 'CommunityForm',
             'addCommunity/:CommunityId': 'CommunityForm',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
-            'listCommunity': 'ListCommunity',
+            'listCommunity': 'ListCommunitiesRequest',
             'siteFeedback': 'viewAllFeedback',
             'dashboard': 'Dashboard',
             'request': 'commRequest',
@@ -28,6 +29,7 @@ $(function() {
             'communitiesList/:surveyId': 'communitiesList',
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
+            'communityDetails/:commDocId/:requestStatus': "communityDetails",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
         },
@@ -695,33 +697,6 @@ $(function() {
                     })
                 }
             })
-        },
-        //************************************************************************************************************
-        // Get community last sync date
-        //*************************************************************************************************************
-        lastSyncDateForCommunity: function(communityCode, callback) {
-            // alert("function lastSyncDateForCommunity");
-            var communityCode = communityCode;
-            var temp = $.url().data.attr.host.split(".")
-            var nationName = temp[0];
-            var nationUrl = $.url().data.attr.authority;
-            var communityLastActivitySyncDate = '';
-            $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + communityCode + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-
-                success: function(result) {
-
-                    var communityModel = result.rows[0].value;
-                    var communityModelId = result.rows[0].id;
-                    // alert(communityModel.lastActivitiesSyncDate);
-                    communityLastActivitySyncDate = communityModel.lastActivitiesSyncDate;
-                    callback(communityLastActivitySyncDate);
-                },
-                async: false
-            });
-
         },
         //*************************************************************************************************************
         //Trend Report for Communities page on nation (Start)
@@ -1672,22 +1647,25 @@ $(function() {
 
             var label = $("<label>").text(App.languageDictValue.get('Select_Comm')+': ');
             $('#trend-report-form').append(label);
-
-            var communityNames = [];
-            $.ajax({
-                type: 'GET',
-                url: '/community/_design/bell/_view/getAllCommunityNames',
-                dataType: 'json',
-                success: function(response) {
-                    for (var i = 0; i < response.rows.length; i++) {
-                        communityNames[i] = response.rows[i].value;
-                        select.append("<option value=" + communityNames[i] + ">" + response.rows[i].key + "</option>");
-                    }
-                },
-                data: {},
+            /////////////
+            var Communities = new App.Collections.Community()
+            Communities.fetch({
                 async: false
-            });
-
+            })
+            Communities.each(
+                function(log) {
+                    var code, name;
+                    if(log.get('Name') != undefined) {
+                        name = log.get('Name');
+                        code = log.get('Code');
+                    } else {
+                        name = log.get('name');
+                        code = log.get('code');
+                    }
+                    if(name && code){
+                        select.append("<option value=" + code + ">" + name + "</option>");
+                    }
+                });
             $('#trend-report-form').append(select);
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {
@@ -2696,7 +2674,7 @@ $(function() {
         },
 
         AddSurveyForm: function() {
-            //get publication by maximum issue number
+            //get surveys by maximum issue number
             var maxSurveyNo = 0;
             var pubUrl = '/survey/_design/bell/_view/maxSurveyNo?include_docs=true&descending=true'
             $.ajax({
@@ -3352,6 +3330,53 @@ $(function() {
             link.click();
         },
 
+        communityDetails: function (commDocId, requestStatus) {
+            var commConfigModel;
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.languageDictValue=languageDictValue;
+            if(requestStatus == 'registered') {
+                commConfigModel = new App.Models.Community({
+                    _id: commDocId
+                })
+                commConfigModel.fetch({
+                    async: false
+                });
+            } else if(requestStatus == 'pending') {
+                $.ajax({
+                    url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true&key="' + commDocId + '"',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function (json) {
+                        commConfigModel = json.rows[0].value;
+                    },
+                    error: function (status) {
+                        console.log(status);
+                    }
+                });
+            }
+            var commConfigForm = new App.Views.CommunityDetailsView({
+                model: commConfigModel
+            })
+            commConfigForm.status = requestStatus;
+            commConfigForm.render();
+            App.$el.children('.body').html(commConfigForm.el);
+            if(requestStatus == 'registered'){
+                $('#acceptRegistration').css('display','none');
+                $('#rejectRegistration').css('display','none');
+            }
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('.addNation-form').css('direction','rtl');
+            }
+            else{
+                $('.addNation-form').css('direction','ltr');
+            }
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'))
+        },
+
         underConstruction: function() {
             App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>This Functionality is under construction.</h4></div>')
         },
@@ -3394,7 +3419,16 @@ $(function() {
                 async: false
             });
             for(var i=0;i<communityNames.length;i++){
-                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#addCommunity/'+communityNames[i]._id+'">'+communityNames[i].Name+'</a>' + '</td></tr>');
+                var doc = communityNames[i];
+                var code, name;
+                if(doc.Code != undefined) {
+                    code = doc.Code;
+                    name = doc.Name;
+                } else {
+                    code = doc.code;
+                    name = doc.name;
+                }
+                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#communityDetails/'+doc._id+'/registered">'+name+'</a>' + '</td></tr>');
             }
             for(var i=0;i<5-communityNames.length;i++)
             {
@@ -3594,7 +3628,7 @@ $(function() {
                 path: "/apps/_design/bell"
             })
         },
-        ListCommunity: function() {
+        /*ListCommunity: function() {
             App.startActivityIndicator();
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
@@ -3619,7 +3653,55 @@ $(function() {
 
             App.stopActivityIndicator()
 
+        },*/
+
+        getPendingRequests: function() {
+            var jsonModels = [];
+            $.ajax({
+                url: '/communityregistrationrequests/_design/bell/_view/getAllCommunities?_include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    for(var i = 0 ; i < json.rows.length ; i++) {
+                        jsonModels.push(json.rows[i].value);
+                    }
+                },
+                error: function (status) {
+                    console.log(status);
+                }
+            });
+            return jsonModels;
         },
+
+        ListCommunitiesRequest: function(){
+            var that = this;
+            that.getAllPendingRequests();
+            var pendingRequests = that.getPendingRequests();
+            App.startActivityIndicator();
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            var Communities = new App.Collections.Community();
+            Communities.fetch({
+                    async: false
+                }
+            );
+            CommunityTable = new App.Views.CommunityRequestsTable({
+             collection: Communities,
+             });
+             CommunityTable.pendingCollections = pendingRequests;
+             CommunityTable.render();
+             var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
+             listCommunity += "<div id='list-of-Communities'></div>"
+
+             App.$el.children('.body').html('<div id="communityDiv"></div>');
+             $('#communityDiv').append(listCommunity);
+             $('#list-of-Communities', App.$el).append(CommunityTable.el);
+             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+            App.stopActivityIndicator()
+        },
+
         earthRequest: function() {
             var listReq = "<div id='listRequest-head'> <p class='heading'> <a href='#' style='color:#1ABC9C'>Earth Request</a>  |   <a href='#request'>Communities Request</a> </p> </div>"
 
@@ -3992,8 +4074,14 @@ $(function() {
             })
             Communities.each(
                 function(log) {
-                    if(log.get('Name')) {
-                        $('#comselect').append("<option value='" + log.get('Name') + "'>" + log.get('Name') + "</option>")
+                    var name;
+                    if(log.get('Name') != undefined) {
+                        name = log.get('Name');
+                    } else {
+                        name = log.get('name');
+                    }
+                    if(name){
+                        $('#comselect').append("<option value='" + name + "'>" + name + "</option>")
                     }
                 });
             $('#addQuestion').css('pointer-events','none');
@@ -4109,8 +4197,61 @@ $(function() {
                 }
             });
             return lang;
+        },
+
+        getCentralNationUrl: function() {
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            var configDoc = configCollection.first().toJSON();
+            return configDoc.register;
+        },
+
+        getAllPendingRequests: function () {
+            var centralNationUrl = App.Router.getCentralNationUrl();
+            var nationUrl = $.url().data.attr.authority;
+            var nationPort = nationUrl.split(':')[1];
+            var docIDs=[];
+            $.ajax({
+                url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationPort + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function (json) {
+                    var jsonModels = json.rows;
+                    for(var i = 0 ; i < jsonModels.length ; i++) {
+                        var community = jsonModels[i].value;
+                        if(community.registrationRequest=="pending"){
+                            docIDs.push(community._id);
+                        }
+                    }
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                            "target": 'communityregistrationrequests',
+                            'doc_ids': docIDs
+                        }),
+                        async: false,
+                        success: function (response) {
+                            console.log('Successfully replicated all pending requests.')
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+                },
+                error: function (status) {
+                    console.log(status);
+                }
+            });
         }
-
     }))
-
 })

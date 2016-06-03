@@ -195,12 +195,27 @@ $(function() {
 					"target": 'http://' + App.configuration.get('nationUrl') + '/activitylog'
 				}),
 				success: function(response) {
+					var communitycode = App.configuration.get('code');
 					$.ajax({
-						url: 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+						url: 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
 						type: 'GET',
 						dataType: 'jsonp',
 						success: function(result) {
-							var communityModelId = result.rows[0].id;
+							var doc, communityModelId;
+							for(var i = 0 ; i < result.rows.length ; i++) {
+								var code;
+								if(result.rows[i].value.Code != undefined){
+									code = result.rows[i].value.Code;
+								} else {
+									code = result.rows[i].value.code;
+								}
+								if(communitycode == code) {
+									doc = result.rows[i].value;
+								}
+							}
+							if(doc != undefined) {
+								communityModelId = doc._id;
+							}
 							//Replicate from Nation to Community
 							$.ajax({
 								headers: {
@@ -225,13 +240,26 @@ $(function() {
 									var formattedDate = month + '-' + day + '-' + year;
 									/////////////////////////////////////////////////////////////
 									$.ajax({
-										url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+										url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
 										type: 'GET',
 										dataType: 'json',
-										success: function (res) {
-											if (res.rows.length > 0) {
-												var communityModel = res.rows[0].value;
-												communityModel.lastActivitiesSyncDate = month + '/' + day + '/' + year;
+										success: function (result) {
+											if (result.rows.length > 0) {
+												var communityModel;
+												for(var i = 0 ; i < result.rows.length ; i++) {
+													var code;
+													if(result.rows[i].value.Code != undefined){
+														code = result.rows[i].value.Code;
+													} else {
+														code = result.rows[i].value.code;
+													}
+													if(communitycode == code) {
+														communityModel = result.rows[i].value;
+													}
+												}
+												if(communityModel != undefined) {
+													communityModel.lastActivitiesSyncDate = month + '/' + day + '/' + year;
+												}
 												//Update the record in Community db at Community Level
 												$.ajax({
 
