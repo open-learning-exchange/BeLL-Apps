@@ -4004,12 +4004,18 @@ $(function() {
         },
 
         MembersList: function (surveyId, selectedBellCodes, selectedBellNames) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var membersListView = new App.Views.MembersListView();
             membersListView.surveyId = surveyId;
             membersListView.selectedBellCodes = selectedBellCodes;
             membersListView.selectedBellNames = selectedBellNames;
             membersListView.render();
-            App.$el.children('.body').html(membersListView.el);
+            App.$el.children('.body').html('<div id="memberList"></div>');
+            $('#memberList').append('<h3>' + App.languageDictValue.get('Surveys') + '</h3>');
+            $('#memberList').append(membersListView.el);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
 
         communitiesList: function (surveyId) {

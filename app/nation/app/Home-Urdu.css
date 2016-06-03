@@ -39,6 +39,9 @@ h1,h2,h3,h4,h5,h6{
 #parentDiv{
     direction: rtl;
 }
+#memberList{
+    direction: rtl;
+}
 #sendToBellDiv{
     direction: rtl;
 }
@@ -80,6 +83,13 @@ h1,h2,h3,h4,h5,h6{
     text-align: right;
     vertical-align: top;
     border-top: 1px solid #dddddd;
+}
+.btable th, .btable td {
+    border-top: 1px solid #DDDDDD;
+    line-height: 20px;
+    padding: 8px;
+    text-align: right;
+    vertical-align: top;
 }
 .stu-nav-tube
 {

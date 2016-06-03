@@ -777,5 +777,11 @@
   "Sent": "Sent",
   "Survey_Error_Message_For_Required_Questions":"Please provide all the answers to required questions",
   "Get_Members_List": "Get Members List",
-  "Bell_Name": "Bell Name"
+  "Bell_Name": "Bell Name",
+  "Roles": "Roles",
+  "Include_Admins": "Include Admins",
+  "No_members_found": "No members found",
+  "bells_selection_msg": "Please select bells first",
+  "member_selection_msg": "Please select members first",
+  "survey_success_msg": "Survey has been sent successfully"
 }

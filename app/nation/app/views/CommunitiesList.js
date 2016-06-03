@@ -39,7 +39,7 @@ $(function () {
             if(selectedBellCodes.length > 0) {
                 App.Router.MembersList(this.surveyId, selectedBellCodes, selectedBellNames);
             } else {
-                alert("Please select bells first");
+                alert(App.languageDictValue.get("bells_selection_msg"));
                 return;
             }
         },

@@ -43,7 +43,7 @@ $(function () {
                 App.startActivityIndicator();
                 this.saveReceiverIdsIntoSurveyDoc(selectedMembers, selectedCommunities);
             } else {
-                alert("Please select members first");
+                alert(App.languageDictValue.get("member_selection_msg"));
                 return;
             }
         },
@@ -81,7 +81,7 @@ $(function () {
             }
             surveyModel.save(null, {
                 success: function (model, response) {
-                    alert("Survey has been sent successfully");
+                    alert(App.languageDictValue.get("survey_success_msg"));
                     App.stopActivityIndicator();
                     Backbone.history.navigate('#surveydetail/' + surveyModel.get('_id'),
                         {
@@ -102,7 +102,7 @@ $(function () {
 
         showMembersList: function () {
             var that = this;
-            var viewtext = '<table class="btable btable-striped"><th>Name</th><th>Gender</th><th>Birth Year</th><th>Visits</th><th>Roles</th><th>Bell Name</th>'
+            var viewtext = '<table class="btable btable-striped"><th>' + App.languageDictValue.get("Name") + '</th><th>' + App.languageDictValue.get("Gender") + '</th><th>' + App.languageDictValue.get("birthYear") + '</th><th>' + App.languageDictValue.get("Visits") + '</th><th>' + App.languageDictValue.get("Roles") + '</th><th>' + App.languageDictValue.get("Bell_Name") + '</th>'
             var communityCode;
             var membersList = [];
             var selectedBellCodes = this.selectedBellCodes;
@@ -131,14 +131,14 @@ $(function () {
                     viewtext += '<tr><td><input type="checkbox" name="surveyMember" value="' + member.login + '_' + member.community + '">' + member.firstName + ' ' + member.lastName + '</td><td>' + member.Gender + '</td><td>' + birthYear + '</td><td>' + member.visits + '</td><td>' + member.roles + '</td><td>' + member.community + '</td></tr>'
                 }
                 viewtext += '</table><br>'
-                viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>Include Admins</i></b></span><br>'
-                viewtext += '<button class="btn btn-info" id="selectAllMembers">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">Send</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
+                viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>' + App.languageDictValue.get("Include_Admins") + '</i></b></span><br>'
+                viewtext += '<button class="btn btn-info" id="selectAllMembers">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllMembers">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="sendSurveyToSelectedList">' + App.languageDictValue.get("Send") + '</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
             } else {
-                viewtext += '</table><br><span>No members found</span><br><br>'
-                viewtext += '<button class="btn btn-info" id="returnBack">Back</button>'
+                viewtext += '</table><br><span>' + App.languageDictValue.get("No_members_found") + '</span><br><br>'
+                viewtext += '<button class="btn btn-info" id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
             }
             that.$el.html(viewtext);
-        },
+        }
 
     })
 

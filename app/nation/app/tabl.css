@@ -10,13 +10,7 @@
 .btable-striped tbody > tr:nth-child(2n+1) > td, .btable-striped tbody > tr:nth-child(2n+1) > th {
     background-color: #F9F9F9;
 }
-.btable th, .btable td {
-    border-top: 1px solid #DDDDDD;
-    line-height: 20px;
-    padding: 8px;
-    text-align: left;
-    vertical-align: top;
-}
+
 .addNation-from{width:600px;height:700px;background-color:red}
 .bbf-error{color:red}
 .addNation-heading{margin-left:30%;text-decoration:underline}
