@@ -39,6 +39,9 @@ h1,h2,h3,h4,h5,h6{
 #parentDiv{
     direction: rtl;
 }
+#sendToBellDiv{
+    direction: rtl;
+}
 #communityDiv{
     direction: rtl;
 }
@@ -54,12 +57,12 @@ h1,h2,h3,h4,h5,h6{
     text-align:center;
 }
 #r-formButton {
-     margin-right: 33%;
- }
+    margin-right: 33%;
+}
 #nav-collapse-01 ul{
-  /*  margin: 0 auto;
-    width: 900px;
-    */
+    /*  margin: 0 auto;
+      width: 900px;
+      */
     /*direction: rtl;
     display: flex;
     margin: 0 320px;

@@ -59,25 +59,26 @@ $(function () {
                     bellName = config.first().attributes.name;
                 }
             });
-            var viewtext = '<table class="btable btable-striped"><th>Bell Name</th><th>Type</th>'
-            viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + 'Nation' + '</td></tr>'
+            //nameOfCommunity
+            var viewtext = '<table class="btable btable-striped"><th>' + App.languageDictValue.get("Bell_Name") + '</th><th>' + App.languageDictValue.get("Type") + '</th>'
+            viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + App.languageDictValue.get("Nation") + '</td></tr>'
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getAllCommunityNames',
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + 'Community' + '</td></tr>'
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
                     }
                     viewtext += '</table><br>'
-                    viewtext += '<button class="btn btn-info" id="selectAllBells">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllBells">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="openMembersList">Get Members List</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">Back</button>'
+                    viewtext += '<button class="btn btn-info" id="selectAllBells">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllBells">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="openMembersList">' + App.languageDictValue.get("Get_Members_List") + '</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
                     that.$el.html(viewtext);
                 },
                 data: {},
                 async: false
             });
 
-        },
+        }
 
     })
 

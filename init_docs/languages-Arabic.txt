@@ -775,5 +775,7 @@
   "Response": "Response",
   "Received": "Received",
   "Sent": "Sent",
-  "Survey_Error_Message_For_Required_Questions":"Please provide all the answers to required questions"
+  "Survey_Error_Message_For_Required_Questions":"Please provide all the answers to required questions",
+  "Get_Members_List": "Get Members List",
+  "Bell_Name": "Bell Name"
 }

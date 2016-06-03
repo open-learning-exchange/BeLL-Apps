@@ -1151,18 +1151,18 @@ $(function() {
                 },
                 xAxis: {
                     categories: [
-                        monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                        monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                        monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                        monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                        monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                        monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                        monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                        monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                        monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                        monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                        monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                        monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                     ]
                 },
                 yAxis: {
@@ -1174,7 +1174,7 @@ $(function() {
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
@@ -1255,18 +1255,18 @@ $(function() {
                 xAxis: {
                     categories: [
 
-                        monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                        monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                        monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                        monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                        monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                        monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                        monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                        monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                        monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                        monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                        monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                        monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                     ]
                 },
                 yAxis: {
@@ -1278,7 +1278,7 @@ $(function() {
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
@@ -1359,18 +1359,18 @@ $(function() {
                 },
                 xAxis: {
                     categories: [
-                        monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                        monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                        monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                        monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                        monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                        monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                        monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                        monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                        monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                        monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                        monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                        monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                     ]
                 },
                 yAxis: {
@@ -1382,7 +1382,7 @@ $(function() {
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
@@ -1397,51 +1397,51 @@ $(function() {
                     name: App.languageDictValue.attributes.Males,
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['male'],
-                        registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
-                        registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
-                        registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
-                        registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
-                        registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
-                        registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
-                        registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
-                        registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
-                        registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
-                        registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
-                        totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
+                            registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
+                            registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
+                            registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
+                            registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
+                            registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
+                            registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
+                            registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
+                            registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
+                            registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
+                            registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
+                            totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
                     ],
                     color: '#33ccff'
                 }, {
                     name: App.languageDictValue.attributes.Females,
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['female'],
-                        registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
-                        registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
-                        registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
-                        registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
-                        registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
-                        registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
-                        registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
-                        registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
-                        registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
-                        registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
-                        totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
+                            registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
+                            registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
+                            registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
+                            registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
+                            registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
+                            registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
+                            registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
+                            registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
+                            registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
+                            registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
+                            totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
                     ],
                     color: '#66ff66'
                 }, {
                     name:  App.languageDictValue.attributes.Total,
                     data: [
                         registeredMembersTillTwelfthLastMonthEnd['total'],
-                        registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
-                        registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
-                        registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
-                        registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
-                        registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
-                        registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
-                        registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
-                        registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
-                        registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
-                        registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
-                        registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
+                            registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
+                            registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
+                            registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
+                            registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
+                            registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
+                            registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
+                            registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
+                            registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
+                            registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
+                            registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
+                            registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
                     ],
                     color: '#ff9900'
                 }]
@@ -1463,18 +1463,18 @@ $(function() {
                 xAxis: {
                     categories: [
 
-                        monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                        monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                        monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                        monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                        monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                        monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                        monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                        monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                        monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                        monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                        monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                        monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                     ]
                 },
                 yAxis: {
@@ -1486,7 +1486,7 @@ $(function() {
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
@@ -1534,18 +1534,18 @@ $(function() {
                 }, {
                     name: App.languageDictValue.attributes.Total,
                     data: [
-                        twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
-                        eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
-                        tenthLastMonthDataset.Visits['male'] + tenthLastMonthDataset.Visits['female'],
-                        ninthLastMonthDataset.Visits['male'] + ninthLastMonthDataset.Visits['female'],
-                        eighthLastMonthDataset.Visits['male'] + eighthLastMonthDataset.Visits['female'],
-                        seventhLastMonthDataset.Visits['male'] + seventhLastMonthDataset.Visits['female'],
-                        sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
-                        fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
-                        fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
-                        thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
-                        secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
-                        lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']
+                            twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
+                            eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
+                            tenthLastMonthDataset.Visits['male'] + tenthLastMonthDataset.Visits['female'],
+                            ninthLastMonthDataset.Visits['male'] + ninthLastMonthDataset.Visits['female'],
+                            eighthLastMonthDataset.Visits['male'] + eighthLastMonthDataset.Visits['female'],
+                            seventhLastMonthDataset.Visits['male'] + seventhLastMonthDataset.Visits['female'],
+                            sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
+                            fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
+                            fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
+                            thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
+                            secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
+                            lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']
                     ],
                     color: '#ff9900'
                 }]
@@ -1568,18 +1568,18 @@ $(function() {
                 xAxis: {
                     categories: [
 
-                        monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                        monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                        monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                        monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                        monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                        monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                        monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                        monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                        monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                        monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                        monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                        monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                     ]
                 },
                 yAxis: {
@@ -1591,7 +1591,7 @@ $(function() {
                 tooltip: {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
@@ -1639,18 +1639,18 @@ $(function() {
                 }, {
                     name: App.languageDictValue.attributes.Total,
                     data: [
-                        twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
-                        eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
-                        tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
-                        ninthLastMonthDataset.ResourceViews['male'] + ninthLastMonthDataset.ResourceViews['female'],
-                        eighthLastMonthDataset.ResourceViews['male'] + eighthLastMonthDataset.ResourceViews['female'],
-                        seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
-                        sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
-                        fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
-                        fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
-                        thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
-                        secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
-                        lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']
+                            twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
+                            eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
+                            tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
+                            ninthLastMonthDataset.ResourceViews['male'] + ninthLastMonthDataset.ResourceViews['female'],
+                            eighthLastMonthDataset.ResourceViews['male'] + eighthLastMonthDataset.ResourceViews['female'],
+                            seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
+                            sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
+                            fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
+                            fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
+                            thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
+                            secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
+                            lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']
                     ],
                     color: '#ff9900'
                 }]
@@ -2111,18 +2111,18 @@ $(function() {
                     },
                     xAxis: {
                         categories: [
-                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                         ]
                     },
                     yAxis: {
@@ -2134,7 +2134,7 @@ $(function() {
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -2215,18 +2215,18 @@ $(function() {
                     xAxis: {
                         categories: [
 
-                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                         ]
                     },
                     yAxis: {
@@ -2238,7 +2238,7 @@ $(function() {
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -2319,18 +2319,18 @@ $(function() {
                     },
                     xAxis: {
                         categories: [
-                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                         ]
                     },
                     yAxis: {
@@ -2342,7 +2342,7 @@ $(function() {
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -2357,51 +2357,51 @@ $(function() {
                         name: App.languageDictValue.attributes.Males,
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['male'],
-                            registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
-                            registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
-                            registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
-                            registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
-                            registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
-                            registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
-                            registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
-                            registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
-                            registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
-                            registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
-                            totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
+                                registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
+                                registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
+                                registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
+                                registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
+                                registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
+                                registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
+                                registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
+                                registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
+                                registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
+                                registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
+                                totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
                         ],
                         color: '#33ccff'
                     }, {
                         name: App.languageDictValue.attributes.Females,
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['female'],
-                            registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
-                            registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
-                            registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
-                            registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
-                            registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
-                            registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
-                            registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
-                            registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
-                            registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
-                            registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
-                            totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
+                                registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
+                                registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
+                                registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
+                                registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
+                                registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
+                                registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
+                                registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
+                                registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
+                                registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
+                                registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
+                                totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
                         ],
                         color: '#66ff66'
                     }, {
                         name: App.languageDictValue.attributes.Total,
                         data: [
                             registeredMembersTillTwelfthLastMonthEnd['total'],
-                            registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
-                            registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
-                            registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
-                            registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
-                            registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
-                            registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
-                            registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
-                            registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
-                            registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
-                            registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
-                            registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
+                                registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
+                                registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
+                                registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
+                                registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
+                                registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
+                                registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
+                                registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
+                                registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
+                                registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
+                                registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
+                                registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
                         ],
                         color: '#ff9900'
                     }]
@@ -2423,18 +2423,18 @@ $(function() {
                     xAxis: {
                         categories: [
 
-                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                         ]
                     },
                     yAxis: {
@@ -2446,7 +2446,7 @@ $(function() {
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -2494,18 +2494,18 @@ $(function() {
                     }, {
                         name: App.languageDictValue.attributes.Total,
                         data: [
-                            twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
-                            eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
-                            tenthLastMonthDataset.Visits['male'] + tenthLastMonthDataset.Visits['female'],
-                            ninthLastMonthDataset.Visits['male'] + ninthLastMonthDataset.Visits['female'],
-                            eighthLastMonthDataset.Visits['male'] + eighthLastMonthDataset.Visits['female'],
-                            seventhLastMonthDataset.Visits['male'] + seventhLastMonthDataset.Visits['female'],
-                            sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
-                            fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
-                            fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
-                            thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
-                            secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
-                            lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']
+                                twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
+                                eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
+                                tenthLastMonthDataset.Visits['male'] + tenthLastMonthDataset.Visits['female'],
+                                ninthLastMonthDataset.Visits['male'] + ninthLastMonthDataset.Visits['female'],
+                                eighthLastMonthDataset.Visits['male'] + eighthLastMonthDataset.Visits['female'],
+                                seventhLastMonthDataset.Visits['male'] + seventhLastMonthDataset.Visits['female'],
+                                sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
+                                fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
+                                fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
+                                thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
+                                secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
+                                lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']
                         ],
                         color: '#ff9900'
                     }]
@@ -2528,18 +2528,18 @@ $(function() {
                     xAxis: {
                         categories: [
 
-                            monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                            monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                            monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                            monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                            monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                            monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                            monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                            monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                            monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                            monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                            monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                            monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                         ]
                     },
                     yAxis: {
@@ -2551,7 +2551,7 @@ $(function() {
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -2599,18 +2599,18 @@ $(function() {
                     }, {
                         name: App.languageDictValue.attributes.Total,
                         data: [
-                            twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
-                            eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
-                            tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
-                            ninthLastMonthDataset.ResourceViews['male'] + ninthLastMonthDataset.ResourceViews['female'],
-                            eighthLastMonthDataset.ResourceViews['male'] + eighthLastMonthDataset.ResourceViews['female'],
-                            seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
-                            sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
-                            fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
-                            fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
-                            thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
-                            secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
-                            lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']
+                                twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
+                                eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
+                                tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
+                                ninthLastMonthDataset.ResourceViews['male'] + ninthLastMonthDataset.ResourceViews['female'],
+                                eighthLastMonthDataset.ResourceViews['male'] + eighthLastMonthDataset.ResourceViews['female'],
+                                seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
+                                sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
+                                fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
+                                fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
+                                thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
+                                secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
+                                lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']
                         ],
                         color: '#ff9900'
                     }]
@@ -2908,17 +2908,17 @@ $(function() {
         },
 
         sortQuestions: function(idsArrayForSortingOrder, modelsToSort) {
-        var sortedModels = [];
-        for(var i = 0 ; i < idsArrayForSortingOrder.length ; i++) {
-            var modelId = idsArrayForSortingOrder[i];
-            for(var j = 0 ; j < modelsToSort.length ; j++) {
-                var model = modelsToSort[j];
-                if(model.attributes._id == modelId) {
-                    sortedModels.push(model);
+            var sortedModels = [];
+            for(var i = 0 ; i < idsArrayForSortingOrder.length ; i++) {
+                var modelId = idsArrayForSortingOrder[i];
+                for(var j = 0 ; j < modelsToSort.length ; j++) {
+                    var model = modelsToSort[j];
+                    if(model.attributes._id == modelId) {
+                        sortedModels.push(model);
+                    }
                 }
             }
-        }
-        return sortedModels;
+            return sortedModels;
         },
 
         openSurveyQuestionDialogBox: function(surveyId, isEdit, questionModel) {
@@ -4013,10 +4013,15 @@ $(function() {
         },
 
         communitiesList: function (surveyId) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var communitiesList = new App.Views.CommunitiesList();
             communitiesList.surveyId = surveyId;
             communitiesList.render();
-            App.$el.children('.body').html(communitiesList.el);
+            App.$el.children('.body').html('<div id="sendToBellDiv"></div>');
+            $('#sendToBellDiv').append(communitiesList.el);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
 
         SyncDbSelect: function() {
