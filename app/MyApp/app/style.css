@@ -1,0 +1,12 @@
+.addNation-form{width:800px;margin:0 auto}
+#addNation-heading{width:100%;height:50px;background-color:#235279}
+.heading p{font-size:18px;color:white;text-decoration:none}
+.heading{padding:10px;font-size:17px;color:white;font-family:verdana}
+#nationForm-container{background-color:#fff}
+#top-from{padding:1%;background-color:#d8d8d8}
+#top-from input{height:30px;border:1px solid gray;border-radius:5px}
+.form-field{padding-top:5px;padding-left:10px;display:inline-block}
+.middle-from{padding:1%;margin:0 3%;background-color:#e7e7e7}
+.middle-from input{height:20px;width:217px;padding-top:10px;border-radius:5px;border:1px solid gray}
+.submit-button{float:right;margin:3%}
+.addNation-btn{color:white}

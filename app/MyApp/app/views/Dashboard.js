@@ -391,6 +391,7 @@ $(function() {
             that.updateDesignDocs("surveyquestions");
             that.updateDesignDocs("surveyanswers");
             that.updateDesignDocs("coursestep");
+            that.updateDesignDocs("communityconfigurations");
             /////////////////////////////////////////
             that.updateConfigsOfCommFromNation();
             ////////////////////////////////////////
