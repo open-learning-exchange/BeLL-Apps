@@ -83,7 +83,8 @@ $(function() {
             'publications/:community': 'Publications',
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
-            'memberSurveys': 'SurveysForMembers'
+            'memberSurveys': 'SurveysForMembers',
+            'configurationsForm': 'configurationsForm',
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -252,6 +253,15 @@ $(function() {
             App.$el.children('.body').html('<div id="surveyTable"></div>');
             $('#surveyTable').append('<h3>' + App.languageDict.get('Surveys') + '</h3>');
             $('#surveyTable').append(SurveysView.el);
+        },
+
+        configurationsForm: function () {
+            var commConfigModel = new App.Models.CommunityConfigurations();
+            var commConfigForm = new App.Views.CommunityConfigurationsForm({
+                model: commConfigModel
+            })
+            commConfigForm.render();
+            App.$el.children('.body').html(commConfigForm.el);
         },
 
         communityManage: function() {
