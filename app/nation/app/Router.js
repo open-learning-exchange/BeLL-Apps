@@ -4017,7 +4017,6 @@ $(function() {
             membersListView.selectedBellNames = selectedBellNames;
             membersListView.render();
             App.$el.children('.body').html('<div id="memberList"></div>');
-            $('#memberList').append('<h3>' + App.languageDictValue.get('Surveys') + '</h3>');
             $('#memberList').append(membersListView.el);
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
