@@ -96,16 +96,16 @@ $(function() {
             var selectedRoles = that.getSelectedRoles();
             that.getSelectedBells();
             if (selectedGenderValues.length == 0) {
-                alert('Please select gender first')
+                alert(App.languageDictValue.get("Gender_Selection_Error"))
                 return
             } else if (selectedAgeGroupValues.length == 0) {
-                alert('Please select age group first')
+                alert(App.languageDictValue.get("Group_Selection_Error"))
                 return
             } else if (selectedRoles.length == 0) {
-                alert('Please select roles first')
+                alert(App.languageDictValue.get("Role_Selection_Error"))
                 return
             } else if (that.selectedBellCodes.length == 0) {
-                alert('Please select bells first')
+                alert(App.languageDictValue.get("bells_selection_msg"))
                 return
             } else {
                 App.startActivityIndicator();
@@ -128,11 +128,11 @@ $(function() {
                             if(listOfMembersForSurvey.length > 0) {
                                 that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey);
                             } else {
-                                alert("No members have been found for the selected options");
+                                alert(App.languageDictValue.get("No_Member_Found"));
                                 App.stopActivityIndicator();
                             }
                         } else {
-                            alert("No members have been found for the selected options");
+                            alert(App.languageDictValue.get("No_Member_Found"));
                             App.stopActivityIndicator();
                         }
                     },
@@ -222,7 +222,7 @@ $(function() {
             }
             surveyModel.save(null, {
                 success: function (model, response) {
-                    alert("Survey has been sent successfully");
+                    alert(App.languageDictValue.get("survey_success_msg"));
                     App.stopActivityIndicator();
                     Backbone.history.navigate('#surveydetail/' + surveyModel.get('_id'),
                         {
@@ -247,27 +247,33 @@ $(function() {
                     bellName = config.first().attributes.name;
                 }
             });
-            var viewtext = '<h6>Select Gender</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">Male &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">Female</td></tr></table><br>'
-            viewtext += '<h6>Select Age Group</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">Less than 15 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
-            viewtext += '<h6>Select Roles</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">Learner &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">Leader &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">Manager</td></tr></table><br>'
-            viewtext += '<h6>Select Bells</h6><table class="btable btable-striped"><th>Bell Name</th><th>Type</th>'
-            viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + 'Nation' + '</td></tr>'
+            var viewtext = '<h6>' + App.languageDictValue.get("Select_Gender") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">' + App.languageDictValue.get("Male") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">' + App.languageDictValue.get("Female") + '</td></tr></table><br>'
+            viewtext += '<h6>' + App.languageDictValue.get("Select_Age_Group") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">' + App.languageDictValue.get("Less_than_15") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
+            viewtext += '<h6>' + App.languageDictValue.get("Select_Roles") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">' + App.languageDictValue.get("Learner") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">' + App.languageDictValue.get("Leader") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">' + App.languageDictValue.get("Manager") + '</td></tr></table><br>'
+            viewtext += '<h6>' + App.languageDictValue.get("Select_Bells") + '</h6><table class="btable btable-striped"><th>' + App.languageDictValue.get("Bell_Name") + '</th><th>' + App.languageDictValue.get("Type") + '</th>'
+            viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + App.languageDictValue.get("Nation") + '</td></tr>'
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getAllCommunityNames',
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + 'Community' + '</td></tr>'
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
                     }
                 },
                 data: {},
                 async: false
             });
             viewtext += '</table><br>'
-            viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>Include Admins</i></b></span><br>'
-            viewtext += '<button class="btn btn-info" id="selectAllCriteria">Select All</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">UnSelect All</button><button style="margin-left:10px" class="btn btn-info" id="formButton">Send</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">Back</button>'
+            viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>' + App.languageDictValue.get("Include_Admins") + '</i></b></span><br>'
+            viewtext += '<button class="btn btn-info" id="selectAllCriteria">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="formButton">' + App.languageDictValue.get("Send") + '</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
             this.$el.append(viewtext)
+            if(App.languageDictValue.get('directionOfLang').toLowerCase() === "right")
+            {
+                this.$el.find("#UnSelectAllCriteria").css({"margin-right":"10px", "margin-left":""});
+                this.$el.find("#formButton").css({"margin-right":"10px", "margin-left":""});
+                this.$el.find("#returnBack").css({"margin-right":"10px", "margin-left":""});
+            }
         }
 
     })

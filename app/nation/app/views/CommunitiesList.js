@@ -73,7 +73,13 @@ $(function () {
                     viewtext += '</table><br>'
                     viewtext += '<button class="btn btn-info" id="selectAllBells">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllBells">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="openMembersList">' + App.languageDictValue.get("Get_Members_List") + '</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
                     that.$el.html(viewtext);
-                },
+                    if(App.languageDictValue.get('directionOfLang').toLowerCase() === "right")
+                    {
+                        that.$el.find("#UnSelectAllBells").css({"margin-right":"10px", "margin-left":""});
+                        that.$el.find("#openMembersList").css({"margin-right":"10px", "margin-left":""});
+                        that.$el.find("#returnBack").css({"margin-right":"10px", "margin-left":""});
+                    }
+        },
                 data: {},
                 async: false
             });

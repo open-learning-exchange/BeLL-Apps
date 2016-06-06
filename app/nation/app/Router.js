@@ -3997,11 +3997,15 @@ $(function() {
         },
 
         criteriaList: function(surveyId) {
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var criteriaListView = new App.Views.CriteriaListView();
             criteriaListView.surveyId =surveyId;
             criteriaListView.render();
-            App.$el.children('.body').html(criteriaListView.el);
-        },
+            App.$el.children('.body').html('<div id="sendByCriteriaDiv"></div>');
+            $('#sendByCriteriaDiv').append(criteriaListView.el);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));        },
 
         MembersList: function (surveyId, selectedBellCodes, selectedBellNames) {
             var loginOfMem = $.cookie('Member.login');

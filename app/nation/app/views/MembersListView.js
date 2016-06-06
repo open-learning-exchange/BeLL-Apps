@@ -138,6 +138,12 @@ $(function () {
                 viewtext += '<button class="btn btn-info" id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
             }
             that.$el.html(viewtext);
+            if(membersList.length > 0 && App.languageDictValue.get('directionOfLang').toLowerCase() === "right")
+            {
+                that.$el.find("#UnSelectAllMembers").css({"margin-right":"10px", "margin-left":""});
+                that.$el.find("#sendSurveyToSelectedList").css({"margin-right":"10px", "margin-left":""});
+                that.$el.find("#returnBack").css({"margin-right":"10px", "margin-left":""});
+            }
         }
 
     })
