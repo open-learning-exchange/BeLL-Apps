@@ -879,7 +879,9 @@ $(function() {
                 async:false
 
             });
-            lang=member.get('bellLanguage');
+            //lang=member.get('bellLanguage');
+            var clanguage = getLanguage($.cookie('Member._id'));
+            App.languageDict = getSpecificLanguage(clanguage);
             this.vars.currentLanguageOfApp=App.languageDict.get('nameInNativeLang');
             this.vars.availableLanguagesOfApp=getAvailableLanguages();
 
