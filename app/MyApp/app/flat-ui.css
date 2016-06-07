@@ -538,6 +538,9 @@ address {
 .btn.btn-primary {
   background-color: #1abc9c;
 }
+.takequiz{
+  margin-top: -74px;
+}
 .btn.btn-primary:hover,
 .btn.btn-primary:focus,
 .btn-group:focus .btn.btn-primary.dropdown-toggle {
