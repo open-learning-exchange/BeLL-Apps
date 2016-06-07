@@ -31,10 +31,26 @@ $(function() {
             App.collectionslist = new App.Collections.listRCollection()
             App.collectionslist.fetch()
             if (!loggedIn && $.url().attr('fragment')) {
+                //alert('1')
                 // We want to abort this page load so there isn't a race condition with whatever 
                 // url is being requested and the loading of the login page.
-                window.location = $.url().attr('path') // returns url with no fragment
+                if($.url().attr('fragment') == 'admin/add'){
+                  //  alert('1.1')
+                    Backbone.history.start({
+                        pushState: false
+                    })
+                    Backbone.history.navigate('admin/add', {
+                        trigger: true
+                    })
+                   // window.location = $.url().attr('path')+'#admin/add'
+                }
+                else{
+                  //  alert('1.2')
+                    window.location = $.url().attr('path') // returns url with no fragment
+                }
+
             } else if (!loggedIn && !$.url().attr('fragment')) {
+               // alert('2')
                 // No Routes are being triggered, it's safe to start history and move to login route.
                 Backbone.history.start({
                     pushState: false
@@ -43,6 +59,7 @@ $(function() {
                     trigger: true
                 })
             } else if (loggedIn && !$.url().attr('fragment')) {
+               // alert('3')
                 // We're logged in but have no where to go, default to the teams page.
                 App.Router.renderNav()
                 Backbone.history.start({
