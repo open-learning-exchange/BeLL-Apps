@@ -96,21 +96,33 @@ $(function () {
             this.vars.languageDict=App.languageDict;
             if (!this.vars.outComes || this.vars.outComes.length==0) {
                 this.vars.outComes = ''
-                if (this.vars.questions && this.vars.questions.length > 0){
+                if (this.vars.questions && this.vars.questions.length >0){
                     this.vars.outComes = ['Quiz'];
                 }
 
             }
-            else if(this.vars.outComes instanceof Array){}
+            else if(this.vars.outComes instanceof Array){
+                for ( var i =0;i< this.vars.outComes.length; i++)
+                {
+                    var textOfOutcomes = 'Take_' + this.vars.outComes[i];
+                    this.vars.outComesText = textOfOutcomes;
+
+                }
+
+            }
             else{
                 var temp=this.vars.outComes
                 this.vars.outComes=new Array()
                 this.vars.outComes[0]=temp;
 
             }
-            var textOfOutcomes='Take_'+this.vars.outComes[0];
-            this.vars.outComesText=App.languageDict.get(textOfOutcomes);
-            this.vars.outComes[0]=App.languageDict.get(this.vars.outComes[0]);
+
+           // var textOfOutcomes='Take_'+this.vars.outComes[0];
+           // this.vars.outComesText=App.languageDict.get(textOfOutcomes);
+           // this.vars.outComes[0]=App.languageDict.get(this.vars.outComes[0]);
+
+         //   this.vars.outComesText = textOfOutcomes;
+          //  this.vars.outComes[0] =this.vars.outComes[0];
             var index = 0
             var sstatus = this.modl.get('stepsStatus')
             var ssids = this.modl.get('stepsIds')
