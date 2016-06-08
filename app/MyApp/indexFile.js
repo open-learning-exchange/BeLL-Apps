@@ -100,26 +100,13 @@ function removeMemberFromCourse(memberId){
                     var members=result.get('members');
                     members.splice(members.indexOf(memberId),1)
 
-                    result.set('members',members)
+                    result.set('members',members);
+                    var courseLeaders=result.get('courseLeader');
+                    courseLeaders.splice(courseLeaders.indexOf(memberId),1)
+
+                    result.set('courseLeader',courseLeaders)
 
                     result.save();
-                    var courseMemebers = courseModel.get('members')
-                    var index = courseMemebers.indexOf(memberId)
-                    courseMemebers.splice(index, 1)
-                    courseModel.set({
-                        members: courseMemebers
-                    })
-                    var courseLeaders = courseModel.get('courseLeader')
-                    var index = courseLeaders.indexOf(memberId);
-                    if (index > -1) {
-                        courseLeaders.splice(index, 1)
-                        courseModel.set({
-                            courseLeader: courseLeaders
-                        })
-                    }
-
-                    courseModel.save();
-
                     var memberProgress = new App.Collections.memberprogressallcourses()
                     memberProgress.memberId = memberId
                     memberProgress.fetch({
@@ -146,7 +133,6 @@ function removeMemberFromCourse(memberId){
                     mail.set("sentDate", currentdate)
                     mail.save();
                     alert(App.languageDict.attributes.Resigned_Success_Msg + ' ' + courseModel.get('name') + ' . ')
-                    alert(courseId);
                     var groupMembers = new App.Views.GroupMembers();
                     groupMembers.courseId = courseId;
                     groupMembers.render();
