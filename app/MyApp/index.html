@@ -1096,6 +1096,7 @@
 
                                     <%}else{%>
 
+
                                     <button style="font-size: 15px;margin-right: 40px;width: 103px " class='btn btn-primary'><%=outComesText%></button>
 
                                     <%}%></td>
@@ -1110,7 +1111,25 @@
                                         <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
 
                                     </form>
+
+                                    <button style="font-size: 15px" class='btn btn-primary'><%=outComesText%></button>
+                                    <%}%>
+
                                 </td>
+                                <%if (isLeader == true){%>
+                                    <td>
+                                        <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
+                                            <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" />
+                                            <input class="rev" type="hidden" name="_rev">
+
+                                            <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+                                            <input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
+                                            <input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
+                                            <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
+
+                                        </form>
+                                    </td>
+                                <%}%>
                             </tr>
                         </table>
 
