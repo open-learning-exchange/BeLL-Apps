@@ -72,27 +72,12 @@ $(function () {
             $('div.takeQuizDiv').hide()
         },
         addAll: function () {
-            var isLeader = false;
-            var courseModel = new App.Models.Group({
-                _id: this.courseId
-            })
-            courseModel.fetch({
-                async: false
-            })
-            if(courseModel.get('courseLeader').indexOf($.cookie('Member._id')) > -1)
-            {
-                isLeader = true;
-            }
-            for(var i = 0; i < this.collection.length; i++)
-            {
-                this.addOne(this.collection.models[i], isLeader)
-            }
-            //this.collection.each(this.addOne, this)
+
+            this.collection.each(this.addOne, this)
         },
 
         addOne: function (model) {
             this.vars = model.toJSON();
-            this.vars.isLeader = isLeader;
             this.vars.languageDict=App.languageDict;
             if (!this.vars.outComes || this.vars.outComes.length==0) {
                 this.vars.outComes = ''
