@@ -1090,15 +1090,11 @@
                             <tr>
                                 <td style="width: 20%">
                                     <%if (questions!=null){%>
-
-                                    <button style="font-size: 15px;margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" > <%=outComesText%></button>
-                                    <!--  margin-right: 40px;width: 103px -->
-
+                                    <%if (outComes[i]== 'Quiz'){%>
+                                    <button style="font-size: 15px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                                    <%}%>
                                     <%}else{%>
-
-
                                     <button style="font-size: 15px;margin-right: 40px;width: 103px " class='btn btn-primary'><%=outComesText%></button>
-
                                     <%}%></td>
                                 <td>
                                     <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
