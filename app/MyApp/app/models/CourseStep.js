@@ -49,9 +49,9 @@ $(function() {
                 type: 'Select',
                 options: []
             },
-            allowedErrors: {
+         /*   allowedErrors: {
                 type: 'Text'
-            },
+            },*/
             outComes: {
                 title: 'Outcomes',
                 type: 'Checkboxes',

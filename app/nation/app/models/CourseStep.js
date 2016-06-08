@@ -51,10 +51,10 @@ $(function() {
                 type: 'Select',
                 options: []
             },
-            allowedErrors: {
+          /*  allowedErrors: {
                 type: 'Text',
                 validators: ['required']
-            },
+            },*/
             outComes: {
                 title: 'Outcomes',
                 type: 'Checkboxes',

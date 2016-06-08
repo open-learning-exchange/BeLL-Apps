@@ -93,9 +93,9 @@ $(function() {
             else if (this.model.get("description") == undefined || $.trim(this.model.get("description"))  == "") {
                 alert(App.languageDict.attributes.Description_Error)
             }
-            else if (this.model.get("allowedErrors") == undefined || $.trim(this.model.get("allowedErrors"))  == "" || isNaN(this.model.get("allowedErrors"))) {
-                alert(App.languageDict.attributes.Invalid_AllowedErrors)
-            } else if (isNaN(this.model.get("step"))) {
+           /* else if (this.model.get("allowedErrors") == undefined || $.trim(this.model.get("allowedErrors"))  == "" || isNaN(this.model.get("allowedErrors"))) {
+                alert(App.languageDict.attributes.Invalid_AllowedErrors)}*/
+             else if (isNaN(this.model.get("step"))) {
                 alert(App.languageDict.attributes.InvalidStepNumber)
             } else {
                 if (!this.edit) {
