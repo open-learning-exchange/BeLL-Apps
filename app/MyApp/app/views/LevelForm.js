@@ -51,7 +51,6 @@ $(function() {
                 var id = that.model.get("id")
                 var rid = that.model.get("rev")
                 var title = that.model.get("title")
-                console.log(that.model)
                 // Adding a Step to all the member progress course
                 if (that.edit != true) {
                     var allcrs = new App.Collections.StepResultsbyCourse()

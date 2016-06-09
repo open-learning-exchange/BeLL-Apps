@@ -39,7 +39,6 @@ $(function() {
         render: function() {
 
             //members is required for the form's members field
-            console.log(this.model);
             var languageDictValue;
             var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
@@ -49,8 +48,7 @@ $(function() {
             var that = this
             var inviteForm = this
             inviteForm.on('InvitationForm:MembersReady', function() {
-
-                console.log(that.model.schema)
+                
                 this.model.schema.members.options = members
                 // create the form
                 this.form = new Backbone.Form({
@@ -145,7 +143,6 @@ $(function() {
                         temp.set("sendDate", currentdate)
                         temp.set("entityId", that.model.resId)
                         temp.save()
-                        console.log(temp);
                     }
                 })
             }

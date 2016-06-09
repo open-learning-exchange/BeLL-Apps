@@ -13,7 +13,6 @@ $(function() {
         render: function() {
             var that = this;
             this.user_rating = 0;
-            console.log(this.model);
             this.form = new Backbone.Form({
                 model: this.model
             });
@@ -71,10 +70,8 @@ $(function() {
                     if (!err) {
                         var Resources = new PouchDB('resources');
                         var resId = that.model.get("resourceId");
-                        console.log(resId);
                         Resources.get(resId, function(err, resdoc) {
                             console.log(err);
-                            console.log(resdoc);
                             if (!err) {
                                 var numRating = parseInt(resdoc.timesRated);
                                 numRating++;
@@ -100,7 +97,6 @@ $(function() {
                                     }
                                 )
                             }
-                            console.log('Rating is successfully saved');
                             var temp = $.url().data.attr.fragment;
                             if(temp.contains('usercourse/details')){
                                 $('#externalDiv').fadeOut(1000)

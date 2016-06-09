@@ -185,6 +185,9 @@ $(function() {
                 })
                 surQuestionsTable.Id = surveyId;
                 surQuestionsTable.render();
+                if(questionsColl.length > 0 && memberId == "null") {
+                    $('#surveyBody').append('<p style="font-size: small; color: red">' + App.languageDict.get('Survey_Note') + '</p>');
+                }
                 $('#surveyBody').append(surQuestionsTable.el);
                 if(questionsColl.length > 0 && memberId != "null") {
                     $('#surveyBody').append('<div style="margin-top:10px"><button class="btn btn-success submitSurveyBtn" onclick="submitSurvey(\'' + surveyId + '\')">' + App.languageDict.get('Submit') + '</button></div>');

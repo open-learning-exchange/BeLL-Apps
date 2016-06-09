@@ -96,7 +96,6 @@ $(function() {
                     par.removeChild(radio);
                     par.appendChild(radio);
                 }
-                console.log(this.collection.models)
             }
         },
         changeColumnHtml: function(stepNo, title, td, check) {

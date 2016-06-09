@@ -35,7 +35,6 @@ $(function() {
                     temp++
                 }
             }
-            console.log('here is Group Span')
             if (totalSteps != 0) {
                 vars.yes = '<br>(' + PassedSteps + '/' + totalSteps + ')'
             } else {

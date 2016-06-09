@@ -245,7 +245,6 @@ $(function() {
             mailView.inViewModel = model
             model.set("status", "1")
             // console.log(this)
-            console.log(e)
             model.save()
             mailView.vars = model.toJSON()
 
@@ -417,11 +416,9 @@ $(function() {
                             if (resultArray.length < limitofRecords) {
                                 resultArray.push(result)
                             } else {
-                                console.log('first')
                                 skip--
                             }
                         } else if (resultArray.length >= limitofRecords) {
-                            console.log('second')
                             skip--
                         }
                     }
@@ -534,8 +531,6 @@ $(function() {
             meetup.fetch({
                 async: false
             })
-
-            console.log(meetup)
 
             if (!meetup.get('title')) {
                 alert(App.languageDict.attributes.MeetUp_not_Existing)

@@ -9,7 +9,6 @@ $(function() {
             "click #admissionButton": function(e) {}
         },
         render: function() {
-            console.log(this.model)
             this.addCourseDetails()
         },
         addCourseDetails: function() {
@@ -17,8 +16,6 @@ $(function() {
             var courseInfo = this.model.toJSON()
 
             var leaderInfo = this.courseLeader.toJSON()
-            console.log(courseInfo)
-            console.log(leaderInfo)
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Name+'</b></td><td>' + courseInfo.CourseTitle + '</td></tr>')
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Subject_Level+' </b></td><td>' + courseInfo.subjectLevel + '</td></tr>')
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Grade_Level+' </b></td><td>' + courseInfo.gradeLevel + '</td></tr>')

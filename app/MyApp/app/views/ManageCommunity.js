@@ -52,7 +52,6 @@ $(function() {
         },
 
         syncDbs: function(e) {
-            console.log('this is sync db function in community manage')
         },
         SyncDbSelect: function() {
             $('#invitationdiv').fadeIn(1000)

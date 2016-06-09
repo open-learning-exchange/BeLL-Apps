@@ -33,12 +33,10 @@ $(function() {
         render: function() {
 
             //members is required for the form's members field
-            console.log(this.model)
             var members = new App.Collections.Members()
             var that = this
             var inviteForm = this
             inviteForm.on('InvitationForm:MembersReady', function() {
-                console.log(that.model.schema)
                 this.model.schema.members.options = members
                 // create the form
                 this.form = new Backbone.Form({
@@ -156,7 +154,6 @@ $(function() {
                         //            temp.set("entityId",that2.model.resId)
                         //            temp.set("type",that2.model.type)
                         temp.save()
-                        console.log(temp);
                     }
                 })
             } else {

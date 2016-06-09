@@ -52,7 +52,6 @@ $(function() {
                         "docs": tempResult
                     }, {
                         success: function(data) {
-                            console.log("Successfully pushed resources back");
                             location.reload();
                         },
                         async:false

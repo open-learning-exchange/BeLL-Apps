@@ -114,10 +114,8 @@ $(function() {
                                                         if(docsCount >= 4) {
                                                             $.couch.db("tempapps").openDoc("_design/bell", {
                                                                 success: function(tempappsDoc) {
-                                                                    console.log(tempappsDoc);
                                                                     $.couch.db("apps").openDoc("_design/bell", {
                                                                         success: function(appsDoc) {
-                                                                            console.log(appsDoc);
                                                                             //If the rev's of both the docs are not same or there is no tempapps db or tempappsDoc,
                                                                             // it means there were some disturbance during the update
                                                                             // e.g: force refresh or internet connection.
@@ -169,7 +167,6 @@ $(function() {
                                         if (data.indexOf('tempapps') != -1) {
                                             $.couch.db("tempapps").drop({
                                                 success: function (res) {
-                                                    console.log(res);
                                                 }
                                             });
                                         }
@@ -187,7 +184,6 @@ $(function() {
                                     if (data.indexOf('tempapps') != -1) {
                                         $.couch.db("tempapps").drop({
                                             success: function (res) {
-                                                console.log(res);
                                             }
                                         });
                                     }
@@ -240,7 +236,6 @@ $(function() {
                 dataType: 'jsonp',
                 success: function(result) {
                     if (result.rows.length > 0) {
-                        console.log("Community is registered with the nation, lets update it.");
                         that.appsCreation();
                     } else {
                         alert(App.languageDict.attributes.UnAuthorized_Community);
@@ -261,13 +256,10 @@ $(function() {
             $.couch.allDbs({
                 success: function(data) {
                     if (data.indexOf('tempapps') != -1) {
-                        console.log("tempapps existed.We are going to drop and create.");
                         $.couch.db("tempapps").drop({
                             success: function(data) {
-                                console.log(data);
                                 $.couch.db("tempapps").create({
                                     success: function(data) {
-                                        console.log(data);
                                         that.replicateAppsToTempDB();
                                     },
                                     error: function(status) {
@@ -281,10 +273,8 @@ $(function() {
                             async: false
                         });
                     } else {
-                        console.log("tempapps doesn't exist, so no need to drop.");
                         $.couch.db("tempapps").create({
                             success: function(data) {
-                                console.log(data);
                                 that.replicateAppsToTempDB();
                             }
                         });
@@ -326,14 +316,11 @@ $(function() {
                         }),
                         async: false,
                         success: function (response) {
-                            console.log("tempapps successfully updated, so now copying tempapps to apps");
                             $.couch.allDbs({
                                 success: function(data) {
                                     if (data.indexOf('apps') != -1) {
-                                        console.log("apps existed.We are going to drop and create.");
                                         $.couch.db("apps").drop({
                                             success: function(data) {
-                                                console.log(data);
                                                 $.couch.db("apps").create({
                                                     success: function(data) {
                                                         that.updateAppsAndDesignDocs();
@@ -349,10 +336,8 @@ $(function() {
                                             async: false
                                         });
                                     } else {
-                                        console.log("apps doesn't exist, so no need to drop.");
                                         $.couch.db("apps").create({
                                             success: function(data) {
-                                                console.log(data);
                                                 that.updateAppsAndDesignDocs();
                                             }
                                         });
@@ -453,7 +438,6 @@ $(function() {
                 }),
                 async: false,
                 success: function (response) {
-                    console.log("apps successfully replicated");
                     window.location.reload(false);
                 },
                 error: function(status) {
@@ -546,8 +530,6 @@ $(function() {
                             console.log(status);
                         }
                     });
-                    console.log(currentConfig);
-                    console.log(nationConfig);
                 }
             });
         },
@@ -569,14 +551,11 @@ $(function() {
                                         langDocsIds.push(langDocs[i].id);
                                     }
                                 }
-                                console.log(langDocsIds);
                                 $.couch.allDbs({
                                     success: function(data) {
                                         if (data.indexOf('languages') != -1) {
-                                            console.log("languages existed.We are going to drop and create.");
                                             $.couch.db("languages").drop({
                                                 success: function(data) {
-                                                    console.log(data);
                                                     $.couch.db("languages").create({
                                                         success: function(data) {
                                                             that.replicateLanguagesfromTempDB(langDocsIds);
@@ -592,10 +571,8 @@ $(function() {
                                                 async: false
                                             });
                                         } else {
-                                            console.log("languages doesn't exist, so no need to drop.");
                                             $.couch.db("languages").create({
                                                 success: function(data) {
-                                                    console.log(data);
                                                     that.replicateLanguagesfromTempDB(langDocsIds);
                                                 }
                                             });
@@ -613,25 +590,21 @@ $(function() {
                             type: 'GET',
                             dataType: 'json',
                             success: function(langResult) {
-                                console.log(langResult);
                                 var resultRows = langResult.rows;
                                 var docs = [];
                                 for (var i = 0; i < resultRows.length; i++) {
                                     docs.push(resultRows[i].doc);
                                 }
-                                console.log(docs);
                                 $.couch.db("languages").bulkRemove({
                                     "docs": docs
                                 }, {
                                     success: function(data) {
-                                        console.log(data);
                                         var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/languages/_all_docs?include_docs=true'
                                         $.ajax({
                                             url: nationConfigURL,
                                             type: 'GET',
                                             dataType: "jsonp",
                                             success: function(json) {
-                                                console.log(json);
                                                 var nationLangRows = json.rows;
                                                 var commLangDocs = [];
                                                 for (var i = 0; i < nationLangRows.length; i++) {
@@ -683,7 +656,6 @@ $(function() {
                     console.log("languages updated");
                 },
                 error: function(status) {
-                    console.log(status);
                     console.log("Unable to replicate languages");
                 }
             });
@@ -761,19 +733,14 @@ $(function() {
                                                 "doc_ids": [communityModelId]
                                             }),
                                             success: function(response) {
-                                                console.log("Successfully Replicated.");
                                                 var currConfigOfComm = that.getCommunityConfigs()
-                                                console.log("value of countDoubleUpdate after incrementing to 2: " + currCommConfig.countDoubleUpdate)
-                                                console.log("value of countDoubleUpdate: " + currConfigOfComm.countDoubleUpdate);
                                                 if (currConfigOfComm.countDoubleUpdate > 1) {
-                                                    console.log("Updated Successfully" + currConfigOfComm.countDoubleUpdate); //todo: comment this if statement
                                                     //Deleting the temp db's
                                                     $.couch.allDbs({
                                                         success: function (data) {
                                                             if (data.indexOf('tempapps') != -1) {
                                                                 $.couch.db("tempapps").drop({
                                                                     success: function (res) {
-                                                                        console.log(res);
                                                                     }
                                                                 });
                                                             }
@@ -914,7 +881,6 @@ $(function() {
             this.vars.availableLanguagesOfApp=getAvailableLanguages();
 
             var typeofBell = App.configuration.get("type")
-            console.log(App.languageDict);
             this.vars.languageDict = App.languageDict;
 
             this.vars.imgURL = "img/header_slice.png"
@@ -1018,21 +984,18 @@ $(function() {
                 {
                     alert(App.languageDict.attributes.UpdateProfile);
                     $.cookie("forcedUpdateProfile", 'true');
-                    console.log('an year has passed '+$.cookie("forcedUpdateProfile"));
                     Backbone.history.navigate('member/edit/' + member.get('_id'), {trigger: true});
 
                 }
                 else
                 {
                     $.cookie("forcedUpdateProfile", 'false');
-                    console.log('year has NOT passed '+$.cookie("forcedUpdateProfile"));
                 }
 
             }
             else
             {
                 $.cookie("forcedUpdateProfile", 'false');
-                console.log('No need to remind'+$.cookie("forcedUpdateProfile"));
             }
             var attchmentURL = '/members/' + member.id + '/'
             if (typeof member.get('_attachments') !== 'undefined') {
@@ -1115,7 +1078,6 @@ $(function() {
                     test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "NationManagerLink" href="../nation/index.html#dashboard" charset="UTF-8">' + manager + '</a></span>' + '&nbsp;<a href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
 
                     managerId = "NationManagerLink";
-                    console.log(roles);
                 } else {
 
                     var config = new App.Collections.Configurations()
@@ -1134,7 +1096,6 @@ $(function() {
 
                                 App.configuration = con;
                                 alert(App.languageDict.attributes.Config_Changed_For_Branch);
-                                console.log('Configurations are Successfully changed for Branch Library');
                                 Backbone.history.navigate('dashboard', {
                                     trigger: true
                                 });
@@ -1147,7 +1108,6 @@ $(function() {
                     var commLink = '<a id= "CommunityManagerLink" href="#communityManage"></a>';
                     test = member.get('firstName') + ' ' + member.get('lastName') + '<span style="font-size:15px;">' + roles + '<a id= "CommunityManagerLink" href="#communityManage" charset="UTF-8"></a></span>' + '&nbsp;<a id="gearIcon" href="#member/edit/' + $.cookie('Member._id') + '"><i class="fui-gear"></i></a>';
                     managerId = "CommunityManagerLink";
-                    console.log(roles);
                 }
                 $('.name').html(test);
             }
@@ -1194,19 +1154,12 @@ $(function() {
                 async: false
             });
             that.vars.mails = a.length;
-            console.log('Mails' + that.vars.mails);
             var member = App.member;
             that.vars.nation_version = nation_version;
             that.vars.new_publication_count = new_publications_count;
             that.vars.new_survey_count = new_surveys_count;
             that.$el.html(_.template(this.template, this.vars));
-            console.log("publicationsss" + new_publications_count);
-            console.log('before call ' + this.vars.nation_version);
             this.checkAvailableUpdates(member.get('roles'), this, nation_version);
-            console.log('after call ' + this.vars.nation_version);
-            console.log(new_publications_count);
-            console.log(nation_version);
-            console.log("Final" + this.vars.new_publications_count + " " + this.vars.nation_version + " " + this.vars.mails);
             $('#newPublication').html(App.languageDict.attributes.Publications + '(' + new_publications_count + ')');
             $('#updateButton').html(App.languageDict.attributes.Update_Available + '(' + nation_version + ')');
             $('#newSurvey').html(App.languageDict.attributes.Surveys + '(' + new_surveys_count + ')');
@@ -1238,7 +1191,6 @@ $(function() {
         },
 
         checkAvailableUpdates: function(roles, dashboard, nation_version) {
-            console.log('CheckAvailableUpdates is called..');
             if ($.inArray('Manager', roles) == -1) {
                 return
             }

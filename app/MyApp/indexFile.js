@@ -104,16 +104,13 @@ function removeMemberFromCourse(memberId){
 
 function changeLanguage(option)
 {
-    console.log(option.value);
     $.cookie('languageFromCookie',option.value);
-    console.log('from indexFile '+ $.cookie('languageFromCookie'));
     $.cookie('isChange',"true")
     location.reload();
 }
 
 function changeMemberLanguage(option)
 {
-    console.log(option.value);
     var configurations = Backbone.Collection.extend({
         url: App.Server + '/configurations/_all_docs?include_docs=true'
     });
@@ -350,7 +347,6 @@ function submitSurvey(surveyId) {
                 console.log("Survey doc replicated");
             },
             error: function(status) {
-                console.log(status);
                 console.log("Unable to replicate survey doc");
             }
         });
@@ -430,7 +426,6 @@ function showFeedbackForm() {
     else if($.cookie('isChange')=="true" && $.cookie('Member._id')==null)
     {
         clanguage= $.cookie('languageFromCookie');
-        console.log('value from cookie in navBar '+clanguage)
     }
     else
     {
@@ -536,7 +531,6 @@ function getLanguage(loginName) {
     return lang;
 }
 function getSpecificLanguage(language){
-    console.log('from start '+language);
     var languages = new App.Collections.Languages();
     languages.fetch({
         async: false
@@ -598,7 +592,6 @@ function getSpecificLanguage(language){
             async:false
 
         });
-        console.log('from end '+member.get('bellLanguage'));
     }
 
     return languageDict;
@@ -663,7 +656,6 @@ function showComposePopupMultiple(email) {
             multipalMembers.push($(this).val());
         }
     })
-    console.log(multipalMembers)
     // if(email)
     $('#recipients').val(multipalMembers)
     showComposePopup()
@@ -783,8 +775,6 @@ function sendMail() {
                 if (temp.length > 0) {
                     var code = temp[temp.length - 1]
 
-                    console.log(scode + "    " + code)
-
                     if (code == scode && mailadd.split('@')[1] == 'olebell.org') {
                         //alert('valid mail')
                         ///valid email address
@@ -872,7 +862,6 @@ function sendSingleMail(mailId, mailBody, subject, mailingList) {
             mail.set("type", "mail");
             mail.set("sentDate", currentdate);
             mail.set('mailingList', mailingList);
-            //console.log(mail)
             $('#emailCompose').popup('hide');
 
             mail.save(null, {
@@ -1034,7 +1023,6 @@ function AddToShelfAndSaveFeedback(rId, title) {
 function showSubjectCheckBoxes() {
     //var subjects = ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology'];
     var subjects=App.languageDict.get('SubjectList');
-    console.log(subjects);
     var length = subjects.length;
     var htmlString = "<label style='font-size:16px'><b>"+App.languageDict.attributes.subject+"</b></label><br>";
     htmlString += "<select id='multiselect-subject-search' multiple='multiple' style='width: 370px;'>";
@@ -1276,29 +1264,23 @@ function cancelMerging() {
     $('#invitationdiv').hide()
 }
 function updateLanguageDoc (){
-    console.log("inside updateLanguageDoc function");
     var that = this;
     $.ajax({
         url: '/languages/_all_docs?include_docs=true',
         type: 'GET',
         dataType: 'json',
         success: function (langResult) {
-            console.log(langResult);
             var resultRows = langResult.rows;
             var docs = [];
             for(var i = 0 ; i < resultRows.length ; i++) {
-                console.log("attribute value" + resultRows[i].doc.nameOfLanguage)
                 if( resultRows[i].doc.nameOfLanguage){
                     console.log("attribute already exist")
-
                 }
                 else{
-                    console.log(resultRows[i].doc.Dashboard);
                     if(resultRows[i].doc.Dashboard=="My Home")
                     {
                         resultRows[i].doc.nameOfLanguage = "English";
                         docs.push(resultRows[i].doc);
-                        // break;
                     }
                 }
 

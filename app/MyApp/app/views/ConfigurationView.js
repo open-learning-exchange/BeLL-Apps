@@ -22,7 +22,6 @@ $(function() {
 				}
 				if (isChanged) {
 					var that = this
-					console.log(this.model.toJSON())
 					this.model.save(null, {
 						success: function(response, model) {
 							that.model.set("_rev", response.get("rev"))

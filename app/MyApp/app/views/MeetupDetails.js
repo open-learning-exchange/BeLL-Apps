@@ -53,8 +53,7 @@ $(function() {
             var vars = this.model.toJSON()
             var date = new Date(vars.schedule)
             vars.schedule = date.toUTCString()
-
-            console.log(vars)
+            
 
             this.$el.append('<tr><td><b>'+languageDictValue.attributes.Title+'  </b></td><td>' + vars.title + ' | ' + vars.category + '</td></tr>')
             this.$el.append('<tr><td><b>'+languageDictValue.attributes.Category+'  </b></td><td>' + vars.category + '</td></tr>')

@@ -25,10 +25,9 @@ $(function() {
                             m.set("stepsResult", stepres)
                             m.set("stepsStatus", stepstatus)
 
-                            console.log(m.toJSON())
                             m.save({
                                 success: function() {
-                                    console.log("Model Updated")
+                                    
                                 }
                             })
                         })

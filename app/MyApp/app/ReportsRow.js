@@ -22,14 +22,11 @@ $(function() {
 
             },
             "click #commentButton": function(e) {
-                console.log(e)
-                console.log(e.target.attributes[0].nodeValue)
                 var coll = new App.Collections.CommunityReportComments()
                 coll.CommunityReportId = e.target.attributes[0].nodeValue
                 coll.fetch({
                     async: false
                 })
-                console.log(coll.toJSON())
                 var viw = new App.Views.CommunityReportCommentView({
                     collection: coll,
                     CommunityReportId: e.target.attributes[0].nodeValue
