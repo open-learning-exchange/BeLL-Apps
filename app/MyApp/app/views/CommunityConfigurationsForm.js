@@ -13,6 +13,7 @@ $(function() {
         template: $('#template-addCommunity').html(),
 
         render: function() {
+            $('#nav').css('pointer-events', 'none');
             var that = this;
             var vars = {"nations":[],"languages":[]};
             vars.languages = getAvailableLanguages();
