@@ -1053,7 +1053,7 @@
                     <td><b><%=i+1%></b></td>
                     <td><%= attachmentNames[i] %> &nbsp&nbsp</td>
                     <td>
-                        <a style="padding-right:33px;padding-left:33px;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank"><%=languageDict.attributes.Open%></a>
+                        <a style="padding-right:33px;padding-left:33px; color:white;;" class='btn btn-primary' href='<%= attachmentURLs[i] %>' target="_blank"><%=languageDict.attributes.Open%></a>
                     </td>
                 </tr>
                 <% } %>
@@ -1091,11 +1091,13 @@
                                 <td style="width: 20%">
                                     <%if (questions!=null){%>
                                     <%if (outComes[i]== 'Quiz'){%>
-                                    <button style="font-size: 15px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                                    <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
                                     <%}%>
                                     <%}else{%>
-                                    <button style="font-size: 15px;margin-right: 40px;width: 103px " class='btn btn-primary'><%=outComesText%></button>
-                                    <%}%></td>
+                                    <!--   <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary'>Take <%=outComes[i]%></button>-->
+                                    <%}%>
+                                </td>
+                                <%if (outComes[i]== 'Paper'){%>
                                 <td>
                                     <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
                                         <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" />
@@ -1107,23 +1109,7 @@
                                         <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
 
                                     </form>
-
-                                    <button style="font-size: 15px" class='btn btn-primary'><%=outComesText%></button>
-                                    <button style="font-size: 15px" class='btn btn-primary'>Take <%=outComes[i]%></button>
                                 </td>
-                                <%if (outComes[i]== 'Paper'){%>
-                                        <td>
-                                            <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
-                                                <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" />
-                                                <input class="rev" type="hidden" name="_rev">
-
-                                                <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
-                                                <input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
-                                                <input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
-                                                <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
-
-                                            </form>
-                                        </td>
                                 <%}%>
                             </tr>
                         </table>
