@@ -85,7 +85,7 @@ $(function() {
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
-            'configurationsForm': 'configurationsForm',
+            'configurationsForm': 'configurationsForm'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -753,7 +753,7 @@ $(function() {
             }
             else
             {
-                clanguage = App.configuration.get("currentLanguage");
+                clanguage = 'English'
                 $.cookie('languageFromCookie',clanguage);
             }
             languageDictValue = getSpecificLanguage(clanguage);
