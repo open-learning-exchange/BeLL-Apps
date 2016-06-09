@@ -184,7 +184,7 @@ $(function() {
                 surQuestionsTable.Id = surveyId;
                 surQuestionsTable.render();
                 if(questionsColl.length > 0 && memberId == "null") {
-                    $('#surveyBody').append('<p style="font-size: small">' + App.languageDict.get('Survey_Note') + '</p>');
+                    $('#surveyBody').append('<p style="font-size: small; color: red">' + App.languageDict.get('Survey_Note') + '</p>');
                 }
                 $('#surveyBody').append(surQuestionsTable.el);
                 if(questionsColl.length > 0 && memberId != "null") {
