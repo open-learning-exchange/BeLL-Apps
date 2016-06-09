@@ -35,31 +35,72 @@ $(function() {
                 // We want to abort this page load so there isn't a race condition with whatever 
                 // url is being requested and the loading of the login page.
                 if($.url().attr('fragment') == 'admin/add'){
-                  //  alert('1.1')
+
                     Backbone.history.start({
                         pushState: false
                     })
                     Backbone.history.navigate('admin/add', {
                         trigger: true
                     })
-                   // window.location = $.url().attr('path')+'#admin/add'
+
                 }
                 else{
-                  //  alert('1.2')
+
                     window.location = $.url().attr('path') // returns url with no fragment
                 }
 
             } else if (!loggedIn && !$.url().attr('fragment')) {
-               // alert('2')
-                // No Routes are being triggered, it's safe to start history and move to login route.
-                Backbone.history.start({
-                    pushState: false
-                })
-                Backbone.history.navigate('login', {
-                    trigger: true
-                })
+                $.ajax({
+                    url: '/members/_design/bell/_view/allMembers?_include_docs=true',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function (json) {
+                        var jsonRows = json.rows;
+                        if(jsonRows.length==0)
+                        {
+                            Backbone.history.start({
+                                pushState: false
+                            })
+                            Backbone.history.navigate('admin/add', {
+                                trigger: true
+                            })
+                        }
+                        else{
+                            $.ajax({
+                                url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
+                                type: 'GET',
+                                dataType: 'json',
+                                async: false,
+                                success: function (json) {
+                                    var jsonRows = json.rows;
+                                    if(jsonRows.length==0){
+                                        //it means it's a freshly installed ommunity.
+                                        Backbone.history.start({
+                                            pushState: false
+                                        })
+                                        Backbone.history.navigate('configurationsForm', {
+                                            trigger: true
+                                        })
+                                    }
+                                    else{
+                                        // No Routes are being triggered, it's safe to start history and move to login route.
+                                        Backbone.history.start({
+                                            pushState: false
+                                        })
+                                        Backbone.history.navigate('login', {
+                                            trigger: true
+                                        })
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+
             } else if (loggedIn && !$.url().attr('fragment')) {
-               // alert('3')
+
                 // We're logged in but have no where to go, default to the teams page.
                 App.Router.renderNav()
                 Backbone.history.start({
