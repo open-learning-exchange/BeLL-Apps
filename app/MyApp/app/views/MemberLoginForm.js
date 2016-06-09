@@ -229,7 +229,30 @@ $(function() {
                     });
                     return;
                 }
-                memberLoginForm.trigger('success:login');
+                $.ajax({
+                    url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function (json) {
+                        var jsonRows = json.rows;
+                        if(jsonRows.length==0){
+                            //it means it's a freshly installed ommunity.
+                            /*Backbone.history.start({
+                                pushState: false
+                            })
+                            Backbone.history.navigate('configurationsForm', {
+                                trigger: true
+                            })*/
+                            window.location.href = '#configurationsForm'
+                        }
+                        else{
+                            memberLoginForm.trigger('success:login');
+                        }
+                    }
+                });
+                // }
+                //							console.log(member.toJSON())
             } else {
                 alert(App.languageDict.attributes.Account_DeActivated)
             }
