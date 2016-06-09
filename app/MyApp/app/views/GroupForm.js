@@ -30,7 +30,6 @@ $(function () {
             })
             if (cs.length > 0) {
                 model = cs.first()
-                console.log(model)
                 form.edit = true
                 form.sid = model.get("_id")
                 form.srevid = model.get("_rev")
@@ -262,14 +261,12 @@ $(function () {
                 isNewLeaderAlreadyCourseMember = true;
             }
 			this.model.set("members", courseMembers)
-			console.log()
 			var context = this
 
             var courseTitle = this.model.get('CourseTitle');
             this.model.set('CourseTitle', $.trim(courseTitle));
 			this.model.save(null, {
 				success: function (e) {
-					console.log(context.model.get('courseLeader'))
                     var memprogress = new App.Models.membercourseprogress();
                     var stepsids = new Array();
                     var stepsres = new Array();

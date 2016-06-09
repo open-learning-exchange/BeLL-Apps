@@ -75,7 +75,6 @@ $(function () {
             student.fetch({
                 async: false
             })
-            console.log(student.toJSON())
             if (student.toJSON().firstName != undefined) {
                 temp.name = student.toJSON().firstName
                 temp.passed = passed

@@ -19,7 +19,6 @@ $(function() {
         MemberInvite: function() {
 
             var model = this.model
-            console.log(model)
 
             if (!model.get('id')) {
                 this.setForm()
@@ -82,8 +81,7 @@ $(function() {
                 this.$el.append('<a class="btn btn-info" id="InviteMembers">'+languageDictValue.attributes.Invite_Member+'</a>')
 
             this.$el.append("<a class='btn btn-danger' id='MeetUpcancel'>"+languageDictValue.attributes.Cancel+"</a>")
-
-            console.log(this.model);
+            
 
             applyCorrectStylingSheet(directionOfLang);
 

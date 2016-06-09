@@ -32,9 +32,6 @@ $(function () {
             var vars = this.model.toJSON()
             var date=new Date(vars.schedule)
                 vars.schedule=date.toUTCString()
-                
-            console.log(vars)
-            
             this.$el.append("<tr><td>"+App.languageDict.get('Title')+"</td><td>" + vars.title + "</td></tr>")
             this.$el.append("<tr><td>"+App.languageDict.get('Description')+"</td><td>" + vars.description + "</td></tr>")
             this.$el.append("<tr><td>"+App.languageDict.get('Start_date')+"</td><td>" + vars.startDate + "</td></tr>")

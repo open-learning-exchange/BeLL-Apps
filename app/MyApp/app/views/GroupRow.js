@@ -18,7 +18,6 @@ $(function () {
                         }
                     }
                 })
-                console.log("Course Step Deleted")
                 var stepResults = new App.Collections.StepResultsbyCourse()
                 var model
                 stepResults.courseId = cId
@@ -29,7 +28,6 @@ $(function () {
                         }
                     }
                 })
-                console.log("Course Progress Deleted")
 
                 var ei = new App.Collections.EntityInvitation()
                 var model

@@ -86,7 +86,6 @@ $(function () {
                                 }
                                 $.couch.db("members").bulkSave({"docs": membersDoc}, {
                                     success: function(data) {
-                                        console.log(data);
                                     },
                                     error: function(status) {
                                         console.log(status);
@@ -181,7 +180,6 @@ $(function () {
                             async: false,
                             dataType: 'json',
                             success: function (response) {
-                                console.log(response);
                             }
                         });
                     }

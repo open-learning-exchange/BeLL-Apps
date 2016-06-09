@@ -20,8 +20,6 @@ $(function () {
         render: function () {
             var courseInfo = this.model.toJSON();
             var leaderInfo = this.leader.toJSON();
-            console.log('Information of Leader');
-            console.log(leaderInfo)
             this.$el.append('<tr><td>'+App.languageDict.attributes.Name+' : </td><td>' + courseInfo.name + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Levels+' : </td><td>' + courseInfo.subjectLevel + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Description+' : </td><td>' + courseInfo.description + '</td></tr>')

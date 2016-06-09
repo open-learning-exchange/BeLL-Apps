@@ -6,7 +6,6 @@ $(function () {
         id: "comment-feedback",
         cId: null,
         initialize: function (e) {
-            console.log(e)
             this.cId = e.CommunityReportId
             this.model = new App.Models.CommunityReportComment
 
@@ -68,7 +67,6 @@ $(function () {
             var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
             $('#comments').append('<div id=tile><b>'+languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+languageDictValue.attributes.Comment+':</b>' + modl.toJSON().comment + '</div>')
-            console.log(modl.toJSON())
         },
 
         render: function () {

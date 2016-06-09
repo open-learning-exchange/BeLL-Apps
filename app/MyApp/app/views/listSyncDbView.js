@@ -138,7 +138,6 @@ $(function() {
 			})
 		},
 		synchCommunityWithURL: function(communityurl, communityname) {
-			console.log('http://' + communityname + ':' + App.password + '@' + communityurl + ':5984/resources')
 			$.ajax({
 				headers: {
 					'Accept': 'application/json',
@@ -217,7 +216,6 @@ $(function() {
 									"doc_ids": [communityModelId]
 								}),
 								success: function(response) {
-									console.log("Successfully Replicated.");
 									var date = new Date();
 									var year = date.getFullYear();
 									var month = (1 + date.getMonth()).toString();
@@ -279,7 +277,6 @@ $(function() {
 							});
 						},
 						error: function() {
-							console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
 						}
 					});
 
@@ -380,7 +377,6 @@ $(function() {
 				type: 'GET',
 				dataType: 'json',
 				success: function (result) {
-					console.log(result);
 					var rows = result.rows;
 					var surveyNumbers = [];
 					for(var i = 0 ; i < rows.length ; i++) {
@@ -388,7 +384,6 @@ $(function() {
 							surveyNumbers.push(rows[i].value);
 						}
 					}
-					console.log(surveyNumbers);
 					$.ajax({
 						url: 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') + '/survey/_design/bell/_view/surveyBySurveyNo?_include_docs=true',
 						type: 'GET',
@@ -403,17 +398,13 @@ $(function() {
 									idsOfDocsToChange.push(surveyModel._id)
 								}
 							}
-							console.log(idsOfDocsToChange);
 							$.couch.allDbs({
 								success: function(data) {
 									if (data.indexOf('tempsurvey') != -1) {
-										console.log("tempsurvey existed.We are going to drop and create.");
 										$.couch.db("tempsurvey").drop({
 											success: function(data) {
-												console.log(data);
 												$.couch.db("tempsurvey").create({
 													success: function(data) {
-														console.log(data);
 														that.updateNationSurveyDBForCommunityName(idsOfDocsToChange);
 													},
 													error: function(status) {
@@ -427,10 +418,8 @@ $(function() {
 											async: false
 										});
 									} else {
-										console.log("tempsurvey doesn't exist, so no need to drop.");
 										$.couch.db("tempsurvey").create({
 											success: function(data) {
-												console.log(data);
 												that.updateNationSurveyDBForCommunityName(idsOfDocsToChange);
 											}
 										});
@@ -463,7 +452,6 @@ $(function() {
 					"target": 'http://' + App.configuration.get('nationUrl') + '/surveyresponse'
 				}),
 				success: function(response) {
-					console.log("Successfully replicated survey response");
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					alert("Error (Try Later)")
@@ -485,7 +473,6 @@ $(function() {
 					"target": 'http://' + App.configuration.get('nationUrl') + '/surveyanswers'
 				}),
 				success: function(response) {
-					console.log("Successfully replicated survey answers");
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					alert("Error (Try Later)")
@@ -509,7 +496,6 @@ $(function() {
 				}),
 				async: false,
 				success: function (response) {
-					console.log(response);
 					$.ajax({
 						url: '/tempsurvey/_all_docs?include_docs=true',
 						type:  'GET',
@@ -525,10 +511,8 @@ $(function() {
 									docsToChange.push(surveyModel);
 								}
 							}
-							console.log(docsToChange);
 							$.couch.db("tempsurvey").bulkSave({"docs": docsToChange}, {
 								success: function(data) {
-									console.log(data);
 									$.ajax({
 										headers: {
 											'Accept': 'application/json',
@@ -548,10 +532,8 @@ $(function() {
 											$.couch.allDbs({
 												success: function (data) {
 													if (data.indexOf('tempsurvey') != -1) {
-														console.log("tempsurvey existed.We are going to drop");
 														$.couch.db("tempsurvey").drop({
 															success: function (data) {
-																console.log(data);
 																if (isActivityLogChecked == false) {
 																	App.stopActivityIndicator();
 																}
@@ -566,10 +548,8 @@ $(function() {
 											$.couch.allDbs({
 												success: function (data) {
 													if (data.indexOf('tempsurvey') != -1) {
-														console.log("tempsurvey existed.We are going to drop");
 														$.couch.db("tempsurvey").drop({
 															success: function (data) {
-																console.log(data);
 															}
 														});
 													}
@@ -583,10 +563,8 @@ $(function() {
 									$.couch.allDbs({
 										success: function (data) {
 											if (data.indexOf('tempsurvey') != -1) {
-												console.log("tempsurvey existed.We are going to drop");
 												$.couch.db("tempsurvey").drop({
 													success: function (data) {
-														console.log(data);
 													}
 												});
 											}
@@ -600,10 +578,8 @@ $(function() {
 							$.couch.allDbs({
 								success: function (data) {
 									if (data.indexOf('tempsurvey') != -1) {
-										console.log("tempsurvey existed.We are going to drop");
 										$.couch.db("tempsurvey").drop({
 											success: function (data) {
-												console.log(data);
 											}
 										});
 									}
@@ -617,10 +593,8 @@ $(function() {
 					$.couch.allDbs({
 						success: function (data) {
 							if (data.indexOf('tempsurvey') != -1) {
-								console.log("tempsurvey existed.We are going to drop");
 								$.couch.db("tempsurvey").drop({
 									success: function (data) {
-										console.log(data);
 									}
 								});
 							}
@@ -749,7 +723,6 @@ $(function() {
 					"target": "apps"
 				}),
 				success: function(response) {
-					console.log(response)
 				},
 				async: false
 			})
@@ -764,7 +737,6 @@ $(function() {
 				dataType: 'json',
 				data: JSON.stringify(currentConfig),
 				success: function(response) {
-					console.log(response)
 					alert(App.languageDict.attributes.Updated_NewVersion_Success)
 				},
 				async: false
