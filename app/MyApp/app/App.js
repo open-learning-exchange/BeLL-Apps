@@ -31,7 +31,6 @@ $(function() {
             App.collectionslist = new App.Collections.listRCollection()
             App.collectionslist.fetch()
             if (!loggedIn && $.url().attr('fragment')) {
-                //alert('1')
                 // We want to abort this page load so there isn't a race condition with whatever 
                 // url is being requested and the loading of the login page.
                 if($.url().attr('fragment') == 'admin/add'){
@@ -65,35 +64,14 @@ $(function() {
                             Backbone.history.navigate('admin/add', {
                                 trigger: true
                             })
-                        }
-                        else{
-                            $.ajax({
-                                url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
-                                type: 'GET',
-                                dataType: 'json',
-                                async: false,
-                                success: function (json) {
-                                    var jsonRows = json.rows;
-                                    if(jsonRows.length==0){
-                                        //it means it's a freshly installed ommunity.
-                                        Backbone.history.start({
-                                            pushState: false
-                                        })
-                                        Backbone.history.navigate('configurationsForm', {
-                                            trigger: true
-                                        })
-                                    }
-                                    else{
-                                        // No Routes are being triggered, it's safe to start history and move to login route.
-                                        Backbone.history.start({
-                                            pushState: false
-                                        })
-                                        Backbone.history.navigate('login', {
-                                            trigger: true
-                                        })
-                                    }
-                                }
-                            });
+                        } else {
+                            // No Routes are being triggered, it's safe to start history and move to login route.
+                            Backbone.history.start({
+                                pushState: false
+                            })
+                            Backbone.history.navigate('login', {
+                                trigger: true
+                            })
                         }
                     }
                 });

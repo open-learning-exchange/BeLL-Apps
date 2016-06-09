@@ -839,6 +839,7 @@ $(function() {
         },
 
         render: function() {
+            $('#nav').css('pointer-events', 'auto');
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
             this.vars.mails = 0;
