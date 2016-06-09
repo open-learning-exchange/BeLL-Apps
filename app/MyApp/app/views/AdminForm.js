@@ -371,7 +371,7 @@ $(function() {
                 /*Backbone.history.navigate('dash', {
                     trigger: true
                 });*/
-                window.location.href="#dashboard";
+                window.location.href="#configurationsForm";
             });
         },
 
