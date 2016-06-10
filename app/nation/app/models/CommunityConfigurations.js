@@ -5,10 +5,10 @@ $(function() {
         idAttribute: "_id",
         url: function() {
             if (_.has(this, 'id')) {
-                var url = (_.has(this.toJSON(), '_rev')) ? App.Server + '/communityconfigurations/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
-                    : App.Server + '/communityconfigurations/' + this.id // For READ
+                var url = (_.has(this.toJSON(), '_rev')) ? App.Server + '/registeredcommunities/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
+                    : App.Server + '/registeredcommunities/' + this.id // For READ
             } else {
-                var url = App.Server + '/communityconfigurations' // for CREATE
+                var url = App.Server + '/registeredcommunities' // for CREATE
             }
             return url
         },
