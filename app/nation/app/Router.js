@@ -3355,7 +3355,7 @@ $(function() {
         },
 
         communityDetails: function (commDocId) {
-            commDocId = 'd874b09a4390d3267d5b17811b027718';
+
             var commConfigModel = new App.Models.CommunityConfigurations({
                 _id: commDocId
             })
@@ -3367,6 +3367,10 @@ $(function() {
             })
             commConfigForm.render();
             App.$el.children('.body').html(commConfigForm.el);
+            if(commConfigModel.get('isAccepted')=="true"){
+                $('#acceptRegistration').css('display','none');
+                $('#rejectRegistration').css('display','none');
+            }
         },
 
         underConstruction: function() {
@@ -3647,19 +3651,18 @@ $(function() {
                     async: false
                 }
             );
-            /*CommunityTable = new App.Views.CommunitiesTable({
+            CommunityTable = new App.Views.CommunityRequestsTable({
              collection: Communities
              });
              CommunityTable.render();
-             var listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>"
-
+             var listCommunity ="<h3>Communities Requests</h3>";
              listCommunity += "<div id='list-of-Communities'></div>"
 
              App.$el.children('.body').html('<div id="communityDiv"></div>');
              $('#communityDiv').append(listCommunity);
              $('#list-of-Communities', App.$el).append(CommunityTable.el);
              App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
-             */
+             
             App.stopActivityIndicator()
 
         },
