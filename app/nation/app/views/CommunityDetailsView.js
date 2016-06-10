@@ -55,24 +55,30 @@ $(function() {
         },
 
         acceptCommunityRegistration: function() {
-            this.model.set('isAccepted', true)
+            this.model.set('isAccepted', "true")
             this.model.set('authName', this.getLoggedInName());
             this.model.set('authDate', new Date());
             this.model.save(null, {
                 success: function (response) {
                     alert('Registered successfully');
+                    Backbone.history.navigate('listCommnitiesRequest', {
+                        trigger: true
+                    })
                 },
                 async:false
             });
         },
 
         rejectCommunityRegistration: function() {
-            this.model.set('isAccepted', false);
+            this.model.set('isAccepted', "false");
             this.model.set('authName', this.getLoggedInName());
             this.model.set('authDate', new Date());
             this.model.save(null, {
                 success: function (response) {
                     alert('Registration rejected');
+                    Backbone.history.navigate('listCommnitiesRequest', {
+                        trigger: true
+                    })
                 },
                 async:false
             });
