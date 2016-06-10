@@ -2,6 +2,7 @@ $(function() {
     App.Router = new(Backbone.Router.extend({
 
         routes: {
+            'listCommnitiesRequest':'ListCommnitiesRequest',
             'addCommunity': 'CommunityForm',
             'addCommunity/:CommunityId': 'CommunityForm',
             'login': 'MemberLogin',
@@ -28,6 +29,7 @@ $(function() {
             'communitiesList/:surveyId': 'communitiesList',
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
+            'communityDetails/:commDocId': "communityDetails",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
         },
@@ -2696,7 +2698,7 @@ $(function() {
         },
 
         AddSurveyForm: function() {
-            //get publication by maximum issue number
+            //get surveys by maximum issue number
             var maxSurveyNo = 0;
             var pubUrl = '/survey/_design/bell/_view/maxSurveyNo?include_docs=true&descending=true'
             $.ajax({
@@ -3352,6 +3354,21 @@ $(function() {
             link.click();
         },
 
+        communityDetails: function (commDocId) {
+            commDocId = 'd874b09a4390d3267d5b17811b027718';
+            var commConfigModel = new App.Models.CommunityConfigurations({
+                _id: commDocId
+            })
+            commConfigModel.fetch({
+                async: false
+            });
+            var commConfigForm = new App.Views.CommunityDetailsView({
+                model: commConfigModel
+            })
+            commConfigForm.render();
+            App.$el.children('.body').html(commConfigForm.el);
+        },
+
         underConstruction: function() {
             App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>This Functionality is under construction.</h4></div>')
         },
@@ -3617,6 +3634,32 @@ $(function() {
             $('#list-of-Communities', App.$el).append(CommunityTable.el);
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
 
+            App.stopActivityIndicator()
+
+        },
+        ListCommnitiesRequest: function(){
+            App.startActivityIndicator();
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            var Communities = new App.Collections.CommunityConfigurations();
+            Communities.fetch({
+                    async: false
+                }
+            );
+            /*CommunityTable = new App.Views.CommunitiesTable({
+             collection: Communities
+             });
+             CommunityTable.render();
+             var listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>"
+
+             listCommunity += "<div id='list-of-Communities'></div>"
+
+             App.$el.children('.body').html('<div id="communityDiv"></div>');
+             $('#communityDiv').append(listCommunity);
+             $('#list-of-Communities', App.$el).append(CommunityTable.el);
+             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+             */
             App.stopActivityIndicator()
 
         },

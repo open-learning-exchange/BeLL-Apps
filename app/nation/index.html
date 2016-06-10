@@ -82,6 +82,7 @@
         <script src="app/models/Survey.js"></script>
         <script src="app/models/Question.js"></script>
         <script src="app/models/Language.js"></script>
+        <script src="app/models/CommunityConfigurations.js"></script>
 
       <!-- Collections  -->
      <script src="app/collections/ActivityLog.js"></script>
@@ -102,6 +103,7 @@
         <script src="app/collections/Languages.js"></script>
         <script src="app/collections/Members.js"></script>
         <script src="app/collections/SurveyAnswers.js"></script>
+        <script src="app/collections/CommunityConfigurations.js"></script>
 
      
      <!-- Views  -->
@@ -150,6 +152,7 @@
         <script src="app/views/CriteriaListView.js"></script>
         <script src="app/views/MembersListView.js"></script>
         <script src="app/views/CommunitiesList.js"></script>
+        <script src="app/views/CommunityDetailsView.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
 
@@ -930,7 +933,102 @@
             <div class="submit-button"><button class="addNation-btn btn btn-success" id="formButton">Save!</button></div>
       	 </form>
        </div>
-   </script>  
+   </script>
+
+        <script type="text/template" id="template-communityDetails">
+            <div id='addNation-heading'>
+                <p class='heading'>Community Details</p>
+            </div>
+            <div id='nationForm-container'>
+                <form id='communityFrom'>
+                    <div id='top-from' style='margin:0 auto'>
+                        <div class='form-field'>
+                            <span>Name </span><input style='width:300px' type="text" id="community-name" name="community-name" value="<%=name%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Code </span><input style='width:300px' type="text" id="community-code" name="community-code" value="<%=code%>" readonly/><br />
+                        </div>
+                        <br>
+                        <div class='form-field'>
+                            <span>Region </span><input style='width:300px' type="text" id="community-region" name="community-region" value="<%= region%>" readonly/><br />
+                        </div>
+                    </div>
+                    <div style='margin-left:3%;'><p style='font-size:17px'>Sponsoring Organization</p></div>
+                    <div class='middle-from'>
+                        <div class='form-field' >
+                            <span>Name </span><input style='width:250px' type="text" id="org-name" name="org-name" value="<%= sponsorName%>" readonly/><br />
+                        </div>
+                        <div class='form-field' >
+                            <span>Address </span><input style='width:250px;' type="text" id="org-address" name="org-address" value="<%= sponsorAddress%>" readonly/><br />
+                        </div>
+                        <div><p style='font-size:17px'>General Manager</p></div>
+                        <div class='form-field'>
+                            <span>First Name </span><input style='width:200px' type="text" id="org-firstname" name="org-firstname" value="<%= contactFirstName%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Middle Name </span><input style='width:200px' type="text" id="org-middlename" name="org-middlename" value="<%= contactMiddleName%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Last Name </span><input style='width:200px' type="text" id="org-lastname" name="org-lastname" value="<%= contactLastName%>" readonly/><br />
+                        </div>
+                        <div class='form-field' >
+                            <span>Phone/Mobile </span><input style='width:200px' type="text" id="org-phone" name="org-phone" value="<%= contactPhone%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Email Add </span><input style='width:200px' type="email" id="org-email" name="org-email" value="<%= contactEmail%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Website/URL </span><input style='width:200px' type="text" id="org-url" name="org-url" value="<%= sponsorUrl%>" readonly/><br />
+                        </div>
+                    </div>
+                    <div style='margin-left:3%'><p style='font-size:17px'>Tech Support</p></div>
+                    <div class='middle-from'>
+                        <div class='form-field'>
+                            <span>First Name </span><input type="text" id="leader-firstname" name="leader-firstname" value="<%= superManagerFirstName%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Middle Name </span><input type="text" id="leader-middlename" name="leader-middlename" value="<%= superManagerMiddleName%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Last Name </span><input type="text" id="leader-lastname" name="leader-lastname" value="<%= superManagerLastName%>" readonly/><br />
+                        </div>
+                        <div class='form-field' >
+                            <span>Phone/Mobile </span><input type="text" id="leader-phone" name="leader-phone" value="<%= superManagerPhone%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Email Add </span><input type="email" id="leader-email" name="leader-email" value="<%= superManagerEmail%>" readonly/><br />
+                        </div>
+                        <br>
+                        <div class='form-field' >
+                            <span>Login ID </span><input type="text" id="leader-ID" name="leader-ID" value="<%= superManagerID%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Password </span><input type="text" id="leader-password" name="leader-password" value="<%= superManagerPassword%>" readonly/><br />
+                        </div>
+                    </div>
+                    <div style='margin-left:3%;color:#C20712'><p style='font-size:17px'>Nation Contact</p></div>
+                    <div id='urgent-from'>
+                        <div class='form-field'>
+                            <span>Name </span><input style='width:250px' type="text" id="nation-name" name="nation-name" value="<%= nationName%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>URL </span><input style='width:250px' type="text" id="nation-url" name="nation-url" value="<%= nationUrl%>" readonly/><br />
+                        </div>
+                    </div>
+                    <div style='margin-left:3%'><p style='font-size:17px'>Authorized By</p></div>
+                    <div id='Authorized-from' style='background-color:#eee'>
+                        <div class='form-field'>
+                            <span>Name </span><input style='width:250px' type="text" id="auth-name" name="auth-name" value="<%= authName%>" readonly/><br />
+                        </div>
+                        <div class='form-field'>
+                            <span>Date </span><input style='width:250px' type="date" id="auth-date" name="auth-date" value="<%= authDate%>" readonly/><br />
+                        </div>
+                    </div>
+                </form>
+                <div class="submit-button"><button class="btn btn-success" id="acceptRegistration">Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="rejectRegistration">Reject</button></div>
+            </div>
+        </script>
+
 <script type="text/html" id="template-siteReviewRownoAdmin">
   	 	<%  if(Resolved=="0"){%>
 			<td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
