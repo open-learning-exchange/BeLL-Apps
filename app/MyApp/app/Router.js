@@ -1696,7 +1696,7 @@ $(function() {
                 collection: allResults
             })
             vi.render()
-            $('.courseSearchResults_Bottom').append(vi.el);
+            $('.body').append(vi.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
 

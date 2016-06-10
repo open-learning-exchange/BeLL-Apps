@@ -88,7 +88,7 @@ $(function () {
                     async: false
                 })
                 var marginLeft = this.startFrom + (this.totalSpace / 2) - 8
-                var papers = '<table style="margin-top:14px;margin-left: ' + marginLeft + '%; position:absolute ">'
+                var papers = '<table style="border-collapse: separate; height: 100%; width: 100%"><tr style="height: 100%; width: 100%">'
 
                 assignmentpapers.each(function (m) {
                     var attchmentURL = '/assignmentpaper/' + m.get("_id") + '/'
@@ -97,9 +97,9 @@ $(function () {
                         attchmentURL = attchmentURL + _.keys(m.get('_attachments'))[0]
                         attachmentName = _.keys(m.get('_attachments'))[0]
                     }
-                    papers = papers + '<tr><td><a href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></td></tr></a>'
+                    papers = papers + '<td><a href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>'
                 })
-                papers = papers + '</table>'
+                papers = papers + '</tr></table>'
                 this.$el.append(papers)
                 this.startFrom = this.startFrom + this.totalSpace
             }
