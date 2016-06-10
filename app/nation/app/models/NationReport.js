@@ -108,7 +108,6 @@ $(function() {
                                 // Submit the form with the attachment
                                 url: "/" + input_db + "/" + input_id,
                                 success: function(response) {
-                                    console.log('file submitted successfully')
                                     model.trigger('savedAttachment')
                                 }
                             })

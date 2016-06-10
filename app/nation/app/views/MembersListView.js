@@ -120,7 +120,6 @@ $(function () {
                         }
                     },
                     error: function (status) {
-                        console.log(status);
                     }
                 });
             }

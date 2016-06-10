@@ -31,17 +31,10 @@ $(function() {
 			a = a.get(this.sort_key);
 			b = b.get(this.sort_key);
 			if (a > b)
-				console.log("before")
 			return a > b ? 1 : a < b ? -1 : 0;
 		},
 
 		model: App.Models.Member
-
-		//   comparator: function (model) {
-		//             var title = model.get('login')
-		//             if (title) return title.toLowerCase()
-		//         }
-
 
 	})
 

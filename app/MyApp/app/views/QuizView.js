@@ -113,11 +113,6 @@ $(function() {
             for (var questionNumber = 0; questionNumber < this.quizQuestions.length; questionNumber++) {
                 this.AddQuestiontoView(questionNumber)
             }
-            // 		   console.log(this.quizQuestions)
-            // 		   console.log(this.questionOptions.length)
-            // 		   console.log(this.answers.length)
-            // 		   console.log(this.quizQuestions.length)
-
             this.currentQuestion = this.quizQuestions.length
         },
         AddQuestiontoView: function(questionNumber) {

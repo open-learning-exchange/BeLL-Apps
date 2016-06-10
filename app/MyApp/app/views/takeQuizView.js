@@ -28,10 +28,7 @@ $(function() {
             "click #nextPressed": function(e) {
                 if ($("input:radio[name='optn']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='optn']:checked").val()))
-                    console.log(this.Givenanswers)
-                    console.log(this.Correctanswers)
                     if (this.Givenanswers[this.index] == this.Correctanswers[this.index]) {
-                        console.log("corre")
                         this.Score++
                     }
                     this.renderQuestion()
@@ -49,48 +46,12 @@ $(function() {
             this.stepId = this.options.stepId
             this.TotalCount = this.Questions.length
             this.pp = parseInt(this.options.passP)
-            console.log(this.pp)
             this.myModel = this.options.resultModel
             this.stepindex = this.options.stepIndex
             this.Givenanswers = []
-
-            console.log('==============================')
-            console.log(this.Correctanswers, "Correctanswers")
-            console.log(this.Questions, "Questions")
-            console.log(this.Optns, "Optns")
-            console.log(this.stepId, "stepId")
-            console.log(this.TotalCount, "TotalCount")
-            console.log(this.pp, "pp")
-            console.log(this.myModel, "myModel")
-            console.log(this.stepindex, "stepindex")
-            console.log(this.Givenanswers, "Givenanswers")
-            console.log('==============================')
-
-
         },
-        /*
-         animateIn:function(){
-         document.getElementById("tQuizDiv").style.left="-512%"
-         $('div.takeQuizDiv').animate({left:'0%'},2000)
-         if(this.index==-1)
-         {
-         $('div.takeQuizDiv').animate({left:'2%'},100)
-         $('div.takeQuizDiv').animate({left:'-1.5%'},100)
-         $('div.takeQuizDiv').animate({left:'1.5%'},100)
-         $('div.takeQuizDiv').animate({left:'-1%'},100)
-         $('div.takeQuizDiv').animate({left:'1%'},100)
-         $('div.takeQuizDiv').animate({left:'-0.5%'},100)
-         $('div.takeQuizDiv').animate({left:'0.5%'},100)
-         $('div.takeQuizDiv').animate({left:'0%'},100)
-         }
-         },
-         animateOut:function(){
-         $('div.takeQuizDiv').animate({left:'125%'},1000)
-         },
-         */
+
         renderQuestion: function() {
-            console.log((this.index + 1))
-            console.log(this.TotalCount)
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
                 var temp = this.index * 5
@@ -107,7 +68,6 @@ $(function() {
             } else {
                 this.$el.html('&nbsp')
                 var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
-                console.log(quizScore)
                 this.$el.append('<div class="quizText"><h4>'+App.languageDict.attributes.You_Scored +' '+ Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')
                 this.$el.append('<div class="quizActions" ><button class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</button></div>')
                 var sstatus = this.myModel.get('stepsStatus')
@@ -121,7 +81,6 @@ $(function() {
 
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
-                        console.log("Result Saved!")
                     },
                     error: function() {
                         console.log("Not Saved")

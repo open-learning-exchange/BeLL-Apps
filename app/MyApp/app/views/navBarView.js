@@ -8,7 +8,6 @@ $(function() {
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
         initialize: function(option) {
-            console.log('NavBar is called..');
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {
@@ -21,54 +20,37 @@ $(function() {
             var currentLanguage;
             var currentLanguageValue;
             var languageDictOfApp;
-
-            //if (!App.configuration) {
             var config = new App.Collections.Configurations()
             config.fetch({
                 async: false
             })
             con = config.first()
             App.configuration = con
-            //}
-
-            //   if (!App.languageDict) {
             var clanguage;
-            //  }
             if($.cookie('isChange')=="true" && !($.cookie('Member._id')))
             {
-                console.log('member has not logged in')
                 if(checkIfExistsInLangDb($.cookie('languageFromCookie')))
                 {
-                    console.log('going to check whether cookie is valid and its correct')
                     clanguage= $.cookie('languageFromCookie');
 
                 }
                 else {
-                    console.log('cookie is false')
-                    //$.cookie('languageFromCookie',App.configuration.get("currentLanguage"));
                     clanguage = App.configuration.get("currentLanguage");
                 }
-                console.log('value from cookie in navBar '+clanguage)
             }
             else if($.cookie('Member._id')){
                 clanguage = getLanguage($.cookie('Member._id'));
-                console.log('member has logged in '+clanguage)
             }
             else{
                 clanguage = App.configuration.get("currentLanguage");
-                console.log('else in navBar '+clanguage);
             }
 
             // fetch dict for the current/selected language from the languages db/table
 
             App.languageDict = getSpecificLanguage(clanguage);
-            // }
-
             version = App.configuration.get('version');
-            console.log('current Language from navBar '+clanguage);
             languageDictOfApp=App.languageDict;
             currentLanguageValue = App.languageDict.get('nameInNativeLang');
-            console.log('current Language value '+currentLanguageValue);
             this.data = {
                 uRL: temp[1],
                 versionNO: version,
@@ -78,7 +60,6 @@ $(function() {
                 currentLanguageValueOfApp:currentLanguageValue
 
             }
-            console.log(this.data);
             this.$el.append(this.template(this.data))
             if (!App.member && $.cookie('Member._id')) {
                 var member = new App.Models.Member()

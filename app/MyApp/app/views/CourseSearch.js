@@ -92,7 +92,6 @@ $(function () {
                 _.each(resourceArray, function (result) {
                     if (result.get("name") != null) {
                         skip++
-                        //console.log( skip+' '+result.get("title"))
                         if (result.get("name").toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
                             if (resultArray.length < searchRecordsPerPage) {
                                 resultArray.push(result)

@@ -18,12 +18,10 @@ $(function() {
         },
 
         render: function() {
-            console.log('from render of memberLogin form..');
             var languageDictValue=getSpecificLanguage("English");  //To successfully append welcome button
             var context = this;
             var welcomeResources = new App.Collections.Resources();
             welcomeResources.setUrl(App.Server + '/resources/_design/bell/_view/welcomeVideo');
-            //var update;
             welcomeResources.fetch({
                 success: function() {
                     if (welcomeResources.length > 0) {
@@ -52,12 +50,9 @@ $(function() {
             })
 
             this.$el.append(this.form.render().el);
-            console.log('value of dropdown '+$('#onLoginLanguage :selected').val());
-            //languageDictValue=getSpecificLanguage($('#onLoginLanguage :selected').val());
             //Checking here that if the value of cookie is unset due to any reason then set its value
             if($.cookie('languageFromCookie')==null) //|| $('#onLoginLanguage :selected').val() ==undefined )
             {
-                console.log('Cookie did not exist before');
                 var configurations = Backbone.Collection.extend({
                     url: App.Server + '/configurations/_all_docs?include_docs=true'
                 })
@@ -72,7 +67,6 @@ $(function() {
             }
             else
             {
-                console.log('Update the value of cookie');
                 $.cookie('languageFromCookie',$('#onLoginLanguage :selected').val());
             }
 
@@ -218,8 +212,6 @@ $(function() {
                     return;
                 }
                 memberLoginForm.trigger('success:login');
-                // }
-                //							console.log(member.toJSON())
             } else {
                 alert(App.languageDict.attributes.Account_DeActivated)
             }
@@ -231,9 +223,6 @@ $(function() {
             var logdate = this.getFormattedDate(currentdate);
             logdb.get(logdate, function(err, logModel) {
                 if (!err) {
-                    //            console.log("logModel: ");
-                    //            console.log(logModel);
-                    //            alert("yeeyyyyyy");
                     that.UpdatejSONlog(member, logModel, logdb, logdate);
                 } else {
                     that.createJsonlog(member, logdate, logdb);
@@ -264,9 +253,7 @@ $(function() {
                 if (!err) {
                     console.log("MemberLoginForm:: updated daily log from pouchdb for today..");
                 } else {
-                    console.log("MemberLoginForm:: UpdatejSONlog:: err making update to record");
                     console.log(err);
-                    //                    alert("err making update to record");
                 }
             });
         },
@@ -321,9 +308,7 @@ $(function() {
                     if (!err) {
                         console.log("MemberLoginForm:: created activity log in pouchdb for today..");
                     } else {
-                        console.log("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
                         console.log(err);
-                        //                    alert("MemberLoginForm:: createJsonlog:: error creating/pushing activity log doc in pouchdb..");
                     }
                 });
         }

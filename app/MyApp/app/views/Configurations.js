@@ -196,9 +196,6 @@ $(function () {
             var logdate = this.getFormattedDate(currentdate);
             logdb.get(logdate, function(err, logModel) {
                 if (!err) {
-                    //            console.log("logModel: ");
-                    //            console.log(logModel);
-                    //            alert("yeeyyyyyy");
                     that.UpdatejSONlog(member, logModel, logdb, logdate);
                 } else {
                     that.createJsonlog(member, logdate, logdb);

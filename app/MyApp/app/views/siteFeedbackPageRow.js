@@ -10,7 +10,6 @@ $(function() {
             "click #commentButton": "comment"
         },
         comment: function(e) {
-            console.log(e.target.attributes[0].nodeValue)
             var coll = new App.Collections.reportsComment()
             coll.feedbackId = e.target.attributes[0].nodeValue
             coll.fetch({
@@ -24,7 +23,6 @@ $(function() {
             $('#debug').append(viw.el)
         },
         resolve: function(e) {
-            console.log(e)
             e.preventDefault()
             this.model.on('sync', function() {
                 location.reload();
@@ -52,7 +50,6 @@ $(function() {
             } else {
                 vars.urgent = "Urgent"
             }
-            console.log(vars)
             this.$el.html(_.template(this.template, vars))
         }
 
@@ -72,7 +69,6 @@ $(function() {
             "click #commentButton": "comment"
         },
         comment: function(e) {
-            console.log(e.target.attributes[0].nodeValue)
             var coll = new App.Collections.reportsComment()
             coll.feedbackId = e.target.attributes[0].nodeValue
             coll.fetch({
@@ -86,7 +82,6 @@ $(function() {
             $('#debug').append(viw.el)
         },
         resolve: function(e) {
-            console.log(e)
             e.preventDefault()
             this.model.on('sync', function() {
                 location.reload();
@@ -114,7 +109,6 @@ $(function() {
             } else {
                 vars.urgent = "Urgent"
             }
-            console.log(vars)
             this.$el.html(_.template(this.template, vars))
         }
 

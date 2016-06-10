@@ -62,7 +62,6 @@ $(function() {
         resultArray: null,
 
         initialize: function() {
-            //this.groupresult = new App.Collections.SearchResource()
             this.groupresult = new App.Collections.Resources()
             this.resultArray = []
             enablenext = 0;
@@ -165,7 +164,6 @@ $(function() {
             var prefix, prex, searchTxt, searchText_Coll_Id;
             var searchTextArray = [];
             if (searchText != '') {
-                // var prefix = searchText.replace(/[!(.,;):&]+/gi, "").toLowerCase().split(" ")
                 prefix = searchText.replace(/[!(.,'";):&]+/gi, "").toLowerCase()
                 filters.push(prefix);
                 /* Get Collection Id from collection list database by passing the name of collection*/
@@ -174,11 +172,9 @@ $(function() {
                     type: 'GET',
                     dataType: 'json',
                     success: function(collResult) {
-                        console.log(collResult);
                         if (collResult.rows.length > 0) {
                             searchText_Coll_Id = collResult.rows[0].id;
                             filters.push(searchText_Coll_Id);
-                            // console.log(id);
                         }
                     },
                     error: function() {
@@ -209,7 +205,6 @@ $(function() {
 
 
             var fil = JSON.stringify(filters);
-            console.log(fil)
             this.groupresult.skip = 0
             this.groupresult.collectionName = fil;
             this.groupresult.fetch({
@@ -217,24 +212,10 @@ $(function() {
             })
             //Checking the AND Conditions here
             var resultModels;
-            //if (mapFilter != null) {
             if (this.groupresult.models.length > 0 && !this.isEmpty(mapFilter)) {
-                /*var language = mapFilter["language"];
-                 var models = [];
-                 for (var i = 0; i < this.groupresult.models.length; i++) {
-                 var tempRes = this.groupresult.models[i];
-                 if (tempRes.attributes.language == language) {
-                 models.push(tempRes);
-                 }
-                 }
-                 this.groupresult.models = models;
-                 if (models.length == 0) {
-                 this.groupresult.length = 0;
-                 }*/
                 var tempResultModels = this.groupresult.models;
                 resultModels = this.checkANDConditions(mapFilter, tempResultModels);
             }
-            //}
             if (this.groupresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
                 if (searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
                     var collection_id = searchText_Coll_Id;
@@ -266,8 +247,6 @@ $(function() {
                 }
             } else {
                 var loggedIn = App.member
-                //console.log(App.member)
-                //alert('check')
                 var roles = loggedIn.get("roles")
                 var SearchResult = new App.Views.ResourcesTable({
                     collection: this.groupresult

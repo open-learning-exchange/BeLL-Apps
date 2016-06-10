@@ -669,10 +669,6 @@ $(function() {
 			var nationName = configuration.get("nationName")
 			var nationURL = configuration.get("nationUrl")
 			var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true'
-
-			// console.log(nationConfig)
-			// alert('check')
-			//alert('http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true')
 			$.ajax({
 				url: nationConfigURL,
 				type: 'GET',

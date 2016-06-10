@@ -46,7 +46,6 @@ $(function() {
                             if (this.changedSteps.indexOf(j - 1) == -1) {
                                 this.changedSteps.push(j - 1)
                             }
-                            //console.log(this.collection.models[j-1])
                         }
                         break;
                     }
@@ -59,7 +58,6 @@ $(function() {
                     par.removeChild(radio);
                     par.insertBefore(radio, prev);
                 }
-                //$("input[type='radio']").attr('checked',false)
             },
             "click #movedown": function(e) {
                 var radio;

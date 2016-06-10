@@ -12,9 +12,7 @@ $(function() {
                 //Check whether form is being called for Edit purpose or Add..
                 if(this.form.model.get('_id') ){
                     var isValid=true;
-                    console.log('from cancel '+$.cookie("forcedUpdateProfile"));
                     if($.cookie("forcedUpdateProfile")=='true'){
-                        console.log('Alert its a forced profile update...');
                         if(!this.validateMemberForm())
                         {
                             isValid=false;
@@ -22,14 +20,11 @@ $(function() {
                         if(!isValid){
                             alert(App.languageDict.attributes.Update_Profile_Reminder);
                         }
-                        //this.validateMemberForm();
                         $('#nav').css('pointer-events','none');
                         $('#formButtonCancel').css('pointer-events','none');
                         return;
                     }
                     else{
-                        console.log('Alert its NOT a forced profile update...');
-                      //  this.validateMemberForm();
                         if(!this.validateMemberForm())
                         {
                             isValid=false;
@@ -199,10 +194,7 @@ $(function() {
            if(this.form.model.get('_id')){
              //Check whether form is being called for Edit purpose or Add..
                var isValid=true;
-               console.log('from render '+$.cookie("forcedUpdateProfile"));
                if($.cookie("forcedUpdateProfile")=='true'){
-                   console.log('Alert its a forced profile update...');
-                //   this.validateMemberForm();
                    if(!this.validateMemberForm())
                    {
                        isValid=false;
@@ -215,8 +207,6 @@ $(function() {
                    return;
                }
                else{
-                   console.log('Alert its NOT a forced profile update...');
-                  // this.validateMemberForm();
                    if(!this.validateMemberForm())
                    {
                        isValid=false;
@@ -235,7 +225,6 @@ $(function() {
                 return 1
             }
             var extension = img.val().split('.')
-            console.log(extension[(extension.length - 1)])
             if (extension[(extension.length - 1)] == 'jpeg' || extension[(extension.length - 1)] == 'jpg' || extension[(extension.length - 1)] == 'png' || extension[(extension.length - 1)] == 'JPG') {
                 return 1
             }
@@ -266,15 +255,12 @@ $(function() {
             }
             var that = this;
             var isValid=true;
-            console.log('from setForm '+$.cookie("forcedUpdateProfile"));
             if($.cookie("forcedUpdateProfile")=='true'){
-                console.log('Alert its a forced profile update...');
                 if(!this.validateMemberForm())
                 {
                     isValid=false;
                 }
                 if(!isValid){
-                    console.log('info is wrong..');
                  alert(App.languageDict.attributes.Update_Profile_Reminder);
                 $('#nav').css('pointer-events','none');
                 $('#formButtonCancel').css('pointer-events','none');
@@ -287,13 +273,11 @@ $(function() {
 
             }
             else{
-                console.log('Alert its NOT a forced profile update...');
                 if(!this.validateMemberForm())
                 {
                     isValid=false;
                 }
                 if(!isValid){
-                    console.log('info is wrong..');
                     alert(App.languageDict.attributes.Update_Profile_Reminder);
                     return;
                 }
@@ -314,9 +298,6 @@ $(function() {
                 config.fetch({
                     async: false
                 });
-                console.log('---***********---');
-                console.log(config);
-                console.log(config.first().toJSON());
                 var configsDoc = config.first().toJSON().rows[0].doc;
 
                 this.form.setValue({
@@ -392,7 +373,6 @@ $(function() {
 
                                     alert(App.languageDict.attributes.Updated_Successfully);
                                     $.cookie("forcedUpdateProfile",'false');
-                                    console.log('before update 1 '+$.cookie("forcedUpdateProfile"));
                                     Backbone.history.navigate('dashboard'
                                     );
                                     window.location.reload();
@@ -400,7 +380,6 @@ $(function() {
                             }
                             that.model.on('savedAttachment', function() {
                                 if (that.model.attributes._rev == undefined) { // if true then its a new member signup
-                                    // so capture this in activity logging
                                     // so capture this in activity logging
                                     var pouchActivityLogDb = new PouchDB('activitylogs');
                                     var currentdate = new Date();
@@ -416,7 +395,6 @@ $(function() {
 
                                     $.cookie("forcedUpdateProfile",'false');
                                     alert(App.languageDict.attributes.Updated_Successfully);
-                                    console.log('before update 2 '+$.cookie("forcedUpdateProfile"));
                                     Backbone.history.navigate('dashboard');
                                     window.location.reload();
                                 }
@@ -576,10 +554,8 @@ $(function() {
             }
             pouchActivityLogDb.put(docJson, logdate, function(err, response) {
                 if (!err) {
-                    console.log("created activity log in pouchdb for today.. i-e " + logdate);
                     console.log(response);
                 } else {
-                    console.log("MyApp::MemberForm.js (view):: createJsonlog: error creating activity log doc in pouchdb..");
                     console.log(err);
                 }
                 $.cookie("forcedUpdateProfile",'false');
@@ -598,10 +574,8 @@ $(function() {
             }
             pouchActivityLogDb.put(pouchActivityLogRec, logdate, pouchActivityLogRec._rev, function(err, response) {
                 if (!err) {
-                    console.log("updated activity log in pouchdb for today.. i-e " + logdate);
                     console.log(response);
                 } else {
-                    console.log("MyApp::MemberForm.js (view):: UpdatejSONlog: err making update to record");
                     console.log(err);
                 }
                 $.cookie("forcedUpdateProfile",'false');

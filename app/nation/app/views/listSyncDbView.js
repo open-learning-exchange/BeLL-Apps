@@ -120,7 +120,6 @@ $(function() {
             App.stopActivityIndicator()
         },
         synchCommunityWithURL: function(communityurl, communityname) {
-            console.log('http://' + communityname + ':' + App.password + '@' + communityurl + ':5984/resources')
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -150,7 +149,6 @@ $(function() {
                 success: function(res) {
 
                     var conf = res.first()
-                    console.log(conf)
                     var nationName = conf.get('nationName')
                     var nationURL = conf.get('nationUrl')
                     $.ajax({
@@ -197,7 +195,6 @@ $(function() {
                 success: function(res) {
 
                     var conf = res.first()
-                    console.log(conf)
                     var nationName = conf.get('nationName')
                     var nationURL = conf.get('nationUrl')
                     $.ajax({
@@ -290,10 +287,6 @@ $(function() {
             var nationName = configuration.get("nationName")
             var nationURL = configuration.get("nationUrl")
             var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true'
-
-            // console.log(nationConfig)
-            // alert('check')
-            //alert('http://' + nationName + ':oleoleole@' + nationURL + ':5984/configurations/_all_docs?include_docs=true')
             $.ajax({
                 url: nationConfigURL,
                 type: 'GET',
@@ -347,7 +340,6 @@ $(function() {
                     "target": "apps"
                 }),
                 success: function(response) {
-                    console.log(response)
                 },
                 async: false
             })
@@ -362,7 +354,6 @@ $(function() {
                 dataType: 'json',
                 data: JSON.stringify(currentConfig),
                 success: function(response) {
-                    console.log(response)
                     alert(languageDictValue.attributes.Updated_NewVersion_Success)
                 },
                 async: false

@@ -1200,8 +1200,6 @@ $(function() {
             pass = App.password
             nUrl = App.configuration.get('nationUrl')
             currentBellName = App.configuration.get('name')
-            //  var htmlreferance = this.$el
-
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
             if (typeof nation_version === 'undefined') {
                 /////No version found in nation
@@ -1218,94 +1216,6 @@ $(function() {
                     console.log("Nation is uptodate")
                 }
             }
-
-            /* $.ajax({
-             url: nationConfigURL,
-             type: 'GET',
-             dataType: "jsonp",
-             async:false,
-             success: function(json) {
-             var nationConfig = json.rows[0].doc;
-             nationConfigJson = nationConfig
-             if (typeof nationConfig.version === 'undefined') {
-             /////No version found in nation
-             } else if (nationConfig.version == configuration.get('version')) {
-             ///No updatea availabe
-             } else {
-             if (context.versionCompare(nationConfig.version, configuration.get('version')) < 0) {
-             console.log("Nation has lower application version than that of your community application")
-             } else if (context.versionCompare(nationConfig.version, configuration.get('version')) > 0) {
-             dashboard.latestVersion = nationConfig.version;
-             nationVersion = nationConfig.version;
-             dashboard.vars.nation_version=dashboard.latestVersion;
-
-
-
-             alert('within '+dashboard.latestVersion);
-             $('#updateButton').show();
-             //  dashboard.$el.append('<button class="btn systemUpdate" id="updateButton">' + App.languageDict.attributes.Update_Available + ' (' + nationConfig.version + ') </button>')
-             //dashboard.$el.append('<button class="btn systemUpdate" id="viewReleaseNotes">' + App.languageDict.attributes.View + ' ' + App.languageDict.attributes.Release_Notes + ' </button>')
-             } else {
-             console.log("Nation is uptodate")
-             }
-             }
-             },
-             error: function(jqXHR, status, errorThrown) {
-             console.log('Error fetching application version from nation "' + configuration.nationName + '"');
-             console.log(status);
-             console.log(errorThrown);
-             }
-             });*/
-
-
-            // make sure the couchdb that is being requested in this ajax call has its 'allow_jsonp' property set to true in the
-            // 'httpd' section of couchdb configurations. Otherwise, the server couchdb will not respond as required by jsonp format
-            /*   $.ajax({
-             url: DbUrl,
-             type: 'GET',
-             dataType: 'jsonp',
-             async:false,
-             success: function(json) {
-             var publicationDistribDocsFromNation = [],
-             tempKeys = [];
-             _.each(json.rows, function(row) {
-             publicationDistribDocsFromNation.push(row.doc);
-             tempKeys.push(row.doc.publicationId);
-             });
-             // fetch all publications from local/community server to see how many of the publications from nation are new ones
-             var newPublicationsCount = 0;
-             var publicationCollection = new App.Collections.Publication();
-             var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
-             publicationCollection.setUrl(tempUrl);
-             publicationCollection.fetch({
-             success: function() {
-             var alreadySyncedPublications = publicationCollection.models;
-             for (var i in publicationDistribDocsFromNation) {
-             // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
-             // count
-             var index = alreadySyncedPublications.map(function(element) {
-             return element.get('_id');
-             }).indexOf(publicationDistribDocsFromNation[i].publicationId);
-             if (index > -1) {
-             // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
-             // local server
-             } else {
-             newPublicationsCount++;
-             }
-             }
-             if (newPublicationsCount > 0)
-             console.log('testing');
-             dashboard.$el.append('<a class="btn systemUpdate" id="newPublication" href="#publications/for-' + currentBellName + '">'+App.languageDict.attributes.Publications+ ' ( '+ App.languageDict.attributes.New + ' '+ newPublicationsCount + ')'+' </a>')
-             }
-             });
-             },
-             error: function(jqXHR, status, errorThrown) {
-             console.log(jqXHR);
-             console.log(status);
-             console.log(errorThrown);
-             }
-             }); */
-
         },
 
 

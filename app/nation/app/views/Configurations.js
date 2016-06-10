@@ -90,7 +90,6 @@ $(function() {
                             }
                             $.couch.db("members").bulkSave({"docs": membersDoc}, {
                                 success: function(data) {
-                                    console.log(data);
                                 },
                                 error: function(status) {
                                     console.log(status);
@@ -112,7 +111,6 @@ $(function() {
             con.save(null, {
                 success: function(doc, rev) {
                     App.configuration = con;
-                    console.log(App.configuration.get('name'))
                     alert(languageDictValue.attributes.Config_Added_Success);
                     Backbone.history.navigate('dashboard', {
                         trigger: true

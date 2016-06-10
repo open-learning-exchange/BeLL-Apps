@@ -82,7 +82,6 @@ $(function() {
                                     "docs": sendPub
                                 }, {
                                     success: function(data) {
-                                        console.log(data);
                                     },
                                     error: function(status) {
                                         console.log(status);
@@ -101,7 +100,6 @@ $(function() {
                     }
                     $.couch.db("publications").saveDoc(pubResult.doc, {
                         success: function(data) {
-                            console.log(data);
                         },
                         error: function(status) {
                             console.log(status);
@@ -120,8 +118,6 @@ $(function() {
         },
 
         synchResCommunityWithURL: function(communityurl, communityname, res) {
-
-            console.log('http://' + communityname + ':' + App.password + '@' + communityurl + ':5984/pubresources')
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -136,15 +132,11 @@ $(function() {
                     "doc_ids": res
                 }),
                 success: function(response) {
-                    console.log(response)
                 },
                 async: false
             })
         },
         synchPubCommunityWithURL: function(communityurl, communityname, pId) {
-
-
-            console.log('http://' + communityname + ':' + App.password + '@' + communityurl + ':5984/recpublication')
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
@@ -159,7 +151,6 @@ $(function() {
                     "doc_ids": pId
                 }),
                 success: function(response) {
-                    console.log(response)
                 },
                 async: false
             })

@@ -187,13 +187,11 @@ $(function () {
                             window.location.reload(false);
                         },
                         error: function(status) {
-                            console.log(status);
                             console.log(App.languageDict.get('Survey_Download_Error_Ques'));
                         }
                     });
                 },
                 error: function(status) {
-                    console.log(status);
                     console.log(App.languageDict.get('Survey_Download_Error_Msg'));
                 }
             });

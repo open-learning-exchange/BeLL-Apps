@@ -16,13 +16,7 @@ $(function() {
 
         events: {
             "click #replyMailButton": function(e) {
-                // console.log(this.vars)
-                // alert('this is vaarr')
-                // if (this.vars.mailingList) {
-                //  $("#recipients").val(this.vars.mailingList)
-                // } else {
                 $("#recipients").val(this.vars.login)
-                //}
                 $("#subject").val("Re : " + this.vars.subject)
                 $("#mailbodytexarea").val("")
             },
@@ -196,7 +190,6 @@ $(function() {
                 this.fetchRecords()
             },
             "click #back": function(e) {
-                //	this.viewButton(e)
                 skip = 0
                 while (skipStack.length > 0) {
                     skipStack.pop();
@@ -240,11 +233,9 @@ $(function() {
             if (typeof model.get('_attachments') !== 'undefined') {
                 attchmentURL = attchmentURL + _.keys(model.get('_attachments'))[0]
                 attachmentName = _.keys(model.get('_attachments'))[0]
-                //document.getElementById("memberImage").src = attchmentURL
             }
             mailView.inViewModel = model
             model.set("status", "1")
-            // console.log(this)
             model.save()
             mailView.vars = model.toJSON()
 
@@ -268,12 +259,10 @@ $(function() {
             mailView.$el.append(mailView.templateMailView(mailView.vars))
         },
         deleteButton: function(e) {
-            //alert(e.currentTarget.value)
             var modelNo = e.currentTarget.value
             var selectedModel = mailView.collection.at(modelNo)
             selectedModel.destroy()
             mailView.renderAllMails()
-            // window.location.reload()
         },
         initialize: function(args) {
             this.code = args.community_code
@@ -379,7 +368,6 @@ $(function() {
                     }
 
                     if (obj.resultArray.length == 0 && skipStack.length == 1) {
-                        //  if (searchText != "")
                         {
 
                             $("#errorMessage").show();

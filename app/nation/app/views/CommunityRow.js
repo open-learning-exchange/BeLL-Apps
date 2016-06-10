@@ -46,7 +46,6 @@ $(function() {
             var communityDate = community.get('lastActivitiesSyncDate'); //#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             var communitySyncdate = communityDate.split("/").join("-");
             communityData = communityCode + "." + communityName;
-            console.log(communitySyncdate);
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             var nationUrl = $.url().data.attr.authority;
@@ -71,9 +70,7 @@ $(function() {
                         for (var i = 0; i < activitylogModels.length; i++) {
                             var femaleVisits = activitylogModels[i].value.female_visits;
                             var maleVisits = activitylogModels[i].value.male_visits;
-                            console.log(femaleVisits + " " + maleVisits);
                             memberVisits = memberVisits + femaleVisits + maleVisits;
-                            console.log("Female Visits: " + femaleVisits + " " + "Male Visits: " + maleVisits + " " + "Total: " + femaleVisits + maleVisits);
                             var female_opened = activitylogModels[i].value.female_opened;
                             var male_opened = activitylogModels[i].value.male_opened;
                             var female_opened_count = 0;
@@ -85,7 +82,6 @@ $(function() {
                                 male_opened_count = male_opened_count + male_opened[k];
                             }
                             resourceViews = resourceViews + female_opened_count + male_opened_count;
-                            console.log("resource views: " + resourceViews);
                         }
                     }
                     // //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation

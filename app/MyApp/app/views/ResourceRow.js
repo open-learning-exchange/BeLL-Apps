@@ -227,7 +227,6 @@ $(function() {
             languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             var vars = this.model.toJSON()
-			//console.log(vars)
 			var Details = ""
 
 			if (vars.author != undefined && vars.author != "") {
@@ -300,7 +299,6 @@ $(function() {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			if (vars.Tag != undefined) {
-				//console.log(this.collections)
 				if ($.isArray(vars.Tag)) {
 					if (vars.Tag.length > 0)
 						Details = Details + "<b>"+languageDictValue.attributes.Collection+"</b>&nbsp;"

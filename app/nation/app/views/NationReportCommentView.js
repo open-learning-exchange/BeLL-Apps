@@ -6,7 +6,6 @@ $(function() {
         id: "comment-feedback",
         cId: null,
         initialize: function(e) {
-            console.log(e)
             this.cId = e.NationReportId
             this.model = new App.Models.NationReportComment
 
@@ -56,7 +55,6 @@ $(function() {
 
         addOne: function(modl) {
             $('#comments').append('<div id=tile><b>'+App.languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+App.languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+App.languageDictValue.attributes.Comment+':</b>' + modl.toJSON().comment + '</div>')
-            console.log(modl.toJSON())
         },
 
         render: function() {

@@ -104,13 +104,6 @@ $(function() {
             }
 
             var that = this
-            /* this.model.once('sync', function () {
-             console.log(that.model)
-             Backbone.history.navigate('meetups', {
-             trigger: true
-             })
-             })
-             */
             // Put the form's input into the model in memory
             this.form.commit()
 

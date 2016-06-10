@@ -52,30 +52,6 @@ $(function () {
                 async: false
             })
             var JSONsteps=null;
-//            if(step.toJSON().questions==undefined)
-//            {
-//            	var CourseStep=new PouchDB('coursestep');
-//				CourseStep.get(e.currentTarget.value, function(err, doc) {
-//
-//				console.log(doc)
-//              	JSONsteps=doc
-//
-//              	var ssids = context.modl.stepsIds
-//				var index = ssids.indexOf(id)
-//				var temp = new App.Views.takeQuizView({
-//					questions: JSONsteps.questions,
-//					answers: JSONsteps.answers,
-//					options: JSONsteps.qoptions,
-//					passP: JSONsteps.passingPercentage,
-//					resultModel: context.modl,
-//					stepIndex: index
-//				})
-//				temp.render()
-//				$('div.takeQuizDiv').html(temp.el)
-//				});
-//            }
-//            else
-//            {
             JSONsteps=step.toJSON()
 
             var ssids = context.modl.get('stepsIds')
@@ -90,9 +66,6 @@ $(function () {
             })
             temp.render()
             $('div.takeQuizDiv').html(temp.el)
-
-
-//            }
         },
 
         initialize: function () {
@@ -103,32 +76,6 @@ $(function () {
         },
 
         addOne: function (model) {
-            //  var upto=0
-//            if (model.get("resourceTitles")) {    
-//                 max = model.get("resourceTitles").length
-//                 
-//                 for (var i = 0; i < max; i++) {
-//                   var rtitle = model.get("resourceTitles")
-//                   var rid = model.get("resourceId")
-//                     var r = new App.Models.Resource({
-//                         "_id": rid[upto]
-//                     })
-//                     r.fetch({
-//                         async: false
-//                     })
-//                     if(r.get("hidden")==true)
-//                     {
-//                     	var index = model.get("resourceId").indexOf(r.get("_id").toString())  	
-//                			if(index!=-1){
-//                				model.get("resourceId").splice(index,1)
-//                				model.get("resourceTitles").splice(index,1)
-//                			}
-//                					
-//                     }else{
-//                			upto++
-//                		}
-//                 }
-//              }
             this.vars = model.toJSON();
             this.vars.languageDict=App.languageDict;
             if (!this.vars.outComes || this.vars.outComes.length==0) {
@@ -240,57 +187,6 @@ $(function () {
 
 
         },
-
-//Before pouchDB work this function is used   
-        /*settingArgs:function(){
-         var memId=$.cookie('Member._id')
-         var couId=this.collection.first().get("courseId")
-
-         var res = new App.Collections.membercourseprogresses()
-         res.courseId = couId
-         res.memberId = memId
-         setAllResults: function () {
-         var memId=$.cookie('Member._id')
-         var couId=this.collection.first().get("courseId")
-
-         var MemberCourseProgress=new PouchDB('membercourseprogress');
-         MemberCourseProgress.query({map:function(doc){
-         if(doc.memberId && doc.courseId){
-         emit([doc.memberId,doc.courseId],doc)
-         }
-         }
-         },{key:[memId,couId]},function(err,res){
-
-         console.log(res)
-         console.log(err)
-         alert('this is responce')
-
-
-         });
-
-
-         var res = new App.Collections.membercourseprogresses()
-         res.courseId = this.collection.first().get("courseId")
-         res.memberId = $.cookie('Member._id')
-         res.fetch({
-         async: false
-         })
-         console.log(res.toJSON())
-         var PassedSteps = 0
-         var totalSteps = 0
-         if (res.length != 0) {
-         this.modl = res.first()
-         this.modl=this.modl.toJSON()
-         PassedSteps = 0
-         var sstatus = this.modl.stepsStatus
-         totalSteps = sstatus.length
-         while (PassedSteps < totalSteps && sstatus[PassedSteps] != '0') {
-         PassedSteps++
-         }
-         }
-         this.addAll()
-         },
-         */
         render: function () {
 
             if (this.collection.length < 1) {

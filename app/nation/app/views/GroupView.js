@@ -10,7 +10,6 @@ $(function() {
             }
         },
         render: function() {
-            console.log(this.model)
             this.addCourseDetails()
         },
         addCourseDetails: function() {
@@ -21,8 +20,6 @@ $(function() {
             var courseInfo = this.model.toJSON()
 
             var leaderInfo = this.courseLeader.toJSON()
-            console.log(courseInfo)
-            console.log(leaderInfo)
             this.$el.append('<tr><td><b>Name</b></td><td>' + courseInfo.CourseTitle + '</td></tr>')
             this.$el.append('<tr><td><b>Subject Level </b></td><td>' + courseInfo.subjectLevel + '</td></tr>')
             this.$el.append('<tr><td><b>Grade Level </b></td><td>' + courseInfo.gradeLevel + '</td></tr>')

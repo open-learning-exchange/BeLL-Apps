@@ -34,26 +34,17 @@ $(function() {
                 model: this.model
             })
             this.form.render()
-            //this.form.fields['uploadDate'].$el.hide()
             if (this.edit == false) {
-                //this.form.fields['addedBy'].$el.val($.cookie('Member.login'))
             }
-            //this.form.fields['addedBy'].$el.attr("disabled",true)
-            //this.form.fields['averageRating'].$el.hide()
             var that = this
             if (_.has(this.model, 'id')) {
-                //if(this.model.get("Level") == "All"){
-                // that.form.fields['toLevel'].$el.hide();
-                //that.form.fields['fromLevel'].$el.hide();
-                //that.hide = true
             }
 
 
             // @todo Why won't this work?
-            vars.form = "" //$(this.form.el).html()
+            vars.form = "" 
 
             // render the template
-            console.log(vars);
             vars.languageDict=App.languageDictValue;
             this.$el.html(this.template(vars))
             // @todo this is hackey, should be the following line or assigned to vars.form
@@ -64,8 +55,6 @@ $(function() {
                 $('.form .bbf-field').css({"float":"right"});
             }
             $('#progressImage').hide();
-            //$this.$el.children('.fields').html(this.form.el) // also not working
-
             return this
         },
 
@@ -77,7 +66,6 @@ $(function() {
             var previousTitle = this.model.get("title")
             var newTitle
             var isEdit = this.model.get("_id")
-            console.log(isEdit)
             this.form.commit()
             // Send the updated model to the server
             newTitle = this.model.get("title")
@@ -154,7 +142,6 @@ $(function() {
                                             new_res.set("sum", 0)
                                             new_res.set("timesRated", 0)
                                             new_res.save()
-                                            console.log("MODEL UPDATION")
                                             new_res.on('sync', function() {
                                                 new_res.saveAttachment("form#fileAttachment", "form#fileAttachment #_attachments", "form#fileAttachment .rev")
                                                 new_res.on('savedAttachment', function() {

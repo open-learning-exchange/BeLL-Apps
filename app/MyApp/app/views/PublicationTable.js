@@ -97,17 +97,13 @@
                                     });
                                 },
                                 error: function(jqXHR, status, errorThrown){
-                                console.log(jqXHR);
-                                console.log(status);
-                                console.log(errorThrown);
+                                    console.log(status);
                                 }
                             });
                         }
                     },
                     error: function(jqXHR, status, errorThrown){
-                    console.log(jqXHR);
-                    console.log(status);
-                    console.log(errorThrown);
+                        console.log(status);
                     }
                 });
 
@@ -151,7 +147,6 @@
                         if(data.indexOf('tempresources') != -1 ){
                             $.couch.db("tempresources").drop({
                                 success: function(data) {
-                                    console.log(data);
                                     that.syncCourses(pubDistributionID, publicationToSync);
                                 },
                                 error: function(status) {
@@ -193,13 +188,9 @@
                 for (var indexOfNonCourseResourceID in resourcesIdes) {
                     cumulativeResourceIDs.push(resourcesIdes[indexOfNonCourseResourceID]);
                 }
-                console.log("Syncing Resources and Courses..");
-                console.log('http://'+ nationName +':'+App.password+'@'+ nationUrl + '/resources');
-                console.log(cumulativeResourceIDs);
                 App.startActivityIndicator();
                 $.couch.db("tempresources").create({
                     success: function(data) {
-                        console.log(data);
                         $.ajax({
                             headers: {
                                 'Accept': 'application/json',
@@ -215,7 +206,6 @@
                             }),
                             async: false,
                             success: function (response) {
-                                console.log(response);
                                 //Resource Rating work here.
                                 $.ajax({
                                     url: '/tempresources/_all_docs?include_docs=true',
@@ -238,7 +228,6 @@
                                                             alert(App.languageDict.attributes.Resources_Synced_Success);
                                                             $.couch.db("tempresources").drop({
                                                                 success: function(data) {
-                                                                    console.log(data);
                                                                 },
                                                                 error: function(status) {
                                                                     console.log(status);
@@ -251,7 +240,6 @@
                                                             alert(App.languageDict.attributes.Resources_Synced_Error);
                                                             $.couch.db("tempresources").drop({
                                                                 success: function(data) {
-                                                                    console.log(data);
                                                         },
                                                         error: function(status) {
                                                             console.log(status);
@@ -265,7 +253,6 @@
                                                 error: function(status) {
                                                     $.couch.db("tempresources").drop({
                                                         success: function(data) {
-                                                            console.log(data);
                                                         },
                                                         error: function(status) {
                                                             console.log(status);
@@ -279,7 +266,6 @@
                                         alert(App.languageDict.attributes.Fetch_Resources_Error);
                                         $.couch.db("tempresources").drop({
                                             success: function(data) {
-                                                console.log(data);
                                             },
                                             error: function(status) {
                                                 console.log(status);
@@ -336,7 +322,6 @@
                                                     $.couch.db("publications").saveDoc(publicationToSync, {
                                                         success: function (response) {
                                                             console.log("adding publication# " + publicationToSync.IssueNo + " doc at community for bookkeeping");
-                                                            console.log(response);
                                                             $.ajax({
                                                                 headers: {
                                                                     'Accept': 'application/json',
@@ -351,7 +336,6 @@
                                                                     "doc_ids": [publicationToSync._id]
                                                                 }),
                                                                 success: function (response) {
-                                                                    console.log("Success");
                                                                 },
                                                                 error: function (res) {
                                                                     console.log(res);
@@ -386,7 +370,6 @@
                                                                 "doc_ids": [communityModelId]
                                                             }),
                                                             success: function(response){
-                                                                console.log("Successfully Replicated.");
                                                                 var date = new Date();
                                                                 var year = date.getFullYear();
                                                                 var month = (1 + date.getMonth()).toString();
@@ -452,29 +435,23 @@
                                                 //End of my code.
                                             },
                                             error: function(jqXHR, status, errorThrown){
-                                                console.log('Error syncing/replicating Publication "'+IssueNo+'" course-steps');
                                             console.log(status);
-                                            console.log(errorThrown);
                                             App.stopActivityIndicator();
                                             alert(App.languageDict.attributes.CourseSteps_Synced_Error);
                                             }
                                         });
                                     },
                                     error: function(jqXHR, status, errorThrown){
-                                        console.log('Error syncing/replicating Publication "'+IssueNo+'" courses');
                                     console.log(status);
-                                    console.log(errorThrown);
                                     App.stopActivityIndicator();
                                     alert(App.languageDict.attributes.Courses_Synced_Error);
                                     }
                                 })
                             },
                             error: function(jqXHR, status, errorThrown){
-                                console.log('Error syncing/replicating Publication "'+IssueNo+'" resources');
-                                console.log(status);    console.log(errorThrown);
+                                console.log(status);
                                 $.couch.db("tempresources").drop({
                                     success: function(data) {
-                                        console.log(data);
                                     },
                                     error: function(status) {
                                         console.log(status);
@@ -488,9 +465,6 @@
                 });
             },
             synResources:function(nationUrl,nationName,resourcesIdes,IssueNo){
-                console.log("Syncing Resources..");
-                console.log('http://'+ nationName +':'+App.password+'@'+ nationUrl + '/resources');
-                console.log(resourcesIdes);
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -505,13 +479,10 @@
                         'doc_ids': resourcesIdes
                     }),
                     success: function (response) {
-                        console.log(response);
                         alert(App.languageDict.attributes.Publication+' ' +IssueNo+' '+ App.languageDict.attributes.Resources_Synced_Success);
                     },
                     error: function(jqXHR, status, errorThrown){
-                        console.log(App.languageDict.attributes.Pubs_Synced_Error+' '+IssueNo+' '+App.languageDict.attributes.Resources);
                         console.log(status);
-                        console.log(errorThrown);
                     }
                 })
             }

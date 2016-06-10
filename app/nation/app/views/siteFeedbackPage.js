@@ -13,10 +13,6 @@ $(function() {
         applyFilters: null,
         resultArray: null,
         events: {
-            //"change #select_category" : function(e){
-            //console.log(e)
-            //console.log(e.currentTarget.value)
-            //},
             "click #see-all": function(e) {
                 this.applyFilters = "0"
                 while (skipStack.length > 0) {
@@ -98,7 +94,6 @@ $(function() {
             this.$el.append('<Select id="select_category"><option>Bug</option><option>Question</option><option>Suggestion</option></select>&nbsp;&nbsp<select id="select_status"><option>Unresolve</option><option>Resolved</option></select>&nbsp;&nbsp<select id="select_urgent"><option>Normal</option><option>Urgent</option></select>&nbsp;&nbsp<button class="btn btn-info" id="switch">Apply Filters</button><br/><br/>')
             this.$el.append('<th ><h4>Feedback</h4></th><th ><h4>Status</h4></th>')
             $("#progress_img").hide()
-            console.log(this.collection.toJSON())
             this.collection.forEach(this.addOne, this)
             this.$el.append('<br/><br/><input type="button" class="btn btn-hg btn-primary" id="previousButton" value="< Previous"> &nbsp;&nbsp;&nbsp;<button class="btn btn-hg btn-primary" id="next_button" >Next  ></button>')
         },
@@ -190,13 +185,11 @@ $(function() {
             if (ul == url) {
                 return true
             } else {
-                console.log(url)
                 return false
             }
         },
 
         checkFilters: function(result) {
-            console.log(result)
             if (this.filterResult(result)) {
                 if (this.applyFilters == "0") {
                     return true
@@ -227,12 +220,9 @@ $(function() {
                     if (!result.get("category")) {
                         result.set("category", "Bug")
                     }
-                    //   alert(result.get("urgent").length)
                     if (!result.get("priority")) {
                         result.set("priority", [])
                     }
-                    //    console.log(result)
-                    //    alert(result.get("urgent").length)
                     if (result.get("comment").toLowerCase().indexOf(searchText.toLowerCase()) >= 0 && that.checkFilters(result)) {
                         if (resultArray.length < limitofRecords) {
                             resultArray.push(result)

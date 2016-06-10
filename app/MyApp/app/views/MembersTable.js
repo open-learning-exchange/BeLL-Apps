@@ -32,11 +32,7 @@ $(function() {
 			this.$el.html("<tr><th>"+App.languageDict.attributes.Photo+"</th><th>"+App.languageDict.attributes.Last_Name+"</th><th>"+App.languageDict.attributes.First_Name+"</th><th>"+App.languageDict.attributes.Visits+"</th><th>"+App.languageDict.attributes.Email+"</th><th>"+App.languageDict.attributes.Bell_Email+"</th><th>"+App.languageDict.attributes.action+"</th></tr>")
 			// @todo this does not work as expected, either of the lines
 			// _.each(this.collection.models, this.addOne())
-
-			console.log(this.collection)
-
 			this.collection.each(this.addOne, this)
-			console.log('Here...');
 			var groupLength;
 			var context = this
 			$.ajax({
