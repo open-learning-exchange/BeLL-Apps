@@ -805,6 +805,7 @@
   "accepted_email_text":"Admission request has been accepted from member",
    "Roles":"Roles",
   "leader_must_resign":"Leader cannot directly remove himself, he must resign.",
-  "manager_removes_leader":"Only Manager can remove a Leader"
+  "manager_removes_leader":"Only Manager can remove a Leader",
+  "No_Record_Found": "No Record Found"
 
 }

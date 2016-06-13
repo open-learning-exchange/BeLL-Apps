@@ -79,28 +79,38 @@ $(function () {
                 temp.name = student.toJSON().firstName
                 temp.passed = passed
                 temp.remaining = remaining
+                temp.memberId = model.get("memberId");
+                temp.courseId = model.get("courseId");
                 this.arrayOfData.push(temp)
 
-                var assignmentpapers = new App.Collections.AssignmentPapers()
-                assignmentpapers.senderId = model.get("memberId")
-                assignmentpapers.courseId = model.get("courseId")
-                assignmentpapers.fetch({
-                    async: false
-                })
-                var marginLeft = this.startFrom + (this.totalSpace / 2) - 8
-                var papers = '<table style="border-collapse: separate; height: 100%; width: 100%"><tr style="height: 100%; width: 100%">'
+                if(this.totalRecords == 1)
+                {
+                    var assignmentpapers = new App.Collections.AssignmentPapers()
+                    assignmentpapers.senderId = model.get("memberId")
+                    assignmentpapers.courseId = model.get("courseId")
+                    assignmentpapers.fetch({
+                        async: false
+                    })
+                    var papers = '<table style="border-collapse: separate; height: 100%;" align="center"><tr>'
 
-                assignmentpapers.each(function (m) {
-                    var attchmentURL = '/assignmentpaper/' + m.get("_id") + '/'
-                    var attachmentName = ''
-                    if (typeof m.get('_attachments') !== 'undefined') {
-                        attchmentURL = attchmentURL + _.keys(m.get('_attachments'))[0]
-                        attachmentName = _.keys(m.get('_attachments'))[0]
-                    }
-                    papers = papers + '<td><a href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>'
-                })
-                papers = papers + '</tr></table>'
-                this.$el.append(papers)
+                    var count = 0;
+                    assignmentpapers.each(function (m) {
+                        var attchmentURL = '/assignmentpaper/' + m.get("_id") + '/'
+                        var attachmentName = ''
+                        if (typeof m.get('_attachments') !== 'undefined') {
+                            attchmentURL = attchmentURL + _.keys(m.get('_attachments'))[0]
+                            attachmentName = _.keys(m.get('_attachments'))[0]
+                        }
+                        if((count % 7) == 0)
+                        {
+                            papers = papers + '</tr><tr>';
+                        }
+                        papers = papers + '<td><a href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                        count++;
+                    })
+                    papers = papers + '</tr></table>'
+                    this.$el.append(papers)
+                }
                 this.startFrom = this.startFrom + this.totalSpace
             }
         },
@@ -121,7 +131,7 @@ $(function () {
             this.grandremaining = 0
             this.BuildString()
 
-            Morris.Bar({
+            var morris1 = Morris.Bar({
                 element: 'graph',
                 data: this.arrayOfData,
                 xkey: 'name',
@@ -134,7 +144,41 @@ $(function () {
                 stacked: true,
                 xLabelMargin: 5
             });
-            //this.$el.append('<a class="btn btn-info" id="Donut">Birdeye View</a>')
+            if(this.totalRecords != 1)
+            {
+                morris1.on('click', function(i, row){
+                    var data = morris1.options.data[i];
+                    var assignmentpapers = new App.Collections.AssignmentPapers()
+                    assignmentpapers.senderId = data.memberId;
+                    assignmentpapers.courseId = data.courseId;
+                    assignmentpapers.fetch({
+                        async: false
+                    })
+                    var papers = '<table style="border-collapse: separate; height: 100%;" align="center"><tr>'
+
+                    var count = 0;
+                    assignmentpapers.each(function (m) {
+                        var attchmentURL = '/assignmentpaper/' + m.get("_id") + '/'
+                        var attachmentName = ''
+                        if (typeof m.get('_attachments') !== 'undefined') {
+                            attchmentURL = attchmentURL + _.keys(m.get('_attachments'))[0]
+                            attachmentName = _.keys(m.get('_attachments'))[0]
+                        }
+                        if((count % 7) == 0)
+                        {
+                            papers = papers + '</tr><tr>';
+                        }
+                        papers = papers + '<td><a href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                        count++;
+                    })
+                    if(count == 0)
+                    {
+                        papers = papers + '<td>' + App.languageDict.get("No_Record_Found") + '</td>';
+                    }
+                    papers = papers + '</tr></table>';
+                    $('.Graphbutton').html(papers);
+                });
+            }
         }
 
     })
