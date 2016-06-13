@@ -897,6 +897,22 @@ function FieSelected(stepId) {
             }
             assignmentpaper.on('savedAttachment', function() {
                 /////Attatchment successfully saved
+                var memberProgress=new App.Collections.membercourseprogresses()
+                memberProgress.memberId=$.cookie('Member._id')
+                memberProgress.courseId=courseId
+                memberProgress.fetch({async:false,
+                    success:function(){
+                        memberProgress = memberProgress.first();
+                        var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
+                        memberProgress.attributes.stepsResult[memberStepIndex] = '2';
+                        memberProgress.attributes.stepsStatus[memberStepIndex] = '2';
+                        memberProgress.save(null, {
+                            success: function(response) {
+                            }
+                        });
+                    }
+
+                })
                 alert(App.languageDict.attributes.Assignment_Submitted)
             }, assignmentpaper)
 
