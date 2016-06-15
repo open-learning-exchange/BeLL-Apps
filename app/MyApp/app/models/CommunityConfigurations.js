@@ -20,7 +20,7 @@ $(function() {
             version: " - ",
             lastActivitiesSyncDate: " - ",
             lastPublicationsSyncDate: " - ",
-            isAccepted: ''
+            registrationRequest: 'pending'
         },
         schema: {
             //Community's information
