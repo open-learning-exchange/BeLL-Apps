@@ -855,7 +855,7 @@ function FieSelected(stepId) {
     var courseId = document.getElementById("courseId" + stepId).value;
     var stepTitle = document.getElementById("stepTitle" + stepId).value;
     var stepNo = document.getElementById("stepNo" + stepId).value;
-
+    var assignmentpaper = new App.Models.AssignmentPaper();
     var courseModel = new App.Models.Group()
     courseModel.set('_id', courseId)
     courseModel.fetch({
@@ -864,9 +864,16 @@ function FieSelected(stepId) {
     if (!courseModel.get("courseLeader")) {
         return
     }
-    var img = $('input[type="file"]')
-    var extension = img.val().split('.')
-    if (img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
+    var img = $('input[type="file"]');
+    var imgVal;
+    for(var i = 0 ; i < img.length ; i++) {
+        if(img[i].value != '') {
+            imgVal = img[i].value;
+        }
+    }
+    //var extension = img.val().split('.')
+    var extension = imgVal.split('.')
+    if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
         alert(App.languageDict.attributes.Invalid_Attachment);
         return;
     }
@@ -880,7 +887,6 @@ function FieSelected(stepId) {
     mail.set("type", "mail");
     mail.set("sentDate", currentdate);
     mail.save()
-    var assignmentpaper = new App.Models.AssignmentPaper();
     assignmentpaper.set("sentDate", currentdate);
     assignmentpaper.set("senderId", $.cookie('Member._id'));
     assignmentpaper.set("courseId", courseId);
@@ -889,7 +895,7 @@ function FieSelected(stepId) {
     assignmentpaper.save(null, {
         success: function() {
             //assignmentpaper.unset('_attachments')
-            if ($('input[type="file"]').val()) {
+            if (imgVal) {
                 assignmentpaper.saveAttachment("form#fileAttachment" + stepId, "form#fileAttachment" + stepId + " #_attachments", "form#fileAttachment" + stepId + " .rev")
             } else {
                 ////no attachment
