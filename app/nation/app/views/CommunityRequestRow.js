@@ -46,7 +46,6 @@ $(function() {
             var communityDate = community.get('lastActivitiesSyncDate'); //#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             var communitySyncdate = communityDate.split("/").join("-");
             communityData = communityCode + "." + communityName;
-            console.log(communitySyncdate);
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             var nationUrl = $.url().data.attr.authority;
@@ -88,19 +87,12 @@ $(function() {
                             console.log("resource views: " + resourceViews);
                         }
                     }
-                    // //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
-
-                    if(community.get('isAccepted')=="false"){
-                        var row = "<td>" + community.get('name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                            "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
-                            community.get('_id') + "'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<label>Request Rejected</label></td>";
-                    }else if(community.get('isAccepted').length==0){
+                    if(community.get('registrationRequest') == "pending"){
                         var row = "<td>" + community.get('name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
                             "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
                             community.get('_id') + "'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<label>Request Pending</label></td>";
                         that.$el.append(row);
-                    }
-                    else{
+                    } else if(community.get('registrationRequest') == "accepted"){
                         var row = "<td>" + community.get('name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
                             "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" +
                             community.get('_id') + "'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
