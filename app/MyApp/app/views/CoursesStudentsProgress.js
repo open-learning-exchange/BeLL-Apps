@@ -100,13 +100,13 @@ $(function () {
                         if (typeof m.get('_attachments') !== 'undefined') {
                             attchmentURL = attchmentURL + _.keys(m.get('_attachments'))[0]
                             attachmentName = _.keys(m.get('_attachments'))[0]
+                            if((count % 7) == 0)
+                            {
+                                papers = papers + '</tr><tr>';
+                            }
+                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                            count++;
                         }
-                        if((count % 7) == 0)
-                        {
-                            papers = papers + '</tr><tr>';
-                        }
-                        papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
-                        count++;
                     })
                     papers = papers + '</tr></table>'
                     this.$el.append(papers)
@@ -163,13 +163,13 @@ $(function () {
                         if (typeof m.get('_attachments') !== 'undefined') {
                             attchmentURL = attchmentURL + _.keys(m.get('_attachments'))[0]
                             attachmentName = _.keys(m.get('_attachments'))[0]
+                            if((count % 7) == 0)
+                            {
+                                papers = papers + '</tr><tr>';
+                            }
+                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                            count++;
                         }
-                        if((count % 7) == 0)
-                        {
-                            papers = papers + '</tr><tr>';
-                        }
-                        papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
-                        count++;
                     })
                     if(count == 0)
                     {
