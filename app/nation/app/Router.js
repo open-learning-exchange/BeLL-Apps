@@ -3362,7 +3362,7 @@ $(function() {
             })
             commConfigForm.render();
             App.$el.children('.body').html(commConfigForm.el);
-            if(commConfigModel.get('isAccepted')=="true"){
+            if(commConfigModel.get('registrationRequest')=="accepted"){
                 $('#acceptRegistration').css('display','none');
                 $('#rejectRegistration').css('display','none');
             }
