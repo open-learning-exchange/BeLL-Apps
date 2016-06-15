@@ -115,7 +115,7 @@ $(function() {
                         dataType: 'json',
                         data: JSON.stringify({
                             "source": "communityconfigurations",
-                            "target": 'http://nbsbell.ole.org:5993/registeredcommunities',
+                            "target": 'http://nbs.ole.org:5997/registeredcommunities',
                             'doc_ids': docIds
                         }),
                         async: false,

@@ -55,7 +55,7 @@ $(function() {
         },
 
         acceptCommunityRegistration: function() {
-            this.model.set('isAccepted', "true")
+            this.model.set('registrationRequest', "accepted")
             this.model.set('authName', this.getLoggedInName());
             this.model.set('authDate', new Date());
             this.model.save(null, {
@@ -70,7 +70,7 @@ $(function() {
         },
 
         rejectCommunityRegistration: function() {
-            this.model.set('isAccepted', "false");
+            this.model.set('registrationRequest', "rejected");
             this.model.set('authName', this.getLoggedInName());
             this.model.set('authDate', new Date());
             this.model.save(null, {
