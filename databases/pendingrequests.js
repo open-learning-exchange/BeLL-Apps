@@ -12,6 +12,13 @@ ddoc.views = {
                 emit(doc.name, doc);
             }
         }
+    },
+    getDocById:{
+        map: function(doc){
+            if (doc._id && doc.kind=='Community') {
+                emit(doc._id, doc);
+            }
+        }
     }
 }
 

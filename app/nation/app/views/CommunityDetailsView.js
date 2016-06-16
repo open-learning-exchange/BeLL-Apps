@@ -4,7 +4,7 @@ $(function() {
 
         className: "addNation-form",
         vars: {},
-
+        status: '',
         events: {
             "click #acceptRegistration": 'acceptCommunityRegistration',
             "click #rejectRegistration": 'rejectCommunityRegistration'
@@ -14,14 +14,15 @@ $(function() {
 
         render: function() {
             var that = this;
-            var vars = this.model.toJSON();
+            var vars;
+            if(that.status == 'registered') {
+                vars = this.model.toJSON();
+            } else {
+                vars = this.model;
+            }
             vars.authName = that.getLoggedInName();
-            if(vars.superManagerID == '') {
-                vars.superManagerID = 'testID';
-            }
-            if(vars.superManagerPassword == '') {
-                vars.superManagerPassword = 'testPassword';
-            }
+            vars.superManagerID = 'testID';
+            vars.superManagerPassword = 'testPassword';
             vars.authDate = new Date();
             this.$el.append(_.template(that.template, vars));
         },
