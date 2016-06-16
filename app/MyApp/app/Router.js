@@ -735,6 +735,7 @@ $(function() {
             }
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
+            getAllPendingRequests();
             $('#olelogo').remove();
             applyCorrectStylingSheet(directionOfLang);
            // $.removeCookie('languageFromCookie');

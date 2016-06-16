@@ -7,6 +7,14 @@ $(function() {
 
 
         vars: {},
+        pendingCollections: [],
+
+        addPendingOne: function(community) {
+            var row = "<td>" + community.name + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>0</td><td>0</td>" +
+                "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
+                community._id + "/pending'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<label>Request Pending</label></td>";
+                this.$el.append(row);
+        },
 
         addOne: function(model) {
             if (model.get('_id') !== '_design/bell') { // only render if its NOT a design doc
@@ -21,11 +29,13 @@ $(function() {
         addAll: function() {
             // @todo this does not work as expected, either of the lines
             // _.each(this.collection.models, this.addOne())
-            this.collection.each(this.addOne, this)
+            this.collection.each(this.addOne, this);
+            for(var i = 0 ; i < this.pendingCollections.length ; i++) {
+                this.addPendingOne(this.pendingCollections[i]);
+            }
         },
 
         render: function() {
-
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue = App.Router.loadLanguageDocs(lang);
