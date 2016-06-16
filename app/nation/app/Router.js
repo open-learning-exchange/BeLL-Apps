@@ -29,7 +29,7 @@ $(function() {
             'communitiesList/:surveyId': 'communitiesList',
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
-            'communityDetails/:commDocId': "communityDetails",
+            'communityDetails/:commDocId/:requestStatus': "communityDetails",
             "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
         },
@@ -3354,20 +3354,36 @@ $(function() {
             link.click();
         },
 
-        communityDetails: function (commDocId) {
-
-            var commConfigModel = new App.Models.CommunityConfigurations({
-                _id: commDocId
-            })
-            commConfigModel.fetch({
-                async: false
-            });
+        communityDetails: function (commDocId, requestStatus) {
+            var commConfigModel;
+            if(requestStatus == 'registered') {
+                commConfigModel = new App.Models.CommunityConfigurations({
+                    _id: commDocId
+                })
+                commConfigModel.fetch({
+                    async: false
+                });
+            } else if(requestStatus == 'pending') {
+                $.ajax({
+                    url: '/pendingrequests/_design/bell/_view/getDocById?_include_docs=true&key="' + commDocId + '"',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function (json) {
+                        commConfigModel = json.rows[0].value;
+                    },
+                    error: function (status) {
+                        console.log(status);
+                    }
+                });
+            }
             var commConfigForm = new App.Views.CommunityDetailsView({
                 model: commConfigModel
             })
+            commConfigForm.status = requestStatus;
             commConfigForm.render();
             App.$el.children('.body').html(commConfigForm.el);
-            if(commConfigModel.get('registrationRequest')=="accepted"){
+            if(requestStatus == 'registered'){
                 $('#acceptRegistration').css('display','none');
                 $('#rejectRegistration').css('display','none');
             }

@@ -19,7 +19,7 @@ $(function() {
             vars.languages = getAvailableLanguages();
             if(navigator.onLine){ //Check there is a stable internet connection
                 $.ajax({
-                    url: 'http://nbsbell@nbsbell.ole.org:5993/nations/_design/bell/_view/getAllNations?_include_docs=true',
+                    url: 'http://nbs.ole.org:5997/nations/_design/bell/_view/getAllNations?_include_docs=true',
                     type: 'GET',
                     dataType: 'jsonp',
                     async: false,
@@ -115,7 +115,7 @@ $(function() {
                         dataType: 'json',
                         data: JSON.stringify({
                             "source": "communityconfigurations",
-                            "target": 'http://nbs.ole.org:5997/registeredcommunities',
+                            "target": 'http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities',
                             'doc_ids': docIds
                         }),
                         async: false,
@@ -127,6 +127,7 @@ $(function() {
                         error: function(status) {
                             console.log(status);
                             alert(App.languageDict.attributes.UnableToReplicate);
+                            App.stopActivityIndicator();
                         }
                     });
                 }
