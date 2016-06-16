@@ -17,6 +17,13 @@ ddoc.views = {
             if (doc && doc.kind == 'Community')
                 emit(doc.name, doc);
         }
+    },
+    getCommunityByNationUrl:{
+        map: function(doc){
+            if (doc.nationUrl && doc.kind=='Community') {
+                emit(doc.nationUrl, doc);
+            }
+        }
     }
 }
 

@@ -39,6 +39,7 @@ $(function() {
 
         render: function() {
             var that = this;
+            var nationUrl = $.url().data.attr.authority;
             var community = this.model;
             var communityData = '';
             var communityCode = community.attributes.Code;
@@ -48,7 +49,6 @@ $(function() {
             communityData = communityCode + "." + communityName;
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
-            var nationUrl = $.url().data.attr.authority;
             var date = new Date();
             var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -87,19 +87,14 @@ $(function() {
                             console.log("resource views: " + resourceViews);
                         }
                     }
-                    if(community.get('registrationRequest') == "pending"){
-                        var row = "<td>" + community.get('name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                            "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
-                            community.get('_id') + "'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<label>Request Pending</label></td>";
-                        that.$el.append(row);
-                    } else if(community.get('registrationRequest') == "accepted"){
+                    if(community.get('registrationRequest') == "accepted"){
                         var row = "<td>" + community.get('name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
                             "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" +
-                            community.get('_id') + "'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
+                            community.get('_id') + "/registered'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
                             community.get('_id') + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
                         that.$el.append(row);
-                    }
 
+                    }
                 },
                 error: function() {
                     console.log("Unable to get communities list.");

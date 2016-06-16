@@ -3641,7 +3641,29 @@ $(function() {
             App.stopActivityIndicator()
 
         },
+
+        getPendingRequests: function() {
+            var jsonModels = [];
+            $.ajax({
+                url: '/pendingrequests/_design/bell/_view/getAllCommunities?_include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    for(var i = 0 ; i < json.rows.length ; i++) {
+                        jsonModels.push(json.rows[0].value);
+                    }
+                },
+                error: function (status) {
+                    console.log(status);
+                }
+            });
+            return jsonModels;
+        },
+
         ListCommnitiesRequest: function(){
+            var that = this;
+            var pendingRequests = that.getPendingRequests();
             App.startActivityIndicator();
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
@@ -3652,8 +3674,9 @@ $(function() {
                 }
             );
             CommunityTable = new App.Views.CommunityRequestsTable({
-             collection: Communities
+             collection: Communities,
              });
+             CommunityTable.pendingCollections = pendingRequests;
              CommunityTable.render();
              var listCommunity ="<h3>Communities Requests</h3>";
              listCommunity += "<div id='list-of-Communities'></div>"
@@ -3662,7 +3685,6 @@ $(function() {
              $('#communityDiv').append(listCommunity);
              $('#list-of-Communities', App.$el).append(CommunityTable.el);
              App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
-             
             App.stopActivityIndicator()
 
         },
