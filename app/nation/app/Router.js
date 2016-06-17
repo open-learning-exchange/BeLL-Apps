@@ -50,6 +50,7 @@ $(function() {
                     clanguage = config.first().attributes.currentLanguage;
                 }
             })
+            var jsonConfig = config.toJSON();
             var languages = new App.Collections.Languages();
             languages.fetch({
                 async: false
