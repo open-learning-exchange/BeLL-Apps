@@ -56,32 +56,84 @@ $(function() {
         },
 
         acceptCommunityRegistration: function() {
-            this.model.set('registrationRequest', "accepted")
-            this.model.set('authName', this.getLoggedInName());
-            this.model.set('authDate', new Date());
-            this.model.save(null, {
-                success: function (response) {
-                    alert('Registered successfully');
-                    Backbone.history.navigate('listCommnitiesRequest', {
-                        trigger: true
-                    })
-                },
-                async:false
-            });
+            this.processRegistration('accepted');
         },
 
         rejectCommunityRegistration: function() {
-            this.model.set('registrationRequest', "rejected");
-            this.model.set('authName', this.getLoggedInName());
-            this.model.set('authDate', new Date());
-            this.model.save(null, {
-                success: function (response) {
-                    alert('Registration rejected');
-                    Backbone.history.navigate('listCommnitiesRequest', {
-                        trigger: true
-                    })
+            this.processRegistration('rejected');
+        },
+
+        processRegistration: function (status) {
+            var doc = this.model;
+            var docID = [];
+            docID.push(doc._id);
+            doc.registrationRequest= status;
+            doc.authName= this.getLoggedInName();
+            doc.authDate= new Date();
+            // Update the registrationRequest attribute from pending to registered in that nation's pending request database.
+            $.couch.db("pendingrequests").saveDoc(doc, {
+                success: function(data) {
+                    // Replicate the updated document on that nation's registeredcommunities database.
+                    if(status == 'accepted') {
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": "pendingrequests",
+                                "target": 'registeredcommunities',
+                                'doc_ids': docID
+                            }),
+                            async: false,
+                            success: function (response) {
+                                console.log('Successfully replicated to registeredcommunities database')
+                            },
+                            error: function(status) {
+                                console.log("Error for local replication");
+                            }
+                        });
+                    }
+                    //Now, also replicate that community's document in registeredcommunities database of nbs.ole.org
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": "pendingrequests",
+                            "target": 'http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities',
+                            'doc_ids': docID
+                        }),
+                        async: false,
+                        success: function (response) {
+                            console.log('Successfully replicated pending request to central db')
+                            // Lastly, remove the document from that nation's pendingrequests database.
+                            $.couch.db("pendingrequests").removeDoc(doc, {
+                                success: function(data) {
+                                    Backbone.history.navigate('listCommunitiesRequest', {
+                                        trigger: true
+                                    })
+                                },
+                                error: function(status) {
+                                    console.log(status)
+                                }
+                            });
+                        },
+                        error: function(status) {
+                            console.log("Error for remote replication");
+                        }
+                    });
                 },
-                async:false
+                error: function(status) {
+                    console.log(status);
+                }
             });
         }
     })
