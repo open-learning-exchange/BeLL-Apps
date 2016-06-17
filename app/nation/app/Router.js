@@ -3651,7 +3651,7 @@ $(function() {
                 async: false,
                 success: function (json) {
                     for(var i = 0 ; i < json.rows.length ; i++) {
-                        jsonModels.push(json.rows[0].value);
+                        jsonModels.push(json.rows[i].value);
                     }
                 },
                 error: function (status) {
