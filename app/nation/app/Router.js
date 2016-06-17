@@ -2,7 +2,7 @@ $(function() {
     App.Router = new(Backbone.Router.extend({
 
         routes: {
-            'listCommnitiesRequest':'ListCommnitiesRequest',
+            'listCommunitiesRequest':'ListCommunitiesRequest',
             'addCommunity': 'CommunityForm',
             'addCommunity/:CommunityId': 'CommunityForm',
             'login': 'MemberLogin',
@@ -3677,7 +3677,7 @@ $(function() {
             return jsonModels;
         },
 
-        ListCommnitiesRequest: function(){
+        ListCommunitiesRequest: function(){
             var that = this;
             var pendingRequests = that.getPendingRequests();
             App.startActivityIndicator();
