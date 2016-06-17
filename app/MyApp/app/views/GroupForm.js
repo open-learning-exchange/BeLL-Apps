@@ -170,10 +170,6 @@ $(function () {
                 success: function () {
                     //create the form
                     var optns = []
-                   /* optns.push({
-                        label: App.languageDict.attributes.Select_An_option,
-                        val: "0000"
-                    })*/
                     memberList.each(function (modl) {
                         if(typeofBell== modl.toJSON().community){
                             var temp = {
@@ -344,7 +340,9 @@ $(function () {
                     finalLeader.push(previousLeader[i]);
                 }
                 for(var i=0;i<leader.length;i++){
-                    finalLeader.push(leader[i]);
+                    if(finalLeader.indexOf(leader[i])==-1){
+                        finalLeader.push(leader[i]);
+                    }
                 }
                 this.model.set('courseLeader',finalLeader);
                 this.model.set('CourseTitle', $.trim(courseTitle));
