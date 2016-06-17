@@ -344,7 +344,6 @@ $(function() {
         },
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
-                console.log($.url().attr('fragment'));
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add' && $.url().attr('fragment') != 'admin/add') {
                     Backbone.history.stop()
                     App.start()
@@ -643,9 +642,9 @@ $(function() {
         });
     },
         Dashboard: function() {
-
+            //Fetch all the "pending communities registration requests" from central db
+            getAllPendingRequests();
             var that=this;
-            //if(!App.ShelfItems)
             {
                 App.ShelfItems = {}
                 $.ajax({
@@ -735,11 +734,8 @@ $(function() {
             }
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
-            getAllPendingRequests();
             $('#olelogo').remove();
             applyCorrectStylingSheet(directionOfLang);
-           // $.removeCookie('languageFromCookie');
-           // $.removeCookie('isChange');
         },
         MemberForm: function(memberId) {
 
