@@ -41,6 +41,13 @@ $(function() {
             var that = this;
             var nationUrl = $.url().data.attr.authority;
             var community = this.model;
+            if(community.registrationRequest=="pending"){
+                var row = "<td>" + community.name + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>0</td><td>0</td>" +
+                    "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
+                    community._id + "/pending'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<label>Request Pending</label></td><br>";
+                this.$el.append(row);
+                return;
+            }
             var communityData = '';
             var communityCode = community.attributes.Code;
             var communityName = community.get('Name'); //#80:Add Report button ( Generate Report ) on the Communities page at nation
