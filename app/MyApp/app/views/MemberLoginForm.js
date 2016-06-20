@@ -223,14 +223,13 @@ $(function() {
                 })
 
                 if (parseInt(member.get('visits')) == 1 && member.get('roles').indexOf('SuperManager') != -1) {
-                    //$('#nav').hide()
                     Backbone.history.navigate('configuration/add', {
                         trigger: true
                     });
                     return;
                 }
-
-                if(App.configuration.get('type')=='community'){
+                memberLoginForm.trigger('success:login');
+                if(App.configuration.get('type')=='community' && member.get('roles').indexOf('SuperManager') != -1){
                     $.ajax({
                         url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
                         type: 'GET',
@@ -241,13 +240,9 @@ $(function() {
                             if(jsonRows.length==0){
                                 window.location.href = '#configurationsForm'
                             }
-                            else{
-                                memberLoginForm.trigger('success:login');
-                            }
                         }
                     });
                 }
-                memberLoginForm.trigger('success:login');
 
             } else {
                 alert(App.languageDict.attributes.Account_DeActivated)
