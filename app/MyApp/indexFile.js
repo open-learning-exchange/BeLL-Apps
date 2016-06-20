@@ -77,6 +77,66 @@ function getAllPendingRequests(){
     });
 }
 
+function getRequestStatus() {
+    var jsonModel = getRequestDocFromLocalDB();
+    if(jsonModel != null) {
+        if(jsonModel.registrationRequest == 'pending') { //If and only if the status is pending, then community will check the status at central db
+            var modelId = jsonModel._id;
+            var docIDs=[];
+            docIDs.push(modelId);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": "http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities",
+                    "target": 'communityconfigurations',
+                    'doc_ids': docIDs
+                }),
+                async: false,
+                success: function (response) {
+                    //Now get the updated document and check request status again
+                    var updatedJsonModel = getRequestDocFromLocalDB();
+                    if (updatedJsonModel.registrationRequest == 'accepted') {
+                        alert('Your registration request has been accepted');
+                    } else if (updatedJsonModel.registrationRequest == 'rejected') {
+                        alert('Your registration request has been rejected, please check your data and re-send again');
+                    }
+                },
+                error: function(status) {
+                    console.log(status);
+                }
+            });
+        }
+    }
+}
+
+function getRequestDocFromLocalDB() {
+    var jsonModel;
+    $.ajax({
+        url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
+        type: 'GET',
+        dataType: 'json',
+        async: false,
+        success: function (json) {
+            if(json.rows.length > 0) {
+                jsonModel = json.rows[0].value;
+            }
+        },
+        error: function (status) {
+            console.log(status);
+        }
+    });
+    if(jsonModel == undefined) {
+        jsonModel = null;
+    }
+    return jsonModel;
+}
+
 function fillAdminData(e, reference) {
     var member = getMemberData();
     if (e.is(':checked')) {
