@@ -52,7 +52,7 @@
    "e_Readers": "القراء الإلكترونية",
    "News_Feed": "مصادر الأخبار",
    "My_Library": "مكتبتي",
-   "My_Courses_Progress": "التقدم المنجز في دوراتي التدريبية",
+   "My_Courses_Progress": "دروسي التقدم",
    "My_Tutors": "المعلمون",
    "My_Meetups": "اجتماعاتي",
    "Member": "عضو",
