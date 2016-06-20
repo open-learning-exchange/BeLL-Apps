@@ -9,7 +9,7 @@ ddoc.views = {
     getCommunityByCode: {
         map: function(doc) {
             if (doc && doc.kind == 'Community')
-                emit(doc.Code, doc);
+                emit(doc.code, doc);
         }
     }
 }
