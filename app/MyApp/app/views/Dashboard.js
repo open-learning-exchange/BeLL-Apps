@@ -845,6 +845,19 @@ $(function() {
 
         render: function() {
             $('#nav').css('pointer-events', 'auto');
+            $.ajax({
+                url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    var jsonRows = json.rows;
+                    if(jsonRows.length==0){
+                        alert('Please fill the Configurations form first');
+                        window.location.href = '#configurationsForm'
+                    }
+                }
+            });
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
             this.vars.mails = 0;
