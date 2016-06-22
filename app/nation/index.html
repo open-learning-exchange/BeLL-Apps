@@ -802,8 +802,9 @@
 		</tr>
 		</table>
       	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton"><%= languageDict.attributes.Configurations %></button></a>
-        <a href="#request"><button class="btn btn-hg btn-primary" ><%= languageDict.attributes.Requests %></button></a>
-        <a><button class="btn btn-hg btn-primary" onclick="showDatabases()"><%= languageDict.attributes.Databases %></button></a>
+        <a href="#request"><button class="btn btn-hg btn-primary"><%= languageDict.attributes.Requests %></button></a>
+        <a><button class="btn btn-hg btn-primary" onclick="showDatabases()"style="width:auto"><%= languageDict.attributes.Databases %></button></a>
+        <a href="#listCommunitiesRequest"><button class="btn btn-hg btn-primary" id="pendingRequests" >Communitites(<%=pending_request_count%>)</button></a>
         <!--	<table class="page-bottom-navtable">
 			<tr>
 			
