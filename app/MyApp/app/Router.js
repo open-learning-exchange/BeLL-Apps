@@ -642,8 +642,7 @@ $(function() {
         });
     },
         Dashboard: function() {
-            //At nation side: Fetch all the "pending communities registration requests" from central db
-            getAllPendingRequests();
+            
             //At community side: Fetch request status from central db
             getRequestStatus();
             var that=this;

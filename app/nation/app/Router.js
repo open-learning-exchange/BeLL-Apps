@@ -3410,6 +3410,7 @@ $(function() {
             }
         },
         Dashboard: function() {
+            this.getAllPendingRequests();
             var con = this.getConfigurations()
             if (con.get('type') == 'community') {
                 this.cummunityManage()
@@ -4206,7 +4207,9 @@ $(function() {
                 var jsonModels = json.rows;
                 for(var i = 0 ; i < jsonModels.length ; i++) {
                     var community = jsonModels[i].value;
-                    docIDs.push(community._id);
+                    if(community.registrationRequest=="pending"){
+                        docIDs.push(community._id);
+                    }
                 }
                 $.ajax({
                     headers: {

@@ -35,48 +35,6 @@ function applyStylingSheet() {
         alert(languageDictValue.attributes.error_direction);
     }
 }
-function getAllPendingRequests(){
-    var nationUrl = $.url().data.attr.authority;
-    var docIDs=[];
-    $.ajax({
-        url: 'http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationUrl + '"',
-        type: 'GET',
-        dataType: 'jsonp',
-        async: false,
-        success: function (json) {
-            var jsonModels = json.rows;
-            for(var i = 0 ; i < jsonModels.length ; i++) {
-                var community = jsonModels[i].value;
-                docIDs.push(community._id);
-            }
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                    "source": "http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities",
-                    "target": 'pendingrequests',
-                    'doc_ids': docIDs
-                }),
-                async: false,
-                success: function (response) {
-                    console.log('Successfully replicated all pending requests.')
-                },
-                error: function(status) {
-                    console.log(status);
-                }
-            });
-        },
-        error: function (status) {
-            console.log(status);
-        }
-    });
-}
-
 function getRequestStatus() {
     var jsonModel = getRequestDocFromLocalDB();
     if(jsonModel != null) {

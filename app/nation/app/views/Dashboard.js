@@ -20,6 +20,22 @@ $(function() {
             var dashboard = this;
 
             this.vars.imgURL = "img/header_slice.png";
+            this.vars.pending_request_count = 0;
+            var pendingCount=0;
+            $.ajax({
+                url: '/pendingrequests/_design/bell/_view/getDocById?_include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async:false,
+                success: function(pendingData) {
+                    console.log(pendingData);
+                    pendingCount=pendingData.rows.length;
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+            this.vars.pending_request_count=pendingCount;
             this.vars.languageDict=App.languageDictValue;
             var a = new App.Collections.MailUnopened({
                 receiverId: $.cookie('Member._id')
@@ -31,6 +47,10 @@ $(function() {
             this.vars.mails = a.length
 
             this.$el.html(_.template(this.template, this.vars));
+            if(this.vars.pending_request_count>=1)
+            {
+                $('#pendingRequests').css({"color": "Red","background-color": "lightgrey","font-weight": "bold"});
+            }
 
             // fetch dict for the current/selected language from the languages db/table
             var dayOfToday = moment().format('dddd');
