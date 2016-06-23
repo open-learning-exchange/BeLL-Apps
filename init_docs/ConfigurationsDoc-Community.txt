@@ -4,7 +4,7 @@
     "code":"communitybell",
     "type":"community",
     "nationUrl":"openbell.ole.org:5984",
-    "version":"0.12.23",
+    "version":"0.12.24",
     "notes":"Community Bell",
     "currentLanguage":"English"
 }
