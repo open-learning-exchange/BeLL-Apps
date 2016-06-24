@@ -52,7 +52,7 @@ function getRequestStatus() {
                 dataType: 'json',
                 data: JSON.stringify({
                     "source": "http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities",
-                    "target": 'communityconfigurations',
+                    "target": 'configurations',
                     'doc_ids': docIDs
                 }),
                 async: false,
@@ -62,7 +62,7 @@ function getRequestStatus() {
                     if (updatedJsonModel.registrationRequest == 'accepted') {
                         alert('Your registration request has been accepted');
                     } else if (updatedJsonModel.registrationRequest == 'rejected') {
-                        alert('Your registration request has been rejected, please check your data and re-send again');
+                        alert('Your registration request has been rejected, please check your data and re-send');
                     }
                 },
                 error: function(status) {
@@ -75,22 +75,15 @@ function getRequestStatus() {
 
 function getRequestDocFromLocalDB() {
     var jsonModel;
-    $.ajax({
-        url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
-        type: 'GET',
-        dataType: 'json',
-        async: false,
-        success: function (json) {
-            if(json.rows.length > 0) {
-                jsonModel = json.rows[0].value;
-            }
-        },
-        error: function (status) {
-            console.log(status);
-        }
+    var configCollection = new App.Collections.Configurations();
+    configCollection.fetch({
+        async: false
     });
-    if(jsonModel == undefined) {
+    var configDoc = configCollection.first().toJSON();
+    if(configDoc.name == undefined) {
         jsonModel = null;
+    } else {
+        jsonModel = configDoc;
     }
     return jsonModel;
 }
