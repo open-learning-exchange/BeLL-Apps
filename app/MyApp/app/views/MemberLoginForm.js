@@ -230,18 +230,14 @@ $(function() {
                 }
                 memberLoginForm.trigger('success:login');
                 if(App.configuration.get('type')=='community' && member.get('roles').indexOf('SuperManager') != -1){
-                    $.ajax({
-                        url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
-                        type: 'GET',
-                        dataType: 'json',
-                        async: false,
-                        success: function (json) {
-                            var jsonRows = json.rows;
-                            if(jsonRows.length==0){
-                                window.location.href = '#configurationsForm'
-                            }
-                        }
+                    var configCollection = new App.Collections.Configurations();
+                    configCollection.fetch({
+                        async: false
                     });
+                    var configDoc = configCollection.first().toJSON();
+                    if(configDoc.name == undefined) {
+                        window.location.href = '#configurationsForm'
+                    }
                 }
 
             } else {

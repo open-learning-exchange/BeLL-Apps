@@ -379,7 +379,6 @@ $(function() {
             that.updateDesignDocs("surveyquestions");
             that.updateDesignDocs("surveyanswers");
             that.updateDesignDocs("coursestep");
-            that.updateDesignDocs("communityconfigurations");
             /////////////////////////////////////////
             that.updateConfigsOfCommFromNation();
             ////////////////////////////////////////
@@ -845,20 +844,14 @@ $(function() {
 
         render: function() {
             $('#nav').css('pointer-events', 'auto');
-            if(App.configuration.get('type')=='community'){
-                $.ajax({
-                    url: '/communityconfigurations/_design/bell/_view/getCommunityByCode?_include_docs=true',
-                    type: 'GET',
-                    dataType: 'json',
-                    async: false,
-                    success: function (json) {
-                        var jsonRows = json.rows;
-                        if(jsonRows.length==0){
-                            alert('Please fill the Configurations form first');
-                            window.location.href = '#configurationsForm'
-                        }
-                    }
-                });
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            var configDoc = configCollection.first().toJSON();
+            if(configDoc.name == undefined && (App.Router.getRoles().indexOf('Manager')>-1 || App.Router.getRoles().indexOf('SuperManager')>-1 )) {
+                alert('Please fill the Configurations form first');
+                window.location.href = '#configurationsForm'
             }
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
@@ -1035,7 +1028,12 @@ $(function() {
                     currentConfig = config.first().toJSON().rows[0].doc;
                 }
             })
-            var bell_Name = currentConfig.name;
+            var bell_Name;
+            if(currentConfig.name != undefined) {
+                bell_Name = currentConfig.name;
+            } else {
+                bell_Name = '';
+            }
             var typeofBell = currentConfig.type;
 
             //////////////////////////////////////code for Issue No#73 (before) getting name from URL///////////////////////////////////////////////////////////

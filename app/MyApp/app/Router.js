@@ -257,7 +257,16 @@ $(function() {
         },
 
         configurationsForm: function () {
-            var commConfigModel = new App.Models.CommunityConfigurations();
+            var commConfigModel;
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            if(configCollection.length > 0) {
+                commConfigModel = configCollection.first();
+            } else {
+                commConfigModel = new App.Models.Configuration();
+            }
             var commConfigForm = new App.Views.CommunityConfigurationsForm({
                 model: commConfigModel
             })
@@ -642,9 +651,10 @@ $(function() {
         });
     },
         Dashboard: function() {
-            
             //At community side: Fetch request status from central db
-            getRequestStatus();
+            if(App.Router.getRoles().indexOf('Manager') > -1 || App.Router.getRoles().indexOf('SuperManager') > -1) {
+                getRequestStatus();
+            }
             var that=this;
             {
                 App.ShelfItems = {}
