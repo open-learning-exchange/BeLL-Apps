@@ -2900,6 +2900,11 @@ $(function() {
             surQuestionsTable.Id = surveyId;
             surQuestionsTable.render()
             App.$el.children('.body').append(surQuestionsTable.el);
+
+            $("#moveup").hide();
+            $("#movedown").hide();
+            $("input[name='questionRow']").hide();
+
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {

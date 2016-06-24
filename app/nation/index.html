@@ -152,6 +152,7 @@
         <script src="app/views/CommunitiesList.js"></script>
   	<script src="app/Router.js"></script>
      App.Views.GroupRow
+
   	
   	<script>
   	 var limitofRecords = 5;
@@ -629,6 +630,7 @@
         <script type="text/html" id="template-surveyQuestionRow">
 
             <td>
+                <input type="radio" name="questionRow" />&nbsp;&nbsp;
                 <%  if(RequireAnswer == true){%>
                 <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
                 <%} else {%>
