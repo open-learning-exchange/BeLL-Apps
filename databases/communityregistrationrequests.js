@@ -24,6 +24,20 @@ ddoc.views = {
                 emit(doc.nationUrl, doc);
             }
         }
+    },
+    getAllCommunities:{
+        map: function(doc){
+            if (doc && doc.kind=='Community') {
+                emit(doc.name, doc);
+            }
+        }
+    },
+    getDocById:{
+        map: function(doc){
+            if (doc._id && doc.kind=='Community') {
+                emit(doc._id, doc);
+            }
+        }
     }
 }
 

@@ -40,17 +40,22 @@ $(function() {
         render: function() {
             var that = this;
             var nationUrl = $.url().data.attr.authority;
-            var community = this.model;
-            var communityCode, communityName;
-            if(community.attributes.code == undefined) {
-                communityCode = community.attributes.Code;
+            var community;
+            if(this.model.attributes != undefined) {
+                community = this.model.attributes;
             } else {
-                communityCode = community.attributes.code;
+                community = this.model;
             }
-            if(community.attributes.name == undefined) {
-                communityName = community.attributes.Name;
+            var communityCode, communityName;
+            if(community.code == undefined) {
+                communityCode = community.Code;
             } else {
-                communityName = community.attributes.name;
+                communityCode = community.code;
+            }
+            if(community.name == undefined) {
+                communityName = community.Name;
+            } else {
+                communityName = community.name;
             }
             if(community.registrationRequest=="pending"){
                 var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>0</td><td>0</td>" +
@@ -61,7 +66,7 @@ $(function() {
             }
             var communityData = '';
             //#80:Add Report button ( Generate Report ) on the Communities page at nation
-            var communityDate = community.get('lastActivitiesSyncDate'); //#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            var communityDate = community.lastActivitiesSyncDate; //#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             var communitySyncdate = communityDate.split("/").join("-");
             communityData = communityCode + "." + communityName;
             var temp = $.url().data.attr.host.split(".")
@@ -104,13 +109,12 @@ $(function() {
                             console.log("resource views: " + resourceViews);
                         }
                     }
-                    if(community.get('registrationRequest') == "accepted"){
-                        var row = "<td>" + communityName + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
+                    if(community.registrationRequest == "accepted"){
+                        var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
                             "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" +
-                            community.get('_id') + "/registered'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
-                            community.get('_id') + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
+                            community._id + "/registered'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
+                            community._id + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
                         that.$el.append(row);
-
                     }
                 },
                 error: function() {
