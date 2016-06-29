@@ -79,24 +79,127 @@ function removeMemberFromCourse(memberId){
     })
     courseModel.fetch({
         success:function(result){
-            var members=result.get('members');
-            members.splice(members.indexOf(memberId),1)
 
-            result.set('members',members)
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles");
+            var memberToBeRemoved = new App.Models.Member({
+                "_id": memberId
+            })
+            memberToBeRemoved.fetch({
+                async: false
+            })
+            if(courseModel.get('courseLeader').indexOf(memberId)>-1) //Check if the member which is being deleted is a leader
+            {
+                if(roles.indexOf('Manager')>-1) {
+                    //Resignation
+                    var members=result.get('members');
+                    members.splice(members.indexOf(memberId),1)
 
-            result.save()
-            memberCoursePro=new App.Collections.membercourseprogresses()
-            memberCoursePro.memberId=memberId
-            memberCoursePro.courseId=that.courseId
+                    result.set('members',members);
+                    var courseLeaders=result.get('courseLeader');
+                    courseLeaders.splice(courseLeaders.indexOf(memberId),1)
 
-            memberCoursePro.fetch({async:false})
-            while (model = memberCoursePro.first()) {
-                model.destroy();
+                    result.set('courseLeader',courseLeaders)
+
+                    result.save();
+                    var memberProgress = new App.Collections.memberprogressallcourses()
+                    memberProgress.memberId = memberId
+                    memberProgress.fetch({
+                        async: false
+                    })
+                    memberProgress.each(function (m) {
+                        if (m.get("courseId") == courseId) {
+                            m.destroy()
+                        }
+                    })
+
+                    var mail = new App.Models.Mail();
+                    var currentdate = new Date();
+                    var id = memberId;
+                    var subject = App.languageDict.attributes.Course_Resignation + ' | ' + courseModel.get('name') + ''
+                    var mailBody = App.languageDict.attributes.Hi + ',<br>' + App.languageDict.attributes.Member + ' ' + memberToBeRemoved.get('login') + ' ' + 'You are no more a leader of Course' + ' ' + courseModel.get('name') + '';
+
+                    mail.set("senderId", $.cookie('Member._id')) //Assuming it will be manager
+                    mail.set("receiverId", id)
+                    mail.set("subject", subject)
+                    mail.set("body", mailBody)
+                    mail.set("status", "0")
+                    mail.set("type", "mail")
+                    mail.set("sentDate", currentdate)
+                    mail.save();
+                    alert(App.languageDict.attributes.Resigned_Success_Msg + ' ' + courseModel.get('name') + ' . ')
+                    var groupMembers = new App.Views.GroupMembers();
+                    groupMembers.courseId = courseId;
+                    groupMembers.render();
+
+                }
+                else {
+                    if(memberToBeRemoved.get('_id')==$.cookie('Member._id'))
+                    {
+                        alert(App.languageDict.get('leader_must_resign'));
+                    }
+                    else{
+                        alert(App.languageDict.get('manager_removes_leader'));
+                    }
+
+                }
+              /*  else{
+
+                    //Leader is removing himself from course.. Now notify all of the manager(s) of that community
+                    var allManagers = new App.Collections.Members();
+                    allManagers.fetch({
+                        async: false
+                    })
+                        for(var i=0;i<allManagers.length;i++)
+                        {
+                            if(allManagers.models[i].get('roles').indexOf('Manager')>-1){
+                                var mail = new App.Models.Mail();
+                                var currentdate = new Date();
+                                var id = allManagers.models[i].get('_id');
+                                var subject = App.languageDict.attributes.Course_Resignation+' | ' + courseModel.get('name') + ''
+                                var mailBody = App.languageDict.attributes.Hi+',<br>'+App.languageDict.attributes.Member+ ' ' + memberToBeRemoved.get('login') + ' '+ App.languageDict.attributes.Has_Resign_From+ ' ' + courseModel.get('name') + '';
+
+                                mail.set("senderId", $.cookie('Member._id'))
+                                mail.set("receiverId", id)
+                                mail.set("subject", subject)
+                                mail.set("body", mailBody)
+                                mail.set("status", "0")
+                                mail.set("type", "mail")
+                                mail.set("sentDate", currentdate)
+                                mail.save();
+                                alert(App.languageDict.attributes.Resigned_Success_Msg +' ' + courseModel.get('name') + ' . ')
+                            }
+                        }
+                    alert(courseId);
+                   window.location.reload();
+
+                }*/
             }
-            var groupMembers = new App.Views.GroupMembers();
-            groupMembers.courseId = courseId;
-            groupMembers.render();
-            alert(App.languageDict.attributes.Removed_Member);
+            else{
+                var members=result.get('members');
+                members.splice(members.indexOf(memberId),1)
+
+                result.set('members',members)
+
+                result.save();
+                memberCoursePro=new App.Collections.membercourseprogresses()
+                memberCoursePro.memberId=memberId
+                memberCoursePro.courseId=that.courseId
+
+                memberCoursePro.fetch({async:false})
+                while (model = memberCoursePro.first()) {
+                    model.destroy();
+                }
+                var groupMembers = new App.Views.GroupMembers();
+                groupMembers.courseId = courseId;
+                groupMembers.render();
+                alert(App.languageDict.attributes.Removed_Member);
+            }
         }
     })
 
@@ -171,6 +274,7 @@ function submitSurvey(surveyId) {
     questionsColl.fetch({
         async: false
     });
+    console.log(questionsColl);
     var answersToSubmit = [];
     var requiredQuestionsCount = 0;
     var answerToRequiredQuestionsCount = 0;
@@ -181,6 +285,7 @@ function submitSurvey(surveyId) {
             requiredQuestionsCount++;
         }
     }
+    console.log(questionsColl);
     var surveyTable = $("#survey-questions-table >tbody");
     surveyTable.find('>tr').each(function (i) {
         var tds = $(this).find('td'),
@@ -437,23 +542,81 @@ function showFeedbackForm() {
     }
 
 }
+//**********************************
+function sendManagerEmail(){
+   // alert("sendManagerEmail")
+    var roles = [];
+    var managers = [];
+    var members = new App.Collections.Members()
+    var member;
+    // members.login = $.cookie('Member.login');
+    members.fetch({
+        success: function () {
+            if (members.length > 0) {
+                for (var j=0 ; j< members.length;j++) {
+                    member = members.models[j];
+                    roles = member.attributes.roles;
+                    for (var r=0 ; r< roles.length;r++) {
+                        if (roles[r]=="Manager"){
+                            managers.push(member.attributes._id)
+                            console.log(member.attributes._id)
+                            console.log(roles[r])
+                        }
 
+                    }
+                }
+            }
+        },
+        async:false
+    });
+
+    console.log("end....sendManagerEmail")
+    return managers;
+}
+//*****************************
 function sendAdminRequest(courseLeader, courseName, courseId) {
+    var managerId = sendManagerEmail();
+    var recipientIds = [];
+    //alert(managerId)
+    var length = managerId.length;
+    // alert (length);
+    var courseLeaderIds = [];
+    var courseLeaderIds=courseLeader.split(",");
+    //courseLeaderId.push(courseLeader)
+    var length2 = courseLeaderIds.length;
+    // alert ("courseLeader: " + length2);
+
+    if(courseLeader.length >= 1){
+        recipientIds = courseLeaderIds;
+    }
+    else
+    {
+        recipientIds = managerId;
+        //  alert(recipientIds)
+        //  alert(recipientIds.length)
+    }
+
 
     var currentdate = new Date();
     var mail = new App.Models.Mail();
-    mail.set("senderId", $.cookie('Member._id'));
-    mail.set("receiverId", courseLeader);
-    mail.set("subject", App.languageDict.attributes.Course_Admission_Req+" | " + decodeURI(courseName));
-    mail.set("body", App.languageDict.attributes.Admission_Req_Received+' '
-    + $.cookie('Member.login') + ' ' +App.languageDict.attributes.For_Course+' ' + decodeURI(courseName) +
-    ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
-    '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
-    App.languageDict.attributes.Reject+'</button>');
-    mail.set("status", "0");
-    mail.set("type", "admissionRequest");
-    mail.set("sentDate", currentdate);
-    mail.save()
+    for (var i=0; i< recipientIds.length;i++){
+        mail.set("senderId", $.cookie('Member._id'));
+        //alert(recipientIds[i])
+        mail.set("receiverId",recipientIds[i]);
+
+        mail.set("subject", App.languageDict.attributes.Course_Admission_Req+" | " + decodeURI(courseName));
+        mail.set("body", App.languageDict.attributes.Admission_Req_Received+' '
+            + $.cookie('Member.login') + ' ' +App.languageDict.attributes.For_Course+' ' + decodeURI(courseName) +
+            ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
+            '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
+            App.languageDict.attributes.Reject+'</button>');
+        mail.set("status", "0");
+        mail.set("type", "admissionRequest");
+        mail.set("sentDate", currentdate);
+        mail.save()
+    }
+
+
     $('#admissionButton').hide()
     alert(App.languageDict.attributes.RequestForCourse);
 
@@ -482,7 +645,7 @@ function checkIfExistsInLangDb(language){
     for(var i=0;i<languages.length && !(isPresent) ;i++) {
         if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
             if (languages.models[i].attributes.nameOfLanguage == language) {
-               isPresent=true;
+                isPresent=true;
             }
         }
     }
@@ -692,7 +855,7 @@ function FieSelected(stepId) {
     var courseId = document.getElementById("courseId" + stepId).value;
     var stepTitle = document.getElementById("stepTitle" + stepId).value;
     var stepNo = document.getElementById("stepNo" + stepId).value;
-
+    var assignmentpaper = new App.Models.AssignmentPaper();
     var courseModel = new App.Models.Group()
     courseModel.set('_id', courseId)
     courseModel.fetch({
@@ -701,9 +864,47 @@ function FieSelected(stepId) {
     if (!courseModel.get("courseLeader")) {
         return
     }
-    var img = $('input[type="file"]')
-    var extension = img.val().split('.')
-    if (img.val() != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
+    var img = $('input[type="file"]');
+    var imgVal;
+    for(var i = 0 ; i < img.length ; i++) {
+        if(img[i].value != '') {
+            imgVal = img[i].value;
+        }
+    }
+    //var extension = img.val().split('.')
+    var extension = imgVal.split('.')
+    //-------------------------------------
+    if (extension){
+        var memberAssignmentPaper = new App.Collections.AssignmentPapers()
+        memberAssignmentPaper.senderId=$.cookie('Member._id')
+        memberAssignmentPaper.courseId=courseId
+        memberAssignmentPaper.fetch({
+            async: false,
+            success: function (json) {
+                if(json.models.length > 0) {
+                    var existingModels = json.models;
+                    for(var i = 0 ; i < existingModels.length ; i++) {
+                        // var doc = existingModels[i].attributes;
+                        var doc = {
+                            _id: existingModels[i].attributes._id,
+                            _rev: existingModels[i].attributes._rev
+                        };
+                        $.couch.db("assignmentpaper").removeDoc(doc, {
+                            success: function(data) {
+                                console.log(data);
+                            },
+                            error: function(status) {
+                                console.log(status);
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+    }
+    //-----------------------------------
+    if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
         alert(App.languageDict.attributes.Invalid_Attachment);
         return;
     }
@@ -717,7 +918,6 @@ function FieSelected(stepId) {
     mail.set("type", "mail");
     mail.set("sentDate", currentdate);
     mail.save()
-    var assignmentpaper = new App.Models.AssignmentPaper();
     assignmentpaper.set("sentDate", currentdate);
     assignmentpaper.set("senderId", $.cookie('Member._id'));
     assignmentpaper.set("courseId", courseId);
@@ -726,7 +926,7 @@ function FieSelected(stepId) {
     assignmentpaper.save(null, {
         success: function() {
             //assignmentpaper.unset('_attachments')
-            if ($('input[type="file"]').val()) {
+            if (imgVal) {
                 assignmentpaper.saveAttachment("form#fileAttachment" + stepId, "form#fileAttachment" + stepId + " #_attachments", "form#fileAttachment" + stepId + " .rev")
             } else {
                 ////no attachment
@@ -734,6 +934,22 @@ function FieSelected(stepId) {
             }
             assignmentpaper.on('savedAttachment', function() {
                 /////Attatchment successfully saved
+                var memberProgress=new App.Collections.membercourseprogresses()
+                memberProgress.memberId=$.cookie('Member._id')
+                memberProgress.courseId=courseId
+                memberProgress.fetch({async:false,
+                    success:function(){
+                        memberProgress = memberProgress.first();
+                        var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
+                        memberProgress.attributes.stepsResult[memberStepIndex] = '2';
+                        memberProgress.attributes.stepsStatus[memberStepIndex] = '2';
+                        memberProgress.save(null, {
+                            success: function(response) {
+                            }
+                        });
+                    }
+
+                })
                 alert(App.languageDict.attributes.Assignment_Submitted)
             }, assignmentpaper)
 

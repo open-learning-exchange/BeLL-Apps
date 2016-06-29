@@ -788,6 +788,7 @@ $(function() {
                 })
                 // Set up the form
                 modelForm.render();
+                $('.bbf-form .field-courseLeader .bbf-editor select').attr('multiple','multiple');
 
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
@@ -1647,16 +1648,21 @@ $(function() {
             })
 
             var courseLeader = courseModel.get('courseLeader');
-            var memberModel = new App.Models.Member()
-            memberModel.set('_id', courseLeader)
-            memberModel.fetch({
-                async: false
-            })
+            var memberModelArr = [];
+            for(var i = 0; i < courseLeader.length; i++) {
+                var memberModel = new App.Models.Member()
+                memberModel.set('_id', courseLeader[i]);
+                memberModel.fetch({
+                    async: false
+                });
+                memberModelArr.push(memberModel);
+            }
 
-            var viewCourseInfo = new App.Views.CourseInfoView({
+
+                var viewCourseInfo = new App.Views.CourseInfoView({
                 model: courseModel
             })
-            viewCourseInfo.leader = memberModel
+            viewCourseInfo.leader = memberModelArr
             viewCourseInfo.render()
             App.$el.children('.body').html("&nbsp")
             App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a>&nbsp;&nbsp;</div>')
@@ -1674,13 +1680,12 @@ $(function() {
             })
             App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
             $('.courseSearchResults_Bottom').append("<h2> " + cname + "</h2>")
-            if (course.get('courseLeader') != undefined && course.get('courseLeader') == $.cookie('Member._id') || roles.indexOf("Manager") != -1) {
+            if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
             }
             App.$el.children('.body').append("<div id='graph'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
-
-            if (course.get('courseLeader') != $.cookie('Member._id') && roles.indexOf("Manager") == -1) {
+            if (course.get('courseLeader').indexOf($.cookie('Member._id')) == -1  &&  roles.indexOf("Manager") == -1) {
                 allResults.memberId = $.cookie('Member._id')
             }
             allResults.courseId = cId
@@ -1691,7 +1696,7 @@ $(function() {
                 collection: allResults
             })
             vi.render()
-            $('.courseSearchResults_Bottom').append(vi.el);
+            $('.body').append(vi.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
 
@@ -1722,14 +1727,16 @@ $(function() {
                 $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
                 modelForm.render();
-
-
-
-
                 $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
+                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
+
+                //console.log(groupModel.get("courseLeader"));
+                //alert(groupModel.get("courseLeader"));
+                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupModel.get("courseLeader"));
+
                 $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
                 $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
@@ -1785,6 +1792,23 @@ $(function() {
 
                 });
 
+                levels.fetch({
+                    success: function() {
+                        levels.sort()
+                        lTable = new App.Views.LevelsTable({
+                            collection: levels
+                        })
+                        lTable.groupId = groupId
+                        lTable.render()
+                        $('#AddCourseMainDiv').append("</BR><h3>"+App.languageDict.attributes.Course_Steps+"</h3>")
+                        $('#AddCourseMainDiv').append(lTable.el)
+
+                        $("#moveup").hide()
+                        $("#movedown").hide()
+                        $("input[type='radio']").hide();
+                    }
+                })
+
                 var Roles = that.getRoles()
                 if (Roles.indexOf('Manager') == -1)
                     $('.form .field-courseLeader select').attr("disabled", "true")
@@ -1813,22 +1837,6 @@ $(function() {
                 model.trigger('Model:ready')
             }
 
-            levels.fetch({
-                success: function() {
-                    levels.sort()
-                    lTable = new App.Views.LevelsTable({
-                        collection: levels
-                    })
-                    lTable.groupId = groupId
-                    lTable.render()
-                    $('#AddCourseMainDiv').append("</BR><h3>"+App.languageDict.attributes.Course_Steps+"</h3>")
-                    $('#AddCourseMainDiv').append(lTable.el)
-
-                    $("#moveup").hide()
-                    $("#movedown").hide()
-                    $("input[type='radio']").hide();
-                }
-            })
         },
         courseDetails: function(courseId, courseName) {
 
@@ -1853,11 +1861,16 @@ $(function() {
             $('.courseEditStep').append('<div id="courseName-heading"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
             $('.courseEditStep').append(button)
 
-            var memberModel = new App.Models.Member()
-            memberModel.set('_id', courseLeader)
-            memberModel.fetch({
-                async: false
-            })
+            var memberModelArr = [];
+            for(var i = 0; i < courseLeader.length; i++)
+            {
+                var memberModel = new App.Models.Member()
+                memberModel.set('_id', courseLeader[i]);
+                memberModel.fetch({
+                    async: false
+                });
+                memberModelArr.push(memberModel);
+            }
 
             var ccSteps = new App.Collections.coursesteps()
             ccSteps.courseId = courseId
@@ -1868,7 +1881,7 @@ $(function() {
             var GroupDetailsView = new App.Views.GroupView({
                 model: courseModel
             })
-            GroupDetailsView.courseLeader = memberModel
+            GroupDetailsView.courseLeader = memberModelArr
             GroupDetailsView.render()
 
 
@@ -1956,6 +1969,15 @@ $(function() {
             courseModel.set({
                 members: courseMemebers
             })
+            var courseLeaders = courseModel.get('courseLeader')
+            var index = courseLeaders.indexOf(memberId);
+            if(index>-1){
+                courseLeaders.splice(index, 1)
+                courseModel.set({
+                    courseLeader: courseLeaders
+                })
+            }
+
             courseModel.save();
 
             var memberProgress = new App.Collections.memberprogressallcourses()
@@ -2076,7 +2098,7 @@ $(function() {
             $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
             $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
             $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
-            $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
+           // $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
             $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);

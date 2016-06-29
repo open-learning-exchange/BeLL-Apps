@@ -19,13 +19,11 @@ $(function() {
 
         schema: {
             title: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             stepMethod: 'Text',
             description: {
-                type: 'TextArea',
-                validators: ['required']
+                type: 'TextArea'
             },
             stepGoals: 'TextArea',
 
@@ -51,10 +49,9 @@ $(function() {
                 type: 'Select',
                 options: []
             },
-            allowedErrors: {
-                type: 'Text',
-                validators: ['required']
-            },
+         /*   allowedErrors: {
+                type: 'Text'
+            },*/
             outComes: {
                 title: 'Outcomes',
                 type: 'Checkboxes',
