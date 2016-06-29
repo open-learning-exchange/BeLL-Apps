@@ -41,16 +41,26 @@ $(function() {
             var that = this;
             var nationUrl = $.url().data.attr.authority;
             var community = this.model;
+            var communityCode, communityName;
+            if(community.attributes.code == undefined) {
+                communityCode = community.attributes.Code;
+            } else {
+                communityCode = community.attributes.code;
+            }
+            if(community.attributes.name == undefined) {
+                communityName = community.attributes.Name;
+            } else {
+                communityName = community.attributes.name;
+            }
             if(community.registrationRequest=="pending"){
-                var row = "<td>" + community.name + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>0</td><td>0</td>" +
+                var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>0</td><td>0</td>" +
                     "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
                     community._id + "/pending'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<label>Request Pending</label></td><br>";
                 this.$el.append(row);
                 return;
             }
             var communityData = '';
-            var communityCode = community.attributes.Code;
-            var communityName = community.get('Name'); //#80:Add Report button ( Generate Report ) on the Communities page at nation
+            //#80:Add Report button ( Generate Report ) on the Communities page at nation
             var communityDate = community.get('lastActivitiesSyncDate'); //#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             var communitySyncdate = communityDate.split("/").join("-");
             communityData = communityCode + "." + communityName;
@@ -95,8 +105,8 @@ $(function() {
                         }
                     }
                     if(community.get('registrationRequest') == "accepted"){
-                        var row = "<td>" + community.get('name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" +
+                        var row = "<td>" + communityName + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
+                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" +
                             community.get('_id') + "/registered'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
                             community.get('_id') + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
                         that.$el.append(row);

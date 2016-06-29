@@ -17,99 +17,96 @@ $(function() {
 
         defaults: {
             kind: "Community",
+            subType: "",
+            countDoubleUpdate: 0,
             lastAppUpdateDate: " - ",
             version: " - ",
             lastActivitiesSyncDate: " - ",
-            lastPublicationsSyncDate: " - "
+            lastPublicationsSyncDate: " - ",
+            registrationRequest: 'pending',
+            currentLanguage: '',
+            nationName: '',
+            nationUrl: '',
+            type: 'community'
         },
-
         schema: {
-            Name: {
+            //Community's information
+            name: {
                 type: 'Text',
                 validators: ['required']
             },
-            Code: {
+            code: {
                 type: 'Text',
                 validators: ['required']
             },
-            Url: {
+            region: 'Text',
+            //Sponsoring Organization
+            sponsorName: {
                 type: 'Text',
                 validators: ['required']
             },
-            SponserName: {
+            sponsorAddress: {
                 type: 'Text',
                 validators: ['required']
             },
-            SponerAddress: {
+            contactFirstName: {
                 type: 'Text',
                 validators: ['required']
             },
-
-            ContactFirstname: {
+            contactMiddleName: {
                 type: 'Text',
                 validators: ['required']
             },
-            ContactMiddlename: {
+            contactLastName: {
                 type: 'Text',
                 validators: ['required']
             },
-            ContactLastname: {
+            contactPhone: {
                 type: 'Text',
                 validators: ['required']
             },
-            ContactPhone: {
+            contactEmail: {
                 type: 'Text',
                 validators: ['required']
             },
-            ContactEmail: {
+            sponsorUrl: {
                 type: 'Text',
                 validators: ['required']
             },
-            SuperManagerFirstname: {
+            //Tech Support
+            superManagerFirstName: {
                 type: 'Text',
                 validators: ['required']
             },
-            SuperManagerMiddlename: {
+            superManagerMiddleName: {
                 type: 'Text',
                 validators: ['required']
             },
-            SuperManagerLastname: {
+            superManagerLastName: {
                 type: 'Text',
                 validators: ['required']
             },
-            SuperManagerPhone: {
+            superManagerPhone: {
                 type: 'Text',
                 validators: ['required']
             },
-            SuperManagerEmail: {
+            superManagerEmail: {
                 type: 'Text',
                 validators: ['required']
             },
-            LeaderId: {
+            superManagerID: {
                 type: 'Text',
                 validators: ['required']
             },
-            LeaderPassword: {
+            superManagerPassword: {
                 type: 'Text',
                 validators: ['required']
             },
-            LeaderEmail: {
+            authName: {
                 type: 'Text',
                 validators: ['required']
             },
-            UrgentName: {
-                type: 'Text',
-                validators: ['required']
-            },
-            UrgentPhone: {
-                type: 'Text',
-                validators: ['required']
-            },
-            AuthName: {
-                type: 'Text',
-                validators: ['required']
-            },
-            AuthDate: {
+            authDate: {
                 type: 'Text',
                 validators: ['required']
             }
