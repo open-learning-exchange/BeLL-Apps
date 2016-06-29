@@ -363,6 +363,9 @@ $(function() {
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
+
+            dashboard_update_passwords();
+            //
             //Updating configurations and other db's
             that.updateLanguageDocs();
             //Onward are the Ajax Request for all Updated Design Docs
@@ -447,6 +450,7 @@ $(function() {
         },
 
         updateDesignDocs: function(dbName) {
+            console.log("updateDesignDocs(" + dbName + ") started");
             var that = this;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
@@ -473,6 +477,7 @@ $(function() {
                 },
                 async: false
             });
+            console.log("updateDesignDocs(" + dbName + ") finished");
         },
 
         getCommunityConfigs: function() {

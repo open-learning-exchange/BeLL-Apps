@@ -44,14 +44,12 @@ $(function() {
                 },
                 async: false
             });
-            // create the form
             this.form = new Backbone.Form({
                 model: this.model
             })
 
             this.$el.append(this.form.render().el);
-            //Checking here that if the value of cookie is unset due to any reason then set its value
-            if($.cookie('languageFromCookie')==null) //|| $('#onLoginLanguage :selected').val() ==undefined )
+            if($.cookie('languageFromCookie')==null) 
             {
                 var configurations = Backbone.Collection.extend({
                     url: App.Server + '/configurations/_all_docs?include_docs=true'
@@ -123,42 +121,62 @@ $(function() {
                 success: function() {
                     var i;
                     if (members.length > 0) {
-                       // member=members.first();
-                      for(i=0; i <members.length ; i++)
-                      {
-                      member= members.models[i];
+                        // member=members.first();
+                        for(i=0; i <members.length ; i++)
+                        {
+                            member = members.models[i];
+                            var go_ahead_with_login = 0;
 
-                      if (member && member.get('password') == credentials.get('password') && member.get('login') == credentials.get('login')  ) {
-                          if(member.get('community') == bellCode){
-                              memberLoginForm.processMemberLogin(member);  //Does the functionality of after-login
-                              break;
-                          }
-                          else {
-                              if(member.get('community')==undefined)
-                              {
-                                  if(member.get('visits')==0)
-                                  {
-                                      App.member=member;
-                                      Backbone.history.navigate('configuration/add', {
-                                          trigger: true
-                                      });
-                                  }
-                                  else {
-                                      member.set('community',bellCode);
-                                      member.save();
-                                      i--;
-                                      memberLoginForm.processMemberLogin(member);
-                                  }
-                              }
-                          }
 
-                      }
-                      }
-                    if(i==members.length)
-                    {
+                            if (!member || (member.get('login') != credentials.get('login'))){
+                                continue;
+                            }
+
+                            obj_credentials = member.get('credentials');
+                            if (obj_credentials){
+                                hash_str = hash_login(member.get('login'), credentials.get('password'));
+                                if( hash_str == obj_credentials.value) {
+                                    go_ahead_with_login = 1;
+                                }
+                            }
+                            else if (member.get('password') == credentials.get('password'))   {
+                                go_ahead_with_login = 1;
+                            }
+
+                            if (go_ahead_with_login == 1) {
+                                if (!member.get('credentials')) {
+                                    member.set("credentials", generate_credentials(member.get('login'), member.get('password')));
+                                    member.set("password","");
+                                }
+
+                                if(member.get('community') == bellCode){
+                                    memberLoginForm.processMemberLogin(member);  //Does the functionality of after-login
+                                    break;
+                                }
+                                else {
+                                    if(member.get('community')==undefined) {
+                                        if(member.get('visits')==0) {
+                                            App.member=member;
+                                            Backbone.history.navigate('configuration/add', {
+                                                trigger: true
+                                            });
+                                        }
+                                        else {
+                                            member.set('community',bellCode);
+                                            member.save();
+                                            i--;
+                                            memberLoginForm.processMemberLogin(member);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if(i==members.length)
+                        {
                             alert(App.languageDict.attributes.Invalid_Credentials)
+                        }
                     }
-                    } else {
+                    else {
                         alert(App.languageDict.attributes.Invalid_Credentials)
                     }
                 }
@@ -234,14 +252,12 @@ $(function() {
             var superMgrIndex = member.get('roles').indexOf('SuperManager');
             if (member.get('Gender') == 'Male') {
                 var visits = parseInt(logModel.male_visits)
-                //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
                 if (superMgrIndex == -1) {
                     visits++
                 }
                 logModel.male_visits = visits
             } else {
                 var visits = parseInt(logModel.female_visits)
-                //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
                 if (superMgrIndex == -1) {
                     visits++
                 }
@@ -249,7 +265,7 @@ $(function() {
             }
             logModel.community = App.configuration.get("code");
 
-            logdb.put(logModel, logdate, logModel._rev, function(err, response) { // _id: logdate, _rev: logModel._rev
+            logdb.put(logModel, logdate, logModel._rev, function(err, response) {
                 if (!err) {
                     console.log("MemberLoginForm:: updated daily log from pouchdb for today..");
                 } else {
@@ -268,7 +284,6 @@ $(function() {
         createJsonlog: function(member, logdate, logdb) {
 
             var superMgrIndex = member.get('roles').indexOf('SuperManager');
-            // alert(superMgrIndex);
             var docJson = {
                 logDate: logdate,
                 resourcesIds: [],
@@ -279,7 +294,7 @@ $(function() {
                 male_rating: [],
                 community: App.configuration.get('code'),
                 female_rating: [],
-                resources_names: [], // Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                resources_names: [],
                 resources_opened: [],
                 male_opened: [],
                 female_opened: [],
@@ -289,7 +304,6 @@ $(function() {
             if (member.get('Gender') == 'Male') {
 
                 var visits = parseInt(docJson.male_visits)
-                //  if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
                 if (superMgrIndex == -1) {
                     visits++
                 }
@@ -297,7 +311,6 @@ $(function() {
             } else {
 
                 var visits = parseInt(docJson.female_visits)
-                //    if (!member.get('roles')[superMgrIndex ] == "SuperManager") {
                 if (superMgrIndex == -1) {
                     visits++
                 }

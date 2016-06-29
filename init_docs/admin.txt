@@ -1,14 +1,14 @@
 {
 	"login":"admin",
 	"kind":"Member", 
-    "roles": ["Manager", "SuperManager"], 
-    "firstName": "Default", 
-    "lastName": "Admin",
-     "password":"password",
-"Gender":"Male", 
-     "status": "active",
-     "email": "admin.somalia@olebell.org",
-     "visits": 0
+	"roles": ["Manager", "SuperManager"], 
+	"firstName": "Default", 
+	"lastName": "Admin",
+	"password":"password",
+	"Gender":"Male", 
+	"status": "active",
+	"email": "admin.somalia@olebell.org",
+	"visits": 0
 }
 
 
