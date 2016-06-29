@@ -7,7 +7,7 @@ $(function() {
             'addCommunity/:CommunityId': 'CommunityForm',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
-            'listCommunity': 'ListCommunity',
+            'listCommunity': 'ListCommunitiesRequest',
             'siteFeedback': 'viewAllFeedback',
             'dashboard': 'Dashboard',
             'request': 'commRequest',
@@ -3363,7 +3363,7 @@ $(function() {
         communityDetails: function (commDocId, requestStatus) {
             var commConfigModel;
             if(requestStatus == 'registered') {
-                commConfigModel = new App.Models.CommunityConfigurations({
+                commConfigModel = new App.Models.Community({
                     _id: commDocId
                 })
                 commConfigModel.fetch({
@@ -3371,7 +3371,7 @@ $(function() {
                 });
             } else if(requestStatus == 'pending') {
                 $.ajax({
-                    url: '/pendingrequests/_design/bell/_view/getDocById?_include_docs=true&key="' + commDocId + '"',
+                    url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true&key="' + commDocId + '"',
                     type: 'GET',
                     dataType: 'json',
                     async: false,
@@ -3647,7 +3647,7 @@ $(function() {
                 path: "/apps/_design/bell"
             })
         },
-        ListCommunity: function() {
+        /*ListCommunity: function() {
             App.startActivityIndicator();
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
@@ -3672,12 +3672,12 @@ $(function() {
 
             App.stopActivityIndicator()
 
-        },
+        },*/
 
         getPendingRequests: function() {
             var jsonModels = [];
             $.ajax({
-                url: '/pendingrequests/_design/bell/_view/getAllCommunities?_include_docs=true',
+                url: '/communityregistrationrequests/_design/bell/_view/getAllCommunities?_include_docs=true',
                 type: 'GET',
                 dataType: 'json',
                 async: false,
@@ -3701,7 +3701,7 @@ $(function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
-            var Communities = new App.Collections.CommunityConfigurations();
+            var Communities = new App.Collections.Community();
             Communities.fetch({
                     async: false
                 }
@@ -3719,8 +3719,8 @@ $(function() {
              $('#list-of-Communities', App.$el).append(CommunityTable.el);
              App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
             App.stopActivityIndicator()
-
         },
+
         earthRequest: function() {
             var listReq = "<div id='listRequest-head'> <p class='heading'> <a href='#' style='color:#1ABC9C'>Earth Request</a>  |   <a href='#request'>Communities Request</a> </p> </div>"
 
@@ -4215,7 +4215,7 @@ $(function() {
         var nationUrl = $.url().data.attr.authority;
         var docIDs=[];
         $.ajax({
-            url: 'http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationUrl + '"',
+            url: 'http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationUrl + '"',
             type: 'GET',
             dataType: 'jsonp',
             async: false,
@@ -4236,8 +4236,8 @@ $(function() {
                     url: '/_replicate',
                     dataType: 'json',
                     data: JSON.stringify({
-                        "source": "http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities",
-                        "target": 'pendingrequests',
+                        "source": "http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests",
+                        "target": 'communityregistrationrequests',
                         'doc_ids': docIDs
                     }),
                     async: false,

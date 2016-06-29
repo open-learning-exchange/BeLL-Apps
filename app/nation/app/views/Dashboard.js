@@ -23,7 +23,7 @@ $(function() {
             this.vars.pending_request_count = 0;
             var pendingCount=0;
             $.ajax({
-                url: '/pendingrequests/_design/bell/_view/getDocById?_include_docs=true',
+                url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true',
                 type: 'GET',
                 dataType: 'json',
                 async:false,

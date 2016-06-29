@@ -166,7 +166,7 @@ $(function() {
                             dataType: 'json',
                             data: JSON.stringify({
                                 "source": "configurations",
-                                "target": 'http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities',
+                                "target": 'http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests',
                                 'doc_ids': docIds
                             }),
                             async: false,

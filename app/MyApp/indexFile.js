@@ -51,7 +51,7 @@ function getRequestStatus() {
                 url: '/_replicate',
                 dataType: 'json',
                 data: JSON.stringify({
-                    "source": "http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities",
+                    "source": "http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests",
                     "target": 'configurations',
                     'doc_ids': docIDs
                 }),

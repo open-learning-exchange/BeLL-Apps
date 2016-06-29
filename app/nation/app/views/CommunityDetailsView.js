@@ -70,10 +70,10 @@ $(function() {
             doc.registrationRequest= status;
             doc.authName= this.getLoggedInName();
             doc.authDate= new Date();
-            // Update the registrationRequest attribute from pending to registered in that nation's pending request database.
-            $.couch.db("pendingrequests").saveDoc(doc, {
+            // Update the registrationRequest attribute from pending to registered in that nation's communityregistrationrequests database.
+            $.couch.db("communityregistrationrequests").saveDoc(doc, {
                 success: function(data) {
-                    // Replicate the updated document on that nation's registeredcommunities database.
+                    // Replicate the updated document on that nation's community database.
                     if(status == 'accepted') {
                         $.ajax({
                             headers: {
@@ -84,20 +84,20 @@ $(function() {
                             url: '/_replicate',
                             dataType: 'json',
                             data: JSON.stringify({
-                                "source": "pendingrequests",
-                                "target": 'registeredcommunities',
+                                "source": "communityregistrationrequests",
+                                "target": 'community',
                                 'doc_ids': docID
                             }),
                             async: false,
                             success: function (response) {
-                                console.log('Successfully replicated to registeredcommunities database')
+                                console.log('Successfully replicated to community database')
                             },
                             error: function(status) {
                                 console.log("Error for local replication");
                             }
                         });
                     }
-                    //Now, also replicate that community's document in registeredcommunities database of nbs.ole.org
+                    //Now, also replicate that community's document in communityregistrationrequests database of nbs.ole.org
                     $.ajax({
                         headers: {
                             'Accept': 'application/json',
@@ -107,17 +107,18 @@ $(function() {
                         url: '/_replicate',
                         dataType: 'json',
                         data: JSON.stringify({
-                            "source": "pendingrequests",
-                            "target": 'http://nbs:oleoleole@nbs.ole.org:5997/registeredcommunities',
+                            "source": "communityregistrationrequests",
+                            "target": 'http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests',
                             'doc_ids': docID
                         }),
                         async: false,
                         success: function (response) {
                             console.log('Successfully replicated pending request to central db')
-                            // Lastly, remove the document from that nation's pendingrequests database.
-                            $.couch.db("pendingrequests").removeDoc(doc, {
+                            // Lastly, remove the document from that nation's communityregistrationrequests database.
+                            $.couch.db("communityregistrationrequests").removeDoc(doc, {
                                 success: function(data) {
-                                    Backbone.history.navigate('listCommunitiesRequest', {
+                                    alert("Registration request has been " + status);
+                                    Backbone.history.navigate('listCommunity', {
                                         trigger: true
                                     })
                                 },

@@ -82,7 +82,6 @@
         <script src="app/models/Survey.js"></script>
         <script src="app/models/Question.js"></script>
         <script src="app/models/Language.js"></script>
-        <script src="app/models/CommunityConfigurations.js"></script>
 
       <!-- Collections  -->
      <script src="app/collections/ActivityLog.js"></script>
@@ -103,7 +102,6 @@
         <script src="app/collections/Languages.js"></script>
         <script src="app/collections/Members.js"></script>
         <script src="app/collections/SurveyAnswers.js"></script>
-        <script src="app/collections/CommunityConfigurations.js"></script>
 
      
      <!-- Views  -->
@@ -804,7 +802,7 @@
       	<a href="#configuration"><button class="btn btn-hg btn-primary" id="configbutton"><%= languageDict.attributes.Configurations %></button></a>
         <a href="#request"><button class="btn btn-hg btn-primary"><%= languageDict.attributes.Requests %></button></a>
         <a><button class="btn btn-hg btn-primary" onclick="showDatabases()"style="width:auto"><%= languageDict.attributes.Databases %></button></a>
-        <a href="#listCommunitiesRequest"><button class="btn btn-hg btn-primary" id="pendingRequests" >Communitites(<%=pending_request_count%>)</button></a>
+        <a href="#listCommunity"><button class="btn btn-hg btn-primary" id="pendingRequests" >Communitites(<%=pending_request_count%>)</button></a>
         <!--	<table class="page-bottom-navtable">
 			<tr>
 			
