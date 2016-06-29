@@ -3432,7 +3432,7 @@ $(function() {
                 async: false
             });
             for(var i=0;i<communityNames.length;i++){
-                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#addCommunity/'+communityNames[i]._id+'">'+communityNames[i].Name+'</a>' + '</td></tr>');
+                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#addCommunity/'+communityNames[i]._id+'">'+communityNames[i].name+'</a>' + '</td></tr>');
             }
             for(var i=0;i<5-communityNames.length;i++)
             {
