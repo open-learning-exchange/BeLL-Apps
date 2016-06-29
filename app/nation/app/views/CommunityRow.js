@@ -85,10 +85,23 @@ $(function() {
                         }
                     }
                     // //Issue#80:Add Report button ( Generate Report ) on the Communities page at nation
-                    var row = "<td>" + community.get('Name') + "</td><td>" + community.get('lastAppUpdateDate') + "</td><td>" + community.get('version') + "</td><td>" + community.get('lastPublicationsSyncDate') + "</td><td>" + community.get('lastActivitiesSyncDate') + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                        "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#addCommunity/" +
-                        community.get('_id') + "'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("EditLabel") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
-                        community.get('_id') + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
+                    var row = "<td>" + community.get('Name') + "</td>" +
+                        "<td>" + community.get('lastAppUpdateDate') + "</td>" +
+                        "<td>" + community.get('version') + "</td>" +
+                        "<td>" + community.get('lastPublicationsSyncDate') + "</td>" +
+                        "<td>" + community.get('lastActivitiesSyncDate') + "</td>" +
+                        "<td>" + memberVisits + "</td>" +
+                        "<td>" + resourceViews + "</td>" +
+                        "<td>" +
+                        "<a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp";
+                    if($.cookie('Member.login'))
+                    {
+                        row = row +
+                            "<a role='button' class='btn btn-info' href='#addCommunity/" + community.get('_id') + "'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("EditLabel") + "</a>&nbsp&nbsp&nbsp" +
+                            "<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
+                            community.get('_id') + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a>";
+                    }
+                    row = row + "</td>";
                     that.$el.append(row);
                 },
                 error: function() {

@@ -39,11 +39,22 @@ $(function() {
             if (!loggedIn && $.url().attr('fragment')) {
                 // We want to abort this page load so there isn't a race condition with whatever
                 // url is being requested and the loading of the login page.
+                if(/^communityreport/.test($.url().attr('fragment'))) {
+                    Backbone.history.start({
+                        pushState: false
+                    })
+                }
+                else if($.url().attr('fragment') != "listCommunityPage" && /^listCommunityPage/.test($.url().attr('fragment'))){
 
-                var temp = Backbone.history.location.href
-                temp = temp.split('#')
+                    Backbone.history.start({
+                        pushState: false
+                    })
 
-                window.location = $.url().attr('path') // returns url with no fragment
+                }
+                else{
+                    window.location = $.url().attr('path') // returns url with no fragment
+                }
+
             } else if (!loggedIn && !$.url().attr('fragment')) {
                 // No Routes are being triggered, it's safe to start history and move to login route.
                 Backbone.history.start({

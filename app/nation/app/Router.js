@@ -8,6 +8,7 @@ $(function() {
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
             'listCommunity': 'ListCommunitiesRequest',
+            'listCommunityPage(/:secretId)': 'ListCommunity',
             'siteFeedback': 'viewAllFeedback',
             'dashboard': 'Dashboard',
             'request': 'commRequest',
@@ -704,8 +705,16 @@ $(function() {
         //Issue#80:Add Report button on the Communities page at nation
         //*************************************************************************************************************
         communityReport: function(communityLastSyncDate, communityName, communityCode) {
-            var loginOfMem = $.cookie('Member.login');
-            var lang = App.Router.getLanguage(loginOfMem);
+            var lang;
+            if($.cookie('Member.login'))
+            {
+                lang = App.Router.getLanguage($.cookie('Member.login'));
+            }
+            else
+            {
+                $('#nav').hide();
+                lang = "English";
+            }
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var context = this;
             // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
@@ -1107,7 +1116,9 @@ $(function() {
             trendActivityReportView.CommunityName = communityName;
             trendActivityReportView.lastActivitySyncDate = communityLastActivitySyncDate;
             trendActivityReportView.render();
-            App.$el.children('.body').html(trendActivityReportView.el);
+            //App.$el.children('.body').html(trendActivityReportView.el);
+            App.$el.children('.body').html('<div id="parentDiv"></div>');
+            $('#parentDiv').append(trendActivityReportView.el);
 
             //***************************************************************************************************************
             //Trend Report Graphs Started
@@ -1631,6 +1642,8 @@ $(function() {
                     color: '#ff9900'
                 }]
             });
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+
         },
         //*************************************************************************************************************
         //Trend Report for Communities page on nation Ended
@@ -2616,7 +2629,7 @@ $(function() {
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
 
-                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember') {
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember' && !(/^listCommunityPage/.test($.url().attr('fragment'))) && !(/^communityreport/.test($.url().attr('fragment')))) {
                     Backbone.history.stop()
                     App.start()
                 }
@@ -3628,32 +3641,88 @@ $(function() {
                 path: "/apps/_design/bell"
             })
         },
-        /*ListCommunity: function() {
+        ListCommunity: function(secretId) {
             App.startActivityIndicator();
-            var loginOfMem = $.cookie('Member.login');
-            var lang = App.Router.getLanguage(loginOfMem);
-            App.languageDictValue=App.Router.loadLanguageDocs(lang);
-            var Communities = new App.Collections.Community();
-            Communities.fetch({
+            var isCorrectSecretId = true;
+            var lang;
+            if($.cookie('Member.login'))
+            {
+                lang = App.Router.getLanguage($.cookie('Member.login'));
+            }
+            else
+            {
+                $('#nav').hide();
+                lang = "English";
+            }
+            var viplinkModel = null;
+            if(secretId)
+            {
+                viplinkModel = new App.Models.VipLink({
+                    _id : secretId
+                });
+
+                viplinkModel.fetch({
                     async: false
+                });
+
+                viplinkModel.fetch({
+                    success: function(model, response, options) {
+                    },
+
+                    error: function(model, xhr, options) {
+                        isCorrectSecretId = false;
+                    },
+                    async: false
+                });
+                if(isCorrectSecretId)
+                {
+                    viplinkModel.set("visits", (viplinkModel.attributes.visits) + 1);
+                    viplinkModel.set("lastVisit", new Date());
+                    viplinkModel.save();
                 }
-            );
-            CommunityTable = new App.Views.CommunitiesTable({
-                collection: Communities
-            });
-            CommunityTable.render();
-            var listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>"
+            }
+            if(isCorrectSecretId)
+            {
+                App.languageDictValue=App.Router.loadLanguageDocs(lang);
+                var Communities = new App.Collections.Community();
+                Communities.fetch({
+                        async: false
+                    }
+                );
+                CommunityTable = new App.Views.CommunitiesTable({
+                    collection: Communities
+                });
+                CommunityTable.vipLinkModel = viplinkModel;
+                CommunityTable.render();
+                var listCommunity;
+                if(secretId)
+                {
+                    var nationConfig = new App.Collections.Configurations();
+                    nationConfig.fetch({
+                        async: false
+                    });
+                    nationConfig = nationConfig.first();
+                    listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>";
+                    listCommunity = listCommunity + "<h3> " + "Hi " + viplinkModel.attributes.name + "</h3>" + "<h3>" +  "Welcome to " + nationConfig.get("name") + " Communities" + "</h3>";
+                }
+                else {//if logged in and token is not correct
+                    listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>";
+                }
 
-            listCommunity += "<div id='list-of-Communities'></div>"
+                listCommunity += "<div id='list-of-Communities'></div>"
 
-            App.$el.children('.body').html('<div id="communityDiv"></div>');
-            $('#communityDiv').append(listCommunity);
-            $('#list-of-Communities', App.$el).append(CommunityTable.el);
-            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
-
+                App.$el.children('.body').html('<div id="communityDiv"></div>');
+                $('#communityDiv').append(listCommunity);
+                $('#list-of-Communities', App.$el).append(CommunityTable.el);
+                App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+            }
             App.stopActivityIndicator()
+            if(!isCorrectSecretId)
+            {
+                window.location.href = "../MyApp/index.html#login";
+            }
 
-        },*/
+        },
 
         getPendingRequests: function() {
             var jsonModels = [];

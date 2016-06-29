@@ -19,9 +19,6 @@ $(function() {
         render: function() {
 
             var context = this;
-            var loginOfMem = $.cookie('Member.login');
-            var lang = App.Router.getLanguage(loginOfMem);
-            App.languageDictValue=App.Router.loadLanguageDocs(lang);
             context.vars = context.data
             context.vars.languageDict=App.languageDictValue;
             context.vars.startDate = context.startDate
