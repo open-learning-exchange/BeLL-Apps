@@ -923,20 +923,34 @@
             <%= stepType %>
         </td>
         <td>
-            <%= quizCredits %>
-        </td>
-        <td>
-            <%if(stepType[0] == 'Paper'){%>
-            <%if(stepStatusOfPaper == '2'){%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=_id%>">
+            <%if(stepType == 'Quiz' ){%>
+           submitted
             <%}else{%>
-            Not uploaded yet
+            <%if(attachmentName!=null && attchmentURL != null){%>
+            <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
             <%}%>
             <%}%>
         </td>
         <td>
-            <%= status %>
+            <input type="hidden" name="percentage"  id="<%=percentage%>">
+            <%if(stepType== 'Quiz' ){%>
+            <%= credits %>
+            <%}%>
+            <%if(stepType== 'Paper'){%>
+            <%if(paperSubmitted ==  "Submitted" && credits == '0' ){%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>">
+              <%}else if(paperSubmitted ==  "Submitted" && credits != '0' ){%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>
+            <%}else if(paperSubmitted ==  "NotSubmitted" && credits == '0' ){%>
+            Not Submitted
+            <%}else{%>
+            <%= credits %>
+            <%}%>
+            <%}%>
         </td>
+       <!-- <td>
+            <%= status %>
+        </td> -->
     </script>
     <script type="text/html" id="template-GroupRow">
         <td>

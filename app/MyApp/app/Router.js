@@ -437,13 +437,21 @@ $(function() {
                     $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
                     $('#badgesTable').append(badgesTableView.el);
                 },
+
         creditsDetails:function(courseId, memberId) {
+            var that = this;
+            var learnerIds;
             var group = new App.Models.Group({
                 _id: courseId
             });
             group.fetch({
-                async: false,
+                success: function (groupDoc) {
+                    learnerIds = groupDoc.get('members');
+                },
+                async:false
             });
+            var learnerCollection = this.getLearnersList(learnerIds);
+            //if memberId == undefined, then fetch the first member's id from above returned sorted collection and assigned it to memberId
             var member = new App.Models.Member({
                 _id: memberId
             });
@@ -462,11 +470,44 @@ $(function() {
             creditsTableView.memberId=memberId;
             creditsTableView.render();
             App.$el.children('.body').html('<div id="creditsTable"></div>');
-            $('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
+            //$('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
+            var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
+            //
+            var name, id;
+            learnerCollection.each(
+                function(member) {
+                    var learnerName;
+                    if(member.get('firstName') ) {
+                        name = member.get('firstName')+ " " +member.get('lastName')
+                        id = member.get('_id')
+
+                    }
+                    if(name ){
+                        select.append("<option value="+id +"/"+courseId+">" +name+"</option>");
+                    }
+
+                });
+            if(courseId && memberId){
+                select.val(memberId + '/' + courseId)
+            }
+            ///
+           // select.append("<option value='memberId'>Sadia</option>");
+           // select.append("<option value='memberId'>Saba</option>");
+           // select.append("<option value='memberId'>Stefan</option>");
+
+                //creditsTableView.memberId=id;
+               // creditsTableView.render();
+
+
+            App.$el.children('.body').html('<div id="creditsTable"></div>');
+            $('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ '</h3>');
+
+            $('#creditsTable').append(select);
+
             $('#creditsTable').append(creditsTableView.el);
             $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits(\'' + courseId + '\',\'' + memberId + '\'  )"/>')
-        },
 
+        },
         submitCredits: function(courseId , memberId) {
             var count = 0;
             var value = 0;
@@ -482,10 +523,19 @@ $(function() {
 
             $("input[name='paperCredits']").each(function () {
                 if ($(this).val().trim() != '') {
-                    var stepId = $(this).attr('id');
+                    var idstep = $(this).attr('id');
+                    var arr = idstep.split("/");
+                    alert("step id and percentage" + idstep)
+                    var stepId =arr[0];
+                    var percentage = parseInt(arr[1]);
+                    //var stepId = $(this).attr('id');
+                   // var percentage = $("input[name='percentage']").attr('id');
+                    alert("stepId " + stepId);
+                    alert("pasiing percentage " + percentage);
                     console.log("stepId : " + stepId)
                     var paperMarks = $(this).val().trim();
                     console.log("paperMarks : " + paperMarks)
+                    alert("paper marks : " + paperMarks )
                     var memberProgress = new App.Collections.membercourseprogresses()
                     memberProgress.memberId = memberId
                     memberProgress.courseId = courseId
@@ -507,10 +557,21 @@ $(function() {
                            console.log("intMarks : " + intMarks)
                             if (intMarks.length > 1) {
                                 memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
-                                memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
+                                if( paperMarks >= percentage  ) {
+                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
+                                }
+                                else{
+                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
+                                }
                             }
                             else {
                                 memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
+                                if( paperMarks >= percentage  ) {
+                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
+                                }
+                                else{
+                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                                }
                                 memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
                             }
                             memberProgress.save(null, {
@@ -532,6 +593,22 @@ $(function() {
                return false;
             }
 
+        },
+
+        getLearnersList: function(learnerIds) {
+            var learnerModelIdes = ''
+            _.each(learnerIds, function(item) {
+                learnerModelIdes += '"' + item + '",'
+            })
+            if (learnerModelIdes != ''){
+                learnerModelIdes = learnerModelIdes.substring(0, learnerModelIdes.length - 1);
+            }
+            var membersColl = new App.Collections.Members();
+            membersColl.keys = encodeURI(learnerModelIdes)
+            membersColl.fetch({
+                async: false
+            });
+            return membersColl;
         },
 
         showLearnersListForCredits: function (courseId) {

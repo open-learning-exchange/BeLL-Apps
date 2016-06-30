@@ -305,6 +305,33 @@ function getCountOfLearners(courseId, requiredLearnersIds){
         return countOfLearners;
     }
 }
+function getName(select){
+    var arr = select.split('/');
+    var courseId = arr[1];
+    var memberId = arr [0];
+   window.location.href = '#creditsDetails/' + courseId + '/' + memberId;
+    /*var group = new App.Models.Group({
+        _id: courseId
+    });
+    group.fetch({
+        success: function (groupDoc) {
+            learnerIds = groupDoc.get('members');
+        },
+        async:false
+    });
+
+    var member = new App.Models.Member({
+        _id: memberId
+    });
+
+    member.fetch({
+        async: false,
+    });
+
+    var name = member.get('firstName')+ " " +member.get('lastName');
+    $("#creditsTable h3").html("Credits Details | " + group.get('CourseTitle') + "|" + name)
+      //  $('#creditsTable').append('<h3>' + ' Credits Details | '+ ' | '+select+ '</h3>');*/
+}
 function selectAllMembers (){
     if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)
     {

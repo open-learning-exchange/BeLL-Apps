@@ -5,84 +5,57 @@
 $(function () {
 
     App.Views.CreditsRow = Backbone.View.extend({
-
         tagName: "tr",
         roles: null,
         events: {
 
         },
-
         template: $("#template-CreditsRow").html(),
-
         initialize: function (e) {
 
         },
-
         render: function () {
             var vars = this.model.toJSON();
-            var courseProgress = new App.Collections.membercourseprogresses()
-            courseProgress.memberId = this.memberId;
-            courseProgress.courseId = this.courseId;
-            courseProgress.fetch({
-                async:false,
-
+            vars.id  = this.model.attributes._id;
+            vars.percentage = this.model.attributes.passingPercentage;
+            var attchmentURL = null;
+            var attachmentName = null;
+            //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download Paper" button
+            var memberAssignmentPaper = new App.Collections.AssignmentPapers()
+            memberAssignmentPaper.senderId=this.memberId
+            memberAssignmentPaper.stepId= this.model.get('_id')
+            memberAssignmentPaper.changeUrl = true;
+            memberAssignmentPaper.fetch({
+                async: false,
+                success: function (json) {
+                    if(json.models.length > 0) {
+                        var existingModels = json.models;
+                        attchmentURL = '/assignmentpaper/' + existingModels[0].attributes._id + '/';
+                        if (typeof existingModels[0].get('_attachments') !== 'undefined') {
+                            attchmentURL = attchmentURL + _.keys(existingModels[0].get('_attachments'))[0]
+                            attachmentName = _.keys(existingModels[0].get('_attachments'))[0]
+                        }
+                        console.log("attachment name : " +attachmentName)
+                    }
+                }
             });
-            console.log(courseProgress);
-            vars.stepNo = this.model.attributes.step;
-            vars.stepType = [];
-            var indexOfCurrentStep=courseProgress.models[0].get('stepsIds').indexOf(this.model.get('_id'));
-            for(var i=0;i<this.model.attributes.outComes.length;i++)
-            {
-                var type =this.model.attributes.outComes[i];
-                vars.stepType.push(type);
-            }
-            if(vars.stepType.length > 1){
-                vars.paperCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][0];
-                vars.quizCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][1];
-                vars.stepStatusOfPaper = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep];
-                if(vars.stepStatusOfPaper.indexOf('2')>-1 )
-                {
-                    vars.status='Awaiting';
-                }
-
-                else if(vars.stepStatusOfPaper.indexOf('0')>-1){
-                    vars.status='Fail';
-                }
-                else{
-                    vars.status='Pass';
-                }
+            if (attachmentName!= null){
+              //  alert("attachment name : " +attachmentName)
+                vars.attchmentURL = attchmentURL ;
+                vars.attachmentName = attachmentName;
+                vars.paperSubmitted = "Submitted";
             }
             else{
-
-                if(vars.stepType[0] == "Paper"){
-                    vars.paperCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
-                    vars.quizCredits = "N/A";
-                    vars.stepStatusOfPaper = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep];
-                    if(vars.stepStatusOfPaper=='2' )
-                    {
-                        vars.status='Awaiting';
-                    }
-                    else if(vars.stepStatusOfPaper=='1'){
-                        vars.status='Pass';
-                    }
-                    else{
-                        vars.status='Fail';
-                    }
-                }
-                else {
-                    vars.quizCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
-                    vars.paperCredits = "N/A";
-                    if(courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep]=='1'){
-                        vars.status='Pass';
-                    }
-                    else{
-                        vars.status='Fail';
-                    }
-                }
+                alert("attachment name : " +attachmentName)
+                vars.attchmentURL = null ;
+                vars.attachmentName = null;
+                vars.paperSubmitted = "NotSubmitted";
             }
-           
-            this.$el.append(_.template(this.template, vars))
-
+            vars.stepNo = this.model.attributes.step;
+            //vars.stepType = "";
+            vars.credits = this.credits;
+            vars.stepType =  this.stepType;
+    this.$el.append(_.template(this.template, vars))
         }
 
     })
