@@ -121,8 +121,20 @@ $(function () {
                 this.vars.status = App.languageDict.attributes.Error
                 this.vars.marks =  App.languageDict.attributes.Error
             } else {
+                var tempStatus = [];
+
+                if(sstatus[index].length > 1) {
+                    var paper = filterInt(sstatus[index][0])
+                    var quiz = filterInt(sstatus[index][1])
+                    tempStatus.push(paper);
+                    tempStatus.push(quiz);
+                    this.vars.status = tempStatus
+                    this.vars.marks = sr[index]
+                } else {
                 this.vars.status = sstatus[index]
                 this.vars.marks = sr[index]
+                }
+
                 this.vars.index = index
             }
             var attachmentNames = new Array()

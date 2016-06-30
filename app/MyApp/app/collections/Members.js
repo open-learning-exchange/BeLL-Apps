@@ -9,10 +9,11 @@ $(function() {
 				return App.Server + '/members/_design/bell/_view/Members?include_docs=true&limit=20&skip=' + this.skip
 			} else if (this.searchCommunity && this.searchCommunity != "" && this.searchText && this.searchText != "") {
 				return App.Server + '/members/_design/bell/_view/search?include_docs=true&limit=20&key=["'+this.searchCommunity+'", "' + this.searchText + '"]'
-			}
-            else if(this.searchCommunity && this.searchCommunity != "" ) {
+			} else if(this.searchCommunity && this.searchCommunity != "" ) {
 				return App.Server + '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="'+this.searchCommunity+'"'
-			} else {
+			}  else if (this.keys != undefined) {
+				return App.Server + '/members/_all_docs?include_docs=true&keys=[' + this.keys + ']'
+		    } else {
 				return App.Server + '/members/_design/bell/_view/Members?include_docs=true'
 			}
 		},

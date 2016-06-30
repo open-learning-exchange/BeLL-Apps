@@ -401,7 +401,7 @@
    "Error_UserCourse_Details": "متعلقہ کورس کے لئے کوائف موجود نہیں",
    "Take_Quiz": "ٹیسٹ دیں",
    "Exit": "خروج",
-   "PaperForStep": "مرحلہ نمبر کے لئےپیپر",
+   "DownloadPaperForStep":"Download Paper for step number",
    "Error_Course_Report": "سرور پر ڈیٹا نہیں ملا",
    "You_Scored": "آپ نے سکوربنائے",
    "Finish": "ختم کریں",
@@ -840,5 +840,6 @@
   "Resource_Success_Added": "Resource is Successfully added to library",
   "Community_Resources": "Resources From Community",
   "Local_Resources": "Local Resources",
-  "Pending_Resources": "Pending Resources"
+ "Pending_Resources": "Pending Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
 }

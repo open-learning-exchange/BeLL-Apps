@@ -61,13 +61,25 @@ $(function() {
                                 var sids = m.get("stepsIds")
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
-                                sids.push(that.model.get("id"))
-                                sresults.push("0")
-                                sstatus.push("0")
-                                m.set("stepsIds", sids)
-                                m.set("stepsResult", sresults)
-                                m.set("stepsStatus", sstatus)
-                                m.save()
+                                if(sids.indexOf(that.model.get("id")) < 0)
+                                {
+                                    sids.push(that.model.get("id"))
+                                    if(that.model.get("outComes").length == 2) {
+                                        var arr = [];
+                                        arr.push("0")
+                                        arr.push("0")
+                                        sresults.push(arr)
+                                        sstatus.push(arr)
+
+                                    } else {
+                                        sresults.push("0")
+                                        sstatus.push("0")
+                                    }
+                                    m.set("stepsIds", sids)
+                                    m.set("stepsResult", sresults)
+                                    m.set("stepsStatus", sstatus)
+                                    m.save()
+                                }
                             })
                         }
                     })
@@ -79,6 +91,31 @@ $(function() {
                         })
                     }
                 } else {
+                    var allcrs = new App.Collections.StepResultsbyCourse()
+                    allcrs.courseId = that.model.get("courseId")
+                    allcrs.fetch({
+                        success: function() {
+                            allcrs.each(function(m) {
+                                var sids = m.get("stepsIds")
+                                var sresults = m.get("stepsResult")
+                                var sstatus = m.get("stepsStatus")
+                                var stepIndex = sids.indexOf(that.model.get("id"))
+                                if(that.model.get("outComes").length == 2) {
+                                    var arr = [];
+                                    arr.push("0")
+                                    arr.push("0")
+                                    sresults[stepIndex] = arr;
+                                    sstatus[stepIndex] = arr;
+                                } else {
+                                    sresults[stepIndex] = '0';
+                                    sstatus[stepIndex] = '0';
+                                }
+                                m.set("stepsResult", sresults)
+                                m.set("stepsStatus", sstatus)
+                                m.save()
+                            })
+                        }
+                    })
                     Backbone.history.navigate('level/view/' + id + '/' + rid, {
                         trigger: true
                     })
@@ -93,8 +130,9 @@ $(function() {
             else if (this.model.get("description") == undefined || $.trim(this.model.get("description"))  == "") {
                 alert(App.languageDict.attributes.Description_Error)
             }
-           /* else if (this.model.get("allowedErrors") == undefined || $.trim(this.model.get("allowedErrors"))  == "" || isNaN(this.model.get("allowedErrors"))) {
-                alert(App.languageDict.attributes.Invalid_AllowedErrors)}*/
+            else if (this.model.get("outComes") == undefined || this.model.get("outComes").length == 0) {
+                alert("Please select outcomes")
+            }
              else if (isNaN(this.model.get("step"))) {
                 alert(App.languageDict.attributes.InvalidStepNumber)
             } else {

@@ -59,7 +59,9 @@ $(function() {
 
             'newsfeed': 'NewsFeed',
             'badges': 'Badges',
-
+            'badgesDetails/:cid':'badgesDetails',
+            'credits':'Credits',
+            'creditsDetails/:cid(/:memberId)':'creditsDetails',
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
@@ -86,9 +88,9 @@ $(function() {
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
-            'configurationsForm': 'configurationsForm'
+            'configurationsForm': 'configurationsForm',
+            'listLearnersCredits/:cid': 'showLearnersListForCredits'
         },
-
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
             var welcomeVideoResources = new App.Collections.Resources();
@@ -320,10 +322,393 @@ $(function() {
             this.bind("all", this.renderNav)
             //this.bind("all",this.checkForUpdates)
         },
-        Badges: function() {
+        eReader: function() {
+            // alert('match with ereader')
             this.underConstruction()
         },
+        Badges: function() {
+            var languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'))
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
+            //Check if the user who has logged in is a Leader or a Learner in any course.
+            var stepsStatuses=[];
+            var groups = new App.Collections.Groups()
+            var MemberCourseProgress = new App.Collections.membercourseprogresses();
+            var creditsView = new App.Views.BadgesMainPage(
+            );
+                var learnerCourses=[];
+                App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+                $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            creditsView.addHeading();
+            groups.fetch({
+                success: function (groupDocs) {
+                    if(groupDocs.length>0){
+                        var isLearner=false;
+                        var isCreditable=true;
+                        for(var i=0;i<groupDocs.length;i++) {
+                            var doc=groupDocs.models[i];
+                            if(doc.get('members')!=undefined && doc.get('courseLeader')!=undefined && doc.get('members').indexOf($.cookie('Member._id'))>-1 && doc.get('courseLeader').indexOf($.cookie('Member._id'))==-1){
+                                isLearner=true;
+                                //---------------------------------------
+                                MemberCourseProgress.courseId = doc.get('_id');
+                                MemberCourseProgress.memberId = $.cookie('Member._id');
+                                MemberCourseProgress.fetch({
+                                    success: function (progressDoc) {
+                                        stepsStatuses=progressDoc.models[0].get('stepsStatus');
+
+                                        for(var m=0;m<stepsStatuses.length;m++)
+                                        {
+                                            if(stepsStatuses[m].length==2)
+                                            {
+                                                if(parseInt(stepsStatuses[m][0])<= 2 && parseInt(stepsStatuses[m][1])< 1 ){
+                                                    isCreditable=false;
+                                                }
+
+                                            }
+                                            else {
+                                                if(stepsStatuses[m]=='0'){
+                                                    isCreditable=false;
+                                                }
+                                            }
+                                        }
+                                        console.log(isCreditable);
+                                        if(isCreditable){
+                                            creditsView.courseId=doc.get('_id');
+                                            creditsView.render();
+                                        }
+                                    },
+                                    async:false
+                                });
+                                //--------------------------------------
+                              //  creditsView.courseId=doc.get('_id');
+                               // creditsView.render();
+                            }
+
+                        }
+                        if(isLearner) {
+                $('#creditsMainTable').append(creditsView.el);
+            }
+            else{
+                            alert('You are not enrolled as Learner in any course.');
+                            }
+                    }
+                },
+                async:false
+            });
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
+        },
+
+        Credits: function() {
+            //Check if the user who has logged in is a Leader or a Learner in any course.
+            var languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'))
+            languageDictValue = getSpecificLanguage(lang);
+            var creditsView = new App.Views.CreditsLeaderView(
+            );
+            App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+            $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            creditsView.addHeading();
+            var count=0;
+            var groups = new App.Collections.Groups();
+            groups.fetch({
+                async:false,
+                success: function (groupDocs) {
+                    if(groupDocs.length>0){
+                        for(var i=0;i<groupDocs.length;i++) {
+                            if(groupDocs.models[i].get('_id') != '_design/bell') {
+                                var doc = groupDocs.models[i];
+                                var learnerIds = getCountOfLearners(doc.get('_id'), true);
+                                if(learnerIds.length>0){
+                                    creditsView.courseId=doc.get('_id');
+                                    creditsView.learnerIds = learnerIds;
+                                    creditsView.render();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            $('#creditsMainTable').append(creditsView.el);
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
+        },
+        badgesDetails: function(courseId){
+            var lang = getLanguage($.cookie('Member._id'))
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
+            var courseProgress = new App.Collections.membercourseprogresses()
+            courseProgress.memberId = $.cookie('Member._id');
+            courseProgress.courseId = courseId;
+            courseProgress.fetch({
+                async:false,
+            });
+            var resLength = [];
+            var stepLength = [];
+            for (var i =0; i< courseProgress.models[0].get('stepsResult').length ; i++){
+                stepLength = courseProgress.models[0].get('stepsResult')[i];
+                if($.isArray(stepLength)){
+                    resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))
+                    resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][1]))
+                }
+                else {
+                    resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i]))
+                }
+            }
+            var marks = 0; var totalMarks = 100*resLength.length ;
+            for (var i =0; i< resLength.length ; i++){
+                marks = marks+resLength[i]
+
+            }
+
+            var courseSteps = new App.Collections.coursesteps()
+            courseSteps.courseId=courseId;
+            courseSteps.fetch({
+                async: false
+            })
+            var badgesTableView = new App.Views.BadgesTable({
+                collection :courseSteps
+            });
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var name = loggedIn.get('firstName')+ " " +loggedIn.get('lastName')
+            badgesTableView.courseId=courseId;
+            badgesTableView.memberId= $.cookie('Member._id');
+            badgesTableView.render();
+
+            App.$el.children('.body').html('<div id="badgesTable"></div>');
+            $('#badgesTable').append('<h3>' + name + '\'s Badges' + '</h3>');
+            $('#badgesTable').append(badgesTableView.el);
+            $('#badges-details').append('<tr><td>' + 'Total'  + '</td><td></td><td></td><td>' +marks + "/" +totalMarks+ '</td><td>' + marks +"%"   + '</td></tr>');
+            $('#badgesTable').append(' <hr   style= "border-width: 5px;">' );
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
+        },
+
+        creditsDetails:function(courseId, memberId) {
+            var languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'))
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
+            var that = this;
+            var learnerCollection = this.getLearnersList(courseId);
+            if(!memberId)
+            {
+                if(learnerCollection.length > 0)
+                {
+                    memberId = learnerCollection.models[0].get("_id");
+                }
+            }
+            if(!memberId)
+            {
+                alert("No member in this course");
+                window.history.go(-1);
+            }
+            else
+            {
+                var courseSteps = new App.Collections.coursesteps()
+                courseSteps.courseId=courseId;
+                courseSteps.fetch({
+                    async: false
+                })
+                var creditsTableView = new App.Views.CreditsTable({
+                    collection :courseSteps
+                });
+                creditsTableView.courseId=courseId;
+                creditsTableView.memberId=memberId;
+                creditsTableView.render();
+                App.$el.children('.body').html('<div id="creditsTable"></div>');
+                //$('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
+                var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
+                //
+                var name, id;
+                learnerCollection.each(
+                    function(member) {
+                        var learnerName;
+                        if(member.get('firstName') ) {
+                            name = member.get('firstName')+ " " +member.get('lastName')
+                            id = member.get('_id')
+
+                        }
+                        if(name ){
+                            select.append("<option value="+id +"/"+courseId+">" +name+"</option>");
+                        }
+
+                    });
+                if(courseId && memberId){
+                    select.val(memberId + '/' + courseId)
+                }
+                ///
+                // select.append("<option value='memberId'>Sadia</option>");
+                // select.append("<option value='memberId'>Saba</option>");
+                // select.append("<option value='memberId'>Stefan</option>");
+
+                //creditsTableView.memberId=id;
+                // creditsTableView.render();
+
+
+                App.$el.children('.body').html('<div id="creditsTable"></div>');
+                var group = new App.Models.Group({
+                    _id: courseId
+                });
+                group.fetch({
+                    async:false
+                });
+                $('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ '</h3>');
+
+                $('#creditsTable').append(select);
+
+                $('#creditsTable').append(creditsTableView.el);
+                $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits(\'' + courseId + '\',\'' + memberId + '\'  )"/>')
+            }
+            applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
+        },
+        submitCredits: function(courseId , memberId) {
+            var isValid = [];
+            var readOnly = [];
+            $("input[name='paperCredits']").each(function () {
+                console.log ($(this).val().trim());
+                if(!$(this).is('[readonly]')){
+                    readOnly.push(false);
+                    if ( $(this).val().trim() != '' && $(this).val().trim() != '0' && $(this).val().trim() != 0) {
+                        isValid.push(true);
+                    }
+                    else{
+                        isValid.push(false);
+                    }
+                }
+                else {
+                    readOnly.push(true)
+                }
+            });
+            if (readOnly.length > 0 && readOnly.indexOf(false)== -1 ) {
+                alert('Learner has not submitted any paper');
+            }
+            else if (isValid.length > 0 && isValid.indexOf(false)== -1 ) {
+            $("input[name='paperCredits']").each(function () {
+                if ($(this).val().trim() != '' ) {
+                    var idstep = $(this).attr('id');
+                    var arr = idstep.split("/");
+                   // alert("step id and percentage" + idstep)
+                    var stepId =arr[0];
+                    var percentage = parseInt(arr[1]);
+                   // alert("stepId " + stepId);
+                   // alert("pasiing percentage " + percentage);
+                    console.log("stepId : " + stepId)
+                    var paperMarks = $(this).val().trim();
+                    console.log("paperMarks : " + paperMarks)
+                  //  alert("paper marks : " + paperMarks )
+                    var memberProgress = new App.Collections.membercourseprogresses()
+                    memberProgress.memberId = memberId
+                    memberProgress.courseId = courseId
+                    memberProgress.fetch({
+                        async: false,
+                        success: function () {
+                            memberProgress = memberProgress.first();
+                            var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
+                            var marks = memberProgress.attributes.stepsResult[memberStepIndex];
+                            var intMarks = [];
+                            if($.isArray(marks)){
+                                for (var i=0; i < marks.length ; i++){
+                                    intMarks.push(parseInt(marks[i]));
+                                }
+                            }
+                            else{
+                                intMarks.push(parseInt(marks));
+                            }
+                           console.log("intMarks : " + intMarks)
+                            if (intMarks.length > 1) {
+                                memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
+                                if( paperMarks >= percentage  ) {
+                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
+                                }
+                                else{
+                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
+                                }
+                            }
+                            else {
+                                memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
+                                if( paperMarks >= percentage  ) {
+                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
+                                }
+                                else{
+                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                                }
+                                //
+                                // memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                            }
+                            memberProgress.save(null, {
+                                async: false,
+                                success: function (response) {
+                                },
+                                async: false,
+                            });
+                        }
+
+                    })
+
+                }
+
+            });
+                alert('Paper credits have been submitted');
+        } else {
+                alert('Please enter marks against each paper');
+               return false;
+            }
+            location.reload();
+        },
+
+        getLearnersList: function(courseId) {
+            var learnerIds = getCountOfAllLearnersOrIds(courseId, true);
+            var learnerModelIdes = ''
+            _.each(learnerIds, function(item) {
+                learnerModelIdes += '"' + item + '",';
+            })
+            if (learnerModelIdes != ''){
+                learnerModelIdes = learnerModelIdes.substring(0, learnerModelIdes.length - 1);
+            }
+            var membersColl = new App.Collections.Members();
+            membersColl.keys = encodeURI(learnerModelIdes)
+            membersColl.fetch({
+                async: false
+            });
+            return membersColl;
+        },
+
+        showLearnersListForCredits: function (courseId) {
+            var group = new App.Models.Group({
+                _id: courseId
+            });
+            group.fetch({
+                async: false,
+            });
+            var learnerIds = getCountOfLearners(courseId, true);
+            var learnerModelIdes = ''
+            _.each(learnerIds, function(item) {
+                learnerModelIdes += '"' + item + '",'
+            })
+            if (learnerModelIdes != ''){
+                learnerModelIdes = learnerModelIdes.substring(0, learnerModelIdes.length - 1);
+            }
+            var membersColl = new App.Collections.Members();
+            membersColl.keys = encodeURI(learnerModelIdes)
+            membersColl.fetch({
+                async: false
+            });
+            var courseLearnersTable = new App.Views.CourseLearnersList({
+                collection: membersColl
+            })
+            courseLearnersTable.Id = courseId;
+            courseLearnersTable.render();
+            App.$el.children('.body').html('<div id="courseLearnersTable"></div>');
+            $('#courseLearnersTable').append('<h3>' + group.get('CourseTitle') + '</h3>');
+            $('#courseLearnersTable').append(courseLearnersTable.el);
+        },
+
         underConstruction: function() {
+
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);
