@@ -234,6 +234,164 @@ function applyCorrectStylingSheet(directionOfLang){
         alert(languageDictValue.attributes.error_direction);
     }
 }
+
+function getCountOfLearners(courseId, requiredLearnersIds){
+    if(courseId=='_design/bell') {
+        return 0;
+    }
+    var learners=[], learnersIds=[], stepsStatuses=[], countOfLearners=0;
+    var group = new App.Models.Group({
+        _id: courseId
+    })
+    var MemberCourseProgress = new App.Collections.membercourseprogresses();
+    group.fetch({
+        async:false,
+        success: function (groupDoc) {
+            learners=[], stepsStatuses=[];
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles");
+            //Check whether the logged in person is leader for the course he wants to know the count of Learners
+            if ((groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (roles.indexOf('Manager')>-1) || (roles.indexOf('SuperManager')>-1)) {
+                for (var j = 0; j < groupDoc.get('members').length; j++) {
+                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
+                        learners.push(groupDoc.get('members')[j]);
+                    }
+                }
+                for (var k = 0; k < learners.length; k++) {
+                    var addToCount = false;
+                    MemberCourseProgress.courseId = groupDoc.get('_id');
+                    MemberCourseProgress.memberId = learners[k];
+                    MemberCourseProgress.fetch({
+                        success: function (progressDoc) {
+                            stepsStatuses=progressDoc.models[0].get('stepsStatus');
+                            if(progressDoc.models[0].get('stepsIds').length>0){
+                                for(var m=0;m<stepsStatuses.length;m++) {
+                                    if(stepsStatuses[m].length==2) {
+                                        var paperQuizStatus=stepsStatuses[m];
+                                        if(paperQuizStatus.indexOf('2')>-1) {
+                                           // addToCount = true;
+                                            countOfLearners++;
+                                            if(learnersIds.indexOf(learners[k]) == -1) {
+                                                learnersIds.push(learners[k]);
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        if(stepsStatuses[m]=='2'){
+                                           // addToCount = true;
+                                            countOfLearners++;
+                                            if(learnersIds.indexOf(learners[k]) == -1) {
+                                                learnersIds.push(learners[k]);
+                                            }
+                                        }
+                                    }
+                                }
+                                //if(addToCount) {
+                                //    countOfLearners++;
+                                //    learnersIds.push(learners[k]);
+                               // }
+                            }
+                        },
+                        async:false
+                    });
+                }
+            }
+            else {
+                return 0;
+            }
+        },
+        async:false
+    });
+    if(requiredLearnersIds) {
+        return learnersIds;
+    } else {
+        return countOfLearners;
+    }
+}
+function getCountOfAllLearnersOrIds(courseId, requiredLearnersIds){
+    if(courseId=='_design/bell') {
+        return 0;
+    }
+    var learnersIds=[], countOfLearners=0;
+    var group = new App.Models.Group({
+        _id: courseId
+    })
+    var MemberCourseProgress = new App.Collections.membercourseprogresses();
+    group.fetch({
+        async:false,
+        success: function (groupDoc) {
+            if (groupDoc.get('courseLeader') != undefined && groupDoc.get('members') != undefined) {
+                for (var j = 0; j < groupDoc.get('members').length; j++) {
+                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
+                        learnersIds.push(groupDoc.get('members')[j]);
+                        countOfLearners++;
+                    }
+                }
+            }
+        },
+        async:false
+    });
+    if(requiredLearnersIds) {
+        return learnersIds;
+    } else {
+        return countOfLearners;
+    }
+}
+
+function sortByProperty(property) {
+    'use strict';
+    return function (a, b) {
+        var sortStatus = 0;
+        if (a[property] < b[property]) {
+            sortStatus = -1;
+        } else if (a[property] > b[property]) {
+            sortStatus = 1;
+        }
+
+        return sortStatus;
+    };
+}
+
+function changeDateFormat(date) {
+    var datePart = date.match(/\d+/g),
+        year = datePart[0],
+        month = datePart[1],
+        day = datePart[2];
+    return year + '/' + month + '/' + day;
+}
+
+function getName(select){
+    var arr = select.split('/');
+    var courseId = arr[1];
+    var memberId = arr [0];
+   window.location.href = '#creditsDetails/' + courseId + '/' + memberId;
+    /*var group = new App.Models.Group({
+        _id: courseId
+    });
+    group.fetch({
+        success: function (groupDoc) {
+            learnerIds = groupDoc.get('members');
+        },
+        async:false
+    });
+
+    var member = new App.Models.Member({
+        _id: memberId
+    });
+
+    member.fetch({
+        async: false,
+    });
+
+    var name = member.get('firstName')+ " " +member.get('lastName');
+    $("#creditsTable h3").html("Credits Details | " + group.get('CourseTitle') + "|" + name)
+      //  $('#creditsTable').append('<h3>' + ' Credits Details | '+ ' | '+select+ '</h3>');*/
+}
 function selectAllMembers (){
     if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)
     {
@@ -1059,27 +1217,26 @@ function FieSelected(stepId) {
     }
     //var extension = img.val().split('.')
     var extension = imgVal.split('.')
-    //-------------------------------------
     if (extension){
         var memberAssignmentPaper = new App.Collections.AssignmentPapers()
         memberAssignmentPaper.senderId=$.cookie('Member._id')
-        memberAssignmentPaper.courseId=courseId
+        memberAssignmentPaper.stepId=stepId
+        memberAssignmentPaper.changeUrl = true;
         memberAssignmentPaper.fetch({
             async: false,
             success: function (json) {
                 if(json.models.length > 0) {
                     var existingModels = json.models;
                     for(var i = 0 ; i < existingModels.length ; i++) {
-                        // var doc = existingModels[i].attributes;
                         var doc = {
                             _id: existingModels[i].attributes._id,
                             _rev: existingModels[i].attributes._rev
                         };
                         $.couch.db("assignmentpaper").removeDoc(doc, {
-                            success: function(data) {
+                            success: function (data) {
                                 console.log(data);
                             },
-                            error: function(status) {
+                            error: function (status) {
                                 console.log(status);
                             }
                         });
@@ -1089,7 +1246,6 @@ function FieSelected(stepId) {
             }
         });
     }
-    //-----------------------------------
     if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
         alert(App.languageDict.attributes.Invalid_Attachment);
         return;
@@ -1127,8 +1283,14 @@ function FieSelected(stepId) {
                     success:function(){
                         memberProgress = memberProgress.first();
                         var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
-                        memberProgress.attributes.stepsResult[memberStepIndex] = '2';
+                        if( memberProgress.attributes.stepsResult[memberStepIndex].length >1){
+                           // memberProgress.attributes.stepsResult[memberStepIndex][0] = '2';
+                            memberProgress.attributes.stepsStatus[memberStepIndex][0] = '2';
+                        }
+                        else{
+                       // memberProgress.attributes.stepsResult[memberStepIndex] = '2';
                         memberProgress.attributes.stepsStatus[memberStepIndex] = '2';
+                        }
                         memberProgress.save(null, {
                             success: function(response) {
                             }
@@ -1142,7 +1304,11 @@ function FieSelected(stepId) {
         }
     })
 }
-
+function filterInt(value) {
+    if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+        return Number(value);
+    return NaN;
+}
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
@@ -1420,6 +1586,10 @@ function AddToShelf(rId, title) {
 //Issue#61: Update buttons Add Feedback form when rating a resource
 function AddToShelfAndSaveFeedback(rId, title) {
     App.Router.AddToShelfAndSaveFeedback(rId, title)
+}
+//* Credit Details
+function badgesDetails() {
+    App.Router.badgesDetails()
 }
 
 function showSubjectCheckBoxes() {

@@ -277,7 +277,14 @@
     <script src="app/views/CommunityConfigurationsForm.js"></script>
     <script src="app/views/TrendActivityReport.js"></script>
     <script src="app/views/AdminForm.js"></script>
-
+    <script src="app/views/BadgesTable.js"></script>
+    <script src="app/views/BadgesRow.js"></script>
+    <script src="app/views/BadgesMainPage.js"></script>
+    <script src="app/views/CreditsLeaderView.js"></script>
+    <script src="app/views/CreditsTable.js"></script>
+    <script src="app/views/CreditsRow.js"></script>
+    <script src="app/views/CourseCreditsMainPage.js"></script>
+    <script src="app/views/CourseLearnersList.js"></script>
     <!-- javaScript -->
 
     <script src='indexFile.js'></script>
@@ -507,14 +514,11 @@
 
             <table id="bottomButtonsOnDashboard" class="page-bottom-navtable" style="border-collapse: separate;">
                 <tr>
-
                     <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict.attributes.Badges %></button></td>
+                    <!--<td><button id="creditsDash" class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Credits(<%=new_learners_count%>) </button></td>-->
+                    <td><button id="creditsDash" class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Submissions(<%=new_learners_count%>) </button></td>
                     <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%=languageDict.attributes.Calender%></button></td>
                     <td><button id= "mailsDash"class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"></button></td>
-                    <td><button id= "surveysForMember" class="btn btn-hg btn-primary" onclick = "document.location.href='#memberSurveys'"></button></td>
-                    <!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
-                    <!-- <td></td> -->
-                    <!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
                 </tr>
                 <tr>
                     <% if(type == "nation") {%>
@@ -966,9 +970,91 @@
                 <%}%>
     </script>
 
+    <script type="text/html" id="template-BadgesRow">
+        <td>
+            <%= stepNo %>
+        </td>
+        <td>
+            <%= stepType %>
+        </td>
+        <td>
+            <%if(stepType == 'Quiz' && credits != '0'  ){%>
+            submitted
+            <%}else if(stepType == 'Quiz' && credits == '0'  ){%>
+            Quiz is not submitted
+            <%}else{%>
+            <%if(attachmentName!=null && attchmentURL != null){%>
+            <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
+            <%}else{%>
+            Paper is not uploaded
+            <%}%>
+            <%}%>
+        </td>
+        <td>
+            <input type="hidden" name="percentage"  id="<%=percentage%>">
+            <%= credits %>/100
+
+        </td>
+
+        <td>
+            <%= credits %>%
+        </td>
+
+    </script>
+    <script type="text/html" id="template-CreditsRow">
+        <td>
+            <%= stepNo %>
+        </td>
+        <td>
+            <%= stepType %>
+        </td>
+        <td>
+            <%if(stepType == 'Quiz' && credits != '0'  ){%>
+           submitted
+            <%}else if(stepType == 'Quiz' && credits == '0'  ){%>
+           Quiz is not submitted
+            <%}else{%>
+               <%if(attachmentName!=null && attchmentURL != null){%>
+               <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
+               <%}else{%>
+                  Paper is not uploaded
+                <%}%>
+            <%}%>
+        </td>
+        <td>
+            <input type="hidden" name="percentage"  id="<%=percentage%>">
+            <%if(stepType== 'Quiz' ){%>
+            <%= credits %>/100
+            <%}%>
+            <%if(stepType== 'Paper'){%>
+            <%if(paperSubmitted ==  "Submitted" && credits == '0' ){%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
+              <%}else if(paperSubmitted ==  "Submitted" && credits != '0' ){%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
+            <%}else if(paperSubmitted ==  "NotSubmitted" && credits == '0' ){%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>/100
+            <%}else{%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
+            <%}%>
+            <%}%>
+        </td>
+        <td>
+            <%= credits %>%
+        </td>
+       <!-- <td>
+            <%= status %>
+        </td> -->
+    </script>
+
     <script type="text/html" id="template-GroupRow">
         <td>
             <%= CourseTitle %>
+        </td>
+
+        <td>
+            <a role='button' class='btn btn-open' href='#usercourse/details/<%= _id %>/<%= CourseTitle %>'>
+                Open
+            </a>
         </td>
 
         <td>
@@ -983,6 +1069,12 @@
         <td>
             <a id="viewCourseButton" role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'>
                 <%=viewCourse%>
+            </a>
+        </td>
+
+        <td>
+            <a role='button' class='btn btn-credit' href='<%= link %>'>
+                Credits
             </a>
         </td>
 
@@ -1202,12 +1294,28 @@
     <script type="text/html" id="template-courseLevelsTable">
 
         <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
-            <% if(status == "1") { %>
-            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
+
+            <% if(status.length > 1) { %>
+
+               <% if(status[0] > 1 && status[1] == 1 ) { %>
+               <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>%</span>
+               <% } else if (status[0] > 1 && status[1] == 0) {%>
+               <span  style="float:right;" class="fui-check">&nbsp;</span>
+               <% } else if (status[0] == 0 && status[1] == 1) {%>
+               <span  style="float:right;" >&nbsp;<%=marks[1]%>%</span>
             <% } %>
-            <% if(status == "2") { %>
+
+            <% } else  { %>
+
+               <% if(status == "2" || status == "3" ) { %>
             <span  style="float:right;" class="fui-check">&nbsp;</span>
+               <% } else if(status == "1" ) { %>
+               <span  style="float:right;" >&nbsp;<%=marks%>%</span>
             <% } %>
+
+            <% } %>
+
+
         </div>
         </h3>
 
