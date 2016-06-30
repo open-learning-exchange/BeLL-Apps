@@ -68,7 +68,16 @@ $(function () {
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
+                        var doc = response.rows[i].value;
+                        var code, name;
+                        if(doc.Code != undefined) {
+                            code = doc.Code;
+                            name = doc.Name;
+                        } else {
+                            code = doc.code;
+                            name = doc.name;
+                        }
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + code + '_' + name + '">' + name + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
                     }
                     viewtext += '</table><br>'
                     viewtext += '<button class="btn btn-info" id="selectAllBells">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllBells">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="openMembersList">' + App.languageDictValue.get("Get_Members_List") + '</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
