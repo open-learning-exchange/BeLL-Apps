@@ -104,7 +104,7 @@ $(function () {
                             {
                                 papers = papers + '</tr><tr>';
                             }
-                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.DownloadPaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
                             count++;
                         }
                     })
@@ -167,7 +167,7 @@ $(function () {
                             {
                                 papers = papers + '</tr><tr>';
                             }
-                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.DownloadPaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
                             count++;
                         }
                     })
