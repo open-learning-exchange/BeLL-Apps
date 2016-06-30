@@ -1674,16 +1674,22 @@ $(function() {
 
             var label = $("<label>").text(App.languageDictValue.get('Select_Comm')+': ');
             $('#trend-report-form').append(label);
-
-            var communityNames = [];
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getAllCommunityNames',
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        communityNames[i] = response.rows[i].value;
-                        select.append("<option value=" + communityNames[i] + ">" + response.rows[i].key + "</option>");
+                        var doc = response.rows[i].value;
+                        var code, name;
+                        if(doc.Code != undefined) {
+                            code = doc.Code;
+                            name = doc.Name;
+                        } else {
+                            code = doc.code;
+                            name = doc.name;
+                        }
+                        select.append("<option value=" + code + ">" + name + "</option>");
                     }
                 },
                 data: {},
@@ -3432,7 +3438,16 @@ $(function() {
                 async: false
             });
             for(var i=0;i<communityNames.length;i++){
-                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#addCommunity/'+communityNames[i]._id+'">'+communityNames[i].name+'</a>' + '</td></tr>');
+                var doc = communityNames[i];
+                var code, name;
+                if(doc.Code != undefined) {
+                    code = doc.Code;
+                    name = doc.Name;
+                } else {
+                    code = doc.code;
+                    name = doc.name;
+                }
+                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#addCommunity/'+doc._id+'">'+name+'</a>' + '</td></tr>');
             }
             for(var i=0;i<5-communityNames.length;i++)
             {
