@@ -409,7 +409,7 @@ $(function() {
             that.updateDesignDocs("publications");
             //Following are the list of db's on which design_docs are not updating,
             // whenever the design_docs will be changed in a db,that db's call will be un-commented.
-            //that.updateDesignDocs("assignmentpaper");
+            that.updateDesignDocs("assignmentpaper");
             //that.updateDesignDocs("assignments");
             //that.updateDesignDocs("calendar");
             //that.updateDesignDocs("communityreports");
@@ -832,6 +832,63 @@ $(function() {
             });
         },
 
+        getCountOfLearners: function(){
+            var learners=[], stepsStatuses=[], countOfLearners=0;
+            var groups = new App.Collections.Groups();
+            var MemberCourseProgress = new App.Collections.membercourseprogresses();
+            groups.fetch({
+                async:false,
+                success: function (groupDocs) {
+                    if(groupDocs.length>0) {
+                        for (var i = 0; i < groupDocs.length; i++) {
+                            var doc = groupDocs.models[i];
+                            learners=[], stepsStatuses=[];
+                            if (doc.get('courseLeader') != undefined && doc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) {
+                                for (var j = 0; j < doc.get('members').length; j++) {
+                                    if (doc.get('members')[j] != $.cookie('Member._id') && doc.get('courseLeader').indexOf(doc.get('members')[j]) < 0) {
+                                        learners.push(doc.get('members')[j]);
+                                    }
+                                }
+                                for (var k = 0; k < learners.length; k++) {
+                                    MemberCourseProgress.courseId = doc.get('_id');
+                                    MemberCourseProgress.memberId = learners[k];
+                                    MemberCourseProgress.fetch({
+                                        success: function (progressDoc) {
+                                            stepsStatuses=progressDoc.models[0].get('stepsStatus');
+                                            var isCreditable=true;
+                                            for(var m=0;m<stepsStatuses.length;m++)
+                                            {
+                                                if(stepsStatuses[m].length==2)
+                                                {
+                                                    var paperQuizStatus=stepsStatuses[m];
+                                                   if(paperQuizStatus.indexOf('0')>-1)
+                                                   {
+                                                       isCreditable=false;
+                                                   }
+                                                }
+                                                else {
+                                                    if(stepsStatuses[m]=='0'){
+                                                        isCreditable=false;
+                                                    }
+                                                }
+                                            }
+                                            console.log(isCreditable);
+                                            if(isCreditable){
+                                                countOfLearners++;
+                                            }
+                                        },
+                                        async:false
+                                    });
+                                }
+                            }
+                        }
+                    }
+                },
+                async:false
+            });
+            return countOfLearners;
+        },
+
         getSurveysCountForMember: function () {
             var configurations = Backbone.Collection.extend({
                 url: App.Server + '/configurations/_all_docs?include_docs=true'
@@ -918,6 +975,20 @@ $(function() {
             }
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
+            var groups = new App.Collections.Groups();
+            var countOfLearnersToMarkCredits=0;
+            groups.fetch({
+                async: false,
+                success: function (groupDocs) {
+                    if (groupDocs.length > 0) {
+                        for (var i = 0; i < groupDocs.length; i++) {
+                            var doc = groupDocs.models[i];
+                            countOfLearnersToMarkCredits+=getCountOfLearners(doc.get('_id'), false);
+                        }
+                    }
+                }
+            });
+
             this.vars.mails = 0;
             this.vars.nation_version = 0;
             this.vars.new_publication_count = 0;
@@ -955,6 +1026,7 @@ $(function() {
                 }
             });
             this.vars.pending_resource_count = tempResourceCount;
+            this.vars.new_learners_count=0;
             var members = new App.Collections.Members()
             var member;
             var lang;
@@ -1002,6 +1074,7 @@ $(function() {
             this.vars.mails = a.length
             this.vars.survey_count_for_member = newSurveysCountForMember;
             this.vars.type = typeofBell;
+            this.vars.new_learners_count=countOfLearnersToMarkCredits;
             this.$el.html(_.template(this.template, this.vars))
 
             groups = new App.Collections.MemberGroups()
@@ -1252,6 +1325,10 @@ $(function() {
             if(typeofBell == "nation" && memberRoles.indexOf("Manager") >= 0 && this.vars.pending_resource_count > 0)
             {
                 $('#pendingResources').show();
+            }
+            if(this.vars.new_learners_count > 0)
+            {
+                $('#creditsDash').css({"color": "red"});
             }
             $('#surveysForMember').html(App.languageDict.attributes.Surveys + '(' + this.vars.survey_count_for_member + ')');
             if(this.vars.survey_count_for_member > 0)

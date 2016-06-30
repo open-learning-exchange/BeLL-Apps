@@ -9,7 +9,9 @@ $(function() {
 				return App.Server + '/members/_design/bell/_view/Members?include_docs=true&limit=20&skip=' + this.skip
 			} else if (this.searchText && this.searchText != "") {
 				return App.Server + '/members/_design/bell/_view/search?include_docs=true&limit=20&key="' + this.searchText + '"'
-			} else {
+			} else if (this.keys != undefined) {
+				return App.Server + '/members/_all_docs?include_docs=true&keys=[' + this.keys + ']'
+		    } else {
 				return App.Server + '/members/_design/bell/_view/Members?include_docs=true'
 			}
 		},
