@@ -57,7 +57,9 @@ $(function() {
 
             'newsfeed': 'NewsFeed',
             'badges': 'Badges',
-
+            'badges/edit/:mid':'badgesDetails',
+            'credits':'Credits',
+            'creditsDetails/:cid/:memberId':'creditsDetails',
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
@@ -84,9 +86,9 @@ $(function() {
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
-            'configurationsForm': 'configurationsForm'
+            'configurationsForm': 'configurationsForm',
+            'listLearnersCredits/:cid': 'showLearnersListForCredits'
         },
-
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
             var welcomeVideoResources = new App.Collections.Resources();
@@ -318,10 +320,329 @@ $(function() {
             this.bind("all", this.renderNav)
             //this.bind("all",this.checkForUpdates)
         },
-        Badges: function() {
+        eReader: function() {
+            // alert('match with ereader')
             this.underConstruction()
         },
+        Badges: function() {
+            //Check if the user who has logged in is a Leader or a Learner in any course.
+            var stepsStatuses=[];
+            var groups = new App.Collections.Groups()
+            var MemberCourseProgress = new App.Collections.membercourseprogresses();
+            var creditsView = new App.Views.BadgesMainPage(
+            );
+                var learnerCourses=[];
+                App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+                $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            creditsView.addHeading();
+            groups.fetch({
+                success: function (groupDocs) {
+                    if(groupDocs.length>0){
+                        var isLearner=false;
+                        var isCreditable=true;
+                        for(var i=0;i<groupDocs.length;i++) {
+                            var doc=groupDocs.models[i];
+                            if(doc.get('members')!=undefined && doc.get('courseLeader')!=undefined && doc.get('members').indexOf($.cookie('Member._id'))>-1 && doc.get('courseLeader').indexOf($.cookie('Member._id'))==-1){
+                                isLearner=true;
+                                //---------------------------------------
+                                MemberCourseProgress.courseId = doc.get('_id');
+                                MemberCourseProgress.memberId = $.cookie('Member._id');
+                                MemberCourseProgress.fetch({
+                                    success: function (progressDoc) {
+                                        stepsStatuses=progressDoc.models[0].get('stepsStatus');
+
+                                        for(var m=0;m<stepsStatuses.length;m++)
+                                        {
+                                            if(stepsStatuses[m].length==2)
+                                            {
+                                                if(parseInt(stepsStatuses[m][0])<= 2 && parseInt(stepsStatuses[m][1])< 1 ){
+                                                    isCreditable=false;
+                                                }
+
+                                            }
+                                            else {
+                                                if(stepsStatuses[m]=='0'){
+                                                    isCreditable=false;
+                                                }
+                                            }
+                                        }
+                                        console.log(isCreditable);
+                                        if(isCreditable){
+                                            creditsView.courseId=doc.get('_id');
+                                            creditsView.render();
+                                        }
+                                    },
+                                    async:false
+                                });
+                                //--------------------------------------
+                              //  creditsView.courseId=doc.get('_id');
+                               // creditsView.render();
+                            }
+
+                        }
+                        if(isLearner) {
+                $('#creditsMainTable').append(creditsView.el);
+            }
+            else{
+                            alert('You are not enrolled as Learner in any course.');
+                            }
+                    }
+                },
+                async:false
+            });
+
+
+        },
+
+        Credits: function() {
+            //Check if the user who has logged in is a Leader or a Learner in any course.
+            var creditsView = new App.Views.CreditsLeaderView(
+            );
+            App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+            $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            creditsView.addHeading();
+            var count=0;
+            var groups = new App.Collections.Groups();
+            groups.fetch({
+                async:false,
+                success: function (groupDocs) {
+                    if(groupDocs.length>0){
+                        for(var i=0;i<groupDocs.length;i++) {
+                            var doc=groupDocs.models[i];
+                            count=getCountOfLearners(doc.get('_id'), false);
+                            if(count>0){
+                                creditsView.courseId=doc.get('_id');
+                                creditsView.render();
+                            }
+            }
+                            $('#creditsMainTable').append(creditsView.el);
+                        }
+                }
+            });
+
+        },
+                badgesDetails: function(courseId){
+
+                    var courseSteps = new App.Collections.coursesteps()
+                    courseSteps.courseId=courseId;
+                    courseSteps.fetch({
+                        async: false
+                    })
+                    var badgesTableView = new App.Views.BadgesTable({
+                        collection :courseSteps
+                    });
+                    badgesTableView.courseId=courseId;
+                    badgesTableView.render();
+                    App.$el.children('.body').html('<div id="badgesTable"></div>');
+                    $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
+                    $('#badgesTable').append(badgesTableView.el);
+                },
+
+        creditsDetails:function(courseId, memberId) {
+            var that = this;
+            var learnerIds;
+            var group = new App.Models.Group({
+                _id: courseId
+            });
+            group.fetch({
+                success: function (groupDoc) {
+                    learnerIds = groupDoc.get('members');
+                },
+                async:false
+            });
+            var learnerCollection = this.getLearnersList(learnerIds);
+            //if memberId == undefined, then fetch the first member's id from above returned sorted collection and assigned it to memberId
+            var member = new App.Models.Member({
+                _id: memberId
+            });
+            member.fetch({
+                async: false,
+            });
+            var courseSteps = new App.Collections.coursesteps()
+            courseSteps.courseId=courseId;
+            courseSteps.fetch({
+                async: false
+            })
+            var creditsTableView = new App.Views.CreditsTable({
+                collection :courseSteps
+            });
+            creditsTableView.courseId=courseId;
+            creditsTableView.memberId=memberId;
+            creditsTableView.render();
+            App.$el.children('.body').html('<div id="creditsTable"></div>');
+            //$('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
+            var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
+            //
+            var name, id;
+            learnerCollection.each(
+                function(member) {
+                    var learnerName;
+                    if(member.get('firstName') ) {
+                        name = member.get('firstName')+ " " +member.get('lastName')
+                        id = member.get('_id')
+
+                    }
+                    if(name ){
+                        select.append("<option value="+id +"/"+courseId+">" +name+"</option>");
+                    }
+
+                });
+            if(courseId && memberId){
+                select.val(memberId + '/' + courseId)
+            }
+            ///
+           // select.append("<option value='memberId'>Sadia</option>");
+           // select.append("<option value='memberId'>Saba</option>");
+           // select.append("<option value='memberId'>Stefan</option>");
+
+                //creditsTableView.memberId=id;
+               // creditsTableView.render();
+
+
+            App.$el.children('.body').html('<div id="creditsTable"></div>');
+            $('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ '</h3>');
+
+            $('#creditsTable').append(select);
+
+            $('#creditsTable').append(creditsTableView.el);
+            $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits(\'' + courseId + '\',\'' + memberId + '\'  )"/>')
+
+        },
+        submitCredits: function(courseId , memberId) {
+            var count = 0;
+            var value = 0;
+            $("input[name='paperCredits']").each(function () {
+                if ($(this).val().trim() != '') {
+                    value = value + 1;
+                }
+                count = count + 1;
+            });
+          console.log("count : " + count);
+            console.log("value : " + value);
+            if (value === count) {
+
+            $("input[name='paperCredits']").each(function () {
+                if ($(this).val().trim() != '') {
+                    var idstep = $(this).attr('id');
+                    var arr = idstep.split("/");
+                    alert("step id and percentage" + idstep)
+                    var stepId =arr[0];
+                    var percentage = parseInt(arr[1]);
+                    //var stepId = $(this).attr('id');
+                   // var percentage = $("input[name='percentage']").attr('id');
+                    alert("stepId " + stepId);
+                    alert("pasiing percentage " + percentage);
+                    console.log("stepId : " + stepId)
+                    var paperMarks = $(this).val().trim();
+                    console.log("paperMarks : " + paperMarks)
+                    alert("paper marks : " + paperMarks )
+                    var memberProgress = new App.Collections.membercourseprogresses()
+                    memberProgress.memberId = memberId
+                    memberProgress.courseId = courseId
+                    memberProgress.fetch({
+                        async: false,
+                        success: function () {
+                            memberProgress = memberProgress.first();
+                            var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
+                            var marks = memberProgress.attributes.stepsResult[memberStepIndex];
+                            var intMarks = [];
+                            if($.isArray(marks)){
+                                for (var i=0; i < marks.length ; i++){
+                                    intMarks.push(parseInt(marks[i]));
+                                }
+                            }
+                            else{
+                                intMarks.push(parseInt(marks));
+                            }
+                           console.log("intMarks : " + intMarks)
+                            if (intMarks.length > 1) {
+                                memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
+                                if( paperMarks >= percentage  ) {
+                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
+                                }
+                                else{
+                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
+                                }
+                            }
+                            else {
+                                memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
+                                if( paperMarks >= percentage  ) {
+                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
+                                }
+                                else{
+                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                                }
+                                memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                            }
+                            memberProgress.save(null, {
+                                success: function (response) {
+
+                                }
+                            });
+                        }
+
+                    })
+
+                }
+
+            });
+                alert('Paper credits have been submitted');
+
+        } else {
+                alert('Please enter marks against each paper');
+               return false;
+            }
+
+        },
+
+        getLearnersList: function(learnerIds) {
+            var learnerModelIdes = ''
+            _.each(learnerIds, function(item) {
+                learnerModelIdes += '"' + item + '",'
+            })
+            if (learnerModelIdes != ''){
+                learnerModelIdes = learnerModelIdes.substring(0, learnerModelIdes.length - 1);
+            }
+            var membersColl = new App.Collections.Members();
+            membersColl.keys = encodeURI(learnerModelIdes)
+            membersColl.fetch({
+                async: false
+            });
+            return membersColl;
+        },
+
+        showLearnersListForCredits: function (courseId) {
+            var group = new App.Models.Group({
+                _id: courseId
+            });
+            group.fetch({
+                async: false,
+            });
+            var learnerIds = getCountOfLearners(courseId, true);
+            var learnerModelIdes = ''
+            _.each(learnerIds, function(item) {
+                learnerModelIdes += '"' + item + '",'
+            })
+            if (learnerModelIdes != ''){
+                learnerModelIdes = learnerModelIdes.substring(0, learnerModelIdes.length - 1);
+            }
+            var membersColl = new App.Collections.Members();
+            membersColl.keys = encodeURI(learnerModelIdes)
+            membersColl.fetch({
+                async: false
+            });
+            var courseLearnersTable = new App.Views.CourseLearnersList({
+                collection: membersColl
+            })
+            courseLearnersTable.Id = courseId;
+            courseLearnersTable.render();
+            App.$el.children('.body').html('<div id="courseLearnersTable"></div>');
+            $('#courseLearnersTable').append('<h3>' + group.get('CourseTitle') + '</h3>');
+            $('#courseLearnersTable').append(courseLearnersTable.el);
+        },
+
         underConstruction: function() {
+
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);
