@@ -843,6 +843,16 @@ $(function() {
         },
 
         render: function() {
+            $('#nav').css('pointer-events', 'auto');
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            var configDoc = configCollection.first().toJSON();
+            if(configDoc.name == undefined && (App.Router.getRoles().indexOf('Manager')>-1 || App.Router.getRoles().indexOf('SuperManager')>-1 )) {
+                alert('Please fill the Configurations form first');
+                window.location.href = '#configurationsForm'
+            }
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
             this.vars.mails = 0;
@@ -878,7 +888,9 @@ $(function() {
                 async:false
 
             });
-            lang=member.get('bellLanguage');
+            //lang=member.get('bellLanguage');
+            var clanguage = getLanguage($.cookie('Member._id'));
+            App.languageDict = getSpecificLanguage(clanguage);
             this.vars.currentLanguageOfApp=App.languageDict.get('nameInNativeLang');
             this.vars.availableLanguagesOfApp=getAvailableLanguages();
 
@@ -1016,7 +1028,12 @@ $(function() {
                     currentConfig = config.first().toJSON().rows[0].doc;
                 }
             })
-            var bell_Name = currentConfig.name;
+            var bell_Name;
+            if(currentConfig.name != undefined) {
+                bell_Name = currentConfig.name;
+            } else {
+                bell_Name = '';
+            }
             var typeofBell = currentConfig.type;
 
             //////////////////////////////////////code for Issue No#73 (before) getting name from URL///////////////////////////////////////////////////////////

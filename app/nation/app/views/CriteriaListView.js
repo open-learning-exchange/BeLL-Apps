@@ -258,7 +258,16 @@ $(function() {
                 dataType: 'json',
                 success: function(response) {
                     for (var i = 0; i < response.rows.length; i++) {
-                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + response.rows[i].value + '_' + response.rows[i].key + '">' + response.rows[i].key + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
+                        var doc = response.rows[i].value;
+                        var code, name;
+                        if(doc.Code != undefined) {
+                            code = doc.Code;
+                            name = doc.Name;
+                        } else {
+                            code = doc.code;
+                            name = doc.name;
+                        }
+                        viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + code + '_' + name + '">' + name + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
                     }
                 },
                 data: {},

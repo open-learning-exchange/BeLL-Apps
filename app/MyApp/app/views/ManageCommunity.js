@@ -4,7 +4,7 @@ $(function() {
 
         events: {
             "click .SyncDbSelect": 'SyncDbSelect',
-            "click #configuration": 'Configuration',
+            //"click #configuration": 'Configuration',
             "click .back": function(e) {
                 alert(App.languageDict.attributes.Back)
             }
@@ -27,7 +27,7 @@ $(function() {
             currentBellName = App.configuration.get('name')
             var htmlreferance = this.$el
 
-            this.$el.append('<div style="padding: 20px 20px 0px 20px; float: left;"> <a id="configuration"><button class="btn btn-primary" id="configbutton">' + App.languageDict.get('Configurations') + '</button></a> </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 20px; float: left;"> <a id="configuration" href="#configurationsForm"><button class="btn btn-primary" id="configbutton">' + App.languageDict.get('Configurations') + '</button></a> </div>')
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button id="sync" class="SyncDbSelect btn btn-primary">' + App.languageDict.get('Sync_With_Nation') + '</button>  </div>')
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="publication" class="btn btn-primary" href="#publications/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Publications') + '</a>  </div>')
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="survey" class="btn btn-primary" href="#surveys/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Surveys') + '</a>  </div>')

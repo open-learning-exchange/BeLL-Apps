@@ -7,10 +7,13 @@ ul, ol {
 h1,h2,h3,h4,h5,h6{
     color: #345474;
 }
+
 #dashboard
 {
-    height: 471px;
-    width: 950px;
+    /*height: 471px;*/
+    height:auto;
+    /*width: 950px;*/
+    width:957px;
     overflow: hidden;
 }
 .btable th, .btable td {
@@ -550,7 +553,8 @@ textarea[name="comment"]
 
 #dashboard
 {
-    height: 471px;
+   /* height: 471px;*/
+    height:auto;
     width: 950px;
     overflow: hidden;
     margin:0px auto;

@@ -35,6 +35,122 @@ function applyStylingSheet() {
         alert(languageDictValue.attributes.error_direction);
     }
 }
+function getRequestStatus() {
+    var jsonModel = getRequestDocFromLocalDB();
+    if(jsonModel != null) {
+        if(jsonModel.registrationRequest == 'pending') { //If and only if the status is pending, then community will check the status at central db
+            var modelId = jsonModel._id;
+            var docIDs=[];
+            docIDs.push(modelId);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": "http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests",
+                    "target": 'configurations',
+                    'doc_ids': docIDs
+                }),
+                async: false,
+                success: function (response) {
+                    //Now get the updated document and check request status again
+                    var updatedJsonModel = getRequestDocFromLocalDB();
+                    if (updatedJsonModel.registrationRequest == 'accepted') {
+                        alert('Your registration request has been accepted');
+                    } else if (updatedJsonModel.registrationRequest == 'rejected') {
+                        alert('Your registration request has been rejected, please check your data and re-send');
+                    }
+                },
+                error: function(status) {
+                    console.log(status);
+                }
+            });
+        }
+    }
+}
+
+function getRequestDocFromLocalDB() {
+    var jsonModel;
+    var configCollection = new App.Collections.Configurations();
+    configCollection.fetch({
+        async: false
+    });
+    var configDoc = configCollection.first().toJSON();
+    if(configDoc.name == undefined) {
+        jsonModel = null;
+    } else {
+        jsonModel = configDoc;
+    }
+    return jsonModel;
+}
+
+function fillAdminData(e, reference) {
+    var member = getMemberData();
+    if (e.is(':checked')) {
+        //fill the fields with admin member data
+        if(reference == 'General Manager') {
+            $('#org-firstname').val(member.get('firstName'));
+            $('#org-middlename').val(member.get('middleNames'));
+            $('#org-lastname').val(member.get('lastName'));
+            $('#org-phone').val(member.get('phone'));
+            $('#org-email').val(member.get('email'));
+        } else {
+            $('#leader-firstname').val(member.get('firstName'));
+            $('#leader-middlename').val(member.get('middleNames'));
+            $('#leader-lastname').val(member.get('lastName'));
+            $('#leader-phone').val(member.get('phone'));
+            $('#leader-email').val(member.get('email'));
+        }
+    } else {
+        //remove data from form fields
+        if(reference == 'General Manager') {
+            $('#org-firstname').val('');
+            $('#org-middlename').val('');
+            $('#org-lastname').val('');
+            $('#org-phone').val('');
+            $('#org-email').val('');
+        } else {
+            $('#leader-firstname').val('');
+            $('#leader-middlename').val('');
+            $('#leader-lastname').val('');
+            $('#leader-phone').val('');
+            $('#leader-email').val('');
+        }
+    }
+}
+
+function getMemberData() {
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    });
+    var config = new configurations();
+    config.fetch({
+        async: false
+    });
+    var jsonConfig = config.first().toJSON().rows[0].doc;
+    var members = new App.Collections.Members()
+    var member;
+    members.login = $.cookie('Member.login');
+    members.fetch({
+        success: function () {
+            if (members.length > 0) {
+                for(var i = 0; i < members.length; i++) {
+                    if(members.models[i].get("community") == jsonConfig.code) {
+                        member = members.models[i];
+                    }
+                }
+            }
+        },
+        async:false
+
+    });
+    return member;
+}
+
 function applyCorrectStylingSheet(directionOfLang){
     if (directionOfLang.toLowerCase() === "right") {
 

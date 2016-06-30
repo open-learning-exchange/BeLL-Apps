@@ -8,29 +8,29 @@ ddoc = {
 ddoc.views = {
     isDuplicateName: {
         map: function(doc) {
-            if (doc.Name) {
-                emit(doc.Name, true);
+            if (doc && (doc.Name || doc.name)) {
+                emit(doc._id, true);
             }
         }
     },
-    isDuplicateUrl: {
+    /*isDuplicateUrl: {
         map: function(doc) {
             if (doc.Url) {
                 emit(doc.Url, true);
             }
         }
-    },
+    },*/
     getAllCommunityNames: {
-        map: function(doc) {
-            if (doc && doc.Name) {
-                emit(doc.Name, doc.Code);
+        map: function (doc) {
+            if (doc && (doc.Name || doc.name)) {
+                emit(doc._id, doc);
             }
         }
     },
     getCommunityByCode: {
         map: function(doc) {
-            if (doc && doc.Code)
-                emit(doc.Code, doc);
+            if (doc && (doc.Code || doc.code))
+                emit(doc._id, doc);
         }
     }
 }
