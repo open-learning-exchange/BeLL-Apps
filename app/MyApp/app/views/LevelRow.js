@@ -6,8 +6,6 @@ $(function() {
 
         events: {
             "click .destroyStep": function(e) {
-                this.trigger('levelDeleted')
-                e.preventDefault()
                 var that = this
                 var courses = new App.Collections.StepResultsbyCourse()
                 courses.courseId = this.model.get("courseId")
@@ -27,7 +25,7 @@ $(function() {
 
                             m.save({
                                 success: function() {
-                                    
+
                                 }
                             })
                         })
@@ -35,6 +33,7 @@ $(function() {
                 })
                 this.model.destroy()
                 this.remove()
+                this.trigger('levelDeleted')
 
             },
             "click .browse": function(e) {
