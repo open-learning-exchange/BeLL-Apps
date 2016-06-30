@@ -60,7 +60,7 @@ $(function() {
 			App.languageDict = languageDictValue;
 			var languageDict = languageDictValue;
 			var directionOfLang = App.languageDict.get('directionOfLang');
-			this.$el.html("<tr><th>"+languageDictValue.attributes.Title+"</th><th colspan='0'>"+languageDictValue.attributes.action+"</th></tr>")
+            this.$el.html("<tr><th style='width: 430px'>"+languageDictValue.attributes.Title+"</th><th colspan='7'>"+languageDictValue.attributes.action+"</th></tr>")
 			var manager = new App.Models.Member({
 				_id: $.cookie('Member._id')
 			})
