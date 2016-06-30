@@ -873,11 +873,9 @@ function FieSelected(stepId) {
     }
     //var extension = img.val().split('.')
     var extension = imgVal.split('.')
-    //-------------------------------------
     if (extension){
         var memberAssignmentPaper = new App.Collections.AssignmentPapers()
         memberAssignmentPaper.senderId=$.cookie('Member._id')
-        //memberAssignmentPaper.courseId=courseId
         memberAssignmentPaper.stepId=stepId
         memberAssignmentPaper.changeUrl = true;
         memberAssignmentPaper.fetch({
@@ -886,8 +884,6 @@ function FieSelected(stepId) {
                 if(json.models.length > 0) {
                     var existingModels = json.models;
                     for(var i = 0 ; i < existingModels.length ; i++) {
-                        // var doc = existingModels[i].attributes;
-                        //if(existingModels[i].attributes.courseId == courseId) {
                         var doc = {
                             _id: existingModels[i].attributes._id,
                             _rev: existingModels[i].attributes._rev
@@ -900,14 +896,12 @@ function FieSelected(stepId) {
                                 console.log(status);
                             }
                         });
-                        // }//
                     }
 
                 }
             }
         });
     }
-//-----------------------------------
     if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
         alert(App.languageDict.attributes.Invalid_Attachment);
         return;
