@@ -6,10 +6,8 @@ $(function() {
         url: function() {
 
             if(this.changeUrl){
-
                 return App.Server + '/assignmentpaper/_design/bell/_view/assignmentPaperByStepId?key=["' + this.senderId + '","' + this.stepId + '"]&include_docs=true'
             } else{
-
                 return App.Server + '/assignmentpaper/_design/bell/_view/CourseAssignmentPaperByMember?key=["' + this.senderId + '","' + this.courseId + '"]&include_docs=true'
             }
         },
