@@ -3447,7 +3447,7 @@ $(function() {
                     code = doc.code;
                     name = doc.name;
                 }
-                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#addCommunity/'+doc._id+'">'+name+'</a>' + '</td></tr>');
+                $('#communities tbody').append('<tr class="success"><td><a style="color:#345474" href="#communityDetails/'+doc._id+'/registered">'+name+'</a>' + '</td></tr>');
             }
             for(var i=0;i<5-communityNames.length;i++)
             {
