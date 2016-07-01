@@ -307,11 +307,9 @@ $(function() {
 
             }
         },
-        ///////////////////////////////
         creditDetails: function(){
-
+            this.underConstruction()
         },
-        ////////////////////////
         underConstruction: function() {
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
