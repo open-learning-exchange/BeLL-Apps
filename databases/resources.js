@@ -6,6 +6,13 @@ ddoc = {
 }
 
 ddoc.views = {
+    getResourcesAddedByCommunity: {
+        map: function(doc) {
+            if (doc.type && doc.type == "community") {
+                emit(true, doc._id);
+            }
+        }
+    },
     NewsResources: {
         map: function(doc) {
             if (doc.title) {

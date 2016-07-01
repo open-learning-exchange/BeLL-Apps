@@ -800,9 +800,10 @@
   "Adm_req_rejected": "Admission Request Rejected",
   "request_Rejected_already": "you have rejected this invitation",
   "accepted_email_text":"Admission request has been accepted from member",
-  "Roles":"Roles",
   "leader_must_resign":"Leader cannot directly remove himself, he must resign.",
   "manager_removes_leader":"Only Manager can remove a Leader",
-  "No_Record_Found": "No Record Found"
+  "No_Record_Found": "No Record Found",
+  "resource_replication_error": "Error! Resources could not be replicated",
+  "resource_replication_success": "Successfully replicated resources"
 }
 
