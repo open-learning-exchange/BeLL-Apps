@@ -1233,6 +1233,7 @@ function AddToShelf(rId, title) {
 function AddToShelfAndSaveFeedback(rId, title) {
     App.Router.AddToShelfAndSaveFeedback(rId, title)
 }
+//* Credit Details
 
 function showSubjectCheckBoxes() {
     //var subjects = ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology'];
