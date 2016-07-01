@@ -324,7 +324,6 @@ $(function() {
             // alert('match with ereader')
             this.underConstruction()
         },
-
         Badges: function() {
             //Check if the user who has logged in is a Leader or a Learner in any course.
             var groups = new App.Collections.Groups()
@@ -422,6 +421,7 @@ $(function() {
         submitCredits: function(){
             this.underConstruction();
         },
+
 
         underConstruction: function() {
 
