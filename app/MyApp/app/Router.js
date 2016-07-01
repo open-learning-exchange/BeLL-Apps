@@ -56,7 +56,7 @@ $(function() {
             'mail': 'email',
 
             'newsfeed': 'NewsFeed',
-            'badges/role': 'Badges',
+            'badges/:role': 'Badges',
 
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
@@ -296,17 +296,22 @@ $(function() {
         },
         Badges: function(role) {
             if(role=='Learner') {
-                var badgesView = new App.Views.BadgesTable();
-                badgesView.render();
-                App.$el.children('.body').html('<div id="badgesTable"></div>');
-                $('#badgesTable').append('<h3>' + 'Badges | CourseName' + '</h3>');
-                $('#badgesTable').append(badgesView.el);
+                var creditsView = new App.Views.CourseCreditsMainPage();
+                creditsView.render();
+                App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+                $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+                $('#creditsMainTable').append(creditsView.el);
             }
             else{
                 this.underConstruction()
 
             }
         },
+        ///////////////////////////////
+        creditDetails: function(){
+
+        },
+        ////////////////////////
         underConstruction: function() {
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
