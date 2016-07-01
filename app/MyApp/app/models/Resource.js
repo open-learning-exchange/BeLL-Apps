@@ -27,7 +27,8 @@ $(function() {
         },
 
         defaults: {
-            kind: 'Resource'
+            kind: 'Resource',
+            type: ''
         },
 
         schema: {
