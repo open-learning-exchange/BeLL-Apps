@@ -319,7 +319,6 @@ $(function() {
 
                 credentials = generate_credentials(this.model.get("login"), this.model.get("password")); 
                 this.model.set("credentials", credentials);
-                this.model.set("password", "");
 
                 this.removeSpaces();
                 var addMem = true
