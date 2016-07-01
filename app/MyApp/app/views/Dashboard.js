@@ -229,21 +229,39 @@ $(function() {
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
+            var communitycode = App.configuration.get('code');
             //Checking whether the community is registered with any nation or not.
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
                 type: 'GET',
                 dataType: 'jsonp',
                 success: function(result) {
                     if (result.rows.length > 0) {
-                        that.appsCreation();
+                        var doc;
+                        for(var i = 0 ; i < result.rows.length ; i++) {
+                            var code;
+                            if(result.rows[i].value.Code != undefined){
+                                code = result.rows[i].value.Code;
+                            } else {
+                                code = result.rows[i].value.code;
+                            }
+                            if(communitycode == code) {
+                                doc = result.rows[i].value;
+                            }
+                        }
+                        if(doc != undefined) {
+                            that.appsCreation();
+                        } else {
+                            alert(App.languageDict.attributes.UnAuthorized_Community);
+                            window.location.reload(false);
+                        }
                     } else {
                         alert(App.languageDict.attributes.UnAuthorized_Community);
                         window.location.reload(false);
                     }
                 },
-                error: function() {
-                    console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                error: function(err) {
+                    console.log(err);
                 }
             });
         },
@@ -405,17 +423,32 @@ $(function() {
             //that.updateDesignDocs("usermeetups");
 
             // Update LastAppUpdateDate at Nation's Community Records
+            var communitycode = App.configuration.get('code');
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                url: 'http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
                 type: 'GET',
                 dataType: 'jsonp',
                 success: function(result) {
                     if (result.rows.length > 0) {
-                        that.lastAppUpdateAtNationLevel(result);
+                        var doc;
+                        for(var i = 0 ; i < result.rows.length ; i++) {
+                            var code;
+                            if(result.rows[i].value.Code != undefined){
+                                code = result.rows[i].value.Code;
+                            } else {
+                                code = result.rows[i].value.code;
+                            }
+                            if(communitycode == code) {
+                                doc = result.rows[i].value;
+                            }
+                        }
+                        if(doc != undefined) {
+                            that.lastAppUpdateAtNationLevel(doc);
+                        }
                     }
                 },
-                error: function() {
-                    console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                error: function(err) {
+                    console.log(err);
                 }
             });
 
@@ -672,7 +705,7 @@ $(function() {
             App.languageDict = languageDictValue;
             var that = this;
             var currentConfig = that.getCommunityConfigs();
-            var communityModelId = result.rows[0].id;
+            var communityModelId = result._id;
             var nationInfo = that.getNationInfo();
             var nationName = nationInfo["nationName"];
             var nationURL = nationInfo["nationURL"];
@@ -699,13 +732,25 @@ $(function() {
                     day = day.length > 1 ? day : '0' + day;
                     var formattedDate = month + '-' + day + '-' + year;
                     ////////////////////////////////////////////////////
+                    var communitycode = App.configuration.get('code');
                     $.ajax({
-                        url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + App.configuration.get('code') + '"',
+                        url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
                         type: 'GET',
                         dataType: 'json',
-                        success: function(res) {
-                            if (res.rows.length > 0) {
-                                var communityModel = res.rows[0].value;
+                        success: function(result) {
+                            if (result.rows.length > 0) {
+                                var communityModel;
+                                for(var i = 0 ; i < result.rows.length ; i++) {
+                                    var code;
+                                    if(result.rows[i].value.Code != undefined){
+                                        code = result.rows[i].value.Code;
+                                    } else {
+                                        code = result.rows[i].value.code;
+                                    }
+                                    if(communitycode == code) {
+                                        communityModel = result.rows[i].value;
+                                    }
+                                }
                                 communityModel.lastAppUpdateDate = month + '/' + day + '/' + year;
                                 communityModel.version = currentConfig.version;
                                 //Update the record in Community db at Community Level
@@ -762,8 +807,8 @@ $(function() {
                                 });
                             }
                         },
-                        error: function() {
-                            console.log('http://' + nationName + ':oleoleole@' + nationURL + '/community/_design/bell/_view/getCommunityByCode?key="' + App.configuration.get('code') + '"');
+                        error: function(err) {
+                            console.log(err);
                         }
                     });
                     ////////////////////////////////////////////////////

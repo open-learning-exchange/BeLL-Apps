@@ -30,10 +30,7 @@ $(function() {
         },
 
         addAll: function() {
-            // @todo this does not work as expected, either of the lines
-
             this.collection.each(this.addOne, this);
-           // _.each(this.pendingCollections, this.addPendingOne())
             for(var i = 0 ; i < this.pendingCollections.length ; i++) {
                 this.addPendingOne(this.pendingCollections[i]);
             }

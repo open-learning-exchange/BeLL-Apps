@@ -698,33 +698,6 @@ $(function() {
                 }
             })
         },
-        //************************************************************************************************************
-        // Get community last sync date
-        //*************************************************************************************************************
-        lastSyncDateForCommunity: function(communityCode, callback) {
-            // alert("function lastSyncDateForCommunity");
-            var communityCode = communityCode;
-            var temp = $.url().data.attr.host.split(".")
-            var nationName = temp[0];
-            var nationUrl = $.url().data.attr.authority;
-            var communityLastActivitySyncDate = '';
-            $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + communityCode + '"',
-                type: 'GET',
-                dataType: 'jsonp',
-
-                success: function(result) {
-
-                    var communityModel = result.rows[0].value;
-                    var communityModelId = result.rows[0].id;
-                    // alert(communityModel.lastActivitiesSyncDate);
-                    communityLastActivitySyncDate = communityModel.lastActivitiesSyncDate;
-                    callback(communityLastActivitySyncDate);
-                },
-                async: false
-            });
-
-        },
         //*************************************************************************************************************
         //Trend Report for Communities page on nation (Start)
         //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
@@ -4093,8 +4066,14 @@ $(function() {
             })
             Communities.each(
                 function(log) {
-                    if(log.get('Name')) {
-                        $('#comselect').append("<option value='" + log.get('Name') + "'>" + log.get('Name') + "</option>")
+                    var name;
+                    if(log.get('Name') != undefined) {
+                        name = log.get('Name');
+                    } else {
+                        name = log.get('name');
+                    }
+                    if(name){
+                        $('#comselect').append("<option value='" + name + "'>" + name + "</option>")
                     }
                 });
             $('#addQuestion').css('pointer-events','none');
