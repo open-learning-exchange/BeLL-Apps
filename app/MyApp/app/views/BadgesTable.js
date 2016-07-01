@@ -3,7 +3,7 @@
  */
  $(function () {
 
-     App.Views.badgesTableForLearners = Backbone.View.extend({
+     App.Views.BadgesTable = Backbone.View.extend({
          tagName: "table",
          className: "table table-striped",
 
