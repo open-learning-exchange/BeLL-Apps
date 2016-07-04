@@ -9,7 +9,7 @@ $(function () {
 
         events:{
             //@todo: This needs to be done that is why I have commented this for now
-            //"click #detailsButton": "creditDetails",
+            "click #detailsButton": "creditDetails",
         },
         add: function () {
                 this.$el.append('<tr><td>' + "Course1"+ '</td><td><a class="btn btn-success" style="margin-left:10px" id="detailsButton"  >' + "Open" + '</a></td></tr>')
@@ -21,10 +21,10 @@ $(function () {
             this.add();
 
         },
-        //@todo: This needs to be done that is why I have commented this for now
-      //creditDetails: function(){
-           //creditDetails();
-        //}
+       // @todo: This needs to be done that is why I have commented this for now
+      creditDetails: function(){
+           creditDetails();
+        }
 
     })
 })
