@@ -489,7 +489,7 @@
 
 
                     <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges/Learner'"><%= languageDict.attributes.Badges %></button></td>
-                    <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%=languageDict.attributes.Calender%></button></td>
+                    <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Credits </button></td>
                     <td><button id= "mailsDash"class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"></button></td>
                     <td><button id= "surveysForMember" class="btn btn-hg btn-primary" onclick = "document.location.href='#memberSurveys'"></button></td>
                     <!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
@@ -498,12 +498,13 @@
                 </tr>
                 <tr>
                     <td><button id="welcomeButton" class="btn btn-hg btn-primary" style="display:none" onclick = "document.location.href='##updatewelcomevideo'"><%= languageDict.attributes.Update_Welcome_Video %></button></td>
+                    <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%=languageDict.attributes.Calender%></button></td>
                     <td><button id="updateButton" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" ><%= languageDict.attributes.Update_Available %>(<%=nation_version%></button></td>
-                    <td><button id="viewReleaseNotes" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Release_Notes  %></button></td>
                     <td><button id="newPublication" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Publications%>(<%=new_publication_count%>)</button></td>
                 </tr>
                 <tr>
                     <td><button id="newSurvey" class="btn btn-hg btn-primary" style="display:none;color:Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Surveys%>(<%=new_survey_count%>)</button></td>
+                    <td><button id="viewReleaseNotes" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Release_Notes  %></button></td>
                 </tr>
             </table>
         </div>
