@@ -307,9 +307,13 @@ $(function() {
 
             }
         },
-        creditDetails: function(){
-            this.underConstruction()
-        },
+            creditDetails: function(){
+                var badgesTableView = new App.Views.BadgesTable();
+                badgesTableView.render();
+                App.$el.children('.body').html('<div id="badgesTable"></div>');
+                $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
+                $('#badgesTable').append(badgesTableView.el);
+            },
         underConstruction: function() {
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
