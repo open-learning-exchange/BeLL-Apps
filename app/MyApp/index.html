@@ -488,7 +488,7 @@
                 <tr>
 
 
-                    <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges/Learner'"><%= languageDict.attributes.Badges %></button></td>
+                    <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict.attributes.Badges %></button></td>
                     <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Credits </button></td>
                     <td><button id= "mailsDash"class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"></button></td>
                     <td><button id= "surveysForMember" class="btn btn-hg btn-primary" onclick = "document.location.href='#memberSurveys'"></button></td>
@@ -809,6 +809,24 @@
                 </td>
             <%}%>
         <%}%>
+    </script>
+    <script type="text/html" id="template-BadgesRow">
+        <td>
+            <%= stepNo %>
+        </td>
+        <td>
+            <%= stepType %>
+        </td>
+        <td>
+            <%= quizCredits %>
+        </td>
+        <td>
+            <%= paperCredits %>
+        </td>
+        <td>
+            <%= status %>
+        </td>
+
     </script>
     <script type="text/html" id="template-GroupRow">
         <td>
