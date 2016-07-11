@@ -1030,29 +1030,33 @@ $(function() {
                     resourcesTableView.changeDirection();
                 }
             });
-            resources.each(function(model, index) {
-                var title = model.get("title");
-                var author = model.get("author");
-                var year = model.get("Year");
-                var publisher = model.get("Publisher");
-                var linkToLicense = model.get("linkToLicense");
-                var openUrl = model.get("openUrl");
-                model.set("title", $.trim(title));
-                model.set("author", $.trim(author));
-                model.set("Year", $.trim(year));
-                model.set("Publisher", $.trim(publisher));
-                model.set("linkToLicense", $.trim(linkToLicense));
-                model.set("openUrl", $.trim(openUrl));
-            });
-            resources = resources.models;
-            $.couch.db("resources").bulkSave({"docs": resources}, {
-                success: function(data) {
-                },
-                error: function(status) {
-                    console.log(status);
-                },
-                async: false
-            });
+
+            
+/*
+ *            resources.each(function(model, index) {
+ *                var title = model.get("title");
+ *                var author = model.get("author");
+ *                var year = model.get("Year");
+ *                var publisher = model.get("Publisher");
+ *                var linkToLicense = model.get("linkToLicense");
+ *                var openUrl = model.get("openUrl");
+ *                model.set("title", $.trim(title));
+ *                model.set("author", $.trim(author));
+ *                model.set("Year", $.trim(year));
+ *                model.set("Publisher", $.trim(publisher));
+ *                model.set("linkToLicense", $.trim(linkToLicense));
+ *                model.set("openUrl", $.trim(openUrl));
+ *            });
+ *            resources = resources.models;
+ *            $.couch.db("resources").bulkSave({"docs": resources}, {
+ *                success: function(data) {
+ *                },
+ *                error: function(status) {
+ *                    console.log(status);
+ *                },
+ *                async: false
+ *            });
+ */
             App.stopActivityIndicator()
 
         },
