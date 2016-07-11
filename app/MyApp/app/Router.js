@@ -327,6 +327,7 @@ $(function() {
             //Check if the user who has logged in is a Leader or a Learner in any course.
             var groups = new App.Collections.Groups()
             var creditsView = new App.Views.BadgesMainPage(
+
             );
                 App.$el.children('.body').html('<div id="creditsMainTable"></div>');
                 $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
@@ -355,7 +356,9 @@ $(function() {
                 async:false
             });
 
+
         },
+
         Credits: function() {
             //Check if the user who has logged in is a Leader or a Learner in any course.
             var creditsView = new App.Views.CreditsLeaderView(
@@ -377,6 +380,7 @@ $(function() {
                                 creditsView.render();
                             }
             }
+
                             $('#creditsMainTable').append(creditsView.el);
                         }
                 }
@@ -420,7 +424,6 @@ $(function() {
         submitCredits: function(){
             this.underConstruction();
         },
-
 
         underConstruction: function() {
 
