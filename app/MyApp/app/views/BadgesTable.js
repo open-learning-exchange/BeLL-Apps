@@ -19,6 +19,7 @@
              badgesRow.render()
              this.$el.append(badgesRow.el);
          },
+
          addAll: function() {
 
             /* var courseSteps = new App.Collections.coursesteps()
@@ -35,16 +36,18 @@
                 var courseSteps = new App.Models.coursesteps()
                  {
 
+
                  }
 
             }*/
          },
+
          render: function () {
              this.$el.html('<tr><th>' + 'StepNO' + '</th><th>' + 'Step Type' + '</th><th>' + 'Quiz Credits' + '</th><th>' + 'Paper Credits' + '</th><th>' + 'Status' + '</th></tr>');
              this.addAll();
              /////////////////////////////////////////
 
-         },
+         }
 
      })
  })
