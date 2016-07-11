@@ -21,14 +21,7 @@ $(function() {
 			// <input type="checkbox" value="Resources" name="syncData">Resources<br>
 			//<input type="checkbox" value="Application" name="syncData" >Application<br><br><br>
 			// added "Members Db" checkbox
-			var $button = $('<h6>' + App.languageDict.get('Config_Sync_With_Nation_Head') + '</h6><br><br>' +
-                '<input type="checkbox" value="ActivityReports" name="syncData">' + App.languageDict.get('Log_Activity_Reports') + '<br>' +
-                '<input type="checkbox" value="Reports" name="syncData">' + App.languageDict.get('Reports') + '<br>' +
-                '<input type="checkbox" value="ResourcesFeedbacks" name="syncData">' + App.languageDict.get('Resources_Feedbacks') + '<br>' +
-                '<input type="checkbox" value="ApplicationFeedbacks" name="syncData">' + App.languageDict.get('Application_Feedbacks') + '<br>' +
-                '<input type="checkbox" value="MembersDb" name="syncData">' + App.languageDict.get('Members_Database') + '<br>' +
-                '<input type="checkbox" value="Surveys" name="syncData">' + App.languageDict.get('Surveys') + '<br>' +
-                '<input type="checkbox" value="Resources" name="syncData">' + App.languageDict.get('Resources') + '<br>');
+            var $button = $('<h6>' + App.languageDict.get('Config_Sync_With_Nation_Head') + '</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">' + App.languageDict.get('Log_Activity_Reports') + '<br><input type="checkbox" value="Reports" name="syncData">' + App.languageDict.get('Reports') + '<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">' + App.languageDict.get('Resources_Feedbacks') + '<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">' + App.languageDict.get('Application_Feedbacks') + '<br><input type="checkbox" value="MembersDb" name="syncData">' + App.languageDict.get('Members_Database') + '<br><input type="checkbox" value="Surveys" name="syncData">' + App.languageDict.get('Surveys') + '<br>');
 			this.$el.append($button);
 			this.$el.append('<button class="btn btn-info" id="selectAll" style="width:110px">' + App.languageDict.get('Select_All') + '</button><button style="margin-left:10px; width:110px" class="btn btn-success" id="formButton" style="width:110px">' + App.languageDict.get('Send') + '</button>');
 			this.$el.append('<button class="btn btn-warning" id="cancelButton" style="width:110px;margin-left:10px">' + App.languageDict.get('Cancel') + '</button>');
@@ -58,7 +51,7 @@ $(function() {
 			$("input[name='syncData']").each(function() {
 				if ($(this).is(":checked")) {
 					if ($(this).val() == 'Resources') {
-						context.replicateCommunityResources()
+                        context.ReplicateResource()
 					} else if ($(this).val() == 'ActivityReports') {
 						isActivityLogChecked = true;
 						context.syncLogActivitiy()
@@ -486,51 +479,7 @@ $(function() {
 				}
 			});
 		},
-        replicateCommunityResources: function() {
-            var that = this;
-            var docIds = [];
-            $.ajax({
-                url: '/resources/_design/bell/_view/getResourcesAddedByCommunity',
-                type: 'GET',
-                dataType: 'json',
-                success: function (result) {
-                    var arrayOfObjs = result.rows;
-                    for(var i = 0; i < arrayOfObjs.length ; i++) {
-                        docIds.push(arrayOfObjs[i].value);
-                    }
-                    that.replicateCommunityResourcesWithGivenIds(docIds)
-                },
-                error: function(err){
-                    alert(App.languageDict.attributes.resource_replication_error);
-                }
-            });
-        },
-        replicateCommunityResourcesWithGivenIds: function(arrayOfIds) {
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                    "source": "resources",
-                    "target": 'http://' + App.configuration.get('nationUrl') + '/resources',
-                    'doc_ids': arrayOfIds
-                }),
-                async: false,
-                success: function (response) {
-                    alert(App.languageDict.attributes.resource_replication_success);
-                    if (isActivityLogChecked == false) {
-                        App.stopActivityIndicator();
-                    }
-                },
-                error: function(status) {
-                    alert(App.languageDict.attributes.resource_replication_error);
-                }
-            });
-        },
+
 		updateNationSurveyDBForCommunityName: function(idsOfDocsToChange) {
 			$.ajax({
 				headers: {

@@ -802,8 +802,6 @@
   "accepted_email_text":"Admission request has been accepted from member",
   "leader_must_resign":"Leader cannot directly remove himself, he must resign.",
   "manager_removes_leader":"Only Manager can remove a Leader",
-  "No_Record_Found": "No Record Found",
-  "resource_replication_error": "Error! Resources could not be replicated",
-  "resource_replication_success": "Successfully replicated resources"
+  "No_Record_Found": "No Record Found"
 }
 
