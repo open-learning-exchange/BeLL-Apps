@@ -18,7 +18,13 @@ $(function () {
         },
 
         render: function () {
-
+            var vars = this.model.toJSON();
+            vars.stepNo = this.model.attributes.step;
+            vars.stepType="";
+               vars.paperCredits = 19;
+               vars.quizCredits = 60;
+                vars.status ="Pass";
+            this.$el.append(_.template(this.template, vars))
         }
 
     })
