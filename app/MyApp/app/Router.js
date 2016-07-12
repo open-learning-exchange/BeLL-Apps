@@ -387,8 +387,8 @@ $(function() {
             });
 
         },
-
                 badgesDetails: function(courseId){
+
                     var courseSteps = new App.Collections.coursesteps()
                     courseSteps.courseId=courseId;
                     courseSteps.fetch({

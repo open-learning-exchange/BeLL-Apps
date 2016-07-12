@@ -82,6 +82,7 @@ $(function () {
                     vars.status ="Fail";
                 }
             }
+
             this.$el.append(_.template(this.template, vars))
         }
 
