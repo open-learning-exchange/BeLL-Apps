@@ -357,17 +357,15 @@ $(function() {
         },
 
                 creditDetails: function(courseId){
-                    var courseProgress = new App.Collections.membercourseprogresses()
-                    courseProgress.memberId = $.cookie('Member._id');
-                    courseProgress.courseId = courseId;
-                    courseProgress.fetch({
-                        async:false,
-
-                    });
+                    var courseSteps = new App.Collections.coursesteps()
+                    courseSteps.courseId=courseId;
+                    courseSteps.fetch({
+                        async: false
+                    })
                     var badgesTableView = new App.Views.BadgesTable({
-                        collection :courseProgress,
-                        courseId:courseId
+                        collection :courseSteps
                     });
+                    badgesTableView.courseId=courseId;
                     badgesTableView.render();
                     App.$el.children('.body').html('<div id="badgesTable"></div>');
                     $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
