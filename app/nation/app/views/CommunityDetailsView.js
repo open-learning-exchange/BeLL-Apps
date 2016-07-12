@@ -64,6 +64,7 @@ $(function() {
         },
 
         processRegistration: function (status) {
+            var centralNationUrl = App.Router.getCentralNationUrl();
             var doc = this.model;
             var docID = [];
             docID.push(doc._id);
@@ -97,7 +98,7 @@ $(function() {
                             }
                         });
                     }
-                    //Now, also replicate that community's document in communityregistrationrequests database of nbs.ole.org
+                    //Now, also replicate that community's document in communityregistrationrequests database of central nation
                     $.ajax({
                         headers: {
                             'Accept': 'application/json',
@@ -108,7 +109,7 @@ $(function() {
                         dataType: 'json',
                         data: JSON.stringify({
                             "source": "communityregistrationrequests",
-                            "target": 'http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests',
+                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
                             'doc_ids': docID
                         }),
                         async: false,

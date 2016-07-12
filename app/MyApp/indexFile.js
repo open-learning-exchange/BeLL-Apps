@@ -35,7 +35,18 @@ function applyStylingSheet() {
         alert(languageDictValue.attributes.error_direction);
     }
 }
+
+function getCentralNationUrl() {
+    var configCollection = new App.Collections.Configurations();
+    configCollection.fetch({
+        async: false
+    });
+    var configDoc = configCollection.first().toJSON();
+    return configDoc.register;
+}
+
 function getRequestStatus() {
+    var centralNationUrl = getCentralNationUrl();
     var jsonModel = getRequestDocFromLocalDB();
     if(jsonModel != null) {
         if(jsonModel.registrationRequest == 'pending') { //If and only if the status is pending, then community will check the status at central db
@@ -51,7 +62,7 @@ function getRequestStatus() {
                 url: '/_replicate',
                 dataType: 'json',
                 data: JSON.stringify({
-                    "source": "http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests",
+                    "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
                     "target": 'configurations',
                     'doc_ids': docIDs
                 }),

@@ -13,6 +13,7 @@ $(function() {
         template: $('#template-addCommunity').html(),
 
         render: function() {
+            var centralNationUrl = getCentralNationUrl();
             var that = this;
             var vars = {};
             if(this.model.get('name') == undefined) { //means this is a newly installed community with limited attributes
@@ -21,9 +22,9 @@ $(function() {
             vars["nations"] = [];
             vars["languages"] = [];
             vars.languages = getAvailableLanguages();
-            if(navigator.onLine){ //Check there is a stable internet connection
+            if(navigator.onLine){ //Check if there is a stable internet connection
                 $.ajax({
-                    url: 'http://nbs.ole.org:5997/nations/_design/bell/_view/getAllNations?_include_docs=true',
+                    url: 'http://' + centralNationUrl + '/nations/_design/bell/_view/getAllNations?_include_docs=true',
                     type: 'GET',
                     dataType: 'jsonp',
                     async: false,
@@ -107,6 +108,7 @@ $(function() {
         },
 
         setForm: function() {
+            var centralNationUrl = getCentralNationUrl();
             App.startActivityIndicator();
             var oldCode = this.model.get('code');
             var newCode = $.trim($('#community-code').val());
@@ -166,7 +168,7 @@ $(function() {
                             dataType: 'json',
                             data: JSON.stringify({
                                 "source": "configurations",
-                                "target": 'http://nbs:oleoleole@nbs.ole.org:5997/communityregistrationrequests',
+                                "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
                                 'doc_ids': docIds
                             }),
                             async: false,
