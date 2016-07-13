@@ -138,7 +138,7 @@ $(function() {
 				App.languageDict=languageDictValue;
 				if (this.removeAlphabet == undefined) {
 					var viewText = "<tr></tr>"
-					viewText += "<tr><td colspan=7  style='cursor:default' >"
+					viewText += "<tr><td colspan=8  style='cursor:default' >"
 					viewText += '<a  id="allresources">#</a>&nbsp;&nbsp;'
                     var str = [] ;
 					str = App.languageDict.get("alphabets");
@@ -157,16 +157,11 @@ $(function() {
 			}
 
 			this.$el.append('<br/><br/>')
-            if (App.languageDict.get('directionOfLang').toLowerCase()==="left")
-			{
-				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='6'>"+App.languageDict.attributes.action+"</th></tr>")
-			}
-			else {
-				this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='26' style='text-align: center'>"+App.languageDict.attributes.action+"</th></tr>")
-			}
+            this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='7'>"+App.languageDict.attributes.action+"</th></tr>")
+
 			this.addAll()
 
-			var text = '<tr><td>'
+			var text = '<tr><td colspan=8>'
 
 			if (this.collection.skip != 0) {
 				text += '<a class="btn btn-success" id="backButton" >'+App.languageDict.attributes.Back+'</a>&nbsp;&nbsp;'
@@ -192,7 +187,7 @@ $(function() {
 							resourceLength = json.rows[0].value;
 						}
 						if (context.displayCollec_Resources != true) {
-							var pageBottom = "<tr><td colspan=7><p style='width: 940px; word-wrap: break-word;'>"
+							var pageBottom = "<tr><td colspan=8><p style='width: 940px; word-wrap: break-word;'>"
 							var looplength = resourceLength / 20
 							for (var i = 0; i < looplength; i++) {
 								if (i == 0)

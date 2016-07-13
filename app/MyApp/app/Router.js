@@ -1012,20 +1012,8 @@ $(function() {
                     $('#parentLibrary').append(resourcesTableView.el);
                     if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
                     {
-                        //  $('#resourcePage').addClass('addResource');
-                        $('#addNewResource').addClass('addMarginsOnResource');
-                        $('#requestResource').addClass('addMarginsOnResource');
-                        $('#searchOfResource').addClass('addMarginsOnResource');
-                        //$('#labelOnResource').addClass('addResource');
-                        //  $('#labelOnResource').attr("margin-right","2%");
-                        $("#labelOnResource").css("margin-right","2%");
-                        $('table').addClass('resourceTableClass');
-                        $('.resourcInfoFirstCol').attr('colspan','8');
-                        $('.resourcInfoCol').attr('colspan','3');
-                        $('.resourcInfoCol').css('text-align','right');
-                        $('.table th').css('text-align','right');
-                        $('.table td').css('text-align','right');
-                        $('#actionAndTitle').find('th').eq(1).css('text-align','center');
+                        $('#requestResource').css({"margin-right" : "10px"});
+                        $('#searchOfResource').addClass({"margin-right" : "10px"});
                     }
                     resourcesTableView.changeDirection();
                 }

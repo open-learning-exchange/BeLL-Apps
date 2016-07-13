@@ -364,6 +364,15 @@ $(function() {
                     if (!this.DuplicateTitle()) {
                         this.model.set("sum", 0)
                         this.model.set("timesRated", 0)
+                        var configurations = Backbone.Collection.extend({
+                            url: App.Server + '/configurations/_all_docs?include_docs=true'
+                        });
+                        var config = new configurations();
+                        config.fetch({
+                            async: false
+                        });
+                        var jsonConfig = config.first().toJSON().rows[0].doc;
+                        this.model.set("type", jsonConfig.type);
                         this.model.save(null, {
                             success: function(res) {
                                 if ($('input[type="file"]').val()) {

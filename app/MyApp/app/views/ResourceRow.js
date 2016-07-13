@@ -59,6 +59,14 @@ $(function() {
 					event.preventDefault()
 				}
 			},
+            "click #addToNation": function(event) {
+                var arrayOfIds = [];
+                var resourceId = this.model.get("_id");
+                arrayOfIds.push(resourceId);
+                App.startActivityIndicator();
+                this.replicateCommunityResourcesWithGivenIds(arrayOfIds);
+                App.stopActivityIndicator();
+            },
 			"click .removeFromCollection": function(event) {
 
 				var tagId = window.location.href.split('#')[1].split('/')[1]
@@ -107,7 +115,6 @@ $(function() {
 					})
 					item.save()
 				});
-				App.stopActivityIndicator()
 				this.render();
                 if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
 				{
@@ -221,6 +228,117 @@ $(function() {
 		initialize: function(e) {
 			this.model.on('destroy', this.remove, this);
 		},
+        replicateCommunityResourcesWithGivenIds: function(arrayOfIds) {
+            $.couch.db("tempresources").create({
+                success: function (data) {
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": 'resources',
+                            "target": 'tempresources',
+                            'doc_ids': arrayOfIds
+                        }),
+                        async: false,
+                        success: function (response) {
+                            //Resource Rating work here.
+                            $.ajax({
+                                url: '/tempresources/_all_docs?include_docs=true',
+                                type:  'GET',
+                                dataType: 'json',
+                                success: function (resResult) {
+                                    var result = resResult.rows;
+                                    var tempResult = [];
+                                    for (var i = 0; i<result.length; i++){
+                                        result[i].doc.sum = 0;
+                                        result[i].doc.timesRated = 0;
+                                        tempResult.push(result[i].doc);
+                                    }
+                                    $.couch.db('tempresources').bulkSave({
+                                        "docs": tempResult
+                                    }, {
+                                        success: function(data) {
+
+                                            $.ajax({
+                                                headers: {
+                                                    'Accept': 'application/json',
+                                                    'Content-Type': 'application/json; charset=utf-8'
+                                                },
+                                                type: 'POST',
+                                                url: '/_replicate',
+                                                dataType: 'json',
+                                                data: JSON.stringify({
+                                                    "source": "tempresources",
+                                                    "target": 'http://' + App.configuration.get('nationUrl') + '/resources',
+                                                    'doc_ids': arrayOfIds
+                                                }),
+                                                async: false,
+                                                success: function (response) {
+                                                    alert(App.languageDict.attributes.resource_replication_success);
+                                                    $.couch.db("tempresources").drop({
+                                                        success: function(data) {
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status);
+                                                        }
+                                                    });
+                                                },
+                                                error: function(status) {
+                                                    alert(App.languageDict.attributes.resource_replication_error);
+                                                    $.couch.db("tempresources").drop({
+                                                        success: function(data) {
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        },
+                                        error: function(status) {
+                                            alert(App.languageDict.attributes.resource_replication_error);
+                                            $.couch.db("tempresources").drop({
+                                                success: function(data) {
+                                                },
+                                                error: function(status) {
+                                                    console.log(status);
+                                                }
+                                            });
+                                        }
+                                    });
+                                },
+                                error: function() {
+                                    alert(App.languageDict.attributes.resource_replication_error);
+                                    $.couch.db("tempresources").drop({
+                                        success: function(data) {
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                        }
+                                    });
+                                },
+                                async: false
+                            });
+                        },
+                        error: function(jqXHR, status, errorThrown){
+                            alert(App.languageDict.attributes.resource_replication_error);
+                            $.couch.db("tempresources").drop({
+                                success: function(data) {
+                                },
+                                error: function(status) {
+                                    console.log(status);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        },
 		render: function() {
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'));
@@ -325,6 +443,16 @@ $(function() {
 			vars.deleteLabel=languageDictValue.attributes.DeleteLabel;
 			vars.RemoveLabel=languageDictValue.attributes.Remove;
 			vars.unhide=languageDictValue.attributes.UnHide;
+            vars.addToNation=languageDictValue.attributes.AddToNation;
+
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+                success: function () {
+                    vars.type = config.first().attributes.type;
+
+                }
+            });
 
 			vars.hide=languageDictValue.attributes.Hide;
 			if (vars.hidden == undefined) {
