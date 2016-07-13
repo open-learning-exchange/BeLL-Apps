@@ -3873,6 +3873,14 @@ $(function() {
             coursesColl.fetch({
                 async: false
             });
+            for(var i=0;i<coursesColl.length;i++){
+                var emptyData=[];
+                coursesColl.models[i].set('courseLeader',emptyData);
+                coursesColl.models[i].set('members',emptyData);
+                coursesColl.models[i].save();
+            }
+
+
             var publicationcourseTable = new App.Views.PublicationCoursesTable({
                 collection: coursesColl
             })
