@@ -641,19 +641,18 @@
 
     <script type="text/template" id="template-addCommunity">
 
-        <div id='addNation-heading'>
-            <p class='heading'>Configurations</p>
+        <div>
+            <h3>Configurations</h3>
         </div>
 
-        <div id='nationForm-container'>
-
-            <form id='communityFrom' autocomplete="on" onSubmit="">
-                <div id='top-from' style='margin:0 auto'>
+        <div>
+            <form id="communityFrom" autocomplete="on" onSubmit="">
+                <div style='margin:0 auto'>
                     <div class='form-field'>
-                        <input style='width:350px' placeholder="Name" type="text" id="community-name" Required pattern="[A-Za-z][A-Za-z]*" title="Required field and don't contain numbers" name="community-name" /><br />
+                        <input style='width:335px' placeholder="Name" type="text" id="community-name" Required pattern="[A-Za-z][A-Za-z]*" title="Required field and don't contain numbers" name="community-name" /><br />
                     </div>
                     <div class='form-field'>
-                        <input style='width:350px' placeholder="Code" type="text" id="community-code" Required pattern="[A-Za-z][A-Za-z]*" title="Required field and don't contain numbers" name="community-code" /><br />
+                        <input style='width:335px' placeholder="Code" type="text" id="community-code" Required pattern="[A-Za-z][A-Za-z]*" title="Required field and don't contain numbers" name="community-code" /><br />
                     </div>
                     <br>
                     <div class='form-field'>
@@ -673,11 +672,11 @@
                         </select><br />
                     </div>
                     <div class='form-field'>
-                        <input placeholder="Region" type="text" id="community-region" Required name="community-region" /><br />
+                        <input style='width:229px;' placeholder="Region" type="text" id="community-region" Required name="community-region" /><br />
                     </div>
                 </div>
-                <div style='margin-left:3%;'><p style='font-size:17px'>Sponsoring Organization</p></div>
-                <div class='middle-from'>
+                <div><p style='font-size:17px'>Sponsoring Organization</p></div>
+                <div>
                     <div class='form-field' >
                         <input style='width:335px' placeholder="Name" type="text" Required id="org-name" name="org-name" /><br />
                     </div>
@@ -687,45 +686,45 @@
                     <div class='form-field'>
                         <input style='width:335px;' placeholder="Url" type="text" id="org-url" Required name="org-url" /><br />
                     </div>
-                    <div style='padding-left:2%;'><p style='font-size:17px'>General Manager</p><input class='form-field' name="checkbox" onclick="fillAdminData($(this), 'General Manager');" type="checkbox" id="checkbox-GM" /> Same as admin</div>
+                    <div><p style='font-size:17px'>General Manager</p><input class='form-field' name="checkbox" onclick="fillAdminData($(this), 'General Manager');" type="checkbox" id="checkbox-GM" /> Same as admin</div>
                     <div class='form-field'>
-                        <input placeholder="First Name" type="text" id="org-firstname" Required name="org-firstname" /><br />
+                        <input style='width:214px;' placeholder="First Name" type="text" id="org-firstname" Required name="org-firstname" /><br />
                     </div>
                     <div class='form-field'>
-                        <input placeholder="Middle Name" type="text" id="org-middlename" name="org-middlename" /><br />
+                        <input style='width:214px;' placeholder="Middle Name" type="text" id="org-middlename" name="org-middlename" /><br />
                     </div>
                     <div class='form-field'>
-                        <input placeholder="Last Name" type="text" id="org-lastname" name="org-lastname" /><br />
+                        <input style='width:214px;' placeholder="Last Name" type="text" id="org-lastname" name="org-lastname" /><br />
                     </div>
                     <br>
                     <div class='form-field' >
-                        <input placeholder="Phone" type="text" Required id="org-phone" name="org-phone" /><br />
+                        <input style='width:214px;' placeholder="Phone" type="text" Required id="org-phone" name="org-phone" /><br />
                     </div>
                     <div class='form-field'>
-                        <input placeholder="Email" type="email" Required id="org-email" name="org-email" /><br />
+                        <input style='width:214px;' placeholder="Email" type="email" Required id="org-email" name="org-email" /><br />
                     </div>
                 </div>
-                <div style='margin-left:3%'><p style='font-size:17px'>Tech Support</p><input class='form-field' name="checkbox" onclick="fillAdminData($(this), 'Tech Support');" type="checkbox" id="checkbox-techSupport" /> Same as admin</div>
-                <div class='middle-from'>
+                <div><p style='font-size:17px'>Tech Support</p><input class='form-field' name="checkbox" onclick="fillAdminData($(this), 'Tech Support');" type="checkbox" id="checkbox-techSupport" /> Same as admin</div>
+                <div>
                     <div class='form-field'>
-                        <input placeholder="First Name" type="text" Required id="leader-firstname" name="leader-firstname" /><br />
+                        <input style='width:214px;' placeholder="First Name" type="text" Required id="leader-firstname" name="leader-firstname" /><br />
                     </div>
                     <div class='form-field'>
-                        <input placeholder="Middle Name" type="text" id="leader-middlename" name="leader-middlename" /><br />
+                        <input style='width:214px;' placeholder="Middle Name" type="text" id="leader-middlename" name="leader-middlename" /><br />
                     </div>
                     <div class='form-field'>
-                        <input placeholder="Last Name" type="text" id="leader-lastname" name="leader-lastname" /><br />
+                        <input style='width:214px;' placeholder="Last Name" type="text" id="leader-lastname" name="leader-lastname" /><br />
                     </div>
                     </br>
                     <div class='form-field' >
-                        <input placeholder="Phone" type="text" required id="leader-phone" name="leader-phone" /><br />
+                        <input style='width:214px;' placeholder="Phone" type="text" required id="leader-phone" name="leader-phone" /><br />
                     </div>
                     <div class='form-field' style='width:310px'>
-                        <input placeholder="Email" type="email" Required id="leader-email" name="leader-email" /><br />
+                        <input style='width:214px;' placeholder="Email" type="email" Required id="leader-email" name="leader-email" /><br />
                     </div>
                 </div>
             </form>
-            <div class="submit-button"><button class="addNation-btn btn btn-success" id="commConfigFormButton">Save</button></div>
+            <button style="display: table;margin: 0 auto" class="btn btn-success" id="commConfigFormButton">Save</button>
         </div>
     </script>
 
