@@ -189,6 +189,7 @@
                     cumulativeResourceIDs.push(resourcesIdes[indexOfNonCourseResourceID]);
                 }
                 App.startActivityIndicator();
+                var that=this;
                 $.couch.db("tempresources").create({
                     success: function(data) {
                         $.ajax({
@@ -290,6 +291,8 @@
                                         'doc_ids': cumulativeCourseIDs
                                     }),
                                     success: function (response) {
+                                        //Issue#355: Courses | Nation>>Community Undefined user created
+                                        that.removeLeaderAndMemberDetails(cumulativeCourseIDs);
                                         $.ajax({
                                             headers: {
                                                 'Accept': 'application/json',
@@ -461,6 +464,34 @@
                                 alert(App.languageDict.attributes.Resources_Synced_Error);
                             }
                         });
+                    }
+                });
+            },
+            removeLeaderAndMemberDetails: function(cumulativeCourseIDs){
+                var courseInPubIdes = '', courseData=[];
+                _.each(cumulativeCourseIDs, function(item) {
+                    courseInPubIdes +=  '"' + item + '",'
+                })
+                if (courseInPubIdes != ''){
+                    courseInPubIdes = courseInPubIdes.substring(0, courseInPubIdes.length - 1);
+                }
+                var groupColl = new App.Collections.Groups();
+                groupColl.keys = encodeURI(courseInPubIdes)
+                groupColl.fetch({
+                    async: false
+                });
+               for(var i=0;i<groupColl.length;i++) {
+                   var courseModel = groupColl.models[i];
+                   courseModel.set('courseLeader',[]);
+                   courseModel.set('members',[]);
+                   courseData.push(courseModel);
+               }
+                $.couch.db("groups").bulkSave({"docs": courseData}, {
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(status) {
+                        console.log(status);
                     }
                 });
             },
