@@ -73,10 +73,19 @@ $(function() {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
                 if (this.pp <= quizScore) {
-                    sstatus[this.stepindex] = "1"
+                    if(sstatus[this.stepindex].length > 1){
+                        sstatus[this.stepindex][1] = "1"
+                    }
+                    else{ sstatus[this.stepindex] = "1"
+                    }
                     this.myModel.set('stepsStatus', sstatus)
                 }
+                if( sp[this.stepindex].length > 1){
+                    sp[this.stepindex][1] = quizScore.toString()
+                }
+                else{
                 sp[this.stepindex] = quizScore.toString()
+                }
                 this.myModel.set('stepsResult', sp)
 
                 this.myModel.save(null, {

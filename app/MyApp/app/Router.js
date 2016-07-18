@@ -57,6 +57,8 @@ $(function() {
 
             'newsfeed': 'NewsFeed',
             'badges': 'Badges',
+            'badges/edit/:mid':'creditDetails',
+            'credits':'Credits',
 
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
@@ -85,7 +87,6 @@ $(function() {
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers'
         },
-
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
             var welcomeVideoResources = new App.Collections.Resources();
@@ -295,9 +296,85 @@ $(function() {
             this.underConstruction()
         },
         Badges: function() {
-            this.underConstruction()
+            //Check if the user who has logged in is a Leader or a Learner in any course.
+            var groups = new App.Collections.Groups()
+            var creditsView = new App.Views.CourseCreditsMainPage(
+            );
+                App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+                $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            creditsView.addHeading();
+            groups.fetch({
+                success: function (groupDocs) {
+                    if(groupDocs.length>0){
+                        var isLearner=false;
+                        for(var i=0;i<groupDocs.length;i++) {
+                            var doc=groupDocs.models[i];
+                            if(doc.get('members')!=undefined && doc.get('courseLeader')!=undefined && doc.get('members').indexOf($.cookie('Member._id'))>-1 && doc.get('courseLeader').indexOf($.cookie('Member._id'))==-1){
+                                isLearner=true;
+                                creditsView.courseId=doc.get('_id');
+                                creditsView.render();
+                            }
+
+                        }
+                        if(isLearner) {
+                $('#creditsMainTable').append(creditsView.el);
+            }
+            else{
+                            alert('You are not enrolled as Learner in any course.');
+                            }
+                    }
+                },
+                async:false
+            });
+
         },
+        Credits: function() {
+            //Check if the user who has logged in is a Leader or a Learner in any course.
+            var that=this;
+            var groups = new App.Collections.Groups()
+            groups.fetch({
+                async:false,
+                success: function (groupDocs) {
+                    if(groupDocs.length>0){
+                        var isLeader=false;
+                        for(var i=0;i<groupDocs.length;i++) {
+                            var doc=groupDocs.models[i];
+                            if(doc.get('courseLeader')!=undefined && doc.get('courseLeader').indexOf($.cookie('Member._id'))>-1){
+                                isLeader=true;
+                            }
+
+            }
+                        if(isLeader){
+                            that.underConstruction();
+                        }
+                        else{
+                           alert('You are not enrolled as Leader in any course.');
+                        }
+                    }
+                }
+            });
+
+        },
+
+                creditDetails: function(courseId){
+                    var courseSteps = new App.Collections.coursesteps()
+                    courseSteps.courseId=courseId;
+                    courseSteps.fetch({
+                        async: false
+                    })
+                    var badgesTableView = new App.Views.BadgesTable({
+                        collection :courseSteps
+                    });
+                    badgesTableView.courseId=courseId;
+                    badgesTableView.render();
+                    App.$el.children('.body').html('<div id="badgesTable"></div>');
+                    $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
+                    $('#badgesTable').append(badgesTableView.el);
+                },
+
+
         underConstruction: function() {
+            alert('Hi')
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);

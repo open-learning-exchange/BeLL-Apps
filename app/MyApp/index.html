@@ -275,7 +275,9 @@
     <script src="app/views/SurveyAnswerRow.js"></script>
     <script src="app/views/SurveyTableForMembers.js"></script>
     <script src="app/views/TrendActivityReport.js"></script>
-
+    <script src="app/views/BadgesTable.js"></script>
+    <script src="app/views/BadgesRow.js"></script>
+    <script src="app/views/CourseCreditsMainPage.js"></script>
     <!-- javaScript -->
 
     <script src='indexFile.js'></script>
@@ -486,8 +488,9 @@
             <table id="bottomButtonsOnDashboard" class="page-bottom-navtable" style="border-collapse: separate;">
                 <tr>
 
+
                     <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict.attributes.Badges %></button></td>
-                    <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%=languageDict.attributes.Calender%></button></td>
+                    <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Credits </button></td>
                     <td><button id= "mailsDash"class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"></button></td>
                     <td><button id= "surveysForMember" class="btn btn-hg btn-primary" onclick = "document.location.href='#memberSurveys'"></button></td>
                     <!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
@@ -496,12 +499,13 @@
                 </tr>
                 <tr>
                     <td><button id="welcomeButton" class="btn btn-hg btn-primary" style="display:none" onclick = "document.location.href='##updatewelcomevideo'"><%= languageDict.attributes.Update_Welcome_Video %></button></td>
+                    <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%=languageDict.attributes.Calender%></button></td>
                     <td><button id="updateButton" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" ><%= languageDict.attributes.Update_Available %>(<%=nation_version%></button></td>
-                    <td><button id="viewReleaseNotes" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Release_Notes  %></button></td>
                     <td><button id="newPublication" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Publications%>(<%=new_publication_count%>)</button></td>
                 </tr>
                 <tr>
                     <td><button id="newSurvey" class="btn btn-hg btn-primary" style="display:none;color:Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Surveys%>(<%=new_survey_count%>)</button></td>
+                    <td><button id="viewReleaseNotes" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Release_Notes  %></button></td>
                 </tr>
             </table>
         </div>
@@ -807,6 +811,24 @@
             <%}%>
         <%}%>
     </script>
+    <script type="text/html" id="template-BadgesRow">
+        <td>
+            <%= stepNo %>
+        </td>
+        <td>
+            <%= stepType %>
+        </td>
+        <td>
+            <%= quizCredits %>
+        </td>
+        <td>
+            <%= paperCredits %>
+        </td>
+        <td>
+            <%= status %>
+        </td>
+
+    </script>
     <script type="text/html" id="template-GroupRow">
         <td>
             <%= CourseTitle %>
@@ -1043,12 +1065,28 @@
     <script type="text/html" id="template-courseLevelsTable">
 
         <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
-            <% if(status == "1") { %>
-            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
+
+            <% if(status.length > 1) { %>
+
+               <% if(status[0] > 1 && status[1] == 1 ) { %>
+               <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>%</span>
+               <% } else if (status[0] > 1 && status[1] == 0) {%>
+               <span  style="float:right;" class="fui-check">&nbsp;</span>
+               <% } else if (status[0] == 0 && status[1] == 1) {%>
+               <span  style="float:right;" >&nbsp;<%=marks[1]%>%</span>
             <% } %>
-            <% if(status == "2") { %>
+
+            <% } else  { %>
+
+               <% if(status == "2" || status == "3" ) { %>
             <span  style="float:right;" class="fui-check">&nbsp;</span>
+               <% } else if(status == "1" ) { %>
+               <span  style="float:right;" >&nbsp;<%=marks%>%</span>
             <% } %>
+
+            <% } %>
+
+
         </div>
         </h3>
 
