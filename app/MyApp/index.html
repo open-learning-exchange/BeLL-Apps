@@ -1065,12 +1065,28 @@
     <script type="text/html" id="template-courseLevelsTable">
 
         <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
-            <% if(status == "1") { %>
-            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
+
+            <% if(status.length > 1) { %>
+
+               <% if(status[0] > 1 && status[1] == 1 ) { %>
+               <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>%</span>
+               <% } else if (status[0] > 1 && status[1] == 0) {%>
+               <span  style="float:right;" class="fui-check">&nbsp;</span>
+               <% } else if (status[0] == 0 && status[1] == 1) {%>
+               <span  style="float:right;" >&nbsp;<%=marks[1]%>%</span>
             <% } %>
-            <% if(status == "2") { %>
+
+            <% } else  { %>
+
+               <% if(status == "2" || status == "3" ) { %>
             <span  style="float:right;" class="fui-check">&nbsp;</span>
+               <% } else if(status == "1" ) { %>
+               <span  style="float:right;" >&nbsp;<%=marks%>%</span>
             <% } %>
+
+            <% } %>
+
+
         </div>
         </h3>
 
