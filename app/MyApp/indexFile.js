@@ -187,14 +187,16 @@ function removeMemberFromCourse(memberId){
                 result.set('members',members)
 
                 result.save();
-                memberCoursePro=new App.Collections.membercourseprogresses()
-                memberCoursePro.memberId=memberId
-                memberCoursePro.courseId=that.courseId
-
-                memberCoursePro.fetch({async:false})
-                while (model = memberCoursePro.first()) {
-                    model.destroy();
-                }
+                var memberProgress = new App.Collections.memberprogressallcourses()
+                memberProgress.memberId = memberId
+                memberProgress.fetch({
+                    async: false
+                })
+                memberProgress.each(function (m) {
+                    if (m.get("courseId") == courseId) {
+                        m.destroy()
+                    }
+                })
                 var groupMembers = new App.Views.GroupMembers();
                 groupMembers.courseId = courseId;
                 groupMembers.render();
