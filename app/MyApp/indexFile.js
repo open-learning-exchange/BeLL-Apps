@@ -939,8 +939,14 @@ function FieSelected(stepId) {
                     success:function(){
                         memberProgress = memberProgress.first();
                         var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
+                        if( memberProgress.attributes.stepsResult[memberStepIndex].length >1){
+                            memberProgress.attributes.stepsResult[memberStepIndex][0] = '2';
+                            memberProgress.attributes.stepsStatus[memberStepIndex][0] = '2';
+                        }
+                        else{
                         memberProgress.attributes.stepsResult[memberStepIndex] = '2';
                         memberProgress.attributes.stepsStatus[memberStepIndex] = '2';
+                        }
                         memberProgress.save(null, {
                             success: function(response) {
                             }
@@ -954,7 +960,11 @@ function FieSelected(stepId) {
         }
     })
 }
-
+function filterInt(value) {
+    if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+        return Number(value);
+    return NaN;
+}
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
