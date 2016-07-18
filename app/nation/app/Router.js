@@ -3389,7 +3389,6 @@ $(function() {
             }
         },
         Dashboard: function() {
-            this.getAllPendingRequests();
             var con = this.getConfigurations()
             if (con.get('type') == 'community') {
                 this.cummunityManage()

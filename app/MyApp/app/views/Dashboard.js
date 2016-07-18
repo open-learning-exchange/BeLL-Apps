@@ -905,6 +905,22 @@ $(function() {
             this.vars.new_publication_count = 0;
             this.vars.new_survey_count = 0;
             this.vars.survey_count_for_member = 0;
+            this.vars.pending_request_count = 0;
+            var pendingCount=0;
+            $.ajax({
+                url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true',
+                type: 'GET',
+                dataType: 'json',
+                async:false,
+                success: function(pendingData) {
+                    console.log(pendingData);
+                    pendingCount=pendingData.rows.length;
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+            this.vars.pending_request_count=pendingCount;
             var members = new App.Collections.Members()
             var member;
             var lang;
@@ -1192,6 +1208,10 @@ $(function() {
             if(this.vars.mails > 0)
             {
                 $('#mailsDash').css({"color": "red"});
+            }
+            if(this.vars.pending_request_count>0)
+            {
+                $('#pendingRequests').css({"color": "Red","background-color": "lightgrey","font-weight": "bold"});
             }
             $('#surveysForMember').html(App.languageDict.attributes.Surveys + '(' + this.vars.survey_count_for_member + ')');
             if(this.vars.survey_count_for_member > 0)

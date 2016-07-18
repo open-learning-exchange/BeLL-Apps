@@ -651,6 +651,9 @@ $(function() {
         });
     },
         Dashboard: function() {
+            if(App.configuration.get('type')=='nation'){
+                getAllPendingRequests();
+            }
             //At community side: Fetch request status from central db
             if(App.Router.getRoles().indexOf('Manager') > -1 || App.Router.getRoles().indexOf('SuperManager') > -1) {
                 getRequestStatus();
@@ -746,6 +749,12 @@ $(function() {
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
+            if(App.configuration.get("type")=="nation"){
+                $('#pendingRequests').show();
+            }
+            else{
+                $('#pendingRequests').hide();
+            }
             applyCorrectStylingSheet(directionOfLang);
         },
         MemberForm: function(memberId) {

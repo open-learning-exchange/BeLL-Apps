@@ -17,6 +17,53 @@ var new_publications_count;
 var new_surveys_count;
 var languageDict;
 
+function getAllPendingRequests() {
+    console.log('start of getAll from index');
+    var centralNationUrl = getCentralNationUrl();
+    var nationUrl = $.url().data.attr.authority;
+    var docIDs=[];
+    $.ajax({
+        url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationUrl + '"',
+        type: 'GET',
+        dataType: 'jsonp',
+        async: false,
+        success: function (json) {
+            var jsonModels = json.rows;
+            for(var i = 0 ; i < jsonModels.length ; i++) {
+                var community = jsonModels[i].value;
+                if(community.registrationRequest=="pending"){
+                    docIDs.push(community._id);
+                }
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                type: 'POST',
+                url: '/_replicate',
+                dataType: 'json',
+                data: JSON.stringify({
+                    "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                    "target": 'communityregistrationrequests',
+                    'doc_ids': docIDs
+                }),
+                async: false,
+                success: function (response) {
+                    console.log('Successfully replicated all pending requests.')
+                },
+                error: function(status) {
+                    console.log(status);
+                }
+            });
+        },
+        error: function (status) {
+            console.log(status);
+        }
+    });
+    console.log('end of getAll from index');
+}
+
 function applyStylingSheet() {
     var languageDictValue=loadLanguageDocs();
 
