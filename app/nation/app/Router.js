@@ -1647,28 +1647,25 @@ $(function() {
 
             var label = $("<label>").text(App.languageDictValue.get('Select_Comm')+': ');
             $('#trend-report-form').append(label);
-            $.ajax({
-                type: 'GET',
-                url: '/community/_design/bell/_view/getAllCommunityNames',
-                dataType: 'json',
-                success: function(response) {
-                    for (var i = 0; i < response.rows.length; i++) {
-                        var doc = response.rows[i].value;
-                        var code, name;
-                        if(doc.Code != undefined) {
-                            code = doc.Code;
-                            name = doc.Name;
-                        } else {
-                            code = doc.code;
-                            name = doc.name;
-                        }
+            /////////////
+            var Communities = new App.Collections.Community()
+            Communities.fetch({
+                async: false
+            })
+            Communities.each(
+                function(log) {
+                    var code, name;
+                    if(log.get('Name') != undefined) {
+                        name = log.get('Name');
+                        code = log.get('Code');
+                    } else {
+                        name = log.get('name');
+                        code = log.get('code');
+                    }
+                    if(name && code){
                         select.append("<option value=" + code + ">" + name + "</option>");
                     }
-                },
-                data: {},
-                async: false
-            });
-
+                });
             $('#trend-report-form').append(select);
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {

@@ -252,27 +252,24 @@ $(function() {
             viewtext += '<h6>' + App.languageDictValue.get("Select_Roles") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">' + App.languageDictValue.get("Learner") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">' + App.languageDictValue.get("Leader") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">' + App.languageDictValue.get("Manager") + '</td></tr></table><br>'
             viewtext += '<h6>' + App.languageDictValue.get("Select_Bells") + '</h6><table class="btable btable-striped"><th>' + App.languageDictValue.get("Bell_Name") + '</th><th>' + App.languageDictValue.get("Type") + '</th>'
             viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + App.languageDictValue.get("Nation") + '</td></tr>'
-            $.ajax({
-                type: 'GET',
-                url: '/community/_design/bell/_view/getAllCommunityNames',
-                dataType: 'json',
-                success: function(response) {
-                    for (var i = 0; i < response.rows.length; i++) {
-                        var doc = response.rows[i].value;
-                        var code, name;
-                        if(doc.Code != undefined) {
-                            code = doc.Code;
-                            name = doc.Name;
-                        } else {
-                            code = doc.code;
-                            name = doc.name;
-                        }
+            var Communities = new App.Collections.Community()
+            Communities.fetch({
+                async: false
+            })
+            Communities.each(
+                function(log) {
+                    var code, name;
+                    if(log.get('Name') != undefined) {
+                        name = log.get('Name');
+                        code = log.get('Code');
+                    } else {
+                        name = log.get('name');
+                        code = log.get('code');
+                    }
+                    if(name && code){
                         viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + code + '_' + name + '">' + name + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
                     }
-                },
-                data: {},
-                async: false
-            });
+                });
             viewtext += '</table><br>'
             viewtext += '<input type="checkbox" name="includeAdmins"><span><b><i>' + App.languageDictValue.get("Include_Admins") + '</i></b></span><br>'
             viewtext += '<button class="btn btn-info" id="selectAllCriteria">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllCriteria">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="formButton">' + App.languageDictValue.get("Send") + '</button><button class="btn btn-info" style="margin-left:10px" id="returnBack">' + App.languageDictValue.get("Back") + '</button>'

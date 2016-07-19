@@ -6,31 +6,16 @@ ddoc = {
 }
 
 ddoc.views = {
-    isDuplicateName: {
-        map: function(doc) {
-            if (doc && (doc.Name || doc.name)) {
-                emit(doc._id, true);
-            }
-        }
-    },
-    /*isDuplicateUrl: {
-        map: function(doc) {
-            if (doc.Url) {
-                emit(doc.Url, true);
-            }
-        }
-    },*/
-    getAllCommunityNames: {
-        map: function (doc) {
-            if (doc && (doc.Name || doc.name)) {
-                emit(doc._id, doc);
-            }
-        }
-    },
-    getCommunityByCode: {
+    /*getCommunityByCode: {
         map: function(doc) {
             if (doc && (doc.Code || doc.code))
                 emit(doc._id, doc);
+        }
+    }*/
+    getCommunityByCode: {
+        map: function(doc) {
+            if (doc && doc.Code)
+                emit(doc.Code, doc);
         }
     }
 }

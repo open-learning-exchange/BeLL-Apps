@@ -59,40 +59,34 @@ $(function () {
                     bellName = config.first().attributes.name;
                 }
             });
-            //nameOfCommunity
             var viewtext = '<table class="btable btable-striped"><th>' + App.languageDictValue.get("Bell_Name") + '</th><th>' + App.languageDictValue.get("Type") + '</th>'
             viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + App.languageDictValue.get("Nation") + '</td></tr>'
-            $.ajax({
-                type: 'GET',
-                url: '/community/_design/bell/_view/getAllCommunityNames',
-                dataType: 'json',
-                success: function(response) {
-                    for (var i = 0; i < response.rows.length; i++) {
-                        var doc = response.rows[i].value;
-                        var code, name;
-                        if(doc.Code != undefined) {
-                            code = doc.Code;
-                            name = doc.Name;
-                        } else {
-                            code = doc.code;
-                            name = doc.name;
-                        }
+            var Communities = new App.Collections.Community()
+            Communities.fetch({
+                async: false
+            })
+            Communities.each(
+                function(log) {
+                    var code, name;
+                    if(log.get('Name') != undefined) {
+                        name = log.get('Name');
+                        code = log.get('Code');
+                    } else {
+                        name = log.get('name');
+                        code = log.get('code');
+                    }
+                    if(name && code){
                         viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + code + '_' + name + '">' + name + '</td><td>' + App.languageDictValue.get("Community") + '</td></tr>'
                     }
-                    viewtext += '</table><br>'
-                    viewtext += '<button class="btn btn-info" id="selectAllBells">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllBells">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="openMembersList">' + App.languageDictValue.get("Get_Members_List") + '</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
-                    that.$el.html(viewtext);
-                    if(App.languageDictValue.get('directionOfLang').toLowerCase() === "right")
-                    {
-                        that.$el.find("#UnSelectAllBells").css({"margin-right":"10px", "margin-left":""});
-                        that.$el.find("#openMembersList").css({"margin-right":"10px", "margin-left":""});
-                        that.$el.find("#returnBack").css({"margin-right":"10px", "margin-left":""});
-                    }
-        },
-                data: {},
-                async: false
-            });
-
+                });
+            viewtext += '</table><br>'
+            viewtext += '<button class="btn btn-info" id="selectAllBells">' + App.languageDictValue.get("Select_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="UnSelectAllBells">' + App.languageDictValue.get("Unselect_All") + '</button><button style="margin-left:10px" class="btn btn-info" id="openMembersList">' + App.languageDictValue.get("Get_Members_List") + '</button><button class="btn btn-info" style="margin-left:10px"  id="returnBack">' + App.languageDictValue.get("Back") + '</button>'
+            that.$el.html(viewtext);
+            if(App.languageDictValue.get('directionOfLang').toLowerCase() === "right") {
+                that.$el.find("#UnSelectAllBells").css({"margin-right":"10px", "margin-left":""});
+                that.$el.find("#openMembersList").css({"margin-right":"10px", "margin-left":""});
+                that.$el.find("#returnBack").css({"margin-right":"10px", "margin-left":""});
+            }
         }
 
     })
