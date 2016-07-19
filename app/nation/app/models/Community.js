@@ -109,6 +109,15 @@ $(function() {
             authDate: {
                 type: 'Text',
                 validators: ['required']
+            },
+            //Adding these attributes temporarily
+            Name: {
+                type: 'Text',
+                validators: ['required']
+            },
+            Code: {
+                type: 'Text',
+                validators: ['required']
             }
         }
 

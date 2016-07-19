@@ -147,7 +147,10 @@ $(function() {
                 superManagerPhone: $('#leader-phone').val(),
                 superManagerEmail: $('#leader-email').val(),
                 countDoubleUpdate: 0,
-                subType:'dummy'
+                subType:'dummy',
+                //Temporarily adding these attributes
+                Name: $.trim($('#community-name').val()),
+                Code: $.trim($('#community-code').val())
             });
             if(isChanged) {
                 this.model.set('registrationRequest', 'pending');
