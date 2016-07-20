@@ -378,9 +378,30 @@ $(function() {
                     $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
                     $('#badgesTable').append(badgesTableView.el);
                 },
+        creditsDetails:function(courseId) {
+            var that = this;
+            var courseSteps = new App.Collections.coursesteps()
+            courseSteps.courseId=courseId;
+            courseSteps.fetch({
+                async: false
+            })
+            var creditsTableView = new App.Views.CreditsTable({
+                collection :courseSteps
+            });
+            creditsTableView.courseId=courseId;
+            creditsTableView.render();
+            App.$el.children('.body').html('<div id="creditsTable"></div>');
+            $('#creditsTable').append('<h3>' + 'Leader Credits' + '</h3>');
+            $('#creditsTable').append(creditsTableView.el);
+            $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits()"/>')
+        },
+
+        submitCredits: function(){
+            this.underConstruction();
+        },
 
         underConstruction: function() {
-            alert('Hi')
+
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);
