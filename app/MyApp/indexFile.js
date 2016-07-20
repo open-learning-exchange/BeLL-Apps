@@ -1430,8 +1430,8 @@ function AddToShelfAndSaveFeedback(rId, title) {
     App.Router.AddToShelfAndSaveFeedback(rId, title)
 }
 //* Credit Details
-function creditDetails() {
-    App.Router.creditDetails()
+function badgesDetails() {
+    App.Router.badgesDetails()
 }
 
 function showSubjectCheckBoxes() {
