@@ -57,9 +57,9 @@ $(function() {
 
             'newsfeed': 'NewsFeed',
             'badges': 'Badges',
-            'badges/edit/:mid':'creditDetails',
+            'badges/edit/:mid':'badgesDetails',
             'credits':'Credits',
-
+            'credits/edit/:mid':'creditsDetails',
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
@@ -330,6 +330,11 @@ $(function() {
         },
         Credits: function() {
             //Check if the user who has logged in is a Leader or a Learner in any course.
+            var creditsView = new App.Views.CreditsLeaderView(
+            );
+            App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+            $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            creditsView.addHeading();
             var that=this;
             var groups = new App.Collections.Groups()
             groups.fetch({
@@ -341,11 +346,13 @@ $(function() {
                             var doc=groupDocs.models[i];
                             if(doc.get('courseLeader')!=undefined && doc.get('courseLeader').indexOf($.cookie('Member._id'))>-1){
                                 isLeader=true;
+                                creditsView.courseId=doc.get('_id');
+                                creditsView.render();
                             }
 
             }
                         if(isLeader){
-                            that.underConstruction();
+                            $('#creditsMainTable').append(creditsView.el);
                         }
                         else{
                            alert('You are not enrolled as Leader in any course.');
@@ -356,7 +363,7 @@ $(function() {
 
         },
 
-                creditDetails: function(courseId){
+                badgesDetails: function(courseId){
                     var courseSteps = new App.Collections.coursesteps()
                     courseSteps.courseId=courseId;
                     courseSteps.fetch({
@@ -371,7 +378,6 @@ $(function() {
                     $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
                     $('#badgesTable').append(badgesTableView.el);
                 },
-
 
         underConstruction: function() {
             alert('Hi')
