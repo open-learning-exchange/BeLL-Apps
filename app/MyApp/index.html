@@ -283,6 +283,9 @@
     <script src="app/views/BadgesTable.js"></script>
     <script src="app/views/BadgesRow.js"></script>
     <script src="app/views/CourseCreditsMainPage.js"></script>
+    <script src="app/views/CreditsLeaderView.js"></script>
+    <script src="app/views/CreditsTable.js"></script>
+    <script src="app/views/CreditsRow.js"></script>
     <!-- javaScript -->
 
     <script src='indexFile.js'></script>
@@ -925,6 +928,25 @@
             <%= status %>
         </td>
 
+    </script>
+    <script type="text/html" id="template-CreditsRow">
+        <td>
+            <%= stepNo %>
+        </td>
+        <td>
+            <%= stepType %>
+        </td>
+        <td>
+            <%= quizCredits %>
+        </td>
+        <td>
+            <%if(stepType[0] == 'Paper'){%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits" id="paperCredits/<%=_id%>">
+            <%}%>
+        </td>
+        <td>
+            <%= status %>
+        </td>
     </script>
     <script type="text/html" id="template-GroupRow">
         <td>
