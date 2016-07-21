@@ -402,7 +402,7 @@
    "Error_UserCourse_Details": "متعلقہ کورس کے لئے کوائف موجود نہیں",
    "Take_Quiz": "ٹیسٹ دیں",
    "Exit": "خروج",
-   "PaperForStep": "مرحلہ نمبر کے لئےپیپر",
+   "DownloadPaperForStep":"Download Paper for step number",
    "Error_Course_Report": "سرور پر ڈیٹا نہیں ملا",
    "You_Scored": "آپ نے سکوربنائے",
    "Finish": "ختم کریں",
