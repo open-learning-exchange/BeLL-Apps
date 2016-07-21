@@ -390,7 +390,7 @@
    "Error_UserCourse_Details": "No se encontraron datos del curso seleccionado.",
    "Take_Quiz":"Rendir prueba",
    "Exit":"Salir",
-   "PaperForStep":"Trabajo para el número de paso",
+   "DownloadPaperForStep":"Download Paper for step number",
    "Error_Course_Report":"No se encuentran datos en el servidor.",
    "You_Scored":"Calificación",
    "Finish":"Terminar",
