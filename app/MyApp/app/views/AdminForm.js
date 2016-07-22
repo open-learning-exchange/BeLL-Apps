@@ -263,6 +263,24 @@ $(function() {
 
                 $('.bbf-form .field-password label').css('color','black');
             }
+            if ( $('.bbf-form .field-phone .bbf-editor input').val() =='' || $('.bbf-form .field-phone .bbf-editor input').val() ==null || $('.bbf-form .field-phone .bbf-editor input').val() ==undefined)
+            {
+                isCorrect=false;
+                $('.bbf-form .field-phone label').css('color','red');
+            }
+            else{
+
+                $('.bbf-form .field-phone label').css('color','black');
+            }
+            if ( $('.bbf-form .field-email .bbf-editor input').val() =='' || $('.bbf-form .field-email .bbf-editor input').val() ==null || $('.bbf-form .field-email .bbf-editor input').val() ==undefined)
+            {
+                isCorrect=false;
+                $('.bbf-form .field-email label').css('color','red');
+            }
+            else{
+
+                $('.bbf-form .field-email label').css('color','black');
+            }
 
             if ( $('.bbf-form .field-Gender .bbf-editor select').val() =='' || $('.bbf-form .field-Gender .bbf-editor select').val() ==null || $('.bbf-form .field-Gender .bbf-editor select').val() ==undefined  ) {
                 // $('.bbf-form .field-Gender label').html(App.languageDict.attributes.Gender + '[ '+App.languageDict.attributes.Required_Text + ']');
