@@ -133,17 +133,26 @@ function getRequestStatus() {
 
 function getRequestDocFromLocalDB() {
     var jsonModel;
-    var configCollection = new App.Collections.Configurations();
-    configCollection.fetch({
-        async: false
-    });
-    var configDoc = configCollection.first().toJSON();
-    if(configDoc.name == undefined) {
+    var configDoc = getCommunityConfigs();
+    //Check if it is a new community or an older one with registrationRequest attribute
+    if(!configDoc.hasOwnProperty('registrationRequest')) {
         jsonModel = null;
     } else {
         jsonModel = configDoc;
     }
     return jsonModel;
+}
+
+function getCommunityConfigs() {
+    var configurations = Backbone.Collection.extend({
+        url: App.Server + '/configurations/_all_docs?include_docs=true'
+    })
+    var config = new configurations()
+    config.fetch({
+        async: false
+    })
+    var currentConfig = config.first().toJSON().rows[0].doc
+    return currentConfig;
 }
 
 function fillAdminData(e, reference) {
@@ -918,7 +927,6 @@ function getSpecificLanguage(language){
                             member = members.models[i];
                             member.set("bellLanguage",clanguage);
                             member.once('sync', function() {})
-
                             member.save(null, {
                                 success: function(doc, rev) {
                                 },

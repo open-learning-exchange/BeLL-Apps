@@ -13,10 +13,12 @@ $(function() {
         template: $('#template-addCommunity').html(),
 
         render: function() {
+            var configDoc = getCommunityConfigs();
             var centralNationUrl = getCentralNationUrl();
             var that = this;
             var vars = {};
-            if(this.model.get('name') == undefined) { //means this is a newly installed community with limited attributes
+            //Check if it is a new community or an older one with registrationRequest attribute
+            if(!configDoc.hasOwnProperty('registrationRequest')) {
                 $('#nav').css('pointer-events', 'none');
             }
             vars["nations"] = [];
@@ -120,7 +122,10 @@ $(function() {
             var isChanged = false;
             var that = this;
             var selectedNation = $('#nation-selector').val();
+            var configDoc = getCommunityConfigs();
             if(prevNation != selectedNation) {
+                isChanged = true;
+            } else if (prevNation == selectedNation && !configDoc.hasOwnProperty('registrationRequest')) {
                 isChanged = true;
             }
             selectedNation = selectedNation.split(',');
@@ -148,6 +153,7 @@ $(function() {
                 superManagerEmail: $('#leader-email').val(),
                 countDoubleUpdate: 0,
                 subType:'dummy',
+                type: 'community',
                 //Temporarily adding these attributes
                 Name: $.trim($('#community-name').val()),
                 Code: $.trim($('#community-code').val())

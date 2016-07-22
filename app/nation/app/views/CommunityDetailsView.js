@@ -66,6 +66,7 @@ $(function() {
         processRegistration: function (status) {
             var centralNationUrl = App.Router.getCentralNationUrl();
             var doc = this.model;
+            var code = doc.code;
             var docID = [];
             docID.push(doc._id);
             doc.registrationRequest= status;
@@ -74,31 +75,7 @@ $(function() {
             // Update the registrationRequest attribute from pending to registered in that nation's communityregistrationrequests database.
             $.couch.db("communityregistrationrequests").saveDoc(doc, {
                 success: function(data) {
-                    // Replicate the updated document on that nation's community database.
-                    if(status == 'accepted') {
-                        $.ajax({
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            type: 'POST',
-                            url: '/_replicate',
-                            dataType: 'json',
-                            data: JSON.stringify({
-                                "source": "communityregistrationrequests",
-                                "target": 'community',
-                                'doc_ids': docID
-                            }),
-                            async: false,
-                            success: function (response) {
-                                console.log('Successfully replicated to community database')
-                            },
-                            error: function(status) {
-                                console.log("Error for local replication");
-                            }
-                        });
-                    }
-                    //Now, also replicate that community's document in communityregistrationrequests database of central nation
+                    //Replicate that community's document in communityregistrationrequests database of central nation
                     $.ajax({
                         headers: {
                             'Accept': 'application/json',
@@ -115,23 +92,82 @@ $(function() {
                         async: false,
                         success: function (response) {
                             console.log('Successfully replicated pending request to central db')
-                            // Lastly, remove the document from that nation's communityregistrationrequests database.
-                            $.couch.db("communityregistrationrequests").removeDoc(doc, {
-                                success: function(data) {
-                                    alert("Registration request has been " + status);
-                                    Backbone.history.navigate('listCommunity', {
-                                        trigger: true
-                                    })
-                                },
-                                error: function(status) {
-                                    console.log(status)
-                                }
-                            });
                         },
                         error: function(status) {
                             console.log("Error for remote replication");
                         }
                     });
+                    // Replicate the updated document on that nation's community database.
+                    if(status == 'accepted') {
+                        // Check if there exist an old type of document(with older attributes) for that community
+                        // If yes, then delete that document and put new one there
+                        $.ajax({
+                            url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true&key="' + code + '"',
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.rows.length > 0) {
+                                    var oldDoc = result.rows[0].value;
+                                    $.couch.db("community").removeDoc(oldDoc, {
+                                        success: function(data) {
+                                            $.ajax({
+                                                headers: {
+                                                    'Accept': 'application/json',
+                                                    'Content-Type': 'application/json; charset=utf-8'
+                                                },
+                                                type: 'POST',
+                                                url: '/_replicate',
+                                                dataType: 'json',
+                                                data: JSON.stringify({
+                                                    "source": "communityregistrationrequests",
+                                                    "target": 'community',
+                                                    'doc_ids': docID
+                                                }),
+                                                async: false,
+                                                success: function (response) {
+                                                    console.log('Successfully replicated to community database')
+                                                    // Lastly, remove the document from that nation's communityregistrationrequests database.
+                                                    $.couch.db("communityregistrationrequests").removeDoc(doc, {
+                                                        success: function(data) {
+                                                            alert("Registration request has been " + status);
+                                                            Backbone.history.navigate('listCommunity', {
+                                                                trigger: true
+                                                            })
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status)
+                                                        }
+                                                    });
+                                                },
+                                                error: function(status) {
+                                                    console.log("Error for local replication");
+                                                }
+                                            });
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function(err) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        // Lastly, remove the document from that nation's communityregistrationrequests database.
+                        $.couch.db("communityregistrationrequests").removeDoc(doc, {
+                            success: function(data) {
+                                alert("Registration request has been " + status);
+                                Backbone.history.navigate('listCommunity', {
+                                    trigger: true
+                                })
+                            },
+                            error: function(status) {
+                                console.log(status)
+                            }
+                        });
+                    }
                 },
                 error: function(status) {
                     console.log(status);

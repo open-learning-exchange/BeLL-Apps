@@ -24,7 +24,7 @@ $(function() {
             currentLanguage: '',
             nationName: '',
             nationUrl: '',
-            type: 'community'
+            type: ''
         },
         schema: {
             //Community's information

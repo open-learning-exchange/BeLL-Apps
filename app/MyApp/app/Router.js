@@ -655,7 +655,7 @@ $(function() {
                 getAllPendingRequests();
             }
             //At community side: Fetch request status from central db
-            if(App.Router.getRoles().indexOf('Manager') > -1 || App.Router.getRoles().indexOf('SuperManager') > -1) {
+            if(App.configuration.get('type')=='community' && App.Router.getRoles().indexOf('Manager') > -1 || App.Router.getRoles().indexOf('SuperManager') > -1) {
                 getRequestStatus();
             }
             var that=this;

@@ -554,6 +554,7 @@ $(function() {
                 success: function(json) {
                     var nationConfig = json.rows[0].doc
                     currentConfig.version = nationConfig.version;
+                    currentConfig.register = nationConfig.register;
                     if(currentConfig.availableLanguages && currentConfig.availableLanguages!=undefined && currentConfig.availableLanguages!=null  )
                     {
                         delete currentConfig.availableLanguages;
@@ -765,8 +766,8 @@ $(function() {
                                     dataType: 'json',
                                     data: JSON.stringify(communityModel),
                                     success: function(response) {
+                                        communityModel._rev = response.rev;
                                         var currCommConfig = that.updateConfigsOfCommunity(2); //update countDoubleUpdate to 2
-
                                         //Replicate from Community to Nation
                                         $.ajax({
                                             headers: {
@@ -783,6 +784,15 @@ $(function() {
                                             }),
                                             success: function(response) {
                                                 var currConfigOfComm = that.getCommunityConfigs()
+                                                if(!currConfigOfComm.hasOwnProperty('registrationRequest')) {
+                                                    $.couch.db("community").removeDoc(communityModel, {
+                                                        success: function(data) {
+                                                        },
+                                                        error: function(status) {
+                                                            console.log(status);
+                                                        }
+                                                    });
+                                                }
                                                 if (currConfigOfComm.countDoubleUpdate > 1) {
                                                     //Deleting the temp db's
                                                     $.couch.allDbs({
@@ -888,13 +898,16 @@ $(function() {
         },
 
         render: function() {
+            var that = this;
             $('#nav').css('pointer-events', 'auto');
             var configCollection = new App.Collections.Configurations();
             configCollection.fetch({
                 async: false
             });
             var configDoc = configCollection.first().toJSON();
-            if(configDoc.name == undefined && (App.Router.getRoles().indexOf('Manager')>-1 || App.Router.getRoles().indexOf('SuperManager')>-1 )) {
+            var communityConfigDoc = that.getCommunityConfigs();
+            //Check if it is a new community or an older one with registrationRequest attribute
+            if(!communityConfigDoc.hasOwnProperty('registrationRequest') && communityConfigDoc.countDoubleUpdate != 1 && communityConfigDoc.type == 'community' && (App.Router.getRoles().indexOf('Manager')>-1 || App.Router.getRoles().indexOf('SuperManager')>-1 )) {
                 alert('Please fill the Configurations form first');
                 window.location.href = '#configurationsForm'
             }
@@ -907,19 +920,21 @@ $(function() {
             this.vars.survey_count_for_member = 0;
             this.vars.pending_request_count = 0;
             var pendingCount=0;
-            $.ajax({
-                url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true',
-                type: 'GET',
-                dataType: 'json',
-                async:false,
-                success: function(pendingData) {
-                    console.log(pendingData);
-                    pendingCount=pendingData.rows.length;
-                },
-                error:function(error){
-                    console.log(error);
-                }
-            });
+            if(configDoc.type == 'nation') {
+                $.ajax({
+                    url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true',
+                    type: 'GET',
+                    dataType: 'json',
+                    async:false,
+                    success: function(pendingData) {
+                        console.log(pendingData);
+                        pendingCount=pendingData.rows.length;
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+            }
             this.vars.pending_request_count=pendingCount;
             var members = new App.Collections.Members()
             var member;
