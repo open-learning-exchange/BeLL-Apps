@@ -3,7 +3,7 @@
  */
 $(function () {
 
-    App.Views.CourseCreditsMainPage = Backbone.View.extend({
+    App.Views.BadgesMainPage = Backbone.View.extend({
         tagName: "table",
         className: "table table-striped",
 
