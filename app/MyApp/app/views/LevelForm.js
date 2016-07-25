@@ -61,22 +61,25 @@ $(function() {
                                 var sids = m.get("stepsIds")
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
-                                sids.push(that.model.get("id"))
-                                if(that.model.get("outComes").length == 2) {
-                                    var arr = [];
-                                    arr.push("0")
-                                    arr.push("0")
-                                    sresults.push(arr)
-                                    sstatus.push(arr)
+                                if(sids.indexOf(that.model.get("id")) < 0)
+                                {
+                                    sids.push(that.model.get("id"))
+                                    if(that.model.get("outComes").length == 2) {
+                                        var arr = [];
+                                        arr.push("0")
+                                        arr.push("0")
+                                        sresults.push(arr)
+                                        sstatus.push(arr)
 
-                                } else {
-                                sresults.push("0")
-                                sstatus.push("0")
+                                    } else {
+                                        sresults.push("0")
+                                        sstatus.push("0")
+                                    }
+                                    m.set("stepsIds", sids)
+                                    m.set("stepsResult", sresults)
+                                    m.set("stepsStatus", sstatus)
+                                    m.save()
                                 }
-                                m.set("stepsIds", sids)
-                                m.set("stepsResult", sresults)
-                                m.set("stepsStatus", sstatus)
-                                m.save()
                             })
                         }
                     })
