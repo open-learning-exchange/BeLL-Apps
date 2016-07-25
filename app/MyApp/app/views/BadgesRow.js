@@ -18,12 +18,58 @@ $(function () {
         },
 
         render: function () {
+            console.log(this.model);
             var vars = this.model.toJSON();
+            var courseProgress = new App.Collections.membercourseprogresses()
+            courseProgress.memberId = $.cookie('Member._id');
+            courseProgress.courseId = this.model.get('courseId');
+            courseProgress.fetch({
+                async:false,
+
+            });
+            console.log(courseProgress);
             vars.stepNo = this.model.attributes.step;
-            vars.stepType="";
-               vars.paperCredits = 19;
-               vars.quizCredits = 60;
-                vars.status ="Pass";
+            vars.stepType = [];
+            var indexOfCurrentStep=courseProgress.models[0].get('stepsIds').indexOf(this.model.get('_id'));
+            for(var i=0;i<this.model.attributes.outComes.length;i++)
+            {
+                var type =this.model.attributes.outComes[i];
+                vars.stepType.push(type);
+            }
+            if(vars.stepType.length > 1){
+                alert(vars.stepType.length)
+                vars.paperCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][0];
+                vars.quizCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][1];
+            }
+            else{
+
+                if(vars.stepType[0] == "Paper"){
+                    vars.paperCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
+                    vars.quizCredits = "N/A";
+                }
+                else {
+                    vars.quizCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
+                    vars.paperCredits = "N/A";
+                }
+            }
+            var passingPercentage = this.model.attributes.passingPercentage;
+            var marks = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
+            if(marks.length > 0){
+                if(parseInt(marks[0])>= passingPercentage && parseInt(marks[1])>= passingPercentage ){
+                    vars.status ="Pass";
+                }
+                else{
+                    vars.status ="Fail";
+                }
+            }
+            else{
+                if(parseInt(marks) >= passingPercentage){
+                    vars.status ="Pass";
+                }
+                else{
+                    vars.status ="Fail";
+                }
+            }
             this.$el.append(_.template(this.template, vars))
         }
 
