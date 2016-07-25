@@ -15,7 +15,14 @@ $(function() {
         defaults: {
             subType: "dummyy",
             currentLanguage: '',
-            registrationRequest: 'pending'
+            registrationRequest: 'pending',
+            lastAppUpdateDate: '-',
+            lastActivitiesSyncDate: '-',
+            lastPublicationsSyncDate: '-',
+            superManagerID: '',
+            superManagerPassword: '',
+            authName: '',
+            authDate: '',
         },
         schema: {
             //Community's information
@@ -87,18 +94,6 @@ $(function() {
             superManagerEmail: {
                 type: 'Text'
             },
-            superManagerID: {
-                type: 'Text'
-            },
-            superManagerPassword: {
-                type: 'Text'
-            },
-            authName: {
-                type: 'Text'
-            },
-            authDate: {
-                type: 'Text'
-            },
             //Adding these attributes temporarily
             Name: {
                 type: 'Text'
@@ -107,9 +102,6 @@ $(function() {
                 type: 'Text'
             },
             countDoubleUpdate: 'Number',
-            lastAppUpdateDate: 'Text',
-            lastActivitiesSyncDate: 'Text',
-            lastPublicationsSyncDate: 'Text',
             type: 'Text',
             kind: 'Text'
         }
