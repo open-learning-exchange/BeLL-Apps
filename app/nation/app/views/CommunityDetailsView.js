@@ -110,45 +110,45 @@ $(function() {
                                     var oldDoc = result.rows[0].value;
                                     $.couch.db("community").removeDoc(oldDoc, {
                                         success: function(data) {
-                                            $.ajax({
-                                                headers: {
-                                                    'Accept': 'application/json',
-                                                    'Content-Type': 'application/json; charset=utf-8'
-                                                },
-                                                type: 'POST',
-                                                url: '/_replicate',
-                                                dataType: 'json',
-                                                data: JSON.stringify({
-                                                    "source": "communityregistrationrequests",
-                                                    "target": 'community',
-                                                    'doc_ids': docID
-                                                }),
-                                                async: false,
-                                                success: function (response) {
-                                                    console.log('Successfully replicated to community database')
-                                                    // Lastly, remove the document from that nation's communityregistrationrequests database.
-                                                    $.couch.db("communityregistrationrequests").removeDoc(doc, {
-                                                        success: function(data) {
-                                                            alert("Registration request has been " + status);
-                                                            Backbone.history.navigate('listCommunity', {
-                                                                trigger: true
-                                                            })
-                                                        },
-                                                        error: function(status) {
-                                                            console.log(status)
-                                                        }
-                                                    });
-                                                },
-                                                error: function(status) {
-                                                    console.log("Error for local replication");
-                                                }
-                                            });
                                         },
                                         error: function(status) {
                                             console.log(status);
                                         }
                                     });
                                 }
+                                $.ajax({
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json; charset=utf-8'
+                                    },
+                                    type: 'POST',
+                                    url: '/_replicate',
+                                    dataType: 'json',
+                                    data: JSON.stringify({
+                                        "source": "communityregistrationrequests",
+                                        "target": 'community',
+                                        'doc_ids': docID
+                                    }),
+                                    async: false,
+                                    success: function (response) {
+                                        console.log('Successfully replicated to community database')
+                                        // Lastly, remove the document from that nation's communityregistrationrequests database.
+                                        $.couch.db("communityregistrationrequests").removeDoc(doc, {
+                                            success: function(data) {
+                                                alert("Registration request has been " + status);
+                                                Backbone.history.navigate('listCommunity', {
+                                                    trigger: true
+                                                })
+                                            },
+                                            error: function(status) {
+                                                console.log(status)
+                                            }
+                                        });
+                                    },
+                                    error: function(status) {
+                                        console.log("Error for local replication");
+                                    }
+                                });
                             },
                             error: function(err) {
                                 console.log(err);

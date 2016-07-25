@@ -18,12 +18,12 @@ var new_surveys_count;
 var languageDict;
 
 function getAllPendingRequests() {
-    console.log('start of getAll from index');
     var centralNationUrl = getCentralNationUrl();
     var nationUrl = $.url().data.attr.authority;
+    var nationPort = nationUrl.split(':')[1];
     var docIDs=[];
     $.ajax({
-        url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationUrl + '"',
+        url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationPort + '"',
         type: 'GET',
         dataType: 'jsonp',
         async: false,
@@ -61,7 +61,6 @@ function getAllPendingRequests() {
             console.log(status);
         }
     });
-    console.log('end of getAll from index');
 }
 
 function applyStylingSheet() {

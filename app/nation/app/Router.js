@@ -4199,9 +4199,10 @@ $(function() {
         getAllPendingRequests: function () {
             var centralNationUrl = App.Router.getCentralNationUrl();
             var nationUrl = $.url().data.attr.authority;
+            var nationPort = nationUrl.split(':')[1];
             var docIDs=[];
             $.ajax({
-                url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationUrl + '"',
+                url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationPort + '"',
                 type: 'GET',
                 dataType: 'jsonp',
                 async: false,

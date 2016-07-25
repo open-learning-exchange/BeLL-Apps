@@ -152,6 +152,13 @@ $(function () {
                 });
             }
             delete con.attributes.registrationRequest;
+            delete con.attributes.lastAppUpdateDate;
+            delete con.attributes.lastActivitiesSyncDate;
+            delete con.attributes.lastPublicationsSyncDate;
+            delete con.attributes.superManagerID;
+            delete con.attributes.superManagerPassword;
+            delete con.attributes.authName;
+            delete con.attributes.authDate;
             con.save(null,{ success: function(doc,rev){
 
                 App.configuration = con;

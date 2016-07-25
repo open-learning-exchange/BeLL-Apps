@@ -19,7 +19,8 @@ $(function() {
             },
             subType: {
                 type: 'Text'
-            }
+            },
+            type: 'nation'
          /*   flagDoubleUpdate: { //no need of flag on nation side
                 type: 'Text'
             }, */
@@ -32,17 +33,6 @@ $(function() {
             },
             code: {
                 type: 'Text',
-                validators: ['required']
-            },
-            type: {
-                type: 'Select',
-                options:[{
-                    val: 'community',
-                    label: 'community'
-                }, {
-                    val: 'nation',
-                    label: 'nation'
-                }],
                 validators: ['required']
             },
             nationName: {

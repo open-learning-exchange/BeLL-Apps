@@ -21,7 +21,7 @@ ddoc.views = {
     getCommunityByNationUrl:{
         map: function(doc){
             if (doc.nationUrl && doc.kind=='Community') {
-                emit(doc.nationUrl, doc);
+                emit(doc.nationUrl.split(':')[1], doc);
             }
         }
     },
