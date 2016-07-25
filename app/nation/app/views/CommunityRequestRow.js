@@ -57,7 +57,7 @@ $(function() {
             } else {
                 communityName = community.name;
             }
-            if(community.registrationRequest=="pending"){
+            if(community.registrationRequest=="pending" && community.hasOwnProperty('code') && community.hasOwnProperty('name')){
                 var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>0</td><td>0</td>" +
                     "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
                     community._id + "/pending'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<label>Request Pending</label></td><br>";
@@ -112,6 +112,11 @@ $(function() {
                     if(community.registrationRequest == "accepted"){
                         var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
                             "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" + community._id + "/registered'> <i class='icon-pencil icon-white'></i>View Details</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
+                        that.$el.append(row);
+                    }
+                    if(community.registrationRequest=="pending" && !community.hasOwnProperty('code') && !community.hasOwnProperty('name')) {
+                        var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
+                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a><label>Old Community</label></td><br>";
                         that.$el.append(row);
                     }
                 },
