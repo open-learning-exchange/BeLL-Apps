@@ -37,7 +37,7 @@ $(function () {
                 vars.stepType.push(type);
             }
             if(vars.stepType.length > 1){
-               // console.log(vars.stepType.length)
+                // console.log(vars.stepType.length)
                 vars.paperCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][0];
                 vars.quizCredits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][1];
             }
@@ -55,16 +55,16 @@ $(function () {
             var passingPercentage = this.model.attributes.passingPercentage;
             var marks = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
             var intMarks = [];
-           if($.isArray(marks)){
+            if($.isArray(marks)){
                 for (var i=0; i < marks.length ; i++){
-              //  console.log('marks before parsing '+marks[i]);
-                intMarks.push(parseInt(marks[i]));
-               // console.log("intMarks after parsing : " +intMarks);
+                    //  console.log('marks before parsing '+marks[i]);
+                    intMarks.push(parseInt(marks[i]));
+                    // console.log("intMarks after parsing : " +intMarks);
                 }
-           }
-          else{
-               intMarks.push(parseInt(marks));
-           }
+            }
+            else{
+                intMarks.push(parseInt(marks));
+            }
 
             if(intMarks.length > 1){
                 if( intMarks[0]>= passingPercentage && intMarks[1]>= passingPercentage ){
@@ -82,7 +82,6 @@ $(function () {
                     vars.status ="Fail";
                 }
             }
-
             this.$el.append(_.template(this.template, vars))
         }
 
