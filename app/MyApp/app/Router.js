@@ -326,7 +326,7 @@ $(function() {
         Badges: function() {
             //Check if the user who has logged in is a Leader or a Learner in any course.
             var groups = new App.Collections.Groups()
-            var creditsView = new App.Views.CourseCreditsMainPage(
+            var creditsView = new App.Views.BadgesMainPage(
             );
                 App.$el.children('.body').html('<div id="creditsMainTable"></div>');
                 $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
