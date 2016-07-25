@@ -13,18 +13,9 @@ $(function() {
             return url
         },
         defaults: {
-            kind: "Community",
-            subType: "",
-            countDoubleUpdate: 0,
-            lastAppUpdateDate: " - ",
-            version: " - ",
-            lastActivitiesSyncDate: " - ",
-            lastPublicationsSyncDate: " - ",
-            registrationRequest: 'pending',
+            subType: "dummyy",
             currentLanguage: '',
-            nationName: '',
-            nationUrl: '',
-            type: ''
+            registrationRequest: 'pending'
         },
         schema: {
             //Community's information
@@ -37,85 +28,90 @@ $(function() {
                 validators: ['required']
             },
             region: 'Text',
+            nationName: {
+                type: 'Text',
+                validators: ['required']
+            },
+            nationUrl: {
+                type: 'Text',
+                validators: ['required']
+            },
+            version: {
+                type: 'Text'
+            },
+            notes: {
+                type: 'Text'
+            },
+            selectLanguage: {
+                type: 'Select',
+                options:[]
+            },
             //Sponsoring Organization
             sponsorName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             sponsorAddress: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             contactFirstName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             contactMiddleName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             contactLastName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             contactPhone: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             contactEmail: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             sponsorUrl: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             //Tech Support
             superManagerFirstName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             superManagerMiddleName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             superManagerLastName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             superManagerPhone: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             superManagerEmail: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             superManagerID: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             superManagerPassword: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             authName: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             authDate: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             //Adding these attributes temporarily
             Name: {
-                type: 'Text',
-                validators: ['required']
+                type: 'Text'
             },
             Code: {
-                type: 'Text',
-                validators: ['required']
-            }
+                type: 'Text'
+            },
+            countDoubleUpdate: 'Number',
+            lastAppUpdateDate: 'Text',
+            lastActivitiesSyncDate: 'Text',
+            lastPublicationsSyncDate: 'Text',
+            type: 'Text',
+            kind: 'Text'
         }
     })
 

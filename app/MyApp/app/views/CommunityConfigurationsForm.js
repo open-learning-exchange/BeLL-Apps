@@ -152,8 +152,9 @@ $(function() {
                 superManagerPhone: $('#leader-phone').val(),
                 superManagerEmail: $('#leader-email').val(),
                 countDoubleUpdate: 0,
-                subType:'dummy',
+                subType:'dummyy',
                 type: 'community',
+                kind: 'Community',
                 //Temporarily adding these attributes
                 Name: $.trim($('#community-name').val()),
                 Code: $.trim($('#community-code').val())

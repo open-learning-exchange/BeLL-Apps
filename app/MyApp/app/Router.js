@@ -402,8 +402,12 @@ $(function() {
                 model: conModel
             })
             conForm.render();
-
             App.$el.children('.body').html(conForm.el);
+            alert($('.bbf-form fieldset').find('ul li').length);
+            for(var i=8;i<$('.bbf-form').find('ul li').length;i++)
+            {
+                $('.bbf-form').find('ul').find('li').eq(i).hide();
+            }
             conForm.updateDropDownValue();
 
         },
