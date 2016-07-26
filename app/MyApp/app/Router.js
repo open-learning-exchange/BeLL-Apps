@@ -363,29 +363,22 @@ $(function() {
             App.$el.children('.body').html('<div id="creditsMainTable"></div>');
             $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
             creditsView.addHeading();
-            var that=this;
-            var groups = new App.Collections.Groups()
+            var count=0;
+            var groups = new App.Collections.Groups();
             groups.fetch({
                 async:false,
                 success: function (groupDocs) {
                     if(groupDocs.length>0){
-                        var isLeader=false;
                         for(var i=0;i<groupDocs.length;i++) {
                             var doc=groupDocs.models[i];
-                            if(doc.get('courseLeader')!=undefined && doc.get('courseLeader').indexOf($.cookie('Member._id'))>-1){
-                                isLeader=true;
+                            count=getCountOfLearners(doc.get('_id'));
+                            if(count>0){
                                 creditsView.courseId=doc.get('_id');
                                 creditsView.render();
                             }
-
             }
-                        if(isLeader){
                             $('#creditsMainTable').append(creditsView.el);
                         }
-                        else{
-                           alert('You are not enrolled as Leader in any course.');
-                        }
-                    }
                 }
             });
 
