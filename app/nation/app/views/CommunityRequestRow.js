@@ -6,16 +6,44 @@ $(function() {
 
         events: {
             "click .destroy": function(e) {
+                var centralNationUrl = App.Router.getCentralNationUrl();
                 var loginOfMem = $.cookie('Member.login');
                 var lang = App.Router.getLanguage(loginOfMem);
                 var languageDictValue=App.Router.loadLanguageDocs(lang);
                 if (confirm(languageDictValue.attributes.Confirm_Community)) {
                     e.preventDefault()
-                    this.model.destroy()
+                    var docID = [];
+                    docID.push(this.model.id);
+                    this.model.set('registrationRequest', 'rejected');
+                    this.model.save(null, {
+                        success: function () {
+                            $.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json; charset=utf-8'
+                                },
+                                type: 'POST',
+                                url: '/_replicate',
+                                dataType: 'json',
+                                data: JSON.stringify({
+                                    "source": "community",
+                                    "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                    'doc_ids': docID
+                                }),
+                                async: false,
+                                success: function (response) {
+                                    console.log('Successfully replicated request status to central db')
+                                },
+                                error: function(status) {
+                                    console.log("Error for remote replication");
+                                }
+                            });
+                        },
+                        async: false
+                    });
                     this.remove()
                 } else {
                     e.preventDefault()
-
                     App.startActivityIndicator();
                     Backbone.history.navigate('listCommnitiesRequest', {
                         trigger: true

@@ -927,8 +927,11 @@ $(function() {
                     dataType: 'json',
                     async:false,
                     success: function(pendingData) {
-                        console.log(pendingData);
-                        pendingCount=pendingData.rows.length;
+                        for(var i = 0 ; i < pendingData.rows.length ; i++) {
+                            if(pendingData.rows[i].value.registrationRequest == 'pending') {
+                                pendingCount++;
+                            }
+                        }
                     },
                     error:function(error){
                         console.log(error);

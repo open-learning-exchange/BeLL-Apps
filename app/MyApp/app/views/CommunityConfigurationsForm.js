@@ -110,8 +110,9 @@ $(function() {
         },
 
         setForm: function() {
-            var centralNationUrl = getCentralNationUrl();
             App.startActivityIndicator();
+            var centralNationUrl = getCentralNationUrl();
+            var configDoc = getCommunityConfigs();
             var oldCode = this.model.get('code');
             var newCode = $.trim($('#community-code').val());
             if(oldCode != newCode) {
@@ -119,18 +120,10 @@ $(function() {
                 this.changeCodeInActivityLogs(newCode);
             }
             var prevNation = this.model.get('nationName') + ',' + this.model.get('nationUrl');
-            var isChanged = false;
             var that = this;
             var selectedNation = $('#nation-selector').val();
-            var configDoc = getCommunityConfigs();
-            if(prevNation != selectedNation) {
-                isChanged = true;
-            } else if (prevNation == selectedNation && !configDoc.hasOwnProperty('registrationRequest')) {
-                isChanged = true;
-            }
-            selectedNation = selectedNation.split(',');
-            var nationName = selectedNation[0];
-            var nationUrl = selectedNation[1];
+            var nationName = selectedNation.split(',')[0];
+            var nationUrl = selectedNation.split(',')[1];
             this.model.set({
                 name: $.trim($('#community-name').val()),
                 code: $.trim($('#community-code').val()),
@@ -159,45 +152,39 @@ $(function() {
                 Name: $.trim($('#community-name').val()),
                 Code: $.trim($('#community-code').val())
             });
-            if(isChanged) {
+            if(configDoc.registrationRequest == 'rejected' || prevNation != selectedNation) {
                 this.model.set('registrationRequest', 'pending');
             }
             this.model.save(null, {
                 success: function (model, response) {
-                    if(isChanged) {
-                        var docIds = [];
-                        var id = that.model.get('id');
-                        docIds.push(id);
-                        $.ajax({
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            type: 'POST',
-                            url: '/_replicate',
-                            dataType: 'json',
-                            data: JSON.stringify({
-                                "source": "configurations",
-                                "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                                'doc_ids': docIds
-                            }),
-                            async: false,
-                            success: function (response) {
-                                App.stopActivityIndicator();
-                                alert("Configurations has been saved");
-                                window.location.href = '#dashboard';
-                            },
-                            error: function(status) {
-                                console.log(status);
-                                alert(App.languageDict.attributes.UnableToReplicate);
-                                App.stopActivityIndicator();
-                            }
-                        });
-                    } else {
-                        App.stopActivityIndicator();
-                        alert("Configurations has been saved");
-                        window.location.href = '#dashboard';
-                    }
+                    var docIds = [];
+                    var id = that.model.get('id');
+                    docIds.push(id);
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": "configurations",
+                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                            'doc_ids': docIds
+                        }),
+                        async: false,
+                        success: function (response) {
+                            App.stopActivityIndicator();
+                            alert("Configurations has been saved");
+                            window.location.href = '#dashboard';
+                        },
+                        error: function(status) {
+                            console.log(status);
+                            alert(App.languageDict.attributes.UnableToReplicate);
+                            App.stopActivityIndicator();
+                        }
+                    });
                 }
             });
         },

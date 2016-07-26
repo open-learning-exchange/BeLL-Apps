@@ -94,39 +94,42 @@ function getCentralNationUrl() {
 function getRequestStatus() {
     var centralNationUrl = getCentralNationUrl();
     var jsonModel = getRequestDocFromLocalDB();
+    var oldStatus = jsonModel.registrationRequest;
+    var newStatus;
     if(jsonModel != null) {
-        if(jsonModel.registrationRequest == 'pending') { //If and only if the status is pending, then community will check the status at central db
-            var modelId = jsonModel._id;
-            var docIDs=[];
-            docIDs.push(modelId);
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                type: 'POST',
-                url: '/_replicate',
-                dataType: 'json',
-                data: JSON.stringify({
-                    "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                    "target": 'configurations',
-                    'doc_ids': docIDs
-                }),
-                async: false,
-                success: function (response) {
-                    //Now get the updated document and check request status again
-                    var updatedJsonModel = getRequestDocFromLocalDB();
+        var modelId = jsonModel._id;
+        var docIDs=[];
+        docIDs.push(modelId);
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            type: 'POST',
+            url: '/_replicate',
+            dataType: 'json',
+            data: JSON.stringify({
+                "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                "target": 'configurations',
+                'doc_ids': docIDs
+            }),
+            async: false,
+            success: function (response) {
+                //Now get the updated document and check request status
+                var updatedJsonModel = getRequestDocFromLocalDB();
+                newStatus = updatedJsonModel.registrationRequest;
+                if(oldStatus != newStatus) {
                     if (updatedJsonModel.registrationRequest == 'accepted') {
                         alert('Your registration request has been accepted');
                     } else if (updatedJsonModel.registrationRequest == 'rejected') {
                         alert('Your registration request has been rejected, please check your data and re-send');
                     }
-                },
-                error: function(status) {
-                    console.log(status);
                 }
-            });
-        }
+            },
+            error: function(status) {
+                console.log(status);
+            }
+        });
     }
 }
 
