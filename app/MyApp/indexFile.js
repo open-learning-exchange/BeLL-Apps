@@ -234,6 +234,72 @@ function applyCorrectStylingSheet(directionOfLang){
         alert(languageDictValue.attributes.error_direction);
     }
 }
+
+function getCountOfLearners(courseId){
+    if(courseId=='_design/bell')
+    {
+        return 0;
+    }
+    var learners=[], stepsStatuses=[], countOfLearners=0;
+    var group = new App.Models.Group({
+        _id: courseId
+    })
+    var MemberCourseProgress = new App.Collections.membercourseprogresses();
+    group.fetch({
+        async:false,
+        success: function (groupDoc) {
+            learners=[], stepsStatuses=[];
+            //Check whether the logged in person is leader for the course he wants to know the count of Learners
+            if (groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) {
+                for (var j = 0; j < groupDoc.get('members').length; j++) {
+                    if (groupDoc.get('members')[j] != $.cookie('Member._id') && groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
+                        learners.push(groupDoc.get('members')[j]);
+                    }
+                }
+                for (var k = 0; k < learners.length; k++) {
+                    MemberCourseProgress.courseId = groupDoc.get('_id');
+                    MemberCourseProgress.memberId = learners[k];
+                    MemberCourseProgress.fetch({
+                        success: function (progressDoc) {
+                            stepsStatuses=progressDoc.models[0].get('stepsStatus');
+                            var isCreditable=true;
+                            if(progressDoc.models[0].get('stepsIds').length>0){
+                                for(var m=0;m<stepsStatuses.length;m++)
+                                {
+                                    if(stepsStatuses[m].length==2)
+                                    {
+                                        var paperQuizStatus=stepsStatuses[m];
+                                        if(paperQuizStatus.indexOf('0')>-1)
+                                        {
+                                            isCreditable=false;
+                                        }
+                                    }
+                                    else {
+                                        if(stepsStatuses[m]=='0'){
+                                            isCreditable=false;
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                isCreditable=false;
+                            }
+                            if(isCreditable){
+                                countOfLearners++;
+                            }
+                        },
+                        async:false
+                    });
+                }
+            }
+            else {
+                return 0;
+            }
+        },
+        async:false
+    });
+    return countOfLearners;
+}
 function selectAllMembers (){
     if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)
     {
