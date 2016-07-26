@@ -326,9 +326,12 @@ $(function() {
         },
         Badges: function() {
             //Check if the user who has logged in is a Leader or a Learner in any course.
+            var stepsStatuses=[];
             var groups = new App.Collections.Groups()
+            var MemberCourseProgress = new App.Collections.membercourseprogresses();
             var creditsView = new App.Views.BadgesMainPage(
             );
+                var learnerCourses=[];
                 App.$el.children('.body').html('<div id="creditsMainTable"></div>');
                 $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
             creditsView.addHeading();
@@ -336,12 +339,44 @@ $(function() {
                 success: function (groupDocs) {
                     if(groupDocs.length>0){
                         var isLearner=false;
+                        var isCreditable=true;
                         for(var i=0;i<groupDocs.length;i++) {
                             var doc=groupDocs.models[i];
                             if(doc.get('members')!=undefined && doc.get('courseLeader')!=undefined && doc.get('members').indexOf($.cookie('Member._id'))>-1 && doc.get('courseLeader').indexOf($.cookie('Member._id'))==-1){
                                 isLearner=true;
-                                creditsView.courseId=doc.get('_id');
-                                creditsView.render();
+                                //---------------------------------------
+                                MemberCourseProgress.courseId = doc.get('_id');
+                                MemberCourseProgress.memberId = $.cookie('Member._id');
+                                MemberCourseProgress.fetch({
+                                    success: function (progressDoc) {
+                                        stepsStatuses=progressDoc.models[0].get('stepsStatus');
+
+                                        for(var m=0;m<stepsStatuses.length;m++)
+                                        {
+                                            if(stepsStatuses[m].length==2)
+                                            {
+                                                if(parseInt(stepsStatuses[m][0])<= 2 && parseInt(stepsStatuses[m][1])< 1 ){
+                                                    isCreditable=false;
+                                                }
+
+                                            }
+                                            else {
+                                                if(stepsStatuses[m]=='0'){
+                                                    isCreditable=false;
+                                                }
+                                            }
+                                        }
+                                        console.log(isCreditable);
+                                        if(isCreditable){
+                                            creditsView.courseId=doc.get('_id');
+                                            creditsView.render();
+                                        }
+                                    },
+                                    async:false
+                                });
+                                //--------------------------------------
+                              //  creditsView.courseId=doc.get('_id');
+                               // creditsView.render();
                             }
 
                         }
