@@ -78,23 +78,27 @@ function getCountOfLearners(courseId){
                         success: function (progressDoc) {
                             stepsStatuses=progressDoc.models[0].get('stepsStatus');
                             var isCreditable=true;
-                            for(var m=0;m<stepsStatuses.length;m++)
-                            {
-                                if(stepsStatuses[m].length==2)
+                            if(progressDoc.models[0].get('stepsIds').length>0){
+                                for(var m=0;m<stepsStatuses.length;m++)
                                 {
-                                    var paperQuizStatus=stepsStatuses[m];
-                                    if(paperQuizStatus.indexOf('0')>-1)
+                                    if(stepsStatuses[m].length==2)
                                     {
-                                        isCreditable=false;
+                                        var paperQuizStatus=stepsStatuses[m];
+                                        if(paperQuizStatus.indexOf('0')>-1)
+                                        {
+                                            isCreditable=false;
+                                        }
                                     }
-                                }
-                                else {
-                                    if(stepsStatuses[m]=='0'){
-                                        isCreditable=false;
+                                    else {
+                                        if(stepsStatuses[m]=='0'){
+                                            isCreditable=false;
+                                        }
                                     }
                                 }
                             }
-                            console.log(isCreditable);
+                            else {
+                                isCreditable=false;
+                            }
                             if(isCreditable){
                                 countOfLearners++;
                             }
