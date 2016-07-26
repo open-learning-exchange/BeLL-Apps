@@ -50,7 +50,7 @@ $(function() {
 
 
             var $imgt = "<p id='imageText' style='margin-top: 15px;'></p>"
-            buttonText = App.languageDict.attributes.Register;
+            buttonText = App.languageDict.attributes.Save;
             // give the form a submit button
             var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText+'</button></div>')
             var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
