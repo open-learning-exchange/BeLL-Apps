@@ -380,7 +380,6 @@ $(function() {
                                 creditsView.render();
                             }
             }
-
                             $('#creditsMainTable').append(creditsView.el);
                         }
                 }
