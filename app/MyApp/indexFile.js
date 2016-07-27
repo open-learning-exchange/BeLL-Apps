@@ -94,9 +94,9 @@ function getCentralNationUrl() {
 function getRequestStatus() {
     var centralNationUrl = getCentralNationUrl();
     var jsonModel = getRequestDocFromLocalDB();
-    var oldStatus = jsonModel.registrationRequest;
-    var newStatus;
     if(jsonModel != null) {
+        var oldStatus = jsonModel.registrationRequest;
+        var newStatus;
         var modelId = jsonModel._id;
         var docIDs=[];
         docIDs.push(modelId);

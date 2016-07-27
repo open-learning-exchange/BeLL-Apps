@@ -22,8 +22,6 @@ $(function() {
                 vars.authDate = new Date();
             }
             vars.authName = that.getLoggedInName();
-            vars.superManagerID = 'testID';
-            vars.superManagerPassword = 'testPassword';
             this.$el.append(_.template(that.template, vars));
         },
 
