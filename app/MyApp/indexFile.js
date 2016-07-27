@@ -120,9 +120,9 @@ function getRequestStatus() {
                 newStatus = updatedJsonModel.registrationRequest;
                 if(oldStatus != newStatus) {
                     if (updatedJsonModel.registrationRequest == 'accepted') {
-                        alert('Your registration request has been accepted');
+                        alert(App.languageDict.get('request_accepted'));
                     } else if (updatedJsonModel.registrationRequest == 'rejected') {
-                        alert('Your registration request has been rejected, please check your data and re-send');
+                        alert(App.languageDict.get('comm_reject_msg'));
                     }
                 }
             },

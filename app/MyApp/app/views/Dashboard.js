@@ -908,7 +908,7 @@ $(function() {
             var communityConfigDoc = that.getCommunityConfigs();
             //Check if it is a new community or an older one with registrationRequest attribute
             if(!communityConfigDoc.hasOwnProperty('registrationRequest') && communityConfigDoc.countDoubleUpdate != 1 && communityConfigDoc.type == 'community' && (App.Router.getRoles().indexOf('Manager')>-1 || App.Router.getRoles().indexOf('SuperManager')>-1 )) {
-                alert('Please fill the Configurations form first');
+                alert(App.languageDict.get('fill_config_first'));
                 window.location.href = '#configurationsForm'
             }
             var dashboard = this

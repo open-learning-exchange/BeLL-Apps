@@ -272,6 +272,14 @@ $(function() {
             })
             commConfigForm.render();
             App.$el.children('.body').html(commConfigForm.el);
+            if(App.languageDict.get('directionOfLang').toLowerCase()=='right')
+            {
+                $('.addNation-form').css('direction','rtl');
+            }
+            else{
+                $('.addNation-form').css('direction','ltr');
+            }
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
 
         communityManage: function() {
@@ -786,7 +794,7 @@ $(function() {
                 model: model
             })
             App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
-            $('#AddCourseMainDiv').append('<h3>Become an Administrator</h3>')
+            $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get('Become_an_administrator')+'</h3>')
             $('#AddCourseMainDiv').append(modelForm.el)
             // Bind form events for when Group is ready
             model.once('Model:ready', function() {
@@ -855,6 +863,10 @@ $(function() {
             $('.bbf-form .field-community label').html(App.languageDict.attributes.Community)
             $('.bbf-form .field-region label').html(App.languageDict.attributes.Region)
             $('.bbf-form .field-nation label').html(App.languageDict.attributes.Nation)
+            var invitationType=App.languageDict.get("inviteForm_levels");
+            for(var i=0;i<invitationType.length;i++){
+                $('.bbf-form .field-levels .bbf-editor select').find('option').eq(i).html(invitationType[i]);
+            }
             $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(0).html(App.languageDict.get('Male'))
             $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(1).html(App.languageDict.get('Female'))
 

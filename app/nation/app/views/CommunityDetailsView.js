@@ -22,6 +22,7 @@ $(function() {
                 vars.authDate = new Date();
             }
             vars.authName = that.getLoggedInName();
+            vars.languageDict=App.languageDictValue;
             this.$el.append(_.template(that.template, vars));
         },
 
@@ -133,7 +134,7 @@ $(function() {
                                         // Lastly, remove the document from that nation's communityregistrationrequests database.
                                         $.couch.db("communityregistrationrequests").removeDoc(doc, {
                                             success: function(data) {
-                                                alert("Registration request has been " + status);
+                                                alert(App.languageDictValue.get('request_accepted'));
                                                 Backbone.history.navigate('listCommunity', {
                                                     trigger: true
                                                 })
@@ -156,7 +157,7 @@ $(function() {
                         // Lastly, remove the document from that nation's communityregistrationrequests database.
                         $.couch.db("communityregistrationrequests").removeDoc(doc, {
                             success: function(data) {
-                                alert("Registration request has been " + status);
+                                alert(App.languageDictValue.get('request_rejected'));
                                 Backbone.history.navigate('listCommunity', {
                                     trigger: true
                                 })

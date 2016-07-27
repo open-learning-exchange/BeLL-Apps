@@ -385,7 +385,7 @@ $(function() {
                     console.log("MyApp::MemberForm.js (view):: createJsonlog: error creating activity log doc in pouchdb..");
                     console.log(err);
                 }
-                alert(App.languageDict.attributes.Successfully_Registered);
+                alert(App.languageDict.attributes.Success_Saved_Msg);
                 /*Backbone.history.navigate('dash', {
                     trigger: true
                 });*/
@@ -408,7 +408,7 @@ $(function() {
                     console.log(err);
                 }
                 $.cookie("forcedUpdateProfile",'false');
-                alert(App.languageDict.attributes.Successfully_Registered);
+                alert(App.languageDict.attributes.Success_Saved_Msg);
                 Backbone.history.navigate('members', {
                     trigger: true
                 });

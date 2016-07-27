@@ -3332,6 +3332,10 @@ $(function() {
 
         communityDetails: function (commDocId, requestStatus) {
             var commConfigModel;
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.languageDictValue=languageDictValue;
             if(requestStatus == 'registered') {
                 commConfigModel = new App.Models.Community({
                     _id: commDocId
@@ -3363,6 +3367,14 @@ $(function() {
                 $('#acceptRegistration').css('display','none');
                 $('#rejectRegistration').css('display','none');
             }
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('.addNation-form').css('direction','rtl');
+            }
+            else{
+                $('.addNation-form').css('direction','ltr');
+            }
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'))
         },
 
         underConstruction: function() {
@@ -3680,7 +3692,7 @@ $(function() {
              });
              CommunityTable.pendingCollections = pendingRequests;
              CommunityTable.render();
-             var listCommunity ="<h3>Communities Requests</h3>";
+             var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
              listCommunity += "<div id='list-of-Communities'></div>"
 
              App.$el.children('.body').html('<div id="communityDiv"></div>');

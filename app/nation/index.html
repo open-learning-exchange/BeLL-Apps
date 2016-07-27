@@ -938,40 +938,40 @@
 
         <script type="text/template" id="template-communityDetails">
             <div>
-                <h5>Community Details</h5>
+                <h5><%=languageDict.attributes.community_details%></h5>
             </div>
-                    <span>Name:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= name %></span>&nbsp;&nbsp;
-                    <span>Code:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= code %></span>&nbsp;&nbsp;
-                    <span>Region:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= region %></span><br />
+                    <span><%=languageDict.attributes.Name%>:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= name %></span>&nbsp;&nbsp;
+                    <span><%=languageDict.attributes.Code%>:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= code %></span>&nbsp;&nbsp;
+                    <span><%=languageDict.attributes.Region%>:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= region %></span><br />
                     <br />
-                    <div><span style='font-size:17px; color:black'>Sponsoring Organization</span><br />
-                        <span>Name:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= sponsorName %></span>&nbsp;&nbsp;
-                        <span>Address:&nbsp;</span></span><span style="font-weight:700;color:grey; font-size:13px;"><%= sponsorAddress %></span>&nbsp;&nbsp;
-                        <span>URL:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= sponsorUrl %></span><br />
+                    <div><span style='font-size:17px; color:black'><%=languageDict.attributes.Sponsoring_Organization%></span><br />
+                        <span><%=languageDict.attributes.Name%>:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= sponsorName %></span>&nbsp;&nbsp;
+                        <span><%=languageDict.attributes.Address%>:&nbsp;</span></span><span style="font-weight:700;color:grey; font-size:13px;"><%= sponsorAddress %></span>&nbsp;&nbsp;
+                        <span><%=languageDict.attributes.Url%>:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= sponsorUrl %></span><br />
                         <br />
                     </div>
-                        <div><span style='font-size:17px; color:black'>General Manager</span><br />
+                        <div><span style='font-size:17px; color:black'><%=languageDict.attributes.General_Manager%></span><br />
                             <span style="font-weight:700;color:grey; font-size:13px;"><%= contactFirstName %> <%= contactMiddleName %> <%= contactLastName %></span><br />
                             <span style="font-weight:700;color:grey; font-size:13px;"><%= contactPhone %></span><br />
                             <span style="font-weight:700;color:grey; font-size:13px;"><%= contactEmail %></span><br />
                             <br />
                         </div>
-                    <div><span style='font-size:17px; color:black'>Tech Support</span><br />
+                    <div><span style='font-size:17px; color:black'><%=languageDict.attributes.Tech_Support%></span><br />
                         <span style="font-weight:700;color:grey; font-size:13px;"><%= superManagerFirstName %> <%= superManagerMiddleName %> <%= superManagerLastName %></span><br />
                         <span style="font-weight:700;color:grey; font-size:13px;"><%= superManagerPhone %></span><br />
                         <span style="font-weight:700;color:grey; font-size:13px;"><%= superManagerEmail %></span><br />
                         <br />
                     </div>
-                    <div><span style='font-size:17px; color:black'>Nation Contact</span><br />
-                        <span>Name:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= nationName %></span>&nbsp;&nbsp;
-                        <span>URL:&nbsp;</span></span><span style="font-weight:700;color:grey; font-size:13px;"><%= nationUrl %></span><br />
+                    <div><span style='font-size:17px; color:black'><%=languageDict.attributes.Nation_Contact%></span><br />
+                        <span><%=languageDict.attributes.Name%>:&nbsp;</span><span style="font-weight:700;color:grey; font-size:13px;"><%= nationName %></span>&nbsp;&nbsp;
+                        <span><%=languageDict.attributes.Url%>:&nbsp;</span></span><span style="font-weight:700;color:grey; font-size:13px;"><%= nationUrl %></span><br />
                         <br />
                     </div>
-                    <div><span style='font-size:17px; color:black'>Authorized By</span><br />
-                        <span style="font-weight:700;color:grey; font-size:13px;">"<%= authName %>" </span>on
+                    <div><span style='font-size:17px; color:black'><%=languageDict.attributes.Authorized_By%></span><br />
+                        <span style="font-weight:700;color:grey; font-size:13px;">"<%= authName %>" </span>-
                         <span style="font-weight:700;color:grey; font-size:13px;">"<%= authDate %>"</span>
                     </div><br />
-                <button class="btn btn-success" id="acceptRegistration">Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="rejectRegistration">Reject</button>
+                <button class="btn btn-success" id="acceptRegistration"><%=languageDict.attributes.Accept%></button>&nbsp;&nbsp;<button class="btn btn-danger" id="rejectRegistration"><%=languageDict.attributes.Reject%></button>
         </script>
 
 <script type="text/html" id="template-siteReviewRownoAdmin">

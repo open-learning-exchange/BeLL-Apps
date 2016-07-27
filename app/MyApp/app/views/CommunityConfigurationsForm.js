@@ -24,6 +24,7 @@ $(function() {
             vars["nations"] = [];
             vars["languages"] = [];
             vars.languages = getAvailableLanguages();
+            vars.languageDict=App.languageDict;
             if(navigator.onLine){ //Check if there is a stable internet connection
                 $.ajax({
                     url: 'http://' + centralNationUrl + '/nations/_design/bell/_view/getAllNations?_include_docs=true',
@@ -35,6 +36,7 @@ $(function() {
                          vars.nations.push(json.rows[i].value);
                         }
                         that.$el.append(_.template(that.template, vars));
+                        that.makeFormMultiLingual();
                         if(that.model.get('_id') != undefined) {
                             that.setFormValues()
                         }
@@ -44,14 +46,33 @@ $(function() {
                     }
                 });
             } else {
-                alert('Your status is offline, so we are unable to fetch list of nations for you');
+                alert(App.languageDict.get('offline_Status_warning'));
                 that.$el.append(_.template(that.template, vars));
                 if(that.model.get('_id') != undefined) {
                     that.setFormValues()
                 }
             }
         },
-
+        makeFormMultiLingual: function () {
+            $('#community-name').attr('title',App.languageDict.get('title_msg_required'));
+            $('#community-name').attr('placeholder',App.languageDict.get('Name'));
+            $('#community-code').attr('title',App.languageDict.get('title_msg_required'));
+            $('#community-code').attr('placeholder',App.languageDict.get('Code'));
+            $('#community-region').attr('placeholder',App.languageDict.get('Region'));
+            $('#org-name').attr('placeholder',App.languageDict.get('Name'));
+            $('#org-address').attr('placeholder',App.languageDict.get('Address'));
+            $('#org-url').attr('placeholder',App.languageDict.get('Url'));
+            $('#org-firstname').attr('placeholder',App.languageDict.get('First_Name'));
+            $('#org-middlename').attr('placeholder',App.languageDict.get('Middle_Names'));
+            $('#org-lastname').attr('placeholder',App.languageDict.get('Last_Name'));
+            $('#org-phone').attr('placeholder',App.languageDict.get('Phone'));
+            $('#org-email').attr('placeholder',App.languageDict.get('Email'));
+            $('#leader-firstname').attr('placeholder',App.languageDict.get('First_Name'));
+            $('#leader-middlename').attr('placeholder',App.languageDict.get('Middle_Names'));
+            $('#leader-lastname').attr('placeholder',App.languageDict.get('Last_Name'));
+            $('#leader-phone').attr('placeholder',App.languageDict.get('Phone'));
+            $('#leader-email').attr('placeholder',App.languageDict.get('Email'));
+        },
         setFormValues: function () {
             var that = this;
             $('#community-name').val(that.model.get('name'));
@@ -85,18 +106,18 @@ $(function() {
                     if (element.value.trim() != '') {
                         isAllAttributesValid.push(true);
                     } else {
-                        if(element.placeholder != 'Middle Name') {
+                        if(element.placeholder != App.languageDict.get('Middle_Names')) {
                             isAllAttributesValid.push(false);
-                            alertMessage = "Please fill out all the fields first";
+                            alertMessage = App.languageDict.get('fill_all_fields');
                         }
                     }
                 } else {
-                    if (element.value != 'Select Language' && element.value != 'Select Nation') {
+                    if (element.value != App.languageDict.get('Select_Language') && element.value != App.languageDict.get('select_nation')) {
                         isAllAttributesValid.push(true);
                     } else {
                         isAllAttributesValid.push(false);
                         if(alertMessage == '') {
-                            alertMessage = "Please select " + element.name.split('-').pop();
+                            alertMessage = App.languageDict.get('pls_select_' + element.name.split('-').pop());
                         }
                     }
                 }
@@ -176,7 +197,7 @@ $(function() {
                         async: false,
                         success: function (response) {
                             App.stopActivityIndicator();
-                            alert("Configurations has been saved");
+                            alert(App.languageDict.get('Successfully_Registered'));
                             window.location.href = '#dashboard';
                         },
                         error: function(status) {
