@@ -135,9 +135,23 @@ $(function() {
                                 csteps.fetch({
                                     success: function() {
                                         csteps.each(function(m) {
+                                            //Issue#400
+                                            var sresults = [];
+                                            var sstatus = [];
+                                            if(m.get("outComes").length == 2) {
+                                                var arr = [];
+                                                arr.push("0")
+                                                arr.push("0")
+                                                sresults = arr;
+                                                sstatus = arr;
+                                            } else {
+                                                sresults = '0';
+                                                sstatus= '0';
+                                            }
+
                                             stepsids.push(m.get("_id"))
-                                            stepsres.push("0")
-                                            stepsstatus.push("0")
+                                            stepsres.push(sresults)
+                                            stepsstatus.push(sstatus)
                                         })
                                         memprogress.set("stepsIds", stepsids)
                                         memprogress.set("memberId", $.cookie("Member._id"))
@@ -422,7 +436,7 @@ $(function() {
             course.fetch({
                 async: false
             })
-////////////////////////////////////////
+
             memebersEnrolled = course.attributes.members
             var isAlreadyEnrolled = false;
             console.log(memebersEnrolled)
@@ -448,11 +462,9 @@ $(function() {
                 alert("Member is already enrolled in this course");
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = firstName + ' ' +'is already enrolled in '+' ' + course.attributes.CourseTitle;
-                ///////
 
             }
             else {
-                /////////////////////////////////////////////
 
                 var memId = mailView.inViewModel.get('senderId')
                 course.get('members').push(memId)
@@ -468,9 +480,24 @@ $(function() {
                         csteps.fetch({
                             success: function () {
                                 csteps.each(function (m) {
+
+                                  //Issue#400
+                                    var sresults = [];
+                                    var sstatus = [];
+                                    if(m.get("outComes").length == 2) {
+                                        var arr = [];
+                                        arr.push("0")
+                                        arr.push("0")
+                                        sresults = arr;
+                                        sstatus = arr;
+                                    } else {
+                                        sresults = '0';
+                                        sstatus= '0';
+                                    }
+
                                     stepsids.push(m.get("_id"))
-                                    stepsres.push("0")
-                                    stepsstatus.push("0")
+                                    stepsres.push(sresults)
+                                    stepsstatus.push(sstatus)
                                 })
                                 memprogress.set("stepsIds", stepsids)
                                 memprogress.set("memberId", memId)
