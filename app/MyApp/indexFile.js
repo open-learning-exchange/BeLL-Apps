@@ -249,10 +249,17 @@ function getCountOfLearners(courseId){
         async:false,
         success: function (groupDoc) {
             learners=[], stepsStatuses=[];
+            var loggedIn = new App.Models.Member({
+                "_id": $.cookie('Member._id')
+            })
+            loggedIn.fetch({
+                async: false
+            })
+            var roles = loggedIn.get("roles");
             //Check whether the logged in person is leader for the course he wants to know the count of Learners
-            if (groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) {
+            if ((groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (roles.indexOf('Manager')>-1) || (roles.indexOf('SuperManager')>-1)) {
                 for (var j = 0; j < groupDoc.get('members').length; j++) {
-                    if (groupDoc.get('members')[j] != $.cookie('Member._id') && groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
+                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
                         learners.push(groupDoc.get('members')[j]);
                     }
                 }
@@ -262,30 +269,22 @@ function getCountOfLearners(courseId){
                     MemberCourseProgress.fetch({
                         success: function (progressDoc) {
                             stepsStatuses=progressDoc.models[0].get('stepsStatus');
-                            var isCreditable=true;
                             if(progressDoc.models[0].get('stepsIds').length>0){
                                 for(var m=0;m<stepsStatuses.length;m++)
                                 {
                                     if(stepsStatuses[m].length==2)
                                     {
                                         var paperQuizStatus=stepsStatuses[m];
-                                        if(paperQuizStatus.indexOf('0')>-1)
-                                        {
-                                            isCreditable=false;
+                                        if(paperQuizStatus.indexOf('2')>-1) {
+                                            countOfLearners++;
                                         }
                                     }
                                     else {
-                                        if(stepsStatuses[m]=='0'){
-                                            isCreditable=false;
-                                        }
+                                        if(stepsStatuses[m]=='2'){
+                                            countOfLearners++;
                                     }
                                 }
                             }
-                            else {
-                                isCreditable=false;
-                            }
-                            if(isCreditable){
-                                countOfLearners++;
                             }
                         },
                         async:false
