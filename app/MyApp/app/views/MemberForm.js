@@ -359,6 +359,7 @@ $(function() {
                 }
                 if (addMem) {
                     var memberModel = this.model;
+                    this.model.set("password", "");
                     this.model.save(null, {
                         success: function() {
                             that.model.unset('_attachments')
