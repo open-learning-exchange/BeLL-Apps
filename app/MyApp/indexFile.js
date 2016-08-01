@@ -235,12 +235,11 @@ function applyCorrectStylingSheet(directionOfLang){
     }
 }
 
-function getCountOfLearners(courseId){
-    if(courseId=='_design/bell')
-    {
+function getCountOfLearners(courseId, requiredLearnersIds){
+    if(courseId=='_design/bell') {
         return 0;
     }
-    var learners=[], stepsStatuses=[], countOfLearners=0;
+    var learners=[], learnersIds=[], stepsStatuses=[], countOfLearners=0;
     var group = new App.Models.Group({
         _id: courseId
     })
@@ -270,18 +269,18 @@ function getCountOfLearners(courseId){
                         success: function (progressDoc) {
                             stepsStatuses=progressDoc.models[0].get('stepsStatus');
                             if(progressDoc.models[0].get('stepsIds').length>0){
-                                for(var m=0;m<stepsStatuses.length;m++)
-                                {
-                                    if(stepsStatuses[m].length==2)
-                                    {
+                                for(var m=0;m<stepsStatuses.length;m++) {
+                                    if(stepsStatuses[m].length==2) {
                                         var paperQuizStatus=stepsStatuses[m];
                                         if(paperQuizStatus.indexOf('2')>-1) {
                                             countOfLearners++;
+                                            learnersIds.push(learners[k]);
                                         }
                                     }
                                     else {
                                         if(stepsStatuses[m]=='2'){
                                             countOfLearners++;
+                                            learnersIds.push(learners[k]);
                                     }
                                 }
                             }
@@ -297,7 +296,11 @@ function getCountOfLearners(courseId){
         },
         async:false
     });
-    return countOfLearners;
+    if(requiredLearnersIds) {
+        return learnersIds;
+    } else {
+        return countOfLearners;
+    }
 }
 function selectAllMembers (){
     if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)

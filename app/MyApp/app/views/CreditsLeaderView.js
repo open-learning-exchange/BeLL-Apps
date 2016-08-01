@@ -10,7 +10,7 @@ $(function () {
         events:{
         },
         add: function (courseModel) {
-            this.$el.append('<tr><td>' + courseModel.get('CourseTitle')+ '</td><td><a class="btn btn-success" href="#credits/edit/' + courseModel.get('_id') + '" style="margin-left:10px" id="detailsButton"  >' + "Open" + '</a></td></tr>')
+            this.$el.append('<tr><td>' + courseModel.get('CourseTitle')+ '</td><td><a class="btn btn-success" href="#listLearnersCredits/' + courseModel.get('_id') + '" style="margin-left:10px" id="detailsButton"  >' + "Open" + '</a></td></tr>')
         },
         render: function () {
 
