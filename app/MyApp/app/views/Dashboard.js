@@ -921,7 +921,7 @@ $(function() {
                     if (groupDocs.length > 0) {
                         for (var i = 0; i < groupDocs.length; i++) {
                             var doc = groupDocs.models[i];
-                            countOfLearnersToMarkCredits+=getCountOfLearners(doc.get('_id'));
+                            countOfLearnersToMarkCredits+=getCountOfLearners(doc.get('_id'), false);
                         }
                     }
                 }

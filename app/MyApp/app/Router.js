@@ -59,7 +59,7 @@ $(function() {
             'badges': 'Badges',
             'badges/edit/:mid':'badgesDetails',
             'credits':'Credits',
-            'credits/edit/:cid':'creditsDetails',
+            'creditsDetails/:cid/:memberId':'creditsDetails',
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
@@ -86,7 +86,8 @@ $(function() {
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
-            'configurationsForm': 'configurationsForm'
+            'configurationsForm': 'configurationsForm',
+            'listLearnersCredits/:cid': 'showLearnersListForCredits'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -408,7 +409,7 @@ $(function() {
                     if(groupDocs.length>0){
                         for(var i=0;i<groupDocs.length;i++) {
                             var doc=groupDocs.models[i];
-                            count=getCountOfLearners(doc.get('_id'));
+                            count=getCountOfLearners(doc.get('_id'), false);
                             if(count>0){
                                 creditsView.courseId=doc.get('_id');
                                 creditsView.render();
@@ -436,7 +437,7 @@ $(function() {
                     $('#badgesTable').append('<h3>' + 'Member Badges' + '</h3>');
                     $('#badgesTable').append(badgesTableView.el);
                 },
-        creditsDetails:function(courseId) {
+        creditsDetails:function(courseId, memberId) {
             var that = this;
             var courseSteps = new App.Collections.coursesteps()
             courseSteps.courseId=courseId;
@@ -456,6 +457,36 @@ $(function() {
 
         submitCredits: function(){
             this.underConstruction();
+        },
+
+        showLearnersListForCredits: function (courseId) {
+            var group = new App.Models.Group({
+                _id: courseId
+            });
+            group.fetch({
+                async: false,
+            });
+            var learnerIds = getCountOfLearners(courseId, true);
+            var learnerModelIdes = ''
+            _.each(learnerIds, function(item) {
+                learnerModelIdes += '"' + item + '",'
+            })
+            if (learnerModelIdes != ''){
+                learnerModelIdes = learnerModelIdes.substring(0, learnerModelIdes.length - 1);
+            }
+            var membersColl = new App.Collections.Members();
+            membersColl.keys = encodeURI(learnerModelIdes)
+            membersColl.fetch({
+                async: false
+            });
+            var courseLearnersTable = new App.Views.CourseLearnersList({
+                collection: membersColl
+            })
+            courseLearnersTable.Id = courseId;
+            courseLearnersTable.render();
+            App.$el.children('.body').html('<div id="courseLearnersTable"></div>');
+            $('#courseLearnersTable').append('<h3>' + group.get('CourseTitle') + '</h3>');
+            $('#courseLearnersTable').append(courseLearnersTable.el);
         },
 
         underConstruction: function() {
