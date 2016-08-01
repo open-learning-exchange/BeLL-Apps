@@ -59,7 +59,7 @@ $(function() {
             'badges': 'Badges',
             'badges/edit/:mid':'badgesDetails',
             'credits':'Credits',
-            'credits/edit/:mid':'creditsDetails',
+            'credits/edit/:cid':'creditsDetails',
             'courses/barchart': 'CoursesBarChart',
             'calendar': 'CalendarFunction',
             'addEvent': 'addEvent',
