@@ -18,7 +18,6 @@ $(function () {
         },
 
         render: function () {
-            console.log(this.model);
             var vars = this.model.toJSON();
             var courseProgress = new App.Collections.membercourseprogresses()
             courseProgress.memberId = $.cookie('Member._id');

@@ -439,8 +439,18 @@ $(function() {
                     $('#badgesTable').append(badgesTableView.el);
                 },
         creditsDetails:function(courseId, memberId) {
-            var that = this;
-            var memberId = '9a7dccfbcf3946553fa2dac6e0004e4d';
+            var group = new App.Models.Group({
+                _id: courseId
+            });
+            group.fetch({
+                async: false,
+            });
+            var member = new App.Models.Member({
+                _id: memberId
+            });
+            member.fetch({
+                async: false,
+            });
             var courseSteps = new App.Collections.coursesteps()
             courseSteps.courseId=courseId;
             courseSteps.fetch({
@@ -450,9 +460,10 @@ $(function() {
                 collection :courseSteps
             });
             creditsTableView.courseId=courseId;
+            creditsTableView.memberId=memberId;
             creditsTableView.render();
             App.$el.children('.body').html('<div id="creditsTable"></div>');
-            $('#creditsTable').append('<h3>' + 'Leader Credits' + '</h3>');
+            $('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
             $('#creditsTable').append(creditsTableView.el);
             $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits(\'' + courseId + '\',\'' + memberId + '\'  )"/>')
         },

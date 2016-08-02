@@ -937,7 +937,11 @@
         </td>
         <td>
             <%if(stepType[0] == 'Paper'){%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>">
+            <%if(stepStatusOfPaper == '2'){%>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=_id%>">
+            <%}else{%>
+            Not uploaded yet
+            <%}%>
             <%}%>
         </td>
         <td>

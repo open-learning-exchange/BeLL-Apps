@@ -14,6 +14,8 @@ $(function () {
             var creditsRow = new App.Views.CreditsRow({
                 model: model
             })
+            creditsRow.courseId=this.courseId;
+            creditsRow.memberId=this.memberId
             creditsRow.render()
             this.$el.append(creditsRow.el);
         },
@@ -22,7 +24,7 @@ $(function () {
         },
         render: function () {
             this.$el.html('<tr><th>' + 'StepNO' + '</th><th>' + 'Step Type' + '</th><th>' + 'Quiz Credits' + '</th><th>' + 'Paper Credits' + '</th><th>' + 'Status' + '</th></tr>');
-            this.addAll();/////////////////////////////////////////
+            this.addAll();
         }
     })
 })
