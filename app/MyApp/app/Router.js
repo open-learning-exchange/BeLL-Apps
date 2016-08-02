@@ -440,6 +440,7 @@ $(function() {
                 },
         creditsDetails:function(courseId, memberId) {
             var that = this;
+            var memberId = '9a7dccfbcf3946553fa2dac6e0004e4d';
             var courseSteps = new App.Collections.coursesteps()
             courseSteps.courseId=courseId;
             courseSteps.fetch({
@@ -453,11 +454,74 @@ $(function() {
             App.$el.children('.body').html('<div id="creditsTable"></div>');
             $('#creditsTable').append('<h3>' + 'Leader Credits' + '</h3>');
             $('#creditsTable').append(creditsTableView.el);
-            $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits()"/>')
+            $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits(\'' + courseId + '\',\'' + memberId + '\'  )"/>')
         },
 
-        submitCredits: function(){
-            this.underConstruction();
+        submitCredits: function(courseId , memberId) {
+            var count = 0;
+            var value = 0;
+            $("input[name='paperCredits']").each(function () {
+                if ($(this).val().trim() != '') {
+                    value = value + 1;
+                }
+                count = count + 1;
+            });
+          console.log("count : " + count);
+            console.log("value : " + value);
+            if (value === count) {
+
+            $("input[name='paperCredits']").each(function () {
+                if ($(this).val().trim() != '') {
+                    var stepId = $(this).attr('id');
+                    console.log("stepId : " + stepId)
+                    var paperMarks = $(this).val().trim();
+                    console.log("paperMarks : " + paperMarks)
+                    var memberProgress = new App.Collections.membercourseprogresses()
+                    memberProgress.memberId = memberId
+                    memberProgress.courseId = courseId
+                    memberProgress.fetch({
+                        async: false,
+                        success: function () {
+                            memberProgress = memberProgress.first();
+                            var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
+                            var marks = memberProgress.attributes.stepsResult[memberStepIndex];
+                            var intMarks = [];
+                            if($.isArray(marks)){
+                                for (var i=0; i < marks.length ; i++){
+                                    intMarks.push(parseInt(marks[i]));
+                                }
+                            }
+                            else{
+                                intMarks.push(parseInt(marks));
+                            }
+                           console.log("intMarks : " + intMarks)
+                            if (intMarks.length > 1) {
+                                memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
+                                memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
+                            }
+                            else {
+                                memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
+                                memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                            }
+                            memberProgress.save(null, {
+                                success: function (response) {
+
+                                }
+                            });
+                        }
+
+                    })
+
+                }
+
+            });
+                alert('Paper credits have been submitted');
+
+        } else {
+                alert('Please enter marks against each paper');
+               return false;
+            }
+
         },
 
         showLearnersListForCredits: function (courseId) {
