@@ -13,33 +13,13 @@
              var badgesRow = new App.Views.BadgesRow({
                  model: model
              })
-
-            // badgesRow.courseId = this.courseId
-
              badgesRow.render()
              this.$el.append(badgesRow.el);
          },
 
          addAll: function() {
 
-            /* var courseSteps = new App.Collections.coursesteps()
-             courseSteps.courseId=this.courseId;
-             courseSteps.fetch({
-                 async: false
-             })
-             console.log(this.collection);*/
-           //  _.each(this.collection,this.add)
              this.collection.forEach(this.addOne, this)
-            // this.collection.forEach(this.addOne, this)
-           /*  for(var i=0;i<this.collection.models[i].get('stepsResult').length;i++)
-             {
-                var courseSteps = new App.Models.coursesteps()
-                 {
-
-
-                 }
-
-            }*/
          },
 
          render: function () {

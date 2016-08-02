@@ -263,6 +263,7 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                     }
                 }
                 for (var k = 0; k < learners.length; k++) {
+                    var addToCount = false;
                     MemberCourseProgress.courseId = groupDoc.get('_id');
                     MemberCourseProgress.memberId = learners[k];
                     MemberCourseProgress.fetch({
@@ -273,17 +274,19 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                                     if(stepsStatuses[m].length==2) {
                                         var paperQuizStatus=stepsStatuses[m];
                                         if(paperQuizStatus.indexOf('2')>-1) {
-                                            countOfLearners++;
-                                            learnersIds.push(learners[k]);
+                                            addToCount = true;
                                         }
                                     }
                                     else {
                                         if(stepsStatuses[m]=='2'){
-                                            countOfLearners++;
-                                            learnersIds.push(learners[k]);
+                                            addToCount = true;
+                                        }
                                     }
                                 }
-                            }
+                                if(addToCount) {
+                                    countOfLearners++;
+                                    learnersIds.push(learners[k]);
+                                }
                             }
                         },
                         async:false
