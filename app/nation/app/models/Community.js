@@ -94,14 +94,6 @@ $(function() {
                 type: 'Text',
                 validators: ['required']
             },
-            superManagerID: {
-                type: 'Text',
-                validators: ['required']
-            },
-            superManagerPassword: {
-                type: 'Text',
-                validators: ['required']
-            },
             authName: {
                 type: 'Text',
                 validators: ['required']
