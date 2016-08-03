@@ -14,42 +14,38 @@ $(function() {
             return url
         },
         defaults: {
-            currentLanguage: {
+            currentLanguage: {//Saves language of BeLL-Apps
                 type: 'Text'
             },
-            subType: {
+            subType: {//Added to make a community special one, asked by Stefan to add this attribute
                 type: 'Text'
             },
-            type: 'nation'
-         /*   flagDoubleUpdate: { //no need of flag on nation side
-                type: 'Text'
-            }, */
-
+            type: 'nation'// Saves whether BeLL-Apps is a community or nation
         },
         schema: {
-            name: {
+            name: {//Name of a nation.Used mostly for displaying purpose.
                 type: 'Text',
                 validators: ['required']
             },
-            code: {
+            code: {//Some specific value.Used mostly to specify a 'unique keyword' for a nation so that we can easily differentiate among multiple nations
                 type: 'Text',
                 validators: ['required']
             },
-            nationName: {
+            nationName: {// Saves couch/futon's admin/userName of a nation to which nation is registered(mostly it is not used for nation)
                 type: 'Text',
                 validators: ['required']
             },
-            nationUrl: {
+            nationUrl: {// Saves URL of a nation to which nation is registered(mostly it is not used for nation)
                 type: 'Text',
                 validators: ['required']
             },
-            version: {
+            version: {// Saves current version of community/nation
                 type: 'Text'
             },
-            notes: {
+            notes: {// Saves some descriptions about community/nation
                 type: 'Text'
             },
-            selectLanguage: {
+            selectLanguage: {// This attribute is being used to select BeLL-Apps language(After easy-install it is only used for nation, for community there is another way to select language)
                 type: 'Select',
                 options:[]
             }
