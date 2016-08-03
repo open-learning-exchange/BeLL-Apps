@@ -24,11 +24,11 @@ $(function() {
         },
         schema: {
             //Community's information
-            name: { // Used mostly for displaying purpose. Also it is being used in sending publications to communities etc.
+            name: { //Name of a community.Used mostly for displaying purpose. Also it is being used in sending publications to communities etc.
                 type: 'Text',
                 validators: ['required']
             },
-            code: { // Used mostly to save a 'unique keyword' for community so that we can easily differentiate multiple communities at nation side while sending data etc.
+            code: { //Some specific value.Used mostly to specify a 'unique keyword' for community so that we can easily differentiate among multiple communities at nation side while sending data etc.
                 type: 'Text', // To make code unique is not implemented yet.
                 validators: ['required']
             },
