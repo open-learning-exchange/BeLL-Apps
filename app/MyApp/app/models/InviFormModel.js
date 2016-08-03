@@ -1,20 +1,21 @@
 $(function() {
 
     App.Models.InviFormModel = Backbone.Model.extend({
+        //This model is used for inviting members. Either for a meetup or a course.
         schema: {
-            invitationType: {
+            invitationType: { //Gives user 3 options in selection criteria for invitation
                 type: 'Select',
                 options:[
                     {
-                        val: 'All',
+                        val: 'All', //invite all members.
                         label: 'All'
                     },
                     {
-                        val: 'Level',
+                        val: 'Level', //invite members of a specific level
                         label: 'Level'
                     },
                     {
-                        val: 'Members',
+                        val: 'Members', //invite specific members
                         label: 'Members'
                     }
                 ]
