@@ -28,7 +28,7 @@ $(function() {
             startTime: 'Text',
             endTime: 'Text',
 
-            userId: { //ID of the person who is creating the event.
+            userId: { //ID of the person who is creating the event. It comes from its document in members database
                 validators: ['required'],
                 type: 'Hidden'
             },
