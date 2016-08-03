@@ -44,7 +44,6 @@ $(function() {
             visits: 'Text', //Total count of visits by a specific member
             Gender: {
                 type: 'Select',
-               // options: ['Male', 'Female']
                 options: [{
                     val: 'Male',
                     label: 'Male'
@@ -95,7 +94,6 @@ $(function() {
                     val: 'Higher',
                     label: 'Higher'
                 }]
-              //  options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Higher']
             },
             status: 'Text', //Saves status which tells us that whether a member is active/de-active.If a member well resign, then he will be deactivated
             yearsOfTeaching: { //Total teaching experience of a member
