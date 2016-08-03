@@ -15,18 +15,18 @@ $(function() {
         },
 
         defaults: {
-            kind: 'publication',
-            communityNames : [], //#100
-            downloadedByCommunities : []
+            kind: 'publication',//Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            communityNames : [],//This array attribute saves 'names' of those communities to which a particular publication has been sent from nation.It saves value of 'name' attribute from configurations of community
+            downloadedByCommunities : []//This array attribute saves 'names' of those communities who successfully synced(downloaded)a particular publication from nation.It saves value of 'name' attribute from configurations of community
         },
 
         schema: {
-            Date: 'Text',
-            IssueNo: 'Number',
+            Date: 'Text',//Creation date of publication/issue
+            IssueNo: 'Number',//Unique identification number of publication.
             editorName: 'Text',
             editorEmail: 'Text',
             editorPhone: 'Text',
-            resources: {
+            resources: {//Ids of those resources added in publication.These ids are actually coming from resources db.
                 type: 'Select',
                 options: []
 
