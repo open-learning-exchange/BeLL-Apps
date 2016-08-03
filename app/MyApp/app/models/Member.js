@@ -15,9 +15,9 @@ $(function() {
         },
 
         defaults: {
-            kind: "Member",
-            roles: ["Learner"],
-            bellLanguage:""
+            kind: "Member", //Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            roles: ["Learner"], //Saves roles of a specific member
+            bellLanguage:"" //This is used to show BeLL-Apps in member-selected language
         },
 
         toString: function() {
@@ -39,9 +39,9 @@ $(function() {
             },
             phone: 'Text',
             email: 'Text',
-            language: 'Text',
+            language: 'Text', // Saves language which member speaks OR native/mother language of Member
             BirthDate: 'Date',
-            visits: 'Text',
+            visits: 'Text', //Total count of visits by a specific member
             Gender: {
                 type: 'Select',
                // options: ['Male', 'Female']
@@ -53,7 +53,7 @@ $(function() {
                     label: 'Female'
                 }]
             },
-            levels: {
+            levels: { //Grade level of a specific member
                 type: 'Select',
                 options: [{
                     val: '1',
@@ -97,8 +97,8 @@ $(function() {
                 }]
               //  options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Higher']
             },
-            status: 'Text',
-            yearsOfTeaching: {
+            status: 'Text', //Saves status which tells us that whether a member is active/de-active.If a member well resign, then he will be deactivated
+            yearsOfTeaching: { //Total teaching experience of a member
                 type: 'Select',
                 options: ['None', '1 to 20', 'More than 20']
             },
@@ -111,11 +111,11 @@ $(function() {
                 type: 'Checkboxes',
                 options: ['Pre-k', 'Grades(1-12)', 'Higher Education', 'Completed Higer Education', 'Masters', 'Doctrate', 'Other Professional Degree']
             },
-            community: 'Text',
-            region: 'Text',
-            nation: 'Text',
-            lastLoginDate:'Date',
-            lastEditDate:'Date'
+            community: 'Text', //Contains the value of 'code' from configurations.
+            region: 'Text',//Region name of member/its community
+            nation: 'Text',//Name of nation to which community(in which members exists) is registered.
+            lastLoginDate:'Date',// Saves date when last time a member logged in
+            lastEditDate:'Date' // Saves date when last time a member updated his/her profile
         },
         saveAttachment: function(formEl, fileEl, revEl) {
             // Work with this doc in the files database
