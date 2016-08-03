@@ -1,7 +1,7 @@
 $(function() {
 
     App.Models.Calendar = Backbone.Model.extend({
-
+//This model refers to the event which is being created on the Calender.
         idAttribute: "_id",
         url: function() {
             if (_.has(this, 'id')) {
@@ -28,7 +28,7 @@ $(function() {
             startTime: 'Text',
             endTime: 'Text',
 
-            userId: {
+            userId: { //ID of the person who is creating the event.
                 validators: ['required'],
                 type: 'Hidden'
             },
