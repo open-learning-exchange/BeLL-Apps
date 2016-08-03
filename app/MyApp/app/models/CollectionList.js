@@ -1,6 +1,7 @@
 $(function() {
 
     App.Models.CollectionList = Backbone.Model.extend({
+        //This model refers to the collection created in Resources.
 
         idAttribute: "_id",
         url: function() {
@@ -14,9 +15,9 @@ $(function() {
             return url
         },
         defaults: {
-            kind: "CollectionList",
+            kind: "CollectionList",  //Used to differentiate that document from design docs. Usage in couchDB views.
             IsMajor: true,
-            show: true
+            show: true //Show that CollectionName on Library page or not.. against each resource.
         },
 
 
@@ -25,7 +26,7 @@ $(function() {
             CollectionName: 'Text',
 
             Description: 'TextArea',
-            NesttedUnder: {
+            NesttedUnder: {        //To make one collection nested under another.
                 title: 'Nested Under',
                 type: 'Select',
                 options: [{val:'--Select--',label:'--Select--'}]
