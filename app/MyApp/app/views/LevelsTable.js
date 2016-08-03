@@ -109,6 +109,22 @@ $(function() {
             var lrow = new App.Views.LevelRow({
                 model: model
             })
+            lrow.on('levelDeleted', function() {
+                var stepNo = lrow.model.get("step")
+                for (var i = stepNo; i < that.collection.models.length; i++) {
+                    that.collection.models[i].set('step', i)
+                    that.updateModel(that.collection.models[i])
+                }
+                alert(App.languageDict.attributes.Step_deleted_Success)
+                that.collection.models.splice(stepNo - 1, 1)
+                if (that.collection.models.length == 0) {
+                    $('#moveup').hide()
+                    $('#movedown').hide()
+                    $('#Rearrange').hide()
+                }
+                $("#addstep").attr("onClick", "document.location.href=\'#level/add/" + that.groupId + "/nolevel/" + that.collection.models.length + "\' ");
+                location.reload()
+            })
             lrow.render()
             this.$el.append(lrow.el)
         },

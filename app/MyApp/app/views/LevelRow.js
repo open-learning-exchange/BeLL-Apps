@@ -6,6 +6,7 @@ $(function() {
 
         events: {
             "click .destroyStep": function(e) {
+                this.trigger('levelDeleted')
                 e.preventDefault()
                 var that = this
                 var courses = new App.Collections.StepResultsbyCourse()
