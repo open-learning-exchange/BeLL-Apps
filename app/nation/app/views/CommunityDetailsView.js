@@ -1,5 +1,5 @@
 $(function() {
-
+    //This form/view is binded with Community model
     App.Views.CommunityDetailsView = Backbone.View.extend({
 
         className: "addNation-form",

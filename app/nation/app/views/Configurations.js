@@ -1,5 +1,5 @@
 $(function() {
-
+    //This form/view is binded with Configuration model
     App.Views.Configurations = Backbone.View.extend({
 
         initialize: function() {

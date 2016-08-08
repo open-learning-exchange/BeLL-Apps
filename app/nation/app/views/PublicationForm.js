@@ -1,5 +1,5 @@
 $(function() {
-
+    //This form/view is binded with publication model
     App.Views.PublicationForm = Backbone.View.extend({
 
         className: "form",
