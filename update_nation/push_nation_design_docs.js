@@ -73,6 +73,7 @@ function installDesignDocs() {
             }
         });
 } else {
+        insertDummyVipMember();
         updateNationCouchVersion();
         fs.readdir('../init_docs/languages', function doneReadDir(err, files) {
             files.forEach(function (element) {
@@ -82,6 +83,28 @@ function installDesignDocs() {
             });
         });
     }
+}
+
+function insertDummyVipMember() {
+    var viplinks = nano.db.use('viplinks');
+    console.log("viplinks");
+    viplinks.list(function (err, body) {
+        if (!err) {
+            if(body.rows.length == 1) {
+                //Insert docs
+                var dummyMember = '../init_docs/viplinks-doc.txt';
+                fs.readFile(dummyMember, function (err, data) {
+                    viplinks.insert(data, function (err, res) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                })
+
+            }
+        }
+
+    });
 }
 
 function updateLanguagesDocs(pathOfFile) {
