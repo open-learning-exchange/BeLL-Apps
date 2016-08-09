@@ -1,6 +1,7 @@
 $(function() {
     //ce82280dc54a3e4beffd2d1efa00c4e6
     App.Views.MemberLoginForm = Backbone.View.extend({
+        //This view is used to render "Login Page" and it uses "Credentials" model
 
         className: "form login-form",
 

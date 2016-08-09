@@ -1,6 +1,7 @@
 $(function () {
 
     App.Views.Configurations = Backbone.View.extend({
+        //This view is used to render "Se Configurations" form and its bound with "Configurations" schema
 
         initialize: function () {
             this.$el.html('<h3>' + App.languageDict.get("Set_Configurations") + '</h3>')

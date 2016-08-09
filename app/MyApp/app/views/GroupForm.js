@@ -1,6 +1,7 @@
 $(function () {
 
     App.Views.GroupForm = Backbone.View.extend({
+        //This view is used to render "Add a Course" page and its bound with "Group" model
 
         className: "form",
         id: 'groupform',
