@@ -8,7 +8,6 @@ $(function() {
             'updatewelcomevideo': 'addOrUpdateWelcomeVideoDoc',
             '': 'MemberLogin',
             'dashboard': 'Dashboard',
-            'ereader': 'eReader',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
             'member/add': 'MemberForm',
@@ -318,10 +317,6 @@ $(function() {
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.renderNav)
             //this.bind("all",this.checkForUpdates)
-        },
-        eReader: function() {
-            // alert('match with ereader')
-            this.underConstruction()
         },
         Badges: function() {
             this.underConstruction()

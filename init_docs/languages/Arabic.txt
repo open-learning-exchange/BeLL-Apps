@@ -49,7 +49,6 @@
            "December": "ديسمبر"
        }
    ],
-   "e_Readers": "القراء الإلكترونية",
    "News_Feed": "مصادر الأخبار",
    "My_Library": "مكتبتي",
    "My_Courses_Progress": "دروسي التقدم",

@@ -49,7 +49,6 @@
            "December": "دسمبر"
        }
    ],
-   "e_Readers": "ای قارئین",
    "News_Feed": "خبریں",
    "My_Library": "میری لائبریری",
    "My_Courses_Progress": "میرےپیش رفت کورسز ",

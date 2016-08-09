@@ -49,7 +49,6 @@
            "December": "December"
        }
    ],
-   "e_Readers": "e-Readers",
    "News_Feed": "News Feed",
    "My_Library": "My Library",
    "My_Courses_Progress": "My Courses Progress",

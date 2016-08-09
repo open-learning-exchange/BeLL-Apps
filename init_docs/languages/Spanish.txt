@@ -49,7 +49,6 @@
            "December": "Diciembre"
        }
    ],
-   "e_Readers": "Lectores-e",
    "News_Feed": "Fuente de noticias",
    "My_Library": "Mi biblioteca",
    "My_Courses_Progress": "El progreso de mis cursos",
