@@ -1182,7 +1182,7 @@ textarea[name="comment"]
     margin-left: 10px;
 }
 #configbutton{
-    margin-left: 10px;
+    margin-left: 5px;
 }
 #emailCompose_background {
     -webkit-transition: all 0.3s;

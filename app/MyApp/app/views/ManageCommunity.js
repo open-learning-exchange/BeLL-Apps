@@ -31,6 +31,7 @@ $(function() {
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button id="sync" class="SyncDbSelect btn btn-primary">' + App.languageDict.get('Sync_With_Nation') + '</button>  </div>')
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="publication" class="btn btn-primary" href="#publications/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Publications') + '</a>  </div>')
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="survey" class="btn btn-primary" href="#surveys/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Surveys') + '</a>  </div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="welcomeButton" class="btn btn-primary" href ="#updatewelcomevideo">' + App.languageDict.attributes.Update_Welcome_Video + '</a></div>')
             // /****************************************************************************************************************************************************
             //   this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button class="SyncMembersDb btn btn-primary" id="syncmembers">Sync Members Db With Nation</button>  </div>')
             //  ****************************************************************************************************************************************************/
@@ -40,6 +41,7 @@ $(function() {
                 this.$el.find('#sync').parent().css({"float":"right", "padding":"20px 0px 0px 20px"});
                 this.$el.find('#publication').parent().css({"float":"right", "padding":"20px 0px 0px 20px"});
                 this.$el.find('#survey').parent().css({"float":"right", "padding":"20px 0px 0px 20px"});
+                this.$el.find('#welcomeButton').parent().css({"float":"right", "padding":"20px 0px 0px 20px"});
             }
             else
             {
@@ -47,6 +49,7 @@ $(function() {
                 this.$el.find('#sync').parent().css({"float":"left", "padding":"20px 20px 0px 0px"});
                 this.$el.find('#publication').parent().css({"float":"left", "padding":"20px 20px 0px 0px"});
                 this.$el.find('#survey').parent().css({"float":"left", "padding":"20px 20px 0px 0px"});
+                this.$el.find('#welcomeButton').parent().css({"float":"left", "padding":"20px 20px 0px 0px"});
             }
             applyCorrectStylingSheet(directionOfLang);
         },
