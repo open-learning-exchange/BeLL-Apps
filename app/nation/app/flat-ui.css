@@ -223,13 +223,13 @@ body {
   background-color: #ffffff;
 }
 a {
-  color: #16a085;
-  text-decoration: none;
-  -webkit-transition: 0.25s;
-  -moz-transition: 0.25s;
-  -o-transition: 0.25s;
-  transition: 0.25s;
-  -webkit-backface-visibility: hidden;
+    color: #16a085;
+    text-decoration: none;
+    -webkit-transition: 0.25s;
+    -moz-transition: 0.25s;
+    -o-transition: 0.25s;
+    transition: 0.25s;
+    -webkit-backface-visibility: hidden;
 }
 a:hover,
 a:focus {
@@ -725,7 +725,6 @@ address {
   border-left-width: 6px;
 }
 .navbar {
-  font-size: 16px;
   border-radius: 6px;
   background: #eceef0;
   border: none;
@@ -812,18 +811,14 @@ address {
   left: 100%;
 }
 .navbar .nav > li > a {
-  color: #526476;
-  display: inline-block;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 28px;
-  padding: 22px 20px;
-  text-shadow: none;
-  -webkit-transition: background-color .25s, color .25s, border-bottom-color .25s;
-  -moz-transition: background-color .25s, color .25s, border-bottom-color .25s;
-  -o-transition: background-color .25s, color .25s, border-bottom-color .25s;
-  transition: background-color .25s, color .25s, border-bottom-color .25s;
-  -webkit-backface-visibility: hidden;
+    display: inline-block;
+    font-weight: 700;
+    text-shadow: none;
+    -webkit-transition: background-color .25s, color .25s, border-bottom-color .25s;
+    -moz-transition: background-color .25s, color .25s, border-bottom-color .25s;
+    -o-transition: background-color .25s, color .25s, border-bottom-color .25s;
+    transition: background-color .25s, color .25s, border-bottom-color .25s;
+    -webkit-backface-visibility: hidden;
 }
 .navbar .nav > li > a:hover,
 .navbar .nav > li > a:focus {
@@ -935,7 +930,6 @@ address {
   border-radius: 6px;
 }
 .navbar-inverse {
-  font-size: 17px;
   background-color: #34495e;
 }
 .navbar-inverse .navbar-brand {
@@ -971,12 +965,8 @@ address {
   padding-left: 20px;
 }
 .navbar-inverse .nav > li > a {
-  font-size: 16px;
-  border-bottom: 2px solid #2c3e50;
-  border-left: 2px solid #2c3e50;
-  color: #ffffff;
-  padding: 16px 20px 15px;
-  line-height: 20px;
+    color: #ffffff;
+    line-height: 20px;
 }
 .navbar-inverse .nav.pull-right {
   margin-right: -15px;

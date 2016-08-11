@@ -976,12 +976,12 @@ address {
   padding-left: 20px;
 }
 .navbar-inverse .nav > li > a {
-  font-size: 16px;
-  border-bottom: 2px solid #2c3e50;
-  border-left: 2px solid #2c3e50;
-  color: #ffffff;
-  padding: 16px 20px 15px;
-  line-height: 20px;
+    font-size: 16px;
+    border-bottom: 2px solid #2c3e50;
+    border-left: 2px solid #2c3e50;
+    color: #ffffff;
+    padding: 16px 20px 15px;
+    line-height: 20px;
 }
 .navbar-inverse .nav.pull-right {
   margin-right: -15px;

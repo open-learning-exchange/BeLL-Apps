@@ -3,7 +3,7 @@ $(function() {
     App.Views.navBarView = Backbone.View.extend({
         tagName: "ul",
         className: "nav",
-
+        id: "itemsinnavbar",
         authorName: null,
         template1: _.template($('#template-nav-logged-in').html()),
         template0: _.template($('#template-nav-log-in').html()),
@@ -13,10 +13,10 @@ $(function() {
             if (option.isLoggedIn == 0) {
                 this.template = this.template0
             } else {
-              //  this.template = this.template1
-               // if (option.type == 'community') {
-                    this.template = this.template2
-              //  }
+                //  this.template = this.template1
+                // if (option.type == 'community') {
+                this.template = this.template2
+                //  }
             }
 
             var temp = Backbone.history.location.href

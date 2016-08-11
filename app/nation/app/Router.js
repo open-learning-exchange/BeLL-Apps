@@ -2623,7 +2623,7 @@ $(function() {
                     isLoggedIn: '0'
                 })
             }
-            $('#nav-collapse-01').html(na.el)
+            $('div#nav .container').html(na.el)
             // App.badge()
         },
         checkLoggedIn: function() {
@@ -3757,17 +3757,17 @@ $(function() {
                 }
             );
             CommunityTable = new App.Views.CommunityRequestsTable({
-             collection: Communities,
-             });
-             CommunityTable.pendingCollections = pendingRequests;
-             CommunityTable.render();
-             var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
-             listCommunity += "<div id='list-of-Communities'></div>"
+                collection: Communities,
+            });
+            CommunityTable.pendingCollections = pendingRequests;
+            CommunityTable.render();
+            var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
+            listCommunity += "<div id='list-of-Communities'></div>"
 
-             App.$el.children('.body').html('<div id="communityDiv"></div>');
-             $('#communityDiv').append(listCommunity);
-             $('#list-of-Communities', App.$el).append(CommunityTable.el);
-             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+            App.$el.children('.body').html('<div id="communityDiv"></div>');
+            $('#communityDiv').append(listCommunity);
+            $('#list-of-Communities', App.$el).append(CommunityTable.el);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
             App.stopActivityIndicator()
         },
 
@@ -4024,7 +4024,7 @@ $(function() {
             coursesColl.fetch({
                 async: false
             });
-            
+
             var publicationcourseTable = new App.Views.PublicationCoursesTable({
                 collection: coursesColl
             })

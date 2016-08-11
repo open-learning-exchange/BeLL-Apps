@@ -3,7 +3,7 @@
     margin-bottom: 0px;
 }
 ul, ol {
-    padding-left:10px;
+    padding-right:10px;
 }
 h1,h2,h3,h4,h5,h6{
     color: #345474;
@@ -21,12 +21,14 @@ h1,h2,h3,h4,h5,h6{
     height: 128px;
     width: 100%;
 }
-
-
+.navbar .container {
+    width: -moz-max-content;
+}
 #itemsinnavbar{
-    font-size: 17px;
     margin: 0;
-    padding-top: 8px;
+    width:100%;
+    padding-top: 5px;
+    padding-right: 20px;
 }
 
 #header-image
@@ -68,19 +70,11 @@ h1,h2,h3,h4,h5,h6{
     margin-right: 33%;
 }
 #nav-collapse-01 ul{
-    /*  margin: 0 auto;
-      width: 900px;
-      */
-    /*direction: rtl;
-    display: flex;
-    margin: 0 320px;
-*/
-    font-size: 17px;
     width:100%;
-    margin-left:-240px;
     padding-top: 5px;
     direction: rtl;
-    display: flex;}
+    display: flex;
+}
 .table th,
 .table td {
     padding: 8px;
@@ -271,8 +265,6 @@ h1,h2,h3,h4,h5,h6{
 }
 .navbar-inverse
 {
-    font-family: verdana;
-    font-size: 20px;
     height: 56px;
     width: 99%;
 }
@@ -285,10 +277,6 @@ h1,h2,h3,h4,h5,h6{
     height: 51px;
     width: 152px;
     font-weight: 900;
-}
-
-.navbar-inverse .nav > li > a {
-    line-height:1px;
 }
 
 .login-form > .bbf-form{
@@ -331,11 +319,6 @@ h1,h2,h3,h4,h5,h6{
     font-size: large;
 }
 
-.navbar-inverse .nav > li > a
-{
-    border: none;
-
-}
 a{color:white;}
 
 .news-table
@@ -596,7 +579,6 @@ textarea[name="comment"]
 .collapse{
     overflow: visible;
 }
-
 #dashboard
 {
     /*  height: 471px;*/
@@ -616,11 +598,6 @@ textarea[name="comment"]
     padding: 0;
 
     width: 40px;
-}
-#itemsinnavbar{
-    font-size: 17px;
-    margin: 0;
-    width:100%;
 }
 .header-table {
     width: 100%;
@@ -849,8 +826,6 @@ body{
 .navbar-inverse
 {
 
-    font-family: verdana;
-    font-size: 20px;
     height: 62px;
     width: 99%;
 }
@@ -907,9 +882,7 @@ body{
 
 .navbar-inverse .nav > li > a
 {
-    border: none;
-    font-size: 15px;
-    padding: 16px 20px 15px 0px;
+    padding: 16px 0px 15px 20px;
 }
 .news-table
 {
