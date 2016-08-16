@@ -1,5 +1,5 @@
 $(function() {
-
+    //This form/view is binded with Survey model
     App.Views.SurveyForm = Backbone.View.extend({
 
         className: "form",

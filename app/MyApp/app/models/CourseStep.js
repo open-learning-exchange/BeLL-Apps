@@ -1,6 +1,7 @@
 $(function() {
 
     App.Models.CourseStep = Backbone.Model.extend({
+        //This model refers to the structure of step (i.e Lesson) envolved in any course
 
         idAttribute: "_id",
         url: function() {
@@ -14,7 +15,7 @@ $(function() {
         },
 
         defaults: {
-            kind: "Course Step"
+            kind: "Course Step" // Saves kind of document according to corresponding db's.Mostly used in couch db views.
         },
 
         schema: {
@@ -29,35 +30,35 @@ $(function() {
 
             step: 'Text',
             courseId: 'Text',
-            resourceId: {
+            resourceId: {   //list of IDs of resources attached with any step(level). These IDs are coming from resources database.
                 type: 'Select',
                 options: []
             },
-            questions: {
+            questions: {  //Statements of Question(s) added, if the step has an outcome/type as Quiz
                 type: 'Select',
                 options: []
             },
-            qoptions: {
+            qoptions: { //Options provided against each question.
                 type: 'Select',
                 options: []
             },
-            answers: {
+            answers: { //List of correct answer against each question.
                 type: 'Select',
                 options: []
             },
-            resourceTitles: {
+            resourceTitles: { //Names of all those resources which are attached with given step.
                 type: 'Select',
                 options: []
             },
-         /*   allowedErrors: {
-                type: 'Text'
-            },*/
-            outComes: {
+            outComes: { //Type of Step e.g
+                //1. Quiz
+                //2. Paper/Assignment
+                //3. Paper and Quiz
                 title: 'Outcomes',
                 type: 'Checkboxes',
                 options: ['Paper', 'Quiz']
             },
-            passingPercentage: {
+            passingPercentage: { //Least marks to be obtained for passing any step
                 type: 'Select',
                 options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
             }

@@ -17,7 +17,7 @@ $(function() {
             kind: "CourseInvitation"
         },
         schema: {
-            courseId: 'Text',
+            courseId: 'Text', //Comes from groups database against the course for which invitation is sent
             userId: 'Text',
             status: 'Text'
 

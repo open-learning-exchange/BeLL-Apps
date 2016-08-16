@@ -1,6 +1,7 @@
 $(function() {
 
     App.Models.AssignmentPaper = Backbone.Model.extend({
+        //This model refers to the submission of a document against any step having outcome as Paper.
 
         idAttribute: "_id",
         url: function() {
@@ -14,11 +15,11 @@ $(function() {
         },
 
         schema: {
-            sednerId: 'Text',
-            courseId: 'Text',
-            stepId: 'Text',
-            sentDate: 'Text',
-            stepNo: 'Text'
+            sednerId: 'Text',  //ID of the person who submitted the document (i.e Learner's ID)
+            courseId: 'Text', //Refers to course which had that paper step
+            stepId: 'Text',  //Refers to step against which the document was submitted. Its type will be either paper or Paper and Quiz both.
+            sentDate: 'Text', //Date of submission
+            stepNo: 'Text' //The number of step displayed on Dashboard>>Courses>>Manage>>list of Steps underneath
         },
         saveAttachment: function(formEl, fileEl, revEl) {
             // Work with this doc in the files database

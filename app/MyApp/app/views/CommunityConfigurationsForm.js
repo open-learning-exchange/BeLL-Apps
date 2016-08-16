@@ -1,5 +1,5 @@
 $(function() {
-
+    //This form/view is binded with Configuration model
     App.Views.CommunityConfigurationsForm = Backbone.View.extend({
 
         className: "addNation-form",

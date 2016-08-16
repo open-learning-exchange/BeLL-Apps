@@ -1,5 +1,5 @@
 $(function() {
-
+    //This form/view is binded with Resource model
     App.Views.ResourceForm = Backbone.View.extend({
 
         className: "form",

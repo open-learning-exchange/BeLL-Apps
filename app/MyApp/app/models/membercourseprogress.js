@@ -1,6 +1,7 @@
 $(function() {
 
     App.Models.membercourseprogress = Backbone.Model.extend({
+        //This model consists of results of one member in one course
 
         idAttribute: "_id",
         url: function() {
@@ -19,9 +20,9 @@ $(function() {
         schema: {
             courseId: 'Text',
             memberId: 'Text',
-            stepsIds: 'null',
-            stepsStatus: 'null',
-            stepsResult: 'null'
+            stepsIds: 'null', //list of stepsIDs from document in groups database having provided courseId
+            stepsStatus: 'null', //On each index it contains the status(pass/fail/pending) of member in corresponding step from stepsIds array
+            stepsResult: 'null' //On each index it contains the marks obtained by member in corresponding step from stepsIds array
         }
 
     })

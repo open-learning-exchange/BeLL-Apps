@@ -14,11 +14,11 @@ $(function() {
 		},
 
 		schema: {
-			sednerId: 'Text',
-			receiverId: 'Text',
+			sednerId: 'Text',  //ID of the person who is sending email, person logged in. Its value can be read from cookie with name of Member._id.
+			receiverId: 'Text', //ID of document in members database to which email is being sent
 			subject: 'Text',
 			body: 'Text',
-			type: 'Text',
+			type: 'Text',  //what kind of mail is it, e.g simple 'mail' or a 'course-ivite'
 			status: 'Text',
 			sentDate: 'Text',
 			mailingList: 'Text'

@@ -3,7 +3,8 @@
  */
 $(function() {
 
-    App.Views.AdminForm = Backbone.View.extend({
+    App.Views.AdminForm = Backbone.View.extend({   //This form is used to display the "Become an Administrator" form and
+        //this view is bound to 'AdminMember' model
 
         className: "form",
         id: 'memberform',

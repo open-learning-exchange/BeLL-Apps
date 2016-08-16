@@ -27,52 +27,52 @@ $(function() {
         },
 
         defaults: {
-            kind: 'Resource',
+            kind: 'Resource', //Saves kind of document according to corresponding db's.Mostly used in couch db views.
             type: ''
         },
 
         schema: {
-            title: 'Text',
-            author: {
+            title: 'Text', //Saves title of a resource
+            author: { //Saves author's name of a resource
                 title: 'Author/Editor',
                 type: 'Text'
             }, // Author Field is required when adding the resource with tag news else no need for that.
-            Publisher: {
+            Publisher: { //Saves publisher's name of a resource
                 title: 'Publisher/Attribution',
                 type: 'Text'
             },
-            language: {
+            language: { //Saves language of a resource
                 type: 'Select',
                 options: []
             },
 
-            Year: 'Text',
+            Year: 'Text', //Year in which resource has been added
 
-            linkToLicense: {
+            linkToLicense: { //Saves web link of license to that resource if any
                 title: 'Link To License',
                 type: 'Text'
             },
 
-            subject: {
+            subject: { //Subject name for which resource is added
                 title: 'Subjects',
                 type: 'Select',
                 options: ['Agriculture', 'Arts', 'Business and Finance', 'Environment', 'Food and Nutrition', 'Geography', 'Health and Medicine', 'History', 'Human Development', 'Languages', 'Law', 'Learning', 'Literature', 'Math', 'Music', 'Politics and Government', 'Reference', 'Religion', 'Science', 'Social Sciences', 'Sports', 'Technology']
             },
-            Level: {
+            Level: { //Grade/Class level for which resource is added
                 title: 'Levels',
                 type: 'Select',
                 options: ['Early Education', 'Lower Primary', 'Upper Primary', 'Lower Secondary', 'Upper Secondary', 'Undergraduate', 'Graduate', 'Professional']
             },
-            Tag: {
+            Tag: { //Id(s) of collection doc in which resource has been added. These ids are actually coming from collectionlist db.
                 title: 'Collection',
                 type: 'Select',
                 options: []
             },
-            Medium: {
+            Medium: { //Saves type/medium of resource e.g: video, audio of PDF etc.
                 type: 'Select',
                 options: ['Text', 'Graphic/Pictures', 'Audio/Music/Book ', 'Video']
             },
-            openWith: {
+            openWith: { //Its value decides(provides information) in which way we want to open this resource, e.g: Bell-Reader, PDF, Video Player etc.
                 type: 'Select',
                 options: [{
                     val: 'Just download',
@@ -100,8 +100,7 @@ $(function() {
                     label: 'Native Video'
                 }]
             },
-            //*********************************************************************************************************
-            resourceFor: {
+            resourceFor: { //For whom we are adding resource, either is it for Learner or Leader.
                 type: 'Select',
                 options: [{
                     val: 'Default',
@@ -114,8 +113,7 @@ $(function() {
                     label: 'Learner'
                 }]
             },
-            ///////////////////////////////////////////Code for adding a new Dropdown///////////////////////////////////
-            resourceType: {
+            resourceType: { // Which type of resource it is, whether is it a simple book or is it a book containing questions to discuss.
                 type: 'Select',
                 options: [{
                     val: 'Textbook',
@@ -135,16 +133,14 @@ $(function() {
                         label: 'Discussion Questions'
                     }]
             },
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //*********************************************************************************************************
-            uploadDate: 'Date',
-            averageRating: 'Text',
-            articleDate: {
+            uploadDate: 'Date', //Date of uploading resource
+            averageRating: 'Text', //Total average rating of a resource
+            articleDate: { //Date when a resource was added to library, mostly its same as uploadDate
                 title: 'Date Added to Library',
                 type: 'Date'
             },
-            addedBy: 'Text',
-            openUrl: []
+            addedBy: 'Text', //Name of person/manager who is adding resource
+            openUrl: [] //URL link if it is an HTML resource
         },
 
         saveAttachment: function(formEl, fileEl, revEl) {

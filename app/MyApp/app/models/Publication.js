@@ -26,24 +26,19 @@ $(function() {
         },
 
         defaults: {
-            kind: 'publication'
+            kind: 'publication' //Saves kind of document according to corresponding db's.Mostly used in couch db views.
         },
 
         schema: {
-            Date: 'Text',
-            IssueNo: 'Number',
+            Date: 'Text', //Creation date of publication/issue
+            IssueNo: 'Number', //Unique identification number of publication.
             editorName: 'Text',
             editorEmail: 'Text',
             editorPhone: 'Text',
-            resources: {
+            resources: { //Ids of those resources added in publication.These ids are actually coming from resources db.
                 type: 'Select',
                 options: []
             }
-            //            ,
-            //            resources:{
-            //                type:'Select',
-            //                options:[]
-            //            }
         },
         setUrl: function(newUrl) {
             this.url = newUrl;

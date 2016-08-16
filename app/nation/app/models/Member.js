@@ -15,8 +15,8 @@ $(function() {
         },
 
         defaults: {
-            kind: "Member",
-            roles: ["Learner"]
+            kind: "Member",//Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            roles: ["Learner"]//Saves roles of a specific member
         },
 
         toString: function() {
@@ -39,19 +39,19 @@ $(function() {
             },
             phone: 'Text',
             email: 'Text',
-            language: 'Text',
+            language: 'Text',// Saves language which member speaks OR native/mother language of Member
             BirthDate: 'Date',
-            visits: 'Text',
+            visits: 'Text',//Total count of visits by a specific member
             Gender: {
                 type: 'Select',
                 options: ['Male', 'Female']
             },
-            levels: {
+            levels: {//Grade level of a specific member
                 type: 'Select',
                 options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Higher']
             },
-            status: 'Text',
-            yearsOfTeaching: {
+            status: 'Text',//Saves status which tells us that whether a member is active/de-active.If a member well resign, then he will be deactivated
+            yearsOfTeaching: {//Total teaching experience of a member
                 type: 'Select',
                 options: ['None', '1 to 20', 'More than 20']
             },

@@ -1,6 +1,7 @@
 $(function() {
 
     App.Models.Group = Backbone.Model.extend({
+        //This model refers to a course
 
         idAttribute: "_id",
 
@@ -15,25 +16,25 @@ $(function() {
         },
 
         defaults: {
-            kind: "Group"
+            kind: "Group" // Saves kind of document according to corresponding db's.Mostly used in couch db views.
         },
 
         schema: {
             CourseTitle: 'Text',
             languageOfInstruction: 'Text',
             memberLimit: 'Text',
-            courseLeader: {
+            courseLeader: {   //Consists of List of IDs of member(s)from members database which are assigned as Leader(s)/Teacher(s) for given course.
                 type: 'Select',
-                options: null,
+                options: null
             },
             description: 'TextArea',
 
             method: 'Text',
-            gradeLevel: {
+            gradeLevel: { //Defines that given course is designed to be taught for which level of education.
                 type: 'Select',
                 options: ['Pre-K', 'K', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'College', 'Post-Grad']
             },
-            subjectLevel: {
+            subjectLevel: {  //Defines the level of detail provided in given course
                 type: 'Select',
                 options: ['Beginner', 'Intermediate', 'Advanced', 'Expert']
             },
@@ -54,7 +55,7 @@ $(function() {
             backgroundColor: 'Text',
             foregroundColor: 'Text',
 
-            members: {
+            members: {   //Consists of list of IDs of all leaders and students added in this course. These IDs are fetched from members database
                 type: 'Checkboxes',
                 options: null // Populate this when instantiating
             }

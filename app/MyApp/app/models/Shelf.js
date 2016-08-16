@@ -15,9 +15,9 @@ $(function() {
         },
 
         schema: {
-            memberId: 'Text',
-            resourceId: 'Text',
-            resourceTitle: 'Text'
+            memberId: 'Text', //Id of member who added a library resource to its shelf.This id is actually coming from members db.
+            resourceId: 'Text', //Id of resource added in shelf.This id is actually coming from resources db.
+            resourceTitle: 'Text' //Title of added resource
         }
     })
 
