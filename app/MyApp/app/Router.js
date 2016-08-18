@@ -408,17 +408,20 @@ $(function() {
                 success: function (groupDocs) {
                     if(groupDocs.length>0){
                         for(var i=0;i<groupDocs.length;i++) {
-                            var doc=groupDocs.models[i];
-                            count=getCountOfLearners(doc.get('_id'), false);
-                            if(count>0){
-                                creditsView.courseId=doc.get('_id');
-                                creditsView.render();
+                            if(groupDocs.models[i].get('_id') != '_design/bell') {
+                                var doc = groupDocs.models[i];
+                                var learnerIds = getCountOfLearners(doc.get('_id'), true);
+                                if(learnerIds.length>0){
+                                    creditsView.courseId=doc.get('_id');
+                                    creditsView.learnerIds = learnerIds;
+                                    creditsView.render();
+                                }
                             }
-            }
-                            $('#creditsMainTable').append(creditsView.el);
                         }
+                    }
                 }
             });
+            $('#creditsMainTable').append(creditsView.el);
 
         },
                 badgesDetails: function(courseId){

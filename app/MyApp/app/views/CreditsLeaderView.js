@@ -9,29 +9,90 @@ $(function () {
 
         events:{
         },
-        add: function (courseModel, memberId) {
-            this.$el.append('<tr><td>' + courseModel.get('CourseTitle')+ '</td><td><a class="btn btn-success" href="#creditsDetails/' + courseModel.get('_id') + '/' + memberId+ '" style="margin-left:10px" id="detailsButton"  >' + "Open" + '</a></td></tr>')
+        add: function (jsonModel) {
+            var date =  changeDateFormat(jsonModel.subDate);
+            this.$el.append('<tr><td>' + jsonModel.memberName+ '</td><td>' + "Paper"+ '</td><td>' + date+ '</td><td>' + jsonModel.stepNo+ '</td><td>' + jsonModel.courseModel.get('CourseTitle')+ '</td><td><a class="btn btn-success" href="#listLearnersCredits/' + jsonModel.courseModel.get('_id') + '" style="margin-left:10px" id="detailsButton"  >' + "Open" + '</a></td></tr>')
         },
         render: function () {
-            var learnerIds;
+            var that = this;
+            var unsortedData = []; var jsonArr = [];
             var courseModel = new App.Models.Group({
                 _id: this.courseId
             })
             courseModel.fetch({
-                success: function (groupDoc) {
-                    learnerIds = groupDoc.get('members');
-                },
                 async: false
-
             });
-            var learnerCollection = App.Router.getLearnersList(learnerIds);
-            var member = learnerCollection.models[0]
-            var memberId = member.get('_id')
-            console.log("member id :" + memberId);
-            this.add(courseModel,memberId );
+            for(var m = 0 ; m < that.learnerIds.length ; m++) {
+                var memberId = that.learnerIds[m];
+                var member = new App.Models.Member({
+                    "_id": memberId
+                })
+                member.fetch({
+                    async: false
+                })
+                var MemberCourseProgress = new App.Collections.membercourseprogresses();
+                var stepsStatuses; var indexOfStepId = []; var stepIds = [];
+                ///
+                var memberName = member.get('firstName') + " " + member.get('lastName')
+                MemberCourseProgress.courseId = that.courseId;
+                MemberCourseProgress.memberId = memberId;
+                MemberCourseProgress.fetch({
+                    success: function (progressDoc) {
+                        stepsStatuses=progressDoc.models[0].get('stepsStatus');
+                        if(progressDoc.models[0].get('stepsIds').length>0){
+                            for(var m=0;m<stepsStatuses.length;m++) {
+                                if(stepsStatuses[m].length==2) {
+                                    var paperQuizStatus=stepsStatuses[m];
+                                    if(paperQuizStatus.indexOf('2')>-1) {
+                                        indexOfStepId.push(m);
+                                    }
+                                }
+                                else {
+                                    if(stepsStatuses[m]=='2'){
+                                        indexOfStepId.push(m);
+
+                                    }
+                                }
+                            }
+                            for (var j =0; j< indexOfStepId.length;j++){
+                                stepIds.push(progressDoc.models[0].get('stepsIds')[indexOfStepId[j]])
+                            }
+                        }
+                    },
+                    async:false
+                });
+                if (stepIds.length>0){
+                    var assignmentColl = new App.Collections.AssignmentPapers();
+                    assignmentColl.senderId = memberId;
+                    assignmentColl.courseId = that.courseId
+                    assignmentColl.fetch({
+                        async: false
+                    });
+                    for(var i = 0 ; i < assignmentColl.length > 0 ; i++) {
+                        var model = assignmentColl.models[i];
+                        if(model.get('_id') != '_design/bell' && stepIds.indexOf(model.get('stepId') > -1)) {
+                            var subDate = model.get('sentDate');
+                            var stepNo = model.get('stepNo');
+                            var jsonObj = {"courseModel":"", "memberName":"", "subDate":"", "stepNo":"", "memberId": ""};
+                            jsonObj.courseModel = courseModel;
+                            jsonObj.memberName = memberName;
+                            jsonObj.subDate = subDate;
+                            jsonObj.stepNo = stepNo;
+                            jsonObj.memberId = memberId;
+                            unsortedData.push(jsonObj);
+                        }
+                    }
+                }
+            }
+            var sortedData = unsortedData.sort(sortByProperty('subDate'));
+
+            for(var i = 0 ; i < sortedData.length > 0 ; i++) {
+                that.add(sortedData[i]);
+            }
         },
         addHeading: function(){
-            this.$el.html('<tr><th>' + 'Course Names' + '</th><th>' + 'Action' + '</th></tr>');
+            this.$el.html('<tr><th>' + 'Learner' + '</th><th>' + 'Step Type' + '</th><th>' + 'Date' + '</th><th>' + 'Course' + '</th><th>' + 'Step No' + '</th><th>' + 'Action' + '</th></tr>');
+           // this.$el.html('<tr><th>' + 'Course Names' + '</th><th>' + 'Action' + '</th></tr>');
         }
 
     })
