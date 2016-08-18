@@ -274,19 +274,27 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                                     if(stepsStatuses[m].length==2) {
                                         var paperQuizStatus=stepsStatuses[m];
                                         if(paperQuizStatus.indexOf('2')>-1) {
-                                            addToCount = true;
+                                           // addToCount = true;
+                                            countOfLearners++;
+                                            if(learnersIds.indexOf(learners[k]) == -1) {
+                                                learnersIds.push(learners[k]);
+                                            }
                                         }
                                     }
                                     else {
                                         if(stepsStatuses[m]=='2'){
-                                            addToCount = true;
+                                           // addToCount = true;
+                                            countOfLearners++;
+                                            if(learnersIds.indexOf(learners[k]) == -1) {
+                                                learnersIds.push(learners[k]);
+                                            }
                                         }
                                     }
                                 }
-                                if(addToCount) {
-                                    countOfLearners++;
-                                    learnersIds.push(learners[k]);
-                                }
+                                //if(addToCount) {
+                                //    countOfLearners++;
+                                //    learnersIds.push(learners[k]);
+                               // }
                             }
                         },
                         async:false
@@ -334,6 +342,29 @@ function getCountOfAllLearnersOrIds(courseId, requiredLearnersIds){
         return countOfLearners;
     }
 }
+
+function sortByProperty(property) {
+    'use strict';
+    return function (a, b) {
+        var sortStatus = 0;
+        if (a[property] < b[property]) {
+            sortStatus = -1;
+        } else if (a[property] > b[property]) {
+            sortStatus = 1;
+        }
+
+        return sortStatus;
+    };
+}
+
+function changeDateFormat(date) {
+    var datePart = date.match(/\d+/g),
+        year = datePart[0],
+        month = datePart[1],
+        day = datePart[2];
+    return year + '/' + month + '/' + day;
+}
+
 function getName(select){
     var arr = select.split('/');
     var courseId = arr[1];
