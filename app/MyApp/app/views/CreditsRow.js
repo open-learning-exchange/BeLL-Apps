@@ -46,7 +46,7 @@ $(function () {
                 vars.paperSubmitted = "Submitted";
             }
             else{
-                alert("attachment name : " +attachmentName)
+              //  alert("attachment name : " +attachmentName)
                 vars.attchmentURL = null ;
                 vars.attachmentName = null;
                 vars.paperSubmitted = "NotSubmitted";
