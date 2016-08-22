@@ -13,7 +13,7 @@
    "Badges": "جز",
    "Calender": "کیلنڈر",
    "Email": "ای میل",
-   "Update_Welcome_Video": "اپ ڈیٹ  خوش آمدید ویڈیو",
+   "Welcome_Video": "Welcome Video",
    "Community": "کمیونٹی",
    "Nation": "قوم",
    "Bell": "بیل",
