@@ -13,7 +13,7 @@
    "Badges": "Distinción de logro",
    "Calender": "Calendario",
    "Email": "Correo electrónico",
-   "Update_Welcome_Video": "Actualizar video de bienvenida",
+   "Welcome_Video": "Welcome Video",
    "Community": "Comunidad",
    "Nation": "País",
    "Bell": "BeLL",

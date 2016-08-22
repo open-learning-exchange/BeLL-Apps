@@ -13,7 +13,7 @@
    "Badges": "Badges",
    "Calender": "Calendar",
    "Email": "Email",
-   "Update_Welcome_Video": "Update Welcome Video",
+   "Welcome_Video": "Welcome Video",
    "Nation": "Nation",
    "Community": "Community",
    "Manager": "Manager",
