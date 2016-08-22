@@ -13,7 +13,7 @@
    "Badges": "شارات",
    "Calender": "تقويم",
    "Email": "بريد الالكتروني",
-   "Update_Welcome_Video": "تحديث فيديو الترحيب.",
+   "Welcome_Video": "Welcome Video",
    "Community": "مجموعة",
    "Nation": "دولة/ دولي",
    "Bell": "بيل",
