@@ -15,6 +15,11 @@ h1,h2,h3,h4,h5,h6{
     width: 950px;
     overflow: hidden;
 }
+.dashboard-buttons
+{
+    padding-left: 20px;
+    display: inline-block
+}
 #page-header
 {
     box-shadow: 0 2px 2px #888888;
