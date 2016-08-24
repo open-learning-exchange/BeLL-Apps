@@ -11,7 +11,7 @@ $(function () {
         },
         add: function (jsonModel) {
             var date =  changeDateFormat(jsonModel.subDate);
-            this.$el.append('<tr><td>' + jsonModel.memberName+ '</td><td>' + "Paper"+ '</td><td>' + date+ '</td><td>' + jsonModel.stepNo+ '</td><td>' + jsonModel.courseModel.get('CourseTitle')+ '</td><td><a class="btn btn-success" href="#listLearnersCredits/' + jsonModel.courseModel.get('_id') + '" style="margin-left:10px" id="detailsButton"  >' + "Open" + '</a></td></tr>')
+            this.$el.append('<tr><td>' + jsonModel.memberName+ '</td><td>' + "Paper"+ '</td><td>' + date+ '</td><td>' + jsonModel.stepNo+ '</td><td>' + jsonModel.courseModel.get('CourseTitle')+ '</td><td><a class="btn btn-success" href="#creditsDetails/' + jsonModel.courseModel.get('_id') + '/' + jsonModel.memberId + '" style="margin-left:10px" id="detailsButton"  >' + "Open" + '</a></td></tr>')
         },
         render: function () {
             var that = this;
