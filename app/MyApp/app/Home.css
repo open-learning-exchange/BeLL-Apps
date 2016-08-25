@@ -930,3 +930,12 @@ margin-left: 259px;
 #library-top-buttons{
 margin-top: 20px;
 }
+.form .btn {
+    margin: 5px 0px 20px 20px;
+}
+.form-label-style {
+    margin-left: 20px;
+}
+.form-heading-style {
+    margin-left: 24px;
+}

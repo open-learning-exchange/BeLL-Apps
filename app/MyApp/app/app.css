@@ -12,7 +12,7 @@
  * Form Views
  */
 .form {
-    margin: 20px;
+    margin: 20px 0px;
 }
 
 .form ul {
@@ -31,12 +31,6 @@
     float: left;
     clear: both;
 }
-
-.form .btn {
-    margin: 5px 0px 20px 20px;
-}
-
-
 .form .progress {
     float:left;
     margin-top: 9px;
@@ -107,7 +101,7 @@ label {
     margin-right: 15px;
     font-size: 13px;
 
-/*margin-bottom: 10px;*/
+    /*margin-bottom: 10px;*/
 }
 label:before {
     content:"";
@@ -299,7 +293,6 @@ textarea[name="comment"]
     background-color: #F3F3F3;
     border-radius: 37px;
     margin-bottom: -1%;
-    margin-left: -1%;
     width: 883px;
 }
 #groupform [name="description"]{
@@ -630,10 +623,10 @@ textarea[name="comment"]
     margin-left: 480px;
 }
 .form .field-resourceType{
-  /*  display: inline-block;
-    position: absolute;
-    margin-top: 315px;
-    margin-left: 260px;*/
+    /*  display: inline-block;
+      position: absolute;
+      margin-top: 315px;
+      margin-left: 260px;*/
     margin-bottom: -64px;
     margin-left:480px;
 

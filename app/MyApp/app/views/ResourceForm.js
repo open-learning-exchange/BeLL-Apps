@@ -260,7 +260,7 @@ $(function() {
             });
         },
         renderAddOrUploadWelcomeVideoForm: function() {
-            var formHeader = $('<h3> '+App.languageDict.get('edit_welcomeVideo')+' </h3><br><br><br><br>');
+            var formHeader = $('<h3 class="form-heading-style"> '+App.languageDict.get('edit_welcomeVideo')+' </h3><br><br><br><br>');
             this.$el.append(formHeader);
             this.form = new Backbone.Form({
                 model: this.model
@@ -295,7 +295,7 @@ $(function() {
             // add a label followed by input box/button for allowing uploading of new welcome video, followed by label anming the
             // name of the video currently being used as welcome video
             this.$el.append('<form method="post" id="fileAttachment"></form>');
-            this.$el.find("#fileAttachment").append('<label for="_attachments">'+App.languageDict.get('upload_welcomeVideo')+'</label>');
+            this.$el.find("#fileAttachment").append('<label for="_attachments" class="form-label-style">'+App.languageDict.get('upload_welcomeVideo')+'</label>');
             this.$el.find("#fileAttachment").append('<input type="file" name="_attachments" id="_attachments" style="line-height: 28px;" multiple="multiple" label=" :" />');
             this.$el.find("#fileAttachment").append('<input class="rev" type="hidden" name="_rev">');
             this.$el.append('<button class="addNation-btn btn btn-success" id="saveUpdatedWelcomeVideoForm">'+App.languageDict.get('Submit')+'</button>');

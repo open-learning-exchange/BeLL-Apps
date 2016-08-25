@@ -1142,3 +1142,12 @@ textarea[name="comment"]
     margin-left: 20px;
     width:auto;
 }
+.form .btn {
+    margin: 5px 20px 20px 0px;
+}
+.form-label-style {
+    margin-right: 20px;
+}
+.form-heading-style {
+    margin-right: 24px;
+}
