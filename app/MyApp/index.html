@@ -934,19 +934,22 @@
         <td>
             <input type="hidden" name="percentage"  id="<%=percentage%>">
             <%if(stepType== 'Quiz' ){%>
-            <%= credits %>
+            <%= credits %>/100
             <%}%>
             <%if(stepType== 'Paper'){%>
             <%if(paperSubmitted ==  "Submitted" && credits == '0' ){%>
             <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>">
               <%}else if(paperSubmitted ==  "Submitted" && credits != '0' ){%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>/100" readonly>
             <%}else if(paperSubmitted ==  "NotSubmitted" && credits == '0' ){%>
             Not Submitted
             <%}else{%>
-            <%= credits %>
+            <%= credits %>/100
             <%}%>
             <%}%>
+        </td>
+        <td>
+            <%= credits %>%
         </td>
        <!-- <td>
             <%= status %>

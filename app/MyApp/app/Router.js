@@ -527,10 +527,10 @@ $(function() {
             });
           console.log("count : " + count);
             console.log("value : " + value);
-            if (value === count) {
+            if (value === count && value!= 0 && count != 0) {
 
             $("input[name='paperCredits']").each(function () {
-                if ($(this).val().trim() != '') {
+                if ($(this).val().trim() != '' ) {
                     var idstep = $(this).attr('id');
                     var arr = idstep.split("/");
                     alert("step id and percentage" + idstep)
@@ -538,12 +538,12 @@ $(function() {
                     var percentage = parseInt(arr[1]);
                     //var stepId = $(this).attr('id');
                    // var percentage = $("input[name='percentage']").attr('id');
-                    alert("stepId " + stepId);
-                    alert("pasiing percentage " + percentage);
+                   // alert("stepId " + stepId);
+                   // alert("pasiing percentage " + percentage);
                     console.log("stepId : " + stepId)
                     var paperMarks = $(this).val().trim();
                     console.log("paperMarks : " + paperMarks)
-                    alert("paper marks : " + paperMarks )
+                  //  alert("paper marks : " + paperMarks )
                     var memberProgress = new App.Collections.membercourseprogresses()
                     memberProgress.memberId = memberId
                     memberProgress.courseId = courseId
@@ -597,7 +597,13 @@ $(function() {
                 alert('Paper credits have been submitted');
 
         } else {
-                alert('Please enter marks against each paper');
+                if (  value == 0 && count== 0) {
+                 alert('Learner has not submitted any paper');
+                }
+                else{
+                    alert('Please enter marks against each paper');
+                }
+
                return false;
             }
 
