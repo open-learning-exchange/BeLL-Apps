@@ -940,7 +940,7 @@
             <%if(paperSubmitted ==  "Submitted" && credits == '0' ){%>
             <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>">
               <%}else if(paperSubmitted ==  "Submitted" && credits != '0' ){%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>/100">
+            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
             <%}else if(paperSubmitted ==  "NotSubmitted" && credits == '0' ){%>
             Not Submitted
             <%}else{%>
