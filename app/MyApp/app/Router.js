@@ -547,6 +547,8 @@ $(function() {
                                         dataType: 'jsonp',
                                         async:false,
                                         success: function(json) {
+                                            $('#onlineButton').css({"background-color" : "#35ac19"});
+                                            $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
                                             var SurveyDocsFromNation = [];
                                             _.each(json.rows, function(row) {
                                                 if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
@@ -636,6 +638,8 @@ $(function() {
                                             }
                                         },
                                         error: function(status) {
+                                            $('#onlineButton').css({"background-color" : "#ff0000"});
+                                            $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
                                             console.log(status);
                                         }
                                     });
@@ -645,6 +649,8 @@ $(function() {
 
                         },
                         error: function(jqXHR, status, errorThrown) {
+                            $('#onlineButton').css({"background-color" : "#ff0000"});
+                            $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
                             console.log(jqXHR);
                             console.log(status);
                             console.log(errorThrown);
