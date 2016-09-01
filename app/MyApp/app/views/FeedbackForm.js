@@ -98,7 +98,7 @@ $(function() {
                                 )
                             }
                             var temp = $.url().data.attr.fragment;
-                            if(temp.contains('usercourse/details')){
+                            if(temp.indexOf('usercourse/details') != -1){
                                 $('#externalDiv').fadeOut(1000)
                                 setTimeout(function() {
                                     $('#externalDiv').hide()
