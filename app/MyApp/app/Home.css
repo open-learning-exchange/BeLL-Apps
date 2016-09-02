@@ -946,3 +946,10 @@ margin-top: 20px;
     cursor: pointer;
     margin-right: 22px
 }
+.popupAlign {
+    text-align: right;
+}
+.popupAlign > a {
+    margin-right: 2%;
+    cursor: pointer;
+}

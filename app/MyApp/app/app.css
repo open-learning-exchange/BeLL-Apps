@@ -323,6 +323,17 @@ textarea[name="comment"]
     overflow: scroll;
     height: 60%;
 }
+#popupDiv{
+    background-color: #B1B1B1;
+    border-radius: 20px;
+    position: fixed;
+    top: 30%;
+    width: 15%;
+    z-index: 2;
+    margin-left:44%;
+    height: 10%;
+    text-align: center;
+}
 #groupform .bbf-field.field-levels{
     margin-left: 236px;
     margin-top: -85px;

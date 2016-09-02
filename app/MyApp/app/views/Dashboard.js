@@ -9,6 +9,11 @@ $(function() {
         latestVersion: null,
         nationConfigJson: null,
         events: {
+            "click #onlineButton": function(e) {
+                $('#popupDiv').fadeIn();
+                $('#popupText').text($('#onlineButton').attr("title"));
+                setTimeout(function(){ $('#popupDiv').fadeOut() }, 5000);
+            },
             "click #updateButton": 'updateVersion',
             "click #showReleaseNotesDiv": function(e) {
                 if ($('#releaseVersion').css('display') == 'none') {

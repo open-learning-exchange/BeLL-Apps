@@ -1158,3 +1158,10 @@ textarea[name="comment"]
     cursor: pointer;
     margin-left: 22px
 }
+.popupAlign {
+    text-align: left;
+}
+.popupAlign > a {
+    margin-left: 2%;
+    cursor: pointer;
+}

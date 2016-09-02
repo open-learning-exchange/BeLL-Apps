@@ -1532,6 +1532,10 @@ function deleteResource(id){
     //Backbone.history.loadUrl();
 }
 
+function fadeOut(){
+    $('#popupDiv').fadeOut();
+}
+
 function openResourceDetail(id){
     var resourcefreq = new App.Collections.ResourcesFrequency();
     resourcefreq.memberID = $.cookie('Member._id');
