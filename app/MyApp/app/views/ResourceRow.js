@@ -60,12 +60,14 @@ $(function() {
 				}
 			},
             "click #addToNation": function(event) {
-                var arrayOfIds = [];
-                var resourceId = this.model.get("_id");
-                arrayOfIds.push(resourceId);
-                App.startActivityIndicator();
-                this.replicateCommunityResourcesWithGivenIds(arrayOfIds);
-                App.stopActivityIndicator();
+                if (confirm(App.languageDict.attributes.delete_alert)) {
+                    var arrayOfIds = [];
+                    var resourceId = this.model.get("_id");
+                    arrayOfIds.push(resourceId);
+                    App.startActivityIndicator();
+                    this.replicateCommunityResourcesWithGivenIds(arrayOfIds);
+                    App.stopActivityIndicator();
+                }
             },
 			"click .removeFromCollection": function(event) {
 
@@ -444,42 +446,43 @@ $(function() {
 			vars.RemoveLabel=languageDictValue.attributes.Remove;
 			vars.unhide=languageDictValue.attributes.UnHide;
             vars.addToNation=languageDictValue.attributes.AddToNation;
+            var that = this;
+            App.Router.isNationLive(function(result) {
+                vars.isNationVisible = result;
+                var config = new App.Collections.Configurations()
+                config.fetch({
+                    async: false,
+                    success: function () {
+                        vars.type = config.first().attributes.type;
 
-            var config = new App.Collections.Configurations()
-            config.fetch({
-                async: false,
-                success: function () {
-                    vars.type = config.first().attributes.type;
+                    }
+                });
 
+                vars.hide=languageDictValue.attributes.Hide;
+                if (vars.hidden == undefined) {
+                    vars.hidden = false
                 }
+
+                if (that.model.get("sum") != 0) {
+                    vars.totalRatings = that.model.get("timesRated")
+                    vars.averageRating = (parseInt(that.model.get("sum")) / parseInt(vars.totalRatings))
+                } else {
+                    vars.averageRating = "Sum not found"
+                    vars.totalRatings = 0
+                }
+
+                if (that.isManager > -1) {
+                    vars.Manager = 1
+                } else {
+                    vars.Manager = 0
+                }
+                if (that.displayCollec_Resources == true) {
+                    vars.removeFormCollection = 1
+                } else {
+                    vars.removeFormCollection = 0
+                }
+                that.$el.append(that.template(vars))
             });
-
-			vars.hide=languageDictValue.attributes.Hide;
-			if (vars.hidden == undefined) {
-				vars.hidden = false
-			}
-
-			if (this.model.get("sum") != 0) {
-				vars.totalRatings = this.model.get("timesRated")
-				vars.averageRating = (parseInt(this.model.get("sum")) / parseInt(vars.totalRatings))
-			} else {
-				vars.averageRating = "Sum not found"
-				vars.totalRatings = 0
-			}
-
-			if (this.isManager > -1) {
-				vars.Manager = 1
-			} else {
-				vars.Manager = 0
-			}
-			if (this.displayCollec_Resources == true) {
-				vars.removeFormCollection = 1
-			} else {
-				vars.removeFormCollection = 0
-			}
-			this.$el.append(this.template(vars))
-
-
 
 		}
 

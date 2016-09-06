@@ -832,5 +832,6 @@
   "comm_reject_msg":"Your registration request has been rejected, please check your data and re-send",
   "old_communities":"Old Communities",
   "Nation_Visible":"Nation is visible",
-  "Nation_InVisible":"Nation is not visible"
+  "Nation_InVisible":"Nation is not visible",
+  "delete_alert": "Are you sure you want to upload this resource?"
 }

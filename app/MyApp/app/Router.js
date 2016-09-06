@@ -479,189 +479,264 @@ $(function() {
             return roles
         },
        //POSITION OF GETNATION VERSION
-        getNationVersion: function (dashboard){
-        var that = this;
-        var configuration = App.configuration
-        var nationName = configuration.get("nationName")
-        var nationURL = configuration.get("nationUrl")
-        var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
-        nName = configuration.get('nationName')
-        pass = App.password
-        nUrl = configuration.get('nationUrl')
-        currentBellName = configuration.get('name')
-        //  var htmlreferance = this.$el
+        getNationVersion: function (dashboard) {
+            var that = this;
+            var configuration = App.configuration
+            var nationName = configuration.get("nationName")
+            var nationURL = configuration.get("nationUrl")
+            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
+            nName = configuration.get('nationName')
+            pass = App.password
+            nUrl = configuration.get('nationUrl')
+            currentBellName = configuration.get('name')
+            //  var htmlreferance = this.$el
 
-        var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
-        var nationConfig;
-        var newPublicationsCount = 0;
+            var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
+            var nationConfig;
+            var newPublicationsCount = 0;
             var newSurveysCount = 0;
-            var roles=App.member.get('roles');
-        $.ajax({
-            url: nationConfigURL,
-            type: 'GET',
-            dataType: "jsonp",
+            var roles = App.member.get('roles');
+            $.ajax({
+                url: nationConfigURL,
+                type: 'GET',
+                dataType: "jsonp",
 
-            success: function(json) {
-                if( json.rows[0]) {
-                    nationConfig = json.rows[0].doc;
-                    nation_version = nationConfig.version;
+                success: function (json) {
+                    if (json.rows[0]) {
+                        nationConfig = json.rows[0].doc;
+                        nation_version = nationConfig.version;
 
-                    //********************************************************************************************************************************
-                    $.ajax({
-                        url: DbUrl,
-                        type: 'GET',
-                        dataType: 'jsonp',
-                        async:false,
-                        success: function(json) {
-                            var publicationDistribDocsFromNation = [],
-                                tempKeys = [];
-                            _.each(json.rows, function(row) {
-                                publicationDistribDocsFromNation.push(row.doc);
-                                tempKeys.push(row.doc.publicationId);
-                            });
-                            // fetch all publications from local/community server to see how many of the publications from nation are new ones
-                            //  var newPublicationsCount = 0;
-                            var publicationCollection = new App.Collections.Publication();
-                            var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
-                            publicationCollection.setUrl(tempUrl);
-                            publicationCollection.fetch({
-                                success: function() {
-                                    var alreadySyncedPublications = publicationCollection.models;
-                                    for (var i in publicationDistribDocsFromNation) {
-                                        // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
-                                        // count
-                                        var index = alreadySyncedPublications.map(function(element) {
-                                            return element.get('_id');
-                                        }).indexOf(publicationDistribDocsFromNation[i].publicationId);
-                                        if (index > -1) {
-                                            // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
-                                            // local server
-                                        } else {
-                                            newPublicationsCount++;
+                        //********************************************************************************************************************************
+                        $.ajax({
+                            url: DbUrl,
+                            type: 'GET',
+                            dataType: 'jsonp',
+                            async: false,
+                            success: function (json) {
+                                var publicationDistribDocsFromNation = [],
+                                    tempKeys = [];
+                                _.each(json.rows, function (row) {
+                                    publicationDistribDocsFromNation.push(row.doc);
+                                    tempKeys.push(row.doc.publicationId);
+                                });
+                                // fetch all publications from local/community server to see how many of the publications from nation are new ones
+                                //  var newPublicationsCount = 0;
+                                var publicationCollection = new App.Collections.Publication();
+                                var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+                                publicationCollection.setUrl(tempUrl);
+                                publicationCollection.fetch({
+                                    success: function () {
+                                        var alreadySyncedPublications = publicationCollection.models;
+                                        for (var i in publicationDistribDocsFromNation) {
+                                            // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+                                            // count
+                                            var index = alreadySyncedPublications.map(function (element) {
+                                                return element.get('_id');
+                                            }).indexOf(publicationDistribDocsFromNation[i].publicationId);
+                                            if (index > -1) {
+                                                // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+                                                // local server
+                                            } else {
+                                                newPublicationsCount++;
+                                            }
                                         }
-                                    }
-                                    ////////////////////////////////////////////////////
-                                    $.ajax({
-                                        url: 'http://' + nationName + ':oleoleole@' + nationURL + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
-                                        type: 'GET',
-                                        dataType: 'jsonp',
-                                        async:false,
-                                        success: function(json) {
-                                            $('#onlineButton').css({"background-color" : "#35ac19"});
-                                            $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
-                                            var SurveyDocsFromNation = [];
-                                            _.each(json.rows, function(row) {
-                                                if(row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
-                                                    SurveyDocsFromNation.push(row);
-                                                }
-                                            });
-                                            if(SurveyDocsFromNation != [] && SurveyDocsFromNation.length > 0) {
-                                                // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
-                                                $.ajax({
-                                                    url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
-                                                    type: 'GET',
-                                                    dataType: 'json',
-                                                    async:false,
-                                                    success: function(commSurdata) {
-                                                        var SurveyDocsFromComm = [];
-                                                        _.each(commSurdata.rows, function(row) {
-                                                            SurveyDocsFromComm.push(row);
-                                                        });
-                                                        for (var j in SurveyDocsFromNation) {
-                                                            // if this survey doc exists in the list of docs fetched from nation then ignore it from new surveys
-                                                            // count
-                                                            var surIndex;
-                                                            if(SurveyDocsFromComm.length > 0) {
-                                                                surIndex = SurveyDocsFromComm.map(function (element) {
-                                                                    return element.id;
-                                                                }).indexOf(SurveyDocsFromNation[j].id);
-                                                            } else {
-                                                                surIndex = -1;
-                                                            }
-                                                            if(surIndex != undefined) {
-                                                                if (surIndex > -1) {
-                                                                    // don't increment newSurveysCount cuz this surveyId already exists in the already synced surveys at
-                                                                    // local server
-                                                                } else {
-                                                                    newSurveysCount++;
-                                                                }
-                                                            }
-                                                        }
-                                                        if (newPublicationsCount > 0  && ($.inArray('Manager', roles)!=-1)){
-                                                            new_publications_count = newPublicationsCount;
-                                                            if(newSurveysCount > 0) {
-                                                                new_surveys_count = newSurveysCount;
-                                                                dashboard.updateVariables(nation_version,new_publications_count, new_surveys_count);
-                                                                $("#newSurvey").click(function(){
-                                                                    document.location.href="#surveys/for-"+currentBellName;
-                                                                });
-                                                                $('#newSurvey').show();
-                                                            } else {
-                                                                dashboard.updateVariables(nation_version,new_publications_count, 0);
-                                                            }
-                                                            //alert(currentBellName);
-                                                            $("#newPublication").click(function(){
-                                                                document.location.href="#publications/for-"+currentBellName;
-                                                            });
-                                                            //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
-                                                            $('#newPublication').show();
-                                                        } else{
-                                                            if(newSurveysCount > 0 && ($.inArray('Manager', roles)!=-1)){
-                                                                new_surveys_count = newSurveysCount;
-                                                                dashboard.updateVariables(nation_version, 0, new_surveys_count);
-                                                                $("#newSurvey").click(function(){
-                                                                    document.location.href="#surveys/for-"+currentBellName;
-                                                                });
-                                                                $('#newSurvey').show();
-                                                            } else {
-                                                                dashboard.updateVariables(nation_version, 0, 0);
-                                                            }
-                                                        }
-                                                    },
-                                                    error: function(status) {
-                                                        console.log(status);
+                                        ////////////////////////////////////////////////////
+                                        $.ajax({
+                                            url: 'http://' + nationName + ':oleoleole@' + nationURL + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                                            type: 'GET',
+                                            dataType: 'jsonp',
+                                            async: false,
+                                            success: function (json) {
+                                                $('#onlineButton').css({"background-color": "#35ac19"});
+                                                $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
+                                                var SurveyDocsFromNation = [];
+                                                _.each(json.rows, function (row) {
+                                                    if (row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
+                                                        SurveyDocsFromNation.push(row);
                                                     }
                                                 });
-                                            } else {
-                                                if (newPublicationsCount > 0  && ($.inArray('Manager', roles)!=-1)){
-                                                    new_publications_count = newPublicationsCount;
-                                                    dashboard.updateVariables(nation_version,new_publications_count, 0);
-                                                    //alert(currentBellName);
-                                                    $("#newPublication").click(function(){
-                                                        document.location.href="#publications/for-"+currentBellName;
+                                                if (SurveyDocsFromNation != [] && SurveyDocsFromNation.length > 0) {
+                                                    // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
+                                                    $.ajax({
+                                                        url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                                                        type: 'GET',
+                                                        dataType: 'json',
+                                                        async: false,
+                                                        success: function (commSurdata) {
+                                                            var SurveyDocsFromComm = [];
+                                                            _.each(commSurdata.rows, function (row) {
+                                                                SurveyDocsFromComm.push(row);
+                                                            });
+                                                            for (var j in SurveyDocsFromNation) {
+                                                                // if this survey doc exists in the list of docs fetched from nation then ignore it from new surveys
+                                                                // count
+                                                                var surIndex;
+                                                                if (SurveyDocsFromComm.length > 0) {
+                                                                    surIndex = SurveyDocsFromComm.map(function (element) {
+                                                                        return element.id;
+                                                                    }).indexOf(SurveyDocsFromNation[j].id);
+                                                                } else {
+                                                                    surIndex = -1;
+                                                                }
+                                                                if (surIndex != undefined) {
+                                                                    if (surIndex > -1) {
+                                                                        // don't increment newSurveysCount cuz this surveyId already exists in the already synced surveys at
+                                                                        // local server
+                                                                    } else {
+                                                                        newSurveysCount++;
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
+                                                                new_publications_count = newPublicationsCount;
+                                                                if (newSurveysCount > 0) {
+                                                                    new_surveys_count = newSurveysCount;
+                                                                    dashboard.updateVariables(nation_version, new_publications_count, new_surveys_count);
+                                                                    $("#newSurvey").click(function () {
+                                                                        document.location.href = "#surveys/for-" + currentBellName;
+                                                                    });
+                                                                    $('#newSurvey').show();
+                                                                } else {
+                                                                    dashboard.updateVariables(nation_version, new_publications_count, 0);
+                                                                }
+                                                                //alert(currentBellName);
+                                                                $("#newPublication").click(function () {
+                                                                    document.location.href = "#publications/for-" + currentBellName;
+                                                                });
+                                                                //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                                                $('#newPublication').show();
+                                                            } else {
+                                                                if (newSurveysCount > 0 && ($.inArray('Manager', roles) != -1)) {
+                                                                    new_surveys_count = newSurveysCount;
+                                                                    dashboard.updateVariables(nation_version, 0, new_surveys_count);
+                                                                    $("#newSurvey").click(function () {
+                                                                        document.location.href = "#surveys/for-" + currentBellName;
+                                                                    });
+                                                                    $('#newSurvey').show();
+                                                                } else {
+                                                                    dashboard.updateVariables(nation_version, 0, 0);
+                                                                }
+                                                            }
+                                                        },
+                                                        error: function (status) {
+                                                            console.log(status);
+                                                        }
                                                     });
-                                                    //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
-                                                    $('#newPublication').show();}
-                                                else{
-                                                    dashboard.updateVariables(nation_version,0, 0);
+                                                } else {
+                                                    if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
+                                                        new_publications_count = newPublicationsCount;
+                                                        dashboard.updateVariables(nation_version, new_publications_count, 0);
+                                                        //alert(currentBellName);
+                                                        $("#newPublication").click(function () {
+                                                            document.location.href = "#publications/for-" + currentBellName;
+                                                        });
+                                                        //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                                        $('#newPublication').show();
+                                                    }
+                                                    else {
+                                                        dashboard.updateVariables(nation_version, 0, 0);
+                                                    }
                                                 }
+                                            },
+                                            error: function (status) {
+                                                $('#onlineButton').css({"background-color": "#ff0000"});
+                                                $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                                console.log(status);
                                             }
-                                        },
-                                        error: function(status) {
-                                            $('#onlineButton').css({"background-color" : "#ff0000"});
-                                            $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
-                                            console.log(status);
-                                        }
-                                    });
-                                    ////////////////////////////////////////////////////
-                                }
-                            });
+                                        });
+                                        ////////////////////////////////////////////////////
+                                    }
+                                });
 
-                        },
-                        error: function(jqXHR, status, errorThrown) {
-                            $('#onlineButton').css({"background-color" : "#ff0000"});
-                            $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
-                            console.log(jqXHR);
-                            console.log(status);
-                            console.log(errorThrown);
-                        }
-                    });
+                            },
+                            error: function (jqXHR, status, errorThrown) {
+                                $('#onlineButton').css({"background-color": "#ff0000"});
+                                $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                console.log(jqXHR);
+                                console.log(status);
+                                console.log(errorThrown);
+                            }
+                        });
 
+                    }
                 }
-            }
 
-        });
-    },
+            });
+        },
+        isNationLive: function (callback) {
+            var nationVisible = false;
+            var configuration = App.configuration
+            var nationName = configuration.get("nationName")
+            var nationURL = configuration.get("nationUrl")
+            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
+            nName = configuration.get('nationName')
+            pass = App.password
+            nUrl = configuration.get('nationUrl')
+            currentBellName = configuration.get('name')
+            //  var htmlreferance = this.$el
+
+            var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
+            var nationConfig;
+            var roles = App.member.get('roles');
+            $.ajax({
+                url: nationConfigURL,
+                type: 'GET',
+                dataType: "jsonp",
+                timeout: 4000,
+
+                success: function (json) {
+                    if (json.rows[0]) {
+                        nationConfig = json.rows[0].doc;
+                        nation_version = nationConfig.version;
+
+                        $.ajax({
+                            url: DbUrl,
+                            type: 'GET',
+                            dataType: 'jsonp',
+                            success: function (json) {
+                                var publicationCollection = new App.Collections.Publication();
+                                var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+                                publicationCollection.setUrl(tempUrl);
+                                publicationCollection.fetch({
+                                    success: function () {
+                                        $.ajax({
+                                            url: 'http://' + nationName + ':oleoleole@' + nationURL + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                                            type: 'GET',
+                                            dataType: 'jsonp',
+                                            success: function (json) {
+                                                nationVisible = true;
+                                                callback(nationVisible);
+
+                                            },
+                                            error: function (status) {
+                                                nationVisible = false;
+                                                callback(nationVisible);
+                                            },
+                                            timeout: 2000
+                                        });
+                                        ////////////////////////////////////////////////////
+                                    }
+                                });
+
+                            },
+                            error: function (jqXHR, status, errorThrown) {
+                                nationVisible = false;
+                                callback(nationVisible);
+                            },
+                            timeout: 3000
+                        });
+
+                    }
+                },
+
+                error: function (jqXHR, status, errorThrown) {
+                    nationVisible = false;
+                    callback(nationVisible);
+                },
+                timeout: 4000
+
+            });
+        },
         Dashboard: function() {
             if(App.configuration.get('type')=='nation'){
                 getAllPendingRequests();
@@ -1175,33 +1250,6 @@ $(function() {
                     resourcesTableView.changeDirection();
                 }
             });
-
-            
-/*
- *            resources.each(function(model, index) {
- *                var title = model.get("title");
- *                var author = model.get("author");
- *                var year = model.get("Year");
- *                var publisher = model.get("Publisher");
- *                var linkToLicense = model.get("linkToLicense");
- *                var openUrl = model.get("openUrl");
- *                model.set("title", $.trim(title));
- *                model.set("author", $.trim(author));
- *                model.set("Year", $.trim(year));
- *                model.set("Publisher", $.trim(publisher));
- *                model.set("linkToLicense", $.trim(linkToLicense));
- *                model.set("openUrl", $.trim(openUrl));
- *            });
- *            resources = resources.models;
- *            $.couch.db("resources").bulkSave({"docs": resources}, {
- *                success: function(data) {
- *                },
- *                error: function(status) {
- *                    console.log(status);
- *                },
- *                async: false
- *            });
- */
             App.stopActivityIndicator()
 
         },
