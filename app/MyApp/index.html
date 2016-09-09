@@ -442,8 +442,13 @@
                                 <option value="<%= key %>"><%= availableLanguagesOfApp[key] %> </option>
                                 <% } %>
                             </select>
-                            <div id="onlineButton" class="online-nation" title="<%= languageDict.attributes.Nation_InVisible %>">
-                            </div>
+                            <% if(type == "community") {%>
+                                <div id="onlineButton" class="online-nation" title="<%= languageDict.attributes.Nation_InVisible %>">
+                                </div>
+                            <% } else {%>
+                                <div class="online-nation-nation-side">
+                                </div>
+                            <% } %>
                         </div>
                     </td>
                 </tr>
