@@ -60,14 +60,23 @@ $(function() {
 				}
 			},
             "click #addToNation": function(event) {
-                if (confirm(App.languageDict.attributes.delete_alert)) {
-                    var arrayOfIds = [];
-                    var resourceId = this.model.get("_id");
-                    arrayOfIds.push(resourceId);
-                    App.startActivityIndicator();
-                    this.replicateCommunityResourcesWithGivenIds(arrayOfIds);
-                    App.stopActivityIndicator();
-                }
+                var that = this;
+                App.Router.getAllResourceIdsFromNation(function(resourceIdsFromNation) {
+                    if(resourceIdsFromNation.indexOf(that.model.get("_id")) >= 0) {
+                        alert(App.languageDict.attributes.Resource_Already_At_Nation);
+                    }
+                    else
+                    {
+                        if (confirm(App.languageDict.attributes.delete_alert)) {
+                            var arrayOfIds = [];
+                            var resourceId = that.model.get("_id");
+                            arrayOfIds.push(resourceId);
+                            App.startActivityIndicator();
+                            that.replicateCommunityResourcesWithGivenIds(arrayOfIds);
+                            App.stopActivityIndicator();
+                        }
+                    }
+                });
             },
 			"click .removeFromCollection": function(event) {
 

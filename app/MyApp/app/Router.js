@@ -478,7 +478,35 @@ $(function() {
 
             return roles
         },
-       //POSITION OF GETNATION VERSION
+        getAllResourceIdsFromNation: function(callback) {
+            var configuration = App.configuration
+            var nationName = configuration.get("nationName")
+            var nationURL = configuration.get("nationUrl")
+            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/resources/_all_docs?include_docs=true';
+            var resourceIds = [];
+            $.ajax({
+                url: nationConfigURL,
+                type: 'GET',
+                dataType: "jsonp",
+
+                success: function (resourcesFromNation) {
+                    for(var i = 0; i < resourcesFromNation.total_rows; i++)
+                    {
+                        if(resourcesFromNation.rows[i].id != "_design/bell")
+                        {
+                            resourceIds.push(resourcesFromNation.rows[i].id);
+                        }
+                    }
+                    callback(resourceIds);
+                },
+                error: function (status) {
+                    console.log(status);
+                    callback(resourceIds);
+                }
+
+
+            });
+        },
         getNationVersion: function (dashboard) {
             var that = this;
             var configuration = App.configuration
