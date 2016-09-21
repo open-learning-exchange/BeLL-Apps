@@ -824,5 +824,9 @@
   "Nation_Visible":"Nation is visible",
   "Nation_InVisible":"Nation is not visible",
   "delete_alert": "Are you sure you want to upload this resource?",
-  "Resource_Already_At_Nation": "Resource is already at Nation"
+  "Resource_Already_At_Nation": "Resource is already at Nation",
+  "Decline": "Decline",
+  "Confirm_Decline":"Are you sure you declined this resource?",
+  "Resource_Success_Added": "Resource is Successfully added to library",
+  "Community_Resources": "Resources From Community"
 }

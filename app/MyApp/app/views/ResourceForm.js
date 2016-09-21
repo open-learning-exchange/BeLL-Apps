@@ -312,6 +312,9 @@ $(function() {
             var isEdit = this.model.get("_id")
             var formContext = this
             this.form.commit()
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            });
 
             if (this.model.get('openWith') == 'PDF.js') {
                 this.model.set('need_optimization', true)
@@ -338,6 +341,11 @@ $(function() {
             } else if (this.model.get("Level") == null) {
                 alert(App.languageDict.attributes.Resource_Level_Missing)
             } else {
+                var config = new configurations();
+                config.fetch({
+                    async: false
+                });
+                var jsonConfig = config.first().toJSON().rows[0].doc;
                 if (isEdit) {
                     var addtoDb = true
                     if (previousTitle != newTitle) {
@@ -346,6 +354,14 @@ $(function() {
                         }
                     }
                     if (addtoDb) {
+                        if(!this.model.get("status")) {
+                            if(jsonConfig.type == "community") {
+                                this.model.set("status", "local");
+                            }
+                            if(jsonConfig.type == "nation") {
+                                this.model.set("status", "accepted");
+                            }
+                        }
                         this.model.save(null, {
                             success: function(res) {
 
@@ -364,15 +380,12 @@ $(function() {
                     if (!this.DuplicateTitle()) {
                         this.model.set("sum", 0)
                         this.model.set("timesRated", 0)
-                        var configurations = Backbone.Collection.extend({
-                            url: App.Server + '/configurations/_all_docs?include_docs=true'
-                        });
-                        var config = new configurations();
-                        config.fetch({
-                            async: false
-                        });
-                        var jsonConfig = config.first().toJSON().rows[0].doc;
-                        this.model.set("type", jsonConfig.type);
+                        if(jsonConfig.type == "community") {
+                            this.model.set("status", "local");
+                        }
+                        if(jsonConfig.type == "nation") {
+                            this.model.set("status", "accepted");
+                        }
                         this.model.save(null, {
                             success: function(res) {
                                 if ($('input[type="file"]').val()) {

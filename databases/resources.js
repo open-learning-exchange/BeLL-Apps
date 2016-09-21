@@ -6,6 +6,26 @@ ddoc = {
 }
 
 ddoc.views = {
+    ResourcesWithoutPendingStatus: {
+        map: function(doc) {
+            if (doc.status) {
+                if(doc.status != "pending")
+                {
+                    emit(doc, true)
+                }
+            }
+            else {
+                emit(doc, true)
+            }
+        }
+    },
+    ResourcesWithPendingStatus: {
+        map: function(doc) {
+            if (doc.status && doc.status == "pending") {
+                emit(doc, true)
+            }
+        }
+    },
     NewsResources: {
         map: function(doc) {
             if (doc.title) {

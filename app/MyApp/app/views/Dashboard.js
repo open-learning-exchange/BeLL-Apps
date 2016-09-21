@@ -924,7 +924,9 @@ $(function() {
             this.vars.new_survey_count = 0;
             this.vars.survey_count_for_member = 0;
             this.vars.pending_request_count = 0;
+            this.vars.pending_resource_count = 0;
             var pendingCount=0;
+            var tempResourceCount = 0;
             if(configDoc.type == 'nation') {
                 $.ajax({
                     url: '/communityregistrationrequests/_design/bell/_view/getDocById?_include_docs=true',
@@ -944,6 +946,15 @@ $(function() {
                 });
             }
             this.vars.pending_request_count=pendingCount;
+            var resources = new App.Collections.Resources();
+            resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatus?include_docs=true');
+            resources.fetch({
+                async:false,
+                success: function() {
+                    tempResourceCount = resources.length;
+                }
+            });
+            this.vars.pending_resource_count = tempResourceCount;
             var members = new App.Collections.Members()
             var member;
             var lang;

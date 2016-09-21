@@ -268,6 +268,7 @@ $(function() {
                                     for (var i = 0; i<result.length; i++){
                                         result[i].doc.sum = 0;
                                         result[i].doc.timesRated = 0;
+                                        result[i].doc.status = "pending";
                                         tempResult.push(result[i].doc);
                                     }
                                     $.couch.db('tempresources').bulkSave({

@@ -13,6 +13,7 @@ $(function() {
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
             'resources': 'Resources',
+            'resources/pending': 'pendingResources',
             'resource/add': 'ResourceForm',
             'resource/edit/:resourceId': 'ResourceForm',
             'resource/detail/:rsrcid/:shelfid/:revid': 'Resource_Detail',
@@ -394,7 +395,7 @@ $(function() {
             });
             $.removeCookie('forcedUpdateProfile');
             //$.removeCookie('languageFromCookie');
-           // $.removeCookie('isChange');
+            // $.removeCookie('isChange');
 
         },
 
@@ -442,17 +443,17 @@ $(function() {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
-           /* Code to be removed...
-            if($.cookie('languageFromCookie')==null)
-            {
-                languageDictValue=loadLanguageDocs();
-            }
-            else
-            {
-                languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
-            }
+            /* Code to be removed...
+             if($.cookie('languageFromCookie')==null)
+             {
+             languageDictValue=loadLanguageDocs();
+             }
+             else
+             {
+             languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
+             }
 
-            var directionOfLang = languageDictValue.get('directionOfLang');*/
+             var directionOfLang = languageDictValue.get('directionOfLang');*/
             App.surveyAlert = 1;
             applyCorrectStylingSheet(direction);
         },
@@ -864,11 +865,14 @@ $(function() {
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
-            if(App.configuration.get("type")=="nation"){
+            var roles = this.getRoles();
+            if(App.configuration.get("type")=="nation" && roles.indexOf("Manager") >= 0){
                 $('#pendingRequests').show();
+                $('#pendingResources').show();
             }
             else{
                 $('#pendingRequests').hide();
+                $('#pendingResources').hide();
             }
             applyCorrectStylingSheet(directionOfLang);
         },
@@ -902,11 +906,11 @@ $(function() {
             $('#AddCourseMainDiv').append(modelForm.el)
             // Bind form events for when Group is ready
             model.once('Model:ready', function() {
-            modelForm.render();
-            $('.form .field-firstName input').attr('maxlength', '25');
-            $('.form .field-lastName input').attr('maxlength', '25');
-            $('.form .field-middleNames input').attr('maxlength', '25');
-            $('.form .field-login input').attr('maxlength', '25');
+                modelForm.render();
+                $('.form .field-firstName input').attr('maxlength', '25');
+                $('.form .field-lastName input').attr('maxlength', '25');
+                $('.form .field-middleNames input').attr('maxlength', '25');
+                $('.form .field-login input').attr('maxlength', '25');
             });
             model.trigger('Model:ready')
             //Setting up the default error Message
@@ -990,7 +994,7 @@ $(function() {
 
         modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
             //cv Set up
-           // applyStylingSheet();
+            // applyStylingSheet();
             var url_page = $.url().data.attr.fragment;
             var languageDictValue;
             var  clanguage;
@@ -1149,8 +1153,8 @@ $(function() {
 
                 /* Code to unset the default text on sany dropdown...
                  $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
-                  $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
-                  $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1); */
+                 $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
+                 $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1); */
             }
 
             //Modifying the labels as per MUI
@@ -1206,7 +1210,7 @@ $(function() {
                 $('.form .field-gradeLevel select').find('option').eq(i).html(gradeLevelArray[i]);
 
             }
-           var subjectLevelArray=App.languageDict.get('SubjectLevelList');
+            var subjectLevelArray=App.languageDict.get('SubjectLevelList');
             for(var i=0;i<subjectLevelArray.length;i++)
             {
                 $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
@@ -1233,9 +1237,8 @@ $(function() {
                 temp = 'local'
             var roles = this.getRoles();
 
-            var resources = new App.Collections.Resources({
-                skip: 0
-            })
+            var resources = new App.Collections.Resources();
+            resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesWithoutPendingStatus?include_docs=true');
             resources.fetch({
                 async:false,
                 success: function() {
@@ -1280,6 +1283,60 @@ $(function() {
             });
             App.stopActivityIndicator()
 
+        },
+        pendingResources: function() {
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
+            });
+            var config = new configurations();
+            config.fetch({
+                async: false
+            });
+            var jsonConfig = config.first().toJSON().rows[0].doc;
+            var roles = this.getRoles();
+            if(jsonConfig.type == "nation" && (roles.indexOf("Manager") >= 0)) {
+                App.startActivityIndicator()
+                var resourcesTableView
+
+                var resources = new App.Collections.Resources();
+                resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatus?include_docs=true');
+                resources.fetch({
+                    async:false,
+                    success: function() {
+                        resourcesTableView = new App.Views.PendingResourcesTable({
+                            collection: resources
+                        })
+                        resourcesTableView.isManager = roles.indexOf("Manager");
+                        var languageDictValue,lang;
+                        lang = getLanguage($.cookie('Member._id'));
+                        languageDictValue = getSpecificLanguage(lang);
+                        App.languageDict=languageDictValue;
+                        App.$el.children('.body').empty();
+                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                        App.$el.children('#parentLibrary').empty();
+
+
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources/pending"style="font-size:30px;color:#0088CC;">'+languageDict.attributes.Community_Resources+'</a></p>');
+
+                        resourcesTableView.collections = App.collectionslist;
+                        resourcesTableView.render();
+
+                        $('#parentLibrary').append(resourcesTableView.el);
+                        if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                        {
+                            $('#requestResource').css({"margin-right" : "10px"});
+                            $('#searchOfResource').addClass({"margin-right" : "10px"});
+                        }
+                        resourcesTableView.changeDirection();
+                    }
+                });
+                App.stopActivityIndicator()
+            }
+            else {
+                Backbone.history.navigate('resources', {
+                    trigger: true
+                })
+            }
         },
         ResourceForm: function(resourceId) {
 
@@ -1505,7 +1562,7 @@ $(function() {
             var search = new App.Views.Search()
             search.addResource = false
             search.render();
-           // $('.body').removeClass('addResource');
+            // $('.body').removeClass('addResource');
             App.$el.children('.body').html(search.el);
 
             $("#multiselect-collections-search").multiselect().multiselectfilter();
@@ -1854,9 +1911,9 @@ $(function() {
                             for(var index=0;index<2;index++) {
                                 $('#options-table').find('table').find('tr').eq(row).find('td').eq(col).find('input').eq(index).attr('placeholder',App.languageDict.attributes.Enter_Option);
                             }
-                            }
                         }
-                        if (levelInfo.get("questions")) {
+                    }
+                    if (levelInfo.get("questions")) {
                         quiz.displayQuestionsInView()
                     }
                 }
@@ -1884,7 +1941,7 @@ $(function() {
             }
 
 
-                var viewCourseInfo = new App.Views.CourseInfoView({
+            var viewCourseInfo = new App.Views.CourseInfoView({
                 model: courseModel
             })
             viewCourseInfo.leader = memberModelArr
@@ -1947,7 +2004,7 @@ $(function() {
                         trigger: true
                     })
                 })
-                 App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+                App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
                 $('#AddCourseMainDiv').append('<br/><h3>'+App.languageDict.attributes.Course_Manage+'</h3>');
                 $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
@@ -2147,7 +2204,7 @@ $(function() {
 
                 }
             });
-           applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
         GroupMembers: function(cId) {
@@ -2323,7 +2380,7 @@ $(function() {
             $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
             $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
             $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
-           // $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
+            // $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
             $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);
@@ -2505,7 +2562,7 @@ $(function() {
             })
             meetupView.render()
             App.$el.children('.body').html(meetupView.el);
-          applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
         Meetup: function(meetUpId) {
             var languageDictValue;
@@ -2583,7 +2640,7 @@ $(function() {
             if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
                 $('#meetUpForm').addClass('courseSearchResults_Bottom');
                 $('.form .bbf-field').css('float','none');
-               // $('.form .bbf-field').css('background-color','red');
+                // $('.form .bbf-field').css('background-color','red');
                 $('.form .field-endDate').css('margin-right','259px');
                 $('.form .field-endDate').css('margin-left','0px');
                 $('.form .field-recurring').css('float','right');
@@ -2625,7 +2682,7 @@ $(function() {
                     trigger: true
                 })
             }
-           else{
+            else{
                 Backbone.history.navigate('meetups');
             }
         },
@@ -2676,8 +2733,8 @@ $(function() {
             if (roles.indexOf("Manager") > -1) {
                 //<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
                 App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
-                '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
-                '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
+                    '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
+                    '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
 
             } else {
                 App.$el.children('.body').append('<p id="sHonRep" style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a></p>')
@@ -3356,7 +3413,7 @@ $(function() {
 
                     var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
                     //  ********************************************************************************************************
-                   // var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    // var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                     var monthNames = [lookup(languageDictValue, "Months." + "January"), lookup(languageDictValue, "Months." + "February"), lookup(languageDictValue, "Months." + "March"), lookup(languageDictValue, "Months." + "April"), lookup(languageDictValue, "Months." + "May"), lookup(languageDictValue, "Months." + "June"), lookup(languageDictValue, "Months." + "July"), lookup(languageDictValue, "Months." + "August"), lookup(languageDictValue, "Months." + "September"), lookup(languageDictValue, "Months." + "October"), lookup(languageDictValue, "Months." + "November"),lookup(languageDictValue, "Months." + "December")];
                     //   ********************************************************************************************************
                     // show registered members at end of each month falling in duration of this report
@@ -3645,18 +3702,18 @@ $(function() {
                         },
                         xAxis: {
                             categories: [
-                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                    monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                    monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                    monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                    monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                    monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                    monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                    monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                    monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                    monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                    monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                    monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                    monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                             ]
                         },
                         yAxis: {
@@ -3668,7 +3725,7 @@ $(function() {
                         tooltip: {
                             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
                             footerFormat: '</table>',
                             shared: true,
                             useHTML: true
@@ -3749,18 +3806,18 @@ $(function() {
                         xAxis: {
                             categories: [
 
-                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                    monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                    monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                    monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                    monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                    monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                    monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                    monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                    monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                    monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                    monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                    monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                    monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                             ]
                         },
                         yAxis: {
@@ -3772,7 +3829,7 @@ $(function() {
                         tooltip: {
                             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
                             footerFormat: '</table>',
                             shared: true,
                             useHTML: true
@@ -3853,18 +3910,18 @@ $(function() {
                         },
                         xAxis: {
                             categories: [
-                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                    monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                    monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                    monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                    monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                    monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                    monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                    monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                    monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                    monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                    monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                    monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                    monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                             ]
                         },
                         yAxis: {
@@ -3876,7 +3933,7 @@ $(function() {
                         tooltip: {
                             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
                             footerFormat: '</table>',
                             shared: true,
                             useHTML: true
@@ -3891,51 +3948,51 @@ $(function() {
                             name:languageDictValue.attributes.Males,
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['male'],
-                                registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
-                                registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
-                                registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
-                                registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
-                                registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
-                                registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
-                                registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
-                                registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
-                                registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
-                                registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
-                                totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
+                                    registeredMembersTillEleventhLastMonthEnd['male'] - registeredMembersTillTwelfthLastMonthEnd['male'],
+                                    registeredMembersTillTenthLastMonthEnd['male'] - registeredMembersTillEleventhLastMonthEnd['male'],
+                                    registeredMembersTillNinthLastMonthEnd['male'] - registeredMembersTillTenthLastMonthEnd['male'],
+                                    registeredMembersTillEighthLastMonthEnd['male'] - registeredMembersTillNinthLastMonthEnd['male'],
+                                    registeredMembersTillSeventhLastMonthEnd['male'] - registeredMembersTillEighthLastMonthEnd['male'],
+                                    registeredMembersTillSixthLastMonthEnd['male'] - registeredMembersTillSeventhLastMonthEnd['male'],
+                                    registeredMembersTillFifthLastMonthEnd['male'] - registeredMembersTillSixthLastMonthEnd['male'],
+                                    registeredMembersTillFourthLastMonthEnd['male'] - registeredMembersTillFifthLastMonthEnd['male'],
+                                    registeredMembersTillThirdLastMonthEnd['male'] - registeredMembersTillFourthLastMonthEnd['male'],
+                                    registeredMembersTillSecondLastMonthEnd['male'] - registeredMembersTillThirdLastMonthEnd['male'],
+                                    totalRegisteredMembers['male'] - registeredMembersTillSecondLastMonthEnd['male']
                             ],
                             color: '#33ccff'
                         }, {
                             name: languageDictValue.attributes.Females,
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['female'],
-                                registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
-                                registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
-                                registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
-                                registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
-                                registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
-                                registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
-                                registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
-                                registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
-                                registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
-                                registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
-                                totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
+                                    registeredMembersTillEleventhLastMonthEnd['female'] - registeredMembersTillTwelfthLastMonthEnd['female'],
+                                    registeredMembersTillTenthLastMonthEnd['female'] - registeredMembersTillEleventhLastMonthEnd['female'],
+                                    registeredMembersTillNinthLastMonthEnd['female'] - registeredMembersTillTenthLastMonthEnd['female'],
+                                    registeredMembersTillEighthLastMonthEnd['female'] - registeredMembersTillNinthLastMonthEnd['female'],
+                                    registeredMembersTillSeventhLastMonthEnd['female'] - registeredMembersTillEighthLastMonthEnd['female'],
+                                    registeredMembersTillSixthLastMonthEnd['female'] - registeredMembersTillSeventhLastMonthEnd['female'],
+                                    registeredMembersTillFifthLastMonthEnd['female'] - registeredMembersTillSixthLastMonthEnd['female'],
+                                    registeredMembersTillFourthLastMonthEnd['female'] - registeredMembersTillFifthLastMonthEnd['female'],
+                                    registeredMembersTillThirdLastMonthEnd['female'] - registeredMembersTillFourthLastMonthEnd['female'],
+                                    registeredMembersTillSecondLastMonthEnd['female'] - registeredMembersTillThirdLastMonthEnd['female'],
+                                    totalRegisteredMembers['female'] - registeredMembersTillSecondLastMonthEnd['female']
                             ],
                             color: '#66ff66'
                         }, {
                             name: languageDictValue.attributes.Total,
                             data: [
                                 registeredMembersTillTwelfthLastMonthEnd['total'],
-                                registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
-                                registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
-                                registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
-                                registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
-                                registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
-                                registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
-                                registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
-                                registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
-                                registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
-                                registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
-                                registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
+                                    registeredMembersTillEleventhLastMonthEnd['total'] - registeredMembersTillTwelfthLastMonthEnd['total'],
+                                    registeredMembersTillTenthLastMonthEnd['total'] - registeredMembersTillEleventhLastMonthEnd['total'],
+                                    registeredMembersTillNinthLastMonthEnd['total'] - registeredMembersTillTenthLastMonthEnd['total'],
+                                    registeredMembersTillEighthLastMonthEnd['total'] - registeredMembersTillNinthLastMonthEnd['total'],
+                                    registeredMembersTillSeventhLastMonthEnd['total'] - registeredMembersTillEighthLastMonthEnd['total'],
+                                    registeredMembersTillSixthLastMonthEnd['total'] - registeredMembersTillSeventhLastMonthEnd['total'],
+                                    registeredMembersTillFifthLastMonthEnd['total'] - registeredMembersTillSixthLastMonthEnd['total'],
+                                    registeredMembersTillFourthLastMonthEnd['total'] - registeredMembersTillFifthLastMonthEnd['total'],
+                                    registeredMembersTillThirdLastMonthEnd['total'] - registeredMembersTillFourthLastMonthEnd['total'],
+                                    registeredMembersTillSecondLastMonthEnd['total'] - registeredMembersTillThirdLastMonthEnd['total'],
+                                    registeredMembersTillNow['total'] - registeredMembersTillSecondLastMonthEnd['total']
                             ],
                             color: '#ff9900'
                         }]
@@ -3957,18 +4014,18 @@ $(function() {
                         xAxis: {
                             categories: [
 
-                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                    monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                    monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                    monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                    monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                    monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                    monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                    monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                    monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                    monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                    monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                    monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                    monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                             ]
                         },
                         yAxis: {
@@ -3980,7 +4037,7 @@ $(function() {
                         tooltip: {
                             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
                             footerFormat: '</table>',
                             shared: true,
                             useHTML: true
@@ -4028,18 +4085,18 @@ $(function() {
                         }, {
                             name: languageDictValue.attributes.Total,
                             data: [
-                                twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
-                                eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
-                                tenthLastMonthDataset.Visits['male'] + tenthLastMonthDataset.Visits['female'],
-                                ninthLastMonthDataset.Visits['male'] + ninthLastMonthDataset.Visits['female'],
-                                eighthLastMonthDataset.Visits['male'] + eighthLastMonthDataset.Visits['female'],
-                                seventhLastMonthDataset.Visits['male'] + seventhLastMonthDataset.Visits['female'],
-                                sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
-                                fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
-                                fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
-                                thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
-                                secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
-                                lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']
+                                    twelfthLastMonthDataset.Visits['male'] + twelfthLastMonthDataset.Visits['female'],
+                                    eleventhLastMonthDataset.Visits['male'] + eleventhLastMonthDataset.Visits['female'],
+                                    tenthLastMonthDataset.Visits['male'] + tenthLastMonthDataset.Visits['female'],
+                                    ninthLastMonthDataset.Visits['male'] + ninthLastMonthDataset.Visits['female'],
+                                    eighthLastMonthDataset.Visits['male'] + eighthLastMonthDataset.Visits['female'],
+                                    seventhLastMonthDataset.Visits['male'] + seventhLastMonthDataset.Visits['female'],
+                                    sixthLastMonthDataset.Visits['male'] + sixthLastMonthDataset.Visits['female'],
+                                    fifthLastMonthDataset.Visits['male'] + fifthLastMonthDataset.Visits['female'],
+                                    fourthLastMonthDataset.Visits['male'] + fourthLastMonthDataset.Visits['female'],
+                                    thirdLastMonthDataset.Visits['male'] + thirdLastMonthDataset.Visits['female'],
+                                    secondLastMonthDataset.Visits['male'] + secondLastMonthDataset.Visits['female'],
+                                    lastMonthDataset.Visits['male'] + lastMonthDataset.Visits['female']
                             ],
                             color: '#ff9900'
                         }]
@@ -4062,18 +4119,18 @@ $(function() {
                         xAxis: {
                             categories: [
 
-                                monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
-                                monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
-                                monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
-                                monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
-                                monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
-                                monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
-                                monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
-                                monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
-                                monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
-                                monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
-                                monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
-                                monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
+                                    monthNames[twelfthLastMonthStartDate.getMonth()] + ' ' + twelfthLastMonthStartDate.getFullYear(),
+                                    monthNames[eleventhLastMonthStartDate.getMonth()] + ' ' + eleventhLastMonthStartDate.getFullYear(),
+                                    monthNames[tenthLastMonthStartDate.getMonth()] + ' ' + tenthLastMonthStartDate.getFullYear(),
+                                    monthNames[ninthLastMonthStartDate.getMonth()] + ' ' + ninthLastMonthStartDate.getFullYear(),
+                                    monthNames[eighthLastMonthStartDate.getMonth()] + ' ' + eighthLastMonthStartDate.getFullYear(),
+                                    monthNames[seventhLastMonthStartDate.getMonth()] + ' ' + seventhLastMonthStartDate.getFullYear(),
+                                    monthNames[sixthLastMonthStartDate.getMonth()] + ' ' + sixthLastMonthStartDate.getFullYear(),
+                                    monthNames[fifthLastMonthStartDate.getMonth()] + ' ' + fifthLastMonthStartDate.getFullYear(),
+                                    monthNames[fourthLastMonthStartDate.getMonth()] + ' ' + fourthLastMonthStartDate.getFullYear(),
+                                    monthNames[thirdLastMonthStartDate.getMonth()] + ' ' + thirdLastMonthStartDate.getFullYear(),
+                                    monthNames[secondLastMonthStartDate.getMonth()] + ' ' + secondLastMonthStartDate.getFullYear(),
+                                    monthNames[lastMonthStartDate.getMonth()] + ' ' + lastMonthStartDate.getFullYear()
                             ]
                         },
                         yAxis: {
@@ -4085,7 +4142,7 @@ $(function() {
                         tooltip: {
                             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
                             footerFormat: '</table>',
                             shared: true,
                             useHTML: true
@@ -4133,18 +4190,18 @@ $(function() {
                         }, {
                             name: languageDictValue.attributes.Total,
                             data: [
-                                twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
-                                eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
-                                tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
-                                ninthLastMonthDataset.ResourceViews['male'] + ninthLastMonthDataset.ResourceViews['female'],
-                                eighthLastMonthDataset.ResourceViews['male'] + eighthLastMonthDataset.ResourceViews['female'],
-                                seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
-                                sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
-                                fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
-                                fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
-                                thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
-                                secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
-                                lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']
+                                    twelfthLastMonthDataset.ResourceViews['male'] + twelfthLastMonthDataset.ResourceViews['female'],
+                                    eleventhLastMonthDataset.ResourceViews['male'] + eleventhLastMonthDataset.ResourceViews['female'],
+                                    tenthLastMonthDataset.ResourceViews['male'] + tenthLastMonthDataset.ResourceViews['female'],
+                                    ninthLastMonthDataset.ResourceViews['male'] + ninthLastMonthDataset.ResourceViews['female'],
+                                    eighthLastMonthDataset.ResourceViews['male'] + eighthLastMonthDataset.ResourceViews['female'],
+                                    seventhLastMonthDataset.ResourceViews['male'] + seventhLastMonthDataset.ResourceViews['female'],
+                                    sixthLastMonthDataset.ResourceViews['male'] + sixthLastMonthDataset.ResourceViews['female'],
+                                    fifthLastMonthDataset.ResourceViews['male'] + fifthLastMonthDataset.ResourceViews['female'],
+                                    fourthLastMonthDataset.ResourceViews['male'] + fourthLastMonthDataset.ResourceViews['female'],
+                                    thirdLastMonthDataset.ResourceViews['male'] + thirdLastMonthDataset.ResourceViews['female'],
+                                    secondLastMonthDataset.ResourceViews['male'] + secondLastMonthDataset.ResourceViews['female'],
+                                    lastMonthDataset.ResourceViews['male'] + lastMonthDataset.ResourceViews['female']
                             ],
                             color: '#ff9900'
                         }]
@@ -4185,13 +4242,13 @@ $(function() {
 
 
             if (report.id) {
-               // App.listenToOnce(report, 'sync', function() {
+                // App.listenToOnce(report, 'sync', function() {
                 //    reportFormView.render()
-               // })
+                // })
 
                 report.fetch()
             } else {
-               // reportFormView.render()
+                // reportFormView.render()
             }
             reportFormView.render();
             $('.fields .bbf-form .field-title label').html(languageDictValue.attributes.Title);
@@ -4200,7 +4257,7 @@ $(function() {
             var DaysObj=App.languageDict.get("Months");
             for(var i=0;i<12;i++)
             {
-               $('.fields .bbf-form .bbf-month option').eq(i).html(lookup(App.languageDict, "Months." + $('.fields .bbf-form .bbf-month option').eq(i).text().toString() ));
+                $('.fields .bbf-form .bbf-month option').eq(i).html(lookup(App.languageDict, "Months." + $('.fields .bbf-form .bbf-month option').eq(i).text().toString() ));
 
             }
 
@@ -4217,7 +4274,7 @@ $(function() {
                 $('.fields ul').removeClass('courseSearchResults_Bottom')
             }
 
-    },
+        },
 
         routeStartupTasks: function() {
             $('#invitationdiv').hide()
@@ -4404,16 +4461,16 @@ $(function() {
             }
             else {
                 $('#mailHeading').css({"color":"black","font-size":"25px"});
-                 $('#searchOnMail').css("float","right");
+                $('#searchOnMail').css("float","right");
                 $('#errorMessage').find('p').css({"color":"red","margin-left":"10%"});
             }
 
         },
         CoursesBarChart: function() {
             App.$el.children('.body').html('&nbsp')
-           // App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
+            // App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
             App.$el.children('.body').append('<div id="graph"></div>')
-           // App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
+            // App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
             var coursesResults = new App.Collections.memberprogressallcourses()
             coursesResults.memberId = $.cookie('Member._id')
             coursesResults.fetch({
@@ -4470,8 +4527,8 @@ $(function() {
                 alert(App.languageDict.attributes.FeedbackSaved_Not_Resource)
             }
             /*Backbone.history.navigate('resources', {
-                trigger: true
-            });*/
+             trigger: true
+             });*/
             //window.history.go(0);
         },
         CalendarFunction: function() {
@@ -4869,7 +4926,7 @@ $(function() {
                      App.$el.children('.body').append('<button style="margin:margin: -55px 0 0 650px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')*/
 
                     if (roles.indexOf("Manager") != -1)
-                       $('#secLabelOnCollections').append('<button id="AddCollectionOnCollections"  class="btn btn-success"  onclick="AddColletcion()">'+App.languageDict.attributes.Add_Collection+'</button>')
+                        $('#secLabelOnCollections').append('<button id="AddCollectionOnCollections"  class="btn btn-success"  onclick="AddColletcion()">'+App.languageDict.attributes.Add_Collection+'</button>')
                     App.$el.children('.body').append(collectionTableView.el);
 
                 },
@@ -4902,7 +4959,7 @@ $(function() {
                 });
             }
 
-           applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
             if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('.table td').css('text-align','right');
@@ -5344,7 +5401,7 @@ $(function() {
 
 
             applyCorrectStylingSheet(directionOfLang);
-                //currently hiding for all kind of communities and nations.
+            //currently hiding for all kind of communities and nations.
             $("#community-select").hide();
             $('#start-date').datepicker({
                 dateFormat: "yy-mm-dd",

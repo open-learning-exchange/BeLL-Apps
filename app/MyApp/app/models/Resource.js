@@ -28,7 +28,7 @@ $(function() {
 
         defaults: {
             kind: 'Resource', //Saves kind of document according to corresponding db's.Mostly used in couch db views.
-            type: ''
+            status: ''
         },
 
         schema: {
