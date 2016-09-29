@@ -12,7 +12,7 @@ $(function() {
             'logout': 'MemberLogout',
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
-            'resources': 'Resources',
+            'resources(/community)': 'Resources',
             'resources/pending': 'pendingResources',
             'resource/add': 'ResourceForm',
             'resource/edit/:resourceId': 'ResourceForm',
@@ -1228,61 +1228,80 @@ $(function() {
 
         },
         Resources: function() {
-            App.startActivityIndicator()
-            var context = this
-            var resourcesTableView
-            var temp = $.url().data.attr.host.split(".") // get name of community
-            temp = temp[0].substring(3)
-            if (temp == "")
-                temp = 'local'
-            var roles = this.getRoles();
-
-            var resources = new App.Collections.Resources();
-            resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesWithoutPendingStatus?include_docs=true');
-            resources.fetch({
-                async:false,
-                success: function() {
-                    resourcesTableView = new App.Views.ResourcesTable({
-                        collection: resources
-                    })
-                    resourcesTableView.isManager = roles.indexOf("Manager");
-                    var languageDictValue,lang;
-                    lang = getLanguage($.cookie('Member._id'));
-                    languageDictValue = getSpecificLanguage(lang);
-                    App.languageDict=languageDictValue;
-                    App.$el.children('.body').empty();
-                    App.$el.children('.body').html('<div id="parentLibrary"></div>');
-                    App.$el.children('#parentLibrary').empty();
-                    var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
-
-                    btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
-                    btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
-                    $('#parentLibrary').append( btnText);
-
-
-                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a></p>')
-                    /*Added to nation sync part
-                     if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo'|| temp=='somalia' || temp=='demo') ){
-                     //App.$el.children('.body').append('<button style="margin:-87px 0 0 400px;" class="btn btn-success"  onclick = "document.location.href=\'#viewpublication\'">View Publications</button>')
-                     App.$el.children('.body').append('<button style="margin:-120px 0 0 550px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')
-
-                     }*/
-
-
-                    resourcesTableView.collections = App.collectionslist
-                    resourcesTableView.render();
-
-                    $('#parentLibrary').append(resourcesTableView.el);
-                    if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
-                    {
-                        $('#requestResource').css({"margin-right" : "10px"});
-                        $('#searchOfResource').addClass({"margin-right" : "10px"});
-                    }
-                    resourcesTableView.changeDirection();
-                }
+            var configurations = Backbone.Collection.extend({
+                url: App.Server + '/configurations/_all_docs?include_docs=true'
             });
-            App.stopActivityIndicator()
+            var config = new configurations();
+            config.fetch({
+                async: false
+            });
+            var jsonConfig = config.first().toJSON().rows[0].doc;
+            if(jsonConfig.type == "nation" && $.url().attr('fragment') == "resources/community") {
+                Backbone.history.navigate('resources', {
+                    trigger: true
+                })
+            }
+            else {
+                App.startActivityIndicator()
+                var context = this
+                var resourcesTableView
+                var temp = $.url().data.attr.host.split(".") // get name of community
+                temp = temp[0].substring(3)
+                if (temp == "")
+                    temp = 'local'
+                var roles = this.getRoles();
+                var resources = new App.Collections.Resources();
+                if($.url().attr('fragment') == "resources/community") {
+                    resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesAddedByCommunity?include_docs=true');
+                }
+                else {
+                    resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesWithoutPendingStatus?include_docs=true');
+                }
+                resources.fetch({
+                    async:false,
+                    success: function() {
+                        resourcesTableView = new App.Views.ResourcesTable({
+                            collection: resources
+                        })
+                        resourcesTableView.isManager = roles.indexOf("Manager");
+                        var languageDictValue,lang;
+                        lang = getLanguage($.cookie('Member._id'));
+                        languageDictValue = getSpecificLanguage(lang);
+                        App.languageDict=languageDictValue;
+                        App.$el.children('.body').empty();
+                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                        App.$el.children('#parentLibrary').empty();
+                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
+                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                        btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
+                        $('#parentLibrary').append( btnText);
+                        if(jsonConfig.type == "community") {
+                            if($.url().attr('fragment') == "resources/community") {
+                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                            }
+                            else {
+                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                            }
+                        }
+                        else {
+                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a></p>')
+                        }
+
+                        resourcesTableView.collections = App.collectionslist
+                        resourcesTableView.render();
+
+                        $('#parentLibrary').append(resourcesTableView.el);
+                        if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                        {
+                            $('#requestResource').css({"margin-right" : "10px"});
+                            $('#searchOfResource').addClass({"margin-right" : "10px"});
+                        }
+                        resourcesTableView.changeDirection();
+                    }
+                });
+                App.stopActivityIndicator()
+            }
         },
         pendingResources: function() {
             var configurations = Backbone.Collection.extend({
@@ -4919,11 +4938,20 @@ $(function() {
                     })
                     collectionTableView.render()
                     App.$el.children('.body').html('<p id="firstParaOnCollections" style="margin-top:20px"><a id="addResourceOnCollection" class="btn btn-success" href="#resource/add">'+App.languageDict.attributes.Add_new_Resource+'</a><a id="requestResourceOnCollection" class="btn btn-success" onclick=showRequestForm("Resource")>'+App.languageDict.attributes.Request_Resource+'</a></p></span>')
-
-                    App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a></p>')
-
-                    /*if (roles.indexOf("Manager") != -1 && (temp == 'hagadera' || temp == 'dagahaley' || temp == 'ifo' || temp == 'somalia'))
-                     App.$el.children('.body').append('<button style="margin:margin: -55px 0 0 650px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')*/
+                    var configurations = Backbone.Collection.extend({
+                        url: App.Server + '/configurations/_all_docs?include_docs=true'
+                    });
+                    var config = new configurations();
+                    config.fetch({
+                        async: false
+                    });
+                    var jsonConfig = config.first().toJSON().rows[0].doc;
+                    if(jsonConfig.type == "nation") {
+                        App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a></p>')
+                    }
+                    else {
+                        App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
 
                     if (roles.indexOf("Manager") != -1)
                         $('#secLabelOnCollections').append('<button id="AddCollectionOnCollections"  class="btn btn-success"  onclick="AddColletcion()">'+App.languageDict.attributes.Add_Collection+'</button>')
