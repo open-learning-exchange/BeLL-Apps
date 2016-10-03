@@ -865,15 +865,6 @@ $(function() {
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
-            var roles = this.getRoles();
-            if(App.configuration.get("type")=="nation" && roles.indexOf("Manager") >= 0){
-                $('#pendingRequests').show();
-                $('#pendingResources').show();
-            }
-            else{
-                $('#pendingRequests').hide();
-                $('#pendingResources').hide();
-            }
             applyCorrectStylingSheet(directionOfLang);
         },
         MemberForm: function(memberId) {

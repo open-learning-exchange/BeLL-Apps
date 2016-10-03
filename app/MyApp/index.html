@@ -519,10 +519,9 @@
                 </tr>
                 <tr>
                     <td><button id="updateButton" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" ><%= languageDict.attributes.Update_Available %>(<%=nation_version%></button></td>
-                    <!--<td><button id="viewReleaseNotes" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Release_Notes  %></button></td> -->
                     <td><button id="newPublication" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Publications%>(<%=new_publication_count%>)</button></td>
-                    <td><button class="btn btn-hg btn-primary"  id="pendingRequests" onclick="document.location.href='../nation/index.html#listCommunity'" ><%=languageDict.attributes.Communities%>(<%=pending_request_count%>)</button></a></td>
-                    <td><button class="btn btn-hg btn-primary"  id="pendingResources" onclick="document.location.href='../MyApp/index.html#resources/pending'" ><%=languageDict.attributes.Resources%>(<%=pending_resource_count%>)</button></a></td>
+                    <td><button id="pendingRequests" class="btn btn-hg btn-primary"  style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" onclick="document.location.href='../nation/index.html#listCommunity'" ><%=languageDict.attributes.Communities%>(<%=pending_request_count%>)</button></a></td>
+                    <td><button id="pendingResources" class="btn btn-hg btn-primary"  style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" onclick="document.location.href='../MyApp/index.html#resources/pending'" ><%=languageDict.attributes.Resources%>(<%=pending_resource_count%>)</button></a></td>
                 </tr>
                 <tr>
                     <td><button id="newSurvey" class="btn btn-hg btn-primary" style="display:none;color:Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Surveys%>(<%=new_survey_count%>)</button></td>

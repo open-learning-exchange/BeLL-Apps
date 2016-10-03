@@ -1066,6 +1066,7 @@ $(function() {
             var lastEditDate=member.get("lastEditDate");
             var isRemind=false;
             var roles=member.get('roles');
+            var memberRoles = member.get('roles');
             if (!(roles.indexOf("Manager") > -1) && member.get("FirstName")!='Default' &&
                 member.get('LastName')!='Admin')
             {
@@ -1244,9 +1245,13 @@ $(function() {
             {
                 $('#mailsDash').css({"color": "red"});
             }
-            if(this.vars.pending_request_count>0)
+            if(typeofBell == "nation" && memberRoles.indexOf("Manager") >= 0 && this.vars.pending_request_count > 0)
             {
-                $('#pendingRequests').css({"color": "Red","background-color": "lightgrey","font-weight": "bold"});
+                $('#pendingRequests').show();
+            }
+            if(typeofBell == "nation" && memberRoles.indexOf("Manager") >= 0 && this.vars.pending_resource_count > 0)
+            {
+                $('#pendingResources').show();
             }
             $('#surveysForMember').html(App.languageDict.attributes.Surveys + '(' + this.vars.survey_count_for_member + ')');
             if(this.vars.survey_count_for_member > 0)
@@ -1259,7 +1264,6 @@ $(function() {
                     App.surveyAlert = 0;
                 }
             }
-            //dashboard.$el.append('<div id="updates"></div>')
         },
         updateVariables: function(nation_version, new_publications_count, new_surveys_count) {
             var that = this;
