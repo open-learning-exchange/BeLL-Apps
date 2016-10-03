@@ -131,7 +131,7 @@ $(function () {
                     this.vars.status = tempStatus
                     this.vars.marks = sr[index]
                 } else {
-                this.vars.status = sstatus[index]
+                this.vars.status = filterInt(sstatus[index])
                 this.vars.marks = sr[index]
                 }
 
