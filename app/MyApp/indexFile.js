@@ -1300,7 +1300,7 @@ function FieSelected(stepId) {
 
                 })
                 alert(App.languageDict.attributes.Assignment_Submitted)
-              //  location.reload(); // After Upload Paper refresh page
+                location.reload(); // After Upload Paper refresh page
             }, assignmentpaper)
 
         }
