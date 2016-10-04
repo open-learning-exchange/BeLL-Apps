@@ -607,7 +607,7 @@ $(function() {
                     var stepId =arr[0];
                     var percentage = parseInt(arr[1]);
                    // alert("stepId " + stepId);
-                   // alert("pasiing percentage " + percentage);
+                   // alert("passing percentage " + percentage);
                     console.log("stepId : " + stepId)
                     var paperMarks = $(this).val().trim();
                     console.log("paperMarks : " + paperMarks)
@@ -637,7 +637,9 @@ $(function() {
                                     memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
                                 }
                                 else{
-                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
+                                    if(memberProgress.attributes.stepsStatus[memberStepIndex][0]==2) {
+                                        memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
+                                    }
                                 }
                             }
                             else {
@@ -646,10 +648,10 @@ $(function() {
                                     memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
                                 }
                                 else{
-                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                                    if(memberProgress.attributes.stepsStatus[memberStepIndex]==2) {
+                                        memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                                    }
                                 }
-                                //
-                                // memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
                             }
                             memberProgress.save(null, {
                                 async: false,
