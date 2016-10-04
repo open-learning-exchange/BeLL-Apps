@@ -1274,8 +1274,9 @@ function FieSelected(stepId) {
                 ////no attachment
                 alert(App.languageDict.attributes.No_Attachment)
             }
+            // After Upload Paper refresh page
             assignmentpaper.on('savedAttachment', function() {
-                /////Attatchment successfully saved
+                //Attatchment successfully saved
                 var memberProgress=new App.Collections.membercourseprogresses()
                 memberProgress.memberId=$.cookie('Member._id')
                 memberProgress.courseId=courseId
@@ -1299,7 +1300,7 @@ function FieSelected(stepId) {
 
                 })
                 alert(App.languageDict.attributes.Assignment_Submitted)
-                location.reload(); // After Upload Paper refresh page
+                location.reload();
             }, assignmentpaper)
 
         }
