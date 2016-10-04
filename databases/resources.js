@@ -8,12 +8,7 @@ ddoc = {
 ddoc.views = {
     ResourcesAddedByCommunity: {
         map: function(doc) {
-            if (doc.status) {
-                if(doc.status == "local") {
-                    emit(doc, true)
-                }
-            }
-            else {
+            if (doc.status && doc.status == "local") {
                 emit(doc, true)
             }
         }
