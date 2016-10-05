@@ -1355,9 +1355,7 @@ $(function() {
                 _id: resourceId
             }) : new App.Models.Resource()
             resource.on('processed', function() {
-                Backbone.history.navigate('resources', {
-                    trigger: true
-                })
+                window.history.back();
             })
             var resourceFormView = new App.Views.ResourceForm({
                 model: resource
