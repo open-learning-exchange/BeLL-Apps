@@ -327,10 +327,8 @@ function getCountOfAllLearnersOrIds(courseId, requiredLearnersIds){
         success: function (groupDoc) {
             if (groupDoc.get('courseLeader') != undefined && groupDoc.get('members') != undefined) {
                 for (var j = 0; j < groupDoc.get('members').length; j++) {
-                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
-                        learnersIds.push(groupDoc.get('members')[j]);
-                        countOfLearners++;
-                    }
+                    learnersIds.push(groupDoc.get('members')[j]);
+                    countOfLearners++;
                 }
             }
         },

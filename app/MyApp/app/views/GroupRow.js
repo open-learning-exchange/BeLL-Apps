@@ -113,10 +113,7 @@ $(function () {
                 }
                 if (this.roles.indexOf("Manager") != -1) {
                     vars.isAdmin = 1;
-                    if(vars.members.indexOf($.cookie('Member._id')) < 0)
-                    {
-                        vars.link = "#creditsDetails/" + vars._id;
-                    }
+                    vars.link = "#creditsDetails/" + vars._id;
                 } else {
                     vars.isAdmin = 0;
                 }
