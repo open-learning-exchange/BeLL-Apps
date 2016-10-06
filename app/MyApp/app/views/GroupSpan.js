@@ -29,8 +29,15 @@ $(function() {
                 temp = 0
                 totalSteps = modl.stepsStatus.length
                 while (temp < totalSteps) {
-                    if (modl.stepsStatus[temp] == '1') {
-                        PassedSteps++
+                    if($.isArray(modl.stepsStatus[temp])) {
+                        if(modl.stepsStatus[temp][0] == '1' && modl.stepsStatus[temp][1] == '1') {
+                            PassedSteps++;
+                        }
+                    }
+                    else {
+                        if (modl.stepsStatus[temp] == '1') {
+                            PassedSteps++
+                        }
                     }
                     temp++
                 }
