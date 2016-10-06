@@ -262,11 +262,15 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                         learners.push(groupDoc.get('members')[j]);
                     }
                 }
+                if(groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1 && groupDoc.get('members').indexOf($.cookie('Member._id')) > -1){
+                    learners.push($.cookie('Member._id'));
+                }
                 for (var k = 0; k < learners.length; k++) {
                     var addToCount = false;
                     MemberCourseProgress.courseId = groupDoc.get('_id');
                     MemberCourseProgress.memberId = learners[k];
                     MemberCourseProgress.fetch({
+                        async: false,
                         success: function (progressDoc) {
                             stepsStatuses=progressDoc.models[0].get('stepsStatus');
                             if(progressDoc.models[0].get('stepsIds').length>0){
@@ -276,7 +280,7 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                                         if(paperQuizStatus.indexOf('2')>-1) {
                                            // addToCount = true;
                                             countOfLearners++;
-                                            if(learnersIds.indexOf(learners[k]) == -1) {
+                                            if(learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
                                                 learnersIds.push(learners[k]);
                                             }
                                         }
