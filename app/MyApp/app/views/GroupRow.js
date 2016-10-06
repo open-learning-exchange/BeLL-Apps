@@ -72,6 +72,7 @@ $(function () {
             vars.viewCourse=App.languageDict.attributes.View+' '+App.languageDict.attributes.Course;
             vars.progress=App.languageDict.attributes.Progress;
             vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
+            vars.showOpenButton = true;
 
             if(this.courseId==null)
             {
@@ -114,6 +115,9 @@ $(function () {
                 if (this.roles.indexOf("Manager") != -1) {
                     vars.isAdmin = 1;
                     vars.link = "#creditsDetails/" + vars._id;
+                    if(vars.members.indexOf($.cookie('Member._id')) < 0) {
+                        vars.showOpenButton = false;
+                    }
                 } else {
                     vars.isAdmin = 0;
                 }
