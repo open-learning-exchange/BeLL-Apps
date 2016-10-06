@@ -1077,9 +1077,11 @@
         </td>
 
         <td>
+            <% if(showOpenButton) { %>
             <a role='button' class='btn btn-open' href='#usercourse/details/<%= _id %>/<%= CourseTitle %>'>
                 Open
             </a>
+            <% } %>
         </td>
 
         <td>
@@ -1134,6 +1136,7 @@
         <td><input type="checkbox" name="addCourse" value='<%= _id %>'>Add </td>
         <%}%>
     </script>
+
     <script type="text/html" id="template-LevelRow">
         <td>
             <input type="radio" name="stepRow" />&nbsp;&nbsp;<%=App.languageDict.attributes.Step%> <%= step %> : <%= title %>
