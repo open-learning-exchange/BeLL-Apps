@@ -57,10 +57,20 @@ $(function () {
             passed = 0
             remaining = 0
             for (var i = 0; i < total; i++) {
-                if (data[i] != "1") {
+                if ((!$.isArray(data[i])) && data[i] != "1") {
                     remaining++
                     this.grandremaining++
-                } else {
+                } else if($.isArray(data[i])) {
+                    if(data[i][0] == "1" && data[i][1] == "1") {
+                        passed++
+                        this.grandpassed++
+                    }
+                    else {
+                        remaining++
+                        this.grandremaining++
+                    }
+
+                }else {
                     passed++
                     this.grandpassed++
                 }

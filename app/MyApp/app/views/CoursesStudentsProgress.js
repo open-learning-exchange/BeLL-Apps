@@ -61,10 +61,20 @@ $(function () {
             passed = 0
             remaining = 0
             for (var i = 0; i < total; i++) {
-                if (data[i] != "1") {
+                if ((!$.isArray(data[i])) && data[i] != "1") {
                     remaining++
                     this.grandremaining++
-                } else {
+                } else if($.isArray(data[i])) {
+                    if(data[i][0] == "1" && data[i][1] == "1") {
+                        passed++
+                        this.grandpassed++
+                    }
+                    else {
+                        remaining++
+                        this.grandremaining++
+                    }
+
+                }else {
                     passed++
                     this.grandpassed++
                 }
@@ -104,7 +114,7 @@ $(function () {
                             {
                                 papers = papers + '</tr><tr>';
                             }
-                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.DownloadPaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
                             count++;
                         }
                     })
@@ -167,7 +177,7 @@ $(function () {
                             {
                                 papers = papers + '</tr><tr>';
                             }
-                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.PaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
+                            papers = papers + '<td><a download="' + attachmentName + '" href="' + attchmentURL + '" target="_blank" ><button class="btn btn-primary">'+App.languageDict.attributes.DownloadPaperForStep+' ' + m.get("stepNo") + '</button></a></td>';
                             count++;
                         }
                     })

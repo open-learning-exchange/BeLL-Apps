@@ -391,7 +391,7 @@
    "Error_UserCourse_Details": "لم يتم العثور على بيانات متعلقة في الدورة التدريبية المختارة",
    "Take_Quiz":"قم بإجراء الاختبار",
    "Exit":"خروج",
-   "PaperForStep":"ورقة لرقم الخطوة",
+   "DownloadPaperForStep":"Download Paper for step number",
    "Error_Course_Report":"لا توجد بيانات الموجودة على الخادم",
    "You_Scored":"سجل لك",
    "Finish":"إنهاء",
@@ -829,5 +829,7 @@
   "Confirm_Decline":"Are you sure you declined this resource?",
   "Resource_Success_Added": "Resource is Successfully added to library",
   "Community_Resources": "Resources From Community",
-  "Local_Resources": "Local Resources"
+  "Local_Resources": "Local Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
+
 }
