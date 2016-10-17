@@ -317,8 +317,10 @@ $(function() {
                     this.model.set("lastEditDate",new Date());
                 }
 
-                credentials = generate_credentials(this.model.get("login"), this.model.get("password")); 
-                this.model.set("credentials", credentials);
+                if (this.model.get("password") != undefined && this.model.get("password") != '' && this.model.get("password") != null) { // HT: password optional not to regenerate on empty
+                    credentials = generate_credentials(this.model.get("login"), this.model.get("password")); 
+                    this.model.set("credentials", credentials);
+                }
 
                 this.removeSpaces();
                 var addMem = true
@@ -457,7 +459,7 @@ $(function() {
 
                 $('.bbf-form .field-login label').css('color','black');
             }
-            if ( $('.bbf-form .field-password .bbf-editor input').val() =='' || $('.bbf-form .field-password .bbf-editor input').val() ==null || $('.bbf-form .field-password .bbf-editor input').val() ==undefined)
+            if ((this.model.get('_id') == undefined) && ($('.bbf-form .field-password .bbf-editor input').val() =='' || $('.bbf-form .field-password .bbf-editor input').val() ==null || $('.bbf-form .field-password .bbf-editor input').val() ==undefined)) // HT: password optional in case of edit 
             {
                 isCorrect=false;
                 $('.bbf-form .field-password label').css('color','red');
