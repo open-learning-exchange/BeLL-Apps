@@ -73,7 +73,10 @@ $(function() {
                             arrayOfIds.push(resourceId);
                             App.startActivityIndicator();
                             that.replicateCommunityResourcesWithGivenIds(arrayOfIds);
-                            App.stopActivityIndicator();
+                            that.model.save(null, {
+                                success: function(res) {
+                                }
+                            });
                         }
                     }
                 });
@@ -292,6 +295,8 @@ $(function() {
                                                 async: false,
                                                 success: function (response) {
                                                     alert(App.languageDict.attributes.resource_replication_success);
+                                                    App.stopActivityIndicator();
+                                                    location.reload();
                                                     $.couch.db("tempresources").drop({
                                                         success: function(data) {
                                                         },
@@ -302,6 +307,7 @@ $(function() {
                                                 },
                                                 error: function(status) {
                                                     alert(App.languageDict.attributes.resource_replication_error);
+                                                    App.stopActivityIndicator();
                                                     $.couch.db("tempresources").drop({
                                                         success: function(data) {
                                                         },
@@ -314,6 +320,7 @@ $(function() {
                                         },
                                         error: function(status) {
                                             alert(App.languageDict.attributes.resource_replication_error);
+                                            App.stopActivityIndicator();
                                             $.couch.db("tempresources").drop({
                                                 success: function(data) {
                                                 },
@@ -326,6 +333,7 @@ $(function() {
                                 },
                                 error: function() {
                                     alert(App.languageDict.attributes.resource_replication_error);
+                                    App.stopActivityIndicator();
                                     $.couch.db("tempresources").drop({
                                         success: function(data) {
                                         },
@@ -339,6 +347,7 @@ $(function() {
                         },
                         error: function(jqXHR, status, errorThrown){
                             alert(App.languageDict.attributes.resource_replication_error);
+                            App.stopActivityIndicator();
                             $.couch.db("tempresources").drop({
                                 success: function(data) {
                                 },
