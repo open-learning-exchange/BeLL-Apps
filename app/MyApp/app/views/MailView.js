@@ -530,7 +530,7 @@ $(function() {
                 mail.set("senderId", $.cookie('Member._id'));
                 mail.set("receiverId", mailView.inViewModel.get('senderId'));
                 mail.set("subject", App.languageDict.attributes.Adm_req_accepted + " | " + course.get('name'));
-                mail.set("body", App.languageDict.attributes.adm_req_For_rejected + " \"" + course.get('name') + "\" ");
+                mail.set("body", App.languageDict.attributes.adm_req_For_accepted + " \"" + course.get('name') + "\" ");
                 mail.set("status", "0");
                 mail.set("type", "mail");
                 mail.set("sentDate", currentdate);

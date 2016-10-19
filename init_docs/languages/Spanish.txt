@@ -658,7 +658,7 @@
    "Sender":"Sender",
    "request_Accepted_already":"You have accepted this request.",
    "Adm_req_accepted":"Admission Request Accepted",
-   "adm_req_For":"Your admission request has been accepted by the course leader for",
+   "adm_req_For_accepted":"Your admission request has been accepted by the course leader for",
    "Survey_No":"Survey No.",
    "Actions":"Actions",
    "Submitted":"Submitted",
