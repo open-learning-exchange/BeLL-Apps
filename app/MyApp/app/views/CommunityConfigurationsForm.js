@@ -122,12 +122,63 @@ $(function() {
                     }
                 }
             }
-            if (isAllAttributesValid.indexOf(false) == -1) {
-                this.setForm();
-            } else {
-                alert(alertMessage);
-                return;
-            }
+
+            //Check for Duplicate name of Community on Cetral Nation i.e., nbs.ole.org:5997
+            var that = this;
+            var selectedNation = $('#nation-selector').val();
+            var nationName = selectedNation.split(',')[0];
+            var nationUrl = selectedNation.split(',')[1];
+            var communityName = $.trim($('#community-name').val());
+            communityName = communityName.toLowerCase();
+           // alert("CName: " +  communityName)
+            var communityCode=  $.trim($('#community-code').val());
+            communityCode = communityCode.toLowerCase();
+          //  alert("CCode: " +  communityCode)
+            var centralNationUrl = getCentralNationUrl();
+            var nationName  = centralNationUrl.split('.')[0];
+            //  var nationPassword = "oleoleole";
+            var alertDuplicatename = "Name already exist in Database Please select another Name";
+            $.ajax({
+                url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getDoc?_include_docs=true&key="'+communityName+'"',
+             //   url: 'http://' + nationName + ':' + nationPassword + '@' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getDoc?_include_docs=true&key="'+communityName+'"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function(json) {
+                    var jsonModels = json.rows;
+                    //alert(jsonModels.length);
+                     //check for matched results if it is on the same nation and have same community name and code. If matched prompt user to enter another name
+                    if (jsonModels.length > 0 && jsonModels!=[]){
+                        for (var i = 0; i < jsonModels.length; i++) {
+                            var community = jsonModels[i].value;
+                            var cName = community.Name.toLowerCase()
+                          //  alert("name : " + cName )
+                            var cCode = community.Code.toLowerCase()
+                          //  alert("code : " + cCode )
+                            if (cName == communityName && cCode == communityCode && community.nationUrl == nationUrl) {
+                                alert(alertDuplicatename);
+                                break;
+                            }
+                        }
+                    }
+                       //If Community name does not already exist on the Nation nbs then check if all the fields are filled or not
+                    else{
+                         if (isAllAttributesValid.indexOf(false) == -1) {
+                         //alert("validated")
+                            that.setForm();
+                         } else {
+                         alert(alertMessage);
+                           return;
+                         }
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                    alert("Unable to contact Central database");
+                    App.stopActivityIndicator();
+                }
+            });
+
         },
 
         setForm: function() {
@@ -176,7 +227,7 @@ $(function() {
             if(configDoc.registrationRequest == 'rejected' || prevNation != selectedNation) {
                 this.model.set('registrationRequest', 'pending');
             }
-            this.model.save(null, {
+            that.model.save(null, {
                 success: function (model, response) {
                     var docIds = [];
                     var id = that.model.get('id');
@@ -208,6 +259,7 @@ $(function() {
                     });
                 }
             });
+
         },
         changeCodeInActivityLogs: function(newCode){
             var currentdate = new Date();

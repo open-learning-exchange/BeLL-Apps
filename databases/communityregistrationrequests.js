@@ -38,7 +38,16 @@ ddoc.views = {
                 emit(doc._id, doc);
             }
         }
-    }
+    },
+    getDoc:{
+        map: function(doc){
+            if (doc.Name && doc.kind == 'Community')
+                emit(doc.Name, doc);
+               // emit([doc.Name, doc.nationUrl], true);
+        }
+    },
+
+
 }
 
 module.exports = ddoc;
