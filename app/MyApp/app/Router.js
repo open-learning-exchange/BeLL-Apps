@@ -562,7 +562,81 @@ $(function() {
                                             var index = alreadySyncedPublications.map(function (element) {
                                                 return element.get('_id');
                                             }).indexOf(publicationDistribDocsFromNation[i].publicationId);
-                                            if (index > -1) {
+                                            if (index > -1) {//code here
+                                                var pubId = publicationDistribDocsFromNation[i].publicationId;
+                                                var nationUrl = 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') +
+                                                    '/publications/' + pubId;
+                                                $.ajax({
+                                                    url: nationUrl,
+                                                    type: 'GET',
+                                                    dataType: 'jsonp',
+                                                    success: function (publicationDoc) {
+                                                        if(publicationDoc.downloadedByCommunities && publicationDoc.downloadedByCommunities != undefined) {
+                                                            if(publicationDoc.downloadedByCommunities.indexOf(App.configuration.get('name')) == -1) {
+                                                                publicationDoc.downloadedByCommunities.push(App.configuration.get('name'));
+                                                                var courseModel = new App.Models.Publication({
+                                                                    _id: publicationDoc._id
+                                                                })
+                                                                courseModel.fetch({
+                                                                    success: function (model) {
+                                                                        model.destroy();
+                                                                        $.couch.db("temppublication").create({
+                                                                            success: function (data) {
+                                                                                $.couch.db("temppublication").saveDoc(publicationDoc, {
+                                                                                    success: function (response) {
+                                                                                        $.couch.replicate("temppublication", "publications");
+                                                                                        $.ajax({
+                                                                                            headers: {
+                                                                                                'Accept': 'application/json',
+                                                                                                'Content-Type': 'application/json; charset=utf-8'
+                                                                                            },
+                                                                                            type: 'POST',
+                                                                                            url: '/_replicate',
+                                                                                            dataType: 'json',
+                                                                                            data: JSON.stringify({
+                                                                                                "source": "temppublication",
+                                                                                                "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/publications',
+                                                                                                "doc_ids": [publicationDoc._id]
+                                                                                            }),
+                                                                                            success: function (response) {
+                                                                                                $.couch.db("temppublication").drop({
+                                                                                                    success: function(data) {
+                                                                                                    },
+                                                                                                    error: function(status) {
+                                                                                                        console.log(status);
+                                                                                                    }
+                                                                                                });
+                                                                                            },
+                                                                                            error: function (res) {
+                                                                                                console.log(res);
+                                                                                            }
+                                                                                        });
+                                                                                    },
+                                                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                                                        console.log(errorThrown);
+                                                                                        $.couch.db("temppublication").drop({
+                                                                                            success: function(data) {
+                                                                                            },
+                                                                                            error: function(status) {
+                                                                                                console.log(status);
+                                                                                            }
+                                                                                        });
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+
+                                                                    },
+                                                                    async: false
+                                                                });
+                                                            }
+                                                        }
+
+                                                    },
+                                                    error: function(jqXHR, status, errorThrown){
+                                                        console.log(status);
+                                                    }
+                                                });
                                                 // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
                                                 // local server
                                             } else {

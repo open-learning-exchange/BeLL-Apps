@@ -307,163 +307,178 @@
                                                 'doc_ids': cumulativeCourseStepIDs
                                             }),
                                             success: function (response) {
-                                                // mark this publication as synced at community couchdb.We are informing the nation about it as well
-                                                // so that nations can see which communities have successfully downladed the publication.
-                                                //If the publication is already synced then no need to save it again in the db's, that's why assigning
-                                                // appropriate value to the isAlreadyExist variable.
-                                                var isAlreadyExist = true;
-                                                if(publicationToSync.downloadedByCommunities && publicationToSync.downloadedByCommunities != undefined) {
-                                                    if(publicationToSync.downloadedByCommunities.indexOf(App.configuration.get('name')) == -1) {
-                                                        publicationToSync.downloadedByCommunities.push(App.configuration.get('name'));
-                                                        isAlreadyExist = false;
-                                                    }
-                                                }
-                                                //If a publication doc does not contain the downloadedByCommunities field then it means that this
-                                                // publication was before Issue#48 implementation, so saving it in the db to maintain the value
-                                                // of "synced/not synced" for the older publications too.
-                                                if(isAlreadyExist == false || publicationToSync.downloadedByCommunities == undefined) {
-                                                    $.couch.db("publications").saveDoc(publicationToSync, {
-                                                        success: function (response) {
-                                                            console.log("adding publication# " + publicationToSync.IssueNo + " doc at community for bookkeeping");
-                                                            $.ajax({
-                                                                headers: {
-                                                                    'Accept': 'application/json',
-                                                                    'Content-Type': 'application/json; charset=utf-8'
-                                                                },
-                                                                type: 'POST',
-                                                                url: '/_replicate',
-                                                                dataType: 'json',
-                                                                data: JSON.stringify({
-                                                                    "source": "publications",
-                                                                    "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/publications',
-                                                                    "doc_ids": [publicationToSync._id]
-                                                                }),
-                                                                success: function (response) {
-                                                                },
-                                                                error: function (res) {
-                                                                    console.log(res);
-                                                                }
-                                                            });
-                                                        },
-                                                        error: function (jqXHR, textStatus, errorThrown) {
-                                                            console.log(errorThrown);
-                                                        }
-                                                    });
-                                                }
-                                                //My code for lastPublicationsSyncDate
-                                                // Update lastPublicationsSyncDate at Nation's Community Records
-                                                var communitycode = App.configuration.get('code');
+                                                var nationUrl = 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') +
+                                                    '/publications/' + publicationToSync._id;
+
                                                 $.ajax({
-                                                    url:'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
+                                                    url: nationUrl,
                                                     type: 'GET',
                                                     dataType: 'jsonp',
-                                                    success: function(result){
-                                                        var doc, communityModelId;
-                                                        for(var i = 0 ; i < result.rows.length ; i++) {
-                                                            var code;
-                                                            if(result.rows[i].value.Code != undefined){
-                                                                code = result.rows[i].value.Code;
-                                                            } else {
-                                                                code = result.rows[i].value.code;
-                                                            }
-                                                            if(communitycode == code) {
-                                                                doc = result.rows[i].value;
+                                                    success: function (publicationDoc) {
+                                                        //put here
+                                                        // mark this publication as synced at community couchdb.We are informing the nation about it as well
+                                                        // so that nations can see which communities have successfully downladed the publication.
+                                                        //If the publication is already synced then no need to save it again in the db's, that's why assigning
+                                                        // appropriate value to the isAlreadyExist variable.
+                                                        var isAlreadyExist = true;
+                                                        if(publicationDoc.downloadedByCommunities && publicationDoc.downloadedByCommunities != undefined) {
+                                                            if(publicationDoc.downloadedByCommunities.indexOf(App.configuration.get('name')) == -1) {
+                                                                publicationDoc.downloadedByCommunities.push(App.configuration.get('name'));
+                                                                isAlreadyExist = false;
                                                             }
                                                         }
-                                                        if(doc != undefined) {
-                                                            communityModelId = doc._id;
+                                                        //If a publication doc does not contain the downloadedByCommunities field then it means that this
+                                                        // publication was before Issue#48 implementation, so saving it in the db to maintain the value
+                                                        // of "synced/not synced" for the older publications too.
+                                                        if(isAlreadyExist == false || publicationDoc.downloadedByCommunities == undefined) {
+                                                            $.couch.db("publications").saveDoc(publicationDoc, {
+                                                                success: function (response) {
+                                                                    console.log("adding publication# " + publicationDoc.IssueNo + " doc at community for bookkeeping");
+                                                                    $.ajax({
+                                                                        headers: {
+                                                                            'Accept': 'application/json',
+                                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                                        },
+                                                                        type: 'POST',
+                                                                        url: '/_replicate',
+                                                                        dataType: 'json',
+                                                                        data: JSON.stringify({
+                                                                            "source": "publications",
+                                                                            "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/publications',
+                                                                            "doc_ids": [publicationDoc._id]
+                                                                        }),
+                                                                        success: function (response) {
+                                                                        },
+                                                                        error: function (res) {
+                                                                            console.log(res);
+                                                                        }
+                                                                    });
+                                                                },
+                                                                error: function (jqXHR, textStatus, errorThrown) {
+                                                                    console.log(errorThrown);
+                                                                }
+                                                            });
                                                         }
-                                                        //Replicate from Nation to Community
+                                                        //My code for lastPublicationsSyncDate
+                                                        // Update lastPublicationsSyncDate at Nation's Community Records
+                                                        var communitycode = App.configuration.get('code');
                                                         $.ajax({
-                                                            headers: {
-                                                                'Accept': 'application/json',
-                                                                'Content-Type': 'application/json; charset=utf-8'
-                                                            },
-                                                            type: 'POST',
-                                                            url: '/_replicate',
-                                                            dataType: 'json',
-                                                            data: JSON.stringify({
-                                                                "source": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
-                                                                "target": "community",
-                                                                "doc_ids": [communityModelId]
-                                                            }),
-                                                            success: function(response){
-                                                                var date = new Date();
-                                                                var year = date.getFullYear();
-                                                                var month = (1 + date.getMonth()).toString();
-                                                                month = month.length > 1 ? month : '0' + month;
-                                                                var day = date.getDate().toString();
-                                                                day = day.length > 1 ? day : '0' + day;
-                                                                var formattedDate = month + '-' + day + '-' + year;
+                                                            url:'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
+                                                            type: 'GET',
+                                                            dataType: 'jsonp',
+                                                            success: function(result){
+                                                                var doc, communityModelId;
+                                                                for(var i = 0 ; i < result.rows.length ; i++) {
+                                                                    var code;
+                                                                    if(result.rows[i].value.Code != undefined){
+                                                                        code = result.rows[i].value.Code;
+                                                                    } else {
+                                                                        code = result.rows[i].value.code;
+                                                                    }
+                                                                    if(communitycode == code) {
+                                                                        doc = result.rows[i].value;
+                                                                    }
+                                                                }
+                                                                if(doc != undefined) {
+                                                                    communityModelId = doc._id;
+                                                                }
+                                                                //Replicate from Nation to Community
                                                                 $.ajax({
-                                                                    url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
-                                                                    type: 'GET',
+                                                                    headers: {
+                                                                        'Accept': 'application/json',
+                                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                                    },
+                                                                    type: 'POST',
+                                                                    url: '/_replicate',
                                                                     dataType: 'json',
-                                                                    success: function (res) {
-                                                                        if (res.rows.length > 0) {
-                                                                            var communityModel;
-                                                                            for(var i = 0 ; i < result.rows.length ; i++) {
-                                                                                var code;
-                                                                                if(result.rows[i].value.Code != undefined){
-                                                                                    code = result.rows[i].value.Code;
-                                                                                } else {
-                                                                                    code = result.rows[i].value.code;
-                                                                                }
-                                                                                if(communitycode == code) {
-                                                                                    communityModel = result.rows[i].value;
-                                                                                }
-                                                                            }
-                                                                            if(communityModel != undefined) {
-                                                                                communityModel.lastPublicationsSyncDate = month + '/' + day + '/' + year;
-                                                                            }
-                                                                            //Update the record in Community db at Community Level
-                                                                            $.ajax({
-
-                                                                                headers: {
-                                                                                    'Accept': 'application/json',
-                                                                                    'Content-Type': 'multipart/form-data'
-                                                                                },
-                                                                                type: 'PUT',
-                                                                                url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
-                                                                                dataType: 'json',
-                                                                                data: JSON.stringify(communityModel),
-                                                                                success: function (response) {
-                                                                                    //Replicate from Community to Nation
+                                                                    data: JSON.stringify({
+                                                                        "source": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
+                                                                        "target": "community",
+                                                                        "doc_ids": [communityModelId]
+                                                                    }),
+                                                                    success: function(response){
+                                                                        var date = new Date();
+                                                                        var year = date.getFullYear();
+                                                                        var month = (1 + date.getMonth()).toString();
+                                                                        month = month.length > 1 ? month : '0' + month;
+                                                                        var day = date.getDate().toString();
+                                                                        day = day.length > 1 ? day : '0' + day;
+                                                                        var formattedDate = month + '-' + day + '-' + year;
+                                                                        $.ajax({
+                                                                            url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
+                                                                            type: 'GET',
+                                                                            dataType: 'json',
+                                                                            success: function (res) {
+                                                                                if (res.rows.length > 0) {
+                                                                                    var communityModel;
+                                                                                    for(var i = 0 ; i < result.rows.length ; i++) {
+                                                                                        var code;
+                                                                                        if(result.rows[i].value.Code != undefined){
+                                                                                            code = result.rows[i].value.Code;
+                                                                                        } else {
+                                                                                            code = result.rows[i].value.code;
+                                                                                        }
+                                                                                        if(communitycode == code) {
+                                                                                            communityModel = result.rows[i].value;
+                                                                                        }
+                                                                                    }
+                                                                                    if(communityModel != undefined) {
+                                                                                        communityModel.lastPublicationsSyncDate = month + '/' + day + '/' + year;
+                                                                                    }
+                                                                                    //Update the record in Community db at Community Level
                                                                                     $.ajax({
+
                                                                                         headers: {
                                                                                             'Accept': 'application/json',
-                                                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                                                            'Content-Type': 'multipart/form-data'
                                                                                         },
-                                                                                        type: 'POST',
-                                                                                        url: '/_replicate',
+                                                                                        type: 'PUT',
+                                                                                        url: App.Server + '/community/' + communityModelId + '?rev=' + communityModel._rev,
                                                                                         dataType: 'json',
-                                                                                        data: JSON.stringify({
-                                                                                            "source": "community",
-                                                                                            "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
-                                                                                            "doc_ids": [communityModelId]
-                                                                                        }),
-                                                                                        success: function(response){
-                                                                                            alert(App.languageDict.attributes.Pubs_Replicated_Success)
-                                                                                            App.stopActivityIndicator();
+                                                                                        data: JSON.stringify(communityModel),
+                                                                                        success: function (response) {
+                                                                                            //Replicate from Community to Nation
+                                                                                            $.ajax({
+                                                                                                headers: {
+                                                                                                    'Accept': 'application/json',
+                                                                                                    'Content-Type': 'application/json; charset=utf-8'
+                                                                                                },
+                                                                                                type: 'POST',
+                                                                                                url: '/_replicate',
+                                                                                                dataType: 'json',
+                                                                                                data: JSON.stringify({
+                                                                                                    "source": "community",
+                                                                                                    "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/community',
+                                                                                                    "doc_ids": [communityModelId]
+                                                                                                }),
+                                                                                                success: function(response){
+                                                                                                    alert(App.languageDict.attributes.Pubs_Replicated_Success)
+                                                                                                    App.stopActivityIndicator();
+                                                                                                },
+                                                                                                async: false
+                                                                                            });
                                                                                         },
+
                                                                                         async: false
                                                                                     });
-                                                                                },
-
-                                                                                async: false
-                                                                            });
-                                                                        }
-                                                                    }
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                    },
+                                                                    async: false
                                                                 });
                                                             },
-                                                            async: false
+                                                            error: function(err){
+                                                                console.log(err);
+                                                            }
                                                         });
+                                                        //End of my code.
+
                                                     },
-                                                    error: function(err){
-                                                        console.log(err);
+                                                    error: function(jqXHR, status, errorThrown){
+                                                        console.log(status);
                                                     }
                                                 });
-                                                //End of my code.
                                             },
                                             error: function(jqXHR, status, errorThrown){
                                             console.log(status);
