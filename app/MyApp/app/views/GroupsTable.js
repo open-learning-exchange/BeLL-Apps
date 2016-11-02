@@ -80,7 +80,7 @@ $(function() {
 				type: 'GET',
 				dataType: "json",
 				success: function(json) {
-					groupLength = json.rows[0].value
+				//groupLength = json.rows[0].value //when empty data are fetched it will show undefined error
 					if (context.displayCollec_Resources != true) {
 						var pageBottom = "<tr><td colspan=7>"
 						var looplength = groupLength / 20

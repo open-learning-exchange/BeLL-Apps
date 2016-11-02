@@ -54,14 +54,14 @@ $(function() {
             // @todo this does not work as expected, either of the lines
             // _.each(this.collection.models, this.addOne())
             this.collection.each(this.addOne, this)
-            var groupLength;
+            var meetupLength; 
             var context = this
             $.ajax({
                 url: '/meetups/_design/bell/_view/count?group=false',
                 type: 'GET',
                 dataType: "json",
                 success: function(json) {
-                    meetupLength = json.rows[0].value
+                    //meetupLength = json.rows[0].value //when empty data are fetched it will show undefined error
                     if (context.displayCollec_Resources != true) {
                         var pageBottom = "<tr><td colspan=7>"
                         var looplength = meetupLength / 20

@@ -1328,13 +1328,13 @@ function getScheduleDatesForCourse(startDate, endDate, days) {
 function convertTo24Hour(time) {
     var hours = parseInt(time.substr(0, 2));
     return hours;
-    if (time.indexOf('am') != -1 && hours == 12) {
-        time = time.replace('12', '0');
-    }
-    if (time.indexOf('pm') != -1 && hours < 12) {
-        time = time.replace(hours, (hours + 12));
-    }
-    return time.replace(/(am|pm)/, '');
+    //if (time.indexOf('am') != -1 && hours == 12) { //return nothing 
+        //time = time.replace('12', '0');
+   // }
+    //if (time.indexOf('pm') != -1 && hours < 12) {
+        //time = time.replace(hours, (hours + 12));
+   // }
+    //return time.replace(/(am|pm)/, '');
 }
 $(window).scroll(function() {
     var $menu = $('#addEvent'),
