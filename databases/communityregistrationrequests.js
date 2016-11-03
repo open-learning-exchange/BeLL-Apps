@@ -41,8 +41,8 @@ ddoc.views = {
     },
     getDoc:{
         map: function(doc){
-            if (doc.Name && doc.kind == 'Community')
-                emit(doc.Name, doc);
+            if (doc.nationUrl && doc.kind == 'Community')
+                emit(doc.nationUrl, doc);
                // emit([doc.Name, doc.nationUrl], true);
         }
     },
