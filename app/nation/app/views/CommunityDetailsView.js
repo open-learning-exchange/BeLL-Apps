@@ -75,28 +75,33 @@ $(function() {
             // Update the registrationRequest attribute from pending to registered in that nation's communityregistrationrequests database.
             $.couch.db("communityregistrationrequests").saveDoc(doc, {
                 success: function(data) {
+
+                    var loc = window.location;
+                    var currentNation = loc.hostname + ":" + loc.port;
                     //Replicate that community's document in communityregistrationrequests database of central nation
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        type: 'POST',
-                        url: '/_replicate',
-                        dataType: 'json',
-                        data: JSON.stringify({
-                            "source": "communityregistrationrequests",
-                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                            'doc_ids': docID
-                        }),
-                        async: false,
-                        success: function (response) {
-                            console.log('Successfully replicated pending request to central db')
-                        },
-                        error: function(status) {
-                            console.log("Error for remote replication");
-                        }
-                    });
+                    if(currentNation != centralNationUrl) {
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": "communityregistrationrequests",
+                                "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                'doc_ids': docID
+                            }),
+                            async: false,
+                            success: function (response) {
+                                console.log('Successfully replicated pending request to central db')
+                            },
+                            error: function(status) {
+                                console.log("Error for remote replication");
+                            }
+                        });
+                    }
                     // Replicate the updated document on that nation's community database.
                     if(status == 'accepted') {
                         // Check if there exist an old type of document(with older attributes) for that community
@@ -133,17 +138,25 @@ $(function() {
                                     success: function (response) {
                                         console.log('Successfully replicated to community database')
                                         // Lastly, remove the document from that nation's communityregistrationrequests database.
-                                        $.couch.db("communityregistrationrequests").removeDoc(doc, {
-                                            success: function(data) {
-                                                alert(App.languageDictValue.get('request_accepted'));
-                                                Backbone.history.navigate('listCommunity', {
-                                                    trigger: true
-                                                })
-                                            },
-                                            error: function(status) {
-                                                console.log(status)
-                                            }
-                                        });
+                                        if(currentNation != centralNationUrl) {
+                                            $.couch.db("communityregistrationrequests").removeDoc(doc, {
+                                                success: function(data) {
+                                                    alert(App.languageDictValue.get('request_accepted'));
+                                                    Backbone.history.navigate('listCommunity', {
+                                                        trigger: true
+                                                    })
+                                                },
+                                                error: function(status) {
+                                                    console.log(status)
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            alert(App.languageDictValue.get('request_accepted'));
+                                            Backbone.history.navigate('listCommunity', {
+                                                trigger: true
+                                            });
+                                        }
                                     },
                                     error: function(status) {
                                         console.log("Error for local replication");
@@ -156,17 +169,25 @@ $(function() {
                         });
                     } else {
                         // Lastly, remove the document from that nation's communityregistrationrequests database.
-                        $.couch.db("communityregistrationrequests").removeDoc(doc, {
-                            success: function(data) {
-                                alert(App.languageDictValue.get('request_rejected'));
-                                Backbone.history.navigate('listCommunity', {
-                                    trigger: true
-                                })
-                            },
-                            error: function(status) {
-                                console.log(status)
-                            }
-                        });
+                        if(currentNation != centralNationUrl) {
+                            $.couch.db("communityregistrationrequests").removeDoc(doc, {
+                                success: function(data) {
+                                    alert(App.languageDictValue.get('request_rejected'));
+                                    Backbone.history.navigate('listCommunity', {
+                                        trigger: true
+                                    })
+                                },
+                                error: function(status) {
+                                    console.log(status)
+                                }
+                            });
+                        }
+                        else {
+                            alert(App.languageDictValue.get('request_rejected'));
+                            Backbone.history.navigate('listCommunity', {
+                                trigger: true
+                            })
+                        }
                     }
                 },
                 error: function(status) {
