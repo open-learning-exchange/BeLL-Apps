@@ -130,19 +130,14 @@ $(function() {
             var nationUrl = selectedNation.split(',')[1];
             var communityName = $.trim($('#community-name').val());
             communityName = communityName.toLowerCase();
-            // alert("CName: " +  communityName)
+
             var communityCode=  $.trim($('#community-code').val());
             communityCode = communityCode.toLowerCase();
-           /* if ( communityName !=  communityCode){
-                $("#community-name").css("border", "1px solid red");
-                $("#community-code").css("border", "1px solid red");
-                alert("Use same name for the highlighted fields");
-            }*/
-          //  else{
-                //  alert("CCode: " +  communityCode)
+            var configDoc = getCommunityConfigs();
+            var comId = this.model.get('_id');
+
                 var centralNationUrl = getCentralNationUrl();
                 var nationName  = centralNationUrl.split('.')[0];
-                //  var nationPassword = "oleoleole";
                 var alertDuplicatename = "Already used, Please change red marked field";
                 $.ajax({
                     url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getDoc?_include_docs=true&key="'+nationUrl+'"',
@@ -151,30 +146,28 @@ $(function() {
                     dataType: 'jsonp',
                     async: false,
                     success: function(json) {
+
                         var jsonModels = json.rows;
-                        //alert(jsonModels.length);
                         //check for matched results if it is on the same nation and have same community name and code. If matched prompt user to enter another name
                         if (jsonModels.length > 0 && jsonModels!=[]){
+
                             var statusOfDuplicate = 0;
                             for (var i = 0; i < jsonModels.length; i++) {
-                                //alert("i :" + i)
                                 var community = jsonModels[i].value;
                                 var cName = community.Name.toLowerCase()
-                                //  alert("name : " + cName )
                                 var cCode = community.Code.toLowerCase()
-                                //  alert("code : " + cCode )
-                             //   if (community.nationUrl == nationUrl && cCode == communityCode ) {
-                                if (cName == communityName && cCode == communityCode ) {
+
+                                if (cName == communityName && cCode == communityCode && community._id != comId) {
                                     statusOfDuplicate = 1;
-                                    //alert(statusOfDuplicate)
+
                                     break;
                                 }
-                                else if(cName == communityName && cCode != communityCode){
+                                else if(cName == communityName && cCode != communityCode && community._id != comId ){
                                     statusOfDuplicate = 2;
 
                                     break;
                                 }
-                                else if(cName != communityName && cCode == communityCode){
+                                else if(cName != communityName && cCode == communityCode && community._id != comId){
                                     statusOfDuplicate = 3;
 
                                     break;
@@ -199,7 +192,7 @@ $(function() {
                                 if (isAllAttributesValid.indexOf(false) == -1) {
                                     $("#community-name").css("border", "");
                                     $("#community-code").css("border", "");
-                                    //alert("validated")
+
                                     that.setForm();
                                 } else {
                                     $("#community-name").css("border", "");
@@ -212,7 +205,6 @@ $(function() {
                         //If Community name does not already exist on the Nation nbs then check if all the fields are filled or not
                         else{
                             if (isAllAttributesValid.indexOf(false) == -1) {
-                                //alert("validated")
                                 that.setForm();
                             } else {
                                 alert(alertMessage);
@@ -226,8 +218,36 @@ $(function() {
                         App.stopActivityIndicator();
                     }
                 });
+        },
+        isChanged: function(model , config ){
+           if(model.get('name')==config.name &&
+                model.get('code')== config.code &&
+            model.get('nationName')== config.nationName &&
+            model.get('nationUrl')==config.nationUrl &&
+            model.get('currentLanguage')== config.currentLanguage&&
+            model.get('region')==config.region &&
+            model.get('sponsorName')==config.sponsorName &&
+            model.get('sponsorAddress')==config.sponsorAddress&&
+            model.get('sponsorUrl')== config.sponsorUrl &&
+            model.get('contactFirstName')== config.contactFirstName &&
+            model.get('contactMiddleName')== config.contactMiddleName&&
+            model.get('contactLastName')== config.contactLastName &&
+            model.get('contactPhone')==config.contactPhone &&
+            model.get('contactEmail')== config.contactEmail &&
+            model.get('superManagerFirstName')== config.superManagerFirstName &&
+            model.get('superManagerMiddleName')==config.superManagerMiddleName &&
+            model.get('superManagerLastName')==config.superManagerLastName &&
+            model.get('superManagerPhone')==config.superManagerPhone &&
+            model.get('superManagerEmail')== config.superManagerEmail
+           ) {
 
-            //}
+               return false;
+
+           }
+            else{
+
+               return true;
+           }
 
         },
 
@@ -277,6 +297,12 @@ $(function() {
             if(configDoc.registrationRequest == 'rejected' || prevNation != selectedNation) {
                 this.model.set('registrationRequest', 'pending');
             }
+
+            if(this.model.get('registrationRequest') == 'pending' || this.isChanged(this.model ,configDoc )){
+
+                this.model.set('registrationRequest', 'pending');
+                App.stopActivityIndicator();
+
             that.model.save(null, {
                 success: function (model, response) {
                     var docIds = [];
@@ -309,6 +335,10 @@ $(function() {
                     });
                 }
             });
+            } else{
+                alert("you have not made any changes");
+                App.stopActivityIndicator();
+            }
 
         },
         changeCodeInActivityLogs: function(newCode){
