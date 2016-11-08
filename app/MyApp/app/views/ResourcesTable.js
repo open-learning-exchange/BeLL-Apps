@@ -72,7 +72,8 @@ $(function() {
 			App.languageDict=languageDictValue;
 			var resourceRowView = new App.Views.ResourceRow({
 				model: model,
-				admin: this.isAdmin
+				admin: this.isAdmin,
+                isNationVisible: this.isNationVisible
 			})
 			resourceRowView.isManager = this.isManager
 			resourceRowView.displayCollec_Resources = this.displayCollec_Resources
@@ -107,7 +108,10 @@ $(function() {
 			} else {
 				this.isAdmin = 0
 			}
-			this.collection.forEach(this.addOne, this)
+            App.Router.isNationLive(function(result) {
+                this.isNationVisible = result;
+                this.collection.forEach(this.addOne, this)
+            });
 		},
         changeDirection : function (){
 			var languageDictValue;
