@@ -1293,14 +1293,7 @@ $(function() {
 
         },
         Resources: function() {
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            });
-            var config = new configurations();
-            config.fetch({
-                async: false
-            });
-            var jsonConfig = config.first().toJSON().rows[0].doc;
+            var jsonConfig = App.configuration.toJSON();
             if(jsonConfig.type == "nation" && $.url().attr('fragment') == "resources/community") {
                 Backbone.history.navigate('resources', {
                     trigger: true
