@@ -108,9 +108,13 @@ $(function() {
 			} else {
 				this.isAdmin = 0
 			}
+            var collection = this.collection;
+            var that = this;
             App.Router.isNationLive(function(result) {
                 this.isNationVisible = result;
-                this.collection.forEach(this.addOne, this)
+                for(var i = 0; i < collection.models.length; i++) {
+                    that.addOne(collection.models[i]);
+                }
             });
 		},
         changeDirection : function (){
