@@ -151,39 +151,36 @@ $(function() {
                         //check for matched results if it is on the same nation and have same community name and code. If matched prompt user to enter another name
                         if (jsonModels.length > 0 && jsonModels!=[]){
 
-                            var statusOfDuplicate = 0;
+                            var duplicateName = 0;
+                            var duplicateCode = 0;
+
                             for (var i = 0; i < jsonModels.length; i++) {
                                 var community = jsonModels[i].value;
                                 var cName = community.Name.toLowerCase()
                                 var cCode = community.Code.toLowerCase()
 
                                 if (cName == communityName && cCode == communityCode && community._id != comId) {
-                                    statusOfDuplicate = 1;
-
-                                    break;
+                                    duplicateName = 1;
+                                    duplicateCode = 1;
                                 }
                                 else if(cName == communityName && cCode != communityCode && community._id != comId ){
-                                    statusOfDuplicate = 2;
-
-                                    break;
+                                    duplicateName = 1;
                                 }
                                 else if(cName != communityName && cCode == communityCode && community._id != comId){
-                                    statusOfDuplicate = 3;
-
-                                    break;
+                                    duplicateCode = 1;
                                 }
                             }
-                            if(statusOfDuplicate == 1) {
+                            if(duplicateName == 1 && duplicateCode == 1) {
                                 $("#community-name").css("border", "1px solid red");
                                 $("#community-code").css("border", "1px solid red");
                                 alert(alertDuplicatename);
                             }
-                            else if(statusOfDuplicate == 2) {
+                            else if(duplicateName == 1) {
                                 $("#community-name").css("border", "1px solid red");
                                 $("#community-code").css("border", "");
                                 alert(alertDuplicatename);
                             }
-                            else if(statusOfDuplicate == 3) {
+                            else if(duplicateCode == 1) {
                                 $("#community-code").css("border", "1px solid red");
                                 $("#community-name").css("border", "");
                                 alert(alertDuplicatename);
