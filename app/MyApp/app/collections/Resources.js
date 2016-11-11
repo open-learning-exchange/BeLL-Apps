@@ -13,7 +13,35 @@ $(function() {
                 } else {
                     return App.Server + '/resources/_design/bell/_view/searchView?include_docs=true&keys=' + this.collectionName
                 }
-            } else if (this.skip >= 0) {
+            } else if (this.skip >= 0 && this.pending >= 0) {
+                if(this.pending == 0) {
+                    if (this.startkey && this.startkey != "") {
+                        return App.Server + '/resources/_design/bell/_view/ResourcesWithoutPendingStatus?include_docs=true&startkey="' + this.startkey + '"&limit=20&skip=' + this.skip;
+                    } else {
+                        return App.Server + '/resources/_design/bell/_view/ResourcesWithoutPendingStatus?include_docs=true&limit=20&skip=' + this.skip;
+                    }
+                }
+                else if(this.pending == 1) {
+                    if (this.startkey && this.startkey != "") {
+                        return App.Server + '/resources/_design/bell/_view/ResourcesAddedByCommunity?include_docs=true&startkey="' + this.startkey + '"&limit=20&skip=' + this.skip;
+                    } else {
+                        return App.Server + '/resources/_design/bell/_view/ResourcesAddedByCommunity?include_docs=true&limit=20&skip=' + this.skip;
+                    }
+                }
+                else if(this.pending == 2) {
+                    if (this.startkey && this.startkey != "") {
+                        return App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatus?include_docs=true&startkey="' + this.startkey + '"&limit=20&skip=' + this.skip;
+                    } else {
+                        return App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatus?include_docs=true&limit=20&skip=' + this.skip;
+                    }
+                }
+                //return App.Server + '/resources/_all_docs?include_docs=true&limit=20&skip='+this.skip
+                /*if (this.startkey && this.startkey != "") {
+                    return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&startkey="' + this.startkey + '"&limit=20&skip=' + this.skip
+                } else {
+                    return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&limit=20&skip=' + this.skip
+                }*/
+            }else if (this.skip >= 0) {
                 //return App.Server + '/resources/_all_docs?include_docs=true&limit=20&skip='+this.skip
                 if (this.startkey && this.startkey != "") {
                     return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&startkey="' + this.startkey + '"&limit=20&skip=' + this.skip

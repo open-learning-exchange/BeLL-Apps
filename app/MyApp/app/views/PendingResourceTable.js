@@ -52,7 +52,7 @@ $(function() {
             },
             "click .pageNumber": function(e) {
                 this.collection.startkey = ""
-                this.collection.skip = e.currentTarget.attributes[0].value
+                this.collection.skip = e.currentTarget.attributes[1].value
                 this.collection.fetch({
                     async: false
                 })
@@ -66,10 +66,6 @@ $(function() {
 
         },
         addOne: function(model) {
-            var languageDictValue;
-            var lang = getLanguage($.cookie('Member._id'));
-            languageDictValue = getSpecificLanguage(lang);
-            App.languageDict=languageDictValue;
             var resourceRowView = new App.Views.PendingResourceRow({
                 model: model,
                 admin: this.isAdmin
@@ -90,10 +86,6 @@ $(function() {
         },
 
         addAll: function() {
-            var languageDictValue;
-            var lang = getLanguage($.cookie('Member._id'));
-            languageDictValue = getSpecificLanguage(lang);
-            App.languageDict=languageDictValue;
             if (this.collection.length == 0) {
                 if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
                     this.$el.append("<tr><td style='width: 630px;text-align:right' colspan='8'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
@@ -132,10 +124,6 @@ $(function() {
             if (this.displayCollec_Resources != true) {
 
                 this.$el.html("")
-                var languageDictValue;
-                var lang = getLanguage($.cookie('Member._id'));
-                languageDictValue = getSpecificLanguage(lang);
-                App.languageDict=languageDictValue;
                 if (this.removeAlphabet == undefined) {
                     var viewText = "<tr></tr>"
                     viewText += "<tr><td colspan=8  style='cursor:default' >"
@@ -191,7 +179,7 @@ $(function() {
                             var looplength = resourceLength / 20
                             for (var i = 0; i < looplength; i++) {
                                 if (i == 0)
-                                    pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+languageDictValue.attributes.Home+'</a>&nbsp&nbsp'
+                                    pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+App.languageDict.attributes.Home+'</a>&nbsp&nbsp'
                                 else
                                     pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">' + i + '</a>&nbsp&nbsp'
                             }

@@ -1301,19 +1301,20 @@ $(function() {
             }
             else {
                 App.startActivityIndicator()
-                var context = this
                 var resourcesTableView
                 var temp = $.url().data.attr.host.split(".") // get name of community
                 temp = temp[0].substring(3)
                 if (temp == "")
                     temp = 'local'
                 var roles = this.getRoles();
-                var resources = new App.Collections.Resources();
+                var resources = new App.Collections.Resources({
+                    skip: 0
+                });
                 if($.url().attr('fragment') == "resources/community") {
-                    resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesAddedByCommunity?include_docs=true');
+                    resources.pending = 1;
                 }
                 else {
-                    resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesWithoutPendingStatus?include_docs=true');
+                    resources.pending = 0;
                 }
                 resources.fetch({
                     async:false,
@@ -1322,10 +1323,6 @@ $(function() {
                             collection: resources
                         })
                         resourcesTableView.isManager = roles.indexOf("Manager");
-                        var languageDictValue,lang;
-                        lang = getLanguage($.cookie('Member._id'));
-                        languageDictValue = getSpecificLanguage(lang);
-                        App.languageDict=languageDictValue;
                         App.$el.children('.body').empty();
                         App.$el.children('.body').html('<div id="parentLibrary"></div>');
                         App.$el.children('#parentLibrary').empty();
@@ -1350,7 +1347,7 @@ $(function() {
                         resourcesTableView.render();
 
                         $('#parentLibrary').append(resourcesTableView.el);
-                        if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                        if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
                         {
                             $('#requestResource').css({"margin-right" : "10px"});
                             $('#searchOfResource').addClass({"margin-right" : "10px"});
@@ -1362,21 +1359,16 @@ $(function() {
             }
         },
         pendingResources: function() {
-            var configurations = Backbone.Collection.extend({
-                url: App.Server + '/configurations/_all_docs?include_docs=true'
-            });
-            var config = new configurations();
-            config.fetch({
-                async: false
-            });
-            var jsonConfig = config.first().toJSON().rows[0].doc;
+            var jsonConfig = App.configuration.toJSON();
             var roles = this.getRoles();
             if(jsonConfig.type == "nation" && (roles.indexOf("Manager") >= 0)) {
                 App.startActivityIndicator()
                 var resourcesTableView
 
-                var resources = new App.Collections.Resources();
-                resources.setUrl(App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatus?include_docs=true');
+                var resources = new App.Collections.Resources({
+                    skip: 0,
+                    pending: 2
+                });
                 resources.fetch({
                     async:false,
                     success: function() {
@@ -1384,10 +1376,6 @@ $(function() {
                             collection: resources
                         })
                         resourcesTableView.isManager = roles.indexOf("Manager");
-                        var languageDictValue,lang;
-                        lang = getLanguage($.cookie('Member._id'));
-                        languageDictValue = getSpecificLanguage(lang);
-                        App.languageDict=languageDictValue;
                         App.$el.children('.body').empty();
                         App.$el.children('.body').html('<div id="parentLibrary"></div>');
                         App.$el.children('#parentLibrary').empty();
@@ -1399,7 +1387,7 @@ $(function() {
                         resourcesTableView.render();
 
                         $('#parentLibrary').append(resourcesTableView.el);
-                        if (languageDictValue.get('directionOfLang').toLowerCase()==="right")
+                        if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
                         {
                             $('#requestResource').css({"margin-right" : "10px"});
                             $('#searchOfResource').addClass({"margin-right" : "10px"});

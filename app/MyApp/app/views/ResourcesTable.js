@@ -52,7 +52,7 @@ $(function() {
 			},
 			"click .pageNumber": function(e) {
 				this.collection.startkey = ""
-				this.collection.skip = e.currentTarget.attributes[0].value
+				this.collection.skip = e.currentTarget.attributes[1].value
 				this.collection.fetch({
 					async: false
 				})
@@ -86,7 +86,7 @@ $(function() {
 			}
 		},
 
-		addAll: function() {
+		addAll: function(funct) {
 			if (this.collection.length == 0) {
                 if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
 					this.$el.append("<tr><td style='width: 630px;text-align:right' colspan='8'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
@@ -107,6 +107,7 @@ $(function() {
                 for(var i = 0; i < collection.models.length; i++) {
                     that.addOne(collection.models[i]);
                 }
+                funct();
             });
 		},
         changeDirection : function (){
@@ -124,6 +125,7 @@ $(function() {
             }
         },
 		render: function() {
+            var context = this
 
 			if (this.displayCollec_Resources != true) {
 
@@ -151,50 +153,50 @@ $(function() {
 			this.$el.append('<br/><br/>')
             this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='7'>"+App.languageDict.attributes.action+"</th></tr>")
 
-			this.addAll()
+			this.addAll(function() {
 
-			var text = '<tr><td colspan=8>'
+                var text = '<tr><td colspan=8>'
 
-			if (this.collection.skip != 0) {
-				text += '<a class="btn btn-success" id="backButton" >'+App.languageDict.attributes.Back+'</a>&nbsp;&nbsp;'
-			}
+                if (context.collection.skip != 0) {
+                    text += '<a class="btn btn-success" id="backButton" >'+App.languageDict.attributes.Back+'</a>&nbsp;&nbsp;'
+                }
 
-			if (this.collection.length >= 20)
-				text += '<a class="btn btn-success" id="nextButton">'+App.languageDict.attributes.Next+'</a>'
+                if (context.collection.length >= 20)
+                    text += '<a class="btn btn-success" id="nextButton">'+App.languageDict.attributes.Next+'</a>'
 
-			text += '</td></tr>'
-			this.$el.append(text)
+                text += '</td></tr>'
+                context.$el.append(text)
 
 
 
-			var resourceLength;
-			var context = this
-			if (this.removeAlphabet == undefined) {
-				$.ajax({
-					url: '/resources/_design/bell/_view/count?group=false',
-					type: 'GET',
-					dataType: "json",
-					success: function(json) {
-						if (json.rows[0]) {
-							resourceLength = json.rows[0].value;
-						}
-						if (context.displayCollec_Resources != true) {
-							var pageBottom = "<tr><td colspan=8><p style='width: 940px; word-wrap: break-word;'>"
-							var looplength = resourceLength / 20
-							for (var i = 0; i < looplength; i++) {
-								if (i == 0)
-									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+App.languageDict.attributes.Home+'</a>&nbsp&nbsp'
-								else
-									pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">' + i + '</a>&nbsp&nbsp'
-							}
-							pageBottom += "</p></td></tr>"
-							context.$el.append(pageBottom)
-						}
+                var resourceLength;
+                if (context.removeAlphabet == undefined) {
+                    $.ajax({
+                        url: '/resources/_design/bell/_view/count?group=false',
+                        type: 'GET',
+                        dataType: "json",
+                        success: function(json) {
+                            if (json.rows[0]) {
+                                resourceLength = json.rows[0].value;
+                            }
+                            if (context.displayCollec_Resources != true) {
+                                var pageBottom = "<tr><td colspan=8><p style='width: 940px; word-wrap: break-word;'>"
+                                var looplength = resourceLength / 20
+                                for (var i = 0; i < looplength; i++) {
+                                    if (i == 0)
+                                        pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">'+App.languageDict.attributes.Home+'</a>&nbsp&nbsp'
+                                    else
+                                        pageBottom += '<a  class="pageNumber" value="' + i * 20 + '">' + i + '</a>&nbsp&nbsp'
+                                }
+                                pageBottom += "</p></td></tr>"
+                                context.$el.append(pageBottom)
+                            }
 
-					}
-				})
+                        }
+                    })
 
-			}
+                }
+            });
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
 		}

@@ -9,7 +9,7 @@ ddoc.views = {
     ResourcesAddedByCommunity: {
         map: function(doc) {
             if (doc.status && doc.status == "local") {
-                emit(doc, true)
+                emit(doc.title, true)
             }
         }
     },
@@ -18,18 +18,18 @@ ddoc.views = {
             if (doc.status) {
                 if(doc.status != "pending")
                 {
-                    emit(doc, true)
+                    emit(doc.title, true)
                 }
             }
             else {
-                emit(doc, true)
+                emit(doc.title, true)
             }
         }
     },
     ResourcesWithPendingStatus: {
         map: function(doc) {
             if (doc.status && doc.status == "pending") {
-                emit(doc, true)
+                emit(doc.title, true)
             }
         }
     },
