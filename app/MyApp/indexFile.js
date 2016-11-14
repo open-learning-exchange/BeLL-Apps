@@ -258,12 +258,18 @@ function getCountOfLearners(courseId, requiredLearnersIds){
             //Check whether the logged in person is leader for the course he wants to know the count of Learners
             if ((groupDoc.get('courseLeader') != undefined && (groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (((roles.indexOf('Manager')>-1 || roles.indexOf('SuperManager')>-1) && groupDoc.get('courseLeader').length == 0)))) {
                 for (var j = 0; j < groupDoc.get('members').length; j++) {
-                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
-                        learners.push(groupDoc.get('members')[j]);
+                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0 || (groupDoc.get('members').indexOf(groupDoc.get('members')[j]) > -1 && groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) > -1)) {
+                       if( learners.indexOf(learners[j]) == -1){
+                           learners.push(groupDoc.get('members')[j]);
+                       }
+
                     }
+
                 }
                 if(groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1 && groupDoc.get('members').indexOf($.cookie('Member._id')) > -1){
-                    learners.push($.cookie('Member._id'));
+                    if( learners.indexOf($.cookie('Member._id'))== -1){
+                        learners.push($.cookie('Member._id'));
+                    }
                 }
                 for (var k = 0; k < learners.length; k++) {
                     var addToCount = false;
