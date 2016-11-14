@@ -256,7 +256,7 @@ function getCountOfLearners(courseId, requiredLearnersIds){
             })
             var roles = loggedIn.get("roles");
             //Check whether the logged in person is leader for the course he wants to know the count of Learners
-            if ((groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (roles.indexOf('Manager')>-1) || (roles.indexOf('SuperManager')>-1)) {
+            if ((groupDoc.get('courseLeader') != undefined && (groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (((roles.indexOf('Manager')>-1 || roles.indexOf('SuperManager')>-1) && groupDoc.get('courseLeader').length == 0)))) {
                 for (var j = 0; j < groupDoc.get('members').length; j++) {
                     if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0) {
                         learners.push(groupDoc.get('members')[j]);
