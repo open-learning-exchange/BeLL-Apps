@@ -6,6 +6,18 @@ BeLL Apps is offering multi-Lingual interface. For this purpose, it uses some do
 ##Guidelines
 To successfully update any particular language's document located in [BeLL-Apps/init_docs](https://github.com/open-learning-exchange/BeLL-Apps/tree/dev/init_docs) follow the below mentioned guidelines.
 
+[Textjson]: https://github.com/open-learning-exchange/BeLL-Apps/tree/dev/init_docs/Text.json
+[CrowdinUrl]: https://crowdin.com/project/open-learning-exchange
+[CrowdinBranch]: https://github.com/open-learning-exchange/BeLL-Apps/tree/l10n_dev
+
+> Recently [Crowdin][CrowdinUrl] integration has been done so you only need to update one source file [BeLL-Apps/init_docs/Text.json][Textjson]. 
+
+> Other language translation are done through [Crowdin][CrowdinUrl] 
+> and synced with the code repository [l10n_dev][CrowdinBranch] 
+> which will be placed under [BeLL-Apps/init_docs/languages](https://github.com/open-learning-exchange/BeLL-Apps/tree/l10n_dev/init_docs/languages) folder.
+
+** It is important to follow the below mentioned guidelines for source file ** [Text.json][Textjson] ** and it also need to be retained on translated files.**
+
 1) All of the keys and corresponding values (translations) are going to be surrounded by inverted commas.
      ![Use Commas](../images/pic1.png)
 
