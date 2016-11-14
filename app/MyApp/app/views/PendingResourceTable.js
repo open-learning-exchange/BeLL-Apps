@@ -165,9 +165,10 @@ $(function() {
 
             var resourceLength;
             var context = this
-            if (this.removeAlphabet == undefined) {
+            if (context.removeAlphabet == undefined) {
+                var resouyrceCountUrl = '/resources/_design/bell/_view/withPendingStatusCount';
                 $.ajax({
-                    url: '/resources/_design/bell/_view/count?group=false',
+                    url: resouyrceCountUrl,
                     type: 'GET',
                     dataType: "json",
                     success: function(json) {

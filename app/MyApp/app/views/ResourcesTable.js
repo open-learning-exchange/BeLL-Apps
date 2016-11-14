@@ -1,105 +1,105 @@
 $(function() {
 
-	App.Views.ResourcesTable = Backbone.View.extend({
+    App.Views.ResourcesTable = Backbone.View.extend({
 
-		tagName: "table",
-		isAdmin: null,
-		className: "table table-striped",
-		//template: $('#template-ResourcesTable').html(),
-		events: {
-			"click #backButton": function(e) {
-				if (this.collection.skip > 0) {
-					this.collection.skip = parseInt(this.collection.skip) - 20
-				}
-				this.collection.fetch({
-					async: false
-				})
-				if (this.collection.length > 0) {
-					this.render()
-				}
-			},
-			"click #nextButton": function(e) {
+        tagName: "table",
+        isAdmin: null,
+        className: "table table-striped",
+        //template: $('#template-ResourcesTable').html(),
+        events: {
+            "click #backButton": function(e) {
+                if (this.collection.skip > 0) {
+                    this.collection.skip = parseInt(this.collection.skip) - 20
+                }
+                this.collection.fetch({
+                    async: false
+                })
+                if (this.collection.length > 0) {
+                    this.render()
+                }
+            },
+            "click #nextButton": function(e) {
 
-				this.collection.skip = parseInt(this.collection.skip) + 20
-				this.collection.fetch({
-					async: false
-				})
-				if (this.collection.length > 0) {
-					this.render()
-				}
-			},
-			"click .clickonalphabets": function(e) {
-				this.collection.skip = 0
-				var val = $(e.target).text()
-				this.collection.startkey = val
-				this.collection.fetch({
-					async: false
-				})
-				if (this.collection.length > 0) {
-					this.render()
-				}
+                this.collection.skip = parseInt(this.collection.skip) + 20
+                this.collection.fetch({
+                    async: false
+                })
+                if (this.collection.length > 0) {
+                    this.render()
+                }
+            },
+            "click .clickonalphabets": function(e) {
+                this.collection.skip = 0
+                var val = $(e.target).text()
+                this.collection.startkey = val
+                this.collection.fetch({
+                    async: false
+                })
+                if (this.collection.length > 0) {
+                    this.render()
+                }
 
-			},
-			"click #allresources": function(e) {
-				this.collection.startkey = ""
-				this.collection.skip = 0
-				this.collection.fetch({
-					async: false
-				})
-				if (this.collection.length > 0) {
-					this.render()
-				}
-			},
-			"click .pageNumber": function(e) {
-				this.collection.startkey = ""
-				this.collection.skip = e.currentTarget.attributes[1].value
-				this.collection.fetch({
-					async: false
-				})
-				if (this.collection.length > 0) {
-					this.render()
-				}
-			}
-		},
-		initialize: function() {
-			//this.$el.append(_.template(this.template))
+            },
+            "click #allresources": function(e) {
+                this.collection.startkey = ""
+                this.collection.skip = 0
+                this.collection.fetch({
+                    async: false
+                })
+                if (this.collection.length > 0) {
+                    this.render()
+                }
+            },
+            "click .pageNumber": function(e) {
+                this.collection.startkey = ""
+                this.collection.skip = e.currentTarget.attributes[1].value
+                this.collection.fetch({
+                    async: false
+                })
+                if (this.collection.length > 0) {
+                    this.render()
+                }
+            }
+        },
+        initialize: function() {
+            //this.$el.append(_.template(this.template))
 
-		},
-		addOne: function(model) {
-			var resourceRowView = new App.Views.ResourceRow({
-				model: model,
-				admin: this.isAdmin,
+        },
+        addOne: function(model) {
+            var resourceRowView = new App.Views.ResourceRow({
+                model: model,
+                admin: this.isAdmin,
                 isNationVisible: this.isNationVisible
-			})
-			resourceRowView.isManager = this.isManager
-			resourceRowView.displayCollec_Resources = this.displayCollec_Resources
+            })
+            resourceRowView.isManager = this.isManager
+            resourceRowView.displayCollec_Resources = this.displayCollec_Resources
 
-			resourceRowView.collections = this.collections
+            resourceRowView.collections = this.collections
 
-			resourceRowView.render()
-			this.$el.append(resourceRowView.el);
+            resourceRowView.render()
+            this.$el.append(resourceRowView.el);
             if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
-			{
-				$('.resourcInfoFirstCol').attr('colspan','8');
-				$('.resourcInfoCol').attr('colspan','3');
+            {
+                $('.resourcInfoFirstCol').attr('colspan','8');
+                $('.resourcInfoCol').attr('colspan','3');
 
-			}
-		},
+            }
+        },
 
-		addAll: function(funct) {
-			if (this.collection.length == 0) {
+        addAll: function(funct) {
+            if (this.collection.length == 0) {
                 if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
-					this.$el.append("<tr><td style='width: 630px;text-align:right' colspan='8'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
-				}
-				else{
-					this.$el.append("<tr><td style='width: 630px;'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
-				}
-			}
-			if (this.isadmin > -1) {
-				this.isAdmin = 1
-			} else {
-				this.isAdmin = 0
-			}
+                    this.$el.append("<tr><td style='width: 630px;text-align:right' colspan='8'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
+                }
+                else{
+                    this.$el.append("<tr><td style='width: 630px;'>"+App.languageDict.attributes.No_Resource_Found+"</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>")
+                }
+            }
+            if (this.isadmin > -1) {
+                this.isAdmin = 1
+            } else {
+                this.isAdmin = 0
+            }
             var collection = this.collection;
             var that = this;
             App.Router.isNationLive(function(result) {
@@ -109,13 +109,13 @@ $(function() {
                 }
                 funct();
             });
-		},
+        },
         changeDirection : function (){
             if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 var library_page = $.url().data.attr.fragment;
                 if(library_page=="resources")
-                      {
+                {
                     $('#parentLibrary').addClass('addResource');
                 }
             }
@@ -124,36 +124,36 @@ $(function() {
                 $('#parentLibrary').removeClass('addResource');
             }
         },
-		render: function() {
+        render: function() {
             var context = this
 
-			if (this.displayCollec_Resources != true) {
+            if (this.displayCollec_Resources != true) {
 
-				this.$el.html("")
-				if (this.removeAlphabet == undefined) {
-					var viewText = "<tr></tr>"
-					viewText += "<tr><td colspan=8  style='cursor:default' >"
-					viewText += '<a  id="allresources">#</a>&nbsp;&nbsp;'
+                this.$el.html("")
+                if (this.removeAlphabet == undefined) {
+                    var viewText = "<tr></tr>"
+                    viewText += "<tr><td colspan=8  style='cursor:default' >"
+                    viewText += '<a  id="allresources">#</a>&nbsp;&nbsp;'
                     var str = [] ;
-					str = App.languageDict.get("alphabets");
-					for (var i = 0; i < str.length; i++) {
-						var nextChar = str[i];
-						viewText += '<a class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-					}
-					viewText += "</td></tr>"
-					this.$el.append(viewText);
+                    str = App.languageDict.get("alphabets");
+                    for (var i = 0; i < str.length; i++) {
+                        var nextChar = str[i];
+                        viewText += '<a class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                    }
+                    viewText += "</td></tr>"
+                    this.$el.append(viewText);
                     if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
                     {
                         $('#alphabetsOfLanguage').addClass('addResource');
                     }
 
-				}
-			}
+                }
+            }
 
-			this.$el.append('<br/><br/>')
+            this.$el.append('<br/><br/>')
             this.$el.append("<tr id='actionAndTitle'><th style='width: 430px;'>"+App.languageDict.attributes.Title+"</th><th colspan='7'>"+App.languageDict.attributes.action+"</th></tr>")
 
-			this.addAll(function() {
+            this.addAll(function() {
 
                 var text = '<tr><td colspan=8>'
 
@@ -171,8 +171,14 @@ $(function() {
 
                 var resourceLength;
                 if (context.removeAlphabet == undefined) {
+                    var resouyrceCountUrl;
+                    if(context.collection.pending == 0) {
+                        resouyrceCountUrl = '/resources/_design/bell/_view/withoutPendingStatusCount';
+                    } else if(context.collection.pending == 1) {
+                        resouyrceCountUrl = '/resources/_design/bell/_view/withLocalStatusCount';
+                    }
                     $.ajax({
-                        url: '/resources/_design/bell/_view/count?group=false',
+                        url: resouyrceCountUrl,
                         type: 'GET',
                         dataType: "json",
                         success: function(json) {
@@ -199,8 +205,8 @@ $(function() {
             });
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
-		}
+        }
 
-	})
+    })
 
 })

@@ -47,9 +47,37 @@ ddoc.views = {
             }
         }
     },
-    count: {
+    withLocalStatusCount: {
         map: function(doc) {
-            emit(doc._id, 1);
+            if (doc.status && doc.status == "local") {
+                emit(doc._id, 1)
+            }
+        },
+        reduce: function(keys, values, rereduce) {
+            return sum(values);
+        }
+    },
+    withPendingStatusCount: {
+        map: function(doc) {
+            if (doc.status && doc.status == "pending") {
+                emit(doc._id, 1)
+            }
+        },
+        reduce: function(keys, values, rereduce) {
+            return sum(values);
+        }
+    },
+    withoutPendingStatusCount: {
+        map: function(doc) {
+            if (doc.status) {
+                if(doc.status != "pending")
+                {
+                    emit(doc._id, 1)
+                }
+            }
+            else {
+                emit(doc._id, 1)
+            }
         },
         reduce: function(keys, values, rereduce) {
             return sum(values);

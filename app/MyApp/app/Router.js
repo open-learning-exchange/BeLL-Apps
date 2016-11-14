@@ -767,74 +767,22 @@ $(function() {
             });
         },
         isNationLive: function (callback) {
-            var nationVisible = false;
             var configuration = App.configuration
-            var nationName = configuration.get("nationName")
-            var nationURL = configuration.get("nationUrl")
-            var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
-            nName = configuration.get('nationName')
-            pass = App.password
-            nUrl = configuration.get('nationUrl')
-            currentBellName = configuration.get('name')
-            //  var htmlreferance = this.$el
-
-            var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
-            var nationConfig;
-            var roles = App.member.get('roles');
             $.ajax({
-                url: nationConfigURL,
+                url: 'http://' + configuration.get('nationName') + ':' + App.password + '@' + configuration.get('nationUrl') + '/_all_dbs',
                 type: 'GET',
                 dataType: "jsonp",
                 timeout: 4000,
 
                 success: function (json) {
-                    if (json.rows[0]) {
-                        nationConfig = json.rows[0].doc;
-                        nation_version = nationConfig.version;
+                    nationVisible = true;
+                    callback(true);
 
-                        $.ajax({
-                            url: DbUrl,
-                            type: 'GET',
-                            dataType: 'jsonp',
-                            success: function (json) {
-                                var publicationCollection = new App.Collections.Publication();
-                                var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
-                                publicationCollection.setUrl(tempUrl);
-                                publicationCollection.fetch({
-                                    success: function () {
-                                        $.ajax({
-                                            url: 'http://' + nationName + ':oleoleole@' + nationURL + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
-                                            type: 'GET',
-                                            dataType: 'jsonp',
-                                            success: function (json) {
-                                                nationVisible = true;
-                                                callback(nationVisible);
-
-                                            },
-                                            error: function (status) {
-                                                nationVisible = false;
-                                                callback(nationVisible);
-                                            },
-                                            timeout: 2000
-                                        });
-                                        ////////////////////////////////////////////////////
-                                    }
-                                });
-
-                            },
-                            error: function (jqXHR, status, errorThrown) {
-                                nationVisible = false;
-                                callback(nationVisible);
-                            },
-                            timeout: 3000
-                        });
-
-                    }
                 },
 
                 error: function (jqXHR, status, errorThrown) {
                     nationVisible = false;
-                    callback(nationVisible);
+                    callback(false);
                 },
                 timeout: 4000
 
@@ -1366,9 +1314,9 @@ $(function() {
                 var resourcesTableView
 
                 var resources = new App.Collections.Resources({
-                    skip: 0,
-                    pending: 2
+                    skip: 0
                 });
+                resources.pending = 2;
                 resources.fetch({
                     async:false,
                     success: function() {
