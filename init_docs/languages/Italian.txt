@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"Inglese",
+  "nameOfLanguage":"Italian",
   "directionOfLang":"Left",
-  "nameInNativeLang":"Inglese",
+  "nameInNativeLang":"Italiano",
   "Dashboard":"Home",
   "Library":"Biblioteca",
   "Courses":"Corsi",
