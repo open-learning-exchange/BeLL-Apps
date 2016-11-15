@@ -383,8 +383,14 @@ $(function() {
                         if(jsonConfig.type == "community") {
                             this.model.set("status", "local");
                         }
-                        if(jsonConfig.type == "nation") {
-                            this.model.set("status", "accepted");
+                        else if(jsonConfig.type == "nation") {
+                            var roles = App.Router.getRoles();
+                            if(roles.indexOf("Manager") > -1 || roles.indexOf("SuperManager") > -1) {
+                                this.model.set("status", "accepted");
+                            }
+                            else {
+                                this.model.set("status", "pending");
+                            }
                         }
                         this.model.save(null, {
                             success: function(res) {
