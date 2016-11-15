@@ -211,15 +211,21 @@ function updateNationCouchVersion() {
                                 obj = JSON.parse(data);
                                 var oldVersion = configDoc.version;
                                 configDoc.version = obj.version;
-                                configDoc['register'] = '';
-                                configDoc.register = obj.register;
+                                var oldRegister = configDoc.register;
+                                if(oldRegister === undefined || oldRegister === null || oldRegister === '') {
+	                                configDoc['register'] = '';
+	                                configDoc.register = obj.register;
+                                }
                                 if(configDoc.availableLanguages && configDoc.availableLanguages!=undefined && configDoc.availableLanguages!=null  )
                                 {
                                     delete configDoc.availableLanguages;
                                 }
                                 configsDb.insert(configDoc, key, function(err, body) {
                                     if (err) throw err;
-                                    else console.log("updated version number from " + oldVersion + " to " + configDoc.version);
+                                    else {
+                                    	if(oldRegister != configDoc.register) console.log("updated register to " + configDoc.register);
+                                    	console.log("updated version number from " + oldVersion + " to " + configDoc.version);
+                                    }
                                 });
                             });
                         }
