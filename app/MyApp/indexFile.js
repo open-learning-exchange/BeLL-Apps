@@ -1,4 +1,5 @@
 var searchText = "";
+var searchCommunity = "";
 var skip = 0; //Variable used to skip the number of records been fetched before.
 var enablenext = 0;
 var searchRecordsPerPage = 2;

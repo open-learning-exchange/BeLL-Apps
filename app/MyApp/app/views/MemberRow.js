@@ -158,14 +158,17 @@ $(function() {
                 vars.languageDict=App.languageDict;
                 vars.showdelete = false
                 vars.showedit = true
+                vars.showview = true
             } else if (!this.isadmin) {
                 vars.languageDict=App.languageDict;
                 vars.showdelete = false
                 vars.showedit = false
+                vars.showview = true
             } else {
                 vars.languageDict=App.languageDict;
                 vars.showdelete = true
                 vars.showedit = true
+                vars.showview = true
             }
             vars.src = "img/default.jpg"
             var attchmentURL = '/members/' + this.model.id + '/'

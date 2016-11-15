@@ -59,8 +59,8 @@ ddoc.views = {
         map: function(doc) {
             var txt = doc.lastName;
             var words = txt.replace(/[!.,;]+/g, "").toLowerCase().split(" ");
-            for (var word in words) {
-                emit(words[word], doc._id);
+            for (var wrd in words) {
+                emit([doc.community, words[wrd]], doc._id);
             }
         }
     },

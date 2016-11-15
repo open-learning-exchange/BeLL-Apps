@@ -12,6 +12,7 @@ $(function() {
             'logout': 'MemberLogout',
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
+            'member/view/:mid': 'MemberForm',
             'resources(/community)': 'Resources',
             'resources/pending': 'pendingResources',
             'resource/add': 'ResourceForm',
@@ -1009,6 +1010,7 @@ $(function() {
             //cv Set up
             // applyStylingSheet();
             var url_page = $.url().data.attr.fragment;
+            var url_split = url_page.split('/');
             var languageDictValue;
             var  clanguage;
             if(url_page=="member/add"){
@@ -1040,7 +1042,17 @@ $(function() {
             })
             App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
             // Bind form to the DOM
-            if (modelId) {
+            if (modelId && url_split[1]=="view") {
+                model.id = modelId
+                model.fetch({
+                    async: false
+                })
+                nameOfLabel=label;
+                App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
+
+            }
+            else if (modelId) {
                 model.id = modelId
                 model.fetch({
                     async: false
@@ -2703,6 +2715,22 @@ $(function() {
             App.$el.children('.body').html(membersView.el);
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             membersView.changeDirection();
+            if(App.configuration.get('type') == 'nation') {
+	            $.ajax({
+	                url: '/community/_design/bell/_view/getCommunityByCode',
+	                type: 'GET',
+	                dataType: "jsonp",
+	                async: false,
+	                success: function(json) {
+	                	var communityList = '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
+	                	$.each(json.rows, function(rec, index) {
+	                		communityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
+	                	})
+	                	communityList = '<select id="selectCommunity" style="margin-right: 30px;">'+communityList+'</select>';
+	                	$(communityList).insertBefore('#searchText');
+                	}
+	            });
+        	}
             if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#membersSearchHeading').css('float','left');

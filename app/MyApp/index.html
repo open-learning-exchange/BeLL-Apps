@@ -1081,16 +1081,21 @@
         </td>
 
         <td>
-            <%= login %>.<%= community_code %>@olebell.org
+            <%= login %>.<%= community %>@olebell.org
         </td>
 
         <td>
-            <% if(showedit == true){ %>
+            <% if(showview == true){ %>
+            <a role='button' class='btn btn-success' href='#member/view/<%= _id %>'>
+                <i class="icon-eye-open icon-white"></i> <%= languageDict.attributes.Open%>
+            </a>
+            <% } %>
+            <% if(showedit == true && community_code == community){ %>
             <a role='button' class='btn btn-inverse' href='#member/edit/<%= _id %>'>
                 <i class="icon-edit"></i> <%= languageDict.attributes.EditLabel%>
             </a>
             <% } %>
-            <% if(showdelete == true){ %>
+            <% if(showdelete == true && community_code == community){ %>
             <a class='destroy btn btn-danger' href='#'>
                 <i class='icon-remove'></i> <%= languageDict.attributes.DeleteLabel%>
             </a>

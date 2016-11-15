@@ -145,76 +145,121 @@ $(function() {
             this.form.setValue({
                 community: App.configuration.get("name"),
                 region: App.configuration.get("region"),
-                nation: App.configuration.get("nationName")
+                nation: App.configuration.get("nationName"),
+                firstName: App.configuration.get("firstName"),
+                middleNames: App.configuration.get("middleNames"),
+                lastName: App.configuration.get("lastName"),
+                password: App.configuration.get("password"),
+                phone: App.configuration.get("phone"),
+                email: App.configuration.get("email"),
+                language: App.configuration.get("language"),
+                community: App.configuration.get("community"),
+                region: App.configuration.get("region"),
+                nation: App.configuration.get("nation"),
+                date: App.configuration.get("date"),
+                month: App.configuration.get("month"),
+                year: App.configuration.get("year"),
+                Gender: App.configuration.get("Gender"),
+                levels: App.configuration.get("levels"),
+                login: App.configuration.get("levels"),
             })
+            var url_page = $.url().data.attr.fragment.split('/');
 
-            $("input[name='community']").attr("disabled", true);
-            $("input[name='region']").attr("disabled", true);
-            $("input[name='nation']").attr("disabled", true);
-
-
-            var $imgt = "<p id='imageText' style='margin-top: 15px;'></p>"
-            if (this.model.id != undefined) {
-                buttonText = App.languageDict.attributes.Update
-
+            if(url_page[1]=="view") {
+                $("input[name='firstName']").attr("disabled", true);
+                $("input[name='middleNames']").attr("disabled", true);
+                $("input[name='lastName']").attr("disabled", true);
+                $("input[name='password']").attr("disabled", true);
+                $("input[name='phone']").attr("disabled", true);
+                $("input[name='email']").attr("disabled", true);
+                $("input[name='language']").attr("disabled", true);
+                $("input[name='community']").attr("disabled", true);
+                $("input[name='region']").attr("disabled", true);
+                $("input[name='nation']").attr("disabled", true);
                 $("input[name='login']").attr("disabled", true);
-            } else {
-                buttonText = App.languageDict.attributes.Register
+                $("select[data-type='date']").attr("disabled", true);
+                $("select[data-type='month']").attr("disabled", true);
+                $("select[data-type='year']").attr("disabled", true);
+                $("select[name='Gender']").attr("disabled", true);
+                $("select[name='levels']").attr("disabled", true);
             }
-            // give the form a submit button
-            var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</button></div>')
-            //this.$el.append($button)
-            var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
-            var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
-            this.$el.append($img)
-            this.$el.append($upload)
-            this.$el.append($button)
-            if (this.model.id != undefined) {
-                if (this.model.get("status") == "active") {
-                    $(".signup-submit").append('<a class="btn btn-danger" id="deactive" href="#" style="margin-top: 10px;">'+App.languageDict.attributes.Resign+'</a>')
+            else {
+                $("input[name='community']").attr("disabled", true);
+                $("input[name='region']").attr("disabled", true);
+                $("input[name='nation']").attr("disabled", true);
+            }
+            if(url_page[1] != "view") {
+                var $imgt = "<p id='imageText' style='margin-top: 15px;'></p>"
+                if (this.model.id != undefined) {
+                    buttonText = App.languageDict.attributes.Update
+
+                    $("input[name='login']").attr("disabled", true);
                 } else {
-                    $(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-top: 10px;" href="#">'+App.languageDict.attributes.Reinstate+'</a>')
+                    buttonText = App.languageDict.attributes.Register
                 }
-                var logUserroles = this.getRoles(false)
-                if (logUserroles.indexOf("SuperManager") > -1) {
-                    var thisUser = this.getRoles(this.model.id)
-                    $('#memberform').append('<div id="PromoteToManager"><input id="ptManager" type="checkbox" ><label for="ptManager">'+App.languageDict.attributes.Promote_To_Manager+'</label></div>')
-                    if (thisUser.indexOf("Manager") > -1) {
-                        $('#ptManager').prop('checked', true);
+                // give the form a submit button
+                //this.$el.append($button)
+                var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
+                var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
+                this.$el.append($img)
+                this.$el.append($upload)
+
+                var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</button></div>')
+            }
+             else {
+                var $button = $('<a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">' + App.languageDict.attributes.Cancel + '</button></div>')
+            }
+
+            this.$el.append($button)
+            if(url_page[1] != "view"){
+                if (this.model.id != undefined) {
+                    if (this.model.get("status") == "active") {
+                        $(".signup-submit").append('<a class="btn btn-danger" id="deactive" href="#" style="margin-top: 10px;">'+App.languageDict.attributes.Resign+'</a>')
+                    } else {
+                        $(".signup-submit").append('<a class="btn btn-success" id="active" style="margin-top: 10px;" href="#">'+App.languageDict.attributes.Reinstate+'</a>')
+                    }
+                    var logUserroles = this.getRoles(false)
+                    if (logUserroles.indexOf("SuperManager") > -1) {
+                        var thisUser = this.getRoles(this.model.id)
+                        $('#memberform').append('<div id="PromoteToManager"><input id="ptManager" type="checkbox" ><label for="ptManager">'+App.languageDict.attributes.Promote_To_Manager+'</label></div>')
+                        if (thisUser.indexOf("Manager") > -1) {
+                            $('#ptManager').prop('checked', true);
+                        }
                     }
                 }
-            }
 
 
-            var attchmentURL = '/members/' + this.model.id + '/'
-            if (typeof this.model.get('_attachments') !== 'undefined') {
-                attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
-                document.getElementById("memberImage").src = attchmentURL
+                var attchmentURL = '/members/' + this.model.id + '/'
+                if (typeof this.model.get('_attachments') !== 'undefined') {
+                    attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
+                    document.getElementById("memberImage").src = attchmentURL
+                }
+                if(this.form.model.get('_id')){
+                    //Check whether form is being called for Edit purpose or Add..
+                    var isValid=true;
+                    if($.cookie("forcedUpdateProfile")=='true'){
+                        if(!this.validateMemberForm())
+                        {
+                            isValid=false;
+                        }
+                        if(!isValid){
+                            alert(App.languageDict.attributes.Update_Profile_Reminder);
+                        }
+                        $('#nav').css('pointer-events','none');   //buggy on page refresh
+                        $('#formButtonCancel').css('pointer-events','none');
+                        return;
+                    }
+                    else{
+                        if(!this.validateMemberForm())
+                        {
+                            isValid=false;
+                        }
+                        if(!isValid){
+                            alert(App.languageDict.attributes.Update_Profile_Reminder);
+                        }
+                    }
             }
-           if(this.form.model.get('_id')){
-             //Check whether form is being called for Edit purpose or Add..
-               var isValid=true;
-               if($.cookie("forcedUpdateProfile")=='true'){
-                   if(!this.validateMemberForm())
-                   {
-                       isValid=false;
-                   }
-                   if(!isValid){
-                       alert(App.languageDict.attributes.Update_Profile_Reminder);
-                   }
-                   $('#nav').css('pointer-events','none');   //buggy on page refresh
-                   $('#formButtonCancel').css('pointer-events','none');
-                   return;
-               }
-               else{
-                   if(!this.validateMemberForm())
-                   {
-                       isValid=false;
-                   }
-                   if(!isValid){
-                       alert(App.languageDict.attributes.Update_Profile_Reminder);
-                   }
-               }
+
 
            }
         },
