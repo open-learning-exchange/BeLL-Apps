@@ -412,7 +412,6 @@ $(function() {
             {
                 $('.bbf-form').find('ul').find('li').eq(i).hide();
             }
-            conForm.updateDropDownValue();
 
         },
         MemberLogin: function() {
