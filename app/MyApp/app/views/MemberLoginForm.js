@@ -158,6 +158,19 @@ $(function() {
                                     if(member.get('community')==undefined) {
                                         if(member.get('visits')==0) {
                                             App.member=member;
+                                            var date = new Date()
+                                            $.cookie('Member.login', member.get('login'), {
+                                                path: "/apps/_design/bell"
+                                            })
+                                            $.cookie('Member._id', member.get('_id'), {
+                                                path: "/apps/_design/bell"
+                                            })
+                                            $.cookie('Member.expTime', date, {
+                                                path: "/apps/_design/bell"
+                                            })
+                                            $.cookie('Member.roles', member.get('roles'), {
+                                                path: "/apps/_design/bell"
+                                            })
                                             Backbone.history.navigate('configuration/add', {
                                                 trigger: true
                                             });
