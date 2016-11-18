@@ -69,7 +69,8 @@ $(function() {
             var resourceRowView = new App.Views.ResourceRow({
                 model: model,
                 admin: this.isAdmin,
-                isNationVisible: this.isNationVisible
+                isNationVisible: this.isNationVisible,
+                pending: this.collection.pending
             })
             resourceRowView.isManager = this.isManager
             resourceRowView.displayCollec_Resources = this.displayCollec_Resources
@@ -171,14 +172,16 @@ $(function() {
 
                 var resourceLength;
                 if (context.removeAlphabet == undefined) {
-                    var resouyrceCountUrl;
+                    var resourceCountUrl;
                     if(context.collection.pending == 0) {
-                        resouyrceCountUrl = '/resources/_design/bell/_view/withoutPendingStatusCount';
+                        resourceCountUrl = '/resources/_design/bell/_view/withoutPendingStatusCount';
                     } else if(context.collection.pending == 1) {
-                        resouyrceCountUrl = '/resources/_design/bell/_view/withLocalStatusCount';
+                        resourceCountUrl = '/resources/_design/bell/_view/withLocalStatusCount';
+                    } else if(context.collection.pending == 3) {
+                        resourceCountUrl = '/resources/_design/bell/_view/ResourcesWithPendingStatusAndOwnership?include_docs=true&startkey=["' + $.cookie('Member.login') + '"]&endkey=["' + $.cookie('Member.login') + '",{}]';
                     }
                     $.ajax({
-                        url: resouyrceCountUrl,
+                        url: resourceCountUrl,
                         type: 'GET',
                         dataType: "json",
                         success: function(json) {

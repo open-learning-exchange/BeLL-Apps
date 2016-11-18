@@ -13,7 +13,7 @@ $(function() {
             'member/add': 'MemberForm',
             'member/edit/:mid': 'MemberForm',
             'member/view/:mid': 'MemberForm',
-            'resources(/community)': 'Resources',
+            'resources(/community)(/byownership)': 'Resources',
             'resources/pending': 'pendingResources',
             'resource/add': 'ResourceForm',
             'resource/edit/:resourceId': 'ResourceForm',
@@ -1272,6 +1272,10 @@ $(function() {
                 if($.url().attr('fragment') == "resources/community") {
                     resources.pending = 1;
                 }
+                else if($.url().attr('fragment') == "resources/byownership") {
+                    resources.pending = 3;
+                    resources.loggedInName = $.cookie('Member.login');
+                }
                 else {
                     resources.pending = 0;
                 }
@@ -1299,7 +1303,12 @@ $(function() {
                             }
                         }
                         else {
-                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a></p>')
+                            if($.url().attr('fragment') == "resources/byownership") {
+                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                            }
+                            else {
+                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                            }
                         }
 
                         resourcesTableView.collections = App.collectionslist

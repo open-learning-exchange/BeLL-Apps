@@ -461,6 +461,7 @@ $(function() {
 			vars.RemoveLabel=App.languageDict.attributes.Remove;
 			vars.unhide=App.languageDict.attributes.UnHide;
             vars.addToNation=App.languageDict.attributes.AddToNation;
+            vars.pending = this.options.pending;
             var that = this;
             vars.type = App.configuration.attributes.type;
             vars.hide=App.languageDict.attributes.Hide;

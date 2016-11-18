@@ -33,6 +33,13 @@ ddoc.views = {
             }
         }
     },
+    ResourcesWithPendingStatusAndOwnership: {
+        map: function(doc) {
+            if (doc.status && doc.status == "pending" && doc.addedBy) {
+                emit([doc.addedBy,doc.title], true)
+            }
+        }
+    },
     NewsResources: {
         map: function(doc) {
             if (doc.title) {

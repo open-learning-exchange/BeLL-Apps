@@ -779,25 +779,23 @@
     </script>
     <script type="text/html" id="template-ResourceRow">
 
-        <%if(Manager==1){%>
+        <%if(Manager==1 && pending != 3){%>
             <% if(!hidden){ %>
                 <% if(title){ %>
                     <td class="resourcInfoFirstCol">
                         <p style=" font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
                         <p style=" font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
-                        <% for(var i=0;i<5;i++){
-                            if(i < averageRating){
-                            %>
+                        <% for(var i=0;i<5;i++){%>
+                            <% if(i < averageRating){%>
                                 <img src="star-on.png" style="height:17px"/>
-                            <%}else{ %>
+                            <% }else{%>
                                 <img src="star-off.png" style="height:17px"/>
-                            <% }}%>&nbsp;(<%=totalRatings%>)
+                            <%}%>
+                        <%}%>&nbsp;(<%=totalRatings%>)
                     </td>
                     <td class="resourcInfoCol">
-            <!-- <a id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank"> -->
-                    <!--issu#84 : Added title in the href href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>-->
-                    <a   id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
-                           <i  class='icon-eye-open icon-white'></i><%= open%>
+                        <a   id="openButton" class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+                               <i  class='icon-eye-open icon-white'></i><%= open%>
                         </a>
                     </td>
                     <td class="resourcInfoCol">
@@ -805,7 +803,6 @@
                             <%=viewDetails%>
                         </a>
                     </td>
-
                     <td class="resourcInfoCol">
                         <button id="addToMyLibraryButton" class='btn btn-inverse' onclick='AddToShelf("<%= _id %>","<%= escape(title) %>")'><%=addToMyLibrary%></button>
                     </td>
@@ -818,7 +815,6 @@
                         <a  id="deleteButton" class="btn btn-danger destroy"><i class='icon-pencil icon-white'></i>
                             <%=deleteLabel%>
                         </a>
-
                     </td>
                     <% if(removeFormCollection==1) {%>
                         <td class="resourcInfoCol">
@@ -844,17 +840,17 @@
                 <% if(title){ %>
                     <td class="resourcInfoFirstCol">
                         <span style="font-weight:700;color:grey; font-size:16px;"><%= title %></BR></span>
-                        <% for(var i=0;i<5;i++){
-                        if(i < averageRating){
-                        %>
-                        <img src="star-on.png" style="height:17px"/>
-                        <%}else{ %>
-                        <img src="star-off.png" style="height:17px"/>
-                        <% }}%>&nbsp;(<%=totalRatings%>)
+                        <% for(var i=0;i<5;i++){%>
+                            <% if(i < averageRating){%>
+                                <img src="star-on.png" style="height:17px"/>
+                            <% }else{%>
+                                <img src="star-off.png" style="height:17px"/>
+                            <%}%>
+                        <%}%>&nbsp;(<%=totalRatings%>)
                     </td>
                     <td class="resourcInfoCol">
-                    <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
-                            <i class='icon-eye-open icon-white'></i> <%=open%>
+                        <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+                                <i class='icon-eye-open icon-white'></i> <%=open%>
                         </a>
                     </td>
                     <td class="resourcInfoCol">
@@ -862,7 +858,6 @@
                             <%=viewDetails%>
                         </a>
                     </td>
-
                     <td class="resourcInfoCol">
                         <button class='btn btn-inverse disabled'><%=addToMyLibrary%></button>
                     </td>
@@ -891,18 +886,18 @@
                 <%}%>
             <%}%>
         <%}%>
-        <%if(Manager!=1 &&!hidden){%>
+        <%if(Manager != 1 && !hidden && pending != 3){%>
             <% if(title){ %>
                 <td class="resourcInfoFirstCol">
                     <p style="font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
                     <p style="font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
-                    <% for(var i=0;i<5;i++){
-                    if(i < averageRating){
-                    %>
-                    <img src="star-on.png" style="height:17px"/>
-                    <%}else{ %>
-                    <img src="star-off.png" style="height:17px"/>
-                    <% }}%>&nbsp;(<%=totalRatings%>)
+                    <% for(var i=0;i<5;i++){%>
+                        <% if(i < averageRating){%>
+                            <img src="star-on.png" style="height:17px"/>
+                        <% }else{%>
+                            <img src="star-off.png" style="height:17px"/>
+                        <%}%>
+                    <%}%>&nbsp;(<%=totalRatings%>)
                 </td>
                 <td class="resourcInfoCol">
                 <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
@@ -915,6 +910,36 @@
                 <td class="resourcInfoCol">
                     <a class='btn btn-inverse' href='#resource/feedback/<%= _id %>'> <i class='icon-pencil icon-white'></i>
                         <%=feedback%>
+                    </a>
+                </td>
+            <%}%>
+        <%}%>
+        <%if(pending == 3){%>
+            <% if(title){ %>
+                <td class="resourcInfoFirstCol">
+                    <p style="font-weight:900; font-size:16px;word-wrap:break-word;"><%= title %></BR></p>
+                    <p style="font-size:16px;word-wrap:break-word;"><%= Details %></BR></p>
+                    <% for(var i=0;i<5;i++){%>
+                        <% if(i < averageRating){%>
+                            <img src="star-on.png" style="height:17px"/>
+                        <% }else{%>
+                            <img src="star-off.png" style="height:17px"/>
+                        <%}%>
+                    <%}%>&nbsp;(<%=totalRatings%>)
+                </td>
+                <td class="resourcInfoCol">
+                    <a class='resFeedBack btn btn-success' href='/apps/_design/bell/bell-resource-router/index.html#open/<%= _id %>/<%= title %>' target="_blank">
+                        <i class='icon-eye-open icon-white'></i> <%=open%>
+                    </a>
+                </td>
+                <td class="resourcInfoCol">
+                    <a id="viewDetailsButton" class='btn btn-warning' href='#resource/edit/<%= _id %>'>
+                        <%=viewDetails%>
+                    </a>
+                </td>
+                <td class="resourcInfoCol">
+                    <a  id="deleteButton" class="btn btn-danger destroy"><i class='icon-pencil icon-white'></i>
+                        <%=deleteLabel%>
                     </a>
                 </td>
             <%}%>

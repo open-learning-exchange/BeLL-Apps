@@ -35,6 +35,17 @@ $(function() {
                         return App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatus?include_docs=true&limit=20&skip=' + this.skip;
                     }
                 }
+                else if(this.pending == 3) {
+                    if(this.loggedInName) {
+
+                        if (this.startkey && this.startkey != "") {
+                            this.startkey = this.startkey.toLowerCase();
+                            return App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatusAndOwnership?include_docs=true&startkey=["' + this.loggedInName + '","' + this.startkey + '"]&endkey=["' + this.loggedInName + '","\u0fff"]&limit=20&skip=' + this.skip;
+                        } else {
+                            return App.Server + '/resources/_design/bell/_view/ResourcesWithPendingStatusAndOwnership?include_docs=true&startkey=["' + this.loggedInName + '"]&endkey=["' + this.loggedInName + '",{}]&limit=20&skip=' + this.skip;
+                        }
+                    }
+                }
                 //return App.Server + '/resources/_all_docs?include_docs=true&limit=20&skip='+this.skip
                 /*if (this.startkey && this.startkey != "") {
                     return App.Server + '/resources/_design/bell/_view/sortresources?include_docs=true&startkey="' + this.startkey + '"&limit=20&skip=' + this.skip
