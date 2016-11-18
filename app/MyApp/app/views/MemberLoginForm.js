@@ -122,11 +122,11 @@ $(function() {
                 success: function() {
                     var i;
                     if (members.length > 0) {
-                        // member=members.first();
+                        var go_ahead_with_login = 0;
                         for(i=0; i <members.length ; i++)
                         {
                             member = members.models[i];
-                            var go_ahead_with_login = 0;
+                            go_ahead_with_login = 0;
 
 
                             if (!member || (member.get('login') != credentials.get('login'))){
@@ -183,6 +183,7 @@ $(function() {
                                         }
                                     }
                                 }
+                                break;
                             }
                         }
                         if(i==members.length)
