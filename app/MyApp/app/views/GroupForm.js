@@ -354,11 +354,13 @@ $(function () {
                         var stepsids = new Array();
                         var stepsres = new Array();
                         var stepsstatus = new Array();
+                        var pqattempts = new Array();
                         if (newEntery == 1) {
                             memprogress.set("stepsIds", stepsids)
                             memprogress.set("memberId", $.cookie("Member._id"))
                             memprogress.set("stepsResult", stepsres)
                             memprogress.set("stepsStatus", stepsstatus)
+                            memprogress.set("pqAttempts", pqattempts)
                             memprogress.set("courseId", e.get("id"));
                             memprogress.save()
                             //0000 is value for --select--
@@ -369,6 +371,7 @@ $(function () {
                                     memprogress.set("memberId",context.model.get('courseLeader')[i] )    //Needs some changes here
                                     memprogress.set("stepsResult", stepsres)
                                     memprogress.set("stepsStatus", stepsstatus)
+                                    memprogress.set("pqAttempts", pqattempts)
                                     memprogress.set("courseId", e.get("id"))
                                     memprogress.save();
                                 }
@@ -409,15 +412,18 @@ $(function () {
                                             stepsids=[];
                                             stepsres=[];
                                             stepsstatus=[];
+                                            pqattempts = [];
                                             csteps.each(function (m) {
                                                 stepsids.push(m.get("_id"))
                                                 stepsres.push("0")
                                                 stepsstatus.push("0")
+                                                pqattempts.push(0)
                                             })
                                             memprogress.set("stepsIds", stepsids)
                                             memprogress.set("memberId", leaderId)
                                             memprogress.set("stepsResult", stepsres)
                                             memprogress.set("stepsStatus", stepsstatus)
+                                            memprogress.set("pqAttempts", pqattempts)
                                             memprogress.set("courseId", csteps.courseId)
                                             memprogress.save({
                                                 success: function () {
@@ -428,8 +434,6 @@ $(function () {
                                     });
                                 }
                             });
-
-
                             //alert(that.model.get("_id"))
                             ///to get the latest rev.id
                             var groupModel = new App.Models.Group()
