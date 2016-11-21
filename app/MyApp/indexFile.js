@@ -1296,10 +1296,18 @@ function FieSelected(stepId) {
                         if( memberProgress.attributes.stepsResult[memberStepIndex].length >1){
                            // memberProgress.attributes.stepsResult[memberStepIndex][0] = '2';
                             memberProgress.attributes.stepsStatus[memberStepIndex][0] = '2';
+                            if(memberProgress.attributes.pqAttempts){
+                                memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
+                               // alert( memberProgress.attributes.pqAttempts[memberStepIndex][0])
+                            }
                         }
                         else{
                        // memberProgress.attributes.stepsResult[memberStepIndex] = '2';
                         memberProgress.attributes.stepsStatus[memberStepIndex] = '2';
+                            if(memberProgress.attributes.pqAttempts){
+                               memberProgress.attributes.pqAttempts[memberStepIndex]++ ;
+                              // alert( memberProgress.attributes.pqAttempts[memberStepIndex])
+                            }
                         }
                         memberProgress.save(null, {
                             success: function(response) {

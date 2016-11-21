@@ -131,6 +131,7 @@ $(function() {
                                 var stepsids = new Array()
                                 var stepsres = new Array()
                                 var stepsstatus = new Array()
+                                var pqattempts = new Array();
                                 csteps.courseId = gmodel.get("_id")
                                 csteps.fetch({
                                     success: function() {
@@ -138,25 +139,33 @@ $(function() {
                                             //Issue#400
                                             var sresults = [];
                                             var sstatus = [];
+                                            var sattempts = [];
                                             if(m.get("outComes").length == 2) {
                                                 var arr = [];
+                                                var pqarr = [];
+                                                pqarr.push(0)
+                                                pqarr.push(0)
                                                 arr.push("0")
                                                 arr.push("0")
                                                 sresults = arr;
                                                 sstatus = arr;
+                                                sattempts = pqarr;
                                             } else {
                                                 sresults = '0';
                                                 sstatus= '0';
+                                                sattempts = 0
                                             }
 
                                             stepsids.push(m.get("_id"))
                                             stepsres.push(sresults)
                                             stepsstatus.push(sstatus)
+                                            pqattempts.push(sattempts)
                                         })
                                         memprogress.set("stepsIds", stepsids)
                                         memprogress.set("memberId", $.cookie("Member._id"))
                                         memprogress.set("stepsResult", stepsres)
                                         memprogress.set("stepsStatus", stepsstatus)
+                                        memprogress.set("pqAttempts", pqattempts)
                                         memprogress.set("courseId", csteps.courseId)
                                         memprogress.save({
                                             success: function() {}
@@ -476,6 +485,7 @@ $(function() {
                         var stepsids = new Array()
                         var stepsres = new Array()
                         var stepsstatus = new Array()
+                        var pqattempts = new Array();
                         csteps.courseId = idRev.id
                         csteps.fetch({
                             success: function () {
@@ -484,25 +494,33 @@ $(function() {
                                   //Issue#400
                                     var sresults = [];
                                     var sstatus = [];
+                                    var sattempts = [];
                                     if(m.get("outComes").length == 2) {
                                         var arr = [];
+                                        var pqarr = [];
+                                        pqarr.push(0)
+                                        pqarr.push(0)
                                         arr.push("0")
                                         arr.push("0")
                                         sresults = arr;
                                         sstatus = arr;
+                                        sattempts = pqarr;
                                     } else {
                                         sresults = '0';
                                         sstatus= '0';
+                                        sattempts = 0;
                                     }
 
                                     stepsids.push(m.get("_id"))
                                     stepsres.push(sresults)
                                     stepsstatus.push(sstatus)
+                                    pqattempts.push(sattempts)
                                 })
                                 memprogress.set("stepsIds", stepsids)
                                 memprogress.set("memberId", memId)
                                 memprogress.set("stepsResult", stepsres)
                                 memprogress.set("stepsStatus", stepsstatus)
+                                memprogress.set("pqAttempts", pqattempts)
                                 memprogress.set("courseId", csteps.courseId)
                                 memprogress.save({
                                     success: function () {
