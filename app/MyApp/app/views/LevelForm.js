@@ -61,23 +61,38 @@ $(function() {
                                 var sids = m.get("stepsIds")
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
+                                var pqattempts ;
+                                if(m.get("pqAttempts")){
+                                    pqattempts = m.get("pqAttempts");
+                                }
                                 if(sids.indexOf(that.model.get("id")) < 0)
                                 {
                                     sids.push(that.model.get("id"))
                                     if(that.model.get("outComes").length == 2) {
                                         var arr = [];
+                                        var pqarr = [];
                                         arr.push("0")
                                         arr.push("0")
+                                        pqarr.push(0)
+                                        pqarr.push(0)
                                         sresults.push(arr)
                                         sstatus.push(arr)
-
+                                        if(m.get("pqAttempts")){
+                                              pqattempts.push( pqarr)
+                                        }
                                     } else {
                                         sresults.push("0")
                                         sstatus.push("0")
+                                        if(m.get("pqAttempts")){
+                                             pqattempts.push(0);
+                                        }
                                     }
                                     m.set("stepsIds", sids)
                                     m.set("stepsResult", sresults)
                                     m.set("stepsStatus", sstatus)
+                                    if(m.get("pqAttempts")){
+                                         m.set("pqAttempts", pqattempts)
+                                    }
                                     m.save()
                                 }
                             })
