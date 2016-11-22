@@ -626,12 +626,12 @@ textarea[name="comment"]
 }
 
 .form .field-openWith{
-    margin-left: 240px;
+    margin-right: 240px;
     margin-top: -65px;
 }
 .form .field-resourceFor{
     margin-top: -64px;
-    margin-left: 480px;
+    margin-left: 240px;
 }
 .form .field-resourceType{
     /*  display: inline-block;
@@ -707,6 +707,7 @@ Date: 18th Sept, 2015*/
 
 .form .field-Medium{
     margin-top: 10px;
+    margin-left: 480px;
 }
 
 .form .bbf-field select.bbf-date{
