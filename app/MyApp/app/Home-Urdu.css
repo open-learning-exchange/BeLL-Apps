@@ -260,8 +260,8 @@ table.stu-nav-table{
     padding: 8px 8px;
     background-color: #e1e1e1;
     width:50px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     color:darkorange;
 }
 
@@ -309,8 +309,8 @@ table.stu-nav-table{
     background-color: #E1E1E1;
     border: 1.5px solid #A9A9A9;
     width:30px;
-    border-top-right-radius:15px;
-    border-bottom-right-radius:15px;
+    border-top-left-radius:15px;
+    border-bottom-left-radius:15px;
 }
 
 .scrollable-courses
@@ -335,6 +335,14 @@ table.stu-nav-table{
     border-right-width:0px;
 }
 
+.scrollable-tutor
+{
+border-top: 2.5px solid #FF8C00;
+border-bottom: 2.5px solid #FF8C00;
+border-right: 2.5px solid green;
+padding: 0 0 0 0;
+border-right-width:0px;
+}
 
 .btn-green {
     -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
@@ -1114,7 +1122,6 @@ textarea[name="comment"]
 }
 #meetUpTable{
     background-color: #8A4C80;
-    border-right: 2px solid #FFFFFF;
     font-family: verdana;
     word-wrap: break-word;
 

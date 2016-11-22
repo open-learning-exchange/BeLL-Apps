@@ -64,13 +64,12 @@
 
 .inner {
     overflow-x:auto;
-    width:811px;
+    /*width:811px;*/
     height: 89px;
 }
 .shelf-box
 {
     background-color: #7d609e;
-    border-right: 2px solid white;
     font-family: verdana;
     word-wrap:break-word;
 }
@@ -80,9 +79,16 @@
 .course-box
 {
     background-color: #3f75a3;
-    border-right: 2px solid white;
     font-family: verdana;
     word-wrap:break-word;
+}
+
+.scrollable-courses .course-box {
+	border-right: 1px solid white;
+}
+
+.scrollable-courses .course-box:last-of-type {
+	border-right: none !important;
 }
 
 .meetup-box
@@ -94,7 +100,14 @@
 .displayCourse{
     height:100%;
 }
-
+.displayCourse a {
+	height: 100%;
+}
+.displayCourse a span {
+	display: block;
+	top: 25%;
+	position: relative;
+}
 .login-form-button
 {
     display: block;

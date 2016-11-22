@@ -148,6 +148,14 @@ h1,h2,h3,h4,h5,h6{
     border-right-width:0px;
 }
 
+.scrollable-tutor
+{
+	border-top: 2.5px solid #FF8C00;
+    border-bottom: 2.5px solid #FF8C00;
+    border-right: 2.5px solid #FF8C00;
+    padding: 0 0 0 0;
+    border-right-width:0px;
+}
 
 .btn-green {
     -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
@@ -696,6 +704,14 @@ textarea[name="comment"]
     border-right-width:0px;
 }
 
+.scrollable-tutor
+{
+    border-top: 2.5px solid #FF8C00;
+    border-bottom: 2.5px solid #FF8C00;
+    border-right: 2.5px solid #FF8C00;
+    padding: 0 0 0 0;
+    border-right-width:0px;
+}
 
 .btn-green {
     -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;

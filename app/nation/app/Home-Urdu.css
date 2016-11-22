@@ -125,8 +125,8 @@ h1,h2,h3,h4,h5,h6{
     padding: 8px 8px;
     background-color: #e1e1e1;
     width:50px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     color:darkorange;
 }
 
@@ -174,8 +174,8 @@ h1,h2,h3,h4,h5,h6{
     background-color: #E1E1E1;
     border: 1.5px solid #A9A9A9;
     width:30px;
-    border-top-right-radius:15px;
-    border-bottom-right-radius:15px;
+    border-top-left-radius:15px;
+    border-bottom-left-radius:15px;
 }
 
 .scrollable-courses

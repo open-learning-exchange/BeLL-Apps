@@ -270,6 +270,14 @@ padding: 0 0 0 0;
 border-right-width:0px;
 }
 
+.scrollable-tutor
+{
+border-top: 2.5px solid #FF8C00;
+border-bottom: 2.5px solid #FF8C00;
+border-right: 2.5px solid green;
+padding: 0 0 0 0;
+border-right-width:0px;
+}
 
 .btn-green {
 	-moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
@@ -867,7 +875,6 @@ margin-top: 2px;
 
 #meetUpTable{
     background-color: #8A4C80;
-    border-right: 2px solid #FFFFFF;
     font-family: verdana;
     word-wrap: break-word;
 
