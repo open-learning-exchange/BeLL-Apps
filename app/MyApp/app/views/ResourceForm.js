@@ -288,7 +288,7 @@ $(function() {
                 }
             );
             for (var field in fields) { // field is index and fields is the array being traversed
-                var label = $("<label>").text(fields[field].key); // fields[field].value has info like {content_type: "video/mp4", length: 16501239, etc}
+                var label = $("<label class='form-lable-style'>").text("Uploaded File: " + fields[field].key); // fields[field].value has info like {content_type: "video/mp4", length: 16501239, etc}
                 this.$el.append(label);
             }
             this.$el.append('<br><br>');
