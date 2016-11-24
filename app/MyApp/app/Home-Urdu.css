@@ -61,7 +61,7 @@ select#onDashboardLanguage {
    /* direction: rtl;*/
     height: 600px;
 
-    width:940px;
+    width:950px;
     margin-left:auto;
     margin: 0 auto;
     /* background-color: pink;*/
@@ -159,7 +159,7 @@ select#onDashboardLanguage {
     width: 40px;
 }
 td.stu-nav-option-empty {
-    width:50px;
+    width:30px;
 }
 #itemsinnavbar{
     font-size: 17px;
@@ -208,9 +208,9 @@ table.header-table{
    /* width:100%;*/
 
 }
-table.stu-nav-table{
+/*table.stu-nav-table{
     width:auto;
-}
+}*/
 .right {
     text-align: right;
 }
@@ -259,7 +259,7 @@ table.stu-nav-table{
     font-size: large;
     padding: 8px 8px;
     background-color: #e1e1e1;
-    width:50px;
+    width:85px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     color:darkorange;

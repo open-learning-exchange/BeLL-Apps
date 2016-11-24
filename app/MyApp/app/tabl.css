@@ -56,15 +56,16 @@
     font-weight: bold;
     text-align: center;
     text-decoration: none;;
-    height: 27%;
+    /*height: 27%;*/
     padding-top: 5%;
-    display: block;
+    display: table;
     word-wrap: inherit;
+    width: 100%;
 }
 
 .inner {
     overflow-x:auto;
-    /*width:811px;*/
+    width:813px;
     height: 89px;
 }
 .shelf-box
@@ -104,9 +105,9 @@
 	height: 100%;
 }
 .displayCourse a span {
-	display: block;
-	top: 25%;
-	position: relative;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
 }
 .login-form-button
 {
