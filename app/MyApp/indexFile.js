@@ -1293,7 +1293,8 @@ function FieSelected(stepId) {
                     success:function(){
                         memberProgress = memberProgress.first();
                         var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
-                        if( memberProgress.attributes.stepsResult[memberStepIndex].length >1){
+                       // alert(" length :  "+ memberProgress.attributes.stepsStatus[memberStepIndex].length)
+                        if( memberProgress.attributes.stepsStatus[memberStepIndex].length > 1){
                            // memberProgress.attributes.stepsResult[memberStepIndex][0] = '2';
                             memberProgress.attributes.stepsStatus[memberStepIndex][0] = '2';
                             if(memberProgress.attributes.pqAttempts){
@@ -1310,8 +1311,8 @@ function FieSelected(stepId) {
                             }
                         }
                         memberProgress.save(null, {
-                            success: function(response) {
-                            }
+                           success: function(response) {
+                           }
                         });
                     }
 
