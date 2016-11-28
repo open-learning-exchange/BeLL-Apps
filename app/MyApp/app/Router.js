@@ -4975,7 +4975,7 @@ $(function() {
                     });
                     var jsonConfig = config.first().toJSON().rows[0].doc;
                     if(jsonConfig.type == "nation") {
-                        App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a></p>')
+                        App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
                     }
                     else {
                         App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
