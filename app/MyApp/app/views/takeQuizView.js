@@ -98,9 +98,7 @@ $(function() {
                      pqattempts[this.stepindex][1]++;
                    }
                    else{
-                        alert("before :" +  pqattempts[this.stepindex])
                         pqattempts[this.stepindex]++;
-                        alert("after :" +  pqattempts[this.stepindex])
                    }
                     this.myModel.set('pqAttempts', pqattempts)
                 }
