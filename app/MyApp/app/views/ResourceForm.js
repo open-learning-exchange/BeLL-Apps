@@ -287,8 +287,10 @@ $(function() {
                     };
                 }
             );
+            this.$el.append('<label class="form-label-style">'+ App.languageDict.get('uploaded_file')+'</label>');
+            this.$el.append('<br>');
             for (var field in fields) { // field is index and fields is the array being traversed
-                var label = $("<label class='form-lable-style'>").text("Uploaded File: " + fields[field].key); // fields[field].value has info like {content_type: "video/mp4", length: 16501239, etc}
+                var label = $("<label class='form-label-style'>").text(fields[field].key); // fields[field].value has info like {content_type: "video/mp4", length: 16501239, etc}
                 this.$el.append(label);
             }
             this.$el.append('<br><br>');
