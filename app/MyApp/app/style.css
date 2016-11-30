@@ -10,3 +10,4 @@
 .middle-from input{height:20px;padding-top:10px;border-radius:5px;border:1px solid gray}
 .submit-button{float:right;margin:3%}
 .addNation-btn{color:white}
+#hover{cursor: pointer;}
