@@ -1,12 +1,12 @@
 {
-  "nameOfLanguage":"Englisch",
+  "nameOfLanguage":"German",
   "directionOfLang":"Left",
-  "nameInNativeLang":"Englisch",
+  "nameInNativeLang":"Deutsch",
   "Dashboard":"Mein zuhause",
   "Library":"Bibliothek",
   "Courses":"Kurse",
   "Meetups":"Meetings",
-  "Members":"Members",
+  "Members":"Mitglieder",
   "Reports":"Berichte",
   "Feedback":"Feedback",
   "Logout":"Abmelden",
@@ -73,7 +73,7 @@
   "language":"Sprache",
   "subject":"Fachgebiet(e)",
   "level":"Stufe(n)",
-  "publisher_attribution":"Publisher\/Attribution",
+  "publisher_attribution":"Publisher/Attribution",
   "link_to_license":"Link to License",
   "resource_for":"Ressource für",
   "author":"Autor",
@@ -107,8 +107,8 @@
   "added_by":"Hinzugefügt von",
   "mediaList":[
     "Text",
-    "Graphics\/Pictures",
-    "Audio\/Musik\/Buch",
+    "Graphics/Pictures",
+    "Audio/Musik/Buch",
     "Video"
   ],
   "openWithList":[
@@ -511,7 +511,7 @@
   "Account_DeActivated":"Your account is deactivated.",
   "Publication":"Publication",
   "Resources_Synced_Success":"Resources successfully synced.",
-  "Pubs_Synced_Error":"Error syncing\/replicating publication.",
+  "Pubs_Synced_Error":"Error syncing/replicating publication.",
   "Resources_Synced_Error":"Failed to sync resources.",
   "Courses_Synced_Error":"Failed to sync courses.",
   "CourseSteps_Synced_Error":"Failed to sync course steps.",
@@ -697,7 +697,7 @@
     "Multiple Choice (Single Answer)",
     "Rating Scale",
     "Single Textbox",
-    "Comment\/Essay Box"
+    "Comment/Essay Box"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
