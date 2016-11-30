@@ -98,7 +98,7 @@
   "Release_Notes":"Release Notes",
   "Publications":"Publications",
   "New":"نیا",
-  "Resource":"????",
+  "Resource":"ریسورس",
   "Selected":"سیلیکٹد",
   "Save":"Save",
   "Cancel":"Cancel",
