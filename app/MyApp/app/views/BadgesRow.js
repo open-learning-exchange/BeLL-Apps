@@ -46,17 +46,17 @@ $(function () {
                 //  alert("attachment name : " +attachmentName)
                 vars.attchmentURL = attchmentURL ;
                 vars.attachmentName = attachmentName;
-                vars.paperSubmitted = "Submitted";
             }
             else{
                 //  alert("attachment name : " +attachmentName)
                 vars.attchmentURL = null ;
                 vars.attachmentName = null;
-                vars.paperSubmitted = "NotSubmitted";
             }
             vars.stepNo = this.model.attributes.step;
             //vars.stepType = "";
             vars.credits = this.credits;
+            vars.status = this.status;
+            vars.attempts = this.attempts;
             vars.stepType =  this.stepType;
             this.$el.append(_.template(this.template, vars))
         }
