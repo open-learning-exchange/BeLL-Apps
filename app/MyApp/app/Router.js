@@ -636,14 +636,14 @@ $(function() {
                                    memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
                                    if( paperMarks >= percentage  ) {
                                        memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
-                                       if(memberProgress.attributes.pqAttempts){
+                                       if(memberProgress.attributes.pqAttempts != undefined){
                                            memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
                                        }
                                    }
                                    else{
                                        if(memberProgress.attributes.stepsStatus[memberStepIndex][0]==2) {
                                            memberProgress.attributes.stepsStatus[memberStepIndex][0] = '0';
-                                           if(memberProgress.attributes.pqAttempts){
+                                           if(memberProgress.attributes.pqAttempts != undefined){
                                                memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
                                            }
                                        }
@@ -656,14 +656,14 @@ $(function() {
                                     memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
                                     if (paperMarks >= percentage) {
                                         memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
-                                        if (memberProgress.attributes.pqAttempts) {
+                                        if (memberProgress.attributes.pqAttempts != undefined) {
                                             memberProgress.attributes.pqAttempts[memberStepIndex]++;
                                         }
                                     }
                                     else {
                                         if (memberProgress.attributes.stepsStatus[memberStepIndex] == 2) {
                                             memberProgress.attributes.stepsStatus[memberStepIndex] = '0';
-                                            if (memberProgress.attributes.pqAttempts) {
+                                            if (memberProgress.attributes.pqAttempts != undefined) {
                                                 memberProgress.attributes.pqAttempts[memberStepIndex]++;
                                             }
                                         }
