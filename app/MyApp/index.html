@@ -1003,16 +1003,16 @@
             <%= stepType %>
         </td>
         <td>
-            <%if(stepType == 'Quiz' && credits != '0'  ){%>
-            submitted
-            <%}else if(stepType == 'Quiz' && credits == '0'  ){%>
-            Quiz is not submitted
+            <%if(stepType == 'Quiz' && status == "1"  ){%>
+                submitted
+            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
+                Quiz is not submitted
             <%}else{%>
-            <%if(attachmentName!=null && attchmentURL != null){%>
-            <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-            <%}else{%>
-            Paper is not uploaded
-            <%}%>
+                <%if(attachmentName!=null && attchmentURL != null){%>
+                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
+                <%}else{%>
+                    Paper is not uploaded
+                <%}%>
             <%}%>
         </td>
         <td>
@@ -1034,34 +1034,30 @@
             <%= stepType %>
         </td>
         <td>
-            <%if(stepType == 'Quiz' && credits != '0'  ){%>
-           submitted
-            <%}else if(stepType == 'Quiz' && credits == '0'  ){%>
-           Quiz is not submitted
+            <%if(stepType == 'Quiz' && status == "1"  ){%>
+                submitted
+            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
+                Quiz is not submitted
             <%}else{%>
-               <%if(attachmentName!=null && attchmentURL != null){%>
-               <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-               <%}else{%>
-                  Paper is not uploaded
+                <%if(attachmentName!=null && attchmentURL != null){%>
+                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
+                <%}else{%>
+                    Paper is not uploaded
                 <%}%>
             <%}%>
         </td>
         <td>
             <input type="hidden" name="percentage"  id="<%=percentage%>">
-            <%if(stepType== 'Quiz' ){%>
-            <%= credits %>/100
-            <%}%>
-            <%if(stepType== 'Paper'){%>
-            <%if(paperSubmitted ==  "Submitted" && credits == '0' ){%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
-              <%}else if(paperSubmitted ==  "Submitted" && credits != '0' ){%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
-            <%}else if(paperSubmitted ==  "NotSubmitted" && credits == '0' ){%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>/100
-            <%}else{%>
-            <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
-            <%}%>
-            <%}%>
+                <%if(stepType== 'Quiz' ){%>
+                    <%= credits %>/100
+                <%}%>
+                <%if(stepType== 'Paper'){%>
+                    <%if(status == "0" && attempts == 0){%>
+                        <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>/100
+                    <%}else{%>
+                        <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
+                    <%}%>
+                <%}%>
         </td>
         <td>
             <%= credits %>%
@@ -1330,26 +1326,26 @@
 
             <% if(status.length > 1) { %>
 
-              <% if(status[0] > 1 && status[1] == 1 ) { %>
-                <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>%</span>
-                <% } else if (status[0] == 1 && status[1] == 1) {%>
-                <span  style="float:right;" >&nbsp; <%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
-                <% } else if (status[0] == 1 && status[1] == 0) {%>
-                <span  style="float:right;" >&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
-                <% } else if (status[0] > 1 && status[1] == 0) {%>
-                <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>% </span>
+                <% if (status[0] == 0 && status[1] == 0) {%>
+                    <span  style="float:right;">&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>% </span>
                 <% } else if (status[0] == 0 && status[1] == 1) {%>
-                <span  style="float:right;" >&nbsp;<%=marks[1]%>%</span>
+                    <span  style="float:right;" >&nbsp;<%=marks[1]%>%</span>
+                <% } else if (status[0] == 1 && status[1] == 0) {%>
+                    <span  style="float:right;" >&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
+                <% } else if (status[0] == 1 && status[1] == 1) {%>
+                    <span  style="float:right;" >&nbsp; <%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
+                <% } else if (status[0] > 1 && status[1] == 0) {%>
+                    <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>% </span>
+                <% } else if(status[0] > 1 && status[1] == 1 ) { %>
+                    <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>%</span>
                 <% } %>
 
             <% } else  { %>
 
                 <% if(status > 1 ) { %>
-                <span  style="float:right;" class="fui-check">&nbsp;</span>
-                <% }else if(status == "1" ) { %>
-                <span  style="float:right;" >&nbsp;<%=marks%>%</span>
-                <% } else if(status == "0" ) { %>
-                <span  style="float:right;" >&nbsp;<%=marks%>%</span>
+                    <span  style="float:right;" class="fui-check">&nbsp;</span>
+                <% } else { %>
+                    <span  style="float:right;" >&nbsp;<%=marks%>%</span>
                 <% } %>
 
             <% } %>

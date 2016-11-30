@@ -440,23 +440,40 @@ $(function() {
             courseProgress.memberId = $.cookie('Member._id');
             courseProgress.courseId = courseId;
             courseProgress.fetch({
-                async:false,
+                async:false
             });
             var resLength = [];
             var stepLength = [];
             for (var i =0; i< courseProgress.models[0].get('stepsResult').length ; i++){
                 stepLength = courseProgress.models[0].get('stepsResult')[i];
                 if($.isArray(stepLength)){
-                    resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))
-                    resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][1]))
+                    if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))) {
+                        resLength.push(0);
+                    }
+                    else {
+                        resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))
+                    }
+                    if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][1]))) {
+                        resLength.push(0);
+                    }
+                    else {
+                        resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][1]))
+                    }
                 }
                 else {
-                    resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i]))
+                    if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i]))) {
+                        resLength.push(0);
+                    }
+                    else {
+                        resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i]))
+                    }
                 }
             }
             var marks = 0; var totalMarks = 100*resLength.length ;
             for (var i =0; i< resLength.length ; i++){
-                marks = marks+resLength[i]
+                if(resLength[i] != NaN) {
+                    marks = marks+resLength[i]
+                }
 
             }
 
@@ -623,13 +640,15 @@ $(function() {
                                if(memberProgress.attributes.stepsResult[memberStepIndex][0] != paperMarks) {
                                    memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
                                    if( paperMarks >= percentage  ) {
-                                       memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
-                                       if(memberProgress.attributes.pqAttempts != undefined){
-                                           memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
+                                       if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
+                                           if (memberProgress.attributes.pqAttempts != undefined) {
+                                               memberProgress.attributes.pqAttempts[memberStepIndex][0]++;
+                                           }
                                        }
+                                       memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
                                    }
                                    else{
-                                       if(memberProgress.attributes.stepsStatus[memberStepIndex][0]==2) {
+                                       if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
                                            memberProgress.attributes.stepsStatus[memberStepIndex][0] = '0';
                                            if(memberProgress.attributes.pqAttempts != undefined){
                                                memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
@@ -643,13 +662,15 @@ $(function() {
                                 if(memberProgress.attributes.stepsResult[memberStepIndex] != paperMarks) {
                                     memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
                                     if (paperMarks >= percentage) {
-                                        memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
-                                        if (memberProgress.attributes.pqAttempts != undefined) {
-                                            memberProgress.attributes.pqAttempts[memberStepIndex]++;
+                                        if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
+                                            if (memberProgress.attributes.pqAttempts != undefined) {
+                                                memberProgress.attributes.pqAttempts[memberStepIndex]++;
+                                            }
                                         }
+                                        memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
                                     }
                                     else {
-                                        if (memberProgress.attributes.stepsStatus[memberStepIndex] == 2) {
+                                        if (memberProgress.attributes.stepsStatus[memberStepIndex] == "2") {
                                             memberProgress.attributes.stepsStatus[memberStepIndex] = '0';
                                             if (memberProgress.attributes.pqAttempts != undefined) {
                                                 memberProgress.attributes.pqAttempts[memberStepIndex]++;

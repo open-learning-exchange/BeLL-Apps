@@ -7,15 +7,17 @@ $(function () {
         className: "table table-striped",
         events:{
         },
-        addOne: function (model, credits) {
+        addOne: function (model, credits, status, attempts) {
             var creditsRow = new App.Views.CreditsRow({
                 model: model
             })
-            creditsRow.memberId=this.memberId
-                    creditsRow.stepType= model.attributes.outComes;
+            creditsRow.memberId=this.memberId;
+            creditsRow.stepType= model.attributes.outComes;
             creditsRow.credits = credits;
-                    creditsRow.render()
-                    this.$el.append(creditsRow.el);
+            creditsRow.status = status;
+            creditsRow.attempts = attempts;
+            creditsRow.render();
+            this.$el.append(creditsRow.el);
         },
         addAll: function() {
             var that = this;
@@ -23,10 +25,12 @@ $(function () {
             courseProgress.memberId = this.memberId;
             courseProgress.courseId = this.courseId;
             courseProgress.fetch({
-                async:false,
+                async:false
             });
             var indexOfCurrentStep;
             var credits;
+            var status;
+            var attempts;
             for(var i = 0 ; i < that.collection.length ; i++) {
                 var model = that.collection.models[i];
                  indexOfCurrentStep =courseProgress.models[0].get('stepsIds').indexOf(model.get('_id'));
@@ -34,13 +38,19 @@ $(function () {
                     var tempOutComes=model.attributes.outComes;
                     model.attributes.outComes = tempOutComes[0];
                     credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][0];
-                    that.addOne(model, credits);
+                    status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep][0];
+                    attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep][0];
+                    that.addOne(model, credits, status, attempts);
                     model.attributes.outComes = tempOutComes[1];
                     credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][1];
-                    that.addOne(model, credits);
+                    status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep][1];
+                    attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep][1];
+                    that.addOne(model, credits, status, attempts);
                 } else {
                     credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
-                    that.addOne(model, credits);
+                    status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep];
+                    attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep];
+                    that.addOne(model, credits, status, attempts);
                 }
             }
         },

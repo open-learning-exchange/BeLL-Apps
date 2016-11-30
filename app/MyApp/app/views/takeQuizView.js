@@ -93,7 +93,7 @@ $(function() {
                 if(flagAttempts && this.myModel.get('pqAttempts')){
                     var pqattempts = this.myModel.get('pqAttempts')
                 }
-                if (pqattempts){
+                if (pqattempts != undefined){
                    if( pqattempts[this.stepindex].length > 1){
                      pqattempts[this.stepindex][1]++;
                    }
