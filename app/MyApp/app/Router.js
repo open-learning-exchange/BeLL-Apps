@@ -628,28 +628,45 @@ $(function() {
                                 }
                             }
                             else{
-                                intMarks.push(parseInt(marks));
+                                    intMarks.push(parseInt(marks));
                             }
                            console.log("intMarks : " + intMarks)
                             if (intMarks.length > 1) {
-                                memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
-                                if( paperMarks >= percentage  ) {
-                                    memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
-                                }
-                                else{
-                                    if(memberProgress.attributes.stepsStatus[memberStepIndex][0]==2) {
-                                        memberProgress.attributes.stepsStatus[memberStepIndex][0] = '3';
-                                    }
-                                }
+                               if(memberProgress.attributes.stepsResult[memberStepIndex][0] != paperMarks) {
+                                   memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
+                                   if( paperMarks >= percentage  ) {
+                                       memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
+                                       if(memberProgress.attributes.pqAttempts){
+                                           memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
+                                       }
+                                   }
+                                   else{
+                                       if(memberProgress.attributes.stepsStatus[memberStepIndex][0]==2) {
+                                           memberProgress.attributes.stepsStatus[memberStepIndex][0] = '0';
+                                           if(memberProgress.attributes.pqAttempts){
+                                               memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
+                                           }
+                                       }
+                                   }
+                               }
+
                             }
                             else {
-                                memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
-                                if( paperMarks >= percentage  ) {
-                                    memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
-                                }
-                                else{
-                                    if(memberProgress.attributes.stepsStatus[memberStepIndex]==2) {
-                                        memberProgress.attributes.stepsStatus[memberStepIndex] = '3';
+                                if(memberProgress.attributes.stepsResult[memberStepIndex] != paperMarks) {
+                                    memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
+                                    if (paperMarks >= percentage) {
+                                        memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
+                                        if (memberProgress.attributes.pqAttempts) {
+                                            memberProgress.attributes.pqAttempts[memberStepIndex]++;
+                                        }
+                                    }
+                                    else {
+                                        if (memberProgress.attributes.stepsStatus[memberStepIndex] == 2) {
+                                            memberProgress.attributes.stepsStatus[memberStepIndex] = '0';
+                                            if (memberProgress.attributes.pqAttempts) {
+                                                memberProgress.attributes.pqAttempts[memberStepIndex]++;
+                                            }
+                                        }
                                     }
                                 }
                             }
