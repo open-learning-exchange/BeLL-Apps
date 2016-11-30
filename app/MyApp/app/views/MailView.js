@@ -142,16 +142,19 @@ $(function() {
                                             var sattempts = [];
                                             if(m.get("outComes").length == 2) {
                                                 var arr = [];
+                                                var arr1 = [];
                                                 var pqarr = [];
                                                 pqarr.push(0)
                                                 pqarr.push(0)
                                                 arr.push("0")
                                                 arr.push("0")
-                                                sresults = arr;
+                                                arr1.push("")
+                                                arr1.push("")
+                                                sresults = arr1;
                                                 sstatus = arr;
                                                 sattempts = pqarr;
                                             } else {
-                                                sresults = '0';
+                                                sresults = "";
                                                 sstatus= '0';
                                                 sattempts = 0
                                             }
@@ -497,16 +500,19 @@ $(function() {
                                     var sattempts = [];
                                     if(m.get("outComes").length == 2) {
                                         var arr = [];
+                                        var arr1 = [];
                                         var pqarr = [];
                                         pqarr.push(0)
                                         pqarr.push(0)
                                         arr.push("0")
                                         arr.push("0")
-                                        sresults = arr;
+                                        arr1.push("")
+                                        arr1.push("")
+                                        sresults = arr1;
                                         sstatus = arr;
                                         sattempts = pqarr;
                                     } else {
-                                        sresults = '0';
+                                        sresults = "";
                                         sstatus= '0';
                                         sattempts = 0;
                                     }

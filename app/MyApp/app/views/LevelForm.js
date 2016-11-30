@@ -61,37 +61,38 @@ $(function() {
                                 var sids = m.get("stepsIds")
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
-                                var pqattempts ;
-                                if(m.get("pqAttempts")){
-                                    pqattempts = m.get("pqAttempts");
-                                }
+                                var pqattempts = m.get("pqAttempts");
                                 if(sids.indexOf(that.model.get("id")) < 0)
                                 {
                                     sids.push(that.model.get("id"))
                                     if(that.model.get("outComes").length == 2) {
                                         var arr = [];
+                                        var arr1 = [];
                                         var pqarr = [];
-                                        arr.push("0")
-                                        arr.push("0")
+                                        arr.push("")
+                                        arr.push("")
+                                        arr1.push("0");
+                                        arr1.push("0");
                                         pqarr.push(0)
                                         pqarr.push(0)
                                         sresults.push(arr)
-                                        sstatus.push(arr)
-                                        if(m.get("pqAttempts")){
-                                              pqattempts.push( pqarr)
+                                        sstatus.push(arr1)
+                                        if(pqattempts != undefined) {
+                                            pqattempts.push( pqarr)
                                         }
+
                                     } else {
-                                        sresults.push("0")
+                                        sresults.push("")
                                         sstatus.push("0")
-                                        if(m.get("pqAttempts")){
-                                             pqattempts.push(0);
+                                        if(pqattempts != undefined) {
+                                            pqattempts.push(0);
                                         }
                                     }
                                     m.set("stepsIds", sids)
                                     m.set("stepsResult", sresults)
                                     m.set("stepsStatus", sstatus)
-                                    if(m.get("pqAttempts")){
-                                         m.set("pqAttempts", pqattempts)
+                                    if(pqattempts != undefined) {
+                                        m.set("pqAttempts", pqattempts)
                                     }
                                     m.save()
                                 }
@@ -114,19 +115,35 @@ $(function() {
                                 var sids = m.get("stepsIds")
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
+                                var pqattempts = m.get("pqAttempts");
                                 var stepIndex = sids.indexOf(that.model.get("id"))
                                 if(that.model.get("outComes").length == 2) {
                                     var arr = [];
-                                    arr.push("0")
-                                    arr.push("0")
+                                    var arr1 = [];
+                                    var pqarr = [];
+                                    arr.push("")
+                                    arr.push("")
+                                    arr1.push("0");
+                                    arr1.push("0");
+                                    pqarr.push(0)
+                                    pqarr.push(0)
                                     sresults[stepIndex] = arr;
-                                    sstatus[stepIndex] = arr;
+                                    sstatus[stepIndex] = arr1;
+                                    if(pqattempts != undefined) {
+                                        pqattempts[stepIndex] = pqarr;
+                                    }
                                 } else {
-                                    sresults[stepIndex] = '0';
+                                    sresults[stepIndex] = "";
                                     sstatus[stepIndex] = '0';
+                                    if(pqattempts != undefined) {
+                                        pqattempts[stepIndex] = 0;
+                                    }
                                 }
                                 m.set("stepsResult", sresults)
                                 m.set("stepsStatus", sstatus)
+                                if(pqattempts != undefined) {
+                                    m.set("pqAttempts", pqattempts)
+                                }
                                 m.save()
                             })
                         }
