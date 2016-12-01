@@ -677,6 +677,7 @@
   "Destroy":"Destroy",
   "edit_welcomeVideo":"Edit Welcome Video Form",
   "upload_welcomeVideo":"Upload Welcome Video",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Upload Date",
   "Add_Survey":"Add Survey",
   "Survey_Number":"Survey No",
