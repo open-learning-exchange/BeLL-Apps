@@ -73,7 +73,7 @@
   "language":"Idioma",
   "subject":"Tema(s)",
   "level":"Nivel(es)",
-  "publisher_attribution":"Editor\/Fuente",
+  "publisher_attribution":"Editor/Fuente",
   "link_to_license":"Enlace a la licencia",
   "resource_for":"Recurso para",
   "author":"Autor",
@@ -107,8 +107,8 @@
   "added_by":"Añadido por",
   "mediaList":[
     "Texto",
-    "Graphics\/Pictures",
-    "Audio\/Música\/Libro",
+    "Graphics/Pictures",
+    "Audio/Música/Libro",
     "Video"
   ],
   "openWithList":[
@@ -677,6 +677,7 @@
   "Destroy":"Eliminar",
   "edit_welcomeVideo":"Editar formato del Video de bienvenida",
   "upload_welcomeVideo":"Añadir Video de bienvenida",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Añadir fecha",
   "Add_Survey":"Agregar encuesta",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "Selección múltiple (respuesta única)",
     "Escala de clasificación",
     "Cuadro de texto",
-    "Cuadro de Comentario\/Ensayo"
+    "Cuadro de Comentario/Ensayo"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
