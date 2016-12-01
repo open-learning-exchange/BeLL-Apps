@@ -541,6 +541,7 @@
   "UnAuthorized_Login":"Tsy nahazo halalana ny hiditra ao ianao.",
   "Status":"Sata",
   "Synced_Success":"Synced successfully",
+  "Check_Sync":"Sync status",
   "Already_Pub_Sent":"This publication is already sent to",
   "Prompt_Community_First":"Please select community first.",
   "AddCourse_To_pubs_Failed":"Tsy tontosa ny fanampiana lesona nankao amin'ny fanontana boky.",
