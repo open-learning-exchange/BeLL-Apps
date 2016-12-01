@@ -32,6 +32,8 @@ $(function() {
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="publication" class="btn btn-primary" href="#publications/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Publications') + '</a>  </div>')
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="survey" class="btn btn-primary" href="#surveys/for-' + App.configuration.get('name') + '">' + App.languageDict.get('Surveys') + '</a>  </div>')
             this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <a id="welcomeButton" class="btn btn-primary" href ="#updatewelcomevideo">' + App.languageDict.attributes.Welcome_Video + '</a></div>')
+            this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left; display:none;"> <a id="syncStatus" class="btn btn-primary" href ="#checksum">' + App.languageDict.attributes.Check_Updated + '</a></div>')
+            
             // /****************************************************************************************************************************************************
             //   this.$el.append('<div style="padding: 20px 20px 0px 0px; float: left;"> <button class="SyncMembersDb btn btn-primary" id="syncmembers">Sync Members Db With Nation</button>  </div>')
             //  ****************************************************************************************************************************************************/

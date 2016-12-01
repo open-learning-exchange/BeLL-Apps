@@ -86,7 +86,8 @@ $(function() {
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
-            'configurationsForm': 'configurationsForm'
+            'configurationsForm': 'configurationsForm',
+            'checksum': 'checkSum'
         },
 
         addOrUpdateWelcomeVideoDoc: function() {
@@ -284,11 +285,22 @@ $(function() {
         },
 
         communityManage: function() {
-
             var manageCommunity = new App.Views.ManageCommunity();
             App.$el.children('.body').html('<div id="configTable"></div>');
             manageCommunity.render()
             $('#configTable').append(manageCommunity.el);
+            $.ajax({
+                url: 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function (json) {
+                	$('#syncStatus').closest('div').show();
+                },
+                error: function (status) {
+                	$('#syncStatus').closest('div').hide();
+                }
+            });
             //  manageCommunity.updateDropDownValue();
         },
         addCourseInvi: function() {
@@ -6485,8 +6497,67 @@ $(function() {
                 }
                 count++
             })
-        }
-
+        },
+        checkSum: function() {
+            nationName = App.configuration.get('nationName');
+            nationURL = App.configuration.get('nationUrl');
+            remoteDesign = [];
+            localDesign = [];
+            
+            $.ajax({
+                url: 'http://' + nationURL + '/_all_dbs',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function(result) {
+                	$.each(result, function(i, val) {
+                		if(val.substr(0, 1) != '_') {
+                			 $.ajax({
+            	                url: 'http://' + nationURL + '/'+val+'/_design/bell',
+            	                type: 'GET',
+            	                dataType: 'jsonp',
+            	                async: false,
+            	                success: function(resultR) {
+            	                	if(resultR['_id'] != undefined) resultR['_id'] = '';
+            	                	if(resultR['_rev'] != undefined) resultR['_rev'] = '';
+            	                	remoteDesign[val] = hex_md5(JSON.stringify(resultR));
+            	                	$.ajax({
+                    	                url: '/'+val+'/_design/bell',
+                    	                type: 'GET',
+                    	                dataType: 'json',
+                    	                async: false,
+                    	                success: function(resultL) {
+                    	                	if(resultL['_id'] != undefined) resultL['_id'] = '';
+                    	                	if(resultL['_rev'] != undefined) resultL['_rev'] = '';
+                    	                	localDesign[val] = hex_md5(JSON.stringify(resultL));
+                    	                	if(localDesign[val] == remoteDesign[val]) 
+                    	                		$('.body').append('<br/><b>' + val + '</b>: <span class="correct">'+ App.languageDict.attributes.Synced_Success + '</span>');
+                    	                	else 
+                    	                		$('.body').append('<br/><b>' + val + '</b>: <span class="wrong">'+ App.languageDict.attributes.Not_Synced + '</span>');
+                    	                	
+                    	                },
+                    	                error: function(err) {
+                    	                    console.log(err);
+                    	                }
+                    	            })
+            	                },
+            	                error: function(err) {
+            	                    console.log(err);
+            	                }
+            	            })
+            	            return true;
+                		}
+                		
+                	});
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+       }
+        
     }))
+    
+    
 
 })
