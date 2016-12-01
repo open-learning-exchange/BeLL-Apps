@@ -689,6 +689,7 @@
    "Destroy": "خارج کریں",
    "edit_welcomeVideo": "خوش آمدید ویڈیو فارم میں ترمیم کریں",
    "upload_welcomeVideo": "خوش آمدید ویڈیو اپ لوڈ کریں",
+   "uploaded_file":"Uploaded File :",
    "upload_Date": "اپ لوڈ تاریخ",
    "Add_Survey":"سروے کا ا ضافہ کریں",
    "Survey_Number":"سروے نمبر",

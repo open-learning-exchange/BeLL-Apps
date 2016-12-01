@@ -679,6 +679,7 @@
    "Destroy":"اتلاف",
    "edit_welcomeVideo":"تعديل نموذج فيديو الترحيب",
    "upload_welcomeVideo":"تحميل فيديو الترحيب",
+   "uploaded_file":"Uploaded File :",
    "upload_Date":"تحميل التاريخ",
    "Add_Survey":"إضافة بحث",
    "Survey_Number":"رقم البحث",
