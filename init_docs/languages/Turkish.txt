@@ -107,8 +107,8 @@
   "added_by":"Ekleyen",
   "mediaList":[
     "Metin",
-    "Graphics\/Pictures",
-    "Ses\/Müzik\/Kitap",
+    "Graphics/Pictures",
+    "Ses/Müzik/Kitap",
     "Video"
   ],
   "openWithList":[
@@ -511,7 +511,7 @@
   "Account_DeActivated":"Your account is deactivated.",
   "Publication":"Yayın",
   "Resources_Synced_Success":"Kaynaklar başarıyla senkronize edildi.",
-  "Pubs_Synced_Error":"Yayının senkronize edilmesi\/kopyalanmasında hata!",
+  "Pubs_Synced_Error":"Yayının senkronize edilmesi/kopyalanmasında hata!",
   "Resources_Synced_Error":"Kaynakları senkronize edilemedi!",
   "Courses_Synced_Error":"Kurslar senkronize edilemedi.",
   "CourseSteps_Synced_Error":"Kurs adımları senkronize edilemedi.",
@@ -677,6 +677,7 @@
   "Destroy":"Yok et",
   "edit_welcomeVideo":"Açılış videosu değiştirme formu",
   "upload_welcomeVideo":"Açılış videosu yükle",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Yükleme Tarihi",
   "Add_Survey":"Anket Ekle",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "Çoktan Seçmeli (tek doğru cevaplı)",
     "Derecelendirme Ölçeği",
     "Tekli metin kutusu",
-    "Yorum\/Deneme Kutusu"
+    "Yorum/Deneme Kutusu"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
