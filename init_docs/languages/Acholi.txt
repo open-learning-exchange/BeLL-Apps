@@ -541,6 +541,7 @@
   "UnAuthorized_Login":"crwdns15955:0crwdne15955:0",
   "Status":"crwdns15956:0crwdne15956:0",
   "Synced_Success":"crwdns15957:0crwdne15957:0",
+  "Check_Sync":"crwdns16238:0crwdne16238:0",
   "Already_Pub_Sent":"crwdns15958:0crwdne15958:0",
   "Prompt_Community_First":"crwdns15959:0crwdne15959:0",
   "AddCourse_To_pubs_Failed":"crwdns15960:0crwdne15960:0",
