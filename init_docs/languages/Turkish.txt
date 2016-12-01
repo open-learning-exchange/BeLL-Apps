@@ -541,6 +541,7 @@
   "UnAuthorized_Login":"Giriş yapmak için yetkiniz yok.",
   "Status":"Durum",
   "Synced_Success":"Synced successfully",
+  "Check_Sync":"Sync status",
   "Already_Pub_Sent":"This publication is already sent to",
   "Prompt_Community_First":"Please select community first.",
   "AddCourse_To_pubs_Failed":"Kurs yayın içerisine eklenemedi.",
