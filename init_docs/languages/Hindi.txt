@@ -73,7 +73,7 @@
   "language":"भाषा ",
   "subject":"विषय",
   "level":"स्तर(स्तरों)",
-  "publisher_attribution":"प्रकाशक\/रोपण",
+  "publisher_attribution":"प्रकाशक/रोपण",
   "link_to_license":"लाइसेंस के लिए लिंक",
   "resource_for":"संसाधन के लिए",
   "author":"लेखक",
@@ -107,8 +107,8 @@
   "added_by":"Added By",
   "mediaList":[
     "टेक्स्ट",
-    "Graphics\/Pictures",
-    "ऑडियो\/संगीत\/किताब",
+    "Graphics/Pictures",
+    "ऑडियो/संगीत/किताब",
     "वीडियो"
   ],
   "openWithList":[
@@ -267,7 +267,7 @@
   "Frequency":"आवृत्ति",
   "Daily":"दैनिक",
   "Weekly":"साप्ताहिक",
-  "Location":"स्थान \/ जगह",
+  "Location":"स्थान / जगह",
   "Foreground_Color":"Foreground Color",
   "Background_Color":"पृष्ठभूमि रंग",
   "Invite_Member":"सदस्य को आमंत्रित करें",
@@ -511,7 +511,7 @@
   "Account_DeActivated":"Your account is deactivated.",
   "Publication":"Publication",
   "Resources_Synced_Success":"Resources successfully synced.",
-  "Pubs_Synced_Error":"Error syncing\/replicating publication.",
+  "Pubs_Synced_Error":"Error syncing/replicating publication.",
   "Resources_Synced_Error":"Failed to sync resources.",
   "Courses_Synced_Error":"Failed to sync courses.",
   "CourseSteps_Synced_Error":"Failed to sync course steps.",
@@ -677,6 +677,7 @@
   "Destroy":"Destroy",
   "edit_welcomeVideo":"Edit Welcome Video Form",
   "upload_welcomeVideo":"Upload Welcome Video",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Upload Date",
   "Add_Survey":"Add Survey",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "Multiple Choice (Single Answer)",
     "Rating Scale",
     "Single Textbox",
-    "Comment\/Essay Box"
+    "Comment/Essay Box"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
