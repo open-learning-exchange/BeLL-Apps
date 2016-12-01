@@ -86,7 +86,7 @@ $(function () {
                 async: false
             })
             if (student.toJSON().firstName != undefined) {
-                temp.name = student.toJSON().firstName
+                temp.name = student.toJSON().firstName + ' ' + student.toJSON().lastName
                 temp.passed = passed
                 temp.remaining = remaining
                 temp.memberId = model.get("memberId");
