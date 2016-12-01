@@ -73,7 +73,7 @@
   "language":"Idioma",
   "subject":"Asignatura(s)",
   "level":"Nivel(es)",
-  "publisher_attribution":"Editor\/Fuente",
+  "publisher_attribution":"Editor/Fuente",
   "link_to_license":"Enlace a la licencia",
   "resource_for":"Recurso para",
   "author":"Autor",
@@ -107,8 +107,8 @@
   "added_by":"Añadido por",
   "mediaList":[
     "Texto",
-    "Gráficos\/imágenes",
-    "Audio\/Música\/Libro",
+    "Gráficos/imágenes",
+    "Audio/Música/Libro",
     "Vídeo"
   ],
   "openWithList":[
@@ -677,6 +677,7 @@
   "Destroy":"Destruir",
   "edit_welcomeVideo":"Edit Welcome Video Form",
   "upload_welcomeVideo":"Upload Welcome Video",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Fecha de carga",
   "Add_Survey":"Add Survey",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "Multiple Choice (Single Answer)",
     "Rating Scale",
     "Single Textbox",
-    "Comment\/Essay Box"
+    "Comment/Essay Box"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
