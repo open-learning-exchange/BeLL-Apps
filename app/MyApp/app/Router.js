@@ -6503,7 +6503,7 @@ $(function() {
             nationURL = App.configuration.get('nationUrl');
             remoteDesign = [];
             localDesign = [];
-            
+            $('.body').html('');
             $.ajax({
                 url: 'http://' + nationURL + '/_all_dbs',
                 type: 'GET',
@@ -6554,8 +6554,8 @@ $(function() {
                     console.log(err);
                 }
             })
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
        }
-        
     }))
     
     
