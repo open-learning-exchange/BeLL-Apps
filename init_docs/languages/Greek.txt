@@ -73,7 +73,7 @@
   "language":"Γλώσσα",
   "subject":"Θέμα(τα)",
   "level":"Επίπεδα",
-  "publisher_attribution":"Εκδότης\/Απόδοση",
+  "publisher_attribution":"Εκδότης/Απόδοση",
   "link_to_license":"Link to License",
   "resource_for":"Πόρος για",
   "author":"Συγγραφέας",
@@ -107,8 +107,8 @@
   "added_by":"Προστέθηκε από",
   "mediaList":[
     "Κείμενο",
-    "Graphics\/Pictures",
-    "Ήχος\/Μουσική\/Βιβλίο",
+    "Graphics/Pictures",
+    "Ήχος/Μουσική/Βιβλίο",
     "Βίντεο"
   ],
   "openWithList":[
@@ -511,7 +511,7 @@
   "Account_DeActivated":"Your account is deactivated.",
   "Publication":"Publication",
   "Resources_Synced_Success":"Resources successfully synced.",
-  "Pubs_Synced_Error":"Error syncing\/replicating publication.",
+  "Pubs_Synced_Error":"Error syncing/replicating publication.",
   "Resources_Synced_Error":"Failed to sync resources.",
   "Courses_Synced_Error":"Failed to sync courses.",
   "CourseSteps_Synced_Error":"Failed to sync course steps.",
@@ -677,6 +677,7 @@
   "Destroy":"Destroy",
   "edit_welcomeVideo":"Edit Welcome Video Form",
   "upload_welcomeVideo":"Upload Welcome Video",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Upload Date",
   "Add_Survey":"Add Survey",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "Multiple Choice (Single Answer)",
     "Rating Scale",
     "Single Textbox",
-    "Comment\/Essay Box"
+    "Comment/Essay Box"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
