@@ -73,7 +73,7 @@
   "language":"Langue",
   "subject":"Sujet(s)",
   "level":"Niveau(x)",
-  "publisher_attribution":"Editeur\/Attribution",
+  "publisher_attribution":"Editeur/Attribution",
   "link_to_license":"Lien vers la licence",
   "resource_for":"Ressource pour",
   "author":"Auteur",
@@ -107,8 +107,8 @@
   "added_by":"Ajouté par",
   "mediaList":[
     "Texte",
-    "Graphics\/Pictures",
-    "Livre\/musique\/audio",
+    "Graphics/Pictures",
+    "Livre/musique/audio",
     "Vidéo"
   ],
   "openWithList":[
@@ -207,7 +207,7 @@
   "View_All":"Voir tout",
   "Error":" Error",
   "Collection_s":"Collections",
-  "Medium":"Moyen\/Moyenne",
+  "Medium":"Moyen/Moyenne",
   "Rating":"Évaluation",
   "No_Requests":"Aucune demandes",
   "Search_Result":"Search Results",
@@ -511,7 +511,7 @@
   "Account_DeActivated":"Your account is deactivated.",
   "Publication":"Publication",
   "Resources_Synced_Success":"Resources successfully synced.",
-  "Pubs_Synced_Error":"Error syncing\/replicating publication.",
+  "Pubs_Synced_Error":"Error syncing/replicating publication.",
   "Resources_Synced_Error":"Failed to sync resources.",
   "Courses_Synced_Error":"Failed to sync courses.",
   "CourseSteps_Synced_Error":"Failed to sync course steps.",
@@ -677,6 +677,7 @@
   "Destroy":"Destroy",
   "edit_welcomeVideo":"Edit Welcome Video Form",
   "upload_welcomeVideo":"Upload Welcome Video",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Upload Date",
   "Add_Survey":"Add Survey",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "Multiple Choice (Single Answer)",
     "Rating Scale",
     "Single Textbox",
-    "Comment\/Essay Box"
+    "Comment/Essay Box"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
