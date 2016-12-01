@@ -107,8 +107,8 @@
   "added_by":"添加者",
   "mediaList":[
     "文本",
-    "Graphics\/Pictures",
-    "音频\/音乐\/书",
+    "Graphics/Pictures",
+    "音频/音乐/书",
     "视频"
   ],
   "openWithList":[
@@ -677,6 +677,7 @@
   "Destroy":"销毁",
   "edit_welcomeVideo":"编辑欢迎视频的档案格式",
   "upload_welcomeVideo":"上传欢迎视频",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"上传日期",
   "Add_Survey":"新增问卷",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "选择题(单一答案)",
     "Rating Scale",
     "Single Textbox",
-    "Comment\/Essay Box"
+    "Comment/Essay Box"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
