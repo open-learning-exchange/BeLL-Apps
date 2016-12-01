@@ -107,8 +107,8 @@
   "added_by":"Nampian'i",
   "mediaList":[
     "Lahatsoratra",
-    "Graphics\/Pictures",
-    "Maneno\/Mozika\/boky",
+    "Graphics/Pictures",
+    "Maneno/Mozika/boky",
     "Horonantsary"
   ],
   "openWithList":[
@@ -511,7 +511,7 @@
   "Account_DeActivated":"Your account is deactivated.",
   "Publication":"Fanatontosana",
   "Resources_Synced_Success":"Tontosa soamantsara ny fifampifanarahana ireo boky sy lesona.",
-  "Pubs_Synced_Error":"Tsy nety ny fifampifanarahana\/ famerenana fanontana.",
+  "Pubs_Synced_Error":"Tsy nety ny fifampifanarahana/ famerenana fanontana.",
   "Resources_Synced_Error":"Tsy nety ny fifampifanarahana ireo boky sy lesona.",
   "Courses_Synced_Error":"Tsy nety ny fifampifanarahana ireo fampitana lesona.",
   "CourseSteps_Synced_Error":"Tsy nety ny fifampifanarahana ireo dingana momba ny fampitana lesona.",
@@ -677,6 +677,7 @@
   "Destroy":"Manimba",
   "edit_welcomeVideo":"Ovaina ny endriky ny horonan-tsary fandraisana",
   "upload_welcomeVideo":"Ampidiro ny horonan-tsary fandraisana",
+  "uploaded_file":"Uploaded File :",
   "upload_Date":"Mampiditra daty",
   "Add_Survey":"Hanampy fanadihadihana",
   "Survey_Number":"Survey No",
@@ -697,7 +698,7 @@
     "Safidy maro (Valiny iray)",
     "Mari-drefin'ny fandaharana",
     "Boatim-panorantana tokana",
-    "Boaty fanehoan-kevitra\/Lahatsorantra"
+    "Boaty fanehoan-kevitra/Lahatsorantra"
   ],
   "Question_Text":" Question Text",
   "answer_Choices_Stat":"Answer Choices (each choice on a separate line)",
