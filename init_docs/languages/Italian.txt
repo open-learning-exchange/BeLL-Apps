@@ -541,6 +541,7 @@
   "UnAuthorized_Login":"You are not authorized to sign in.",
   "Status":"Status",
   "Synced_Success":"Synced successfully",
+  "Check_Sync":"Sync status",
   "Already_Pub_Sent":"This publication is already sent to",
   "Prompt_Community_First":"Please select community first.",
   "AddCourse_To_pubs_Failed":"Aggiunta del corso alla pubblicazione non riuscita.",
