@@ -1,0 +1,53 @@
+sudo: required
+
+language: python
+python:
+  - "3.5"
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/f32286c047612bea82b0
+    on_success: always  # options: [always|never|change] default: change
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never    # options: [always|never|change] default: never
+
+services:
+  - docker
+
+addons:
+  sauce_connect:
+    username: "dogi"
+  jwt:
+    secure: "dhXRocGdvpkAhjra2oJ+l+AzgdN+QCuVq0RHv7KGF3kaK6bmx/QMjkwDho7ZQ0ndR6TQ52qUkracVIVTDm+81ZiWjTdAP0QwWCITLaqB+KapgrEx7nMldjEzTDSj1rnQ4KmE+k0G3wbvjSGgD7V0JOBQTi1lKmwaI7kMmyhNBvM5KRhrrWx9oTFs99nx84XeEF3XayEix6eDTkxStc/RILLTMBJop9iAiTzpkXuwc5F+xs/PQXJ/lqhZyp5arihJvUCRPhpXgzrfc+LQJUMGVd7DHsv49BZPDSZ5y4D5r5u27AtAhTQiqM+ozvWWxvGi7ju5CW1wiLxBKDbjhbbCYaZdKH6kxoFGofJuswrGygUfaqVBg/tz0DxLKGMiNYedfJcNMBzOyXjEKzS52BdzLqZZmRj1JekaVHw1P6vkkCTU/512JMJZmlSE8LsROyMtIq8Vraz++gmYShNePtA4afVNckpnY8uvusWT/0f+td9K1yH7El4rMxO5j30q55K9nTDqE3R/GwgX4vxhdMJ//KeYgGTg9e/QlE9sUZad0GdaZmRr5iajqzXFAS9bQpLvyyRC4LviBEpXGkZhiicpbqIvYl6K+fvxl5/GhfQfIr0c35vlNMKcOUpr7zwySGch+mVo/pmXefKtaDDCGKdNJIW9qHY29JkBXrJBrfILnQ8="
+
+install:
+  - pip install selenium
+  - pip install sauceclient
+
+before_install:
+  - docker pull klaemo/couchdb:1.6.1
+  - docker run -d -p 5982:5984 --name bell klaemo/couchdb:1.6.1
+  - echo "node_modules/.bin/couchapp push \$1 \$2" > pushDocToDb.sh
+  - chmod +x node_modules/.bin/couchapp pushDocToDb.sh
+  - cp install_windows install_linux
+  - sed -i "s#pushDocToDb.bat#./pushDocToDb.sh#" install_linux
+  - sed -i 's#databases\\\\\\\\#databases/#' install_linux
+  - sed -i 's#databases\\\\\\#databases/#' install_linux
+  - sed -i 's#databases\\\\#databases/#' install_linux
+  - sed -i 's/NationBell/nation/' init_docs/ConfigurationsDoc-Nation.txt
+  - sed -i 's/nationbell/NATION/' init_docs/ConfigurationsDoc-Nation.txt
+  - sed -i 's#Male#Female#' install_linux
+  - sed -i 's#somalia#nation#' install_linux
+  - while ! curl -X GET http://127.0.0.1:5982/_all_dbs ; do sleep 1; done
+  - node install_linux http://127.0.0.1:5982
+  - curl -X PUT 'http://127.0.0.1:5982/_config/log/file' -d '"/usr/local/var/log/couchdb/couch.log"'
+  - curl -X PUT 'http://127.0.0.1:5982/_config/httpd/allow_jsonp' -d '"true"'
+  - curl -X PUT 'http://127.0.0.1:5982/_config/admins/nation' -d '"oleoleole"'
+
+script:
+  - export
+  - docker ps -a | grep bell
+  - curl -X GET http://127.0.0.1:5982/_all_dbs
+  - i=$(curl -X GET http://127.0.0.1:5982/_all_dbs | jq length); if [ $i -ne 38 ]; then exit 1; fi
+  - python tests/login.py
