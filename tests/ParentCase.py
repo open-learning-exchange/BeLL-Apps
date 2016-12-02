@@ -52,8 +52,7 @@ class ParentCase(unittest.TestCase):
                                            command_executor=sauce_url % (USERNAME, ACCESS_KEY))
             self.driver.implicitly_wait(30)
         else:
-            #self.driver = webdriver.Firefox()
-            self.driver = webdriver.Chrome()
+            self.driver = webdriver.Firefox()
     def tearDown(self):
         if isTravis():
             print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
