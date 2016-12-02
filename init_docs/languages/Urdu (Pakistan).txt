@@ -541,7 +541,7 @@
   "UnAuthorized_Login":"You are not authorized to sign in.",
   "Status":"Status",
   "Synced_Success":"کامیابی سے مطابقت پذیر ہو گۓ ہیں",
-  "Check_Sync":"Sync status",
+  "Check_Sync":"حالت ہم آہنگ کرنا ",
   "Already_Pub_Sent":"اس اشاعت کو پہلے ہی بھیج دیا ہے",
   "Prompt_Community_First":"براہ کرم برادری کو پہلے منتخب کریں",
   "AddCourse_To_pubs_Failed":"Failed to add the course to the publication.",
