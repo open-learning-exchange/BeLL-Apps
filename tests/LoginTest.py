@@ -14,7 +14,7 @@ class LoginTest(ParentCase):
     def test_login(self):
         driver = self.driver
         # go to the home page
-        driver.get("http://127.0.0.1:5982/apps/_design/bell/MyApp/index.html")
+        driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html")
         # find the login element
         inputElement = driver.find_element_by_name("login")
         # type in the username
@@ -30,7 +30,7 @@ class LoginTest(ParentCase):
         # print page
         print(driver.current_url)
         # ensure we're logged in
-        assert driver.current_url == "http://127.0.0.1:5982/apps/_design/bell/MyApp/index.html#configuration/add"
+        assert driver.current_url == "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add"
 
 if __name__ == "__main__":
     unittest.main()
