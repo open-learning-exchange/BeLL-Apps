@@ -524,7 +524,7 @@
   "Resource_Level_Missing":"Resource level is missing.",
   "Resource_Subject_Missing":"Resource subject is missing.",
   "Removed_From_Collection":"کامیابی سے مجموعہ میں سے ہٹا دیا ہے",
-  "Resource_Deleted_success":"ریسورس کو کامیابی کے ساتھ حزف کر دیا ہے",
+  "Resource_Deleted_success":"ریسورس کو کامیابی کے ساتھ حزف کر دیا ہے.",
   "Resource_RemovedFrom_Shelf_Success":"ریسورس کو کامیابی کے ساتھ شیلف میں سے حزف کر دیا ہے",
   "Prompt_Reource_first":"Please select resources first.",
   "Resources_Added_Success":"آپ کے ریسورسز کو کامیابی سے شامل کر لیا ہے",
