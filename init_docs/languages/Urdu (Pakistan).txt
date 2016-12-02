@@ -425,7 +425,7 @@
   "Invalid_Email_Address":"ای میل ایڈریس صحیح نہیں ہے",
   "time_Limit":"You have 20 seconds",
   "Stopped":"رک گیا",
-  "Merge_Error":"ضم کرنے کے لیے2 یا 2 سے زائد اشیاء کو  منتخب کریں",
+  "Merge_Error":"ضم کرنے کے لیے2 یا 2 سے زائد اشیاء کومنتخب کریں",
   "Empty_Collection_Name":"مجموعہ کا نام خالی نہیں ہو سکتا",
   "Missing_Resource_Title":"ریسورس کا عنوان خالی ہے ۔",
   "Missing_Resource_Author":"اس ریسورس کے مصنف کا نام لکھیں",
