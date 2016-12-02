@@ -1,6 +1,6 @@
 {
   "nameOfLanguage":"پیچھے",
-  "directionOfLang":"Right",
+  "directionOfLang":"بائیں طرف",
   "nameInNativeLang":"پیچھے",
   "Dashboard":"ڈیش بورڈ",
   "Library":"لائبریری",
@@ -117,7 +117,7 @@
     "PDF",
     "Bell-Reader",
     "Audio(MP3)",
-    "Video(MP4,FLV)",
+    "ویڈیو (MP4,FLV) ",
     "Video Book(webm,json)",
     "Native Video"
   ],
@@ -823,11 +823,11 @@
   "old_communities":"Old Communities",
   "Nation_Visible":"قوم دستیاب ہے ۔",
   "Nation_InVisible":"قوم دستیاب نہیں ہے",
-  "delete_alert":"Are you sure you want to upload this resource?",
-  "Resource_Already_At_Nation":"Resource is already at Nation",
-  "Decline":"Decline",
+  "delete_alert":"اثبات کریں کہ آپ یہ ذریعہ اپ لوڈ کرنا چاہتے ہیں؟",
+  "Resource_Already_At_Nation":"ريسورس پہلے ہی قوم پر ہے ۔",
+  "Decline":"رد کریں",
   "Confirm_Decline":"Are you sure you declined this resource?",
-  "Resource_Success_Added":"Resource is Successfully added to library",
+  "Resource_Success_Added":"ريسورس کامیابی سے لائبریری میں شامل کیا جاتا ہے",
   "Community_Resources":"Resources From Community",
-  "Local_Resources":"Local Resources"
+  "Local_Resources":"مقامی وسائل"
 }
