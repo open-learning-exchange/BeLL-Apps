@@ -50,4 +50,4 @@ script:
   - docker ps -a | grep bell
   - curl -X GET http://127.0.0.1:5982/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5982/_all_dbs | jq length); if [ $i -ne 38 ]; then exit 1; fi
-  - python tests/login.py
+  - python tests/LoginTest.py
