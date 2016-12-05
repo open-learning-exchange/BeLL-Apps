@@ -1419,10 +1419,10 @@
                         <table style="height: 100%; width: 100%;">
                             <tr>
                                 <td style="width: 20%">
-                                    <%if (questions!=null){%>
-                                    <%if (outComes[i]== 'Quiz'){%>
-                                    <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
-                                    <%}%>
+                                    <%if (questions!=null && questions.length > 0){%>
+                                        <%if (outComes[i]== 'Quiz'){%>
+                                            <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                                        <%}%>
                                     <%}else{%>
                                     <!--   <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary'>Take <%=outComes[i]%></button>-->
                                     <%}%>
