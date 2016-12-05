@@ -1059,6 +1059,8 @@
                 <%if(stepType== 'Paper'){%>
                     <%if(status == "0" && attempts == 0){%>
                         <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>/100
+                    <%}else if(status == "2" && attempts >= 1){%>
+                        <input type="text" style="border-color: #ff0000" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
                     <%}else{%>
                         <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
                     <%}%>
