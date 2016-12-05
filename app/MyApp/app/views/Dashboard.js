@@ -1087,6 +1087,13 @@ $(function() {
                     groupsSpans.render()
 
                     $('#cc').append(groupsSpans.el)
+                     if(/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())){
+			            var outerContentHeight = $('#cc').height();
+					    var scrollPosition = outerContentHeight/2 ;
+					   
+					    $("#cc").parent(".inner").scrollTop(scrollPosition -40);
+					    
+			            }
 
                     TutorsSpans = new App.Views.TutorsSpans({
                         collection: groups
@@ -1096,8 +1103,8 @@ $(function() {
                     $('#tutorTable').append(TutorsSpans.el)
                 }
             })
-
-
+          
+		    
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
 
