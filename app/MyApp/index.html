@@ -1332,7 +1332,14 @@
         <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
 
             <% if(status.length > 1) { %>
-
+                <% if(marks[0] == ""){
+                        marks[0] = 0;
+                    }
+                %>
+                <% if(marks[1] == ""){
+                        marks[1] = 0;
+                    }
+                %>
                 <% if (status[0] == 0 && status[1] == 0) {%>
                     <span  style="float:right;">&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>% </span>
                 <% } else if (status[0] == 0 && status[1] == 1) {%>
@@ -1352,6 +1359,10 @@
                 <% if(status > 1 ) { %>
                     <span  style="float:right;" class="fui-check">&nbsp;</span>
                 <% } else { %>
+                    <% if(marks == ""){
+                            marks = 0;
+                        }
+                    %>
                     <span  style="float:right;" >&nbsp;<%=marks%>%</span>
                 <% } %>
 
