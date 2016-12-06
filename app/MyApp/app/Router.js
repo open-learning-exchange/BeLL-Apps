@@ -1744,7 +1744,12 @@ $(function() {
                                 $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
                             }
                             else {
-                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                                if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
+                                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                                }
+                                else {
+                                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                                }
                             }
                         }
 
@@ -1784,9 +1789,12 @@ $(function() {
                         App.$el.children('.body').empty();
                         App.$el.children('.body').html('<div id="parentLibrary"></div>');
                         App.$el.children('#parentLibrary').empty();
+                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
-
-                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources/pending"style="font-size:30px;color:#0088CC;">'+languageDict.attributes.Community_Resources+'</a></p>');
+                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                        btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
+                        $('#parentLibrary').append( btnText);
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#resources" style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Pending_Resources+'</a></p>')
 
                         resourcesTableView.collections = App.collectionslist;
                         resourcesTableView.render();
@@ -5412,7 +5420,12 @@ $(function() {
                     });
                     var jsonConfig = config.first().toJSON().rows[0].doc;
                     if(jsonConfig.type == "nation") {
-                        App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                        if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
+                            App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                        }
+                        else {
+                            App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                        }
                     }
                     else {
                         App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
