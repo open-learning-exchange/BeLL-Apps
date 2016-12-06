@@ -11,13 +11,10 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def isTravis():
-    if "SAUCE_USERNAME" in os.environ:
-        return True
-    else:
-        return False
+def is_travis():
+    return "SAUCE_USERNAME" in os.environ
 
-if isTravis():
+if is_travis():
     USERNAME = os.environ['SAUCE_USERNAME']
     ACCESS_KEY = os.environ['SAUCE_ACCESS_KEY']
     sauce = SauceClient(USERNAME, ACCESS_KEY)
@@ -43,9 +40,9 @@ def on_platforms(platforms):
             module[name] = type(name, (base_class,), d)
     return decorator
 
-class ParentCase(unittest.TestCase):
+class BaseCase(unittest.TestCase):
     def setUp(self):
-        if isTravis():
+        if is_travis():
             self.desired_capabilities['name'] = self.id()
             sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
             self.driver = webdriver.Remote(desired_capabilities=self.desired_capabilities,
@@ -54,7 +51,7 @@ class ParentCase(unittest.TestCase):
         else:
             self.driver = webdriver.Firefox()
     def tearDown(self):
-        if isTravis():
+        if is_travis():
             print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
             try:
                 if sys.exc_info() == (None, None, None):
