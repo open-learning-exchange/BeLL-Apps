@@ -17,6 +17,7 @@ var nation_version;
 var new_publications_count;
 var new_surveys_count;
 var languageDict;
+var sectionNo;
 
 function getAllPendingRequests() {
     var centralNationUrl = getCentralNationUrl();
@@ -1200,6 +1201,7 @@ function showComposePopup() {
 }
 
 function HandleBrowseClick(stepId) {
+    $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
     var fileinput = document.forms["fileAttachment" + stepId]["_attachments"]
     fileinput.click();
 }

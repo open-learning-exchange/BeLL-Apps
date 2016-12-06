@@ -43,6 +43,7 @@ $(function () {
         },
 
         quiz: function (e) {
+            $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
             var context=this
             var id = e.currentTarget.value
             step = new App.Models.CourseStep({
@@ -194,9 +195,12 @@ $(function () {
             while (PassedSteps < totalSteps && sstatus[PassedSteps] != '0') {
                 PassedSteps++
             }
-
             context.addAll()
+            if(!$.cookie("sectionNo") || $.url().attr('fragment').split('/')[2] != $.cookie("sectionNo").split('/')[0]) {
+                $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + 0)
+            }
             $("#accordion").accordion({
+                active: parseInt($.cookie("sectionNo").split('/')[1]),
                 header: "h3",
                 heightStyle: "content"
             }).sortable({
