@@ -17,20 +17,20 @@ class LoginTest(BaseCase):
                         "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
     
     def test_login(self):
-        bell.login(self.driver, "admin", "password")
-        self.driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html")
+        self.test_first_login()
+        self.driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#logout")
         self.login_test("admin", "password", "dashboard", 
                         "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
                         
-    @unittest.expectedFailure
-    def test_incorrect_username(self):
-        self.login_test("", "password", "c84_code", 
-                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
+#    @unittest.expectedFailure
+#    def test_incorrect_username(self):
+#        self.login_test("", "password", "c84_code", 
+#                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
         
-    @unittest.expectedFailure    
-    def test_incorrect_password(self):
-        self.login_test("admin", "", "c84_code", 
-                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
+#    @unittest.expectedFailure    
+#    def test_incorrect_password(self):
+#        self.login_test("admin", "", "c84_code", 
+#                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
         
     def login_test(self, username, password, id, expected):
         driver = self.driver
