@@ -16,8 +16,10 @@ ddoc.views = {
   },
   allrecords: {
     map: function(doc) {
-      if (doc.CollectionName)
+      if (doc.CollectionName) {
+    	  if(doc.show == true)
         emit(doc._id, doc);
+      }
     }
   },
   /*************************************
@@ -84,6 +86,7 @@ ddoc.views = {
   sortCollection: {
     map: function(doc) {
       if (doc.CollectionName) {
+    	  if(doc.show == true)
         emit(doc.CollectionName, true)
       }
     }
