@@ -943,39 +943,121 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
 
     if(courseLeader.length >= 1){
         recipientIds = courseLeaderIds;
+        var currentdate = new Date();
+        var mail = new App.Models.Mail();
+        for (var i=0; i< recipientIds.length;i++){
+            mail.set("senderId", $.cookie('Member._id'));
+            //alert(recipientIds[i])
+            mail.set("receiverId",recipientIds[i]);
+
+            mail.set("subject", App.languageDict.attributes.Course_Admission_Req+" | " + decodeURI(courseName));
+            mail.set("body", App.languageDict.attributes.Admission_Req_Received+' '
+                + $.cookie('Member.login') + ' ' +App.languageDict.attributes.For_Course+' ' + decodeURI(courseName) +
+                ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
+                '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
+                App.languageDict.attributes.Reject+'</button>');
+            mail.set("status", "0");
+            mail.set("type", "admissionRequest");
+            mail.set("sentDate", currentdate);
+            mail.save()
+        }
+
+
+        $('#admissionButton').hide()
+        alert(App.languageDict.attributes.RequestForCourse);
     }
     else
     {
-        recipientIds = managerId;
-        //  alert(recipientIds)
-        //  alert(recipientIds.length)
+        var gmodel = new App.Models.Group({
+            _id: courseId
+        })
+        gmodel.fetch({
+            async: false
+        })
+        var num = gmodel.get("members").length
+        if (gmodel.get("memberLimit")) {
+            if (gmodel.get("memberLimit") < num) {
+                alert(App.languageDict.attributes.Course_Full)
+                return
+            }
+        }
+
+        if (gmodel.get("_id")) {
+            var memberlist = []
+            if (gmodel.get("members") != null) {
+                memberlist = gmodel.get("members")
+            }
+            if (memberlist.indexOf($.cookie('Member._id')) == -1) {
+                memberlist.push($.cookie('Member._id'))
+                gmodel.set("members", memberlist)
+                gmodel.save({}, {
+                    success: function () {
+                        var memprogress = new App.Models.membercourseprogress()
+                        var csteps = new App.Collections.coursesteps();
+                        var stepsids = new Array();
+                        var stepsres = new Array();
+                        var stepsstatus = new Array();
+                        var pqattempts = new Array();
+                        csteps.courseId = courseId;
+                        csteps.fetch({
+                            success: function() {
+                                csteps.each(function(m) {
+                                    var sresults = [];
+                                    var sstatus = [];
+                                    var sattempts = [];
+                                    if(m.get("outComes").length == 2) {
+                                        var arr = [];
+                                        var arr1 = [];
+                                        var pqarr = [];
+                                        pqarr.push(0)
+                                        pqarr.push(0)
+                                        arr.push("0")
+                                        arr.push("0")
+                                        arr1.push("")
+                                        arr1.push("")
+                                        sresults = arr1;
+                                        sstatus = arr;
+                                        sattempts = pqarr;
+                                    } else {
+                                        sresults = "";
+                                        sstatus= '0';
+                                        sattempts = 0
+                                    }
+
+                                    stepsids.push(m.get("_id"))
+                                    stepsres.push(sresults)
+                                    stepsstatus.push(sstatus)
+                                    pqattempts.push(sattempts)
+                                })
+                                memprogress.set("stepsIds", stepsids)
+                                memprogress.set("memberId", $.cookie("Member._id"))
+                                memprogress.set("stepsResult", stepsres)
+                                memprogress.set("stepsStatus", stepsstatus)
+                                memprogress.set("pqAttempts", pqattempts)
+                                memprogress.set("courseId", courseId)
+                                memprogress.save({
+                                    success: function() {}
+                                })
+
+                            }
+                        })
+                        alert(App.languageDict.attributes.Course_Added_Dashboard)
+                        Backbone.history.navigate('dashboard', {
+                            trigger: true
+                        })
+                    }
+                });
+
+            } else {
+                alert(App.languageDict.attributes.Course_Existing_Dashboard)
+                Backbone.history.navigate('dashboard', {
+                    trigger: true
+                })
+            }
+        }
+
+
     }
-
-
-    var currentdate = new Date();
-    var mail = new App.Models.Mail();
-    for (var i=0; i< recipientIds.length;i++){
-        mail.set("senderId", $.cookie('Member._id'));
-        //alert(recipientIds[i])
-        mail.set("receiverId",recipientIds[i]);
-
-        mail.set("subject", App.languageDict.attributes.Course_Admission_Req+" | " + decodeURI(courseName));
-        mail.set("body", App.languageDict.attributes.Admission_Req_Received+' '
-            + $.cookie('Member.login') + ' ' +App.languageDict.attributes.For_Course+' ' + decodeURI(courseName) +
-            ' <br/><br/><button class="btn btn-primary" id="invite-accept" value="' + courseId + '" >'+App.languageDict.attributes.Accept+
-            '</button>&nbsp;&nbsp;<button class="btn btn-danger" id="invite-reject" value="' + courseId + '" >'+
-            App.languageDict.attributes.Reject+'</button>');
-        mail.set("status", "0");
-        mail.set("type", "admissionRequest");
-        mail.set("sentDate", currentdate);
-        mail.save()
-    }
-
-
-    $('#admissionButton').hide()
-    alert(App.languageDict.attributes.RequestForCourse);
-
-
 }
 function getAvailableLanguages(){
     var allLanguages={};
