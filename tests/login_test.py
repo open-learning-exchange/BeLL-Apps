@@ -1,3 +1,4 @@
+import bell
 from base_case import on_platforms
 from base_case import browsers
 from base_case import BaseCase
@@ -10,22 +11,35 @@ from selenium.webdriver.support import expected_conditions as EC
 
 @on_platforms(browsers)
 class LoginTest(BaseCase):
+    
+    def test_first_login(self):
+        self.login_test("admin", "password", "c84_code", 
+                        "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
+    
     def test_login(self):
+        self.login_test("admin", "password", "dashboard", 
+                        "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
+                        
+    @unittest.expectedFailure
+    def test_incorrect_username(self):
+        self.incorrect_login("", "password", "dashboard", 
+                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
+        
+    @unittest.expectedFailure    
+    def test_incorrect_password(self):
+        self.incorrect_login("admin", "", "dashboard", 
+                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
+        
+    def login_test(self, username, password, id, expected):
         driver = self.driver
-        # go to the home page
-        driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html")
-        # find the login element and enter the username
-        inputElement = driver.find_element_by_name("login")
-        inputElement.send_keys("admin")
-        # find the password element and enter the password
-        inputElement = driver.find_element_by_name("password")
-        inputElement.send_keys("password")
-        # submit the form
-        inputElement.submit()
-        # give it time to get to the next page
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "c84_code")))
-        # ensure we're logged in
-        self.assertEqual(driver.current_url, "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
+        # login
+        bell.login(driver, username, password)
+        # wait for the next page
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, id)))
+        # ensure it is the correct page
+        actual = driver.current_url
+        self.assertEqual(actual, expected)
+         
 
 if __name__ == "__main__":
     unittest.main()
