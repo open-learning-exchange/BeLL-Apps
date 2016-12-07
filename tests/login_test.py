@@ -18,6 +18,7 @@ class LoginTest(BaseCase):
     
     def test_login(self):
         bell.login(self.driver, "admin", "password")
+        self.driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html")
         self.login_test("admin", "password", "dashboard", 
                         "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
                         
