@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from time import sleep
 
 @on_platforms(browsers)
 class LoginTest(BaseCase):
@@ -16,7 +17,10 @@ class LoginTest(BaseCase):
         self.login_test("admin", "password", "c84_code", 
                         "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
     
-    def test_further_login(self):
+    def test_login(self):
+        # wait for test_first_login() to finish
+        # before starting this test
+        sleep(30)
         self.login_test("admin", "password", "dashboard", 
                         "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
                         
