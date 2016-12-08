@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from time import sleep
 
 @on_platforms(browsers)
 class LoginTest(BaseCase):
@@ -18,9 +17,9 @@ class LoginTest(BaseCase):
                         "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
     
     def test_login(self):
-        # wait for test_first_login() to finish
-        # before starting this test
-        sleep(30)
+        bell.login(self.driver, "admin", "password")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "c84_code")))
+        self.driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#logout")
         self.login_test("admin", "password", "dashboard", 
                         "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
                         
