@@ -553,7 +553,7 @@
    "UnAuthorized_Login": "آپ سائن ان کرنے کے مجاز نہیں ہیں",
    "Status": "حالت",
    "Synced_Success": "کامیابی سے مطابقت پذیر ہو گۓ ہیں",
-   "Check_Sync": "Sync status",
+   "Check_Sync": "Update status",
    "Already_Pub_Sent": "اس اشاعت کو پہلے ہی بھیج دیا ہے",
    "Prompt_Community_First": "براہ کرم برادری کو پہلے منتخب کریں",
    "AddCourse_To_pubs_Failed": "کورس کو اشاعت میں شامل کرنے میں ناکامی ہے",

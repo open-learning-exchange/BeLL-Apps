@@ -6943,6 +6943,19 @@ $(function() {
             localDesign = [];
             $('.body').html('');
             $.ajax({
+                    url: '/_all_dbs',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    success: function(result) {
+                           $('.body').append('<h4>'+ App.languageDict.attributes.Databases + ' : ' + result.length + '</h4>');
+                   },
+                   error: function(err) {
+                       console.log(err);
+                   }
+		})
+
+																								               $.ajax({
                 url: 'http://' + nationURL + '/_all_dbs',
                 type: 'GET',
                 dataType: 'jsonp',

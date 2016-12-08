@@ -1,4 +1,7 @@
 /*This stylesheet is supposed to applied on page for RTL languages like Arabic, Urdu etc*/
+.body {
+	direction: rtl;
+}
 #dashboard {
     height: 600px;
     width: 950px;
@@ -61,7 +64,7 @@ select#onDashboardLanguage {
    /* direction: rtl;*/
     height: 600px;
 
-    width:950px;
+    width:940px;
     margin-left:auto;
     margin: 0 auto;
     /* background-color: pink;*/
@@ -159,7 +162,7 @@ select#onDashboardLanguage {
     width: 40px;
 }
 td.stu-nav-option-empty {
-    width:30px;
+    width:50px;
 }
 #itemsinnavbar{
     font-size: 17px;
@@ -208,9 +211,9 @@ table.header-table{
    /* width:100%;*/
 
 }
-/*table.stu-nav-table{
+table.stu-nav-table{
     width:auto;
-}*/
+}
 .right {
     text-align: right;
 }
@@ -259,7 +262,7 @@ table.header-table{
     font-size: large;
     padding: 8px 8px;
     background-color: #e1e1e1;
-    width:85px;
+    width:50px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     color:darkorange;
