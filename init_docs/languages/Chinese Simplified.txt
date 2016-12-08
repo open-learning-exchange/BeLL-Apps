@@ -541,7 +541,7 @@
   "UnAuthorized_Login":"您无权登录。",
   "Status":"状态",
   "Synced_Success":"Synced successfully",
-  "Check_Sync":"Sync status",
+  "Check_Sync":"Update status",
   "Already_Pub_Sent":"This publication is already sent to",
   "Prompt_Community_First":"Please select community first.",
   "AddCourse_To_pubs_Failed":"未能将该课程添加到出版物。",
