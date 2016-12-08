@@ -541,7 +541,7 @@
   "UnAuthorized_Login":"No tienes autorización para iniciar sesión.",
   "Status":"Estado",
   "Synced_Success":"Sincronizado con éxito.",
-  "Check_Sync":"Sync status",
+  "Check_Sync":"Update status",
   "Already_Pub_Sent":"Esta publicación ya se envió a",
   "Prompt_Community_First":"Seleccione primero comunidad.",
   "AddCourse_To_pubs_Failed":"Error al añadir el curso a la publicación.",
