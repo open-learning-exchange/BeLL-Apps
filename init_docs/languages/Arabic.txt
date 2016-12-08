@@ -541,7 +541,7 @@
   "UnAuthorized_Login":"غير مسموح لك بتسجيل الدخول.",
   "Status":"الحالة",
   "Synced_Success":"تمت المزامنة بنجاح",
-  "Check_Sync":"Sync status",
+  "Check_Sync":"Update status",
   "Already_Pub_Sent":"قد تم إرسال هذه النشرة سابقاً إلى",
   "Prompt_Community_First":"الرجاء اختيار المجموعة أولاً",
   "AddCourse_To_pubs_Failed":"تعذر إضافة الدورة التدريبية إلى النشر.",
