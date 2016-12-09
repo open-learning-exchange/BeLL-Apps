@@ -14,13 +14,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 
-from time import sleep
-
 @on_platforms(browsers)
 class LoginTest(BaseCase):
                          
     def test_login_logout(self):
-        
+        """ Test the functionality of logging in, logging out, and 
+        adding the configuration to a new nation
+        """
         input = ("admin", "password")
         # if remote, test first login, otherwise test second login
         if is_travis():
@@ -34,6 +34,10 @@ class LoginTest(BaseCase):
                         
     @unittest.expectedFailure
     def test_incorrect_username(self):
+        """ Test incorrect username input in login form
+        
+        TODO: check username in CouchDB 
+        """
         input = ("", "password")
         if is_travis():
             self.login_test(*input, True)
@@ -42,6 +46,10 @@ class LoginTest(BaseCase):
         
     @unittest.expectedFailure    
     def test_incorrect_password(self):
+        """ Test incorrect password input in login form
+         
+        TODO: check password in CouchDB
+        """
         input = ("admin", "")
         if is_travis():
             self.login_test(*input, True)
@@ -49,6 +57,10 @@ class LoginTest(BaseCase):
             self.login_test(*input)
         
     def login_test(self, username, password, first=False):
+        """ (string, string, boolean) -> NoneType
+        
+        Helper function testing a correct login operation
+        """
         driver = self.driver
         url = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html"
         if first:
@@ -66,6 +78,10 @@ class LoginTest(BaseCase):
         self.assertEqual(actual, expected)
         
     def logout_test(self):
+        """ NoneType -> NoneType
+        
+        Helper function testing a correct logout operation
+        """
         driver = self.driver
         # test logout
         bell.logout(driver)
@@ -76,6 +92,13 @@ class LoginTest(BaseCase):
         self.assertEqual(actual, expected)
         
     def configuration_test(self):
+        """ NoneType -> NoneType
+        
+        Helper function to fill in the configuration form,
+        and ensure it is successfully added to a new nation
+        
+        TODO: Check configuration values in CouchDB         
+        """
         driver = self.driver
         fields = ["name", "code", "region", "nationName", "nationUrl", "version", "notes"] 
         for field in fields:
@@ -96,7 +119,6 @@ class LoginTest(BaseCase):
         Alert(driver).accept()
         
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "dashboard")))
-        sleep(5)
         
         # ensure configuration was submitted (TODO: check against CouchDB)
         actual = driver.current_url
