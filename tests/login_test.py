@@ -14,6 +14,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 
+from time import sleep
+
 @on_platforms(browsers)
 class LoginTest(BaseCase):
                          
@@ -94,6 +96,7 @@ class LoginTest(BaseCase):
         Alert(driver).accept()
         
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "dashboard")))
+        sleep(5)
         
         # ensure configuration was submitted (TODO: check against CouchDB)
         actual = driver.current_url
