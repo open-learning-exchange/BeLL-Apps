@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 
 from time import sleep
@@ -23,6 +24,7 @@ class LoginTest(BaseCase):
         # if remote, test first login, otherwise test second login
         if is_travis():
             self.login_test(*input, True)
+            self.configuration_test()
             self.logout_test()
             self.login_test(*input)
         else:
@@ -70,6 +72,26 @@ class LoginTest(BaseCase):
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "login")))
         actual = driver.current_url
         expected = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#login"
+        self.assertEqual(actual, expected)
+        
+    def configuration_test(self):
+        driver = self.driver
+        fields = ["name", "code", "region", "nationName", "nationUrl", "version", "notes"] 
+        for field in fields:
+            elem = driver.select_element_by_name(field)
+            elem.send_keys("ole")
+
+        # uncomment to test languages other than English
+        # dropdown = Select(driver_find_element_by_name("selectLanguage")
+        # dropdown.select_by_value("Spanish")
+
+        submit = driver.find_element_by_id("formButton")
+        submit.click()
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "dashboard")))
+        
+        # ensure configuration was submitted (TODO: check against CouchDB)
+        actual = driver.current_url
+        expected = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard"
         self.assertEqual(actual, expected)
          
 
