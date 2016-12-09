@@ -100,7 +100,7 @@ class LoginTest(BaseCase):
         TODO: Check configuration values in CouchDB         
         """
         driver = self.driver
-        fields = ["name", "code", "region", "nationName", "nationUrl", "version", "notes"] 
+        fields = ["name", "code", "region", "nationName", "nationUrl", "notes"] 
         for field in fields:
             elem = driver.find_element_by_name(field)
             elem.send_keys("ole")
