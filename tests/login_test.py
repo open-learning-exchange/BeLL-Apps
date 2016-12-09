@@ -95,7 +95,7 @@ class LoginTest(BaseCase):
         self.assertEqual(actual, expected)
         Alert(driver).accept()
         
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "dashboard")))
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "dashboard")))
         sleep(5)
         
         # ensure configuration was submitted (TODO: check against CouchDB)
