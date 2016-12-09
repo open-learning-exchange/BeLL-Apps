@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"English",
+  "nameOfLanguage":"Azerbaijani",
   "directionOfLang":"Left",
-  "nameInNativeLang":"English",
+  "nameInNativeLang":"Azərbaycanca",
   "Dashboard":"My Home",
   "Library":"Library",
   "Courses":"Courses",
