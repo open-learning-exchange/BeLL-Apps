@@ -78,7 +78,7 @@ class LoginTest(BaseCase):
         driver = self.driver
         fields = ["name", "code", "region", "nationName", "nationUrl", "version", "notes"] 
         for field in fields:
-            elem = driver.select_element_by_name(field)
+            elem = driver.find_element_by_name(field)
             elem.send_keys("ole")
 
         # uncomment to test languages other than English
