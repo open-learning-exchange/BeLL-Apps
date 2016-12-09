@@ -1,46 +1,75 @@
+import unittest
 import bell
+
+from base_case import is_travis
 from base_case import on_platforms
 from base_case import browsers
 from base_case import BaseCase
-import unittest
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from time import sleep
+
 @on_platforms(browsers)
 class LoginTest(BaseCase):
-    
-    def test_first_login(self):
-        self.login_test("admin", "password", "c84_code", 
-                        "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
-    
-    def test_login(self):
-        bell.login(self.driver, "admin", "password")
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "c84_code")))
-        self.driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#logout")
-        self.login_test("admin", "password", "dashboard", 
-                        "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard")
+                         
+    def test_login_logout(self):
+        
+        input = ("admin", "password")
+        # if remote, test first login, otherwise test second login
+        if is_travis():
+            self.login_test(*input, True)
+            self.logout_test()
+            self.login_test(*input)
+        else:
+            self.login_test(*input)
+            self.logout_test()
                         
     @unittest.expectedFailure
     def test_incorrect_username(self):
-        self.login_test("", "password", "c84_code", 
-                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
+        input = ("", "password")
+        if is_travis():
+            self.login_test(*input, True)
+        else:
+            self.login_test(*input)
         
     @unittest.expectedFailure    
     def test_incorrect_password(self):
-        self.login_test("admin", "", "c84_code", 
-                             "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#configuration/add")
+        input = ("admin", "")
+        if is_travis():
+            self.login_test(*input, True)
+        else:
+            self.login_test(*input)
         
-    def login_test(self, username, password, id, expected):
+    def login_test(self, username, password, first=False):
         driver = self.driver
+        url = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html"
+        if first:
+            id = "c84_code"
+            expected = url + "#configuration/add"
+        else:
+            id = "dashboard"
+            expected = url + "#dashboard"
         # login
         bell.login(driver, username, password)
         # wait for the next page
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, id)))
         # ensure it is the correct page
         actual = driver.current_url
+        self.assertEqual(actual, expected)
+        
+    def logout_test(self):
+        driver = self.driver
+        # test logout
+        bell.logout(driver)
+        # ensure logout was successful
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "login")))
+        actual = driver.current_url
+        expected = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#login"
         self.assertEqual(actual, expected)
          
 
