@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"Inglés",
+  "nameOfLanguage":"Chilean Spanish",
   "directionOfLang":"Left",
-  "nameInNativeLang":"Inglés",
+  "nameInNativeLang":"Español de Chile",
   "Dashboard":"Página principal",
   "Library":"Biblioteca",
   "Courses":"Cursos",
