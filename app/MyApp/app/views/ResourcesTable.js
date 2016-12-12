@@ -138,7 +138,7 @@ $(function() {
                     str = App.languageDict.get("alphabets");
                     for (var i = 0; i < str.length; i++) {
                         var nextChar = str[i];
-                        viewText += '<a id="hover" class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                        viewText += '<a class="clickonalphabets"  value="' + nextChar + '">' + nextChar + '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
                     }
                     viewText += "</td></tr>"
                     this.$el.append(viewText);
