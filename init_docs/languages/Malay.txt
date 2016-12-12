@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"Bahasa Inggeris",
+  "nameOfLanguage":"Malay",
   "directionOfLang":"Left",
-  "nameInNativeLang":"Bahasa Inggeris",
+  "nameInNativeLang":"Bahasa Melayu",
   "Dashboard":"Utama",
   "Library":"Koleksi",
   "Courses":"Kursus",
