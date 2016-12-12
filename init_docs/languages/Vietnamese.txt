@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"English",
+  "nameOfLanguage":"Vietnamese",
   "directionOfLang":"Left",
-  "nameInNativeLang":"English",
+  "nameInNativeLang":"Tiếng Việt",
   "Dashboard":"My Home",
   "Library":"Library",
   "Courses":"Courses",
