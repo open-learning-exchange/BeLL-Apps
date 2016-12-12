@@ -1325,12 +1325,7 @@ $(function() {
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
             
-            if (/firefox/.test(navigator.userAgent.toLowerCase())) {
-	            var outerContentHeight = $('#cc').height();
-			    var scrollPosition = outerContentHeight/2;
-			    $("#cc").parent(".inner").scrollTop(scrollPosition -40);
-            }
-            
+           
             applyCorrectStylingSheet(directionOfLang);
         },
         MemberForm: function(memberId) {
