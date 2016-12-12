@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"अंग्रेज़ी",
+  "nameOfLanguage":"Hindi",
   "directionOfLang":"Left",
-  "nameInNativeLang":"अंग्रेज़ी",
+  "nameInNativeLang":"हिन्दी",
   "Dashboard":"मेरा घर",
   "Library":"लायीब्रेरी",
   "Courses":"पाठ्यक्रम",
