@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"Αγγλικά",
+  "nameOfLanguage":"Greek",
   "directionOfLang":"Left",
-  "nameInNativeLang":"Αγγλικά",
+  "nameInNativeLang":"Ελληνικά",
   "Dashboard":"Αρχική Σελίδα",
   "Library":"Βιβλιοθήκη",
   "Courses":"Μαθήματα",
