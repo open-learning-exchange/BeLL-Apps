@@ -1087,17 +1087,20 @@ $(function() {
                     groupsSpans.render()
 
                     $('#cc').append(groupsSpans.el)
-                     if(/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())){
-			            var outerContentHeight = $('#cc').height();
-					    var scrollPosition = outerContentHeight/2 ;
-					   
-					    $("#cc").parent(".inner").scrollTop(scrollPosition -40);
-					    
-			            }
+
 
                     TutorsSpans = new App.Views.TutorsSpans({
                         collection: groups
                     })
+    
+                    
+                    $.each( $('.inner'), function( key, value ) {
+        
+                     var height =  $(this).find(".inner-table").height();   
+                     var scrollPosition = height/2 ;
+                     $(this).scrollTop(scrollPosition - 40);                      
+
+                    });
 
                     TutorsSpans.render()
                     $('#tutorTable').append(TutorsSpans.el)

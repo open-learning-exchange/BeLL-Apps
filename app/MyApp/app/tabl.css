@@ -88,14 +88,14 @@
 	border-right: 1px solid white;
 }
 
-.scrollable-courses .course-box:last-of-type {
+.scrollable-courses .course-box:last-of-type , .scrollable-badges .meetup-box:last-of-type {
 	border-right: none !important;
 }
 
 .meetup-box
 {
     background-color: #2f816f;
-    border-right: 2px solid white;
+    border-right: 1px solid white;
     word-wrap:break-word;
 }
 .displayCourse{
