@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"English",
+  "nameOfLanguage":"Telugu",
   "directionOfLang":"Left",
-  "nameInNativeLang":"English",
+  "nameInNativeLang":"తెలుగు",
   "Dashboard":"Illu",
   "Library":"Library",
   "Courses":"Courses",
