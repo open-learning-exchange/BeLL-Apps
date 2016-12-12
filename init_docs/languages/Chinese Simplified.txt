@@ -1,7 +1,7 @@
 {
   "nameOfLanguage":"Chinese",
   "directionOfLang":"Left",
-  "nameInNativeLang":"英文",
+  "nameInNativeLang":"中文",
   "Dashboard":"我的主页",
   "Library":"库",
   "Courses":"课程",
