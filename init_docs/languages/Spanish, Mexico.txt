@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"Inglés",
+  "nameOfLanguage":"Mexican Spanish",
   "directionOfLang":"Left",
-  "nameInNativeLang":"Inglés",
+  "nameInNativeLang":"Español Mexicano",
   "Dashboard":"Página principal",
   "Library":"Biblioteca",
   "Courses":"Cursos",
