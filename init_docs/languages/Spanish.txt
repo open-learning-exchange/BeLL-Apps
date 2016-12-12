@@ -1,6 +1,6 @@
 {
   "nameOfLanguage":"Spanish",
-  "directionOfLang":"left",
+  "directionOfLang":"Left",
   "nameInNativeLang":"Español",
   "Dashboard":"Página principal",
   "Library":"Biblioteca",
