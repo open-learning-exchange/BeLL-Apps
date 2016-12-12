@@ -697,7 +697,7 @@ address {
   border-left-width: 6px;
 }
 .navbar {
-  border-radius: 6px;
+  border-radius: 0px;
   background: #eceef0;
   border: none;
 }
