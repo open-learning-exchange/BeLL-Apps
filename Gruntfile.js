@@ -97,7 +97,7 @@ module.exports = function(grunt) {
                     'app/MyApp/app/views/TrendActivityReport.js',
                     'app/MyApp/app/views/AdminForm.js'
                 ],
-                dest: 'app/MyApp/grunt/views.js'
+                dest: 'app/MyApp/app/views.js'
             },
 
             concat_models: {
@@ -139,7 +139,7 @@ module.exports = function(grunt) {
                     'app/MyApp/app/models/Question.js',
                     'app/MyApp/app/models/AdminMember.js'
                 ],
-                dest: 'app/MyApp/grunt/models.js'
+                dest: 'app/MyApp/app/models.js'
             },
 
             concat_vendor: {
@@ -186,7 +186,7 @@ module.exports = function(grunt) {
                     'app/MyApp/vendor/pbkdf2/derive_key.js',
                     'app/MyApp/vendor/jshash-2.2/md5-min.js'
                 ],
-                dest: 'app/MyApp/grunt/vendor.js'
+                dest: 'app/MyApp/app/vendor.js'
             },
 
             concat_collections: {
@@ -238,7 +238,7 @@ module.exports = function(grunt) {
                     'app/MyApp/app/collections/SurveyAnswers.js',
                     'app/MyApp/app/collections/AdminMembers.js'
                 ],
-                dest: 'app/MyApp/grunt/collections.js'
+                dest: 'app/MyApp/app/collections.js'
             }
 
 
