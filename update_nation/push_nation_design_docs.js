@@ -75,11 +75,14 @@ function installDesignDocs() {
 } else {
         insertDummyVipMember();
         updateNationCouchVersion();
+        var validLanguage = ['English.txt', 'Arabic.txt', 'Spanish.txt', 'Urdu.txt'];
         fs.readdir('../init_docs/languages', function doneReadDir(err, files) {
             files.forEach(function (element) {
-                var langDocPath = '../init_docs/languages/' + element;
-                console.log("Updating " + element);
-                updateLanguagesDocs(langDocPath);
+                if(element in validLanguage) {
+                    var langDocPath = '../init_docs/languages/' + element;
+                    console.log("Updating " + element);
+                    updateLanguagesDocs(langDocPath);
+                }
             });
         });
     }
