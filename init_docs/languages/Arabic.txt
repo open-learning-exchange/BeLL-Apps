@@ -732,7 +732,7 @@
   "less_options":"الرجاء تزويدنا بإجابة/خيار واحد على الأقل",
   "nameOfCommunity":"اسم المجموعة",
   "birthYear":"سنة الولادة",
-  "no_answer_survey":"لا يوجد أجوبة في هذا البحث/المجلد",
+  "no_answer_survey":"لا يوجد أجوبة في هذا البحث\/المجلد",
   "Survey_Title":"عنوان البحث",
   "Edit_Question":"تعديل السؤال",
   "survey_sent_Success":"تم إرسال المجلد/البحث",
