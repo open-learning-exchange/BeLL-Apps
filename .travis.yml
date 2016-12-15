@@ -51,8 +51,4 @@ script:
   - docker ps -a | grep bell
   - curl -X GET http://127.0.0.1:5981/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 38 ]; then exit 1; fi
-<<<<<<< HEAD
-  - python tests/login_test.py
-=======
   - python -m unittest discover tests
->>>>>>> daf48a4586d90852918659ba647b1f230b44a4bc
