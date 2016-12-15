@@ -253,6 +253,9 @@ border-top: 2.5px solid orange;
 border-bottom: 2.5px solid orange;
 padding: 0 0 0 0;
 }
+.scrollable-courses .course-box:last-of-type , .scrollable-badges .meetup-box:last-of-type {
+	border-right: none !important;
+}
 .scrollable-shelf
 {
 border-top: 2.5px solid purple;
