@@ -1,6 +1,5 @@
 # Library of commonly used functions
 
-import os
 # we use sleep to avoid timeout errors (TODO: should find a better way)
 from time import sleep
 
