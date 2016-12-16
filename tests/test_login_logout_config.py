@@ -36,7 +36,7 @@ class LoginTest(BaseCase):
             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "dashboard")))
             self.logout_test()
         except:
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "c84_code")))
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[contains(@id, 'code')]")))
             self.configuration_test()
             self.logout_test()
                         
