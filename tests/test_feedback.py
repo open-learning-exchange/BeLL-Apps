@@ -1,4 +1,5 @@
 import unittest
+import bell
 
 from base_case import on_platforms
 from base_case import browsers
@@ -9,7 +10,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.alert import Alert
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 
 from time import sleep
@@ -21,7 +21,7 @@ class FeedbackTest(BaseCase):
         driver = self.driver
         
         # go to homepage
-        driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html")
+        driver.get(bell.get_url())
         
         # set priority
         priority = False

@@ -75,7 +75,7 @@ class LoginTest(BaseCase):
         
         # ensure we're still on the login page
         actual = driver.current_url
-        expected = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#login"
+        expected = bell.get_url() + "#login"
         self.assertEqual(actual, expected)   
         
     def logout_test(self):
@@ -89,7 +89,7 @@ class LoginTest(BaseCase):
         # ensure logout was successful
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "login")))
         actual = driver.current_url
-        expected = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#login"
+        expected = bell.get_url() + "#login"
         self.assertEqual(actual, expected)
         
     def configuration_test(self):
@@ -127,7 +127,7 @@ class LoginTest(BaseCase):
         
         # ensure configuration was submitted (TODO: check against CouchDB)
         actual = driver.current_url
-        expected = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard"
+        expected = bell.get_url() + "#dashboard"
         self.assertEqual(actual, expected)
          
 

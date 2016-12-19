@@ -3,6 +3,13 @@
 # we use sleep to avoid timeout errors (TODO: should find a better way)
 from time import sleep
 
+def get_url():
+    """ NoneType -> string
+    
+    Returns the homepage url
+    """
+    return "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html"
+
 def login(driver, username, password):
     """ (object, string, string) -> NoneType
 
