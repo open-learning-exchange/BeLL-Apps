@@ -20,7 +20,7 @@ if is_travis():
     sauce = SauceClient(USERNAME, ACCESS_KEY)
     browsers = [{"platform": "Windows 10",
                  "browserName": "firefox",
-                 "version": "48",
+                 "version": "50",
                  "tunnel-identifier": os.environ['TRAVIS_JOB_NUMBER'],
                  "name": "integration",
                  "build": os.environ['TRAVIS_BUILD_NUMBER']}]
@@ -29,7 +29,7 @@ else:
     ACCESS_KEY = ""
     browsers = [{"platform": "Windows 10",
                  "browserName": "firefox",
-                 "version": "48"}]
+                 "version": "50"}]
 
 def on_platforms(platforms):
     def decorator(base_class):
