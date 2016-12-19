@@ -1,4 +1,5 @@
 import unittest
+import bell
 
 from base_case import on_platforms
 from base_case import browsers
@@ -22,7 +23,7 @@ class LanguageTest(BaseCase):
         driver = self.driver
         
         # go to homepage
-        driver.get("http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html")
+        driver.get(bell.get_url())
         # test all languages
         languages = ["Arabic", "English", "Spanish", "Urdu"]
         logins = ["دخول", "Login", "Iniciar sesión", "لاگ ان"]
