@@ -9,7 +9,9 @@ module.exports = function(grunt) {
 
 
             concat_views: {
+                nonull:true,
                 src: [
+                    'app/MyApp/app/views/towntowntown.js',
                     'app/MyApp/app/views/ConfigurationView.js',
                     'app/MyApp/app/views/listSyncDbView.js',
                     'app/MyApp/app/views/MemberLoginForm.js',
@@ -69,7 +71,6 @@ module.exports = function(grunt) {
                     'app/MyApp/app/views/ReportForm.js',
                     'app/MyApp/app/views/CommunityReportCommentView.js',
                     'app/MyApp/app/views/CourseLevelsTable.js',
-                    'app/MyApp/app/views/ResourceForm.js',
                     'app/MyApp/app/views/MeetupInvitation.js',
                     'app/MyApp/app/views/MailView.js',
                     'app/MyApp/app/views/CoursesChartProgress.js',
@@ -101,6 +102,7 @@ module.exports = function(grunt) {
             },
 
             concat_models: {
+                nonull:true,
                 src: [
                     'app/MyApp/app/models/Resource.js',
                     'app/MyApp/app/models/Group.js',
@@ -127,7 +129,6 @@ module.exports = function(grunt) {
                     'app/MyApp/app/models/CommunityReport.js',
                     'app/MyApp/app/models/ResourceFrequency.js',
                     'app/MyApp/app/models/MeetUp.js',
-                    'app/MyApp/app/models/UserMeetup.js',
                     'app/MyApp/app/models/Publication.js',
                     'app/MyApp/app/models/Configuration.js',
                     'app/MyApp/app/models/CollectionList.js',
@@ -143,8 +144,8 @@ module.exports = function(grunt) {
             },
 
             concat_vendor: {
+                nonull:true,
                 src: [
-                    'app/MyApp/vendor/Spin.js',
                     'app/MyApp/vendor/jquery-1.7.2.js',
                     'app/MyApp/vendor/jquery-ui.js',
                     'app/MyApp/vendor/jquery-ui.custom.min.js',
@@ -161,7 +162,6 @@ module.exports = function(grunt) {
                     'app/MyApp/vendor/jquery.form.js',
                     'app/MyApp/vendor/sha1.js',
                     'app/MyApp/vendor/moment.min.js',
-                    'app/MyApp/vendor/jquery.couch.js',
                     'app/MyApp/vendor/jquery.cookie.js',
                     'app/MyApp/vendor/backbone.couchdb.js',
                     'app/MyApp/vendor/html-encode.js',
@@ -173,10 +173,8 @@ module.exports = function(grunt) {
                     'app/MyApp/vendor/jquery-ui-1.10.3.custom.js',
                     'app/MyApp/vendor/jquery-ui.multidatespicker.js',
                     'app/MyApp/vendor/jquery.popupoverlay.js',
-                    'app/MyApp/vendor/moment.min.js',
                     'app/MyApp/vendor/jQuery-multiselect/jquery.multiselect.js',
                     'app/MyApp/vendor/jQuery-multiselect/jquery.multiselect.filter.js',
-                    'app/MyApp/vendor/bootstrap/js/bootstrap.js',
                     'app/MyApp/vendor/pouchdb-2.1.0.js',
                     'app/MyApp/vendor/jqBarGraph.js',
                     'app/MyApp/vendor/highcharts.js',
@@ -190,6 +188,7 @@ module.exports = function(grunt) {
             },
 
             concat_collections: {
+                nonull:true,
                 src: [
                     'app/MyApp/app/collections/listRCollection.js',
                     'app/MyApp/app/collections/Groups.js',
@@ -222,14 +221,12 @@ module.exports = function(grunt) {
                     'app/MyApp/app/collections/leadermembers.js',
                     'app/MyApp/app/collections/Requests.js',
                     'app/MyApp/app/collections/EntityInvitation.js',
-                    'app/MyApp/app/collections/Requests.js',
                     'app/MyApp/app/collections/courseprogressallmembers.js',
                     'app/MyApp/app/collections/CommunityReportComments.js',
                     'app/MyApp/app/collections/Reports.js',
                     'app/MyApp/app/collections/ResourcesFrequency.js',
                     'app/MyApp/app/collections/AssignmentPapers.js',
                     'app/MyApp/app/collections/Meetups.js',
-                    'app/MyApp/app/collections/listRCollection.js',
                     'app/MyApp/app/collections/Publication.js',
                     'app/MyApp/app/collections/Languages.js',
                     'app/MyApp/app/collections/CourseInvitations.js',
@@ -246,7 +243,7 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.registerTask('default', [
         'concat:concat_views',
         'concat:concat_models',
