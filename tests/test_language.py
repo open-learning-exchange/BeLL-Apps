@@ -28,15 +28,15 @@ class LanguageTest(BaseCase):
         languages = ["Arabic", "English", "Spanish", "Urdu"]
         logins = ["دخول", "Login", "Iniciar sesión", "لاگ ان"]
         
-        for i in range(len(languages)):
+        for language, login in zip(languages, logins):
             dropdown = Select(driver.find_element_by_id("onLoginLanguage"))
-            dropdown.select_by_value(languages[i])
+            dropdown.select_by_value(language)
             
             sleep(10)
             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[contains(@id, 'login')]"))) 
             
             actual = driver.find_element_by_xpath("//label[contains(@for, 'login')]").text
-            expected = logins[i]
+            expected = login
             self.assertEqual(actual, expected)
             
 
