@@ -18,12 +18,12 @@ $(function() {
             var coll = new App.Collections.Courses()
             coll.fetch({
                 success: function(response) {
-                    var groupsTable = new App.Views.GroupsTable({
+                    var coursesTable = new App.Views.CoursesTable({
                         collection: response
                     })
-                    groupsTable.publicationId = that.publicationId
-                    groupsTable.render()
-                    $('#courseList').html(groupsTable.el)
+                    coursesTable.publicationId = that.publicationId
+                    coursesTable.render()
+                    $('#courseList').html(coursesTable.el)
 
                 }
             })
@@ -36,12 +36,12 @@ $(function() {
 
             coll.fetch({
                 success: function(response) {
-                    var groupsTable = new App.Views.GroupsTable({
+                    var coursesTable = new App.Views.CoursesTable({
                         collection: response
                     })
-                    groupsTable.publicationId = that.publicationId
-                    groupsTable.render()
-                    $('#courseList').html(groupsTable.el)
+                    coursesTable.publicationId = that.publicationId
+                    coursesTable.render()
+                    $('#courseList').html(coursesTable.el)
 
                 }
             })

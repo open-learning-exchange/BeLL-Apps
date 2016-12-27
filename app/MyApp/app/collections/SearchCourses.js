@@ -4,7 +4,7 @@ $(function() {
     // views in Collection databases. We'll mapreduce client side.
     App.Collections.SearchCourses = Backbone.Collection.extend({
         url: function() {
-            return App.Server + '/groups/_all_docs?include_docs=true&limit=' + limitofRecords + '&skip=' + skip
+            return App.Server + '/courses/_all_docs?include_docs=true&limit=' + limitofRecords + '&skip=' + skip
         },
         parse: function(response) {
             var models = []

@@ -274,7 +274,7 @@ h1,h2,h3,h4,h5,h6{
     width: 99%;
 }
 
-.btn.btn-hg, .input-group-hg .btn
+.btn.btn-hg, .input-course-hg .btn
 {
     line-height:13px;
     color: white;
@@ -803,11 +803,11 @@ textarea[name="comment"]
 }
 .btn.btn-primary1:hover,
 .btn.btn-primary1:focus,
-.btn-group:focus .btn.btn-primary1.dropdown-toggle {
+.btn-course:focus .btn.btn-primary1.dropdown-toggle {
     background-color: #cc0000;
 }
 .btn.btn-primary1:active,
-.btn-group.open .btn.btn-primary1.dropdown-toggle,
+.btn-course.open .btn.btn-primary1.dropdown-toggle,
 .btn.btn-primary1.active {
     background-color: #16a085;
 }
@@ -835,7 +835,7 @@ body{
     width: 99%;
 }
 
-.btn.btn-hg, .input-group-hg .btn
+.btn.btn-hg, .input-course-hg .btn
 {
     line-height:13px;
     color: white;
@@ -1238,4 +1238,25 @@ textarea[name="comment"]
     height: 400px;
     margin-left: 32%;
     width: 400px;
+}
+.flotHeight{
+    height: 400px;
+}
+.choice{
+    float:right;
+    margin-bottom:10px;
+    width:100%;
+}
+.spanclass{
+    display:inline-block;
+    width:25%;
+}
+#pp{
+    display:inline-block;
+    width:25%;
+    margin-left: 30px;
+}
+.stprog_plot_color{
+    text-align:center; 
+    margin: 10px 0 15px;
 }

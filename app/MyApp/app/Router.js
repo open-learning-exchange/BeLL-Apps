@@ -23,21 +23,22 @@ $(function() {
             'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
             'assign-to-level': 'AssignResourcetoLevel',
-            'courses': 'Groups',
-            'course/manage/:groupId': 'ManageCourse',
+            'courses': 'Courses',
+            'course/manage/:courseId': 'ManageCourse',
             'course/details/:courseId/:courseName': 'courseDetails',
             'usercourse/details/:courseId/:courseName': 'UserCourseDetails',
-            'course/report/:groupId/:groupName': 'CourseReport',
-            'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
-            'course/assignments/:groupId': 'GroupAssignments',
-            'course/add': 'GroupForm',
+            'course/report/:courseId/:courseName': 'CourseReport',
+            'course/assignments/week-of/:courseId/:weekOf': 'CourseWeekOfAssignments',
+            'course/assignments/:courseId': 'CourseAssignments',
+            'course/add': 'CourseForm',
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
-            'course/members/:courseId': 'GroupMembers',
-            'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
+            'course/members/:courseId': 'CourseMembers',
+            'course/answerreview/:memberid/:stepid/:attempts': 'answerReview',
+            'level/add/:courseId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
-            'create-quiz/:lid/:rid/:title': 'CreateQuiz',
+            'create-test/:lid/:rid/:title': 'CreateTest',
             'collection': 'Collection',
             'listCollection/:collectionId': 'ListCollection',
             'listCollection/:collectionId/:collectionName': 'ListCollection',
@@ -345,7 +346,7 @@ $(function() {
             App.languageDict = languageDictValue;
             //Check if the user who has logged in is a Leader or a Learner in any course.
             var stepsStatuses=[];
-            var groups = new App.Collections.Groups()
+            var courses = new App.Collections.Courses()
             var MemberCourseProgress = new App.Collections.membercourseprogresses();
             var creditsView = new App.Views.BadgesMainPage(
             );
@@ -353,13 +354,13 @@ $(function() {
                 App.$el.children('.body').html('<div id="creditsMainTable"></div>');
                 $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
             creditsView.addHeading();
-            groups.fetch({
-                success: function (groupDocs) {
-                    if(groupDocs.length>0){
+            courses.fetch({
+                success: function (courseDocs) {
+                    if(courseDocs.length>0){
                         var isLearner=false;
                         var isCreditable=true;
-                        for(var i=0;i<groupDocs.length;i++) {
-                            var doc=groupDocs.models[i];
+                        for(var i=0;i<courseDocs.length;i++) {
+                            var doc=courseDocs.models[i];
                             if(doc.get('members')!=undefined && doc.get('courseLeader')!=undefined && doc.get('members').indexOf($.cookie('Member._id'))>-1 && doc.get('courseLeader').indexOf($.cookie('Member._id'))==-1){
                                 isLearner=true;
                                 //---------------------------------------
@@ -392,9 +393,6 @@ $(function() {
                                     },
                                     async:false
                                 });
-                                //--------------------------------------
-                              //  creditsView.courseId=doc.get('_id');
-                               // creditsView.render();
                             }
 
                         }
@@ -422,14 +420,14 @@ $(function() {
             $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
             creditsView.addHeading();
             var count=0;
-            var groups = new App.Collections.Groups();
-            groups.fetch({
+            var courses = new App.Collections.Courses();
+            courses.fetch({
                 async:false,
-                success: function (groupDocs) {
-                    if(groupDocs.length>0){
-                        for(var i=0;i<groupDocs.length;i++) {
-                            if(groupDocs.models[i].get('_id') != '_design/bell') {
-                                var doc = groupDocs.models[i];
+                success: function (courseDocs) {
+                    if(courseDocs.length>0){
+                        for(var i=0;i<courseDocs.length;i++) {
+                            if(courseDocs.models[i].get('_id') != '_design/bell') {
+                                var doc = courseDocs.models[i];
                                 var learnerIds = getCountOfLearners(doc.get('_id'), true);
                                 if(learnerIds.length>0){
                                     creditsView.courseId=doc.get('_id');
@@ -549,7 +547,7 @@ $(function() {
                 creditsTableView.memberId=memberId;
                 creditsTableView.render();
                 App.$el.children('.body').html('<div id="creditsTable"></div>');
-                //$('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
+                //$('#creditsTable').append('<h3>' + ' Credits Details | '+ course.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
                 var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
                 //
                 var name, id;
@@ -579,13 +577,13 @@ $(function() {
 
 
                 App.$el.children('.body').html('<div id="creditsTable"></div>');
-                var group = new App.Models.Group({
+                var course = new App.Models.Course({
                     _id: courseId
                 });
-                group.fetch({
+                course.fetch({
                     async:false
                 });
-                $('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ '</h3>');
+                $('#creditsTable').append('<h3>' + ' Credits Details | '+ course.get('CourseTitle')+ '</h3>');
 
                 $('#creditsTable').append(select);
 
@@ -730,10 +728,10 @@ $(function() {
         },
 
         showLearnersListForCredits: function (courseId) {
-            var group = new App.Models.Group({
+            var course = new App.Models.Course({
                 _id: courseId
             });
-            group.fetch({
+            course.fetch({
                 async: false,
             });
             var learnerIds = getCountOfLearners(courseId, true);
@@ -755,7 +753,7 @@ $(function() {
             courseLearnersTable.Id = courseId;
             courseLearnersTable.render();
             App.$el.children('.body').html('<div id="courseLearnersTable"></div>');
-            $('#courseLearnersTable').append('<h3>' + group.get('CourseTitle') + '</h3>');
+            $('#courseLearnersTable').append('<h3>' + course.get('CourseTitle') + '</h3>');
             $('#courseLearnersTable').append(courseLearnersTable.el);
         },
 
@@ -1356,7 +1354,7 @@ $(function() {
             App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
             $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get('Become_an_administrator')+'</h3>')
             $('#AddCourseMainDiv').append(modelForm.el)
-            // Bind form events for when Group is ready
+            // Bind form events for when Course is ready
             model.once('Model:ready', function() {
                 modelForm.render();
                 $('.form .field-firstName input').attr('maxlength', '25');
@@ -1444,7 +1442,7 @@ $(function() {
             }
         },
 
-        modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
+        modelForm: function(className, label, modelId, reroute) { // 'Course', 'Course', courseId, 'courses'
             //cv Set up
             // applyStylingSheet();
             var url_page = $.url().data.attr.fragment;
@@ -1505,9 +1503,9 @@ $(function() {
                 $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel)+'</h3>')
             }
             $('#AddCourseMainDiv').append(modelForm.el)
-            // Bind form events for when Group is ready
+            // Bind form events for when Course is ready
             model.once('Model:ready', function() {
-                // when the users submits the form, the group will be processed
+                // when the users submits the form, the course will be processed
                 modelForm.on(className + 'Form:done', function() {
                     Backbone.history.navigate(reroute, {
                         trigger: true
@@ -2304,21 +2302,21 @@ $(function() {
             })
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
-        Groups: function() {
+        Courses: function() {
 
             App.startActivityIndicator()
-            groups = new App.Collections.Groups()
-            groups.fetch({
+            courses = new App.Collections.Courses()
+            courses.fetch({
                 success: function() {
                     var languageDictValue;
                     var clanguage = getLanguage($.cookie('Member._id'));
                     languageDictValue = getSpecificLanguage(clanguage);
                     App.languageDict = languageDictValue;
                     var directionOfLang = App.languageDict.get('directionOfLang');
-                    groupsTable = new App.Views.GroupsTable({
-                        collection: groups
+                    coursesTable = new App.Views.CoursesTable({
+                        collection: courses
                     })
-                    groupsTable.render();
+                    coursesTable.render();
                     var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
                     var lib_page = $.url().data.attr.fragment;
                     if(lib_page=="courses"){
@@ -2336,8 +2334,8 @@ $(function() {
 
 
                     $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
-                    $('#parentLibrary').append(groupsTable.el);
-                    groupsTable.changeDirection();
+                    $('#parentLibrary').append(coursesTable.el);
+                    coursesTable.changeDirection();
                     if(directionOfLang.toLowerCase()==="right")
                     {
 
@@ -2363,27 +2361,63 @@ $(function() {
 
             App.stopActivityIndicator()
         },
-        CreateQuiz: function(lid, rid, title) {
+        CreateTest: function(lid, rid, title) {
+            $("#dialog").show()
+            var that = this;
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
             })
             levelInfo.fetch({
                 success: function() {
-                    var quiz = new App.Views.QuizView()
-                    quiz.levelId = lid
-                    quiz.revId = levelInfo.get('_rev')
-                    quiz.ltitle = title
-                    if (levelInfo.get("questions")) {
-                        App.$el.children('.body').html('<h3>'+App.languageDict.attributes.Edit_Quiz+' |' + title + '</h3>')
-                        quiz.quizQuestions = levelInfo.get("questions")
-                        quiz.questionOptions = levelInfo.get("qoptions")
-                        quiz.answers = levelInfo.get("answers")
+                   $("#dialog").show();
+                    var test = new App.Views.TestView()
+                    test.levelId = lid
+                    test.revId = levelInfo.get('_rev')
+                    test.ltitle = title
+
+                    var coursestepModel = new App.Models.CourseStep({
+                     _id: lid
+                    })
+                    coursestepModel.fetch({
+                        async: false
+                    });
+                    var coursestepQuestions = coursestepModel.get('questionslist');
+
+                    if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
+                    { 
+                         var coursestepQuestionsIdes = ''
+                    _.each(coursestepQuestions, function(item) {
+                        coursestepQuestionsIdes += '"' + item + '",'
+                    })
+                    if (coursestepQuestionsIdes != ''){
+                        coursestepQuestionsIdes = coursestepQuestionsIdes.substring(0, coursestepQuestionsIdes.length - 1);
+                    }
+                    var questionsColl = new App.Collections.CourseStepQuestions();
+                    questionsColl.keys = encodeURI(coursestepQuestionsIdes)
+                    questionsColl.fetch({
+                        async: false
+                    });
+                    var sortedModels = that.sortQuestions(coursestepQuestions, questionsColl.models);
+                    questionsColl.models = sortedModels;
+                    var CourseStepQuestionsTable = new App.Views.CourseStepQuestionTable({
+                        collection: questionsColl
+                    })
+                    CourseStepQuestionsTable.Id = lid;
+                    CourseStepQuestionsTable.questionArray = coursestepQuestions;
+                    CourseStepQuestionsTable.courseStepModel = levelInfo;
+
+                    CourseStepQuestionsTable.render()
 
                     }
-                    App.$el.children('.body').html(quiz.el)
-                    quiz.render();
-                    $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
-
+                    $("input[name='questionRow']").hide();
+                    App.$el.children('.body').html(test.el)
+                    test.render();
+                    if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
+                    {
+                    $('#parentDiv').append(CourseStepQuestionsTable.el);}
+                    $("#Rearrange").remove();
+                    $("#moveup").hide();
+                    $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {
                         for(var col=0;col<3;col++) {
                             for(var index=0;index<2;index++) {
@@ -2392,16 +2426,30 @@ $(function() {
                         }
                     }
                     if (levelInfo.get("questions")) {
-                        quiz.displayQuestionsInView()
+                        test.displayQuestionsInView()
                     }
                 }
             });
+           
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
         },
+        sortQuestions: function(idsArrayForSortingOrder, modelsToSort) {
+            var sortedModels = [];
+            for(var i = 0 ; i < idsArrayForSortingOrder.length ; i++) {
+                var modelId = idsArrayForSortingOrder[i];
+                for(var j = 0 ; j < modelsToSort.length ; j++) {
+                    var model = modelsToSort[j];
+                    if(model.attributes._id == modelId) {
+                        sortedModels.push(model);
+                    }
+                }
+            }
+            return sortedModels;
+        },
         CourseInfo: function(courseId) {
 
-            var courseModel = new App.Models.Group()
+            var courseModel = new App.Models.Course()
             courseModel.set('_id', courseId)
             courseModel.fetch({
                 async: false
@@ -2431,9 +2479,8 @@ $(function() {
 
         },
         CourseReport: function(cId, cname) {
-
             var roles = this.getRoles()
-            var course = new App.Models.Group();
+            var course = new App.Models.Course();
             course.id = cId
             course.fetch({
                 async: false
@@ -2443,7 +2490,10 @@ $(function() {
             if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
             }
-            App.$el.children('.body').append("<div id='graph'></div>")
+            $('.courseSearchResults_Bottom').append('<p id="graph2title"style="text-align:center">'+App.languageDict.attributes.Individual_Member_Course_Progress+'</p>')
+
+            App.$el.children('.body').append('<div id="detailView"><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
+            
             var allResults = new App.Collections.StepResultsbyCourse()
             if (course.get('courseLeader').indexOf($.cookie('Member._id')) == -1  &&  roles.indexOf("Manager") == -1) {
                 allResults.memberId = $.cookie('Member._id')
@@ -2453,30 +2503,31 @@ $(function() {
                 async: false
             })
             var vi = new App.Views.CoursesStudentsProgress({
-                collection: allResults
+                collection: allResults,
+                model:course,
+                attributes:{
+                    memberroles:roles
+                }
             })
             vi.render()
             $('.body').append(vi.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
-
-
         },
 
-        ManageCourse: function(groupId) {
+        ManageCourse: function(courseId) {
 
             var that = this
             levels = new App.Collections.CourseLevels()
-            levels.groupId = groupId
-
-            var className = "Group"
+            levels.courseId = courseId
+            var className = "Course"
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
 
             model.once('Model:ready', function() {
-                // when the users submits the form, the group will be processed
+                // when the users submits the form, the course will be processed
                 modelForm.on(className + 'Form:done', function() {
                     Backbone.history.navigate(reroute, {
                         trigger: true
@@ -2493,9 +2544,9 @@ $(function() {
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
                 //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
 
-                //console.log(groupModel.get("courseLeader"));
-                //alert(groupModel.get("courseLeader"));
-                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupModel.get("courseLeader"));
+                //console.log(courseModel.get("courseLeader"));
+                //alert(courseModel.get("courseLeader"));
+                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(courseModel.get("courseLeader"));
 
                 $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
@@ -2558,7 +2609,7 @@ $(function() {
                         lTable = new App.Views.LevelsTable({
                             collection: levels
                         })
-                        lTable.groupId = groupId
+                        lTable.courseId = courseId
                         lTable.render()
                         $('#AddCourseMainDiv').append("</BR><h3>"+App.languageDict.attributes.Course_Steps+"</h3>")
                         $('#AddCourseMainDiv').append(lTable.el)
@@ -2587,8 +2638,8 @@ $(function() {
 
 
             // Set up the model for the form
-            if (groupId) {
-                model.id = groupId
+            if (courseId) {
+                model.id = courseId
                 model.once('sync', function() {
                     model.trigger('Model:ready')
                 })
@@ -2598,9 +2649,44 @@ $(function() {
             }
 
         },
+        answerReview: function(memberid, stepid, attempts){
+            var attemptsNo =parseInt(attempts);
+            var languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
+            var courseSteps = new App.Models.CourseStep()
+                courseSteps.id = stepid;
+                courseSteps.fetch({
+                    async: false
+                }) 
+            var ppercentage = courseSteps.get("passingPercentage")
+            var coursesid = courseSteps.get("courseId")
+                var courseAnswer = new App.Collections.CourseAnswer()
+                    courseAnswer.StepID = stepid
+                    courseAnswer.MemberID = memberid
+                    courseAnswer.pqattempts = attemptsNo
+                    courseAnswer.fetch({
+                        async: false
+                    })
+                console.log(courseAnswer)
+                var answerview = new App.Views.AnswerReview({
+                  collection: courseAnswer,
+                  attributes: {
+                            courseid: coursesid,
+                            membersid: memberid,
+                            pp: ppercentage,
+                            StepID:stepid
+                }})
+                App.$el.children('.body').html(answerview.el);
+                answerview.render();
+                var directionOfLang = App.languageDict.get('directionOfLang');
+                applyCorrectStylingSheet(directionOfLang)
+        },
+
         courseDetails: function(courseId, courseName) {
 
-            var courseModel = new App.Models.Group({
+            var courseModel = new App.Models.Course({
                 _id: courseId
             })
             courseModel.fetch({
@@ -2638,11 +2724,11 @@ $(function() {
                 async: false
             })
 
-            var GroupDetailsView = new App.Views.GroupView({
+            var CourseDetailsView = new App.Views.CourseView({
                 model: courseModel
             })
-            GroupDetailsView.courseLeader = memberModelArr
-            GroupDetailsView.render()
+            CourseDetailsView.courseLeader = memberModelArr
+            CourseDetailsView.render()
 
 
             var courseStepsView = new App.Views.CourseStepsView({
@@ -2650,7 +2736,7 @@ $(function() {
             })
             courseStepsView.render()
 
-            $('.courseEditStep').append(GroupDetailsView.el)
+            $('.courseEditStep').append(CourseDetailsView.el)
             $('.courseEditStep').append('<div id="courseSteps-heading"><h5>'+App.languageDict.attributes.Course_Steps+'</h5></div>')
             $('.courseEditStep').append(courseStepsView.el)
 
@@ -2661,10 +2747,11 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang)
 
         },
-        UserCourseDetails: function(courseId, name) {
+        UserCourseDetails: function(courseId, name) {console.log(courseId)
+            var memberId = $.cookie('Member._id')
             var ccSteps = new App.Collections.coursesteps()
+            console.log(ccSteps)
             ccSteps.courseId = courseId
-
             ccSteps.fetch({
                 success: function() {
                     App.$el.children('.body').html('&nbsp<div class="courseEditStep"></div>');
@@ -2674,8 +2761,13 @@ $(function() {
                         + courseId + '"  class="btn btn-info">'+
                         App.languageDict.attributes.Course_Members+'</a> </p>')
                     var levelsTable = new App.Views.CourseLevelsTable({
-                        collection: ccSteps
+                        collection: ccSteps,
+                        attributes:{
+                            membersid: memberId
+                        }
                     })
+                    console.log(ccSteps)
+                    
                     levelsTable.courseId = courseId
                     levelsTable.render()
                     $('.courseEditStep').append(levelsTable.el)
@@ -2685,13 +2777,13 @@ $(function() {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         },
-        GroupMembers: function(cId) {
-            var groupMembers = new App.Views.GroupMembers()
-            groupMembers.courseId = cId;
+        CourseMembers: function(cId) {
+            var courseMembers = new App.Views.CourseMembers()
+            courseMembers.courseId = cId;
             App.$el.children('.body').empty();
             App.$el.children('.body').append('<div class="courseEditStep"></div>');
-            groupMembers.render();
-            $('.courseEditStep').append(groupMembers.el);
+            courseMembers.render();
+            $('.courseEditStep').append(courseMembers.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
             if(directionOfLang.toLowerCase()==="right") {
                 $('.courseEditStep').find('h3').css('margin-right','5%');
@@ -2704,21 +2796,21 @@ $(function() {
 
 
         },
-        GroupForm: function(groupId) {
-            this.modelForm('Group', 'Course', groupId, 'courses');
+        CourseForm: function(courseId) {
+            this.modelForm('Course', 'Course', courseId, 'courses');
 
 
         },
-        GroupAssign: function(groupId) {
-            var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
-            assignResourcesToGroupTable.groupId = groupId
-            assignResourcesToGroupTable.render()
-            App.$el.children('.body').html(assignResourcesToGroupTable.el)
+        CourseAssign: function(courseId) {
+            var assignResourcesToCourseTable = new App.Views.AssignResourcesToCourseTable()
+            assignResourcesToCourseTable.courseId = courseId
+            assignResourcesToCourseTable.render()
+            App.$el.children('.body').html(assignResourcesToCourseTable.el)
         },
         ResignCourse: function(courseId) {
 
             var memberId = $.cookie('Member._id')
-            var courseModel = new App.Models.Group()
+            var courseModel = new App.Models.Course()
             courseModel.set('_id', courseId)
             courseModel.fetch({
                 async: false
@@ -2773,7 +2865,7 @@ $(function() {
 
         },
 
-        GroupWeekOfAssignments: function(groupId, weekOf) {
+        CourseWeekOfAssignments: function(courseId, weekOf) {
 
             // Figure out our week range
             if (!weekOf) {
@@ -2783,15 +2875,15 @@ $(function() {
             var startDate = weekOf
             var endDate = moment(weekOf).add('days', 7).format('YYYY-MM-DD')
 
-            var table = new App.Views.AssignWeekOfResourcesToGroupTable()
+            var table = new App.Views.AssignWeekOfResourcesToCourseTable()
             // Bind this view to the App's body
             App.$el.children('.body').html(table.el)
             // Set variables on this View
-            table.group = new App.Models.Group()
-            table.group.id = groupId
+            table.course = new App.Models.Course()
+            table.course.id = courseId
             table.resources = new App.Collections.Resources()
-            table.assignments = new App.Collections.GroupAssignmentsByDate()
-            table.assignments.groupId = groupId,
+            table.assignments = new App.Collections.CourseAssignmentsByDate()
+            table.assignments.courseId = courseId,
                 table.assignments.startDate = startDate
             table.assignments.endDate = endDate
             table.weekOf = weekOf
@@ -2801,20 +2893,27 @@ $(function() {
                 table.assignments.fetch()
             })
             table.assignments.on('sync', function() {
-                table.group.fetch()
+                table.course.fetch()
             })
-            table.group.on('sync', function() {
+            table.course.on('sync', function() {
                 table.render()
             })
             table.resources.fetch()
         },
-        AddLevel: function(groupId, levelId, totalLevels) {
+        AddLevel: function(courseId, levelId, totalLevels) {
             var lang = getLanguage($.cookie('Member._id'));
             var languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             var Cstep = new App.Models.CourseStep()
             Cstep.set({
-                courseId: groupId
+                courseId: courseId
+            })
+            Cstep.set("totalMarks",0);
+            var coursedetail = new App.Models.Course({
+                _id: courseId
+            })
+            coursedetail.fetch({
+                async: false
             })
             var lForm = new App.Views.LevelForm({
                 model: Cstep
@@ -2836,9 +2935,7 @@ $(function() {
                 Cstep.once('sync', function() {
                     $('.courseSearchResults_Bottom').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
                     lForm.edit = true
-                    lForm.ques = Cstep.get("questions")
-                    lForm.ans = Cstep.get("answers")
-                    lForm.opt = Cstep.get("qoptions")
+                    lForm.ques1 = Cstep.get("questionslist")
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
@@ -2859,9 +2956,6 @@ $(function() {
             $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
             $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
             // $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
-            $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
-            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
-            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);
             $('.bbf-form .field-passingPercentage label').html(App.languageDict.attributes.Passing_Percentage);
 
             var directionOfLang = App.languageDict.get('directionOfLang');
@@ -2872,7 +2966,6 @@ $(function() {
         ViewLevel: function(lid, rid) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
-                //  "_rev": rid
             });
             var that = this
             levelInfo.fetch({
@@ -2890,11 +2983,11 @@ $(function() {
                     $('.courseEditStep').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
-                    if (levelInfo.get("questions") == null) {
-                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
+                    if (levelInfo.get("questionslist") == null) {
+                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {
-                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Quiz+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>&nbsp;&nbsp;')
                     }
                 }
             });
@@ -2917,7 +3010,7 @@ $(function() {
                 }
             })
         },
-        GroupSearch: function() {
+        CourseSearch: function() {
 
             var cSearch
             cSearch = new App.Views.CourseSearch();
@@ -4961,10 +5054,9 @@ $(function() {
 
         },
         CoursesBarChart: function() {
-            App.$el.children('.body').html('&nbsp')
-            // App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
-            App.$el.children('.body').append('<div id="graph"></div>')
-            // App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
+            App.$el.children('.body').html('&nbsp') 
+            //App.$el.children('.body').append('')
+            App.$el.children('.body').append('<div id="detailView"><p id="graphtitle" style="text-align:center">'+App.languageDict.attributes.All_Courses_Progress+'</p><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
             var coursesResults = new App.Collections.memberprogressallcourses()
             coursesResults.memberId = $.cookie('Member._id')
             coursesResults.fetch({
@@ -4975,7 +5067,8 @@ $(function() {
             })
             chart.render();
             App.$el.children('.body').append(chart.el);
-            App.$el.children('.body').append('<div id="infoAboutGraph"><b>*Horizontal Axis : Courses<br>*Vertical Axis : Steps</b></div>')
+            
+            App.$el.children('.body').append('<div id="infoGraph"></div>')
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
         AddToShelf: function(rId, title) {
@@ -5062,7 +5155,7 @@ $(function() {
                     }
                 });
 
-                var membercourses = new App.Collections.MemberGroups()
+                var membercourses = new App.Collections.MemberCourses()
                 membercourses.fetch({
                     async: false
                 })
@@ -5791,12 +5884,12 @@ $(function() {
         saveResources: function(URL) {
             var Resources = new PouchDB('resources');
             var Saving
-            var Groups = new App.Collections.MemberGroups()
-            Groups.memberId = $.cookie('Member._id')
-            Groups.once('sync', function() {
-                _.each(Groups.models, function(group) {
+            var Courses = new App.Collections.MemberCourses()
+            Courses.memberId = $.cookie('Member._id')
+            Courses.once('sync', function() {
+                _.each(Courses.models, function(course) {
                     levels = new App.Collections.CourseLevels()
-                    levels.groupId = group.id
+                    levels.courseId = course.id
                     levels.fetch({
                         async: false
                     })
@@ -5846,7 +5939,7 @@ $(function() {
                     })
                 })
             })
-            Groups.fetch()
+            Courses.fetch()
         },
         saveFrequency: function(URL) {
             if ($.cookie('Member._id')) {
@@ -6066,8 +6159,8 @@ $(function() {
 
             logMember.login = login
             var Meetups = new App.Collections.Meetups()
-            var Groups = new App.Collections.MemberGroups()
-            Groups.memberId = $.cookie('Member._id')
+            var Courses = new App.Collections.MemberCourses()
+            Courses.memberId = $.cookie('Member._id')
             var Reports = new App.Collections.Reports()
             var memId = $.cookie('Member._id')
             var memName = $.cookie('Member.login')
@@ -6183,31 +6276,31 @@ $(function() {
                         replace += encodeURI('/meetups/' + meetup.id) + '\n'
 
                     })
-                    App.trigger('compile:Groups')
+                    App.trigger('compile:Courses')
                 })
                 Meetups.fetch()
             })
 
-            App.once('compile:Groups', function() {
+            App.once('compile:Courses', function() {
 
-                Groups.once('sync', function() {
+                Courses.once('sync', function() {
 
-                    replace += encodeURI('/groups/_all_docs?include_docs=true') + '\n'
-                    replace += encodeURI('/groups/_design/bell/_view/GetCourses?key="' + memId + '"&include_docs=true') + '\n'
+                    replace += encodeURI('/courses/_all_docs?include_docs=true') + '\n'
+                    replace += encodeURI('/courses/_design/bell/_view/GetCourses?key="' + memId + '"&include_docs=true') + '\n'
 
-                    _.each(Groups.models, function(group) {
-                        replace += encodeURI('/groups/' + group.id) + '\n'
-                        replace += encodeURI('/coursestep/_design/bell/_view/StepsData?key="' + group.id + '"&include_docs=true') + '\n'
-                        MemberCourseProgress.courseId = group.id
+                    _.each(Courses.models, function(course) {
+                        replace += encodeURI('/courses/' + course.id) + '\n'
+                        replace += encodeURI('/coursestep/_design/bell/_view/StepsData?key="' + course.id + '"&include_docs=true') + '\n'
+                        MemberCourseProgress.courseId = course.id
                         MemberCourseProgress.memberId = memId
                         MemberCourseProgress.fetch({
                             success: function() {
                                 //don't encode this url because it contain's '[' & ']' which spoil the key
-                                replace += ('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + memId + '","' + group.id + '"]&include_docs=true') + '\n'
+                                replace += ('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + memId + '","' + course.id + '"]&include_docs=true') + '\n'
                             }
                         })
                         levels = new App.Collections.CourseLevels()
-                        levels.groupId = group.id
+                        levels.courseId = course.id
                         levels.fetch({
                             async: false
                         })
@@ -6234,7 +6327,7 @@ $(function() {
                     })
                     App.trigger('compile:CommunityReport')
                 })
-                Groups.fetch()
+                Courses.fetch()
             })
             App.once('compile:CommunityReport', function() {
 

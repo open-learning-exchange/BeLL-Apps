@@ -15,7 +15,7 @@ $(function() {
         },
 
         defaults: {
-            kind: "Course Step" // Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            kind: "Course Step", // Saves kind of document according to corresponding db's.Mostly used in couch db views.
         },
 
         schema: {
@@ -29,20 +29,9 @@ $(function() {
             stepGoals: 'TextArea',
 
             step: 'Text',
+            totalMarks: 'Text',
             courseId: 'Text',
             resourceId: {   //list of IDs of resources attached with any step(level). These IDs are coming from resources database.
-                type: 'Select',
-                options: []
-            },
-            questions: {  //Statements of Question(s) added, if the step has an outcome/type as Quiz
-                type: 'Select',
-                options: []
-            },
-            qoptions: { //Options provided against each question.
-                type: 'Select',
-                options: []
-            },
-            answers: { //List of correct answer against each question.
                 type: 'Select',
                 options: []
             },
@@ -50,18 +39,14 @@ $(function() {
                 type: 'Select',
                 options: []
             },
-            outComes: { //Type of Step e.g
-                //1. Quiz
-                //2. Paper/Assignment
-                //3. Paper and Quiz
-                title: 'Outcomes',
-                type: 'Checkboxes',
-                options: ['Paper', 'Quiz']
+             questionslist: {  //Statements of Question(s) list added, if the step has an outcome/type as Quiz
+                type: 'Select',
+                options: []
             },
             passingPercentage: { //Least marks to be obtained for passing any step
                 type: 'Select',
                 options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-            }
+            },
         },
         saveAttachment: function(formEl, fileEl, revEl) {
 

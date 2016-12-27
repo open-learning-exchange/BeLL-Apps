@@ -115,9 +115,9 @@ $(function() {
                 App.$el.children('.body').html('<h3>Add ' + label + '</h3>')
             }
             App.$el.children('.body').append(modelForm.el)
-            // Bind form events for when Group is ready
+            // Bind form events for when Course is ready
             model.once('Model:ready', function() {
-                // when the users submits the form, the group will be processed
+                // when the users submits the form, the course will be processed
                 modelForm.on(className + 'Form:done', function() {
                     Backbone.history.navigate(reroute, {
                         trigger: true
@@ -191,7 +191,7 @@ $(function() {
         modelForm: function(className, label, modelId, reroute) {
             var model = new App.Models[className]()
             model.once('Model:ready', function() {
-                // when the users submits the form, the group will be processed
+                // when the users submits the form, the course will be processed
                 modelForm.on(className + 'Form:done', function() {
                     Backbone.history.navigate('nations', {
                         trigger: true

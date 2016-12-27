@@ -1,5 +1,5 @@
 $(function() {
-	App.Views.GroupView = Backbone.View.extend({
+	App.Views.CourseView = Backbone.View.extend({
 
 		tagName: "table",
 

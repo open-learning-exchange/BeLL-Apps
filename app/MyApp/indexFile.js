@@ -242,13 +242,13 @@ function getCountOfLearners(courseId, requiredLearnersIds){
         return 0;
     }
     var learners=[], learnersIds=[], stepsStatuses=[], countOfLearners=0;
-    var group = new App.Models.Group({
+    var course = new App.Models.Course({
         _id: courseId
     })
     var MemberCourseProgress = new App.Collections.membercourseprogresses();
-    group.fetch({
+    course.fetch({
         async:false,
-        success: function (groupDoc) {
+        success: function (courseDoc) {
             learners=[], stepsStatuses=[];
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
@@ -258,24 +258,24 @@ function getCountOfLearners(courseId, requiredLearnersIds){
             })
             var roles = loggedIn.get("roles");
             //Check whether the logged in person is leader for the course he wants to know the count of Learners
-            if ((groupDoc.get('courseLeader') != undefined && (groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (((roles.indexOf('Manager')>-1 || roles.indexOf('SuperManager')>-1) && groupDoc.get('courseLeader').length == 0)))) {
-                for (var j = 0; j < groupDoc.get('members').length; j++) {
-                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0 || (groupDoc.get('members').indexOf(groupDoc.get('members')[j]) > -1 && groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) > -1)) {
+            if ((courseDoc.get('courseLeader') != undefined && (courseDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (((roles.indexOf('Manager')>-1 || roles.indexOf('SuperManager')>-1) && courseDoc.get('courseLeader').length == 0)))) {
+                for (var j = 0; j < courseDoc.get('members').length; j++) {
+                    if (courseDoc.get('courseLeader').indexOf(courseDoc.get('members')[j]) < 0 || (courseDoc.get('members').indexOf(courseDoc.get('members')[j]) > -1 && courseDoc.get('courseLeader').indexOf(courseDoc.get('members')[j]) > -1)) {
                        if( learners.indexOf(learners[j]) == -1){
-                           learners.push(groupDoc.get('members')[j]);
+                           learners.push(courseDoc.get('members')[j]);
                        }
 
                     }
 
                 }
-                if(groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1 && groupDoc.get('members').indexOf($.cookie('Member._id')) > -1){
+                if(courseDoc.get('courseLeader') != undefined && courseDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1 && courseDoc.get('members').indexOf($.cookie('Member._id')) > -1){
                     if( learners.indexOf($.cookie('Member._id'))== -1){
                         learners.push($.cookie('Member._id'));
                     }
                 }
                 for (var k = 0; k < learners.length; k++) {
                     var addToCount = false;
-                    MemberCourseProgress.courseId = groupDoc.get('_id');
+                    MemberCourseProgress.courseId = courseDoc.get('_id');
                     MemberCourseProgress.memberId = learners[k];
                     MemberCourseProgress.fetch({
                         async: false,
@@ -330,16 +330,16 @@ function getCountOfAllLearnersOrIds(courseId, requiredLearnersIds){
         return 0;
     }
     var learnersIds=[], countOfLearners=0;
-    var group = new App.Models.Group({
+    var course = new App.Models.Course({
         _id: courseId
     })
     var MemberCourseProgress = new App.Collections.membercourseprogresses();
-    group.fetch({
+    course.fetch({
         async:false,
-        success: function (groupDoc) {
-            if (groupDoc.get('courseLeader') != undefined && groupDoc.get('members') != undefined) {
-                for (var j = 0; j < groupDoc.get('members').length; j++) {
-                    learnersIds.push(groupDoc.get('members')[j]);
+        success: function (courseDoc) {
+            if (courseDoc.get('courseLeader') != undefined && courseDoc.get('members') != undefined) {
+                for (var j = 0; j < courseDoc.get('members').length; j++) {
+                    learnersIds.push(courseDoc.get('members')[j]);
                     countOfLearners++;
                 }
             }
@@ -380,12 +380,12 @@ function getName(select){
     var courseId = arr[1];
     var memberId = arr [0];
    window.location.href = '#creditsDetails/' + courseId + '/' + memberId;
-    /*var group = new App.Models.Group({
+    /*var course = new App.Models.Course({
         _id: courseId
     });
-    group.fetch({
-        success: function (groupDoc) {
-            learnerIds = groupDoc.get('members');
+    course.fetch({
+        success: function (courseDoc) {
+            learnerIds = courseDoc.get('members');
         },
         async:false
     });
@@ -399,7 +399,7 @@ function getName(select){
     });
 
     var name = member.get('firstName')+ " " +member.get('lastName');
-    $("#creditsTable h3").html("Credits Details | " + group.get('CourseTitle') + "|" + name)
+    $("#creditsTable h3").html("Credits Details | " + course.get('CourseTitle') + "|" + name)
       //  $('#creditsTable').append('<h3>' + ' Credits Details | '+ ' | '+select+ '</h3>');*/
 }
 function selectAllMembers (){
@@ -427,7 +427,7 @@ function removeMemberFromCourse(memberId){
     var values=memberId.split(',');
     memberId=values[0];
     var courseId=values[1];
-    var courseModel = new App.Models.Group({
+    var courseModel = new App.Models.Course({
         _id: courseId
     })
     courseModel.fetch({
@@ -486,9 +486,9 @@ function removeMemberFromCourse(memberId){
                     mail.set("sentDate", currentdate)
                     mail.save();
                     alert(App.languageDict.attributes.Resigned_Success_Msg + ' ' + courseModel.get('name') + ' . ')
-                    var groupMembers = new App.Views.GroupMembers();
-                    groupMembers.courseId = courseId;
-                    groupMembers.render();
+                    var courseMembers = new App.Views.CourseMembers();
+                    courseMembers.courseId = courseId;
+                    courseMembers.render();
 
                 }
                 else {
@@ -550,9 +550,9 @@ function removeMemberFromCourse(memberId){
                         m.destroy()
                     }
                 })
-                var groupMembers = new App.Views.GroupMembers();
-                groupMembers.courseId = courseId;
-                groupMembers.render();
+                var courseMembers = new App.Views.CourseMembers();
+                courseMembers.courseId = courseId;
+                courseMembers.render();
                 alert(App.languageDict.attributes.Removed_Member);
             }
         }
@@ -968,7 +968,7 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     }
     else
     {
-        var gmodel = new App.Models.Group({
+        var gmodel = new App.Models.Course({
             _id: courseId
         })
         gmodel.fetch({
@@ -1286,7 +1286,7 @@ function showComposePopup() {
     $('.mailbody button').eq(1).html(App.languageDict.attributes.Send);
 
 }
-
+//For old courseAnswer File Attachment
 function HandleBrowseClick(stepId) {
     $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
     var fileinput = document.forms["fileAttachment" + stepId]["_attachments"]
@@ -1298,7 +1298,7 @@ function FieSelected(stepId) {
     var stepTitle = document.getElementById("stepTitle" + stepId).value;
     var stepNo = document.getElementById("stepNo" + stepId).value;
     var assignmentpaper = new App.Models.AssignmentPaper();
-    var courseModel = new App.Models.Group()
+    var courseModel = new App.Models.Course()
     courseModel.set('_id', courseId)
     courseModel.fetch({
         async: false
@@ -1313,16 +1313,19 @@ function FieSelected(stepId) {
             imgVal = img[i].value;
         }
     }
+    console.log(imgVal);
     //var extension = img.val().split('.')
     var extension = imgVal.split('.')
     if (extension){
-        var memberAssignmentPaper = new App.Collections.AssignmentPapers()
+        var memberAssignmentPaper = new App.Collections.AssignmentPapers() //uploaeded session
         memberAssignmentPaper.senderId=$.cookie('Member._id')
         memberAssignmentPaper.stepId=stepId
         memberAssignmentPaper.changeUrl = true;
+        console.log(memberAssignmentPaper);
         memberAssignmentPaper.fetch({
             async: false,
             success: function (json) {
+                console.log(json);
                 if(json.models.length > 0) {
                     var existingModels = json.models;
                     for(var i = 0 ; i < existingModels.length ; i++) {
@@ -1363,6 +1366,7 @@ function FieSelected(stepId) {
     assignmentpaper.set("courseId", courseId);
     assignmentpaper.set("stepId", stepId);
     assignmentpaper.set("stepNo", stepNo);
+    console.log(assignmentpaper);
     assignmentpaper.save(null, {
         success: function() {
             //assignmentpaper.unset('_attachments')
@@ -1396,12 +1400,116 @@ function FieSelected(stepId) {
 
                 })
                 alert(App.languageDict.attributes.Assignment_Submitted)
-                location.reload();
+                //location.reload();
             }, assignmentpaper)
 
         }
     })
 }
+
+//For new Course Answer File Attachment
+
+function HandleBrowseClick1(questionId) {
+    $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
+    var fileinput = document.forms["questionForm"]["_attachments"]
+    fileinput.click();
+}
+
+function FileSelected(questionId) {
+    //var questionId=new App.Models.Question()
+    var stepId=document.getElementById("stepId" + questionId).value;
+     console.log(stepId)
+   // var stepTitle = document.getElementById("stepTitle" + questionId).value;
+    //var stepNo = document.getElementById("stepNo" + questionId).value;
+    var assignmentpaper = new App.Models.AssignmentPaper();
+   // var courseModel = new App.Models.Course()
+    //courseModel.set('_id', courseId)
+   // courseModel.fetch({
+    //    async: false
+   // })
+   // if (!courseModel.get("courseLeader")) {
+       // return
+   // }
+    var img = $('input[type="file"]');
+    var imgVal;
+    for(var i = 0 ; i < img.length ; i++) {
+        if(img[i].value != '') {
+            imgVal = img[i].value;
+        }
+    }
+    var extension = imgVal.split('.')
+    if (extension){
+        var memberAssignmentPaper  = new App.Collections.AssignmentPapers() //uploaeded session
+        memberAssignmentPaper .senderId=$.cookie('Member._id')
+        memberAssignmentPaper .questionId=questionId
+        memberAssignmentPaper .changeUrl = true;
+        memberAssignmentPaper .fetch({
+            async: false,
+            success: function (json) {
+                console.log(json);
+                if(json.models.length > 0) {
+                    var existingModels = json.models;
+                    for(var i = 0 ; i < existingModels.length ; i++) {
+                        var doc = {
+                            _id: existingModels[i].attributes._id,
+                            _rev: existingModels[i].attributes._rev
+                        };
+                        $.couch.db("assignmentpaper").removeDoc(doc, {
+                            success: function (data) {
+                                console.log(data);
+                            },
+                            error: function (status) {
+                                console.log(status);
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+    }
+if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
+        alert(App.languageDict.attributes.Invalid_Attachment);
+        return;
+    }
+    var currentdate = new Date();
+    var mail = new App.Models.Mail();
+    mail.set("senderId", $.cookie('Member._id'));
+    //mail.set("receiverId", courseModel.get("courseLeader"));
+    //mail.set("subject", "Assignment | " + courseModel.get("name"));
+    //mail.set("body", "Assignment submited for <b>" + stepTitle + '</b>.');
+    mail.set("status", "0");
+    mail.set("type", "mail");
+    mail.set("sentDate", currentdate);
+    mail.save()
+    assignmentpaper.set("sentDate", currentdate);
+    assignmentpaper.set("senderId", $.cookie('Member._id'));
+    assignmentpaper.set("stepId", stepId);
+    assignmentpaper.set("questionId", questionId);
+    //assignmentpaper.set("stepNo", stepNo);
+    console.log(assignmentpaper);
+    assignmentpaper.save(null, {
+        success: function(data) {
+            var attachmentId = data.attributes.id;
+            $("#attachmentId").val(attachmentId);
+            //assignmentpaper.unset('_attachments')
+            if (imgVal) {
+                assignmentpaper.saveAttachment("form#questionForm", "form#questionForm #_attachments", "form#questionForm .rev")
+            } else {
+                ////no attachment
+                alert(App.languageDict.attributes.No_Attachment)
+            }
+            // After Upload Paper refresh page
+            assignmentpaper.on('savedAttachment', function() {
+                //Attatchment successfully saved
+                alert(App.languageDict.attributes.Assignment_Submitted)
+                //location.reload();
+            }, assignmentpaper)
+
+        }
+    })
+}
+
 function filterInt(value) {
     if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
         return Number(value);
@@ -1859,12 +1967,12 @@ function CourseSearch() {
     //alert("COURSE SEARCH");
     skip = 0;
     searchText = $("#searchText").val();
-    App.Router.GroupSearch();
+    App.Router.CourseSearch();
 
 }
 
 function ListAllCourses() {
-    App.Router.Groups()
+    App.Router.Courses()
 }
 
 function AddColletcion() {
