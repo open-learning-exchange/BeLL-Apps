@@ -61,6 +61,7 @@ $(function() {
                 })
             }
         },
+        
         savequestion: function(e) {
             if (!this.validQuestionAndOptions()) {
                 alert(App.languageDict.attributes.Invalid_Inputs)
@@ -171,6 +172,172 @@ $(function() {
                 return true
             }
         },
+
+        coursesavefunction: function(lid) {
+            var that = this;
+          /*  $("#dialog").dialog({
+                title: App.languageDictValue.get('Add_new_Question'),
+            });
+            $('#dialog').dialog('open');
+            $("#add_new_question").change(handleNewSelection);
+            // Run the event handler once now to ensure everything is as it should be
+            handleNewSelection.apply($("#add_new_question"));
+            if(isEdit) {
+                $("#dialog").dialog({
+                    title: App.languageDictValue.get('Edit_Question')
+                });
+                var questionType = questionModel.get('Type');
+                if(questionType == 'Multiple Choice (Single Answer)') {
+                    that.editMultipleChoiceQuestion(questionModel);
+                } else if(questionType == 'Rating Scale') {
+                    that.editRatingScaleQuestion(questionModel);
+                } else if(questionType == 'Single Textbox') {
+                    that.editSingleTextBoxQuestion(questionModel);
+                } else if(questionType == 'Comment/Essay Box') {
+                    that.editCommentBoxQuestion(questionModel);
+                }
+            }*/
+            $(".savecourseQuestion").click(function () {
+                var selectedVal = $('#add_new_question option:selected').val();
+                if(selectedVal){
+                    switch (selectedVal) {
+                        case '1':  //Multiple Choice Question
+                            that.saveMultipleChoiceQuestion(lid);
+                            break;
+                        case '6':    //Single Textbox
+                            that.saveSingleTextBoxQuestion(lid);
+                            break;
+                        case '8':    //Comment/Essay box
+                            that.saveCommentBoxQuestion(lid);
+                            break;
+                    }
+                }
+            });
+        },
+
+        saveSingleTextBoxQuestion: function(lid) {
+            var that = this;
+            var qStatement = $('#6').find('#question_text').val();
+            if(qStatement.toString().trim() != '') {
+                var questionObject = new App.Models.CourseQuestion({
+                    Type: 'Single Textbox',
+                    Statement: qStatement.toString().trim(),
+                    courseId: lid
+                });
+               /* if($('#6').find('#required_question').prop("checked") == true) {
+                    questionObject.set('RequireAnswer', true);
+                } else {
+                    questionObject.set('RequireAnswer', false);
+                }
+                if(isEdit) {
+                    questionObject.set('_id', questionModel.get('_id'));
+                    questionObject.set('_rev', questionModel.get('_rev'));
+                }*/
+                that.saveQuestion(questionObject, lid);
+            } else {
+                alert(App.languageDict.attributes.question_stat_missing);
+            }
+        },
+
+        saveCommentBoxQuestion: function(lid) {
+            var that = this;
+            var qStatement = $('#8').find('#question_text').val();
+            if(qStatement.toString().trim() != '') {
+                var questionObjectForEB = new App.Models.CourseQuestion({
+                    Type: 'Comment/Essay Box',
+                    Statement: qStatement.toString().trim(),
+                    courseId: lid
+                });
+                /*if($('#8').find('#required_question').prop("checked") == true) {
+                    questionObjectForEB.set('RequireAnswer', true);
+                } else {
+                    questionObjectForEB.set('RequireAnswer', false);
+                }
+                if(isEdit) {
+                    questionObjectForEB.set('_id', questionModel.get('_id'));
+                    questionObjectForEB.set('_rev', questionModel.get('_rev'));
+                }*/
+                that.saveQuestion(questionObjectForEB, lid);
+            } else {
+                alert(App.languageDict.attributes.question_stat_missing);
+            }
+        },
+            
+            saveMultipleChoiceQuestion: function(lid) {
+            var that = this;
+            var qStatement = $('#1').find('#question_text').val();
+            var answer_choices = $('#1').find('#answer_choices').val();
+            var correct_choices = $('#1').find('#correct_answer').val();
+            answer_choices = answer_choices.split('\n');
+            if(qStatement.toString().trim() != '') {
+                var validOptionValues = [];
+                for(var i = 0 ; i < answer_choices.length ; i++) {
+                    if(answer_choices[i].trim() != '') {
+                        validOptionValues.push(answer_choices[i].trim());
+                      
+                    }
+                }
+                if(validOptionValues != [] && validOptionValues.length > 1) {
+                    var questionObjectMC = new App.Models.CourseQuestion({
+                        Type: 'Multiple Choice (Single Answer)',
+                        Statement: qStatement.toString().trim(),
+                        courseId: lid,
+                        Options: validOptionValues,
+                        CorrectAnswer: correct_choices
+                    });
+                    if($('#1').find('#required_question').prop("checked") == true) {
+                        questionObjectMC.set('RequireAnswer', true);
+                    } else {
+                        questionObjectMC.set('RequireAnswer', false);
+                    }
+                    /*if(isEdit) {
+                        questionObjectMC.set('_id', questionModel.get('_id'));
+                        questionObjectMC.set('_rev', questionModel.get('_rev'));
+                    }*/
+                    that.saveQuestion(questionObjectMC, lid);
+                } else {
+                    alert(App.languageDict.attributes.atleast_two_options);
+                }
+            } else {
+                alert(App.languageDict.attributes.question_stat_missing);
+            }
+        },
+         saveQuestion: function(questionObject, courseId, isEdit) {
+            questionObject.save(null, {
+                success: function (model, response) {
+                    if(!isEdit) {
+                        var courseModel = new App.Models.CourseStep({
+                            _id: courseId
+                        })
+                        courseModel.fetch({
+                            async: false
+                        })
+                        console.log(courseModel.get('questions'));
+                        var courseQuestions = courseModel.get('questions');
+                        if(courseQuestions == null) courseQuestions = [];
+                        courseQuestions.push(response.id);
+                        courseModel.set('questions', courseQuestions);
+                        courseModel.save(null, {
+                            success: function (model, res) {
+                                alert(App.languageDict.attributes.question_Saved);
+                                window.location.reload();
+                            },
+                            error: function (model, err) {
+                                console.log(err);
+                            },
+                            async: false
+                        });
+                    } else {
+                        alert(App.languageDict.attributes.question_Edit);
+                        window.location.reload();
+                    }
+                },
+                error: function (model, err) {
+                    console.log(err);
+                },
+                async: false
+            });
+        },
         initialize: function() {
             this.quizQuestions = new Array()
             this.questionOptions = new Array()
@@ -178,14 +345,26 @@ $(function() {
             this.currentQuestion = 0
         },
         render: function() {
+
             var obj = this
             this.vars.courseTitle = this.ltitle;
             this.vars.languageDict=App.languageDict;
             this.$el.html(_.template(this.template, this.vars))
             $('#save-edit-question').hide()
-            $('#cancel-edit-question').hide()
+            $('#cancel-edit-question').hide() 
+            $(".quizclass").hide() 
+            $('#add_new_question').on('change', function() {  $(".quizclass").hide();$('#'+this.value ).show();}) 
+            this.coursesavefunction(this.levelId, false, null);
 
-        }
+
+
+            $('#dialog .subtitle').text(App.languageDict.attributes.Select_a_Question);
+            /*var qArray=App.languageDict.attributes.Question_types;
+            for(var i=0;i<qArray.length;i++){
+                $('#add_new_question option').eq(i).text(qArray[i]);
+            }*/
+    }
     })
+
 
 })

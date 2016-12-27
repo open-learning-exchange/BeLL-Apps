@@ -127,6 +127,7 @@
     <script src='app/models/Survey.js'></script>
     <script src='app/models/Question.js'></script>
     <script src='app/models/AdminMember.js'></script>
+    <script src='app/models/CourseQuestion.js'></script>
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script>
@@ -1718,9 +1719,45 @@
 
             </div>
 
+             <div id="dialog"> 
+             <span class="subtitle">Select a Question</span> <br /> 
+                <select id="add_new_question" class="surTextArea"> 
+                    <option value="0" selected="true" disabled="disabled">Please select a question</option>      
+                    <option value="1" id="multiple1">Multiple Choice (Single Answer)</option> 
+                    <option value="6" id="single1">Single Textbox</option>
+                    <option value="8" id="comment1">Comment/Essay Box</option>
+                 </select>
+                 <div id="1" class="quizclass" style="width:70%;"> 
+                 <span class="subtitle2">Question Text</span> <br /> 
+                    <textarea cols="50" rows="6" style="width:70%;height:70%" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                 <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> 
+                    <textarea cols="50" rows="5" id="answer_choices"  style="width:70%;height:70%" name="answer_choices" class="surTextArea"></textarea> <br /> 
+                <span class="subtitle2">Correct Answer</span> <br /> 
+                     <input type="textbox" name="required" id="correct_answer" style="width:657.15px;"> <br />
+                 <div align="center"> <br /> 
+                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion"> 
+                 </div> 
+                 </div>
+                 <div id="6" class="quizclass" style="width:70%;">
+                  <span class="subtitle2">Question Text</span> <br /> 
+                    <textarea cols="50" rows="6" id="question_text"  style="width:70%;height:70%" name="question_text" class="surTextArea"></textarea> <br /> 
+                <div align="center"> <br /> 
+                <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion"> </div>
+                 </div>
+                 <div id="8" class="quizclass" style="width:70%;">
+                  <span class="subtitle2">Question Text</span> <br />
+                     <textarea cols="50" rows="6"  style="width:70%;height:70%" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                <div align="center"> <br />
+                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion"> 
+                 </div>
+                  </div>
+            </div>
 
         </div>
+
+
     </script>
+
     <script type="text/html" id="template-CollectionRow">
         <td id=<%=_id%> >
             <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>

@@ -2396,6 +2396,7 @@ $(function() {
                     }
                 }
             });
+           
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
         },
