@@ -15,7 +15,7 @@ $(function() {
         },
         defaults: {
             kind: "Meetup"
-            //recurring:null	
+         	
         },
 
 
