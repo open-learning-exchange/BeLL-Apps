@@ -14,7 +14,7 @@ $(function() {
             return url
         },
         defaults: {
-            kind: "Meetup"	
+            kind: "Meetup"
         },
 
 
