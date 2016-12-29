@@ -25,7 +25,7 @@ $(function() {
             endDate: 'Text',
             recurring: {
                 type: 'Radio',
-                options: ['Daily', 'Weekly']
+                options: ['Daily', 'Weekly',{val:null, label:'None'}]
             },
             Day: {
                 type: 'Checkboxes',
