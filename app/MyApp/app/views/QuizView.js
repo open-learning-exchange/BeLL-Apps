@@ -15,6 +15,9 @@ $(function() {
                 this.render()
                 this.displayQuestionsInView()
             },
+            "click .cancel_course_quiz": function(e) {
+                 window.location.reload(true);
+            },
             "click #cancel-quiz": function() {
                 Backbone.history.navigate('level/view/' + this.levelId + '/' + this.revId, {
                     trigger: true
@@ -59,7 +62,25 @@ $(function() {
                         })
                     }
                 })
-            }
+            },
+            "click .savecourseQuestion": function () {
+                var selectedVal = $('#add_new_question option:selected').val();
+                if(selectedVal){
+                    switch (selectedVal) {
+                        case '1':  //Multiple Choice Question
+                            this.saveMultipleChoiceQuestion(this.levelId);
+                            break;
+                        case '6':    //Single Textbox
+                            this.saveSingleTextBoxQuestion(this.levelId);
+                            break;
+                        case '8':    //Comment/Essay box
+                            this.saveCommentBoxQuestion(this.levelId);
+                            break;
+                    }
+                }
+            },
+            
+             
         },
         
         savequestion: function(e) {
@@ -173,49 +194,68 @@ $(function() {
             }
         },
 
-        coursesavefunction: function(lid) {
+        coursesavefunction: function(lid, isEdit, questionModel) {
             var that = this;
-          /*  $("#dialog").dialog({
-                title: App.languageDictValue.get('Add_new_Question'),
-            });
-            $('#dialog').dialog('open');
-            $("#add_new_question").change(handleNewSelection);
-            // Run the event handler once now to ensure everything is as it should be
-            handleNewSelection.apply($("#add_new_question"));
+          $('.savecourseQuestion').show();
+          $('.edit_course_quiz').hide();
             if(isEdit) {
-                $("#dialog").dialog({
-                    title: App.languageDictValue.get('Edit_Question')
-                });
+                $('#dialog .subtile').text(App.languageDict.attributes.Edit_Question);
                 var questionType = questionModel.get('Type');
                 if(questionType == 'Multiple Choice (Single Answer)') {
                     that.editMultipleChoiceQuestion(questionModel);
-                } else if(questionType == 'Rating Scale') {
-                    that.editRatingScaleQuestion(questionModel);
                 } else if(questionType == 'Single Textbox') {
                     that.editSingleTextBoxQuestion(questionModel);
                 } else if(questionType == 'Comment/Essay Box') {
                     that.editCommentBoxQuestion(questionModel);
                 }
-            }*/
-            $(".savecourseQuestion").click(function () {
+                 $('.edit_course_quiz').show();
+                 $('.savecourseQuestion').hide();
+                 $('.edit_course_quiz').unbind('click');
+                 $('.edit_course_quiz').click(function () {
                 var selectedVal = $('#add_new_question option:selected').val();
                 if(selectedVal){
                     switch (selectedVal) {
                         case '1':  //Multiple Choice Question
-                            that.saveMultipleChoiceQuestion(lid);
+                            that.saveMultipleChoiceQuestion(lid, true, questionModel);
                             break;
                         case '6':    //Single Textbox
-                            that.saveSingleTextBoxQuestion(lid);
+                            that.saveSingleTextBoxQuestion(lid, true, questionModel);
                             break;
                         case '8':    //Comment/Essay box
-                            that.saveCommentBoxQuestion(lid);
+                            that.saveCommentBoxQuestion(lid, true, questionModel);
                             break;
                     }
                 }
             });
+            }
         },
 
-        saveSingleTextBoxQuestion: function(lid) {
+        editMultipleChoiceQuestion: function(questionModel) {
+            $("#add_new_question").val("1").trigger('change');
+            $('#1').find('#question_text').val(questionModel.get('Statement'));
+            $('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
+            var question_answer_choices = questionModel.get('Options');
+            var options = "";
+            for(var i = 0 ; i < question_answer_choices.length ; i++) {
+                options = options + question_answer_choices[i] + '\n'
+            }
+            $('#1').find('#answer_choices').val(options.trim());
+           
+        },
+        
+        editSingleTextBoxQuestion: function(questionModel) {
+            $("#add_new_question").val("6").trigger('change');
+            $('#6').find('#question_text').val(questionModel.get('Statement'));
+          
+        },
+
+        editCommentBoxQuestion: function(questionModel) {
+            $("#add_new_question").val("8").trigger('change');
+            $('#8').find('#question_text').val(questionModel.get('Statement'));
+            
+        },
+
+        saveSingleTextBoxQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#6').find('#question_text').val();
             if(qStatement.toString().trim() != '') {
@@ -224,22 +264,17 @@ $(function() {
                     Statement: qStatement.toString().trim(),
                     courseId: lid
                 });
-               /* if($('#6').find('#required_question').prop("checked") == true) {
-                    questionObject.set('RequireAnswer', true);
-                } else {
-                    questionObject.set('RequireAnswer', false);
-                }
                 if(isEdit) {
                     questionObject.set('_id', questionModel.get('_id'));
                     questionObject.set('_rev', questionModel.get('_rev'));
-                }*/
-                that.saveQuestion(questionObject, lid);
+                }
+                that.saveQuestion(questionObject, lid, true);
             } else {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
         },
 
-        saveCommentBoxQuestion: function(lid) {
+        saveCommentBoxQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#8').find('#question_text').val();
             if(qStatement.toString().trim() != '') {
@@ -248,22 +283,17 @@ $(function() {
                     Statement: qStatement.toString().trim(),
                     courseId: lid
                 });
-                /*if($('#8').find('#required_question').prop("checked") == true) {
-                    questionObjectForEB.set('RequireAnswer', true);
-                } else {
-                    questionObjectForEB.set('RequireAnswer', false);
-                }
                 if(isEdit) {
                     questionObjectForEB.set('_id', questionModel.get('_id'));
                     questionObjectForEB.set('_rev', questionModel.get('_rev'));
-                }*/
-                that.saveQuestion(questionObjectForEB, lid);
+                }
+                that.saveQuestion(questionObjectForEB, lid, true);
             } else {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
         },
             
-            saveMultipleChoiceQuestion: function(lid) {
+            saveMultipleChoiceQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#1').find('#question_text').val();
             var answer_choices = $('#1').find('#answer_choices').val();
@@ -285,16 +315,13 @@ $(function() {
                         Options: validOptionValues,
                         CorrectAnswer: correct_choices
                     });
-                    if($('#1').find('#required_question').prop("checked") == true) {
-                        questionObjectMC.set('RequireAnswer', true);
-                    } else {
-                        questionObjectMC.set('RequireAnswer', false);
-                    }
-                    /*if(isEdit) {
+                    if(isEdit) {
                         questionObjectMC.set('_id', questionModel.get('_id'));
                         questionObjectMC.set('_rev', questionModel.get('_rev'));
-                    }*/
-                    that.saveQuestion(questionObjectMC, lid);
+                        that.saveQuestion(questionObjectMC, lid, true);
+                    } else {
+                        that.saveQuestion(questionObjectMC, lid);
+                    }
                 } else {
                     alert(App.languageDict.attributes.atleast_two_options);
                 }
@@ -302,22 +329,21 @@ $(function() {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
         },
-         saveQuestion: function(questionObject, courseId, isEdit) {
+         saveQuestion: function(questionObject, csId, isEdit) {
             questionObject.save(null, {
                 success: function (model, response) {
                     if(!isEdit) {
-                        var courseModel = new App.Models.CourseStep({
-                            _id: courseId
+                        var courseStepModel = new App.Models.CourseStep({
+                            _id: csId
                         })
-                        courseModel.fetch({
+                        courseStepModel.fetch({
                             async: false
                         })
-                        console.log(courseModel.get('questions'));
-                        var courseQuestions = courseModel.get('questions');
+                        var courseQuestions = courseStepModel.get('questionslist');
                         if(courseQuestions == null) courseQuestions = [];
                         courseQuestions.push(response.id);
-                        courseModel.set('questions', courseQuestions);
-                        courseModel.save(null, {
+                        courseStepModel.set('questionslist', courseQuestions);
+                        courseStepModel.save(null, {
                             success: function (model, res) {
                                 alert(App.languageDict.attributes.question_Saved);
                                 window.location.reload();

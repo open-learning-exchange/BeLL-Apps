@@ -24,9 +24,7 @@ $(function() {
             Answer: [], //This array attribute saves answer(s) of a question when a user submit survey response.
             Options: [],//This array attribute saves options of a question(only applicable for MCQ and Rating Scale)
             Ratings: [],//This array attribute saves rating options of a question(only applicable for Rating Scale)
-            CorrectAnswer: [],
-            RequireAnswer: false //Saves information whether answer of a question is required or not.True means required, false means optional.
-
+            CorrectAnswer: []
         }
 
     })

@@ -38,6 +38,7 @@ $(function() {
                 type: 'Select',
                 options: []
             },
+
             qoptions: { //Options provided against each question.
                 type: 'Select',
                 options: []
@@ -57,6 +58,10 @@ $(function() {
                 title: 'Outcomes',
                 type: 'Checkboxes',
                 options: ['Paper', 'Quiz']
+            },
+             questionslist: {  //Statements of Question(s) list added, if the step has an outcome/type as Quiz
+                type: 'Select',
+                options: []
             },
             passingPercentage: { //Least marks to be obtained for passing any step
                 type: 'Select',
