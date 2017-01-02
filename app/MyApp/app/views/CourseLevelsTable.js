@@ -54,20 +54,30 @@ $(function () {
             })
             var JSONsteps=null;
             JSONsteps=step.toJSON()
-
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
-            var temp = new App.Views.takeQuizView({
+            if (typeof JSONsteps.questionslist !== "undefined") {
+               var temp = new App.Views.takeQuizView({  
+                questionlist: JSONsteps.questionslist,
+                passP: JSONsteps.passingPercentage,
+                resultModel: context.modl,
+                stepIndex: index 
+                })
+            }
+            else{
+                var temp = new App.Views.takeQuizView({ 
                 questions: JSONsteps.questions,
                 answers: JSONsteps.answers,
                 options: JSONsteps.qoptions,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,
-                stepIndex: index
-            })
+                stepIndex: index 
+                })   
+            }
             temp.render()
             $('div.takeQuizDiv').html(temp.el)
         },
+            
 
         initialize: function () {
             $('div.takeQuizDiv').hide()

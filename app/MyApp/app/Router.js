@@ -2869,6 +2869,17 @@ $('#parentDiv').append(CourseStepQuestionsTable.el);
             Cstep.set({
                 courseId: groupId
             })
+            var coursedetail = new App.Models.Group({
+                _id: groupId
+            })
+            coursedetail.fetch({
+                async: false
+            })
+            if (coursedetail.get('structure') !== undefined && coursedetail.get('structure') === true) {
+                Cstep.set('coursestructure', true);
+            } else {
+                Cstep.set('coursestructure', false);
+            }
             var lForm = new App.Views.LevelForm({
                 model: Cstep
             })
@@ -2895,7 +2906,12 @@ $('#parentDiv').append(CourseStepQuestionsTable.el);
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
-                    .render();
+                    if (coursedetail.get('structure') !== undefined && coursedetail.get('structure') === true) {
+                        Cstep.set('coursestructure', true);
+                    } else {
+                        Cstep.set('coursestructure', false);
+                    }
+                    lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
                     $("input[name='step']").attr("disabled", true);
                 })

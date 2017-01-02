@@ -15,7 +15,8 @@ $(function() {
         },
 
         defaults: {
-            kind: "Course Step" // Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            kind: "Course Step", // Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            coursestructure: true
         },
 
         schema: {
@@ -66,6 +67,10 @@ $(function() {
             passingPercentage: { //Least marks to be obtained for passing any step
                 type: 'Select',
                 options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+            },
+            coursestructure: {
+                type: 'Checkboxes',
+                options: [{val:true, label: 'New Course'}]
             }
         },
         saveAttachment: function(formEl, fileEl, revEl) {
