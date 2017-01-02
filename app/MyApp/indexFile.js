@@ -1595,7 +1595,7 @@ function convertTo24Hour(time) {
    // }
     //return time.replace(/(am|pm)/, '');
 }
-$(window).scroll(function() {
+/*$(window).scroll(function() {
     var $menu = $('#addEvent'),
         scrollpos = $(window).scrollTop();
     if (scrollpos >= 118) {
@@ -1610,7 +1610,7 @@ $(window).scroll(function() {
         });
     }
 });
-
+*/
 
 function startRecording() {
     var that = this

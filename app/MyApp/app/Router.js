@@ -5030,7 +5030,7 @@ $(function() {
             var lang = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
-            App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">"+App.languageDict.attributes.Add_Event+"</div><br/><br/>")
+            App.$el.children('.body').html("<div id='addEvent' style='position:fixed;z-index:5;' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">"+App.languageDict.attributes.Add_Event+"</div>")
             App.$el.children('.body').append("<br/><br/><div id='calendar'></div>")
             $(document).ready(function() {
 
