@@ -1595,22 +1595,6 @@ function convertTo24Hour(time) {
    // }
     //return time.replace(/(am|pm)/, '');
 }
-$(window).scroll(function() {
-    var $menu = $('#addEvent'),
-        scrollpos = $(window).scrollTop();
-    if (scrollpos >= 118) {
-        $menu.css({
-            "top": "0",
-            "position": "fixed"
-        });
-    } else {
-        $menu.css({
-            "position": "fixed",
-            "top": "68px"
-        });
-    }
-});
-
 
 function startRecording() {
     var that = this
