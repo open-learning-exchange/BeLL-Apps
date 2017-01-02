@@ -61,8 +61,8 @@ $(function() {
                 options: null // Populate this when instantiating
             },
             structure : {
-                type: 'Checkboxes',
-                options: [{val:true, label: 'New Course'}]
+                type: 'Radio',
+                options: [{val:true, label: 'New Course'}, {val: false, label: 'Old Course'}]
             }
         }
 

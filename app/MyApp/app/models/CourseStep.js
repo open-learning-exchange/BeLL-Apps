@@ -69,8 +69,8 @@ $(function() {
                 options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
             },
             coursestructure: {
-                type: 'Checkboxes',
-                options: [{val:true, label: 'New Course'}]
+                type: 'Radio',
+                options: [{val:true, label: 'New Course'}, {val: false, label: 'Old Course'}]
             }
         },
         saveAttachment: function(formEl, fileEl, revEl) {
