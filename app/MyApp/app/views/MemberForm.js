@@ -475,14 +475,15 @@ $(function() {
         },
 
         validateMemberForm : function(){
-            var isCorrect=true;
+         var converter=(parseInt($('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val())+1);
+         var date=new Date($('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val() + '-' + converter + '-' + $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val());
+         var isCorrect=true;
             if ($.trim($('.bbf-form .field-firstName .bbf-editor input').val()) =='' || $('.bbf-form .field-firstName .bbf-editor input').val() ==null || $('.bbf-form .field-firstName .bbf-editor input').val() ==undefined)
             {
                 isCorrect=false;
                 $('.bbf-form .field-firstName label').css('color','red');
             }
             else{
-
                 $('.bbf-form .field-firstName label').css('color','black');
             }
             if ($.trim($('.bbf-form .field-lastName .bbf-editor input').val()) =='' || $('.bbf-form .field-lastName .bbf-editor input').val() ==null || $('.bbf-form .field-lastName .bbf-editor input').val() ==undefined)
@@ -492,7 +493,6 @@ $(function() {
             }
             else
             {
-
                 $('.bbf-form .field-lastName label').css('color','black');
             }
             if ($.trim($('.bbf-form .field-login .bbf-editor input').val()) =='' || $('.bbf-form .field-login .bbf-editor input').val() ==null || $('.bbf-form .field-login .bbf-editor input').val() ==undefined)
@@ -529,7 +529,6 @@ $(function() {
                 $('.bbf-form .field-levels label').css('color','red');
             }
             else{
-
                 $('.bbf-form .field-levels label').css('color','black');
             }
                 if( //validations for date
@@ -547,16 +546,23 @@ $(function() {
                     $('.bbf-form .field-BirthDate label').css('color','red');
                 }
             else{
-                    //Now, validate age range [5,100] (Inclusive)
+            //validating the Date-format for specified Date
+            if(date.getDate() != $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val() || date.getMonth() != $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val() || date.getFullYear() != $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val()){
+                isCorrect = false;
+                $('.bbf-form .field-BirthDate label').css('color','red');
+                }
+            else
+            	{
+                  //Now, validate age range [5,100] (Inclusive)
                   if(this.getAgeOfUser()<5 || this.getAgeOfUser()>100) {
                       alert(App.languageDict.attributes.Birthday_Range);
                       isCorrect = false;
                       $('.bbf-form .field-BirthDate label').css('color','red');
                   }
                   else{
-
                       $('.bbf-form .field-BirthDate label').css('color','black');
                   }
+            	}
                 }
             return isCorrect;
         },
