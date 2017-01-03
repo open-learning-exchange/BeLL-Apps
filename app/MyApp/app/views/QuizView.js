@@ -371,7 +371,6 @@ $(function() {
             this.currentQuestion = 0
         },
         render: function() {
-
             var obj = this
             this.vars.courseTitle = this.ltitle;
             this.vars.languageDict=App.languageDict;
@@ -381,7 +380,15 @@ $(function() {
             $(".quizclass").hide() 
             $('#add_new_question').on('change', function() {  $(".quizclass").hide();$('#'+this.value ).show();}) 
             this.coursesavefunction(this.levelId, false, null);
-
+            //for viewing old/new structure as per required
+           	if (levelInfo.get('coursestructure') !== undefined && levelInfo.get('coursestructure') === true){
+           	console.log(levelInfo.get('coursestructure') );
+           	$("#dialog").hide();
+            $("#question-div").show();
+           }else{
+            $("#question-div").hide();
+            $("#dialog").show();}
+          //end of if else statement
 
 
             $('#dialog .subtitle').text(App.languageDict.attributes.Select_a_Question);

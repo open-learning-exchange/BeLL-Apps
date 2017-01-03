@@ -2375,7 +2375,7 @@ $(function() {
                     quiz.revId = levelInfo.get('_rev')
                     quiz.ltitle = title
                     var coursestepModel = new App.Models.CourseStep({
-                        _id: lid
+                     _id: lid
                     })
                     coursestepModel.fetch({
                         async: false
@@ -2941,7 +2941,6 @@ $('#parentDiv').append(CourseStepQuestionsTable.el);
         ViewLevel: function(lid, rid) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
-                //  "_rev": rid
             });
             var that = this
             levelInfo.fetch({
