@@ -56,7 +56,8 @@ $(function () {
             JSONsteps=step.toJSON()
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
-            if (typeof JSONsteps.questionslist !== "undefined") {
+            console.log(index);
+            if (typeof JSONsteps.coursestructure !== "undefined" && typeof JSONsteps.coursestructure !== false) {
                var temp = new App.Views.takeQuizView({  
                 questionlist: JSONsteps.questionslist,
                 passP: JSONsteps.passingPercentage,

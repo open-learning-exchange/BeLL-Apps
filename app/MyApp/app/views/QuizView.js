@@ -381,6 +381,20 @@ $(function() {
             $(".quizclass").hide() 
             $('#add_new_question').on('change', function() {  $(".quizclass").hide();$('#'+this.value ).show();}) 
             this.coursesavefunction(this.levelId, false, null);
+             var levelInfo = new App.Models.CourseStep({
+                "_id": this.levelId
+            })
+            levelInfo.fetch({
+                async: false
+            })
+                    if(typeof levelInfo.get("coursestructure") !== "undefined" && levelInfo.get("coursestructure") == "true"  ){
+                       $("#dialog").show();
+                        $("#question-div").hide();
+                    } else{
+                         $("#dialog").hide();
+                        $("#question-div").show();
+                         
+                    }
 
 
 

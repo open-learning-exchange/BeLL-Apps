@@ -40,7 +40,17 @@ $(function() {
 
 
         initialize: function() {
-            if (typeof this.options.questionslist == "undefined") {
+            if (typeof this.options.coursestructure !== "undefined" && typeof this.options.coursestructure === true) {
+                 this.Questionlist = this.options.questionslist 
+                this.stepId = this.options.stepId
+                this.TotalCount = this.Questionlist.length
+                this.pp = parseInt(this.options.passP)
+                this.myModel = this.options.resultModel
+                this.stepindex = this.options.stepIndex
+                this.Givenanswers = []  
+
+                
+            }else{
                 this.Correctanswers = this.options.answers
                 this.Questions = this.options.questions
                 this.Optns = this.options.options
@@ -49,17 +59,7 @@ $(function() {
                 this.pp = parseInt(this.options.passP)
                 this.myModel = this.options.resultModel
                 this.stepindex = this.options.stepIndex
-                this.Givenanswers = []  
-                
-            }else{
-                this.Questionlist = this.options.questionslist 
-                //this.Correctanswers = this.options.answers
-                this.stepId = this.options.stepId
-                this.TotalCount = this.Questions.length
-                this.pp = parseInt(this.options.passP)
-                this.myModel = this.options.resultModel
-                this.stepindex = this.options.stepIndex
-                this.Givenanswers = []  
+                this.Givenanswers = []   
             }
         },
 
