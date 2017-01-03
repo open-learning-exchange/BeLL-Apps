@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"English",
-  "directionOfLang":"Left",
-  "nameInNativeLang":"English",
+  "nameOfLanguage":"Persian",
+  "directionOfLang":"Right",
+  "nameInNativeLang":"فارسی",
   "Dashboard":"My Home",
   "Library":"Library",
   "Courses":"Courses",

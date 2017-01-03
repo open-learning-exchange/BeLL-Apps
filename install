@@ -137,20 +137,23 @@ function createDefaultAdminMember() {
     })
 }
 function insertLanguageDocs() {
+    var validLanguage = ['English.txt', 'Arabic.txt', 'Spanish.txt', 'Urdu.txt'];
     var languages = nano.db.use('languages');
     fs.readdir('./init_docs/languages', function doneReadDir(err, files) {
         files.forEach(function (element) {
-            var langDocPath = './init_docs/languages/' + element;
-            console.log("Inserting " + element);
-            fs.readFile(langDocPath, function (err, data) {
-                languages.insert(data, function (err, res) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(element + " doc inserted successfully.");
-                    }
-                });
-            });
+        	if(element in validLanguage) {
+	            var langDocPath = './init_docs/languages/' + element;
+	            console.log("Inserting " + element);
+	            fs.readFile(langDocPath, function (err, data) {
+	                languages.insert(data, function (err, res) {
+	                    if (err) {
+	                        console.log(err);
+	                    } else {
+	                        console.log(element + " doc inserted successfully.");
+	                    }
+	                });
+	            });
+            }
         })
     });
 }
