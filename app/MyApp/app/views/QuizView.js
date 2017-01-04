@@ -76,6 +76,9 @@ $(function() {
                         case '8':    //Comment/Essay box
                             this.saveCommentBoxQuestion(this.levelId);
                             break;
+                        case '10':    //Attachment
+                            this.saveAttachmentBoxQuestion(this.levelId);
+                            break;
                     }
                 }
             },
@@ -207,6 +210,8 @@ $(function() {
                     that.editSingleTextBoxQuestion(questionModel);
                 } else if(questionType == 'Comment/Essay Box') {
                     that.editCommentBoxQuestion(questionModel);
+                } else if(questionType == 'Attachment') {
+                    that.editAttachmentBoxQuestion(questionModel);
                 }
                  $('.edit_course_quiz').show();
                  $('.savecourseQuestion').hide();
@@ -223,6 +228,9 @@ $(function() {
                             break;
                         case '8':    //Comment/Essay box
                             that.saveCommentBoxQuestion(lid, true, questionModel);
+                            break;
+                        case '10':    //Attachment box
+                            that.saveAttachmentBoxQuestion(lid, true, questionModel);
                             break;
                     }
                 }
@@ -254,7 +262,11 @@ $(function() {
             $('#8').find('#question_text').val(questionModel.get('Statement'));
             
         },
-
+        editAttachmentBoxQuestion: function(questionModel) {
+            $("#add_new_question").val("10").trigger('change');
+            $('#10').find('#question_text').val(questionModel.get('Statement'));
+            
+        },
         saveSingleTextBoxQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#6').find('#question_text').val();
@@ -292,7 +304,29 @@ $(function() {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
         },
-            
+        saveAttachmentBoxQuestion: function(lid, isEdit, questionModel) {
+            var that = this;
+            var qStatement = $('#10').find('#question_text').val();
+            if(qStatement.toString().trim() != '') {
+                var questionObject = new App.Models.CourseQuestion({
+                    Type: 'Attachment',
+                    Statement: qStatement.toString().trim(),
+                    courseId: lid
+                });
+                if(isEdit) {
+                    questionObject.set('_id', questionModel.get('_id'));
+                    questionObject.set('_rev', questionModel.get('_rev'));
+                    that.saveQuestion(questionObjectMC, lid, true);
+                }
+                else
+                {
+                that.saveQuestion(questionObjectMC, lid);
+                }
+            }
+            else {
+                alert(App.languageDict.attributes.question_stat_missing);
+            }
+        },
             saveMultipleChoiceQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#1').find('#question_text').val();
@@ -380,17 +414,22 @@ $(function() {
             $(".quizclass").hide() 
             $('#add_new_question').on('change', function() {  $(".quizclass").hide();$('#'+this.value ).show();}) 
             this.coursesavefunction(this.levelId, false, null);
-            //for viewing old/new structure as per required
+  /*      //for viewing old/new structure as per required
+            var levelInfo =new App.Models.CourseStep ({
+            "_id" : this.levelId
+            })
+            levelInfo : fetch
+            ({
+            async : false
+            })
            	if (levelInfo.get('coursestructure') !== undefined && levelInfo.get('coursestructure') === true){
            	console.log(levelInfo.get('coursestructure') );
-           	$("#dialog").hide();
-            $("#question-div").show();
-           }else{
+           	$("#dialog").show();
             $("#question-div").hide();
-            $("#dialog").show();}
-          //end of if else statement
-
-
+           }else{
+            $("#question-div").show();
+            $("#dialog").hide();}
+        //end of if else statement*/
             $('#dialog .subtitle').text(App.languageDict.attributes.Select_a_Question);
             /*var qArray=App.languageDict.attributes.Question_types;
             for(var i=0;i<qArray.length;i++){

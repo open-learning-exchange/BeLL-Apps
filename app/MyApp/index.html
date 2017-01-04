@@ -1730,7 +1730,9 @@
                     <option value="1" id="multiple1">Multiple Choice (Single Answer)</option> 
                     <option value="6" id="single1">Single Textbox</option>
                     <option value="8" id="comment1">Comment/Essay Box</option>
+                    <option value="10" id="Attachment1">Attachment</option>
                  </select>
+
                  <div id="1" class="quizclass" style="width:70%;"> 
                  <div class="question_class">
                  <span class="subtitle2">Question Text:</span> <br /> 
@@ -1739,7 +1741,7 @@
                     <div class="question_class">
                  <span class="subtitle2">Answer Choices (each choice on a separate line):</span> <br /> 
                     <textarea cols="250" rows="3" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> </div>
-                    <div class="question_clas">
+                    <div class="question_class">
                 <span class="subtitle2">Correct Answer:</span> <br /> 
                      <input type="textbox" name="required" id="correct_answer" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
                  <div align="center"> <br /> 
@@ -1748,6 +1750,7 @@
                  <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
                  </div> 
                  </div>
+
                  <div id="6" class="quizclass" style="width:70%;">
                  <div class="question_class">
                   <span class="subtitle2">Question Text:</span> <br /> 
@@ -1768,6 +1771,17 @@
                  <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
                  </div>
                   </div>
+
+                 <div id="10" class="quizclass" style="width:70%;">
+                 <div class="question_class">
+                  <span class="subtitle2">Question Text:</span> <br /> 
+                    <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
+                <div align="center"> <br /> 
+                <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
+                <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+                <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+                 </div>
+                 </div>
             </div>
         </div>
     </script>
