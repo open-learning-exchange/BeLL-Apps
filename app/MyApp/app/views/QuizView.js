@@ -322,11 +322,11 @@ $(function() {
                 if(isEdit) {
                     questionObject.set('_id', questionModel.get('_id'));
                     questionObject.set('_rev', questionModel.get('_rev'));
-                    that.saveQuestion(questionObjectMC, lid, true);
+                    that.saveQuizQuestion(questionObject, lid, true);
                 }
                 else
                 {
-                that.saveQuestion(questionObjectMC, lid);
+                that.saveQuizQuestion(questionObject, lid);
                 }
             }
             else {

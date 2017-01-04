@@ -2426,8 +2426,7 @@ $(function() {
                     App.$el.children('.body').html(quiz.el)
                     quiz.render();
                     $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
-$('#parentDiv').append(CourseStepQuestionsTable.el);
-
+                    $('#parentDiv').append(CourseStepQuestionsTable.el);
                     $("#moveup").hide();
                     $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {
