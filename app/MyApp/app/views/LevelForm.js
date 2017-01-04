@@ -32,6 +32,7 @@ $(function() {
             this.form.fields['answers'].$el.hide()
             this.form.fields['resourceId'].$el.hide()
             this.form.fields['resourceTitles'].$el.hide()
+            this.form.fields['questionslist'].$el.hide()
             // give the form a submit button
             var button = ('<a class="btn btn-success" id="retrunBack"> '+App.languageDict.attributes.Back+' </button>')
             button += ('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Save+'</button>')
@@ -162,7 +163,7 @@ $(function() {
             else if (this.model.get("description") == undefined || $.trim(this.model.get("description"))  == "") {
                 alert(App.languageDict.attributes.Description_Error)
             }
-            else if (this.model.get("outComes") == undefined || this.model.get("outComes").length == 0) {
+            else if (this.model.get("outComes") !== undefined && this.model.get("outComes").length == 0) {
                 alert("Please select outcomes")
             }
              else if (isNaN(this.model.get("step"))) {
@@ -181,6 +182,7 @@ $(function() {
                     this.model.set("qoptions", this.opt)
                     this.model.set("resourceId", this.res)
                     this.model.set("resourceTitles", this.rest)
+                    this.model.set("questionslist", this.ques1)
                 }
                 levels = new App.Collections.CourseLevels()
                 levels.groupId = this.model.get("courseId")

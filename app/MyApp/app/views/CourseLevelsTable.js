@@ -7,6 +7,7 @@ $(function () {
         template: _.template($("#template-courseLevelsTable").html()),
         events: {
             "click #takequiz": "quiz",
+            "click #newtakequiz": "quiz",
             "click #resourseOpened": function (e) {
                 resid = e.target.attributes.rid.nodeValue
                 var member = new App.Models.Member({
@@ -56,8 +57,10 @@ $(function () {
             JSONsteps=step.toJSON()
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
-            if (typeof JSONsteps.questionslist !== "undefined") {
-               var temp = new App.Views.takeQuizView({  
+            console.log(JSONsteps);
+            if (typeof JSONsteps.coursestructure !== "undefined" &&  JSONsteps.coursestructure == "true") {
+               var temp = new App.Views.takeQuizView({ 
+                coursestructure: JSONsteps.coursestructure, 
                 questionlist: JSONsteps.questionslist,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,

@@ -279,8 +279,11 @@ $(function() {
                 if(isEdit) {
                     questionObject.set('_id', questionModel.get('_id'));
                     questionObject.set('_rev', questionModel.get('_rev'));
+                    that.saveQuizQuestion(questionObject, lid, true);
                 }
-                that.saveQuestion(questionObject, lid, true);
+                else {
+                that.saveQuizQuestion(questionObject, lid);
+                }
             } else {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
@@ -298,8 +301,11 @@ $(function() {
                 if(isEdit) {
                     questionObjectForEB.set('_id', questionModel.get('_id'));
                     questionObjectForEB.set('_rev', questionModel.get('_rev'));
+                    that.saveQuizQuestion(questionObjectForEB, lid, true);
                 }
-                that.saveQuestion(questionObjectForEB, lid, true);
+                else {
+                that.saveQuizQuestion(questionObjectForEB, lid);
+                }
             } else {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
@@ -352,9 +358,9 @@ $(function() {
                     if(isEdit) {
                         questionObjectMC.set('_id', questionModel.get('_id'));
                         questionObjectMC.set('_rev', questionModel.get('_rev'));
-                        that.saveQuestion(questionObjectMC, lid, true);
+                        that.saveQuizQuestion(questionObjectMC, lid, true);
                     } else {
-                        that.saveQuestion(questionObjectMC, lid);
+                        that.saveQuizQuestion(questionObjectMC, lid);
                     }
                 } else {
                     alert(App.languageDict.attributes.atleast_two_options);
@@ -363,7 +369,7 @@ $(function() {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
         },
-         saveQuestion: function(questionObject, csId, isEdit) {
+         saveQuizQuestion: function(questionObject, csId, isEdit) {
             questionObject.save(null, {
                 success: function (model, response) {
                     if(!isEdit) {
@@ -414,28 +420,26 @@ $(function() {
             $(".quizclass").hide() 
             $('#add_new_question').on('change', function() {  $(".quizclass").hide();$('#'+this.value ).show();}) 
             this.coursesavefunction(this.levelId, false, null);
-  /*      //for viewing old/new structure as per required
-            var levelInfo =new App.Models.CourseStep ({
-            "_id" : this.levelId
+            var levelInfo = new App.Models.CourseStep({
+                "_id": this.levelId
             })
-            levelInfo : fetch
-            ({
-            async : false
+            levelInfo.fetch({
+                async: false
             })
-           	if (levelInfo.get('coursestructure') !== undefined && levelInfo.get('coursestructure') === true){
-           	console.log(levelInfo.get('coursestructure') );
-           	$("#dialog").show();
-            $("#question-div").hide();
-           }else{
-            $("#question-div").show();
-            $("#dialog").hide();}
-        //end of if else statement*/
+            if(typeof levelInfo.get("coursestructure") !== "undefined" && levelInfo.get("coursestructure") == "true"  ){
+               $("#dialog").show();
+                $("#question-div").hide();
+            } else{
+                 $("#dialog").hide();
+                $("#question-div").show();
+                 
+            }
             $('#dialog .subtitle').text(App.languageDict.attributes.Select_a_Question);
             /*var qArray=App.languageDict.attributes.Question_types;
             for(var i=0;i<qArray.length;i++){
                 $('#add_new_question option').eq(i).text(qArray[i]);
             }*/
-    }
+        }
     })
 
 

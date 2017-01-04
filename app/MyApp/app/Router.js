@@ -2370,6 +2370,13 @@ $(function() {
             })
             levelInfo.fetch({
                 success: function() {
+                    if(levelInfo.get("coursestructure") === true ){
+                        $("#dialog").hide();
+                        $("#question-div").show();
+                    } else{
+                         $("#dialog").show();
+                        $("#question-div").hide();
+                    }
                     var quiz = new App.Views.QuizView()
                     quiz.levelId = lid
                     quiz.revId = levelInfo.get('_rev')
@@ -2875,8 +2882,9 @@ $('#parentDiv').append(CourseStepQuestionsTable.el);
             coursedetail.fetch({
                 async: false
             })
-            if (coursedetail.get('structure') !== undefined && coursedetail.get('structure') === true) {
+            if (typeof coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') == 'true') {
                 Cstep.set('coursestructure', true);
+                delete Cstep.schema.outComes;
             } else {
                 Cstep.set('coursestructure', false);
             }
@@ -2900,14 +2908,16 @@ $('#parentDiv').append(CourseStepQuestionsTable.el);
                 Cstep.once('sync', function() {
                     $('.courseSearchResults_Bottom').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
                     lForm.edit = true
+                    lForm.ques1 = Cstep.get("questionslist")
                     lForm.ques = Cstep.get("questions")
                     lForm.ans = Cstep.get("answers")
                     lForm.opt = Cstep.get("qoptions")
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
-                    if (coursedetail.get('structure') !== undefined && coursedetail.get('structure') === true) {
+                    if (coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') === "true") {
                         Cstep.set('coursestructure', true);
+                        delete Cstep.schema.outComes;
                     } else {
                         Cstep.set('coursestructure', false);
                     }
