@@ -40,18 +40,19 @@ $(function() {
 
 
         initialize: function() {
-            if (typeof this.options.coursestructure !== "undefined" && typeof this.options.coursestructure === true) {
-                 this.Questionlist = this.options.questionslist 
+            console.log(this.options);
+            if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
+                this.Questionlist = this.options.questionslist 
                 this.stepId = this.options.stepId
                 this.TotalCount = this.Questionlist.length
                 this.pp = parseInt(this.options.passP)
                 this.myModel = this.options.resultModel
                 this.stepindex = this.options.stepIndex
                 this.Givenanswers = []  
-
+                console.log(this.options.questionslist);
                 
             }else{
-                this.Correctanswers = this.options.answers
+                //this.Correctanswers = this.options.answers
                 this.Questions = this.options.questions
                 this.Optns = this.options.options
                 this.stepId = this.options.stepId

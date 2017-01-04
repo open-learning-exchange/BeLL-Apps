@@ -2908,6 +2908,7 @@ $('#parentDiv').append(CourseStepQuestionsTable.el);
                 Cstep.once('sync', function() {
                     $('.courseSearchResults_Bottom').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
                     lForm.edit = true
+                    lForm.ques1 = Cstep.get("questionslist")
                     lForm.ques = Cstep.get("questions")
                     lForm.ans = Cstep.get("answers")
                     lForm.opt = Cstep.get("qoptions")

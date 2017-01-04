@@ -182,6 +182,7 @@ $(function() {
                     this.model.set("qoptions", this.opt)
                     this.model.set("resourceId", this.res)
                     this.model.set("resourceTitles", this.rest)
+                    this.model.set("questionslist", this.ques1)
                 }
                 levels = new App.Collections.CourseLevels()
                 levels.groupId = this.model.get("courseId")

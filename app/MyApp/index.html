@@ -1439,12 +1439,12 @@
                                             <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
                                         <%}%>
                                     <%}else{%>
-                                    <!--   <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary'>Take <%=outComes[i]%></button>-->
+                                   <!-- <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary' id="newtakequiz">Take Quiz</button> -->
                                     <%}%>
                                 </td>
                                 <%if (outComes[i]== 'Paper'){%>
                                 <td>
-                                    <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
+                                    <form me thod="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
                                         <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" />
                                         <input class="rev" type="hidden" name="_rev">
 
