@@ -30,52 +30,7 @@
       DEPENDENCIES
     -->
 
-    <script src="vendor/Spin.js"></script>
-    <script src="vendor/jquery-1.7.2.js"></script>
-    <script src="vendor/jquery-ui.js"></script>
-    <script src="vendor/jquery-ui.custom.min.js"></script>
-    <script src="vendor/fullcalendar.min.js"></script>
-    <script src="vendor/jquery.timepicker.js"></script>
-    <script src="vendor/Spin.js"></script>
-    <script src="vendor/spectrum.js"></script>
-    <script src="vendor/underscore-1.4.4.js"></script>
-    <script src="vendor/backbone-1.0.0.js"></script>
-    <script src="vendor/backbone-ui.js"></script>
-    <script src="vendor/backbone-forms.js"></script>
-    <script src="/_utils/script/json2.js"></script>
-    <script src="/_utils/script/jquery.couch.js?0.8.0"></script>
-    <script src="vendor/jquery.form.js"></script>
-    <script src="vendor/sha1.js"></script>
-    <script src="vendor/moment.min.js"></script>
-    <script src="vendor/jquery.couch.js"></script>
-    <script src="vendor/jquery.cookie.js"></script>
-    <script src="vendor/backbone.couchdb.js"></script>
-    <script src="vendor/html-encode.js"></script>
-    <script src="vendor/jquery.url.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="vendor/jquery.raty.js"></script>
-    <script src="vendor/raphael.js"></script>
-    <script src="vendor/morris.js"></script>
-    <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
-    <script src="vendor/jquery-ui.multidatespicker.js"></script>
-    <script src="jquery.popupoverlay.js"></script>
-    <script src="vendor/moment.min.js"></script>
-    <script src="vendor/jQuery-multiselect/jquery.multiselect.js"></script>
-    <script src="vendor/jQuery-multiselect/jquery.multiselect.filter.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="vendor/pouchdb-2.1.0.js"></script>
-    <script type="text/javascript" src="js/ui.multiselect.js"></script>
-    <script src="vendor/jqBarGraph.js"></script>
-    <script src="vendor/highcharts.js"></script>
-    <script src="vendor/md5.min.js"></script>
-    <script src="vendor/pbkdf2/sha1.js"></script>
-    <script src="vendor/pbkdf2/pbkdf2.js"></script>
-    <script src="vendor/pbkdf2/derive_key.js"></script>
-    
-<!--     <script src="vendor/CryptoJS/components/core-min.js"></script>
-    <script src="vendor/CryptoJS/rollups/sha1.js"></script> -->
-    <script type="text/javascript" src="vendor/jshash-2.2/md5-min.js"></script>
-
+    <script src="app/vendor.js"></script>
 
     <!--<script type="text/javascript" src="vendor/html5lightbox/jquery.js"></script>-->
 
@@ -91,205 +46,14 @@
 
     <!-- app-models -->
 
-    <script src="app/models/Resource.js"></script>
-    <script src="app/models/Group.js"></script>
-    <script src="app/models/Assignment.js"></script>
-    <script src="app/models/Feedback.js"></script>
-    <script src="app/models/Calendar.js"></script>
-    <script src="app/models/report.js"></script>
-    <script src="app/models/Mail.js"></script>
-    <script src="app/models/membercourseprogress.js"></script>
-    <script src="app/models/CourseSchedule.js"></script>
-    <script src="app/models/AssignmentPaper.js"></script>
-    <script src="app/models/UserMeetup.js"></script>
-    <script src="app/models/ReleaseNotes.js"></script>
-    <script src="app/models/Member.js"></script>
-    <script src="app/models/Credentials.js"></script>
-    <script src="app/models/App.js"></script>
-    <script src="app/models/Shelf.js"></script>
-    <script src="app/models/Invitation.js"></script>
-    <script src="app/models/CourseStep.js"></script>
-    <script src="app/models/InviFormModel.js"></script>
-    <script src="app/models/request.js"></script>
-    <script src="app/models/reportComment.js"></script>
-    <script src="app/models/CommunityReportComment.js"></script>
-    <script src="app/models/CommunityReport.js"></script>
-    <script src="app/models/ResourceFrequency.js"></script>
-    <script src="app/models/MeetUp.js"></script>
-    <script src="app/models/UserMeetup.js"></script>
-    <script src="app/models/Publication.js"></script>
-    <script src="app/models/Configuration.js"></script>
-    <script src='app/models/CollectionList.js'></script>
-    <script src='app/models/InviMeetup.js'></script>
-    <script src='app/models/Language.js'></script>
-    <script src='app/models/CourseInvitation.js'></script>
-    <script src='app/models/DailyLog.js'></script>
-    <script src='app/models/Survey.js'></script>
-    <script src='app/models/Question.js'></script>
-    <script src='app/models/AdminMember.js'></script>
+    <script src="app/models.js"></script>
 
     <!-- App Collection  -->
-    <script src="app/collections/listRCollection.js"></script>
-    <script src="app/collections/Groups.js"></script>
-    <script src="app/collections/coursesteps.js"></script>
-    <script src="app/collections/MemberGroups.js"></script>
-    <script src="app/collections/GroupAssignments.js"></script>
-    <script src="app/collections/NewsResources.js"></script>
-    <script src="app/collections/Members.js"></script>
-    <script src="app/collections/SearchResource.js"></script>
-    <script src="app/collections/Calendars.js"></script>
-    <script src="app/collections/siteFeedbacks.js"></script>
-    <script src="app/collections/membercourseprogresses.js"></script>
-    <script src="app/collections/memberprogressallcourses.js"></script>
-    <script src="app/collections/AllInviteMember.js"></script>
-    <script src="app/collections/Mails.js"></script>
-    <script src="app/collections/MailUnopened.js"></script>
-    <script src="app/collections/reportsComment.js"></script>
-    <script src="app/collections/CourseScheduleByCourse.js"></script>
-    <script src="app/collections/shelfResource.js"></script>
-    <script src="app/collections/UserMeetups.js"></script>
-    <script src="app/collections/Configurations.js"></script>
-    <script src="app/collections/Resources.js"></script>
-    <script src="app/collections/Apps.js"></script>
-    <script src="app/collections/GroupAssignmentsByDate.js"></script>
-    <script src="app/collections/AssignmentsByDate.js"></script>
-    <script src="app/collections/ResourceFeedback.js"></script>
-    <script src="app/collections/CourseLevels.js"></script>
-    <script src="app/collections/SearchCourses.js"></script>
-    <script src="app/collections/StepResultsbyCourse.js"></script>
-    <script src="app/collections/leadermembers.js"></script>
-    <script src="app/collections/Requests.js"></script>
-    <script src="app/collections/EntityInvitation.js"></script>
-    <script src="app/collections/Requests.js"></script>
-    <script src="app/collections/courseprogressallmembers.js"></script>
-    <script src="app/collections/CommunityReportComments.js"></script>
-    <script src="app/collections/Reports.js"></script>
-    <script src="app/collections/ResourcesFrequency.js"></script>
-    <script src="app/collections/AssignmentPapers.js"></script>
-    <script src="app/collections/Meetups.js"></script>
-    <script src="app/collections/listRCollection.js"></script>
-    <script src="app/collections/Publication.js"></script>
-    <script src="app/collections/Languages.js"></script>
-    <script src='app/collections/CourseInvitations.js'></script>
-    <script src='app/collections/ActivityLog.js'></script>
-    <script src='app/collections/SurveyQuestions.js'></script>
-    <script src='app/collections/SurveyAnswers.js'></script>
-    <script src='app/collections/AdminMembers.js'></script>
+    <script src="app/collections.js"></script>
 
     <!-- app-Views -->
-    <script src="app/views/ConfigurationView.js"></script>
-    <script src="app/views/listSyncDbView.js"></script>
-    <script src="app/views/MemberLoginForm.js"></script>
-    <script src="app/views/navBarView.js"></script>
-    <script src="app/views/MemberForm.js"></script>
-    <script src="app/views/siteFeedback.js"></script>
-    <script src='app/views/Dashboard.js'></script>
-    <script src="app/views/GroupSpan.js"></script>
-    <script src='app/views/GroupsSpans.js'></script>
-    <script src="app/views/ShelfSpan.js"></script>
-    <script src='app/views/ShelfSpans.js'></script>
-    <script src="app/views/MeetupSpan.js"></script>
-    <script src='app/views/MeetupSpans.js'></script>
-    <script src="app/views/TutorSpan.js"></script>
-    <script src='app/views/TutorsSpans.js'></script>
-    <script src='app/views/ResourcesTable.js'></script>
-    <script src='app/views/PendingResourceTable.js'></script>
-    <script src='app/views/ResourceRow.js'></script>
-    <script src='app/views/PendingResourceRow.js'></script>
-    <script src='app/views/ResourcesDetail.js'></script>
-    <script src='app/views/ResourceForm.js'></script>
-    <script src='app/views/Search.js'></script>
-    <script src="app/views/SearchSpan.js"></script>
-    <script src="app/views/SearchSpans.js"></script>
 
-    <script src='app/views/RequestView.js'></script>
-
-    <script src='app/views/FeedbackTable.js'></script>
-    <script src='app/views/FeedbackRow.js'></script>
-    <script src='app/views/FeedbackForm.js'></script>
-
-
-    <script src='app/views/GroupsTable.js'></script>
-    <script src='app/views/GroupRow.js'></script>
-    <script src='app/views/GroupForm.js'></script>
-    <script src='app/views/GroupView.js'></script>
-    <script src='app/views/CourseStepsView.js'></script>
-    <script src='app/views/BecomeMemberForm.js'></script>
-    <script src='app/views/CoursesStudentsProgress.js'></script>
-    <script src='app/views/CourseInfoView.js'></script>
-    <script src='app/views/GroupMembers.js'></script>
-    <script src="app/views/InvitationForm.js"></script>
-    <script src="app/views/CourseSearch.js"></script>
-
-    <script src="app/views/QuizView.js"></script>
-    <script src="app/views/takeQuizView.js"></script>
-    <script src="app/views/offlinetakeQuizView.js"></script>
-
-    <script src='app/views/LevelForm.js'></script>
-    <script src='app/views/LevelDetail.js'></script>
-    <script src='app/views/LevelsTable.js'></script>
-    <script src='app/views/LevelRow.js'></script>
-    <script src='app/views/MeetUpTable.js'></script>
-    <script src='app/views/meetupView.js'></script>
-    <script src='app/views/MeetupDetails.js'></script>
-
-    <script src='app/views/MeetUpRow.js'></script>
-    <script src='app/views/MeetUpForm.js'></script>
-
-    <script src='app/views/MembersTable.js'></script>
-    <script src='app/views/MembersView.js'></script>
-    <script src='app/views/MemberRow.js'></script>
-
-
-    <script src='app/views/ReportsRow.js'></script>
-    <script src='app/views/ReportsTable.js'></script>
-    <script src='app/views/ReportForm.js'></script>
-    <script src='app/views/CommunityReportCommentView.js'></script>
-
-    <script src='app/views/CourseLevelsTable.js'></script>
-    <script src='app/views/ResourceForm.js'></script>
-    <script src='app/views/MeetupInvitation.js'></script>
-
-
-    <script src='app/views/MailView.js'></script>
-
-    <script src='app/views/CoursesChartProgress.js'></script>
-
-    <script src='app/views/CalendarForm.js'></script>
-    <script src='app/views/EventInfo.js'></script>
-
-    <script src="app/views/CollectionTable.js"></script>
-    <script src="app/views/CollectionRow.js"></script>
-    <script src="app/views/ListCollectionView.js"></script>
-
-    <script src="app/views/siteFeedbackPage.js"></script>
-    <script src="app/views/siteFeedbackPageRow.js"></script>
-
-    <script src="app/views/RequestTable.js"></script>
-    <script src="app/views/RequestRow.js"></script>
-
-    <script src="app/views/Configurations.js"></script>
-    <script src="app/views/LogQuery.js"></script>
-    <script src="app/views/ActivityReport.js"></script>
-    <script src="app/views/ManageCommunity.js"></script>
-    <script src="app/views/PublicationTable.js"></script>
-    <script src="app/views/SurveyTable.js"></script>
-    <script src="app/views/SurveyQuestionTable.js"></script>
-    <script src="app/views/SurveyQuestionRow.js"></script>
-    <script src="app/views/SurveyAnswerTable.js"></script>
-    <script src="app/views/SurveyAnswerRow.js"></script>
-    <script src="app/views/SurveyTableForMembers.js"></script>
-    <script src="app/views/CommunityConfigurationsForm.js"></script>
-    <script src="app/views/TrendActivityReport.js"></script>
-    <script src="app/views/AdminForm.js"></script>
-    <script src="app/views/BadgesTable.js"></script>
-    <script src="app/views/BadgesRow.js"></script>
-    <script src="app/views/BadgesMainPage.js"></script>
-    <script src="app/views/CreditsLeaderView.js"></script>
-    <script src="app/views/CreditsTable.js"></script>
-    <script src="app/views/CreditsRow.js"></script>
-    <script src="app/views/CourseCreditsMainPage.js"></script>
-    <script src="app/views/CourseLearnersList.js"></script>
+    <script src="app/views.js"></script>
     <!-- javaScript -->
 
     <script src='indexFile.js'></script>
@@ -401,7 +165,7 @@
             </a>
         </li>
         <li>
-            <a id="pointer_feedback" onclick = "showFeedbackForm()">
+            <a onclick = "showFeedbackForm()">
                 <%= languageDict.attributes.Feedback %>
             </a>
         </li>
@@ -519,11 +283,14 @@
 
             <table id="bottomButtonsOnDashboard" class="page-bottom-navtable" style="border-collapse: separate;">
                 <tr>
+
                     <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict.attributes.Badges %></button></td>
-                    <!--<td><button id="creditsDash" class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Credits(<%=new_learners_count%>) </button></td>-->
-                    <td><button id="creditsDash" class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Submissions(<%=new_learners_count%>) </button></td>
                     <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='#calendar'"><%=languageDict.attributes.Calender%></button></td>
                     <td><button id= "mailsDash"class="btn btn-hg btn-primary" onclick = "document.location.href='#mail'"></button></td>
+                    <td><button id= "surveysForMember" class="btn btn-hg btn-primary" onclick = "document.location.href='#memberSurveys'"></button></td>
+                    <!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
+                    <!-- <td></td> -->
+                    <!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>-->
                 </tr>
                 <tr>
                     <% if(type == "nation") {%>
@@ -782,7 +549,7 @@
     <script type="text/html" id="template-Meetup">
         <div class="displayCourse">
             <a href='#usermeetup/detail/<%= meetupId %>/<%=meetupTitle%>'>
-                <span><%= meetupTitle %></span>
+                <%= meetupTitle %>
             </a>
         </div>
     </script>
@@ -1000,91 +767,9 @@
                 <%}%>
     </script>
 
-    <script type="text/html" id="template-BadgesRow">
-        <td>
-            <%= stepNo %>
-        </td>
-        <td>
-            <%= stepType %>
-        </td>
-        <td>
-            <%if(stepType == 'Quiz' && status == "1"  ){%>
-                submitted
-            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
-                Quiz is not submitted
-            <%}else{%>
-                <%if(attachmentName!=null && attchmentURL != null){%>
-                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-                <%}else{%>
-                    Paper is not uploaded
-                <%}%>
-            <%}%>
-        </td>
-        <td>
-            <input type="hidden" name="percentage"  id="<%=percentage%>">
-            <%= credits %>/100
-
-        </td>
-
-        <td>
-            <%= credits %>%
-        </td>
-
-    </script>
-    <script type="text/html" id="template-CreditsRow">
-        <td>
-            <%= stepNo %>
-        </td>
-        <td>
-            <%= stepType %>
-        </td>
-        <td>
-            <%if(stepType == 'Quiz' && status == "1"  ){%>
-                submitted
-            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
-                Quiz is not submitted
-            <%}else{%>
-                <%if(attachmentName!=null && attchmentURL != null){%>
-                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-                <%}else{%>
-                    Paper is not uploaded
-                <%}%>
-            <%}%>
-        </td>
-        <td>
-            <input type="hidden" name="percentage"  id="<%=percentage%>">
-                <%if(stepType== 'Quiz' ){%>
-                    <%= credits %>/100
-                <%}%>
-                <%if(stepType== 'Paper'){%>
-                    <%if(status == "0" && attempts == 0){%>
-                        <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>/100
-                    <%}else if(status == "2" && attempts >= 1){%>
-                        <input type="text" style="border-color: #ff0000" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
-                    <%}else{%>
-                        <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
-                    <%}%>
-                <%}%>
-        </td>
-        <td>
-            <%= credits %>%
-        </td>
-       <!-- <td>
-            <%= status %>
-        </td> -->
-    </script>
-
     <script type="text/html" id="template-GroupRow">
         <td>
             <%= CourseTitle %>
-        </td>
-
-        <td>
-            <% if(showOpenButton) { %>
-            <a role='button' class='btn btn-open' href='#usercourse/details/<%= _id %>/<%= CourseTitle %>'>
-                Open
-            </a>
-            <% } %>
         </td>
 
         <td>
@@ -1099,12 +784,6 @@
         <td>
             <a id="viewCourseButton" role='button' class='btn btn-warning' href='#course/details/<%= _id %>/<%= CourseTitle %>'>
                 <%=viewCourse%>
-            </a>
-        </td>
-
-        <td>
-            <a role='button' class='btn btn-credit' href='<%= link %>'>
-                Credits
             </a>
         </td>
 
@@ -1139,7 +818,6 @@
         <td><input type="checkbox" name="addCourse" value='<%= _id %>'>Add </td>
         <%}%>
     </script>
-
     <script type="text/html" id="template-LevelRow">
         <td>
             <input type="radio" name="stepRow" />&nbsp;&nbsp;<%=App.languageDict.attributes.Step%> <%= step %> : <%= title %>
@@ -1330,44 +1008,12 @@
     <script type="text/html" id="template-courseLevelsTable">
 
         <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
-
-            <% if(status.length > 1) { %>
-                <% if(marks[0] == ""){
-                        marks[0] = 0;
-                    }
-                %>
-                <% if(marks[1] == ""){
-                        marks[1] = 0;
-                    }
-                %>
-                <% if (status[0] == 0 && status[1] == 0) {%>
-                    <span  style="float:right;">&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>% </span>
-                <% } else if (status[0] == 0 && status[1] == 1) {%>
-                    <span  style="float:right;" >&nbsp;<%=marks[1]%>%</span>
-                <% } else if (status[0] == 1 && status[1] == 0) {%>
-                    <span  style="float:right;" >&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
-                <% } else if (status[0] == 1 && status[1] == 1) {%>
-                    <span  style="float:right;" >&nbsp; <%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
-                <% } else if (status[0] > 1 && status[1] == 0) {%>
-                    <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>% </span>
-                <% } else if(status[0] > 1 && status[1] == 1 ) { %>
-                    <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>%</span>
-                <% } %>
-
-            <% } else  { %>
-
-                <% if(status > 1 ) { %>
-                    <span  style="float:right;" class="fui-check">&nbsp;</span>
-                <% } else { %>
-                    <% if(marks == ""){
-                            marks = 0;
-                        }
-                    %>
-                    <span  style="float:right;" >&nbsp;<%=marks%>%</span>
-                <% } %>
-
+            <% if(status == "1") { %>
+            <span  style="float:right;" class="fui-check">&nbsp;<%=marks%>%</span>
             <% } %>
-
+            <% if(status == "2") { %>
+            <span  style="float:right;" class="fui-check">&nbsp;</span>
+            <% } %>
         </div>
         </h3>
 
@@ -1430,10 +1076,10 @@
                         <table style="height: 100%; width: 100%;">
                             <tr>
                                 <td style="width: 20%">
-                                    <%if (questions!=null && questions.length > 0){%>
-                                        <%if (outComes[i]== 'Quiz'){%>
-                                            <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
-                                        <%}%>
+                                    <%if (questions!=null){%>
+                                    <%if (outComes[i]== 'Quiz'){%>
+                                    <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
+                                    <%}%>
                                     <%}else{%>
                                     <!--   <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary'>Take <%=outComes[i]%></button>-->
                                     <%}%>
