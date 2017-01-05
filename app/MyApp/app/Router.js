@@ -2431,8 +2431,7 @@ $(function() {
                     $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
                      if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
                     {
-                    $('#parentDiv').append(CourseStepQuestionsTable.el);
-                    }
+                    $('#parentDiv').append(CourseStepQuestionsTable.el);}
                     $("#moveup").hide();
                     $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {

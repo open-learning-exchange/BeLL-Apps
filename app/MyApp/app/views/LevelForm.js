@@ -66,7 +66,8 @@ $(function() {
                                 if(sids.indexOf(that.model.get("id")) < 0)
                                 {
                                     sids.push(that.model.get("id"))
-                                    if(that.model.get("outComes").length == 2) {
+                                    console.log(typeof that.model.get("coursestructure"));
+                                    if((typeof that.model.get("coursestructure") !== "undefined" && that.model.get("coursestructure")== "true") || that.model.get("outComes").length == 2)  {
                                         var arr = [];
                                         var arr1 = [];
                                         var pqarr = [];

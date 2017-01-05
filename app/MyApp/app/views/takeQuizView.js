@@ -34,8 +34,8 @@ $(function() {
                     }
                     this.renderQuestion()
                 } else if ($("input[type='text'][name='singleLineAnswer']").val() != undefined && $("input[type='text'][name='singleLineAnswer']").val() != '') {
-                    this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()))
-                     this.renderQuestion()
+                    this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
+                     this.renderQuestion();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
@@ -43,19 +43,28 @@ $(function() {
             
         },
          answersave: function() {
-              for (var i =0;i< this.TotalCount; i++)
+              for (var i =0; i < this.TotalCount; i++){
                    var answer = this.Givenanswers[i];
                    var questions = this.Questionlist[i];
-                   var saveanswer = new App.Models.courseanswer();
-                   saveanswer.set('questionslist', courseQuestions);
-                }
-        }
-
-
+                   var saveanswer = new App.Models.CourseAnswer()
+                   saveanswer.set('Answer',answer);
+                   saveanswer.set('QuestionID',questions);
+                   var memberId = $.cookie('Member._id')
+                   saveanswer.set('MemberID',memberId);
+                   saveanswer.set('StepID',this.stepId);
+              saveanswer.save(null, {
+                   
+                    error: function() {
+                        console.log("Not Saved")
+                    }
+                });
+              }
+            },
         initialize: function() {
             if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
                 this.template = _.template($("#template-newcourseanswerform").html())
                 this.Questionlist = this.options.questionlist 
+                console.log("Hello");
                 this.stepId = this.options.stepId
                 this.TotalCount = this.Questionlist.length
                 this.pp = parseInt(this.options.passP)
@@ -146,8 +155,9 @@ $(function() {
                    }
                     this.myModel.set('pqAttempts', pqattempts)
                 }
-
-
+                if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
+                this.answersave();
+                }
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
                     },
