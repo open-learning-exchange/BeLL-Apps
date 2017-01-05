@@ -2382,7 +2382,7 @@ $(function() {
                     quiz.revId = levelInfo.get('_rev')
                     quiz.ltitle = title
                     var coursestepModel = new App.Models.CourseStep({
-                        _id: lid
+                     _id: lid
                     })
                     coursestepModel.fetch({
                         async: false
@@ -2431,8 +2431,8 @@ $(function() {
                     $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
                      if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
                     {
-                    $('#parentDiv').append(CourseStepQuestionsTable.el);}
-
+                    $('#parentDiv').append(CourseStepQuestionsTable.el);
+                    }
                     $("#moveup").hide();
                     $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {
@@ -2956,7 +2956,6 @@ $(function() {
         ViewLevel: function(lid, rid) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
-                //  "_rev": rid
             });
             var that = this
             levelInfo.fetch({
