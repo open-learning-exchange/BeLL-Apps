@@ -128,6 +128,7 @@
     <script src='app/models/Question.js'></script>
     <script src='app/models/AdminMember.js'></script>
     <script src='app/models/CourseQuestion.js'></script>
+    <script src='app/models/CourseAnswer.js'></script>
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script>
@@ -1418,10 +1419,20 @@
                         <b><%=i+1%></b>
                     </td>
                     <td>
-                        <%= resourceTitles[i] %> &nbsp&nbsp
+                        <%= resourceTitles[i] %> &nbsp;&nbsp;
                     </td>
                     <td>
                         <a style="padding-right:33px;padding-left:33px;color:white;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>/<%= resourceTitles[i] %>' target="_blank"><%=languageDict.attributes.Open%></a>
+                    </td>
+                </tr>
+                <%}%>
+                <%if (questionslist!=null && questionslist.length > 0){%>
+                <tr class="level-section-title">
+                    <td colspan="2" style="width: 60%">
+                       Quiz</br>
+                    </td>
+                    <td style="width: 20%">
+                        <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="newtakequiz" >Take Quiz</button>
                     </td>
                 </tr>
                 <%}%>
@@ -1439,7 +1450,7 @@
                                             <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
                                         <%}%>
                                     <%}else{%>
-                                   <!-- <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary' id="newtakequiz">Take Quiz</button> -->
+                                    <!--   <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary'>Take <%=outComes[i]%></button>-->
                                     <%}%>
                                 </td>
                                 <%if (outComes[i]== 'Paper'){%>
@@ -1473,6 +1484,27 @@
             </table>
         </div>
 
+    </script>
+    <script type="text/template" id="template-newcourseanswerform">
+        <div class="answersection">
+        <p>this is new </p>
+        <div class="Progress"></div>
+         <div class="singlelineAnswer">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=singleLineQuestionTitle%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="singleLineAnswer">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+           
+        </div>    
     </script>
     <script type="text/template" id="template-mail">
         <div id="mailActions" >

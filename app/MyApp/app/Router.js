@@ -2388,6 +2388,7 @@ $(function() {
                         async: false
                     });
                     var coursestepQuestions = coursestepModel.get('questionslist');
+
                     if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
                     { 
                          var coursestepQuestionsIdes = ''
@@ -2412,6 +2413,7 @@ $(function() {
                     CourseStepQuestionsTable.courseStepModel = levelInfo;
 
                     CourseStepQuestionsTable.render()
+
                     }
                    
                     
@@ -2425,8 +2427,11 @@ $(function() {
                     }
                     App.$el.children('.body').html(quiz.el)
                     quiz.render();
+
                     $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
-                    $('#parentDiv').append(CourseStepQuestionsTable.el);
+                     if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
+                    {
+                    $('#parentDiv').append(CourseStepQuestionsTable.el);}
                     $("#moveup").hide();
                     $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {
@@ -2966,7 +2971,7 @@ $(function() {
                     $('.courseEditStep').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
-                    if (levelInfo.get("questions") == null) {
+                    if (levelInfo.get("questions") == null && levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {
