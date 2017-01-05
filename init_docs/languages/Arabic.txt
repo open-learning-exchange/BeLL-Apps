@@ -833,5 +833,6 @@
   "Community_Resources": "Resources From Community",
   "Local_Resources": "Local Resources",
   "Pending_Resources": "Pending Resources",
-  "Confirm_Course":"Are you sure you want to delete this Course?"
+  "Confirm_Course":"Are you sure you want to delete this Course?",
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
 }
