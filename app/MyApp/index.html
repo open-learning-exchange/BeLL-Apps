@@ -1489,11 +1489,12 @@
         <div class="answersection">
         <p>this is new </p>
         <div class="Progress"></div>
+    <% if (Type == "Single Textbox") { %>
          <div class="singlelineAnswer">
                 <table>
                     <tr>
                         <td>
-                            <textarea><%=singleLineQuestionTitle%></textarea> 
+                            <textarea><%=Statement%></textarea> 
                         </td>
                     </tr>
                     <tr>
@@ -1503,7 +1504,22 @@
                     </tr>
                 </table>
             </div>
-           
+     <% } else if (Type == "Comment/Essay Box") { %>
+            <div class="commentEssay">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="commentEssay">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+           <% } %>
         </div>    
     </script>
     <script type="text/template" id="template-mail">

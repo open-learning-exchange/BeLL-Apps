@@ -36,6 +36,10 @@ $(function() {
                 } else if ($("input[type='text'][name='singleLineAnswer']").val() != undefined && $("input[type='text'][name='singleLineAnswer']").val() != '') {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
                      this.renderQuestion();
+                 }
+                else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
+                    this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
+                     this.renderQuestion();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
@@ -52,7 +56,7 @@ $(function() {
                    var memberId = $.cookie('Member._id')
                    saveanswer.set('MemberID',memberId);
                    saveanswer.set('StepID',this.stepId);
-              saveanswer.save(null, {
+                   saveanswer.save(null, {
                    
                     error: function() {
                         console.log("Not Saved")
@@ -64,7 +68,6 @@ $(function() {
             if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
                 this.template = _.template($("#template-newcourseanswerform").html())
                 this.Questionlist = this.options.questionlist 
-                console.log("Hello");
                 this.stepId = this.options.stepId
                 this.TotalCount = this.Questionlist.length
                 this.pp = parseInt(this.options.passP)
@@ -72,7 +75,6 @@ $(function() {
                 this.stepindex = this.options.stepIndex
                 this.Givenanswers = []  
             }else{
-                //this.Correctanswers = this.options.answers
                 this.Questions = this.options.questions
                 this.Optns = this.options.options
                 this.stepId = this.options.stepId
@@ -92,7 +94,6 @@ $(function() {
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
-                  //console.log(this.options.questionlist);
                 var coursedetail = new App.Models.CourseQuestion({
                     _id: this.Questionlist[this.index]
                 })
@@ -101,12 +102,9 @@ $(function() {
                 });
                 this.vars = coursedetail.toJSON();
                 this.vars.languageDict=App.languageDict;
-                console.log(coursedetail.get('Statement'));
-                var singleline = coursedetail.get("Statement")
-                this.vars.singleLineQuestionTitle = singleline
+                console.log(this.vars)
                 this.$el.html(this.template(this.vars));
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                  //alert("This is New Question");
                 } else {
                 this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')
                 o0 = encodeURI(this.Optns[temp])
