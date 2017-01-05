@@ -1,6 +1,7 @@
 $(function() {
 
     App.Views.takeQuizView = Backbone.View.extend({
+        vars: {},
         Questions: {},
         Optns: {},
         Score: 0,
@@ -32,25 +33,35 @@ $(function() {
                         this.Score++
                     }
                     this.renderQuestion()
+                } else if ($("input[type='text'][name='singleLineAnswer']").val() != undefined && $("input[type='text'][name='singleLineAnswer']").val() != '') {
+                    this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()))
+                     this.renderQuestion()
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
             }
+            
         },
+         answersave: function() {
+              for (var i =0;i< this.TotalCount; i++)
+                   var answer = this.Givenanswers[i];
+                   var questions = this.Questionlist[i];
+                   var saveanswer = new App.Models.courseanswer();
+                   saveanswer.set('questionslist', courseQuestions);
+                }
+        }
 
 
         initialize: function() {
-            console.log(this.options);
             if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
-                this.Questionlist = this.options.questionslist 
+                this.template = _.template($("#template-newcourseanswerform").html())
+                this.Questionlist = this.options.questionlist 
                 this.stepId = this.options.stepId
                 this.TotalCount = this.Questionlist.length
                 this.pp = parseInt(this.options.passP)
                 this.myModel = this.options.resultModel
                 this.stepindex = this.options.stepIndex
                 this.Givenanswers = []  
-                console.log(this.options.questionslist);
-                
             }else{
                 //this.Correctanswers = this.options.answers
                 this.Questions = this.options.questions
@@ -67,16 +78,36 @@ $(function() {
         renderQuestion: function() {
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
+
                 var temp = this.index * 5
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
+                if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
+                  //console.log(this.options.questionlist);
+                var coursedetail = new App.Models.CourseQuestion({
+                    _id: this.Questionlist[this.index]
+                })
+                coursedetail.fetch({
+                    async: false
+                });
+                this.vars = coursedetail.toJSON();
+                this.vars.languageDict=App.languageDict;
+                console.log(coursedetail.get('Statement'));
+                var singleline = coursedetail.get("Statement")
+                this.vars.singleLineQuestionTitle = singleline
+                this.$el.html(this.template(this.vars));
+                this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
+                  //alert("This is New Question");
+                } else {
                 this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')
                 o0 = encodeURI(this.Optns[temp])
                 o1 = encodeURI(this.Optns[temp + 1])
                 o2 = encodeURI(this.Optns[temp + 2])
                 o3 = encodeURI(this.Optns[temp + 3])
                 o4 = encodeURI(this.Optns[temp + 4])
+                 
                 this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>');
+            }
                 this.$el.append('<div class="quizActions" ><button class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</button><button class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</button></div>')
             } else {
                 this.$el.html('&nbsp')
@@ -140,7 +171,7 @@ $(function() {
             // this.animateIn()
             this.renderQuestion()
         },
-
+       
         render: function() {
             document.getElementById('cont').style.opacity = "0.1";
             document.getElementById('nav').style.opacity = "0.1";
