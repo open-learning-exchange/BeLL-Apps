@@ -41,6 +41,9 @@ $(function() {
                 })
                 inviteForm.render()
                 $('#invitationdiv').html('&nbsp')
+                if (this.btnText == 'Save') {
+                    $('#invitationdiv').append('<h4 align = "center">'+App.languageDict.attributes.Prompt_MeetUp_save+'</h4>')
+                }
                 $('#invitationdiv').append(inviteForm.el);
 
 
@@ -75,7 +78,7 @@ $(function() {
             var $sbutton = $('<a class="btn btn-success" id="MeetUpformButton">' + this.btnText + '</a>')
 
             var $ubutton = $('<a class="btn btn-success" id="formButton">'+languageDictValue.attributes.Cancel+'</a>')
-            // var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
+            var $button = $('<a class="btn btn-success" id="meetInvitation">Invite Member</button><a role="button" id="ProgressButton" class="btn" href="#course/report/' + this.model.get("_id") + '/' +this.model.get("name") + '"> <i class="icon-signal"></i> Progress</a>')
             this.$el.append($sbutton)
             if (this.btnText != languageDictValue.attributes.Update)
                 this.$el.append('<a class="btn btn-info" id="InviteMembers">'+languageDictValue.attributes.Invite_Member+'</a>')
@@ -120,7 +123,6 @@ $(function() {
                 this.model.set("title", $.trim(titleOfMeetup))
                 this.model.save(null, {
                     success: function(responce) {
-
 
                         if (that.btnText == 'Save') {
                             var userMeetup = new App.Models.UserMeetup()
