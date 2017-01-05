@@ -1,2 +1,7 @@
 .DS_Store
 .idea
+
+app/MyApp/app/views.js
+app/MyApp/app/models.js
+app/MyApp/app/vendor.js
+app/MyApp/app/collections.js
