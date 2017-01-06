@@ -1519,7 +1519,48 @@
                     </tr>
                 </table>
             </div>
-           <% } %>
+            <% } else if (Type == "Attachment") { %>
+            <div class="attachment">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                <tr>
+                    <td>
+                        <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
+                        <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" />
+                         <input class="rev" type="hidden" name="_rev">
+                         <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+                         <input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
+                         <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
+                    </td>
+               </tr>
+                </table>
+            </div>
+            <% } else if (Type == "Multiple Choice (Single Answer)") { %>
+            <div class="multiplechoice">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                       <td>
+                       <% for (var i = 0; i < Options.length; i++) { %>
+
+                            <input type="radio" name="multiplechoice" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                       <% }; %> 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+           <% } else { %>
+            <h4>Select valid Choice</h4>
+            <% } %>
+
         </div>    
     </script>
     <script type="text/template" id="template-mail">

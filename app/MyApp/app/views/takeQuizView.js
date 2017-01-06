@@ -36,15 +36,21 @@ $(function() {
                 } else if ($("input[type='text'][name='singleLineAnswer']").val() != undefined && $("input[type='text'][name='singleLineAnswer']").val() != '') {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
                      this.renderQuestion();
-                 }
-                else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
+                } else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
                      this.renderQuestion();
+                } 
+               /* else if($("input[type='file'][name='attachment']").val() != undefined && $("input[type='file'][name='attachment']").val() != ''){
+                    this.Givenanswers.push(decodeURI($("input[type='file'][name='attachment']").val()));
+                     this.renderQuestion()
+                } */
+                else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
+                    this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
+                        this.renderQuestion();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
             }
-            
         },
          answersave: function() {
               for (var i =0; i < this.TotalCount; i++){
