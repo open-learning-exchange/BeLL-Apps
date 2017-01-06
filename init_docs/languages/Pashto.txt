@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"English",
-  "directionOfLang":"Left",
-  "nameInNativeLang":"English",
+  "nameOfLanguage":"Phasto",
+  "directionOfLang":"Right",
+  "nameInNativeLang":"پښتو",
   "Dashboard":"My Home",
   "Library":"Library",
   "Courses":"Courses",

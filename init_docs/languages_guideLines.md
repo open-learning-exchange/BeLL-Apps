@@ -16,6 +16,9 @@ To successfully update any particular language's document located in [BeLL-Apps/
 > and synced with the code repository [l10n_dev][CrowdinBranch] 
 > which will be placed under [BeLL-Apps/init_docs/languages](https://github.com/open-learning-exchange/BeLL-Apps/tree/l10n_dev/init_docs/languages) folder.
 
+> BeLL-Apps will only use the languages from the folder they are listed as validLanguage. 
+> So please search for `var validLanguage` and add your language in the list once it can go live.
+
 ** It is important to follow the below mentioned guidelines for source file ** [Text.json][Textjson] ** and it also need to be retained on translated files.**
 
 1) All of the keys and corresponding values (translations) are going to be surrounded by inverted commas.
