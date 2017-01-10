@@ -25,7 +25,6 @@ $(function() {
                 return
             }
             if ($("textarea[name='description']").val().length > 0) {
-                 
 
                 $('#invitationdiv').fadeIn(1000)
                 document.getElementById('cont').style.opacity = 0.1
@@ -44,8 +43,6 @@ $(function() {
                 $('#invitationdiv').html('&nbsp')
                 if (this.btnText == 'Save') {
                     $('#invitationdiv').append('<h4 align = "center">'+App.languageDict.attributes.Prompt_MeetUp_save+'</h4>')
-                    console.log(App.languageDict.attributes);
-
                 }
                 $('#invitationdiv').append(inviteForm.el);
 
@@ -128,7 +125,6 @@ $(function() {
                     success: function(responce) {
 
                         if (that.btnText == 'Save') {
-                            
                             var userMeetup = new App.Models.UserMeetup()
                             userMeetup.set({
                                 memberId: $.cookie('Member._id'),
@@ -137,11 +133,7 @@ $(function() {
 
                             })
                             userMeetup.save()
-                            
                             that.MemberInvite(responce)
-                            
-                            
-                               
                         } else {
                             var userMeetup = new App.Collections.UserMeetups()
                             userMeetup.meetupId = responce.get('id')
@@ -155,7 +147,6 @@ $(function() {
                                 alert(App.languageDict.attributes.Updated_Successfully)
 
                             }
-
                             Backbone.history.navigate('meetups', {
                                 trigger: true
                             })
