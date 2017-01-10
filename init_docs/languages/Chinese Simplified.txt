@@ -829,5 +829,6 @@
   "Confirm_Decline":"Are you sure you declined this resource?",
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
-  "Local_Resources":"Local Resources"
+  "Local_Resources":"Local Resources",
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
 }
