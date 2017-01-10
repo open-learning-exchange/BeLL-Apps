@@ -829,5 +829,6 @@
   "Confirm_Decline":"crwdns16233:0crwdne16233:0",
   "Resource_Success_Added":"crwdns16234:0crwdne16234:0",
   "Community_Resources":"crwdns16235:0crwdne16235:0",
-  "Local_Resources":"crwdns16236:0crwdne16236:0"
+  "Local_Resources":"crwdns16236:0crwdne16236:0",
+  "Prompt_MeetUp_save":"crwdns16240:0crwdne16240:0"
 }
