@@ -829,5 +829,6 @@
   "Confirm_Decline":"کیا آپ واقعی اس ريسورس سے انکار کر رہے ہیں؟",
   "Resource_Success_Added":"ريسورس کامیابی سے لائبریری میں شامل کیا جاتا ہے",
   "Community_Resources":"کمیونٹی سے وسائل",
-  "Local_Resources":"مقامی وسائل"
+  "Local_Resources":"مقامی وسائل",
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
 }
