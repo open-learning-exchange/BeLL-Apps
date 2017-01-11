@@ -475,8 +475,7 @@ $(function() {
         },
 
         validateMemberForm : function(){
-         var converter=(parseInt($('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val())+1);
-         var date=new Date($('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val() + '-' + converter + '-' + $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val());
+         var date=new Date($('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(2).val(), $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(1).val(), $('.bbf-form .field-BirthDate .bbf-editor').find('select').eq(0).val(), 00, 00, 00);
          var isCorrect=true;
             if ($.trim($('.bbf-form .field-firstName .bbf-editor input').val()) =='' || $('.bbf-form .field-firstName .bbf-editor input').val() ==null || $('.bbf-form .field-firstName .bbf-editor input').val() ==undefined)
             {
