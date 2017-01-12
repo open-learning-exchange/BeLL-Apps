@@ -3,7 +3,7 @@
   "directionOfLang":"Left",
   "nameInNativeLang":"हिन्दी",
   "Dashboard":"मेरा घर",
-  "Library":"लायीब्रेरी",
+  "Library":"पुस्तकालय",
   "Courses":"पाठ्यक्रम",
   "Meetups":"मिलना",
   "Members":"सदस्य",
@@ -830,5 +830,5 @@
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
   "Local_Resources":"Local Resources",
-  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
+  "Prompt_MeetUp_save":"मुलाकात सेव कर ली गयी है। क्या आप आमंत्रण भेजना चाहेंगे।"
 }
