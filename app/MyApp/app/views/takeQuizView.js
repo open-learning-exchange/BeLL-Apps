@@ -39,14 +39,12 @@ $(function() {
                 } else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
                      this.renderQuestion();
-                } 
-               /* else if($("input[type='file'][name='attachment']").val() != undefined && $("input[type='file'][name='attachment']").val() != ''){
-                    this.Givenanswers.push(decodeURI($("input[type='file'][name='attachment']").val()));
+                } else if($("input[type='file'][name='_attachments']").val() != undefined && $("input[type='file'][name='_attachments']").val() != ''){
+                    this.Givenanswers.push(decodeURI($("input[type='file'][name='_attachments']").val()));
                      this.renderQuestion()
-                } */
-                else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
+                }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
-                        this.renderQuestion();
+                     this.renderQuestion();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }

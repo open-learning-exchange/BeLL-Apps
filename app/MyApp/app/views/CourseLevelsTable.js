@@ -63,7 +63,8 @@ $(function () {
                 questionlist: JSONsteps.questionslist,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,
-                stepIndex: index 
+                stepIndex: index,
+                stepId:JSONsteps._id
                 })
             }
             else{
@@ -73,7 +74,7 @@ $(function () {
                 options: JSONsteps.qoptions,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,
-                stepIndex: index 
+                stepIndex: index
                 })   
             }
             temp.render()

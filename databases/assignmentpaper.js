@@ -16,7 +16,14 @@ ddoc.views = {
   assignmentPaperByStepId:{
     map: function(doc) {
       if (doc.senderId && doc.stepId) {
-        emit([doc.senderId, doc.stepId], true)
+        emit([doc.senderId, doc.stepId], doc)
+      }
+    }
+  },
+   assignmentPaperByQuestionId:{
+      map: function(doc) {
+      if (doc.senderId && doc.questionId) {
+        emit([doc.senderId, doc.questionId], doc)
       }
     }
   }

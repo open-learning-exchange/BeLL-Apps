@@ -1281,7 +1281,7 @@ function showComposePopup() {
     $('.mailbody button').eq(1).html(App.languageDict.attributes.Send);
 
 }
-
+//For old courseAnswer File Attachment
 function HandleBrowseClick(stepId) {
     $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
     var fileinput = document.forms["fileAttachment" + stepId]["_attachments"]
@@ -1311,7 +1311,7 @@ function FieSelected(stepId) {
     //var extension = img.val().split('.')
     var extension = imgVal.split('.')
     if (extension){
-        var memberAssignmentPaper = new App.Collections.AssignmentPapers()
+        var memberAssignmentPaper = new App.Collections.AssignmentPapers() //uploaeded session
         memberAssignmentPaper.senderId=$.cookie('Member._id')
         memberAssignmentPaper.stepId=stepId
         memberAssignmentPaper.changeUrl = true;
@@ -1397,6 +1397,106 @@ function FieSelected(stepId) {
         }
     })
 }
+
+//For new Course Answer File Attachment
+
+function HandleBrowseClick1(questionId) {
+    $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
+    var fileinput = document.forms["questionForm"]["_attachments"]
+    fileinput.click();
+}
+
+function FileSelected(questionId) {
+    //var questionId=new App.Models.Question()
+    var courseId=document.getElementById("courseId" + questionId).value;
+     console.log(courseId)
+   // var stepTitle = document.getElementById("stepTitle" + questionId).value;
+    //var stepNo = document.getElementById("stepNo" + questionId).value;
+    var assignmentpaper = new App.Models.AssignmentPaper();
+   // var courseModel = new App.Models.Group()
+    //courseModel.set('_id', courseId)
+   // courseModel.fetch({
+    //    async: false
+   // })
+   // if (!courseModel.get("courseLeader")) {
+       // return
+   // }
+    var img = $('input[type="file"]');
+    var imgVal;
+    for(var i = 0 ; i < img.length ; i++) {
+        if(img[i].value != '') {
+            imgVal = img[i].value;
+        }
+    }
+    var extension = imgVal.split('.')
+    if (extension){
+        var memberAssignmentPaper = new App.Collections.AssignmentPapers() //uploaeded session
+        memberAssignmentPaper.senderId=$.cookie('Member._id')
+        memberAssignmentPaper.questionId=questionId
+        memberAssignmentPaper.changeUrl = true;
+        memberAssignmentPaper.fetch({
+            async: false,
+            success: function (json) {
+                if(json.models.length > 0) {
+                    var existingModels = json.models;
+                    for(var i = 0 ; i < existingModels.length ; i++) {
+                        var doc = {
+                            _id: existingModels[i].attributes._id,
+                            _rev: existingModels[i].attributes._rev
+                        };
+                        $.couch.db("assignmentpaper").removeDoc(doc, {
+                            success: function (data) {
+                                console.log(data);
+                            },
+                            error: function (status) {
+                                console.log(status);
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+    }
+if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
+        alert(App.languageDict.attributes.Invalid_Attachment);
+        return;
+    }
+    var currentdate = new Date();
+    var mail = new App.Models.Mail();
+    mail.set("senderId", $.cookie('Member._id'));
+    //mail.set("receiverId", courseModel.get("courseLeader"));
+    //mail.set("subject", "Assignment | " + courseModel.get("name"));
+    //mail.set("body", "Assignment submited for <b>" + stepTitle + '</b>.');
+    mail.set("status", "0");
+    mail.set("type", "mail");
+    mail.set("sentDate", currentdate);
+    mail.save()
+    assignmentpaper.set("sentDate", currentdate);
+    assignmentpaper.set("senderId", $.cookie('Member._id'));
+    assignmentpaper.set("courseId", courseId);
+    assignmentpaper.set("questionId", questionId);
+    //assignmentpaper.set("stepNo", stepNo);
+    assignmentpaper.save(null, {
+        success: function() {
+            //assignmentpaper.unset('_attachments')
+            if (imgVal) {
+                assignmentpaper.saveAttachment("form#questionForm", "form#questionForm" + " #_attachments", "form#questionForm" + " .rev")
+            } else {
+                ////no attachment
+                alert(App.languageDict.attributes.No_Attachment)
+            }
+            // After Upload Paper refresh page
+            assignmentpaper.on('savedAttachment', function() {
+                //Attatchment successfully saved
+                alert(App.languageDict.attributes.Assignment_Submitted)
+                //location.reload();
+            }, assignmentpaper)
+
+        }
+    })
+}
+
 function filterInt(value) {
     if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
         return Number(value);
