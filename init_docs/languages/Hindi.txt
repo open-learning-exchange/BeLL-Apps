@@ -20,7 +20,7 @@
   "Super_Manager":"सर्वोच्च प्रबंधक",
   "Leader":"नेता",
   "Bell":"बेल्ल",
-  "Learner":"शिक्षार्थी",
+  "Learner":"सिखने वाला",
   "Visits":"Visits",
   "Days":[
     {
@@ -37,7 +37,7 @@
     {
       "January":"जनवरी",
       "February":"फ़रवरी",
-      "March":"March",
+      "March":"मार्च",
       "April":"अप्रैल",
       "May":"मई",
       "June":"जून",
