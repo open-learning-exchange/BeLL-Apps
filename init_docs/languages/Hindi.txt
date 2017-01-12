@@ -49,9 +49,9 @@
       "December":"दिसम्बर"
     }
   ],
-  "News_Feed":"फ़ीड",
-  "My_Library":"मेरे पुस्तकालय",
-  "My_Courses_Progress":"पाठ्यक्रम प्रगति",
+  "News_Feed":"न्यूज़ फीड",
+  "My_Library":"मेरा पुस्तकालय",
+  "My_Courses_Progress":"मेरे पाठ्यक्रम की प्रगति",
   "My_Tutors":"मेरी Tutors",
   "My_Meetups":"मेरे Meetups",
   "Member":"सदस्य",
