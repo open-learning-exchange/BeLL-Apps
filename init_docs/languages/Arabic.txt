@@ -389,7 +389,7 @@
   "Error_UserCourse_Details":"لم يتم العثور على بيانات متعلقة في الدورة التدريبية المختارة",
   "Take_Quiz":"قم بإجراء الاختبار",
   "Exit":"خروج",
-  "PaperForStep":"ورقة لرقم الخطوة",
+  "DownloadPaperForStep":"Download Paper for step number",
   "Error_Course_Report":"لم يتم العثور على بيانات في الخادم",
   "You_Scored":"سجل لك",
   "Finish":"إنهاء",
@@ -658,7 +658,7 @@
   "Sender":"المرسل",
   "request_Accepted_already":"لقد قمت بقبول هذه الدعوة.",
   "Adm_req_accepted":"تم قبول طلب الإنضمام",
-  "adm_req_For":"تم قبول طلبك للإنضمام، من قبل مدير الدورة التدريبية ",
+  "adm_req_For_accepted":"تم قبول طلبك للإنضمام، من قبل مدير الدورة التدريبية ",
   "Survey_No":"رقم البحث",
   "Actions":"إجراءات",
   "Submitted":"أرسل",
@@ -830,5 +830,7 @@
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
   "Local_Resources":"Local Resources",
-  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?",
+  "Pending_Resources":"Pending Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
 }
