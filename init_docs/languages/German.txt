@@ -49,7 +49,7 @@
       "December":"Dezember"
     }
   ],
-  "News_Feed":"Neuigkeiten",
+  "News_Feed":"News Feed",
   "My_Library":"Meine Bibliothek",
   "My_Courses_Progress":"Meine Fortschritte",
   "My_Tutors":"Meine Lehrer",
