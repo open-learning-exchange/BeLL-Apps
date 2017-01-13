@@ -500,7 +500,7 @@
   "Missing_MeetUp_Location":"موقع الاجتماع مفقود",
   "MeetUp_Desc_Missing":"شرح عن الاجتماع مفقود",
   "MeetUp_Title_Missing":"عنوان الاجتماع مفقود",
-  "Duplicate_Save":"dfddfsdaf",
+  "Duplicate_Save":"تم حفظه سابقاً",
   "Prompt_MeetUp_Location_First":"يرجى كتابة تفاصيل عن الاجتماع أولاً",
   "meetUp_Added":"تمت الإضافة إلى اجتماعاتك بنجاح",
   "Successfully_Registered":"تم التسجيل بنجاح",
