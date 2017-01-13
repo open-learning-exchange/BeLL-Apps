@@ -389,7 +389,7 @@
   "Error_UserCourse_Details":"Tsy ahitana na inona na inona amin'io lesona nosafidinao io.",
   "Take_Quiz":"Mihatrika ny fitsampaham-pahaizana",
   "Exit":"Fivoahana",
-  "PaperForStep":"Paper for step number",
+  "DownloadPaperForStep":"Download Paper for step number",
   "Error_Course_Report":"Tsy misy fampanfatarana hita ao amin'ny mpandrinjara.",
   "You_Scored":"You scored",
   "Finish":"Mamita",
@@ -658,7 +658,7 @@
   "Sender":"Mpandefa",
   "request_Accepted_already":"Nanaiky ity fangatahana ity ianao.",
   "Adm_req_accepted":"Nekena ny fangatahana fidirana",
-  "adm_req_For":"Neken'ny mpitariky ny fampianarana ny fangatahana fidirana amin'ny",
+  "adm_req_For_accepted":"Neken'ny mpitariky ny fampianarana ny fangatahana fidirana amin'ny",
   "Survey_No":"Survey No.",
   "Actions":"Ireo asa",
   "Submitted":"Tafiditra",
@@ -830,5 +830,7 @@
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
   "Local_Resources":"Local Resources",
-  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?",
+  "Pending_Resources":"Pending Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
 }
