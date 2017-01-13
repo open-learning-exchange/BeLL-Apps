@@ -389,7 +389,7 @@
   "Error_UserCourse_Details":"No data related to selected course found.",
   "Take_Quiz":"Take Quiz",
   "Exit":"निकास",
-  "PaperForStep":"Paper for step number",
+  "DownloadPaperForStep":"Download Paper for step number",
   "Error_Course_Report":"No data found on server.",
   "You_Scored":"You scored",
   "Finish":"समाप्त",
@@ -658,7 +658,7 @@
   "Sender":"Sender",
   "request_Accepted_already":"You have accepted this request.",
   "Adm_req_accepted":"Admission Request Accepted",
-  "adm_req_For":"Your admission request has been accepted by the course leader for",
+  "adm_req_For_accepted":"Your admission request has been accepted by the course leader for",
   "Survey_No":"Survey No.",
   "Actions":"Actions",
   "Submitted":"Submitted",
@@ -830,5 +830,7 @@
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
   "Local_Resources":"Local Resources",
-  "Prompt_MeetUp_save":"मुलाकात सेव कर ली गयी है। क्या आप आमंत्रण भेजना चाहेंगे।"
+  "Prompt_MeetUp_save":"मुलाकात सेव कर ली गयी है। क्या आप आमंत्रण भेजना चाहेंगे।",
+  "Pending_Resources":"Pending Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
 }
