@@ -389,7 +389,7 @@
   "Error_UserCourse_Details":"crwdns15803:0crwdne15803:0",
   "Take_Quiz":"crwdns15804:0crwdne15804:0",
   "Exit":"crwdns15805:0crwdne15805:0",
-  "PaperForStep":"crwdns15806:0crwdne15806:0",
+  "DownloadPaperForStep":"crwdns16241:0crwdne16241:0",
   "Error_Course_Report":"crwdns15807:0crwdne15807:0",
   "You_Scored":"crwdns15808:0crwdne15808:0",
   "Finish":"crwdns15809:0crwdne15809:0",
@@ -658,7 +658,7 @@
   "Sender":"crwdns16067:0crwdne16067:0",
   "request_Accepted_already":"crwdns16068:0crwdne16068:0",
   "Adm_req_accepted":"crwdns16069:0crwdne16069:0",
-  "adm_req_For":"crwdns16070:0crwdne16070:0",
+  "adm_req_For_accepted":"crwdns16242:0crwdne16242:0",
   "Survey_No":"crwdns16071:0crwdne16071:0",
   "Actions":"crwdns16072:0crwdne16072:0",
   "Submitted":"crwdns16073:0crwdne16073:0",
@@ -830,5 +830,7 @@
   "Resource_Success_Added":"crwdns16234:0crwdne16234:0",
   "Community_Resources":"crwdns16235:0crwdne16235:0",
   "Local_Resources":"crwdns16236:0crwdne16236:0",
-  "Prompt_MeetUp_save":"crwdns16240:0crwdne16240:0"
+  "Prompt_MeetUp_save":"crwdns16240:0crwdne16240:0",
+  "Pending_Resources":"crwdns16243:0crwdne16243:0",
+  "Confirm_Course":"crwdns16244:0crwdne16244:0"
 }
