@@ -389,7 +389,7 @@
   "Error_UserCourse_Details":"没有发现所选课程相关的数据。",
   "Take_Quiz":"参加测验",
   "Exit":"退出",
-  "PaperForStep":"Paper for step number",
+  "DownloadPaperForStep":"Download Paper for step number",
   "Error_Course_Report":"在服务器上找不到数据",
   "You_Scored":"You scored",
   "Finish":"完成",
@@ -658,7 +658,7 @@
   "Sender":"发送人",
   "request_Accepted_already":"你已经接受了这个请求。",
   "Adm_req_accepted":"Admission Request Accepted",
-  "adm_req_For":"Your admission request has been accepted by the course leader for",
+  "adm_req_For_accepted":"课程导师已通过您的入学请求",
   "Survey_No":"Survey No.",
   "Actions":"操作：",
   "Submitted":"已提交",
@@ -830,5 +830,7 @@
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
   "Local_Resources":"Local Resources",
-  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?",
+  "Pending_Resources":"Pending Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
 }
