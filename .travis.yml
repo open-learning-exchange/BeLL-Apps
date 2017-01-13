@@ -25,6 +25,7 @@ addons:
 install:
   - pip install selenium
   - pip install sauceclient
+  - pip install pycouchdb
 
 before_install:
   - docker pull klaemo/couchdb:1.6.1
