@@ -389,7 +389,7 @@
   "Error_UserCourse_Details":"Bu kursa bağlı herhangi bir veri bulunamadı.",
   "Take_Quiz":"Mini Sınavı Çöz",
   "Exit":"Çıkış",
-  "PaperForStep":"Paper for step number",
+  "DownloadPaperForStep":"Download Paper for step number",
   "Error_Course_Report":"Sunucuda veri bulunamadı.",
   "You_Scored":"You scored",
   "Finish":"Bitir",
@@ -658,7 +658,7 @@
   "Sender":"Gönderici",
   "request_Accepted_already":"Bu talebi kabul ettiniz.",
   "Adm_req_accepted":"Katılım isteğiniz kabul edildi",
-  "adm_req_For":"Bu kursa katılım talebiniz kabul edildi",
+  "adm_req_For_accepted":"Bu kursa katılım talebiniz kabul edildi",
   "Survey_No":"Survey No.",
   "Actions":"İşlemler",
   "Submitted":"Gönderildi",
@@ -830,5 +830,7 @@
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
   "Local_Resources":"Local Resources",
-  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?",
+  "Pending_Resources":"Pending Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
 }
