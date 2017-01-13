@@ -389,7 +389,7 @@
   "Error_UserCourse_Details":"Lama hayo xogta la xiriirta xulashada koorsada lahelay.",
   "Take_Quiz":"Qaad su'alo kedis ah",
   "Exit":"Kabixid",
-  "PaperForStep":"Paper for step number",
+  "DownloadPaperForStep":"Download Paper for step number",
   "Error_Course_Report":"Wax xog ah laga ma helin adeegihii.",
   "You_Scored":"You scored",
   "Finish":"Dhammad",
@@ -658,7 +658,7 @@
   "Sender":"Sender",
   "request_Accepted_already":"You have accepted this request.",
   "Adm_req_accepted":"Admission Request Accepted",
-  "adm_req_For":"Your admission request has been accepted by the course leader for",
+  "adm_req_For_accepted":"Your admission request has been accepted by the course leader for",
   "Survey_No":"Survey No.",
   "Actions":"Actions",
   "Submitted":"Submitted",
@@ -830,5 +830,7 @@
   "Resource_Success_Added":"Resource is Successfully added to library",
   "Community_Resources":"Resources From Community",
   "Local_Resources":"Local Resources",
-  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?"
+  "Prompt_MeetUp_save":"Meetup saved! Do you want to invite?",
+  "Pending_Resources":"Pending Resources",
+  "Confirm_Course":"Are you sure you want to delete this Course?"
 }
