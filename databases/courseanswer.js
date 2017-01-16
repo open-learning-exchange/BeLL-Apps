@@ -19,7 +19,15 @@ ddoc.views = {
                 emit(doc.Type, doc);
             }
         }
+    },
+    AnswerByMemberStepId: {
+        map: function(doc) {
+            if (this.MemberID != "" && this.StepID != "") {
+                emit([doc.MemberID,doc.StepID], doc);
+            }
+        }
     }
+
 }
 
 module.exports = ddoc;

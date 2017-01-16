@@ -2689,6 +2689,7 @@ $(function() {
                             pp: ppercentage,
                             StepID:stepid
                 }})
+                console.log(courseAnswer);
                 App.$el.children('.body').html(answerview.el);
                 answerview.render();
                 var directionOfLang = App.languageDict.get('directionOfLang');

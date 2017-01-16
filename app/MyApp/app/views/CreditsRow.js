@@ -15,7 +15,6 @@ $(function () {
 
         },
         render: function () {
-            console.log(this.model.toJSON());
             var vars = this.model.toJSON();
             vars.memberid =this.memberId;
             vars.id  = this.model.attributes._id;

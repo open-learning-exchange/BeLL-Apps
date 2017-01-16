@@ -33,7 +33,6 @@ $(function () {
                 });
             } 
             var quizScore = (Math.round((this.Score / totalQuestion) * 100))
-            console.log(quizScore);
             var memberProgress=new App.Collections.membercourseprogresses()
                     memberProgress.memberId=this.attributes.membersid
                     memberProgress.courseId=this.attributes.courseid
@@ -46,7 +45,6 @@ $(function () {
                             var sp = memberProgressRecord.get('stepsResult')
                             var ssids = memberProgressRecord.get('stepsIds')
                             this.index = 0
-                               console.log(this.attributes.StepID);
                             while (this.index < sstatus.length && ssids[this.index] != this.attributes.StepID) {
                                 this.index++
                             } 
@@ -81,6 +79,7 @@ $(function () {
                     async: false
                 });
             this.vars.questionlists.push(questionlist.toJSON()) 
+            console.log(this.vars.questionlists);
     	}
     	
 		this.vars.answerlist = this.collection.toJSON();

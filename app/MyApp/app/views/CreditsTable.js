@@ -31,10 +31,8 @@ $(function () {
             var credits;
             var status;
             var attempts;
-            console.log(that.collection);
             for(var i = 0 ; i < that.collection.length ; i++) {
                 var model = that.collection.models[i];
-                console.log(model);
                  indexOfCurrentStep =courseProgress.models[0].get('stepsIds').indexOf(model.get('_id'));
                 if((typeof model.attributes.coursestructure === "undefined" || model.attributes.coursestructure != "true") && model.attributes.outComes.length > 1) { // if step type is "paper and quiz" then separate outcomes and result of paper and quiz in two separate rows
                     var tempOutComes=model.attributes.outComes;
