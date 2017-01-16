@@ -2533,7 +2533,6 @@ $(function() {
             var that = this
             levels = new App.Collections.CourseLevels()
             levels.groupId = groupId
-
             var className = "Group"
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({

@@ -75,7 +75,7 @@ $(function () {
                 options: JSONsteps.qoptions,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,
-                stepIndex: index 
+                stepIndex: index
                 })   
             }
             temp.render()
@@ -116,13 +116,6 @@ $(function () {
                 this.vars.outComes[0]=temp;
 
             }
-
-           // var textOfOutcomes='Take_'+this.vars.outComes[0];
-           // this.vars.outComesText=App.languageDict.get(textOfOutcomes);
-           // this.vars.outComes[0]=App.languageDict.get(this.vars.outComes[0]);
-
-         //   this.vars.outComesText = textOfOutcomes;
-          //  this.vars.outComes[0] =this.vars.outComes[0];
             var index = 0
             var sstatus = this.modl.get('stepsStatus')
             var ssids = this.modl.get('stepsIds')

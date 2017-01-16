@@ -63,12 +63,9 @@ $(function () {
                                     console.log("Not Saved");
                                 }
                             });
-
-                        console.log(this.index);
-
-              /*Backbone.history.navigate('courses',{
+              Backbone.history.navigate('courses',{
                 trigger: true
-              })*/
+              })
           
         },
     	render: function () {

@@ -1462,14 +1462,14 @@
                                 </td>
                                 <%if (outComes[i]== 'Paper'){%>
                                 <td>
-                                    <form me thod="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
+                                    <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
                                         <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" />
                                         <input class="rev" type="hidden" name="_rev">
 
                                         <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
                                         <input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
                                         <input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
-                                        <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
+                                        <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')" />
 
                                     </form>
                                 </td>
@@ -1494,13 +1494,14 @@
     </script>
     <script type="text/template" id="template-newcourseanswerform">
         <div class="answersection">
-        <p>this is new </p>
+        <p>Required Answer</p>
         <div class="Progress"></div>
+    <% if (Type == "Single Textbox") { %>
          <div class="singlelineAnswer">
                 <table>
                     <tr>
                         <td>
-                            <textarea><%=singleLineQuestionTitle%></textarea> 
+                            <textarea><%=Statement%></textarea> 
                         </td>
                     </tr>
                     <tr>
@@ -1510,7 +1511,62 @@
                     </tr>
                 </table>
             </div>
-           
+     <% } else if (Type == "Comment/Essay Box") { %>
+            <div class="commentEssay">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="commentEssay">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <% } else if (Type == "Attachment") { %>
+            <div class="attachment">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                <tr>
+                    <td>
+                    <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FileSelected('<%=_id%>')" />
+                     <input class="rev" type="hidden" name="_rev">
+                     <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
+                     <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
+                     <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
+                    </td>
+               </tr>
+                </table>
+            </div>
+            <% } else if (Type == "Multiple Choice (Single Answer)") { %>
+            <div class="multiplechoice">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                       <td>
+                       <% for (var i = 0; i < Options.length; i++) { %>
+
+                            <input type="radio" name="multiplechoice" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                       <% }; %> 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+           <% } else { %>
+            <h4>Select valid Choice</h4>
+            <% } %>
+
         </div>    
     </script>
     <script type="text/template" id="template-courseAnswerReview">
