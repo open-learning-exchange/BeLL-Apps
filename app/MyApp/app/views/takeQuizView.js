@@ -51,7 +51,7 @@ $(function() {
                    saveanswer.set('QuestionID',questions);
                    var memberId = $.cookie('Member._id')
                    saveanswer.set('MemberID',memberId);
-                   saveanswer.set('StepID',this.stepId);
+                   saveanswer.set('StepID', this.stepId);
               saveanswer.save(null, {
                    
                     error: function() {
@@ -64,7 +64,7 @@ $(function() {
             if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
                 this.template = _.template($("#template-newcourseanswerform").html())
                 this.Questionlist = this.options.questionlist 
-                console.log("Hello");
+                console.log(this.stepId);
                 this.stepId = this.options.stepId
                 this.TotalCount = this.Questionlist.length
                 this.pp = parseInt(this.options.passP)
@@ -104,8 +104,7 @@ $(function() {
                 console.log(coursedetail.get('Statement'));
                 var singleline = coursedetail.get("Statement")
                 this.vars.singleLineQuestionTitle = singleline
-                this.$el.html(this.template(this.vars));
-                this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
+                this.$el.append(this.template(this.vars));
                   //alert("This is New Question");
                 } else {
                 this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')

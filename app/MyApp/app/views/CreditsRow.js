@@ -15,7 +15,9 @@ $(function () {
 
         },
         render: function () {
+            console.log(this.model.toJSON());
             var vars = this.model.toJSON();
+            vars.memberid =this.memberId;
             vars.id  = this.model.attributes._id;
             vars.percentage = this.model.attributes.passingPercentage;
             var attchmentURL = null;
@@ -53,6 +55,7 @@ $(function () {
             vars.credits = this.credits;
             vars.status = this.status;
             vars.attempts = this.attempts;
+            vars.coursestructure = this.model.attributes.coursestructure;
             vars.stepType =  this.stepType;
             this.$el.append(_.template(this.template, vars))
         }

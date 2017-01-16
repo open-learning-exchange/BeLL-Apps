@@ -67,6 +67,7 @@ $(function () {
         },
 
         render: function () {
+            console.log(this.model.toJSON());
             var vars = this.model.toJSON();
             vars.manage=App.languageDict.attributes.Manage;
             vars.viewCourse=App.languageDict.attributes.View+' '+App.languageDict.attributes.Course;

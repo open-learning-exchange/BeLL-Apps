@@ -57,13 +57,15 @@ $(function () {
             JSONsteps=step.toJSON()
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
+            console.log(JSONsteps);
             if (typeof JSONsteps.coursestructure !== "undefined" &&  JSONsteps.coursestructure == "true") {
                var temp = new App.Views.takeQuizView({ 
-                coursestructure: JSONsteps.coursestructure, 
+                coursestructure: JSONsteps.coursestructure,
                 questionlist: JSONsteps.questionslist,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,
-                stepIndex: index 
+                stepIndex: index,
+                stepId: JSONsteps._id
                 })
             }
             else{
