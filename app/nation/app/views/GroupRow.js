@@ -63,6 +63,7 @@ $(function() {
                                 var courseStepSingle = {
                                     'stepID': courseStep.get('_id')
                                 };
+                                courseStepSingle['questionIDs'] = ((courseStep.get('questionslist').length > 0) ? courseStep.get('questionslist') : []); // courseSteps[i].questionIDs refers to an array of questionIDs
                                 courseStepSingle['resourceIDs'] = ((courseStep.get('resourceId').length > 0) ? courseStep.get('resourceId') : []); // courseSteps[i].resourceId refers to an array of resourceIds
                                 fullCourseRef['stepIDs'].push(courseStepSingle);
                             });
