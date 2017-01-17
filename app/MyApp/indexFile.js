@@ -1308,6 +1308,7 @@ function FieSelected(stepId) {
             imgVal = img[i].value;
         }
     }
+    console.log(imgVal);
     //var extension = img.val().split('.')
     var extension = imgVal.split('.')
     if (extension){
@@ -1315,9 +1316,11 @@ function FieSelected(stepId) {
         memberAssignmentPaper.senderId=$.cookie('Member._id')
         memberAssignmentPaper.stepId=stepId
         memberAssignmentPaper.changeUrl = true;
+        console.log(memberAssignmentPaper);
         memberAssignmentPaper.fetch({
             async: false,
             success: function (json) {
+                console.log(json);
                 if(json.models.length > 0) {
                     var existingModels = json.models;
                     for(var i = 0 ; i < existingModels.length ; i++) {
@@ -1358,6 +1361,7 @@ function FieSelected(stepId) {
     assignmentpaper.set("courseId", courseId);
     assignmentpaper.set("stepId", stepId);
     assignmentpaper.set("stepNo", stepNo);
+    console.log(assignmentpaper);
     assignmentpaper.save(null, {
         success: function() {
             //assignmentpaper.unset('_attachments')
@@ -1391,7 +1395,7 @@ function FieSelected(stepId) {
 
                 })
                 alert(App.languageDict.attributes.Assignment_Submitted)
-                location.reload();
+                //location.reload();
             }, assignmentpaper)
 
         }
@@ -1430,13 +1434,14 @@ function FileSelected(questionId) {
     }
     var extension = imgVal.split('.')
     if (extension){
-        var memberAssignmentPaper = new App.Collections.AssignmentPapers() //uploaeded session
-        memberAssignmentPaper.senderId=$.cookie('Member._id')
-        memberAssignmentPaper.questionId=questionId
-        memberAssignmentPaper.changeUrl = true;
-        memberAssignmentPaper.fetch({
+        var memberAssignmentPaper  = new App.Collections.AssignmentPapers() //uploaeded session
+        memberAssignmentPaper .senderId=$.cookie('Member._id')
+        memberAssignmentPaper .questionId=questionId
+        memberAssignmentPaper .changeUrl = true;
+        memberAssignmentPaper .fetch({
             async: false,
             success: function (json) {
+                console.log(json);
                 if(json.models.length > 0) {
                     var existingModels = json.models;
                     for(var i = 0 ; i < existingModels.length ; i++) {
@@ -1477,11 +1482,12 @@ if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(ext
     assignmentpaper.set("courseId", courseId);
     assignmentpaper.set("questionId", questionId);
     //assignmentpaper.set("stepNo", stepNo);
+    console.log(assignmentpaper);
     assignmentpaper.save(null, {
         success: function() {
             //assignmentpaper.unset('_attachments')
             if (imgVal) {
-                assignmentpaper.saveAttachment("form#questionForm", "form#questionForm" + " #_attachments", "form#questionForm" + " .rev")
+                assignmentpaper.saveAttachment("form#questionForm", "form#questionForm #_attachments", "form#questionForm .rev")
             } else {
                 ////no attachment
                 alert(App.languageDict.attributes.No_Attachment)
@@ -1490,7 +1496,7 @@ if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(ext
             assignmentpaper.on('savedAttachment', function() {
                 //Attatchment successfully saved
                 alert(App.languageDict.attributes.Assignment_Submitted)
-                //location.reload();
+                location.reload();
             }, assignmentpaper)
 
         }

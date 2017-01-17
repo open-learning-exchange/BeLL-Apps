@@ -20,7 +20,6 @@ $(function() {
         schema: {
             courseId: 'Text',
             memberId: 'Text',
-            questionId: 'Text',
             stepsIds: 'null', //list of stepsIDs from document in groups database having provided courseId
             stepsStatus: 'null', //On each index it contains the status(pass/fail/pending) of member in corresponding step from stepsIds array
             stepsResult: 'null', //On each index it contains the marks obtained by member in corresponding step from stepsIds array

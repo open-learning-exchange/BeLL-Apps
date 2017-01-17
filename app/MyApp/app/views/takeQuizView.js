@@ -11,6 +11,7 @@ $(function() {
         TotalCount: 0,
         tagName: 'form',
         id: 'questionForm',
+        attributes: {'method': 'post'},
         mymodel: null,
         events: {
             "click #exitPressed": function(e) {
@@ -45,6 +46,7 @@ $(function() {
                 }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
                      this.renderQuestion();
+                     location.reload();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
