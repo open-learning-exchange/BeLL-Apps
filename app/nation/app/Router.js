@@ -7,7 +7,7 @@ $(function() {
             'addCommunity/:CommunityId': 'CommunityForm',
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
-            'listCommunity': 'ListCommunitiesRequest',
+            'listCommunity(/:date)': 'ListCommunitiesRequest',
             'listCommunityPage(/:secretId)': 'ListCommunity',
             'siteFeedback': 'viewAllFeedback',
             'dashboard': 'Dashboard',
@@ -3745,7 +3745,7 @@ $(function() {
             return jsonModels;
         },
 
-        ListCommunitiesRequest: function(){
+        ListCommunitiesRequest: function(startDate){
             var that = this;
             that.getAllPendingRequests();
             var pendingRequests = that.getPendingRequests();
@@ -3760,17 +3760,66 @@ $(function() {
             );
             CommunityTable = new App.Views.CommunityRequestsTable({
                 collection: Communities,
+		startDate: startDate
             });
             CommunityTable.pendingCollections = pendingRequests;
             CommunityTable.render();
-            var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
-            listCommunity += "<div id='list-of-Communities'></div>"
+            var nationUrl = $.url().data.attr.authority;
+            var temp = $.url().data.attr.host.split(".")
+            var nationName = temp[0];
+            $.ajax({
+                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function(result) {
+		    urlFrag = $.url().data.attr.fragment.split('/');
+		    if(urlFrag[1]) {
+		    	selDate = urlFrag[1].split('-');
+			setDt = new Date(selDate[0], selDate[1], 01, 00, 00, 00);
+		    } else {
+		    	setDt = new Date();
+		    }
+                    firstDt = result.rows[0].key.split('/');
+                    firstYear = firstDt[0];
+                    firstMonth = firstDt[1];
+		    firstDt = new Date(firstYear, firstMonth, 01, 00, 00, 00);
+		    today = new Date();
+                    var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
+		    if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
+                    listCommunity += '<input class="month-Date"/>';
+		    }
+                    listCommunity += "<div id='list-of-Communities'></div>"
 
-            App.$el.children('.body').html('<div id="communityDiv"></div>');
-            $('#communityDiv').append(listCommunity);
-            $('#list-of-Communities', App.$el).append(CommunityTable.el);
-            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
-            App.stopActivityIndicator()
+                    App.$el.children('.body').html('<div id="communityDiv"></div>');
+                    $('#communityDiv').append(listCommunity);
+                    
+		    if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
+		    $('input.month-Date').datepicker({
+                        todayHighlight: true,
+                        minDate: firstDt, 
+                        maxDate: today,
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'MM yy',
+			onClose: function(dateText, inst) {
+                           var month = $(".ui-datepicker-month :selected").val();
+                           var year = $(".ui-datepicker-year :selected").val();
+			   var newDt = new Date(year, month, 1);
+                           $(this).val(newDt);
+                           Backbone.history.navigate('listCommunity/'+newDt.getFullYear()+'-'+newDt.getMonth(), {
+                              trigger: true
+                           });
+                        }
+                    });
+		    $('input.month-Date').datepicker('setDate', setDt);
+		    }
+                    $('#list-of-Communities', App.$el).append(CommunityTable.el);
+                    App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+                    App.stopActivityIndicator()
+
+                }
+            });
         },
 
         earthRequest: function() {

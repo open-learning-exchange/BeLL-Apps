@@ -99,7 +99,14 @@ $(function() {
             communityData = communityCode + "." + communityName;
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
-            var date = new Date();
+	    if(this.options.startDate) {
+		var startDt = this.options.startDate.split("-");
+	        var Year = startDt[0];
+		var Mnth = startDt[1];
+                var date = new Date(Year, Mnth, 01, 00, 00, 00);
+	    } else {
+                var date = new Date();
+	    }
             var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
             var startDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(firstDay));
