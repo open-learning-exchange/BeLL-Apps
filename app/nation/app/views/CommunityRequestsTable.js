@@ -12,7 +12,8 @@ $(function() {
         addPendingOne: function(model) {
             if (model._id !== '_design/bell') { // only render if its NOT a design doc
                 var CommunityRow = new App.Views.CommunityRequestRow({
-                    model: model
+                    model: model,
+		    startDate: this.options.startDate
                 })
                 CommunityRow.render()
                 this.$el.append(CommunityRow.el)
@@ -22,7 +23,8 @@ $(function() {
         addOne: function(model) {
             if (model.get('_id') !== '_design/bell') { // only render if its NOT a design doc
                 var CommunityRow = new App.Views.CommunityRequestRow({
-                    model: model
+                    model: model,
+		    startDate: this.options.startDate
                 })
                 CommunityRow.render()
                 this.$el.append(CommunityRow.el)
