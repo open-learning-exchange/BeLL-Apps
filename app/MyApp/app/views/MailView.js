@@ -123,7 +123,7 @@ $(function() {
                     if (memberlist.indexOf($.cookie('Member._id')) == -1) {
                         memberlist.push($.cookie('Member._id'))
                         gmodel.set("members", memberlist)
-
+                        console.log(gmodel);
                         gmodel.save({}, {
                             success: function() {
                                 var memprogress = new App.Models.membercourseprogress()
@@ -140,7 +140,9 @@ $(function() {
                                             var sresults = [];
                                             var sstatus = [];
                                             var sattempts = [];
-                                            if(m.get("outComes").length == 2) {
+                                             if((typeof m.get("coursestructure") === "undefined" || m.get("coursestructure") != "true") 
+                                            && (m.get("outComes") !== undefined && m.get("outComes").length == 2))  {
+                                           // if(m.get("outComes").length == 2) {
                                                 var arr = [];
                                                 var arr1 = [];
                                                 var pqarr = [];
@@ -173,12 +175,11 @@ $(function() {
                                         memprogress.save({
                                             success: function() {}
                                         })
-
-                                    }
-                                })
-                                alert(App.languageDict.attributes.Course_Added_Dashboard)
-                                Backbone.history.navigate('dashboard', {
+                                    alert(App.languageDict.attributes.Course_Added_Dashboard)
+                                    Backbone.history.navigate('dashboard', {
                                     trigger: true
+                                })
+                                    }
                                 })
                             }
                         })

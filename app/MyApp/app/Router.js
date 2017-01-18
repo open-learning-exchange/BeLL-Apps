@@ -34,6 +34,7 @@ $(function() {
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
             'course/members/:courseId': 'GroupMembers',
+            'course/answerreview/:memberid/:stepid': 'answerReview',
             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
@@ -2661,6 +2662,39 @@ $(function() {
             }
 
         },
+        answerReview: function(memberid, stepid){
+            var languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
+            var courseSteps = new App.Models.CourseStep()
+                courseSteps.id = stepid;
+                courseSteps.fetch({
+                    async: false
+                }) 
+            var ppercentage = courseSteps.get("passingPercentage")
+            var coursesid = courseSteps.get("courseId")
+                var courseAnswer = new App.Collections.CourseAnswer()
+                    courseAnswer.StepID = stepid
+                    courseAnswer.MemberID = memberid
+               
+                    courseAnswer.fetch({
+                        async: false
+                    })
+                var answerview = new App.Views.AnswerReview({
+                  collection: courseAnswer,
+                  attributes: {
+                            courseid: coursesid,
+                            membersid: memberid,
+                            pp: ppercentage,
+                            StepID:stepid
+                }})
+                App.$el.children('.body').html(answerview.el);
+                answerview.render();
+                var directionOfLang = App.languageDict.get('directionOfLang');
+                applyCorrectStylingSheet(directionOfLang)
+        },
+
         courseDetails: function(courseId, courseName) {
 
             var courseModel = new App.Models.Group({
@@ -2889,7 +2923,7 @@ $(function() {
                 Cstep.set('coursestructure', true);
                 delete Cstep.schema.outComes;
             } else {
-                Cstep.set('coursestructure', false);
+                Cstep.set('coursestructure', 'false');
             }
             var lForm = new App.Views.LevelForm({
                 model: Cstep
@@ -2922,7 +2956,7 @@ $(function() {
                         Cstep.set('coursestructure', true);
                         delete Cstep.schema.outComes;
                     } else {
-                        Cstep.set('coursestructure', false);
+                        Cstep.set('coursestructure', 'false');
                     }
                     lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)

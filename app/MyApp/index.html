@@ -178,6 +178,7 @@
     <script src='app/collections/SurveyAnswers.js'></script>
     <script src='app/collections/AdminMembers.js'></script>
     <script src='app/collections/CourseStepQuestions.js'></script>
+    <script src='app/collections/CourseAnswer.js'></script>
 
     <!-- app-Views -->
     <script src="app/views/ConfigurationView.js"></script>
@@ -295,6 +296,8 @@
     <script src="app/views/CreditsRow.js"></script>
     <script src="app/views/CourseCreditsMainPage.js"></script>
     <script src="app/views/CourseLearnersList.js"></script>
+
+    <script src="app/views/AnswerReview.js"></script>
     <!-- javaScript -->
 
     <script src='indexFile.js'></script>
@@ -1043,10 +1046,10 @@
         <td>
             <%= stepType %>
         </td>
-        <td>
-            <%if(stepType == 'Quiz' && status == "1"  ){%>
+        <td> 
+            <%if((coursestructure == 'true' || stepType == 'Quiz') && status == "1"  ){%>
                 submitted
-            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
+            <%}else if((coursestructure == 'true' || stepType == 'Quiz') && status == "0"  ){%>
                 Quiz is not submitted
             <%}else{%>
                 <%if(attachmentName!=null && attchmentURL != null){%>
@@ -1072,7 +1075,11 @@
                 <%}%>
         </td>
         <td>
-            <%= credits %>%
+            <%= credits %>
+        </td>
+        <td>
+            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>'>Answer Review
+            </a>
         </td>
        <!-- <td>
             <%= status %>
@@ -1561,6 +1568,41 @@
             <% } %>
 
         </div>    
+    </script>
+    <script type="text/template" id="template-courseAnswerReview">
+        <div class="multipleAnswerReview">
+            <table>
+                    <tr>
+                        <td>
+                           <h3>Answer Review Section</h3><hr/>
+                        </td>
+                    </tr>
+                     <%for (var i=0; i < questionlists.length; i++) { %>
+                    <tr>
+                        <td>
+                            <span><h5><ul><li><%=questionlists[i].Statement%></li></ul></h5></span> 
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td id="">
+                            <span><b><ul><li type="Ans:" > 
+                           <%=answerlist[i].Answer%></li></ul></b></span> 
+                        </td> 
+                        <tr>    
+                             <td align="center">
+                                <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
+                                <input type="radio" name="correct[<%=i%>]" value="Correct">&nbsp;Correct&nbsp;&nbsp;<input type="radio" name="correct[<%=i%>]" value="Incorrect">&nbsp;Incorrect
+                             </td>
+                        </tr>
+                    </tr>
+                    <% } %>
+                    <tr>
+                        <td>
+                            <button class="btn btn-primary" id="updateAnswer">Update</button>
+                        </td>
+                    </tr>
+                </table>
+        </div>
     </script>
     <script type="text/template" id="template-mail">
         <div id="mailActions" >

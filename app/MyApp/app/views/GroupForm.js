@@ -349,7 +349,6 @@ $(function () {
                 this.model.set('CourseTitle', $.trim(courseTitle));
                 this.model.save(null, {
                     success: function (e) {
-                        console.log(context.model.get('courseLeader'))
                         var memprogress = new App.Models.membercourseprogress();
                         var stepsids = new Array();
                         var stepsres = new Array();

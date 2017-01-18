@@ -59,12 +59,12 @@ $(function () {
             var index = ssids.indexOf(id)
             if (typeof JSONsteps.coursestructure !== "undefined" &&  JSONsteps.coursestructure == "true") {
                var temp = new App.Views.takeQuizView({ 
-                coursestructure: JSONsteps.coursestructure, 
+                coursestructure: JSONsteps.coursestructure,
                 questionlist: JSONsteps.questionslist,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,
                 stepIndex: index,
-                stepId:JSONsteps._id
+                stepId: JSONsteps._id
                 })
             }
             else{
@@ -115,13 +115,6 @@ $(function () {
                 this.vars.outComes[0]=temp;
 
             }
-
-           // var textOfOutcomes='Take_'+this.vars.outComes[0];
-           // this.vars.outComesText=App.languageDict.get(textOfOutcomes);
-           // this.vars.outComes[0]=App.languageDict.get(this.vars.outComes[0]);
-
-         //   this.vars.outComesText = textOfOutcomes;
-          //  this.vars.outComes[0] =this.vars.outComes[0];
             var index = 0
             var sstatus = this.modl.get('stepsStatus')
             var ssids = this.modl.get('stepsIds')

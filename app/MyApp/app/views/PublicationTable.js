@@ -172,6 +172,7 @@
             var cumulativeCourseIDs = [],
                 cumulativeCourseStepIDs = [],
                 cumulativeResourceIDs = [];
+                cumulativeQuestionIDs = [];
                 for (var indexOfCourse in courses){
                     var courseInfo = courses[indexOfCourse];
                     cumulativeCourseIDs.push(courseInfo['courseID']);
@@ -182,6 +183,10 @@
                         var resourceIDs = courseStepInfo['resourceIDs'];
                         for (var indexOfResourceID in resourceIDs) {
                             cumulativeResourceIDs.push(resourceIDs[indexOfResourceID]);
+                        }
+                        var questionIDs = courseStepInfo['questionIDs'];
+                        for (var indexOfQuestionID in questionIDs) {
+                            cumulativeQuestionIDs.push(questionIDs[indexOfQuestionID]);
                         }
                     }
                 }
@@ -307,6 +312,20 @@
                                                 'doc_ids': cumulativeCourseStepIDs
                                             }),
                                             success: function (response) {
+                                                $.ajax({
+                                                        headers: {
+                                                            'Accept': 'application/json',
+                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                        },
+                                                        type: 'POST',
+                                                        url: '/_replicate',
+                                                        dataType: 'json',
+                                                        data: JSON.stringify({
+                                                            "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/coursequestion',
+                                                            "target": 'coursequestion',
+                                                            'doc_ids': cumulativeQuestionIDs
+                                                        }),
+                                                success: function (response) {
                                                 var nationUrl = 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') +
                                                     '/publications/' + publicationToSync._id;
 
@@ -474,6 +493,11 @@
                                                         });
                                                         //End of my code.
 
+                                                    },
+                                                    error: function(jqXHR, status, errorThrown){
+                                                        console.log(status);
+                                                    }
+                                                });
                                                     },
                                                     error: function(jqXHR, status, errorThrown){
                                                         console.log(status);

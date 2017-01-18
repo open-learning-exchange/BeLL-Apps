@@ -61,9 +61,8 @@ $(function() {
                    saveanswer.set('QuestionID',questions);
                    var memberId = $.cookie('Member._id')
                    saveanswer.set('MemberID',memberId);
-                   saveanswer.set('StepID',this.stepId);
+                   saveanswer.set('StepID', this.stepId);
                    saveanswer.save(null, {
-                   
                     error: function() {
                         console.log("Not Saved")
                     }
@@ -108,8 +107,9 @@ $(function() {
                 });
                 this.vars = coursedetail.toJSON();
                 this.vars.languageDict=App.languageDict;
-                console.log(this.vars)
-                this.$el.html(this.template(this.vars));
+                var singleline = coursedetail.get("Statement")
+                this.vars.singleLineQuestionTitle = singleline
+                this.$el.append(this.template(this.vars));
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 } else {
                 this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')
