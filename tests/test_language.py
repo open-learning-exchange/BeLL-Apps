@@ -38,8 +38,6 @@ class LanguageTest(BaseCase):
             actual = driver.find_element_by_xpath("//label[contains(@for, 'login')]").text
             expected = login
             self.assertEqual(actual, expected)
-            
-
 
 if __name__ == "__main__":
     unittest.main()
