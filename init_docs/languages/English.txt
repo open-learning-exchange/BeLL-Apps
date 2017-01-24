@@ -163,6 +163,7 @@
    "Nested_Under": "Nested Under",
    "Added_Date": "Added Date",
    "Description": " Description",
+   "FeedbackForTest": "Once Taken Test Must Be Review First",
    "LevelArray": [
        "Early Education",
        "Lower Primary",
@@ -321,7 +322,7 @@
    "Previous": "Previous",
    "Add_To_Level": "Add to Level",
    "Back_To_Course": "Back to Courses",
-   "Create_Quiz": "Create Quiz",
+   "Create_Test": "Create Test",
    "Edit_Quiz": "Edit Quiz",
    "Instructions": "Instructions",
    "Remove": "Remove",

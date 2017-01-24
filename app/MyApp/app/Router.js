@@ -34,7 +34,7 @@ $(function() {
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
             'course/members/:courseId': 'GroupMembers',
-            'course/answerreview/:memberid/:stepid': 'answerReview',
+            'course/answerreview/:memberid/:stepid/:attempts': 'answerReview',
             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
@@ -2662,7 +2662,8 @@ $(function() {
             }
 
         },
-        answerReview: function(memberid, stepid){
+        answerReview: function(memberid, stepid, attempts){
+            var attemptsNo =parseInt(attempts);
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(lang);
@@ -2677,10 +2678,11 @@ $(function() {
                 var courseAnswer = new App.Collections.CourseAnswer()
                     courseAnswer.StepID = stepid
                     courseAnswer.MemberID = memberid
-               
+                    courseAnswer.pqattempts = attemptsNo
                     courseAnswer.fetch({
                         async: false
                     })
+                console.log(courseAnswer);
                 var answerview = new App.Views.AnswerReview({
                   collection: courseAnswer,
                   attributes: {
@@ -2759,6 +2761,8 @@ $(function() {
 
         },
         UserCourseDetails: function(courseId, name) {
+            var memberId = $.cookie('Member._id')
+            //console.log(memberId);
             var ccSteps = new App.Collections.coursesteps()
             ccSteps.courseId = courseId
 
@@ -2771,7 +2775,10 @@ $(function() {
                         + courseId + '"  class="btn btn-info">'+
                         App.languageDict.attributes.Course_Members+'</a> </p>')
                     var levelsTable = new App.Views.CourseLevelsTable({
-                        collection: ccSteps
+                        collection: ccSteps,
+                        attributes:{
+                            membersid:memberId
+                        }
                     })
                     levelsTable.courseId = courseId
                     levelsTable.render()
@@ -2921,6 +2928,8 @@ $(function() {
             })
             if (typeof coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') == 'true') {
                 Cstep.set('coursestructure', true);
+                Cstep.set('totalMarks', 0);
+
                 delete Cstep.schema.outComes;
             } else {
                 Cstep.set('coursestructure', 'false');
@@ -2954,6 +2963,7 @@ $(function() {
                     lForm.previousStep = Cstep.get("step")
                     if (coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') === "true") {
                         Cstep.set('coursestructure', true);
+                        Cstep.set('totalMarks', 0);
                         delete Cstep.schema.outComes;
                     } else {
                         Cstep.set('coursestructure', 'false');
@@ -3006,7 +3016,7 @@ $(function() {
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questions") == null && levelInfo.get("questionslist") == null) {
-                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {
                         $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Quiz+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')

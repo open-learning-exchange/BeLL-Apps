@@ -26,7 +26,14 @@ ddoc.views = {
                 emit([doc.MemberID,doc.StepID], doc);
             }
         }
-    }
+    },
+    AnswerByMemberStepIdAttemptNo: {
+        map: function(doc) {
+            if (this.MemberID != "" && this.StepID != "" && this.pqattempts != "") {
+                emit([doc.MemberID,doc.StepID,doc.pqattempts], doc);
+            }
+        }
+    },
 
 }
 

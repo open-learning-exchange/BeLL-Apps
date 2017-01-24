@@ -30,6 +30,7 @@ $(function() {
             stepGoals: 'TextArea',
 
             step: 'Text',
+            totalMarks: 'Text',
             courseId: 'Text',
             resourceId: {   //list of IDs of resources attached with any step(level). These IDs are coming from resources database.
                 type: 'Select',

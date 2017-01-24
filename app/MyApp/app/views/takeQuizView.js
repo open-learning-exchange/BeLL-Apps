@@ -46,18 +46,24 @@ $(function() {
                 }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
                      this.renderQuestion();
-                     location.reload();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
             }
         },
-         answersave: function() {
+         answersave: function(attempt) {
+            console.log(attempt);
               for (var i =0; i < this.TotalCount; i++){
                    var answer = this.Givenanswers[i];
                    var questions = this.Questionlist[i];
+                   
+                   
+                   /*var UpdatePqAttempts =pqAttempts[this.stepindex][1]++
+                   this.myModel.set('pqAttempts', UpdatePqAttempts);
+                    this.myModel.save();*/
                    var saveanswer = new App.Models.CourseAnswer()
                    saveanswer.set('Answer',answer);
+                   saveanswer.set('pqattempts',attempt);
                    saveanswer.set('QuestionID',questions);
                    var memberId = $.cookie('Member._id')
                    saveanswer.set('MemberID',memberId);
@@ -92,6 +98,8 @@ $(function() {
         },
 
         renderQuestion: function() {
+            console.log(this.myModel);
+
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
 
@@ -121,12 +129,12 @@ $(function() {
                  
                 this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>');
             }
-                this.$el.append('<div class="quizActions" ><button class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</button><button class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</button></div>')
+                this.$el.append('<div class="quizActions" ><a class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</a><button class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</button></div>')
             } else {
                 this.$el.html('&nbsp')
                 var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
                 this.$el.append('<div class="quizText"><h4>'+App.languageDict.attributes.You_Scored +' '+ Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')
-                this.$el.append('<div class="quizActions" ><button class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</button></div>')
+                this.$el.append('<div class="quizActions" ><div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div></div>')
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
                 var flagAttempts = false;
@@ -157,10 +165,12 @@ $(function() {
                    else{
                         pqattempts[this.stepindex]++;
                    }
+                   console.log(pqattempts);
                     this.myModel.set('pqAttempts', pqattempts)
                 }
                 if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
-                this.answersave();
+                 console.log(pqattempts[this.stepindex]);
+                this.answersave(pqattempts[this.stepindex]);
                 }
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
@@ -182,7 +192,6 @@ $(function() {
 
         start: function() {
             $('div.takeQuizDiv').show()
-            // this.animateIn()
             this.renderQuestion()
         },
        

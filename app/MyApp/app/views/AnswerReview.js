@@ -8,31 +8,39 @@ $(function () {
     		"click #updateAnswer": "AnswerVerify" 
     	},
     	initialize: function (e) {
-
         },
         AnswerVerify: function(e){
             for(i=0; i < this.vars.questionlists.length; i++) {
                 var totalQuestion = this.vars.questionlists.length;
-                var inp = $('input[name="correct['+i+']"]:checked');
-                var buttonValue = inp.val();
-                var currentAnswerId = inp.parent().children("input[name='selectedAnswer']").val();
-                if(buttonValue == "Correct"){
-                    this.Score++
-                }
+                var inp = $('input[name="marks['+i+']"]').val();
+                var input =$('input[name="marks['+i+']"]');
+                var currentAnswerId = input.parent().children("input[name='selectedAnswer']").val();
+                if(inp != ""){
+                    this.Score =parseInt(this.Score)+parseInt(inp)
+                } 
                 var saveReviewAnswer = new App.Models.CourseAnswer({
                     _id: currentAnswerId
                 })
                 saveReviewAnswer.fetch({
                     async: false
                 })
-                saveReviewAnswer.set('ReviewAnswer',buttonValue); 
+
+                saveReviewAnswer.set('Obtain Marks', inp); 
                 saveReviewAnswer.save(null, {
                     error: function() {
                         console.log("Not Saved");
                     }
                 });
             } 
-            var quizScore = (Math.round((this.Score / totalQuestion) * 100))
+            var coursestep = new App.Models.CourseStep({
+                _id: this.attributes.StepID
+            })
+            coursestep.fetch({
+                async:false
+            })
+            var totalMarks = coursestep.get("totalMarks");
+            var totalObtainMarks = (Math.round((this.Score / totalMarks) * 100))
+            console.log(totalObtainMarks);
             var memberProgress=new App.Collections.membercourseprogresses()
                     memberProgress.memberId=this.attributes.membersid
                     memberProgress.courseId=this.attributes.courseid
@@ -49,12 +57,12 @@ $(function () {
                                 this.index++
                             } 
                             var flagAttempts = false;
-                            if (this.attributes.pp <= quizScore) {
+                            if (this.attributes.pp <= totalObtainMarks) {
                                 sstatus[this.index] = "1"
                                 memberProgressRecord.set('stepsStatus', sstatus)
                          
                             }
-                           sp[this.index] = quizScore.toString()
+                           sp[this.index] = totalObtainMarks.toString()
                                  memberProgressRecord.set('stepsResult', sp)
                             memberProgressRecord.save(null, {
                                 error: function() {

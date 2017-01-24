@@ -54,6 +54,7 @@ $(function () {
             vars.credits = this.credits;
             vars.status = this.status;
             vars.attempts = this.attempts;
+            console.log(this.attempts);
             vars.coursestructure = this.model.attributes.coursestructure;
             vars.stepType =  this.stepType;
             this.$el.append(_.template(this.template, vars))

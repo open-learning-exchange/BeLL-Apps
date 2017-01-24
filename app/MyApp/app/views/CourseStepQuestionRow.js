@@ -7,6 +7,7 @@ $(function() {
         events: {
             "click .destroy": function(event) {
                 var questionModel = this.model;
+                console.log(questionModel);
                 var CourseStepQuestionObject = new App.Models.CourseStep({
                     _id: this.Id
                 })
@@ -19,13 +20,17 @@ $(function() {
                     CourseStepQuestions.splice(index, 1);
                 }
                 this.$el.hide()
-
+                var marks = parseInt(questionModel.get("Marks"));
+                var totalMarks = parseInt(CourseStepQuestionObject.get("totalMarks"));
+                console.log(totalMarks);
+                CourseStepQuestionObject.set('totalMarks', (totalMarks-marks));
                 CourseStepQuestionObject.set({
                     'questionslist': CourseStepQuestions
                 })
                 CourseStepQuestionObject.save(null, {
                    success: function() {
-                       questionModel.destroy();
+
+                        questionModel.destroy();
                    }
                 });
             },

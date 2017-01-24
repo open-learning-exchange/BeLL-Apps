@@ -321,7 +321,7 @@
    "Previous": "Previous",
    "Add_To_Level": "Add to Level",
    "Back_To_Course": "Back to Courses",
-   "Create_Quiz": "Create Quiz",
+   "Create_Test": "Create Test",
    "Edit_Quiz": "Edit Quiz",
    "Instructions": "Instructions",
    "Remove": "Remove",
@@ -829,5 +829,6 @@
   "Confirm_Decline":"Are you sure you declined this resource?",
   "Resource_Success_Added": "Resource is Successfully added to library",
   "Community_Resources": "Resources From Community",
-  "Local_Resources": "Local Resources"
+  "Local_Resources": "Local Resources",
+  "FeedbackForTest": "Once Taken Test Must Be Review First"
 }

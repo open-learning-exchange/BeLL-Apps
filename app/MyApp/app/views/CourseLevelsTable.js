@@ -45,6 +45,18 @@ $(function () {
 
         quiz: function (e) {
             $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
+            //console.log(this.collection);
+            var memberEnroll = new App.Collections.membercourseprogresses()
+
+                memberEnroll.courseId = this.collection.courseId,
+                memberEnroll.memberId = this.attributes.membersid
+          
+            memberEnroll.fetch({
+                async:false
+            })
+            memberProgressRecord = memberEnroll.first();
+            var Attempt = memberProgressRecord.get('pqAttempts') 
+            //if(Attempt == [0]){
             var context=this
             var id = e.currentTarget.value
             step = new App.Models.CourseStep({
@@ -57,6 +69,9 @@ $(function () {
             JSONsteps=step.toJSON()
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
+            console.log(index);
+           
+            if(Attempt[0]== index){
             if (typeof JSONsteps.coursestructure !== "undefined" &&  JSONsteps.coursestructure == "true") {
                var temp = new App.Views.takeQuizView({ 
                 coursestructure: JSONsteps.coursestructure,
@@ -79,7 +94,9 @@ $(function () {
             }
             temp.render()
             $('div.takeQuizDiv').html(temp.el)
-        },
+        }else {
+            alert(App.languageDict.attributes.FeedbackForTest);
+        }},
             
 
         initialize: function () {

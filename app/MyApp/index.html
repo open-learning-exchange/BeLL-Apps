@@ -1078,7 +1078,7 @@
             <%= credits %>
         </td>
         <td>
-            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>'>Answer Review
+            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'>Answer Review
             </a>
         </td>
        <!-- <td>
@@ -1589,9 +1589,10 @@
                            <%=answerlist[i].Answer%></li></ul></b></span> 
                         </td> 
                         <tr>    
-                             <td align="center">
-                                <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
-                                <input type="radio" name="correct[<%=i%>]" value="Correct">&nbsp;Correct&nbsp;&nbsp;<input type="radio" name="correct[<%=i%>]" value="Incorrect">&nbsp;Incorrect
+                             <td >
+                                 <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
+                                <span>Marks:<%=questionlists[i].Marks%></span><br/>
+                                <span>Obtain Marks:</span><input type="text" name="marks[<%=i%>]">
                              </td>
                         </tr>
                     </tr>
@@ -1874,6 +1875,9 @@
                     <div class="question_class">
                 <span class="subtitle2">Correct Answer:</span> <br /> 
                      <input type="textbox" name="required" id="correct_answer" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
+                     <div class="question_class">
+                <span class="subtitle2">Marks:</span> <br /> 
+                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
                  <div align="center"> <br /> 
                  <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
                  <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
@@ -1885,6 +1889,9 @@
                  <div class="question_class">
                   <span class="subtitle2">Question Text:</span> <br /> 
                     <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
+                <div class="question_class">
+                <span class="subtitle2">Marks:</span> <br /> 
+                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
                 <div align="center"> <br /> 
                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
                 <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
@@ -1895,6 +1902,10 @@
                  <div class="question_class"">
                   <span class="subtitle2">Question Text:</span> <br />
                      <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> </div>
+                <div class="question_class">
+                <span class="subtitle2">Marks:</span> <br /> 
+                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+                </div> 
                 <div align="center"> <br />
                  <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
                  <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
@@ -1906,6 +1917,10 @@
                  <div class="question_class">
                   <span class="subtitle2">Question Text:</span> <br /> 
                     <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
+                <div class="question_class">
+                <span class="subtitle2">Marks:</span> <br /> 
+                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+                </div> 
                 <div align="center"> <br /> 
                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
                 <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
@@ -1920,12 +1935,13 @@
 
     <td>
         <input type="radio" name="questionRow" />&nbsp;&nbsp;
-        <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %><br/></span>
+        <span style="font-weight:700;color:grey; font-size:16px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TotalMarks:&nbsp;&nbsp;<%= Marks%></BR></span>
         <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
         <% if ( Type == "Single Textbox") { %>
-        <input type="text" style="width: 625px;">
+        
         <%} else if ( Type == "Comment/Essay Box") { %>
-        <textarea style="width: 625px;"></textarea>
+        
         <%} else if ( Type == "Multiple Choice (Single Answer)") {  %>
         <table>
             <tbody>
