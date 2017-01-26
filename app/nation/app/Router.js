@@ -3787,7 +3787,7 @@ $(function() {
 		    today = new Date();
                     var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
 		    if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
-                    listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}</style>';
+                    listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.datepicker{width:300px;}</style>';
 		    }
                     listCommunity += "<div id='list-of-Communities'></div>"
 
