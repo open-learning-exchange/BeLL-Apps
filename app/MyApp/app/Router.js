@@ -2682,7 +2682,6 @@ $(function() {
                     courseAnswer.fetch({
                         async: false
                     })
-                console.log(courseAnswer);
                 var answerview = new App.Views.AnswerReview({
                   collection: courseAnswer,
                   attributes: {

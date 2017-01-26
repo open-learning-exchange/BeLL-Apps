@@ -40,7 +40,6 @@ $(function () {
             })
             var totalMarks = coursestep.get("totalMarks");
             var totalObtainMarks = (Math.round((this.Score / totalMarks) * 100))
-            console.log(totalObtainMarks);
             var memberProgress=new App.Collections.membercourseprogresses()
                     memberProgress.memberId=this.attributes.membersid
                     memberProgress.courseId=this.attributes.courseid
@@ -52,27 +51,38 @@ $(function () {
                             var sstatus = memberProgressRecord.get('stepsStatus')
                             var sp = memberProgressRecord.get('stepsResult')
                             var ssids = memberProgressRecord.get('stepsIds')
+                            var pqattempts = memberProgressRecord.get('pqAttempts')
                             this.index = 0
                             while (this.index < sstatus.length && ssids[this.index] != this.attributes.StepID) {
                                 this.index++
                             } 
                             var flagAttempts = false;
-                            if (this.attributes.pp <= totalObtainMarks) {
-                                sstatus[this.index] = "1"
-                                memberProgressRecord.set('stepsStatus', sstatus)
-                         
+                            if(sp[this.index] == "" && sstatus[this.index] == "0"){
+                                sp[this.index]=[];
+                                sstatus[this.index]=[];
                             }
-                           sp[this.index] = totalObtainMarks.toString()
-                                 memberProgressRecord.set('stepsResult', sp)
+                            console.log(this.attributes.pp );
+                            if (this.attributes.pp <= totalObtainMarks) {
+                                sstatus[this.index][pqattempts[this.index]]  = "1"
+                                memberProgressRecord.set('stepsStatus', sstatus)
+                            } else {
+                                sstatus[this.index][pqattempts[this.index]]  = "0"
+                                memberProgressRecord.set('stepsStatus', sstatus)
+                            }
+                            console.log(sp);
+                            
+                            
+                            sp[this.index][pqattempts[this.index]] = totalObtainMarks.toString()
+                            memberProgressRecord.set('stepsResult', sp)
                             memberProgressRecord.save(null, {
                                 error: function() {
                                     console.log("Not Saved");
                                 }
                             });
-              Backbone.history.navigate('courses',{
+              /*Backbone.history.navigate('courses',{
                 trigger: true
               })
-          
+          */
         },
     	render: function () {
             this.Score = 0;
@@ -87,7 +97,6 @@ $(function () {
                     async: false
                 });
             this.vars.questionlists.push(questionlist.toJSON()) 
-            console.log(this.vars.questionlists);
     	}
     	
 		this.vars.answerlist = this.collection.toJSON();

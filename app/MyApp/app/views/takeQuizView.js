@@ -137,23 +137,16 @@ $(function() {
                 this.$el.append('<div class="quizActions" ><div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div></div>')
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
+                var pqattemptss = this.myModel.get('pqAttempts')
                 var flagAttempts = false;
-                if (this.pp <= quizScore) {
-                    if(sstatus[this.stepindex].length > 1){
-                        sstatus[this.stepindex][1] = "1"
-                    }
-                    else{ sstatus[this.stepindex] = "1"
-                    }
-                    this.myModel.set('stepsStatus', sstatus)
-                }
-                if( sp[this.stepindex].length > 1){
-                    sp[this.stepindex][1] = quizScore.toString()
-                    flagAttempts = true ;
-                }
-                else{
-                sp[this.stepindex] = quizScore.toString()
-                    flagAttempts = true;
-                }
+    
+                sstatus[this.stepindex][pqattemptss[this.stepindex]]
+                flagAttempts = true; 
+                this.myModel.set('stepsStatus', sstatus)
+    
+                sp[this.stepindex][pqattemptss[this.stepindex]]
+                flagAttempts = true;
+                
                 this.myModel.set('stepsResult', sp)
                 if(flagAttempts && this.myModel.get('pqAttempts')){
                     var pqattempts = this.myModel.get('pqAttempts')
@@ -172,6 +165,7 @@ $(function() {
                  console.log(pqattempts[this.stepindex]);
                 this.answersave(pqattempts[this.stepindex]);
                 }
+                console.log(this.myModel)
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
                     },
