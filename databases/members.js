@@ -106,7 +106,15 @@ ddoc.views = {
                 emit(doc._id, doc)
             }
         }
+    },
+    managerMembers: {
+        map: function (doc) {
+            if (doc && doc.kind == 'Member' && doc.roles.indexOf('Manager') > -1) {
+                emit(doc._id, doc)
+            }
+        }
     }
+    
 }
 ddoc.filters = {
     adminFilter: function(doc, req) {
