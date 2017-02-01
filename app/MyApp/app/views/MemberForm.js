@@ -8,6 +8,7 @@ $(function() {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
+            "click #formManagarRequest" : "sendMail",
             "click #formButtonCancel": function() {
                 //Check whether form is being called for Edit purpose or Add..
                 if(this.form.model.get('_id') ){
@@ -125,7 +126,33 @@ $(function() {
             return roles
         },
 
+        sendMail: function() {
+            var memberList = new App.Collections.Members()
+            memberList.manager = true
+            memberList.fetch({
+                async: false
+            })
 
+            var temp
+            var that = this
+            var currentdate = new Date();
+            memberList.each(function (m) {
+                var mailBody = App.languageDict.attributes.Hi + ',<br>' + App.languageDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + App.languageDict.attributes.Has_Requested_Promote
+                + '<br/><br/><button class="btn btn-primary" id="promote-accept" value="' + $.cookie('Member._id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="promote-reject" value="' + $.cookie('Member._id') + '" >Reject</button>';
+                temp = new App.Models.Mail()
+                temp.set("senderId", $.cookie('Member._id'))
+                temp.set("receiverId", m.get("_id"));
+                temp.set("status", "0")
+                temp.set("subject", App.languageDict.attributes.Manager_Request + " | " + $.cookie('Member.login'))
+                temp.set("type", "manager-request")
+                temp.set("body", mailBody)
+                temp.set("sendDate", currentdate)
+                temp.set("entityId", $.cookie('Member._id'))
+                temp.save()
+            })
+            alert(App.languageDict.attributes.Request_Sent_Success)
+        },
+        
         render: function() {
             // create the form
             this.form = new Backbone.Form({
@@ -192,24 +219,24 @@ $(function() {
                 var $imgt = "<p id='imageText' style='margin-top: 15px;'></p>"
                 if (this.model.id != undefined) {
                     buttonText = App.languageDict.attributes.Update
-
                     $("input[name='login']").attr("disabled", true);
                 } else {
                     buttonText = App.languageDict.attributes.Register
                 }
-                // give the form a submit button
-                //this.$el.append($button)
+                if(this.model.id == $.cookie('Member._id') && this.model.get('roles').indexOf('Manager') < 0) {
+                    promoteBtn = '<a class="btn btn-success" id="formManagarRequest" style="margin-top: 10px;">'+App.languageDict.attributes.Manager_Request+'</a>';
+                } else {
+                    promoteBtn = '';
+                }
                 var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
                 var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
                 this.$el.append($img)
                 this.$el.append($upload)
-
-                var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</button></div>')
+                var $button = $('<div class="signup-submit">'+promoteBtn+'<a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</a><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</a></div>')
+            } else {
+                var $button = $('<a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">' + App.languageDict.attributes.Cancel + '</a></div>')
             }
-             else {
-                var $button = $('<a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">' + App.languageDict.attributes.Cancel + '</button></div>')
-            }
-
+            // give the form a submit button
             this.$el.append($button)
             if(url_page[1] != "view"){
                 if (this.model.id != undefined) {
@@ -226,9 +253,8 @@ $(function() {
                             $('#ptManager').prop('checked', true);
                         }
                     }
-                }
-
-
+                }            
+   
                 var attchmentURL = '/members/' + this.model.id + '/'
                 if (typeof this.model.get('_attachments') !== 'undefined') {
                     attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]
