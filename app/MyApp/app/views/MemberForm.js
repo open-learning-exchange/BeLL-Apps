@@ -8,6 +8,7 @@ $(function() {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
+            "click #formManagarRequest" : "sendMail",
             "click #formButtonCancel": function() {
                 //Check whether form is being called for Edit purpose or Add..
                 if(this.form.model.get('_id') ){
@@ -192,7 +193,6 @@ $(function() {
                 var $imgt = "<p id='imageText' style='margin-top: 15px;'></p>"
                 if (this.model.id != undefined) {
                     buttonText = App.languageDict.attributes.Update
-
                     $("input[name='login']").attr("disabled", true);
                 } else {
                     buttonText = App.languageDict.attributes.Register
@@ -204,7 +204,7 @@ $(function() {
                 this.$el.append($img)
                 this.$el.append($upload)
 
-                var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</button></div>')
+                var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-success" id="formManagarRequest" style="margin-top: 10px;">'+App.languageDict.attributes.Manager_Request+'</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</button></div>')
             }
              else {
                 var $button = $('<a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">' + App.languageDict.attributes.Cancel + '</button></div>')
@@ -228,7 +228,35 @@ $(function() {
                     }
                 }
 
+    // Creating the send mail function for Acceptance       
+          /*  sendMail: function (e) {
+            memberList = e._previousAttributes.members
 
+            for (var i = 0; i < memberList.length; i++) {
+                var mem = new App.Models.Member({
+                    _id: memberList[i]
+                })
+                mem.fetch({
+                    async: false
+                })      
+            }
+        }
+                var currentdate = new Date();
+                var mail = new App.Models.Mail();
+                mail.set("senderId", $.cookie('Member._id'));
+                mail.set("receiverId", mem.get("_id"));
+               // mail.set("subject", "Change of Course Schedule | " + e.get("name"));
+                //var mailText = "<b>Schedule is changed </b><br><br>New Schedule is:<br> Duration:   " + e.get('startDate') + '  to  ' + e.get('endDate') + '<br>'
+                mailText += "Timing:        " + e.get('startTime') + '  to  ' + e.get('endTime')
+                mailText += "<br>Locatoin:      " + e.get('location')
+                mail.set("body", mailText);
+                mail.set("status", "0");
+                mail.set("type", "mail");
+                mail.set("sentDate", currentdate);
+                mail.save()
+            }
+        }*/
+   
                 var attchmentURL = '/members/' + this.model.id + '/'
                 if (typeof this.model.get('_attachments') !== 'undefined') {
                     attchmentURL = attchmentURL + _.keys(this.model.get('_attachments'))[0]

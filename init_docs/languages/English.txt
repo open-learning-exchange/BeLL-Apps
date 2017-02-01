@@ -102,6 +102,7 @@
    "Selected": "Selected",
    "Save": "Save",
    "Cancel": "Cancel",
+   "Manager_Request" : "Manager Request",
    "Select_An_option": "Select an Option",
    "article_Date": "Article Date",
    "added_by": "Added By",
