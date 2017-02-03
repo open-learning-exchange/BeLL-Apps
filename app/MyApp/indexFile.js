@@ -1484,7 +1484,12 @@ if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(ext
     //assignmentpaper.set("stepNo", stepNo);
     console.log(assignmentpaper);
     assignmentpaper.save(null, {
-        success: function() {
+        success: function(data) {
+            var attachmentId = data.attributes.id;
+           //var img = $('input[type="hidden"]').val(attachmentId);
+            $('#attachmentId').val(attachmentId);
+
+
             //assignmentpaper.unset('_attachments')
             if (imgVal) {
                 assignmentpaper.saveAttachment("form#questionForm", "form#questionForm #_attachments", "form#questionForm .rev")
@@ -1496,7 +1501,7 @@ if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(ext
             assignmentpaper.on('savedAttachment', function() {
                 //Attatchment successfully saved
                 alert(App.languageDict.attributes.Assignment_Submitted)
-                location.reload();
+                //location.reload();
             }, assignmentpaper)
 
         }

@@ -45,7 +45,6 @@ $(function () {
 
         quiz: function (e) {
             $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
-            //console.log(this.collection);
             var memberEnroll = new App.Collections.membercourseprogresses()
                 memberEnroll.courseId = this.collection.courseId,
                 memberEnroll.memberId = this.attributes.membersid
@@ -67,8 +66,8 @@ $(function () {
             JSONsteps=step.toJSON()
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
-            if(Attempt[index] == "0" || Attempt[index] == "" || (sp[index][Attempt[index]] != undefined  && sp[index][Attempt[index]] != "")){
-            if (typeof JSONsteps.coursestructure !== "undefined" &&  JSONsteps.coursestructure == "true") {
+/*            if(Attempt[index] == "0" || Attempt[index] == "" || (sp[index][Attempt[index]] != undefined  && sp[index][Attempt[index]] != "")){
+*/            if (typeof JSONsteps.coursestructure !== "undefined" &&  JSONsteps.coursestructure == "true") {
                var temp = new App.Views.takeQuizView({ 
                 coursestructure: JSONsteps.coursestructure,
                 questionlist: JSONsteps.questionslist,
@@ -90,10 +89,10 @@ $(function () {
             }
             temp.render()
             $('div.takeQuizDiv').html(temp.el)
-        }
-        else {
+       
+        /* }else {
             alert(App.languageDict.attributes.FeedbackForTest);
-        }},
+        }*/},
             
 
         initialize: function () {
@@ -133,6 +132,7 @@ $(function () {
             var sstatus = this.modl.get('stepsStatus')
             var ssids = this.modl.get('stepsIds')
             var sr = this.modl.get('stepsResult')
+            var totalattempt = this.modl.get('pqAttempts')
 
             while (index < sstatus.length && ssids[index] != this.vars._id) {
                 index++
@@ -151,9 +151,11 @@ $(function () {
                     tempStatus.push(quiz);
                     this.vars.status = tempStatus
                     this.vars.marks = sr[index]
+                    this.vars.lastAttemptsMarks = sr[index][totalattempt]
                 } else {
                 this.vars.status = filterInt(sstatus[index])
                 this.vars.marks = sr[index]
+                this.vars.lastAttemptsMarks = sr[index][totalattempt]
                 }
 
                 this.vars.index = index

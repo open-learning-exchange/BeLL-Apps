@@ -40,8 +40,8 @@ $(function() {
                 } else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
                      this.renderQuestion();
-                } else if($("input[type='file'][name='_attachments']").val() != undefined && $("input[type='file'][name='_attachments']").val() != ''){
-                    this.Givenanswers.push(decodeURI($("input[type='file'][name='_attachments']").val()));
+                } else if($("input[type='hidden'][name='_attachment']").val() != undefined && $("input[type='hidden'][name='_attachment']").val() != ''){
+                    this.Givenanswers.push(decodeURI($("input[type='hidden'][name='_attachment']").val()));
                      this.renderQuestion()
                 }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
@@ -52,7 +52,6 @@ $(function() {
             }
         },
          answersave: function(attempt) {
-            console.log(attempt);
               for (var i =0; i < this.TotalCount; i++){
                    var answer = this.Givenanswers[i];
                    var questions = this.Questionlist[i];
@@ -98,8 +97,6 @@ $(function() {
         },
 
         renderQuestion: function() {
-            console.log(this.myModel);
-
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
 
@@ -158,14 +155,11 @@ $(function() {
                    else{
                         pqattempts[this.stepindex]++;
                    }
-                   console.log(pqattempts);
                     this.myModel.set('pqAttempts', pqattempts)
                 }
                 if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
-                 console.log(pqattempts[this.stepindex]);
                 this.answersave(pqattempts[this.stepindex]);
                 }
-                console.log(this.myModel)
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
                     },

@@ -1,4 +1,4 @@
-svar couchapp = require('couchapp'),
+var couchapp = require('couchapp'),
     path = require('path');
 
 ddoc = {

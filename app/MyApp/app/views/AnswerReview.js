@@ -61,7 +61,6 @@ $(function () {
                                 sp[this.index]=[];
                                 sstatus[this.index]=[];
                             }
-                            console.log(this.attributes.pp );
                             if (this.attributes.pp <= totalObtainMarks) {
                                 sstatus[this.index][pqattempts[this.index]]  = "1"
                                 memberProgressRecord.set('stepsStatus', sstatus)
@@ -69,9 +68,6 @@ $(function () {
                                 sstatus[this.index][pqattempts[this.index]]  = "0"
                                 memberProgressRecord.set('stepsStatus', sstatus)
                             }
-                            console.log(sp);
-                            
-                            
                             sp[this.index][pqattempts[this.index]] = totalObtainMarks.toString()
                             memberProgressRecord.set('stepsResult', sp)
                             memberProgressRecord.save(null, {
@@ -79,10 +75,10 @@ $(function () {
                                     console.log("Not Saved");
                                 }
                             });
-              /*Backbone.history.navigate('courses',{
+              Backbone.history.navigate('courses',{
                 trigger: true
               })
-          */
+          
         },
     	render: function () {
             this.Score = 0;
@@ -100,6 +96,36 @@ $(function () {
     	}
     	
 		this.vars.answerlist = this.collection.toJSON();
+        
+        var attchmentURL = null;
+        var attachmentName = null;
+        //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button
+         
+        var memberAssignmentPaper = new App.Models.AssignmentPaper({
+            _id: this.vars.answerlist[0].Answer
+         })
+         memberAssignmentPaper.fetch({
+             async: false,
+                success: function (json) { 
+                    var existingModels = json;
+                    attchmentURL = '/assignmentpaper/' + existingModels.attributes._id + '/';
+                    if (typeof existingModels.get('_attachments') !== 'undefined') {
+                        attchmentURL = attchmentURL + _.keys(existingModels.get('_attachments'))
+                        attachmentName = _.keys(existingModels.get('_attachments'))
+                    }
+                    console.log("attachment name : " +attachmentName)
+                    
+                }
+         });
+         if (attachmentName!= null){
+          //  alert("attachment name : " +attachmentName)
+            this.vars.attchmentURL = attchmentURL ;
+            this.vars.attachmentName = attachmentName;
+        }else{
+        //  alert("attachment name : " +attachmentName)
+            this.vars.attchmentURL = null ;
+            this.vars.attachmentName = null;
+        }   
     	this.vars.languageDict=App.languageDict;
     	this.$el.html(this.template(this.vars));
     	}

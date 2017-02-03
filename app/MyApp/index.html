@@ -1013,50 +1013,31 @@
             <%= stepNo %>
         </td>
         <td>
-            <%= stepType %>
-        </td>
-        <td>
             <%if(stepType == 'Quiz' && status == "1"  ){%>
                 submitted
-            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
-                Quiz is not submitted
             <%}else{%>
-                <%if(attachmentName!=null && attchmentURL != null){%>
-                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-                <%}else{%>
-                    Paper is not uploaded
-                <%}%>
+                Quiz is not submitted
             <%}%>
         </td>
         <td>
             <input type="hidden" name="percentage"  id="<%=percentage%>">
             <%= credits %>/100
-
         </td>
-
         <td>
             <%= credits %>%
         </td>
+        <td></td>
 
     </script>
     <script type="text/html" id="template-CreditsRow">
         <td>
             <%= stepNo %>
         </td>
-        <td>
-            <%= stepType %>
-        </td>
         <td> 
-            <%if((coursestructure == 'true' || stepType == 'Quiz') && status == "1"  ){%>
+            <%if(attempts != 0 && credits[attempts] == undefined  ){%>
                 submitted
-            <%}else if((coursestructure == 'true' || stepType == 'Quiz') && status == "0"  ){%>
-                Quiz is not submitted
             <%}else{%>
-                <%if(attachmentName!=null && attchmentURL != null){%>
-                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-                <%}else{%>
-                    Paper is not uploaded
-                <%}%>
+                Test is not submitted
             <%}%>
         </td>
         <td>
@@ -1074,16 +1055,26 @@
                     <%}%>
                 <%}%>
         </td>
-        <td>
-            <%= credits %>
+         <%if( lastAttemptPercentage == undefined ){%>
+         <td>
+           0%
         </td>
+        <%} else {%>
         <td>
+            <%= lastAttemptPercentage %>%
+        </td>
+         <%}%>
+        <td>
+            <%if(  attempts != 0 && credits[attempts] == undefined ){%>
             <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'>Answer Review
             </a>
+            <%}else if(attempts == 0 ){%>
+                <%=App.languageDict.attributes.please_first_take_test%> 
+            <%}else{%>
+               <%=App.languageDict.attributes.review_done%>
+            <%}%>
         </td>
-       <!-- <td>
-            <%= status %>
-        </td> -->
+       
     </script>
 
     <script type="text/html" id="template-GroupRow">
@@ -1115,7 +1106,7 @@
         </td>
 
         <td>
-            <a role='button' class='btn btn-credit' href='<%= link %>'>
+            <a role='button' class='btn btn-credit' id= "credit_view"href='<%= link %>'>
                 Credits
             </a>
         </td>
@@ -1342,8 +1333,13 @@
     <script type="text/html" id="template-courseLevelsTable">
 
         <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
+        <% if(lastAttemptsMarks == undefined){%>
+            <span  style="float:right;" >0%</span>
+            <% } else { %>
+             <span  style="float:right;" ><%=lastAttemptsMarks%>%</span>
+            <% } %>
 
-            <% if(status.length > 1) { %>
+           <!--  <% if(status.length > 1) { %>
                 <% if(marks[0] == ""){
                         marks[0] = 0;
                     }
@@ -1378,7 +1374,7 @@
                     <span  style="float:right;" ><%=marks%>%</span>
                 <% } %>
 
-            <% } %>
+            <% } %> -->
 
         </div>
         </h3>
@@ -1538,6 +1534,7 @@
                     <td>
                     <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FileSelected('<%=_id%>')" />
                      <input class="rev" type="hidden" name="_rev">
+                     <input type="hidden" name="_attachment" id="attachmentId" value="">
                      <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
                      <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
                      <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
@@ -1583,15 +1580,21 @@
                             <span><h5><ul><li><%=questionlists[i].Statement%></li></ul></h5></span> 
                         </td>
                     </tr> 
-                    <tr>
+                    <tr> 
+                        <%if(questionlists[i].Type == "Attachment"){ %>
                         <td id="">
+                            <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> Download Paper  </button></a>
+                        </td>
+                         <% } else { %>
+                         <td>
                             <span><b><ul><li type="Ans:" > 
                            <%=answerlist[i].Answer%></li></ul></b></span> 
-                        </td> 
+                        </td>
+                        <% } %>
                         <tr>    
                              <td >
                                  <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
-                                <span>Marks:<%=questionlists[i].Marks%></span><br/>
+                                <span>Marks:&nbsp;<%=questionlists[i].Marks%></span>&nbsp;&nbsp;&nbsp;
                                 <span>Obtain Marks:</span><input type="text" name="marks[<%=i%>]">
                              </td>
                         </tr>
