@@ -137,7 +137,7 @@ $(function() {
             var that = this
             var currentdate = new Date();
             memberList.each(function (m) {
-                var mailBody = App.languageDict.attributes.Hi + ',<br>' + App.languageDict.attributes.Member + ' ' + $.cookie('Member.login') + ' ' + App.languageDict.attributes.Has_Requested_Promote
+                var mailBody = App.languageDict.attributes.Hi + ',<br>' + App.languageDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + App.languageDict.attributes.Has_Requested_Promote
                 + '<br/><br/><button class="btn btn-primary" id="promote-accept" value="' + $.cookie('Member._id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="promote-reject" value="' + $.cookie('Member._id') + '" >Reject</button>';
                 temp = new App.Models.Mail()
                 temp.set("senderId", $.cookie('Member._id'))
@@ -223,19 +223,20 @@ $(function() {
                 } else {
                     buttonText = App.languageDict.attributes.Register
                 }
-                // give the form a submit button
-                //this.$el.append($button)
+                if(this.model.id == $.cookie('Member._id') && this.model.get('roles').indexOf('Manager') < 0) {
+                    promoteBtn = '<a class="btn btn-success" id="formManagarRequest" style="margin-top: 10px;">'+App.languageDict.attributes.Manager_Request+'</a>';
+                } else {
+                    promoteBtn = '';
+                }
                 var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
                 var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
                 this.$el.append($img)
                 this.$el.append($upload)
-
-                var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formManagarRequest" style="margin-top: 10px;">'+App.languageDict.attributes.Manager_Request+'</a><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</a><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</a></div>')
-            }
-             else {
+                var $button = $('<div class="signup-submit">'+promoteBtn+'<a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</a><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</a></div>')
+            } else {
                 var $button = $('<a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">' + App.languageDict.attributes.Cancel + '</a></div>')
             }
-
+            // give the form a submit button
             this.$el.append($button)
             if(url_page[1] != "view"){
                 if (this.model.id != undefined) {

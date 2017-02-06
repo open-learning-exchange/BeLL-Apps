@@ -87,16 +87,13 @@ $(function() {
                     async: false
                 })
                 roles = mmodel.get('roles');
-                console.log('roles', roles);
                 if (roles.indexOf('Manager') < 0) {
                     roles.push("Manager");// if promote to manager checkbox is ticked
                     mmodel.set('roles', roles);
                 }
-                console.log('roles', roles);
-                console.log(mmodel);
-                /*var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-                mailView.updateMailBody(body)*/
+                var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
+                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '').replace("||br||", "<br>")
+                mailView.updateMailBody(body)
                 mmodel.save(null, {
                     success: function () {
                         alert(App.languageDict.attributes.Promote_Request_Accepted)
@@ -105,8 +102,8 @@ $(function() {
                 });
             },
             "click #promote-reject": function (e) {
-                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+                var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
+                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '').replace("||br||", "<br>")
                 mailView.updateMailBody(body)
                 alert(App.languageDict.attributes.Promote_Request_Rejected)
             },
