@@ -78,6 +78,38 @@ $(function() {
                 }
 
             },
+            "click #promote-accept": function (e) {
+                console.log('id', e.currentTarget.value);
+                var mmodel = new App.Models.Member({
+                    _id: e.currentTarget.value
+                })
+                mmodel.fetch({
+                    async: false
+                })
+                roles = mmodel.get('roles');
+                console.log('roles', roles);
+                if (roles.indexOf('Manager') < 0) {
+                    roles.push("Manager");// if promote to manager checkbox is ticked
+                    mmodel.set('roles', roles);
+                }
+                console.log('roles', roles);
+                console.log(mmodel);
+                /*var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+                mailView.updateMailBody(body)*/
+                mmodel.save(null, {
+                    success: function () {
+                        alert(App.languageDict.attributes.Promote_Request_Accepted)
+                        return
+                    }
+                });
+            },
+            "click #promote-reject": function (e) {
+                var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
+                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
+                mailView.updateMailBody(body)
+                alert(App.languageDict.attributes.Promote_Request_Rejected)
+            },
             "click #invite-accept": function(e) {
                 if (mailView.inViewModel.get('type') == "admissionRequest") {
                     mailView.admissionRequestAccepted(e.currentTarget.value)

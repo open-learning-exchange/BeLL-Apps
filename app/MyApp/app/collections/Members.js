@@ -5,7 +5,9 @@ $(function() {
 		url: function() {
 			if (this.login) {
 				return App.Server + '/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + this.login + '"'
-			} else if (this.skip) {
+			} else if (this.manager) {
+                return App.Server + '/members/_design/bell/_view/managerMembers?include_docs=true'
+            } else if (this.skip) {
 				return App.Server + '/members/_design/bell/_view/Members?include_docs=true&limit=20&skip=' + this.skip
 			} else if (this.searchCommunity && this.searchCommunity != "" && this.searchText && this.searchText != "") {
 				return App.Server + '/members/_design/bell/_view/search?include_docs=true&limit=20&key=["'+this.searchCommunity+'", "' + this.searchText + '"]'

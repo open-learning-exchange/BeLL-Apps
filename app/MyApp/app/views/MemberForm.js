@@ -126,7 +126,33 @@ $(function() {
             return roles
         },
 
+        sendMail: function() {
+            var memberList = new App.Collections.Members()
+            memberList.manager = true
+            memberList.fetch({
+                async: false
+            })
 
+            var temp
+            var that = this
+            var currentdate = new Date();
+            memberList.each(function (m) {
+                var mailBody = App.languageDict.attributes.Hi + ',<br>' + App.languageDict.attributes.Member + ' ' + $.cookie('Member.login') + ' ' + App.languageDict.attributes.Has_Requested_Promote
+                + '<br/><br/><button class="btn btn-primary" id="promote-accept" value="' + $.cookie('Member._id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="promote-reject" value="' + $.cookie('Member._id') + '" >Reject</button>';
+                temp = new App.Models.Mail()
+                temp.set("senderId", $.cookie('Member._id'))
+                temp.set("receiverId", m.get("_id"));
+                temp.set("status", "0")
+                temp.set("subject", App.languageDict.attributes.Manager_Request + " | " + $.cookie('Member.login'))
+                temp.set("type", "manager-request")
+                temp.set("body", mailBody)
+                temp.set("sendDate", currentdate)
+                temp.set("entityId", $.cookie('Member._id'))
+                temp.save()
+            })
+            alert(App.languageDict.attributes.Request_Sent_Success)
+        },
+        
         render: function() {
             // create the form
             this.form = new Backbone.Form({
@@ -204,10 +230,10 @@ $(function() {
                 this.$el.append($img)
                 this.$el.append($upload)
 
-                var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</button><a class="btn btn-success" id="formManagarRequest" style="margin-top: 10px;">'+App.languageDict.attributes.Manager_Request+'</button><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</button></div>')
+                var $button = $('<div class="signup-submit"><a class="btn btn-success" id="formManagarRequest" style="margin-top: 10px;">'+App.languageDict.attributes.Manager_Request+'</a><a class="btn btn-success" id="formButton" style="margin-top: 10px;">' + buttonText + '</a><a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">'+App.languageDict.attributes.Cancel+'</a></div>')
             }
              else {
-                var $button = $('<a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">' + App.languageDict.attributes.Cancel + '</button></div>')
+                var $button = $('<a class="btn btn-danger" id="formButtonCancel" style="margin-top: 10px;">' + App.languageDict.attributes.Cancel + '</a></div>')
             }
 
             this.$el.append($button)
@@ -226,36 +252,7 @@ $(function() {
                             $('#ptManager').prop('checked', true);
                         }
                     }
-                }
-
-    // Creating the send mail function for Acceptance       
-          /*  sendMail: function (e) {
-            memberList = e._previousAttributes.members
-
-            for (var i = 0; i < memberList.length; i++) {
-                var mem = new App.Models.Member({
-                    _id: memberList[i]
-                })
-                mem.fetch({
-                    async: false
-                })      
-            }
-        }
-                var currentdate = new Date();
-                var mail = new App.Models.Mail();
-                mail.set("senderId", $.cookie('Member._id'));
-                mail.set("receiverId", mem.get("_id"));
-               // mail.set("subject", "Change of Course Schedule | " + e.get("name"));
-                //var mailText = "<b>Schedule is changed </b><br><br>New Schedule is:<br> Duration:   " + e.get('startDate') + '  to  ' + e.get('endDate') + '<br>'
-                mailText += "Timing:        " + e.get('startTime') + '  to  ' + e.get('endTime')
-                mailText += "<br>Locatoin:      " + e.get('location')
-                mail.set("body", mailText);
-                mail.set("status", "0");
-                mail.set("type", "mail");
-                mail.set("sentDate", currentdate);
-                mail.save()
-            }
-        }*/
+                }            
    
                 var attchmentURL = '/members/' + this.model.id + '/'
                 if (typeof this.model.get('_attachments') !== 'undefined') {
