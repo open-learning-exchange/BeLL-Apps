@@ -104,7 +104,6 @@ $(function() {
                 var Year = startDt[0];
                 var Mnth = parseInt(startDt[1])-1;
                 var date = new Date(Year, Mnth, 01, 00, 00, 00);
-
             }else {
                 var date = new Date();
                 this.options.startDate = date.getFullYear()+'-'+date.getMonth();

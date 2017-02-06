@@ -31,7 +31,7 @@ $(function() {
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
             'communityDetails/:commDocId/:requestStatus': "communityDetails",
-            "communityreport/:startDt/:name/:code(/:endDate)": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
         },
 
@@ -726,11 +726,10 @@ $(function() {
                 var endDt = endDate.split("-");
                 var Year = endDt[0];
                 var Mnth = parseInt(endDt[1]);
-                var endDateForTrendReport = new Date(Year, Mnth, 00, 23, 59, 59);
+                var endDateForTrendReport = new Date(Year, Mnth, 00, 23, 59, 59); // selected date turned into javascript 'Date' format
             } else {
-                var endDateForTrendReport = new Date();
+                var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
             }  
-             // selected date turned into javascript 'Date' format
             /////////////////////////////////////////////////////////////////////////////////////////////////////////
             var lastMonthStartDate = new Date(endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1);
             var secondLastMonthEndDate = new Date(lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(), (lastMonthStartDate.getDate() - 1));
