@@ -31,7 +31,7 @@ $(function() {
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
             'communityDetails/:commDocId/:requestStatus': "communityDetails",
-            "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
         },
 
@@ -704,7 +704,7 @@ $(function() {
         //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
         //Issue#80:Add Report button on the Communities page at nation
         //*************************************************************************************************************
-        communityReport: function(communityLastSyncDate, communityName, communityCode) {
+        communityReport: function(communityLastSyncDate, communityName, communityCode, endDate) {
             var lang;
             if($.cookie('Member.login'))
             {
@@ -722,7 +722,14 @@ $(function() {
             var communityName = communityName;
             var communityLastActivitySyncDate = communityLastSyncDate;
 
-            var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
+            if(endDate != undefined && endDate != ""){
+                var endDt = endDate.split("-");
+                var Year = endDt[0];
+                var Mnth = parseInt(endDt[1]);
+                var endDateForTrendReport = new Date(Year, Mnth, 00, 23, 59, 59); // selected date turned into javascript 'Date' format
+            } else {
+                var endDateForTrendReport = new Date(); // selected date turned into javascript 'Date' format
+            }  
             /////////////////////////////////////////////////////////////////////////////////////////////////////////
             var lastMonthStartDate = new Date(endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1);
             var secondLastMonthEndDate = new Date(lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(), (lastMonthStartDate.getDate() - 1));
