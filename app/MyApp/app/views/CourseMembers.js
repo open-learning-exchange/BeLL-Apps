@@ -1,6 +1,6 @@
 $(function () {
 
-    App.Views.GroupMembers = Backbone.View.extend({
+    App.Views.CourseMembers = Backbone.View.extend({
 
         // tagName: "table",
         // className: "news-table",
@@ -15,7 +15,7 @@ $(function () {
         
            var memberId=e.currentTarget.value
            var that=this
-           var courseModel = new App.Models.Group({
+           var courseModel = new App.Models.Course({
                 _id: this.courseId
             })
             courseModel.fetch({
@@ -42,7 +42,7 @@ $(function () {
           
         },
         render: function () {
-            var courseModel = new App.Models.Group({
+            var courseModel = new App.Models.Course({
                 _id: this.courseId
             })
             courseModel.fetch({

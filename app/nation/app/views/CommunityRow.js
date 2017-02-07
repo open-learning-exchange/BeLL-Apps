@@ -31,7 +31,7 @@ $(function() {
             }
         },
 
-        //template : $("#template-GroupRow").html(),
+        //template : $("#template-CourseRow").html(),
 
         initialize: function() {
 

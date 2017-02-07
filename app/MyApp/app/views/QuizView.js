@@ -7,7 +7,7 @@ $(function() {
         quizQuestions: null,
         questionOptions: null,
         answers: null,
-        currentQuestion: null,
+        currentQuestion: [],
         events: {
             "click .EditQuestiontoView": "EditQuestiontoView",
             'click #delete-quiz-question': "deleteQuestion",
@@ -15,27 +15,10 @@ $(function() {
                 this.render()
                 this.displayQuestionsInView()
             },
-            "click .cancel_course_quiz": function(e) {
-                 window.location.reload(true);
-            },
-            "click #cancel-quiz": function() {
-                Backbone.history.navigate('level/view/' + this.levelId + '/' + this.revId, {
-                    trigger: true
-                })
-            },
-            "click #cancel-new-question": function() {
-                $('textarea#quizQuestion').val("")
-                $('#option1').val("")
-                $('#option2').val("")
-                $('#option3').val("")
-                $('#option4').val("")
-                $('#option5').val("")
-                $('input[name=options]:checked').each(function() {
-                    this.checked = false;
-                });
-            },
-            "click #save-new-question": function(e) {
-                this.savequestion()
+            "click .add_field":function()
+            {  
+                var wrapper = $(".input_fields_wrap");
+                $(wrapper).append('<div><input type="checkbox" name="check" class="answer_choice" value="checked" style="margin-left: 15px; margin-top: 15px;"/><input type="textbox" name="mytext[]" placeholder="Additional Option" class="input_field"  style="width: 30% margin-left: 126px; margin-top: 15px;"/></div>'); //add input box
             },
             "click #save-edit-question": function(e) {
                 this.savequestion()
@@ -56,7 +39,7 @@ $(function() {
                 var that = this
                 cstep.save(null, {
                     success: function(cstepModel, modelRev) {
-                        alert(App.languageDict.attributes.Quiz_Saved_Success)
+                        alert(App.languageDict.attributes.Test_Saved_Success)
                         Backbone.history.navigate('level/view/' + modelRev.id + '/' + modelRev.rev, {
                             trigger: true
                         })
@@ -241,19 +224,24 @@ $(function() {
         editMultipleChoiceQuestion: function(questionModel) {
             $("#add_new_question").val("1").trigger('change');
             $('#1').find('#question_text').val(questionModel.get('Statement'));
-            $('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
+            $('#1').find('.inputmarks').val(questionModel.get('Marks'));
+            //$('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
             var question_answer_choices = questionModel.get('Options');
-            var options = "";
-            for(var i = 0 ; i < question_answer_choices.length ; i++) {
-                options = options + question_answer_choices[i] + '\n'
+            var ansarry = [];
+            $('.input_fields_wrap').empty();
+              for( i = 2; i < question_answer_choices.length; i++ ){ 
+                $('.add_field').trigger('click');   
             }
-            $('#1').find('#answer_choices').val(options.trim());
-           
-        },
+             $('input[name="mytext[]"]').each(function(index) {
+             $(this).val(question_answer_choices[index]);   
+        });
+            ansarry.push(this.res);
+    },
         
         editSingleTextBoxQuestion: function(questionModel) {
             $("#add_new_question").val("6").trigger('change');
             $('#6').find('#question_text').val(questionModel.get('Statement'));
+            $('#6').find('.inputmarks').val(questionModel.get('Marks'));
           
         },
 
@@ -265,20 +253,32 @@ $(function() {
         editAttachmentBoxQuestion: function(questionModel) {
             $("#add_new_question").val("10").trigger('change');
             $('#10').find('#question_text').val(questionModel.get('Statement'));
-            
+            $('#10').find('.inputmarks').val(questionModel.get('Marks'));
         },
         saveSingleTextBoxQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#6').find('#question_text').val();
+            var input_marks = $('#6').find('.inputmarks').val();
             if(qStatement.toString().trim() != '') {
                 var questionObject = new App.Models.CourseQuestion({
                     Type: 'Single Textbox',
                     Statement: qStatement.toString().trim(),
+                    Marks: input_marks.toString().trim(),
                     courseId: lid
                 });
-                if(isEdit) {
+                 if(isEdit) {
                     questionObject.set('_id', questionModel.get('_id'));
                     questionObject.set('_rev', questionModel.get('_rev'));
+                    var coursestep = new App.Models.CourseStep({
+                        _id: lid
+                    })
+                    coursestep.fetch({
+                        async: false
+                    })
+                    var totalmarks = parseInt(coursestep.get("totalMarks"));
+                    var inputmarks = parseInt(questionModel.get('Marks'));
+                    coursestep.set('totalMarks', (totalmarks-inputmarks));
+                    coursestep.save();
                     that.saveQuizQuestion(questionObject, lid, true);
                 }
                 else {
@@ -287,20 +287,33 @@ $(function() {
             } else {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
+
         },
 
         saveCommentBoxQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#8').find('#question_text').val();
+            var input_marks = $('#8').find('.inputmarks').val();
             if(qStatement.toString().trim() != '') {
                 var questionObjectForEB = new App.Models.CourseQuestion({
                     Type: 'Comment/Essay Box',
                     Statement: qStatement.toString().trim(),
+                    Marks: input_marks.toString().trim(),
                     courseId: lid
                 });
-                if(isEdit) {
+                 if(isEdit) {
                     questionObjectForEB.set('_id', questionModel.get('_id'));
                     questionObjectForEB.set('_rev', questionModel.get('_rev'));
+                    var coursestep = new App.Models.CourseStep({
+                        _id: lid
+                    })
+                    coursestep.fetch({
+                        async: false
+                    })
+                    var totalmarks = parseInt(coursestep.get("totalMarks"));
+                    var inputmarks = parseInt(questionModel.get('Marks'));
+                    coursestep.set('totalMarks', (totalmarks-inputmarks));
+                    coursestep.save();
                     that.saveQuizQuestion(questionObjectForEB, lid, true);
                 }
                 else {
@@ -309,14 +322,17 @@ $(function() {
             } else {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
+
         },
         saveAttachmentBoxQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#10').find('#question_text').val();
+            var input_marks = $('#10').find('.inputmarks').val();
             if(qStatement.toString().trim() != '') {
                 var questionObject = new App.Models.CourseQuestion({
                     Type: 'Attachment',
                     Statement: qStatement.toString().trim(),
+                    Marks: input_marks.toString().trim(),
                     courseId: lid
                 });
                 if(isEdit) {
@@ -333,31 +349,53 @@ $(function() {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
         },
-            saveMultipleChoiceQuestion: function(lid, isEdit, questionModel) {
+           saveMultipleChoiceQuestion: function(lid, isEdit, questionModel) {
             var that = this;
             var qStatement = $('#1').find('#question_text').val();
-            var answer_choices = $('#1').find('#answer_choices').val();
-            var correct_choices = $('#1').find('#correct_answer').val();
-            answer_choices = answer_choices.split('\n');
-            if(qStatement.toString().trim() != '') {
-                var validOptionValues = [];
-                for(var i = 0 ; i < answer_choices.length ; i++) {
-                    if(answer_choices[i].trim() != '') {
-                        validOptionValues.push(answer_choices[i].trim());
-                      
-                    }
+            var input_marks = $('#1').find('.inputmarks').val();
+             var validOptionValues=[];
+             $('input[name="mytext[]"]').each(function() {
+                var result = $(this).val();
+                if(result !== "" && result != null ){
+                console.log(result);
+                console.log(validOptionValues.push(result));
                 }
+            }); 
+            console.log(validOptionValues);
+            var valid_answer=[];
+            $( "input[type=checkbox]").each(function(){
+            if($(this).is(':checked')==true){
+                var correct=$(this).parent('div').find('input[name="mytext[]"]').val();
+                valid_answer.push(correct);
+            } 
+        });   
+                   
+            console.log(valid_answer);
+            //answer_choices = answer_choices.split('\n');
+            if(qStatement.toString() != '') {
+                
                 if(validOptionValues != [] && validOptionValues.length > 1) {
                     var questionObjectMC = new App.Models.CourseQuestion({
                         Type: 'Multiple Choice (Single Answer)',
-                        Statement: qStatement.toString().trim(),
+                        Statement: qStatement.toString(),
                         courseId: lid,
                         Options: validOptionValues,
-                        CorrectAnswer: correct_choices
+                        CorrectAnswer: valid_answer,
+                        Marks: input_marks.toString().trim(),
                     });
                     if(isEdit) {
                         questionObjectMC.set('_id', questionModel.get('_id'));
                         questionObjectMC.set('_rev', questionModel.get('_rev'));
+                        var coursestep = new App.Models.CourseStep({
+                        _id: lid
+                        })
+                        coursestep.fetch({
+                            async: false
+                        })
+                        var totalmarks = parseInt(coursestep.get("totalMarks"));
+                        var inputmarks = parseInt(questionModel.get('Marks'));
+                        coursestep.set('totalMarks', (totalmarks-inputmarks));
+                        coursestep.save();
                         that.saveQuizQuestion(questionObjectMC, lid, true);
                     } else {
                         that.saveQuizQuestion(questionObjectMC, lid);
@@ -368,6 +406,7 @@ $(function() {
             } else {
                 alert(App.languageDict.attributes.question_stat_missing);
             }
+
         },
          saveQuizQuestion: function(questionObject, csId, isEdit) {
             questionObject.save(null, {
@@ -408,6 +447,7 @@ $(function() {
             this.quizQuestions = new Array()
             this.questionOptions = new Array()
             this.answers = new Array()
+            this.validOptionValues = new Array()
             this.currentQuestion = 0
         },
         render: function() {

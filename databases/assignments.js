@@ -13,17 +13,17 @@ ddoc.views = {
       }
     }
   },
-  GroupAssignments: {
+  CourseAssignments: {
     map: function(doc) {
-      if (doc.kind == 'Assignment' && doc.context.groupId) {
-        emit(doc.context.groupId, true)
+      if (doc.kind == 'Assignment' && doc.context.courseId) {
+        emit(doc.context.courseId, true)
       }
     }
   },
-  GroupAssignmentsByDate: {
+  CourseAssignmentsByDate: {
     map: function(doc) {
-      if (doc.kind == 'Assignment' && doc.context.groupId && doc.startDate && doc.endDate) {
-        emit([doc.context.groupId, doc.startDate, doc.endDate], true)
+      if (doc.kind == 'Assignment' && doc.context.courseId && doc.startDate && doc.endDate) {
+        emit([doc.context.courseId, doc.startDate, doc.endDate], true)
       }
     }
   }

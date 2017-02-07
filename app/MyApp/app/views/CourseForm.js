@@ -1,10 +1,10 @@
 $(function () {
 
-    App.Views.GroupForm = Backbone.View.extend({
-        //This view is used to render "Add a Course" page and its bound with "Group" model
+    App.Views.CourseForm = Backbone.View.extend({
+        //This view is used to render "Add a Course" page and its bound with "Course" model
 
         className: "form",
-        id: 'groupform',
+        id: 'courseform',
         prevmemlist: null,
         btnText: 'Continue',
         events: {
@@ -124,7 +124,7 @@ $(function () {
 
             $('#invitationdiv').hide()
             // members is required for the form's members field
-            var groupForm = this
+            var courseForm = this
             if (this.model.get("_id") != undefined) {
                 this.prevmemlist = this.model.get("members")
                 this.model.on({
@@ -183,26 +183,26 @@ $(function () {
                     })
 
 
-                    groupForm.model.schema.courseLeader.options = optns
+                    courseForm.model.schema.courseLeader.options = optns
 
-                    groupForm.form = new Backbone.Form({
-                        model: groupForm.model                  // groupForm.model is a 'Group' model instance. 'Group' is basically a course
+                    courseForm.form = new Backbone.Form({
+                        model: courseForm.model                  // courseForm.model is a 'Course' model instance. 'Course' is basically a course
                     })
-                    groupForm.$el.append(groupForm.form.render().el)
+                    courseForm.$el.append(courseForm.form.render().el)
                     $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
-                    if(groupForm.model.get("courseLeader") == undefined)
+                    if(courseForm.model.get("courseLeader") == undefined)
                     {
                         $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val("0000");
                     }
                     else
                     {
-                        $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupForm.model.get("courseLeader"));
+                        $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(courseForm.model.get("courseLeader"));
                     }
 
 
-                    groupForm.form.fields['members'].$el.hide()
-                    if (groupForm.model.get("_id") == undefined) {
-                        groupForm.form.fields['Day'].$el.hide()
+                    courseForm.form.fields['members'].$el.hide()
+                    if (courseForm.model.get("_id") == undefined) {
+                        courseForm.form.fields['Day'].$el.hide()
                     }
 
                     $('.field-backgroundColor input').spectrum({
@@ -218,18 +218,18 @@ $(function () {
                         cancelText:App.languageDict.attributes.Cancel
                     })
                     // give the form a submit button
-                    var $sbutton = $('<a class="group btn btn-success" id="sformButton">'+App.languageDict.attributes.Continue+'</button>')
-                    var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">'+App.languageDict.attributes.Update+'</button>')
+                    var $sbutton = $('<a class="course btn btn-success" id="sformButton">'+App.languageDict.attributes.Continue+'</button>')
+                    var $ubutton = $('<a class="course btn btn-success" style="" id="uformButton">'+App.languageDict.attributes.Update+'</button>')
 
-                    var $button = $('<a style="margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + groupForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
-                    if (groupForm.model.get("_id") != undefined) {
-                        groupForm.$el.prepend($button)
-                        groupForm.$el.append($ubutton)
+                    var $button = $('<a style="margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + courseForm.model.get("_id") + '/' + courseForm.model.get("name") + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + courseForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
+                    if (courseForm.model.get("_id") != undefined) {
+                        courseForm.$el.prepend($button)
+                        courseForm.$el.append($ubutton)
                     } else {
-                        groupForm.$el.append($sbutton)
+                        courseForm.$el.append($sbutton)
                     }
 
-                    groupForm.$el.append("<a class='btn btn-danger' style='margin-left : 20px;' id='cancel'>"+App.languageDict.attributes.Cancel+"</a>")
+                    courseForm.$el.append("<a class='btn btn-danger' style='margin-left : 20px;' id='cancel'>"+App.languageDict.attributes.Cancel+"</a>")
                 },
                 async: false
             });
@@ -258,7 +258,7 @@ $(function () {
             var previousLeader = [];
             if(this.form.model.id) //if form's model has an "ID" attribute then we are editing existing course model.
             {
-                var courseModel = new App.Models.Group({
+                var courseModel = new App.Models.Course({
                     _id: this.form.model.id
                 });
                 courseModel.fetch({
@@ -435,13 +435,13 @@ $(function () {
                             });
                             //alert(that.model.get("_id"))
                             ///to get the latest rev.id
-                            var groupModel = new App.Models.Group()
-                            groupModel.id = that.model.get("_id")
-                            groupModel.fetch({
+                            var courseModel = new App.Models.Course()
+                            courseModel.id = that.model.get("_id")
+                            courseModel.fetch({
                                 async: false
                             })
-                            //alert(groupModel.get("rev"))
-                            that.model.set("_rev", groupModel.get("_rev"))
+                            //alert(courseModel.get("rev"))
+                            that.model.set("_rev", courseModel.get("_rev"))
                             alert(App.languageDict.attributes.Course_Updated_Success)
                         }
                     }

@@ -1,12 +1,12 @@
 $(function() {
 
-    App.Views.GroupSpan = Backbone.View.extend({
+    App.Views.CourseSpan = Backbone.View.extend({
 
         tagName: "td",
 
         className: 'course-box',
 
-        template: $("#template-GroupSpan").html(),
+        template: $("#template-CourseSpan").html(),
 
         render: function() {
             if (this.model.keys().length < 5) {

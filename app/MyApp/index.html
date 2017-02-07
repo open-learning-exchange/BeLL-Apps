@@ -92,7 +92,7 @@
     <!-- app-models -->
 
     <script src="app/models/Resource.js"></script>
-    <script src="app/models/Group.js"></script>
+    <script src="app/models/Course.js"></script>
     <script src="app/models/Assignment.js"></script>
     <script src="app/models/Feedback.js"></script>
     <script src="app/models/Calendar.js"></script>
@@ -132,10 +132,10 @@
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script>
-    <script src="app/collections/Groups.js"></script>
+    <script src="app/collections/Courses.js"></script>
     <script src="app/collections/coursesteps.js"></script>
-    <script src="app/collections/MemberGroups.js"></script>
-    <script src="app/collections/GroupAssignments.js"></script>
+    <script src="app/collections/MemberCourses.js"></script>
+    <script src="app/collections/CourseAssignments.js"></script>
     <script src="app/collections/NewsResources.js"></script>
     <script src="app/collections/Members.js"></script>
     <script src="app/collections/SearchResource.js"></script>
@@ -153,7 +153,7 @@
     <script src="app/collections/Configurations.js"></script>
     <script src="app/collections/Resources.js"></script>
     <script src="app/collections/Apps.js"></script>
-    <script src="app/collections/GroupAssignmentsByDate.js"></script>
+    <script src="app/collections/CourseAssignmentsByDate.js"></script>
     <script src="app/collections/AssignmentsByDate.js"></script>
     <script src="app/collections/ResourceFeedback.js"></script>
     <script src="app/collections/CourseLevels.js"></script>
@@ -188,8 +188,8 @@
     <script src="app/views/MemberForm.js"></script>
     <script src="app/views/siteFeedback.js"></script>
     <script src='app/views/Dashboard.js'></script>
-    <script src="app/views/GroupSpan.js"></script>
-    <script src='app/views/GroupsSpans.js'></script>
+    <script src="app/views/CourseSpan.js"></script>
+    <script src='app/views/CoursesSpans.js'></script>
     <script src="app/views/ShelfSpan.js"></script>
     <script src='app/views/ShelfSpans.js'></script>
     <script src="app/views/MeetupSpan.js"></script>
@@ -215,15 +215,15 @@
     <script src='app/views/CourseStepQuestionRow.js'></script>
 
 
-    <script src='app/views/GroupsTable.js'></script>
-    <script src='app/views/GroupRow.js'></script>
-    <script src='app/views/GroupForm.js'></script>
-    <script src='app/views/GroupView.js'></script>
+    <script src='app/views/CoursesTable.js'></script>
+    <script src='app/views/CourseRow.js'></script>
+    <script src='app/views/CourseForm.js'></script>
+    <script src='app/views/CourseView.js'></script>
     <script src='app/views/CourseStepsView.js'></script>
     <script src='app/views/BecomeMemberForm.js'></script>
     <script src='app/views/CoursesStudentsProgress.js'></script>
     <script src='app/views/CourseInfoView.js'></script>
-    <script src='app/views/GroupMembers.js'></script>
+    <script src='app/views/CourseMembers.js'></script>
     <script src="app/views/InvitationForm.js"></script>
     <script src="app/views/CourseSearch.js"></script>
 
@@ -764,7 +764,7 @@
         </div>
     </script>
 
-    <script type="text/html" id="template-GroupSpan">
+    <script type="text/html" id="template-CourseSpan">
         <div class="displayCourse" style='background-color:<%= backgroundColor %>;'>
             <a href='#usercourse/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '>
                 <span><%= name %><%=yes%></span>
@@ -1043,20 +1043,11 @@
         <td>
             <%= stepNo %>
         </td>
-        <td>
-            <%= stepType %>
-        </td>
         <td> 
-            <%if((coursestructure == 'true' || stepType == 'Quiz') && status == "1"  ){%>
+            <%if(attempts != 0 && credits[attempts] == undefined  ){%>
                 submitted
-            <%}else if((coursestructure == 'true' || stepType == 'Quiz') && status == "0"  ){%>
-                Quiz is not submitted
             <%}else{%>
-                <%if(attachmentName!=null && attchmentURL != null){%>
-                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-                <%}else{%>
-                    Paper is not uploaded
-                <%}%>
+                Test is not submitted
             <%}%>
         </td>
         <td>
@@ -1074,19 +1065,29 @@
                     <%}%>
                 <%}%>
         </td>
-        <td>
-            <%= credits %>
+         <%if( lastAttemptPercentage == undefined ){%>
+         <td>
+           0%
         </td>
+        <%} else {%>
         <td>
-            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>'>Answer Review
+            <%= lastAttemptPercentage %>%
+        </td>
+         <%}%>
+        <td>
+            <%if(  attempts != 0 && credits[attempts] == undefined ){%>
+            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'>Answer Review
             </a>
+            <%}else if(attempts == 0 ){%>
+                <%=App.languageDict.attributes.please_first_take_test%> 
+            <%}else{%>
+               <%=App.languageDict.attributes.review_done%>
+            <%}%>
         </td>
-       <!-- <td>
-            <%= status %>
-        </td> -->
+       
     </script>
 
-    <script type="text/html" id="template-GroupRow">
+    <script type="text/html" id="template-CourseRow">
         <td>
             <%= CourseTitle %>
         </td>
@@ -1115,7 +1116,7 @@
         </td>
 
         <td>
-            <a role='button' class='btn btn-credit' href='<%= link %>'>
+            <a role='button' class='btn btn-credit' id= "credit_view"href='<%= link %>'>
                 Credits
             </a>
         </td>
@@ -1439,7 +1440,7 @@
                        Quiz</br>
                     </td>
                     <td style="width: 20%">
-                        <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="newtakequiz" >Take Quiz</button>
+                        <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="newtakequiz" >Take Test</button>
                     </td>
                 </tr>
                 <%}%>
@@ -1535,9 +1536,10 @@
                         </td>
                     </tr>
                 <tr>
-                    <td>
+                     <td>
                     <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FileSelected('<%=_id%>')" />
                      <input class="rev" type="hidden" name="_rev">
+                     <input type="hidden" name="_attachment" id="attachmentId" value="">
                      <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
                      <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
                      <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
@@ -1556,8 +1558,11 @@
                     <tr>
                        <td>
                        <% for (var i = 0; i < Options.length; i++) { %>
-
-                            <input type="radio" name="multiplechoice" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% if(CorrectAnswer.length > 1) { %>
+                            <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } else { %>
+                                 <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } %>
                        <% }; %> 
                         </td>
                     </tr>
@@ -1570,7 +1575,10 @@
         </div>    
     </script>
     <script type="text/template" id="template-courseAnswerReview">
+        
         <div class="multipleAnswerReview">
+            
+          
             <table>
                     <tr>
                         <td>
@@ -1583,15 +1591,22 @@
                             <span><h5><ul><li><%=questionlists[i].Statement%></li></ul></h5></span> 
                         </td>
                     </tr> 
-                    <tr>
+                    <tr> 
+                        <%if(questionlists[i].Type == "Attachment"){ %>
                         <td id="">
+                            <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> Download Paper  </button></a>
+                        </td>
+                         <% } else { %>
+                         <td>
                             <span><b><ul><li type="Ans:" > 
                            <%=answerlist[i].Answer%></li></ul></b></span> 
-                        </td> 
+                        </td>
+                        <% } %>
                         <tr>    
-                             <td align="center">
-                                <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
-                                <input type="radio" name="correct[<%=i%>]" value="Correct">&nbsp;Correct&nbsp;&nbsp;<input type="radio" name="correct[<%=i%>]" value="Incorrect">&nbsp;Incorrect
+                             <td >
+                                 <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
+                                <span>Marks:&nbsp;<%=questionlists[i].Marks%></span>&nbsp;&nbsp;&nbsp;
+                                <span>Obtain Marks:</span><input type="text" name="marks[<%=i%>]">
                              </td>
                         </tr>
                     </tr>
@@ -1604,6 +1619,9 @@
                 </table>
         </div>
     </script>
+
+
+
     <script type="text/template" id="template-mail">
         <div id="mailActions" >
             <b id="mailHeading"><%= languageDict.attributes.Inbox %>
@@ -1669,7 +1687,7 @@
         <div id="search">
             <div class="row">
                 <div class="col-lg-5">
-                    <div class="form-group search-Box">
+                    <div class="form-course search-Box">
                         <label style='font-size:16px'><b><%= languageDict.attributes.Title %></b></label><br><input class="form-control" type="text" placeholder="" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
                     </div>
 
@@ -1820,11 +1838,11 @@
         <div id="quiz-body" class="courseEditStep">
             <br/>
             <%= languageDict.attributes.Courses %> | <%= courseTitle %>
-            <h4 id="new-quiz"><%= languageDict.attributes.New_Quiz %></h4>
+            <h4 id="new-quiz"><%= languageDict.attributes.New_Test %></h4>
             <table class='table' id="listofquestions">
             </table>
             <div id="parentDiv"></div>
-            <button class="btn btn-success" id="save-quiz" ><%= languageDict.attributes.Save_Quiz %></button>
+            <button class="btn btn-success" id="save-quiz" ><%= languageDict.attributes.Save_Test %></button>
             <button class="btn btn-danger" id="cancel-quiz" ><%= languageDict.attributes.Cancel %></button>
             <div id='question-div'>
                 <div id="question-area">
@@ -1867,13 +1885,23 @@
                  <div class="question_class">
                  <span class="subtitle2">Question Text:</span> <br /> 
                     <textarea cols="250" rows="3" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                    <div class="question_class">
+                            <span class="subtitle2">Answer Choices (each choice on a separate line):</span> <br /> 
+                        <div>
+                            <input type="checkbox" class="answer_choice" name="check"
+                             style="margin-left: 15px; margin-top: 15px;"/>
+                             <input type="textbox"  placeholder="Option" class="input_field" name="mytext[]" style="width: 30% margin-left: 126px; margin-top: 15px;"/><br/>
+                         </div>
+                        <div>   
+                             <input type="checkbox" class="answer_choice" name="check" style="margin-left: 280px; margin-top: -44px;"/>
+                             <input type="textbox" placeholder="Option" class="input_field" name="mytext[]" value= "" style="width: 30% margin-left: 280px; margin-top: -44px;" /><br/>
+                        </div>
+                        <div class="input_fields_wrap">  
+                        </div><button class="add_field  btn btn-primary">Add Fields</button><br />
+                        <span class="subtitle2">Marks:</span> <br /> 
+                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
                     </div>
-                    <div class="question_class">
-                 <span class="subtitle2">Answer Choices (each choice on a separate line):</span> <br /> 
-                    <textarea cols="250" rows="3" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> </div>
-                    <div class="question_class">
-                <span class="subtitle2">Correct Answer:</span> <br /> 
-                     <input type="textbox" name="required" id="correct_answer" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
+                 </div>
                  <div align="center"> <br /> 
                  <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
                  <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
@@ -1883,18 +1911,24 @@
 
                  <div id="6" class="quizclass" style="width:70%;">
                  <div class="question_class">
-                  <span class="subtitle2">Question Text:</span> <br /> 
-                    <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
-                <div align="center"> <br /> 
-                <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
-                <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
-                <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
-                 </div>
+                    <span class="subtitle2">Question Text:</span> <br /> 
+                    <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br />
+                               <span class="subtitle2">Marks:</span> <br /> 
+                        <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+                     </div>
+                    <div align="center"> <br /> 
+                        <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
+                        <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+                        <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+                    </div>
                  </div>
                  <div id="8" class="quizclass" style="width:70%;">
                  <div class="question_class"">
                   <span class="subtitle2">Question Text:</span> <br />
-                     <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> </div>
+                     <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                                <span class="subtitle2">Marks:</span> <br /> 
+               <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+                     </div>
                 <div align="center"> <br />
                  <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
                  <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
@@ -1905,8 +1939,13 @@
                  <div id="10" class="quizclass" style="width:70%;">
                  <div class="question_class">
                   <span class="subtitle2">Question Text:</span> <br /> 
-                    <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
+                    <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br />
+                               <span class="subtitle2">Marks:</span> <br /> 
+                 <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+
+                     </div>
                 <div align="center"> <br /> 
+
                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
                 <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
                 <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
@@ -1918,14 +1957,15 @@
 
     <script type="text/html" id="template-CourseStepQuestionRow">
 
-    <td>
+      <td>
         <input type="radio" name="questionRow" />&nbsp;&nbsp;
-        <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %>*</BR></span>
+        <span style="font-weight:700;color:grey; font-size:16px;"><%= Statement %><br/></span>
+        <span style="font-weight:700;color:grey; font-size:16px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TotalMarks:&nbsp;&nbsp;<%= Marks%></BR></span>
         <span style="font-weight:700;color:grey; font-size:16px;"></BR></span>
         <% if ( Type == "Single Textbox") { %>
-        <input type="text" style="width: 625px;">
+        
         <%} else if ( Type == "Comment/Essay Box") { %>
-        <textarea style="width: 625px;"></textarea>
+        
         <%} else if ( Type == "Multiple Choice (Single Answer)") {  %>
         <table>
             <tbody>
@@ -1949,7 +1989,6 @@
     </td>
 
 </script>
-
 
     <script type="text/html" id="template-CollectionRow">
         <td id=<%=_id%> >

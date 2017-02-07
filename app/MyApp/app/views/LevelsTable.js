@@ -122,7 +122,7 @@ $(function() {
                     $('#movedown').hide()
                     $('#Rearrange').hide()
                 }
-                $("#addstep").attr("onClick", "document.location.href=\'#level/add/" + that.groupId + "/nolevel/" + that.collection.models.length + "\' ");
+                $("#addstep").attr("onClick", "document.location.href=\'#level/add/" + that.courseId + "/nolevel/" + that.collection.models.length + "\' ");
                 location.reload()
             })
             lrow.render()
@@ -142,7 +142,7 @@ $(function() {
             this.changedSteps = new Array()
         },
         render: function() {
-            this.$el.append('<br/><button class="btn btn-success" id="addstep"  onclick = "document.location.href=\'#level/add/' + this.groupId + '/nolevel/' + this.collection.models.length + '\' ">'+App.languageDict.attributes.Add_Step+'</button>')
+            this.$el.append('<br/><button class="btn btn-success" id="addstep"  onclick = "document.location.href=\'#level/add/' + this.courseId + '/nolevel/' + this.collection.models.length + '\' ">'+App.languageDict.attributes.Add_Step+'</button>')
             if (this.collection.models.length > 0) {
                 this.$el.append('&nbsp;&nbsp;&nbsp;<button class="btn btn-success" id="Rearrange" >'+App.languageDict.attributes.Rearrange+'</button><br/><br/>')
             }

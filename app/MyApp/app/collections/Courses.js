@@ -1,14 +1,14 @@
 $(function() {
 
-    App.Collections.Groups = Backbone.Collection.extend({
+    App.Collections.Courses = Backbone.Collection.extend({
 
         url: function() {
             if (this.skip != undefined){
-                    return App.Server + '/groups/_all_docs?include_docs=true&limit=20&skip=' + this.skip
+                    return App.Server + '/courses/_all_docs?include_docs=true&limit=20&skip=' + this.skip
             } else if(this.keys != undefined){
-                return App.Server + '/groups/_all_docs?include_docs=true&keys=[' + this.keys + ']'
+                return App.Server + '/courses/_all_docs?include_docs=true&keys=[' + this.keys + ']'
             } else {
-                return App.Server + '/groups/_all_docs?include_docs=true'
+                return App.Server + '/courses/_all_docs?include_docs=true'
             }
         },
         parse: function(response) {
@@ -18,7 +18,7 @@ $(function() {
             return docs
         },
 
-        model: App.Models.Group,
+        model: App.Models.Course,
 
         comparator: function(model) {
             if (model.get('CourseTitle') == undefined) {

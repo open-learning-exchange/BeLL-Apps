@@ -3572,7 +3572,7 @@ $(function() {
 
             //	.append($button)
             // modelForm.render()
-            // Bind form events for when Group is ready
+            // Bind form events for when Course is ready
 
             model.once('Model:ready', function() {
 

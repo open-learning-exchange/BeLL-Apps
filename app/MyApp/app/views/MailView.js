@@ -94,7 +94,7 @@ $(function() {
                     return
                 }
 
-                var gmodel = new App.Models.Group({
+                var gmodel = new App.Models.Course({
                     _id: e.currentTarget.value
                 })
                 gmodel.fetch({
@@ -444,7 +444,7 @@ $(function() {
         },
         admissionRequestAccepted: function(courseId) {
             var memebersEnrolled = [];
-            var course = new App.Models.Group();
+            var course = new App.Models.Course();
             course.id = courseId
             course.fetch({
                 async: false
@@ -568,7 +568,7 @@ $(function() {
         admissoinRequestRejected: function(courseId) {
             var courseTitle;
             var memebersEnrolled = [];
-            var course = new App.Models.Group();
+            var course = new App.Models.Course();
             course.id = courseId
             course.fetch({
                 success: function () {

@@ -1,6 +1,6 @@
 $(function() {
 
-    App.Views.GroupRow = Backbone.View.extend({
+    App.Views.CourseRow = Backbone.View.extend({
 
         tagName: "tr",
         roles: null,
@@ -11,7 +11,7 @@ $(function() {
             }
         },
 
-        template: $("#template-GroupRow").html(),
+        template: $("#template-CourseRow").html(),
 
         initialize: function(e) {
             this.roles = e.roles
@@ -56,7 +56,7 @@ $(function() {
                     fullCourseRef['courseID'] = courseId;
                     fullCourseRef['stepIDs'] = [];
                     var courseSteps = new App.Collections.CourseLevels();
-                    courseSteps.groupId = courseId;
+                    courseSteps.courseId = courseId;
                     courseSteps.fetch({
                         success: function(resp, responseInfo) {
                             courseSteps.each(function(courseStep) { // is array.each a javascript construct?

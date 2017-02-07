@@ -75,7 +75,7 @@ $(function () {
                     this.grandpassed++
                 }
             }
-            course = new App.Models.Group({
+            course = new App.Models.Course({
                 _id: model.toJSON().courseId
             })
             course.fetch({

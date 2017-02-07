@@ -16,7 +16,7 @@ $(function () {
         render: function () {
             var that = this;
             var unsortedData = []; var jsonArr = [];
-            var courseModel = new App.Models.Group({
+            var courseModel = new App.Models.Course({
                 _id: this.courseId
             })
             courseModel.fetch({

@@ -1,6 +1,6 @@
 $(function () {
 
-    App.Views.GroupRow = Backbone.View.extend({
+    App.Views.CourseRow = Backbone.View.extend({
 
         tagName: "tr",
         roles: null,
@@ -11,7 +11,7 @@ $(function () {
                 var clevels = new App.Collections.CourseLevels()
                 var model
                 if (confirm(App.languageDict.attributes.Confirm_Course)) {
-                clevels.groupId = cId
+                clevels.courseId = cId
                 clevels.fetch({
                     success: function () {
                         while (model = clevels.first()) {
@@ -59,7 +59,7 @@ $(function () {
             }
         },
 
-        template: $("#template-GroupRow").html(),
+        template: $("#template-CourseRow").html(),
 
         initialize: function (e) {
             //this.model.on('destroy', this.remove, this)

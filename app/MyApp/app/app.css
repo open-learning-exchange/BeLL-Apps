@@ -49,7 +49,7 @@
     }
 }
 
-.AssignWeekOfResourcesToGroupTable-header {
+.AssignWeekOfResourcesToCourseTable-header {
     text-align: center;
 }
 
@@ -158,7 +158,7 @@ input[type=checkbox]:checked + label:before {
 {
     background-color:rgb(221,221,221);
     margin-top: 4px;
-    height: 140px;
+    height: auto;
     width: 630px;
 }
 .question_clas
@@ -314,7 +314,7 @@ textarea[name="comment"]
     color: #FFFFFF;
 }
 
-#groupform {
+#courseform {
     background-color: #F3F3F3;
     border-radius: 37px;
     margin-bottom: -1%;
@@ -328,17 +328,17 @@ textarea[name="comment"]
     margin-bottom: -1%;
     width: 883px;
 }
-#groupform [name="description"]{
+#courseform [name="description"]{
     height: 120px;
     width: 456px;
 }
 
-#groupform .bbf-field.field-foregroundColor{
+#courseform .bbf-field.field-foregroundColor{
     margin-left: 147px;
     margin-top: -56px;
     position: relative;
 }
-#groupform .bbf-field.field-backgroundColor{
+#courseform .bbf-field.field-backgroundColor{
     margin-top: -5px;
 }
 #invitationForm{
@@ -367,15 +367,15 @@ textarea[name="comment"]
     height: 10%;
     text-align: center;
 }
-#groupform .bbf-field.field-levels{
+#courseform .bbf-field.field-levels{
     margin-left: 236px;
     margin-top: -85px;
     width: 621px;
 }
-#groupform .bbf-field .field-description{
+#courseform .bbf-field .field-description{
     margin-top:-10px;
 }
-#groupform .bbf-field.field-levels.bbf-editor > ul > li{
+#courseform .bbf-field.field-levels.bbf-editor > ul > li{
     margin-left:-16px;
 }
 #inviteMemberButton{

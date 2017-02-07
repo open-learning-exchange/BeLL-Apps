@@ -187,7 +187,7 @@ $(function() {
                     this.model.set("questionslist", this.ques1)
                 }
                 levels = new App.Collections.CourseLevels()
-                levels.groupId = this.model.get("courseId")
+                levels.courseId = this.model.get("courseId")
                 levels.fetch({
                     success: function() {
                         levels.sort()

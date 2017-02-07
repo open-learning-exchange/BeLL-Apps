@@ -14,6 +14,7 @@ $(function () {
         initialize: function (e) {
 
         },
+        
         render: function () {
             var vars = this.model.toJSON();
             vars.memberid =this.memberId;
@@ -52,6 +53,7 @@ $(function () {
             }
             vars.stepNo = this.model.attributes.step;
             vars.credits = this.credits;
+            vars.lastAttemptPercentage = this.credits[this.attempts]
             vars.status = this.status;
             vars.attempts = this.attempts;
             vars.coursestructure = this.model.attributes.coursestructure;

@@ -6,6 +6,7 @@ $(function() {
         Optns: {},
         Score: 0,
         Correctanswers: {},
+        res: [],
         Givenanswers: new Array(),
         index: -1,
         TotalCount: 0,
@@ -19,7 +20,11 @@ $(function() {
                 document.getElementById('cont').style.opacity = "1";
                 document.getElementById('nav').style.opacity = "1";
             },
-            "click #finishPressed": function(e) {
+            "click #finishPressed": 
+
+
+
+            function(e) {
                 $('div.takeQuizDiv').hide()
                 location.reload()
                 document.getElementById('cont').style.opacity = "1";
@@ -28,6 +33,7 @@ $(function() {
             },
 
             "click #nextPressed": function(e) {
+                console.log($("input[type='hidden'][name='_attachment']").val())
                 if ($("input:radio[name='optn']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='optn']:checked").val()))
                     if (this.Givenanswers[this.index] == this.Correctanswers[this.index]) {
@@ -40,11 +46,22 @@ $(function() {
                 } else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
                      this.renderQuestion();
-                } else if($("input[type='file'][name='_attachments']").val() != undefined && $("input[type='file'][name='_attachments']").val() != ''){
-                    this.Givenanswers.push(decodeURI($("input[type='file'][name='_attachments']").val()));
-                     this.renderQuestion()
-                }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
-                    this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
+                } else if($("input[type='hidden'][name='_attachment']").val() != undefined && $("input[type='hidden'][name='_attachment']").val() != ''){
+                    this.Givenanswers.push(decodeURI($("input[type='hidden'][name='_attachment']").val()));
+                     this.renderQuestion();
+                }else if ($("input:checkbox[name='multiplechoice[]']:checked").val() != undefined) {
+                   var that = this;
+                   var res = [];
+                    $("input:checkbox[name='multiplechoice[]']:checked").each(function(index){
+                    if($(this).is(':checked')==true){
+                        res.push(decodeURI($(this).val()));
+                         //location.reload();
+                    }
+                 }); 
+                    that.Givenanswers.push(res);
+                     that.renderQuestion()
+                }else if ($("input:radio[name='multiplechoice[]']:checked").val() != undefined) {
+                    this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
                      this.renderQuestion();
                      location.reload();
                 } else {
@@ -121,12 +138,12 @@ $(function() {
                  
                 this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>');
             }
-                this.$el.append('<div class="quizActions" ><button class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</button><button class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</button></div>')
+                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div><div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div></div>')
             } else {
                 this.$el.html('&nbsp')
                 var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
                 this.$el.append('<div class="quizText"><h4>'+App.languageDict.attributes.You_Scored +' '+ Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')
-                this.$el.append('<div class="quizActions" ><button class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</button></div>')
+                this.$el.append('<div class="quizActions" ><div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div></div>')
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
                 var flagAttempts = false;

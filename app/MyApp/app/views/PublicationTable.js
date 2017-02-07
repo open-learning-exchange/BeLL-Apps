@@ -291,8 +291,8 @@
                                     url: '/_replicate',
                                     dataType: 'json',
                                     data: JSON.stringify({
-                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/groups',
-                                        "target": 'groups',
+                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/courses',
+                                        "target": 'courses',
                                         'doc_ids': cumulativeCourseIDs
                                     }),
                                     success: function (response) {
@@ -542,18 +542,18 @@
                 if (courseInPubIdes != ''){
                     courseInPubIdes = courseInPubIdes.substring(0, courseInPubIdes.length - 1);
                 }
-                var groupColl = new App.Collections.Groups();
-                groupColl.keys = encodeURI(courseInPubIdes)
-                groupColl.fetch({
+                var courseColl = new App.Collections.Courses();
+                courseColl.keys = encodeURI(courseInPubIdes)
+                courseColl.fetch({
                     async: false
                 });
-               for(var i=0;i<groupColl.length;i++) {
-                   var courseModel = groupColl.models[i];
+               for(var i=0;i<courseColl.length;i++) {
+                   var courseModel = courseColl.models[i];
                    courseModel.set('courseLeader',[]);
                    courseModel.set('members',[]);
                    courseData.push(courseModel);
                }
-                $.couch.db("groups").bulkSave({"docs": courseData}, {
+                $.couch.db("courses").bulkSave({"docs": courseData}, {
                     success: function(data) {
                         console.log(data);
                     },
