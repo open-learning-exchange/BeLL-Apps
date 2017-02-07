@@ -102,6 +102,7 @@
   "Selected":"crwdns15538:0crwdne15538:0",
   "Save":"crwdns15539:0crwdne15539:0",
   "Cancel":"crwdns15540:0crwdne15540:0",
+  "Manager_Request":"crwdns16245:0crwdne16245:0",
   "Select_An_option":"crwdns15541:0crwdne15541:0",
   "article_Date":"crwdns15542:0crwdne15542:0",
   "added_by":"crwdns15543:0crwdne15543:0",
@@ -832,5 +833,8 @@
   "Local_Resources":"crwdns16236:0crwdne16236:0",
   "Prompt_MeetUp_save":"crwdns16240:0crwdne16240:0",
   "Pending_Resources":"crwdns16243:0crwdne16243:0",
-  "Confirm_Course":"crwdns16244:0crwdne16244:0"
+  "Confirm_Course":"crwdns16244:0crwdne16244:0",
+  "Has_Requested_Promote":"crwdns16246:0crwdne16246:0",
+  "Promote_Request_Rejected":"crwdns16247:0crwdne16247:0",
+  "Promote_Request_Accepted":"crwdns16248:0crwdne16248:0"
 }
