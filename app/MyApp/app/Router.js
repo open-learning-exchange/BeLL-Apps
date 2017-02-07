@@ -2509,6 +2509,7 @@ $(function() {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
             }
             App.$el.children('.body').append("<div id='graph'></div>")
+            App.$el.children('.body').append("<div id='graph1'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
             if (course.get('courseLeader').indexOf($.cookie('Member._id')) == -1  &&  roles.indexOf("Manager") == -1) {
                 allResults.memberId = $.cookie('Member._id')

@@ -4,11 +4,18 @@ $(function () {
         tagName: "div",
         className: "Graphbutton",
         arrayOfData: new Array,
+        membername: new Array,
         grandpassed: null,
         grandremaining: null,
         totalRecords: null,
         startFrom: null,
         totalSpace: null,
+        sstatus: new Array,
+        sresult: new Array,
+        sname : new Array,
+        series : new Array,
+        data: new Array,
+        series1 : new Array,
         events: {
             "click #Donut": function () {
                 $('#graph').html(' ')
@@ -55,9 +62,11 @@ $(function () {
         addOne: function (model) {
             var that = this
             temp = new Object
-
+            attemptdata = model.toJSON().pqAttempts
             data = model.toJSON().stepsStatus
+            sResult = model.toJSON().stepsResult
             total = model.toJSON().stepsStatus.length
+            console.log(data, total)
             passed = 0
             remaining = 0
             for (var i = 0; i < total; i++) {
@@ -92,7 +101,16 @@ $(function () {
                 temp.memberId = model.get("memberId");
                 temp.courseId = model.get("courseId");
                 this.arrayOfData.push(temp)
-
+                this.membername.push(student.toJSON().firstName + ' ' + student.toJSON().lastName)
+         
+           for(var i = 0; i < total; i++){
+            if(!this.sstatus[i] && !this.sresult[i]){
+                this.sstatus[i] =[]
+                this.sresult[i] =[]
+            }
+            this.sstatus[i].push(parseInt(data[i][attemptdata[i]]));  
+            this.sresult[i].push(parseInt(sResult[i][attemptdata[i]]));
+            }
                 if(this.totalRecords == 1)
                 {
                     var assignmentpapers = new App.Collections.AssignmentPapers()
@@ -140,6 +158,84 @@ $(function () {
             this.grandpassed = 0
             this.grandremaining = 0
             this.BuildString()
+            var courseStep = new App.Collections.coursesteps()
+            courseStep.courseId = this.collection.courseId
+            courseStep.fetch({
+                async: false
+            })
+            console.log(courseStep)
+             for(var i = 0; i < courseStep.length; i++){
+                var stepName = courseStep.models[i];
+                seriesResult = {};
+                seriesResult.name = stepName.attributes.title;
+                seriesResult.type = 'bar';
+                seriesResult.yAxis = 1;
+                seriesResult.data = this.sresult[i];
+                seriesResult.tooltip = {'valueSuffix': '%'}
+                seriess = {};
+                seriess.name = stepName.attributes.title + '(Status)';
+                seriess.type = 'spline';
+                seriess.yAxis = 0;
+                seriess.data = this.sstatus[i];
+                //seriess.data = [[1,1], [0,1]];
+               this.series.push(seriesResult); 
+               this.series.push(seriess); 
+            } 
+             Highcharts.chart('graph1', {
+                chart: { 
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Progress of individual steps and pass/fail results'
+                },
+                subtitle: {
+                    text: 'Progress Barchart'
+                },
+                xAxis: [{
+                    categories: this.membername,
+                    crosshair: true
+                }],
+                yAxis: [{ // Primary yAxis
+                    min: -1,
+                    max: 1,
+                    labels: {
+                         overflow: 'justify'
+                    },
+                    title: {
+                        text: 'Pass/Fail',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    }
+                }, { // Secondary yAxis
+                    min:0,
+                    max: 100,
+                    title: {
+                        text: 'Steps Percentage',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 450,
+                    verticalAlign: 'top',
+                    y: 100,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                },
+                series: this.series
+
+            });
 
             var morris1 = Morris.Bar({
                 element: 'graph',
