@@ -86,6 +86,9 @@ $(function() {
                 mmodel.fetch({
                     async: false
                 })
+                
+                var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName
+                console.log(mmodel,username);
                 roles = mmodel.get('roles');
                 if (roles.indexOf('Manager') < 0) {
                     roles.push("Manager");// if promote to manager checkbox is ticked
@@ -100,12 +103,54 @@ $(function() {
                         return
                     }
                 });
+                var temp
+                var that = this
+                var currentdate = new Date();
+                
+                    
+                    var mailBody = App.languageDict.attributes.Hello + ',<br>' + ' <b>' + username + '</b> ' + ',<br>' + App.languageDict.attributes.Your_Request_Has_Been_Accepted;
+                    temp = new App.Models.Mail()
+                    temp.set("senderId", $.cookie('Member._id'))
+                    temp.set("receiverId", mmodel.get('_id'));
+                    temp.set("status", "0")
+                    temp.set("subject", App.languageDict.attributes.Manager_Request + " | " + username)
+                    temp.set("type", "manager-request")
+                    temp.set("body", mailBody)
+                    temp.set("sendDate", currentdate)
+                    temp.set("entityId",mmodel.get('_id'))
+                    temp.save()
+                
+        
+
+               
             },
             "click #promote-reject": function (e) {
                 var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
                 body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '').replace("||br||", "<br>")
-                mailView.updateMailBody(body)
-                alert(App.languageDict.attributes.Promote_Request_Rejected)
+                mailView.updateMailBody(body) 
+                var mmodel = new App.Models.Member({
+                    _id: e.currentTarget.value
+                })
+                mmodel.fetch({
+                    async: false
+                })
+                var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName;
+                var temp
+                var that = this
+                var currentdate = new Date();
+                var mailBody = App.languageDict.attributes.Hello + ',<br>' + ' <b>' + username + '</b> ' + ',<br>' + App.languageDict.attributes.Your_Request_Has_Been_Rejected;
+                temp = new App.Models.Mail()
+                temp.set("senderId", $.cookie('Member._id'))
+                temp.set("receiverId",  mmodel.get('_id'));
+                temp.set("status", "0")
+                temp.set("subject", App.languageDict.attributes.Manager_Request + " | " + username)
+                temp.set("type", "manager-request")
+                temp.set("body", mailBody)
+                temp.set("sendDate", currentdate)
+                temp.set("entityId", mmodel.get('_id'))
+                temp.save()
+                alert(App.languageDict.attributes.Promote_Request_Rejected)   
+
             },
             "click #invite-accept": function(e) {
                 if (mailView.inViewModel.get('type') == "admissionRequest") {

@@ -24,8 +24,9 @@ select#onDashboardLanguage {
 	background-color: #e1e1e1;
 }
 #PromoteToManager{
-	margin-top:-40px;
-	margin-left:170px;
+	margin-top:-90px;
+	margin-bottom: 25px;
+	margin-left:17px;
 }
 #manageOnCourseProgress{
 	margin-left:84px;
