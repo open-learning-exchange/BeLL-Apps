@@ -223,7 +223,7 @@ $(function() {
                 } else {
                     buttonText = App.languageDict.attributes.Register
                 }
-                if(this.model.id == $.cookie('Member._id') && this.model.get('roles').indexOf('Manager') < 0) {
+                if(this.model.id != undefined && this.model.id == $.cookie('Member._id') && this.model.get('roles').indexOf('Manager') < 0) {
                     promoteBtn = '<a class="btn btn-success" id="formManagarRequest" style="margin-top: 10px;">'+App.languageDict.attributes.Manager_Request+'</a>';
                 } else {
                     promoteBtn = '';
