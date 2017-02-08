@@ -20,6 +20,8 @@
 }
 #PromoteToManager{
     margin-right:170px;
+    margin-top:-90px;
+    margin-right:17px;
 }
 .resourcInfoFirstCol{
     colspan:4;
@@ -654,6 +656,7 @@ body{
 }
 #AddCourseMainDiv{
     direction: rtl;
+    margin-right:17px; 
 }
 #collectionTable{
     direction: rtl;
