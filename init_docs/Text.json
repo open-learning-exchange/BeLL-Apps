@@ -829,5 +829,8 @@
   "Confirm_Decline":"Are you sure you declined this resource?",
   "Resource_Success_Added": "Resource is Successfully added to library",
   "Community_Resources": "Resources From Community",
-  "Local_Resources": "Local Resources"
+  "Local_Resources": "Local Resources",
+  "FeedbackForTest": "Once Taken Test Must Be Review First",
+  "Please_First_Take_Test":"Please First Take Test",
+  "Review_First":"Review First"
 }

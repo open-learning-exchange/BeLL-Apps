@@ -31,7 +31,7 @@ $(function() {
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
             'communityDetails/:commDocId/:requestStatus': "communityDetails",
-            "communityreport/:syncDate/:name/:code": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            "communityreport/:syncDate/:name/:code/:date": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
         },
 
@@ -704,7 +704,7 @@ $(function() {
         //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
         //Issue#80:Add Report button on the Communities page at nation
         //*************************************************************************************************************
-        communityReport: function(communityLastSyncDate, communityName, communityCode) {
+        communityReport: function(communityLastSyncDate, communityName, communityCode,date) {
             var lang;
             if($.cookie('Member.login'))
             {

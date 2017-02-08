@@ -188,7 +188,7 @@ $(function() {
                 $('#dialog .subtile').text(App.languageDict.attributes.Edit_Question);
                 var questionType = questionModel.get('Type');
                 if(questionType == 'Multiple Choice (Single Answer)') {
-                    that.editMultipleChoiceQuestion(questionModel);
+                    that.editMultipleChoiceQuestion(questionModel,lid);
                 } else if(questionType == 'Single Textbox') {
                     that.editSingleTextBoxQuestion(questionModel);
                 } else if(questionType == 'Comment/Essay Box') {
@@ -221,11 +221,12 @@ $(function() {
             }
         },
 
-        editMultipleChoiceQuestion: function(questionModel) {
+        editMultipleChoiceQuestion: function(questionModel,lid) {
+            console.log(lid);
             $("#add_new_question").val("1").trigger('change');
             $('#1').find('#question_text').val(questionModel.get('Statement'));
             $('#1').find('.inputmarks').val(questionModel.get('Marks'));
-            //$('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
+            $('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
             var question_answer_choices = questionModel.get('Options');
             var ansarry = [];
             $('.input_fields_wrap').empty();
@@ -237,7 +238,7 @@ $(function() {
         });
             ansarry.push(this.res);
     },
-        
+
         editSingleTextBoxQuestion: function(questionModel) {
             $("#add_new_question").val("6").trigger('change');
             $('#6').find('#question_text').val(questionModel.get('Statement'));
@@ -248,6 +249,7 @@ $(function() {
         editCommentBoxQuestion: function(questionModel) {
             $("#add_new_question").val("8").trigger('change');
             $('#8').find('#question_text').val(questionModel.get('Statement'));
+            $('#8').find('.inputmarks').val(questionModel.get('Marks'));
             
         },
         editAttachmentBoxQuestion: function(questionModel) {
@@ -259,7 +261,7 @@ $(function() {
             var that = this;
             var qStatement = $('#6').find('#question_text').val();
             var input_marks = $('#6').find('.inputmarks').val();
-            if(qStatement.toString().trim() != '') {
+            if(qStatement.toString().trim() != '' && input_marks.toString().trim() != '') {
                 var questionObject = new App.Models.CourseQuestion({
                     Type: 'Single Textbox',
                     Statement: qStatement.toString().trim(),
@@ -353,13 +355,12 @@ $(function() {
             var that = this;
             var qStatement = $('#1').find('#question_text').val();
             var input_marks = $('#1').find('.inputmarks').val();
-             var validOptionValues=[];
+            var validOptionValues=[];
              $('input[name="mytext[]"]').each(function() {
                 var result = $(this).val();
                 if(result !== "" && result != null ){
-                console.log(result);
-                console.log(validOptionValues.push(result));
-                }
+                validOptionValues.push(result);
+            }
             }); 
             console.log(validOptionValues);
             var valid_answer=[];
@@ -377,7 +378,8 @@ $(function() {
                 if(validOptionValues != [] && validOptionValues.length > 1) {
                     var questionObjectMC = new App.Models.CourseQuestion({
                         Type: 'Multiple Choice (Single Answer)',
-                        Statement: qStatement.toString(),
+                        Statement: qStatement.toString().trim(),
+                        Marks: input_marks.toString().trim(),
                         courseId: lid,
                         Options: validOptionValues,
                         CorrectAnswer: valid_answer,
@@ -419,9 +421,13 @@ $(function() {
                             async: false
                         })
                         var courseQuestions = courseStepModel.get('questionslist');
+
+                        var totalMarks = parseInt(courseStepModel.get('totalMarks'));
                         if(courseQuestions == null) courseQuestions = [];
                         courseQuestions.push(response.id);
                         courseStepModel.set('questionslist', courseQuestions);
+                        var input_marks = parseInt(questionObject.attributes.Marks);
+                        courseStepModel.set('totalMarks', (totalMarks+input_marks));
                         courseStepModel.save(null, {
                             success: function (model, res) {
                                 alert(App.languageDict.attributes.question_Saved);
@@ -433,6 +439,16 @@ $(function() {
                             async: false
                         });
                     } else {
+                            var courseStepModel = new App.Models.CourseStep({
+                                _id: csId
+                            })
+                            courseStepModel.fetch({
+                                async: false
+                            })
+                            var totalMarks = parseInt(courseStepModel.get('totalMarks'));
+                            var input_marks = parseInt(questionObject.attributes.Marks);
+                            courseStepModel.set('totalMarks', (totalMarks+input_marks));
+                            courseStepModel.save();
                         alert(App.languageDict.attributes.question_Edit);
                         window.location.reload();
                     }
@@ -482,5 +498,5 @@ $(function() {
         }
     })
 
-
 })
+

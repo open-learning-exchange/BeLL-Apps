@@ -163,6 +163,7 @@
    "Nested_Under": "Nested Under",
    "Added_Date": "Added Date",
    "Description": " Description",
+   "FeedbackForTest": "Once Taken Test Must Be Review First",
    "LevelArray": [
        "Early Education",
        "Lower Primary",
@@ -831,5 +832,7 @@
   "Community_Resources": "Resources From Community",
   "Local_Resources": "Local Resources",
   "Pending_Resources": "Pending Resources",
-  "Confirm_Course":"Are you sure you want to delete this Course?"
+  "Confirm_Course":"Are you sure you want to delete this Course?",
+  "Please_First_Take_Test":"Please First Take Test",
+  "Review_First":"Review First"
 }

@@ -138,8 +138,15 @@ $(function() {
                         }
                     }
                     if(community.registrationRequest == "accepted"){
+                        var fullDate = new Date()
+                        var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
+                        var date = fullDate.getDate() + "-" + twoDigitMonth + "-" + fullDate.getFullYear();
+                        /*var d  = new Date();
+                         var date = d.getFullYear();*/
+
+                        //var date = new Date();
                         var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" + community._id + "/registered'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("View_Details") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
+                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "/" + date + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" + community._id + "/registered'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("View_Details") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
                         that.$el.append(row);
                     }
                     if(community.registrationRequest=="pending" && !community.hasOwnProperty('code') && !community.hasOwnProperty('name')) {

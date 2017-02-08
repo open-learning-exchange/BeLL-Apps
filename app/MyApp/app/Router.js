@@ -34,7 +34,7 @@ $(function() {
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
             'course/members/:courseId': 'CourseMembers',
-            'course/answerreview/:memberid/:stepid': 'answerReview',
+            'course/answerreview/:memberid/:stepid/:attempts': 'answerReview',
             'level/add/:courseId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
@@ -2509,6 +2509,7 @@ $(function() {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
             }
             App.$el.children('.body').append("<div id='graph'></div>")
+            App.$el.children('.body').append("<div id='graph1'></div>")
             var allResults = new App.Collections.StepResultsbyCourse()
             if (course.get('courseLeader').indexOf($.cookie('Member._id')) == -1  &&  roles.indexOf("Manager") == -1) {
                 allResults.memberId = $.cookie('Member._id')
@@ -2662,7 +2663,8 @@ $(function() {
             }
 
         },
-        answerReview: function(memberid, stepid){
+        answerReview: function(memberid, stepid, attempts){
+            var attemptsNo =parseInt(attempts);
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(lang);
@@ -2677,7 +2679,7 @@ $(function() {
                 var courseAnswer = new App.Collections.CourseAnswer()
                     courseAnswer.StepID = stepid
                     courseAnswer.MemberID = memberid
-               
+                    courseAnswer.pqattempts = attemptsNo
                     courseAnswer.fetch({
                         async: false
                     })
@@ -2776,7 +2778,6 @@ $(function() {
                         attributes:{
                             membersid: memberId
                         }
-
                     })
                     
                     levelsTable.courseId = courseId
@@ -2927,6 +2928,8 @@ $(function() {
             })
             if (typeof coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') == 'true') {
                 Cstep.set('coursestructure', true);
+                Cstep.set('totalMarks', 0);
+
                 delete Cstep.schema.outComes;
             } else {
                 Cstep.set('coursestructure', 'false');
@@ -2960,6 +2963,7 @@ $(function() {
                     lForm.previousStep = Cstep.get("step")
                     if (coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') === "true") {
                         Cstep.set('coursestructure', true);
+                        Cstep.set('totalMarks', 0);
                         delete Cstep.schema.outComes;
                     } else {
                         Cstep.set('coursestructure', 'false');

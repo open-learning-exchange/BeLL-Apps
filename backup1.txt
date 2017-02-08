@@ -1,0 +1,493 @@
+diff --cc app/MyApp/app/Router.js
+index df189e2,6225c3c..0000000
+--- a/app/MyApp/app/Router.js
++++ b/app/MyApp/app/Router.js
+@@@ -23,22 -23,22 +23,28 @@@ $(function() 
+              'resource/search': 'bellResourceSearch',
+              'search-bell/:levelId/:rId': 'SearchBell',
+              'assign-to-level': 'AssignResourcetoLevel',
+ -            'courses': 'Groups',
+ -            'course/manage/:groupId': 'ManageCourse',
+ +            'courses': 'Courses',
+ +            'course/manage/:courseId': 'ManageCourse',
+              'course/details/:courseId/:courseName': 'courseDetails',
+              'usercourse/details/:courseId/:courseName': 'UserCourseDetails',
+ -            'course/report/:groupId/:groupName': 'CourseReport',
+ -            'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
+ -            'course/assignments/:groupId': 'GroupAssignments',
+ -            'course/add': 'GroupForm',
+ +            'course/report/:courseId/:courseName': 'CourseReport',
+ +            'course/assignments/week-of/:courseId/:weekOf': 'CourseWeekOfAssignments',
+ +            'course/assignments/:courseId': 'CourseAssignments',
+ +            'course/add': 'CourseForm',
+              'CourseInfo/:courseId': 'CourseInfo',
+              'course/resign/:courseId': 'ResignCourse',
+++<<<<<<< HEAD
+ +            'course/members/:courseId': 'CourseMembers',
+ +            'course/answerreview/:memberid/:stepid': 'answerReview',
+ +            'level/add/:courseId/:levelId/:totalLevels': 'AddLevel',
+++=======
++             'course/members/:courseId': 'GroupMembers',
++             'course/answerreview/:memberid/:stepid/:attempts': 'answerReview',
++             'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+              'level/view/:levelId/:rid': 'ViewLevel',
+              'savedesc/:lid': 'saveDescprition',
+ -            'create-quiz/:lid/:rid/:title': 'CreateQuiz',
+ +            'create-test/:lid/:rid/:title': 'CreateTest',
+              'collection': 'Collection',
+              'listCollection/:collectionId': 'ListCollection',
+              'listCollection/:collectionId/:collectionName': 'ListCollection',
+@@@ -2760,6 -2762,7 +2768,10 @@@
+          },
+          UserCourseDetails: function(courseId, name) {
+              var memberId = $.cookie('Member._id')
+++<<<<<<< HEAD
+++=======
++             //console.log(memberId);
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+              var ccSteps = new App.Collections.coursesteps()
+              ccSteps.courseId = courseId
+  
+@@@ -2774,11 -2777,9 +2786,16 @@@
+                      var levelsTable = new App.Views.CourseLevelsTable({
+                          collection: ccSteps,
+                          attributes:{
+++<<<<<<< HEAD
+ +                            membersid: memberId
+ +                        }
+ +
+++=======
++                             membersid:memberId
++                         }
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                      })
+ +                    
+                      levelsTable.courseId = courseId
+                      levelsTable.render()
+                      $('.courseEditStep').append(levelsTable.el)
+@@@ -3012,10 -3016,10 +3032,14 @@@
+                      $('.courseEditStep').append(levelDetails.el)
+                      $('.courseEditStep').append('</BR>')
+                      if (levelInfo.get("questions") == null && levelInfo.get("questionslist") == null) {
+++<<<<<<< HEAD
+ +                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
+++=======
++                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                          //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
+                      } else {
+ -                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Quiz+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')
+ +                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>&nbsp;&nbsp;')
+                      }
+                  }
+              });
+diff --cc app/MyApp/app/models/CourseAnswer.js
+index bbe9ec0,45e21ff..0000000
+--- a/app/MyApp/app/models/CourseAnswer.js
++++ b/app/MyApp/app/models/CourseAnswer.js
+@@@ -29,7 -29,7 +29,11 @@@ $(function() 
+              Options: [],//This array attribute saves options of a question(only applicable for MCQ and Rating Scale)
+              Ratings: [],//This array attribute saves rating options of a question(only applicable for Rating Scale)
+              CorrectAnswer: [],//This array attribute saves correct answer(s) of a question when a user submit survey response.
+++<<<<<<< HEAD
+ +            Marks: [] // This is an array attribute saves the mark of a question when a user submits
+++=======
++             pqattempts: 'Text'
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+          }
+      })
+  })
+diff --cc app/MyApp/app/views/AnswerReview.js
+index 91bfeff,6519381..0000000
+--- a/app/MyApp/app/views/AnswerReview.js
++++ b/app/MyApp/app/views/AnswerReview.js
+@@@ -1,13 -1,13 +1,20 @@@
+  $(function () {
+      App.Views.AnswerReview = Backbone.View.extend({
+ -    	template: _.template($("#template-courseAnswerReview").html()),
+ -    	vars: {},
+ +        template: _.template($("#template-courseAnswerReview").html()),
+ +        vars: {},
+          Score: 0,
+          index: -1,
+++<<<<<<< HEAD
+ +        events: {
+ +            "click #updateAnswer": "AnswerVerify" 
+ +        },
+ +        initialize: function (e) {
+++=======
++     	events: {
++     		"click #updateAnswer": "AnswerVerify" 
++     	},
++     	initialize: function (e) {
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+          },
+          AnswerVerify: function(e){
+              for(i=0; i < this.vars.questionlists.length; i++) {
+@@@ -93,9 -93,9 +100,15 @@@
+                      async: false
+                  });
+              this.vars.questionlists.push(questionlist.toJSON()) 
+++<<<<<<< HEAD
+ +        }
+ +        
+ +        this.vars.answerlist = this.collection.toJSON();
+++=======
++     	}
++     	
++ 		this.vars.answerlist = this.collection.toJSON();
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+          
+          var attchmentURL = null;
+          var attachmentName = null;
+@@@ -126,8 -126,8 +139,14 @@@
+              this.vars.attchmentURL = null ;
+              this.vars.attachmentName = null;
+          }   
+++<<<<<<< HEAD
+ +        this.vars.languageDict=App.languageDict;
+ +        this.$el.html(this.template(this.vars));
+ +        }
+++=======
++     	this.vars.languageDict=App.languageDict;
++     	this.$el.html(this.template(this.vars));
++     	}
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+      })
+  })
+diff --cc app/MyApp/app/views/QuizView.js
+index 7089fb9,becb6a2..0000000
+--- a/app/MyApp/app/views/QuizView.js
++++ b/app/MyApp/app/views/QuizView.js
+@@@ -225,18 -243,15 +226,28 @@@ $(function() 
+              $("#add_new_question").val("1").trigger('change');
+              $('#1').find('#question_text').val(questionModel.get('Statement'));
+              $('#1').find('.inputmarks').val(questionModel.get('Marks'));
+++<<<<<<< HEAD
+ +            //$('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
+++=======
++             $('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+              var question_answer_choices = questionModel.get('Options');
+ -            var options = "";
+ -            for(var i = 0 ; i < question_answer_choices.length ; i++) {
+ -                options = options + question_answer_choices[i] + '\n'
+ +            var ansarry = [];
+ +            $('.input_fields_wrap').empty();
+ +              for( i = 2; i < question_answer_choices.length; i++ ){ 
+ +                $('.add_field').trigger('click');   
+              }
+++<<<<<<< HEAD
+ +             $('input[name="mytext[]"]').each(function(index) {
+ +             $(this).val(question_answer_choices[index]);   
+ +        });
+ +            ansarry.push(this.res);
+ +    },
+++=======
++             $('#1').find('#answer_choices').val(options.trim());
++ 
++         },
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+          
+          editSingleTextBoxQuestion: function(questionModel) {
+              $("#add_new_question").val("6").trigger('change');
+@@@ -254,12 -270,14 +266,21 @@@
+              $("#add_new_question").val("10").trigger('change');
+              $('#10').find('#question_text').val(questionModel.get('Statement'));
+              $('#10').find('.inputmarks').val(questionModel.get('Marks'));
+++<<<<<<< HEAD
+++=======
++             
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+          },
+          saveSingleTextBoxQuestion: function(lid, isEdit, questionModel) {
+              var that = this;
+              var qStatement = $('#6').find('#question_text').val();
+              var input_marks = $('#6').find('.inputmarks').val();
+++<<<<<<< HEAD
+ +            if(qStatement.toString().trim() != '') {
+++=======
++ 
++             if(qStatement.toString().trim() != '' && input_marks.toString().trim() != '') {
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                  var questionObject = new App.Models.CourseQuestion({
+                      Type: 'Single Textbox',
+                      Statement: qStatement.toString().trim(),
+@@@ -349,39 -365,29 +370,58 @@@
+                  alert(App.languageDict.attributes.question_stat_missing);
+              }
+          },
+ -            saveMultipleChoiceQuestion: function(lid, isEdit, questionModel) {
+ +           saveMultipleChoiceQuestion: function(lid, isEdit, questionModel) {
+              var that = this;
+              var qStatement = $('#1').find('#question_text').val();
+++<<<<<<< HEAD
+ +            var input_marks = $('#1').find('.inputmarks').val();
+ +             var validOptionValues=[];
+ +             $('input[name="mytext[]"]').each(function() {
+ +                var result = $(this).val();
+ +                if(result !== "" && result != null ){
+ +                console.log(result);
+ +                console.log(validOptionValues.push(result));
+++=======
++             var answer_choices = $('#1').find('#answer_choices').val();
++             var correct_choices = $('#1').find('#correct_answer').val();
++             var input_marks = $('#1').find('.inputmarks').val();
++             answer_choices = answer_choices.split('\n');
++             if(qStatement.toString().trim() != '') {
++                 var validOptionValues = [];
++                 for(var i = 0 ; i < answer_choices.length ; i++) {
++                     if(answer_choices[i].trim() != '') {
++                         validOptionValues.push(answer_choices[i].trim());
++                       
++                     }
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                  }
+ +            }); 
+ +            console.log(validOptionValues);
+ +            var valid_answer=[];
+ +            $( "input[type=checkbox]").each(function(){
+ +            if($(this).is(':checked')==true){
+ +                var correct=$(this).parent('div').find('input[name="mytext[]"]').val();
+ +                valid_answer.push(correct);
+ +            } 
+ +        });   
+ +                   
+ +            console.log(valid_answer);
+ +            //answer_choices = answer_choices.split('\n');
+ +            if(qStatement.toString() != '') {
+ +                
+                  if(validOptionValues != [] && validOptionValues.length > 1) {
+                      var questionObjectMC = new App.Models.CourseQuestion({
+                          Type: 'Multiple Choice (Single Answer)',
+++<<<<<<< HEAD
+ +                        Statement: qStatement.toString(),
+++=======
++                         Statement: qStatement.toString().trim(),
++                         Marks: input_marks.toString().trim(),
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                          courseId: lid,
+                          Options: validOptionValues,
+ -                        CorrectAnswer: correct_choices
+ +                        CorrectAnswer: valid_answer,
+ +                        Marks: input_marks.toString().trim(),
+                      });
+                      if(isEdit) {
+                          questionObjectMC.set('_id', questionModel.get('_id'));
+diff --cc app/MyApp/app/views/takeQuizView.js
+index 0b7805c,102823a..0000000
+--- a/app/MyApp/app/views/takeQuizView.js
++++ b/app/MyApp/app/views/takeQuizView.js
+@@@ -48,22 -42,10 +48,27 @@@ $(function() 
+                       this.renderQuestion();
+                  } else if($("input[type='hidden'][name='_attachment']").val() != undefined && $("input[type='hidden'][name='_attachment']").val() != ''){
+                      this.Givenanswers.push(decodeURI($("input[type='hidden'][name='_attachment']").val()));
+++<<<<<<< HEAD
+ +                     this.renderQuestion();
+ +                }else if ($("input:checkbox[name='multiplechoice[]']:checked").val() != undefined) {
+ +                   var that = this;
+ +                   var res = [];
+ +                    $("input:checkbox[name='multiplechoice[]']:checked").each(function(index){
+ +                    if($(this).is(':checked')==true){
+ +                        res.push(decodeURI($(this).val()));
+ +                         //location.reload();
+ +                    }
+ +                 }); 
+ +                    that.Givenanswers.push(res);
+ +                     that.renderQuestion()
+ +                }else if ($("input:radio[name='multiplechoice[]']:checked").val() != undefined) {
+ +                    this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
+++=======
++                      this.renderQuestion()
++                 }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
++                     this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                       this.renderQuestion();
+-                      location.reload();
+                  } else {
+                      alert(App.languageDict.attributes.No_Option_Selected)
+                  }
+@@@ -138,7 -126,7 +149,11 @@@
+                   
+                  this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>');
+              }
+++<<<<<<< HEAD
+ +                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div><div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div></div>')
+++=======
++                 this.$el.append('<div class="quizActions" ><a class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</a><button class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</button></div>')
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+              } else {
+                  this.$el.html('&nbsp')
+                  var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
+diff --cc app/MyApp/index.html
+index ff3c085,b4e5a0a..0000000
+--- a/app/MyApp/index.html
++++ b/app/MyApp/index.html
+@@@ -1885,23 -1872,16 +1881,34 @@@
+                   <div class="question_class">
+                   <span class="subtitle2">Question Text:</span> <br /> 
+                      <textarea cols="250" rows="3" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+ -                    </div>
+                      <div class="question_class">
+++<<<<<<< HEAD
+ +                            <span class="subtitle2">Answer Choices (each choice on a separate line):</span> <br /> 
+ +                        <div>
+ +                            <input type="checkbox" class="answer_choice" name="check"
+ +                             style="margin-left: 15px; margin-top: 15px;"/>
+ +                             <input type="textbox"  placeholder="Option" class="input_field" name="mytext[]" style="width: 30% margin-left: 126px; margin-top: 15px;"/><br/>
+ +                         </div>
+ +                        <div>   
+ +                             <input type="checkbox" class="answer_choice" name="check" style="margin-left: 280px; margin-top: -44px;"/>
+ +                             <input type="textbox" placeholder="Option" class="input_field" name="mytext[]" value= "" style="width: 30% margin-left: 280px; margin-top: -44px;" /><br/>
+ +                        </div>
+ +                        <div class="input_fields_wrap">  
+ +                        </div><button class="add_field  btn btn-primary">Add Fields</button><br />
+ +                        <span class="subtitle2">Marks:</span> <br /> 
+ +                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+ +                    </div>
+ +                 </div>
+++=======
++                  <span class="subtitle2">Answer Choices (each choice on a separate line):</span> <br /> 
++                     <textarea cols="250" rows="3" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> </div>
++                     <div class="question_class">
++                 <span class="subtitle2">Correct Answer:</span> <br /> 
++                      <input type="textbox" name="required" id="correct_answer" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
++                      <div class="question_class">
++                 <span class="subtitle2">Marks:</span> <br /> 
++                      <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                   <div align="center"> <br /> 
+                   <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
+                   <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+@@@ -1911,24 -1891,25 +1918,45 @@@
+  
+                   <div id="6" class="quizclass" style="width:70%;">
+                   <div class="question_class">
+++<<<<<<< HEAD
+ +                    <span class="subtitle2">Question Text:</span> <br /> 
+ +                    <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br />
+ +                               <span class="subtitle2">Marks:</span> <br /> 
+ +                        <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+ +                     </div>
+ +                    <div align="center"> <br /> 
+ +                        <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
+ +                        <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+ +                        <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+ +                    </div>
+++=======
++                   <span class="subtitle2">Question Text:</span> <br /> 
++                     <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
++                 <div class="question_class">
++                 <span class="subtitle2">Marks:</span> <br /> 
++                      <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br /></div>
++                 <div align="center"> <br /> 
++                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
++                 <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
++                 <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
++                  </div>
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                   </div>
+                   <div id="8" class="quizclass" style="width:70%;">
+                   <div class="question_class"">
+                    <span class="subtitle2">Question Text:</span> <br />
+++<<<<<<< HEAD
+ +                     <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+ +                                <span class="subtitle2">Marks:</span> <br /> 
+ +               <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+ +                     </div>
+++=======
++                      <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> </div>
++                 <div class="question_class">
++                 <span class="subtitle2">Marks:</span> <br /> 
++                      <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
++                 </div> 
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                  <div align="center"> <br />
+                   <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
+                   <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+@@@ -1939,13 -1920,12 +1967,21 @@@
+                   <div id="10" class="quizclass" style="width:70%;">
+                   <div class="question_class">
+                    <span class="subtitle2">Question Text:</span> <br /> 
+++<<<<<<< HEAD
+ +                    <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br />
+ +                               <span class="subtitle2">Marks:</span> <br /> 
+ +                 <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+ +
+ +                     </div>
+++=======
++                     <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
++                 <div class="question_class">
++                 <span class="subtitle2">Marks:</span> <br /> 
++                      <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
++                 </div> 
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+                  <div align="center"> <br /> 
+ +
+                  <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
+                  <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+                  <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+diff --cc app/MyApp/indexFile.js
+index c1ac887,d19af5a..0000000
+--- a/app/MyApp/indexFile.js
++++ b/app/MyApp/indexFile.js
+@@@ -1486,7 -1486,10 +1486,14 @@@ if (imgVal != "" && extension[(extensio
+      assignmentpaper.save(null, {
+          success: function(data) {
+              var attachmentId = data.attributes.id;
+++<<<<<<< HEAD
+ +            $("#attachmentId").val(attachmentId);
+++=======
++            //var img = $('input[type="hidden"]').val(attachmentId);
++             $('#attachmentId').val(attachmentId);
++ 
++ 
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+              //assignmentpaper.unset('_attachments')
+              if (imgVal) {
+                  assignmentpaper.saveAttachment("form#questionForm", "form#questionForm #_attachments", "form#questionForm .rev")
+diff --cc init_docs/Text.json
+index 403b154,538f09f..0000000
+--- a/init_docs/Text.json
++++ b/init_docs/Text.json
+@@@ -322,11 -322,11 +322,15 @@@
+     "Add_To_Level": "Add to Level",
+     "Back_To_Course": "Back to Courses",
+     "Create_Test": "Create Test",
+++<<<<<<< HEAD
+ +   "Edit_Test": "Edit Test",
+++=======
++    "Edit_Quiz": "Edit Quiz",
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+     "Instructions": "Instructions",
+     "Remove": "Remove",
+ -   "New_Quiz": "New Quiz",
+ -   "Save_Quiz": "Save Quiz",
+ +   "New_Test": "New Test",
+ +   "Save_Test": "Save Test",
+     "Enter_Question": "Enter your question here.",
+     "Response_Options": "Response Options",
+     "Identify_Correct": "Identify the right response.",
+diff --cc init_docs/languages/English.txt
+index 6c72a95,3161e0d..0000000
+--- a/init_docs/languages/English.txt
++++ b/init_docs/languages/English.txt
+@@@ -322,11 -323,11 +323,15 @@@
+     "Add_To_Level": "Add to Level",
+     "Back_To_Course": "Back to Courses",
+     "Create_Test": "Create Test",
+++<<<<<<< HEAD
+ +   "Edit_Test": "Edit Test",
+++=======
++    "Edit_Quiz": "Edit Quiz",
+++>>>>>>> 362ec51343322812aa81edfba5dada830ce98aa7
+     "Instructions": "Instructions",
+     "Remove": "Remove",
+ -   "New_Quiz": "New Quiz",
+ -   "Save_Quiz": "Save Quiz",
+ +   "New_Test": "New Test",
+ +   "Save_Test": "Save Test",
+     "Enter_Question": "Enter your question here.",
+     "Response_Options": "Response Options",
+     "Identify_Correct": "Identify the right response.",

@@ -15,6 +15,7 @@ $(function () {
                 var inp = $('input[name="marks['+i+']"]').val();
                 var input =$('input[name="marks['+i+']"]');
                 var currentAnswerId = input.parent().children("input[name='selectedAnswer']").val();
+                console.log(currentAnswerId)
                 if(inp != ""){
                     this.Score =parseInt(this.Score)+parseInt(inp)
                 } 
@@ -40,6 +41,7 @@ $(function () {
             })
             var totalMarks = coursestep.get("totalMarks");
             var totalObtainMarks = (Math.round((this.Score / totalMarks) * 100))
+            console.log(totalMarks,totalObtainMarks)
             var memberProgress=new App.Collections.membercourseprogresses()
                     memberProgress.memberId=this.attributes.membersid
                     memberProgress.courseId=this.attributes.courseid
@@ -93,10 +95,8 @@ $(function () {
                     async: false
                 });
             this.vars.questionlists.push(questionlist.toJSON()) 
-        }
-        
+        }  
         this.vars.answerlist = this.collection.toJSON();
-        
         var attchmentURL = null;
         var attachmentName = null;
         //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button

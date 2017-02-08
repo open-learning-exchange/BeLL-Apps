@@ -33,7 +33,6 @@ $(function() {
             },
 
             "click #nextPressed": function(e) {
-                console.log($("input[type='hidden'][name='_attachment']").val())
                 if ($("input:radio[name='optn']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='optn']:checked").val()))
                     if (this.Givenanswers[this.index] == this.Correctanswers[this.index]) {
@@ -62,19 +61,27 @@ $(function() {
                      that.renderQuestion()
                 }else if ($("input:radio[name='multiplechoice[]']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
+                     this.renderQuestion()
+                }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
+                    this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
                      this.renderQuestion();
-                     location.reload();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
             }
         },
-         answersave: function() {
+         answersave: function(attempt) {
               for (var i =0; i < this.TotalCount; i++){
                    var answer = this.Givenanswers[i];
                    var questions = this.Questionlist[i];
+                   
+                   
+                   /*var UpdatePqAttempts =pqAttempts[this.stepindex][1]++
+                   this.myModel.set('pqAttempts', UpdatePqAttempts);
+                    this.myModel.save();*/
                    var saveanswer = new App.Models.CourseAnswer()
                    saveanswer.set('Answer',answer);
+                   saveanswer.set('pqattempts',attempt);
                    saveanswer.set('QuestionID',questions);
                    var memberId = $.cookie('Member._id')
                    saveanswer.set('MemberID',memberId);
@@ -146,23 +153,16 @@ $(function() {
                 this.$el.append('<div class="quizActions" ><div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div></div>')
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
+                var pqattemptss = this.myModel.get('pqAttempts')
                 var flagAttempts = false;
-                if (this.pp <= quizScore) {
-                    if(sstatus[this.stepindex].length > 1){
-                        sstatus[this.stepindex][1] = "1"
-                    }
-                    else{ sstatus[this.stepindex] = "1"
-                    }
-                    this.myModel.set('stepsStatus', sstatus)
-                }
-                if( sp[this.stepindex].length > 1){
-                    sp[this.stepindex][1] = quizScore.toString()
-                    flagAttempts = true ;
-                }
-                else{
-                sp[this.stepindex] = quizScore.toString()
-                    flagAttempts = true;
-                }
+    
+                sstatus[this.stepindex][pqattemptss[this.stepindex]]
+                flagAttempts = true; 
+                this.myModel.set('stepsStatus', sstatus)
+    
+                sp[this.stepindex][pqattemptss[this.stepindex]]
+                flagAttempts = true;
+                
                 this.myModel.set('stepsResult', sp)
                 if(flagAttempts && this.myModel.get('pqAttempts')){
                     var pqattempts = this.myModel.get('pqAttempts')
@@ -177,7 +177,7 @@ $(function() {
                     this.myModel.set('pqAttempts', pqattempts)
                 }
                 if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
-                this.answersave();
+                this.answersave(pqattempts[this.stepindex]);
                 }
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
@@ -199,7 +199,6 @@ $(function() {
 
         start: function() {
             $('div.takeQuizDiv').show()
-            // this.animateIn()
             this.renderQuestion()
         },
        
