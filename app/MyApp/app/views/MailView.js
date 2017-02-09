@@ -88,7 +88,6 @@ $(function() {
                 })
                 
                 var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName
-                console.log(mmodel,username);
                 roles = mmodel.get('roles');
                 if (roles.indexOf('Manager') < 0) {
                     roles.push("Manager");// if promote to manager checkbox is ticked

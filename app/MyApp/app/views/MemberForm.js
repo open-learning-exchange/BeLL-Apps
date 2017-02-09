@@ -137,7 +137,6 @@ $(function() {
             var that = this
             var currentdate = new Date();
             memberList.each(function (m) {
-                console.log(m)
                 var mailBody = App.languageDict.attributes.Hi + ',<br>' + App.languageDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + App.languageDict.attributes.Has_Requested_Promote
                 + '<br/><br/><button class="btn btn-primary" id="promote-accept" value="' + $.cookie('Member._id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="promote-reject" value="' + $.cookie('Member._id') + '" >Reject</button>';
                 temp = new App.Models.Mail()
