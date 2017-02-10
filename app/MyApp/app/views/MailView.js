@@ -107,7 +107,7 @@ $(function() {
                 var currentdate = new Date();
                 
                     
-                    var mailBody = App.languageDict.attributes.Hi + ',<br>' + ' <b>' + username + '</b> ' + ',<br>' + App.languageDict.attributes.Your_Request_Has_Been_Accepted;
+                    var mailBody = App.languageDict.attributes.Hi + ' <b>' + username + '</b>,' + '<br>' + App.languageDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
                     temp = new App.Models.Mail()
                     temp.set("senderId", $.cookie('Member._id'))
                     temp.set("receiverId", mmodel.get('_id'));
@@ -137,7 +137,7 @@ $(function() {
                 var temp
                 var that = this
                 var currentdate = new Date();
-                var mailBody = App.languageDict.attributes.Hi + ',<br>' + ' <b>' + username + '</b> ' + ',<br>' + App.languageDict.attributes.Your_Request_Has_Been_Rejected;
+                var mailBody = App.languageDict.attributes.Hi + ' <b>' + username + '</b>, '+'<br>' + App.languageDict.attributes.Your_Request_Has_Been_Rejected;
                 temp = new App.Models.Mail()
                 temp.set("senderId", $.cookie('Member._id'))
                 temp.set("receiverId",  mmodel.get('_id'));

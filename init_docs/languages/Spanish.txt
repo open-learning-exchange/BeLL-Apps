@@ -837,6 +837,6 @@
   "Has_Requested_Promote":  "has requested to be promoted for 'Manager' access.",
   "Promote_Request_Rejected":  "Request to promote has been rejected.",
   "Promote_Request_Accepted":  "Member has been successfully promoted.",
-  "Your_Request_Has_Been_Accepted":  "Your Request Has Been Accepted",
-  "Your_Request_Has_Been_Rejected":  "Your Request Has Been Rejected"
+  "Your_Request_Has_Been_Accepted":  "Your request has been accepted for 'Manager' access.",
+  "Your_Request_Has_Been_Rejected":  "Your request has been rejected for 'Manager' access."
 }

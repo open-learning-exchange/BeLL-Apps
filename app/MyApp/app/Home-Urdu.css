@@ -575,37 +575,53 @@ body{
 }
 
 .login-form > .bbf-form{
-
+ 
     height: 191px;
     width: 50%;
-
+    
 }
 
 .login-heading
-{
+{    
     display: block;
     font-size: 28px;
-/*
-    margin-left: 35%;
-    width: 260px;
-*/
-    margin-left: 43%;
+    margin-right: 40%;
     width: 320px;
-    text-align:center;
+    text-align: center;
 }
 
 .login-form
 {
     height: 300px;
-  /*  margin-left: 35%;*/
-    width: 370px;
-    left:50%;
+        width: 370px;
+    left:46%;
     position:relative;
     margin: 0px -150px;
-
-
+    margin-right: 81%;
 }
-
+.withoutWelcomeVideo {
+    background-color: #edeff1;
+    padding: 23px 16px 16px;
+    position: relative;
+    border-radius: 11px;
+}
+/*#updateButton
+{
+    width: 12%;
+    height: 5.5%;
+    margin-left: 0.5%;
+}
+#viewReleaseNotes{
+    width: 12%;
+    height: 5.5%;
+    margin-left: 0.5%;
+}
+#newPublication{
+    height: 3%;
+    margin-left: 0.5%;
+    width: 11%;
+}
+*/
 #olelogo
 {
     float: left;
@@ -1153,9 +1169,9 @@ textarea[name="comment"]
     margin-left: 20px;
     width:auto;
 }
-.form .btn {
+/*.form .btn {
     margin: 5px 20px 20px 0px;
-}
+} */
 .form-label-style {
     margin-right: 20px;
 }
