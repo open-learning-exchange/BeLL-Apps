@@ -20,26 +20,15 @@ $(function() {
                 document.getElementById('cont').style.opacity = "1";
                 document.getElementById('nav').style.opacity = "1";
             },
-            "click #finishPressed": 
-
-
-
-            function(e) {
+            "click #finishPressed": function(e) {
                 $('div.takeQuizDiv').hide()
                 location.reload()
                 document.getElementById('cont').style.opacity = "1";
                 document.getElementById('nav').style.opacity = "1";
-
             },
 
             "click #nextPressed": function(e) {
-                if ($("input:radio[name='optn']:checked").val() != undefined) {
-                    this.Givenanswers.push(decodeURI($("input:radio[name='optn']:checked").val()))
-                    if (this.Givenanswers[this.index] == this.Correctanswers[this.index]) {
-                        this.Score++
-                    }
-                    this.renderQuestion()
-                } else if ($("input[type='text'][name='singleLineAnswer']").val() != undefined && $("input[type='text'][name='singleLineAnswer']").val() != '') {
+                if ($("input[type='text'][name='singleLineAnswer']").val() != undefined && $("input[type='text'][name='singleLineAnswer']").val() != '') {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
                      this.renderQuestion();
                 } else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
@@ -62,9 +51,6 @@ $(function() {
                 }else if ($("input:radio[name='multiplechoice[]']:checked").val() != undefined) {
                     this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
                      this.renderQuestion()
-                }else if ($("input:radio[name='multiplechoice']:checked").val() != undefined) {
-                    this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice']:checked").val()));
-                     this.renderQuestion();
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
@@ -74,11 +60,6 @@ $(function() {
               for (var i =0; i < this.TotalCount; i++){
                    var answer = this.Givenanswers[i];
                    var questions = this.Questionlist[i];
-                   
-                   
-                   /*var UpdatePqAttempts =pqAttempts[this.stepindex][1]++
-                   this.myModel.set('pqAttempts', UpdatePqAttempts);
-                    this.myModel.save();*/
                    var saveanswer = new App.Models.CourseAnswer()
                    saveanswer.set('Answer',answer);
                    saveanswer.set('pqattempts',attempt);
@@ -94,35 +75,22 @@ $(function() {
               }
             },
         initialize: function() {
-            if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
-                this.template = _.template($("#template-newcourseanswerform").html())
-                this.Questionlist = this.options.questionlist 
-                this.stepId = this.options.stepId
-                this.TotalCount = this.Questionlist.length
-                this.pp = parseInt(this.options.passP)
-                this.myModel = this.options.resultModel
-                this.stepindex = this.options.stepIndex
-                this.Givenanswers = []  
-            }else{
-                this.Questions = this.options.questions
-                this.Optns = this.options.options
-                this.stepId = this.options.stepId
-                this.TotalCount = this.Questions.length
-                this.pp = parseInt(this.options.passP)
-                this.myModel = this.options.resultModel
-                this.stepindex = this.options.stepIndex
-                this.Givenanswers = []   
-            }
+            this.template = _.template($("#template-newcourseanswerform").html())
+            this.Questionlist = this.options.questionlist 
+            this.stepId = this.options.stepId
+            this.TotalCount = this.Questionlist.length
+            this.pp = parseInt(this.options.passP)
+            this.myModel = this.options.resultModel
+            this.stepindex = this.options.stepIndex
+            this.Givenanswers = []  
         },
 
         renderQuestion: function() {
+            console.log(this.TotalCount, this.index+1)
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
-
-                var temp = this.index * 5
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
                 var coursedetail = new App.Models.CourseQuestion({
                     _id: this.Questionlist[this.index]
                 })
@@ -135,27 +103,18 @@ $(function() {
                 this.vars.singleLineQuestionTitle = singleline
                 this.$el.append(this.template(this.vars));
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                } else {
-                this.$el.append('<div class="quizText"><textarea disabled>' + this.Questions[this.index] + '</textarea> </div>')
-                o0 = encodeURI(this.Optns[temp])
-                o1 = encodeURI(this.Optns[temp + 1])
-                o2 = encodeURI(this.Optns[temp + 2])
-                o3 = encodeURI(this.Optns[temp + 3])
-                o4 = encodeURI(this.Optns[temp + 4])
-                 
-                this.$el.append('<div class="quizOptions"><input type="radio" name="optn" value=' + o0 + '>' + this.Optns[temp] + '<br><input type="radio" name="optn" value=' + o1 + '>' + this.Optns[temp + 1] + '<br>' + '<input type="radio" name="optn" value=' + o2 + '>' + this.Optns[temp + 2] + '<br>' + '<input type="radio" name="optn" value=' + o3 + '>' + this.Optns[temp + 3] + '<br>' + '<input type="radio" name="optn" value=' + o4 + '>' + this.Optns[temp + 4] + '</div>');
-            }
+             
                 this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div><div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div></div>')
             } else {
                 this.$el.html('&nbsp')
-                var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
-                this.$el.append('<div class="quizText"><h4>'+App.languageDict.attributes.You_Scored +' '+ Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')
+                /*var quizScore = (Math.round((this.Score / this.TotalCount) * 100))
+                this.$el.append('<div class="quizText"><h4>'+App.languageDict.attributes.You_Scored +' '+ Math.round((this.Score / this.TotalCount) * 100) + '%<h4></div>')*/
                 this.$el.append('<div class="quizActions" ><div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div></div>')
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
                 var pqattemptss = this.myModel.get('pqAttempts')
                 var flagAttempts = false;
-    
+
                 sstatus[this.stepindex][pqattemptss[this.stepindex]]
                 flagAttempts = true; 
                 this.myModel.set('stepsStatus', sstatus)
@@ -176,9 +135,7 @@ $(function() {
                    }
                     this.myModel.set('pqAttempts', pqattempts)
                 }
-                if (typeof this.options.coursestructure !== "undefined" &&  this.options.coursestructure == "true") {
                 this.answersave(pqattempts[this.stepindex]);
-                }
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
                     },

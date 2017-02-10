@@ -9,42 +9,18 @@ $(function() {
         answers: null,
         currentQuestion: [],
         events: {
-            "click .EditQuestiontoView": "EditQuestiontoView",
-            'click #delete-quiz-question': "deleteQuestion",
-            "click #cancel-edit-question": function(e) {
-                this.render()
-                this.displayQuestionsInView()
+            "click .cancel_course_quiz": function(e) {
+                 window.location.reload(true);
+            },
+            "click #cancel-quiz": function() {
+                Backbone.history.navigate('level/view/' + this.levelId + '/' + this.revId, {
+                    trigger: true
+                })
             },
             "click .add_field":function()
             {  
                 var wrapper = $(".input_fields_wrap");
                 $(wrapper).append('<div><input type="checkbox" name="check" class="answer_choice" value="checked" style="margin-left: 15px; margin-top: 15px;"/><input type="textbox" name="mytext[]" placeholder="Additional Option" class="input_field"  style="width: 30% margin-left: 126px; margin-top: 15px;"/></div>'); //add input box
-            },
-            "click #save-edit-question": function(e) {
-                this.savequestion()
-                this.render()
-                this.displayQuestionsInView()
-            },
-            "click #save-quiz": function(e) {
-                var cstep = new App.Models.CourseStep({
-                    "_id": this.levelId,
-                    "_rev": this.revId
-                })
-                cstep.fetch({
-                    async: false
-                })
-                cstep.set("questions", this.quizQuestions)
-                cstep.set("qoptions", this.questionOptions)
-                cstep.set("answers", this.answers)
-                var that = this
-                cstep.save(null, {
-                    success: function(cstepModel, modelRev) {
-                        alert(App.languageDict.attributes.Test_Saved_Success)
-                        Backbone.history.navigate('level/view/' + modelRev.id + '/' + modelRev.rev, {
-                            trigger: true
-                        })
-                    }
-                })
             },
             "click .savecourseQuestion": function () {
                 var selectedVal = $('#add_new_question option:selected').val();
@@ -68,118 +44,6 @@ $(function() {
             
              
         },
-        
-        savequestion: function(e) {
-            if (!this.validQuestionAndOptions()) {
-                alert(App.languageDict.attributes.Invalid_Inputs)
-            } else {
-                this.saveQuestionAndOptions()
-                $("#question-no").html("Question :")
-                $('textarea#quizQuestion').val("")
-                $('#option1').val("")
-                $('#option2').val("")
-                $('#option3').val("")
-                $('#option4').val("")
-                $('#option5').val("")
-                $('input[name=options]:checked').each(function() {
-                    this.checked = false;
-                });
-            }
-        },
-        displayQuestionInView: function(questionNo) {
-            var number = questionNo
-            number++
-            $("#question-no").html("Question " + number + ':')
-            $('textarea#quizQuestion').val(this.quizQuestions[questionNo])
-            $('#option1').val(this.questionOptions[questionNo * 5])
-            $('#option2').val(this.questionOptions[questionNo * 5 + 1])
-            $('#option3').val(this.questionOptions[questionNo * 5 + 2])
-            $('#option4').val(this.questionOptions[questionNo * 5 + 3])
-            $('#option5').val(this.questionOptions[questionNo * 5 + 4])
-            $('input[name=options]:checked').each(function() {
-                this.checked = false;
-            });
-            var answer = this.questionOptions.indexOf(this.answers[questionNo])
-            if (answer >= 0) {
-                var rem = answer % 5;
-                var radios = document.getElementsByName('options')
-                radios[rem].checked = true
-            }
-        },
-        saveQuestionAndOptions: function() {
-            this.quizQuestions[this.currentQuestion] = $('textarea#quizQuestion').val()
-            this.questionOptions[this.currentQuestion * 5] = $('#option1').val()
-            this.questionOptions[this.currentQuestion * 5 + 1] = $('#option2').val()
-            this.questionOptions[this.currentQuestion * 5 + 2] = $('#option3').val()
-            this.questionOptions[this.currentQuestion * 5 + 3] = $('#option4').val()
-            this.questionOptions[this.currentQuestion * 5 + 4] = $('#option5').val()
-            this.answers[this.currentQuestion] = $('#' + $('input[name=options]:checked').val()).val()
-            this.displayQuestionsInView()
-        },
-        displayQuestionsInView: function() {
-            $('#listofquestions').html('')
-            for (var questionNumber = 0; questionNumber < this.quizQuestions.length; questionNumber++) {
-                this.AddQuestiontoView(questionNumber)
-            }
-            this.currentQuestion = this.quizQuestions.length
-        },
-        AddQuestiontoView: function(questionNumber) {
-            var html = '<tr><td colspan="6"><h6>'+App.languageDict.attributes.Question+' ' + (questionNumber + 1) + '&nbsp&nbsp' +
-                '<a name=' + questionNumber + ' class="EditQuestiontoView btn btn-info">'+App.languageDict.attributes.EditLabel+'</a>&nbsp&nbsp' +
-                '<button value="' + questionNumber + '" class="btn btn-danger" id="delete-quiz-question" >'+App.languageDict.attributes.DeleteLabel+'</button>' +
-                '</h6>' + this.quizQuestions[questionNumber] + '</td></tr>'
-            html += '<tr>'
-            html += '<td><b>'+App.languageDict.attributes.Options+'</b></td>'
-            html += '<td>' + this.questionOptions[questionNumber * 5] + '</td>'
-            html += '<td>' + this.questionOptions[questionNumber * 5 + 1] + '</td>'
-            html += '<td>' + this.questionOptions[questionNumber * 5 + 2] + '</td>'
-            html += '<td>' + this.questionOptions[questionNumber * 5 + 3] + '</td>'
-            html += '<td>' + this.questionOptions[questionNumber * 5 + 4] + '</td>'
-            html += '<td><b>' + this.answers[questionNumber] + '<b></td>'
-            html += '</tr>'
-            html += '<tr><td colspan="7"><div id="' + questionNumber + '"></div></td></tr>'
-            $('#listofquestions').append(html)
-
-        },
-        EditQuestiontoView: function(e) {
-            this.currentQuestion = e.currentTarget.name
-            this.displayQuestionInView(this.currentQuestion)
-            $('#question-div').appendTo("#" + this.currentQuestion);
-            $('#save-edit-question').show()
-            $('#cancel-edit-question').show()
-
-            $('#save-new-question').hide()
-            $('#cancel-new-question').hide()
-        },
-        deleteQuestion: function(e) {
-            this.currentQuestion = e.currentTarget.value
-            this.quizQuestions.splice(this.currentQuestion, 1);
-            this.questionOptions.splice(this.currentQuestion * 5, 5)
-            this.answers.splice(this.currentQuestion, 1)
-            this.render()
-            this.displayQuestionsInView()
-        },
-        validQuestionAndOptions: function() {
-            var check = 0
-            if (typeof $('textarea#quizQuestion').val() === 'undefined' || $('textarea#quizQuestion').val() == '') {
-                return false
-            } else if (typeof $('#option1').val() === 'undefined' || $('#option1').val() == '') {
-                return false
-            } else if (typeof $('#option2').val() === 'undefined' || $('#option2').val() == '') {
-                return false
-            } else if (typeof $('#option3').val() === 'undefined' || $('#option3').val() == '') {
-                return false
-            } else if (typeof $('#option4').val() === 'undefined' || $('#option4').val() == '') {
-                return false
-            } else if (typeof $('#option5').val() === 'undefined' || $('#option5').val() == '') {
-                return false
-            } else if (typeof $('input[name=options]:checked').val() === 'undefined' || $('input[name=options]:checked').val() == '') {
-                return false
-            } else {
-                return true
-            }
-        },
-
         coursesavefunction: function(lid, isEdit, questionModel) {
             var that = this;
           $('.savecourseQuestion').show();
@@ -470,31 +334,11 @@ $(function() {
             var obj = this
             this.vars.courseTitle = this.ltitle;
             this.vars.languageDict=App.languageDict;
-            this.$el.html(_.template(this.template, this.vars))
-            $('#save-edit-question').hide()
-            $('#cancel-edit-question').hide() 
+            this.$el.html(_.template(this.template, this.vars)) 
             $(".quizclass").hide() 
             $('#add_new_question').on('change', function() {  $(".quizclass").hide();$('#'+this.value ).show();}) 
             this.coursesavefunction(this.levelId, false, null);
-            var levelInfo = new App.Models.CourseStep({
-                "_id": this.levelId
-            })
-            levelInfo.fetch({
-                async: false
-            })
-            if(typeof levelInfo.get("coursestructure") !== "undefined" && levelInfo.get("coursestructure") == "true"  ){
-               $("#dialog").show();
-                $("#question-div").hide();
-            } else{
-                 $("#dialog").hide();
-                $("#question-div").show();
-                 
-            }
             $('#dialog .subtitle').text(App.languageDict.attributes.Select_a_Question);
-            /*var qArray=App.languageDict.attributes.Question_types;
-            for(var i=0;i<qArray.length;i++){
-                $('#add_new_question option').eq(i).text(qArray[i]);
-            }*/
         }
     })
 

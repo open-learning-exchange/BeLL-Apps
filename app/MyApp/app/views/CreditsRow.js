@@ -53,6 +53,7 @@ $(function () {
             }
             vars.stepNo = this.model.attributes.step;
             vars.credits = this.credits;
+            console.log(this.credits)
             vars.lastAttemptPercentage = this.credits[this.attempts]
             vars.status = this.status;
             vars.attempts = this.attempts;

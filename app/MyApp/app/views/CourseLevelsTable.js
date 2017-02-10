@@ -6,8 +6,7 @@ $(function () {
         modl: null,
         template: _.template($("#template-courseLevelsTable").html()),
         events: {
-            "click #takequiz": "quiz",
-            "click #newtakequiz": "quiz",
+            "click #takeTest": "quiz",
             "click #resourseOpened": function (e) {
                 resid = e.target.attributes.rid.nodeValue
                 var member = new App.Models.Member({
@@ -66,8 +65,6 @@ $(function () {
             JSONsteps=step.toJSON()
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
-/*            if(Attempt[index] == "0" || Attempt[index] == "" || (sp[index][Attempt[index]] != undefined  && sp[index][Attempt[index]] != "")){
-*/            if (typeof JSONsteps.coursestructure !== "undefined" &&  JSONsteps.coursestructure == "true") {
                var temp = new App.Views.takeQuizView({ 
                 coursestructure: JSONsteps.coursestructure,
                 questionlist: JSONsteps.questionslist,
@@ -76,25 +73,10 @@ $(function () {
                 stepIndex: index,
                 stepId: JSONsteps._id
                 })
-            }
-            else{
-                var temp = new App.Views.takeQuizView({ 
-                questions: JSONsteps.questions,
-                answers: JSONsteps.answers,
-                options: JSONsteps.qoptions,
-                passP: JSONsteps.passingPercentage,
-                resultModel: context.modl,
-                stepIndex: index
-                })   
-            }
             temp.render()
             $('div.takeQuizDiv').html(temp.el)
-       
-        /* }else {
-            alert(App.languageDict.attributes.FeedbackForTest);
-        }*/},
+       },
             
-
         initialize: function () {
             $('div.takeQuizDiv').hide()
         },
@@ -106,28 +88,6 @@ $(function () {
         addOne: function (model) {
             this.vars = model.toJSON();
             this.vars.languageDict=App.languageDict;
-            if (!this.vars.outComes || this.vars.outComes.length==0) {
-                this.vars.outComes = ''
-                if (this.vars.questions && this.vars.questions.length >0){
-                    this.vars.outComes = ['Quiz'];
-                }
-
-            }
-            else if(this.vars.outComes instanceof Array){
-                for ( var i =0;i< this.vars.outComes.length; i++)
-                {
-                    var textOfOutcomes = 'Take_' + this.vars.outComes[i];
-                    this.vars.outComesText = textOfOutcomes;
-
-                }
-
-            }
-            else{
-                var temp=this.vars.outComes
-                this.vars.outComes=new Array()
-                this.vars.outComes[0]=temp;
-
-            }
             var index = 0
             var sstatus = this.modl.get('stepsStatus')
             var ssids = this.modl.get('stepsIds')
@@ -142,22 +102,9 @@ $(function () {
                 this.vars.status = App.languageDict.attributes.Error
                 this.vars.marks =  App.languageDict.attributes.Error
             } else {
-                var tempStatus = [];
-
-                if(sstatus[index].length > 1) {
-                    var paper = filterInt(sstatus[index][0])
-                    var quiz = filterInt(sstatus[index][1])
-                    tempStatus.push(paper);
-                    tempStatus.push(quiz);
-                    this.vars.status = tempStatus
-                    this.vars.marks = sr[index]
-                    this.vars.lastAttemptsMarks = sr[index][totalattempt]
-                } else {
                 this.vars.status = filterInt(sstatus[index])
                 this.vars.marks = sr[index]
                 this.vars.lastAttemptsMarks = sr[index][totalattempt]
-                }
-
                 this.vars.index = index
             }
             var attachmentNames = new Array()
@@ -207,10 +154,8 @@ $(function () {
            });
         },
         renderaccordian:function(model){
-
             var context=this
             context.modl=model
-
             var PassedSteps = 0
             var sstatus = context.modl.get('stepsStatus')
             var totalSteps = sstatus.length
@@ -234,9 +179,6 @@ $(function () {
                     ui.item.children("h3").triggerHandler("focusout");
                 }
             });
-
-
-
         },
         render: function () {
 

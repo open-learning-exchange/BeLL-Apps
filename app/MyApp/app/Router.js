@@ -2365,23 +2365,19 @@ $(function() {
             App.stopActivityIndicator()
         },
         CreateTest: function(lid, rid, title) {
+            $("#dialog").show()
             var that = this;
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
             })
             levelInfo.fetch({
                 success: function() {
-                    if(levelInfo.get("coursestructure") === true ){
-                        $("#dialog").hide();
-                        $("#question-div").show();
-                    } else{
-                         $("#dialog").show();
-                        $("#question-div").hide();
-                    }
+                   $("#dialog").show();
                     var quiz = new App.Views.QuizView()
                     quiz.levelId = lid
                     quiz.revId = levelInfo.get('_rev')
                     quiz.ltitle = title
+
                     var coursestepModel = new App.Models.CourseStep({
                      _id: lid
                     })
@@ -2416,23 +2412,13 @@ $(function() {
                     CourseStepQuestionsTable.render()
 
                     }
-                   
-                    
                     $("input[name='questionRow']").hide();
-                    if (levelInfo.get("questions")) {
-                        App.$el.children('.body').html('<h3>'+App.languageDict.attributes.Edit_Test+' |' + title + '</h3>')
-                        quiz.quizQuestions = levelInfo.get("questions")
-                        quiz.questionOptions = levelInfo.get("qoptions")
-                        quiz.answers = levelInfo.get("answers")
-
-                    }
                     App.$el.children('.body').html(quiz.el)
                     quiz.render();
-
-                    $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
-                     if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
+                    if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
                     {
                     $('#parentDiv').append(CourseStepQuestionsTable.el);}
+                    $("#Rearrange").remove();
                     $("#moveup").hide();
                     $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {
@@ -2496,7 +2482,6 @@ $(function() {
 
         },
         CourseReport: function(cId, cname) {
-
             var roles = this.getRoles()
             var course = new App.Models.Course();
             course.id = cId
@@ -2518,6 +2503,7 @@ $(function() {
             allResults.fetch({
                 async: false
             })
+            console.log(allResults)
             var vi = new App.Views.CoursesStudentsProgress({
                 collection: allResults
             })
@@ -2920,20 +2906,13 @@ $(function() {
             Cstep.set({
                 courseId: courseId
             })
+            Cstep.set("totalMarks",0);
             var coursedetail = new App.Models.Course({
                 _id: courseId
             })
             coursedetail.fetch({
                 async: false
             })
-            if (typeof coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') == 'true') {
-                Cstep.set('coursestructure', true);
-                Cstep.set('totalMarks', 0);
-
-                delete Cstep.schema.outComes;
-            } else {
-                Cstep.set('coursestructure', 'false');
-            }
             var lForm = new App.Views.LevelForm({
                 model: Cstep
             })
@@ -2955,19 +2934,9 @@ $(function() {
                     $('.courseSearchResults_Bottom').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
                     lForm.edit = true
                     lForm.ques1 = Cstep.get("questionslist")
-                    lForm.ques = Cstep.get("questions")
-                    lForm.ans = Cstep.get("answers")
-                    lForm.opt = Cstep.get("qoptions")
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
-                    if (coursedetail.get('structure') !== "undefined" && coursedetail.get('structure') === "true") {
-                        Cstep.set('coursestructure', true);
-                        Cstep.set('totalMarks', 0);
-                        delete Cstep.schema.outComes;
-                    } else {
-                        Cstep.set('coursestructure', 'false');
-                    }
                     lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
                     $("input[name='step']").attr("disabled", true);
@@ -2985,9 +2954,6 @@ $(function() {
             $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
             $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
             // $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
-            $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
-            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
-            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);
             $('.bbf-form .field-passingPercentage label').html(App.languageDict.attributes.Passing_Percentage);
 
             var directionOfLang = App.languageDict.get('directionOfLang');
@@ -3015,7 +2981,7 @@ $(function() {
                     $('.courseEditStep').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
-                    if (levelInfo.get("questions") == null && levelInfo.get("questionslist") == null) {
+                    if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                         //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
                     } else {

@@ -81,13 +81,13 @@ $(function() {
         },
 
         addAll: function() {
-            this.$el.append('<tr><th>'+App.languageDict.attributes.Questions+'</th><th colspan="2">'+App.languageDict.attributes.Actions+'</th></tr>');
-            if (this.collection.models.length > 0) {
+            this.$el.append('<tr><th>'+App.languageDict.attributes.Questions+'</th><th>'+App.languageDict.attributes.TotalMarks+'</th><th>'+App.languageDict.attributes.Type+'</th><th>'+App.languageDict.attributes.Actions+'</th></tr>');
+           /* if (this.collection.models.length > 0) {
                 this.$el.append('<tr><td>&nbsp;&nbsp;&nbsp;<button class="btn btn-success" id="Rearrange" >'+App.languageDict.attributes.Rearrange+'</button>&nbsp;&nbsp;&nbsp;' +
                     '<button class="btn btn-success" id="moveup" >'+App.languageDict.attributes.Up+'</button>&nbsp;&nbsp;&nbsp;' +
                     '<button class="btn btn-success" id="movedown" >'+App.languageDict.attributes.Down+'</button></td></tr>'
                 );
-            }
+            }*/
             if (this.collection.length == 0)
                 this.$el.append('<tr><td colspan="2"> '+App.languageDict.attributes.empty_Course+' <td></tr>');
             this.collection.forEach(this.addOne, this);

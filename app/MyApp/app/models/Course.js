@@ -17,7 +17,6 @@ $(function() {
 
         defaults: {
             kind: "Course", // Saves kind of document according to corresponding db's.Mostly used in couch db views.
-            structure: true
         },
 
         schema: {
@@ -59,10 +58,6 @@ $(function() {
             members: {   //Consists of list of IDs of all leaders and students added in this course. These IDs are fetched from members database
                 type: 'Checkboxes',
                 options: null // Populate this when instantiating
-            },
-            structure : {
-                type: 'Radio',
-                options: [{val:true, label: 'New Course'}, {val: false, label: 'Old Course'}]
             }
         }
 

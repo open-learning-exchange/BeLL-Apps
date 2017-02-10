@@ -16,7 +16,6 @@ $(function() {
 
         defaults: {
             kind: "Course Step", // Saves kind of document according to corresponding db's.Mostly used in couch db views.
-            coursestructure: true
         },
 
         schema: {
@@ -36,30 +35,9 @@ $(function() {
                 type: 'Select',
                 options: []
             },
-            questions: {  //Statements of Question(s) added, if the step has an outcome/type as Quiz
-                type: 'Select',
-                options: []
-            },
-
-            qoptions: { //Options provided against each question.
-                type: 'Select',
-                options: []
-            },
-            answers: { //List of correct answer against each question.
-                type: 'Select',
-                options: []
-            },
             resourceTitles: { //Names of all those resources which are attached with given step.
                 type: 'Select',
                 options: []
-            },
-            outComes: { //Type of Step e.g
-                //1. Quiz
-                //2. Paper/Assignment
-                //3. Paper and Quiz
-                title: 'Outcomes',
-                type: 'Checkboxes',
-                options: ['Paper', 'Quiz']
             },
              questionslist: {  //Statements of Question(s) list added, if the step has an outcome/type as Quiz
                 type: 'Select',
@@ -69,10 +47,6 @@ $(function() {
                 type: 'Select',
                 options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
             },
-            coursestructure: {
-                type: 'Radio',
-                options: [{val:true, label: 'New Course'}, {val: false, label: 'Old Course'}]
-            }
         },
         saveAttachment: function(formEl, fileEl, revEl) {
 
