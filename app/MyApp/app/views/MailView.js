@@ -102,17 +102,20 @@ $(function() {
                         return
                     }
                 });
+                var langDict;
+                var lan = getLanguage(mmodel.get('_id'))
+                langDict = getSpecificLanguage(lan);
                 var temp
                 var that = this
                 var currentdate = new Date();
                 
                     
-                    var mailBody = App.languageDict.attributes.Hi + ',<br>' + ' <b>' + username + '</b> ' + ',<br>' + App.languageDict.attributes.Your_Request_Has_Been_Accepted;
+                    var mailBody = langDict.attributes.Hi + ' <b>' + username + '</b>,' + '<br>' + langDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
                     temp = new App.Models.Mail()
                     temp.set("senderId", $.cookie('Member._id'))
                     temp.set("receiverId", mmodel.get('_id'));
                     temp.set("status", "0")
-                    temp.set("subject", App.languageDict.attributes.Manager_Request + " | " + username)
+                    temp.set("subject", langDict.attributes.Manager_Request + " | " + username)
                     temp.set("type", "manager-request")
                     temp.set("body", mailBody)
                     temp.set("sendDate", currentdate)
@@ -134,15 +137,18 @@ $(function() {
                     async: false
                 })
                 var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName;
+                var langDict;
+                var lan = getLanguage(mmodel.get('_id'))
+                langDict = getSpecificLanguage(lan);
                 var temp
                 var that = this
                 var currentdate = new Date();
-                var mailBody = App.languageDict.attributes.Hi + ',<br>' + ' <b>' + username + '</b> ' + ',<br>' + App.languageDict.attributes.Your_Request_Has_Been_Rejected;
+                var mailBody = langDict.attributes.Hi + ' <b>' + username + '</b>, '+'<br>' + langDict.attributes.Your_Request_Has_Been_Rejected;
                 temp = new App.Models.Mail()
                 temp.set("senderId", $.cookie('Member._id'))
                 temp.set("receiverId",  mmodel.get('_id'));
                 temp.set("status", "0")
-                temp.set("subject", App.languageDict.attributes.Manager_Request + " | " + username)
+                temp.set("subject", langDict.attributes.Manager_Request + " | " + username)
                 temp.set("type", "manager-request")
                 temp.set("body", mailBody)
                 temp.set("sendDate", currentdate)
