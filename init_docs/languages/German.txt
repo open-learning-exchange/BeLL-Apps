@@ -159,7 +159,7 @@
   "Urgent":"Dringend",
   "Bug":"Fehler",
   "Question":"Frage",
-  "Submit":"Submit",
+  "Submit":"Senden",
   "Collection_Name":"Collection Name",
   "Nested_Under":"Nested Under",
   "Added_Date":"Added Date",
