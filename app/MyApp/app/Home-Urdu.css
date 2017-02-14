@@ -15,7 +15,9 @@
 #memberform{
     float:right;
 }
-
+#mail-body{   
+    direction: rtl;
+}
 #PromoteToManager{
     margin-right:170px;
     margin-top:-90px;
@@ -28,7 +30,6 @@
     margin-right: 4%;
     overflow: hidden;
 }
-
 select#onLoginLanguage {
     position: relative;
     display: inline-flex;
@@ -63,7 +64,6 @@ select#onDashboardLanguage {
     width:950px;*/
    /* direction: rtl;*/
     height: 600px;
-
     width:940px;
     margin-left:auto;
     margin: 0 auto;
@@ -72,7 +72,6 @@ select#onDashboardLanguage {
 }
 #nav{
     display: flex;
-
     text-align: center;
 }
 #nav li{
@@ -95,7 +94,6 @@ select#onDashboardLanguage {
     overflow: scroll;
     height: 40%;
 }
-
 .imageData {
     width: 112px;
 }
@@ -452,7 +450,6 @@ body{
 {
     position: absolute;
 }
-
 #resourceform {
     background-color: #F3F3F3;
     border-radius: 37px;
@@ -551,7 +548,8 @@ body{
 }
 #externalDiv{
     direction: rtl;
-}.btn.btn-hg, .input-group-hg .btn
+}
+.btn.btn-hg, .input-group-hg .btn
 {
     line-height:13px;
     color: white;

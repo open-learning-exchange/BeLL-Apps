@@ -112,7 +112,6 @@ $(function() {
             $.removeCookie('forcedUpdateProfile');
         },
         getRoles: function(userId) {
-
             var user = (userId) ? new App.Models.Member({
                 "_id": userId
             }) : new App.Models.Member({
@@ -122,7 +121,6 @@ $(function() {
                 async: false
             })
             var roles = user.get("roles")
-
             return roles
         },
 
@@ -132,7 +130,6 @@ $(function() {
             memberList.fetch({
                 async: false
             })
-
             var temp
             var that = this
             var currentdate = new Date();
@@ -140,7 +137,7 @@ $(function() {
                 var langDict;
                 var lan = getLanguage(m.get("_id"))
                 langDict = getSpecificLanguage(lan);
-                var mailBody = langDict.attributes.Hi + ',<br>' + langDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + App.languageDict.attributes.Has_Requested_Promote
+                var mailBody = langDict.attributes.Hi + '&nbsp;' + '<b>' + $.cookie('Member.login') + '</b>'+ ',<br>' + '<br>' + langDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + App.languageDict.attributes.Has_Requested_Promote
                 + '<br/><br/><button class="btn btn-primary" id="promote-accept" value="' + $.cookie('Member._id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="promote-reject" value="' + $.cookie('Member._id') + '" >Reject</button>';
                 temp = new App.Models.Mail()
                 temp.set("senderId", $.cookie('Member._id'))

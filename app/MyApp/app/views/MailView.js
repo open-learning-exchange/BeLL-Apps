@@ -108,9 +108,7 @@ $(function() {
                 var temp
                 var that = this
                 var currentdate = new Date();
-                
-                    
-                    var mailBody = langDict.attributes.Hi + ' <b>' + username + '</b>,' + '<br>' + langDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
+                    var mailBody = langDict.attributes.Hi+ '&nbsp;' + ' <b>' + username + '</b>' +',<br>' + '<br>' + langDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
                     temp = new App.Models.Mail()
                     temp.set("senderId", $.cookie('Member._id'))
                     temp.set("receiverId", mmodel.get('_id'));
@@ -121,10 +119,7 @@ $(function() {
                     temp.set("sendDate", currentdate)
                     temp.set("entityId",mmodel.get('_id'))
                     temp.save()
-                
-        
-
-               
+                   
             },
             "click #promote-reject": function (e) {
                 var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
@@ -143,7 +138,7 @@ $(function() {
                 var temp
                 var that = this
                 var currentdate = new Date();
-                var mailBody = langDict.attributes.Hi + ' <b>' + username + '</b>, '+'<br>' + langDict.attributes.Your_Request_Has_Been_Rejected;
+                var mailBody = langDict.attributes.Hi+ '&nbsp;' + '<b>' + username + '</b>'+ ',<br>' + '<br>' + langDict.attributes.Your_Request_Has_Been_Rejected;
                 temp = new App.Models.Mail()
                 temp.set("senderId", $.cookie('Member._id'))
                 temp.set("receiverId",  mmodel.get('_id'));
@@ -270,7 +265,6 @@ $(function() {
                     }
                 }
             },
-
 
             "click #invite-reject": function(e) {
                 if (mailView.inViewModel.get('type') == "admissionRequest") {
