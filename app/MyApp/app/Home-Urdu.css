@@ -1,6 +1,6 @@
 /*This stylesheet is supposed to applied on page for RTL languages like Arabic, Urdu etc*/
 .body {
-	direction: rtl;
+    direction: rtl;
     margin-right: 12px;
 }
 #dashboard {
@@ -18,7 +18,6 @@
 }
 #mail-body{
     direction: rtl;
-
 }
 #PromoteToManager{
     margin-right:170px;
@@ -577,14 +576,12 @@ body{
 }
 
 .login-form > .bbf-form{
- 
     height: 191px;
     width: 50%;
-    
 }
 
 .login-heading
-{    
+{ 
     display: block;
     font-size: 28px;
     margin-right: 40%;
@@ -595,7 +592,7 @@ body{
 .login-form
 {
     height: 300px;
-        width: 370px;
+    width: 370px;
     left:46%;
     position:relative;
     margin: 0px -150px;
