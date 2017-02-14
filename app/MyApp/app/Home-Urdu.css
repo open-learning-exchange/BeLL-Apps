@@ -1,7 +1,6 @@
 /*This stylesheet is supposed to applied on page for RTL languages like Arabic, Urdu etc*/
 .body {
 	direction: rtl;
-    margin-right: 12px;
 }
 #dashboard {
     height: 600px;
@@ -16,10 +15,7 @@
 #memberform{
     float:right;
 }
-#mail-body{
-    direction: rtl;
 
-}
 #PromoteToManager{
     margin-right:170px;
     margin-top:-90px;
@@ -378,7 +374,6 @@ border-right-width:0px;
     text-align:center;
     /*text-shadow:0px 0px 0px #689324;*/
 }
-
 .btn-red {
     -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
     -webkit-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
@@ -408,7 +403,6 @@ border-right-width:0px;
 
     /*text-shadow:1px 1px 12px #689324;*/
 }
-
 .btn-green, .btn-red
 {
     height: 40px;
@@ -430,10 +424,6 @@ border-right-width:0px;
 .btn.btn-primary1.active {
     background-color: #16a085;
 }
-
-
-
-
 body{
     background-color:none;
     color: none;
@@ -449,8 +439,6 @@ body{
     min-width: 1024px;
  /*   background-color: aquamarine;*/
       /* direction: rtl;*/
-
-
 }
 #option-area
 {
@@ -495,7 +483,6 @@ body{
 }
 .navbar-inverse
 {
-
     font-family: verdana;
     font-size: 20px;
     height: 62px;
@@ -564,9 +551,7 @@ body{
 }
 #externalDiv{
     direction: rtl;
-}
-
-.btn.btn-hg, .input-group-hg .btn
+}.btn.btn-hg, .input-group-hg .btn
 {
     line-height:13px;
     color: white;
@@ -575,27 +560,23 @@ body{
     width: 233px;
     font-weight: 900;
 }
-
 .login-form > .bbf-form{
  
     height: 191px;
-    width: 50%;
-    
+    width: 50%; 
 }
-
 .login-heading
-{    
+{
     display: block;
     font-size: 28px;
     margin-right: 40%;
     width: 320px;
     text-align: center;
 }
-
 .login-form
 {
     height: 300px;
-        width: 370px;
+    width: 370px;
     left:46%;
     position:relative;
     margin: 0px -150px;
