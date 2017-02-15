@@ -4,7 +4,7 @@
   "nameInNativeLang":"Français",
   "Dashboard":"Accueil",
   "Library":"Bibliothèque",
-  "Courses":"Les cours",
+  "Courses":"Cours",
   "Meetups":"Rendez-vous",
   "Members":"Membres",
   "Reports":"Rapports",
