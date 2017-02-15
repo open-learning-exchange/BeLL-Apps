@@ -114,7 +114,7 @@ $(function() {
             }
 			this.collection.skip = 0
 			this.addAll();
-          //  location.reload();
+         //location.reload();
 		}
 
 	})

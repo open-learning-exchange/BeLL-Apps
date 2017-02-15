@@ -86,7 +86,6 @@ $(function() {
         },
 
         renderQuestion: function() {
-            console.log(this.TotalCount, this.index+1)
             if ((this.index + 1) != this.TotalCount) {
                 this.index++
                 this.$el.html('&nbsp')
@@ -145,11 +144,11 @@ $(function() {
 
                 });
 
-                if (this.pp <= quizScore) {
+               /* if (this.pp <= quizScore) {
                     this.$el.append('</BR><p>'+App.languageDict.attributes.Course_Pass_Msg+'</p>')
                 } else {
                     this.$el.append('</BR><p>'+App.languageDict.attributes.Course_Failure_Msg+'</p>')
-                }
+                }*/
 
             }
         },

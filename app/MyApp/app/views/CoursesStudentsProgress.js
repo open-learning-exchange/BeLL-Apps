@@ -66,7 +66,6 @@ $(function () {
             data = model.toJSON().stepsStatus
             sResult = model.toJSON().stepsResult
             total = model.toJSON().stepsStatus.length
-            console.log(data, total)
             passed = 0
             remaining = 0
             for (var i = 0; i < total; i++) {
@@ -102,7 +101,7 @@ $(function () {
                 temp.courseId = model.get("courseId");
                 this.arrayOfData.push(temp)
                 this.membername.push(student.toJSON().firstName + ' ' + student.toJSON().lastName)
-         
+         console.log(this.membername);
            for(var i = 0; i < total; i++){
             if(!this.sstatus[i] && !this.sresult[i]){
                 this.sstatus[i] =[]
@@ -154,6 +153,10 @@ $(function () {
             }
         },
         render: function () {
+            this.membername = []
+            this.sstatus = []
+            this.sresult = []
+            this.series= []
             this.arrayOfData = []
             this.grandpassed = 0
             this.grandremaining = 0

@@ -6,11 +6,15 @@ $(function () {
         arrayOfData: new Array,
         grandpassed: null,
         grandremaining: null,
+        array:new Array,
+        sresult:new Array,
+        series:new Array,
+        maxarray:[],
+        catarray:[],
+        maxcount:'',
         events: {
             "click #Donut": function () {
                 $('#graph').html(' ')
-                //document.getElementById('horizontallabel').style.visibility = 'hidden'
-               // document.getElementById('veticallable').style.visibility = 'hidden';
                 document.getElementById('infoAboutGraph').style.visibility = 'hidden';
                 this.$el.html('<a class="btn btn-info" id="Bar">'+App.languageDict.attributes.Detailed_View+'</a>')
                 Morris.Donut({
@@ -45,15 +49,24 @@ $(function () {
                     stacked: true
                 });
             }
-
-
         },
-
-
         addOne: function (model) {
             temp = new Object
             data = model.toJSON().stepsStatus
+            attemptdata = model.toJSON().pqAttempts
+            sResult = model.toJSON().stepsResult
+            total1 = model.toJSON().stepsResult.length
             total = model.toJSON().stepsStatus.length
+            totalstep =model.toJSON().stepsIds.length
+            this.maxarray.push(totalstep)
+            this.maxcount = Math.max.apply(Math,this.maxarray)
+            seriess ={};
+                seriess.data = []
+                 for(var i = 0; i < total1; i++){
+                    this.sresult= parseInt(sResult[i][attemptdata[i]]); 
+                    seriess.data[i] = this.sresult;       
+                }
+            this.series.push(seriess); 
             passed = 0
             remaining = 0
             for (var i = 0; i < total; i++) {
@@ -81,15 +94,18 @@ $(function () {
             course.fetch({
                 async: false
             })
+            seriess.name = course.attributes.name
             if (total == 0) {
                 temp.subject = (course.toJSON().name +' ' +App.languageDict.attributes.No_Steps)
             } else {
                 temp.subject = (course.toJSON().name)
             }
-
+            this.array.push(temp.subject)
             temp.passed = passed
             temp.remaining = remaining
             this.arrayOfData.push(temp)
+            
+            
         },
 
         BuildString: function () {
@@ -101,10 +117,48 @@ $(function () {
         },
 
         render: function () {
+            this.maxarray=[]
+            this.sresult = []
+            this.series =[]
             this.arrayOfData = []
             this.grandpassed = 0
             this.grandremaining = 0
             this.BuildString()
+            for (var i = 0; i < this.maxcount; i++) {
+                  this.catarray.push(i+1)
+               }
+
+            Highcharts.chart('graph2', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Individual Courses Progress'
+                },
+                subtitle: {
+                    text: ' '
+                },
+                xAxis: {
+                    title: {
+                        text: 'Steps No'
+                    },
+                    categories: this.catarray
+                },
+                yAxis: {
+                    title: {
+                        text: 'Each Step Percentage %'
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: true
+                    }
+                },
+                series: this.series
+            });
 
             Morris.Bar({
                 element: 'graph',
@@ -118,8 +172,6 @@ $(function () {
                 grid: true,
                 stacked: true,
                 xLabelMargin: 5
-
-
             });
             this.$el.append('<a class="btn btn-info" id="Donut">'+App.languageDict.attributes.Birdeye_View+'</a>')
         }

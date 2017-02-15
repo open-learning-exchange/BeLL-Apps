@@ -12,7 +12,14 @@ ddoc.views = {
         emit(doc.courseId, true)
       }
     }
-  }
+  },
+   stepbytitle: {
+        map: function(doc) {
+            if (doc.title) {
+                emit(doc.title, doc);
+            }
+        }
+    },
 }
 
 module.exports = ddoc;
