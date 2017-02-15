@@ -129,21 +129,21 @@ $(function() {
             memberList.manager = true
             memberList.fetch({
                 async: false
-            })
+            })            
             var temp
             var that = this
             var currentdate = new Date();
             memberList.each(function (m) {
-                var langDict;
-                var lan = getLanguage(m.get("_id"))
-                langDict = getSpecificLanguage(lan);
-                var mailBody = langDict.attributes.Hi + '&nbsp;' + '<b>' + $.cookie('Member.login') + '</b>'+ ',<br>' + '<br>' + langDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + App.languageDict.attributes.Has_Requested_Promote
+                var languageDictValue;
+                var lang = getLanguage(m.get("_id"))
+                languageDict = getSpecificLanguage(lang);
+                var mailBody = languageDict.attributes.Hi + '&nbsp;' + '<b>'+ m.get("firstName") +' '+m.get("lastName")+  '</b>' + ',<br>' + '<br>' + languageDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + languageDict.attributes.Has_Requested_Promote
                 + '<br/><br/><button class="btn btn-primary" id="promote-accept" value="' + $.cookie('Member._id') + '" >Accept</button>&nbsp;&nbsp;<button class="btn btn-danger" id="promote-reject" value="' + $.cookie('Member._id') + '" >Reject</button>';
                 temp = new App.Models.Mail()
                 temp.set("senderId", $.cookie('Member._id'))
                 temp.set("receiverId", m.get("_id"));
                 temp.set("status", "0")
-                temp.set("subject", langDict.attributes.Manager_Request + " | " + $.cookie('Member.login'))
+                temp.set("subject", languageDict.attributes.Manager_Request + " | " + $.cookie('Member.login'))
                 temp.set("type", "manager-request")
                 temp.set("body", mailBody)
                 temp.set("sendDate", currentdate)
