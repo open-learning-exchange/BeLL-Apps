@@ -1,12 +1,10 @@
 $(function() {
-
 	App.Collections.Members = Backbone.Collection.extend({
-
 		url: function() {
 			if (this.login) {
 				return App.Server + '/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + this.login + '"'
 			} else if (this.manager) {
-               			return App.Server + '/members/_design/bell/_view/managerMembers?include_docs=true'
+               	return App.Server + '/members/_design/bell/_view/managerMembers?include_docs=true'
 		        } else if (this.skip) {
 				return App.Server + '/members/_design/bell/_view/Members?include_docs=true&limit=20&skip=' + this.skip
 			} else if (this.searchCommunity && this.searchCommunity != "" && this.searchText && this.searchText != "") {
@@ -15,7 +13,7 @@ $(function() {
 				return App.Server + '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="'+this.searchCommunity+'"'
 			}  else if (this.keys != undefined) {
 				return App.Server + '/members/_all_docs?include_docs=true&keys=[' + this.keys + ']'
-		    } else {
+		        } else {
 				return App.Server + '/members/_design/bell/_view/Members?include_docs=true'
 			}
 		},
