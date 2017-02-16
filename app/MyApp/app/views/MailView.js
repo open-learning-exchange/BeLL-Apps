@@ -92,12 +92,12 @@ $(function() {
                     roles.push("Manager");// if promote to manager checkbox is ticked
                     mmodel.set('roles', roles);
                 }
-                    var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ username +  '</b>' + ',<br>' + '<br>' + App.languageDict.attributes.Your_Request_Has_Been_Accepted + '<br/><br/>';
-                    mailView.updateMailBody(body)
-                    mmodel.save(null, {
-                        success: function () {
-                            alert(App.languageDict.attributes.Promote_Request_Accepted)
-                            return
+                var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ $.cookie('Member.login') +  '</b>' + ',<br>' + '<br>' + App.languageDict.attributes.Member + ' <b>' + username + '</b> ' + App.languageDict.attributes.Has_Requested_Promote + '<br/><br/>';
+                mailView.updateMailBody(body)
+                mmodel.save(null, {
+                    success: function () {
+                        alert(App.languageDict.attributes.Promote_Request_Accepted)
+                        return
                     }
                 });
                 var languageDictValue;
@@ -127,7 +127,7 @@ $(function() {
                     async: false
                 })
                 var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName;
-                var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ username +  '</b>' + ',<br>' + '<br>' + App.languageDict.attributes.Your_Request_Has_Been_Rejected + '<br/><br/>';
+                var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ $.cookie('Member.login') +  '</b>' + ',<br>' + '<br>' + App.languageDict.attributes.Member + ' <b>' + username + '</b> ' + App.languageDict.attributes.Has_Requested_Promote + '<br/><br/>';
                 mailView.updateMailBody(body) 
                 var languageDictValue;
                 var lang = getLanguage(mmodel.get("_id"))
