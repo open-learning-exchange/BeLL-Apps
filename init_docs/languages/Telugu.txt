@@ -14,7 +14,7 @@
   "Calender":"Calendar",
   "Email":"Email",
   "Welcome_Video":"Welcome Video",
-  "Nation":"Nation",
+  "Nation":"దేశం",
   "Community":"Community",
   "Manager":"Manager",
   "Super_Manager":"Super Manager",
@@ -46,7 +46,7 @@
       "September":"September",
       "October":"October",
       "November":"November",
-      "December":"December"
+      "December":"డిసెంబర్"
     }
   ],
   "News_Feed":"News Feed",
