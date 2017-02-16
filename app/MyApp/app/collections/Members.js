@@ -1,7 +1,5 @@
 $(function() {
-
 	App.Collections.Members = Backbone.Collection.extend({
-
 		url: function() {
 			if (this.login) {
 				return App.Server + '/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + this.login + '"'

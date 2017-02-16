@@ -106,18 +106,17 @@ $(function() {
                 var temp
                 var that = this
                 var currentdate = new Date();
-                    var mailBody = languageDict.attributes.Hi+ '&nbsp;' + ' <b>' + username + '</b>' +',<br>' + '<br>' + languageDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
-                    temp = new App.Models.Mail()
-                    temp.set("senderId", $.cookie('Member._id'))
-                    temp.set("receiverId", mmodel.get('_id'));
-                    temp.set("status", "0")
-                    temp.set("subject", languageDict.attributes.Manager_Request + " | " + username)
-                    temp.set("type", "manager-request")
-                    temp.set("body", mailBody)
-                    temp.set("sendDate", currentdate)
-                    temp.set("entityId",mmodel.get('_id'))
-                    temp.save()
-                   
+                var mailBody = languageDict.attributes.Hi+ '&nbsp;' + ' <b>' + username + '</b>' +',<br>' + '<br>' + languageDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
+                temp = new App.Models.Mail()
+                temp.set("senderId", $.cookie('Member._id'))
+                temp.set("receiverId", mmodel.get('_id'));
+                temp.set("status", "0")
+                temp.set("subject", languageDict.attributes.Manager_Request + " | " + username)
+                temp.set("type", "manager-request")
+                temp.set("body", mailBody)
+                temp.set("sendDate", currentdate)
+                temp.set("entityId",mmodel.get('_id'))
+                temp.save()
             },
             "click #promote-reject": function (e) {
                 var mmodel = new App.Models.Member({
@@ -136,19 +135,19 @@ $(function() {
                 var that = this
                 var currentdate = new Date();
                 var mailBody = languageDict.attributes.Hi+ '&nbsp;' + '<b>' + username + '</b>'+ ',<br>' + '<br>' + languageDict.attributes.Your_Request_Has_Been_Rejected;
-                    temp = new App.Models.Mail()
-                    temp.set("senderId", $.cookie('Member._id'))
-                    temp.set("receiverId",  mmodel.get('_id'));
-                    temp.set("status", "0")
-                    temp.set("subject", languageDict.attributes.Manager_Request + " | " + username)
-                    temp.set("type", "manager-request")
-                    temp.set("body", mailBody)
-                    temp.set("sendDate", currentdate)
-                    temp.set("entityId", mmodel.get('_id'))
-                    temp.save()
-                    alert(App.languageDict.attributes.Promote_Request_Rejected)   
-
+                temp = new App.Models.Mail()
+                temp.set("senderId", $.cookie('Member._id'))
+                temp.set("receiverId",  mmodel.get('_id'));
+                temp.set("status", "0")
+                temp.set("subject", languageDict.attributes.Manager_Request + " | " + username)
+                temp.set("type", "manager-request")
+                temp.set("body", mailBody)
+                temp.set("sendDate", currentdate)
+                temp.set("entityId", mmodel.get('_id'))
+                temp.save()
+                alert(App.languageDict.attributes.Promote_Request_Rejected) 
             },
+            
             "click #invite-accept": function(e) {
                 if (mailView.inViewModel.get('type') == "admissionRequest") {
                     mailView.admissionRequestAccepted(e.currentTarget.value)
