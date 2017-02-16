@@ -1101,7 +1101,7 @@ function getNativeNameOfLang(language){
         }
     }
 }
-function getLanguage(loginName) {
+function getLanguage(MemberId) {
     var members = new App.Collections.Members()
     var lang;
     var configurations = Backbone.Collection.extend({
@@ -1112,7 +1112,12 @@ function getLanguage(loginName) {
         async: false
     });
     var jsonConfig = config.first().toJSON().rows[0].doc;
-    members.login = $.cookie('Member.login');
+    if(MemberId != undefined) {
+        members.keys = '"'+MemberId+'"'
+    } else { 
+        members.login = $.cookie('Member.login');
+    }
+   
     members.fetch({
         success: function () {
             if (members.length > 0) {

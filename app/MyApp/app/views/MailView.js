@@ -86,15 +86,13 @@ $(function() {
                 mmodel.fetch({
                     async: false
                 })
-                
                 var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName
                 roles = mmodel.get('roles');
                 if (roles.indexOf('Manager') < 0) {
                     roles.push("Manager");// if promote to manager checkbox is ticked
                     mmodel.set('roles', roles);
                 }
-                var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
-                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '').replace("||br||", "<br>")
+                var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ $.cookie('Member.login') +  '</b>' + ',<br>' + '<br>' + App.languageDict.attributes.Member + ' <b>' + username + '</b> ' + App.languageDict.attributes.Has_Requested_Promote + '<br/><br/>';
                 mailView.updateMailBody(body)
                 mmodel.save(null, {
                     success: function () {
@@ -102,34 +100,25 @@ $(function() {
                         return
                     }
                 });
-                var langDict;
-                var lan = getLanguage(mmodel.get('_id'))
-                langDict = getSpecificLanguage(lan);
+                var languageDictValue;
+                var lang = getLanguage(mmodel.get('_id'))
+                languageDict = getSpecificLanguage(lang);
                 var temp
                 var that = this
                 var currentdate = new Date();
-                
-                    
-                    var mailBody = langDict.attributes.Hi + ' <b>' + username + '</b>,' + '<br>' + langDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
-                    temp = new App.Models.Mail()
-                    temp.set("senderId", $.cookie('Member._id'))
-                    temp.set("receiverId", mmodel.get('_id'));
-                    temp.set("status", "0")
-                    temp.set("subject", langDict.attributes.Manager_Request + " | " + username)
-                    temp.set("type", "manager-request")
-                    temp.set("body", mailBody)
-                    temp.set("sendDate", currentdate)
-                    temp.set("entityId",mmodel.get('_id'))
-                    temp.save()
-                
-        
-
-               
+                var mailBody = languageDict.attributes.Hi+ '&nbsp;' + ' <b>' + username + '</b>' +',<br>' + '<br>' + languageDict.attributes.Your_Request_Has_Been_Accepted + '<br>';
+                temp = new App.Models.Mail()
+                temp.set("senderId", $.cookie('Member._id'))
+                temp.set("receiverId", mmodel.get('_id'));
+                temp.set("status", "0")
+                temp.set("subject", languageDict.attributes.Manager_Request + " | " + username)
+                temp.set("type", "manager-request")
+                temp.set("body", mailBody)
+                temp.set("sendDate", currentdate)
+                temp.set("entityId",mmodel.get('_id'))
+                temp.save()
             },
             "click #promote-reject": function (e) {
-                var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
-                body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '').replace("||br||", "<br>")
-                mailView.updateMailBody(body) 
                 var mmodel = new App.Models.Member({
                     _id: e.currentTarget.value
                 })
@@ -137,26 +126,28 @@ $(function() {
                     async: false
                 })
                 var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName;
-                var langDict;
-                var lan = getLanguage(mmodel.get('_id'))
-                langDict = getSpecificLanguage(lan);
+                var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ $.cookie('Member.login') +  '</b>' + ',<br>' + '<br>' + App.languageDict.attributes.Member + ' <b>' + username + '</b> ' + App.languageDict.attributes.Has_Requested_Promote + '<br/><br/>';
+                mailView.updateMailBody(body) 
+                var languageDictValue;
+                var lang = getLanguage(mmodel.get("_id"))
+                languageDict = getSpecificLanguage(lang);
                 var temp
                 var that = this
                 var currentdate = new Date();
-                var mailBody = langDict.attributes.Hi + ' <b>' + username + '</b>, '+'<br>' + langDict.attributes.Your_Request_Has_Been_Rejected;
+                var mailBody = languageDict.attributes.Hi+ '&nbsp;' + '<b>' + username + '</b>'+ ',<br>' + '<br>' + languageDict.attributes.Your_Request_Has_Been_Rejected;
                 temp = new App.Models.Mail()
                 temp.set("senderId", $.cookie('Member._id'))
                 temp.set("receiverId",  mmodel.get('_id'));
                 temp.set("status", "0")
-                temp.set("subject", langDict.attributes.Manager_Request + " | " + username)
+                temp.set("subject", languageDict.attributes.Manager_Request + " | " + username)
                 temp.set("type", "manager-request")
                 temp.set("body", mailBody)
                 temp.set("sendDate", currentdate)
                 temp.set("entityId", mmodel.get('_id'))
                 temp.save()
-                alert(App.languageDict.attributes.Promote_Request_Rejected)   
-
+                alert(App.languageDict.attributes.Promote_Request_Rejected) 
             },
+            
             "click #invite-accept": function(e) {
                 if (mailView.inViewModel.get('type') == "admissionRequest") {
                     mailView.admissionRequestAccepted(e.currentTarget.value)
@@ -270,7 +261,6 @@ $(function() {
                     }
                 }
             },
-
 
             "click #invite-reject": function(e) {
                 if (mailView.inViewModel.get('type') == "admissionRequest") {
