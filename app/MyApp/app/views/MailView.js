@@ -93,7 +93,7 @@ $(function() {
                     mmodel.set('roles', roles);
                 }
                 var languageDictValue;
-                var lang = getLanguage(m.get("_id"))
+                var lang = getLanguage(mmodel.get('_id'))
                 languageDictValue = getSpecificLanguage(lang);
                 languageDict = languageDictValue;
                 var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
@@ -128,17 +128,15 @@ $(function() {
                 mmodel.fetch({
                     async: false
                 })
+                var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName;
                 //var body = mailView.inViewModel.get('body').replace("<br>", "||br||").replace(/<(?:.|\n)*?>/gm, '')
                 //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '').replace("||br||", "<br>")
-                var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ m.get("firstName") +' '+m.get("lastName")+  '</b>' + ',<br>' + '<br>' + languageDict.attributes.Member + ' <b>' + $.cookie('Member.login') + '</b> ' + languageDict.attributes.Has_Requested_Promote
+                var body = App.languageDict.attributes.Hi + '&nbsp;' + '<b>'+ username +  '</b>' + ',<br>' + '<br>' + App.languageDict.attributes.Your_Request_Has_Been_Rejected
                 + '<br/><br/>';
                 mailView.updateMailBody(body) 
-                
                 var languageDictValue;
                 var lang = getLanguage(mmodel.get("_id"))
-                languageDictValue = getSpecificLanguage(lang);
-                languageDict = languageDictValue;
-                var username = mmodel.attributes.firstName+" "+mmodel.attributes.lastName;
+                languageDict = getSpecificLanguage(lang);
                 var temp
                 var that = this
                 var currentdate = new Date();
