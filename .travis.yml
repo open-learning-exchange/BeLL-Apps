@@ -23,6 +23,10 @@ addons:
     #dogirepo secure: "dhXRocGdvpkAhjra2oJ+l+AzgdN+QCuVq0RHv7KGF3kaK6bmx/QMjkwDho7ZQ0ndR6TQ52qUkracVIVTDm+81ZiWjTdAP0QwWCITLaqB+KapgrEx7nMldjEzTDSj1rnQ4KmE+k0G3wbvjSGgD7V0JOBQTi1lKmwaI7kMmyhNBvM5KRhrrWx9oTFs99nx84XeEF3XayEix6eDTkxStc/RILLTMBJop9iAiTzpkXuwc5F+xs/PQXJ/lqhZyp5arihJvUCRPhpXgzrfc+LQJUMGVd7DHsv49BZPDSZ5y4D5r5u27AtAhTQiqM+ozvWWxvGi7ju5CW1wiLxBKDbjhbbCYaZdKH6kxoFGofJuswrGygUfaqVBg/tz0DxLKGMiNYedfJcNMBzOyXjEKzS52BdzLqZZmRj1JekaVHw1P6vkkCTU/512JMJZmlSE8LsROyMtIq8Vraz++gmYShNePtA4afVNckpnY8uvusWT/0f+td9K1yH7El4rMxO5j30q55K9nTDqE3R/GwgX4vxhdMJ//KeYgGTg9e/QlE9sUZad0GdaZmRr5iajqzXFAS9bQpLvyyRC4LviBEpXGkZhiicpbqIvYl6K+fvxl5/GhfQfIr0c35vlNMKcOUpr7zwySGch+mVo/pmXefKtaDDCGKdNJIW9qHY29JkBXrJBrfILnQ8="
     #travis encrypt SAUCE_ACCESS_KEY=...
 install:
+  - npm install -g codeceptjs
+  - npm install -g webdriverio
+  - npm install -g cookie
+
   - pip install selenium
   - pip install sauceclient
   - pip install pycouchdb
@@ -46,10 +50,13 @@ before_install:
   - curl -X PUT 'http://127.0.0.1:5981/_config/log/file' -d '"/usr/local/var/log/couchdb/couch.log"'
   - curl -X PUT 'http://127.0.0.1:5981/_config/httpd/allow_jsonp' -d '"true"'
   - curl -X PUT 'http://127.0.0.1:5981/_config/admins/nation' -d '"oleoleole"'
+  - npm update -q
+  - npm install --save -g co
 
 script:
   - export
   - docker ps -a | grep bell
   - curl -X GET http://127.0.0.1:5981/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 38 ]; then exit 1; fi
+  - codeceptjs run tests --steps --verbose
   - python -m unittest discover tests
