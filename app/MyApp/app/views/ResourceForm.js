@@ -148,8 +148,8 @@ $(function() {
         render: function() {
             var vars = {}
             var clanguage = '';
+            clang = getLanguage($.cookie('Member._id'));
             if (_.has(this.model, 'id')) {
-
                 vars.header = App.languageDict.attributes.Details+' ' + '"'+' '+ this.model.get('title') +' '+ '"';
                 var tempAttachments = this.model.get('_attachments');
                 var fields = _.map(
@@ -186,7 +186,6 @@ $(function() {
                 var currentConfig = config.first().toJSON().rows[0].doc;
                 clanguage= App.languageDict.get('nameInNativeLang');
             }
-
             // prepare the form
             this.form = new Backbone.Form({
                 model: this.model
@@ -211,13 +210,20 @@ $(function() {
             $('.fields').html(this.form.el)
             var availableLanguages=getAvailableLanguages();
             for(var key in availableLanguages){
-                this.$el.find('.field-language .bbf-editor select').append($('<option>', {
+                if(clang == key) {
+                    var opt = {
+                    value: key,
+                    text:availableLanguages[key],
+                    selected: 'selected'
+                    } 
+                } else {
+                    var opt = {
                     value: key,
                     text:availableLanguages[key]
-                }));
+                    }
+                }
+                this.$el.find('.field-language .bbf-editor select').append($('<option>', opt));
             }
-            $('.field-language').find('.bbf-editor').find('select').val(clanguage);
-
             this.$el.append('<button class="btn btn-success" id="add_newCoellection" >'+App.languageDict.attributes.Add_New+'</button>')
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working

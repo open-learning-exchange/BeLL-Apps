@@ -41,7 +41,6 @@ $(function() {
 						async: false
 					})
 					courseSteps.each(function(m) {
-
 						if (!m.get("resourceId")) {
 							m.set("resourceId", [])
 						}
@@ -51,9 +50,7 @@ $(function() {
 							m.get("resourceTitles").splice(index, 1)
 							m.save()
 						}
-
 					})
-
 					this.model.destroy()
 					alert(App.languageDict.attributes.Resource_Deleted_success)
 					event.preventDefault()
@@ -97,10 +94,8 @@ $(function() {
 
 						that.remove()
 						alert(App.languageDict.attributes.Removed_From_Collection)
-
 					}
 				})
-
 			},
 
 			"click .hides": function(event) {
