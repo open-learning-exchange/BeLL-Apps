@@ -1,0 +1,54 @@
+sudo: required
+
+language: python
+python:
+  - "3.5"
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/f32286c047612bea82b0
+    on_success: always  # options: [always|never|change] default: change
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never    # options: [always|never|change] default: never
+
+services:
+  - docker
+
+addons:
+  sauce_connect:
+    username: "dogi"
+  jwt:
+    secure: "nZThUtFEGnBbCmPHQubP3O+BxV7IuyIXnMisSolRbgitwb3hfeG7CLEQPe+DefM3uAU/zrHKAyNbJmmpDL+UzrLN4K4V8t1kXtejOsalGTyeZcjufs8zcx/ZtlfRvdhgDQ37MUyGYN4+ZaF5HVTPT5QXdCrSklXRE8rHsL31QGC+SgVUfQCQ1g3qCIpfPrudFZ9yg8LrJ646o8e1LBbyGKO9AC3wHjeMyyLbuYMtTG7CjzqmgJ1v1ScK8XJs5m+MM8Z1NAb3F7fhmS25PCMhupUUZ21KO958xh4w8mlNGE9Z+wEAuQ1csdh5RxqLnlprGaTvjtX9hgek6KXpURNX6Nd0MCqCDygtt5xliN1Juk6FIxvBcP1KVEfTRNWmMExh4YEZIsuL5Dnp3qoXT95RfGlOIzk1GNJIYlgpBJZsfSSLTBHSLJ0TO4HpucoSm9b6UXpqHtcvCcE8z2yvtLIzezTGecDbLaGlNskS/tVg2Rq32l1asktKrxHrG7A+3hWQVdc3NOWVSm5EbpqNKtAwiSry9VVXVqN5NmiqQiq8gaBobNrmVec+69WCfEInKIY8mTXavkfpNmdL2z/1V0KuDNiK2+qCgQALQqKTQN13uFwvyRO6JPty141L3SQobdl0T2L9BHQBchmGrMJzRO7giMeY1zWINrtzvlhr+6TR4ks="
+    #dogirepo secure: "dhXRocGdvpkAhjra2oJ+l+AzgdN+QCuVq0RHv7KGF3kaK6bmx/QMjkwDho7ZQ0ndR6TQ52qUkracVIVTDm+81ZiWjTdAP0QwWCITLaqB+KapgrEx7nMldjEzTDSj1rnQ4KmE+k0G3wbvjSGgD7V0JOBQTi1lKmwaI7kMmyhNBvM5KRhrrWx9oTFs99nx84XeEF3XayEix6eDTkxStc/RILLTMBJop9iAiTzpkXuwc5F+xs/PQXJ/lqhZyp5arihJvUCRPhpXgzrfc+LQJUMGVd7DHsv49BZPDSZ5y4D5r5u27AtAhTQiqM+ozvWWxvGi7ju5CW1wiLxBKDbjhbbCYaZdKH6kxoFGofJuswrGygUfaqVBg/tz0DxLKGMiNYedfJcNMBzOyXjEKzS52BdzLqZZmRj1JekaVHw1P6vkkCTU/512JMJZmlSE8LsROyMtIq8Vraz++gmYShNePtA4afVNckpnY8uvusWT/0f+td9K1yH7El4rMxO5j30q55K9nTDqE3R/GwgX4vxhdMJ//KeYgGTg9e/QlE9sUZad0GdaZmRr5iajqzXFAS9bQpLvyyRC4LviBEpXGkZhiicpbqIvYl6K+fvxl5/GhfQfIr0c35vlNMKcOUpr7zwySGch+mVo/pmXefKtaDDCGKdNJIW9qHY29JkBXrJBrfILnQ8="
+    #travis encrypt SAUCE_ACCESS_KEY=...
+install:
+  - pip install selenium
+  - pip install sauceclient
+
+before_install:
+  - docker pull klaemo/couchdb:1.6.1
+  - docker run -d -p 5981:5984 --name bell klaemo/couchdb:1.6.1
+  - echo "node_modules/.bin/couchapp push \$1 \$2" > pushDocToDb.sh
+  - chmod +x node_modules/.bin/couchapp pushDocToDb.sh
+  - cp install_windows install_linux
+  - sed -i "s#pushDocToDb.bat#./pushDocToDb.sh#" install_linux
+  - sed -i 's#databases\\\\\\\\#databases/#' install_linux
+  - sed -i 's#databases\\\\\\#databases/#' install_linux
+  - sed -i 's#databases\\\\#databases/#' install_linux
+  - sed -i 's/NationBell/nation/' init_docs/ConfigurationsDoc-Nation.txt
+  - sed -i 's/nationbell/NATION/' init_docs/ConfigurationsDoc-Nation.txt
+  - sed -i 's#Male#Female#' install_linux
+  - sed -i 's#somalia#nation#' install_linux
+  - while ! curl -X GET http://127.0.0.1:5981/_all_dbs ; do sleep 1; done
+  - node install_linux http://127.0.0.1:5981
+  - curl -X PUT 'http://127.0.0.1:5981/_config/log/file' -d '"/usr/local/var/log/couchdb/couch.log"'
+  - curl -X PUT 'http://127.0.0.1:5981/_config/httpd/allow_jsonp' -d '"true"'
+  - curl -X PUT 'http://127.0.0.1:5981/_config/admins/nation' -d '"oleoleole"'
+
+script:
+  - export
+  - docker ps -a | grep bell
+  - curl -X GET http://127.0.0.1:5981/_all_dbs
+  - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 38 ]; then exit 1; fi
+  - python -m unittest discover tests
