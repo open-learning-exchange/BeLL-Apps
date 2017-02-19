@@ -154,19 +154,52 @@ input[type=checkbox]:checked + label:before {
 {
     color:rgb(66,119,161);
 }
-#question-area
+#question-area, .question_class
 {
     background-color:rgb(221,221,221);
-    margin-top: 2%;
+    margin-top: 4px;
     height: 140px;
     width: 630px;
-
 }
-#question-no {
+.question_clas
+{
+    background-color:rgb(221,221,221);
+    margin-top: 4px;
+    height: 34px;
+    width: 630px;
+}
+span.subtitle2{
+    margin-left: 10px;
+    margin-bottom: 8px;
+    position: absolute;
+    margin-top: 4px;
+}
+span.subtitle{
+    margin-left: 10px;
+    margin-top: 3px;
+    position: absolute;
+    font-size: large;
+}
+#question-no{
     margin-left: 10px;
     margin-top: 11px;
     position: absolute;
 }
+.surTextArea {
+    width: 630px;
+    margin-top: 14px;
+    margin-bottom: 3px;
+}
+textarea#question_text.surTextArea, textarea#answer_choices.surTextArea{
+    width: 76%;
+    height: 70%;
+    margin-left: 115px;
+    margin-top: 6px;
+}
+.subtitle #add_new_question{
+   background-color:rgb(221,221,221);
+}
+
 #option-area
 {
     background-color: #E7E7E7;

@@ -2364,6 +2364,7 @@ $(function() {
             App.stopActivityIndicator()
         },
         CreateQuiz: function(lid, rid, title) {
+            var that = this;
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
             })
@@ -2373,6 +2374,41 @@ $(function() {
                     quiz.levelId = lid
                     quiz.revId = levelInfo.get('_rev')
                     quiz.ltitle = title
+                    var coursestepModel = new App.Models.CourseStep({
+                        _id: lid
+                    })
+                    coursestepModel.fetch({
+                        async: false
+                    });
+                    var coursestepQuestions = coursestepModel.get('questionslist');
+                    if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
+                    { 
+                         var coursestepQuestionsIdes = ''
+                    _.each(coursestepQuestions, function(item) {
+                        coursestepQuestionsIdes += '"' + item + '",'
+                    })
+                    if (coursestepQuestionsIdes != ''){
+                        coursestepQuestionsIdes = coursestepQuestionsIdes.substring(0, coursestepQuestionsIdes.length - 1);
+                    }
+                    var questionsColl = new App.Collections.CourseStepQuestions();
+                    questionsColl.keys = encodeURI(coursestepQuestionsIdes)
+                    questionsColl.fetch({
+                        async: false
+                    });
+                    var sortedModels = that.sortQuestions(coursestepQuestions, questionsColl.models);
+                    questionsColl.models = sortedModels;
+                    var CourseStepQuestionsTable = new App.Views.CourseStepQuestionTable({
+                        collection: questionsColl
+                    })
+                    CourseStepQuestionsTable.Id = lid;
+                    CourseStepQuestionsTable.questionArray = coursestepQuestions;
+                    CourseStepQuestionsTable.courseStepModel = levelInfo;
+
+                    CourseStepQuestionsTable.render()
+                    }
+                   
+                    
+                    $("input[name='questionRow']").hide();
                     if (levelInfo.get("questions")) {
                         App.$el.children('.body').html('<h3>'+App.languageDict.attributes.Edit_Quiz+' |' + title + '</h3>')
                         quiz.quizQuestions = levelInfo.get("questions")
@@ -2383,7 +2419,10 @@ $(function() {
                     App.$el.children('.body').html(quiz.el)
                     quiz.render();
                     $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
+$('#parentDiv').append(CourseStepQuestionsTable.el);
 
+                    $("#moveup").hide();
+                    $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {
                         for(var col=0;col<3;col++) {
                             for(var index=0;index<2;index++) {
@@ -2396,8 +2435,22 @@ $(function() {
                     }
                 }
             });
+           
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
+        },
+        sortQuestions: function(idsArrayForSortingOrder, modelsToSort) {
+            var sortedModels = [];
+            for(var i = 0 ; i < idsArrayForSortingOrder.length ; i++) {
+                var modelId = idsArrayForSortingOrder[i];
+                for(var j = 0 ; j < modelsToSort.length ; j++) {
+                    var model = modelsToSort[j];
+                    if(model.attributes._id == modelId) {
+                        sortedModels.push(model);
+                    }
+                }
+            }
+            return sortedModels;
         },
         CourseInfo: function(courseId) {
 
@@ -2842,7 +2895,7 @@ $(function() {
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
-                    lForm.render();
+                    .render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
                     $("input[name='step']").attr("disabled", true);
                 })
