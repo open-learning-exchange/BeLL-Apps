@@ -39,9 +39,7 @@ $(function() {
         },
 
         getFocusForAuthor : function(e){
-
-
-            if(e.keyCode==9) //tab is pressed
+           if(e.keyCode==9) //tab is pressed
             {
 
                 e.preventDefault();
@@ -87,8 +85,7 @@ $(function() {
         },
         /**********************************************************************/
         getFocusForYear : function(e){
-
-
+            
             if(e.keyCode==9) //tab is pressed
             {
 

@@ -112,6 +112,7 @@ $(function() {
             $.removeCookie('forcedUpdateProfile');
         },
         getRoles: function(userId) {
+            
             var user = (userId) ? new App.Models.Member({
                 "_id": userId
             }) : new App.Models.Member({
