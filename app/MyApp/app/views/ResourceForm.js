@@ -148,7 +148,6 @@ $(function() {
         render: function() {
             var vars = {}
             var clanguage = '';
-            clang = getLanguage($.cookie('Member._id'));
             if (_.has(this.model, 'id')) {
 
                 vars.header = App.languageDict.attributes.Details+' ' + '"'+' '+ this.model.get('title') +' '+ '"';
@@ -212,20 +211,13 @@ $(function() {
             $('.fields').html(this.form.el)
             var availableLanguages=getAvailableLanguages();
             for(var key in availableLanguages){
-                if(clang == key) {
-                    var opt = {
-                    value: key,
-                    text:availableLanguages[key],
-                    selected: 'selected'
-                    } 
-                } else {
-                    var opt = {
+                this.$el.find('.field-language .bbf-editor select').append($('<option>', {
                     value: key,
                     text:availableLanguages[key]
-                    }
-                }
-                this.$el.find('.field-language .bbf-editor select').append($('<option>', opt));
+                }));
             }
+            $('.field-language').find('.bbf-editor').find('select').val(clanguage);
+
             this.$el.append('<button class="btn btn-success" id="add_newCoellection" >'+App.languageDict.attributes.Add_New+'</button>')
             $('#progressImage').hide();
             //$this.$el.children('.fields').html(this.form.el) // also not working
