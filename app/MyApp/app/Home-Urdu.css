@@ -401,7 +401,6 @@ border-right-width:0px;
 
     /*text-shadow:1px 1px 12px #689324;*/
 }
-
 .btn-green, .btn-red
 {
     height: 40px;
@@ -423,7 +422,6 @@ border-right-width:0px;
 .btn.btn-primary1.active {
     background-color: #16a085;
 }
-
 body{
     background-color:none;
     color: none;
