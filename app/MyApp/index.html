@@ -1591,7 +1591,7 @@
 
                             <select name="Language"  id="search-language" multiple="multiple" style="width: 370px;">
                                 <% for (var key in languages){%>
-                                <option ><%= languages[key] %> </option>
+                                <option value="<%= key %>" ><%= languages[key] %> </option>
                                 <% } %>
                             </select>
                         </div>
