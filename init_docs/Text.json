@@ -838,5 +838,6 @@
   "Promote_Request_Rejected":  "Request to promote has been rejected.",
   "Promote_Request_Accepted":  "Member has been successfully promoted.",
   "Your_Request_Has_Been_Accepted":  "Your Request Has Been Accepted",
-  "Your_Request_Has_Been_Rejected":  "Your Request Has Been Rejected"
+  "Your_Request_Has_Been_Rejected":  "Your Request Has Been Rejected",
+  "viplinks":"Vip Links"
 }

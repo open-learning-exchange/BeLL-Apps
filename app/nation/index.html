@@ -155,8 +155,8 @@
 <script src="app/views/CommunityDetailsView.js"></script>
 <script src="app/views/CommunityRequestsTable.js"></script>
 <script src="app/views/CommunityRequestRow.js"></script>
+<script src="app/views/VipLinksView.js"></script>
 <script src="app/Router.js"></script>
-App.Views.GroupRow
 
 
 <script>
@@ -570,6 +570,23 @@ App.Views.GroupRow
 
     <div style='width:940px;margin:0 auto' id='listSur'></div>
 </script>
+<script type ="text/template" id ="template-viplink">
+    <h3><%= languageDict.attributes.viplinks %></h3>
+    <table class ="table table-striped">
+        <tr>
+            <th><%= languageDict.attributes.Name %></th>
+            <th><%= languageDict.attributes.Url %></th>
+            <th><%= languageDict.attributes.action %></th>
+        </tr>
+        <% for (var i=0; i < vips.length; i++){%>
+            <tr>
+                <td><%= vips[i]['name'] %></td>
+                <td><%= vips[i]['url'] %></td>
+                <td></td>
+            </tr>
+        <% } %>
+    </table>
+</script>
 <script type="text/html" id="template-SurveyRow">
     <td>
         <span style="font-weight:900; font-size:16px;"><%= Date %></BR></span>
@@ -801,6 +818,7 @@ App.Views.GroupRow
                 <div class="dashboard-buttons"><a href="#request"><button style="width: auto" class="btn-on-dashboard btn btn-primary"><%= languageDict.attributes.Requests %></button></a></div>
                 <div class="dashboard-buttons"><a><button style="width: auto" class="btn-on-dashboard btn btn-primary" onclick="showDatabases()"><%= languageDict.attributes.Databases %></button></a></div>
                 <div class="dashboard-buttons"><a href="../MyApp/index.html#updatewelcomevideo"><button style="width: auto" class="btn-on-dashboard btn btn-primary"><%= languageDict.attributes.Welcome_Video %></button></a></div>
+                <div class ="dashboard-buttons"><a href ="#viplink"><button style="width:auto" class="btn-on-dashboard btn btn-primary"> <%= languageDict.attributes.viplinks %></button></a></div>
             </div>
         </div>
         <!--	<table class="page-bottom-navtable">

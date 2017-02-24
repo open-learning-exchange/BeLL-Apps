@@ -31,8 +31,9 @@ $(function() {
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
             'communityDetails/:commDocId/:requestStatus': "communityDetails",
-            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport", // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
+            'viplink': "VipLinks"
         },
 
         initialize: function() {
@@ -3647,6 +3648,22 @@ $(function() {
             $.removeCookie('Member.expTime', {
                 path: "/apps/_design/bell"
             })
+        },
+        VipLinks: function(){
+            var lang;
+            lang = App.Router.getLanguage($.cookie('Member.login'));
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            var viplink = new App.Collections.VipLinks()
+            viplink.fetch({
+                async: false
+            })
+            var vplink = new App.Views.VipLinksView({
+                collection: viplink
+            });
+            vplink.render();
+            App.$el.children('.body').html('<div id="communityDiv"></div>');
+            $('#communityDiv').append(vplink.el);
+	    App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));       
         },
         ListCommunity: function(secretId) {
             App.startActivityIndicator();
