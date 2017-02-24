@@ -16,7 +16,7 @@ $(function() {
             }, 1000);
             $('#addQuestion').css('pointer-events','auto');
         },
-        render: function() {
+        render: function(secretId) {
 
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
