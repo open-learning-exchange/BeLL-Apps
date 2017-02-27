@@ -155,8 +155,8 @@
 <script src="app/views/CommunityDetailsView.js"></script>
 <script src="app/views/CommunityRequestsTable.js"></script>
 <script src="app/views/CommunityRequestRow.js"></script>
-<script src="app/Router.js"></script>
 <script src="app/views/VipLinksView.js"></script>
+<script src="app/Router.js"></script>
 
 
 <script>
@@ -571,16 +571,18 @@
     <div style='width:940px;margin:0 auto' id='listSur'></div>
 </script>
 <script type ="text/template" id ="template-viplink">
-    <h3>Welcome to VipLinks</h3>
+    <h3><%= languageDict.attributes.viplinks %></h3>
     <table class ="table table-striped">
         <tr>
-            <th>Name</th>
-            <th>Link</th>
+            <th><%= languageDict.attributes.Name %></th>
+            <th><%= languageDict.attributes.Url %></th>
+            <th><%= languageDict.attributes.action %></th>
         </tr>
-        <% for (var i=0; i<vips.length; i++){%>
+        <% for (var i=0; i < vips.length; i++){%>
             <tr>
                 <td><%= vips[i]['name'] %></td>
                 <td><%= vips[i]['url'] %></td>
+                <td></td>
             </tr>
         <% } %>
     </table>

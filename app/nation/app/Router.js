@@ -31,10 +31,9 @@ $(function() {
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
             'communityDetails/:commDocId/:requestStatus': "communityDetails",
-            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport",
-            'viplink': "VipLinks"
-             // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport", // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
+            'viplink': "VipLinks"
         },
 
         initialize: function() {
@@ -3667,7 +3666,6 @@ $(function() {
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));       
         },
         ListCommunity: function(secretId) {
-
             App.startActivityIndicator();
             var isCorrectSecretId = true;
             var lang;
