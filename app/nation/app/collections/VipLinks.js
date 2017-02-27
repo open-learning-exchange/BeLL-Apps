@@ -4,7 +4,7 @@ $(function() {
 
         model: App.Models.VipLink,
         url: function() {
-            if (this.keys != 'undefined')
+            if (this.keys != undefined)
                 return App.Server + '/viplinks/_all_docs?include_docs=true&keys=[' + this.keys + ']'
             else
                 return App.Server + '/viplinks/_all_docs?include_docs=true'
