@@ -3663,7 +3663,7 @@ $(function() {
             vplink.render();
             App.$el.children('.body').html('<div id="communityDiv"></div>');
             $('#communityDiv').append(vplink.el);
-            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));       
+	    App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));       
         },
         ListCommunity: function(secretId) {
             App.startActivityIndicator();
