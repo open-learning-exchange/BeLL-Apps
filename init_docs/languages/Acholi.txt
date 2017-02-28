@@ -838,5 +838,6 @@
   "Promote_Request_Rejected":"crwdns16247:0crwdne16247:0",
   "Promote_Request_Accepted":"crwdns16248:0crwdne16248:0",
   "Your_Request_Has_Been_Accepted":"crwdns16249:0crwdne16249:0",
-  "Your_Request_Has_Been_Rejected":"crwdns16250:0crwdne16250:0"
+  "Your_Request_Has_Been_Rejected":"crwdns16250:0crwdne16250:0",
+  "viplinks":"crwdns16251:0crwdne16251:0"
 }
