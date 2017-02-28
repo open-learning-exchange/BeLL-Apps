@@ -573,16 +573,27 @@
 <script type ="text/template" id ="template-viplink">
     <h3><%= languageDict.attributes.viplinks %></h3>
     <table class ="table table-striped">
+        <td><%= languageDict.attributes.Name %><input type="text"/></td>
+        <td><a href='#' class="btn btn-success publicationFont"><%=languageDict.attributes.Create %></a></td>
+    </table>
+    <table class ="table table-striped">
         <tr>
             <th><%= languageDict.attributes.Name %></th>
-            <th><%= languageDict.attributes.Url %></th>
+            <th><%= languageDict.attributes.Url %> </th>
+            <th><%= languageDict.attributes.Visits %></th>
+            <th><%= languageDict.attributes.Last_Activities %></th>
             <th><%= languageDict.attributes.action %></th>
         </tr>
         <% for (var i=0; i < vips.length; i++){%>
             <tr>
                 <td><%= vips[i]['name'] %></td>
-                <td><%= vips[i]['url'] %></td>
-                <td></td>
+                <td><a class= "copy" href ="<%= vips[i]['url'] %>"><%= vips[i]['url'] %></a></td>
+                <td><%= vips[i]['visits'] %></td>
+                <td><%= vips[i]['lastVisit'] %></td>
+                <td><button class ="copy" data-copytarget="#ClipBoard">Copy</button></td>
+                <td>
+                    <a class='destroy btn btn-danger' href='#'><%=languageDict.attributes.DeleteLabel%></a>
+                </td>
             </tr>
         <% } %>
     </table>
