@@ -571,31 +571,30 @@
     <div style='width:940px;margin:0 auto' id='listSur'></div>
 </script>
 <script type ="text/template" id ="template-viplink">
+<input id="copyInput" style="position:absolute;top:-120px;" />
     <h3><%= languageDict.attributes.viplinks %></h3>
+        <b><%= languageDict.attributes.Name %></b><input type="text"/>
+        <a href='#' class="btn btn-success publicationFont"><%=languageDict.attributes.Create %></a>
     <table class ="table table-striped">
-        <td><%= languageDict.attributes.Name %><input type="text"/></td>
-        <td><a href='#' class="btn btn-success publicationFont"><%=languageDict.attributes.Create %></a></td>
-    </table>
-    <table class ="table table-striped">
-        <tr>
-            <th><%= languageDict.attributes.Name %></th>
-            <th><%= languageDict.attributes.Url %> </th>
-            <th><%= languageDict.attributes.Visits %></th>
-            <th><%= languageDict.attributes.Last_Activities %></th>
-            <th><%= languageDict.attributes.action %></th>
-        </tr>
-        <% for (var i=0; i < vips.length; i++){%>
+        <tbody>
             <tr>
-                <td><%= vips[i]['name'] %></td>
-                <td><a class= "copy" href ="<%= vips[i]['url'] %>"><%= vips[i]['url'] %></a></td>
-                <td><%= vips[i]['visits'] %></td>
-                <td><%= vips[i]['lastVisit'] %></td>
-                <td><button class ="copy" data-copytarget="#ClipBoard">Copy</button></td>
-                <td>
-                    <a class='destroy btn btn-danger' href='#'><%=languageDict.attributes.DeleteLabel%></a>
-                </td>
+                <th><%= languageDict.attributes.Name %></th>
+                <th><%= languageDict.attributes.Url %> </th>
+                <th><%= languageDict.attributes.Visits %></th>
+                <th><%= languageDict.attributes.Last_Activities %></th>
+                <th><%= languageDict.attributes.action %></th>
             </tr>
-        <% } %>
+            <% for (var i=0; i < vips.length; i++){%>
+            <tr>
+                    <td><%= vips[i]['name'] %></td>
+                    <td><a class= "copy" href ="<%= vips[i]['url']+ '/' + vips[i]['_id'] %>"><%= vips[i]['url'] + '/' + vips[i]['_id'] %></a></td>
+                    <td><%= vips[i]['visits'] %></td>
+                    <td><%= vips[i]['lastVisit'] %></td>
+                    <td><button class ="copy btn btn-success"><%=languageDict.attributes.Copy%></button><button data-id="<%= vips[i]['_id'] %>" class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button>
+                    </td>
+            </tr>
+        </tbody>
+            <% } %>
     </table>
 </script>
 <script type="text/html" id="template-SurveyRow">

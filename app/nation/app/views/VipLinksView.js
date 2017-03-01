@@ -1,20 +1,35 @@
 $(function() {
 
     App.Views.VipLinksView = Backbone.View.extend({
-
         template: $('#template-viplink').html(),
         vars:{},
 
         events: {
-            "click button.copy": function() {
-                alert('hello');
-                // document.getElementById("addCommunity").submit();
+            "click button.copy": function(e) {
+                var a = $(e.target).parents('tr').find('a.copy').attr('href')
+                $('#copyInput').val(a);
+                $('#copyInput').select();
+                document.execCommand('copy');
+                $('#copyInput').blur();
+                $('#copyInput').val('');
+                alert(App.languageDictValue.attributes.Link_Coppied);
+            },
+            "click button.delete": function(e) {
+                var a = $(e.target).attr('data-id')
+                alert(a)
+                var selectedModel = this.collection.at(a)
+                var model = new App.Models.VipLink()
+                model.id = selectedModel.get('data-id')
+                model.fetch({
+                    async: false
+                })
+                model.destroy()
+                alert('delete');
             }
         },
 
         initialize: function() {
         },
-
         render: function() {
        	    this.vars.vips = [];
             this.vars.languageDict = App.languageDictValue;
@@ -25,34 +40,5 @@ $(function() {
             }
             this.$el.html(_.template(this.template,this.vars))
         }
-
     })
-
 })
-// (function() {
-
-//     'use strict';
-//   document.body.addEventListener('click', copy, true);
-//     function copy(e) {
-//     var 
-//       t = e.target,
-//       c = t.dataset.copytarget,
-//       inp = (c ? document.querySelector(c) : null);
-//     if (inp && inp.select) {
-//       inp.select();
-
-//       try {
-//         document.execCommand('copy');
-//         inp.blur();
-//         t.classList.add('copied');
-//         setTimeout(function() { t.classList.remove('copied'); }, 1500);
-//       }
-//       catch (err) {
-//         alert('please press Ctrl/Cmd+C to copy');
-//       }
-      
-//     }
-    
-//     }
-
-// })();
