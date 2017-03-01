@@ -49,7 +49,15 @@ $(function() {
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             var nationUrl = $.url().data.attr.authority;
-            var date = new Date();
+            if (this.options.startDate) {
+                var startDt = this.options.startDate.split("-");
+                var Year = startDt[0];
+                var Mnth = parseInt(startDt[1]) - 1;
+                var date = new Date(Year, Mnth, 01, 00, 00, 00);
+            } else {
+                var date = new Date();
+                this.options.startDate = date.getFullYear() + '-' + date.getMonth();
+            }
             var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
             var startDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(firstDay));
@@ -93,7 +101,7 @@ $(function() {
                         "<td>" + memberVisits + "</td>" +
                         "<td>" + resourceViews + "</td>" +
                         "<td>" +
-                        "<a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp";
+                        "<a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + community.get("Name") + "/" + community.get('Code') + "/" + that.options.startDate + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp";
                     if($.cookie('Member.login'))
                     {
                         row = row +
