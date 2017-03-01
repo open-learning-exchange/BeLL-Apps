@@ -148,6 +148,7 @@ class TestPublication(BaseCase):
         checkJquery(driver);
         input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, "Delete")))        
         input_element = driver.find_element_by_xpath(".//*[contains(text(), 'Delete')]")
+        driver.execute_script("return arguments[0].scrollIntoView();", input_element)
         input_element.click()
         alert = driver.switch_to.alert
         actual = alert.text
