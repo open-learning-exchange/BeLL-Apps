@@ -86,7 +86,7 @@ class TestPublication(BaseCase):
         input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="NationManagerLink"]'))) 
         checkJquery(driver);
         input_element.click()
-        input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "Publications")))       
+        input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT "Publications")))       
         expected = 'http://127.0.0.1:5981/apps/_design/bell/nation/index.html#dashboard'
         actual = driver.current_url
         driver.implicitly_wait(10)
