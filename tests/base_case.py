@@ -52,7 +52,9 @@ class BaseCase(unittest.TestCase):
             self.driver = webdriver.Firefox()
     def tearDown(self):
         if is_travis():
-            print("Link to %s: https://saucelabs.com/jobs/%s" % (self._testMethodName, self.driver.session_id))
+
+            print(("\n Link to %s: https://saucelabs.com/jobs/%s" % (self._testMethodName, self.driver.session_id)), end=" ", flush=True)
+
             try:
                 if sys.exc_info() == (None, None, None):
                     sauce.jobs.update_job(self.driver.session_id, passed=True)
