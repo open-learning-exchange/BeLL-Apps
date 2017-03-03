@@ -86,7 +86,7 @@ class TestPublication(BaseCase):
         input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="NationManagerLink"]'))) 
         checkJquery(driver);
         input_element.click()
-        input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, "Publications")))       
+        input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, "Publications")))
         expected = 'http://127.0.0.1:5981/apps/_design/bell/nation/index.html#dashboard'
         actual = driver.current_url
         driver.implicitly_wait(10)
@@ -146,8 +146,9 @@ class TestPublication(BaseCase):
         """Clicks the first element with 'Delete' as text then checks deletion by reaing popup"""
         driver = self.driver
         checkJquery(driver);
-        input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, "Delete")))        
-        input_element = driver.find_element_by_xpath(".//*[contains(text(), 'Delete')]")
+        input_element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="parentDiv"]/table/tbody/tr/td[9]/a')))        
+        input_element = driver.find_element_by_xpath('//*[@id="parentDiv"]/table/tbody/tr/td[9]/a')
+        driver.execute_script("return arguments[0].scrollIntoView();", input_element)
         input_element.click()
         alert = driver.switch_to.alert
         actual = alert.text
