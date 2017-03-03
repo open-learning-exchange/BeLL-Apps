@@ -8,7 +8,7 @@ $(function() {
             'login': 'MemberLogin',
             'logout': 'MemberLogout',
             'listCommunity(/:date)': 'ListCommunitiesRequest',
-            'listCommunityPage(/:secretId)': 'ListCommunity',
+            'listCommunityPage(/:secretId)(/:date)': 'ListCommunity',
             'siteFeedback': 'viewAllFeedback',
             'dashboard': 'Dashboard',
             'request': 'commRequest',
@@ -31,8 +31,9 @@ $(function() {
             'criteriaList/:surveyId': 'criteriaList',
             'trendreport': "TrendReport",
             'communityDetails/:commDocId/:requestStatus': "communityDetails",
-            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport" // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
+            "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport", // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
+            'viplink': "VipLinks"
         },
 
         initialize: function() {
@@ -3648,7 +3649,23 @@ $(function() {
                 path: "/apps/_design/bell"
             })
         },
-        ListCommunity: function(secretId) {
+        VipLinks: function(){
+            var lang;
+            lang = App.Router.getLanguage($.cookie('Member.login'));
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            var viplink = new App.Collections.VipLinks()
+            viplink.fetch({
+                async: false
+            })
+            var vplink = new App.Views.VipLinksView({
+                collection: viplink
+            });
+            vplink.render();
+            App.$el.children('.body').html('<div id="communityDiv"></div>');
+            $('#communityDiv').append(vplink.el);
+	    App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));       
+        },
+        ListCommunity: function (secretId, startDate) {
             App.startActivityIndicator();
             var isCorrectSecretId = true;
             var lang;
@@ -3697,31 +3714,86 @@ $(function() {
                     }
                 );
                 CommunityTable = new App.Views.CommunitiesTable({
-                    collection: Communities
+                    collection: Communities,
+                    startDate : startDate
                 });
                 CommunityTable.vipLinkModel = viplinkModel;
                 CommunityTable.render();
-                var listCommunity;
-                if(secretId)
-                {
-                    var nationConfig = new App.Collections.Configurations();
-                    nationConfig.fetch({
-                        async: false
-                    });
-                    nationConfig = nationConfig.first();
-                    listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>";
-                    listCommunity = listCommunity + "<h3> " + "Hi " + viplinkModel.attributes.name + "</h3>" + "<h3>" +  "Welcome to " + nationConfig.get("name") + " Communities" + "</h3>";
-                }
-                else {//if logged in and token is not correct
-                    listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>";
-                }
+                var nationUrl = $.url().data.attr.authority;
+                var temp = $.url().data.attr.host.split(".")
+                var nationName = temp[0];
+               
+                $.ajax({
+                    url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
+                    type: 'GET',
+                    dataType: 'jsonp',
+                    async: false,
+                    success: function (result) {
+                        urlFrag = $.url().data.attr.fragment.split('/');
+                        if (urlFrag[2]) {
+                            selDate = urlFrag[2].split('-');
+                            setDt = new Date(selDate[0], selDate[1] - 1, 01, 00, 00, 00);
+                        } else {
+                            setDt = new Date();
+                        }
+                        firstDt = result.rows[0].key.split('/');
+                        firstYear = firstDt[0];
+                        firstMonth = parseInt(firstDt[1]);
+                        firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+                        today = new Date();
+                        var listCommunity;
+                        if (secretId && firstDt) {
+                            var nationConfig = new App.Collections.Configurations();
+                            nationConfig.fetch({
+                                async: false
+                            });
+                            nationConfig = nationConfig.first();
+                            listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>";
+                            listCommunity = listCommunity + "<h3> " + "Hi " + viplinkModel.attributes.name + "</h3>" + "<h3>" + "Welcome to " + nationConfig.get("name") + " Communities" + "</h3>";
+                        }
+                        else {//if logged in and token is not correct
+                            listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>";
+                        }
 
-                listCommunity += "<div id='list-of-Communities'></div>"
+                        if (firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
+                            listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.date-picker{width:300px;float:right;}</style>';
+                        }
 
-                App.$el.children('.body').html('<div id="communityDiv"></div>');
-                $('#communityDiv').append(listCommunity);
-                $('#list-of-Communities', App.$el).append(CommunityTable.el);
-                App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+                        listCommunity += "<div id='list-of-Communities'></div>"
+
+                        App.$el.children('.body').html('<div id="communityDiv"></div>');
+                        $('#communityDiv').append(listCommunity);
+
+                        if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
+                            $('input.date-picker').datepicker({
+                                minDate: firstDt, 
+                                maxDate: today,
+                                changeMonth: true,
+                                changeYear: true,
+                                dateFormat: 'MM yy',
+                                onClose: function(dateText, inst) {
+                                    var month = $(".ui-datepicker-month :selected").val();
+                                    var year = $(".ui-datepicker-year :selected").val();
+                                    var newDt = new Date(year, month, 1);
+                                    $('input.date-picker').datepicker('setDate', newDt);
+                                    month = parseInt(newDt.getMonth());
+                                    Backbone.history.navigate('listCommunityPage/'+secretId +'/'+ newDt.getFullYear() + '-' + (month + 1), {
+                                        trigger: true
+                                    });
+                                }
+                            });
+                            $('input.date-picker').datepicker('setDate', setDt);
+                        }
+
+                        $('#list-of-Communities', App.$el).append(CommunityTable.el);
+                        App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+                        App.stopActivityIndicator();
+
+                    }
+                });
+
+
+               
             }
             App.stopActivityIndicator()
             if(!isCorrectSecretId)
