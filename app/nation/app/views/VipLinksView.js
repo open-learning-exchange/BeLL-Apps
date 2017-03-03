@@ -14,20 +14,37 @@ $(function() {
                 $('#copyInput').val('');
                 alert(App.languageDictValue.attributes.Link_Coppied);
             },
-            "click button.delete": function(e) {
+            "click button.destroy": function(e) {
                 var a = $(e.target).attr('data-id')
-                alert(a)
-                var selectedModel = this.collection.at(a)
-                var model = new App.Models.VipLink()
-                model.id = selectedModel.get('data-id')
-                model.fetch({
-                    async: false
+                var vpmodel = new App.Models.VipLink({
+                    _id: a
+                }) 
+                vpmodel.fetch({
+                        async: false
                 })
-                model.destroy()
-                alert('delete');
-            }
+                vpmodel.destroy()
+                alert(App.languageDictValue.attributes.viplink_delete);
+                $(e.target).parents('tr').remove();
+                location.reload('#viplink')
+            },
+            "click button.create": function(){
+                var value = $('#domain-name').val()
+                if(value == ""){
+                    alert(App.languageDictValue.attributes.fill_all_fields);
+                    return false;
+                } else {
+                    var nationUrl = $.url().data.attr.authority;
+                    var create = new App.Models.VipLink()
+                    create.set('name', value)
+                    create.set('url', 'http://'+nationUrl+'/apps/_design/bell/nation/index.html#listCommunityPage')
+                    create.set('visits', 0)
+                    create.save();
+                    alert(App.languageDictValue.attributes.link_created);
+                    location.reload('#viplink')
+                    return true;
+                }
+            },
         },
-
         initialize: function() {
         },
         render: function() {

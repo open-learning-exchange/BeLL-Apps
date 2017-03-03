@@ -571,10 +571,12 @@
     <div style='width:940px;margin:0 auto' id='listSur'></div>
 </script>
 <script type ="text/template" id ="template-viplink">
-<input id="copyInput" style="position:absolute;top:-120px;" />
+    <input id="copyInput" style="position:absolute;top:-120px;" />
     <h3><%= languageDict.attributes.viplinks %></h3>
-        <b><%= languageDict.attributes.Name %></b><input type="text"/>
-        <a href='#' class="btn btn-success publicationFont"><%=languageDict.attributes.Create %></a>
+    <b><%= languageDict.attributes.Name %></b>
+    <input type="text" id="domain-name" name="domain-name-name"  placeholder="Name">
+    <button class="create btn btn-success"><%=languageDict.attributes.Create %></button>
+    <div class  ="parentDiv">
     <table class ="table table-striped">
         <tbody>
             <tr>
@@ -586,16 +588,16 @@
             </tr>
             <% for (var i=0; i < vips.length; i++){%>
             <tr>
-                    <td><%= vips[i]['name'] %></td>
-                    <td><a class= "copy" href ="<%= vips[i]['url']+ '/' + vips[i]['_id'] %>"><%= vips[i]['url'] + '/' + vips[i]['_id'] %></a></td>
-                    <td><%= vips[i]['visits'] %></td>
-                    <td><%= vips[i]['lastVisit'] %></td>
-                    <td><button class ="copy btn btn-success"><%=languageDict.attributes.Copy%></button><button data-id="<%= vips[i]['_id'] %>" class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button>
-                    </td>
+                <td><%= vips[i]['name'] %></td>
+                <td><a class= "copy" href ="<%= vips[i]['url']+ '/' + vips[i]['_id'] %>"><%= vips[i]['url'] + '/' + vips[i]['_id'] %></a></td>
+                <td><%= vips[i]['visits'] %></td>
+                <td><%= vips[i]['lastVisit'] %></td>
+                <td><button class ="copy btn btn-success"><%=languageDict.attributes.Copy%></button><button data-id="<%= vips[i]['_id'] %>" class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
             </tr>
         </tbody>
             <% } %>
     </table>
+    </div>
 </script>
 <script type="text/html" id="template-SurveyRow">
     <td>
