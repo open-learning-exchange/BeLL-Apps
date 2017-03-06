@@ -1131,7 +1131,7 @@ $(function() {
             var nationUrl = $.url().data.attr.authority;
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
-             $.ajax({
+            $.ajax({
                 url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
                 type: 'GET',
                 dataType: 'jsonp',
@@ -1142,7 +1142,7 @@ $(function() {
                         selDate = urlFrag[4].split('-');
                         setDt = new Date(selDate[0], selDate[1] - 1, 01, 00, 00, 00);
                     } else {
-                         setDt = new Date();
+                        setDt = new Date();
                     }
                     firstDt = result.rows[0].key.split('/');
                     firstYear = firstDt[0];
