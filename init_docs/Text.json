@@ -580,7 +580,7 @@
    "meetUp_delete_confirm":"Are you sure that you want to delete this meetup?",
    "MeetUp_Detail":"Meetup Detail",
    "Unjoin":"Unjoin",
-   "member_delete_confirm":"Are you sure that you want to delete this member?"
+   "member_delete_confirm":"Are you sure that you want to delete this member?",
    "member_Delete_success":"Member deleted successfully.",
    "Missing_Report_Title":"Report title is missing.",
    "Missing_Author":"Missing author name.",

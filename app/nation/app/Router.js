@@ -1132,39 +1132,39 @@ $(function() {
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
              $.ajax({
-                 url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
-                 type: 'GET',
-                 dataType: 'jsonp',
-                 async: false,
-                 success: function (result) {
-                     urlFrag = $.url().data.attr.fragment.split('/');
-                     if (urlFrag[4]) {
-                         selDate = urlFrag[4].split('-');
-                         setDt = new Date(selDate[0], selDate[1] - 1, 01, 00, 00, 00);
-                     } else {
+                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function (result) {
+                    urlFrag = $.url().data.attr.fragment.split('/');
+                    if (urlFrag[4]) {
+                        selDate = urlFrag[4].split('-');
+                        setDt = new Date(selDate[0], selDate[1] - 1, 01, 00, 00, 00);
+                    } else {
                          setDt = new Date();
-                     }
-                     firstDt = result.rows[0].key.split('/');
-                     firstYear = firstDt[0];
-                     firstMonth = parseInt(firstDt[1]);
-                     firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
-                     today = new Date();
-                     $('input.date-picker').datepicker({
-                         minDate: firstDt,
-                         maxDate: new Date(),
-                         changeMonth: true,
-                         changeYear: true,
-                         dateFormat: 'MM yy',
-                         onClose: function (dateText, inst) {
-                             var month = $(".ui-datepicker-month :selected").val();
-                             var year = $(".ui-datepicker-year :selected").val();
-                             var newDt = new Date(year, month, 1);
-                             $('input.date-picker').datepicker('setDate', newDt);
-                             month = parseInt(newDt.getMonth());
-                             Backbone.history.navigate('communityreport/' + communityLastSyncDate + '/' + communityName + '/' + communityCode + '/' + newDt.getFullYear() + '-' + (month + 1), {
-                                 trigger: true
-                             });
-                         }
+                    }
+                    firstDt = result.rows[0].key.split('/');
+                    firstYear = firstDt[0];
+                    firstMonth = parseInt(firstDt[1]);
+                    firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+                    today = new Date();
+                    $('input.date-picker').datepicker({
+                        minDate: firstDt,
+                        maxDate: new Date(),
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'MM yy',
+                        onClose: function (dateText, inst) {
+                            var month = $(".ui-datepicker-month :selected").val();
+                            var year = $(".ui-datepicker-year :selected").val();
+                            var newDt = new Date(year, month, 1);
+                            $('input.date-picker').datepicker('setDate', newDt);
+                            month = parseInt(newDt.getMonth());
+                            Backbone.history.navigate('communityreport/' + communityLastSyncDate + '/' + communityName + '/' + communityCode + '/' + newDt.getFullYear() + '-' + (month + 1), {
+                                trigger: true
+                            });
+                        }
                     });
                     $('input.date-picker').datepicker('setDate', endDateForTrendReport);
                 }

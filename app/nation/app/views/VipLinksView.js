@@ -53,7 +53,7 @@ $(function() {
             for(var i=0;i<this.collection.length;i++) {
                 if((this.collection.models[i].attributes.name != '' && this.collection.models[i].attributes.name != undefined && this.collection.models[i].attributes.name != null) ||
                 (this.collection.models[i].attributes.url != '' && this.collection.models[i].attributes.url != undefined && this.collection.models[i].attributes.url != null))
-                    this.vars.vips.push(this.collection.models[i].attributes);
+                this.vars.vips.push(this.collection.models[i].attributes);
             }
             this.$el.html(_.template(this.template,this.vars))
         }
