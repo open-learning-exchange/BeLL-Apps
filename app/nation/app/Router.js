@@ -3913,7 +3913,6 @@ $(function() {
 
                     App.$el.children('.body').html('<div id="communityDiv"></div>');
                     $('#communityDiv').append(listCommunity);
-                    
                     if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
                     $('input.date-picker').datepicker({
                         minDate: firstDt, 
