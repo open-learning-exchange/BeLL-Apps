@@ -30,7 +30,7 @@ install:
   - npm install -g webdriverio
   - npm install -g cookie
 
-  - pip install selenium
+  - pip install -I selenium==3.0.2
   - pip install sauceclient
   - pip install pycouchdb
 
