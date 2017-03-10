@@ -97,34 +97,34 @@
   "Update_Available":"Update Available",
   "Release_Notes":"Release Notes",
   "Publications":"Publications",
-  "New":"New",
+  "New":"Baru",
   "Resource":"????",
-  "Selected":"Selected",
-  "Save":"Save",
-  "Cancel":"Cancel",
+  "Selected":"Terpilih",
+  "Save":"Simpan",
+  "Cancel":"Batal",
   "Manager_Request":"Manager Request",
-  "Select_An_option":"Select an Option",
-  "article_Date":"Article Date",
-  "added_by":"Added By",
+  "Select_An_option":"Pilih satu opsyen",
+  "article_Date":"Tanggal Artikel",
+  "added_by":"Ditambahkan oleh",
   "mediaList":[
-    "Text",
+    "Teks",
     "Graphics/Pictures",
-    "Audio/Music/Book",
+    "Audio/Muzik/Buku",
     "Video"
   ],
   "openWithList":[
     "Just Download",
     "HTML",
     "PDF",
-    "Bell-Reader",
+    "Lonceng-Pembaca",
     "Audio(MP3)",
     "Video(MP4,FLV)",
     "Video Book(webm,json)",
-    "Native Video"
+    "Video Asli"
   ],
   "resourceForList":[
     "Default",
-    "Leader",
+    "Pemimpin",
     "Learner"
   ],
   "resourceTypeList":[
