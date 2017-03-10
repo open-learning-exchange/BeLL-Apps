@@ -5,7 +5,7 @@
   "Dashboard":"Mein zuhause",
   "Library":"Bibliothek",
   "Courses":"Kurse",
-  "Meetups":"Meetings",
+  "Meetups":"Meetups",
   "Members":"Mitglieder",
   "Reports":"Berichte",
   "Feedback":"Feedback",
