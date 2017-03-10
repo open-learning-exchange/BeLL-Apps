@@ -1,5 +1,9 @@
 sudo: required
 
+branches:
+  except:
+  - l10n_dev
+
 language: python
 python:
   - "3.5"
@@ -30,7 +34,7 @@ install:
   - npm install -g webdriverio
   - npm install -g cookie
 
-  - pip install selenium
+  - pip install -I selenium==3.0.2
   - pip install sauceclient
   - pip install pycouchdb
 
