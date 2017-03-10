@@ -17,7 +17,7 @@
   "Nation":"राष्ट्र",
   "Community":"समुदाय",
   "Manager":"प्रबन्धक",
-  "Super_Manager":"Super Manager",
+  "Super_Manager":"मुख्य प्रबन्धक",
   "Leader":"Leader",
   "Bell":"बेल",
   "Learner":"Learner",
