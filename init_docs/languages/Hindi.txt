@@ -416,7 +416,7 @@
   "Empty_Courses":"No courses accepted.",
   "No_Meetup":"No Meetup",
   "Removed_Member":"Member is removed From course.",
-  "RequestForCourse":"Admission request successfully sent to this course leader.",
+  "RequestForCourse":"दाखिला के लिए निवेदन सफलतापूर्वक पाठ्यक्रम विशेषज्ञ को भेज दिया गया है",
   "Invalid_Attachment":"Invalid attachment.",
   "Assignment_Submitted":"Assignment successfully submitted.",
   "Enter_Recipient":"कृपया प्राप्तकर्ता दर्ज करें",
