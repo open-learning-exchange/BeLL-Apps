@@ -19,7 +19,7 @@
   "Manager":"Directeur",
   "Super_Manager":"Super gérante",
   "Leader":"Directeur",
-  "Bell":"BELL",
+  "Bell":"Bell",
   "Learner":"Le apprenant",
   "Visits":"Visites",
   "Days":[
