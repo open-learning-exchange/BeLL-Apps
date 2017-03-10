@@ -225,7 +225,7 @@
   "Add_your_feedback":"Ajoutez vos Commentaires",
   "Back_to_Resources":"Back to Resources",
   "save_and_add_feedback":"Enregistrer et Ajouter a Ma Bibliothèque",
-  "Add_Feedback_For":"Add Feedback For",
+  "Add_Feedback_For":"Ajouter un retour d'informations pour quelqu'un",
   "alphabets":[
     "A",
     "B",
@@ -349,7 +349,7 @@
   "Invite":"Inviter",
   "Invitation_Type":"Type d’invitation",
   "Invitation_Type_Array":[
-    "All",
+    "Tout",
     "Niveau",
     "Membres"
   ],
@@ -359,9 +359,9 @@
   "New_Message":"Nouveau message",
   "Recipients":"Recipients",
   "Subject_single":"Objet ",
-  "Close":"Close",
+  "Close":"Fermer",
   "Send":"Envoyer",
-  "No_Attachment":"No Attachment",
+  "No_Attachment":"Pas d'une pièce jointe",
   "inviteForm_levels":[
     "1",
     "2",
@@ -375,13 +375,13 @@
     "10",
     "11",
     "12",
-    "Higher"
+    "Plus haut"
   ],
-  "Leader_Name":"Leader Name",
-  "Leader_Email":"Leader Email",
-  "Leader_Phone_Number":"Leader Phone Number",
-  "Not_Set":"Not Set",
-  "Course_Information":"Course Information",
+  "Leader_Name":"Nom de patron",
+  "Leader_Email":"L'email de patron",
+  "Leader_Phone_Number":"Le numéro de téléphone de patron",
+  "Not_Set":"Pas encore défini",
+  "Course_Information":"L'information de cours",
   "level_Single":"Niveau",
   "Hi":"Salut",
   "Has_Resign_From":"has resigned from",
