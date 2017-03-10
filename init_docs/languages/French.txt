@@ -572,7 +572,7 @@
     "Awareness"
   ],
   "inviteMemberArray":[
-    "All",
+    "Tout",
     "Membres"
   ],
   "Join_meetUp":"Join Meetup",
