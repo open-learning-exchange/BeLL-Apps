@@ -16,7 +16,7 @@
   "Welcome_Video":"Willkommen Video",
   "Nation":"Nation",
   "Community":"Gemeinschaft",
-  "Manager":"Manager",
+  "Manager":"Leiter",
   "Super_Manager":"Super-Manager",
   "Leader":"Leiter",
   "Bell":"Bell",
