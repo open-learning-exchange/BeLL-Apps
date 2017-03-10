@@ -274,7 +274,7 @@
   "Invite_Member":"Invitar a miembros",
   "GradeLevelList":[
     "Pre-Kinder",
-    "Pre-Kinder",
+    "Kindergarten",
     "1",
     "2",
     "3",
