@@ -716,7 +716,8 @@ $(function() {
                 $('#nav').hide();
                 lang = "English";
             }
-            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.languageDictValue = App.Router.loadLanguageDocs(lang);
+            App.startActivityIndicator();
             var context = this;
             // alert("Code"+communityCode+ " Name" +communityName+ "Date" +communityLastSyncDate );
             var communityChosen = communityCode;
@@ -1125,9 +1126,49 @@ $(function() {
             trendActivityReportView.lastActivitySyncDate = communityLastActivitySyncDate;
             trendActivityReportView.render();
             //App.$el.children('.body').html(trendActivityReportView.el);
-            App.$el.children('.body').html('<div id="parentDiv"></div>');
+            App.$el.children('.body').html('<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.date-picker{width:300px;float:right;}</style><div id="parentDiv"></div>');
             $('#parentDiv').append(trendActivityReportView.el);
-
+            var nationUrl = $.url().data.attr.authority;
+            var temp = $.url().data.attr.host.split(".")
+            var nationName = temp[0];
+            $.ajax({
+                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function (result) {
+                    urlFrag = $.url().data.attr.fragment.split('/');
+                    if (urlFrag[4]) {
+                        selDate = urlFrag[4].split('-');
+                        setDt = new Date(selDate[0], selDate[1] - 1, 01, 00, 00, 00);
+                    } else {
+                        setDt = new Date();
+                    }
+                    firstDt = result.rows[0].key.split('/');
+                    firstYear = firstDt[0];
+                    firstMonth = parseInt(firstDt[1]);
+                    firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+                    today = new Date();
+                    $('input.date-picker').datepicker({
+                        minDate: firstDt,
+                        maxDate: new Date(),
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'MM yy',
+                        onClose: function (dateText, inst) {
+                            var month = $(".ui-datepicker-month :selected").val();
+                            var year = $(".ui-datepicker-year :selected").val();
+                            var newDt = new Date(year, month, 1);
+                            $('input.date-picker').datepicker('setDate', newDt);
+                            month = parseInt(newDt.getMonth());
+                            Backbone.history.navigate('communityreport/' + communityLastSyncDate + '/' + communityName + '/' + communityCode + '/' + newDt.getFullYear() + '-' + (month + 1), {
+                                trigger: true
+                            });
+                        }
+                    });
+                    $('input.date-picker').datepicker('setDate', endDateForTrendReport);
+                }
+            });
             //***************************************************************************************************************
             //Trend Report Graphs Started
             //  ********************************************************************************************************
@@ -1651,7 +1692,7 @@ $(function() {
                 }]
             });
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
-
+            App.stopActivityIndicator()
         },
         //*************************************************************************************************************
         //Trend Report for Communities page on nation Ended
@@ -3663,7 +3704,7 @@ $(function() {
             vplink.render();
             App.$el.children('.body').html('<div id="communityDiv"></div>');
             $('#communityDiv').append(vplink.el);
-	    App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));       
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
         ListCommunity: function (secretId, startDate) {
             App.startActivityIndicator();
