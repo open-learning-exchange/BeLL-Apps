@@ -647,7 +647,7 @@
   "NoUnRead_Mail":"* No Unread Email.",
   "newMsg":"Nouveau message",
   "Inbox":"Inbox",
-  "All":"All",
+  "All":"Tout",
   "Unread":"Unread",
   "Compose":"Compose",
   "Go":"Go",
