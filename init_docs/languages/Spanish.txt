@@ -19,7 +19,7 @@
   "Manager":"Administrador",
   "Super_Manager":"Administrador principal",
   "Leader":"Coordinador del curso",
-  "Bell":"BeLL",
+  "Bell":"Campana",
   "Learner":"Estudiante",
   "Visits":"Visitas",
   "Days":[
@@ -98,7 +98,7 @@
   "Release_Notes":"Notas de la versión",
   "Publications":"Publicaciones",
   "New":"Nuevo",
-  "Resource":"Resource",
+  "Resource":"????",
   "Selected":"Seleccionado",
   "Save":"Guardar",
   "Cancel":"Cancelar",
@@ -110,7 +110,7 @@
     "Texto",
     "Gráficos/imágenes",
     "Audio/Música/Libro",
-    "Vídeo"
+    "Video"
   ],
   "openWithList":[
     "Descarga",
@@ -172,7 +172,7 @@
     "Secundaria superior",
     "Grado",
     "Graduado",
-    "Profesional"
+    "Professional"
   ],
   "SubjectList":[
     "Agricultura",
