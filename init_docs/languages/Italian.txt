@@ -747,7 +747,7 @@
   "No_Course_Pub":"No Course in this publication",
   "Done":"Done",
   "Add_To_Pub":"Add To Publication",
-  "new_nation_report":"Nuova relazione sulla nazione",
+  "new_nation_report":"New Nation Report",
   "Select_Comm":"Select Community",
   "last_sync_date":"Last Activity sync Date",
   "Add_Community":"Add Community",
