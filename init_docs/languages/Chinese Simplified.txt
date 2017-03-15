@@ -561,7 +561,7 @@
   "Edit_MeetUp":"Edit Meetup",
   "Recurring":"定期报告",
   "categoryList":[
-    "Information and Communication Technology 信息技术与通信技术",
+    "ICT",
     "第一次",
     "母亲",
     "一般",
