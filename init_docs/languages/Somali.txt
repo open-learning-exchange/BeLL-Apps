@@ -567,7 +567,7 @@
     "General",
     "E Learning",
     "Farming",
-    "Dood cilmiyeed",
+    "Academic Discussion",
     "Academic Help",
     "Awareness"
   ],
