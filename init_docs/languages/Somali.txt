@@ -37,7 +37,7 @@
     {
       "January":"Janaayo",
       "February":"Febraayo",
-      "March":"March",
+      "March":"Maarso",
       "April":"Abriil",
       "May":"Maajo",
       "June":"Juun",
@@ -78,7 +78,7 @@
   "resource_for":"Agabyada khayraadka",
   "author":"Qoraa",
   "Request_Resource":"Request Resource",
-  "Back":"Dib/gadaal",
+  "Back":"Back",
   "Next":"Ku xiga",
   "Home":"Guri",
   "resource_type":"Nooca khayraadka",
@@ -252,7 +252,7 @@
     "X",
     "Y",
     "N/a",
-    "N/a"
+    "Z"
   ],
   "Course_Title":"Ciwaan koorsada",
   "Language_Of_Instruction":"Luqadda waxbarashada",
