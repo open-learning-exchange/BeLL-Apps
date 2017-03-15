@@ -3754,9 +3754,10 @@ $(function() {
                         async: false
                     }
                 );
-                CommunityTable = new App.Views.CommunitiesTable({
+                CommunityTable = new App.Views.CommunityRequestsTable({
                     collection: Communities,
-                    startDate : startDate
+                    startDate: startDate,
+                    name : "VipLink"
                 });
                 CommunityTable.vipLinkModel = viplinkModel;
                 CommunityTable.render();
@@ -3880,7 +3881,8 @@ $(function() {
             );
             CommunityTable = new App.Views.CommunityRequestsTable({
                 collection: Communities,
-		startDate: startDate
+                startDate: startDate,
+                name : "CommunityRequest"
             });
             CommunityTable.pendingCollections = pendingRequests;
             CommunityTable.render();
