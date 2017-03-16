@@ -559,7 +559,7 @@
   "Confirm_Collection":"¿Desea eliminar esta colección?",
   "start_new_meetUp":"Start a New Meetup",
   "Edit_MeetUp":"Edit Meetup",
-  "Recurring":"Recurrente",
+  "Recurring":"Recurring",
   "categoryList":[
     "TIC",
     "Primera vez",
