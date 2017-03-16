@@ -116,7 +116,7 @@
     "Just Download",
     "HTML",
     "PDF",
-    "BeLL-Reader",
+    "Bell-Reader",
     "Audio(MP3)",
     "Video(MP4,FLV)",
     "Video Book(webm,json)",
