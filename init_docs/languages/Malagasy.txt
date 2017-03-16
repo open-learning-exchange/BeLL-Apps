@@ -625,7 +625,7 @@
   "Month":"Volana",
   "View_All_Courses":"Mijery ireo fandaharam-pianarana rehetra",
   "No_data_found":"Tsy misy firanketan-tsoratra mitovy amin'io ato",
-  "Configurations":"Configuration",
+  "Configurations":"Configurations",
   "Sync_With_Nation":"Atao mifanaraka amin'ny firenena",
   "Set_Configurations":"Fametrahana configurations",
   "IssueNumber":"Ny laharan'ny boky",
