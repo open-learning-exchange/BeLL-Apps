@@ -5,7 +5,7 @@
   "Dashboard":"Página principal",
   "Library":"Biblioteca",
   "Courses":"Cursos",
-  "Meetups":"MeetUps",
+  "Meetups":"Meetups",
   "Members":"Miembros",
   "Reports":"Informes",
   "Feedback":"Opinión",
@@ -19,7 +19,7 @@
   "Manager":"Administrador",
   "Super_Manager":"Administrador principal",
   "Leader":"Coordinador del curso",
-  "Bell":"BeLL",
+  "Bell":"Bell",
   "Learner":"Estudiante",
   "Visits":"Visitas",
   "Days":[
