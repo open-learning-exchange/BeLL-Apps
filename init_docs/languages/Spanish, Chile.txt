@@ -157,7 +157,7 @@
   "Suggestion":"Sugerencias",
   "Comment":" Comment",
   "Urgent":"Urgente",
-  "Bug":"Error",
+  "Bug":"Bug",
   "Question":"Pregunta",
   "Submit":"Enviar",
   "Collection_Name":"Nombre de la colección",
