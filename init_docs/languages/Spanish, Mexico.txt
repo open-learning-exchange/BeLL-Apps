@@ -5,7 +5,7 @@
   "Dashboard":"Página principal",
   "Library":"Biblioteca",
   "Courses":"Cursos",
-  "Meetups":"MeetUps",
+  "Meetups":"Meetups",
   "Members":"Miembros",
   "Reports":"Reportes",
   "Feedback":"Retroalimentación",
