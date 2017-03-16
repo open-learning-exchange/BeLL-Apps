@@ -172,10 +172,10 @@
     "Ed. media - 2do ciclo",
     "Pregrado",
     "Postgrado",
-    "Profesional"
+    "Professional"
   ],
   "SubjectList":[
-    "Agricultura",
+    "Agriculture",
     "Artes",
     "Negocios y finanzas",
     "Medio ambiente",
