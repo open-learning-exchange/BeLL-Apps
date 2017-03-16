@@ -120,7 +120,7 @@
     "Audio(MP3)",
     "Video(MP4,FLV)",
     "Video Book(webm,json)",
-    "Video"
+    "Native Video"
   ],
   "resourceForList":[
     "Default",
