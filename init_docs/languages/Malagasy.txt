@@ -12,7 +12,7 @@
   "Logout":"Miala",
   "Badges":"Karatry",
   "Calender":"Kalandrie",
-  "Email":"Email",
+  "Email":"Mailaka",
   "Welcome_Video":"Welcome Video",
   "Nation":"Firenena",
   "Community":"Fiaraha-monina",
