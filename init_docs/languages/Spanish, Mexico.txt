@@ -109,7 +109,7 @@
   "mediaList":[
     "Texto",
     "Graphics/Pictures",
-    "Audio/Música/Libro",
+    "Audio/Music/Book",
     "Video"
   ],
   "openWithList":[
@@ -172,7 +172,7 @@
     "Secundaria superior",
     "Grado",
     "Graduado",
-    "Profesional"
+    "Professional"
   ],
   "SubjectList":[
     "Agricultura",
