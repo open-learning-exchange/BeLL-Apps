@@ -18,8 +18,8 @@
   "Community":"Comunidad",
   "Manager":"Administrador",
   "Super_Manager":"Administrador principal",
-  "Leader":"Coordinador del curso",
-  "Bell":"Campana",
+  "Leader":"Coordinador",
+  "Bell":"BeLL",
   "Learner":"Estudiante",
   "Visits":"Visitas",
   "Days":[
@@ -98,7 +98,7 @@
   "Release_Notes":"Notas de la versión",
   "Publications":"Publicaciones",
   "New":"Nuevo",
-  "Resource":"????",
+  "Resource":"Resource",
   "Selected":"Seleccionado",
   "Save":"Guardar",
   "Cancel":"Cancelar",
@@ -110,7 +110,7 @@
     "Texto",
     "Gráficos/imágenes",
     "Audio/Música/Libro",
-    "Video"
+    "Vídeo"
   ],
   "openWithList":[
     "Descarga",
@@ -120,7 +120,7 @@
     "Sonido(MP3)",
     "Video(MP4,FLV)",
     "Video Book(webm,json)",
-    "Vídeo nativo"
+    "Video nativo"
   ],
   "resourceForList":[
     "Predeterminado",
@@ -172,7 +172,7 @@
     "Secundaria superior",
     "Grado",
     "Graduado",
-    "Professional"
+    "Profesional"
   ],
   "SubjectList":[
     "Agricultura",
@@ -274,7 +274,7 @@
   "Invite_Member":"Invitar a miembros",
   "GradeLevelList":[
     "Pre-Kinder",
-    "Kindergarten",
+    "Pre-Kinder",
     "1",
     "2",
     "3",
@@ -391,7 +391,7 @@
   "Take_Quiz":"Rendir prueba",
   "Exit":"Salir",
   "DownloadPaperForStep":"Download Paper for step number",
-  "Error_Course_Report":"No se encontraron datos en el servidor.",
+  "Error_Course_Report":"No se encuentran datos en el servidor.",
   "You_Scored":"Calificación",
   "Finish":"Terminar",
   "Course_Pass_Msg":"Aprobaste este nivel.",
@@ -436,7 +436,7 @@
   "Resource_failure_update":"No se actualizó el modelo porque tiene el mismo título.",
   "Error_Welcome_Resource":"Error al obtener recursos de bienvenida.",
   "Success_Msg":"Realizado con éxito.",
-  "Resigned_Success_Msg":"Abandonó con éxito",
+  "Resigned_Success_Msg":"Abandono con éxito para",
   "No_Activity_Logged":"No registra actividades en este período.",
   "Select_Date":"Elija una fecha para continuar.",
   "Added_To_Shelf":"Agregado con éxito al estante.",
@@ -462,7 +462,7 @@
   "UnableToReplicate":"No se pueden reproducir las aplicaciones.",
   "TempApp_Replication_Error":"No se reprodujeron las aplicaciones temporales.",
   "Create_Apps_Error":"Error al crear aplicaciones.",
-  "UnAuthorized_Community":"La comunidad no puede actualizar hasta que se configuré con éxito el país.",
+  "UnAuthorized_Community":"La comunidad no puede actualizar hasta que se configuré con éxito la nación.",
   "Poor_Internet_Error":"No se pueden actualizar las BeLL-Apps. Revise su conexión a internet o inténtelo más tarde.",
   "Notes_Saved_Success":"Notas guardadas con éxito.",
   "Prompt_ReleaseNotes":"Ingrese las notas de la versión.",
@@ -506,7 +506,7 @@
   "meetUp_Added":"Añadió con éxito a mis encuentros.",
   "Successfully_Registered":"¡Registrado con éxito!",
   "Birthday_Range":"Rango de edad válido es de 5 a 100.",
-  "Update_Profile_Reminder":"Corrija la información destacada en este formulario.",
+  "Update_Profile_Reminder":"Hay información incorrecta en su cuenta. Actualícela.",
   "Invalid_Image_File":"Error: extensión no válida de la imagen. Extensiones válidas son .jpg, .jpeg.",
   "Invalid_Credentials":"Nombre de usuario o contraseña incorrecta.",
   "Account_DeActivated":"Se desactivó tu cuenta.",
@@ -540,7 +540,7 @@
   "Pubs_Issue_Missing":"Falta la publicación.",
   "Pubs_Issue_Saved":"¡Publicación guarda!",
   "UnAuthorized_Login":"No tienes autorización para iniciar sesión.",
-  "Status":"Estado",
+  "Status":"Estado.",
   "Synced_Success":"Sincronizado con éxito.",
   "Check_Sync":"Update status",
   "Already_Pub_Sent":"Esta publicación ya se envió a",
