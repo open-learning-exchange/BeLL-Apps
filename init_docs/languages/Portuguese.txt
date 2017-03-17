@@ -1,7 +1,7 @@
 {
-  "nameOfLanguage":"English",
+  "nameOfLanguage":"Portuguese",
   "directionOfLang":"Left",
-  "nameInNativeLang":"English",
+  "nameInNativeLang":"Português",
   "Dashboard":"My Home",
   "Library":"Library",
   "Courses":"Courses",

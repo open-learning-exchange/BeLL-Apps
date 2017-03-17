@@ -1,8 +1,8 @@
 {
-  "nameOfLanguage":"English",
+  "nameOfLanguage":"Telugu",
   "directionOfLang":"Left",
-  "nameInNativeLang":"English",
-  "Dashboard":"My Home",
+  "nameInNativeLang":"తెలుగు",
+  "Dashboard":"Illu",
   "Library":"Library",
   "Courses":"Courses",
   "Meetups":"Meetups",
@@ -14,7 +14,7 @@
   "Calender":"Calendar",
   "Email":"Email",
   "Welcome_Video":"Welcome Video",
-  "Nation":"Nation",
+  "Nation":"దేశం",
   "Community":"Community",
   "Manager":"Manager",
   "Super_Manager":"Super Manager",
@@ -46,7 +46,7 @@
       "September":"September",
       "October":"October",
       "November":"November",
-      "December":"December"
+      "December":"డిసెంబర్"
     }
   ],
   "News_Feed":"News Feed",
@@ -59,7 +59,7 @@
   "Password":"Password",
   "Sign_In":"Sign In",
   "Become_a_member":"Become a Member",
-  "My_Home":"My Home",
+  "My_Home":"Illu",
   "Welcome":"Welcome",
   "Functionality_Under_Construction":"This functionality is under construction.",
   "Add_new_Resource":"Add New Resource",
