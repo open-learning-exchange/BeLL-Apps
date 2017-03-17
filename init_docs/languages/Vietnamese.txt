@@ -37,7 +37,7 @@
     {
       "January":"January",
       "February":"February",
-      "March":"Tháng Ba",
+      "March":"March",
       "April":"April",
       "May":"May",
       "June":"June",
@@ -123,7 +123,7 @@
     "Native Video"
   ],
   "resourceForList":[
-    "Mặc định",
+    "Default",
     "Leader",
     "Learner"
   ],
@@ -138,13 +138,13 @@
   "Browse":"Browse",
   "DeleteLabel":"Delete",
   "UnHide":"Unhide",
-  "No_File_Selected":"Không có file nào được chọn",
+  "No_File_Selected":"No File Selected",
   "Topic":"Topic",
   "Collections":"Collections",
   "Photo":"Photo",
   "KeyWord_s":"Keyword",
   "First_Name":"First Name",
-  "Last_Name":"Họ",
+  "Last_Name":"Last Name",
   "Bell_Email":"BeLL Email",
   "EditLabel":"Edit",
   "Member_Login":"Member Login",
@@ -163,7 +163,7 @@
   "Collection_Name":"Collection Name",
   "Nested_Under":"Nested Under",
   "Added_Date":"Added Date",
-  "Description":" Mô tả",
+  "Description":" Description",
   "LevelArray":[
     "Early Education",
     "Lower Primary",
@@ -211,7 +211,7 @@
   "Medium":"Medium",
   "Rating":"Rating",
   "No_Requests":"No Requests",
-  "Search_Result":"Kết quả tìm kiếm",
+  "Search_Result":"Search Results",
   "Back_to_Search":"Back to Search",
   "User":"User",
   "Category":"Category",
