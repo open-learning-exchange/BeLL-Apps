@@ -1,4 +1,3 @@
 files:
-  - 
-    source: /init_docs/Text.json
+  - source: /init_docs/Text.json
     translation: /init_docs/languages/%language%.txt
