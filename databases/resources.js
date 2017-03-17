@@ -511,5 +511,9 @@ ddoc.views = {
         }
     }
 }
-
+ddoc.filters = {
+    by_resource: function (doc, req) {
+        return doc._id === req.query._id;
+    }
+}
 module.exports = ddoc;
