@@ -844,7 +844,8 @@
   "viplink_delete":"Are you sure that you want to delete this link?",
   "viplinks":"Vip Links",
   "Create":"Create Link",
-  "Link_Coppied":"Link copied to your clipboard",
+  "Link_Copied":"Link copied to your clipboard",
   "Copy":"Copy",
-  "link_created":"Vip link successfully created."
+  "link_created":"Vip link successfully created.",
+  "welcome_to":"Welcome to"
 }
