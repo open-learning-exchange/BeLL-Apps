@@ -3794,7 +3794,6 @@ $(function() {
                                 async: false
                             });
                             nationConfig = nationConfig.first();
-                            div = '<div id="np"></div>';
                             listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>";
                             listCommunity = listCommunity + "<h3> " + "Hi " + viplinkModel.attributes.name + "</h3>" + "<h3>" + App.languageDictValue.attributes.welcome_to + "&nbsp;" + nationConfig.get("name") + "&nbsp" + App.languageDictValue.attributes.Community + "</h3>";
                         }
