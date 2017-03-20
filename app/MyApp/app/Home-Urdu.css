@@ -414,11 +414,11 @@ border-right-width:0px;
 }
 .btn.btn-primary1:hover,
 .btn.btn-primary1:focus,
-.btn-group:focus .btn.btn-primary1.dropdown-toggle {
+.btn-course:focus .btn.btn-primary1.dropdown-toggle {
     background-color: #cc0000;
 }
 .btn.btn-primary1:active,
-.btn-group.open .btn.btn-primary1.dropdown-toggle,
+.btn-course.open .btn.btn-primary1.dropdown-toggle,
 .btn.btn-primary1.active {
     background-color: #16a085;
 }
@@ -549,7 +549,8 @@ body{
 #externalDiv{
     direction: rtl;
 }
-.btn.btn-hg, .input-group-hg .btn
+
+.btn.btn-hg, .input-course-hg .btn
 {
     line-height:13px;
     color: white;
@@ -1184,4 +1185,21 @@ textarea[name="comment"]
 }
 .wrong {
 	color: red;
+}
+.flotHeight{
+    height: 400px;
+    width:1200px;
+}
+.choice{
+    float:right;
+    margin-bottom:10px;
+    width:100%;
+}
+.spanclass{
+    display:inline-block;
+    width:25%;
+}
+.stprog_plot_color{
+    text-align:center; 
+    margin: 10px 0 15px;
 }

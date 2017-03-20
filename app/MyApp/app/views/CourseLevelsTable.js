@@ -6,7 +6,7 @@ $(function () {
         modl: null,
         template: _.template($("#template-courseLevelsTable").html()),
         events: {
-            "click #takequiz": "quiz",
+            "click #takeTest": "quiz",
             "click #resourseOpened": function (e) {
                 resid = e.target.attributes.rid.nodeValue
                 var member = new App.Models.Member({
@@ -44,6 +44,15 @@ $(function () {
 
         quiz: function (e) {
             $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
+            var memberEnroll = new App.Collections.membercourseprogresses()
+                memberEnroll.courseId = this.collection.courseId,
+                memberEnroll.memberId = this.attributes.membersid
+                memberEnroll.fetch({
+                    async:false
+                })
+            memberProgressRecord = memberEnroll.first();
+            var Attempt = memberProgressRecord.get('pqAttempts')
+            var sp = memberProgressRecord.get('stepsResult')  
             var context=this
             var id = e.currentTarget.value
             step = new App.Models.CourseStep({
@@ -54,21 +63,20 @@ $(function () {
             })
             var JSONsteps=null;
             JSONsteps=step.toJSON()
-
             var ssids = context.modl.get('stepsIds')
             var index = ssids.indexOf(id)
-            var temp = new App.Views.takeQuizView({
-                questions: JSONsteps.questions,
-                answers: JSONsteps.answers,
-                options: JSONsteps.qoptions,
+               var temp = new App.Views.takeTestView({ 
+                coursestructure: JSONsteps.coursestructure,
+                questionlist: JSONsteps.questionslist,
                 passP: JSONsteps.passingPercentage,
                 resultModel: context.modl,
-                stepIndex: index
-            })
+                stepIndex: index,
+                stepId: JSONsteps._id
+                })
             temp.render()
             $('div.takeQuizDiv').html(temp.el)
-        },
-
+       },
+            
         initialize: function () {
             $('div.takeQuizDiv').hide()
         },
@@ -80,39 +88,11 @@ $(function () {
         addOne: function (model) {
             this.vars = model.toJSON();
             this.vars.languageDict=App.languageDict;
-            if (!this.vars.outComes || this.vars.outComes.length==0) {
-                this.vars.outComes = ''
-                if (this.vars.questions && this.vars.questions.length >0){
-                    this.vars.outComes = ['Quiz'];
-                }
-
-            }
-            else if(this.vars.outComes instanceof Array){
-                for ( var i =0;i< this.vars.outComes.length; i++)
-                {
-                    var textOfOutcomes = 'Take_' + this.vars.outComes[i];
-                    this.vars.outComesText = textOfOutcomes;
-
-                }
-
-            }
-            else{
-                var temp=this.vars.outComes
-                this.vars.outComes=new Array()
-                this.vars.outComes[0]=temp;
-
-            }
-
-           // var textOfOutcomes='Take_'+this.vars.outComes[0];
-           // this.vars.outComesText=App.languageDict.get(textOfOutcomes);
-           // this.vars.outComes[0]=App.languageDict.get(this.vars.outComes[0]);
-
-         //   this.vars.outComesText = textOfOutcomes;
-          //  this.vars.outComes[0] =this.vars.outComes[0];
             var index = 0
             var sstatus = this.modl.get('stepsStatus')
             var ssids = this.modl.get('stepsIds')
             var sr = this.modl.get('stepsResult')
+            var totalattempt = this.modl.get('pqAttempts')
 
             while (index < sstatus.length && ssids[index] != this.vars._id) {
                 index++
@@ -122,20 +102,10 @@ $(function () {
                 this.vars.status = App.languageDict.attributes.Error
                 this.vars.marks =  App.languageDict.attributes.Error
             } else {
-                var tempStatus = [];
-
-                if(sstatus[index].length > 1) {
-                    var paper = filterInt(sstatus[index][0])
-                    var quiz = filterInt(sstatus[index][1])
-                    tempStatus.push(paper);
-                    tempStatus.push(quiz);
-                    this.vars.status = tempStatus
-                    this.vars.marks = sr[index]
-                } else {
                 this.vars.status = filterInt(sstatus[index])
                 this.vars.marks = sr[index]
-                }
-
+                console.log(index, totalattempt[index])
+                this.vars.lastAttemptsMarks = sr[index][totalattempt[index]]
                 this.vars.index = index
             }
             var attachmentNames = new Array()
@@ -163,15 +133,15 @@ $(function () {
         setAllResults: function () {
             var context=this
             var memId=$.cookie('Member._id')
+            console.log(this.collection)
             var couId=this.collection.first().get("courseId")
-
-        	var MemberCourseProgress=new PouchDB('membercourseprogress');
-   	   		MemberCourseProgress.query({map:function(doc){
-            	 if(doc.memberId && doc.courseId){
-               		emit([doc.memberId,doc.courseId],doc)
-         		 }
-   			}
-   			},{key:[memId,couId]},function(err,res){
+            var MemberCourseProgress=new PouchDB('membercourseprogress');
+            MemberCourseProgress.query({map:function(doc){
+                 if(doc.memberId && doc.courseId){
+                    emit([doc.memberId,doc.courseId],doc)
+                 }
+            }
+            },{key:[memId,couId]},function(err,res){
 
                     var memberProgress=new App.Collections.membercourseprogresses()
                     memberProgress.memberId=memId
@@ -182,13 +152,11 @@ $(function () {
                         }
 
                     })
-		   });
+           });
         },
         renderaccordian:function(model){
-
             var context=this
             context.modl=model
-
             var PassedSteps = 0
             var sstatus = context.modl.get('stepsStatus')
             var totalSteps = sstatus.length
@@ -212,9 +180,6 @@ $(function () {
                     ui.item.children("h3").triggerHandler("focusout");
                 }
             });
-
-
-
         },
         render: function () {
 

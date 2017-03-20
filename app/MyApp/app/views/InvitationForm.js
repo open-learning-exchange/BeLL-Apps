@@ -79,7 +79,7 @@ $(function() {
 
             })
 
-            // Get the group ready to process the form
+            // Get the course ready to process the form
             members.once('sync', function() {
                 inviteForm.trigger('InvitationForm:MembersReady')
 

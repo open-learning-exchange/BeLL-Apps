@@ -16,6 +16,7 @@ $(function () {
         },
         render: function () {
             var vars = this.model.toJSON();
+            vars.memberid =this.memberId;
             vars.id  = this.model.attributes._id;
             vars.percentage = this.model.attributes.passingPercentage;
             var attchmentURL = null;
@@ -51,8 +52,11 @@ $(function () {
             }
             vars.stepNo = this.model.attributes.step;
             vars.credits = this.credits;
+            vars.lastAttemptPercentage = this.credits[this.attempts]
             vars.status = this.status;
+            console.log(this.status[this.attempts])
             vars.attempts = this.attempts;
+            vars.coursestructure = this.model.attributes.coursestructure;
             vars.stepType =  this.stepType;
             this.$el.append(_.template(this.template, vars))
         }

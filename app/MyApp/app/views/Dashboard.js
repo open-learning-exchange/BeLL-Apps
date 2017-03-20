@@ -405,7 +405,7 @@ $(function() {
             /////////////////////////////////////////
             that.updateConfigsOfCommFromNation();
             ////////////////////////////////////////
-            that.updateDesignDocs("groups");
+            that.updateDesignDocs("courses");
             that.updateDesignDocs("publications");
             //Following are the list of db's on which design_docs are not updating,
             // whenever the design_docs will be changed in a db,that db's call will be un-commented.
@@ -834,14 +834,14 @@ $(function() {
 
         getCountOfLearners: function(){
             var learners=[], stepsStatuses=[], countOfLearners=0;
-            var groups = new App.Collections.Groups();
+            var courses = new App.Collections.Courses();
             var MemberCourseProgress = new App.Collections.membercourseprogresses();
-            groups.fetch({
+            courses.fetch({
                 async:false,
-                success: function (groupDocs) {
-                    if(groupDocs.length>0) {
-                        for (var i = 0; i < groupDocs.length; i++) {
-                            var doc = groupDocs.models[i];
+                success: function (courseDocs) {
+                    if(courseDocs.length>0) {
+                        for (var i = 0; i < courseDocs.length; i++) {
+                            var doc = courseDocs.models[i];
                             learners=[], stepsStatuses=[];
                             if (doc.get('courseLeader') != undefined && doc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) {
                                 for (var j = 0; j < doc.get('members').length; j++) {
@@ -975,14 +975,14 @@ $(function() {
             }
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
-            var groups = new App.Collections.Groups();
+            var courses = new App.Collections.Courses();
             var countOfLearnersToMarkCredits=0;
-            groups.fetch({
+            courses.fetch({
                 async: false,
-                success: function (groupDocs) {
-                    if (groupDocs.length > 0) {
-                        for (var i = 0; i < groupDocs.length; i++) {
-                            var doc = groupDocs.models[i];
+                success: function (courseDocs) {
+                    if (courseDocs.length > 0) {
+                        for (var i = 0; i < courseDocs.length; i++) {
+                            var doc = courseDocs.models[i];
                             countOfLearnersToMarkCredits+=getCountOfLearners(doc.get('_id'), false);
                         }
                     }
@@ -1077,20 +1077,20 @@ $(function() {
             this.vars.new_learners_count=countOfLearnersToMarkCredits;
             this.$el.html(_.template(this.template, this.vars))
 
-            groups = new App.Collections.MemberGroups()
-            groups.memberId = $.cookie('Member._id')
-            groups.fetch({
+            courses = new App.Collections.MemberCourses()
+            courses.memberId = $.cookie('Member._id')
+            courses.fetch({
                 success: function(e) {
-                    groupsSpans = new App.Views.GroupsSpans({
-                        collection: groups
+                    coursesSpans = new App.Views.CoursesSpans({
+                        collection: courses
                     })
-                    groupsSpans.render()
+                    coursesSpans.render()
 
-                    $('#cc').append(groupsSpans.el)
+                    $('#cc').append(coursesSpans.el)
 
 
                     TutorsSpans = new App.Views.TutorsSpans({
-                        collection: groups
+                        collection: courses
                     })
     
                     

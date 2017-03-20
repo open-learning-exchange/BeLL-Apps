@@ -6,11 +6,11 @@ $(function () {
         template: $('#template-Search').html(),
 
         vars: {},
-        groupresult: null,
+        courseresult: null,
         resultArray: null,
 
         initialize: function () {
-            this.groupresult = new App.Collections.SearchCourses()
+            this.courseresult = new App.Collections.SearchCourses()
             this.resultArray = []
             enablenext = 0
         },
@@ -26,17 +26,17 @@ $(function () {
 
         fetchRecords: function () {
             var obj = this
-            this.groupresult.fetch({
+            this.courseresult.fetch({
                 success: function () {
-                    obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.groupresult.models, searchText))
+                    obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(obj.courseresult.models, searchText))
 
 
-                    if (obj.resultArray.length != searchRecordsPerPage && obj.groupresult.models.length == limitofRecords) {
+                    if (obj.resultArray.length != searchRecordsPerPage && obj.courseresult.models.length == limitofRecords) {
                         obj.fetchRecords()
-                    } else if (obj.groupresult.models.length == 0) {
+                    } else if (obj.courseresult.models.length == 0) {
                         previousPageButtonPressed()
 
-                    } else if (obj.groupresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
+                    } else if (obj.courseresult.models.length < limitofRecords && obj.resultArray.length == 0 && skipStack.length == 1) {
                         $('#not-found').html(App.languageDict.attributes.No_data_found);
                         $("#selectAllButton").hide()
 
@@ -45,7 +45,7 @@ $(function () {
                         var ResultCollection = new Backbone.Collection();
                         if (obj.resultArray.length > 0) {
                             ResultCollection.set(obj.resultArray)
-                            var SearchSpans = new App.Views.GroupsTable({
+                            var SearchSpans = new App.Views.CoursesTable({
                                 collection: ResultCollection
                             })
                             SearchSpans.resourceids = obj.resourceids

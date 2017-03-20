@@ -18,7 +18,7 @@ $(function() {
             $("input[name='genderSelector']").each( function () {
                 $(this).prop('checked', true);
             });
-            $("input[name='ageGroupSelector']").each( function () {
+            $("input[name='ageCourseSelector']").each( function () {
                 $(this).prop('checked', true);
             });
             $("input[name='rolesSelector']").each( function () {
@@ -33,7 +33,7 @@ $(function() {
             $("input[name='genderSelector']").each( function () {
                 $(this).prop('checked', false);
             });
-            $("input[name='ageGroupSelector']").each( function () {
+            $("input[name='ageCourseSelector']").each( function () {
                 $(this).prop('checked', false);
             });
             $("input[name='rolesSelector']").each( function () {
@@ -54,14 +54,14 @@ $(function() {
             return selectedGenderValues;
         },
 
-        getSelectedAgeGroups: function () {
-            var selectedAgeGroupValues = [];
-            $("input[name='ageGroupSelector']").each(function() {
+        getSelectedAgeCourses: function () {
+            var selectedAgeCourseValues = [];
+            $("input[name='ageCourseSelector']").each(function() {
                 if ($(this).is(":checked")) {
-                    selectedAgeGroupValues.push($(this).val());
+                    selectedAgeCourseValues.push($(this).val());
                 }
             })
-            return selectedAgeGroupValues;
+            return selectedAgeCourseValues;
         },
 
         getSelectedRoles: function () {
@@ -92,14 +92,14 @@ $(function() {
         sendSurveyToMembers: function() {
             var that = this;
             var selectedGenderValues = that.getSelectedGenderValues();
-            var selectedAgeGroupValues = that.getSelectedAgeGroups();
+            var selectedAgeCourseValues = that.getSelectedAgeCourses();
             var selectedRoles = that.getSelectedRoles();
             that.getSelectedBells();
             if (selectedGenderValues.length == 0) {
                 alert(App.languageDictValue.get("Gender_Selection_Error"))
                 return
-            } else if (selectedAgeGroupValues.length == 0) {
-                alert(App.languageDictValue.get("Group_Selection_Error"))
+            } else if (selectedAgeCourseValues.length == 0) {
+                alert(App.languageDictValue.get("Course_Selection_Error"))
                 return
             } else if (selectedRoles.length == 0) {
                 alert(App.languageDictValue.get("Role_Selection_Error"))
@@ -109,9 +109,9 @@ $(function() {
                 return
             } else {
                 App.startActivityIndicator();
-                var selectedAgeGroups = [];
-                for(var i = 0 ; i < selectedAgeGroupValues.length ; i++) {
-                    selectedAgeGroups.push(selectedAgeGroupValues[i].split('-'));
+                var selectedAgeCourses = [];
+                for(var i = 0 ; i < selectedAgeCourseValues.length ; i++) {
+                    selectedAgeCourses.push(selectedAgeCourseValues[i].split('-'));
                 }
                 var dbUrl = '/members/_design/bell/_view/MemberByGender?include_docs=true';
                 if(selectedGenderValues.length == 1) {
@@ -124,7 +124,7 @@ $(function() {
                     success: function (result) {
                         var listOfMembersForSurvey = [];
                         if(result.rows.length > 0) {
-                            listOfMembersForSurvey = that.getListOfMembersBasedOnSelectedCriteria(result.rows, selectedAgeGroups, selectedRoles);
+                            listOfMembersForSurvey = that.getListOfMembersBasedOnSelectedCriteria(result.rows, selectedAgeCourses, selectedRoles);
                             if(listOfMembersForSurvey.length > 0) {
                                 that.saveReceiverIdsIntoSurveyDoc(listOfMembersForSurvey);
                             } else {
@@ -141,7 +141,7 @@ $(function() {
             }
         },
 
-        getListOfMembersBasedOnSelectedCriteria: function(models, ageGroups, selectedRoles) {
+        getListOfMembersBasedOnSelectedCriteria: function(models, ageCourses, selectedRoles) {
             var listOfMembersForSurvey = [];
             for(var k = 0 ; k < models.length ; k++) {
                 var model = models[k].doc;
@@ -158,8 +158,8 @@ $(function() {
                 });
                 if(model.login != 'admin' && this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
-                    for(var j = 0 ; j < ageGroups.length ; j++) {
-                        if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
+                    for(var j = 0 ; j < ageCourses.length ; j++) {
+                        if(age >= ageCourses[j][0] && age <= ageCourses[j][1]) {
                             listOfMembersForSurvey.push(model);
                         }
                     }
@@ -248,7 +248,7 @@ $(function() {
                 }
             });
             var viewtext = '<h6>' + App.languageDictValue.get("Select_Gender") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="genderSelector" value="Male">' + App.languageDictValue.get("Male") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="genderSelector" value="Female">' + App.languageDictValue.get("Female") + '</td></tr></table><br>'
-            viewtext += '<h6>' + App.languageDictValue.get("Select_Age_Group") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageGroupSelector" value="5-14">' + App.languageDictValue.get("Less_than_15") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageGroupSelector" value="65-100">65+</td></tr></table><br>'
+            viewtext += '<h6>' + App.languageDictValue.get("Select_Age_Course") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="ageCourseSelector" value="5-14">' + App.languageDictValue.get("Less_than_15") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="ageCourseSelector" value="15-24">15-24 &nbsp&nbsp&nbsp<input type="checkbox" name="ageCourseSelector" value="25-44">25-44 &nbsp&nbsp&nbsp<input type="checkbox" name="ageCourseSelector" value="45-64">45-64 &nbsp&nbsp&nbsp<input type="checkbox" name="ageCourseSelector" value="65-100">65+</td></tr></table><br>'
             viewtext += '<h6>' + App.languageDictValue.get("Select_Roles") + '</h6><table class="btable btable-striped"><tr><td><input type="checkbox" name="rolesSelector" value="Learner">' + App.languageDictValue.get("Learner") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Leader">' + App.languageDictValue.get("Leader") + ' &nbsp&nbsp&nbsp<input type="checkbox" name="rolesSelector" value="Manager">' + App.languageDictValue.get("Manager") + '</td></tr></table><br>'
             viewtext += '<h6>' + App.languageDictValue.get("Select_Bells") + '</h6><table class="btable btable-striped"><th>' + App.languageDictValue.get("Bell_Name") + '</th><th>' + App.languageDictValue.get("Type") + '</th>'
             viewtext += '<tr><td><input type="checkbox" name="bellSelector" value="' + bellCode + '_' + bellName + '">' + bellName + '</td><td>' + App.languageDictValue.get("Nation") + '</td></tr>'

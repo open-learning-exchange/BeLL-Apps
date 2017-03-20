@@ -1,6 +1,6 @@
 $(function() {
 
-    App.Views.GroupRow = Backbone.View.extend({
+    App.Views.CourseRow = Backbone.View.extend({
 
         tagName: "tr",
         roles: null,
@@ -11,7 +11,7 @@ $(function() {
             }
         },
 
-        template: $("#template-GroupRow").html(),
+        template: $("#template-CourseRow").html(),
 
         initialize: function(e) {
             this.roles = e.roles
@@ -56,13 +56,14 @@ $(function() {
                     fullCourseRef['courseID'] = courseId;
                     fullCourseRef['stepIDs'] = [];
                     var courseSteps = new App.Collections.CourseLevels();
-                    courseSteps.groupId = courseId;
+                    courseSteps.courseId = courseId;
                     courseSteps.fetch({
                         success: function(resp, responseInfo) {
                             courseSteps.each(function(courseStep) { // is array.each a javascript construct?
                                 var courseStepSingle = {
                                     'stepID': courseStep.get('_id')
                                 };
+                                courseStepSingle['questionIDs'] = ((courseStep.get('questionslist').length > 0) ? courseStep.get('questionslist') : []); // courseSteps[i].questionIDs refers to an array of questionIDs
                                 courseStepSingle['resourceIDs'] = ((courseStep.get('resourceId').length > 0) ? courseStep.get('resourceId') : []); // courseSteps[i].resourceId refers to an array of resourceIds
                                 fullCourseRef['stepIDs'].push(courseStepSingle);
                             });

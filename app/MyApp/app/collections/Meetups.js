@@ -16,7 +16,7 @@ $(function() {
             return docs
         },
 
-        model: App.Models.Group,
+        model: App.Models.Course,
 
         comparator: function(model) {
             var title = model.get('title')

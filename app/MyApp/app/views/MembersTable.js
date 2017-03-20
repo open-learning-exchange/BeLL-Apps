@@ -33,10 +33,10 @@ $(function() {
 			// @todo this does not work as expected, either of the lines
 			// _.each(this.collection.models, this.addOne())
 			this.collection.each(this.addOne, this)
-			var groupLength;
+			var courseLength;
 			var context = this
 			$.ajax({
-				url: '/members/_design/bell/_view/count?group=false',
+				url: '/members/_design/bell/_view/count?course=false',
 				type: 'GET',
 				dataType: "json",
 				success: function(json) {

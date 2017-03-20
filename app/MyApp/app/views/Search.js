@@ -8,40 +8,40 @@ $(function() {
             "click #addRestoPub": "addResourceToPublication",
             "click #next_button": function(e) {
                 App.startActivityIndicator()
-                this.groupresult.skip = this.groupresult.skip + 20;
-                this.groupresult.fetch({
+                this.courseresult.skip = this.courseresult.skip + 20;
+                this.courseresult.fetch({
                     async: false
                 })
                 App.stopActivityIndicator()
                 var obj = this
-                if (this.groupresult.length > 0) {
+                if (this.courseresult.length > 0) {
                     var SearchSpans = new App.Views.SearchSpans({
-                        collection: this.groupresult
+                        collection: this.courseresult
                     })
                     SearchSpans.resourceids = obj.resourceids
                     SearchSpans.render()
                     $('#srch').html(SearchSpans.el)
                     $("#previous_button").show()
 
-                    if (this.groupresult.length < 20) {
+                    if (this.courseresult.length < 20) {
                         $("#next_button").hide();
                     }
                 } else {
-                    this.groupresult.skip = this.groupresult.skip - 20;
+                    this.courseresult.skip = this.courseresult.skip - 20;
                     $("#next_button").hide();
                 }
             },
             "click #previous_button": function(e) {
                 App.startActivityIndicator()
-                this.groupresult.skip = this.groupresult.skip - 20;
-                this.groupresult.fetch({
+                this.courseresult.skip = this.courseresult.skip - 20;
+                this.courseresult.fetch({
                     async: false
                 })
                 App.stopActivityIndicator()
                 var obj = this
-                if (this.groupresult.length > 0) {
+                if (this.courseresult.length > 0) {
                     var SearchSpans = new App.Views.SearchSpans({
-                        collection: this.groupresult
+                        collection: this.courseresult
                     })
                     SearchSpans.resourceids = obj.resourceids
                     SearchSpans.render()
@@ -50,7 +50,7 @@ $(function() {
                 } else {
                     $("#previous_button").hide();
                 }
-                if (this.groupresult.skip <= 0) {
+                if (this.courseresult.skip <= 0) {
                     $("#previous_button").hide();
                 }
             }
@@ -58,11 +58,11 @@ $(function() {
         template: $('#template-Search').html(),
 
         vars: {},
-        groupresult: null,
+        courseresult: null,
         resultArray: null,
 
         initialize: function() {
-            this.groupresult = new App.Collections.Resources()
+            this.courseresult = new App.Collections.Resources()
             this.resultArray = []
             enablenext = 0;
         },
@@ -205,39 +205,39 @@ $(function() {
 
 
             var fil = JSON.stringify(filters);
-            this.groupresult.skip = 0
-            this.groupresult.collectionName = fil;
-            this.groupresult.fetch({
+            this.courseresult.skip = 0
+            this.courseresult.collectionName = fil;
+            this.courseresult.fetch({
                 async: false
             })
             //Checking the AND Conditions here
             var resultModels;
-            if (this.groupresult.models.length > 0 && !this.isEmpty(mapFilter)) {
-                var tempResultModels = this.groupresult.models;
+            if (this.courseresult.models.length > 0 && !this.isEmpty(mapFilter)) {
+                var tempResultModels = this.courseresult.models;
                 resultModels = this.checkANDConditions(mapFilter, tempResultModels);
             }
-            if (this.groupresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
+            if (this.courseresult.models.length > 0 && searchText != '' && this.isEmpty(mapFilter)) {
                 if (searchText_Coll_Id != null || searchText_Coll_Id != undefined) {
                     var collection_id = searchText_Coll_Id;
                 }
-                var tempModels = this.groupresult.models;
+                var tempModels = this.courseresult.models;
                 resultModels = this.checkSearchTextCompleteMatch(searchTextArray, collection_id, tempModels);
             }
             if (resultModels != null) {
-                this.groupresult.models = resultModels;
+                this.courseresult.models = resultModels;
                 if (resultModels.length == 0) {
-                    this.groupresult.length = 0;
+                    this.courseresult.length = 0;
                 } else {
-                    this.groupresult.length = resultModels.length;
+                    this.courseresult.length = resultModels.length;
                 }
             }
             //End of the checking AND Conditions here
             App.stopActivityIndicator()
             var obj = this
             if (obj.addResource == true) {
-                if (this.groupresult.length > 0) {
+                if (this.courseresult.length > 0) {
                     var SearchSpans = new App.Views.SearchSpans({
-                        collection: this.groupresult
+                        collection: this.courseresult
                     })
 
                     SearchSpans.resourceids = obj.resourceids
@@ -249,7 +249,7 @@ $(function() {
                 var loggedIn = App.member
                 var roles = loggedIn.get("roles")
                 var SearchResult = new App.Views.ResourcesTable({
-                    collection: this.groupresult
+                    collection: this.courseresult
                 })
                 SearchResult.removeAlphabet = true
                 SearchResult.isManager = roles.indexOf("Manager")

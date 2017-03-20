@@ -172,6 +172,7 @@
             var cumulativeCourseIDs = [],
                 cumulativeCourseStepIDs = [],
                 cumulativeResourceIDs = [];
+                cumulativeQuestionIDs = [];
                 for (var indexOfCourse in courses){
                     var courseInfo = courses[indexOfCourse];
                     cumulativeCourseIDs.push(courseInfo['courseID']);
@@ -182,6 +183,10 @@
                         var resourceIDs = courseStepInfo['resourceIDs'];
                         for (var indexOfResourceID in resourceIDs) {
                             cumulativeResourceIDs.push(resourceIDs[indexOfResourceID]);
+                        }
+                        var questionIDs = courseStepInfo['questionIDs'];
+                        for (var indexOfQuestionID in questionIDs) {
+                            cumulativeQuestionIDs.push(questionIDs[indexOfQuestionID]);
                         }
                     }
                 }
@@ -286,8 +291,8 @@
                                     url: '/_replicate',
                                     dataType: 'json',
                                     data: JSON.stringify({
-                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/groups',
-                                        "target": 'groups',
+                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/courses',
+                                        "target": 'courses',
                                         'doc_ids': cumulativeCourseIDs
                                     }),
                                     success: function (response) {
@@ -307,6 +312,20 @@
                                                 'doc_ids': cumulativeCourseStepIDs
                                             }),
                                             success: function (response) {
+                                                $.ajax({
+                                                        headers: {
+                                                            'Accept': 'application/json',
+                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                        },
+                                                        type: 'POST',
+                                                        url: '/_replicate',
+                                                        dataType: 'json',
+                                                        data: JSON.stringify({
+                                                            "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/coursequestion',
+                                                            "target": 'coursequestion',
+                                                            'doc_ids': cumulativeQuestionIDs
+                                                        }),
+                                                success: function (response) {
                                                 var nationUrl = 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') +
                                                     '/publications/' + publicationToSync._id;
 
@@ -479,6 +498,11 @@
                                                         console.log(status);
                                                     }
                                                 });
+                                                    },
+                                                    error: function(jqXHR, status, errorThrown){
+                                                        console.log(status);
+                                                    }
+                                                });
                                             },
                                             error: function(jqXHR, status, errorThrown){
                                             console.log(status);
@@ -518,18 +542,18 @@
                 if (courseInPubIdes != ''){
                     courseInPubIdes = courseInPubIdes.substring(0, courseInPubIdes.length - 1);
                 }
-                var groupColl = new App.Collections.Groups();
-                groupColl.keys = encodeURI(courseInPubIdes)
-                groupColl.fetch({
+                var courseColl = new App.Collections.Courses();
+                courseColl.keys = encodeURI(courseInPubIdes)
+                courseColl.fetch({
                     async: false
                 });
-               for(var i=0;i<groupColl.length;i++) {
-                   var courseModel = groupColl.models[i];
+               for(var i=0;i<courseColl.length;i++) {
+                   var courseModel = courseColl.models[i];
                    courseModel.set('courseLeader',[]);
                    courseModel.set('members',[]);
                    courseData.push(courseModel);
                }
-                $.couch.db("groups").bulkSave({"docs": courseData}, {
+                $.couch.db("courses").bulkSave({"docs": courseData}, {
                     success: function(data) {
                         console.log(data);
                     },

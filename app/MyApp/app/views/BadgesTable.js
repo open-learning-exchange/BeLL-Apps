@@ -40,24 +40,12 @@
              for(var i = 0 ; i < that.collection.length ; i++) {
                  var model = that.collection.models[i];
                  indexOfCurrentStep =courseProgress.models[0].get('stepsIds').indexOf(model.get('_id'));
-                 if(model.attributes.outComes.length > 1 && $.isArray(courseProgress.models[0].get('stepsResult')[indexOfCurrentStep])) { // if step type is "paper and quiz" then separate outcomes and result of paper and quiz in two separate rows
-                     var tempOutComes=model.attributes.outComes;
-                     model.attributes.outComes = tempOutComes[0];
-                     credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][0];
-                     status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep][0];
-                     attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep][0];
-                     that.addOne(model, credits, status, attempts);
-                     model.attributes.outComes = tempOutComes[1];
-                     credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][1];
-                     status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep][1];
-                     attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep][1];
-                     that.addOne(model, credits, status, attempts);
-                 } else {
+               
                      credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
                      status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep];
                      attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep];
                      that.addOne(model, credits, status, attempts);
-                 }
+                 
              }
          },
 

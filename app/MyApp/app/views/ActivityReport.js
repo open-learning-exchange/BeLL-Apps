@@ -17,7 +17,7 @@ $(function() {
 
 
             $.ajax({
-                url: '/members/_design/bell/_view/MaleCount?group=false',
+                url: '/members/_design/bell/_view/MaleCount?course=false',
                 type: 'GET',
                 dataType: "json",
                 success: function(json) {
@@ -28,7 +28,7 @@ $(function() {
                         context.vars.MaleMembers = 0;
                     }
                     $.ajax({
-                        url: '/members/_design/bell/_view/FemaleCount?group=false',
+                        url: '/members/_design/bell/_view/FemaleCount?course=false',
                         type: 'GET',
                         dataType: "json",
                         success: function(json) {
