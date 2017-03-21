@@ -15,7 +15,7 @@
   "Email":"Email",
   "Welcome_Video":"Welcome Video",
   "Nation":"Nation",
-  "Community":"Community",
+  "Community":"Bwikalhano",
   "Manager":"Manager",
   "Super_Manager":"Super Manager",
   "Leader":"Leader",
