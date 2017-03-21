@@ -305,6 +305,11 @@ h1,h2,h3,h4,h5,h6{
     margin-left: 35%;
     width: 370px;
 }
+.date-picker {
+    width: 300px;
+    float: left;
+    margin-bottom: 6px;
+}
 
 #olelogo
 {
@@ -313,6 +318,11 @@ h1,h2,h3,h4,h5,h6{
     float: left;
     padding-left: 183px;
     padding-top: 31px;
+}
+#loginLang{
+    display: inline-flex;
+    float:left;
+    margin-top:10px;
 }
 #logo
 {
