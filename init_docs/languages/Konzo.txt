@@ -66,9 +66,9 @@
   "Search":"Search",
   "Collection":"Collection",
   "Resources":"Resources",
-  "Title":"Title",
+  "Title":"Omutrwe",
   "action":"Action",
-  "year":"Year",
+  "year":"Omwaka",
   "media":"Media",
   "language":"Language",
   "subject":"Subject(s)",
@@ -125,7 +125,7 @@
   "resourceForList":[
     "Default",
     "Leader",
-    "Learner"
+    "Omwigha"
   ],
   "resourceTypeList":[
     "Textbook",
