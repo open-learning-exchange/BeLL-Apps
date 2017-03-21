@@ -274,10 +274,22 @@ h1,h2,h3,h4,h5,h6{
     padding-left: 183px;
     padding-top: 31px;
 }
+#loginLang{
+    display: inline-block;
+    float:right;
+    margin-top:10px;
+}
 #nav{
     display: flex;
     text-align: center;
 }
+.date-picker {
+    width: 300px;
+    float: right;
+    margin-bottom: 6px;
+}
+tabl.css:18
+i
 #nav li{
     display: inline-block;
     text-align:center;
