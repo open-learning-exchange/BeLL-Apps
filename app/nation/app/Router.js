@@ -3787,7 +3787,7 @@ $(function() {
                         firstMonth = parseInt(firstDt[1]);
                         firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
                         today = new Date();
-                        var listCommunity,div;
+                        var listCommunity;
                         if (secretId && firstDt) {
                             var nationConfig = new App.Collections.Configurations();
                             nationConfig.fetch({
