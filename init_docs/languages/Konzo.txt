@@ -7,7 +7,7 @@
   "Courses":"Courses",
   "Meetups":"Meetups",
   "Members":"Members",
-  "Reports":"Reports",
+  "Reports":"Akathuthulira",
   "Feedback":"Feedback",
   "Logout":"Logout",
   "Badges":"Badges",
