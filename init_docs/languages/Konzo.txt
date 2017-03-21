@@ -24,29 +24,29 @@
   "Visits":"Visits",
   "Days":[
     {
-      "Sunday":"Sunday",
-      "Monday":"Monday",
-      "Tuesday":"Tuesday",
-      "Wednesday":"Wednesday",
-      "Thursday":"Thursday",
-      "Friday":"Friday",
-      "Saturday":"Saturday"
+      "Sunday":"Chassundre",
+      "Monday":"Cha balazze",
+      "Tuesday":"Cha Cavere",
+      "Wednesday":"Cha Ca Satru",
+      "Thursday":"Chacanne",
+      "Friday":"Chacatunn",
+      "Saturday":"Chamuccaya"
     }
   ],
   "Months":[
     {
-      "January":"January",
-      "February":"February",
+      "January":"Kyithandiko",
+      "February":"Kyihero",
       "March":"March",
       "April":"April",
-      "May":"May",
-      "June":"June",
+      "May":"Mahulhule",
+      "June":"Muthundi",
       "July":"July",
-      "August":"August",
-      "September":"September",
-      "October":"October",
-      "November":"November",
-      "December":"December"
+      "August":"Kyanda",
+      "September":"Muthogheryo",
+      "October":"Nzururu",
+      "November":"Malere",
+      "December":"Mukobero"
     }
   ],
   "News_Feed":"News Feed",
