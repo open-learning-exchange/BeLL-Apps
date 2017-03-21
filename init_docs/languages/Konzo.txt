@@ -20,7 +20,7 @@
   "Super_Manager":"Super Manager",
   "Leader":"Leader",
   "Bell":"Bell",
-  "Learner":"Learner",
+  "Learner":"Omwigha",
   "Visits":"Visits",
   "Days":[
     {
