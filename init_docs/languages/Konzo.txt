@@ -8,7 +8,7 @@
   "Meetups":"Meetups",
   "Members":"Members",
   "Reports":"Akathuthulira",
-  "Feedback":"Feedback",
+  "Feedback":"Akatsweka akerisubwamu",
   "Logout":"Logout",
   "Badges":"Badges",
   "Calender":"Calendar",
