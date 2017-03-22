@@ -6,7 +6,7 @@
   "Library":"Library",
   "Courses":"Courses",
   "Meetups":"Meetups",
-  "Members":"Members",
+  "Members":"Abekithunga",
   "Reports":"Akathuthulira",
   "Feedback":"Akatsweka akerisubwamu",
   "Logout":"Logout",
@@ -54,7 +54,7 @@
   "My_Courses_Progress":"My Courses Progress",
   "My_Tutors":"My Tutors",
   "My_Meetups":"My Meetups",
-  "Member":"Member",
+  "Member":"Ekithunga",
   "Login":"Login",
   "Password":"Password",
   "Sign_In":"Sign In",
@@ -271,7 +271,7 @@
   "Location":"Location",
   "Foreground_Color":"Foreground Color",
   "Background_Color":"Background Color",
-  "Invite_Member":"Invite Member",
+  "Invite_Member":"Erikokya abekithunga",
   "GradeLevelList":[
     "Pre-Kindergarten",
     "Kindergarten",
@@ -349,9 +349,9 @@
   "Invite":"Invite",
   "Invitation_Type":"Invitation Type",
   "Invitation_Type_Array":[
-    "All",
+    "Abosi",
     "Level",
-    "Members"
+    "Abekithunga"
   ],
   "Course_Members":"Course Members",
   "Send_Email":"Send Email",
@@ -572,8 +572,8 @@
     "Awareness"
   ],
   "inviteMemberArray":[
-    "All",
-    "Members"
+    "Abosi",
+    "Abekithunga"
   ],
   "Join_meetUp":"Join Meetup",
   "MeetUp":"Meetup",
@@ -647,7 +647,7 @@
   "NoUnRead_Mail":"* No Unread Email.",
   "newMsg":"New Message",
   "Inbox":"Inbox",
-  "All":"All",
+  "All":"Abosi",
   "Unread":"Unread",
   "Compose":"Compose",
   "Go":"Go",
