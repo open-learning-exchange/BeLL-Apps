@@ -321,6 +321,7 @@ i
     padding-top: 31px;
 }
 #loginLang{
+    display: inline-flex;
     float:left;
     margin-top:10px;
 }

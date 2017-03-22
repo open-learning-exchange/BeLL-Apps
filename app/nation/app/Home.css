@@ -275,7 +275,7 @@ h1,h2,h3,h4,h5,h6{
     padding-top: 31px;
 }
 #loginLang{
-    display: inline-block;
+    display: inline-flex;
     float:right;
     margin-top:10px;
 }

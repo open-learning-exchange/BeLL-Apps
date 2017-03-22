@@ -3795,13 +3795,13 @@ $(function() {
                             });
                             nationConfig = nationConfig.first();
                             listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>";
-                            if (!$.cookie('Member.login')){
+                        if (!$.cookie('Member.login')){
                             var options = [];
                             var allLanguages={};
                             var languages = new App.Collections.Languages();
                                 languages.fetch({
                                 async: false
-                            });
+                        });
                         for(var i=0;i<languages.length;i++) {
                             if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
                                 var languageName =languages.models[i].attributes.nameOfLanguage;
