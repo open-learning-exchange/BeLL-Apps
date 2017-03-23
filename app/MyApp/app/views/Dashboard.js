@@ -405,27 +405,31 @@ $(function() {
             /////////////////////////////////////////
             that.updateConfigsOfCommFromNation();
             ////////////////////////////////////////
-            that.updateDesignDocs("groups");
+            that.updateDesignDocs("courses");
             that.updateDesignDocs("publications");
             //Following are the list of db's on which design_docs are not updating,
             // whenever the design_docs will be changed in a db,that db's call will be un-commented.
             that.updateDesignDocs("assignmentpaper");
-            //that.updateDesignDocs("assignments");
-            //that.updateDesignDocs("calendar");
-            //that.updateDesignDocs("communityreports");
-            //that.updateDesignDocs("courseschedule");
-            //that.updateDesignDocs("feedback");
-            //that.updateDesignDocs("invitations");
-            //that.updateDesignDocs("mail");
-            //that.updateDesignDocs("meetups");
-            //that.updateDesignDocs("membercourseprogress");
-            //that.updateDesignDocs("nationreports");
-            //that.updateDesignDocs("publicationdistribution");
-            //that.updateDesignDocs("report");
-            //that.updateDesignDocs("requests");
-            //that.updateDesignDocs("resourcefrequency");
-            //that.updateDesignDocs("shelf");
-            //that.updateDesignDocs("usermeetups");
+            that.updateDesignDocs("assignments");
+            that.updateDesignDocs("calendar");
+            that.updateDesignDocs("communityreports");
+            that.updateDesignDocs("courseanswer");
+            that.updateDesignDocs("coursequestion");
+            that.updateDesignDocs("courseschedule");
+            that.updateDesignDocs("feedback");
+            that.updateDesignDocs("invitations");
+            that.updateDesignDocs("mail");
+            that.updateDesignDocs("meetups");
+            that.updateDesignDocs("membercourseprogress");
+            that.updateDesignDocs("nations");
+            that.updateDesignDocs("nationreports");
+            that.updateDesignDocs("publicationdistribution");
+            that.updateDesignDocs("report");
+            that.updateDesignDocs("requests");
+            that.updateDesignDocs("resourcefrequency");
+            that.updateDesignDocs("shelf");
+            that.updateDesignDocs("usermeetups");
+            that.updateDesignDocs("viplinks");
 
             // Update LastAppUpdateDate at Nation's Community Records
             var communitycode = App.configuration.get('code');

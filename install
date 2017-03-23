@@ -140,17 +140,20 @@ function insertLanguageDocs() {
     var languages = nano.db.use('languages');
     fs.readdir('./init_docs/languages', function doneReadDir(err, files) {
         files.forEach(function (element) {
-            var langDocPath = './init_docs/languages/' + element;
-            console.log("Inserting " + element);
-            fs.readFile(langDocPath, function (err, data) {
-                languages.insert(data, function (err, res) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(element + " doc inserted successfully.");
-                    }
-                });
-            });
+            var langList = ['Arabic.txt', 'English.txt', 'Nepali.txt', 'Spanish.txt', 'Urdu (Pakistan).txt'];
+            if (langList.indexOf(element) > -1) {
+		var langDocPath = './init_docs/languages/' + element;
+		console.log("Inserting " + element);
+		fs.readFile(langDocPath, function (err, data) {
+	            languages.insert(data, function (err, res) {
+                        if (err) {
+		            console.log(err);
+	                } else {
+			    console.log(element + " doc inserted successfully.");
+		    	}
+		    });
+	        });
+	    }
         })
     });
 }

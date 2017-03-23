@@ -77,9 +77,12 @@ function installDesignDocs() {
         updateNationCouchVersion();
         fs.readdir('../init_docs/languages', function doneReadDir(err, files) {
             files.forEach(function (element) {
-                var langDocPath = '../init_docs/languages/' + element;
-                console.log("Updating " + element);
-                updateLanguagesDocs(langDocPath);
+                var langList = ['Arabic.txt', 'English.txt', 'Nepali.txt', 'Spanish.txt', 'Urdu (Pakistan).txt'];
+                if (langList.indexOf(element) > -1) {
+                    var langDocPath = '../init_docs/languages/' + element;
+                    console.log("Updating " + element);
+                    updateLanguagesDocs(langDocPath);
+                }
             });
         });
     }
