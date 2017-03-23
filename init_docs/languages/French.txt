@@ -296,7 +296,7 @@
     "Avancée",
     "Expert"
   ],
-  "Course_Manage":"Course Manage",
+  "Course_Manage":"Traduction en francais",
   "Course_Steps":"Étapes du parcours",
   "Add_Step":"Ajouter étape",
   "Rearrange":"Réorganiser les",
