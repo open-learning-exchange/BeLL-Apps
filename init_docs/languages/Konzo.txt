@@ -491,7 +491,7 @@
   "FeedbackDb_Replicated_Success":"Successfully replicated application feedback database.",
   "ActivityReports_Replicated_Success":"Successfully replicated log activity reports.",
   "Reports_Replicated_Success":"Successfully replicated reports.",
-  "Joined_Success":"Successfully joined.",
+  "Joined_Success":"Abirituyiwathako",
   "MeetUp_not_Existing":"Meetup does not exist.",
   "Already_Joined_MeetUp":"You have already joined this meetup.",
   "Course_Existing_Dashboard":"Course already added to your dashboard.",
