@@ -413,15 +413,15 @@ $(function() {
             that.updateDesignDocs("assignments");
             that.updateDesignDocs("calendar");
             that.updateDesignDocs("communityreports");
-	    that.updateDesignDocs("courseanswer");
-	    that.updateDesignDocs("coursequestion");
+            that.updateDesignDocs("courseanswer");
+            that.updateDesignDocs("coursequestion");
             that.updateDesignDocs("courseschedule");
             that.updateDesignDocs("feedback");
             that.updateDesignDocs("invitations");
             that.updateDesignDocs("mail");
             that.updateDesignDocs("meetups");
             that.updateDesignDocs("membercourseprogress");
-	    that.updateDesignDocs("nations");
+            that.updateDesignDocs("nations");
             that.updateDesignDocs("nationreports");
             that.updateDesignDocs("publicationdistribution");
             that.updateDesignDocs("report");
@@ -429,7 +429,7 @@ $(function() {
             that.updateDesignDocs("resourcefrequency");
             that.updateDesignDocs("shelf");
             that.updateDesignDocs("usermeetups");
-	    that.updateDesignDocs("viplinks");
+            that.updateDesignDocs("viplinks");
 
             // Update LastAppUpdateDate at Nation's Community Records
             var communitycode = App.configuration.get('code');
