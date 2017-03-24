@@ -1,6 +1,6 @@
 $(function () {
 
-    App.Views.GroupRow = Backbone.View.extend({
+    App.Views.CourseRow = Backbone.View.extend({
 
         tagName: "tr",
         roles: null,
@@ -11,7 +11,7 @@ $(function () {
                 var clevels = new App.Collections.CourseLevels()
                 var model
                 if (confirm(App.languageDict.attributes.Confirm_Course)) {
-                clevels.groupId = cId
+                clevels.courseId = cId
                 clevels.fetch({
                     success: function () {
                         while (model = clevels.first()) {
@@ -29,7 +29,6 @@ $(function () {
                         }
                     }
                 })
-
                 var ei = new App.Collections.EntityInvitation()
                 var model
                 ei.entityId = cId
@@ -59,10 +58,9 @@ $(function () {
             }
         },
 
-        template: $("#template-GroupRow").html(),
+        template: $("#template-CourseRow").html(),
 
         initialize: function (e) {
-            //this.model.on('destroy', this.remove, this)
             this.roles = e.roles
         },
 
@@ -73,43 +71,27 @@ $(function () {
             vars.progress=App.languageDict.attributes.Progress;
             vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
             vars.showOpenButton = true;
-
-            if(this.courseId==null)
-            {
-
-
+            if(this.courseId==null) {
                 vars.courseId=this.courseId
                 if(vars._id=='_design/bell')
                     return
-
-                if(!vars.members)
-                {
+                if(!vars.members) {
                     vars.members = new Array()
                 }
-                /* if (vars.courseLeader != undefined && vars.courseLeader == $.cookie('Member._id')) {
-                 vars.isLeader = 1
-                 } else {
-                 vars.isLeader = 0
-                 }*/
                 vars.link = "#badgesDetails/"+ vars._id;
-                if (vars.courseLeader != undefined){
-                    if (vars.courseLeader.indexOf($.cookie('Member._id')) > -1 ){
+                if (vars.courseLeader != undefined) {
+                    if (vars.courseLeader.indexOf($.cookie('Member._id')) > -1 ) {
                         vars.link = "#creditsDetails/" + vars._id;
                         vars.isLeader = 1;
-                    }
-                    else {
+                    } else {
                         vars.isLeader = 0;
                     }
-                }
-                else {
+                } else {
                     vars.isLeader = 0;
                 }
-                if (this.roles.indexOf("Manager") != -1 || vars.isLeader!=0 || vars.members.indexOf($.cookie('Member._id'))!=-1)
-                {
+                if (this.roles.indexOf("Manager") != -1 || vars.isLeader!=0 || vars.members.indexOf($.cookie('Member._id'))!=-1) {
                     vars.viewProgress = 1
-                }
-                else
-                {
+                } else {
                     vars.viewProgress = 0
                 }
                 if (this.roles.indexOf("Manager") != -1) {
@@ -122,18 +104,13 @@ $(function () {
                     vars.isAdmin = 0;
                 }
                 this.$el.append(_.template(this.template, vars))
-
-            }
-            else{
+            } else {
                 vars.viewProgress = 0
                 vars.isAdmin = 0
                 vars.isLeader = 0
                 vars.courseId=this.courseId;
                 this.$el.append(_.template(this.template, vars))
             }
-
         }
-
     })
-
 })

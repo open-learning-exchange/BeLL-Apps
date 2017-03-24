@@ -1,21 +1,21 @@
 $(function() {
 
-    App.Models.Group = Backbone.Model.extend({
+    App.Models.Course = Backbone.Model.extend({
 
         idAttribute: "_id",
 
         url: function() {
             if (_.has(this, 'id')) {
-                var url = (_.has(this.toJSON(), '_rev')) ? App.Server + '/groups/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
-                    : App.Server + '/groups/' + this.id // For READ
+                var url = (_.has(this.toJSON(), '_rev')) ? App.Server + '/courses/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
+                    : App.Server + '/courses/' + this.id // For READ
             } else {
-                var url = App.Server + '/groups' // for CREATE
+                var url = App.Server + '/courses' // for CREATE
             }
             return url
         },
 
         defaults: {
-            kind: "Group"
+            kind: "Course"
         },
 
         schema: {

@@ -1,10 +1,9 @@
 $(function () {
 
-    App.Views.GroupForm = Backbone.View.extend({
-        //This view is used to render "Add a Course" page and its bound with "Group" model
-
+    App.Views.CourseForm = Backbone.View.extend({
+        //This view is used to render "Add a Course" page and its bound with "Course" model
         className: "form",
-        id: 'groupform',
+        id: 'courseform',
         prevmemlist: null,
         btnText: 'Continue',
         events: {
@@ -16,8 +15,6 @@ $(function () {
             "click #cancel": function () {
                 window.history.back()
             }
-
-
         },
 
         CourseSchedule: function () {
@@ -45,7 +42,6 @@ $(function () {
             $('#endDate').datepicker()
             $('#typeView').hide()
             $('.days').hide()
-
             if (cs.length > 0) {
                 model = cs.first()
                 $('#startTime').val(model.get("startTime"))
@@ -72,8 +68,8 @@ $(function () {
                 }
             });
         },
-        MemberInvite: function () {
 
+        MemberInvite: function () {
             if ($("textarea[name='description']").val().length > 0) {
                 $('#invitationdiv').fadeIn(1000)
                 document.getElementById('cont').style.opacity = 0.1
@@ -89,42 +85,33 @@ $(function () {
                 })
                 inviteForm.description = this.model.get("description")
                 inviteForm.render();
-
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el);
-
-
             } else {
                 alert(App.languageDict.attributes.Prompt_Course_Desc)
             }
             var directionOfLang = App.languageDict.get('directionOfLang');
-
             if (directionOfLang.toLowerCase() === "right") {
-
                 $('#invitationdiv').addClass('courseSearchResults_Bottom');
             }
             else {
                 $('#invitationdiv').removeClass('courseSearchResults_Bottom');
             }
-
-
-
         },
-        getRoles: function () {
 
+        getRoles: function () {
             var member = new App.Models.Member()
             member.id = $.cookie('Member._id')
             member.fetch({
                 async: false
             })
             return member.get('roles')
-
         },
-        render: function () {
 
+        render: function () {
             $('#invitationdiv').hide()
             // members is required for the form's members field
-            var groupForm = this
+            var courseForm = this
             if (this.model.get("_id") != undefined) {
                 this.prevmemlist = this.model.get("members")
                 this.model.on({
@@ -134,7 +121,6 @@ $(function () {
                     "change:endTime": this.sendMail,
                     "change:location": this.sendMail
                 });
-
             }
             if (!this.model.get("languageOfInstruction")) {
                 this.model.set("languageOfInstruction", "")
@@ -153,8 +139,7 @@ $(function () {
             var typeofBell=config.first().attributes.type;
             if (typeofBell === "nation") {
                 typeofBell=config.first().attributes.code;
-            }
-            else {
+            } else {
                 var configurations = Backbone.Collection.extend({
                     url: App.Server + '/configurations/_all_docs?include_docs=true'
                 })
@@ -165,7 +150,6 @@ $(function () {
                 var con = config.first()
                 con = (con.get('rows')[0]).doc;
                 typeofBell=con.code;
-
             }
             memberList.fetch({
                 success: function () {
@@ -179,32 +163,22 @@ $(function () {
                             }
                             optns.push(temp)
                         }
-
                     })
-
-
-                    groupForm.model.schema.courseLeader.options = optns
-
-                    groupForm.form = new Backbone.Form({
-                        model: groupForm.model                  // groupForm.model is a 'Group' model instance. 'Group' is basically a course
+                    courseForm.model.schema.courseLeader.options = optns
+                    courseForm.form = new Backbone.Form({
+                        model: courseForm.model                  // courseForm.model is a 'Course' model instance. 'Course' is basically a course
                     })
-                    groupForm.$el.append(groupForm.form.render().el)
+                    courseForm.$el.append(courseForm.form.render().el)
                     $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
-                    if(groupForm.model.get("courseLeader") == undefined)
-                    {
+                    if(courseForm.model.get("courseLeader") == undefined) {
                         $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val("0000");
+                    } else {
+                        $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(courseForm.model.get("courseLeader"));
                     }
-                    else
-                    {
-                        $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupForm.model.get("courseLeader"));
+                    courseForm.form.fields['members'].$el.hide()
+                    if (courseForm.model.get("_id") == undefined) {
+                        courseForm.form.fields['Day'].$el.hide()
                     }
-
-
-                    groupForm.form.fields['members'].$el.hide()
-                    if (groupForm.model.get("_id") == undefined) {
-                        groupForm.form.fields['Day'].$el.hide()
-                    }
-
                     $('.field-backgroundColor input').spectrum({
                         clickoutFiresChange: true,
                         preferredFormat: 'hex',
@@ -218,47 +192,42 @@ $(function () {
                         cancelText:App.languageDict.attributes.Cancel
                     })
                     // give the form a submit button
-                    var $sbutton = $('<a class="group btn btn-success" id="sformButton">'+App.languageDict.attributes.Continue+'</button>')
-                    var $ubutton = $('<a class="group btn btn-success" style="" id="uformButton">'+App.languageDict.attributes.Update+'</button>')
-
-                    var $button = $('<a style="margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + groupForm.model.get("_id") + '/' + groupForm.model.get("name") + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + groupForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
-                    if (groupForm.model.get("_id") != undefined) {
-                        groupForm.$el.prepend($button)
-                        groupForm.$el.append($ubutton)
+                    var $sbutton = $('<a class="course btn btn-success" id="sformButton">'+App.languageDict.attributes.Continue+'</button>')
+                    var $ubutton = $('<a class="course btn btn-success" style="" id="uformButton">'+App.languageDict.attributes.Update+'</button>')
+                    var $button = $('<a style="margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + courseForm.model.get("_id") + '/' + courseForm.model.get("name") + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + courseForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
+                    if (courseForm.model.get("_id") != undefined) {
+                        courseForm.$el.prepend($button)
+                        courseForm.$el.append($ubutton)
                     } else {
-                        groupForm.$el.append($sbutton)
+                        courseForm.$el.append($sbutton)
                     }
-
-                    groupForm.$el.append("<a class='btn btn-danger' style='margin-left : 20px;' id='cancel'>"+App.languageDict.attributes.Cancel+"</a>")
+                    courseForm.$el.append("<a class='btn btn-danger' style='margin-left : 20px;' id='cancel'>"+App.languageDict.attributes.Cancel+"</a>")
                 },
                 async: false
             });
-
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
-
         },
+
         setFormFromEnterKey: function (event) {
             event.preventDefault()
             this.setForm()
         },
+
         setForm: function () {
             var that = this
-
             var newEntery = 0
-
             this.model.once('sync', function () {
                 Backbone.history.navigate('course/manage/' + that.model.get("id"), {
                     trigger: true
                 })
             })
             // Put the form's input into the model in memory
-
             this.form.commit();
             var previousLeader = [];
             if(this.form.model.id) //if form's model has an "ID" attribute then we are editing existing course model.
             {
-                var courseModel = new App.Models.Group({
+                var courseModel = new App.Models.Course({
                     _id: this.form.model.id
                 });
                 courseModel.fetch({
@@ -277,24 +246,17 @@ $(function () {
 
                 newEntery = 1;
                 this.model.attributes.members.push($.cookie('Member._id'));
-                //this.model.set("members", [$.cookie('Member._id')])
             }else {
                 for(var i=0;i<this.prevmemlist.length;i++)
                 {
                     this.model.attributes.members.push(this.prevmemlist[i]);
                 }
-                //this.model.set("members", this.prevmemlist)
             }
             if ($.trim(this.model.get('CourseTitle')).length == 0) {
                 alert(App.languageDict.attributes.CourseTitle_Missing)
-            }
-            //            else if (this.model.get("courseLeader") == 0000) {
-            //                alert("Select Course Leader")
-            //            }
-            else if (this.model.get("description").length == 0) {
+            } else if (this.model.get("description").length == 0) {
                 alert(App.languageDict.attributes.Course_Desc_Missing)
-            }
-            else {
+            } else {
                 var member = new App.Models.Member()
                 member.id = $.cookie('Member._id')
                 member.fetch({
@@ -304,17 +266,11 @@ $(function () {
                     member.get('roles').push("Leader")
                     member.save()
                 }
-
-                //  var isNewLeaderAlreadyCourseMember = false;
                 var leader = this.model.get('courseLeader');
                 if (leader == null)
                 {
                     leader=previousLeader;
                 }
-                /*  var falseLeader=this.model.get('courseLeader').indexOf('0000')
-                 if(falseLeader!=-1){
-                 this.model.attributes.courseLeader.splice(falseLeader,1);
-                 }*/
                 var courseMembers = this.model.get('members');
                 if(leader && leader.length>0)
                 {
@@ -322,17 +278,9 @@ $(function () {
                     {
                         if (courseMembers.indexOf(leader[i]) == -1) { // new leader is not a member of the course already
                             courseMembers.push(leader[i])
-                        } else {
-                            //  isNewLeaderAlreadyCourseMember = true;  //if its true then it shows that either of the leaders is already a member
                         }
-                        /* var index = previousLeader.indexOf(leader[i]);
-                         if (index == -1) {
-                         previousLeader.push(leader[i]);
-                         }*/
                     }
                 }
-
-                //var index = courseMembers.indexOf(previousLeader)
                 this.model.set("members", courseMembers);
                 var context = this
                 var courseTitle = this.model.get('CourseTitle');
@@ -349,7 +297,6 @@ $(function () {
                 this.model.set('CourseTitle', $.trim(courseTitle));
                 this.model.save(null, {
                     success: function (e) {
-                        console.log(context.model.get('courseLeader'))
                         var memprogress = new App.Models.membercourseprogress();
                         var stepsids = new Array();
                         var stepsres = new Array();
@@ -363,8 +310,6 @@ $(function () {
                             memprogress.set("pqAttempts", pqattempts)
                             memprogress.set("courseId", e.get("id"));
                             memprogress.save()
-                            //0000 is value for --select--
-                            //if (context.model.get('courseLeader') != $.cookie("Member._id")&&context.model.get('courseLeader')!='0000') {
                             if (context.model.get('courseLeader') && context.model.get('courseLeader').indexOf( $.cookie("Member._id"))==-1){  //&&context.model.get('courseLeader').indexOf('0000')==-1) {
                                 for(var i=0;i<context.model.get('courseLeader').length;i++){
                                     memprogress.set("stepsIds", stepsids);
@@ -375,34 +320,14 @@ $(function () {
                                     memprogress.set("courseId", e.get("id"))
                                     memprogress.save();
                                 }
-                                //
                             }
 
                             alert(App.languageDict.attributes.Course_Created_Success)
-                        }
-                        else { // the course already exists
-                            //  {
-                            // if the newly chosen leader is different from previous one and he/she is also from outside the course, i-e
-                            // he/she was not a member of course before being selected as its leader, then two things should happen:
-//                            // (i) previous-leader's membercourseprogress doc should be deleted
-//                            var memberProgress = new App.Collections.membercourseprogresses();
-//                            memberProgress.courseId = context.model.get("_id");
-//                            memberProgress.memberId = previousLeader;
-//                            memberProgress.fetch({
-//                                async: false
-//                            });
-//                            memberProgress.each(function (m) {
-//                                m.destroy();
-//                            });
-                            // (ii) new-leader's membercourseprogress doc should be created and initialised with default values
-                            //COPIED CODE FROM HERE
-                            //  }
-                            // if ( (leader !== previousLeader) && (isNewLeaderAlreadyCourseMember === false) )  //Needs some changes here
+                        } else { 
                             if(leader && leader.length==0){
                                 leader=previousLeader;
                             }
                             _.each(leader,function(leaderId){
-
                                 var index = previousLeader.indexOf(leaderId);
                                 if (index == -1) {
                                     var csteps = new App.Collections.coursesteps();
@@ -434,25 +359,21 @@ $(function () {
                                     });
                                 }
                             });
-                            //alert(that.model.get("_id"))
-                            ///to get the latest rev.id
-                            var groupModel = new App.Models.Group()
-                            groupModel.id = that.model.get("_id")
-                            groupModel.fetch({
+                            var courseModel = new App.Models.Course()
+                            courseModel.id = that.model.get("_id")
+                            courseModel.fetch({
                                 async: false
                             })
-                            //alert(groupModel.get("rev"))
-                            that.model.set("_rev", groupModel.get("_rev"))
+                            that.model.set("_rev", courseModel.get("_rev"))
                             alert(App.languageDict.attributes.Course_Updated_Success)
                         }
                     }
                 })
             }
         },
+
         sendMail: function (e) {
-
             memberList = e._previousAttributes.members
-
             for (var i = 0; i < memberList.length; i++) {
                 var mem = new App.Models.Member({
                     _id: memberList[i]
@@ -460,7 +381,6 @@ $(function () {
                 mem.fetch({
                     async: false
                 })
-
                 var currentdate = new Date();
                 var mail = new App.Models.Mail();
                 mail.set("senderId", $.cookie('Member._id'));
@@ -475,8 +395,6 @@ $(function () {
                 mail.set("sentDate", currentdate);
                 mail.save()
             }
-
         }
     })
-
 })

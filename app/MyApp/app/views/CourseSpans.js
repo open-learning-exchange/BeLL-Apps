@@ -1,10 +1,10 @@
 $(function() {
-    App.Views.GroupsSpans = Backbone.View.extend({
+    App.Views.CoursesSpans = Backbone.View.extend({
 
         tagName: "tr",
 
         addOne: function(model) {
-            var modelView = new App.Views.GroupSpan({
+            var modelView = new App.Views.CourseSpan({
                 model: model
             })
             modelView.render()

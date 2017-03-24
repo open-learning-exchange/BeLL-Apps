@@ -1,5 +1,5 @@
 $(function() {
-    App.Views.GroupView = Backbone.View.extend({
+    App.Views.CourseView = Backbone.View.extend({
 
         tagName: "table",
 
@@ -18,21 +18,16 @@ $(function() {
             var languageDictValue=App.Router.loadLanguageDocs(lang);
             var that = this
             var courseInfo = this.model.toJSON()
-
             var leaderInfo = this.courseLeader.toJSON()
             this.$el.append('<tr><td><b>Name</b></td><td>' + courseInfo.CourseTitle + '</td></tr>')
             this.$el.append('<tr><td><b>Subject Level </b></td><td>' + courseInfo.subjectLevel + '</td></tr>')
             this.$el.append('<tr><td><b>Grade Level </b></td><td>' + courseInfo.gradeLevel + '</td></tr>')
             this.$el.append('<tr><td><b>Description</b></td><td>' + courseInfo.description + '</td></tr>')
-
             this.$el.append('<tr><td><b>LeaderName </b></td><td>' + leaderInfo.firstName + ' ' + leaderInfo.lastName + '</td></tr>')
             this.$el.append('<tr><td><b>Leader Email </b></td><td>' + courseInfo.leaderEmail + '</td></tr>')
             this.$el.append('<tr><td><b>Leader Phone Number </b></td><td>' + courseInfo.leaderPhone + '</td></tr>')
-
             this.$el.append('<tr><td><b>schedule</b></td><td>Date :  ' + courseInfo.startDate + '-' + courseInfo.endDate + '<br>Time :  ' + courseInfo.startTime + '- ' + courseInfo.endTime + '</td></tr>')
-
             this.$el.append('<tr><td><b>Location </b></td><td>' + courseInfo.location + '</td></tr>')
-
             $(document).on('Notification:submitButtonClicked', function(e) {
                 var currentdate = new Date();
                 var mail = new App.Models.Mail();
@@ -45,11 +40,7 @@ $(function() {
                 mail.set("sentDate", currentdate);
                 mail.save()
                 alert(languageDictValue.attributes.RequestForCourse)
-
-
             });
-
         }
     })
-
 })

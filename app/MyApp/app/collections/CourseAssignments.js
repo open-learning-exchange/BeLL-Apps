@@ -1,9 +1,9 @@
 $(function() {
 
-    App.Collections.GroupAssignments = Backbone.Collection.extend({
+    App.Collections.CourseAssignments = Backbone.Collection.extend({
 
         url: function() {
-            var url = App.Server + '/assignments/_design/bell/_view/GroupAssignments?key="' + this.groupId + '"&include_docs=true'
+            var url = App.Server + '/assignments/_design/bell/_view/CourseAssignments?key="' + this.courseId + '"&include_docs=true'
             return url
         },
 

@@ -5,7 +5,7 @@ $(function() {
         model: App.Models.CourseStep,
 
         url: function() {
-            var url = App.Server + '/coursestep/_design/bell/_view/StepsData?key="' + this.groupId + '"&include_docs=true'
+            var url = App.Server + '/coursestep/_design/bell/_view/StepsData?key="' + this.courseId + '"&include_docs=true'
             return url
         },
         parse: function(response) {

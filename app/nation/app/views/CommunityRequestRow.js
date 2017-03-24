@@ -71,7 +71,7 @@ $(function() {
             }
         },
 
-        //template : $("#template-GroupRow").html(),
+        //template : $("#template-CourseRow").html(),
 
         initialize: function() {
 
@@ -199,12 +199,10 @@ $(function() {
         },
         changeDateFormat: function(date) {
             var datePart = date.match(/\d+/g),
-                year = datePart[0],
-                month = datePart[1],
-                day = datePart[2];
+            year = datePart[0],
+            month = datePart[1],
+            day = datePart[2];
             return year + '/' + month + '/' + day;
         }
-
     })
-
 })

@@ -1,12 +1,9 @@
 $(function() {
 
-    App.Views.GroupSpan = Backbone.View.extend({
-
+    App.Views.CourseSpan = Backbone.View.extend({
         tagName: "td",
-
         className: 'course-box',
-
-        template: $("#template-GroupSpan").html(),
+        template: $("#template-CourseSpan").html(),
 
         render: function() {
             if (this.model.keys().length < 5) {
@@ -33,8 +30,7 @@ $(function() {
                         if(modl.stepsStatus[temp][0] == '1' && modl.stepsStatus[temp][1] == '1') {
                             PassedSteps++;
                         }
-                    }
-                    else {
+                    } else {
                         if (modl.stepsStatus[temp] == '1') {
                             PassedSteps++
                         }

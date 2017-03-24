@@ -1,5 +1,5 @@
 $(function() {
-	App.Views.GroupsTable = Backbone.View.extend({
+	App.Views.CoursesTable = Backbone.View.extend({
 
 		tagName: "table",
 
@@ -7,38 +7,32 @@ $(function() {
 		roles: null,
 
 		addOne: function(model) {
-         //   alert("addOne is called...");
-			var groupRow = new App.Views.GroupRow({
+			var courseRow = new App.Views.CourseRow({
 				model: model,
 				roles: this.roles
 			})
-			groupRow.courseId = this.courseId
-			groupRow.render()
-			this.$el.append(groupRow.el);
-
-
+			courseRow.courseId = this.courseId
+			courseRow.render()
+			this.$el.append(courseRow.el);
 		},
+
         changeDirection : function (){
 			var languageDictValue;
 			var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
 			App.languageDict = languageDictValue;
 			var directionOfLang = App.languageDict.get('directionOfLang');
-			if(directionOfLang.toLowerCase()==="right")
-            {
+			if(directionOfLang.toLowerCase() ==="right") {
                 var library_page = $.url().data.attr.fragment;
-                if(library_page=="courses")
-                {
+                if(library_page == "courses") {
                     $('#parentLibrary').addClass('addResource');
 
                 }
-            }
-            else
-            {
+            } else {
                 $('#parentLibrary').removeClass('addResource');
-
             }
         },
+
 		events: {
 			"click .pageNumber": function(e) {
 				this.collection.startkey = ""
@@ -50,7 +44,6 @@ $(function() {
 					this.render()
 				}
 			}
-
 		},
 
 		addAll: function() {
@@ -72,18 +65,17 @@ $(function() {
 			// _.each(this.collection.models, this.addOne())
 
 			this.collection.forEach(this.addOne, this)
-
-			var groupLength;
+			var courseLength;
 			var context = this
 			$.ajax({
-				url: '/groups/_design/bell/_view/count?group=false',
+				url: '/courses/_design/bell/_view/count?course=false',
 				type: 'GET',
 				dataType: "json",
 				success: function(json) {
-				//groupLength = json.rows[0].value //when empty data are fetched it will show undefined error
+					//courseLength = json.rows[0].value //when empty data are fetched it will show undefined error
 					if (context.displayCollec_Resources != true) {
 						var pageBottom = "<tr><td colspan=7>"
-						var looplength = groupLength / 20
+						var looplength = courseLength / 20
 
 						for (var i = 0; i < looplength; i++) {
 							if (i == 0)
@@ -94,29 +86,22 @@ $(function() {
 						pageBottom += "</td></tr>"
 						context.$el.append(pageBottom)
 					}
-
 				}
 			})
 		},
 
 		render: function() {
 			var directionOfLang = App.languageDict.get('directionOfLang');
-			if(directionOfLang.toLowerCase()==="right")
-            {
+			if(directionOfLang.toLowerCase() === "right") {
                 $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
-            }
-            else
-            {
+            } else {
                 $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
                 $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-
             }
 			this.collection.skip = 0
 			this.addAll();
-          //  location.reload();
 		}
-
 	})
 
 })

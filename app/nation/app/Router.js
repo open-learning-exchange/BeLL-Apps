@@ -3621,7 +3621,7 @@ $(function() {
 
             //	.append($button)
             // modelForm.render()
-            // Bind form events for when Group is ready
+            // Bind form events for when Course is ready
 
             model.once('Model:ready', function() {
 
@@ -3795,19 +3795,24 @@ $(function() {
                             });
                             nationConfig = nationConfig.first();
                             listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>";
+                            listCommunity = listCommunity + "<h3> " + "Hi " + viplinkModel.attributes.name + "</h3>" + "<h3>" + App.languageDictValue.attributes.welcome_to + "&nbsp;" + nationConfig.get("name") + "&nbsp" + App.languageDictValue.attributes.Community + "</h3>";
+                        }
                         if (!$.cookie('Member.login')){
                             var options = [];
                             var allLanguages={};
                             var languages = new App.Collections.Languages();
                                 languages.fetch({
                                 async: false
-                        });
+                            });
                         for(var i=0;i<languages.length;i++) {
                             if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
                                 var languageName =languages.models[i].attributes.nameOfLanguage;
                                 allLanguages[languageName]=languages.models[i].get('nameInNativeLang');
                                 options += '<option value="'+languageName+'">'+ allLanguages[languageName] +'</option>';
                             }
+                        }
+                            listCommunity += '<div align="center">'+'<select id="onLoginLanguage">'+options+'</select>'+'</div>'+'<br>';
+                            listCommunity += "<div align='center'><a class='btn btn-success' href='../MyApp/index.html#login'>" + App.languageDictValue.attributes.Sign_In + "</a></div>";
                         }
                             listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>" + 
                             '<div id = "loginLang" st><select id="onLoginLanguage">'+options+'</select>'+"&nbsp;&nbsp;"+"<a class='btn btn-success' href='../MyApp/index.html#login'>" + App.languageDictValue.attributes.Sign_In + "</a>"+'</div>';

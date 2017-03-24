@@ -86,7 +86,6 @@ $(function() {
                 languageDictValue = getSpecificLanguage(lang);
                 var directionOfLang=languageDictValue.get('directionOfLang');
                 applyCorrectStylingSheet(directionOfLang)
-                //  applyStylingSheet();
             }
         },
 
@@ -104,7 +103,6 @@ $(function() {
                     var count = config.first().attributes.countDoubleUpdate;
                     var commVersion = config.first().attributes.version;
                     var isAppsDocAlright = false;
-                    // if (typeofBell === "community" && flag === false && count > 1) {
                     if (typeofBell === "community") {
                         if (count != undefined && count != null) {
                             if (count === 1) {
@@ -128,23 +126,19 @@ $(function() {
                                                                                 isAppsDocAlright = true;
                                                                             }
                                                                             if(isAppsDocAlright) {
-                                                                                ////////////////////////////////
                                                                                 App.startActivityIndicator();
                                                                                 console.log('countDoubleUpdate is 1 so callingUpdateFunctions ....');
                                                                                 that.callingUpdateFunctions();
-                                                                                ////////////////////////////////
                                                                             } else {
                                                                                 alert(App.languageDict.attributes.Poor_Internet_Error);
                                                                             }
                                                                         },
                                                                         error: function(status) {
-                                                                            console.log(status);
                                                                             alert(App.languageDict.attributes.Poor_Internet_Error);
                                                                         }
                                                                     });
                                                                 },
                                                                 error: function(status) {
-                                                                    console.log(status);
                                                                     alert(App.languageDict.attributes.Poor_Internet_Error);
                                                                 }
                                                             });
@@ -460,8 +454,6 @@ $(function() {
                     console.log(err);
                 }
             });
-
-
         },
 
         updateAppsAndDesignDocs: function() {
@@ -752,7 +744,7 @@ $(function() {
                                 var communityModel;
                                 for(var i = 0 ; i < result.rows.length ; i++) {
                                     var code;
-                                    if(result.rows[i].value.Code != undefined){
+                                    if(result.rows[i].value.Code != undefined) {
                                         code = result.rows[i].value.Code;
                                     } else {
                                         code = result.rows[i].value.code;
@@ -765,7 +757,6 @@ $(function() {
                                 communityModel.version = currentConfig.version;
                                 //Update the record in Community db at Community Level
                                 $.ajax({
-
                                     headers: {
                                         'Accept': 'application/json',
                                         'Content-Type': 'multipart/form-data'
@@ -836,16 +827,16 @@ $(function() {
             });
         },
 
-        getCountOfLearners: function(){
-            var learners=[], stepsStatuses=[], countOfLearners=0;
-            var groups = new App.Collections.Groups();
+        getCountOfLearners: function() {
+            var learners = [], stepsStatuses = [], countOfLearners = 0;
+            var courses = new App.Collections.Courses();
             var MemberCourseProgress = new App.Collections.membercourseprogresses();
-            groups.fetch({
+            courses.fetch({
                 async:false,
-                success: function (groupDocs) {
-                    if(groupDocs.length>0) {
-                        for (var i = 0; i < groupDocs.length; i++) {
-                            var doc = groupDocs.models[i];
+                success: function (courseDocs) {
+                    if(courseDocs.length>0) {
+                        for (var i = 0; i < courseDocs.length; i++) {
+                            var doc = courseDocs.models[i];
                             learners=[], stepsStatuses=[];
                             if (doc.get('courseLeader') != undefined && doc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) {
                                 for (var j = 0; j < doc.get('members').length; j++) {
@@ -860,10 +851,8 @@ $(function() {
                                         success: function (progressDoc) {
                                             stepsStatuses=progressDoc.models[0].get('stepsStatus');
                                             var isCreditable=true;
-                                            for(var m=0;m<stepsStatuses.length;m++)
-                                            {
-                                                if(stepsStatuses[m].length==2)
-                                                {
+                                            for(var m=0;m<stepsStatuses.length;m++) {
+                                                if(stepsStatuses[m].length==2) {
                                                     var paperQuizStatus=stepsStatuses[m];
                                                    if(paperQuizStatus.indexOf('0')>-1)
                                                    {
@@ -979,14 +968,14 @@ $(function() {
             }
             var dashboard = this
             var newSurveysCountForMember = dashboard.getSurveysCountForMember();
-            var groups = new App.Collections.Groups();
+            var courses = new App.Collections.Courses();
             var countOfLearnersToMarkCredits=0;
-            groups.fetch({
+            courses.fetch({
                 async: false,
-                success: function (groupDocs) {
-                    if (groupDocs.length > 0) {
-                        for (var i = 0; i < groupDocs.length; i++) {
-                            var doc = groupDocs.models[i];
+                success: function (courseDocs) {
+                    if (courseDocs.length > 0) {
+                        for (var i = 0; i < courseDocs.length; i++) {
+                            var doc = courseDocs.models[i];
                             countOfLearnersToMarkCredits+=getCountOfLearners(doc.get('_id'), false);
                         }
                     }
@@ -1081,20 +1070,20 @@ $(function() {
             this.vars.new_learners_count=countOfLearnersToMarkCredits;
             this.$el.html(_.template(this.template, this.vars))
 
-            groups = new App.Collections.MemberGroups()
-            groups.memberId = $.cookie('Member._id')
-            groups.fetch({
+            courses = new App.Collections.MemberCourses()
+            courses.memberId = $.cookie('Member._id')
+            courses.fetch({
                 success: function(e) {
-                    groupsSpans = new App.Views.GroupsSpans({
-                        collection: groups
+                    coursesSpans = new App.Views.CoursesSpans({
+                        collection: courses
                     })
-                    groupsSpans.render()
+                    coursesSpans.render()
 
-                    $('#cc').append(groupsSpans.el)
+                    $('#cc').append(coursesSpans.el)
 
 
                     TutorsSpans = new App.Views.TutorsSpans({
-                        collection: groups
+                        collection: courses
                     })
     
                     
@@ -1125,22 +1114,6 @@ $(function() {
             })
             MeetupSpans.render()
             $('#meetUpTable').append(MeetupSpans.el)
-            /*var clanguage = App.configuration.get("currentLanguage");
-             // fetch dict for the current/selected language from the languages db/table
-             var languages = new App.Collections.Languages();
-             languages.fetch({
-             async: false
-             //  data: $.param({ page: 1})
-             });
-             var languageDict;
-             for (var i = 0; i < languages.length; i++) {
-             if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
-             if (languages.models[i].attributes.nameOfLanguage == clanguage) {
-             languageDict = languages.models[i];
-             }
-             }
-             }
-             App.languageDict = languageDict;*/
             var dayOfToday = moment().format('dddd');
             var todayMonth = moment().format('MMMM');
             var currentDay = this.lookup(App.languageDict, "Days." + dayOfToday);

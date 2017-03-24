@@ -57,7 +57,7 @@ $(function() {
             var meetupLength; 
             var context = this
             $.ajax({
-                url: '/meetups/_design/bell/_view/count?group=false',
+                url: '/meetups/_design/bell/_view/count?course=false',
                 type: 'GET',
                 dataType: "json",
                 success: function(json) {

@@ -1,5 +1,5 @@
 /*
- * Takes groupId, startDate, and endDate parameters
+ * Takes courseId, startDate, and endDate parameters
  */
 $(function() {
 
@@ -7,7 +7,7 @@ $(function() {
 
     url: function() {
       // There is some way to have nicer range queries in CouchDB as hinted here -> http://stackoverflow.com/questions/3216868/querying-couchdb-documents-between-a-start-date-and-an-end-date
-      // var url = App.Server + '/assignments/_design/bell/_view/GroupAssignmentsByDate?startkey=["' + this.groupId + '","' + this.startDate + '",""]&endkey=["' + this.groupId + '","\ufff0","' + this.endDate + '"]&include_docs=true'
+      // var url = App.Server + '/assignments/_design/bell/_view/CourseAssignmentsByDate?startkey=["' + this.courseId + '","' + this.startDate + '",""]&endkey=["' + this.courseId + '","\ufff0","' + this.endDate + '"]&include_docs=true'
       // Since we know the startDate and endDate days we can expect Assignments, we don't actually have to do a range for now.
       var url = App.Server + '/assignments/_design/bell/_view/AssignmentsByDate?key=["' + this.startDate + '","' + this.endDate + '"]&include_docs=true'
       return url
@@ -23,5 +23,5 @@ $(function() {
     model: App.Models.Assignment
 
   })
-
+  
 })

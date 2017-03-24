@@ -13,11 +13,11 @@ $(function() {
             }
             return url
         },
-
         schema: {
-            sednerId: 'Text',  //ID of the person who submitted the document (i.e Learner's ID)
+            senderId: 'Text',  //ID of the person who submitted the document (i.e Learner's ID)
             courseId: 'Text', //Refers to course which had that paper step
             stepId: 'Text',  //Refers to step against which the document was submitted. Its type will be either paper or Paper and Quiz both.
+            questionId: 'Text',// Refers to Question ID
             sentDate: 'Text', //Date of submission
             stepNo: 'Text' //The number of step displayed on Dashboard>>Courses>>Manage>>list of Steps underneath
         },
@@ -27,19 +27,17 @@ $(function() {
             var input_db = "assignmentpaper"
             var input_id = (this.get('_id')) ? this.get('_id') : this.get('id')
             var model = this
-
             // Start by trying to open a Couch Doc at the _id and _db specified
             $.couch.db(input_db).openDoc(input_id, {
                 // If found, then set the revision in the form and save
                 success: function(couchDoc) {
+                    console.log(_.has(couchDoc, '_attachments'));
                     // If the current doc has an attachment we need to clear it for the new attachment
                     if (_.has(couchDoc, '_attachments')) {
-                        //	alert('asdfasd')
                         $.ajax({
                             url: '/assignmentpaper/' + couchDoc._id + '/' + _.keys(couchDoc._attachments)[0] + '?rev=' + couchDoc._rev,
                             type: 'DELETE',
                             success: function(response, status, jqXHR) {
-                                //	alert('success')
                                 // Defining a revision on saving over a Couch Doc that exists is required.
                                 // This puts the last revision of the Couch Doc into the input#rev field
                                 // so that it will be submitted using ajaxSubmit.
@@ -66,9 +64,7 @@ $(function() {
                             }
                         })
                     }
-
                 }, // End success, we have a Doc
-
                 // @todo I don't think this code will ever be run.
                 // If there is no CouchDB document with that ID then we'll need to create it before we can attach a file to it.
                 error: function(status) {
@@ -93,8 +89,5 @@ $(function() {
                 }
             })
         }
-
-
     })
-
 })
