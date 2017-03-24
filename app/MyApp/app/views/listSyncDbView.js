@@ -17,11 +17,7 @@ $(function() {
 			}, 1000);
 		},
 		render: function() {
-
-			// <input type="checkbox" value="Resources" name="syncData">Resources<br>
-			//<input type="checkbox" value="Application" name="syncData" >Application<br><br><br>
-			// added "Members Db" checkbox
-            var $button = $('<h6>' + App.languageDict.get('Config_Sync_With_Nation_Head') + '</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">' + App.languageDict.get('Log_Activity_Reports') + '<br><input type="checkbox" value="Reports" name="syncData">' + App.languageDict.get('Reports') + '<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">' + App.languageDict.get('Resources_Feedbacks') + '<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">' + App.languageDict.get('Application_Feedbacks') + '<br><input type="checkbox" value="MembersDb" name="syncData">' + App.languageDict.get('Members_Database') + '<br><input type="checkbox" value="Surveys" name="syncData">' + App.languageDict.get('Surveys') + '<br>');
+            var $button = $('<h6>' + App.languageDict.get('Config_Sync_With_Nation_Head') + '</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">' + App.languageDict.get('Log_Activity_Reports') + '<br><input type="checkbox" value="Reports" name="syncData">' + App.languageDict.get('Reports') + '<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">' + App.languageDict.get('Resources_Feedbacks') + '<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">' + App.languageDict.get('Application_Feedbacks') + '<br><input type="checkbox" value="MembersDb" name="syncData">' + App.languageDict.get('Members_Database') + '<br><input type="checkbox" value="Surveys" name="syncData">' + App.languageDict.get('Surveys') + '<br><input type="checkbox" value="CourseProgress" name="syncData">' + App.languageDict.get('Course_Member_Progress')+ '<br>');
 			this.$el.append($button);
 			this.$el.append('<button class="btn btn-info" id="selectAll" style="width:110px">' + App.languageDict.get('Select_All') + '</button><button style="margin-left:10px; width:110px" class="btn btn-success" id="formButton" style="width:110px">' + App.languageDict.get('Send') + '</button>');
 			this.$el.append('<button class="btn btn-warning" id="cancelButton" style="width:110px;margin-left:10px">' + App.languageDict.get('Cancel') + '</button>');
@@ -70,6 +66,8 @@ $(function() {
 					//**************************************************************************************************
 					else if ($(this).val() == 'Surveys') {
 						context.syncSurveys();
+					} else if ($(this).val() == 'CourseProgress') {
+						context.syncCourseProgress();
 					}
 					if ($(this).val() == 'Application') {
 						context.checkAvailableUpdates()
@@ -84,7 +82,6 @@ $(function() {
 		ReplicateResource: function() {
 
 			App.startActivityIndicator()
-
 			var that = this
 			var temp = $.url().attr("host").split(".")
 			var currentHost = $.url().attr("host")
@@ -238,7 +235,6 @@ $(function() {
 									var day = date.getDate().toString();
 									day = day.length > 1 ? day : '0' + day;
 									var formattedDate = month + '-' + day + '-' + year;
-									/////////////////////////////////////////////////////////////
 									$.ajax({
 										url: '/community/_design/bell/_view/getCommunityByCode?_include_docs=true',
 										type: 'GET',
@@ -299,7 +295,6 @@ $(function() {
 											}
 										}
 									});
-									/////////////////////////////////////////////////////////////
 								},
 								async: false
 							});
@@ -386,6 +381,32 @@ $(function() {
 				}),
 				success: function(response) {
 					alert(App.languageDict.attributes.MemberDb_Replicated)
+					if (isActivityLogChecked == false) {
+						App.stopActivityIndicator();
+					}
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(App.languageDict.attributes.TryLater_Error)
+				}
+			})
+		},
+
+		//Replicate Members Course Progress Db from community to nation
+		syncCourseProgress: function() {
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "membercourseprogress",
+					"target": 'http://' + App.configuration.get('nationUrl') + '/membercourseprogress',
+				}),
+				success: function(response) {
+					alert(App.languageDict.attributes.Member_Course_Progress_Replicated)
 					if (isActivityLogChecked == false) {
 						App.stopActivityIndicator();
 					}

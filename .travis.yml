@@ -64,6 +64,6 @@ script:
   - export
   - docker ps -a | grep bell
   - curl -X GET http://127.0.0.1:5981/_all_dbs
-  - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 38 ]; then exit 1; fi
+  - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 40 ]; then exit 1; fi
 #  - codeceptjs run tests --steps --verbose
   - python -m unittest discover tests

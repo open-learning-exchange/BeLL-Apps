@@ -67,7 +67,7 @@ font-size: 13px;
   }
 }
 
-.AssignWeekOfResourcesToGroupTable-header {
+.AssignWeekOfResourcesToCourseTable-header {
   text-align: center;
 }
 
@@ -276,39 +276,39 @@ border-bottom:1px solid black;
     color: #FFFFFF;
 }
 
-#groupform {
+#courseform {
   background-color: #F3F3F3;
   border-radius: 37px;
   margin-bottom: -1%;
   margin-left: -1%;
   width: 883px;
 }
-#groupform [name="description"]{
+#courseform [name="description"]{
   height: 80px;
     width: 702px;
 }
 
-#groupform .bbf-field.field-leaderEmail{
+#courseform .bbf-field.field-leaderEmail{
     margin-left: 250px;
      margin-top: -82px;
      position: relative;
     
 }
-#groupform .bbf-field.field-courseLeader{
+#courseform .bbf-field.field-courseLeader{
      margin-top: -18px;
 }
-#groupform .bbf-field.field-leaderPhone{
+#courseform .bbf-field.field-leaderPhone{
     margin-left: 500px;
     margin-top: -84px;
     position: relative;
     
 }
-#groupform .bbf-field.field-foregroundColor{
+#courseform .bbf-field.field-foregroundColor{
     margin-left: 147px;
     margin-top: -73px;
     position: relative;
 }
-#groupform .bbf-field.field-backgroundColor{
+#courseform .bbf-field.field-backgroundColor{
     margin-top: -17px;
 }
 #invitationForm{
@@ -326,15 +326,15 @@ border-bottom:1px solid black;
     overflow: scroll;
     height: 50%;
 }
-#groupform .bbf-field.field-levels{
+#courseform .bbf-field.field-levels{
     margin-left: 236px;
     margin-top: -85px;
     width: 621px;
 }
-#groupform .bbf-field.field-description{
+#courseform .bbf-field.field-description{
    margin-top:-21px; 
 }
-#groupform .bbf-field.field-levels.bbf-editor > ul > li{
+#courseform .bbf-field.field-levels.bbf-editor > ul > li{
    margin-left:-16px; 
 }
 #inviteMemberButton{

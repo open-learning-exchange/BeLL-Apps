@@ -10,18 +10,15 @@ $(function() {
             } else {
                 var url = App.Server + '/courseinvitations' // for CREATE
             }
-
             return url
         },
         defaults: {
             kind: "CourseInvitation"
         },
         schema: {
-            courseId: 'Text', //Comes from groups database against the course for which invitation is sent
+            courseId: 'Text', //Comes from courses database against the course for which invitation is sent
             userId: 'Text',
             status: 'Text'
-
         }
     })
-
 })

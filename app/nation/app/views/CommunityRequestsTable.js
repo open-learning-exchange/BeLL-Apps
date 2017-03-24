@@ -4,8 +4,6 @@ $(function() {
         tagName: "table",
 
         className: "table table-striped",
-
-
         vars: {},
         pendingCollections: [],
 
@@ -52,7 +50,5 @@ $(function() {
             this.$el.append('<tr><th>' + App.languageDictValue.get("Community") + '</th><th>' + App.languageDictValue.get("Last_App") + '<br>' + App.languageDictValue.get("Update") + '</th><th>' + App.languageDictValue.get("Version_No") + '</th><th>' + App.languageDictValue.get("Last_Publications") + '<br>' + App.languageDictValue.get("Sync") + '</th><th>' + App.languageDictValue.get("Last_Activities") + '<br>' + App.languageDictValue.get("Sync") + '</th><th>' + App.languageDictValue.get("Total_Member") + '<br>' + App.languageDictValue.get("Visits") + '</th><th>' + App.languageDictValue.get("Total_Resource") + '<br>' + App.languageDictValue.get("View_s") + '</th></th><th colspan="2">' + App.languageDictValue.get("Actions") + '</th></tr>');
             this.addAll(name)
         }
-
     })
-
 })

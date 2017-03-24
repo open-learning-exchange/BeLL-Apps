@@ -14,7 +14,7 @@ $(function () {
         },
         render: function () {
 
-            var courseModel = new App.Models.Group({
+            var courseModel = new App.Models.Course({
                 _id: this.courseId
             })
             courseModel.fetch({
