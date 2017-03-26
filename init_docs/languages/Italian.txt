@@ -56,7 +56,7 @@
   "My_Meetups":"I miei Meetup",
   "Member":"Membro",
   "Login":"Login",
-  "Password":"Password",
+  "Password":"La parola di passare\n\nLa parola segreta\n\nLa parola di autenticazione\n\nIl Password",
   "Sign_In":"Accedi",
   "Become_a_member":"Become a Member",
   "My_Home":"My Home",
