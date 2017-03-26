@@ -71,6 +71,16 @@ ddoc.views = {
                 }
             }
         }
+    },
+    
+    getGroupMember: {
+    	map: function(doc){
+    		if(doc.members){
+    			for(var i=0;i<doc.members.length;i++){
+    				emit(doc._id,doc);
+    			} 	
+    		}
+    	}
     }
 }
 

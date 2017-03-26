@@ -52,7 +52,7 @@ $(function() {
             'members': 'Members',
             'reports': 'Reports',
             'trendreport': 'trendReport',
-            // added to new page   'reports/sync' : 'syncReports',
+            // added to new page 'reports/sync' : 'syncReports',
             'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
             'mail': 'email',
@@ -180,10 +180,11 @@ $(function() {
                 questionsColl.fetch({
                     async: false
                 });
-                //Issue#258 Survey | sort questions///////////////////////////////////////
+                // Issue#258 Survey | sort
+				// questions///////////////////////////////////////
                 var sortedModels = sortQuestions(surQuestions, questionsColl.models);
                 questionsColl.models = sortedModels;
-                //////////////////////////////////////////////////
+                // ////////////////////////////////////////////////
                 var surQuestionsTable = new App.Views.SurveyQuestionTable({
                     collection: questionsColl
                 })
@@ -224,10 +225,11 @@ $(function() {
                         answersColl.fetch({
                             async: false
                         });
-                        //Issue#258 Survey | sort questions///////////////////////////////////////
+                        // Issue#258 Survey | sort
+						// questions///////////////////////////////////////
                         var sortedModels = sortQuestions(surAnswers, answersColl.models);
                         answersColl.models = sortedModels;
-                        //////////////////////////////////////////////////
+                        // ////////////////////////////////////////////////
                         var surAnswersTable = new App.Views.SurveyAnswerTable({
                             collection: answersColl
                         })
@@ -303,7 +305,7 @@ $(function() {
                 	$('#syncStatus').closest('div').hide();
                 }
             });
-            //  manageCommunity.updateDropDownValue();
+            // manageCommunity.updateDropDownValue();
         },
         addCourseInvi: function() {
 
@@ -332,7 +334,7 @@ $(function() {
             this.bind("all", this.startUpStuff)
             this.bind("all", this.checkLoggedIn)
             this.bind("all", this.renderNav)
-            //this.bind("all",this.checkForUpdates)
+            // this.bind("all",this.checkForUpdates)
         },
         eReader: function() {
             // alert('match with ereader')
@@ -343,7 +345,8 @@ $(function() {
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);
             App.languageDict = languageDictValue;
-            //Check if the user who has logged in is a Leader or a Learner in any course.
+            // Check if the user who has logged in is a Leader or a Learner in
+			// any course.
             var stepsStatuses=[];
             var groups = new App.Collections.Groups()
             var MemberCourseProgress = new App.Collections.membercourseprogresses();
@@ -362,7 +365,7 @@ $(function() {
                             var doc=groupDocs.models[i];
                             if(doc.get('members')!=undefined && doc.get('courseLeader')!=undefined && doc.get('members').indexOf($.cookie('Member._id'))>-1 && doc.get('courseLeader').indexOf($.cookie('Member._id'))==-1){
                                 isLearner=true;
-                                //---------------------------------------
+                                // ---------------------------------------
                                 MemberCourseProgress.courseId = doc.get('_id');
                                 MemberCourseProgress.memberId = $.cookie('Member._id');
                                 MemberCourseProgress.fetch({
@@ -392,8 +395,8 @@ $(function() {
                                     },
                                     async:false
                                 });
-                                //--------------------------------------
-                              //  creditsView.courseId=doc.get('_id');
+                                // --------------------------------------
+                              // creditsView.courseId=doc.get('_id');
                                // creditsView.render();
                             }
 
@@ -412,7 +415,8 @@ $(function() {
         },
 
         Credits: function() {
-            //Check if the user who has logged in is a Leader or a Learner in any course.
+            // Check if the user who has logged in is a Leader or a Learner in
+			// any course.
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);
@@ -549,7 +553,9 @@ $(function() {
                 creditsTableView.memberId=memberId;
                 creditsTableView.render();
                 App.$el.children('.body').html('<div id="creditsTable"></div>');
-                //$('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
+                // $('#creditsTable').append('<h3>' + ' Credits Details | '+
+				// group.get('CourseTitle')+ ' | '+member.get('firstName')+'
+				// '+member.get('lastName')+ '</h3>');
                 var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
                 //
                 var name, id;
@@ -569,12 +575,12 @@ $(function() {
                 if(courseId && memberId){
                     select.val(memberId + '/' + courseId)
                 }
-                ///
+                // /
                 // select.append("<option value='memberId'>Sadia</option>");
                 // select.append("<option value='memberId'>Saba</option>");
                 // select.append("<option value='memberId'>Stefan</option>");
 
-                //creditsTableView.memberId=id;
+                // creditsTableView.memberId=id;
                 // creditsTableView.render();
 
 
@@ -628,7 +634,7 @@ $(function() {
                     console.log("stepId : " + stepId)
                     var paperMarks = $(this).val().trim();
                     console.log("paperMarks : " + paperMarks)
-                  //  alert("paper marks : " + paperMarks )
+                  // alert("paper marks : " + paperMarks )
                     var memberProgress = new App.Collections.membercourseprogresses()
                     memberProgress.memberId = memberId
                     memberProgress.courseId = courseId
@@ -832,7 +838,7 @@ $(function() {
                 path: "/apps/_design/bell"
             });
             $.removeCookie('forcedUpdateProfile');
-            //$.removeCookie('languageFromCookie');
+            // $.removeCookie('languageFromCookie');
             // $.removeCookie('isChange');
 
         },
@@ -880,17 +886,13 @@ $(function() {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
-            /* Code to be removed...
-             if($.cookie('languageFromCookie')==null)
-             {
-             languageDictValue=loadLanguageDocs();
-             }
-             else
-             {
-             languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
-             }
-
-             var directionOfLang = languageDictValue.get('directionOfLang');*/
+            /*
+			 * Code to be removed... if($.cookie('languageFromCookie')==null) {
+			 * languageDictValue=loadLanguageDocs(); } else {
+			 * languageDictValue=getSpecificLanguage($.cookie('languageFromCookie')); }
+			 * 
+			 * var directionOfLang = languageDictValue.get('directionOfLang');
+			 */
             App.surveyAlert = 1;
             applyCorrectStylingSheet(direction);
         },
@@ -955,7 +957,7 @@ $(function() {
             pass = App.password
             nUrl = configuration.get('nationUrl')
             currentBellName = configuration.get('name')
-            //  var htmlreferance = this.$el
+            // var htmlreferance = this.$el
 
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
             var nationConfig;
@@ -972,7 +974,7 @@ $(function() {
                         nationConfig = json.rows[0].doc;
                         nation_version = nationConfig.version;
 
-                        //********************************************************************************************************************************
+                        // ********************************************************************************************************************************
                         $.ajax({
                             url: DbUrl,
                             type: 'GET',
@@ -985,8 +987,10 @@ $(function() {
                                     publicationDistribDocsFromNation.push(row.doc);
                                     tempKeys.push(row.doc.publicationId);
                                 });
-                                // fetch all publications from local/community server to see how many of the publications from nation are new ones
-                                //  var newPublicationsCount = 0;
+                                // fetch all publications from local/community
+								// server to see how many of the publications
+								// from nation are new ones
+                                // var newPublicationsCount = 0;
                                 var publicationCollection = new App.Collections.Publication();
                                 var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
                                 publicationCollection.setUrl(tempUrl);
@@ -994,12 +998,15 @@ $(function() {
                                     success: function () {
                                         var alreadySyncedPublications = publicationCollection.models;
                                         for (var i in publicationDistribDocsFromNation) {
-                                            // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+                                            // if this publication doc exists in
+											// the list of docs fetched from
+											// nation then ignore it from new
+											// publications
                                             // count
                                             var index = alreadySyncedPublications.map(function (element) {
                                                 return element.get('_id');
                                             }).indexOf(publicationDistribDocsFromNation[i].publicationId);
-                                            if (index > -1) {//code here
+                                            if (index > -1) {// code here
                                                 var pubId = publicationDistribDocsFromNation[i].publicationId;
                                                 var nationUrl = 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') +
                                                     '/publications/' + pubId;
@@ -1074,13 +1081,17 @@ $(function() {
                                                         console.log(status);
                                                     }
                                                 });
-                                                // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+                                                // don't increment
+												// newPublicationsCount cuz this
+												// publicationId already exists
+												// in the already synced
+												// publications at
                                                 // local server
                                             } else {
                                                 newPublicationsCount++;
                                             }
                                         }
-                                        ////////////////////////////////////////////////////
+                                        // //////////////////////////////////////////////////
                                         $.ajax({
                                             url: 'http://' + nationName + ':oleoleole@' + nationURL + '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
                                             type: 'GET',
@@ -1096,7 +1107,11 @@ $(function() {
                                                     }
                                                 });
                                                 if (SurveyDocsFromNation != [] && SurveyDocsFromNation.length > 0) {
-                                                    // fetch all surveys from local/community server to see how many of the surveys from nation are new ones
+                                                    // fetch all surveys from
+													// local/community server to
+													// see how many of the
+													// surveys from nation are
+													// new ones
                                                     $.ajax({
                                                         url: '/survey/_design/bell/_view/surveyBySentToCommunities?_include_docs=true&key="' + App.configuration.get('name') + '"',
                                                         type: 'GET',
@@ -1108,7 +1123,15 @@ $(function() {
                                                                 SurveyDocsFromComm.push(row);
                                                             });
                                                             for (var j in SurveyDocsFromNation) {
-                                                                // if this survey doc exists in the list of docs fetched from nation then ignore it from new surveys
+                                                                // if this
+																// survey doc
+																// exists in the
+																// list of docs
+																// fetched from
+																// nation then
+																// ignore it
+																// from new
+																// surveys
                                                                 // count
                                                                 var surIndex;
                                                                 if (SurveyDocsFromComm.length > 0) {
@@ -1120,8 +1143,22 @@ $(function() {
                                                                 }
                                                                 if (surIndex != undefined) {
                                                                     if (surIndex > -1) {
-                                                                        // don't increment newSurveysCount cuz this surveyId already exists in the already synced surveys at
-                                                                        // local server
+                                                                        // don't
+																		// increment
+																		// newSurveysCount
+																		// cuz
+																		// this
+																		// surveyId
+																		// already
+																		// exists
+																		// in
+																		// the
+																		// already
+																		// synced
+																		// surveys
+																		// at
+                                                                        // local
+																		// server
                                                                     } else {
                                                                         newSurveysCount++;
                                                                     }
@@ -1139,11 +1176,11 @@ $(function() {
                                                                 } else {
                                                                     dashboard.updateVariables(nation_version, new_publications_count, 0);
                                                                 }
-                                                                //alert(currentBellName);
+                                                                // alert(currentBellName);
                                                                 $("#newPublication").click(function () {
                                                                     document.location.href = "#publications/for-" + currentBellName;
                                                                 });
-                                                                //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                                                // $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
                                                                 $('#newPublication').show();
                                                             } else {
                                                                 if (newSurveysCount > 0 && ($.inArray('Manager', roles) != -1)) {
@@ -1166,11 +1203,11 @@ $(function() {
                                                     if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
                                                         new_publications_count = newPublicationsCount;
                                                         dashboard.updateVariables(nation_version, new_publications_count, 0);
-                                                        //alert(currentBellName);
+                                                        // alert(currentBellName);
                                                         $("#newPublication").click(function () {
                                                             document.location.href = "#publications/for-" + currentBellName;
                                                         });
-                                                        //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                                        // $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
                                                         $('#newPublication').show();
                                                     }
                                                     else {
@@ -1184,7 +1221,7 @@ $(function() {
                                                 console.log(status);
                                             }
                                         });
-                                        ////////////////////////////////////////////////////
+                                        // //////////////////////////////////////////////////
                                     }
                                 });
 
@@ -1229,7 +1266,7 @@ $(function() {
             if(App.configuration.get('type')=='nation'){
                 getAllPendingRequests();
             }
-            //At community side: Fetch request status from central db
+            // At community side: Fetch request status from central db
             if(App.configuration.get('type')=='community' && App.Router.getRoles().indexOf('Manager') > -1 || App.Router.getRoles().indexOf('SuperManager') > -1) {
                 getRequestStatus();
             }
@@ -1365,7 +1402,7 @@ $(function() {
                 $('.form .field-login input').attr('maxlength', '25');
             });
             model.trigger('Model:ready')
-            //Setting up the default error Message
+            // Setting up the default error Message
             Backbone.Form.validators.errMessages.required=languageDictValue.attributes.Required_Text;
             $('.bbf-form .field-Gender .bbf-editor select').append($('<option>', {
                 class:"placeHolderForSelect",
@@ -1408,7 +1445,7 @@ $(function() {
                 text:languageDictValue.attributes.Year_format
             }));
             $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).find('option').eq(101).css('display','none')
-            //Modifying the labels as per MUI
+            // Modifying the labels as per MUI
             $('.bbf-form .field-firstName label').html(languageDictValue.attributes.First_Name);
             $('.bbf-form .field-lastName label').html(languageDictValue.attributes.Last_Name);
             $('.bbf-form .field-middleNames label').html(languageDictValue.attributes.Middle_Names);
@@ -1444,8 +1481,11 @@ $(function() {
             }
         },
 
-        modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
-            //cv Set up
+        modelForm: function(className, label, modelId, reroute) { // 'Group',
+																	// 'Course',
+																	// groupId,
+																	// 'courses'
+            // cv Set up
             // applyStylingSheet();
             var url_page = $.url().data.attr.fragment;
             var url_split = url_page.split('/');
@@ -1566,11 +1606,11 @@ $(function() {
                 model.trigger('Model:ready')
             }
 
-            //Setting up the default error Message
+            // Setting up the default error Message
             Backbone.Form.validators.errMessages.required=languageDictValue.attributes.Required_Text;
 
             if(!modelId){
-                //Setting up the default selected customized text
+                // Setting up the default selected customized text
 
                 $('.bbf-form .field-Gender .bbf-editor select').append($('<option>', {
                     class:"placeHolderForSelect",
@@ -1614,13 +1654,17 @@ $(function() {
                 }));
                 $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).find('option').eq(101).css('display','none')
 
-                /* Code to unset the default text on sany dropdown...
-                 $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
-                 $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
-                 $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1); */
+                /*
+				 * Code to unset the default text on sany dropdown...
+				 * $(".bbf-form .field-Gender .bbf-editor
+				 * select").prop("selectedIndex", -1); $(".bbf-form
+				 * .field-levels .bbf-editor select").prop("selectedIndex", -1);
+				 * $(".bbf-form .field-BirthDate .bbf-editor .bbf-date
+				 * select").prop("selectedIndex", -1);
+				 */
             }
 
-            //Modifying the labels as per MUI
+            // Modifying the labels as per MUI
             $('.bbf-form .field-firstName label').html(languageDictValue.attributes.First_Name);
             $('.bbf-form .field-lastName label').html(languageDictValue.attributes.Last_Name);
             $('.bbf-form .field-middleNames label').html(languageDictValue.attributes.Middle_Names);
@@ -1700,7 +1744,8 @@ $(function() {
             else {
                 App.startActivityIndicator()
                 var resourcesTableView
-                var temp = $.url().data.attr.host.split(".") // get name of community
+                var temp = $.url().data.attr.host.split(".") // get name of
+																// community
                 temp = temp[0].substring(3)
                 if (temp == "")
                     temp = 'local'
@@ -1917,7 +1962,8 @@ $(function() {
                         $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
                     }
                     $('.form .field-Tag select').multiselect("refresh");
-                    //$('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
+                    // $('.form .field-Tag select option[value="Add
+					// New"]:selected').removeAttr("selected")
                 }
                 if (resource.get('subject') == null) {
                     $(".form .field-subject select").find('option').removeAttr("selected");
@@ -2196,8 +2242,8 @@ $(function() {
             if (typeof grpId === 'undefined') {
                 document.location.href = '#courses'
             }
-            //var rids = new Array()
-            //var rtitle = new Array()
+            // var rids = new Array()
+            // var rtitle = new Array()
             var cstep = new App.Models.CourseStep({
                 "_id": grpId
             })
@@ -2491,11 +2537,13 @@ $(function() {
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
-                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
+                // $('.bbf-form').find('.field-courseLeader').find('.bbf-editor
+				// select').attr('multiple','multiple');
 
-                //console.log(groupModel.get("courseLeader"));
-                //alert(groupModel.get("courseLeader"));
-                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupModel.get("courseLeader"));
+                // console.log(groupModel.get("courseLeader"));
+                // alert(groupModel.get("courseLeader"));
+                // $('.bbf-form').find('.field-courseLeader').find('.bbf-editor
+				// select').val(groupModel.get("courseLeader"));
 
                 $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
@@ -2599,24 +2647,29 @@ $(function() {
 
         },
         courseDetails: function(courseId, courseName) {
-
+        	
             var courseModel = new App.Models.Group({
                 _id: courseId
             })
+           
             courseModel.fetch({
                 async: false
             })
-
             var courseLeader = courseModel.get('courseLeader')
             var courseName = courseModel.get('name')
             var courseMembers = courseModel.get('members')
-
+            var memberId = $.cookie('Member._id')
+            console.log(memberId)
             var button = '<br><a href="#courses"><button class="btn btn-success">'+App.languageDict.attributes.Back_To_Course+'</button></a>'
             if (courseMembers && courseMembers.indexOf($.cookie('Member._id')) == -1) {
                 button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("' + courseLeader + '","' + encodeURI(courseName) + '","' + courseId + '")>'+App.languageDict.attributes.Admission+'</button><br/><br/>'
-            } else {
-                button += '<br/><br/>'
+            } else if(courseMembers && courseLeader == 0){
+            	button += '&nbsp;&nbsp;<button class="btn btn-danger" id="removeBtn">'+App.languageDict.attributes.Remove+'</button><br/><br/>'
             }
+            else {
+                button += '<br/><br/>'
+        	}
+        
             App.$el.children('.body').html('<div class="courseEditStep"></div>')
             $('.courseEditStep').append('<div id="courseName-heading"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
             $('.courseEditStep').append(button)
@@ -2657,6 +2710,41 @@ $(function() {
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
             });
+            $('#removeBtn').click(function(){
+            	
+            	var _courseId = courseId;
+                $.ajax({
+                    url: '/groups/_design/bell/_view/getGroupMember?_include_docs=true&key="' + _courseId + '"',
+                    
+                    type: 'GET',
+                    dataType: 'json',
+
+                    success: function(resResult) {                  
+                        var result = resResult;
+                        var tempResult = []; 
+                         for(var x=0;x<result.rows.length;x++){
+                            if (result.rows[x].value.members.length > 0) {
+                                var index = result.rows[x].value.members.indexOf(memberId);
+                                if (index > -1) {
+                                    result.rows[x].value.members.splice(index, 1);
+                                }
+                            tempResult.push(result.rows[x].value);
+
+                            }
+                         }
+                        $.couch.db('groups').bulkSave({
+                            "docs": tempResult
+                        }, {
+                            success: function(data) {
+                                location.reload();
+                            },
+                            async:false
+                        });
+                    },
+                    async : false
+                });
+            });
+           
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
 
@@ -2858,7 +2946,8 @@ $(function() {
             $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
             $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
             $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
-            // $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
+            // $('.bbf-form .field-allowedErrors
+			// label').html(App.languageDict.attributes.Allowed_Errors);
             $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
             $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);
@@ -2867,12 +2956,12 @@ $(function() {
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
 
-            //  $('#bbf-form input[name=step]').attr("disabled",true);
+            // $('#bbf-form input[name=step]').attr("disabled",true);
         },
         ViewLevel: function(lid, rid) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
-                //  "_rev": rid
+                // "_rev": rid
             });
             var that = this
             levelInfo.fetch({
@@ -2892,7 +2981,8 @@ $(function() {
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questions") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
-                        //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
+                        // Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"),
+						// {trigger: true})
                     } else {
                         $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Quiz+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')
                     }
@@ -3172,7 +3262,7 @@ $(function() {
             membersView.changeDirection();
             if(App.configuration.get('type') == 'nation') {
 	            $.ajax({
-	                url: '/community/_design/bell/_view/getCommunityByCode',
+	                url: '                    alert("url");',
 	                type: 'GET',
 	                dataType: "jsonp",
 	                async: false,
@@ -3225,7 +3315,8 @@ $(function() {
             resourcesTableView.render()
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
-                //<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
+                // <a style="margin-left:20px" class="btn btn-success"
+				// href="#reports/sync">Syn With Nation</a> removed append
                 App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
                     '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
                     '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
@@ -3234,11 +3325,10 @@ $(function() {
                 App.$el.children('.body').append('<p id="sHonRep" style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a></p>')
             }
 
-            /*  var temp = $.url().attr("host").split(".")
-             temp = temp[0].substring(3)
-             if (temp.length == 0) {
-             temp = "Community"
-             }*/
+            /*
+			 * var temp = $.url().attr("host").split(".") temp =
+			 * temp[0].substring(3) if (temp.length == 0) { temp = "Community" }
+			 */
             var temp;
             var config = new App.Collections.Configurations()
             config.fetch({
@@ -3287,16 +3377,21 @@ $(function() {
             var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
-            // now we will assign values from first of the activitylog records, returned for the period from startDate to
-            // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
-            // records into these variables and then just display them in the output
-            //  var superMgrIndex =  member.get('roles').indexOf('SuperManager');
-            //*********************************************************************
-            /*var roles =this.getRoles();
-             var SuperMgrIndex = roles.indexOf("SuperManager");
-
-             if( -1){*/
-            //*********************************************************************
+            // now we will assign values from first of the activitylog records,
+			// returned for the period from startDate to
+            // endDate, to local variables so that we can keep aggregating
+			// values from all the just fetched activitylog
+            // records into these variables and then just display them in the
+			// output
+            // var superMgrIndex = member.get('roles').indexOf('SuperManager');
+            // *********************************************************************
+            /*
+			 * var roles =this.getRoles(); var SuperMgrIndex =
+			 * roles.indexOf("SuperManager");
+			 * 
+			 * if( -1){
+			 */
+            // *********************************************************************
             if (logData.length < 1) {
                 var staticData = {
                     "Visits": {
@@ -3327,7 +3422,9 @@ $(function() {
             }
             var report_resRated = [],
                 report_resOpened = [],
-                report_resNames = [], // Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                report_resNames = [], // Fill in blank resource title name(s)
+										// in trend activity report Facts &
+										// Figures : Issue #84
                 report_male_visits = 0,
                 report_female_visits = 0,
                 report_male_new_signups = 0,
@@ -3343,13 +3440,14 @@ $(function() {
             if (logReport.resourcesIds) {
                 report_resRated = logReport.resourcesIds;
             }
-            //********************************************************************************************
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
-            //********************************************************************************************
+            // ********************************************************************************************
+// Fill in blank resource title name(s) in trend activity report Facts & Figures
+// : Issue #84
+            // ********************************************************************************************
             if (logReport.resources_names) {
                 report_resNames = logReport.resources_names
             }
-//********************************************************************************************
+// ********************************************************************************************
             if (logReport.resources_opened) {
                 report_resOpened = logReport.resources_opened
             }
@@ -3392,7 +3490,7 @@ $(function() {
             }
 
             for (var index = 0; index < logData.length; index++) {
-                //            logData.each(function (logDoc,index){
+                // logData.each(function (logDoc,index){
                 if (index > 0) {
                     var logDoc = logData[index];
                     // add visits to prev total
@@ -3405,9 +3503,10 @@ $(function() {
                     report_female_deleted += (logDoc.female_deleted_count ? logDoc.female_deleted_count : 0);
                     report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0);
                     var resourcesIds = logDoc.resourcesIds;
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+// Fill in blank resource title name(s) in trend activity report Facts & Figures
+// : Issue #84
                     var resourcesNames = logDoc.resources_names;
-//******************************************************************************************
+// ******************************************************************************************
                     var resourcesOpened = logDoc.resources_opened;
                     for (var i = 0; i < resourcesIds.length; i++) {
                         var resId = resourcesIds[i]
@@ -3431,9 +3530,10 @@ $(function() {
                             var resourceIndex = report_resOpened.indexOf(resId)
                             if (resourceIndex == -1) {
                                 report_resOpened.push(resId)
-                                //*******************************************************************************************
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
-                                //*******************************************************************************************
+                                // *******************************************************************************************
+// Fill in blank resource title name(s) in trend activity report Facts & Figures
+// : Issue #84
+                                // *******************************************************************************************
                                 if (resourcesNames!= undefined && resourcesNames != null){
                                     if(resourcesNames.length > 0) {
                                         // alert(resourcesNames[i])
@@ -3441,7 +3541,7 @@ $(function() {
                                     }
                                 }
 
-//*******************************************************************************************
+// *******************************************************************************************
                                 report_male_opened.push(logDoc.male_opened[i])
                                 report_female_opened.push(logDoc.female_opened[i])
                             } else {
@@ -3488,14 +3588,17 @@ $(function() {
                         async: false
                     });
                     var name = res.get('title');
-                    // create most freq opened resource entry and push it into Most_Freq_Opened array
+                    // create most freq opened resource entry and push it into
+					// Most_Freq_Opened array
                     most_freq_res_entry = {
                         "resourceName": name,
                         "timesOpenedCumulative": times_opened_cumulative[indices[i]],
                         "timesOpenedByMales": report_male_opened[indices[i]],
                         "timesOpenedByFemales": report_female_opened[indices[i]]
                     };
-                    if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
+                    if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource
+																										// not
+																										// rated
                         most_freq_res_entry["avgRatingCumulative"] = languageDictValue.attributes.Not_Applicable;
                         most_freq_res_entry["avgRatingByMales"] = languageDictValue.attributes.Not_Applicable;
                         most_freq_res_entry["avgRatingByFemales"] = languageDictValue.attributes.Not_Applicable;
@@ -3559,7 +3662,8 @@ $(function() {
                     });
                     var name = res.get('title');
                     timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
-                    // create highest rated resource entry and push it into Highest_Rated_Resources array
+                    // create highest rated resource entry and push it into
+					// Highest_Rated_Resources array
                     var testValueHighestRating=Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100;
                     var ratingHighest;
                     if(isNaN(testValueHighestRating))
@@ -3580,7 +3684,9 @@ $(function() {
                         "timesRatedByFemales": report_female_timesRated[indicesHighestRated[i]],
                         "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
                     };
-                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
+                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource
+																													// not
+																													// rated
                         entry_rated_highest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_highest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_highest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
@@ -3594,7 +3700,8 @@ $(function() {
                 // fill up Lowest_Rated_resources list
                 for (var i = 0; i < indicesLowestRated.length; i++) {
                     timesRatedTotalForThisResource = report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]];
-                    // create lowest rated resource entry and push it into Lowest_Rated_Resources array
+                    // create lowest rated resource entry and push it into
+					// Lowest_Rated_Resources array
                     var res = new App.Models.Resource({
                         _id: report_resRated[indicesLowestRated[i]]
                     })
@@ -3622,7 +3729,9 @@ $(function() {
                         "timesRatedByFemales": report_female_timesRated[indicesLowestRated[i]],
                         "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
                     };
-                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
+                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource
+																													// not
+																													// rated
                         entry_rated_lowest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_lowest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_lowest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
@@ -3718,7 +3827,7 @@ $(function() {
                 }
             })
         },
-        ////////////Total Member Visits///////
+        // //////////Total Member Visits///////
         getTotalMemberVisits: function(callback) {
             var maleVisits = 0,
                 femaleVisits = 0;
@@ -3746,7 +3855,7 @@ $(function() {
                 }
             })
         },
-        ///////////////////////////////////////////
+        // /////////////////////////////////////////
 
         trendReport: function() {
             var languageDictValue;
@@ -3769,8 +3878,10 @@ $(function() {
             input.appendTo(label);
             $('#dateSelect').datepicker({
                 dateFormat: "yy-mm-dd",
-                changeMonth: true, //this option for allowing user to select month
-                changeYear: true //this option for allowing user to select from year range
+                changeMonth: true, // this option for allowing user to select
+									// month
+                changeYear: true // this option for allowing user to select
+									// from year range
             });
             var button = $('<input type="button">').attr({
                 id: 'submit',
@@ -3790,9 +3901,16 @@ $(function() {
             button.click(function() {
                 var dateChosen = $('#dateSelect').val();
                 if (dateChosen) {
-                    // compute the month start date corresponding to the date chosen by user as the ending date for trend report
-                    var endDateForTrendReport = $('#dateSelect').datepicker("getDate"); // selected date turned into javascript 'Date' format
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // compute the month start date corresponding to the date
+					// chosen by user as the ending date for trend report
+                    var endDateForTrendReport = $('#dateSelect').datepicker("getDate"); // selected
+																						// date
+																						// turned
+																						// into
+																						// javascript
+																						// 'Date'
+																						// format
+                    // ///////////////////////////////////////////////////////////////////////////////////////////////////////
                     var lastMonthStartDate = new Date(endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1);
                     var secondLastMonthEndDate = new Date(lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(), (lastMonthStartDate.getDate() - 1));
                     var secondLastMonthStartDate = new Date(secondLastMonthEndDate.getFullYear(), secondLastMonthEndDate.getMonth(), 1);
@@ -3819,21 +3937,27 @@ $(function() {
 
                     var startDate = context.changeDateFormat(context.turnDateToYYYYMMDDFormat(twelfthLastMonthStartDate));
                     var endDate = context.changeDateFormat(context.turnDateToYYYYMMDDFormat(endDateForTrendReport));
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // //////////////////////////////////////////////////////////////////////////////////////////////////////
 
                     var activityDataColl = new App.Collections.ActivityLog();
                     var urlTemp = App.Server + '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["' + App.configuration.get('code') + '","' + startDate + '"]&endkey=["' +
                         App.configuration.get('code') + '","' + endDate + '"]';
 
                     activityDataColl.setUrl(urlTemp);
-                    activityDataColl.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
-                        // end keys rather than logdate to fetch activitylog docs from the db
+                    activityDataColl.fetch({ // logData.logDate is not
+												// assigned any value so the
+												// view called will be one that
+												// uses start and
+                        // end keys rather than logdate to fetch activitylog
+						// docs from the db
                         async: false
                     });
                     activityDataColl.toJSON();
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
-                    //  ********************************************************************************************************
+                    // //////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // iterate over activitylog models inside the
+					// activityDataColl collection and assign each to the month
+					// range in which they lie
+                    // ********************************************************************************************************
                     var endingMonthActivityData = [],
                         secondLastMonthActivityData = [],
                         thirdLastMonthActivityData = [],
@@ -3846,7 +3970,7 @@ $(function() {
                         tenthLastMonthActivityData = [],
                         eleventhLastMonthActivityData = [],
                         twelfthLastMonthActivityData = [];
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
                     for (var i in activityDataColl.models) {
 
                         var modelKey = context.turnDateFromMMDDYYYYToYYYYMMDDFormat(activityDataColl.models[i].get('logDate'));
@@ -3891,7 +4015,7 @@ $(function() {
                             twelfthLastMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
                         }
                     }
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
                     var lastMonthDataset = context.aggregateDataForTrendReport('communityX', endingMonthActivityData);
                     var secondLastMonthDataset = context.aggregateDataForTrendReport('communityX', secondLastMonthActivityData);
                     var thirdLastMonthDataset = context.aggregateDataForTrendReport('communityX', thirdLastMonthActivityData);
@@ -3906,11 +4030,13 @@ $(function() {
                     var twelfthLastMonthDataset = context.aggregateDataForTrendReport('communityX', twelfthLastMonthActivityData);
 
                     var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
-                    //  ********************************************************************************************************
-                    // var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    // ********************************************************************************************************
+                    // var monthNames = ["Jan", "Feb", "Mar", "Apr", "May",
+					// "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                     var monthNames = [lookup(languageDictValue, "Months." + "January"), lookup(languageDictValue, "Months." + "February"), lookup(languageDictValue, "Months." + "March"), lookup(languageDictValue, "Months." + "April"), lookup(languageDictValue, "Months." + "May"), lookup(languageDictValue, "Months." + "June"), lookup(languageDictValue, "Months." + "July"), lookup(languageDictValue, "Months." + "August"), lookup(languageDictValue, "Months." + "September"), lookup(languageDictValue, "Months." + "October"), lookup(languageDictValue, "Months." + "November"),lookup(languageDictValue, "Months." + "December")];
-                    //   ********************************************************************************************************
-                    // show registered members at end of each month falling in duration of this report
+                    // ********************************************************************************************************
+                    // show registered members at end of each month falling in
+					// duration of this report
                     var totalRegisteredMembers = {
                         male: 0,
                         female: 0
@@ -3919,7 +4045,7 @@ $(function() {
                         totalRegisteredMembers['male'] = param1;
                         totalRegisteredMembers['female'] = param2;
                     });
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
                     var totalRegisteredMembersFromMembersDb = {
                         male: 0,
                         female: 0
@@ -3928,8 +4054,9 @@ $(function() {
                         totalRegisteredMembersFromMembersDb['male'] = param1;
                         totalRegisteredMembersFromMembersDb['female'] = param2;
                     });
-                    //  ********************************************************************************************************
-                    ///////////////////////////////////////////////Total Visits/////////////////////////////////////////////
+                    // ********************************************************************************************************
+                    // /////////////////////////////////////////////Total
+					// Visits/////////////////////////////////////////////
                     var totalMemberVisits = {
                         male: 0,
                         female: 0
@@ -3938,8 +4065,8 @@ $(function() {
                         totalMemberVisits['male'] = param1;
                         totalMemberVisits['female'] = param2;
                     });
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    //  ********************************************************************************************************
+                    // ///////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // ********************************************************************************************************
                     var registeredMembersTillNow = {
                         male: totalRegisteredMembers['male'],
                         female: totalRegisteredMembers['female'],
@@ -4000,7 +4127,7 @@ $(function() {
                         female: registeredMembersTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'],
                         total: 0
                     };
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
                     registeredMembersTillNow['total'] = registeredMembersTillNow['male'] + registeredMembersTillNow['female'];
                     registeredMembersTillSecondLastMonthEnd['total'] = registeredMembersTillSecondLastMonthEnd['male'] + registeredMembersTillSecondLastMonthEnd['female'];
                     registeredMembersTillThirdLastMonthEnd['total'] = registeredMembersTillThirdLastMonthEnd['male'] + registeredMembersTillThirdLastMonthEnd['female'];
@@ -4013,9 +4140,10 @@ $(function() {
                     registeredMembersTillTenthLastMonthEnd['total'] = registeredMembersTillTenthLastMonthEnd['male'] + registeredMembersTillTenthLastMonthEnd['female'];
                     registeredMembersTillEleventhLastMonthEnd['total'] = registeredMembersTillEleventhLastMonthEnd['male'] + registeredMembersTillEleventhLastMonthEnd['female'];
                     registeredMembersTillTwelfthLastMonthEnd['total'] = registeredMembersTillTwelfthLastMonthEnd['male'] + registeredMembersTillTwelfthLastMonthEnd['female'];
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    //  ********************************************************************************************************
-                    ///////////////////////////////////////////Total Members//////////////////////////////////////////////////
+                    // //////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // ********************************************************************************************************
+                    // /////////////////////////////////////////Total
+					// Members//////////////////////////////////////////////////
                     var registeredMembersFromMembersDbTillNow = {
                         male: totalRegisteredMembersFromMembersDb['male'],
                         female: totalRegisteredMembersFromMembersDb['female'],
@@ -4076,7 +4204,7 @@ $(function() {
                         female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - (eleventhLastMonthDataset.New_Signups['female'] - eleventhLastMonthDataset.Deleted['female']),
                         total: 0
                     };
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
                     registeredMembersFromMembersDbTillNow['total'] = registeredMembersFromMembersDbTillNow['male'] + registeredMembersFromMembersDbTillNow['female'];
                     registeredMembersFromMembersDbTillSecondLastMonthEnd['total'] = registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] + registeredMembersFromMembersDbTillSecondLastMonthEnd['female'];
                     registeredMembersFromMembersDbTillThirdLastMonthEnd['total'] = registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] + registeredMembersFromMembersDbTillThirdLastMonthEnd['female'];
@@ -4089,9 +4217,10 @@ $(function() {
                     registeredMembersFromMembersDbTillTenthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTenthLastMonthEnd['female'];
                     registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'] = registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] + registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'];
                     registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'];
-                    //  ********************************************************************************************************
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ///////////////////////////////////////////Total Member Visits/////////////////////////////////////////
+                    // ********************************************************************************************************
+                    // //////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // /////////////////////////////////////////Total Member
+					// Visits/////////////////////////////////////////
                     var membersVisitsTillNow = {
                         male: totalMemberVisits['male'],
                         female: totalMemberVisits['female'],
@@ -4152,7 +4281,7 @@ $(function() {
                         female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.Visits['female'],
                         total: 0
                     };
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
                     membersVisitsTillNow['total'] = membersVisitsTillNow['male'] + membersVisitsTillNow['female'];
                     membersVisitsTillSecondLastMonthEnd['total'] = membersVisitsTillSecondLastMonthEnd['male'] + membersVisitsTillSecondLastMonthEnd['female'];
                     membersVisitsTillThirdLastMonthEnd['total'] = membersVisitsTillThirdLastMonthEnd['male'] + membersVisitsTillThirdLastMonthEnd['female'];
@@ -4165,25 +4294,26 @@ $(function() {
                     membersVisitsTillTenthLastMonthEnd['total'] = membersVisitsTillTenthLastMonthEnd['male'] + membersVisitsTillTenthLastMonthEnd['female'];
                     membersVisitsTillEleventhLastMonthEnd['total'] = membersVisitsTillEleventhLastMonthEnd['male'] + membersVisitsTillEleventhLastMonthEnd['female'];
                     membersVisitsTillTwelfthLastMonthEnd['total'] = membersVisitsTillTwelfthLastMonthEnd['male'] + membersVisitsTillTwelfthLastMonthEnd['female'];
-                    //////////////////////////////////////////////////////////////////////////////////////////////
+                    // ////////////////////////////////////////////////////////////////////////////////////////////
                     // ********************************************************************************************************
                     // TrendActivityReport View from TrendActivityReport.js
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
                     var trendActivityReportView = new App.Views.TrendActivityReport();
                     trendActivityReportView.data = aggregateDataset;
                     trendActivityReportView.startDate = activityDataColl.startkey;
                     trendActivityReportView.endDate = activityDataColl.endkey;
-                    //                trendActivityReportView.CommunityName = CommunityName;
+                    // trendActivityReportView.CommunityName = CommunityName;
                     trendActivityReportView.render();
                     App.$el.children('.body').html(trendActivityReportView.el);
-                    //  ********************************************************************************************************
-                    //$( '<div id="trend-report-div-new-memberships"></div>' ).appendTo( App.$el.children('.body') );
-                    //  ********************************************************************************************************
-                    //Trend Report Graphs Started
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
-                    //Total Members
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // $( '<div id="trend-report-div-new-memberships"></div>'
+					// ).appendTo( App.$el.children('.body') );
+                    // ********************************************************************************************************
+                    // Trend Report Graphs Started
+                    // ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // Total Members
+                    // ********************************************************************************************************
                     $('#trend-report-div-total-members').highcharts({
                         chart: {
                             type: 'column',
@@ -4192,7 +4322,9 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: languageDictValue.attributes.registered_past_twelve_months //Total Members Previously
+                            text: languageDictValue.attributes.registered_past_twelve_months // Total
+																								// Members
+																								// Previously
                         },
                         xAxis: {
                             categories: [
@@ -4283,10 +4415,10 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
-                    //Total Member Visits
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // Total Member Visits
+                    // ********************************************************************************************************
                     $('#trend-report-div-total-member-visits').highcharts({
                         chart: {
                             type: 'column',
@@ -4295,7 +4427,8 @@ $(function() {
                             borderRadius: 10
                         },
                         title: {
-                            text: languageDictValue.attributes.visits_past_twelve_months // Total Visits
+                            text: languageDictValue.attributes.visits_past_twelve_months // Total
+																							// Visits
                         },
                         xAxis: {
                             categories: [
@@ -4388,10 +4521,10 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
-                    //Active Members This Month
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // Active Members This Month
+                    // ********************************************************************************************************
                     $('#trend-report-div-new-memberships').highcharts({
                         chart: {
                             type: 'column',
@@ -4491,10 +4624,10 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
-                    //Total Member Visits This Month
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // ********************************************************************************************************
+                    // Total Member Visits This Month
+                    // ********************************************************************************************************
                     $('#trend-report-div-visits').highcharts({
                         chart: {
                             type: 'column',
@@ -4595,11 +4728,12 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ******************************************************************************************************
-                    // /////////////////////////////////////////////New Members This Month?////////////////////////////////////
-                    //  ********************************************************************************************************
-                    //   Total Resource Views This Month
-                    //  ********************************************************************************************************
+                    // ******************************************************************************************************
+                    // /////////////////////////////////////////////New Members
+					// This Month?////////////////////////////////////
+                    // ********************************************************************************************************
+                    // Total Resource Views This Month
+                    // ********************************************************************************************************
                     $('#trend-report-div-total-resource-views-this-month').highcharts({
                         chart: {
                             type: 'column',
@@ -4700,7 +4834,7 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
+                    // ********************************************************************************************************
 
 
                 } else {
@@ -4737,7 +4871,7 @@ $(function() {
 
             if (report.id) {
                 // App.listenToOnce(report, 'sync', function() {
-                //    reportFormView.render()
+                // reportFormView.render()
                 // })
 
                 report.fetch()
@@ -4962,9 +5096,11 @@ $(function() {
         },
         CoursesBarChart: function() {
             App.$el.children('.body').html('&nbsp')
-            // App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
+            // App.$el.children('.body').append('<div
+			// id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
             App.$el.children('.body').append('<div id="graph"></div>')
-            // App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
+            // App.$el.children('.body').append('<div
+			// id="horizontallabel"><b>COURSES</b></div>')
             var coursesResults = new App.Collections.memberprogressallcourses()
             coursesResults.memberId = $.cookie('Member._id')
             coursesResults.fetch({
@@ -4990,7 +5126,7 @@ $(function() {
                 shelfItem.set('memberId', $.cookie('Member._id'))
                 shelfItem.set('resourceId', rId)
                 shelfItem.set('resourceTitle', unescape(title))
-                //Adding the Selected Resource to the Shelf Hash(Dictionary)
+                // Adding the Selected Resource to the Shelf Hash(Dictionary)
                 shelfItem.save(null, {
                     success: function(model, response, options) {}
                 });
@@ -4999,7 +5135,7 @@ $(function() {
                 alert(App.languageDict.attributes.Duplicate_In_Shelf)
             }
         },
-        //Issue#61: Update buttons Add Feedback form when rating a resource
+        // Issue#61: Update buttons Add Feedback form when rating a resource
         AddToShelfAndSaveFeedback: function(rId, title) {
             var shelfResource = new App.Collections.shelfResource()
             shelfResource.resourceId = rId
@@ -5012,7 +5148,7 @@ $(function() {
                 shelfItem.set('memberId', $.cookie('Member._id'))
                 shelfItem.set('resourceId', rId)
                 shelfItem.set('resourceTitle', unescape(title))
-                //Adding the Selected Resource to the Shelf Hash(Dictionary)
+                // Adding the Selected Resource to the Shelf Hash(Dictionary)
                 shelfItem.save(null, {
                     success: function(model, response, options) {}
                 });
@@ -5020,10 +5156,10 @@ $(function() {
             } else {
                 alert(App.languageDict.attributes.FeedbackSaved_Not_Resource)
             }
-            /*Backbone.history.navigate('resources', {
-             trigger: true
-             });*/
-            //window.history.go(0);
+            /*
+			 * Backbone.history.navigate('resources', { trigger: true });
+			 */
+            // window.history.go(0);
         },
         CalendarFunction: function() {
             var languageDictValue;
@@ -5174,7 +5310,7 @@ $(function() {
 
                 })
 
-                //alert(temp2.length)
+                // alert(temp2.length)
 
                 var calendar = $('#calendar').fullCalendar({
                     header: {
@@ -5281,7 +5417,7 @@ $(function() {
             App.$el.children('.body').append(modelForm.el)
             modelForm.render()
         },
-        //also used for collection editing from collection listing page
+        // also used for collection editing from collection listing page
         EditTag: function(value) {
             var languageDictValue;
             var clanguage = getLanguage($.cookie('Member._id'));
@@ -5397,7 +5533,8 @@ $(function() {
         Collection: function() {
             App.startActivityIndicator()
 
-            var temp = $.url().data.attr.host.split(".") // get name of community
+            var temp = $.url().data.attr.host.split(".") // get name of
+															// community
             temp = temp[0].substring(3)
             if (temp == "")
                 temp = 'local'
@@ -5564,7 +5701,8 @@ $(function() {
         ListCollection: function(collectionId, collectionName) {
             App.startActivityIndicator()
             var that = this
-            var temp = $.url().data.attr.host.split(".") // get name of community
+            var temp = $.url().data.attr.host.split(".") // get name of
+															// community
             temp = temp[0].substring(3)
             if (temp == "")
                 temp = 'local'
@@ -5598,16 +5736,33 @@ $(function() {
                     App.$el.children('.body').html('<div id="parentLibrary"></div>');
                     App.$el.children('#parentLibrary').empty();
 
-                    //  App.$el.children('.body').html('<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
+                    // App.$el.children('.body').html('<p
+					// style="margin-top:20px"><a class="btn btn-success"
+					// href="#resource/add">Add New Resource</a><a
+					// style="margin-left:10px" class="btn btn-success"
+					// onclick=showRequestForm("Resource")>Request
+					// Resource</a><span style="float:right"></span></p>')
 
-                    // App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
+                    // App.$el.children('.body').append('<p
+					// style="font-size:30px;color:#808080;"><a
+					// href="#resources"style="font-size:30px;color:#0088CC;text-decoration:
+					// underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a
+					// href="#collection"
+					// style="font-size:30px;">Collections</a> </p>')
                     var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
                     btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
                     $('#parentLibrary').append( btnText);
 
-                    /*if(roles.indexOf("Manager") !=-1 &&  ( temp=='hagadera' || temp=='dagahaley' || temp=='ifo' || temp=='local' || temp=='somalia') )
-                     App.$el.children('.body').append('<button style="margin:-90px 0px 0px 500px;" class="btn btn-success"  onclick = "document.location.href=\'#replicateResources\'">Sync Library to Somali Bell</button>')*/
+                    /*
+					 * if(roles.indexOf("Manager") !=-1 && ( temp=='hagadera' ||
+					 * temp=='dagahaley' || temp=='ifo' || temp=='local' ||
+					 * temp=='somalia') ) App.$el.children('.body').append('<button
+					 * style="margin:-90px 0px 0px 500px;" class="btn
+					 * btn-success" onclick =
+					 * "document.location.href=\'#replicateResources\'">Sync
+					 * Library to Somali Bell</button>')
+					 */
                     $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a></p>')
                     $('#parentLibrary').append('<p id="colName"style="font-size: 30px;font-weight: bolder;color: #808080;width: 450px;word-wrap: break-word;">' + collectionlist.get('CollectionName') + '</p>')
 
@@ -5621,7 +5776,7 @@ $(function() {
                         $('#addNewResource').addClass('addMarginsOnResource');
                         $('#requestResource').addClass('addMarginsOnResource');
                         $('#labelOnResource').addClass('addResource');
-                        //  $('#labelOnResource').attr("margin-right","2%");
+                        // $('#labelOnResource').attr("margin-right","2%");
                         $("#labelOnResource").css("margin-right","2%");
                         $('table').addClass('resourceTableClass');
                         $('.resourcInfoFirstCol').attr('colspan','8');
@@ -5632,15 +5787,15 @@ $(function() {
                         $('#actionAndTitle').find('th').eq(1).css('text-align','center');
                     }
                     resourcesTableView.changeDirection();
-                    //****************************************************************************
+                    // ****************************************************************************
 // make changes here for Issue # 70 (#resources)
-                    //****************************************************************************
+                    // ****************************************************************************
                     $('#backButton').click(function() {
                         Backbone.history.navigate('#collection', {
                             trigger: true
                         })
                     })
-                    //****************************************************************************
+                    // ****************************************************************************
                 }
             });
 
@@ -5718,7 +5873,7 @@ $(function() {
                 // cloudant
                 URL = 'http://' + hostName[0] + ':' + App.password + '@' + hostUrl[2]
             } else if (hostName[0].match(/^\d*[0-9](\.\d*[0-9])?$/)) {
-                //other couchdbes that have no username and password
+                // other couchdbes that have no username and password
                 URL = 'http://' + hostUrl[2]
             } else {
                 URL = 'http://' + hostUrl[2]
@@ -5909,7 +6064,7 @@ $(function() {
 
 
             applyCorrectStylingSheet(directionOfLang);
-            //currently hiding for all kind of communities and nations.
+            // currently hiding for all kind of communities and nations.
             $("#community-select").hide();
             $('#start-date').datepicker({
                 dateFormat: "yy-mm-dd",
@@ -6081,7 +6236,8 @@ $(function() {
             // URLs to save transformed files to
             var transformedManifestURL = deviceURL + '/manifest.appcache'
             var transformedUpdateURL = deviceURL + '/update.html'
-            // The string to find in the default manifest file that we'll replace with Resources
+            // The string to find in the default manifest file that we'll
+			// replace with Resources
             var find = '{replace me}'
             var replace = '# Compiled at ' + new Date().getTime() + '\n'
 
@@ -6202,7 +6358,8 @@ $(function() {
                         MemberCourseProgress.memberId = memId
                         MemberCourseProgress.fetch({
                             success: function() {
-                                //don't encode this url because it contain's '[' & ']' which spoil the key
+                                // don't encode this url because it contain's
+								// '[' & ']' which spoil the key
                                 replace += ('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + memId + '","' + group.id + '"]&include_docs=true') + '\n'
                             }
                         })
@@ -6296,7 +6453,8 @@ $(function() {
             var defaultManifestURL = '/apps/_design/bell/manifest.default.appcache'
             // URLs to save transformed files to
             var transformedManifestURL = deviceURL + '/manifest.appcache'
-            // The string to find in the default manifest file that we'll replace with Resources
+            // The string to find in the default manifest file that we'll
+			// replace with Resources
             var find = '{replace me}'
             var replace = '# Compiled at ' + new Date().getTime() + '\n'
 
@@ -6326,21 +6484,40 @@ $(function() {
                 },
                 function(err, response) {
                     if (!err) {
-                        var collection = response.rows; // all docs from PouchDB's 'activitylogs' db
-                        for (var i = 0; i < response.total_rows; i++) { // if # of rows is zero, then
-                            // PouchDB's activitylogs db has no docs in it to sync to CouchDB's activitylog db
+                        var collection = response.rows; // all docs from
+														// PouchDB's
+														// 'activitylogs' db
+                        for (var i = 0; i < response.total_rows; i++) { // if #
+																		// of
+																		// rows
+																		// is
+																		// zero,
+																		// then
+                            // PouchDB's activitylogs db has no docs in it to
+							// sync to CouchDB's activitylog db
                             var pouchActivityLogDoc = collection[i].doc;
                             var activitylogDate = pouchActivityLogDoc.logDate;
                             var logModel = new App.Collections.ActivityLog();
                             logModel.logDate = activitylogDate;
                             logModel.fetch({
                                 success: function(res, resInfo) {
-                                    if (res.length == 0) { // CouchDB's activitylog db has ZERO (or NO) documents with attrib "logDate"
-                                        // having value == collection[i].doc.logDate, so a new activitylog doc will be added to CouchDB
-                                        // having same json as that of collection[i].doc's (pointed to by 'activitylog' var above)
+                                    if (res.length == 0) { // CouchDB's
+															// activitylog db
+															// has ZERO (or NO)
+															// documents with
+															// attrib "logDate"
+                                        // having value ==
+										// collection[i].doc.logDate, so a new
+										// activitylog doc will be added to
+										// CouchDB
+                                        // having same json as that of
+										// collection[i].doc's (pointed to by
+										// 'activitylog' var above)
                                         // from PouchDB's activitylogs db.
                                         that.createLogs(pouchActivityLogDoc);
-                                    } else { // Couchdb's activitylog db does have atleast one doc having attrib "logDate" with a
+                                    } else { // Couchdb's activitylog db does
+												// have atleast one doc having
+												// attrib "logDate" with a
                                         // value == collection[i].doc.logDate
                                         var logsonServer = res.first();
                                         that.updateLogs(pouchActivityLogDoc, logsonServer);
@@ -6348,13 +6525,16 @@ $(function() {
                                 },
                                 error: function(err) {
                                     console.log("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
-                                    //                                alert("WeeklyReports:: Error looking for (daily) activitylog doc for today's date in CouchDB");
+                                    // alert("WeeklyReports:: Error looking for
+									// (daily) activitylog doc for today's date
+									// in CouchDB");
                                 }
                             });
                         }
                     } else {
                         console.log("Error fetching documents of 'activitylogs' db in PouchDB. Please try again or refresh page.");
-                        //                    alert("Error fetching documents of 'activitylogs' db in PouchDB. Please try again or refresh page.");
+                        // alert("Error fetching documents of 'activitylogs' db
+						// in PouchDB. Please try again or refresh page.");
                     }
                 }
             );
@@ -6370,10 +6550,20 @@ $(function() {
             dailylogModel.set('logDate', activitylog.logDate);
             dailylogModel.set('community', activitylog.community);
             dailylogModel.set('resourcesIds', activitylog.resourcesIds)
-            //***************************************************************************************
-            //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
-            dailylogModel.set('resources_names', activitylog.resources_names) //Reources names to be added in activity log Issue # 84
-            //*************************************************************************************
+            // ***************************************************************************************
+            // Fill in blank resource title name(s) in trend activity report
+			// Facts & Figures : Issue #84
+            dailylogModel.set('resources_names', activitylog.resources_names) // Reources
+																				// names
+																				// to
+																				// be
+																				// added
+																				// in
+																				// activity
+																				// log
+																				// Issue
+																				// # 84
+            // *************************************************************************************
             dailylogModel.set('resources_opened', activitylog.resources_opened)
             dailylogModel.set('male_visits', activitylog.male_visits)
             dailylogModel.set('female_visits', activitylog.female_visits)
@@ -6404,12 +6594,12 @@ $(function() {
         updateLogs: function(activitylog, logsonServer) {
             var activitylog_resRated = 0,
                 activitylog_resOpened = 0;
-            //***************************************************************************************
+            // ***************************************************************************************
             // issue #84
-            //**************************************************************************************
+            // **************************************************************************************
             var activitylog_resNames = 0;
             var logsonServer_resNames = 0;
-            //***************************************************************************************
+            // ***************************************************************************************
             var activitylog_male_deleted_count = 0,
                 activitylog_female_deleted_count = 0;
             var logsonServer_male_deleted_count = 0,
@@ -6426,16 +6616,16 @@ $(function() {
                 logsonServer_female_timesRated = 0,
                 logsonServer_male_opened = 0,
                 logsonServer_female_opened = 0;
-            //***************************************************************************************
+            // ***************************************************************************************
             // issue #84
-            //**************************************************************************************
+            // **************************************************************************************
             if (activitylog.resources_names) {
                 activitylog_resNames = activitylog.resources_names
             }
             if (logsonServer.get('resources_names')) {
                 logsonServer_resNames = logsonServer.get('resources_names')
             }
-            //***************************************************************************************
+            // ***************************************************************************************
 
             if (activitylog.resourcesIds) {
                 activitylog_resRated = activitylog.resourcesIds
@@ -6494,7 +6684,7 @@ $(function() {
             for (var i = 0; i < activitylog_resRated.length; i++) {
                 resId = activitylog_resRated[i]
                 index = logsonServer_resRated.indexOf(resId)
-                //alert('index'+index)
+                // alert('index'+index)
                 if (index == -1) {
                     logsonServer_resRated.push(resId)
                     logsonServer_male_rating.push(activitylog.male_rating[i])
@@ -6511,11 +6701,11 @@ $(function() {
             for (i = 0; i < activitylog_resOpened.length; i++) {
                 resId = activitylog_resOpened[i]
                 resName = activitylog_resNames[i]
-                //*********************************************
+                // *********************************************
                 // issue #84
-                //********************************************
-                //   logsonServer_resNames.push(resId)
-                //*******************************************
+                // ********************************************
+                // logsonServer_resNames.push(resId)
+                // *******************************************
                 index = logsonServer_resOpened.indexOf(resId)
                 if (index == -1) {
                     logsonServer_resOpened.push(resId)
@@ -6528,12 +6718,12 @@ $(function() {
                     logsonServer_female_opened[index] = parseInt(logsonServer_female_opened[index]) + parseInt(activitylog.female_opened[i])
                 }
             }
-            //alert('in update logs')
-            //***************************************************************************************
+            // alert('in update logs')
+            // ***************************************************************************************
             // issue #84
-            //**************************************************************************************
+            // **************************************************************************************
             logsonServer.set('resources_names', logsonServer_resNames);
-            //*************************************************************************************
+            // *************************************************************************************
             logsonServer.set('resourcesIds', logsonServer_resRated);
             logsonServer.set('resources_opened', logsonServer_resOpened);
             logsonServer.set('male_visits', logsonServer_male_visits);
@@ -6590,21 +6780,25 @@ $(function() {
             logData.fetch({
                 async: false
             })
-            // now we will assign values from first of the activitylog records, returned for the period from startDate to
-            // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
-            // records into these variables and then just display them in the output
+            // now we will assign values from first of the activitylog records,
+			// returned for the period from startDate to
+            // endDate, to local variables so that we can keep aggregating
+			// values from all the just fetched activitylog
+            // records into these variables and then just display them in the
+			// output
             var logReport = logData.first();
             if (logReport == undefined) {
                 alert(App.languageDict.attributes.No_Activity_Logged)
             }
             var report_resRated = logReport.get('resourcesIds')
             var report_resOpened = [];
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+// Fill in blank resource title name(s) in trend activity report Facts & Figures
+// : Issue #84
             var report_resNames = [];
             if (logReport.get('resources_names')) {
                 report_resNames = logReport.get('resources_names')
             }
-//*******************************************************************************************
+// *******************************************************************************************
             if (logReport.get('resources_opened')) {
                 report_resOpened = logReport.get('resources_opened')
             }
@@ -6648,7 +6842,8 @@ $(function() {
                     report_female_visits += logDoc.get('female_visits');
                     resourcesIds = logDoc.get('resourcesIds');
                     resourcesOpened = logDoc.get('resources_opened');
-                    //*********************************************************** #84
+                    // ***********************************************************
+					// #84
                     resourcesNames = logDoc.get('resources_names');
                     // ******************************************************************
                     for (var i = 0; i < resourcesIds.length; i++) {
@@ -6716,7 +6911,8 @@ $(function() {
                         async: false
                     });
                     var name = res.get('title');
-                    // create most freq opened resource entry and push it into Most_Freq_Opened array
+                    // create most freq opened resource entry and push it into
+					// Most_Freq_Opened array
                     most_freq_res_entry = {
                         "resourceName": name,
                         "timesOpenedCumulative": times_opened_cumulative[indices[i]],
@@ -6724,7 +6920,9 @@ $(function() {
                         "timesOpenedByFemales": report_female_opened[indices[i]]
                     };
 
-                    if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource not rated
+                    if ((indexFound = report_resRated.indexOf(report_resOpened[indices[i]])) === -1) { // resource
+																										// not
+																										// rated
                         most_freq_res_entry["avgRatingCumulative"] = languageDictValue.attributes.Not_Applicable;
                         most_freq_res_entry["avgRatingByMales"] = languageDictValue.attributes.Not_Applicable;
                         most_freq_res_entry["avgRatingByFemales"] = languageDictValue.attributes.Not_Applicable;
@@ -6734,7 +6932,7 @@ $(function() {
                     } else {
                         timesRatedTotalForThisResource = report_male_timesRated[indexFound] + report_female_timesRated[indexFound];
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
-                        //place to add Code most
+                        // place to add Code most
                         var testValueMostFrequencyRating=Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
                         var ratingMaxFreq;
                         if(isNaN(testValueMostFrequencyRating))
@@ -6787,7 +6985,7 @@ $(function() {
                         async: false
                     });
                     var name = res.get('title');
-                    //place to add codde high
+                    // place to add codde high
                     var testValueHighestFrequencyRating=Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100;
                     var ratingHighestFreq;
                     if(isNaN(testValueHighestFrequencyRating))
@@ -6800,7 +6998,8 @@ $(function() {
                         ratingHighestFreq=testValueHighestFrequencyRating;
                     }
                     timesRatedTotalForThisResource = report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]];
-                    // create highest rated resource entry and push it into Highest_Rated_Resources array
+                    // create highest rated resource entry and push it into
+					// Highest_Rated_Resources array
                     entry_rated_highest = {
                         "resourceName": name,
                         "avgRatingCumulative":ratingHighestFreq,
@@ -6810,7 +7009,9 @@ $(function() {
                         "timesRatedByFemales": report_female_timesRated[indicesHighestRated[i]],
                         "timesRatedCumulative": report_male_timesRated[indicesHighestRated[i]] + report_female_timesRated[indicesHighestRated[i]]
                     };
-                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource not rated
+                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesHighestRated[i]])) === -1) { // resource
+																													// not
+																													// rated
                         entry_rated_highest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_highest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_highest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
@@ -6824,7 +7025,8 @@ $(function() {
                 // fill up Lowest_Rated_resources list
                 for (var i = 0; i < indicesLowestRated.length; i++) {
                     timesRatedTotalForThisResource = report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]];
-                    // create lowest rated resource entry and push it into Lowest_Rated_Resources array
+                    // create lowest rated resource entry and push it into
+					// Lowest_Rated_Resources array
                     var res = new App.Models.Resource({
                         _id: report_resRated[indicesLowestRated[i]]
                     })
@@ -6832,7 +7034,7 @@ $(function() {
                         async: false
                     })
                     var name = res.get('title')
-//place to add code low
+// place to add code low
                     var testValueLowestRating=Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100;
                     var ratingLowestFreq;
                     if(isNaN(testValueLowestRating))
@@ -6853,7 +7055,9 @@ $(function() {
                         "timesRatedByFemales": report_female_timesRated[indicesLowestRated[i]],
                         "timesRatedCumulative": report_male_timesRated[indicesLowestRated[i]] + report_female_timesRated[indicesLowestRated[i]]
                     };
-                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource not rated
+                    if ((indexFound = report_resOpened.indexOf(report_resRated[indicesLowestRated[i]])) === -1) { // resource
+																													// not
+																													// rated
                         entry_rated_lowest["timesOpenedByMales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_lowest["timesOpenedByFemales"] = languageDictValue.attributes.Not_Applicable;
                         entry_rated_lowest["timesOpenedCumulative"] = languageDictValue.attributes.Not_Applicable;
@@ -6892,7 +7096,8 @@ $(function() {
                     outp.sort(function(a, b) {
                         return inp[b] - inp[a];
                     }); // descending sort the output array
-                    outp.pop(); // remove the last index (index of smallest element in output array)
+                    outp.pop(); // remove the last index (index of smallest
+								// element in output array)
                 }
             }
             if (inp.length <= count) {
@@ -6910,7 +7115,8 @@ $(function() {
                     outp.sort(function(a, b) {
                         return inp[a] - inp[b];
                     }); // descending sort the output array
-                    outp.pop(); // remove the last index (index of smallest element in output array)
+                    outp.pop(); // remove the last index (index of smallest
+								// element in output array)
                 }
             }
             if (inp.length <= count) {
