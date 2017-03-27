@@ -30,9 +30,9 @@ addons:
     #travis encrypt SAUCE_ACCESS_KEY=...
 
 install:
-#  - npm install -g codeceptjs
-#  - npm install -g webdriverio
-#  - npm install -g cookie
+  - npm install -g codeceptjs
+  - npm install -g webdriverio
+  - npm install -g cookie
 
   - pip install -I selenium==3.0.2
   - pip install sauceclient
@@ -57,13 +57,13 @@ before_install:
   - curl -X PUT 'http://127.0.0.1:5981/_config/log/file' -d '"/usr/local/var/log/couchdb/couch.log"'
   - curl -X PUT 'http://127.0.0.1:5981/_config/httpd/allow_jsonp' -d '"true"'
   - curl -X PUT 'http://127.0.0.1:5981/_config/admins/nation' -d '"oleoleole"'
-#  - npm update -q
-#  - npm install --save -g co
+  - npm update -q
+  - npm install --save -g co
 
 script:
   - export
   - docker ps -a | grep bell
   - curl -X GET http://127.0.0.1:5981/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 40 ]; then exit 1; fi
-#  - codeceptjs run tests --steps --verbose
+  - codeceptjs run tests --steps --verbose
   - python -m unittest discover tests
