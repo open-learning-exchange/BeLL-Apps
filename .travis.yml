@@ -8,6 +8,11 @@ language: python
 python:
   - "3.5"
 
+cache:
+   directories:
+     - $(npm root -g)
+     - node_modules
+
 notifications:
   webhooks:
     urls:
@@ -30,9 +35,9 @@ addons:
     #travis encrypt SAUCE_ACCESS_KEY=...
 
 install:
-  - npm install -g codeceptjs
-  - npm install -g webdriverio
-  - npm install -g cookie
+  - travis_retry npm install -g codeceptjs
+  - travis_retry npm install -g webdriverio
+  - travis_retry npm install -g cookie
 
   - pip install -I selenium==3.0.2
   - pip install sauceclient
