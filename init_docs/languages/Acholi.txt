@@ -864,5 +864,10 @@
   "Blue_Point":"crwdns16284:0crwdne16284:0",
   "Gray_Point":"crwdns16285:0crwdne16285:0",
   "Steps_Percentage":"crwdns16286:0crwdne16286:0",
-  "All_Courses_Progress":"crwdns16287:0crwdne16287:0"
+  "All_Courses_Progress":"crwdns16287:0crwdne16287:0",
+  "Attempt": "Attempt",
+  "Reviewed": "Reviewed",
+  "UnReviewed": "UnReviewed",
+  "UnAttempted": "UnAttempted",
+  "Attempted": "Attempted"
 }

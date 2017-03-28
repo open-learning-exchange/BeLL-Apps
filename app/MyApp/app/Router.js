@@ -427,6 +427,7 @@ $(function() {
                             if(courseDocs.models[i].get('_id') != '_design/bell') {
                                 var doc = courseDocs.models[i];
                                 var learnerIds = getCountOfLearners(doc.get('_id'), true);
+                                console.log(learnerIds);
                                 if(learnerIds.length>0){
                                     creditsView.courseId=doc.get('_id');
                                     creditsView.learnerIds = learnerIds;

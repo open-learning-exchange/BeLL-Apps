@@ -827,7 +827,8 @@ $(function() {
             });
         },
 
-        getCountOfLearners: function() {
+        getCountOfLearners: function () {
+            console.log('ok');
             var learners = [], stepsStatuses = [], countOfLearners = 0;
             var courses = new App.Collections.Courses();
             var MemberCourseProgress = new App.Collections.membercourseprogresses();

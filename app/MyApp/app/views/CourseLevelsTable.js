@@ -95,12 +95,23 @@ $(function () {
             while (index < sstatus.length && ssids[index] != this.vars._id) {
                 index++
             }
+            this.vars.lastAttemptStatus = App.languageDict.attributes.UnAttempted;
             if (index == sstatus.length) {
                 this.vars.status = App.languageDict.attributes.Error
-                this.vars.marks =  App.languageDict.attributes.Error
+                this.vars.marks = App.languageDict.attributes.Error
             } else {
-                this.vars.status = filterInt(sstatus[index])
-                this.vars.marks = sr[index]
+                this.vars.status = filterInt(sstatus[index][totalattempt[index]])
+                this.vars.marks = sr[index][totalattempt[index]]
+                this.vars.lastAttempt = totalattempt[index]
+                if (sstatus[index].length > 1) {
+                    this.vars.lastAttemptStatus = App.languageDict.attributes.Attempted;
+                }
+                if ((sr[index] instanceof Array) && (sr[index][totalattempt[index]] != 'undefined')) {
+                    this.vars.lastAttemptStatus = App.languageDict.attributes.UnReviewed;
+                    if ((sstatus[index] instanceof Array) && (sstatus[index][totalattempt[index]] != 'undefined') && (sstatus[index][totalattempt[index]] != null)) {
+                        this.vars.lastAttemptStatus = App.languageDict.attributes.Reviewed;
+                    }
+                }
                 this.vars.lastAttemptsMarks = sr[index][totalattempt[index]]
                 this.vars.index = index
             }

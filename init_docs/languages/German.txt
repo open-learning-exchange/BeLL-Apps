@@ -864,5 +864,10 @@
   "Blue_Point":"Blue Point = Test Not Attempted",
   "Gray_Point":"Gray Point = Test Attempted But Not Review",
   "Steps_Percentage":"Steps Percentage",
-  "All_Courses_Progress":"All Courses Progress"
+  "All_Courses_Progress":"All Courses Progress",
+  "Attempt": "Attempt",
+  "Reviewed": "Reviewed",
+  "UnReviewed": "UnReviewed",
+  "UnAttempted": "UnAttempted",
+  "Attempted": "Attempted"
 }

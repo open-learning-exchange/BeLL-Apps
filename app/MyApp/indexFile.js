@@ -234,7 +234,7 @@ function applyCorrectStylingSheet(directionOfLang){
     }
 }
 
-function getCountOfLearners(courseId, requiredLearnersIds){
+function getCountOfLearners(courseId, requiredLearnersIds) {
     if(courseId=='_design/bell') {
         return 0;
     }
@@ -280,10 +280,10 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                           //  console.log(progressDoc.models.length);
                             if (progressDoc.models.length > 0) {
                                 stepsStatuses = progressDoc.models[0].get('stepsStatus');
-                                stepsAttempts = progressDoc.models[0].get('pqAttempts');
+                                stepsAttempt = progressDoc.models[0].get('pqAttempts');
                                 if (progressDoc.models[0].get('stepsIds').length > 0) {
                                     for (var m = 0; m < stepsStatuses.length; m++) {
-                                        if ((stepsStatuses[m] instanceof Array) && (stepsStatuses[m][stepsAttempt[m]] != 'undefined')) {
+                                        if ((stepsStatuses[m] instanceof Array) && (stepsStatuses[m][stepsAttempt[m]] != 'undefined') && (stepsStatuses[m][stepsAttempt[m]] == null)) {
                                             // addToCount = true;
                                             countOfLearners++;
                                             if (learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
