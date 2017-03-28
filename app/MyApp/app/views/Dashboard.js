@@ -850,12 +850,12 @@ $(function() {
                                     MemberCourseProgress.fetch({
                                         success: function (progressDoc) {
                                             if (progressDoc.models.length > 0) {
-                                                stepsResults = progressDoc.models[0].get('stepsResult');
+                                                stepsStatuses = progressDoc.models[0].get('stepsStatus');
                                                 stepsAttempt = progressDoc.models[0].get('pqAttempts');
                                                 var isCreditable = true;
-                                                for (var m = 0; m < stepsResults.length; m++) {
-                                                    if (stepsResults[m] instanceof Array) {
-                                                        if (stepsResults[m][stepsAttempt[m]] == 'undefined') {
+                                                for (var m = 0; m < stepsStatuses.length; m++) {
+                                                    if (stepsStatuses[m] instanceof Array) {
+                                                        if (stepsStatuses[m][stepsAttempt[m]] == 'undefined') {
                                                             isCreditable = false;
                                                         }
                                                     } else {
