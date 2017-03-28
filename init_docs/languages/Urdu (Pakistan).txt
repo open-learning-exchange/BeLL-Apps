@@ -787,12 +787,12 @@
   "member_selection_msg":"برائے مہربانی پہلے ارکان منتخب کریں",
   "survey_success_msg":"سروے کامیابی کے ساتھ بھیج دیا گیا ہے",
   "Select_Gender":"صنف منتخب کریں",
-  "Select_Age_Course":"Select Age Course",
+  "Select_Age_Group":"Select Age Group",
   "Less_than_15":"15 سے کم ",
   "Select_Roles":"رولز منتخب کریں",
   "Select_Bells":"Bells منتخب کریں",
   "Gender_Selection_Error":"برائے مہربانی پہلے جنس منتخب کریں",
-  "Course_Selection_Error":"Please select age course first",
+  "Group_Selection_Error":"Please select age group first",
   "Role_Selection_Error":"برائے مہربانی پہلے رولز منتخب کریں",
   "No_Member_Found":"منتخب اختیارات کے لیے کوئی ارکان نہیں ملے ہیں",
   "Survey_Note":"یہ سروے صارفین کواس طرح نظر آئے گا.*",
@@ -864,5 +864,10 @@
   "Blue_Point":"Blue Point = Test Not Attempted",
   "Gray_Point":"Gray Point = Test Attempted But Not Review",
   "Steps_Percentage":"Steps Percentage",
-  "All_Courses_Progress":"All Courses Progress"
+  "All_Courses_Progress":"All Courses Progress",
+  "Attempt": "Attempt",
+  "Reviewed": "Reviewed",
+  "UnReviewed": "UnReviewed",
+  "UnAttempted": "UnAttempted",
+  "Attempted": "Attempted"
 }

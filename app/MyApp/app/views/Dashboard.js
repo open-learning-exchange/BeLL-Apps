@@ -827,7 +827,8 @@ $(function() {
             });
         },
 
-        getCountOfLearners: function() {
+        getCountOfLearners: function () {
+            console.log('ok');
             var learners = [], stepsStatuses = [], countOfLearners = 0;
             var courses = new App.Collections.Courses();
             var MemberCourseProgress = new App.Collections.membercourseprogresses();
@@ -849,25 +850,23 @@ $(function() {
                                     MemberCourseProgress.memberId = learners[k];
                                     MemberCourseProgress.fetch({
                                         success: function (progressDoc) {
-                                            stepsStatuses=progressDoc.models[0].get('stepsStatus');
-                                            var isCreditable=true;
-                                            for(var m=0;m<stepsStatuses.length;m++) {
-                                                if(stepsStatuses[m].length==2) {
-                                                    var paperQuizStatus=stepsStatuses[m];
-                                                   if(paperQuizStatus.indexOf('0')>-1)
-                                                   {
-                                                       isCreditable=false;
-                                                   }
-                                                }
-                                                else {
-                                                    if(stepsStatuses[m]=='0'){
-                                                        isCreditable=false;
+                                            if (progressDoc.models.length > 0) {
+                                                stepsStatuses = progressDoc.models[0].get('stepsStatus');
+                                                stepsAttempt = progressDoc.models[0].get('pqAttempts');
+                                                var isCreditable = true;
+                                                for (var m = 0; m < stepsStatuses.length; m++) {
+                                                    if (stepsStatuses[m] instanceof Array) {
+                                                        if (stepsStatuses[m][stepsAttempt[m]] == 'undefined') {
+                                                            isCreditable = false;
+                                                        }
+                                                    } else {
+                                                        isCreditable = false;
                                                     }
                                                 }
-                                            }
-                                            console.log(isCreditable);
-                                            if(isCreditable){
-                                                countOfLearners++;
+                                                console.log(isCreditable);
+                                                if (isCreditable) {
+                                                    countOfLearners++;
+                                                }
                                             }
                                         },
                                         async:false

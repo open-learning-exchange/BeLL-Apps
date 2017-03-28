@@ -234,7 +234,7 @@ function applyCorrectStylingSheet(directionOfLang){
     }
 }
 
-function getCountOfLearners(courseId, requiredLearnersIds){
+function getCountOfLearners(courseId, requiredLearnersIds) {
     if(courseId=='_design/bell') {
         return 0;
     }
@@ -278,40 +278,28 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                         async: false,
                         success: function (progressDoc) {
                           //  console.log(progressDoc.models.length);
-                           if (progressDoc.models.length > 0) {
-                            stepsStatuses=progressDoc.models[0].get('stepsStatus');
-                            if(progressDoc.models[0].get('stepsIds').length>0){
-                                for(var m=0;m<stepsStatuses.length;m++) {
-                                    if(stepsStatuses[m].length==2) {
-                                        var paperQuizStatus=stepsStatuses[m];
-                                        if(paperQuizStatus.indexOf('2')>-1) {
-                                           // addToCount = true;
+                            if (progressDoc.models.length > 0) {
+                                stepsStatuses = progressDoc.models[0].get('stepsStatus');
+                                stepsAttempt = progressDoc.models[0].get('pqAttempts');
+                                if (progressDoc.models[0].get('stepsIds').length > 0) {
+                                    for (var m = 0; m < stepsStatuses.length; m++) {
+                                        if ((stepsStatuses[m] instanceof Array) && (stepsStatuses[m][stepsAttempt[m]] != 'undefined') && (stepsStatuses[m][stepsAttempt[m]] == null)) {
+                                            // addToCount = true;
                                             countOfLearners++;
-                                            if(learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
-                                                learnersIds.push(learners[k]);
-                                            }
-                                        }
-                                     }
-                                    else {
-                                        if(stepsStatuses[m]=='2'){
-                                           // addToCount = true;
-                                            countOfLearners++;
-                                            if(learnersIds.indexOf(learners[k]) == -1) {
+                                            if (learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
                                                 learnersIds.push(learners[k]);
                                             }
                                         }
                                     }
                                 }
                             }
-                       }},
-                        async:false
+                        },
                     });
                 }
             } else {
                 return 0;
             }
-        },
-        async:false
+        }
     });
     if(requiredLearnersIds) {
         return learnersIds;

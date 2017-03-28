@@ -787,12 +787,12 @@
   "member_selection_msg":"الرجاء تحديد الأعضاء أولاً",
   "survey_success_msg":"تم إرسال الاستطلاع بنجاح",
   "Select_Gender":"حدد الجنس",
-  "Select_Age_Course":"Select Age Course",
+  "Select_Age_Group":"Select Age Group",
   "Less_than_15":"أقل من 15",
   "Select_Roles":"حدد الأدوار",
   "Select_Bells":"Select Bells",
   "Gender_Selection_Error":"Please select gender first",
-  "Course_Selection_Error":"Please select age course first",
+  "Group_Selection_Error":"Please select age group first",
   "Role_Selection_Error":"الرجاء تحديد الأدوار أولاً",
   "No_Member_Found":"No members have been found for the selected options",
   "Survey_Note":"This is how the survey will appear to users.*",
@@ -864,5 +864,10 @@
   "Blue_Point":"Blue Point = Test Not Attempted",
   "Gray_Point":"Gray Point = Test Attempted But Not Review",
   "Steps_Percentage":"Steps Percentage",
-  "All_Courses_Progress":"All Courses Progress"
+  "All_Courses_Progress":"All Courses Progress",
+  "Attempt": "Attempt",
+  "Reviewed": "Reviewed",
+  "UnReviewed": "UnReviewed",
+  "UnAttempted": "UnAttempted",
+  "Attempted": "Attempted"
 }

@@ -787,12 +787,12 @@
   "member_selection_msg":"Please select members first",
   "survey_success_msg":"Survey has been sent successfully",
   "Select_Gender":"Chọn Giới tính",
-  "Select_Age_Course":"Select Age Course",
+  "Select_Age_Group":"Select Age Group",
   "Less_than_15":"Less than 15",
   "Select_Roles":"Select Roles",
   "Select_Bells":"Select Bells",
   "Gender_Selection_Error":"Please select gender first",
-  "Course_Selection_Error":"Please select age course first",
+  "Group_Selection_Error":"Please select age group first",
   "Role_Selection_Error":"Please select roles first",
   "No_Member_Found":"No members have been found for the selected options",
   "Survey_Note":"This is how the survey will appear to users.*",
@@ -864,5 +864,10 @@
   "Blue_Point":"Blue Point = Test Not Attempted",
   "Gray_Point":"Gray Point = Test Attempted But Not Review",
   "Steps_Percentage":"Steps Percentage",
-  "All_Courses_Progress":"All Courses Progress"
+  "All_Courses_Progress":"All Courses Progress",
+  "Attempt": "Attempt",
+  "Reviewed": "Reviewed",
+  "UnReviewed": "UnReviewed",
+  "UnAttempted": "UnAttempted",
+  "Attempted": "Attempted"
 }
