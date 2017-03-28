@@ -278,41 +278,28 @@ function getCountOfLearners(courseId, requiredLearnersIds){
                         async: false,
                         success: function (progressDoc) {
                           //  console.log(progressDoc.models.length);
-                           if (progressDoc.models.length > 0) {
-                               stepsStatuses = progressDoc.models[0].get('stepsStatus');
-                               stepsAttempts = progressDoc.models[0].get('pqAttempts');
-                               if (progressDoc.models[0].get('stepsIds').length > 0) {
-                                   for (var m = 0; m < stepsStatuses.length; m++) {
-                                       if (stepsStatuses[m] instanceof Array) {
-                                           if (stepsStatuses[m][stepsAttempt[m]] != 'undefined') {
-                                               var paperQuizStatus = stepsStatuses[m];
-                                               if (paperQuizStatus.indexOf('2') > -1) {
-                                                   // addToCount = true;
-                                                   countOfLearners++;
-                                                   if (learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
-                                                       learnersIds.push(learners[k]);
-                                                   }
-                                               }
-                                           }
-                                           else if (stepsStatuses[m][stepsAttempt[m]] == '2') {
-                                                // addToCount = true;
-                                                countOfLearners++;
-                                                if (learnersIds.indexOf(learners[k]) == -1) {
-                                                    learnersIds.push(learners[k]);
-                                                }
-                                           }
-                                       }
-                                   }
-                               }
-                       }},
-                        async:false
+                            if (progressDoc.models.length > 0) {
+                                stepsStatuses = progressDoc.models[0].get('stepsStatus');
+                                stepsAttempts = progressDoc.models[0].get('pqAttempts');
+                                if (progressDoc.models[0].get('stepsIds').length > 0) {
+                                    for (var m = 0; m < stepsStatuses.length; m++) {
+                                        if ((stepsStatuses[m] instanceof Array) && (stepsStatuses[m][stepsAttempt[m]] != 'undefined')) {
+                                            // addToCount = true;
+                                            countOfLearners++;
+                                            if (learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
+                                                learnersIds.push(learners[k]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
                     });
                 }
             } else {
                 return 0;
             }
-        },
-        async:false
+        }
     });
     if(requiredLearnersIds) {
         return learnersIds;
