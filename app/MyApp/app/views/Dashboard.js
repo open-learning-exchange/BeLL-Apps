@@ -849,25 +849,23 @@ $(function() {
                                     MemberCourseProgress.memberId = learners[k];
                                     MemberCourseProgress.fetch({
                                         success: function (progressDoc) {
-                                            stepsStatuses=progressDoc.models[0].get('stepsStatus');
-                                            var isCreditable=true;
-                                            for(var m=0;m<stepsStatuses.length;m++) {
-                                                if(stepsStatuses[m].length==2) {
-                                                    var paperQuizStatus=stepsStatuses[m];
-                                                   if(paperQuizStatus.indexOf('0')>-1)
-                                                   {
-                                                       isCreditable=false;
-                                                   }
-                                                }
-                                                else {
-                                                    if(stepsStatuses[m]=='0'){
-                                                        isCreditable=false;
+                                            if (progressDoc.models.length > 0) {
+                                                stepsResults = progressDoc.models[0].get('stepsResult');
+                                                stepsAttempt = progressDoc.models[0].get('pqAttempts');
+                                                var isCreditable = true;
+                                                for (var m = 0; m < stepsResults.length; m++) {
+                                                    if (stepsResults[m] instanceof Array) {
+                                                        if (stepsResults[m][stepsAttempt[m]] == 'undefined') {
+                                                            isCreditable = false;
+                                                        }
+                                                    } else 
+                                                        isCreditable = false;
                                                     }
                                                 }
-                                            }
-                                            console.log(isCreditable);
-                                            if(isCreditable){
-                                                countOfLearners++;
+                                                console.log(isCreditable);
+                                                if (isCreditable) {
+                                                    countOfLearners++;
+                                                }
                                             }
                                         },
                                         async:false
