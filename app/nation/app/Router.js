@@ -3795,8 +3795,6 @@ $(function() {
                             });
                             nationConfig = nationConfig.first();
                             listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>";
-                            listCommunity = listCommunity + "<h3> " + "Hi " + viplinkModel.attributes.name + "</h3>" + "<h3>" + App.languageDictValue.attributes.welcome_to + "&nbsp;" + nationConfig.get("name") + "&nbsp" + App.languageDictValue.attributes.Community + "</h3>";
-                        }
                         if (!$.cookie('Member.login')) {
                             var options = [];
                             var allLanguages = {};
@@ -3804,15 +3802,16 @@ $(function() {
                             languages.fetch({
                                 async: false
                             });
-                            for (var i = 0; i < languages.length; i++) {
+                            for (var i=0;i<languages.length;i++) {
                                 if (languages.models[i].attributes.hasOwnProperty("nameOfLanguage")) {
                                     var languageName = languages.models[i].attributes.nameOfLanguage;
                                     allLanguages[languageName] = languages.models[i].get('nameInNativeLang');
                                     options += '<option value="' + languageName + '">' + allLanguages[languageName] + '</option>';
                                 }
                             }
-                            listCommunity += '<div align="center">' + '<select id="onLoginLanguage">' + options + '</select>' + '</div>' + '<br>';
-                            listCommunity += "<div align='center'><a class='btn btn-success' href='../MyApp/index.html#login'>" + App.languageDictValue.attributes.Sign_In + "</a></div>";
+                            listCommunity = "<img src='img/logo.png' width='108px' height='108px' style='z-index:1; border:2px solid white;border-radius:60px;'/>" + '<div id = "loginLang" st><select id="onLoginLanguage">'+options+'</select>'+"&nbsp;&nbsp;"+"<a class='btn btn-success' href='../MyApp/index.html#login'>" + App.languageDictValue.attributes.Sign_In + "</a>"+'</div>';
+                        }
+                            listCommunity = listCommunity + "<h3> " + App.languageDictValue.attributes.Hi + "&nbsp;" + viplinkModel.attributes.name + "</h3>" + "<h3>" + App.languageDictValue.attributes.welcome_to + "&nbsp;" + nationConfig.get("name") + "&nbsp" + App.languageDictValue.attributes.Communities + "</h3>";
                         } else {//if logged in and token is not correct
                             listCommunity = "<h3> " + App.languageDictValue.get("Communities") + "  |  <a  class='btn btn-success' id='addComm' href='#addCommunity'>" + App.languageDictValue.get("Add_Community") + "</a>  </h3><p>" + App.languageDictValue.get("Member_Resources_Count") + "</p>";
                         }
@@ -3821,7 +3820,6 @@ $(function() {
                             listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.date-picker{width:300px;}</style>';
                         }
                         listCommunity += "<div id='list-of-Communities'></div>"
-
                         App.$el.children('.body').html('<div id="communityDiv"></div>');
                         $('#communityDiv').append(listCommunity);
                         $('#onLoginLanguage').change(function()
@@ -3851,23 +3849,17 @@ $(function() {
                             });
                             $('input.date-picker').datepicker('setDate', setDt);
                         }
-
                         $('#list-of-Communities', App.$el).append(CommunityTable.el);
                         App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
                         App.stopActivityIndicator();
-
                     }
                 });
-
-
-               
             }
             App.stopActivityIndicator()
             if(!isCorrectSecretId)
             {
                 window.location.href = "../MyApp/index.html#login";
             }
-
         },
 
         getPendingRequests: function() {
