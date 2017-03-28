@@ -858,7 +858,7 @@ $(function() {
                                                         if (stepsResults[m][stepsAttempt[m]] == 'undefined') {
                                                             isCreditable = false;
                                                         }
-                                                    } else 
+                                                    } else {
                                                         isCreditable = false;
                                                     }
                                                 }
