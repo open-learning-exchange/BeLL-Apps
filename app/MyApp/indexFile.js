@@ -464,6 +464,26 @@ function removeMemberFromCourse(memberId){
                 memberProgress.fetch({
                     async: false
                 })
+                var membercourseprogress = new App.Collections.membercourseprogresses()
+                membercourseprogress.memberId = memberId
+                membercourseprogress.courseId = courseId
+                membercourseprogress.fetch({
+                    async: false
+                })
+                memberCourseStepRecord = membercourseprogress.first();
+                var steps = memberCourseStepRecord.attributes.stepsIds;
+                for (var i = 0; i < steps.length; i++) {
+                    var courseAnswer = new App.Collections.CourseAnswer()
+                    courseAnswer.MemberID = memberId
+                    courseAnswer.StepID = steps[i]
+                    courseAnswer.fetch({
+                        async: false
+                    })
+                    var answerLength = courseAnswer.models.length-1;
+                    for (var j = answerLength; j >= 0; j--) {
+                        courseAnswer.models[j].destroy();
+                    }  
+                }
                 memberProgress.each(function (m) {
                     if (m.get("courseId") == courseId) {
                         m.destroy()
