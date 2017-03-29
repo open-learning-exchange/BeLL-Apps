@@ -437,7 +437,6 @@ $(function() {
 				if ($.isArray(vars.Tag)) {
 					if (vars.Tag.length > 0)
 						Details = Details + "<b>"+App.languageDict.attributes.Collection+"</b>&nbsp;"
-
 					for (var i = 0; i < vars.Tag.length; i++) {
 						if (this.collections.get(vars.Tag[i]) != undefined)
 							Details = Details + this.collections.get(vars.Tag[i]).toJSON().CollectionName + " / "
@@ -447,10 +446,6 @@ $(function() {
 						Details = Details + "<b>"+App.languageDict.attributes.Collection+"</b>&nbsp;" + vars.Tag + ' / '
 				}
 			}
-			Details = Details.substring(0, Details.length - 3)
-			Details = Details + ' , '
-
-			Details = Details.substring(0, Details.length - 3)
 
 			vars.Details = Details;
 			vars.open=App.languageDict.attributes.Open;

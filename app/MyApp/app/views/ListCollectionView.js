@@ -74,7 +74,7 @@ $(function() {
                 this.model.set({
                     'show': false
                 })
-                this.model.save({
+                this.model.destroy({
                     success: function (data) {
                         this.deleteCollectionNameFromResources(this.model.get("_id"));
                         // location.reload()
