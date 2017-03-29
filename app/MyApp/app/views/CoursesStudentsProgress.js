@@ -109,6 +109,9 @@ $(function () {
                 this.collection.each(this.addOne, this)
             } else {
                 alert(App.languageDict.attributes.No_Data_Error)
+                Backbone.history.navigate('#courses', {
+                    trigger: true
+                })
             }
         },
 
