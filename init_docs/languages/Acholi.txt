@@ -869,5 +869,10 @@
   "Reviewed":"crwdns16291:0crwdne16291:0",
   "UnReviewed":"crwdns16292:0crwdne16292:0",
   "UnAttempted":"crwdns16293:0crwdne16293:0",
-  "Attempted":"crwdns16294:0crwdne16294:0"
+  "Attempted":"crwdns16294:0crwdne16294:0",
+  "Given_Answer":"crwdns16295:0crwdne16295:0",
+  "ObtainMarks":"crwdns16296:0crwdne16296:0",
+  "Attachment_Marks_Review":"crwdns16297:0crwdne16297:0",
+  "Multiple_Choice_Marks_Review":"crwdns16298:0crwdne16298:0",
+  "Single_Essay_Marks_Review":"crwdns16299:0crwdne16299:0"
 }
