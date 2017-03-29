@@ -435,12 +435,15 @@ $(function() {
 
 			if (vars.Tag != undefined) {
 				if ($.isArray(vars.Tag)) {
-					if (vars.Tag.length > 0)
-						Details = Details + "<b>"+App.languageDict.attributes.Collection+"</b>&nbsp;"
-
+		                    tagFlag = false;
 					for (var i = 0; i < vars.Tag.length; i++) {
-						if (this.collections.get(vars.Tag[i]) != undefined)
-							Details = Details + this.collections.get(vars.Tag[i]).toJSON().CollectionName + " / "
+                                            if (this.collections.get(vars.Tag[i]) != undefined) {
+                                                if (!tagFlag) {
+						    Details = Details + "<b>" + App.languageDict.attributes.Collection + "</b>&nbsp;"
+						    tagFlag = true;
+                                                }
+                                                Details = Details + this.collections.get(vars.Tag[i]).toJSON().CollectionName + " / "
+                                            }
 					}
 				} else {
 					if (vars.Tag != 'Add New')
