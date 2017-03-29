@@ -24,15 +24,11 @@ $(function() {
                 modl = res.first().toJSON()
                 PassedSteps = 0
                 temp = 0
-                totalSteps = modl.stepsStatus.length
+                totalSteps = modl.stepsStatus.length                
                 while (temp < totalSteps) {
-                    if($.isArray(modl.stepsStatus[temp])) {
-                        if(modl.stepsStatus[temp][0] == '1' && modl.stepsStatus[temp][1] == '1') {
+                    if ($.isArray(modl.stepsStatus[temp])) {
+                        if (modl.stepsStatus[temp][modl.pqAttempts[temp]] == '1') {
                             PassedSteps++;
-                        }
-                    } else {
-                        if (modl.stepsStatus[temp] == '1') {
-                            PassedSteps++
                         }
                     }
                     temp++
