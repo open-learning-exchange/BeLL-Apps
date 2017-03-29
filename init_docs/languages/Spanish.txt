@@ -787,12 +787,12 @@
   "member_selection_msg":"Please select members first",
   "survey_success_msg":"Survey has been sent successfully",
   "Select_Gender":"Select Gender",
-  "Select_Age_Course":"Select Age Course",
+  "Select_Age_Group":"Select Age Group",
   "Less_than_15":"Menos de 15",
   "Select_Roles":"Seleccionar roles",
   "Select_Bells":"Seleccionar campanas",
   "Gender_Selection_Error":"Selecciona género primero",
-  "Course_Selection_Error":"Please select age course first",
+  "Group_Selection_Error":"Please select age group first",
   "Role_Selection_Error":"Selecciona los roles primero",
   "No_Member_Found":"No se han encontrado miembros con las opciones seleccionadas",
   "Survey_Note":"This is how the survey will appear to users.*",
@@ -864,5 +864,10 @@
   "Blue_Point":"Blue Point = Test Not Attempted",
   "Gray_Point":"Gray Point = Test Attempted But Not Review",
   "Steps_Percentage":"Steps Percentage",
-  "All_Courses_Progress":"All Courses Progress"
+  "All_Courses_Progress":"All Courses Progress",
+  "Attempt":"Attempt",
+  "Reviewed":"Reviewed",
+  "UnReviewed":"UnReviewed",
+  "UnAttempted":"UnAttempted",
+  "Attempted":"Attempted"
 }
