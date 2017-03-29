@@ -787,12 +787,12 @@
   "member_selection_msg":"crwdns16188:0crwdne16188:0",
   "survey_success_msg":"crwdns16189:0crwdne16189:0",
   "Select_Gender":"crwdns16190:0crwdne16190:0",
-  "Select_Age_Course":"crwdns16269:0crwdne16269:0",
+  "Select_Age_Group":"crwdns16288:0crwdne16288:0",
   "Less_than_15":"crwdns16192:0crwdne16192:0",
   "Select_Roles":"crwdns16193:0crwdne16193:0",
   "Select_Bells":"crwdns16194:0crwdne16194:0",
   "Gender_Selection_Error":"crwdns16195:0crwdne16195:0",
-  "Course_Selection_Error":"crwdns16270:0crwdne16270:0",
+  "Group_Selection_Error":"crwdns16289:0crwdne16289:0",
   "Role_Selection_Error":"crwdns16197:0crwdne16197:0",
   "No_Member_Found":"crwdns16198:0crwdne16198:0",
   "Survey_Note":"crwdns16199:0crwdne16199:0",
@@ -864,5 +864,10 @@
   "Blue_Point":"crwdns16284:0crwdne16284:0",
   "Gray_Point":"crwdns16285:0crwdne16285:0",
   "Steps_Percentage":"crwdns16286:0crwdne16286:0",
-  "All_Courses_Progress":"crwdns16287:0crwdne16287:0"
+  "All_Courses_Progress":"crwdns16287:0crwdne16287:0",
+  "Attempt":"crwdns16290:0crwdne16290:0",
+  "Reviewed":"crwdns16291:0crwdne16291:0",
+  "UnReviewed":"crwdns16292:0crwdne16292:0",
+  "UnAttempted":"crwdns16293:0crwdne16293:0",
+  "Attempted":"crwdns16294:0crwdne16294:0"
 }
