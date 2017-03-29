@@ -865,9 +865,14 @@
   "Gray_Point":"Gray Point = Test Attempted But Not Review",
   "Steps_Percentage":"Steps Percentage",
   "All_Courses_Progress":"All Courses Progress",
-  "Attempt": "Attempt",
-  "Reviewed": "Reviewed",
-  "UnReviewed": "UnReviewed",
-  "UnAttempted": "UnAttempted",
-  "Attempted": "Attempted"
+  "Attempt":"Attempt",
+  "Reviewed":"Reviewed",
+  "UnReviewed":"UnReviewed",
+  "UnAttempted":"UnAttempted",
+  "Attempted":"Attempted",
+  "Given_Answer":"Given Answer",
+  "ObtainMarks":"Obtain Marks",
+  "Attachment_Marks_Review":"Attachment Marks Review",
+  "Multiple_Choice_Marks_Review":"Multiple Choice Marks Review",
+  "Single_Essay_Marks_Review":"Single/Essay Marks Review"
 }
