@@ -1479,58 +1479,73 @@
     <script type="text/template" id="template-courseAnswerReview">
         
         <div class="multipleAnswerReview">
-            
-          
-            <table>
-                    <tr>
-                        <td>
-                           <h3>Answer Review Section</h3><hr/>
-                        </td>
-                    </tr>
+            <h3>Answer Review Section</h3>
+            <table class="table table-striped">
                      <%for (var i=0; i < questionlists.length; i++) { %>
-                    <tr>
-                        <td>
-                            <span><h5><ul><li><%=questionlists[i].Statement%></li></ul></h5></span> 
-                        </td>
-                    </tr> 
-                    <tr> 
                         <%if(questionlists[i].Type == "Attachment"){ %>
-                        <td id="">
-                            <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> Download Paper  </button></a>
-                            <tr>    
-                             <td>
-                                 <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
-                                <span><b>Marks:&nbsp;</b><%=questionlists[i].Marks%></span>&nbsp;&nbsp;&nbsp;<br/>
-                                <span><b>Obtain Marks:</b></span><input type="text" name="marks[<%=i%>]">
-                             </td>
-                        </tr>
-                        </td>
+                            <tr>
+                                <td><h6><%=App.languageDict.attributes.Attachment_Marks_Review %></h6></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.Question %></b></td>
+                                <td><%=questionlists[i].Statement%></td>
+                            </tr>
+                            <tr>
+                                <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
+                            </tr>
+                            <tr>
+                                <input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>">
+                                 <td><b><%=App.languageDict.attributes.TotalMarks %></b></td>
+                                <td><%=questionlists[i].Marks%></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.ObtainMarks %></b></td>
+                                <td><input type="text" name="marks[<%=i%>]"></td>
+                            </tr>                                    
                         <% } else if(questionlists[i].Type == "Multiple Choice") { %>
-                        <td>
-                            <b> Given Answer :</b>  <%=answerlist[i].Answer%> <br/>
-                        </td>
-                        <tr>
-                        <div> 
-                             <td >
-                                 <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
-                                <span><b>Marks:&nbsp;</b><%=questionlists[i].Marks%></span>&nbsp;&nbsp;&nbsp;<br/>
-                                <span><b>Obtain Marks:</b> <%=answerlist[i].AttemptMarks%></span>
+                            <tr>
+                                <td><h6><%=App.languageDict.attributes.Multiple_Choice_Marks_Review %></h6></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.Question %></b></td>
+                                <td><%=questionlists[i].Statement%></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.Given_Answer %></b></td>
+                                <td><%=answerlist[i].Answer%></td>
+                            </tr>
+                            <tr>
+                                <input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" >
+                                <td><b><%=App.languageDict.attributes.TotalMarks %></b></td>
+                                <td><%=questionlists[i].Marks%></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.ObtainMarks %></b></td>
+                                <td><%=answerlist[i].AttemptMarks%></td>
                                 <input type= "hidden" id = "attemptt" value = "<%=answerlist[i].AttemptMarks %>">
-                             </td>
-                        </tr>
-                        <div>
+                            </tr>
                          <% } else { %>
-                         <td>
-                           <b> Given Answer :<b><%=answerlist[i].Answer%>
-                        <tr>    
-                             <td>
-                                 <input type="hidden" name='selectedAnswer' value="<%=answerlist[i]._id%>" >
-                                <span><b>Marks:&nbsp;</b><%=questionlists[i].Marks%></span>&nbsp;&nbsp;&nbsp;<br/>
-                                <span><b>Obtain Marks:</b></span><input type="text" name="marks[<%=i%>]">
-                             </td>
-                        </tr>
+                            <tr>
+                                <td><h6><%=App.languageDict.attributes.Single_Essay_Marks_Review %></h6></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.Question %></b></td>
+                                <td><%=questionlists[i].Statement%></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.Given_Answer %><b></td>
+                                <td><%=answerlist[i].Answer%>
+                            </tr>
+                            <tr>
+                                <input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" >
+                                <td><b><%=App.languageDict.attributes.TotalMarks %></b></td>
+                                <td><%=questionlists[i].Marks%></td>
+                            </tr>
+                            <tr>
+                                <td><b><%=App.languageDict.attributes.ObtainMarks %></b></td>
+                                <td><input type="text" name="marks[<%=i%>]"></td>
+                            </tr>
                         <% } %>
-                    </tr>
                     <% } %>
                     <tr>
                         <td>
