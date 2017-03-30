@@ -54,6 +54,7 @@ $(function () {
             var sp = memberProgressRecord.get('stepsResult')  
             var context = this
             var id = e.currentTarget.value
+            var wrapper = $(e.currentTarget).parents('div.ui-accordion-content');
             step = new App.Models.CourseStep({
                 _id: id
             })
@@ -73,11 +74,13 @@ $(function () {
                 stepId: JSONsteps._id
             })
             temp.render()
-            $('div.takeQuizDiv').html(temp.el)
+            $('div.takeTestDiv').html('')
+            $(wrapper).find('div.takeTestDiv').html(temp.el)
         },
             
         initialize: function () {
-            $('div.takeQuizDiv').hide()
+            $('div.takeTestDiv').html('')
+            $('div.takeTestDiv').hide()
         },
 
         addAll: function () {
