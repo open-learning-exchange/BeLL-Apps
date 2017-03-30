@@ -33,15 +33,15 @@ $(function () {
             for(var i = 0 ; i < that.collection.length ; i++) {
                 var model = that.collection.models[i];
                 indexOfCurrentStep =courseProgress.models[0].get('stepsIds').indexOf(model.get('_id'));
-                credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
-                status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep];
                 attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep];
+                status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep][attempts[indexOfCurrentStep]];
+                credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][attempts[indexOfCurrentStep]];
                 that.addOne(model, credits, status, attempts);    
             }
         },
 
         render: function () {
-            this.$el.html('<tr><th>' + 'StepNO' + '</th><th>' + 'Step Type' + '</th><th>' + 'Submit' + '</th><th>' + 'Grade' + '</th><th>' + 'Percentage' + '</th></tr>');
+            this.$el.html('<tr><th>' + App.languageDict.get('StepNO') + '</th><th>' + App.languageDict.get('Submit') + '</th><th>' + App.languageDict.get('Grade') + '</th><th>' + App.languageDict.get('Percentage') + '</th><th>' + App.languageDict.get('Review') + '</th></tr>');
             this.addAll();
         }
     })

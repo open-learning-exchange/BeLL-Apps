@@ -87,6 +87,12 @@ $(function () {
         render: function () {
             this.Score = 0;
             this.vars.questionlists = []; 
+            if (this.attributes.membersid === $.cookie('Member._id')) {
+                this.vars.learner = true;
+            }
+            else {
+                this.vars.learner=false;
+            }
             for (var i = 0; i < this.collection.length; i++) {
                 var model =this.collection.models[i];   
                 var questionlist = new App.Models.CourseQuestion({

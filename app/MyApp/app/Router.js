@@ -508,7 +508,7 @@ $(function() {
             App.$el.children('.body').html('<div id="badgesTable"></div>');
             $('#badgesTable').append('<h3>' + name + '\'s Badges' + '</h3>');
             $('#badgesTable').append(badgesTableView.el);
-            $('#badges-details').append('<tr><td>' + 'Total'  + '</td><td></td><td></td><td>' +marks + "/" +totalMarks+ '</td><td>' + marks +"%"   + '</td></tr>');
+            $('#badges-details').append('<tr><td>' + languageDictValue.get('Total')  + '</td><td></td><td></td><td>' + marks + "/" + totalMarks + '</td><td>' + marks + "%" + '</td><td></td></tr>');
             $('#badgesTable').append(' <hr   style= "border-width: 5px;">' );
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
