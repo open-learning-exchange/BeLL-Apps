@@ -4,14 +4,7 @@ $(function() {
         className: "form",
         events: {
             "click #formButton": "setForm",
-            "submit form": "setFormFromEnterKey",
-            "click #retrunBack": function(e) {
-                history.back()
-            },
-            "click #addresources": function(e) {
-                this.addResource = true
-                this.setForm()
-            }
+            "submit form": "setFormFromEnterKey"
         },
 
         render: function() {
@@ -32,9 +25,7 @@ $(function() {
 
 
             // give the form a submit button
-            var button = ('<a class="btn btn-success" id="retrunBack"> '+App.languageDict.attributes.Back+' </button>')
-            button += ('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Save+'</button>')
-            button += ('<a class="btn btn-success" id="addresources">'+App.languageDict.attributes.Add_Resource+'</button>')
+            var button = ('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Save+'</button>')
             this.$el.append(button)
         },
 
@@ -50,70 +41,34 @@ $(function() {
                 var rid = that.model.get("rev")
                 var title = that.model.get("title")
                 // Adding a Step to all the member progress course
-                if (that.edit != true) {
-                    var allcrs = new App.Collections.StepResultsbyCourse()
-                    allcrs.courseId = that.model.get("courseId")
-                    allcrs.fetch({
-                        success: function() {
-                            allcrs.each(function(m) {
-                                var sids = m.get("stepsIds")
-                                var sresults = m.get("stepsResult")
-                                var sstatus = m.get("stepsStatus")
-                                var pqattempts = m.get("pqAttempts");
-                                if(sids.indexOf(that.model.get("id")) < 0) {
-                                    sids.push(that.model.get("id"))
-                                    sresults.push("")
-                                    sstatus.push("0")
-                                    if(pqattempts != undefined) {
-                                        pqattempts.push(0);
-                                    }    
-                                    m.set("stepsIds", sids)
-                                    m.set("stepsResult", sresults)
-                                    m.set("stepsStatus", sstatus)
-                                    if(pqattempts != undefined) {
-                                        m.set("pqAttempts", pqattempts)
-                                    }
-                                    m.save()
-                                }
-                            })
-                        }
-                    })
-                    if (that.addResource) {
-                        window.location.href = '#search-bell/' + id + '/' + rid
-                    } else {
-                        Backbone.history.navigate('course/manage/' + that.model.get("courseId"), {
-                            trigger: true
-                        })
-                    }
-                } else {
-                    var allcrs = new App.Collections.StepResultsbyCourse()
-                    allcrs.courseId = that.model.get("courseId")
-                    allcrs.fetch({
-                        success: function() {
-                            allcrs.each(function(m) {
-                                var sids = m.get("stepsIds")
-                                var sresults = m.get("stepsResult")
-                                var sstatus = m.get("stepsStatus")
-                                var pqattempts = m.get("pqAttempts");
-                                var stepIndex = sids.indexOf(that.model.get("id"))
-                                sresults[stepIndex] = "";
-                                sstatus[stepIndex] = '0';
+                var allcrs = new App.Collections.StepResultsbyCourse()
+                allcrs.courseId = that.model.get("courseId")
+                allcrs.fetch({
+                    success: function() {
+                        allcrs.each(function(m) {
+                            var sids = m.get("stepsIds")
+                            var sresults = m.get("stepsResult")
+                            var sstatus = m.get("stepsStatus")
+                            var pqattempts = m.get("pqAttempts");
+                            if(sids.indexOf(that.model.get("id")) < 0) {
+                                sids.push(that.model.get("id"))
+                                sresults.push("")
+                                sstatus.push("0")
                                 if(pqattempts != undefined) {
-                                    pqattempts[stepIndex] = 0;
+                                    pqattempts.push(0);
                                 }
+                                m.set("stepsIds", sids)
                                 m.set("stepsResult", sresults)
                                 m.set("stepsStatus", sstatus)
                                 if(pqattempts != undefined) {
                                     m.set("pqAttempts", pqattempts)
                                 }
                                 m.save()
-                            })
-                        }
-                    })
-                    Backbone.history.navigate('level/view/' + id + '/' + rid, {
-                        trigger: true
-                    })
-                }
+                            }
+                        })
+                    }
+                })
+                location.reload()
             })
             // Put the form's input into the model in memory
             this.form.commit()
@@ -127,42 +82,29 @@ $(function() {
              else if (isNaN(this.model.get("step"))) {
                 alert(App.languageDict.attributes.InvalidStepNumber)
             } else {
-                if (!this.edit) {
-                    this.model.set("resourceId", [])
-                    this.model.set("resourceTitles", [])
-                    //Checking that level added to the user may not already exist in the data base
-                } else {
-                    this.model.set("resourceId", this.res)
-                    this.model.set("resourceTitles", this.rest)
-                    this.model.set("questionslist", this.ques1)
-                }
+                this.model.set("resourceId", [])
+                this.model.set("resourceTitles", [])
+                //Checking that level added to the user may not already exist in the data base
                 levels = new App.Collections.CourseLevels()
                 levels.courseId = this.model.get("courseId")
                 levels.fetch({
                     success: function() {
                         levels.sort()
                         var done = true
-
-                        if (that.edit) {
-                            if (that.previousStep != that.model.get("step")) {
-                                levels.each(function(step) {
-                                    if (step.get("step") == that.model.get("step"))
-                                        done = false
-                                })
+                        
+                        levels.each(function(step) {
+                            if (step.get("step") == that.model.get("step")) {
+                                done = false
                             }
-                        } else {
-                            levels.each(function(step) {
-                                if (step.get("step") == that.model.get("step")) {
-                                    done = false
-                                }
-                            })
-                        }
+                        })
 
                         if (done)
                         {
                             that.model.set("title", $.trim(that.model.get("title")));
                             that.model.set("description", $.trim(that.model.get("description")));
                             that.model.save()
+                            alert('saved');
+                            location.reload()
                         }
                         else
                             alert(App.languageDict.attributes.DuplicateSteps)

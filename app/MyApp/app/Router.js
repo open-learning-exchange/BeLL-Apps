@@ -2414,6 +2414,38 @@ $(function() {
                         $("#moveup").hide()
                         $("#movedown").hide()
                         $("input[type='radio']").hide();
+
+                        // Step Form
+                        totalLevels = levels.models.length;
+                        var lForm = new App.Views.LevelForm({
+                            model: Cstep
+                        })
+                        $('#AddCourseMainDiv').append('<div class="courseSearchResults_Bottom"></div>');
+                        var Cstep = new App.Models.CourseStep()
+                        Cstep.set({
+                            courseId: courseId
+                        })
+                        Cstep.set("totalMarks", 0);
+                        var lForm = new App.Views.LevelForm({
+                            model: Cstep
+                        })
+                        $('.courseSearchResults_Bottom').append('<h3 id="feedbackResoDiv">' + App.languageDict.attributes.New_Step + '</h3>');
+                        lForm.edit = false
+                        lForm.previousStep = 0
+                        lForm.render()
+                        $('.courseSearchResults_Bottom').append(lForm.el)
+                        $("input[name='step']").attr("disabled", true);
+                        if (totalLevels != -1) {
+                            var tl = parseInt(totalLevels) + 1
+                            $("input[name='step']").val(tl)
+                        }
+                        Backbone.Form.validators.errMessages.required = App.languageDict.attributes.Required_Text;
+                        $('.bbf-form .field-title label').html(App.languageDict.attributes.Title);
+                        $('.bbf-form .field-stepMethod label').html(App.languageDict.attributes.Step_Method);
+                        $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
+                        $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
+                        $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
+                        $('.bbf-form .field-passingPercentage label').html(App.languageDict.attributes.Passing_Percentage);
                     }
                 })
                 var Roles = that.getRoles()
