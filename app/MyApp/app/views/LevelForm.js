@@ -5,12 +5,8 @@ $(function() {
         events: {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
-            "click #retrunBack": function(e) {
+            "click #retrunBack": function (e) {
                 history.back()
-            },
-            "click #addresources": function(e) {
-                this.addResource = true
-                this.setForm()
             }
         },
 
@@ -32,9 +28,10 @@ $(function() {
 
 
             // give the form a submit button
-            var button = ('<a class="btn btn-success" id="retrunBack"> '+App.languageDict.attributes.Back+' </button>')
-            button += ('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Save+'</button>')
-            button += ('<a class="btn btn-success" id="addresources">'+App.languageDict.attributes.Add_Resource+'</button>')
+            var button = '';
+            if(this.edit)
+                button += ('<a class="btn btn-success" id="retrunBack"> ' + App.languageDict.attributes.Back + ' </button>')
+            button += ('<a class="btn btn-success" id="formButton">' + App.languageDict.attributes.Save + '</button>')
             this.$el.append(button)
         },
 
@@ -54,23 +51,23 @@ $(function() {
                     var allcrs = new App.Collections.StepResultsbyCourse()
                     allcrs.courseId = that.model.get("courseId")
                     allcrs.fetch({
-                        success: function() {
-                            allcrs.each(function(m) {
+                        success: function () {
+                            allcrs.each(function (m) {
                                 var sids = m.get("stepsIds")
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
                                 var pqattempts = m.get("pqAttempts");
-                                if(sids.indexOf(that.model.get("id")) < 0) {
+                                if (sids.indexOf(that.model.get("id")) < 0) {
                                     sids.push(that.model.get("id"))
                                     sresults.push("")
                                     sstatus.push("0")
-                                    if(pqattempts != undefined) {
+                                    if (pqattempts != undefined) {
                                         pqattempts.push(0);
-                                    }    
+                                    }
                                     m.set("stepsIds", sids)
                                     m.set("stepsResult", sresults)
                                     m.set("stepsStatus", sstatus)
-                                    if(pqattempts != undefined) {
+                                    if (pqattempts != undefined) {
                                         m.set("pqAttempts", pqattempts)
                                     }
                                     m.save()
@@ -78,19 +75,13 @@ $(function() {
                             })
                         }
                     })
-                    if (that.addResource) {
-                        window.location.href = '#search-bell/' + id + '/' + rid
-                    } else {
-                        Backbone.history.navigate('course/manage/' + that.model.get("courseId"), {
-                            trigger: true
-                        })
-                    }
+                    location.reload()
                 } else {
                     var allcrs = new App.Collections.StepResultsbyCourse()
                     allcrs.courseId = that.model.get("courseId")
                     allcrs.fetch({
-                        success: function() {
-                            allcrs.each(function(m) {
+                        success: function () {
+                            allcrs.each(function (m) {
                                 var sids = m.get("stepsIds")
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
@@ -98,12 +89,12 @@ $(function() {
                                 var stepIndex = sids.indexOf(that.model.get("id"))
                                 sresults[stepIndex] = "";
                                 sstatus[stepIndex] = '0';
-                                if(pqattempts != undefined) {
+                                if (pqattempts != undefined) {
                                     pqattempts[stepIndex] = 0;
                                 }
                                 m.set("stepsResult", sresults)
                                 m.set("stepsStatus", sstatus)
-                                if(pqattempts != undefined) {
+                                if (pqattempts != undefined) {
                                     m.set("pqAttempts", pqattempts)
                                 }
                                 m.save()
@@ -142,16 +133,16 @@ $(function() {
                     success: function() {
                         levels.sort()
                         var done = true
-
+                        
                         if (that.edit) {
                             if (that.previousStep != that.model.get("step")) {
-                                levels.each(function(step) {
+                                levels.each(function (step) {
                                     if (step.get("step") == that.model.get("step"))
                                         done = false
                                 })
                             }
                         } else {
-                            levels.each(function(step) {
+                            levels.each(function (step) {
                                 if (step.get("step") == that.model.get("step")) {
                                     done = false
                                 }
@@ -163,6 +154,12 @@ $(function() {
                             that.model.set("title", $.trim(that.model.get("title")));
                             that.model.set("description", $.trim(that.model.get("description")));
                             that.model.save()
+                            if(!that.edit)
+                                location.reload()
+                            else
+                                Backbone.history.navigate('level/view/' + that.model.get("id") + '/' + that.model.get("rev"), {
+                                    trigger: true
+                                })
                         }
                         else
                             alert(App.languageDict.attributes.DuplicateSteps)
