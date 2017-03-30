@@ -22,6 +22,12 @@ $(function() {
                 var wrapper = $(".input_fields_wrap");
                 $(wrapper).append('<div><input type = "checkbox" name = "check" class = "answer_choice" value = "checked" style = "margin-left: 15px; margin-top: 15px;"/><input type = "textbox" name = "mytext[]" placeholder = "Additional Option" class = "input_field"  style = "width: 30% margin-left: 126px; margin-top: 15px;"/></div>'); //add input box
             },
+            "click .back_button":function()
+            {  
+                Backbone.history.navigate('level/view/' + this.levelId + '/' + this.revId, {
+                    trigger: true
+                })
+            },
             "click .savecourseQuestion": function () {
                 var selectedVal = $('#add_new_question option:selected').val();
                 if(selectedVal){

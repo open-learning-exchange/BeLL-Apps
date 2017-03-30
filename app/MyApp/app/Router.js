@@ -583,7 +583,6 @@ $(function() {
                 $('#creditsTable').append('<h3>' + ' Credits Details | '+ course.get('CourseTitle')+ '</h3>');
                 $('#creditsTable').append(select);
                 $('#creditsTable').append(creditsTableView.el);
-                $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits(\'' + courseId + '\',\'' + memberId + '\'  )"/>')
             }
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
