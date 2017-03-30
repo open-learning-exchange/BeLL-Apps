@@ -24,15 +24,11 @@ $(function() {
         sstatus : null,
         events: {
             "click #exitPressed": function(e) {
-                $('div.takeQuizDiv').hide()
-                document.getElementById('cont').style.opacity = "1";
-                document.getElementById('nav').style.opacity = "1";
+                $('div.takeTestDiv').html('')
             },
             "click #finishPressed": function(e) {
-                $('div.takeQuizDiv').hide()
+                $('div.takeTestDiv').html('')
                 location.reload()
-                document.getElementById('cont').style.opacity = "1";
-                document.getElementById('nav').style.opacity = "1";
             },
 
             "click #nextPressed": function(e) {
@@ -206,13 +202,11 @@ $(function() {
         },
 
         start: function() {
-            $('div.takeQuizDiv').show()
+            $('div.takeTestDiv').show()
             this.renderQuestion()
         },
        
         render: function() {
-            document.getElementById('cont').style.opacity = "0.1";
-            document.getElementById('nav').style.opacity = "0.1";
             this.start()
         }
 

@@ -1384,7 +1384,7 @@
                 <%if (questionslist!=null && questionslist.length > 0){%>
                 <tr class="level-section-title">
                     <td colspan="2" style="width: 60%">
-                       Test</br>
+                        <%=languageDict.attributes.Test%></br>
                     </td>
                     <td style="width: 20%">
                         <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takeCourseTest" >Take Test</button>
@@ -1392,12 +1392,13 @@
                 </tr>
                 <%}%>
             </table>
+            <div class="takeTestDiv"></div>
         </div>
     </script>
 
     <script type="text/template" id="template-newcourseanswerform">
         <div class="answersection">
-        <p>Required Answer</p>
+        <p><%= languageDict.attributes.require_answer %></p>
         <div class="Progress"></div>
     <% if (Type == "Single Textbox") { %>
          <div class="singlelineAnswer">
@@ -1471,7 +1472,7 @@
                 </table>
             </div>
            <% } else { %>
-            <h4>Select valid Choice</h4>
+            <h4><%= languageDict.attributes.No_Option_Selected %></h4>
             <% } %>
 
         </div>    
