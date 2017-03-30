@@ -558,28 +558,9 @@ $(function() {
                             success: function () {
                                 csteps.each(function (m) {
                                     //Issue#400
-                                    var sresults = [];
-                                    var sstatus = [];
-                                    var sattempts = [];
-                                    if(m.get("outComes").length == 2) {
-                                        var arr = [];
-                                        var arr1 = [];
-                                        var pqarr = [];
-                                        pqarr.push(0)
-                                        pqarr.push(0)
-                                        arr.push("0")
-                                        arr.push("0")
-                                        arr1.push("")
-                                        arr1.push("")
-                                        sresults = arr1;
-                                        sstatus = arr;
-                                        sattempts = pqarr;
-                                    } else {
-                                        sresults = "";
-                                        sstatus= '0';
-                                        sattempts = 0;
-                                    }
-
+                                    var sresults = "";
+                                    var sstatus = 0;
+                                    var sattempts = 0;
                                     stepsids.push(m.get("_id"))
                                     stepsres.push(sresults)
                                     stepsstatus.push(sstatus)
@@ -616,9 +597,7 @@ $(function() {
                 mail.set("type", "mail");
                 mail.set("sentDate", currentdate);
                 mail.save()
-////////
             }
-                ////////
             mailView.updateMailBody(body)
         },
         admissoinRequestRejected: function(courseId) {
