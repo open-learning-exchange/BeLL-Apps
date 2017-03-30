@@ -53,7 +53,7 @@ $(function () {
                 vars.attachmentName = null;
             }
             vars.stepNo = this.model.attributes.step;
-            //vars.stepType = "";
+            vars.memberid = this.memberId;
             vars.credits = this.credits;
             vars.status = this.status;
             vars.attempts = this.attempts;

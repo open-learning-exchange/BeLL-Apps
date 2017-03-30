@@ -1016,10 +1016,10 @@
             <%= stepNo %>
         </td>
         <td>
-            <%if(stepType == 'Quiz' && status == "1"  ){%>
-                submitted
+            <%if(status == "1"  ){%>
+                <%=App.languageDict.attributes.Submitted%>
             <%}else{%>
-                Quiz is not submitted
+                <%=App.languageDict.attributes.Un_Submitted%>
             <%}%>
         </td>
         <td>
@@ -1029,7 +1029,10 @@
         <td>
             <%= credits %>%
         </td>
-        <td></td>
+        <td>
+            <a id="" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'> <%=App.languageDict.attributes.View_Test%>
+            </a>
+        </td>
 
     </script>
     <script type="text/html" id="template-CreditsRow">
@@ -1038,9 +1041,9 @@
         </td>
         <td> 
             <%if(attempts == 0 || credits[attempts] == ""  ){%>
-              <%=App.languageDict.attributes.Test_Not_Submitted_Yet%>
+                <%=App.languageDict.attributes.Test_Not_Submitted_Yet%>
             <%}else{%>
-                 <%=App.languageDict.attributes.Test_Submitted%>
+                <%=App.languageDict.attributes.Test_Submitted%>
             <%}%>
         </td>
         <td>
@@ -1059,12 +1062,14 @@
         <%if(attempts == 0 ){%>
             <%=App.languageDict.attributes.Please_Take_Test_For_Review%>
         <%}else if(status[attempts] === null || status[attempts] === undefined){%>
-            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'>Answer Review
+            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'><%=App.languageDict.attributes.Answer_Review%>
             </a>
         <%}else{%>
             <%=App.languageDict.attributes.Your_Answer_Has_Been_Reviewed%>
         <%}%>
                
+        </td>
+        <td>
         </td>
        
     </script>
@@ -1077,7 +1082,7 @@
         <td>
             <% if(showOpenButton) { %>
             <a role='button' class='btn btn-open' href='#usercourse/details/<%= _id %>/<%= CourseTitle %>'>
-                Open
+                <%=App.languageDict.attributes.Open%>
             </a>
             <% } %>
         </td>
@@ -1099,7 +1104,7 @@
 
         <td>
             <a role='button' class='btn btn-credit' id= "credit_view"href='<%= link %>'>
-                Credits
+                <%=App.languageDict.attributes.Credits%>
             </a>
         </td>
 
@@ -1131,7 +1136,7 @@
             <%}%>
         </td>
         <% if(courseId!=null){%>
-        <td><input type="checkbox" name="addCourse" value='<%= _id %>'>Add </td>
+        <td><input type="checkbox" name="addCourse" value='<%= _id %>'><%=App.languageDict.attributes.Add%> </td>
         <%}%>
     </script>
 
@@ -1478,82 +1483,89 @@
         </div>    
     </script>
     <script type="text/template" id="template-courseAnswerReview">
-        
         <div class="multipleAnswerReview">
-            <h3>Answer Review Section</h3>
+            <% if(!learner) { %>
+                <h3 ><%=App.languageDict.attributes.Answer_Review_Section %></h3>
+            <% } %>
             <table class="table table-striped">
-                     <%for (var i=0; i < questionlists.length; i++) { %>
-                        <%if(questionlists[i].Type == "Attachment"){ %>
+                <%for (var i=0; i < questionlists.length; i++) { %>
+                    <%if(questionlists[i].Type == "Attachment"){ %>
+                        <tr>
+                            <td colspan="2"><b><%=App.languageDict.attributes.Attachment_Marks_Review %></b></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Question %></td>
+                            <td><%=questionlists[i].Statement%></td>
+                        </tr>
+                        <tr>
+                            <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
+                            <td></td>
+                        </tr>
+                        <% if(!learner) { %>
                             <tr>
-                                <td><h6><%=App.languageDict.attributes.Attachment_Marks_Review %></h6></td>
-                            </tr>
-                            <tr>
-                                <td><b><%=App.languageDict.attributes.Question %></b></td>
-                                <td><%=questionlists[i].Statement%></td>
-                            </tr>
-                            <tr>
-                                <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
-                            </tr>
-                            <tr>
-                                <input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>">
-                                 <td><b><%=App.languageDict.attributes.TotalMarks %></b></td>
+                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" /><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
-                                <td><b><%=App.languageDict.attributes.ObtainMarks %></b></td>
+                                <td><%=App.languageDict.attributes.ObtainMarks %></td>
                                 <td><input type="text" name="marks[<%=i%>]"></td>
-                            </tr>                                    
-                        <% } else if(questionlists[i].Type == "Multiple Choice") { %>
-                            <tr>
-                                <td><h6><%=App.languageDict.attributes.Multiple_Choice_Marks_Review %></h6></td>
                             </tr>
+                        <% } %>                                    
+                    <% } else if(questionlists[i].Type == "Multiple Choice") { %>
+                        <tr>
+                            <td colspan="2"><b><%=App.languageDict.attributes.Multiple_Choice_Marks_Review %></b></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Question %></td>
+                            <td><%=questionlists[i].Statement%></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Given_Answer %></td>
+                            <td><%=answerlist[i].Answer%></td>
+                        </tr>
+                        <% if(!learner) { %>
                             <tr>
-                                <td><b><%=App.languageDict.attributes.Question %></b></td>
-                                <td><%=questionlists[i].Statement%></td>
-                            </tr>
-                            <tr>
-                                <td><b><%=App.languageDict.attributes.Given_Answer %></b></td>
-                                <td><%=answerlist[i].Answer%></td>
-                            </tr>
-                            <tr>
-                                <input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" >
-                                <td><b><%=App.languageDict.attributes.TotalMarks %></b></td>
+                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" /><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
-                                <td><b><%=App.languageDict.attributes.ObtainMarks %></b></td>
+                                <td><input type="hidden" id="attemptt" value="<%=answerlist[i].AttemptMarks %>" /><%=App.languageDict.attributes.ObtainMarks %></td>
                                 <td><%=answerlist[i].AttemptMarks%></td>
-                                <input type= "hidden" id = "attemptt" value = "<%=answerlist[i].AttemptMarks %>">
-                            </tr>
-                         <% } else { %>
-                            <tr>
-                                <td><h6><%=App.languageDict.attributes.Single_Essay_Marks_Review %></h6></td>
-                            </tr>
-                            <tr>
-                                <td><b><%=App.languageDict.attributes.Question %></b></td>
-                                <td><%=questionlists[i].Statement%></td>
-                            </tr>
-                            <tr>
-                                <td><b><%=App.languageDict.attributes.Given_Answer %><b></td>
-                                <td><%=answerlist[i].Answer%>
-                            </tr>
-                            <tr>
-                                <input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" >
-                                <td><b><%=App.languageDict.attributes.TotalMarks %></b></td>
-                                <td><%=questionlists[i].Marks%></td>
-                            </tr>
-                            <tr>
-                                <td><b><%=App.languageDict.attributes.ObtainMarks %></b></td>
-                                <td><input type="text" name="marks[<%=i%>]"></td>
                             </tr>
                         <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="2"><b><%=App.languageDict.attributes.Single_Essay_Marks_Review %></b></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Question %></td>
+                            <td><%=questionlists[i].Statement%></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Given_Answer %></td>
+                            <td><%=answerlist[i].Answer%></td>
+                        </tr>
+                        <% if(!learner) { %>
+                            <tr>
+                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>"/><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=questionlists[i].Marks%></td>
+                            </tr>
+                            <tr>
+                                <td><%=App.languageDict.attributes.ObtainMarks %></td>
+                                <td><input type="text" name="marks[<%=i%>]"></td>
+                            </tr>
+                         <% } %>
                     <% } %>
+                <% } %> 
+                <% if(!learner) { %>
                     <tr>
                         <td>
-                            <button class="btn btn-primary" id="updateAnswer">Update</button>
+                            <button class="btn btn-primary" id="updateAnswer"><%=App.languageDict.attributes.Update%></button>
                         </td>
+                        <td></td>
                     </tr>
-                </table>
+                <% } %> 
+            </table>
         </div>
     </script>
 
