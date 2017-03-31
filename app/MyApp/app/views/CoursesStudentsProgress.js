@@ -207,6 +207,7 @@ $(function () {
         },
 
         render: function () {
+            console.log( this,this.attributes,this.attributes.memberroles.indexOf("Learner") == "0")
             this.sresult = []
             this.series = []
             this.ticks = []
