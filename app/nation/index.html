@@ -570,10 +570,11 @@
 </script>
 <script type ="text/template" id ="template-viplink">
     <input id="copyInput" style="position:absolute;top:-120px;" />
-    <h3><%= languageDict.attributes.viplinks %></h3>
-    <b><%= languageDict.attributes.Name %></b>
-    <input type="text" id="domain-name" name="domain-name-name"  placeholder="Name">
+    <h3><%= languageDict.attributes.viplinks %></h3><br/><br/>
+    <b><%= languageDict.attributes.Name %>&nbsp;&nbsp;</b>
+    <input type="text" id="domain-name" name="domain-name-name"  placeholder="Name">&nbsp;&nbsp;
     <button class="create btn btn-success"><%=languageDict.attributes.Create %></button>
+    <br/><br/>
     <div class  ="parentDiv">
     <table class ="table table-striped">
         <tbody>
@@ -590,7 +591,7 @@
                 <td><a class= "copy" href ="<%= vips[i]['url']+ '/' + vips[i]['_id'] %>"><%= vips[i]['url'] + '/' + vips[i]['_id'] %></a></td>
                 <td><%= vips[i]['visits'] %></td>
                 <td><%= vips[i]['lastVisit'] %></td>
-                <td><button class ="copy btn btn-success"><%=languageDict.attributes.Copy%></button><button data-id="<%= vips[i]['_id'] %>" class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
+                <td><button class ="copy btn btn-success"><%=languageDict.attributes.Copy%></button>&nbsp;&nbsp;&nbsp;<button data-id="<%= vips[i]['_id'] %>" class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
             </tr>
         </tbody>
             <% } %>
