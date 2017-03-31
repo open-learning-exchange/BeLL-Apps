@@ -1503,12 +1503,15 @@
                         </tr>
                         <% if(!learner) { %>
                             <tr>
-                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" /><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
                                 <td><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td><input type="text" name="marks[<%=i%>]"></td>
+                                <td>
+                                    <input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
+                                    <div class="slider-range-min"></div>
+                                </td>
                             </tr>
                         <% } %>                                    
                     <% } else if(questionlists[i].Type == "Multiple Choice") { %>
@@ -1525,12 +1528,15 @@
                         </tr>
                         <% if(!learner) { %>
                             <tr>
-                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" /><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
-                                <td><input type="hidden" id="attemptt" value="<%=answerlist[i].AttemptMarks %>" /><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td><%=answerlist[i].AttemptMarks%></td>
+                                <td><%=App.languageDict.attributes.ObtainMarks %></td>
+                                <td>
+                                    <input type="hidden" class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="<%=answerlist[i].AttemptMarks %>">
+                                    <%=answerlist[i].AttemptMarks%>
+                                </td>
                             </tr>
                         <% } %>
                     <% } else { %>
@@ -1547,12 +1553,15 @@
                         </tr>
                         <% if(!learner) { %>
                             <tr>
-                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>"/><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
                                 <td><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td><input type="text" name="marks[<%=i%>]"></td>
+                                <td>>
+                                    <input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
+                                    <div class="slider-range-min"></div>
+                                </td>
                             </tr>
                          <% } %>
                     <% } %>
@@ -1822,7 +1831,7 @@
                         <div class="input_fields_wrap">  
                         </div><button class="add_field  btn btn-primary">Add Fields</button><br />
                         <span class="subtitle2">Marks:</span> <br /> 
-                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+                     <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"  min="0" required=""> <br />
                     </div>
                  </div>
                  <div align="center"> <br /> 
@@ -1837,7 +1846,7 @@
                     <span class="subtitle2">Question Text:</span> <br /> 
                     <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br />
                                <span class="subtitle2">Marks:</span> <br /> 
-                        <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+                        <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
                      </div>
                     <div align="center"> <br /> 
                         <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
@@ -1850,7 +1859,7 @@
                   <span class="subtitle2">Question Text:</span> <br />
                      <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
                                 <span class="subtitle2">Marks:</span> <br /> 
-               <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+               <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
                      </div>
                 <div align="center"> <br />
                  <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
@@ -1865,7 +1874,7 @@
                     <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
                 <div class="question_class">
                 <span class="subtitle2">Marks:</span> <br /> 
-                     <input type="textbox" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"> <br />
+                     <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
                 </div> 
                 <div align="center"> <br /> 
 

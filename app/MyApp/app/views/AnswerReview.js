@@ -4,6 +4,8 @@ $(function () {
         vars: {},
         Score: 0,
         Score1: 0,
+        Obtain: 0,
+        multiple_Obtain:0,
         index: -1,
         events: {
             "click #updateAnswer": "AnswerVerify" 
@@ -15,22 +17,15 @@ $(function () {
             for(i=0; i < this.vars.questionlists.length; i++) {
                 var totalQuestion = this.vars.questionlists.length;
                 var inp = $('input[name="marks['+i+']"]').val();
-                var Amptinp = $("#attemptt").val();
-                var input =$('input[name="marks['+i+']"]');
-                var currentAnswerId = input.parent().children("input[name='selectedAnswer']").val();
-                if(inp != "" && inp!= undefined) {
-                    this.Score =parseInt(this.Score)+parseInt(inp)
-                } else {
-                    this.Score1 =parseInt(this.Score1)+parseInt(Amptinp)
-                }
-                var output = this.Score + this.Score1;
+                var currentAnswerId = $('input[name="marks['+i+']"]').attr('answerId')
+                this.Score =parseInt(this.Score)+parseInt(inp)
                 var saveReviewAnswer = new App.Models.CourseAnswer({
                     _id: currentAnswerId
                 })
                 saveReviewAnswer.fetch({
                     async: false
                 })
-                saveReviewAnswer.set('Obtain Marks', output)
+                saveReviewAnswer.set('Obtain Marks', parseInt(inp))
                 saveReviewAnswer.save(null, {
                     error: function() {
                         console.log("Not Saved");
@@ -44,7 +39,7 @@ $(function () {
                 async:false
             })
             var totalMarks = coursestep.get("totalMarks");
-            var totalObtainMarks = (Math.round((output / totalMarks) * 100))
+            var totalObtainMarks = (Math.round((this.Score / totalMarks) * 100))
             var memberProgress = new App.Collections.membercourseprogresses()
             memberProgress.memberId=this.attributes.membersid
             memberProgress.courseId=this.attributes.courseid
@@ -130,6 +125,19 @@ $(function () {
                 }   
                 this.vars.languageDict=App.languageDict;
                 this.$el.html(this.template(this.vars));
+                $('.slider-range-min').each(function(index,item){
+                    obtainMarks = $(this).parent("td").find(".amount");
+                    maxMarks = $(obtainMarks).attr('data-max');                    
+                    $(this).slider({
+                        range: "min",
+                          value: 0,
+                          min: 0,
+                          max: maxMarks,
+                          slide: function( event, ui ) {
+                            $(this).parent('td').find('.amount').val(ui.value);
+                        }
+                    })
+                });
             }
         }
     })
