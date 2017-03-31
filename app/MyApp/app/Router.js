@@ -519,12 +519,11 @@ $(function() {
             languageDictValue = getSpecificLanguage(lang);
             App.languageDict = languageDictValue;
             var that = this;
-            var learnerCollection = this.getLearnersList(courseId); console.log(learnerCollection)
+            var learnerCollection = this.getLearnersList(courseId);
             if(!memberId)
             {
                 if(learnerCollection.length > 0)
                 {
-                   
                     memberId = learnerCollection.models[0].get("_id");
                 }
             }

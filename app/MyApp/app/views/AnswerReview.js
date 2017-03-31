@@ -130,7 +130,7 @@ $(function () {
                 }   
                 this.vars.languageDict=App.languageDict;
                 this.$el.html(this.template(this.vars));
-            } 
+            }
         }
     })
 })
