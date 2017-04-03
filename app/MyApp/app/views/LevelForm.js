@@ -154,12 +154,6 @@ $(function() {
                             that.model.set("title", $.trim(that.model.get("title")));
                             that.model.set("description", $.trim(that.model.get("description")));
                             that.model.save()
-                            if(!that.edit)
-                                location.reload()
-                            else
-                                Backbone.history.navigate('level/view/' + that.model.get("id") + '/' + that.model.get("rev"), {
-                                    trigger: true
-                                })
                         }
                         else
                             alert(App.languageDict.attributes.DuplicateSteps)
