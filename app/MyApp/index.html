@@ -1503,12 +1503,14 @@
                         </tr>
                         <% if(!learner) { %>
                             <tr>
-                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" /><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
                                 <td><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td><input type="text" name="marks[<%=i%>]"></td>
+                                <td><input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
+                                    <div class="slider-range-min"></div>
+                                </td>
                             </tr>
                         <% } %>                                    
                     <% } else if(questionlists[i].Type == "Multiple Choice") { %>
@@ -1525,12 +1527,15 @@
                         </tr>
                         <% if(!learner) { %>
                             <tr>
-                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>" /><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
-                                <td><input type="hidden" id="attemptt" value="<%=answerlist[i].AttemptMarks %>" /><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td><%=answerlist[i].AttemptMarks%></td>
+                                <td><%=App.languageDict.attributes.ObtainMarks %></td>
+                                <td>
+                                <input type="hidden" class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="<%=answerlist[i].AttemptMarks %>">
+                                <%=answerlist[i].AttemptMarks%>
+                                </td>
                             </tr>
                         <% } %>
                     <% } else { %>
@@ -1547,12 +1552,14 @@
                         </tr>
                         <% if(!learner) { %>
                             <tr>
-                                <td><input type="hidden" name="selectedAnswer" value="<%=answerlist[i]._id%>"/><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
                                 <td><%=questionlists[i].Marks%></td>
                             </tr>
                             <tr>
                                 <td><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td><input type="text" name="marks[<%=i%>]"></td>
+                                <td><input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
+                                    <div class="slider-range-min"></div>
+                                </td>
                             </tr>
                          <% } %>
                     <% } %>
