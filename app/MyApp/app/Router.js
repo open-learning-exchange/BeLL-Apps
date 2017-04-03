@@ -2434,7 +2434,10 @@ $(function() {
                         lForm.previousStep = 0
                         lForm.render()
                         $('.courseSearchResults_Bottom').append(lForm.el)
+                        lForm.sliders();
                         $("input[name='step']").attr("disabled", true);
+                        $("input[name='passingPercentage']").attr("readonly",true);
+                        $("input[name='passingPercentage']").val(10)
                         if (totalLevels != -1) {
                             var tl = parseInt(totalLevels) + 1
                             $("input[name='step']").val(tl)
@@ -2715,6 +2718,7 @@ $(function() {
                 lForm.previousStep = 0
                 lForm.render()
                 $('.courseSearchResults_Bottom').append(lForm.el)
+                lForm.sliders();
                 $("input[name='step']").attr("disabled", true);
             } else {
                 Cstep.set({
@@ -2729,6 +2733,7 @@ $(function() {
                     lForm.previousStep = Cstep.get("step")
                     lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
+                    lForm.sliders();
                     $("input[name='step']").attr("disabled", true);
                 })
                 Cstep.fetch({async:false});

@@ -10,6 +10,19 @@ $(function() {
             }
         },
 
+        sliders : function() {
+            $( "#slider-range-min" ).slider({
+                range: "min",
+                value: 37,
+                min: 1,
+                max: 100,
+                slide: function( event, ui ) {
+                   $('input:[name="passingPercentage"]' ).val( ui.value );
+                }
+            });
+              //$( "#amount" ).val( $( "#slider-range-min" ).slider( "value" )
+        },
+
         render: function() {
             // members is required for the form's members field
             var levelForm = this
@@ -25,7 +38,7 @@ $(function() {
             this.form.fields['totalMarks'].$el.hide()
             this.form.fields['stepMethod'].$el.hide()
             this.form.fields['stepGoals'].$el.hide()
-
+            this.form.fields['passingPercentage'].$el.append('<div id = "slider-range-min"></div>')
 
             // give the form a submit button
             var button = '';
