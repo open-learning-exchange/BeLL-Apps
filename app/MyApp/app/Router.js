@@ -2416,24 +2416,28 @@ $(function() {
 
                         // Step Form
                         totalLevels = levels.models.length;
-                        var lForm = new App.Views.LevelForm({
-                            model: Cstep
-                        })
-                        $('#AddCourseMainDiv').append('<div class="courseSearchResults_Bottom"></div>');
                         var Cstep = new App.Models.CourseStep()
                         Cstep.set({
                             courseId: courseId
                         })
                         Cstep.set("totalMarks", 0);
+                        var coursedetail = new App.Models.Course({
+                            _id: courseId
+                        })
+                        coursedetail.fetch({
+                            async: false
+                        })
                         var lForm = new App.Views.LevelForm({
                             model: Cstep
                         })
+                        $('#AddCourseMainDiv').append('<div class="courseSearchResults_Bottom"></div>');
                         $('.courseSearchResults_Bottom').append('<h3 id="feedbackResoDiv">' + App.languageDict.attributes.New_Step + '</h3>');
                         lForm.edit = false
                         lForm.previousStep = 0
                         lForm.render()
                         $('.courseSearchResults_Bottom').append(lForm.el)
                         $("input[name='step']").attr("disabled", true);
+                        
                         if (totalLevels != -1) {
                             var tl = parseInt(totalLevels) + 1
                             $("input[name='step']").val(tl)

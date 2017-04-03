@@ -47,6 +47,7 @@ $(function() {
                 var rid = that.model.get("rev")
                 var title = that.model.get("title")
                 // Adding a Step to all the member progress course
+                console.log(that.edit);
                 if (that.edit != true) {
                     var allcrs = new App.Collections.StepResultsbyCourse()
                     allcrs.courseId = that.model.get("courseId")
@@ -57,6 +58,7 @@ $(function() {
                                 var sresults = m.get("stepsResult")
                                 var sstatus = m.get("stepsStatus")
                                 var pqattempts = m.get("pqAttempts");
+                                console.log(sids);
                                 if (sids.indexOf(that.model.get("id")) < 0) {
                                     sids.push(that.model.get("id"))
                                     sresults.push("")
@@ -70,6 +72,7 @@ $(function() {
                                     if (pqattempts != undefined) {
                                         m.set("pqAttempts", pqattempts)
                                     }
+                                    console.log(m);
                                     m.save()
                                 }
                             })
@@ -154,12 +157,6 @@ $(function() {
                             that.model.set("title", $.trim(that.model.get("title")));
                             that.model.set("description", $.trim(that.model.get("description")));
                             that.model.save()
-                            if(!that.edit)
-                                location.reload()
-                            else
-                                Backbone.history.navigate('level/view/' + that.model.get("id") + '/' + that.model.get("rev"), {
-                                    trigger: true
-                                })
                         }
                         else
                             alert(App.languageDict.attributes.DuplicateSteps)
