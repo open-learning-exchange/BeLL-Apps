@@ -2064,7 +2064,8 @@ $(function() {
                     cstep.set("_rev", responseRev.rev)
                     alert(App.languageDict.attributes.Resource_Updated)
                     Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
-                        trigger: true
+                        trigger: true,
+                        replace: true
                     })
                 }
             })
