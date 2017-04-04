@@ -167,7 +167,7 @@
   "LevelArray":[
     " Ekisomo kyokubanza",
     "Ekisomo ekyomusinji",
-    "Upper Primary",
+    "Ekisomo ekyahisi",
     "Lower Secondary",
     "Upper Secondary",
     "Undergraduate",
@@ -209,7 +209,7 @@
   "Error":"Ekiwire",
   "Collection_s":"Collections",
   "Medium":"Ahakathikathi",
-  "Rating":"Rating",
+  "Rating":"Eripima",
   "No_Requests":"Sihali erisaba",
   "Search_Result":"Rondaya ebyalhwamu",
   "Back_to_Search":"Suba okwirondya",
@@ -270,7 +270,7 @@
   "Weekly":"Obuli sande",
   "Location":"Obwikalho",
   "Foreground_Color":"Eranji eyembere",
-  "Background_Color":"Background Color",
+  "Background_Color":"Eranji eyenyuma",
   "Invite_Member":"Erikokya abekithunga",
   "GradeLevelList":[
     "Pre-Kindergarten",
