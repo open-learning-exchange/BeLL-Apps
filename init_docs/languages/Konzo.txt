@@ -97,7 +97,7 @@
   "Update_Available":"Update Available",
   "Release_Notes":"Release Notes",
   "Publications":"Ebitabu",
-  "New":"New",
+  "New":"Ekihyaka",
   "Resource":"Othubulyo",
   "Selected":"Abasombwerwe",
   "Save":"wubike",
@@ -130,7 +130,7 @@
   "resourceTypeList":[
     "Textbook",
     "LessonPlan",
-    "Activities",
+    "Emibiri",
     "Ebyerirengesya",
     "Discussion Questions"
   ],
@@ -153,7 +153,7 @@
   "Activity_Report":"Activity Report",
   "Trend":"Trend",
   "Time":"Obuthuku",
-  "View_s":"Views",
+  "View_s":"Ebirengekanio",
   "Suggestion":"Suggestions",
   "Comment":" Comment",
   "Urgent":"Lhubalhuba",
@@ -166,7 +166,7 @@
   "Description":"Erisoborera",
   "LevelArray":[
     " Ekisomo kyokubanza",
-    "Lower Primary",
+    "Ekisomo ekyomusinji",
     "Upper Primary",
     "Lower Secondary",
     "Upper Secondary",
@@ -177,9 +177,9 @@
   "SubjectList":[
     "Agriculture",
     "Arts",
-    "Business and Finance",
-    "Environment",
-    "Food and Nutrition",
+    "Ebyobusubure ne syosente",
+    "Ebithuthimbireko",
+    "Ebyelya nemirire",
     "Ebithuthimbireko",
     "Ebyamaghalha nemibatsi",
     "History",
