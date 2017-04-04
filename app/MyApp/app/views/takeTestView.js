@@ -32,28 +32,35 @@ $(function() {
             },
 
             "click #nextPressed": function(e) {
-                if ($("input[type='text'][name='singleLineAnswer']").val() != undefined && $("input[type='text'][name='singleLineAnswer']").val() != '') {
+                if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
                     this.renderQuestion();
-                } else if ($("input[type='text'][name='commentEssay']").val() != undefined && $("input[type='text'][name='commentEssay']").val() != '') {
+                } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
                     this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
                     this.renderQuestion();
-                } else if($("input[type='hidden'][name='_attachment']").val() != undefined && $("input[type='hidden'][name='_attachment']").val() != '') {
+                } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
                     this.Givenanswers.push(decodeURI($("input[type='hidden'][name='_attachment']").val()));
                     this.renderQuestion();
-                } else if ($("input:checkbox[name='multiplechoice[]']:checked").val() != undefined) {
+                } else if ($("input:checkbox[name='multiplechoice[]']").val() != undefined) {
                    var that = this;
                    var res = [];
                    $("input:checkbox[name='multiplechoice[]']:checked").each(function(index) {
                     if($(this).is(':checked')==true){
                         res.push(decodeURI($(this).val()));
                     }
-                 }); 
+                    });
                     that.Givenanswers.push(res);
                     that.renderQuestion()
-                }else if ($("input:radio[name='multiplechoice[]']:checked").val() != undefined) {
-                    this.Givenanswers.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
-                    this.renderQuestion()
+                }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
+                    var that = this;
+                    var res = [];
+                    $("input:radio[name='multiplechoice[]']:checked").each(function(index){
+                        if($(this).is(':checked') == true){
+                        res.push(decodeURI($(this).val()));
+                        }
+                    });
+                    that.Givenanswers.push(res);
+                    that.renderQuestion()
                 } else {
                     alert(App.languageDict.attributes.No_Option_Selected)
                 }
@@ -158,7 +165,7 @@ $(function() {
                 this.vars.singleLineQuestionTitle = singleline
                 this.$el.append(this.template(this.vars));
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div><div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div></div>')
+                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div>&nbsp;&nbsp;&nbsp<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div></div>')
             } else {
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="quizActions" ><div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div></div>')
