@@ -412,7 +412,7 @@
   "Reject":"Erighana",
   "Surveys":"Ebyerirondekania",
   "Date":"Ebiro byo kwezi",
-  "Empty_Shelf":"No item in the shelf.",
+  "Empty_Shelf":"Simuli kindu kyosi omwibikiro lye bitabu",
   "Empty_Courses":"Sihali erisomo eryalighirwe",
   "No_Meetup":"No Meetup",
   "Removed_Member":"Owekithunga abirilhusibwa okwigha",
