@@ -44,8 +44,7 @@ $(function() {
                 options: []
             },
             passingPercentage: { //Least marks to be obtained for passing any step
-                type: 'Select',
-                options: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+                type: 'Text',
             },
         },
         saveAttachment: function(formEl, fileEl, revEl) {
