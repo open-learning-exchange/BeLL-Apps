@@ -6,7 +6,7 @@
   "Library":"المكتبة",
   "Courses":"دروس",
   "Meetups":"اجتماعات",
-  "Members":"أعضاء",
+  "Members":"الأعضاء",
   "Reports":"تقارير",
   "Feedback":"ملاحظاتفعل",
   "Logout":"تسجيل خروج",
