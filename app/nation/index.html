@@ -404,9 +404,9 @@
     </td>
 
     <td>
-        <a role='button' class='btn btn-inverse addtoPublication' name='<%=_id %>'>
+        <% if (add) { %><a role='button' class='btn btn-inverse addtoPublication' name='<%=_id %>' onClick = "style.visibility= 'hidden';">
             <%= languageDict.attributes.Add %>
-        </a>
+        </a><% } %>
     </td>
     <td>
 

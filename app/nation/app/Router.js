@@ -3453,7 +3453,7 @@ $(function() {
             App.$el.children('.body').html('<div id="parentDiv"></div>');
             $('#parentDiv').append(seachForm.el);
             $('#SeachCourseText').attr('placeholder',App.languageDictValue.attributes.KeyWord_s);
-            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            if(App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang')))
             {
                 $('.form h6').css({"float":"left"});
                 $('.form h6 input').css({"margin-left":"20px","margin-right":"0px"});
