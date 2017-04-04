@@ -413,7 +413,7 @@
   "Surveys":"Ebyerirondekania",
   "Date":"Ebiro byo kwezi",
   "Empty_Shelf":"Simuli kindu kyosi omwibikiro lye bitabu",
-  "Empty_Courses":"Sihali erisomo eryalighirwe",
+  "Empty_Courses":"Sihali amasomo awalighirwe",
   "No_Meetup":"No Meetup",
   "Removed_Member":"Owekithunga abirilhusibwa okwigha",
   "RequestForCourse":"Eribirikirwa lyabirithumwa okwamukulhu werisomo",
