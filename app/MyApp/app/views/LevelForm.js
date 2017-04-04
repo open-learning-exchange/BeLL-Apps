@@ -86,7 +86,7 @@ $(function() {
                                 }
                             })
                                 location.reload()
-                            }
+                        }
                     })
                 } else {
                     var allcrs = new App.Collections.StepResultsbyCourse()
