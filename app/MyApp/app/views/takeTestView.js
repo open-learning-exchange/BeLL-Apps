@@ -54,11 +54,9 @@ $(function() {
                 }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
                     var that = this;
                     var res = [];
-                    $("input:radio[name='multiplechoice[]']:checked").each(function(index){
-                        if($(this).is(':checked') == true){
-                        res.push(decodeURI($(this).val()));
+                        if($("input:radio[name='multiplechoice[]']:checked").length > 0){
+                        res.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
                         }
-                    });
                     that.Givenanswers.push(res);
                     that.renderQuestion()
                 } else {
