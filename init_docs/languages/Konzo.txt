@@ -292,7 +292,7 @@
   ],
   "SubjectLevelList":[
     "Oyukatsuka",
-    "Intermediate",
+    "Ahakathi",
     "Advanced",
     "Oyuwasi ndeke"
   ],
