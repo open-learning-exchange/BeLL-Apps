@@ -69,7 +69,7 @@
   "Title":"Omutrwe",
   "action":"Ekyakolibawa",
   "year":"Omwaka",
-  "media":"Media",
+  "media":"Ebyamakuru",
   "language":"Olhulimi",
   "subject":"Amasomo",
   "level":"Esyondengo",
@@ -77,11 +77,11 @@
   "link_to_license":"Link to License",
   "resource_for":"Ebyerikolesya  habwe",
   "author":"Omuhandiki",
-  "Request_Resource":"Request Resource",
+  "Request_Resource":"Wusabe ebyerighalo",
   "Back":"Erisub'enyuma",
   "Next":"Ekikakwamoko",
   "Home":"Okwitsuka",
-  "resource_type":"Resource Type",
+  "resource_type":"Omulingo ewebyerighako",
   "Open":"Kingulha",
   "View":"lhangira",
   "Details":"Omwabuli",
@@ -107,8 +107,8 @@
   "article_Date":"Ebiro ebyokwezi ebiri okwakihandiko",
   "added_by":"Mubyongerwako na",
   "mediaList":[
-    "Text",
-    "Graphics/Pictures",
+    "Ekihandiko",
+    "Ebisasani",
     "Audio/Music/Book",
     "Ebisasani ebiri okwakinimba"
   ],
@@ -287,7 +287,7 @@
     "10",
     "11",
     "12",
-    "College",
+    "Erithendekero eryahaghulhu",
     "Post-Graduate"
   ],
   "SubjectLevelList":[
