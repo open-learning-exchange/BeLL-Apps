@@ -163,7 +163,7 @@
   "Collection_Name":"Nom de la collection",
   "Nested_Under":"Imbriquées sous",
   "Added_Date":"Date de l’ajout",
-  "Description":" Description",
+  "Description":" Déscription",
   "LevelArray":[
     "Éducation précoce",
     "Primaire inférieur",
