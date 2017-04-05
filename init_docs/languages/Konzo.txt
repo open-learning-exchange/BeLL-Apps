@@ -146,7 +146,7 @@
   "First_Name":"Erina eryokubanza",
   "Last_Name":"Erina eryerighunzerera",
   "Bell_Email":"BeLL Email",
-  "EditLabel":"Edit",
+  "EditLabel":"Erikyuwania",
   "Member_Login":"Member Login",
   "Give_Feedback":"Give us your feedback on the current page.",
   "Add_a_New_Report":"Ongurako endondogholi mbyaka",
