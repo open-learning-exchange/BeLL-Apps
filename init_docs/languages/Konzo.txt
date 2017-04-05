@@ -424,7 +424,7 @@
   "Enter_Message":"Ingirayamo omwatsi",
   "Mail_Sent_Success":"Omwatsi abiri thumwa",
   "Invalid_Email_Address":"Invalid mail address",
-  "time_Limit":"You have 20 seconds",
+  "time_Limit":"Wuwithe obuthuku buke",
   "Stopped":"Erimanibwa",
   "Merge_Error":"Please select 2 or more items to merge.",
   "Empty_Collection_Name":"Collection name can not be empty.",
