@@ -78,7 +78,6 @@ $(function() {
                 coursequestion.fetch({
                     async:false
                 })
-                console.log(coursequestion)
                 if (coursequestion.attributes.Type == "Multiple Choice" ) {
                     result = 0;
                     var correctAnswer = coursequestion.get("CorrectAnswer");
@@ -121,10 +120,8 @@ $(function() {
                         coursestep.fetch({
                             async:false
                         })
-                        console.log(coursestep)
                         var totalMarks = coursestep.get("totalMarks");
                         this.totalObtainMarks = (Math.round((this.totalMarks / totalMarks) * 100))
-                        console.log(memberProgressRecord)
                         if(this.preview == this.TotalCount) {
                             if(this.pp <= this.totalObtainMarks){
                                 this.sstatus = "1"

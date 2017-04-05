@@ -39,6 +39,7 @@ $(function() {
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
             'create-test/:lid/:rid/:title': 'CreateTest',
+            'view-test/:stepid/:rid': 'ViewTest',
             'collection': 'Collection',
             'listCollection/:collectionId': 'ListCollection',
             'listCollection/:collectionId/:collectionName': 'ListCollection',
@@ -2777,12 +2778,36 @@ $(function() {
                     if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                     } else {
-                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>')
+                        $('.courseEditStep').append('<a class="btn btn-primary" style="margin-left: 1100px" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a>&nbsp;&nbsp;')
                     }
+                    $('.body').append('<div id="viewTest"></div>');
+
                 }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
+        },
+
+        ViewTest: function(stepId,revId) {
+            var step = new App.Models.CourseStep({
+                _id: stepId
+            })
+            step.fetch({
+                async: false
+            })
+            var JSONsteps = null;
+            JSONsteps = step.toJSON()
+            var temp = new App.Views.ViewTest({
+                questionlist: JSONsteps.questionslist,
+                stepId: JSONsteps._id,
+                attributes: {
+                    revisionid: revId
+                }
+            })
+            temp.render()
+            $('div#viewTest').html('')
+            $('div#viewTest').html(temp.el)
         },
 
         saveDescprition: function(lid) {

@@ -298,6 +298,7 @@
     <script src="app/views/CreditsTable.js"></script>
     <script src="app/views/CreditsRow.js"></script>
     <script src="app/views/CourseLearnersList.js"></script>
+    <script src="app/views/ViewTest.js"></script>
 
     <script src="app/views/AnswerReview.js"></script>
     <!-- javaScript -->
@@ -1482,6 +1483,79 @@
 
         </div>    
     </script>
+    <script type="text/template" id="template-viewTest">
+        <div class="question_view">
+        <p><%= languageDict.attributes.Question%></p>
+        <div class="Progress"></div>
+        <% if (Type == "Single Textbox") { %>
+             <div class="singlelineAnswer">
+                    <table>
+                        <tr>
+                            <td><%=Statement%></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="singleLineAnswer" readonly="">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        <% } else if (Type == "Comment/Essay Box") { %>
+            <div class="commentEssay">
+                <table>
+                    <tr>
+                        <td><%=Statement%></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="commentEssay" readonly="">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        <% } else if (Type == "Attachment") { %>
+            <div class="attachment">
+                <table>
+                    <tr>
+                        <td><%=Statement%></td>
+                    </tr>
+                <tr>
+                     <td>
+                    <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FileSelected('<%=_id%>')" />
+                     <input class="rev" type="hidden" name="_rev">
+                     <input type="hidden" name="_attachment" id="attachmentId" value="">
+                     <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
+                     <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
+                     <input class='btn btn-primary'  style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse"  />
+                    </td>
+               </tr>
+                </table>
+            </div>
+        <% } else if (Type == "Multiple Choice") { %>
+            <div class="multiplechoice">
+                <table>
+                    <tr>
+                        <td><%=Statement%><td>
+                    </tr>
+                    <tr>
+                       <td>
+                       <% for (var i = 0; i < Options.length; i++) { %>
+                            <% if(CorrectAnswer.length > 1) { %>
+                            <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } else { %>
+                                 <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } %>
+                       <% }; %>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        <% } else { %>
+            <h4><%= languageDict.attributes.No_Option_Selected %></h4>
+        <% } %>
+        </div>
+    </script>
+
     <script type="text/template" id="template-courseAnswerReview">
         <div class="multipleAnswerReview">
             <% if(!learner) { %>
