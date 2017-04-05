@@ -138,7 +138,7 @@
   "Browse":"W'ongereko ebindi",
   "DeleteLabel":"Sangulha",
   "UnHide":"Bisulha",
-  "No_File_Selected":"No File Selected",
+  "No_File_Selected":"Sihali emyatsi eyisombwerwe",
   "Topic":"Omuthwe mukulhu",
   "Collections":"Collections",
   "Photo":"Ebisasani ",
@@ -291,10 +291,10 @@
     "Post-Graduate"
   ],
   "SubjectLevelList":[
-    "Beginner",
+    "Oyukatsuka",
     "Intermediate",
     "Advanced",
-    "Expert"
+    "Oyuwasi ndeke"
   ],
   "Course_Manage":"Course Manage",
   "Course_Steps":"Course Steps",
