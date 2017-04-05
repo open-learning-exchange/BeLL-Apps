@@ -522,7 +522,7 @@
   "Test_Saved_Success":"Test has been successfully saved.",
   "Invalid_Inputs":"Invalid inputs.",
   "Reports_Deleted_Success":"Successfully deleted report.",
-  "Request_Sent_Success":"Request successfully sent.",
+  "Request_Sent_Success":"Erisabwa lyabirithumwa",
   "Resource_Level_Missing":"Resource level is missing.",
   "Resource_Subject_Missing":"Omuthwe webyerighako abirithalha",
   "Removed_From_Collection":"Removed successfully from collection.",
