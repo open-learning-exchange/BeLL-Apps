@@ -297,7 +297,7 @@
     "Oyuwasi ndeke"
   ],
   "Course_Manage":"Course Manage",
-  "Course_Steps":"Course Steps",
+  "Course_Steps":"Olhulengo lhwerisomo",
   "Add_Step":"Add Step",
   "Rearrange":"Rearrange",
   "Up":"Up",
