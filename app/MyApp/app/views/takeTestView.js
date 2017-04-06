@@ -164,6 +164,7 @@ $(function() {
                 this.$el.append('<div class="quizActions" ><div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div></div>')
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
+                var stepid = this.myModel.get('stepsIds')
                 var pqattemptss = this.myModel.get('pqAttempts')
                 var flagAttempts = false;
                 flagAttempts = true;
@@ -171,13 +172,35 @@ $(function() {
                 if(flagAttempts && this.myModel.get('pqAttempts')) {
                     var pqattempts = this.myModel.get('pqAttempts')
                 }
-                if (pqattempts != undefined) {
-                   if( pqattempts[this.stepindex].length > 1) {
-                     pqattempts[this.stepindex][1]++;
-                   } else {
-                        pqattempts[this.stepindex]++;
-                   }
-                   this.myModel.set('pqAttempts', pqattempts)
+                if( sstatus[this.stepindex][pqattemptss[this.stepindex]] == null){
+                    var courseAnswer = new App.Collections.CourseAnswer()
+                    courseAnswer.MemberID = $.cookie('Member._id')
+                    courseAnswer.StepID = stepid[this.stepindex]
+                    courseAnswer.pqattempts = pqattempts[this.stepindex]
+                    courseAnswer.fetch({
+                        async: false
+                    })
+                    var answerLength = courseAnswer.models.length-1;
+                    for (var j = answerLength; j >= 0; j--) {
+                        courseAnswer.models[j].destroy();
+                    }
+                    if (pqattempts != undefined) {
+                       if( pqattempts[this.stepindex].length > 1) {
+                         pqattempts[this.stepindex][1];
+                       } else {
+                            pqattempts[this.stepindex];
+                       }
+                       this.myModel.set('pqAttempts', pqattempts)
+                    }
+                } else {
+                    if (pqattempts != undefined) {
+                        if( pqattempts[this.stepindex].length > 1) {
+                            pqattempts[this.stepindex][1]++;
+                        } else {
+                            pqattempts[this.stepindex]++;
+                        }
+                        this.myModel.set('pqAttempts', pqattempts)
+                    }
                 }
                 var flagAttempts = false;
                 if(sp[this.stepindex] == "" && sstatus[this.stepindex] == "0") {
@@ -187,8 +210,7 @@ $(function() {
                 this.answersave(pqattempts[this.stepindex]);
                 sstatus[this.stepindex][pqattemptss[this.stepindex]] = this.sstatus
                 this.myModel.set('stepsStatus', sstatus)
-    
-                sp[this.stepindex][pqattemptss[this.stepindex]] = this.totalObtainMarks.toString()              
+                sp[this.stepindex][pqattemptss[this.stepindex]] = this.totalObtainMarks.toString()
                 this.myModel.set('stepsResult', sp)
 
                 this.myModel.save(null, {
