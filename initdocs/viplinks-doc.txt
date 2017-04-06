@@ -1,7 +1,0 @@
-{
-
-    "name": "dummy",
-    "visits": 0,
-    "lastVisit": "",
-    "url": "/apps/_design/bell/nation/index.html#listCommunityPage/"
-}
