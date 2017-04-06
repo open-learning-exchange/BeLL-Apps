@@ -413,7 +413,7 @@
   "Surveys":"Enquêtes",
   "Date":"Date",
   "Empty_Shelf":"Aucun élément sur l'étagère.",
-  "Empty_Courses":"No courses accepted.",
+  "Empty_Courses":"Aucun cours accepté.",
   "No_Meetup":"No Meetup",
   "Removed_Member":"Member is removed From course.",
   "RequestForCourse":"Admission request successfully sent to this course leader.",
