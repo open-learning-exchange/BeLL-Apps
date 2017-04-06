@@ -85,7 +85,7 @@ $(function() {
                                     m.save()
                                 }
                             })
-                                location.reload()
+                            location.reload()
                         }
                     })
                 } else {
