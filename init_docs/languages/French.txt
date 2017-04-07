@@ -642,7 +642,7 @@
   "Submit_Configurations":"Soumettre la Configuration",
   "Config_Sync_With_Nation_Head":"Select Item('s) To Sync",
   "Log_Activity_Reports":"Log Activity Reports",
-  "Course_Member_Progress":"Course Member Progress",
+  "Course_Member_Progress":"Progrès du cours du membre",
   "Resources_Feedbacks":"Resources Feedbacks",
   "Application_Feedbacks":"Application Feedbacks",
   "Members_Database":"Members Database",
