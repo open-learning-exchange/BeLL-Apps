@@ -90,7 +90,7 @@ $(function() {
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
             'configurationsForm': 'configurationsForm',
-            'checksum': 'checkSum',
+            'checksum(/:nation/:url)': 'checkSum',
             'listLearnersCredits/:cid': 'showLearnersListForCredits'
         },
         addOrUpdateWelcomeVideoDoc: function() {
@@ -6559,9 +6559,14 @@ $(function() {
                 count++
             })
         },
-        checkSum: function() {
-            nationName = App.configuration.get('nationName');
-            nationURL = App.configuration.get('nationUrl');
+        checkSum: function (nationNm, nationUri) {
+            if (nationNm.length > 0 && nationUri.length > 0) {
+                nationName = nationNm;
+                nationURL = nationUri;
+            } else {
+                nationName = App.configuration.get('nationName');
+                nationURL = App.configuration.get('nationUrl');
+            }
             remoteDesign = [];
             localDesign = [];
             $('.body').html('');
