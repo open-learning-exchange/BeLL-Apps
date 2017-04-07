@@ -6554,9 +6554,9 @@ $(function() {
             })
         },
         checkSum: function (nationNm, nationUri) {
-            if (nationNm.length > 0 and nationUri.length > 0) {
+            if (nationNm.length > 0 && nationUri.length > 0) {
                 nationName = nationNm;
-                nationURL = 'http://'+nationUri;
+                nationURL = nationUri;
             } else {
                 nationName = App.configuration.get('nationName');
                 nationURL = App.configuration.get('nationUrl');
