@@ -428,7 +428,7 @@
   "Stopped":"arrêté",
   "Merge_Error":"Veuillez sélectionner un ou plusieurs éléments à joindre.",
   "Empty_Collection_Name":"Collection name can not be empty.",
-  "Missing_Resource_Title":"Resource title is missing",
+  "Missing_Resource_Title":"Titre de la ressource manquant",
   "Missing_Resource_Author":"Please specify author for this new resource.",
   "Invalid_Range":"Invalid range specified.",
   "Duplicate_Title":"Titre existe déjà.",
@@ -563,13 +563,13 @@
   "Recurring":"Recurring",
   "categoryList":[
     "ICT",
-    "First Time",
-    "Mothers",
-    "General",
+    "Première Fois",
+    "Mères",
+    "Générale",
     "E Learning",
     "Farming",
-    "Academic Discussion",
-    "Academic Help",
+    "Discussion Académique",
+    "Aide Académique",
     "Awareness"
   ],
   "inviteMemberArray":[
