@@ -680,7 +680,7 @@
   "Timing":"Timing",
   "Destroy":"Détruire",
   "edit_welcomeVideo":"Modifier le formulaire de la vidéo d'accueil",
-  "upload_welcomeVideo":"Upload Welcome Video",
+  "upload_welcomeVideo":"Télécharger la vidéo d'accueil",
   "uploaded_file":"Uploaded File :",
   "upload_Date":"Upload Date",
   "Add_Survey":"Add Survey",
