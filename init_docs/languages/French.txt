@@ -570,19 +570,19 @@
     "Farming",
     "Discussion Académique",
     "Aide Académique",
-    "Awareness"
+    "Conscience"
   ],
   "inviteMemberArray":[
     "Tout",
     "Membres"
   ],
-  "Join_meetUp":"Join Meetup",
+  "Join_meetUp":"Rejoindre le Meetup",
   "MeetUp":"Meetup",
-  "meetUp_delete_confirm":"Are you sure that you want to delete this meetup?",
-  "MeetUp_Detail":"Meetup Detail",
-  "Unjoin":"Unjoin",
-  "member_delete_confirm":"Are you sure that you want to delete this member?",
-  "member_Delete_success":"Member deleted successfully.",
+  "meetUp_delete_confirm":"Êtes-vous sûr(e) de vouloir supprimer ce Meetup?",
+  "MeetUp_Detail":"Détails du Meetup",
+  "Unjoin":"Annuler",
+  "member_delete_confirm":"Êtes-vous sûr(e) de vouloir supprimer ce membre?",
+  "member_Delete_success":"Membre supprimé.",
   "Missing_Report_Title":"Report title is missing.",
   "Missing_Author":"Missing author name.",
   "Demo":"Demo",
