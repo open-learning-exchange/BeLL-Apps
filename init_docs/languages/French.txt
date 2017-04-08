@@ -883,7 +883,7 @@
   "Answer_Review":"Answer Review",
   "Answer_Review_Section":"Answer Review Section",
   "StepNO":"StepNO",
-  "Percentage":"Percentage",
+  "Percentage":"Pourcentage",
   "Review":"Review",
   "Grade":"Grade",
   "Credits":"Credits"
