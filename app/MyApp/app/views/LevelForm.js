@@ -73,9 +73,10 @@ $(function() {
                                     m.save()
                                 }
                             })
+                            location.reload()
                         }
                     })
-                    location.reload()
+                    
                 } else {
                     var allcrs = new App.Collections.StepResultsbyCourse()
                     allcrs.courseId = that.model.get("courseId")

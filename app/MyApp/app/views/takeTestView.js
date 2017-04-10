@@ -171,37 +171,25 @@ $(function() {
 
                 if(flagAttempts && this.myModel.get('pqAttempts')) {
                     var pqattempts = this.myModel.get('pqAttempts')
-                }
-                if( sstatus[this.stepindex][pqattemptss[this.stepindex]] == null){
-                    var courseAnswer = new App.Collections.CourseAnswer()
-                    courseAnswer.MemberID = $.cookie('Member._id')
-                    courseAnswer.StepID = stepid[this.stepindex]
-                    courseAnswer.pqattempts = pqattempts[this.stepindex]
-                    courseAnswer.fetch({
-                        async: false
-                    })
-                    var answerLength = courseAnswer.models.length-1;
-                    for (var j = answerLength; j >= 0; j--) {
-                        courseAnswer.models[j].destroy();
-                    }
-                    if (pqattempts != undefined) {
-                       if( pqattempts[this.stepindex].length > 1) {
-                         pqattempts[this.stepindex][1];
-                       } else {
-                            pqattempts[this.stepindex];
-                       }
-                       this.myModel.set('pqAttempts', pqattempts)
-                    }
-                } else {
-                    if (pqattempts != undefined) {
-                        if( pqattempts[this.stepindex].length > 1) {
-                            pqattempts[this.stepindex][1]++;
-                        } else {
-                            pqattempts[this.stepindex]++;
+                    if( sstatus[this.stepindex][pqattempts[this.stepindex]] == null){
+                        var courseAnswer = new App.Collections.CourseAnswer()
+                        courseAnswer.MemberID = $.cookie('Member._id')
+                        courseAnswer.StepID = stepid[this.stepindex]
+                        courseAnswer.pqattempts = pqattempts[this.stepindex]
+                        courseAnswer.fetch({
+                            async: false
+                        })
+                        var answerLength = courseAnswer.models.length-1;
+                        for (var j = answerLength; j >= 0; j--) {
+                            courseAnswer.models[j].destroy();
                         }
+                        this.myModel.set('pqAttempts', pqattempts)
+                    } else {
+                        pqattempts[this.stepindex]++; 
                         this.myModel.set('pqAttempts', pqattempts)
                     }
                 }
+               
                 var flagAttempts = false;
                 if(sp[this.stepindex] == "" && sstatus[this.stepindex] == "0") {
                    sp[this.stepindex]=[];
