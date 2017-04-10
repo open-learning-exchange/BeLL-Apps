@@ -515,7 +515,7 @@
   "Resources_Synced_Success":"Synchronisation des ressources réussie.",
   "Pubs_Synced_Error":"Error syncing/replicating publication.",
   "Resources_Synced_Error":"Échec de synchronisation des ressources.",
-  "Courses_Synced_Error":"Failed to sync courses.",
+  "Courses_Synced_Error":"Échec de synchronisation des cours.",
   "CourseSteps_Synced_Error":"Failed to sync course steps.",
   "Pubs_Replicated_Success":"Successfully replicated publications.",
   "Fetch_Resources_Error":"Unable to get resources.",
