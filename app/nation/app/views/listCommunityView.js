@@ -21,7 +21,7 @@ $(function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
-            var $button = $('<h6>'+App.languageDictValue.get('select_communities')+'</h6><select multiple id="comselect"></select><br><br><a class="btn btn-success" id="formButton">'+App.languageDictValue.get('Send')+'</button>')
+            var $button = $('<h6>'+App.languageDictValue.get('select_communities')+'</h6><select multiple id="comselect" size ="15" style="width: 380px;"></select><br><br><a class="btn btn-success" id="formButton">'+App.languageDictValue.get('Send')+'</button>')
             this.$el.append($button)
             this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
             this.$el.append('<a class="btn btn-warning" id="cancelButton">'+App.languageDictValue.get('Cancel')+'</button>')
