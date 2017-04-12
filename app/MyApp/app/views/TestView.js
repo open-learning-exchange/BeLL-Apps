@@ -300,17 +300,44 @@ $(function() {
                             },
                             async: false
                         });
-                    } else {
-                            var courseStepModel = new App.Models.CourseStep({
+                        if (questionObject.attributes.Type != "Multiple Choice") {
+                            var Cstep = new App.Models.CourseStep({
                                 _id: csId
                             })
-                            courseStepModel.fetch({
+                            Cstep.fetch({
                                 async: false
                             })
-                            var totalMarks = parseInt(courseStepModel.get('totalMarks'));
-                            var input_marks = parseInt(questionObject.attributes.Marks);
-                            courseStepModel.set('totalMarks', (totalMarks+input_marks));
-                            courseStepModel.save();
+                            if(Cstep.attributes.stepType == "Objective"){
+                                Cstep.set("stepType", "Subjective");
+                                Cstep.save();
+                            }
+                        }
+                    } else {
+                        var stepQuestion =  new App.Collections.CourseStepQuestions();
+                        stepQuestion.stepId = csId
+                        stepQuestion.fetch({
+                            async: false
+                        });
+                        var courseStepModel = new App.Models.CourseStep({
+                            _id: csId
+                        })
+                        courseStepModel.fetch({
+                            async: false
+                        })
+                        for (var i = 0; i < stepQuestion.length; i++) {
+                            if(stepQuestion.models[i].attributes.Type != "Multiple Choice"){
+                                courseStepModel.set("stepType", "Subjective");
+                                break;
+                            } else {
+                                if (i == stepQuestion.length-1) {
+                                    courseStepModel.set("stepType", "Objective");
+                                }
+                            }
+                        }
+                        var totalMarks = parseInt(courseStepModel.get('totalMarks'));
+                        var input_marks = parseInt(questionObject.attributes.Marks);
+                        courseStepModel.set('totalMarks', (totalMarks+input_marks));
+                        courseStepModel.save();
                         alert(App.languageDict.attributes.question_Edit);
                         window.location.reload();
                     }

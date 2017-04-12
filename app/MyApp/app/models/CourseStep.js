@@ -45,7 +45,7 @@ $(function() {
             },
             passingPercentage: { //Least marks to be obtained for passing any step
                 type: 'Text',
-            },
+            }
         },
         saveAttachment: function(formEl, fileEl, revEl) {
             // Work with this doc in the files database
