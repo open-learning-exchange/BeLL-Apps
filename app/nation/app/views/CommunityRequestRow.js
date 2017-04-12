@@ -82,6 +82,7 @@ $(function() {
             var name = this.options.name;
             var nationUrl = $.url().data.attr.authority;
             var community;
+
             if(this.model.attributes != undefined) {
                 community = this.model.attributes;
             } else {
@@ -176,8 +177,14 @@ $(function() {
                                 "<a role='button' class='btn btn-info' href='#addCommunity/" + community._id + "'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("EditLabel") + "</a>&nbsp&nbsp&nbsp" +
                                 "<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
                                 community._id + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a>";
-                        }
                         that.$el.append(row);
+                        }
+                        else{
+                           var row1 = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
+                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' id ='Delete' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a><label>" + App.languageDictValue.get("old_communities") + "</label></td><br>";
+                        that.$el.append(row1);
+                        that.$el.find('a#Delete.btn.btn-danger.destroy').hide()
+                        }
                     }
                 },
                 error: function() {
