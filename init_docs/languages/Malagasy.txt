@@ -451,7 +451,7 @@
   "Duplicate_login":"Efa misy io firoratan'anarana io.",
   "Event_Created_Success":"Hetsika voavoatra tsara.",
   "Event_Updated_Success":"Hetsika voavoatra tsara.",
-  "Config_Added_Success":"Configurations are successfully added.",
+  "Config_Added_Success":"Ny fikirakirana dia nanampy tsara.",
   "Config_Saved":"Fanahafana voatahiry.",
   "No_Changes":"Tsy nisy fanovana nataonao.",
   "No_Data_Error":"Tsy misy fampanfatarana hita ao amin'ny mpandrinjara.",
