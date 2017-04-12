@@ -2425,6 +2425,7 @@ $(function() {
                             courseId: courseId
                         })
                         Cstep.set("totalMarks", 0);
+                        Cstep.set("stepType", Objective);
                         var lForm = new App.Views.LevelForm({
                             model: Cstep
                         })
