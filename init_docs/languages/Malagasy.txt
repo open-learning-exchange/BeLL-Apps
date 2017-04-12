@@ -467,7 +467,7 @@
   "Notes_Saved_Success":"Voatahiry soamantsara.",
   "Prompt_ReleaseNotes":"Azafady ampidiro ireo naoty vao nivoaka.",
   "Prompt_Version_Number":"Azafady ampidiro ny version nomerika",
-  "Event_Deleted_Success":"Event successfully deleted.",
+  "Event_Deleted_Success":"Nofoananana tanteraka ny hetsika.",
   "Rate_Resource_First":"Azafady, omeo isa ity loharano ity aloha.",
   "Course_Updated_Success":"Course successfully updated.",
   "Course_Created_Success":"Course successfully created.",
