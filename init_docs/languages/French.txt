@@ -795,7 +795,7 @@
   "Group_Selection_Error":"Veuillez d'abord sélectionner un group d'âge",
   "Role_Selection_Error":"Veuillez d'abord sélectionner les rôles",
   "No_Member_Found":"Aucun membre a été trouvé pour les options sélectionnées",
-  "Survey_Note":"This is how the survey will appear to users.*",
+  "Survey_Note":"Voici comment votre sondage apparaître à vos utilisateurs",
   "adm_req_For_rejected":"Your admission request has been rejected by the course leader for",
   "Title_Error":"Title is required",
   "Description_Error":"Description is required",
