@@ -532,7 +532,7 @@
   "Resources_Added_Success":"Your resources have been added successfully.",
   "Fetch_Collections_Error":"Tsy afaka mahazo vondrona boky na lesona.",
   "FeedBack_Sent_success":"Feedback successfully sent.",
-  "No_Result":"No result found.",
+  "No_Result":"Tsy misy valiny hita.",
   "No_Option_Selected":"Tsy misy safidy notsongaina.",
   "Extra_Docs_Deleted":"Niala ireo fanontana fanaparihana lesona izay nihoatra.",
   "Model_fetch_Pubs_Success":"Azo idirana io fanotana boky modely io.",
