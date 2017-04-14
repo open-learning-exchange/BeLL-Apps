@@ -427,7 +427,7 @@
   "time_Limit":"Vous avez 20 secondes",
   "Stopped":"arrêté",
   "Merge_Error":"Veuillez sélectionner un ou plusieurs éléments à joindre.",
-  "Empty_Collection_Name":"Collection name can not be empty.",
+  "Empty_Collection_Name":"Nom de collection ne peut pas être vide.",
   "Missing_Resource_Title":"Titre de la ressource manquant",
   "Missing_Resource_Author":"Please specify author for this new resource.",
   "Invalid_Range":"Invalid range specified.",
