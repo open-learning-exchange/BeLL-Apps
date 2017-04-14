@@ -558,7 +558,7 @@
   "Confirm_Community":"Tena irianao ve ny hamafa io fiaraha-monina io?",
   "Confirm_Resource":"Tianao ho fafana ve io loharano io?",
   "Confirm_Collection":"Tianao ho fafana ve io collection io?",
-  "start_new_meetUp":"Start a New Meetup",
+  "start_new_meetUp":"Manomboka fihaonana vaovao. ",
   "Edit_MeetUp":"Edit Meetup",
   "Recurring":"Miseho foana",
   "categoryList":[
