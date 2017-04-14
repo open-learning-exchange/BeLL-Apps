@@ -541,7 +541,7 @@
   "Pubs_Issue_Missing":"Publication issue is missing.",
   "Pubs_Issue_Saved":"Publication sauvegardée.",
   "UnAuthorized_Login":"You are not authorized to sign in.",
-  "Status":"Status",
+  "Status":"Statut",
   "Synced_Success":"Synced successfully",
   "Check_Sync":"Update status",
   "Already_Pub_Sent":"This publication is already sent to",
