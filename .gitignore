@@ -1,2 +1,15 @@
 .DS_Store
 .idea
+
+
+app/MyApp/index2.html
+app/MyApp/app/collections.js
+app/MyApp/app/models.js
+app/MyApp/app/vendor.js
+app/MyApp/app/views.js
+
+app/nation/index2.html
+app/nation/app/collections.js
+app/nation/app/models.js
+app/nation/app/vendor.js
+app/nation/app/views.js
