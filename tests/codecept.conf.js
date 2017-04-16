@@ -17,10 +17,8 @@ if (process.env.SAUCE_USERNAME) {
         "host": "ondemand.saucelabs.com",
         "port": "80",
         "sauceConnect": true,
-        "restart": false,
         "desiredCapabilities": {
           "browserName": "firefox",
-          "version": "50",
           "platform": "Windows 10",
           "tunnel-identifier": process.env.TRAVIS_JOB_NUMBER,
           "name": "codeceptJS.login_test",
@@ -29,7 +27,9 @@ if (process.env.SAUCE_USERNAME) {
       }
     },
     "include": {
-      "I": "./steps_file.js"
+      "I": "./steps_file.js",
+      "survey_po": "./pages/survey_po.js",
+      "survey_dialog": "./pages/survey_dialog.js"
     },
     "mocha": {},
     "name": "tests"
@@ -51,7 +51,9 @@ if (process.env.SAUCE_USERNAME) {
       }
     },
     "include": {
-      "I": "./steps_file.js"
+      "I": "./steps_file.js",
+      "survey_po": "./pages/survey_po.js",
+      "survey_dialog": "./pages/survey_dialog.js"
     },
     "mocha": {},
     "name": "tests"
