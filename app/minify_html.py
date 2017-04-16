@@ -1,6 +1,7 @@
 from __future__ import print_function
 import os
 import pprint
+import sys
 #import lxml
 #import lxml.etree
 import re
@@ -51,7 +52,7 @@ def concatenate_files(input_files=[], output_file=None):
         ff.write(';\n'.join(res))
 
 
-if __name__ == '__main__':
+def main():
 
     targets = ["app/views.js", "app/models.js", "app/collections.js", "app/vendor.js"]
 
@@ -67,4 +68,11 @@ if __name__ == '__main__':
                 files.append(r['source'])
         concatenate_files(input_files=files, output_file=target)
 
+if __name__ == '__main__':
 
+    curdir = os.path.abspath(os.curdir)
+    os.chdir("nation")
+    main()
+    os.chdir(curdir)
+    os.chdir("MyApp")
+    main()
